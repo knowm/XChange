@@ -7,6 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
+import org.knowm.xchange.hitbtc.dto.general.HitbtcSort;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
@@ -57,7 +58,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   }
 
   public List<HitbtcTrade> getHitbtcTrades(CurrencyPair currencyPair, Integer maxResults, long from, HitbtcTrade.HitbtcTradesSortField sortBy,
-      HitbtcTrade.HitbtcTradesSortDirection sortDirection, long startIndex) throws IOException {
+      HitbtcSort sortDirection, long startIndex) throws IOException {
 
     try {
       return hitbtc().getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults);

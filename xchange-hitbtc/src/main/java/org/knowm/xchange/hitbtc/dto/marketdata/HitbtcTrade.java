@@ -4,20 +4,20 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.knowm.xchange.hitbtc.dto.general.HitbtcSide;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public class HitbtcTrade {
 
   private final String id;
   private final BigDecimal price;
   private final BigDecimal quantity;
-  private final HitbtcTradeSide side;
+  private final HitbtcSide side;
   private final Date timestamp;
 
   public HitbtcTrade(@JsonProperty("id") String id, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("side") HitbtcTradeSide side, @JsonProperty("timestamp") Date timestamp) {
+      @JsonProperty("side") HitbtcSide side, @JsonProperty("timestamp") Date timestamp) {
     this.id = id;
     this.price = price;
     this.quantity = quantity;
@@ -37,7 +37,7 @@ public class HitbtcTrade {
     return quantity;
   }
 
-  public HitbtcTradeSide getSide() {
+  public HitbtcSide getSide() {
     return side;
   }
 
@@ -55,43 +55,6 @@ public class HitbtcTrade {
         .append("side", side)
         .append("timestamp", timestamp)
         .toString();
-  }
-
-  public enum HitbtcTradeSide {
-
-    BUY("buy"), SELL("sell");
-
-    private final String hitbtcTradeSide;
-
-    HitbtcTradeSide(String hitbtcTradeSide) {
-
-      this.hitbtcTradeSide = hitbtcTradeSide;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-
-      return hitbtcTradeSide;
-    }
-  }
-
-  public enum HitbtcTradesSortDirection {
-
-    SORT_ASCENDING("asc"), SORT_DESCENDING("desc");
-
-    private final String hitbtcTradesSortDirection;
-
-    HitbtcTradesSortDirection(String hitbtcTradesSortDirection) {
-
-      this.hitbtcTradesSortDirection = hitbtcTradesSortDirection;
-    }
-
-    @Override
-    public String toString() {
-
-      return hitbtcTradesSortDirection;
-    }
   }
 
   public enum HitbtcTradesSortField {

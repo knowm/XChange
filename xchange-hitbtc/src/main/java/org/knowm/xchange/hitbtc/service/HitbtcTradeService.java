@@ -26,14 +26,10 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public HitbtcTradeService(Exchange exchange) {
 
     super(exchange);
@@ -41,14 +37,14 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return getOpenOrders(createOpenOrdersParams());
+    return HitbtcAdapters.adaptOpenOrders(getOpenOrdersRaw());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    HitbtcOrder[] openOrdersRaw = getOpenOrdersRaw();
+    List<HitbtcOrder> openOrdersRaw = getOpenOrdersRaw();
     return HitbtcAdapters.adaptOpenOrders(openOrdersRaw);
   }
 
