@@ -53,6 +53,10 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
 
       BitstampWithdrawal response = withdrawRippleFunds(rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address, rippleWithdrawFundsParams.tag);
 
+      if (response.error != null) {
+        throw new ExchangeException("Failed to withdraw: " + response.error);
+      }
+
       if (response.getId() == null) {
         return null;
       }
@@ -61,7 +65,18 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
 
-      BitstampWithdrawal response = withdrawFunds(defaultParams.amount, defaultParams.address);
+      BitstampWithdrawal response;
+      if (defaultParams.currency.equals(Currency.LTC)) {
+        response = withdrawLtcFunds(defaultParams.amount, defaultParams.address);
+      } else if (defaultParams.currency.equals(Currency.BTC)) {
+        response = withdrawBtcFunds(defaultParams.amount, defaultParams.address);
+      } else {
+        throw new IllegalStateException("Cannot withdraw " + defaultParams.currency);
+      }
+
+      if (response.error != null) {
+        throw new ExchangeException("Failed to withdraw: " + response.error);
+      }
 
       if (response.getId() == null) {
         return null;

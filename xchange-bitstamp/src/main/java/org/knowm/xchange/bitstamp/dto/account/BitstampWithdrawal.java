@@ -7,11 +7,13 @@ public final class BitstampWithdrawal {
   public final Integer id;
   public final String status;
   public final Object reason;
+  public final Object error;
 
-  public BitstampWithdrawal(@JsonProperty("id") Integer id, @JsonProperty("status") String status, @JsonProperty("reason") Object reason) {
+  public BitstampWithdrawal(@JsonProperty("id") Integer id, @JsonProperty("status") String status, @JsonProperty("reason") Object reason, @JsonProperty("error") Object error) {
     this.id = id;
     this.status = status;
     this.reason = reason;
+    this.error = error;
   }
 
   public Integer getId() {
