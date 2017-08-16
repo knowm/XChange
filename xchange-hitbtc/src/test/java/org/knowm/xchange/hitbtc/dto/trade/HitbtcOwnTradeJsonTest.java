@@ -1,4 +1,4 @@
-package org.knowm.xchange.hitbtc.dto.marketdata;
+package org.knowm.xchange.hitbtc.dto.trade;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -12,11 +12,12 @@ import java.util.TimeZone;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.hitbtc.dto.general.HitbtcSide;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTradesJsonTest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class HitbtcTradesJsonTest {
+public class HitbtcOwnTradeJsonTest {
 
   private static SimpleDateFormat SIMPLE_DATE_FORMATER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
@@ -34,13 +35,13 @@ public class HitbtcTradesJsonTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    List<HitbtcTrade> trades = mapper.readValue(is, new TypeReference<List<HitbtcTrade>>() { });
+    List<HitbtcOwnTrade> trades = mapper.readValue(is, new TypeReference<List<HitbtcOwnTrade>>() { });
 
     assertThat(trades).hasSize(10);
-    HitbtcTrade trade = trades.get(0);
+    HitbtcOwnTrade trade = trades.get(0);
     assertThat(trade.getPrice()).isEqualTo("4110.55");
     assertThat(trade.getQuantity()).isEqualTo("0.15");
-    assertThat(trade.getId()).isEqualTo("17556218");
+    assertThat(trade.getId()).isEqualTo(17556218L);
     assertThat(trade.getSide()).isEqualTo(HitbtcSide.BUY);
     assertThat(trade.getTimestamp()).isEqualTo(SIMPLE_DATE_FORMATER.parse("2017-08-15T18:52:26.381Z"));
 

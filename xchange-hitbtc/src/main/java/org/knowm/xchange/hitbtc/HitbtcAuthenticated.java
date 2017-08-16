@@ -9,7 +9,7 @@ import org.knowm.xchange.hitbtc.dto.account.HitbtcDepositAddressResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcPaymentBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
+import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
 import si.mazi.rescu.HttpStatusIOException;
@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
 
 @Path("/api/2/")
@@ -40,13 +41,13 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("trading/orders/active")
-  HitbtcOrdersResponse getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature,
+  List<HitbtcOrder> getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey
   /* @QueryParam("symbols") String symbols */) throws IOException, HitbtcException;
 
   @GET
   @Path("trading/orders/recent")
-  HitbtcOrdersResponse getHitbtcRecentOrders(@HeaderParam("X-Signature") ParamsDigest signature,
+  List<HitbtcOrder> getHitbtcRecentOrders(@HeaderParam("X-Signature") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
       @QueryParam("max_results") int max_results) throws IOException, HitbtcException;
 

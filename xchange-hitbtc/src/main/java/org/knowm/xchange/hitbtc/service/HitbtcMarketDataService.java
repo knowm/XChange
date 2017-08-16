@@ -8,7 +8,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade.HitbtcTradesSortDirection;
+import org.knowm.xchange.hitbtc.dto.general.HitbtcSort;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade.HitbtcTradesSortField;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -41,7 +41,7 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
 
     long from = (Long) args[0];
     HitbtcTradesSortField sortBy = (HitbtcTradesSortField) args[1];
-    HitbtcTradesSortDirection sortDirection = (HitbtcTradesSortDirection) args[2];
+    HitbtcSort sortDirection = (HitbtcSort) args[2];
     long startIndex = (Long) args[3];
     Integer maxResults = (Integer) args[4];
 

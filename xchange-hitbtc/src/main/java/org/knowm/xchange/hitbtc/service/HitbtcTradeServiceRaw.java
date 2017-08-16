@@ -16,12 +16,10 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
@@ -57,36 +55,22 @@ public class HitbtcTradeServiceRaw extends HitbtcAuthenitcatedService {
 
   }
 
-  public HitbtcOrdersResponse getOpenOrdersRawBaseResponse() throws IOException {
+  public List<HitbtcOrder> getOpenOrdersRaw() throws IOException {
 
     try {
-      HitbtcOrdersResponse hitbtcActiveOrders = hitbtc().getHitbtcActiveOrders(signatureCreator, exchange.getNonceFactory(), apiKey);
-      return hitbtcActiveOrders;
+      return hitbtc().getHitbtcActiveOrders(signatureCreator, exchange.getNonceFactory(), apiKey);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
   }
 
-  public HitbtcOrder[] getOpenOrdersRaw() throws IOException {
-
-    HitbtcOrdersResponse hitbtcActiveOrders = getOpenOrdersRawBaseResponse();
-    return hitbtcActiveOrders.getOrders();
-  }
-
-  public HitbtcOrdersResponse getRecentOrdersRawBaseResponse(int max_results) throws IOException {
+  public List<HitbtcOrder> getRecentOrdersRaw(int maxResults) throws IOException {
 
     try {
-      HitbtcOrdersResponse hitbtcActiveOrders = hitbtc().getHitbtcRecentOrders(signatureCreator, exchange.getNonceFactory(), apiKey, max_results);
-      return hitbtcActiveOrders;
+      return hitbtc().getHitbtcRecentOrders(signatureCreator, exchange.getNonceFactory(), apiKey, maxResults);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
-  }
-
-  public HitbtcOrder[] getRecentOrdersRaw(int max_results) throws IOException {
-
-    HitbtcOrdersResponse hitbtcActiveOrders = getRecentOrdersRawBaseResponse(max_results);
-    return hitbtcActiveOrders.getOrders();
   }
 
   public HitbtcExecutionReportResponse placeMarketOrderRawBaseResponse(MarketOrder marketOrder) throws IOException {
