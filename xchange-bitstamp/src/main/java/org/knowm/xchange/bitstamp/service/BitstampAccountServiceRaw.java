@@ -61,8 +61,18 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     return bitstampBalance;
   }
 
-  public BitstampWithdrawal withdrawFunds(BigDecimal amount, String address) throws IOException {
+  public BitstampWithdrawal withdrawBtcFunds(BigDecimal amount, String address) throws IOException {
     BitstampWithdrawal response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+
+    if (response.hasError()) {
+      throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
+    }
+
+    return response;
+  }
+
+  public BitstampWithdrawal withdrawLtcFunds(BigDecimal amount, String address) throws IOException {
+    BitstampWithdrawal response = bitstampAuthenticated.withdrawLitecoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
 
     if (response.hasError()) {
       throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
