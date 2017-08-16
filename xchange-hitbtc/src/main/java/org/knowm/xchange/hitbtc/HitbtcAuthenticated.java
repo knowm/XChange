@@ -45,6 +45,18 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   //Trading APIs
 
+  //TODO add query params
+  @GET
+  @Path("order")
+  List<HitbtcOrder> getHitbtcActiveOrders() throws IOException, HitbtcException;
+
+  @POST
+  @Path("order")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  HitbtcExecutionReportResponse postHitbtcNewOrder(
+      @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side,
+      @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity,
+      @FormParam("type") String type, @FormParam("timeInForce") String timeInForce) throws IOException, HitbtcException;
 
 
   // Trading History APIs
@@ -88,22 +100,6 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
 
   //Old APIs
-
-  @GET
-  @Path("trading/orders/active")
-  List<HitbtcOrder> getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey
-      ) throws IOException, HitbtcException;
-
-
-  @POST
-  @Path("trading/new_order")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  HitbtcExecutionReportResponse postHitbtcNewOrder(@HeaderParam("X-Signature") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-      @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side,
-      @FormParam("price") BigDecimal price, @FormParam("quantity") BigInteger quantity, // 1 lot = 0.01 BTC
-      @FormParam("type") String type, @FormParam("timeInForce") String timeInForce) throws IOException, HitbtcException;
 
   @POST
   @Path("trading/cancel_orders")
