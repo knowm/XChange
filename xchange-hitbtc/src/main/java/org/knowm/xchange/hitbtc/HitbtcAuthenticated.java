@@ -93,12 +93,6 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
 
 
-
-
-
-
-
-
   //Old APIs
 
   @POST
