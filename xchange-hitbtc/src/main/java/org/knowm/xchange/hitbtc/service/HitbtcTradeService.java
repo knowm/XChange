@@ -106,7 +106,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
       symbols = HitbtcAdapters.adaptCurrencyPair(pair);
     }
 
-    HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, symbols);
+    List<HitbtcOwnTrade> tradeHistoryRaw = getTradeHistoryRaw(offset, count, symbols);
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, exchange.getExchangeMetaData());
   }
 

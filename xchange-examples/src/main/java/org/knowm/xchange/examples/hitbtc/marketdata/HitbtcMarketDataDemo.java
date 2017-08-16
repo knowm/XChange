@@ -11,6 +11,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.hitbtc.HitbtcExampleUtils;
+import org.knowm.xchange.hitbtc.dto.general.HitbtcSort;
 import org.knowm.xchange.hitbtc.dto.marketdata.*;
 import org.knowm.xchange.hitbtc.service.HitbtcMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -54,11 +55,11 @@ public class HitbtcMarketDataDemo {
     System.out.println("Trades, default. Size=" + trades.getTrades().size());
 
     trades = marketDataService.getTrades(CurrencyPair.BTC_USD, 0L, HitbtcTrade.HitbtcTradesSortField.SORT_BY_TRADE_ID,
-        HitbtcTrade.HitbtcTradesSortDirection.SORT_ASCENDING, 0L, 10);
+        HitbtcSort.SORT_ASCENDING, 0L, 10);
     System.out.println("Trades, first 10, Size= " + trades.getTrades().size());
 
     trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60,
-        HitbtcTrade.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcTrade.HitbtcTradesSortDirection.SORT_DESCENDING, 0L, 100);
+        HitbtcTrade.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcSort.SORT_DESCENDING, 0L, 100);
     System.out.println("Trades, last minute, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }
@@ -90,11 +91,11 @@ public class HitbtcMarketDataDemo {
     System.out.println("Trades, recent, Size= " + trades.size());
 
     trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, 10,0, HitbtcTrade.HitbtcTradesSortField.SORT_BY_TRADE_ID,
-        HitbtcTrade.HitbtcTradesSortDirection.SORT_ASCENDING, 0);
+        HitbtcSort.SORT_ASCENDING, 0);
     System.out.println("Trades, first 10, Size= " + trades.size());
 
     trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, 1000,System.currentTimeMillis() - 1000 * 60,
-        HitbtcTrade.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcTrade.HitbtcTradesSortDirection.SORT_ASCENDING, 0);
+        HitbtcTrade.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcSort.SORT_ASCENDING, 0);
     System.out.println("Trades, last minute, Size= " + trades.size());
     System.out.println(trades.toString());
   }

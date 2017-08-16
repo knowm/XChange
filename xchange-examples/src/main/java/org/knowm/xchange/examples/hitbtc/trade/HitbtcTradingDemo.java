@@ -2,6 +2,7 @@ package org.knowm.xchange.examples.hitbtc.trade;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -31,8 +32,8 @@ public class HitbtcTradingDemo {
 
   private static void raw(HitbtcTradeServiceRaw tradeService) throws IOException {
 
-    HitbtcOwnTrade[] trades = tradeService.getTradeHistoryRaw(0, 100, null);
+    List<HitbtcOwnTrade> trades = tradeService.getTradeHistoryRaw(0, 100, null);
 
-    System.out.println(Arrays.toString(trades));
+    System.out.println(trades);
   }
 }

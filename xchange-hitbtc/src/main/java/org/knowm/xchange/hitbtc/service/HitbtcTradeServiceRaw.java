@@ -21,7 +21,6 @@ import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
 public class HitbtcTradeServiceRaw extends HitbtcAuthenitcatedService {
 
@@ -67,7 +66,7 @@ public class HitbtcTradeServiceRaw extends HitbtcAuthenitcatedService {
   public List<HitbtcOrder> getRecentOrdersRaw(int maxResults) throws IOException {
 
     try {
-      return hitbtc().getHitbtcRecentOrders(signatureCreator, exchange.getNonceFactory(), apiKey, maxResults);
+      return hitbtc().getHitbtcRecentOrders();
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -161,21 +160,13 @@ public class HitbtcTradeServiceRaw extends HitbtcAuthenitcatedService {
     }
   }
 
-  public HitbtcTradeResponse getTradeHistoryRawBaseResponse(int startIndex, int maxResults, String symbols) throws IOException {
+  public List<HitbtcOwnTrade> getTradeHistoryRaw(int startIndex, int maxResults, String symbols) throws IOException {
 
     try {
-      HitbtcTradeResponse hitbtcTrades = hitbtc().getHitbtcTrades(signatureCreator, exchange.getNonceFactory(), apiKey, "ts", startIndex, maxResults,
-          symbols, "desc", null, null);
-      return hitbtcTrades;
+      return hitbtc().getHitbtcTrades();
     } catch (HitbtcException e) {
       throw handleException(e);
     }
-  }
-
-  public HitbtcOwnTrade[] getTradeHistoryRaw(int startIndex, int maxResults, String symbols) throws IOException {
-
-    HitbtcTradeResponse hitbtcTrades = getTradeHistoryRawBaseResponse(startIndex, maxResults, symbols);
-    return hitbtcTrades.getTrades();
   }
 
   /**

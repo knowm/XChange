@@ -188,11 +188,10 @@ public class HitbtcAdapters {
     return side.equals("buy") ? OrderType.BID : OrderType.ASK;
   }
 
-  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, ExchangeMetaData metaData) {
+  public static UserTrades adaptTradeHistory(List<HitbtcOwnTrade> tradeHistoryRaw, ExchangeMetaData metaData) {
 
-    List<UserTrade> trades = new ArrayList<>(tradeHistoryRaw.length);
-    for (int i = 0; i < tradeHistoryRaw.length; i++) {
-      HitbtcOwnTrade t = tradeHistoryRaw[i];
+    List<UserTrade> trades = new ArrayList<>(tradeHistoryRaw.size());
+    for (HitbtcOwnTrade t : tradeHistoryRaw) {
       OrderType type = adaptOrderType(t.getSide().getValue());
 
       //TODO no longer available... need to fix
