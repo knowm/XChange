@@ -150,6 +150,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency MYR = createCurrency("MYR", "Malaysian Ringgit", null);
   public static final Currency MZN = createCurrency("MZN", "Mozambican Metical", null);
   public static final Currency NAD = createCurrency("NAD", "Namibian Dollar", null);
+  public static final Currency NEO = createCurrency("NEO", "NEO", null);
   public static final Currency NGN = createCurrency("NGN", "Nigerian Naira", null);
   public static final Currency NIO = createCurrency("NIO", "Nicaraguan Córdoba", null);
   public static final Currency NMC = createCurrency("NMC", "Namecoin", null);
