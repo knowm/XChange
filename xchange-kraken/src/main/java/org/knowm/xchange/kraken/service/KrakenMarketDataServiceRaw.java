@@ -9,11 +9,13 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPairs;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenOHLCs;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenSpreads;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenOHLCResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
@@ -28,6 +30,16 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
   public KrakenMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
+  }
+
+  public KrakenOHLCs getKrakenOHLC(CurrencyPair currencyPair) throws IOException {
+    return getKrakenOHLC(currencyPair, null, null);
+  }
+
+  public KrakenOHLCs getKrakenOHLC(CurrencyPair currencyPair, Integer interval, Long since) throws IOException {
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
+    KrakenOHLCResult OHLCResult = kraken.getOHLC(krakenCurrencyPair, interval, since);
+    return checkResult(OHLCResult);
   }
 
   public KrakenTicker getKrakenTicker(CurrencyPair currencyPair) throws IOException {
