@@ -112,13 +112,13 @@ public class CoinfloorBalance {
     } else if (currency.equals(Currency.USD)) {
       return new Balance(currency, usdBalance, usdAvailable, usdReserved);
     } else if (currency.equals(Currency.BCH)) {
-      return new Balance(currency, bchBalance, usdAvailable, usdReserved);
+      return new Balance(currency, bchBalance, bchAvailable, bchReserved);
     } else if (currency.equals(Currency.XRP)) {
-      return new Balance(currency, xrpBalance, usdAvailable, usdReserved);
+      return new Balance(currency, xrpBalance, xrpAvailable, xrpReserved);
     } else if (currency.equals(Currency.LTC)) {
-      return new Balance(currency, ltcBalance, usdAvailable, usdReserved);
+      return new Balance(currency, ltcBalance, ltcAvailable, ltcReserved);
     } else if (currency.equals(Currency.ETH)) {
-      return new Balance(currency, ethBalance, usdAvailable, usdReserved);
+      return new Balance(currency, ethBalance, ethAvailable, ethReserved);
     } else {
       throw new IllegalArgumentException("Unsupported currency: " + currency);
     }
