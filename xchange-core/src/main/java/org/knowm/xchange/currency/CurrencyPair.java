@@ -93,8 +93,10 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
   public static final CurrencyPair XRP_BTC = new CurrencyPair(Currency.XRP, Currency.BTC);
   public static final CurrencyPair XRP_EUR = new CurrencyPair(Currency.XRP, Currency.EUR);
   public static final CurrencyPair XRP_USD = new CurrencyPair(Currency.XRP, Currency.USD);
+  public static final CurrencyPair XRP_GBP = new CurrencyPair(Currency.XRP, Currency.GBP);
 
   public static final CurrencyPair LTC_AUD = new CurrencyPair(Currency.LTC, Currency.AUD);
+  public static final CurrencyPair LTC_GBP = new CurrencyPair(Currency.LTC, Currency.GBP);
   public static final CurrencyPair LTC_USD = new CurrencyPair(Currency.LTC, Currency.USD);
   public static final CurrencyPair LTC_KRW = new CurrencyPair(Currency.LTC, Currency.KRW);
   public static final CurrencyPair LTC_CNY = new CurrencyPair(Currency.LTC, Currency.CNY);
