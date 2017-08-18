@@ -15,10 +15,10 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
+import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 
@@ -126,34 +126,19 @@ public class HitbtcTradeServiceRaw extends HitbtcAuthenitcatedService {
     }
   }
 
-  public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws IOException {
-
-    // extract symbol and side from original order id: buy/sell
-    String originalSide = HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId)).toString();
-    String symbol = HitbtcAdapters.readSymbol(orderId);
+  public HitbtcExecutionReportResponse cancelOrderRaw(String clientOrderId) throws IOException {
 
     try {
-      return hitbtc().postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, orderId, symbol, originalSide);
+      return hitbtc().cancelSingleOrder(clientOrderId);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
   }
 
-  public HitbtcExecutionReportResponse cancelOrderRaw(String clientOrderId, String cancelRequestClientOrderId, String symbol,
-      String side) throws IOException {
+  public List<HitbtcOrder> cancelOrdersRaw(String symbol) throws IOException {
 
     try {
-      return hitbtc().postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, clientOrderId, cancelRequestClientOrderId, symbol,
-          side);
-    } catch (HitbtcException e) {
-      throw handleException(e);
-    }
-  }
-
-  public HitbtcMultiExecutionReportResponse cancelOrdersRaw(String symbol, String side) throws IOException {
-
-    try {
-      return hitbtc().postHitbtcCancelOrders(signatureCreator, exchange.getNonceFactory(), apiKey, symbol, side);
+      return hitbtc().cancelAllOrders(symbol);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -163,6 +148,14 @@ public class HitbtcTradeServiceRaw extends HitbtcAuthenitcatedService {
 
     try {
       return hitbtc().getHitbtcTrades();
+    } catch (HitbtcException e) {
+      throw handleException(e);
+    }
+  }
+
+  public List<HitbtcBalance> getTradingBalance() throws IOException {
+    try {
+      return hitbtc().getTradingBalance();
     } catch (HitbtcException e) {
       throw handleException(e);
     }
