@@ -68,13 +68,13 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   }
 
   public BitstampWithdrawal withdrawLtcFunds(BigDecimal amount, String address) throws IOException {
-    BitstampWithdrawal response = bitstampAuthenticated.withdrawLitecoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+    BitstampWithdrawal response = bitstampAuthenticatedV2.withdrawLitecoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
 
     return checkAndReturnWithdrawal(response);
   }
 
   public BitstampWithdrawal withdrawEthFunds(BigDecimal amount, String address) throws IOException {
-    BitstampWithdrawal response = bitstampAuthenticated.withdrawEther(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+    BitstampWithdrawal response = bitstampAuthenticatedV2.withdrawEther(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
 
     return checkAndReturnWithdrawal(response);
   }
