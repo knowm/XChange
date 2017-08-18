@@ -67,6 +67,12 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     if (address.startsWith("r")) {
         response = bitstampAuthenticatedV2.xrpWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
                 amount, address, destinationTag);
+    } else if ("LTC".equals(currency.getCurrencyCode())) {
+        response = bitstampAuthenticatedV2.withdrawLitecoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
+                amount, address);
+    } else if ("ETH".equals(currency.getCurrencyCode())) {
+        response = bitstampAuthenticatedV2.withdrawEther(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
+                amount, address);
     } else {
       response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
           amount, address);
