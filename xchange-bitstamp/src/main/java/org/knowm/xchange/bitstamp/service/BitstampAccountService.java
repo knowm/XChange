@@ -68,6 +68,8 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
       BitstampWithdrawal response;
       if (defaultParams.currency.equals(Currency.LTC)) {
         response = withdrawLtcFunds(defaultParams.amount, defaultParams.address);
+      } else if (defaultParams.currency.equals(Currency.ETH)) {
+        response = withdrawEthFunds(defaultParams.amount, defaultParams.address);
       } else if (defaultParams.currency.equals(Currency.BTC)) {
         response = withdrawBtcFunds(defaultParams.amount, defaultParams.address);
       } else {

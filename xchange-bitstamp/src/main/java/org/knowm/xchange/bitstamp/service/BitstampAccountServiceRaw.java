@@ -64,26 +64,28 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   public BitstampWithdrawal withdrawBtcFunds(BigDecimal amount, String address) throws IOException {
     BitstampWithdrawal response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
 
-    if (response.hasError()) {
-      throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
-    }
-
-    return response;
+    return checkAndReturnWithdrawal(response);
   }
 
   public BitstampWithdrawal withdrawLtcFunds(BigDecimal amount, String address) throws IOException {
     BitstampWithdrawal response = bitstampAuthenticated.withdrawLitecoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
 
-    if (response.hasError()) {
-      throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
-    }
+    return checkAndReturnWithdrawal(response);
+  }
 
-    return response;
+  public BitstampWithdrawal withdrawEthFunds(BigDecimal amount, String address) throws IOException {
+    BitstampWithdrawal response = bitstampAuthenticated.withdrawEther(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+
+    return checkAndReturnWithdrawal(response);
   }
 
   public BitstampWithdrawal withdrawRippleFunds(BigDecimal amount, String address, String destinationTag) throws IOException {
     BitstampWithdrawal response = bitstampAuthenticatedV2.xrpWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address, destinationTag);
 
+    return checkAndReturnWithdrawal(response);
+  }
+
+  private BitstampWithdrawal checkAndReturnWithdrawal(BitstampWithdrawal response) {
     if (response.hasError()) {
       throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
     }
@@ -107,6 +109,16 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
         exchange.getNonceFactory());
   }
 
+  /**
+   * @return true if withdrawal was successful. Note that due to a bug on Bitstamp's side, withdrawal always fails if two-factor authentication is
+   * enabled for the account.
+   */
+  public boolean withdrawToRipple(BigDecimal amount, Currency currency, String rippleAddress) throws IOException {
+
+    return bitstampAuthenticated.withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
+        amount, currency.getCurrencyCode(), rippleAddress);
+  }
+
   public List<DepositTransaction> getUnconfirmedDeposits() throws IOException {
 
     final List<DepositTransaction> response = Arrays.asList(
@@ -123,7 +135,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
   
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, CurrencyPair pair, Long offset,
-          String sort) throws IOException {
+                                                               String sort) throws IOException {
     return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions,
         offset, sort);
   }
