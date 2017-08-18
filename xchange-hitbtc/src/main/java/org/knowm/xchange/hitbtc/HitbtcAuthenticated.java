@@ -17,6 +17,7 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -42,6 +43,17 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @Path("account/balance")
   HitbtcBalance[] getNewBalance() throws IOException, HitbtcException;
 
+  @POST
+  @Path("account/transfer")
+  InternalTransferResponse transferToTrading(@FormParam("amount") BigDecimal amount, @FormParam("currency") String currency,
+      @FormParam("type") String type) throws HttpStatusIOException;
+
+//  @POST
+//  @Path("payment/transfer_to_main")
+//  InternalTransferResponse transferToMain(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
+//      @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency) throws HttpStatusIOException;
+//
+
 
   //Trading APIs
 
@@ -57,6 +69,28 @@ public interface HitbtcAuthenticated extends Hitbtc {
       @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side,
       @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity,
       @FormParam("type") String type, @FormParam("timeInForce") String timeInForce) throws IOException, HitbtcException;
+
+
+  @DELETE
+  @Path("order")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  List<HitbtcOrder> cancelAllOrders(@FormParam("symbol") String symbol) throws IOException, HitbtcException;
+
+  @DELETE
+  @Path("order/{clientOrderId}")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  HitbtcExecutionReportResponse cancelSingleOrder(@PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
+
+  //TODO Add replace or update order via PATCH with upgrade to JSR311
+  // PATCH /order/{clientOrderId}
+
+
+  @GET
+  @Path("trading/balance")
+  List<HitbtcBalance> getTradingBalance() throws IOException, HitbtcException;
+
+
+
 
 
   // Trading History APIs
@@ -95,27 +129,9 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   //Old APIs
 
-  @POST
-  @Path("trading/cancel_orders")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  HitbtcMultiExecutionReportResponse postHitbtcCancelOrders(@HeaderParam("X-Signature") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-      @FormParam("symbol") String symbol, @FormParam("side") String side) throws IOException, HitbtcException;
-
-  @POST
-  @Path("trading/cancel_order")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  HitbtcExecutionReportResponse postHitbtcCancelOrder(@HeaderParam("X-Signature") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-      @FormParam("clientOrderId") String clientOrderId, @FormParam("cancelRequestClientOrderId") String cancelRequestClientOrderId,
-      @FormParam("symbol") String symbol, @FormParam("side") String side) throws IOException, HitbtcException;
 
 
 
-  @GET
-  @Path("trading/balance")
-  HitbtcBalanceResponse getTradingBalance(@HeaderParam("X-Signature") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
 
   @GET
   @Path("payment/balance")
@@ -138,13 +154,5 @@ public interface HitbtcAuthenticated extends Hitbtc {
   TransactionsResponse transactions(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
       @QueryParam("offset") Long offset, @QueryParam("limit") long limit, @QueryParam("dir") String direction) throws HttpStatusIOException;
 
-  @POST
-  @Path("payment/transfer_to_trading")
-  InternalTransferResponse transferToTrading(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-      @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency) throws HttpStatusIOException;
 
-  @POST
-  @Path("payment/transfer_to_main")
-  InternalTransferResponse transferToMain(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-      @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency) throws HttpStatusIOException;
 }

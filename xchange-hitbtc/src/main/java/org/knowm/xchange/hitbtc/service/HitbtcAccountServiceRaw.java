@@ -11,6 +11,8 @@ import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcDepositAddressResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcPaymentBalanceResponse;
+import org.knowm.xchange.hitbtc.dto.general.HitbtcTransferType;
+
 import si.mazi.rescu.HttpStatusIOException;
 
 import java.io.IOException;
@@ -36,29 +38,12 @@ public class HitbtcAccountServiceRaw extends HitbtcAuthenitcatedService {
     return response.get("transaction").toString();
   }
 
-  public String transferToTrading(Currency currency, BigDecimal amount) throws HttpStatusIOException {
-    InternalTransferResponse internalTransferResponse = hitbtc().transferToTrading(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode());
-    if (internalTransferResponse.transactionId == null) {
+  public String transferFunds(Currency currency, BigDecimal amount, HitbtcTransferType hitbtcTransferType) throws HttpStatusIOException {
+    InternalTransferResponse internalTransferResponse = hitbtc().transferToTrading(amount, currency.getCurrencyCode(), hitbtcTransferType.toString());
+    if (internalTransferResponse.id == null) {
       throw new ExchangeException("transfer failed: " + internalTransferResponse);
     } else {
-      return internalTransferResponse.transactionId;
-    }
-  }
-
-  public String transferToMain(Currency currency, BigDecimal amount) throws HttpStatusIOException {
-    InternalTransferResponse internalTransferResponse = hitbtc().transferToMain(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode());
-    if (internalTransferResponse.transactionId == null) {
-      throw new ExchangeException("transfer failed: " + internalTransferResponse);
-    } else {
-      return internalTransferResponse.transactionId;
-    }
-  }
-
-  public HitbtcBalanceResponse getTradingBalance() throws IOException {
-    try {
-      return hitbtc().getTradingBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
-    } catch (HitbtcException e) {
-      throw handleException(e);
+      return internalTransferResponse.id;
     }
   }
 

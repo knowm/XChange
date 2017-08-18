@@ -12,7 +12,9 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.hitbtc.HitbtcExampleUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
+import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.service.HitbtcTradeServiceRaw;
@@ -60,6 +62,7 @@ public class HitbtcTradingDemo {
     catch (ExchangeException ee) {
       logger.error("Error while placing order", ee);
     }
+
   }
 
   private static void raw(HitbtcTradeServiceRaw tradeService) throws IOException {
@@ -70,6 +73,11 @@ public class HitbtcTradingDemo {
     List<HitbtcOrder> openOrders = tradeService.getOpenOrdersRaw();
     System.out.println("openOrders = " + openOrders );
 
+
+    List<HitbtcBalance> balance = tradeService.getTradingBalance();
+    System.out.println("trading balance = [" + balance + "]");
+
+
     //No funds will cause an exception
     try {
       MarketOrder marketOrder = new MarketOrder(Order.OrderType.BID, new BigDecimal(0.01), new CurrencyPair("BTC/USD"));
@@ -79,5 +87,11 @@ public class HitbtcTradingDemo {
     catch (ExchangeException ee) {
       logger.error("Error while placing order", ee);
     }
+
+    List<HitbtcOrder> canceledOrders = tradeService.cancelOrdersRaw("BTCUSD");
+    System.out.println("canceledOrders = [" + canceledOrders + "]");
+
+    HitbtcExecutionReportResponse response = tradeService.cancelOrderRaw("WRONG_NUMBER");
+    System.out.println("HitbtcExecutionReportResponse = [" + response + "]");
   }
 }
