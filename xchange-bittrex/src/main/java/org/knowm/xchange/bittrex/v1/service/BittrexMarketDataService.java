@@ -49,7 +49,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw implem
 
     int depth = 50;
 
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       if (args[0] instanceof Integer && (Integer) args[0] > 0 && (Integer) args[0] <= 50) {
         depth = (Integer) args[0];
       }
@@ -73,7 +73,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw implem
 
     int count = 50;
 
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       if (args[0] instanceof Integer) {
         count = (Integer) args[0];
       }

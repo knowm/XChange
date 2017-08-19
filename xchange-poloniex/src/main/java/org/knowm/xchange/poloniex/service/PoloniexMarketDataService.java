@@ -34,8 +34,7 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw impl
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     PoloniexTicker poloniexTicker = getPoloniexTicker(currencyPair);
-    Ticker ticker = PoloniexAdapters.adaptPoloniexTicker(poloniexTicker, currencyPair);
-    return ticker;
+    return PoloniexAdapters.adaptPoloniexTicker(poloniexTicker, currencyPair);
   }
 
   @Override
@@ -56,8 +55,7 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw impl
     if (depth == null) {
       depth = getPoloniexDepth(currencyPair);
     }
-    OrderBook orderBook = PoloniexAdapters.adaptPoloniexDepth(depth, currencyPair);
-    return orderBook;
+    return PoloniexAdapters.adaptPoloniexDepth(depth, currencyPair);
   }
 
   @Override
@@ -84,8 +82,7 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw impl
     } else {
       poloniexPublicTrades = getPoloniexPublicTrades(currencyPair, startTime, endTime);
     }
-    Trades trades = PoloniexAdapters.adaptPoloniexPublicTrades(poloniexPublicTrades, currencyPair);
-    return trades;
+    return PoloniexAdapters.adaptPoloniexPublicTrades(poloniexPublicTrades, currencyPair);
   }
 
 }

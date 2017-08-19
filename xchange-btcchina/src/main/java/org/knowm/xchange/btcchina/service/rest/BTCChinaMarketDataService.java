@@ -51,7 +51,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     final BTCChinaDepth btcChinaDepth;
     final String market = BTCChinaAdapters.adaptMarket(currencyPair);
 
-    if (args.length == 0) {
+    if (args == null || args.length == 0) {
       btcChinaDepth = getBTCChinaOrderBook(market);
     } else {
       int limit = ((Number) args[0]).intValue();
@@ -76,9 +76,9 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     final String market = BTCChinaAdapters.adaptMarket(currencyPair);
-    final Number since = args.length > 0 ? (Number) args[0] : null;
-    final Number limit = args.length > 1 ? (Number) args[1] : null;
-    final String sinceType = args.length > 2 ? (String) args[2] : null;
+    final Number since = args != null && args.length > 0 ? (Number) args[0] : null;
+    final Number limit = args != null && args.length > 1 ? (Number) args[1] : null;
+    final String sinceType = args != null && args.length > 2 ? (String) args[2] : null;
 
     log.debug("market: {}, since: {}, limit: {}, sinceType: {}", market, since, limit, sinceType);
 

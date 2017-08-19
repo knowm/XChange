@@ -21,7 +21,7 @@ public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw im
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       long hours = (long) args[0];
 
       return CryptopiaAdapters.adaptTicker(getCryptopiaTicker(currencyPair, hours), currencyPair);
@@ -32,7 +32,7 @@ public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw im
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       long orderCount = (long) args[0];
 
       return CryptopiaAdapters.adaptOrderBook(getCryptopiaOrderBook(currencyPair, orderCount), currencyPair);
@@ -43,7 +43,7 @@ public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw im
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       long hours = (long) args[0];
 
       return CryptopiaAdapters.adaptTrades(getCryptopiaTrades(currencyPair, hours));
