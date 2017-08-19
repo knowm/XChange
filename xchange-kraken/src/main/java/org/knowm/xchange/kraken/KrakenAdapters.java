@@ -191,11 +191,12 @@ public class KrakenAdapters {
 
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
-    BigDecimal tradableAmount = krakenOrder.getVolume().subtract(krakenOrder.getVolumeExecuted());
+    BigDecimal tradableAmount = krakenOrder.getVolume();
+    BigDecimal remainingAmount = tradableAmount.subtract(krakenOrder.getVolumeExecuted());
     CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
-    return new LimitOrder(type, tradableAmount, pair, id, timestamp,
+    return new LimitOrder(type, tradableAmount, remainingAmount, pair, id, timestamp,
         orderDescription.getPrice());
   }
 
