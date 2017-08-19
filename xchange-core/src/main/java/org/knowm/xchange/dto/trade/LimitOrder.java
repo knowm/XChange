@@ -25,6 +25,11 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
   protected final BigDecimal limitPrice;
 
   /**
+   * The limit price
+   */
+  protected final BigDecimal remainingAmount;
+  
+  /**
    * @param type Either BID (buying) or ASK (selling)
    * @param tradableAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
@@ -36,6 +41,22 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     super(type, tradableAmount, currencyPair, id, timestamp);
     this.limitPrice = limitPrice;
+    this.remainingAmount = null;    
+  }
+  
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
+   */
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, BigDecimal remainingAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
+
+    super(type, tradableAmount, currencyPair, id, timestamp);
+    this.limitPrice = limitPrice;
+    this.remainingAmount = remainingAmount;
   }
 
   /**
@@ -53,7 +74,17 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     super(type, tradableAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
     this.limitPrice = limitPrice;
+    this.remainingAmount = null;
   }
+  
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, BigDecimal remainingAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
+      BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
+
+    super(type, tradableAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
+    this.limitPrice = limitPrice;
+    this.remainingAmount = remainingAmount;
+  }
+
 
   /**
    * @return The limit price
@@ -62,11 +93,19 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     return limitPrice;
   }
+  
+  /**
+   * @return The remaining order amount
+   */
+  public BigDecimal getRemainingAmount() {
+
+    return remainingAmount;
+  }
 
   @Override
   public String toString() {
 
-    return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
+    return "LimitOrder [limitPrice=" + limitPrice + ", remainigAmount=" + remainingAmount + ", " + super.toString() + "]";
   }
 
   @Override
@@ -112,6 +151,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
   public static class Builder extends Order.Builder {
 
     protected BigDecimal limitPrice;
+    protected BigDecimal remainingAmount;
 
     public Builder(OrderType orderType, CurrencyPair currencyPair) {
 
@@ -141,7 +181,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
       return (Builder) super.tradableAmount(tradableAmount);
     }
-
+    
     @Override
     public Builder currencyPair(CurrencyPair currencyPair) {
 
@@ -189,6 +229,13 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       this.limitPrice = limitPrice;
       return this;
     }
+    
+    public Builder remainingAmount(BigDecimal remainingAmount) {
+
+      this.remainingAmount = remainingAmount;
+      return this;
+    }
+
 
     public LimitOrder build() {
 
