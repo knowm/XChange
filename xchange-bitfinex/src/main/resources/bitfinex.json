@@ -44,6 +44,10 @@
       "price_scale": 4,
       "min_amount": 0.100000000
     },
+    "XRP/USD": {
+      "price_scale": 4,
+      "min_amount": 0.100000000
+    },
     "DASH/BTC": {
       "price_scale": 6,
       "min_amount": 0.010000000
@@ -76,21 +80,43 @@
       "price_scale": 4,
       "min_amount": 0.010000000
     },
-    "BCH/USD": {
-      "price_scale": 4,
-      "min_amount": 0.01000000
-    },
-    "BCH/ETH": {
-      "price_scale": 4,
-      "min_amount": 0.01000000
+    "XRP/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.10000000
     },
     "BCH/BTC": {
-      "price_scale": 6,
-      "min_amount": 0.01000000
+      "price_scale": 8,
+      "min_amount": 0.10000000
+    },
+    "BCH/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.10000000
+    },
+    "BCH/USD": {
+      "price_scale": 4,
+      "min_amount": 0.10000000
     }
   },
   "currencies": {
     "BTC": {
+      "scale": 8
+    },
+    "BCH": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "XRP": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 2
+    },
+    "XMR": {
       "scale": 8
     }
   }
