@@ -30,6 +30,16 @@
             <version>4.2.2-SNAPSHOT</version>
         </dependency>
 
+        <!-- PowerMockito for unit tests -->
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

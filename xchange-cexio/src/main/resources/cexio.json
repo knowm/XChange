@@ -38,17 +38,17 @@
      "BCH/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0000,
-      "min_amount": 0.020000000
+      "min_amount": 0.100000000
     },
     "BCH/USD": {
       "price_scale": 3,
       "trading_fee": 0.002,
-      "min_amount": 0.0200000000
+      "min_amount": 0.0100000000
     },
     "BCH/EUR": {
       "price_scale": 3,
       "trading_fee": 0.001,
-      "min_amount": 0.0200000000
+      "min_amount": 0.0100000000
     }
    },
   "currencies": {},

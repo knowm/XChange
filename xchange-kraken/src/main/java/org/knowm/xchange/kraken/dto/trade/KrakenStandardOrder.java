@@ -1,13 +1,13 @@
 package org.knowm.xchange.kraken.dto.trade;
 
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.IOrderFlags;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.IOrderFlags;
 
 public class KrakenStandardOrder {
 
@@ -191,6 +191,12 @@ public class KrakenStandardOrder {
 
     return new KrakenOrderBuilder(currencyPair, type, KrakenOrderType.STOP_LOSS_AND_LIMIT, volume).withPrice(stopLossPrice)
         .withSecondaryPrice(limitPrice);
+  }
+
+  public static KrakenOrderBuilder getSettlePositionOrderBuilder(CurrencyPair currencyPair, KrakenType type, BigDecimal volume) {
+
+    //Leverage parameter is required but its value is irrelevant for settling position
+    return new KrakenOrderBuilder(currencyPair, type, KrakenOrderType.SETTLE_POSITION, volume).withLeverage("2");
   }
 
   public static class KrakenOrderBuilder {
