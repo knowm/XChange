@@ -24,10 +24,6 @@
     <dependencies>
 
         <!-- Third party dependencies -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.github.mmazi</groupId>

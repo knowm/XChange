@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -96,7 +97,9 @@
         <module>xchange-coinmate</module>
         <module>xchange-core</module>
         <module>xchange-cryptofacilities</module>
+        <module>xchange-cryptopia</module>
         <module>xchange-cryptonit</module>
+        <module>xchange-dsx</module>
         <module>xchange-empoex</module>
         <module>xchange-examples</module>
         <module>xchange-gatecoin</module>
@@ -125,8 +128,6 @@
         <module>xchange-vaultoro</module>
         <module>xchange-vircurex</module>
         <module>xchange-yobit</module>
-        <module>xchange-dsx</module>
-        <module>xchange-cryptopia</module>
     </modules>
 
     <repositories>
@@ -145,13 +146,6 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- Logging is through SLF4J -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>1.7.25</version>
-            </dependency>
-
             <!-- Rest client -->
             <dependency>
                 <groupId>com.github.mmazi</groupId>
@@ -159,11 +153,10 @@
                 <version>1.9.0</version>
             </dependency>
 
-            <!-- Charting -->
             <dependency>
-                <groupId>org.knowm.xchart</groupId>
-                <artifactId>xchart</artifactId>
-                <version>3.4.0</version>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.5</version>
             </dependency>
 
             <!--For String Joining, etc. -->
@@ -185,20 +178,11 @@
                 <version>1.6.3</version>
             </dependency>
 
+            <!-- Charting -->
             <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.5</version>
-            </dependency>
-
-            <!-- SLF4J implementation for use in testing -->
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>1.2.3</version>
-                <!-- Test scope prevents this implementation bleeding out to consuming
-                    applications -->
-                <scope>test</scope>
+                <groupId>org.knowm.xchart</groupId>
+                <artifactId>xchart</artifactId>
+                <version>3.4.0</version>
             </dependency>
 
             <!-- Reflections - java runtime metadata analysis for integration testing -->
@@ -208,11 +192,40 @@
                 <version>0.9.11</version>
             </dependency>
 
+            <!-- SLF4J implementation for use in exxamples -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+
+            <!-- PowerMockito for unit tests -->
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
     <!-- All children will have these dependencies -->
     <dependencies>
+
+        <!-- Logging is through SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
 
         <!-- JUnit for testing -->
         <dependency>
@@ -222,7 +235,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- slf4j implementation for testing -->
+        <!-- slf4j-simple implementation for testing -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -238,19 +251,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- PowerMockito for unit tests -->
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>${powermock.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
-            <version>${powermock.version}</version>
-            <scope>test</scope>
-        </dependency>
 
     </dependencies>
 
