@@ -32,7 +32,7 @@ public class TaurusMarketDataService extends TaurusMarketDataServiceRaw implemen
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    final Taurus.Time time = args.length == 0 ? null : (Taurus.Time) args[0];
+    final Taurus.Time time = args == null || args.length == 0 ? null : (Taurus.Time) args[0];
     return TaurusAdapters.adaptTrades(getTaurusTransactions(time), currencyPair);
   }
 }

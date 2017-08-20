@@ -38,7 +38,7 @@ public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw im
 
     int depth = 50;
 
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       if (args[0] instanceof Integer) {
         depth = (Integer) args[0];
       }
@@ -53,7 +53,7 @@ public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw im
 
     int count = 50;
 
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       if (args[0] instanceof Integer) {
         count = (Integer) args[0];
       }

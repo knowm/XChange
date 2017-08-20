@@ -56,7 +56,7 @@ public class LunoMarketDataService extends LunoBaseService implements MarketData
     @Override
     public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
         Long since = null;
-        if (args.length >= 1) {
+        if (args != null && args.length >= 1) {
             Object arg0 = args[0];
             if (arg0 instanceof Long) {
                 since = (Long) arg0;
