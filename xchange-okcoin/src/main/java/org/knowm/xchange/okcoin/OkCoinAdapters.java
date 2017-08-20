@@ -313,7 +313,7 @@ public final class OkCoinAdapters {
   }
 
   private static Date adaptDate(long date) {
-    return DateUtils.fromMillisUtc(date * 1000L);
+    return DateUtils.fromMillisUtc(date);
   }
 
   public static List<FundingRecord> adaptFundingHistory(final OkCoinAccountRecords[] okCoinAccountRecordsList) {

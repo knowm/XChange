@@ -105,6 +105,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency ILS = createCurrency("ILS", "Israeli New Sheqel", null);
   public static final Currency INR = createCurrency("INR", "Indian Rupee", null);
   public static final Currency IOC = createCurrency("IOC", "I/OCoin", null);
+  public static final Currency IOT = createCurrency("IOT", "IOTA", null);
   public static final Currency IQD = createCurrency("IQD", "Iraqi Dinar", null);
   public static final Currency IRR = createCurrency("IRR", "Iranian Rial", null);
   public static final Currency ISK = createCurrency("ISK", "Icelandic Króna", null);
@@ -149,6 +150,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency MYR = createCurrency("MYR", "Malaysian Ringgit", null);
   public static final Currency MZN = createCurrency("MZN", "Mozambican Metical", null);
   public static final Currency NAD = createCurrency("NAD", "Namibian Dollar", null);
+  public static final Currency NEO = createCurrency("NEO", "NEO", null);
   public static final Currency NGN = createCurrency("NGN", "Nigerian Naira", null);
   public static final Currency NIO = createCurrency("NIO", "Nicaraguan Córdoba", null);
   public static final Currency NMC = createCurrency("NMC", "Namecoin", null);

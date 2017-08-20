@@ -1,14 +1,43 @@
 {
   "currency_pairs": {
     "LTC/BTC": {
-      "price_scale": 8
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "ETH/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "DOGE/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "XRP/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "PPC/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
     }
   },
   "currencies": {
     "BTC": {
       "scale": 8
     },
+    "ETH": {
+      "scale": 8
+    },
     "LTC": {
+      "scale": 8
+    },
+    "XRP": {
+      "scale": 8
+    },
+    "PPC": {
+      "scale": 8
+    },
+    "DOGE": {
       "scale": 8
     }
   }

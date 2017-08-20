@@ -37,7 +37,7 @@ public class OkCoinMarketDataService extends OkCoinMarketDataServiceRaw implemen
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     final OkCoinTrade[] trades;
 
-    if (args.length == 0) {
+    if (args == null || args.length == 0) {
       trades = getTrades(currencyPair);
     } else {
       trades = getTrades(currencyPair, (Long) args[0]);
