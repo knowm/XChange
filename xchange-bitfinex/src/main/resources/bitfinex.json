@@ -30,11 +30,11 @@
     },
     "ZEC/BTC": {
       "price_scale": 6,
-      "min_amount": 0.000100000
+      "min_amount": 0.0100000
     },
     "ZEC/USD": {
       "price_scale": 4,
-      "min_amount": 0.000100000
+      "min_amount": 0.0100000
     },
     "XMR/BTC": {
       "price_scale": 6,
@@ -50,11 +50,11 @@
     },
     "DASH/BTC": {
       "price_scale": 6,
-      "min_amount": 0.010000000
+      "min_amount": 0.10000000
     },
     "DASH/USD": {
       "price_scale": 4,
-      "min_amount": 0.010000000
+      "min_amount": 0.10000000
     },
     "RRT/BTC": {
       "price_scale": 6,
@@ -66,19 +66,19 @@
     },
     "BCC/BTC": {
       "price_scale": 6,
-      "min_amount": 0.010000000
+      "min_amount": 0.10000000
     },
     "BCC/USD": {
       "price_scale": 4,
-      "min_amount": 0.010000000
+      "min_amount": 0.10000000
     },
     "BCU/BTC": {
       "price_scale": 6,
-      "min_amount": 0.010000000
+      "min_amount": 0.10000000
     },
     "BCU/USD": {
       "price_scale": 4,
-      "min_amount": 0.010000000
+      "min_amount": 0.10000000
     },
     "XRP/BTC": {
       "price_scale": 8,
