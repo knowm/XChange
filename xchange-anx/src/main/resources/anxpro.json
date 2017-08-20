@@ -25,6 +25,11 @@
       "max_amount": 100000.00000000,
       "price_scale": 5
     },
+    "ETH/BTC": {
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
+    },
     "BTC/HKD": {
       "min_amount": 0.01000000,
       "max_amount": 100000.00000000,
@@ -158,6 +163,9 @@
     },
     "EUR": {
       "scale": 2
+    },
+    "ETH": {
+      "scale": 8
     },
     "GBP": {
       "scale": 2
