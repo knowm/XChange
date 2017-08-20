@@ -49,7 +49,7 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
 
     String priceWindow = "";
 
-    if (args.length == 1) {
+    if (args != null && args.length == 1) {
       Object arg0 = args[0];
       if (!(arg0 instanceof String)) {
         throw new ExchangeException("priceWindow argument must be a String!");

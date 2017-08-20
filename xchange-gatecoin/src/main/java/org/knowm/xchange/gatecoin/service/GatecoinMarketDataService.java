@@ -40,7 +40,7 @@ public class GatecoinMarketDataService extends GatecoinMarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    if (args.length == 0) {
+    if (args == null || args.length == 0) {
       return GatecoinAdapters.adaptTrades(getGatecoinTransactions(currencyPair.toString()).getTransactions(), currencyPair);
     } else if (args.length == 1) {
       return GatecoinAdapters.adaptTrades(getGatecoinTransactions(currencyPair.toString(), (Integer) args[0], 0).getTransactions(), currencyPair);
