@@ -36,7 +36,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
 
     long count = Long.MAX_VALUE;
 
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       Object arg0 = args[0];
       if (arg0 instanceof Long) {
         count = (Long) arg0;
@@ -57,7 +57,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
 
     Long since = null;
 
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       Object arg0 = args[0];
       if (arg0 instanceof Long) {
         since = (Long) arg0;
@@ -67,8 +67,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
     }
 
     KrakenPublicTrades krakenTrades = getKrakenTrades(currencyPair, since);
-    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currencyPair, krakenTrades.getLast());
-    return trades;
+    return KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currencyPair, krakenTrades.getLast());
   }
 
 }
