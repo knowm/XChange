@@ -30,6 +30,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Path("api")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
+@Deprecated
 public interface BitstampAuthenticated {
 
   /**
