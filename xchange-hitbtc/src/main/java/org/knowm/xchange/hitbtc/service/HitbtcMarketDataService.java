@@ -36,8 +36,9 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    if (args.length == 0)
-      return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair, DEFAULT_MAX_RESULTS,0, null, null, 0), currencyPair);
+    if (args.length == 0) {
+      return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair, DEFAULT_MAX_RESULTS, 0, null, null, 0), currencyPair);
+    }
 
     long from = (Long) args[0];
     HitbtcTradesSortField sortBy = (HitbtcTradesSortField) args[1];

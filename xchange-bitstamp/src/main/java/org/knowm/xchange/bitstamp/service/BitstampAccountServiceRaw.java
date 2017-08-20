@@ -1,10 +1,5 @@
 package org.knowm.xchange.bitstamp.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
@@ -19,9 +14,13 @@ import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
-
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author gnandiga
@@ -62,18 +61,35 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     return bitstampBalance;
   }
 
-  public BitstampWithdrawal withdrawBitstampFunds(Currency currency, BigDecimal amount, final String address, String destinationTag) throws IOException {
-    final BitstampWithdrawal response;
-    if (address.startsWith("r")) {
-        response = bitstampAuthenticatedV2.xrpWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-                amount, address, destinationTag);
-    } else {
-      response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-          amount, address);
+  public BitstampWithdrawal withdrawBtcFunds(BigDecimal amount, String address) throws IOException {
+    BitstampWithdrawal response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+
+    return checkAndReturnWithdrawal(response);
+  }
+
+  public BitstampWithdrawal withdrawLtcFunds(BigDecimal amount, String address) throws IOException {
+    BitstampWithdrawal response = bitstampAuthenticatedV2.withdrawLitecoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+
+    return checkAndReturnWithdrawal(response);
+  }
+
+  public BitstampWithdrawal withdrawEthFunds(BigDecimal amount, String address) throws IOException {
+    BitstampWithdrawal response = bitstampAuthenticatedV2.withdrawEther(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+
+    return checkAndReturnWithdrawal(response);
+  }
+
+  public BitstampWithdrawal withdrawRippleFunds(BigDecimal amount, String address, String destinationTag) throws IOException {
+    BitstampWithdrawal response = bitstampAuthenticatedV2.xrpWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address, destinationTag);
+
+    return checkAndReturnWithdrawal(response);
+  }
+
+  private BitstampWithdrawal checkAndReturnWithdrawal(BitstampWithdrawal response) {
+    if (response.hasError()) {
+      throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
     }
-    if (response.getError() != null) {
-      throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.getError());
-    }
+
     return response;
   }
 
@@ -119,7 +135,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
   
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, CurrencyPair pair, Long offset,
-          String sort) throws IOException {
+                                                               String sort) throws IOException {
     return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions,
         offset, sort);
   }
