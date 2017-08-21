@@ -25,6 +25,11 @@ import java.util.List;
 
 public class HitbtcAccountService extends HitbtcAccountServiceRaw implements AccountService {
 
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
   public HitbtcAccountService(Exchange exchange) {
 
     super(exchange);

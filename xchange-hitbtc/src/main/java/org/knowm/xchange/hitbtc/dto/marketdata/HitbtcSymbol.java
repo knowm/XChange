@@ -5,87 +5,72 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties("symbol")
 public class HitbtcSymbol {
 
-
-//  {
-//    "id": "BTCUSD",
-//      "baseCurrency": "BTC",
-//      "quoteCurrency": "USD",
-//      "quantityIncrement": "0.01",
-//      "tickSize": "0.01",
-//      "takeLiquidityRate": "0.001",
-//      "provideLiquidityRate": "-0.0001",
-//      "feeCurrency": "USD"
-//  },
-
-  private final String id;
-  private final String baseCurrency;
-  private final String quoteCurrency;
-  private final BigDecimal quantityIncrement;
-  private final BigDecimal tickSize;
+  private final String commodity;
+  private final String currency;
+  private final BigDecimal step;
+  private final BigDecimal lot;
   private final BigDecimal takeLiquidityRate;
   private final BigDecimal provideLiquidityRate;
-  private final String feeCurrency;
 
-  public HitbtcSymbol(
-      @JsonProperty("id") String id,
-      @JsonProperty("baseCurrency") String baseCurrency,
-      @JsonProperty("quoteCurrency") String quoteCurrency,
-      @JsonProperty("quantityIncrement") BigDecimal quantityIncrement,
-      @JsonProperty("tickSize") BigDecimal tickSize,
-      @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate,
-      @JsonProperty("provideLiquidityRate") BigDecimal provideLiquidityRate,
-      @JsonProperty("feeCurrency") String feeCurrency) {
+  /**
+   * Constructor
+   *
+   * @param commodity base currency
+   * @param currency counter currency
+   * @param step granularity of price
+   * @param lot lot
+   */
+  public HitbtcSymbol(@JsonProperty("commodity") String commodity, @JsonProperty("currency") String currency, @JsonProperty("step") BigDecimal step,
+      @JsonProperty("lot") BigDecimal lot, @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate,
+      @JsonProperty("provideLiquidityRate") BigDecimal provideLiquidityRate) {
 
-    this.id = id;
-    this.baseCurrency = baseCurrency;
-    this.quoteCurrency = quoteCurrency;
-    this.quantityIncrement = quantityIncrement;
-    this.tickSize = tickSize;
+    this.commodity = commodity;
+    this.currency = currency;
+    this.step = step;
+    this.lot = lot;
     this.takeLiquidityRate = takeLiquidityRate;
     this.provideLiquidityRate = provideLiquidityRate;
-    this.feeCurrency = feeCurrency;
   }
 
-  public String getId() {
-    return id;
+  public String getCommodity() {
+
+    return commodity;
   }
 
-  public String getBaseCurrency() {
-    return baseCurrency;
+  public String getCurrency() {
+
+    return currency;
   }
 
-  public String getQuoteCurrency() {
-    return quoteCurrency;
+  public BigDecimal getStep() {
+
+    return step;
   }
 
-  public BigDecimal getQuantityIncrement() {
-    return quantityIncrement;
-  }
+  public BigDecimal getLot() {
 
-  public BigDecimal getTickSize() {
-    return tickSize;
+    return lot;
   }
 
   public BigDecimal getTakeLiquidityRate() {
+
     return takeLiquidityRate;
   }
 
   public BigDecimal getProvideLiquidityRate() {
-    return provideLiquidityRate;
-  }
 
-  public String getFeeCurrency() {
-    return feeCurrency;
+    return provideLiquidityRate;
   }
 
   @Override
   public String toString() {
 
-    return "HitbtcSymbol{" + "symbol='" + id + '\'' + ", baseCurrency=" + baseCurrency + ", quoteCurrency=" + quoteCurrency + ", takeRate=" + takeLiquidityRate
-        + ", feeCurrency=" + feeCurrency + '}';
+    return "HitbtcSymbol{" + "symbol='" + commodity + '/' + currency + '\'' + ", step=" + step + ", lot=" + lot + ", takeRate=" + takeLiquidityRate
+        + ", lot=" + lot
+
+        + '}';
   }
-
-
 }
