@@ -23,6 +23,14 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- For Joining Strings -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
+        </dependency>
+
     </dependencies>
 
 </project>

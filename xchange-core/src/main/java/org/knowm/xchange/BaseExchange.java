@@ -82,7 +82,7 @@ public abstract class BaseExchange implements Exchange {
         loadExchangeMetaData(is);
       } catch (FileNotFoundException e) {
         logger.warn(
-            "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
+            "An exception occurred while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
             e);
       } finally {
         IOUtils.closeQuietly(is);
