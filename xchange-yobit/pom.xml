@@ -23,6 +23,7 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+<<<<<<< HEAD
 
         <!-- For Joining Strings -->
         <dependency>
@@ -30,6 +31,8 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+=======
+>>>>>>> 273442f1edd89c734e943c1de6f008a04a5375e9
     </dependencies>
 
 </project>

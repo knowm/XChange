@@ -1,23 +1,37 @@
 package org.knowm.xchange.hitbtc.dto.marketdata;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author kpysniak
+ */
 public class HitbtcOrderBook {
 
-  private final HitbtcOrderLimit[] asks;
-  private final HitbtcOrderLimit[] bids;
+  private final BigDecimal[][] asks;
+  private final BigDecimal[][] bids;
 
-  public HitbtcOrderBook(@JsonProperty("ask") HitbtcOrderLimit[] asks, @JsonProperty("bid") HitbtcOrderLimit[] bids) {
+  /**
+   * Constructor
+   *
+   * @param asks
+   * @param bids
+   */
+  public HitbtcOrderBook(@JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids) {
 
     this.asks = asks;
     this.bids = bids;
   }
 
-  public HitbtcOrderLimit[] getAsks() {
+  public BigDecimal[][] getAsks() {
+
     return asks;
   }
 
-  public HitbtcOrderLimit[] getBids() {
+  public BigDecimal[][] getBids() {
+
     return bids;
   }
 
@@ -27,12 +41,12 @@ public class HitbtcOrderBook {
     StringBuilder asksBuilder = new StringBuilder();
     StringBuilder bidsBuilder = new StringBuilder();
 
-    for (HitbtcOrderLimit ask : getAsks()) {
-      asksBuilder.append(ask + ";");
+    for (BigDecimal[] ask : getAsks()) {
+      asksBuilder.append(Arrays.toString(ask) + ";");
     }
 
-    for (HitbtcOrderLimit bid : getBids()) {
-      bidsBuilder.append(bid + ";");
+    for (BigDecimal[] bid : getBids()) {
+      bidsBuilder.append(Arrays.toString(bid) + ";");
     }
 
     return "HitbtcOrderBook{" + "asks=" + asksBuilder + ", bids=" + bidsBuilder + '}';

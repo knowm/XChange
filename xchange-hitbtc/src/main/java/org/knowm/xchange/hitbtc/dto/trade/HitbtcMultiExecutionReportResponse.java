@@ -6,7 +6,6 @@ import org.knowm.xchange.hitbtc.dto.HitbtcBaseResponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//TODO Delete?
 public class HitbtcMultiExecutionReportResponse extends HitbtcBaseResponse {
 
   List<HitbtcExecutionReport> executionReport;

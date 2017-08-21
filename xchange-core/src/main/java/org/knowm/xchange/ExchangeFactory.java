@@ -150,7 +150,7 @@ public enum ExchangeFactory {
 
   public Exchange createExchange(ExchangeSpecification exchangeSpecification) {
 
-    Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
+    Assert.notNull(exchangeSpecification, "exchangeSpecfication cannot be null");
 
     log.debug("Creating exchange from specification");
 

@@ -6,7 +6,6 @@ import org.knowm.xchange.hitbtc.dto.HitbtcBaseResponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//TODO delete?
 public class HitbtcBalanceResponse extends HitbtcBaseResponse {
 
   private final HitbtcBalance[] balances;
