@@ -59,6 +59,9 @@
     "XRP": {
       "scale": 8
     },
+    "ETH": {
+      "scale": 8
+    },
     "LTC": {
       "scale": 8
     }
