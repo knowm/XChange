@@ -1,47 +1,52 @@
 {
   "currency_pairs": {
+    "BCH/BTC": {
+      "price_scale": 5,
+      "trading_fee": 0.002,
+      "min_amount": 0.0050000000
+    },
     "BTC/EUR": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0050000000
     },
     "BTC/USD": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0050000000
     },
     "BTC/XRP": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0050000000
     },
     "LTC/EUR": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0100000000
     },
     "LTC/BTC": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0100000000
     },
     "EUR/XRP": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0100000000
     },
     "USD/XRP": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0100000000
     },
     "LTC/USD": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0100000000
     },
     "PPC/EUR": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0500000000
     },
@@ -51,7 +56,7 @@
       "min_amount": 0.0500000000
     },
     "ETH/EUR": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.002,
       "min_amount": 0.0100000000
     },
@@ -61,7 +66,32 @@
       "min_amount": 0.0100000000
     }
   },
-  "currencies": {},
+  "currencies": {
+    "BCH": {
+      "scale": 8
+    },
+    "BTC": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "PPC": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "XRP": {
+      "scale": 8
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "USD": {
+      "scale": 2
+    }
+  },
   "private_rate_limits": [
     {
       "calls": 1,
