@@ -30,12 +30,15 @@
             <version>4.2.2-SNAPSHOT</version>
         </dependency>
 
+<<<<<<< HEAD
         <!--For String Joining, etc. -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+=======
+>>>>>>> 273442f1edd89c734e943c1de6f008a04a5375e9
     </dependencies>
 
 </project>

@@ -2,6 +2,9 @@ package org.knowm.xchange.hitbtc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author kpysniak
+ */
 public class HitbtcBaseResponse {
 
   @JsonProperty("code")
