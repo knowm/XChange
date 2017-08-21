@@ -92,19 +92,18 @@
       "price_scale": 5,
       "min_amount": 0.300000000
     },
-     "ETC/ETH": {
+    "ETC/ETH": {
       "price_scale": 5,
       "min_amount": 0.300000000
     },
-     "MLN/BTC": {
+    "MLN/BTC": {
       "price_scale": 6,
       "min_amount": 0.100000000
     },
-     "MLN/ETH": {
+    "MLN/ETH": {
       "price_scale": 5,
       "min_amount": 0.100000000
     },
-
     "ETH/CAD": {
       "price_scale": 5,
       "min_amount": 0.020000000
@@ -153,7 +152,6 @@
       "price_scale": 6,
       "min_amount": 0.030000000
     },
-
     "DASH/EUR": {
       "price_scale": 6,
       "min_amount": 0.030000000
@@ -183,11 +181,11 @@
       "min_amount": 0.020000000
     },
     "BCH/EUR": {
-      "price_scale": 6,
+      "price_scale": 4,
       "min_amount": 0.020000000
     },
     "BCH/USD": {
-      "price_scale": 6,
+      "price_scale": 4,
       "min_amount": 0.020000000
     }
   },

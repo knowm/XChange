@@ -127,6 +127,9 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
   public static final CurrencyPair FTC_BTC = new CurrencyPair(Currency.FTC, Currency.BTC);
   public static final CurrencyPair FTC_LTC = new CurrencyPair(Currency.FTC, Currency.LTC);
 
+  public static final CurrencyPair XMR_BTC = new CurrencyPair(Currency.XMR, Currency.BTC);
+  public static final CurrencyPair XMR_USD = new CurrencyPair(Currency.XMR, Currency.BTC);
+
   public static final CurrencyPair XPM_USD = new CurrencyPair(Currency.XPM, Currency.USD);
   public static final CurrencyPair XPM_CNY = new CurrencyPair(Currency.XPM, Currency.CNY);
   public static final CurrencyPair XPM_BTC = new CurrencyPair(Currency.XPM, Currency.BTC);

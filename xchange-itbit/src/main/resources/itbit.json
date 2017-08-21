@@ -10,5 +10,15 @@
       "price_scale": 2
     }
   },
-  "currencies": {}
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "USD": {
+      "scale": 2
+    }
+  }
 }
