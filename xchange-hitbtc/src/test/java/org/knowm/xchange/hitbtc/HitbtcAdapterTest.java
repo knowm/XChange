@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -19,7 +18,11 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.hitbtc.dto.marketdata.*;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,12 +55,12 @@ public class HitbtcAdapterTest {
     HitbtcTicker ticker = mapper.readValue(is, HitbtcTicker.class);
     Ticker adaptedTicker = HitbtcAdapters.adaptTicker(ticker, CurrencyPair.BTC_USD);
 
-    assertThat(adaptedTicker.getAsk()).isEqualTo("4254.90");
-    assertThat(adaptedTicker.getBid()).isEqualTo("4241.10");
-    assertThat(adaptedTicker.getLow()).isEqualTo("3900.00");
-    assertThat(adaptedTicker.getHigh()).isEqualTo("4333.13");
-    assertThat(adaptedTicker.getLast()).isEqualTo("4255.62");
-    assertThat(adaptedTicker.getVolume()).isEqualTo("1751.81");
+    assertThat(adaptedTicker.getAsk()).isEqualTo("347.76");
+    assertThat(adaptedTicker.getBid()).isEqualTo("347.21");
+    assertThat(adaptedTicker.getLow()).isEqualTo("341.41");
+    assertThat(adaptedTicker.getHigh()).isEqualTo("354.66");
+    assertThat(adaptedTicker.getLast()).isEqualTo("347.53");
+    assertThat(adaptedTicker.getVolume()).isEqualTo("462.82");
     assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
@@ -74,10 +77,10 @@ public class HitbtcAdapterTest {
     OrderBook adaptedOrderBook = HitbtcAdapters.adaptOrderBook(orderBook, CurrencyPair.BTC_USD);
 
     List<LimitOrder> asks = adaptedOrderBook.getAsks();
-    assertThat(asks.size()).isEqualTo(5);
+    assertThat(asks.size()).isEqualTo(3);
     LimitOrder order = asks.get(0);
-    assertThat(order.getLimitPrice()).isEqualTo("4274.81");
-    assertThat(order.getTradableAmount()).isEqualTo("0.15");
+    assertThat(order.getLimitPrice()).isEqualTo("609.58");
+    assertThat(order.getTradableAmount()).isEqualTo("1.23");
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
@@ -89,18 +92,17 @@ public class HitbtcAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    List<HitbtcSymbol> symbols = mapper.readValue(is, new TypeReference<List<HitbtcSymbol>>() { });
+    HitbtcSymbols symbols = mapper.readValue(is, HitbtcSymbols.class);
 
     ExchangeMetaData adaptedMetaData = HitbtcAdapters.adaptToExchangeMetaData(symbols, null);
     Map<CurrencyPair, CurrencyPairMetaData> metaDataMap = adaptedMetaData.getCurrencyPairs();
 
-    assertThat(metaDataMap.size()).isEqualTo(170);
+    assertThat(metaDataMap.size()).isEqualTo(15);
 
     CurrencyPairMetaData BTC_USD = metaDataMap.get(CurrencyPair.BTC_USD);
     assertThat(BTC_USD.getTradingFee()).isEqualTo("0.001");
-    assertThat(BTC_USD.getMinimumAmount()).isEqualTo("0.001");
-    //TODO ??
-//    assertThat(BTC_USD.getPriceScale()).isEqualTo(2);
+    assertThat(BTC_USD.getMinimumAmount()).isEqualTo("0.01");
+    assertThat(BTC_USD.getPriceScale()).isEqualTo(2);
   }
 
   @Test
@@ -111,18 +113,19 @@ public class HitbtcAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    List<HitbtcTrade> trades = mapper.readValue(is, new TypeReference<List<HitbtcTrade>>() { });
+    HitbtcTrades trades = mapper.readValue(is, HitbtcTrades.class);
 
     Trades adaptedTrades = HitbtcAdapters.adaptTrades(trades, CurrencyPair.BTC_USD);
-    assertThat(adaptedTrades.getlastID()).isEqualTo(17556218L);
-    assertThat(adaptedTrades.getTrades()).hasSize(10);
+    assertThat(adaptedTrades.getlastID()).isEqualTo(4191471L);
+    assertThat(adaptedTrades.getTrades()).hasSize(5);
 
     Trade trade = adaptedTrades.getTrades().get(4);
-    assertThat(trade.getType()).isEqualTo(OrderType.ASK);
+    assertThat(trade.getType()).isEqualTo(OrderType.BID);
     assertThat(trade.getTradableAmount()).isEqualTo("0.21");
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
-    assertThat(trade.getPrice()).isEqualTo("4109.48");
-    assertThat(trade.getId()).isEqualTo("17556103");
+    assertThat(trade.getPrice()).isEqualTo("347.65");
+    assertThat(trade.getTimestamp()).isEqualTo(new Date(1447538550006L));
+    assertThat(trade.getId()).isEqualTo("4191471");
   }
 
 }

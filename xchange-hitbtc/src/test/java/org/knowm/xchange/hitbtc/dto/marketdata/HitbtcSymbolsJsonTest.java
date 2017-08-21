@@ -4,11 +4,8 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,19 +20,15 @@ public class HitbtcSymbolsJsonTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    List<HitbtcSymbol> symbols = mapper.readValue(is, new TypeReference<List<HitbtcSymbol>>() { });
+    HitbtcSymbols hitbtcSymbols = mapper.readValue(is, HitbtcSymbols.class);
 
-    Map<String, HitbtcSymbol> symbolMap = new HashMap<>();
-    for (HitbtcSymbol hitbtcSymbol : symbols) {
-      symbolMap.put(hitbtcSymbol.getId(), hitbtcSymbol);
-    }
-
-    assertThat(symbols).hasSize(170);
-    HitbtcSymbol symbol = symbolMap.get("BCNBTC");
-
-    assertThat(symbol.getId()).isEqualTo("BCNBTC");
-    assertThat(symbol.getBaseCurrency()).isEqualTo("BCN");
-    assertThat(symbol.getTickSize()).isEqualTo("0.0000000001");
+    List<HitbtcSymbol> symbols = hitbtcSymbols.getHitbtcSymbols();
+    assertThat(symbols).hasSize(15);
+    HitbtcSymbol symbol = symbols.get(0);
+    assertThat(symbol.getCommodity()).isEqualTo("BCN");
+    assertThat(symbol.getCurrency()).isEqualTo("BTC");
+    assertThat(symbol.getStep()).isEqualTo("0.000000001");
+    assertThat(symbol.getLot()).isEqualTo("100");
     assertThat(symbol.getTakeLiquidityRate()).isEqualTo("0.001");
     assertThat(symbol.getProvideLiquidityRate()).isEqualTo("-0.0001");
   }

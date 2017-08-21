@@ -4,6 +4,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.junit.Test;
 
@@ -21,14 +22,14 @@ public class HitbtcOrderBookJsonTest {
     ObjectMapper mapper = new ObjectMapper();
     HitbtcOrderBook orderBook = mapper.readValue(is, HitbtcOrderBook.class);
 
-    HitbtcOrderLimit[] asks = orderBook.getAsks();
-    assertThat(asks).hasSize(5);
-    assertThat(asks[0].getPrice()).isEqualTo("4274.81");
-    assertThat(asks[0].getSize()).isEqualTo("0.15");
+    BigDecimal[][] asks = orderBook.getAsks();
+    assertThat(asks).hasSize(3);
+    assertThat(asks[0][0]).isEqualTo("609.58");
+    assertThat(asks[0][1]).isEqualTo("1.23");
 
-    HitbtcOrderLimit[] bids = orderBook.getBids();
-    assertThat(bids).hasSize(5);
-    assertThat(bids[2].getPrice()).isEqualTo("4253.86");
-    assertThat(bids[2].getSize()).isEqualTo("0.05");
+    BigDecimal[][] bids = orderBook.getBids();
+    assertThat(bids).hasSize(3);
+    assertThat(bids[2][0]).isEqualTo("1");
+    assertThat(bids[2][1]).isEqualTo("10100.01");
   }
 }

@@ -1,78 +1,87 @@
 package org.knowm.xchange.hitbtc.dto.marketdata;
 
 import java.math.BigDecimal;
-import java.util.Date;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.knowm.xchange.hitbtc.dto.general.HitbtcSide;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
+/**
+ * @author kpysniak
+ */
 public class HitbtcTrade {
 
-  private final String id;
+  private final long date;
   private final BigDecimal price;
-  private final BigDecimal quantity;
-  private final HitbtcSide side;
-  private final Date timestamp;
+  private final BigDecimal amount;
+  private final String tid;
+  private final HitbtcTradeSide side;
 
-  public HitbtcTrade(@JsonProperty("id") String id, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("side") HitbtcSide side, @JsonProperty("timestamp") Date timestamp) {
-    this.id = id;
+  /**
+   * Constructor
+   *
+   * @param date
+   * @param price
+   * @param amount
+   * @param tid
+   * @param side
+   */
+  public HitbtcTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("tid") String tid, @JsonProperty("side") HitbtcTradeSide side) {
+
+    this.date = date;
     this.price = price;
-    this.quantity = quantity;
+    this.amount = amount;
+    this.tid = tid;
     this.side = side;
-    this.timestamp = timestamp;
   }
 
-  public String getId() {
-    return id;
+  public long getDate() {
+
+    return date;
   }
 
   public BigDecimal getPrice() {
+
     return price;
   }
 
-  public BigDecimal getQuantity() {
-    return quantity;
+  public BigDecimal getAmount() {
+
+    return amount;
   }
 
-  public HitbtcSide getSide() {
+  public String getTid() {
+
+    return tid;
+  }
+
+  public HitbtcTradeSide getSide() {
+
     return side;
-  }
-
-  public Date getTimestamp() {
-    return timestamp;
   }
 
   @Override
   public String toString() {
 
-    return new ToStringBuilder(this)
-        .append("id", id)
-        .append("price", price)
-        .append("quantity", quantity)
-        .append("side", side)
-        .append("timestamp", timestamp)
-        .toString();
+    return "HitbtcTrade{" + "date=" + date + ", price=" + price + ", amount=" + amount + ", tid='" + tid + "', side='" + side + "'" + "}";
   }
 
-  public enum HitbtcTradesSortField {
+  public enum HitbtcTradeSide {
 
-    SORT_BY_TRADE_ID("trade_id"), SORT_BY_TIMESTAMP("ts");
+    BUY("buy"), SELL("sell");
 
-    private final String hitbtcTradesSortField;
+    private final String hitbtcTradeSide;
 
-    HitbtcTradesSortField(String hitbtcTradesSortField) {
+    HitbtcTradeSide(String hitbtcTradeSide) {
 
-      this.hitbtcTradesSortField = hitbtcTradesSortField;
+      this.hitbtcTradeSide = hitbtcTradeSide;
     }
 
     @Override
+    @JsonValue
     public String toString() {
 
-      return hitbtcTradesSortField;
+      return hitbtcTradeSide;
     }
   }
-
 }
