@@ -1,106 +1,82 @@
 package org.knowm.xchange.hitbtc.dto.trade;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.knowm.xchange.hitbtc.dto.general.HitbtcSide;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcOwnTrade {
 
-  private final long tradeId;
-  private final BigDecimal execPrice;
-  private final long timestamp;
-  private final long originalOrderId;
-  private final BigDecimal fee;
+  private final Long id;
   private final String clientOrderId;
-  private final String symbol;
-  private final String side;
-  private final BigDecimal execQuantity;
+  private final Long orderId;
+  private final HitbtcSide side;
+  private final BigDecimal quantity;
+  private final BigDecimal fee;
+  private final BigDecimal price;
+  private final Date timestamp;
 
-  public HitbtcOwnTrade(@JsonProperty("tradeId") long tradeId, @JsonProperty("execPrice") BigDecimal execPrice,
-      @JsonProperty("timestamp") long timestamp, @JsonProperty("originalOrderId") long originalOrderId, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("symbol") String symbol, @JsonProperty("side") String side,
-      @JsonProperty("execQuantity") BigDecimal execQuantity) {
-
-    super();
-    this.tradeId = tradeId;
-    this.execPrice = execPrice;
-    this.timestamp = timestamp;
-    this.originalOrderId = originalOrderId;
-    this.fee = fee;
+  public HitbtcOwnTrade(@JsonProperty("id") Long id, @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("orderId") Long orderId,
+      @JsonProperty("side") HitbtcSide side, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("timestamp") Date timestamp) {
+    this.id = id;
     this.clientOrderId = clientOrderId;
-    this.symbol = symbol;
+    this.orderId = orderId;
     this.side = side;
-    this.execQuantity = execQuantity;
+    this.quantity = quantity;
+    this.fee = fee;
+    this.price = price;
+    this.timestamp = timestamp;
   }
 
-  public long getTradeId() {
-
-    return tradeId;
-  }
-
-  public BigDecimal getExecPrice() {
-
-    return execPrice;
-  }
-
-  public long getTimestamp() {
-
-    return timestamp;
-  }
-
-  public long getOriginalOrderId() {
-
-    return originalOrderId;
-  }
-
-  public BigDecimal getFee() {
-
-    return fee;
+  public Long getId() {
+    return id;
   }
 
   public String getClientOrderId() {
-
     return clientOrderId;
   }
 
-  public String getSymbol() {
-
-    return symbol;
+  public Long getOrderId() {
+    return orderId;
   }
 
-  public String getSide() {
-
+  public HitbtcSide getSide() {
     return side;
   }
 
-  public BigDecimal getExecQuantity() {
+  public BigDecimal getQuantity() {
+    return quantity;
+  }
 
-    return execQuantity;
+  public BigDecimal getFee() {
+    return fee;
+  }
+
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public Date getTimestamp() {
+    return timestamp;
   }
 
   @Override
   public String toString() {
 
-    StringBuilder builder = new StringBuilder();
-    builder.append("HitbtcTrade [tradeId=");
-    builder.append(tradeId);
-    builder.append(", execPrice=");
-    builder.append(execPrice);
-    builder.append(", timestamp=");
-    builder.append(timestamp);
-    builder.append(", originalOrderId=");
-    builder.append(originalOrderId);
-    builder.append(", fee=");
-    builder.append(fee);
-    builder.append(", clientOrderId=");
-    builder.append(clientOrderId);
-    builder.append(", symbol=");
-    builder.append(symbol);
-    builder.append(", side=");
-    builder.append(side);
-    builder.append(", execQuantity=");
-    builder.append(execQuantity);
-    builder.append("]");
-    return builder.toString();
+    return new ToStringBuilder(this)
+        .append("id", id)
+        .append("clientOrderId", clientOrderId)
+        .append("orderId", orderId)
+        .append("side", side)
+        .append("quantity", quantity)
+        .append("fee", fee)
+        .append("id", id)
+        .append("price", price)
+        .append("timestamp", timestamp)
+        .toString();
   }
 }

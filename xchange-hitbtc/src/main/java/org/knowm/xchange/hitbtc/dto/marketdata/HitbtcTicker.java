@@ -1,12 +1,10 @@
 package org.knowm.xchange.hitbtc.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author kpysniak
- */
+import java.math.BigDecimal;
+import java.util.Date;
+
 public final class HitbtcTicker {
 
   private final BigDecimal ask;
@@ -15,9 +13,10 @@ public final class HitbtcTicker {
   private final BigDecimal low;
   private final BigDecimal high;
   private final BigDecimal open;
+  private final String symbol;
+  private final Date timestamp;
   private final BigDecimal volume;
-  private final BigDecimal volume_quote;
-  private final long timestamp;
+  private final BigDecimal volumeQuote;
 
   /**
    * Constructor
@@ -31,7 +30,7 @@ public final class HitbtcTicker {
    */
   public HitbtcTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("last") BigDecimal last,
       @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("volume_quote") BigDecimal volume_quote, @JsonProperty("timestamp") long timestamp) {
+      @JsonProperty("symbol") String symbol, @JsonProperty("timestamp") Date timestamp, @JsonProperty("volume") BigDecimal volume, @JsonProperty("volumeQuote") BigDecimal volumeQuote) {
 
     this.ask = ask;
     this.bid = bid;
@@ -40,8 +39,9 @@ public final class HitbtcTicker {
     this.high = high;
     this.open = open;
     this.volume = volume;
-    this.volume_quote = volume_quote;
+    this.volumeQuote = volumeQuote;
     this.timestamp = timestamp;
+    this.symbol = symbol;
   }
 
   public BigDecimal getAsk() {
@@ -74,6 +74,15 @@ public final class HitbtcTicker {
     return open;
   }
 
+  public String getSymbol() {
+    return symbol;
+  }
+
+  public Date getTimestamp() {
+
+    return timestamp;
+  }
+
   public BigDecimal getVolume() {
 
     return volume;
@@ -81,12 +90,7 @@ public final class HitbtcTicker {
 
   public BigDecimal getVolumeQuote() {
 
-    return volume_quote;
-  }
-
-  public long getTimestamp() {
-
-    return timestamp;
+    return volumeQuote;
   }
 
   @Override

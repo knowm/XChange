@@ -26,14 +26,10 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public HitbtcTradeService(Exchange exchange) {
 
     super(exchange);
@@ -41,13 +37,14 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return getOpenOrders(createOpenOrdersParams());
+    return HitbtcAdapters.adaptOpenOrders(getOpenOrdersRaw());
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    HitbtcOrder[] openOrdersRaw = getOpenOrdersRaw();
+  public OpenOrders getOpenOrders(OpenOrdersParams params)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    List<HitbtcOrder> openOrdersRaw = getOpenOrdersRaw();
     return HitbtcAdapters.adaptOpenOrders(openOrdersRaw);
   }
 
@@ -75,7 +72,9 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     if (orderParams instanceof CancelOrderByIdParams) {
       cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
     }
@@ -107,7 +106,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
       symbols = HitbtcAdapters.adaptCurrencyPair(pair);
     }
 
-    HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, symbols);
+    List<HitbtcOwnTrade> tradeHistoryRaw = getTradeHistoryRaw(offset, count, symbols);
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, exchange.getExchangeMetaData());
   }
 
@@ -152,8 +151,9 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     throw new NotYetImplementedForExchangeException();
   }
 

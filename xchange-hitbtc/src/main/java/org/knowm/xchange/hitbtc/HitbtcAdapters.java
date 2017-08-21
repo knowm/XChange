@@ -1,5 +1,12 @@
 package org.knowm.xchange.hitbtc;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -20,28 +27,21 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.hitbtc.dto.TransactionResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
+import org.knowm.xchange.hitbtc.dto.general.HitbtcSide;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderLimit;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class HitbtcAdapters {
 
-  public static final char DELIM = '_';
+  public static final char DELIMITER = '_';
 
   private static final Map<String, FundingRecord.Type> FUNDING_TYPES = new HashMap<String, FundingRecord.Type>() {{
     put("exchangeToBank", null);//internal transfer
@@ -69,7 +69,7 @@ public class HitbtcAdapters {
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
 
-    return new CurrencyPair(hitbtcSymbol.getCommodity(), hitbtcSymbol.getCurrency());
+    return new CurrencyPair(hitbtcSymbol.getBaseCurrency(), hitbtcSymbol.getQuoteCurrency());
   }
 
   /**
@@ -87,7 +87,7 @@ public class HitbtcAdapters {
     BigDecimal low = hitbtcTicker.getLow();
     BigDecimal last = hitbtcTicker.getLast();
     BigDecimal volume = hitbtcTicker.getVolume();
-    Date timestamp = new Date(hitbtcTicker.getTimestamp());
+    Date timestamp = hitbtcTicker.getTimestamp();
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
@@ -113,24 +113,19 @@ public class HitbtcAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  private static List<LimitOrder> adaptMarketOrderToLimitOrder(BigDecimal[][] hitbtcOrders, OrderType orderType, CurrencyPair currencyPair) {
+  private static List<LimitOrder> adaptMarketOrderToLimitOrder(HitbtcOrderLimit[] hitbtcOrders, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<>(hitbtcOrders.length);
 
-    for (int i = 0; i < hitbtcOrders.length; i++) {
-      BigDecimal[] hitbtcOrder = hitbtcOrders[i];
-
-      BigDecimal price = hitbtcOrder[0];
-      BigDecimal amount = hitbtcOrder[1];
-
-      LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, null, null, price);
+    for (HitbtcOrderLimit hitbtcOrderLimit : hitbtcOrders) {
+      LimitOrder limitOrder = new LimitOrder(orderType, hitbtcOrderLimit.getSize(), currencyPair, null, null, hitbtcOrderLimit.getPrice());
       orders.add(limitOrder);
     }
 
     return orders;
   }
 
-  public static OrderType adaptSide(HitbtcTrade.HitbtcTradeSide side) {
+  public static OrderType adaptSide(HitbtcSide side) {
 
     switch (side) {
       case BUY:
@@ -142,12 +137,6 @@ public class HitbtcAdapters {
     }
   }
 
-  public static Trades adaptTrades(HitbtcTrades hitbtcTrades, CurrencyPair currencyPair) {
-
-    List<HitbtcTrade> allHitbtcTrades = hitbtcTrades.getHitbtcTrades();
-    return adaptTrades(allHitbtcTrades, currencyPair);
-  }
-
   public static Trades adaptTrades(List<? extends HitbtcTrade> allHitbtcTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>(allHitbtcTrades.size());
@@ -155,10 +144,10 @@ public class HitbtcAdapters {
     for (int i = 0; i < allHitbtcTrades.size(); i++) {
       HitbtcTrade hitbtcTrade = allHitbtcTrades.get(i);
 
-      Date timestamp = new Date(hitbtcTrade.getDate());
+      Date timestamp = hitbtcTrade.getTimestamp();
       BigDecimal price = hitbtcTrade.getPrice();
-      BigDecimal amount = hitbtcTrade.getAmount();
-      String tid = hitbtcTrade.getTid();
+      BigDecimal amount = hitbtcTrade.getQuantity();
+      String tid = hitbtcTrade.getId();
       long longTradeId = tid == null ? 0 : Long.parseLong(tid);
       if (longTradeId > lastTradeId) {
         lastTradeId = longTradeId;
@@ -171,23 +160,22 @@ public class HitbtcAdapters {
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static OpenOrders adaptOpenOrders(HitbtcOrder[] openOrdersRaw) {
+  public static OpenOrders adaptOpenOrders(List<HitbtcOrder> openOrdersRaw) {
 
-    List<LimitOrder> openOrders = new ArrayList<>(openOrdersRaw.length);
+    List<LimitOrder> openOrders = new ArrayList<>(openOrdersRaw.size());
 
-    for (int i = 0; i < openOrdersRaw.length; i++) {
-      HitbtcOrder o = openOrdersRaw[i];
+    for (HitbtcOrder hitbtcOrder : openOrdersRaw) {
 
-      OrderType type = adaptOrderType(o.getSide());
+      OrderType type = adaptOrderType(hitbtcOrder.getSide().getValue());
 
       LimitOrder order =
           new LimitOrder(
               type,
-              o.getOrderQuantity(),
-              adaptSymbol(o.getSymbol()),
-              o.getClientOrderId(),
-              new Date(o.getLastTimestamp()),
-              o.getOrderPrice());
+              hitbtcOrder.getQuantity(),
+              adaptSymbol(hitbtcOrder.getSymbol()),
+              hitbtcOrder.getClientOrderId(),
+              hitbtcOrder.getCreatedAt(),
+              hitbtcOrder.getPrice());
 
       openOrders.add(order);
     }
@@ -200,21 +188,21 @@ public class HitbtcAdapters {
     return side.equals("buy") ? OrderType.BID : OrderType.ASK;
   }
 
-  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, ExchangeMetaData metaData) {
+  public static UserTrades adaptTradeHistory(List<HitbtcOwnTrade> tradeHistoryRaw, ExchangeMetaData metaData) {
 
-    List<UserTrade> trades = new ArrayList<>(tradeHistoryRaw.length);
-    for (int i = 0; i < tradeHistoryRaw.length; i++) {
-      HitbtcOwnTrade t = tradeHistoryRaw[i];
-      OrderType type = adaptOrderType(t.getSide());
+    List<UserTrade> trades = new ArrayList<>(tradeHistoryRaw.size());
+    for (HitbtcOwnTrade t : tradeHistoryRaw) {
+      OrderType type = adaptOrderType(t.getSide().getValue());
 
-      CurrencyPair pair = adaptSymbol(t.getSymbol());
+      //TODO no longer available... need to fix
+      CurrencyPair pair = adaptSymbol("BTCUSD");
 
       // minimumAmount is equal to lot size
-      BigDecimal tradableAmount = t.getExecQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
-      Date timestamp = new Date(t.getTimestamp());
-      String id = Long.toString(t.getTradeId());
+      BigDecimal tradableAmount = t.getQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
+      Date timestamp = t.getTimestamp();
+      String id = Long.toString(t.getId());
 
-      UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
+      UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
           Currency.getInstance(pair.counter.getCurrencyCode()));
 
       trades.add(trade);
@@ -223,15 +211,16 @@ public class HitbtcAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static Wallet adaptWallet(HitbtcBalance[] walletRaw) {
+  public static Wallet adaptWallet(HitbtcBalance[] hitbtcBalances) {
 
-    List<Balance> balances = new ArrayList<>(walletRaw.length);
+    List<Balance> balances = new ArrayList<>(hitbtcBalances.length);
 
-    for (HitbtcBalance balanceRaw : walletRaw) {
+    for (HitbtcBalance balanceRaw : hitbtcBalances) {
 
-      Balance balance = new Balance(Currency.getInstance(balanceRaw.getCurrencyCode()), null, balanceRaw.getCash(), balanceRaw.getReserved());
+      Currency currency = Currency.getInstance(balanceRaw.getCurrency());
+      Balance balance =
+          new Balance(currency, balanceRaw.getAvailable(), balanceRaw.getAvailable().subtract(balanceRaw.getReserved()), balanceRaw.getReserved());
       balances.add(balance);
-
     }
     return new Wallet(balances);
   }
@@ -245,7 +234,7 @@ public class HitbtcAdapters {
 
     if (order.getId() == null || "".equals(order.getId())) {
       // encoding side in client order id
-      return order.getType().name().substring(0, 1) + DELIM + adaptCurrencyPair(order.getCurrencyPair()) + DELIM + nonce;
+      return order.getType().name().substring(0, 1) + DELIMITER + adaptCurrencyPair(order.getCurrencyPair()) + DELIMITER + nonce;
     } else {
       return order.getId();
     }
@@ -257,9 +246,9 @@ public class HitbtcAdapters {
   }
 
   public static String readSymbol(String orderId) {
-    int start = orderId.indexOf(DELIM);
+    int start = orderId.indexOf(DELIMITER);
     if (start != -1) {
-      int end = orderId.indexOf(DELIM, start + 1);
+      int end = orderId.indexOf(DELIMITER, start + 1);
       if (end != -1) {
         return orderId.substring(start + 1, end);
       }
@@ -267,18 +256,19 @@ public class HitbtcAdapters {
     return "";
   }
 
-  public static HitbtcTrade.HitbtcTradeSide getSide(OrderType type) {
+  public static HitbtcSide getSide(OrderType type) {
 
-    return type == OrderType.BID ? HitbtcTrade.HitbtcTradeSide.BUY : HitbtcTrade.HitbtcTradeSide.SELL;
+    return type == OrderType.BID ? HitbtcSide.BUY : HitbtcSide.SELL;
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(HitbtcSymbols symbols, Map<Currency, CurrencyMetaData> currencies) {
+  public static ExchangeMetaData adaptToExchangeMetaData(List<HitbtcSymbol> symbols, Map<Currency, CurrencyMetaData> currencies) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     if (symbols != null) {
-      for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
+      for (HitbtcSymbol symbol : symbols) {
         CurrencyPair pair = adaptSymbol(symbol);
-        CurrencyPairMetaData meta = new CurrencyPairMetaData(symbol.getTakeLiquidityRate(), symbol.getLot(), null, symbol.getStep().scale());
+        //TODO double check
+        CurrencyPairMetaData meta = new CurrencyPairMetaData(symbol.getTakeLiquidityRate(), symbol.getTakeLiquidityRate(), null, null);
 
         currencyPairs.put(pair, meta);
       }

@@ -2,10 +2,12 @@ package org.knowm.xchange.hitbtc;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.meta.HitbtcMetaData;
 import org.knowm.xchange.hitbtc.service.HitbtcAccountService;
@@ -24,10 +26,9 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-
-    this.marketDataService = new HitbtcMarketDataService(this);
-    this.tradeService = new HitbtcTradeService(this);
-    this.accountService = new HitbtcAccountService(this);
+    marketDataService = new HitbtcMarketDataService(this);
+    tradeService = new HitbtcTradeService(this);
+    accountService = new HitbtcAccountService(this);
   }
 
   @Override
@@ -51,6 +52,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
+  //TODO get rid of this... no longer needed.
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
@@ -60,7 +62,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException {
 
-    HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) marketDataService).getHitbtcSymbols();
+    List<HitbtcSymbol> hitbtcSymbols = ((HitbtcMarketDataServiceRaw) marketDataService).getHitbtcSymbols();
     exchangeMetaData = HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, hitbtcMetaData.getCurrencies());
   }
 
