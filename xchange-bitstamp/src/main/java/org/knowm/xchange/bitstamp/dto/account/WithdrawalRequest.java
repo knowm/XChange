@@ -78,6 +78,7 @@ public class WithdrawalRequest {
         case "2": return finished;
         case "3": return canceled;
         case "4": return failed;
+        case "10": return in_process;
         default:throw new IllegalArgumentException(string + " has no corresponding value");
       }
     }
