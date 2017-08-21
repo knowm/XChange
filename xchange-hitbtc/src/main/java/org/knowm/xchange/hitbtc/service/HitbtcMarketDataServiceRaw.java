@@ -1,30 +1,46 @@
 package org.knowm.xchange.hitbtc.service;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
-import org.knowm.xchange.hitbtc.dto.general.HitbtcSort;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 
+/**
+ * @author kpysniak
+ */
 public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
-
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
   protected HitbtcMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
   }
 
-  public List<HitbtcSymbol> getHitbtcSymbols() throws IOException {
+  public HitbtcTime getHitbtcTime() throws IOException {
 
     try {
-      return hitbtc().getSymbols();
+      return hitbtc.getHitbtcTime();
+    } catch (HitbtcException e) {
+      throw handleException(e);
+    }
+  }
+
+  public HitbtcSymbols getHitbtcSymbols() throws IOException {
+
+    try {
+      return hitbtc.getSymbols();
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -33,16 +49,16 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   public HitbtcTicker getHitbtcTicker(CurrencyPair currencyPair) throws IOException {
 
     try {
-      return hitbtc().getHitbtcTicker(HitbtcAdapters.adaptCurrencyPair(currencyPair));
+      return hitbtc.getHitbtcTicker(HitbtcAdapters.adaptCurrencyPair(currencyPair));
     } catch (HitbtcException e) {
       throw handleException(e);
     }
   }
 
-  public List<HitbtcTicker> getHitbtcTickers() throws IOException {
+  public Map<String, HitbtcTicker> getHitbtcTickers() throws IOException {
 
     try {
-      return  hitbtc().getHitbtcTickers();
+      return hitbtc.getHitbtcTickers();
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -51,27 +67,27 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   public HitbtcOrderBook getHitbtcOrderBook(CurrencyPair currencyPair) throws IOException {
 
     try {
-      return hitbtc().getOrderBook(HitbtcAdapters.adaptCurrencyPair(currencyPair));
+      return hitbtc.getOrderBook(HitbtcAdapters.adaptCurrencyPair(currencyPair));
     } catch (HitbtcException e) {
       throw handleException(e);
     }
   }
 
-  public List<HitbtcTrade> getHitbtcTrades(CurrencyPair currencyPair, Integer maxResults, long from, HitbtcTrade.HitbtcTradesSortField sortBy,
-      HitbtcSort sortDirection, long startIndex) throws IOException {
+  public HitbtcTrades getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrades.HitbtcTradesSortField sortBy,
+      HitbtcTrades.HitbtcTradesSortDirection sortDirection, long startIndex, long maxResults) throws IOException {
 
     try {
-      return hitbtc().getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults);
-
+      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(from), sortBy.toString(), sortDirection.toString(),
+          String.valueOf(startIndex), String.valueOf(maxResults), "object", "true");
     } catch (HitbtcException e) {
       throw handleException(e);
     }
   }
 
-  public List<HitbtcTrade> getHitbtcTradesRecent(CurrencyPair currencyPair, Integer maxResults) throws IOException {
+  public HitbtcTrades getHitbtcTradesRecent(CurrencyPair currencyPair, long maxResults) throws IOException {
 
     try {
-      return hitbtc().getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults);
+      return hitbtc.getTradesRecent(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(maxResults), "object", "true");
     } catch (HitbtcException e) {
       throw handleException(e);
     }

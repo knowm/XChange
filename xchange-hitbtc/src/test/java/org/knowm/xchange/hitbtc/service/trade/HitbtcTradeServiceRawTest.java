@@ -32,15 +32,4 @@ public class HitbtcTradeServiceRawTest {
     assertEquals(Order.OrderType.ASK, HitbtcAdapters.readOrderType(id));
   }
 
-  @Test
-  public void testReadSymbolEther() {
-
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, BigDecimal.ONE, CurrencyPair.ETH_USD, null, null, BigDecimal.ONE);
-
-    String id = HitbtcAdapters.createOrderId(limitOrder,0);
-
-    assertEquals("ETHUSD", HitbtcAdapters.readSymbol(id));
-    assertEquals(Order.OrderType.ASK, HitbtcAdapters.readOrderType(id));
-  }
-
 }

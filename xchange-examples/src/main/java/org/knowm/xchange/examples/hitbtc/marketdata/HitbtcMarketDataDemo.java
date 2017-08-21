@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.hitbtc.marketdata;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
@@ -11,8 +10,11 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.hitbtc.HitbtcExampleUtils;
-import org.knowm.xchange.hitbtc.dto.general.HitbtcSort;
-import org.knowm.xchange.hitbtc.dto.marketdata.*;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import org.knowm.xchange.hitbtc.service.HitbtcMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -27,9 +29,7 @@ public class HitbtcMarketDataDemo {
 
     MarketDataService marketDataService = hitbtcExchange.getMarketDataService();
 
-    System.out.println("--------------------- Generic Data ------------------");
     generic(marketDataService);
-    System.out.println("--------------------- RAW Data ----------------------");
     raw((HitbtcMarketDataServiceRaw) marketDataService);
 
   }
@@ -54,25 +54,28 @@ public class HitbtcMarketDataDemo {
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println("Trades, default. Size=" + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, 0L, HitbtcTrade.HitbtcTradesSortField.SORT_BY_TRADE_ID,
-        HitbtcSort.SORT_ASCENDING, 0L, 10);
+    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, 0L, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TRADE_ID,
+        HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0L, 10L);
     System.out.println("Trades, first 10, Size= " + trades.getTrades().size());
 
     trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60,
-        HitbtcTrade.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcSort.SORT_DESCENDING, 0L, 100);
+        HitbtcTrades.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcTrades.HitbtcTradesSortDirection.SORT_DESCENDING, 0L, 1000L);
     System.out.println("Trades, last minute, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }
 
   private static void raw(HitbtcMarketDataServiceRaw marketDataService) throws IOException {
 
-    List<HitbtcSymbol> symbols = marketDataService.getHitbtcSymbols();
+    HitbtcSymbols symbols = marketDataService.getHitbtcSymbols();
     System.out.println("Market metadata: " + symbols.toString());
+
+    HitbtcTime time = marketDataService.getHitbtcTime();
+    System.out.println("Server time: " + time.toString());
 
     HitbtcTicker ticker = marketDataService.getHitbtcTicker(CurrencyPair.BTC_USD);
     System.out.println("BTC/USD Ticker: " + ticker.toString());
 
-    List<HitbtcTicker> tickers = marketDataService.getHitbtcTickers();
+    Map<String, HitbtcTicker> tickers = marketDataService.getHitbtcTickers();
     System.out.println("All Tickers: " + tickers.toString());
 
     // Get the latest order book data for BTC/USD
@@ -80,23 +83,23 @@ public class HitbtcMarketDataDemo {
 
     System.out.println("Current Order Book size for BTC/USD: " + (orderBook.getAsks().length + orderBook.getBids().length));
 
-    System.out.println("First Ask: " + orderBook.getAsks()[0]);
+    System.out.println("First Ask: " + Arrays.toString(orderBook.getAsks()[0]));
 
-    System.out.println("First Bid: " + orderBook.getBids()[0]);
+    System.out.println("First Bid: " + Arrays.toString(orderBook.getBids()[0]));
 
     System.out.println(orderBook);
 
     // Get the latest trade data for BTC/USD
-    List<HitbtcTrade> trades = marketDataService.getHitbtcTradesRecent(CurrencyPair.BTC_USD, 1000);
-    System.out.println("Trades, recent, Size= " + trades.size());
+    HitbtcTrades trades = marketDataService.getHitbtcTradesRecent(CurrencyPair.BTC_USD, 1000);
+    System.out.println("Trades, recent, Size= " + trades.getHitbtcTrades().size());
 
-    trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, 10,0, HitbtcTrade.HitbtcTradesSortField.SORT_BY_TRADE_ID,
-        HitbtcSort.SORT_ASCENDING, 0);
-    System.out.println("Trades, first 10, Size= " + trades.size());
+    trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, 0, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TRADE_ID,
+        HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0, 10);
+    System.out.println("Trades, first 10, Size= " + trades.getHitbtcTrades().size());
 
-    trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, 1000,System.currentTimeMillis() - 1000 * 60,
-        HitbtcTrade.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcSort.SORT_ASCENDING, 0);
-    System.out.println("Trades, last minute, Size= " + trades.size());
+    trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60,
+        HitbtcTrades.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0, 1000);
+    System.out.println("Trades, last minute, Size= " + trades.getHitbtcTrades().size());
     System.out.println(trades.toString());
   }
 
