@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.knowm.xchange</groupId>
@@ -23,7 +24,6 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-<<<<<<< HEAD
 
         <!-- For Joining Strings -->
         <dependency>
@@ -31,8 +31,6 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
-=======
->>>>>>> 273442f1edd89c734e943c1de6f008a04a5375e9
     </dependencies>
 
 </project>
