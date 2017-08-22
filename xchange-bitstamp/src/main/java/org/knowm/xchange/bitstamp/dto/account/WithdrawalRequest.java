@@ -16,16 +16,13 @@ public class WithdrawalRequest {
 
   private Type type;
   private BigDecimal amount;
-  private Status status;
+  @JsonProperty("status")
+  private String statusOriginal;         // keep the original status, if it comes to "unknown"
   
   private String data;                   // additional withdrawal request data
   private String address;                // Bitcoin withdrawal address (bitcoin withdrawals only).
   @JsonProperty("transaction_id")
   private String transactionId;         // Transaction id (bitcoin withdrawals only).
-
-  //  private String data; // additional withdrawal request data
-
-  
 
   public Long getId() { return id; }
   public WithdrawalRequest(@JsonProperty("datetime") String datetime) {
@@ -36,7 +33,10 @@ public class WithdrawalRequest {
   public Date getDatetime() { return datetime; }
   public Type getType() { return type; }
   public BigDecimal getAmount() { return amount; }
-  public Status getStatus() { return status; }
+  public Status getStatus() {
+      return Status.fromString(statusOriginal); 
+  }
+  public String getStatusOriginal() { return statusOriginal; }
   public String getData() { return data; }
   public String getAddress() { return address; }
   public String getTransactionId() { return transactionId; }
@@ -44,7 +44,7 @@ public class WithdrawalRequest {
   @Override
   public String toString() {
     return "WithdrawalRequest [id=" + id + ", datetime=" + datetime + ", type=" + type + ", amount=" + amount + ", status="
-            + status + ", data=" + data + ", address=" + address + ", transactionId=" + transactionId + "]";
+            + getStatus() + ", statusOriginal=" + statusOriginal + ", data=" + data + ", address=" + address + ", transactionId=" + transactionId + "]";
   }
 
   public enum Type {
