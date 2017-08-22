@@ -15,7 +15,7 @@ import org.knowm.xchange.therock.service.TheRockTradeServiceRaw;
 /**
  * Remove abstract modifier and read parent class notes in order to run the integration test
  */
-public abstract class TheRockTradeServiceIntegrationTest extends AbstractTheRockTradeServiceIntegrationTest {
+public abstract class TheRockTradeServiceIntegration extends AbstractTheRockTradeServiceIntegration {
 
   TheRockTradeServiceRaw unit = createUnit();
 

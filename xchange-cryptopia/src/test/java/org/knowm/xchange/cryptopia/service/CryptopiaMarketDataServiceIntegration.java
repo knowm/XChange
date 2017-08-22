@@ -17,9 +17,9 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CryptopiaMarketDataServiceTest {
+public class CryptopiaMarketDataServiceIntegration {
 
-  private static final Logger log = LoggerFactory.getLogger(CryptopiaMarketDataServiceTest.class);
+  private static final Logger log = LoggerFactory.getLogger(CryptopiaMarketDataServiceIntegration.class);
 
   private static MarketDataService marketDataService;
 
