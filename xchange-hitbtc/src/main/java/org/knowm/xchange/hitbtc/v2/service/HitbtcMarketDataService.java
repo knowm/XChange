@@ -9,6 +9,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -20,16 +23,24 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
     return HitbtcAdapters.adaptTicker(getHitbtcTicker(currencyPair), currencyPair);
   }
 
-  //TODO implement
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    return HitbtcAdapters.adaptOrderBook(getHitbtcOrderBook(currencyPair), currencyPair);
   }
 
-  //TODO implement
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
-  }
+
+    if (args == null || args.length == 0) {
+      return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair), currencyPair);
+    }
+
+    long from = (Long) args[0]; // <trade_id> or <timestamp>
+    HitbtcTrade.HitbtcTradesSortField sortBy = (HitbtcTrade.HitbtcTradesSortField) args[1]; // "trade_id" or "timestamp"
+    HitbtcSort sortDirection = (HitbtcSort) args[2]; // "asc" or "desc"
+    long startIndex = (Long) args[3]; // 0
+    long max_results = (Long) args[4]; // max is 1000
+
+    return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair, from, sortBy, sortDirection, startIndex, max_results), currencyPair);  }
 
 }
