@@ -59,7 +59,7 @@ public final class CryptopiaAdapters {
   }
 
   private static LimitOrder createOrder(CurrencyPair currencyPair, CryptopiaOrder cryptopiaOrder, Order.OrderType orderType) {
-    return new LimitOrder(orderType, cryptopiaOrder.getTotal(), currencyPair, "", null, cryptopiaOrder.getPrice());
+    return new LimitOrder(orderType, cryptopiaOrder.getVolume(), currencyPair, "", null, cryptopiaOrder.getPrice());
   }
 
   /**
