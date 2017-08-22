@@ -24,10 +24,6 @@ public class WithdrawalRequest {
   @JsonProperty("transaction_id")
   private String transactionId;         // Transaction id (bitcoin withdrawals only).
 
-  //  private String data; // additional withdrawal request data
-
-  
-
   public Long getId() { return id; }
   public WithdrawalRequest(@JsonProperty("datetime") String datetime) {
     super();
