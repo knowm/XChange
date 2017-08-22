@@ -67,7 +67,7 @@ public class WithdrawalRequest {
   }
 
   public enum Status {
-    open, in_process, finished, canceled, failed;
+    open, in_process, finished, canceled, failed, unknown;
     
     // 0 (open), 1 (in process), 2 (finished), 3 (canceled) or 4 (failed).
     @JsonCreator
@@ -78,8 +78,7 @@ public class WithdrawalRequest {
         case "2": return finished;
         case "3": return canceled;
         case "4": return failed;
-        case "10": return in_process;
-        default:throw new IllegalArgumentException(string + " has no corresponding value");
+        default: return unknown;
       }
     }
   }
