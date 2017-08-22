@@ -12,6 +12,8 @@ import org.knowm.xchange.hitbtc.service.HitbtcTradeService;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.internal.api.HitbtcRestClient;
+import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataService;
+import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
