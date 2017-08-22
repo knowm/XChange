@@ -4,7 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.therock.TheRockExchange;
 
-public abstract class AbstractTheRockTradeServiceIntegrationTest {
+public abstract class AbstractTheRockTradeServiceIntegration {
 
   /**
    * Substitute apiKey, secretKey and userName in order to run the inherited integration tests

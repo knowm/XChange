@@ -23,6 +23,7 @@ public class KrakenBaseServiceTest {
 
   @Test
   public void testDelimitSetOrderFlags() {
+
     ExchangeSpecification specification = new ExchangeSpecification(KrakenExchange.class);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
     KrakenBaseService service = new KrakenBaseService(exchange);
