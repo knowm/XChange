@@ -1,14 +1,22 @@
 package org.knowm.xchange.hitbtc.v2;
 
+import org.junit.BeforeClass;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 
 public class BaseServiceTest {
 
+  private static ExchangeSpecification exchangeSpecification;
+  private static Exchange exchange;
 
-  ExchangeSpecification exSpec = new ExchangeSpecification(HitbtcExchange.class);
-  Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
+  @BeforeClass
+  public static void setUpBaseClass() {
+    exchangeSpecification = new ExchangeSpecification(HitbtcExchange.class);
+    exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+  }
 
-
+  public static Exchange exchange() {
+    return exchange;
+  }
 }
