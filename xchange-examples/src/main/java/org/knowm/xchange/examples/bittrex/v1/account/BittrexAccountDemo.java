@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bittrex.v1.dto.account.BittrexBalance;
-import org.knowm.xchange.bittrex.v1.service.BittrexAccountServiceRaw;
+import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
+import org.knowm.xchange.bittrex.service.BittrexAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.examples.bittrex.v1.BittrexExamplesUtils;
