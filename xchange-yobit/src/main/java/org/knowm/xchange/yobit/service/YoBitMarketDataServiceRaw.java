@@ -21,6 +21,7 @@ public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
     return service.getProducts();
   }
 
+  // TODO error message handling http 414 (url too long)
   public YoBitTickersReturn getYoBitTickers(Iterable<CurrencyPair> currencyPairs) throws IOException {
     return service.getTickers(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs));
   }

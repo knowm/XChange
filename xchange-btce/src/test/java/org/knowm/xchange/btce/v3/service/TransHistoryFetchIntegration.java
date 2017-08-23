@@ -16,10 +16,11 @@ import org.knowm.xchange.btce.v3.service.trade.params.BTCETransHistoryParams;
  *
  * @author Peter N. Steinmetz Date: 4/3/15 Time: 8:47 AM
  */
-public class TransHistoryFetchIntegrationTest {
+public class TransHistoryFetchIntegration {
 
   @Test
   public void defaultFetchTest() throws Exception {
+
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
     if (exchange == null)
       return; // forces pass if not configuration is available

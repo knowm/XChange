@@ -1,9 +1,5 @@
 package org.knowm.xchange.okcoin.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,13 +12,11 @@ import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.dto.account.OKCoinWithdraw;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class OkCoinAccountService extends OkCoinAccountServiceRaw implements AccountService {
 
@@ -45,9 +39,11 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    String okcoinCurrency = currency == Currency.BTC ? "btc_usd" : "btc_ltc";
+    boolean useIntl = this.exchange.getExchangeSpecification().getExchangeSpecificParametersItem("Use_Intl").equals(true);
+    String currencySymbol = OkCoinAdapters.adaptSymbol(new CurrencyPair(currency, useIntl ? Currency.USD : Currency.CNY));
 
-    OKCoinWithdraw result = withdraw(null, okcoinCurrency, address, amount);
+    // Defualt withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw for internal withdraw
+    OKCoinWithdraw result = withdraw(currencySymbol, address, amount, "okex");
 
     if (result != null)
       return result.getWithdrawId();

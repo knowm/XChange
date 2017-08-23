@@ -48,7 +48,7 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw impl
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     final BTCTradeTrade[] trades;
-    if (args.length == 0) {
+    if (args == null || args.length == 0) {
       trades = getBTCTradeTrades();
     } else {
       trades = getBTCTradeTrades(toLong(args[0]));

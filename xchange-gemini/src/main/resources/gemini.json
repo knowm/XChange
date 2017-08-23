@@ -2,27 +2,25 @@
   "currency_pairs": {
     "BTC/USD": {
       "price_scale": 2,
-      "min_amount": 0.01000000
-    },
-    "LTC/USD": {
-      "price_scale": 4,
-      "min_amount": 0.10000000
-    },
-    "LTC/BTC": {
-      "price_scale": 6,
-      "min_amount": 0.10000000
+      "min_amount": 0.00001
     },
     "ETH/USD": {
-      "price_scale": 4,
-      "min_amount": 0.10000000
+      "price_scale": 2,
+      "min_amount": 0.001
     },
     "ETH/BTC": {
-      "price_scale": 6,
-      "min_amount": 0.10000000
+      "price_scale": 5,
+      "min_amount": 0.001
     }
   },
   "currencies": {
     "BTC": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 2
+    },
+    "ETH": {
       "scale": 8
     }
   }
