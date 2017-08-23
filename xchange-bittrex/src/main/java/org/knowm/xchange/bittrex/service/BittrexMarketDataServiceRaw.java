@@ -107,7 +107,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
 
   public ArrayList<BittrexChartData> getBittrexChartData(String pair, BittrexChartDataPeriodType periodType) throws IOException {
 
-    BittrexChartDataResponse response = bittrexAuthenticated.getChartData(pair, periodType.getPeriod());
+    BittrexChartDataResponse response = bittrexV2.getChartData(pair, periodType.getPeriod());
 
     if (response.getSuccess()) {
       return response.getChartData();
