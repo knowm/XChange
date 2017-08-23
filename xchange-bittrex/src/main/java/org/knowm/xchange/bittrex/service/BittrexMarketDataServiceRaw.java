@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexChartData;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexChartDataResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrenciesResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrency;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepth;
@@ -98,6 +100,17 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
 
       BittrexTrade[] bittrexTrades = response.getTrades();
       return bittrexTrades;
+    } else {
+      throw new ExchangeException(response.getMessage());
+    }
+  }
+
+  public ArrayList<BittrexChartData> getBittrexChartData(String pair, BittrexChartDataPeriodType periodType) throws IOException {
+
+    BittrexChartDataResponse response = bittrexAuthenticated.getChartData(pair, periodType.getPeriod());
+
+    if (response.getSuccess()) {
+      return response.getChartData();
     } else {
       throw new ExchangeException(response.getMessage());
     }

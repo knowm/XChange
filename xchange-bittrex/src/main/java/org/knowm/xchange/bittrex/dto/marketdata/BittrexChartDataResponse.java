@@ -1,7 +1,6 @@
 package org.knowm.xchange.bittrex.dto.marketdata;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,7 +8,7 @@ public class BittrexChartDataResponse {
 
   private final boolean success;
   private final String message;
-  private final List<BittrexChartData> chartData;
+  private final ArrayList<BittrexChartData> chartData;
 
   public BittrexChartDataResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
       @JsonProperty("result") ArrayList<BittrexChartData> result) {
@@ -26,7 +25,7 @@ public class BittrexChartDataResponse {
     return message;
   }
 
-  public List<BittrexChartData> getChartData() {
+  public ArrayList<BittrexChartData> getChartData() {
     return chartData;
   }
 
