@@ -1,6 +1,15 @@
 package org.knowm.xchange.bittrex;
 
-import org.knowm.xchange.bittrex.Bittrex;
+import java.io.IOException;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
 import org.knowm.xchange.bittrex.dto.account.BittrexBalancesResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositAddressResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositsHistoryResponse;
@@ -10,22 +19,14 @@ import org.knowm.xchange.bittrex.dto.trade.BittrexCancelOrderResponse;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrdersResponse;
 import org.knowm.xchange.bittrex.dto.trade.BittrexTradeHistoryResponse;
 import org.knowm.xchange.bittrex.dto.trade.BittrexTradeResponse;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
 
 @Path("v1.1")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public interface BittrexAuthenticated extends Bittrex {
+public interface BittrexAuthenticated extends Bittrex, BittrexV2 {
 
   @GET
   @Path("account/getdepositaddress")
