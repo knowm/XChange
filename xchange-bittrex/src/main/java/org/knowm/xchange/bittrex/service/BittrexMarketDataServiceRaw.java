@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexChartData;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexChartDataResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrenciesResponse;
@@ -17,6 +18,7 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexTickerResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTickersResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTradesResponse;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BittrexMarketDataServiceRaw extends BittrexBaseService {
@@ -105,9 +107,9 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     }
   }
 
-  public ArrayList<BittrexChartData> getBittrexChartData(String pair, BittrexChartDataPeriodType periodType) throws IOException {
+  public ArrayList<BittrexChartData> getBittrexChartData(CurrencyPair currencyPair, BittrexChartDataPeriodType periodType) throws IOException {
 
-    BittrexChartDataResponse response = bittrexV2.getChartData(pair, periodType.getPeriod());
+    BittrexChartDataResponse response = bittrexV2.getChartData(BittrexUtils.toPairString(currencyPair), periodType.getPeriod());
 
     if (response.getSuccess()) {
       return response.getChartData();
