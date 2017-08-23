@@ -190,6 +190,36 @@
         "value_int": "1000000000"
       }
     },
+    "ETH": {
+      "Balance": {
+        "display_short": "4.24 ETH",
+        "value_int": "424413380",
+        "currency": "ETH",
+        "display": "4.24413380 ETH",
+        "value": "4.24413380"
+      },
+      "Available_Balance": {
+        "display_short": "4.24 ETH",
+        "value_int": "424413380",
+        "currency": "ETH",
+        "display": "4.24413380 ETH",
+        "value": "4.24413380"
+      },
+      "Daily_Withdrawal_Limit": {
+        "display_short": "1,500.00 ETH",
+        "value_int": "150000000000",
+        "currency": "ETH",
+        "display": "1,500.00000000 ETH",
+        "value": "1500.00000000"
+      },
+      "Max_Withdraw": {
+        "display_short": "1,500.00 ETH",
+        "value_int": "150000000000",
+        "currency": "ETH",
+        "display": "1,500.00000000 ETH",
+        "value": "1500.00000000"
+      }
+    },
     "DOGE": {
       "Balance": {
         "currency": "DOGE",

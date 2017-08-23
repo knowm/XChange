@@ -1,65 +1,111 @@
 {
   "currency_pairs": {
     "BTC/USD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "BTC/EUR": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "BTC/JPY": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "BTC/SGD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "BTC/HKD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "BTC/IDR": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "BTC/AUD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "BTC/PHP": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "BTC/CNY": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "BTC/INR": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.01
     },
     "ETH/USD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.5
     },
     "ETH/EUR": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.5
     },
     "ETH/JPY": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.5
     },
     "ETH/SGD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.5
     },
     "ETH/HKD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.5
     },
     "ETH/IDR": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.5
     },
     "ETH/AUD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.5
     },
     "ETH/PHP": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.5
     },
     "ETH/CNY": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.5
     },
     "ETH/BTC": {
-      "price_scale": 5
+      "price_scale": 5,
+      "min_amount": 0.5
+    },
+    "BCH/USD": {
+      "price_scale": 2,
+      "min_amount": 0.01
     }
   },
-  "currencies": {}
+  "currencies": {
+    "BCH": {
+      "scale": 8
+    },
+    "BTC": {
+      "scale": 8
+    },
+    "BTH": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "USD": {
+      "scale": 2
+    },
+    "AUD": {
+      "scale": 2
+    }
+  }
 }

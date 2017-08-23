@@ -63,42 +63,41 @@ public class KrakenUtils {
 	  return assetPairMapReverse.get(currencyPair);
   }
   
-  public static CurrencyPair translateKrakenCurrencyPair(String currencyPairIn) {
+    public static CurrencyPair translateKrakenCurrencyPair(String currencyPairIn) {
 	  CurrencyPair pair = assetPairMap.get(currencyPairIn);
 	  if (pair == null) 
 	  {
 		  // kraken can give short pairs back from open orders ?
 		  if (currencyPairIn.length() == 6)
 		  {
-			  Currency base = new Currency(currencyPairIn.substring(0, 3));
-   		      if (base.getIso4217Currency() != null) 
-			  {
-   		    	base = base.getIso4217Currency();
-			  }
-			  Currency counter = new Currency(currencyPairIn.substring(3,6));
-   		      if (counter.getIso4217Currency() != null) 
-			  {
-   		    	counter = counter.getIso4217Currency();
-			  }
-			  pair = new CurrencyPair(base, counter);
+		     Currency base = new Currency(currencyPairIn.substring(0, 3));
+   		     if (base.getCommonlyUsedCurrency() != null) 
+		     {
+   		    	base = base.getCommonlyUsedCurrency();
+	             }
+		     Currency counter = new Currency(currencyPairIn.substring(3,6));
+   		     if (counter.getCommonlyUsedCurrency() != null) 
+	             {
+   		        counter = counter.getCommonlyUsedCurrency();
+	             }
+		     pair = new CurrencyPair(base, counter);
 		  } else if (currencyPairIn.length() == 7) 
 		  {
-			  Currency base = new Currency(currencyPairIn.substring(0, 4));
-   		      if (base.getIso4217Currency() != null) 
-			  {
-   		    	base = base.getIso4217Currency();
-			  }
-			  Currency counter = new Currency(currencyPairIn.substring(4,7));
-   		      if (counter.getIso4217Currency() != null) 
-			  {
-   		    	counter = counter.getIso4217Currency();
-			  }
-			  pair = new CurrencyPair(base, counter);
+		     Currency base = new Currency(currencyPairIn.substring(0, 4));
+   		     if (base.getCommonlyUsedCurrency() != null) 
+		     {
+   		        base = base.getCommonlyUsedCurrency();
+	             }
+		     Currency counter = new Currency(currencyPairIn.substring(4,7));
+   		     if (counter.getCommonlyUsedCurrency() != null) 
+	             {
+   		        counter = counter.getCommonlyUsedCurrency();
+		     }
+		     pair = new CurrencyPair(base, counter);
 		  }
 	  }
 	  return pair;
   }
-
 
   public static String createKrakenCurrencyPair(Currency tradableIdentifier, Currency currency) {
       return createKrakenCurrencyPair(new CurrencyPair(tradableIdentifier, currency));

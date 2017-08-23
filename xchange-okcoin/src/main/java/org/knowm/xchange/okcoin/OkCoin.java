@@ -1,16 +1,5 @@
 package org.knowm.xchange.okcoin;
 
-import java.io.IOException;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.okcoin.dto.account.OKCoinWithdraw;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
@@ -18,13 +7,12 @@ import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTrade;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinPositionResult;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
-
+import org.knowm.xchange.okcoin.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 
 @Path("/v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -142,7 +130,7 @@ public interface OkCoin {
   @Path("withdraw.do")
   OKCoinWithdraw withdraw(@FormParam("api_key") String api_key, @FormParam("symbol") String symbol, @FormParam("sign") ParamsDigest sign,
       @FormParam("chargefee") String chargefee, @FormParam("trade_pwd") String trade_pwd, @FormParam("withdraw_address") String withdraw_address,
-      @FormParam("withdraw_amount") String withdraw_amount) throws IOException;
+      @FormParam("withdraw_amount") String withdraw_amount, @FormParam("target") String target) throws IOException;
 
   @POST
   @Path("account_records.do")

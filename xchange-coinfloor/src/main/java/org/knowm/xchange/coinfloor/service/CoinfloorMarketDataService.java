@@ -33,7 +33,7 @@ public class CoinfloorMarketDataService extends CoinfloorMarketDataServiceRaw im
   @Override
   public Trades getTrades(CurrencyPair pair, Object... args) throws IOException {
     CoinfloorInterval interval;
-    if (args.length == 1 && args[0] instanceof CoinfloorInterval) {
+    if (args != null && args.length == 1 && args[0] instanceof CoinfloorInterval) {
       interval = (CoinfloorInterval) args[0];
     } else {
       interval = CoinfloorInterval.HOUR;

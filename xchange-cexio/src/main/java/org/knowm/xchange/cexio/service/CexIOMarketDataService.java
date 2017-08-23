@@ -52,7 +52,7 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
 
     CexIOTrade[] trades;
 
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       Object arg0 = args[0];
       if (!(arg0 instanceof Number)) {
         throw new ExchangeException("arg[0] must be a Number used to represent since trade id.");

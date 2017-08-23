@@ -56,7 +56,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
     Integer limitBids = null;
     Integer limitAsks = null;
 
-    if (args.length == 2) {
+    if (args != null && args.length == 2) {
       Object arg0 = args[0];
       if (!(arg0 instanceof Integer)) {
         throw new ExchangeException("Argument 0 must be an Integer!");
@@ -84,7 +84,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
     int limitBids = 50;
     int limitAsks = 50;
 
-    if (args.length == 2) {
+    if (args != null && args.length == 2) {
       Object arg0 = args[0];
       if (!(arg0 instanceof Integer)) {
         throw new ExchangeException("Argument 0 must be an Integer!");

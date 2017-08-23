@@ -44,6 +44,21 @@
       "price_scale": 8,
       "trading_fee": 0.0025,
       "min_amount": 0.15
+    },
+    "ETH/EUR": {
+      "price_scale": 2,
+      "trading_fee": 0.0025,
+      "min_amount": 5
+    },
+    "ETH/USD": {
+      "price_scale": 2,
+      "trading_fee": 0.0025,
+      "min_amount": 5
+    },
+    "ETH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.0025,
+      "min_amount": 5
     }
   },
   "currencies": {
@@ -60,6 +75,9 @@
       "scale": 8
     },
     "LTC": {
+      "scale": 8
+    },
+    "ETH": {
       "scale": 8
     }
   },

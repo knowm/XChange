@@ -31,7 +31,7 @@ public class RippleMarketDataService extends RippleMarketDataServiceRaw implemen
    */
   @Override
   public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args) throws IOException {
-    if ((args.length > 0) && (args[0] instanceof RippleMarketDataParams)) {
+    if ((args != null && args.length > 0) && (args[0] instanceof RippleMarketDataParams)) {
       final RippleMarketDataParams params = (RippleMarketDataParams) args[0];
       final RippleOrderBook orderBook = getRippleOrderBook(currencyPair, params);
       return RippleAdapters.adaptOrderBook(orderBook, params, currencyPair);

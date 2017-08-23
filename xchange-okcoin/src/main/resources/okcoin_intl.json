@@ -1,9 +1,15 @@
 {
   "currency_pairs": {
     "BTC/USD": {
+      "min_amount": 0.01,
       "price_scale": 2
     },
     "LTC/USD": {
+      "min_amount": 0.1,
+      "price_scale": 2
+    },
+    "ETH/USD": {
+      "min_amount": 0.01,
       "price_scale": 2
     }
   },

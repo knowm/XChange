@@ -1,18 +1,17 @@
 package org.knowm.xchange.coinfloor.dto.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Objects;
-
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 public class CoinfloorUserTransaction {
   public String datetime = "";
@@ -37,6 +36,14 @@ public class CoinfloorUserTransaction {
 
   public BigDecimal eur = BigDecimal.ZERO;
 
+  public BigDecimal eth = BigDecimal.ZERO;
+
+  public BigDecimal ltc = BigDecimal.ZERO;
+
+  public BigDecimal bch = BigDecimal.ZERO;
+
+  public BigDecimal xrp = BigDecimal.ZERO;
+
   // prices
   @JsonProperty("xbt_gbp")
   public BigDecimal btc_gbp = BigDecimal.ZERO;
@@ -47,6 +54,18 @@ public class CoinfloorUserTransaction {
   @JsonProperty("xbt_eur")
   public BigDecimal btc_eur = BigDecimal.ZERO;
 
+  @JsonProperty("bch_gbp")
+  public BigDecimal bch_gbp = BigDecimal.ZERO;
+
+  @JsonProperty("eth_gbp")
+  public BigDecimal eth_gbp = BigDecimal.ZERO;
+
+  @JsonProperty("xrp_gbp")
+  public BigDecimal xrp_gbp = BigDecimal.ZERO;
+
+  @JsonProperty("ltc_gbp")
+  public BigDecimal ltc_gbp = BigDecimal.ZERO;
+
   public CurrencyPair getCurrencyPair() {
     if (isTrade()) {
       if (!Objects.equals(btc_gbp, BigDecimal.ZERO)) {
@@ -55,6 +74,14 @@ public class CoinfloorUserTransaction {
         return CurrencyPair.BTC_USD;
       } else if (!Objects.equals(btc_eur, BigDecimal.ZERO)) {
         return CurrencyPair.BTC_EUR;
+      } else if (!Objects.equals(bch_gbp, BigDecimal.ZERO)) {
+        return CurrencyPair.BCH_GBP;
+      } else if (!Objects.equals(eth_gbp, BigDecimal.ZERO)) {
+        return CurrencyPair.ETH_GBP;
+      } else if (!Objects.equals(xrp_gbp, BigDecimal.ZERO)) {
+        return CurrencyPair.XRP_GBP;
+      } else if (!Objects.equals(ltc_gbp, BigDecimal.ZERO)) {
+        return CurrencyPair.LTC_GBP;
       }
     }
     return null; // not a trade or an unsupported currency pair
@@ -68,6 +95,14 @@ public class CoinfloorUserTransaction {
         return btc_usd;
       } else if (!Objects.equals(btc_eur, BigDecimal.ZERO)) {
         return btc_eur;
+      } else if (!Objects.equals(bch_gbp, BigDecimal.ZERO)) {
+        return bch_gbp;
+      } else if (!Objects.equals(eth_gbp, BigDecimal.ZERO)) {
+        return eth_gbp;
+      } else if (!Objects.equals(xrp_gbp, BigDecimal.ZERO)) {
+        return xrp_gbp;
+      } else if (!Objects.equals(ltc_gbp, BigDecimal.ZERO)) {
+        return ltc_gbp;
       }
     }
     return BigDecimal.ZERO; // not a trade or an unsupported currency pair
@@ -84,6 +119,12 @@ public class CoinfloorUserTransaction {
       return Currency.USD;
     } else if (eur.signum() != 0) {
       return Currency.EUR;
+    } else if (ltc.signum() != 0) {
+      return Currency.LTC;
+    } else if (eth.signum() != 0) {
+      return Currency.ETH;
+    } else if (bch.signum() != 0) {
+      return Currency.BCH;
     } else {
       return null;
     }
@@ -93,6 +134,14 @@ public class CoinfloorUserTransaction {
     if (isTrade()) {
       if (getCurrencyPair().base == Currency.BTC) {
         return btc;
+      } else if (getCurrencyPair().base == Currency.XRP) {
+        return xrp;
+      } else if (getCurrencyPair().base == Currency.LTC) {
+        return ltc;
+      } else if (getCurrencyPair().base == Currency.ETH) {
+        return eth;
+      } else if (getCurrencyPair().base == Currency.BCH) {
+        return bch;
       } else {
         return BigDecimal.ZERO;
       }
