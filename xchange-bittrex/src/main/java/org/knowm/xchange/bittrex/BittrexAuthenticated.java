@@ -26,7 +26,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Path("v1.1")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public interface BittrexAuthenticated extends Bittrex, BittrexV2 {
+public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("account/getdepositaddress")
