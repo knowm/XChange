@@ -1,4 +1,4 @@
-package org.knowm.xchange.hitbtc.v2.internal.api;
+package org.knowm.xchange.hitbtc.v2;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
  * Version 2 of HitBtc API. See https://api.hitbtc.com/api/2/explore/
  */
 @Path("/api/2/")
-public interface HitbtcApi {
+public interface Hitbtc {
 
   //Public API
 
@@ -36,11 +36,8 @@ public interface HitbtcApi {
   @Path("public/trades/{symbol}")
   List<HitbtcTrade> getTrades(@PathParam("symbol") String symbol) throws IOException;
 
-  //Trading API
-
-
-
-
-
+  @GET
+  @Path("public/ticker")
+  List<HitbtcTicker> getHitbtcTickers() throws IOException;
 
 }

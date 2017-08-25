@@ -1,6 +1,8 @@
 package org.knowm.xchange.hitbtc.v2.internal.api;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.hitbtc.v2.Hitbtc;
+import org.knowm.xchange.hitbtc.v2.HitbtcAuthenticated;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -8,15 +10,15 @@ public enum HitbtcRestClient {
 
   INSTANCE;
 
-  protected HitbtcApi hitbtc;
+  protected HitbtcAuthenticated hitbtc;
 
-  private HitbtcRestClient() { }
+  HitbtcRestClient() { }
 
   public void init(Exchange exchange) {
-    hitbtc = RestProxyFactory.createProxy(HitbtcApi.class, exchange.getExchangeSpecification().getSslUri());
+    hitbtc = RestProxyFactory.createProxy(HitbtcAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
   }
 
-  public HitbtcApi call() {
+  public HitbtcAuthenticated call() {
     return hitbtc;
   }
 
