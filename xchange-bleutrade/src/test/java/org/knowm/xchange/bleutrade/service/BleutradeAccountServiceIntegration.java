@@ -26,7 +26,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -36,7 +35,7 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @RunWith(PowerMockRunner.class)
-public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
+public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupport {
 
   private BleutradeAccountService accountService;
 

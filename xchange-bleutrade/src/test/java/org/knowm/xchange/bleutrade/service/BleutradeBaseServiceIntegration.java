@@ -20,7 +20,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 @RunWith(PowerMockRunner.class)
-public class BleutradeBaseServiceTest extends BleutradeServiceTestSupport {
+public class BleutradeBaseServiceIntegration extends BleutradeServiceTestSupport {
 
   private BleutradeBaseService service;
 
