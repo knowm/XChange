@@ -9,27 +9,22 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
-import org.knowm.xchange.hitbtc.dto.TransactionsResponse;
-import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcDepositAddressResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcPaymentBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcDepositAddressResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 
 import si.mazi.rescu.HttpStatusIOException;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("/api/2/")
 public interface HitbtcAuthenticated extends Hitbtc {

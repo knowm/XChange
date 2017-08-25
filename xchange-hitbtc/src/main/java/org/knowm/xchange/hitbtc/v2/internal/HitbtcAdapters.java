@@ -25,12 +25,14 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderLimit;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSide;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
@@ -193,20 +195,18 @@ public class HitbtcAdapters {
 //
 //    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
 //  }
-//
-//  public static Wallet adaptWallet(HitbtcBalance[] hitbtcBalances) {
-//
-//    List<Balance> balances = new ArrayList<>(hitbtcBalances.length);
-//
-//    for (HitbtcBalance balanceRaw : hitbtcBalances) {
-//
-//      Currency currency = Currency.getInstance(balanceRaw.getCurrency());
-//      Balance balance =
-//          new Balance(currency, balanceRaw.getAvailable(), balanceRaw.getAvailable().subtract(balanceRaw.getReserved()), balanceRaw.getReserved());
-//      balances.add(balance);
-//    }
-//    return new Wallet(balances);
-//  }
+
+  public static Wallet adaptWallet(List<HitbtcBalance> hitbtcBalances) {
+
+    List<Balance> balances = new ArrayList<>(hitbtcBalances.size());
+
+    for (HitbtcBalance balanceRaw : hitbtcBalances) {
+      Currency currency = Currency.getInstance(balanceRaw.getCurrency());
+      Balance balance = new Balance(currency, balanceRaw.getAvailable(), balanceRaw.getAvailable().subtract(balanceRaw.getReserved()), balanceRaw.getReserved());
+      balances.add(balance);
+    }
+    return new Wallet(balances);
+  }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
 
@@ -260,26 +260,23 @@ public class HitbtcAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
+  public static FundingRecord adapt(HitbtcTransaction transaction) {
 
-//
-//  public static FundingRecord adapt(TransactionResponse transaction) {
-//    FundingRecord.Type type = FUNDING_TYPES.get(transaction.type);
-//
-//    FundingRecord.Status status = transaction.status.equals("success") ? FundingRecord.Status.COMPLETE : FundingRecord.Status.FAILED;//todo: find out if there are more statuses
-//
-//    return new FundingRecord(
-//        transaction.bitcoinAddress,
-//        DateUtils.fromUnixTime(transaction.finished),
-//        Currency.getInstanceNoCreate(transaction.currencyCodeTo),
-//        transaction.amountTo,
-//        transaction.id,
-//        transaction.destinationData,
-//        type,
-//        status,
-//        null,
-//        transaction.commissionPercent,
-//        transaction.type + " " + transaction.status
-//    );
-//  }
+    //todo: find out if there are more statuses
+    FundingRecord.Status status = transaction.getStatus().equals("success") ?
+        FundingRecord.Status.COMPLETE :
+        FundingRecord.Status.FAILED;
+
+    return new FundingRecord.Builder()
+        .setAddress(transaction.getAddress())
+        .setCurrency(Currency.getInstanceNoCreate(transaction.getCurrency()))
+        .setAmount(transaction.getAmount())
+        .setType(FundingRecord.Type.valueOf(transaction.getType()))
+        .setFee(transaction.getFee())
+        .setDescription(transaction.getType() + " " + transaction.getStatus())
+        .setStatus(status)
+        .setInternalId(transaction.getId())
+        .build();
+  }
 
 }
