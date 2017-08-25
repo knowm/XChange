@@ -43,7 +43,7 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     String currencySymbol = OkCoinAdapters.adaptSymbol(new CurrencyPair(currency, useIntl ? Currency.USD : Currency.CNY));
 
     // Defualt withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw for internal withdraw
-    OKCoinWithdraw result = withdraw(currencySymbol, address, amount, "okex");
+    OKCoinWithdraw result = withdraw(currencySymbol, address, amount, "address");
 
     if (result != null)
       return result.getWithdrawId();

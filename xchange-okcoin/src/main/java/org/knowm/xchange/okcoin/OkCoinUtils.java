@@ -115,7 +115,7 @@ public class OkCoinUtils {
       case (20028):
         return "no such contract";
       default:
-        return "Unknown error";
+        return "Unknown error: " + errorCode;
     }
   }
 }

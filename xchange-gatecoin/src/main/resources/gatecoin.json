@@ -26,14 +26,8 @@
     }
   },
   "currencies": {
-    "BTC": {
-      "scale": 8
-    },
-    "EUR": {
-      "scale": 2
-    },
-    "USD": {
-      "scale": 2
-    }
+    "BTC": {"scale": 8},
+    "EUR": {"scale": 2},
+    "USD": {"scale": 2}
   }
 }
