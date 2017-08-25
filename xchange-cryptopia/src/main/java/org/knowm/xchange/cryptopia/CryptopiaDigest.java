@@ -1,5 +1,6 @@
 package org.knowm.xchange.cryptopia;
 
+import net.iharder.Base64;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -8,7 +9,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.util.Base64;
 
 public class CryptopiaDigest extends BaseParamsDigest {
 
@@ -16,13 +16,16 @@ public class CryptopiaDigest extends BaseParamsDigest {
   private final String apiKey;
 
   private CryptopiaDigest(SynchronizedValueFactory<Long> nonceFactory, String secretKey, String apiKey) throws IOException {
-    super(Base64.getDecoder().decode(secretKey), HMAC_SHA_256);
+    super(decodeBase64(secretKey), HMAC_SHA_256);
 
     this.nonceFactory = nonceFactory;
     this.apiKey = apiKey;
   }
 
   public static CryptopiaDigest createInstance(SynchronizedValueFactory<Long> nonceFactory, String secretKey, String apiKey) {
+    if (secretKey == null)
+      return null;
+
     try {
       return new CryptopiaDigest(nonceFactory, secretKey, apiKey);
     } catch (Exception e) {
@@ -37,7 +40,7 @@ public class CryptopiaDigest extends BaseParamsDigest {
       String nonce = String.valueOf(nonceFactory.createValue());
 
       String body = restInvocation.getRequestBody();
-      String md5 = Base64.getEncoder().encodeToString(MessageDigest.getInstance("MD5").digest(body.getBytes("UTF-8")));
+      String md5 = Base64.encodeBytes(MessageDigest.getInstance("MD5").digest(body.getBytes("UTF-8")));
 
       String reqSignature =
           apiKey
@@ -49,7 +52,7 @@ public class CryptopiaDigest extends BaseParamsDigest {
       return "amx "
           + apiKey
           + ":"
-          + Base64.getEncoder().encodeToString(getMac().doFinal(reqSignature.getBytes("UTF-8")))
+          + Base64.encodeBytes(getMac().doFinal(reqSignature.getBytes("UTF-8")))
           + ":"
           + nonce;
     } catch (Exception e) {
