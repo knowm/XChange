@@ -2,43 +2,43 @@
   "currency_pairs": {
     "BTC/EUR": {
       "price_scale": 3,
-      "min_amount": 0.002000000      
+      "min_amount": 0.002000000
     },
     "BTC/USD": {
       "price_scale": 3,
-      "min_amount": 0.002000000      
+      "min_amount": 0.002000000
     },
     "BTC/CAD": {
       "price_scale": 3,
-      "min_amount": 0.002000000      
+      "min_amount": 0.002000000
     },
     "BTC/JPY": {
       "price_scale": 1,
-      "min_amount": 0.002000000      
+      "min_amount": 0.002000000
     },
     "LTC/EUR": {
       "price_scale": 5,
-      "min_amount": 0.10000000      
+      "min_amount": 0.10000000
     },
     "LTC/USD": {
       "price_scale": 5,
-      "min_amount": 0.10000000      
+      "min_amount": 0.10000000
     },
     "LTC/BTC": {
       "price_scale": 6,
-      "min_amount": 0.10000000      
+      "min_amount": 0.10000000
     },
     "DOGE/BTC": {
       "price_scale": 8,
-      "min_amount": 3000.00000      
+      "min_amount": 3000.00000
     },
     "XLM/BTC": {
       "price_scale": 8,
-      "min_amount": 300.000000      
+      "min_amount": 300.000000
     },
     "XRP/BTC": {
       "price_scale": 8,
-      "min_amount": 30.00000000      
+      "min_amount": 30.00000000
     },
     "XRP/GBP": {
       "price_scale": 5,
@@ -54,15 +54,15 @@
     },
     "ETH/BTC": {
       "price_scale": 6,
-      "min_amount": 0.020000000      
+      "min_amount": 0.020000000
     },
     "ETH/EUR": {
       "price_scale": 5,
-      "min_amount": 0.020000000      
+      "min_amount": 0.020000000
     },
     "ETH/USD": {
       "price_scale": 5,
-      "min_amount": 0.020000000      
+      "min_amount": 0.020000000
     },
     "XMR/BTC": {
       "price_scale": 6,
@@ -102,11 +102,11 @@
     },
     "ETH/CAD": {
       "price_scale": 5,
-      "min_amount": 0.020000000      
+      "min_amount": 0.020000000
     },
     "ETH/JPY": {
       "price_scale": 1,
-      "min_amount": 0.020000000      
+      "min_amount": 0.020000000
     },
     "REP/BTC": {
       "price_scale": 6,
@@ -184,10 +184,10 @@
   "currencies": {},
   "public_rate_limits": [
     {
-      "calls" : 1,
-      "time_span" : 6,
+      "calls": 1,
+      "time_span": 6,
       "time_unit": "seconds"
     }
   ],
-  "share_rate_limits" : false
+  "share_rate_limits": false
 }
