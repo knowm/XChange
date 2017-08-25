@@ -40,12 +40,12 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
 
   public OKCoinWithdraw withdraw(String currencySymbol, String withdrawAddress, BigDecimal amount, String target) throws IOException {
     String fee = null;
-    if (target.equals("okex")) { //External address
-      if (currencySymbol.startsWith("btc")) fee = "0.0001";
+    if (target.equals("address")) { //External address
+      if (currencySymbol.startsWith("btc")) fee = "0.002";
       else if (currencySymbol.startsWith("ltc")) fee = "0.001";
       else if (currencySymbol.startsWith("eth")) fee = "0.01";
       else throw new IllegalArgumentException("Unsupported withdraw currency");
-    } else if (target.equals("okcn") || target.equals("okcom")) { //Internal address
+    } else if (target.equals("okex") || target.equals("okcn") || target.equals("okcom")) { //Internal address
       fee = "0";
     } else {
       throw new IllegalArgumentException("Unsupported withdraw target");
