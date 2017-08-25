@@ -1,5 +1,6 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,9 +10,9 @@ public class HitbtcTransaction {
   private final String id;
   private final String index;
   private final String currency;
-  private final String amount;
-  private final String fee;
-  private final String networkFee;
+  private final BigDecimal amount;
+  private final BigDecimal fee;
+  private final BigDecimal networkFee;
   private final String address;
   private final String paymentId;
   private final String hash;
@@ -20,8 +21,8 @@ public class HitbtcTransaction {
   private final Date createdAt;
   private final Date updatedAt;
 
-  public HitbtcTransaction(@JsonProperty("id") String id, @JsonProperty("index") String index, @JsonProperty("currency") String currency, @JsonProperty("amount") String amount,
-      @JsonProperty("fee") String fee, @JsonProperty("networkFee") String networkFee, @JsonProperty("address") String address, @JsonProperty("paymentId") String paymentId,
+  public HitbtcTransaction(@JsonProperty("id") String id, @JsonProperty("index") String index, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("fee") BigDecimal fee, @JsonProperty("networkFee") BigDecimal networkFee, @JsonProperty("address") String address, @JsonProperty("paymentId") String paymentId,
       @JsonProperty("hash") String hash, @JsonProperty("status") String status, @JsonProperty("type") String type, @JsonProperty("createdAt") Date createdAt,
       @JsonProperty("updatedAt") Date updatedAt) {
 
@@ -52,15 +53,15 @@ public class HitbtcTransaction {
     return currency;
   }
 
-  public String getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
-  public String getFee() {
+  public BigDecimal getFee() {
     return fee;
   }
 
-  public String getNetworkFee() {
+  public BigDecimal getNetworkFee() {
     return networkFee;
   }
 
