@@ -2,7 +2,6 @@ package org.knowm.xchange.bleutrade.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.fail;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.knowm.xchange.bleutrade.BleutradeAssert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
@@ -17,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bleutrade.BleutradeAssert;
 import org.knowm.xchange.bleutrade.BleutradeAuthenticated;
 import org.knowm.xchange.bleutrade.BleutradeException;
 import org.knowm.xchange.bleutrade.BleutradeExchange;
@@ -35,7 +33,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -45,7 +42,7 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @RunWith(PowerMockRunner.class)
-public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
+public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSupport {
 
   private BleutradeTradeService tradeService;
 
