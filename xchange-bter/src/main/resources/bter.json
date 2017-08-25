@@ -841,7 +841,14 @@
       "price_scale": 7
     }
   },
-  "currencies": null,
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    }
+  },
   "public_rate_limits": null,
   "private_rate_limits": null,
   "share_rate_limits": false
