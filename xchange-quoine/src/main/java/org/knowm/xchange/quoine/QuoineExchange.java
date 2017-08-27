@@ -12,9 +12,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class QuoineExchange extends BaseExchange implements Exchange {
 
-  public static final String KEY_TOKEN_ID = "KEY_TOKEN_ID";
-  public static final String KEY_USER_SECRET = "KEY_USER_SECRET";
-
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
