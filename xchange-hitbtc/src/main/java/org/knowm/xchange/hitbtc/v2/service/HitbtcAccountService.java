@@ -81,7 +81,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
         direction = "desc";
     }
 
-    List<HitbtcTransaction> transactions = transactions(offset, limit, direction);
+    List<HitbtcTransaction> transactions = getTransactions();
 
     List<FundingRecord> records = new ArrayList<>();
     for (HitbtcTransaction transaction : transactions) {
