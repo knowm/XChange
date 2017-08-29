@@ -34,8 +34,8 @@ public class QuoineBaseService extends BaseExchangeService implements BaseServic
 
     quoine = RestProxyFactory.createProxy(QuoineAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
 
-    this.tokenID = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_TOKEN_ID);
-    this.secret = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_USER_SECRET);
+    this.tokenID = exchange.getExchangeSpecification().getApiKey();
+    this.secret = exchange.getExchangeSpecification().getSecretKey();
 
     if (this.tokenID != null && this.secret != null) {
       this.signatureCreator = new QuoineSignatureDigest(this.tokenID, this.secret, exchange.getNonceFactory());
