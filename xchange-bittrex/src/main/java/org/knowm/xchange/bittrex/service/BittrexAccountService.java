@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexAdapters;
+import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
+import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -58,12 +60,17 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+    return null;
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, IOException {
+    final List<BittrexDepositHistory> bittrexDepositHistories = getDepositsHistory();
+    final List<BittrexWithdrawalHistory> bittrexWithdrawalHistories = getWithdrawalsHistory();
+
+    final List<FundingRecord> fundingHistories = BittrexAdapters.adaptDepositRecords(bittrexDepositHistories);
+    fundingHistories.addAll(BittrexAdapters.adaptWithdrawalRecords(bittrexWithdrawalHistories));
+
+    return fundingHistories;
   }
 }

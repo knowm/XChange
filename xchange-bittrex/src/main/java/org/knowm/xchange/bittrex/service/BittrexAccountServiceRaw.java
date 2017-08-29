@@ -5,14 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
-import org.knowm.xchange.bittrex.dto.account.BittrexBalancesResponse;
-import org.knowm.xchange.bittrex.dto.account.BittrexDepositAddressResponse;
-import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
-import org.knowm.xchange.bittrex.dto.account.BittrexDepositsHistoryResponse;
-import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawResponse;
-import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
-import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalsHistoryResponse;
+import org.knowm.xchange.bittrex.dto.account.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BittrexAccountServiceRaw extends BittrexBaseService {
