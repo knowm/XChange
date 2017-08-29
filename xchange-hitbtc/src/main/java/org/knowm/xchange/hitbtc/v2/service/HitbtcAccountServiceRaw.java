@@ -45,7 +45,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     return internalTransferResponse.id;
   }
 
-  public HitbtcPaymentBalanceResponse getPaymentBalance() throws IOException {
+  public List<HitbtcBalance> getPaymentBalance() throws IOException {
     return hitbtc.getPaymentBalance();
   }
 
