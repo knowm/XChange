@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static org.apache.commons.lang3.StringUtils.join;
+
 public class YoBitAdapters {
 
   public static CurrencyPair adaptCurrencyPair(String pair) {
@@ -131,7 +133,7 @@ public class YoBitAdapters {
       pairs.add(adaptCcyPairToUrlFormat(currencyPair));
     }
 
-    return String.join("-", pairs);
+    return join(pairs, "-");
   }
 
   public static String adaptCcyPairToUrlFormat(CurrencyPair currencyPair) {
