@@ -111,7 +111,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("account/balance")
-  HitbtcPaymentBalanceResponse getPaymentBalance() throws IOException, HitbtcException;
+  List<HitbtcBalance> getPaymentBalance() throws IOException, HitbtcException;
 
   @GET
   @Path("payment/address/{currency}")

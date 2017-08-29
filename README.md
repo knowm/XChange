@@ -124,7 +124,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.2.2-ISSUE1633-SNAPSHOT
+    4.2.2-SNAPSHOT
     
 ## Building with Maven
 
