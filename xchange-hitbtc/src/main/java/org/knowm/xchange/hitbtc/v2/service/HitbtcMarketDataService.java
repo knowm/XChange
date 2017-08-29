@@ -2,6 +2,7 @@ package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
 
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -16,6 +17,10 @@ import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implements MarketDataService {
+
+  public HitbtcMarketDataService(Exchange exchange) {
+    super(exchange);
+  }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
