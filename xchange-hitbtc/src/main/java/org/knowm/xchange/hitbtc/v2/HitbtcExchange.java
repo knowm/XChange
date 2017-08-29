@@ -7,13 +7,12 @@ import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.hitbtc.dto.meta.HitbtcMetaData;
-import org.knowm.xchange.hitbtc.service.HitbtcAccountService;
-import org.knowm.xchange.hitbtc.service.HitbtcTradeService;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
-import org.knowm.xchange.hitbtc.v2.internal.api.HitbtcRestClient;
+import org.knowm.xchange.hitbtc.v2.service.HitbtcAccountService;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataService;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
+import org.knowm.xchange.hitbtc.v2.service.HitbtcTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -27,7 +26,7 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
   @Override
   protected void initServices() {
 
-    marketDataService = new HitbtcMarketDataService();
+    marketDataService = new HitbtcMarketDataService(this);
     tradeService = new HitbtcTradeService(this);
     accountService = new HitbtcAccountService(this);
   }
@@ -61,8 +60,6 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
 
   @Override
   public void remoteInit() throws IOException {
-
-    HitbtcRestClient.INSTANCE.init(this);
     List<HitbtcSymbol> hitbtcSymbols = ((HitbtcMarketDataServiceRaw) marketDataService).getHitbtcSymbols();
     exchangeMetaData = HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, hitbtcMetaData.getCurrencies());
   }

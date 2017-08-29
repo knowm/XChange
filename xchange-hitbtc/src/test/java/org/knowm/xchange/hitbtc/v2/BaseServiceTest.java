@@ -7,8 +7,8 @@ import org.knowm.xchange.ExchangeSpecification;
 
 public class BaseServiceTest {
 
-  private static ExchangeSpecification exchangeSpecification;
-  private static Exchange exchange;
+  protected static ExchangeSpecification exchangeSpecification;
+  protected static Exchange exchange;
 
   @BeforeClass
   public static void setUpBaseClass() {

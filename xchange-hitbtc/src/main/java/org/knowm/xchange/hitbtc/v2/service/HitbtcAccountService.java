@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -23,6 +24,10 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class HitbtcAccountService extends HitbtcAccountServiceRaw implements AccountService {
+
+  public HitbtcAccountService(Exchange exchange) {
+    super(exchange);
+  }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
