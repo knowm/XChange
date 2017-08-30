@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
+import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
+import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
@@ -19,6 +21,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -31,6 +34,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public final class BittrexAdapters {
 
@@ -198,4 +202,39 @@ public final class BittrexAdapters {
     return metaData;
   }
 
+  public static List<FundingRecord> adaptDepositRecords(List<BittrexDepositHistory> bittrexFundingHistories) {
+    final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
+    for (BittrexDepositHistory f : bittrexFundingHistories) {
+      if (f != null) {
+        fundingRecords.add(new FundingRecord(f.getCryptoAddress(), f.getLastUpdated(), new Currency(f.getCurrency()),
+                f.getAmount(), String.valueOf(f.getId()), f.getTxId(), FundingRecord.Type.DEPOSIT, FundingRecord.Status.COMPLETE,
+                null, null, null));
+      }
+    }
+    return fundingRecords;
+  }
+
+  private static FundingRecord.Status fromWithdrawalRecord(BittrexWithdrawalHistory bittrexWithdrawal) {
+    if (bittrexWithdrawal.getCanceled())
+      return FundingRecord.Status.CANCELLED;
+    if (bittrexWithdrawal.getInvalidAddress())
+      return FundingRecord.Status.FAILED;
+    if (bittrexWithdrawal.getPendingPayment())
+      return FundingRecord.Status.PROCESSING;
+    if (bittrexWithdrawal.getAuthorized())
+      return FundingRecord.Status.COMPLETE;
+    return FundingRecord.Status.FAILED;
+  }
+
+  public static List<FundingRecord> adaptWithdrawalRecords(List<BittrexWithdrawalHistory> bittrexFundingHistories) {
+    final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
+    for (BittrexWithdrawalHistory f : bittrexFundingHistories) {
+      if (f != null) {
+        final FundingRecord.Status status = fromWithdrawalRecord(f);
+        fundingRecords.add(new FundingRecord(f.getAddress(), f.getOpened(), new Currency(f.getCurrency()),
+                f.getAmount(), f.getPaymentUuid(), f.getTxId(), FundingRecord.Type.WITHDRAWAL, status, null, f.getTxCost(), null));
+      }
+    }
+    return fundingRecords;
+  }
 }
