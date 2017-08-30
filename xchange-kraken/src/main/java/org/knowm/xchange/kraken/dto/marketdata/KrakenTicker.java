@@ -1,9 +1,9 @@
 package org.knowm.xchange.kraken.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing depth from Kraken
@@ -36,8 +36,8 @@ public class KrakenTicker {
    */
 
   public KrakenTicker(@JsonProperty("a") KrakenPublicOrder ask, @JsonProperty("b") KrakenPublicOrder bid, @JsonProperty("c") KrakenPublicOrder close,
-      @JsonProperty("v") BigDecimal[] volume, @JsonProperty("p") BigDecimal[] volumeAvg, @JsonProperty("t") BigDecimal[] trades,
-      @JsonProperty("l") BigDecimal[] low, @JsonProperty("h") BigDecimal[] high, @JsonProperty("o") BigDecimal open) {
+                      @JsonProperty("v") BigDecimal[] volume, @JsonProperty("p") BigDecimal[] volumeAvg, @JsonProperty("t") BigDecimal[] trades,
+                      @JsonProperty("l") BigDecimal[] low, @JsonProperty("h") BigDecimal[] high, @JsonProperty("o") BigDecimal open) {
 
     this.ask = ask;
     this.bid = bid;

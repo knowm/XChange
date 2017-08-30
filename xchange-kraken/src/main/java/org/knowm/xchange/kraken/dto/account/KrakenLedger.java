@@ -1,8 +1,8 @@
 package org.knowm.xchange.kraken.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 public class KrakenLedger {
 
@@ -28,8 +28,8 @@ public class KrakenLedger {
    * @param balance
    */
   public KrakenLedger(@JsonProperty("refid") String refId, @JsonProperty("time") double unixTime, @JsonProperty("type") LedgerType ledgerType,
-      @JsonProperty("aclass") String assetClass, @JsonProperty("asset") String asset, @JsonProperty("amount") BigDecimal transactionAmount,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("balance") BigDecimal balance) {
+                      @JsonProperty("aclass") String assetClass, @JsonProperty("asset") String asset, @JsonProperty("amount") BigDecimal transactionAmount,
+                      @JsonProperty("fee") BigDecimal fee, @JsonProperty("balance") BigDecimal balance) {
 
     this.refId = refId;
     this.unixTime = unixTime;
