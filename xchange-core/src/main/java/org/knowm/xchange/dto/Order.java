@@ -29,7 +29,17 @@ public abstract class Order {
     /**
      * This is to close a long position when trading crypto currency derivatives such as swaps, futures for CFD's.
      */
-    EXIT_BID
+    EXIT_BID;
+
+    public OrderType theOtherType() {
+      switch (this) {
+        case ASK: return BID;
+        case BID: return ASK;
+        case EXIT_ASK: return EXIT_BID;
+        case EXIT_BID: return EXIT_ASK;
+      }
+      throw new RuntimeException("should not reach here");
+    }
   }
 
   public enum OrderStatus {
