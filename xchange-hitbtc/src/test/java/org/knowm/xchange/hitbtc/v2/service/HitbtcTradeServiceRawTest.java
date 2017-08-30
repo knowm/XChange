@@ -41,6 +41,8 @@ public class HitbtcTradeServiceRawTest extends BaseAuthenticatedServiceTest {
 
     LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.01"), new CurrencyPair(Currency.BTC, Currency.USD), id, new Date(), limitPrice);
 
+    exception.expect(HitbtcException.class);
+    exception.expectMessage("Insufficient funds");
     service.placeLimitOrderRaw(limitOrder);
   }
 
