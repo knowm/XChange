@@ -48,12 +48,6 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     return postHitbtcNewOrder.getExecutionReport();
   }
 
-  public HitbtcExecutionReportResponse placeLimitOrderRawReturningHitbtcExecutionReportResponse(LimitOrder limitOrder) throws IOException {
-
-    HitbtcExecutionReportResponse postHitbtcNewOrder = fillHitbtcExecutionReportResponse(limitOrder);
-    return postHitbtcNewOrder;
-  }
-
   private HitbtcExecutionReportResponse fillHitbtcExecutionReportResponse(LimitOrder limitOrder) throws IOException {
 
     String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
@@ -70,7 +64,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     return hitbtc.cancelSingleOrder(clientOrderId);
   }
 
-  public List<HitbtcOrder> cancelOrdersRaw(String symbol) throws IOException {
+  public List<HitbtcOrder> cancelAllOrdersRaw(String symbol) throws IOException {
 
     return hitbtc.cancelAllOrders(symbol);
   }
