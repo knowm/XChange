@@ -1,7 +1,5 @@
 package org.knowm.xchange.kraken;
 
-import java.io.IOException;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,8 +10,9 @@ import org.knowm.xchange.kraken.service.KrakenMarketDataService;
 import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
 import org.knowm.xchange.kraken.service.KrakenTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
 
 /**
  * @author Benedikt Bünz
