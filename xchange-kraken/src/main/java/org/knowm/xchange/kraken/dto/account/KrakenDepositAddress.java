@@ -9,7 +9,7 @@ public class KrakenDepositAddress {
   private final boolean newAddress;
 
   public KrakenDepositAddress(@JsonProperty("address") String address, @JsonProperty("expiretm") Long expiretm,
-      @JsonProperty("new") boolean newAddress) {
+                              @JsonProperty("new") boolean newAddress) {
     super();
     this.address = address;
     this.expiretm = expiretm;

@@ -1,8 +1,5 @@
 package org.knowm.xchange.kraken.service;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -19,6 +16,9 @@ import org.knowm.xchange.kraken.dto.marketdata.results.KrakenOHLCResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class KrakenMarketDataServiceRaw extends KrakenBaseService {
 
