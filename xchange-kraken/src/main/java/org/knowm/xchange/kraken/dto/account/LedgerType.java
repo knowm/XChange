@@ -1,11 +1,5 @@
 package org.knowm.xchange.kraken.dto.account;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.knowm.xchange.kraken.dto.account.LedgerType.LedgerTypeDeserializer;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -13,6 +7,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.kraken.dto.account.LedgerType.LedgerTypeDeserializer;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonDeserialize(using = LedgerTypeDeserializer.class)
 public enum LedgerType {
