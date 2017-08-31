@@ -49,7 +49,7 @@ public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw implem
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    LakeBTCOrderBook lakeBTCOrderBook = getLakeBTCOrderBookUSD(currencyPair);
+    LakeBTCOrderBook lakeBTCOrderBook = getLakeOrderBook(currencyPair);
 
     return LakeBTCAdapters.adaptOrderBook(lakeBTCOrderBook, currencyPair);
   }
