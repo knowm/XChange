@@ -123,11 +123,4 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @Path("/history/order/{id}/trades")
   List<HitbtcOwnTrade> getHistorialTradesByOrder(@PathParam("id") String orderId) throws IOException, HitbtcException;
 
-//TODO does this still exist?
-//  @POST
-//  @Path("payment/transfer_to_main")
-//  InternalTransferResponse transferToMain(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-//      @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency) throws HttpStatusIOException;
-//
-
 }
