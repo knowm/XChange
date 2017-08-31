@@ -1,10 +1,12 @@
 package org.knowm.xchange.lakebtc.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.lakebtc.LakeBTC;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
+
+import java.io.IOException;
 
 /**
  * @author kpysniak
@@ -25,9 +27,9 @@ public class LakeBTCMarketDataServiceRaw extends LakeBTCBaseService {
     return lakeBTC.getLakeBTCTickers();
   }
 
-  public LakeBTCOrderBook getLakeBTCOrderBookUSD() throws IOException {
+  public LakeBTCOrderBook getLakeBTCOrderBookUSD(CurrencyPair pair) throws IOException {
 
-    return lakeBTC.getLakeBTCOrderBookUSD();
+    return lakeBTC.getLakeBTCOrderBookUSD(new LakeBTC.Pair(pair));
   }
 
   public LakeBTCOrderBook getLakeBTCOrderBookCNY() throws IOException {
