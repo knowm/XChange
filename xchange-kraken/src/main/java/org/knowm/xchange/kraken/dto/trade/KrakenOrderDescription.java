@@ -1,8 +1,8 @@
 package org.knowm.xchange.kraken.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 public class KrakenOrderDescription {
 
@@ -30,9 +30,9 @@ public class KrakenOrderDescription {
    * @param closeDescription
    */
   public KrakenOrderDescription(@JsonProperty("pair") String assetPair, @JsonProperty("type") KrakenType type,
-      @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("price2") BigDecimal secondaryPrice, @JsonProperty("leverage") String leverage, @JsonProperty("position") String positionTxId,
-      @JsonProperty("order") String orderDescription, @JsonProperty("close") String closeDescription) {
+                                @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price,
+                                @JsonProperty("price2") BigDecimal secondaryPrice, @JsonProperty("leverage") String leverage, @JsonProperty("position") String positionTxId,
+                                @JsonProperty("order") String orderDescription, @JsonProperty("close") String closeDescription) {
 
     this.assetPair = assetPair;
     this.type = type;

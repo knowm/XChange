@@ -88,7 +88,7 @@ public class OkCoinDigest implements ParamsDigest {
     try {
       md.reset();
 
-      byte[] digest = md.digest(message.getBytes("UTF-8"));
+      byte[] digest = md.digest(message.getBytes("US-ASCII"));
 
       return String.valueOf(encodeHex(digest, DIGITS_UPPER));
     } catch (UnsupportedEncodingException e) {

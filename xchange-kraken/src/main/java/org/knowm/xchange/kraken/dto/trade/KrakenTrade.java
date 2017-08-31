@@ -1,9 +1,9 @@
 package org.knowm.xchange.kraken.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenTrade {
 
@@ -53,12 +53,12 @@ public class KrakenTrade {
    * @param tradeIds
    */
   public KrakenTrade(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") double unixTimestamp,
-      @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
-      @JsonProperty("margin") BigDecimal margin, @JsonProperty("misc") String miscellaneous, @JsonProperty("closing") String closing,
-      @JsonProperty("posstatus") String positionStatus, @JsonProperty("cprice") BigDecimal averageClosePrice,
-      @JsonProperty("ccost") BigDecimal closeCost, @JsonProperty("cfee") BigDecimal closeFee, @JsonProperty("cvol") BigDecimal closeVolume,
-      @JsonProperty("cmargin") BigDecimal closeMargin, @JsonProperty("net") BigDecimal netDifference, @JsonProperty("trades") List<String> tradeIds) {
+                     @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price,
+                     @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
+                     @JsonProperty("margin") BigDecimal margin, @JsonProperty("misc") String miscellaneous, @JsonProperty("closing") String closing,
+                     @JsonProperty("posstatus") String positionStatus, @JsonProperty("cprice") BigDecimal averageClosePrice,
+                     @JsonProperty("ccost") BigDecimal closeCost, @JsonProperty("cfee") BigDecimal closeFee, @JsonProperty("cvol") BigDecimal closeVolume,
+                     @JsonProperty("cmargin") BigDecimal closeMargin, @JsonProperty("net") BigDecimal netDifference, @JsonProperty("trades") List<String> tradeIds) {
 
     this.orderTxId = orderTxId;
     this.assetPair = assetPair;

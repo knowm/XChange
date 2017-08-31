@@ -1,6 +1,5 @@
 package org.knowm.xchange.yobit;
 
-import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -30,6 +29,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import static org.apache.commons.lang3.StringUtils.join;
 
 public class YoBitAdapters {
 
@@ -132,7 +133,7 @@ public class YoBitAdapters {
       pairs.add(adaptCcyPairToUrlFormat(currencyPair));
     }
 
-    return StringUtils.join(pairs, "-");
+    return join(pairs, "-");
   }
 
   public static String adaptCcyPairToUrlFormat(CurrencyPair currencyPair) {
