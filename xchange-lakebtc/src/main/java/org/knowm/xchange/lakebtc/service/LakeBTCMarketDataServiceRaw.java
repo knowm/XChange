@@ -27,13 +27,9 @@ public class LakeBTCMarketDataServiceRaw extends LakeBTCBaseService {
     return lakeBTC.getLakeBTCTickers();
   }
 
-  public LakeBTCOrderBook getLakeBTCOrderBookUSD(CurrencyPair pair) throws IOException {
+  public LakeBTCOrderBook getLakeOrderBook(CurrencyPair pair) throws IOException {
 
     return lakeBTC.getLakeBTCOrderBookUSD(new LakeBTC.Pair(pair));
   }
 
-  public LakeBTCOrderBook getLakeBTCOrderBookCNY() throws IOException {
-
-    return lakeBTC.getLakeBTCOrderBookCNY();
-  }
 }
