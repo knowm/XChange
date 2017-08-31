@@ -41,7 +41,7 @@ mid (price): (bid + ask) / 2
 bid (price): Innermost bid.
 ask (price): Innermost ask.
 last_price (price) The price at which the last order executed.
-localTimestamp (time) The localTimestamp at which this information was valid.
+timestamp (time) The timestamp at which this information was valid.
 Today
 GET /today/:symbol
 Today's low, high and volume.
@@ -55,11 +55,11 @@ GET /candles/:symbol
 Get a list of the most recent candlesticks (trading data) for the given symbol.
 Request
 
-localTimestamp (time): Optional. Only show trades at or after this localTimestamp.
+timestamp (time): Optional. Only show trades at or after this timestamp.
 Response
 
 An array of dictionaries
-start_at (localTimestamp)
+start_at (timestamp)
 period (integer, period in seconds)
 open (price)
 close (price)
@@ -71,64 +71,64 @@ GET /lendbook/:currency
 Get the full lend book.
 Request:
 
-limit_bids (int): Optional. Limit the number of bids (loan demands) returned. May be 0 in which case the array of bids is empty. Default is 50. 
-limit_asks (int): Optional. Limit the number of asks (loan offers) returned. May be 0 in which case the array of asks is empty. Default is 50. 
+limit_bids (int): Optional. Limit the number of bids (loan demands) returned. May be 0 in which case the array of bids is empty. Default is 50.
+limit_asks (int): Optional. Limit the number of asks (loan offers) returned. May be 0 in which case the array of asks is empty. Default is 50.
 Response
 
 bids (array of loan demands):
 rate (rate in % per 365 days)
 amount (decimal)
 period (days): minimum period for the loan
-localTimestamp (time)
+timestamp (time)
 asks (array of loan offers)
 rate (rate in % per 365 days)
 amount (decimal)
 period (days): maximum period for the loan
-localTimestamp (time)
+timestamp (time)
 Orderbook
 GET /book/:symbol
 Get the full order book.
 Request:
 
-limit_bids (int): Optional. Limit the number of bids returned. May be 0 in which case the array of bids is empty. Default is 50. 
-limit_asks (int): Optional. Limit the number of asks returned. May be 0 in which case the array of asks is empty. Default is 50. 
+limit_bids (int): Optional. Limit the number of bids returned. May be 0 in which case the array of bids is empty. Default is 50.
+limit_asks (int): Optional. Limit the number of asks returned. May be 0 in which case the array of asks is empty. Default is 50.
 Response
 
 bids (array)
 price (price)
 amount (decimal)
-localTimestamp (time)
+timestamp (time)
 asks (array)
 price (price)
 amount (decimal)
-localTimestamp (time)
+timestamp (time)
 Trades
 GET /trades/:symbol
 Get a list of the most recent trades for the given symbol.
 Request
 
-localTimestamp (time): Optional. Only show trades at or after this localTimestamp.
+timestamp (time): Optional. Only show trades at or after this timestamp.
 limit_trades (int): Optional. Limit the number of trades returned. Must be >= 1. Default is 50.
 Response
 
 An array of dictionaries
 price (price)
 amount (decimal)
-localTimestamp (time)
+timestamp (time)
 exchange (string)
 Lends
 GET /lends/:currency
 Get a list of the most recent lending data for the given currency: total amount lent and rate (in % by 365 days).
 Request
 
-localTimestamp (time): Optional. Only show trades at or after this localTimestamp.
+timestamp (time): Optional. Only show trades at or after this timestamp.
 limit_lends (int): Optional. Limit the number of lends returned. Must be >= 1. Default is 50.
 Response
 
 An array of dictionaries
 rate (decimal, % by 365 days): Average rate of total loans opened at fixed rates
 amount_lent (decimal): Total amount of open loans in the given currency
-localTimestamp (time)
+timestamp (time)
 Symbols
 GET /symbols
 Get a list of valid symbol IDs.
@@ -146,7 +146,7 @@ amount (decimal): Order size: how much to buy or sell.
 price (price): Price to buy or sell at. May omit if a market order.
 exchange (string): "bitfinex", "bitstamp", "all" (for no routing).
 side (string): Either "buy" or "sell".
-type (string): Either "market" / "limit" / "stop" / "trailing-stop" / "exchange market" / "exchange limit" / "exchange stop" / "exchange trailing-stop". (type starting by "exchange " are exchange orders, others are margin trading orders= 
+type (string): Either "market" / "limit" / "stop" / "trailing-stop" / "exchange market" / "exchange limit" / "exchange stop" / "exchange trailing-stop". (type starting by "exchange " are exchange orders, others are margin trading orders=
 is_hidden (bool) true if the order should be hidden. Default is false.
 Response
 
@@ -163,7 +163,7 @@ POST /order/new/multi
 Submit several new orders at once.
 Request
 
-The request is an array of the array containing the order options sent with the previous call /order/new. That is an array of the following array: 
+The request is an array of the array containing the order options sent with the previous call /order/new. That is an array of the following array:
 symbol (string): The name of the symbol (see `/symbols`).
 amount (decimal): Order size: how much to buy or sell.
 price (price): Price to buy or sell at. May omit if a market order.
@@ -206,7 +206,7 @@ exchange (string): "bitfinex", "mtgox", "bitstamp".
 price (decimal): The price the order was issued at (can be null for market orders).
 avg_execution_price (decimal): The average price at which this order as been executed so far. 0 if the order has not been executed at all. side (string): Either "buy" or "sell".
 type (string): Either "market" / "limit" / "stop" / "trailing-stop".
-localTimestamp (time): The localTimestamp the order was submitted.
+timestamp (time): The timestamp the order was submitted.
 is_live (bool): Could the order still be filled?
 is_cancelled (bool): Has the order been cancelled?
 was_forced (bool): For margin only: true if it was forced by the system.
@@ -231,14 +231,14 @@ View your past trades
 Request
 
 symbol (string): The pair traded (BTCUSD, LTCUSD, LTCBTC).
-localTimestamp (time): Trades made before this localTimestamp won't be returned.
+timestamp (time): Trades made before this timestamp won't be returned.
 limit_trades (int): Optional. Limit the number of trades returned. Default is 50.
 Response
 
 An array of dictionaries:
 price (price)
 amount (decimal)
-localTimestamp (time)
+timestamp (time)
 exchange (string)
 type (string) Sell or Buy
 New offer (lending or borrowing)
@@ -278,7 +278,7 @@ rate (decimal): The rate the offer was issued at (in % per 365 days).
 period (integer): The number of days of the offer.
 direction (string): Either "lend" or "loan".
 type (string): Either "market" / "limit" / "stop" / "trailing-stop".
-localTimestamp (time): The localTimestamp the offer was submitted.
+timestamp (time): The timestamp the offer was submitted.
 is_live (bool): Could the offer still be filled?
 is_cancelled (bool): Has the offer been cancelled?
 executed_amount (decimal): How much of the offer has been executed so far in its history?
