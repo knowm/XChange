@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.hitbtc.dto.InternalTransferResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcAddress;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;
@@ -33,7 +35,26 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
 
   public HitbtcInternalTransferResponse transferFunds(Currency currency, BigDecimal amount, HitbtcTransferType hitbtcTransferType) throws IOException {
 
-    return hitbtc.transferToTrading(amount, currency.getCurrencyCode(), hitbtcTransferType.toString());
+    return hitbtc.transferToTrading(amount, currency.getCurrencyCode(), hitbtcTransferType.getType());
+  }
+
+  public String transferToTrading(Currency currency, BigDecimal amount) throws IOException {
+
+    HitbtcInternalTransferResponse response = transferFunds(currency, amount, HitbtcTransferType.BANK_TO_EXCHANGE);
+
+    if (response.id == null) {
+      throw new ExchangeException("transfer failed: " + response);
+    }
+    return response.id;
+  }
+
+  public String transferToMain(Currency currency, BigDecimal amount) throws IOException {
+    HitbtcInternalTransferResponse response = transferFunds(currency, amount, HitbtcTransferType.EXCHANGE_TO_BANK);
+
+    if (response.id == null) {
+      throw new ExchangeException("transfer failed: " + response);
+    }
+    return response.id;
   }
 
   public List<HitbtcBalance> getPaymentBalance() throws IOException {

@@ -12,10 +12,14 @@ public enum HitbtcTransferType {
     this.type = type;
   }
 
-  @Override
-  public String toString() {
-
+  public String getType() {
     return type;
   }
 
+  @Override
+  public String toString() {
+    return "HitbtcTransferType{" +
+        "type='" + type + '\'' +
+        '}';
+  }
 }
