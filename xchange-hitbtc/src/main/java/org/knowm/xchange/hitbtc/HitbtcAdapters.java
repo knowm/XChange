@@ -292,13 +292,17 @@ public class HitbtcAdapters {
 
     FundingRecord.Status status = transaction.status.equals("success") ? FundingRecord.Status.COMPLETE : FundingRecord.Status.FAILED;//todo: find out if there are more statuses
 
+    String bitcoinAddress = transaction.bitcoinAddress;
+    if(bitcoinAddress == null || bitcoinAddress.equals(""))
+      bitcoinAddress = transaction.destinationData;
+
     return new FundingRecord(
-        transaction.bitcoinAddress,
+        bitcoinAddress,
         DateUtils.fromUnixTime(transaction.finished),
         Currency.getInstanceNoCreate(transaction.currencyCodeTo),
         transaction.amountTo,
         transaction.id,
-        transaction.destinationData,
+        transaction.externalData,
         type,
         status,
         null,
