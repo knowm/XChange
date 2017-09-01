@@ -14,6 +14,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public class BleutradeAccountServiceRaw extends BleutradeBaseService {
   
@@ -75,6 +76,26 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
     } catch (BleutradeException e) {
       throw new ExchangeException(e);
     }
+  }
+
+  public List<DepositRecord> depositHistory() throws IOException {
+    BleutradeResponse<List<DepositRecord>> response = bleutrade.depositHistory(apiKey, signatureCreator, exchange.getNonceFactory());
+
+    if (!response.success) {
+      throw new ExchangeException(response.message);
+    }
+
+    return response.result;
+  }
+
+  public List<WithdrawRecord> withdrawalHistory() throws IOException {
+    BleutradeResponse<List<WithdrawRecord>> response = bleutrade.withdrawHistory(apiKey, signatureCreator, exchange.getNonceFactory());
+
+    if (!response.success) {
+      throw new ExchangeException(response.message);
+    }
+
+    return response.result;
   }
 
 }
