@@ -322,11 +322,11 @@ public final class ANXAdapters {
         date,
         currency,
         value.getValue(),
-        null,
+        entry.getTransactionId(),
         null,
         type,
         FundingRecord.Status.COMPLETE,
-        balance.getValue(),
+        balance == null ? null : balance.getValue(),
         null,
         null
     );
