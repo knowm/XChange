@@ -1,11 +1,10 @@
 package org.knowm.xchange.kraken.dto.account.results;
 
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.kraken.dto.KrakenResult;
 import org.knowm.xchange.kraken.dto.account.WithdrawStatus;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 public class WithdrawStatusResult extends KrakenResult<List<WithdrawStatus>> {
 
