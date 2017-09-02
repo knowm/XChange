@@ -18,7 +18,7 @@ public class KrakenAsset {
    * @param displayScale
    */
   public KrakenAsset(@JsonProperty("altname") String altName, @JsonProperty("aclass") String assetClass, @JsonProperty("decimals") int scale,
-      @JsonProperty("display_decimals") int displayScale) {
+                     @JsonProperty("display_decimals") int displayScale) {
 
     this.altName = altName;
     this.assetClass = assetClass;

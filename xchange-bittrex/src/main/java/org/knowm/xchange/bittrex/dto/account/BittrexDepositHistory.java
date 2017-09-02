@@ -22,6 +22,8 @@ public class BittrexDepositHistory {
   private BigDecimal amount;
   @JsonProperty("Currency")
   private String currency;
+  @JsonProperty("Confirmations")
+  private Integer confirmations;
   @JsonProperty("LastUpdated")
   private Date lastUpdated;
   @JsonProperty("TxId")
@@ -63,6 +65,18 @@ public class BittrexDepositHistory {
   public void setCurrency(String currency) {
 
     this.currency = currency;
+  }
+
+  @JsonProperty("Confirmations")
+  public Integer getConfirmations() {
+
+    return confirmations;
+  }
+
+  @JsonProperty("Confirmations")
+  public void setConfirmations(Integer confirmations) {
+
+    this.confirmations = confirmations;
   }
 
   @JsonProperty("LastUpdated")

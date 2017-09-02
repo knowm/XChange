@@ -1,8 +1,5 @@
 package org.knowm.xchange.kraken.service;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -26,6 +23,9 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenQueryTradeResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class KrakenTradeServiceRaw extends KrakenBaseService {
 
@@ -58,7 +58,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
   }
 
   public Map<String, KrakenOrder> getKrakenClosedOrders(boolean includeTrades, String userRef, String start, String end, String offset,
-      String closeTime) throws IOException {
+                                                        String closeTime) throws IOException {
 
     KrakenClosedOrdersResult result = kraken.closedOrders(includeTrades, userRef, start, end, offset, closeTime,
         exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());

@@ -1,12 +1,11 @@
 package org.knowm.xchange.kraken.dto.account.results;
 
-import java.util.Map;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.kraken.dto.KrakenResult;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult.KrakenLedgers;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 public class KrakenLedgerResult extends KrakenResult<KrakenLedgers> {
 
