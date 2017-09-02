@@ -129,7 +129,7 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
       
     long lastTradeTime = 0;
     if (args != null && args.length > 0) {
-      // parameter 1, if present, is the last trade timestamp
+      // parameter 0, if present, is the last trade timestamp
       if (args[0] instanceof Number) {
         Number arg = (Number) args[0];
         lastTradeTime = arg.longValue() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
