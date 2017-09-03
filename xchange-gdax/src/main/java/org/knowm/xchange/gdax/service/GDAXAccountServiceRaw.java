@@ -13,6 +13,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 public class GDAXAccountServiceRaw extends GDAXBaseService<GDAX> {
 
@@ -37,4 +39,19 @@ public class GDAXAccountServiceRaw extends GDAXBaseService<GDAX> {
     return coinbaseEx.withdrawCrypto(apiKey, digest, nonceFactory, passphrase, new GDAXWithdrawFundsRequest(amount, currency.getCurrencyCode(), address));
   }
 
+  public List<Map> ledger(String accountId, Integer startingOrderId) throws IOException {
+    return coinbaseEx.ledger(apiKey, digest, nonceFactory, passphrase, accountId, startingOrderId);
+  }
+
+  /**
+   * @return the report id
+   */
+  public String requestNewReport(GDAX.GDAXReportRequest reportRequest) throws IOException {
+    Map response = coinbaseEx.createReport(apiKey, digest, nonceFactory, passphrase, reportRequest);
+    return response.get("id").toString();
+  }
+
+  public List report(String reportId) throws IOException {
+    return coinbaseEx.getReport(apiKey, digest, nonceFactory, passphrase, reportId);
+  }
 }
