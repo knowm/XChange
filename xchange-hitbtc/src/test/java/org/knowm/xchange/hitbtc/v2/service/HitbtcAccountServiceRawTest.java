@@ -2,10 +2,9 @@ package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
@@ -16,12 +15,8 @@ import org.junit.rules.ExpectedException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.hitbtc.v2.BaseAuthenticatedServiceTest;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransferType;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
 
 import si.mazi.rescu.HttpStatusIOException;
 
@@ -43,13 +38,10 @@ public class HitbtcAccountServiceRawTest extends BaseAuthenticatedServiceTest {
 
     List<HitbtcBalance> balance = service.getWalletRaw();
 
-    Map<Currency, HitbtcBalance> balanceMap = Maps.uniqueIndex(balance, new Function<HitbtcBalance, Currency>() {
-      @Nullable
-      @Override
-      public Currency apply(@Nullable HitbtcBalance hitbtcBalance) {
-        return Currency.getInstance(hitbtcBalance.getCurrency());
-      }
-    });
+    Map<Currency, HitbtcBalance> balanceMap = new HashMap<>();
+    for (HitbtcBalance hitbtcBalance : balance) {
+      balanceMap.put(Currency.getInstance(hitbtcBalance.getCurrency()), hitbtcBalance);
+    }
 
     Assert.assertNotNull(balance);
     BigDecimal expected = new BigDecimal("0.05000000");
