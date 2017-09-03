@@ -30,9 +30,8 @@ System.out.println(ticker.toString());
 ## Example 2: Private Account Info
 
 To use the private API services, `AccountService` and `TradeService`, create an `ExchangeSpecification` with a unique API key and secret key (in some
-cases more info is required), which you obtain through the exchange's web interface. For more examples of adding the keys to the
-`ExchangeSpecification` including storing them in a configuration file, see [Frequently Asked Questions](https://github
-.com/timmolter/XChange/wiki/Frequently-Asked-Questions).
+cases more info is required), which you obtain through the exchange's web interface. For more examples of adding the keys to the 
+`ExchangeSpecification` including storing them in a configuration file, see [Frequently Asked Questions](https://github.com/timmolter/XChange/wiki/Frequently-Asked-Questions).
 
 ```java
 ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
