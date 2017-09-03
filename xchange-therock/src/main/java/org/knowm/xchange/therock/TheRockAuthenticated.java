@@ -38,19 +38,19 @@ public interface TheRockAuthenticated {
   @GET
   @Path("balances/{currency}")
   TheRockBalance balance(@HeaderParam(X_TRT_KEY) String publicKey, @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
-      @PathParam("currency") String currency) throws TheRockException, IOException;
+                         @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
+                         @PathParam("currency") String currency) throws TheRockException, IOException;
 
   @GET
   @Path("balances")
   TheRockBalances balances(@HeaderParam(X_TRT_KEY) String publicKey, @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
+                           @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Path("atms/withdraw")
   TheRockWithdrawalResponse withdraw(@HeaderParam(X_TRT_KEY) String publicKey, @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockWithdrawal withdrawal) throws TheRockException, IOException;
+                                     @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockWithdrawal withdrawal) throws TheRockException, IOException;
 
   //trading
 
@@ -58,37 +58,37 @@ public interface TheRockAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   @Path("funds/{fund_id}/orders")
   TheRockOrder placeOrder(@PathParam("fund_id") TheRock.Pair currencyPair, @HeaderParam(X_TRT_KEY) String publicKey,
-      @HeaderParam(X_TRT_SIGN) TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
-      TheRockOrder order) throws TheRockException, IOException;
+                          @HeaderParam(X_TRT_SIGN) TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
+                          TheRockOrder order) throws TheRockException, IOException;
 
   @DELETE
   @Path("funds/{fund_id}/orders/{id}")
   TheRockOrder cancelOrder(@PathParam("fund_id") TheRock.Pair currencyPair, @PathParam("id") Long orderId, @HeaderParam(X_TRT_KEY) String publicKey,
-      @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
+                           @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
+                           @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
 
   @GET
   @Path("funds/{fund_id}/orders")
   TheRockOrders orders(@PathParam("fund_id") TheRock.Pair currencyPair, @HeaderParam(X_TRT_KEY) String publicKey,
-      @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
+                       @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
+                       @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
 
   @GET
   @Path("funds/{fund_id}/orders/{id}")
   TheRockOrder showOrder(@PathParam("fund_id") TheRock.Pair currencyPair, @PathParam("id") Long orderId, @HeaderParam(X_TRT_KEY) String publicKey,
-      @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
+                         @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
+                         @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
 
   @GET
   @Path("funds/{fund_id}/trades")
   TheRockUserTrades trades(@PathParam("fund_id") TheRock.Pair currencyPair, @HeaderParam(X_TRT_KEY) String publicKey,
-     @HeaderParam(X_TRT_SIGN) TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
-     @QueryParam("trade_id") Long sinceTradeId, @QueryParam("after") Date after, @QueryParam("before") Date before,
-     @QueryParam("per_page") int perPage,  @QueryParam("page") int page) throws TheRockException, IOException;
+                           @HeaderParam(X_TRT_SIGN) TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
+                           @QueryParam("trade_id") Long sinceTradeId, @QueryParam("after") Date after, @QueryParam("before") Date before,
+                           @QueryParam("per_page") int perPage, @QueryParam("page") int page) throws TheRockException, IOException;
 
   @GET
   @Path("transactions")
   TheRockTransactions transactions(@HeaderParam(X_TRT_KEY) String publicKey, @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, @QueryParam("type") String type, @QueryParam("after") Date after,
-      @QueryParam("before") Date before) throws TheRockException, IOException;
+                                   @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, @QueryParam("type") String type, @QueryParam("after") Date after,
+                                   @QueryParam("before") Date before, @QueryParam("currency") String currency, @QueryParam("page") Integer page) throws TheRockException, IOException;
 }

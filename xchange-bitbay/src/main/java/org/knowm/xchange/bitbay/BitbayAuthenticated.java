@@ -1,8 +1,11 @@
 package org.knowm.xchange.bitbay;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
+import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
+import org.knowm.xchange.bitbay.dto.trade.BitbayCancelResponse;
+import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
+import org.knowm.xchange.bitbay.dto.trade.BitbayTradeResponse;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -11,14 +14,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
-import org.knowm.xchange.bitbay.dto.trade.BitbayCancelResponse;
-import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
-import org.knowm.xchange.bitbay.dto.trade.BitbayTradeResponse;
-
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Z. Dolezal
@@ -34,7 +32,7 @@ public interface BitbayAuthenticated {
   @POST
   @FormParam("method")
   BitbayAccountInfoResponse info(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
-      @FormParam("moment") SynchronizedValueFactory<Long> timestamp) throws IOException;
+                                 @FormParam("moment") SynchronizedValueFactory<Long> timestamp) throws IOException;
 
   /**
    * trade - places offer at the stock market
@@ -47,9 +45,9 @@ public interface BitbayAuthenticated {
   @POST
   @FormParam("method")
   BitbayTradeResponse trade(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
-      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("type") String type, @FormParam("currency") String currency,
-      @FormParam("amount") BigDecimal amount, @FormParam("payment_currency") String paymentCurrency,
-      @FormParam("rate") BigDecimal rate) throws IOException;
+                            @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("type") String type, @FormParam("currency") String currency,
+                            @FormParam("amount") BigDecimal amount, @FormParam("payment_currency") String paymentCurrency,
+                            @FormParam("rate") BigDecimal rate) throws IOException;
 
   /**
    * cancel - removes offer from the stock market
@@ -61,7 +59,7 @@ public interface BitbayAuthenticated {
   @POST
   @FormParam("method")
   BitbayCancelResponse cancel(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
-      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("id") long id) throws IOException;
+                              @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("id") long id) throws IOException;
 
   /**
    * orders - list of all your offers
@@ -73,6 +71,10 @@ public interface BitbayAuthenticated {
   @POST
   @FormParam("method")
   List<BitbayOrder> orders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
-      @FormParam("moment") SynchronizedValueFactory<Long> timestamp) throws IOException;
+                           @FormParam("moment") SynchronizedValueFactory<Long> timestamp) throws IOException;
 
+  @POST
+  @FormParam("method")
+  List history(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+               @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("limit") int limit);
 }
