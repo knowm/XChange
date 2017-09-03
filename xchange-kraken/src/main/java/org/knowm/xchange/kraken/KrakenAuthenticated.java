@@ -54,7 +54,7 @@ public interface KrakenAuthenticated extends Kraken {
   @Path("private/Ledgers")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   KrakenLedgerResult ledgers(@FormParam("aclass") String assetClass, @FormParam("asset") String assets, @FormParam("type") String ledgerType,
-                             @FormParam("start") String start, @FormParam("end") String end, @FormParam("ofs") String offset, @HeaderParam("API-Key") String apiKey,
+                             @FormParam("start") String start, @FormParam("end") String end, @FormParam("ofs") Long offset, @HeaderParam("API-Key") String apiKey,
                              @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
@@ -114,12 +114,12 @@ public interface KrakenAuthenticated extends Kraken {
   /**
    * Get trades history
    *
-   * @param type          ype = type of trade (optional) all = all types (default) any position = any position (open or closed) closed position = positions
-   *                      that have been closed closing position = any trade closing all or part of a position no position = non-positional trades
+   * @param type ype = type of trade (optional) all = all types (default) any position = any position (open or closed) closed position = positions
+   * that have been closed closing position = any trade closing all or part of a position no position = non-positional trades
    * @param includeTrades whether or not to include trades related to position in output (optional. default = false)
-   * @param start         starting unix timestamp or trade tx id of results (optional. exclusive)
-   * @param end           ending unix timestamp or trade tx id of results (optional. inclusive)
-   * @param offset        result offset
+   * @param start starting unix timestamp or trade tx id of results (optional. exclusive)
+   * @param end ending unix timestamp or trade tx id of results (optional. inclusive)
+   * @param offset result offset
    */
   @POST
   @Path("private/TradesHistory")

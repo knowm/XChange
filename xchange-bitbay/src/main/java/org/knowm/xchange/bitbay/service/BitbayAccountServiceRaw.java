@@ -1,23 +1,34 @@
 package org.knowm.xchange.bitbay.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
+import org.knowm.xchange.currency.Currency;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Z. Dolezal
  */
-class BitbayAccountServiceRaw extends BitbayBaseService {
+public class BitbayAccountServiceRaw extends BitbayBaseService {
 
-  BitbayAccountServiceRaw(Exchange exchange) {
-    super(exchange);
-  }
+    public BitbayAccountServiceRaw(Exchange exchange) {
+        super(exchange);
+    }
 
-  BitbayAccountInfoResponse getBitbayAccountInfo() throws IOException {
-    BitbayAccountInfoResponse response = bitbayAuthenticated.info(apiKey, sign, exchange.getNonceFactory());
+    public BitbayAccountInfoResponse getBitbayAccountInfo() throws IOException {
+        BitbayAccountInfoResponse response = bitbayAuthenticated.info(apiKey, sign, exchange.getNonceFactory());
 
-    checkError(response);
-    return response;
-  }
+        checkError(response);
+        return response;
+    }
+
+    public List history(Currency currency, int limit) {
+        List history = bitbayAuthenticated.history(apiKey, sign, exchange.getNonceFactory(), currency.getCurrencyCode(), limit);
+        for (Object o : history) {
+            System.out.println("o = " + o);
+        }
+        return new ArrayList();
+    }
 }

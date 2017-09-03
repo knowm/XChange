@@ -1,15 +1,5 @@
 package org.knowm.xchange.bittrex;
 
-import java.io.IOException;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.bittrex.dto.account.BittrexBalancesResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositAddressResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositsHistoryResponse;
@@ -19,9 +9,17 @@ import org.knowm.xchange.bittrex.dto.trade.BittrexCancelOrderResponse;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrdersResponse;
 import org.knowm.xchange.bittrex.dto.trade.BittrexTradeHistoryResponse;
 import org.knowm.xchange.bittrex.dto.trade.BittrexTradeResponse;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 
 @Path("v1.1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -86,10 +84,10 @@ public interface BittrexAuthenticated extends Bittrex {
   @GET
   @Path("account/getwithdrawalhistory")
   BittrexWithdrawalsHistoryResponse getwithdrawalhistory(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
-                                                         @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+                                                         @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("currency") String currency) throws IOException;
 
   @GET
   @Path("account/getdeposithistory")
   BittrexDepositsHistoryResponse getdeposithistory(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
-                                                   @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+                                                   @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("currency") String currency) throws IOException;
 }
