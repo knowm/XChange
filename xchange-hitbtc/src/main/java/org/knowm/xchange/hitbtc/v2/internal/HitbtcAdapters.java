@@ -218,22 +218,6 @@ public class HitbtcAdapters {
     }
   }
 
-//  public static OrderType readOrderType(String orderId) {
-//
-//    return orderId.charAt(0) == 'A' ? OrderType.ASK : OrderType.BID;
-//  }
-//
-//  public static String readSymbol(String orderId) {
-//    int start = orderId.indexOf(DELIMITER);
-//    if (start != -1) {
-//      int end = orderId.indexOf(DELIMITER, start + 1);
-//      if (end != -1) {
-//        return orderId.substring(start + 1, end);
-//      }
-//    }
-//    return "";
-//  }
-//
   public static HitbtcSide getSide(OrderType type) {
 
     return type == OrderType.BID ? HitbtcSide.BUY : HitbtcSide.SELL;
