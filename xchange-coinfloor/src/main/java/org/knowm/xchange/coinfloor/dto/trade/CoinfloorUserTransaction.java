@@ -125,6 +125,8 @@ public class CoinfloorUserTransaction {
       return Currency.ETH;
     } else if (bch.signum() != 0) {
       return Currency.BCH;
+    } else if (xrp.signum() != 0) {
+      return Currency.XRP;
     } else {
       return null;
     }
@@ -147,6 +149,14 @@ public class CoinfloorUserTransaction {
       }
     } else if (btc.signum() != 0) {
       return btc;
+    } else if (bch.signum() != 0) {
+      return bch;
+    } else if (xrp.signum() != 0) {
+      return xrp;
+    } else if (ltc.signum() != 0) {
+      return ltc;
+    } else if (eth.signum() != 0) {
+      return eth;
     } else if (gbp.signum() != 0) {
       return gbp;
     } else if (usd.signum() != 0) {

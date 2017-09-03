@@ -82,8 +82,7 @@ public class TheRockTradeServiceRaw extends TheRockBaseService {
 
   public TheRockTransaction[] getTheRockTransactions(String type, Date after, Date before) throws IOException {
     try {
-      return theRockAuthenticated
-          .transactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), type, after, before)
+      return theRockAuthenticated.transactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), type, after, before, null, 0)
           .getTransactions();
     } catch (Throwable e) {
       throw new ExchangeException(e);
