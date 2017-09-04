@@ -64,22 +64,6 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    long offset = 0;
-    long limit = 1000;
-    String direction = "asc";
-
-    if (params instanceof TradeHistoryParamLimit) {
-      limit = ((TradeHistoryParamLimit) params).getLimit();
-    }
-
-    if (params instanceof TradeHistoryParamOffset) {
-      offset = ((TradeHistoryParamOffset) params).getOffset();
-    }
-
-    if (params instanceof TradeHistoryParamsSorted) {
-      if (((TradeHistoryParamsSorted) params).getOrder().equals(TradeHistoryParamsSorted.Order.desc))
-        direction = "desc";
-    }
 
     List<HitbtcTransaction> transactions = getTransactions();
 
