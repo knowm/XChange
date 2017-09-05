@@ -1,13 +1,11 @@
 package org.knowm.xchange.bitbay;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
+import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
-
-import org.knowm.xchange.service.BaseParamsDigest;
-
-import si.mazi.rescu.RestInvocation;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 
 /**
  * @author kfonal

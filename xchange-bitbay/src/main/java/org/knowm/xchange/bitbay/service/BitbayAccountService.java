@@ -16,7 +16,6 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +34,7 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+                              String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -46,7 +45,7 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency,
-      String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+                                      String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -68,9 +67,7 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
       limit = ((TradeHistoryParamLimit) params).getLimit();
     }
 
-    history(currency, limit);
-
-    return new ArrayList<>();
+    return history(currency, limit);
   }
 
   public static class BitbayFundingHistory implements TradeHistoryParamCurrency, TradeHistoryParamLimit {
