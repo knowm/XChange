@@ -1,8 +1,8 @@
 package org.knowm.xchange.bitbay.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * @author kpysniak
@@ -23,7 +23,7 @@ public class BitbayTrade {
    * @param tid
    */
   public BitbayTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("tid") String tid) {
+                     @JsonProperty("tid") String tid) {
 
     this.date = date;
     this.price = price;
