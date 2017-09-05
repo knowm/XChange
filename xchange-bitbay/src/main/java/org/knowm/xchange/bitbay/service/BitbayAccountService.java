@@ -68,9 +68,7 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
       limit = ((TradeHistoryParamLimit) params).getLimit();
     }
 
-    history(currency, limit);
-
-    return new ArrayList<>();
+    return history(currency, limit);
   }
 
   public static class BitbayFundingHistory implements TradeHistoryParamCurrency, TradeHistoryParamLimit {
