@@ -79,7 +79,6 @@ public class GeminiOrderStatusResponse {
     return wasForced;
   }
 
-
   public String getType() {
 
     return type;

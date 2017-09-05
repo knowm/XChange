@@ -1,13 +1,14 @@
 package org.knowm.xchange.btce.v3.dto.meta;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCEMetaData extends ExchangeMetaData {
 
@@ -19,8 +20,8 @@ public class BTCEMetaData extends ExchangeMetaData {
   public int amountScale;
 
   public BTCEMetaData(@JsonProperty("currency_pairs") Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
-                      @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currency,
-                      @JsonProperty("publicInfoCacheSeconds") int publicInfoCacheSeconds, @JsonProperty("amountScale") int amountScale) {
+      @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currency,
+      @JsonProperty("publicInfoCacheSeconds") int publicInfoCacheSeconds, @JsonProperty("amountScale") int amountScale) {
     super(currencyPairs, currency, null, null, null);
     this.publicInfoCacheSeconds = publicInfoCacheSeconds;
     this.amountScale = amountScale;

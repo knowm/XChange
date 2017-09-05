@@ -1,79 +1,80 @@
 package org.knowm.xchange.bitstamp.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.bitstamp.BitstampUtils;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.knowm.xchange.bitstamp.BitstampUtils;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitstampOrderTransaction {
 
-    private final Date datetime;
-    private final long tid;
-    private final BitstampUserTransaction.TransactionType type;
-    private final BigDecimal usd;
-    private final BigDecimal btc;
-    private final BigDecimal price;
-    private final BigDecimal fee;
+  private final Date datetime;
+  private final long tid;
+  private final BitstampUserTransaction.TransactionType type;
+  private final BigDecimal usd;
+  private final BigDecimal btc;
+  private final BigDecimal price;
+  private final BigDecimal fee;
 
-    /**
-     * Constructor
-     *
-     * @param datetime date and time of transaction
-     * @param tid transaction id
-     * @param type transaction type
-     * @param usd settled amoun
-     * @param btc traded amount
-     * @param price transaction rate
-     * @param fee transaction fee
-     */
-    public BitstampOrderTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("tid") long tid,
-                                    @JsonProperty("type") BitstampUserTransaction.TransactionType type,
-                                    @JsonProperty("usd") BigDecimal usd, @JsonProperty("btc") BigDecimal btc,
-                                    @JsonProperty("price") BigDecimal price, @JsonProperty("fee") BigDecimal fee) {
+  /**
+   * Constructor
+   *
+   * @param datetime date and time of transaction
+   * @param tid transaction id
+   * @param type transaction type
+   * @param usd settled amoun
+   * @param btc traded amount
+   * @param price transaction rate
+   * @param fee transaction fee
+   */
+  public BitstampOrderTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("tid") long tid,
+      @JsonProperty("type") BitstampUserTransaction.TransactionType type,
+      @JsonProperty("usd") BigDecimal usd, @JsonProperty("btc") BigDecimal btc,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("fee") BigDecimal fee) {
 
-        this.datetime = BitstampUtils.parseDate(datetime);;
-        this.tid = tid;
-        this.type = type;
-        this.usd = usd;
-        this.btc = btc;
-        this.price = price;
-        this.fee = fee;
-    }
+    this.datetime = BitstampUtils.parseDate(datetime);
+    ;
+    this.tid = tid;
+    this.type = type;
+    this.usd = usd;
+    this.btc = btc;
+    this.price = price;
+    this.fee = fee;
+  }
 
-    public Date getDatetime() {
+  public Date getDatetime() {
 
-        return datetime;
-    }
+    return datetime;
+  }
 
-    public long getTid() {
+  public long getTid() {
 
-        return tid;
-    }
+    return tid;
+  }
 
-    public BitstampUserTransaction.TransactionType getType() {
+  public BitstampUserTransaction.TransactionType getType() {
 
-        return type;
-    }
+    return type;
+  }
 
-    public BigDecimal getUsd() {
+  public BigDecimal getUsd() {
 
-        return usd;
-    }
+    return usd;
+  }
 
-    public BigDecimal getBtc() {
+  public BigDecimal getBtc() {
 
-        return btc;
-    }
+    return btc;
+  }
 
-    public BigDecimal getPrice() {
+  public BigDecimal getPrice() {
 
-        return price;
-    }
+    return price;
+  }
 
-    public BigDecimal getFee() {
+  public BigDecimal getFee() {
 
-        return fee;
-    }
+    return fee;
+  }
 }

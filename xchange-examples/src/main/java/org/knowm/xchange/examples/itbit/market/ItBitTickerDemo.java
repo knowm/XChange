@@ -1,5 +1,7 @@
 package org.knowm.xchange.examples.itbit.market;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -9,33 +11,31 @@ import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import org.knowm.xchange.itbit.v1.service.ItBitMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-import java.io.IOException;
-
 /**
  * Created by joseph on 6/15/17.
  */
 public class ItBitTickerDemo {
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
 
-        MarketDataService marketDataService = exchange.getMarketDataService();
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
-        generic(marketDataService);
-        raw((ItBitMarketDataServiceRaw) marketDataService);
-    }
+    generic(marketDataService);
+    raw((ItBitMarketDataServiceRaw) marketDataService);
+  }
 
-    private static void generic(MarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
-        Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
-        System.out.println(ticker.toString());
-    }
+    System.out.println(ticker.toString());
+  }
 
-    private static void raw(ItBitMarketDataServiceRaw marketDataService) throws IOException {
+  private static void raw(ItBitMarketDataServiceRaw marketDataService) throws IOException {
 
-        ItBitTicker ticker = marketDataService.getItBitTicker(CurrencyPair.BTC_USD);
+    ItBitTicker ticker = marketDataService.getItBitTicker(CurrencyPair.BTC_USD);
 
-        System.out.println(ticker.toString());
-    }
+    System.out.println(ticker.toString());
+  }
 }

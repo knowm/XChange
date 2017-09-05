@@ -1,10 +1,11 @@
 package org.knowm.xchange.kraken.dto.trade.results;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
+
 import org.knowm.xchange.kraken.dto.KrakenResult;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenQueryTradeResult extends KrakenResult<Map<String, KrakenTrade>> {
 

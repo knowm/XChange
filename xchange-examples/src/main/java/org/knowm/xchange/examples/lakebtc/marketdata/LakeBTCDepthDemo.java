@@ -1,5 +1,7 @@
 package org.knowm.xchange.examples.lakebtc.marketdata;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -7,8 +9,6 @@ import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import org.knowm.xchange.lakebtc.service.LakeBTCMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
 
 /**
  * Created by Cristi on 12/22/2014.

@@ -36,12 +36,11 @@ public class UserTransactionsJSONTest {
     assertThat(transactions[0].getPrice()).isEqualTo(new BigDecimal("131.50"));
     assertThat(transactions[0].getId()).isEqualTo(1296712L);
     assertThat(transactions[0].getOrderId()).isEqualTo(6877187L);
-    
-    
+
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(transactions[0].getDatetime());
-    
+
     assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
     assertThat(transactions[0].getType()).isEqualTo(TransactionType.trade);
 
