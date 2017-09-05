@@ -208,7 +208,7 @@ public class PoloniexAdapters {
 
       Currency ccy = Currency.getInstance(entry.getKey());
 
-      if(!currencyMetaDataMap.containsKey(ccy))
+      if (!currencyMetaDataMap.containsKey(ccy))
         currencyMetaDataMap.put(ccy, currencyArchetype);
     }
 
@@ -218,7 +218,7 @@ public class PoloniexAdapters {
     for (String market : poloniexMarketData.keySet()) {
       CurrencyPair currencyPair = PoloniexUtils.toCurrencyPair(market);
 
-      if(!marketMetaDataMap.containsKey(currencyPair))
+      if (!marketMetaDataMap.containsKey(currencyPair))
         marketMetaDataMap.put(currencyPair, marketArchetype);
     }
 

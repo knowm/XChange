@@ -1,6 +1,5 @@
 package org.knowm.xchange.dsx.dto.account;
 
-import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ public class DSXAccountInfo {
 
   /**
    * Constructor
+   *
    * @param transactionCount The number of transactions
    * @param openOrders The open orders
    * @param serverTime The server time (Unix time)
@@ -28,7 +28,7 @@ public class DSXAccountInfo {
    */
   public DSXAccountInfo(@JsonProperty("transactionCount") int transactionCount, @JsonProperty("openOrders") int openOrders,
       @JsonProperty("serverTime") long serverTime, @JsonProperty("rights") Rights rights,
-      @JsonProperty("funds") Map<String, DSXCurrencyAmount> funds){
+      @JsonProperty("funds") Map<String, DSXCurrencyAmount> funds) {
 
     this.transactionCount = transactionCount;
     this.openOrders = openOrders;

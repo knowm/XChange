@@ -1,5 +1,11 @@
 package org.knowm.xchange.jubi;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -19,12 +25,6 @@ import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
 import org.knowm.xchange.jubi.dto.trade.JubiOrder;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderHistory;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderType;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Yingzhe on 3/16/2015.
@@ -55,7 +55,7 @@ public class JubiAdapters {
 
       Order.OrderType orderType = jubiTrade.getType().equals("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
       Trade trade = new Trade(orderType, jubiTrade.getAmount(), currencyPair, jubiTrade.getPrice(), new Date(jubiTrade.getDate() * 1000),
-              jubiTrade.getTid());
+          jubiTrade.getTid());
 
       tradeList.add(trade);
     }
@@ -78,8 +78,8 @@ public class JubiAdapters {
   public static UserTrade adaptUserTrade(JubiOrder jubiOrder, CurrencyPair currencyPair) {
     final Order.OrderType orderType = jubiOrder.getType() == JubiOrderType.Buy ? Order.OrderType.BID : Order.OrderType.ASK;
     return new UserTrade(orderType, jubiOrder.getAmountOriginal(), currencyPair,
-            jubiOrder.getPrice(), jubiOrder.getDatetime(), jubiOrder.getId().toPlainString(),
-            null, null, null);
+        jubiOrder.getPrice(), jubiOrder.getDatetime(), jubiOrder.getId().toPlainString(),
+        null, null, null);
   }
 
   public static UserTrades adaptUserTrades(JubiOrderHistory jubiOrderHistory, CurrencyPair currencyPair) {
@@ -103,7 +103,7 @@ public class JubiAdapters {
     final Order.OrderType orderType = jubiOrder.getType() == JubiOrderType.Buy ? Order.OrderType.BID : Order.OrderType.ASK;
     final BigDecimal cumulativeAmount = jubiOrder.getAmountOriginal().subtract(jubiOrder.getAmountOutstanding());
     return new LimitOrder(orderType, jubiOrder.getAmountOriginal(), currencyPair, jubiOrder.getId().toPlainString(),
-            jubiOrder.getDatetime(), jubiOrder.getPrice(), null, cumulativeAmount, null);
+        jubiOrder.getDatetime(), jubiOrder.getPrice(), null, cumulativeAmount, null);
   }
 
   public static OpenOrders adaptOpenOrders(JubiOrderHistory jubiOrderHistory, CurrencyPair currencyPair) {

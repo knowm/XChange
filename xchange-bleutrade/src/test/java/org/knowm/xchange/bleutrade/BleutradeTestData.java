@@ -1,5 +1,7 @@
 package org.knowm.xchange.bleutrade;
 
+import static org.knowm.xchange.bleutrade.BleutradeUtils.toDate;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -11,8 +13,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
-
-import static org.knowm.xchange.bleutrade.BleutradeUtils.toDate;
 
 public class BleutradeTestData {
 

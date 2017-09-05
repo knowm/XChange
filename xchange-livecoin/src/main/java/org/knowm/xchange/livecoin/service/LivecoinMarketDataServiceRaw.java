@@ -26,7 +26,7 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
   public LivecoinTicker getLivecoinTicker(CurrencyPair currencyPair) throws IOException {
     return this.coinbaseEx.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
   }
-  
+
   public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth) throws IOException {
     if (!this.checkProductExists(currencyPair)) {
       return null;

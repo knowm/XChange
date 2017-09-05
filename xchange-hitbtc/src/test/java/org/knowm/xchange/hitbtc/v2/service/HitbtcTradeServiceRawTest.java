@@ -72,7 +72,6 @@ public class HitbtcTradeServiceRawTest extends BaseAuthenticatedServiceTest {
     service.placeMarketOrderRaw(limitOrder);
   }
 
-
   @Test
   public void testCancelOrder_wrongOrder() throws IOException {
 
@@ -85,7 +84,7 @@ public class HitbtcTradeServiceRawTest extends BaseAuthenticatedServiceTest {
   @Test
   public void testCancelAllOrders() throws IOException {
 
-    service.cancelAllOrdersRaw(HitbtcAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD) );
+    service.cancelAllOrdersRaw(HitbtcAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD));
   }
 
 }

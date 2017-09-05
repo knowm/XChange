@@ -3,8 +3,6 @@ package org.knowm.xchange.hitbtc.v2.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcOwnTrade {

@@ -55,15 +55,15 @@ public class OkCoinExchange extends BaseExchange {
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if(exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) &&
-              exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(false)) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) &&
+          exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(false)) {
 
         exchangeSpecification.setSslUri("https://www.okcoin.com/api");
         exchangeSpecification.setHost("www.okcoin.com");
         exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
 
-      } else if(exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) &&
-              exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+      } else if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) &&
+          exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
 
         exchangeSpecification.setSslUri("https://www.okex.com/api");
         exchangeSpecification.setHost("www.okex.com");

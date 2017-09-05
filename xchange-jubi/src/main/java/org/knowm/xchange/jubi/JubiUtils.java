@@ -1,11 +1,11 @@
 package org.knowm.xchange.jubi;
 
-import org.knowm.xchange.exceptions.ExchangeException;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * Created by Dzf on 2017/7/16.

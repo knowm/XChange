@@ -15,7 +15,7 @@ public class BalanceFetchIntegration {
   @Test
   public void BalanceFetchTest() throws Exception {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchangeWithApiKeys(JubiExchange.class.getName(),
-            "your public api key", "your secret api key");
+        "your public api key", "your secret api key");
     AccountService accountService = exchange.getAccountService();
     AccountInfo info = accountService.getAccountInfo();
     System.out.println(info.toString());

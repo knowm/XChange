@@ -1,8 +1,8 @@
 package org.knowm.xchange.hitbtc.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TransactionResponse {
   public final String id;
@@ -21,12 +21,12 @@ public class TransactionResponse {
   public final String externalData;
 
   public TransactionResponse(@JsonProperty("id") String id, @JsonProperty("type") String type, @JsonProperty("status") String status,
-                             @JsonProperty("created") long created, @JsonProperty("finished") long finished,
-                             @JsonProperty("amount_from") BigDecimal amountFrom, @JsonProperty("currency_code_from") String currencyCodeFrom,
-                             @JsonProperty("amount_to") BigDecimal amountTo, @JsonProperty("currency_code_to") String currencyCodeTo,
-                             @JsonProperty("destination_data") String destinationData, @JsonProperty("commission_percent") BigDecimal commissionPercent,
-                             @JsonProperty("bitcoin_address") String bitcoinAddress, @JsonProperty("bitcoin_return_address") String bitcoinReturnAddress,
-                             @JsonProperty("external_data") String externalData) {
+      @JsonProperty("created") long created, @JsonProperty("finished") long finished,
+      @JsonProperty("amount_from") BigDecimal amountFrom, @JsonProperty("currency_code_from") String currencyCodeFrom,
+      @JsonProperty("amount_to") BigDecimal amountTo, @JsonProperty("currency_code_to") String currencyCodeTo,
+      @JsonProperty("destination_data") String destinationData, @JsonProperty("commission_percent") BigDecimal commissionPercent,
+      @JsonProperty("bitcoin_address") String bitcoinAddress, @JsonProperty("bitcoin_return_address") String bitcoinReturnAddress,
+      @JsonProperty("external_data") String externalData) {
     this.id = id;
     this.type = type;
     this.status = status;

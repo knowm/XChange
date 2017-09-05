@@ -1,16 +1,16 @@
 {
-   "records": [
-      {
-         "addr": "8OKSDF39aOIUl34lksUIYW3kl3l39d",
-         "account": "15847",
-         "amount": 33,
-         "bank": "Hang Seng Bank HK",
-         "benificiary_addr": "928349383",
-         "transaction_value": 104,
-         "fee": 0.05,
-         "date": 1418077467003,
-         "status": 3
-      }
-   ],
-   "symbol": "btc_usd"
+  "records": [
+    {
+      "addr": "8OKSDF39aOIUl34lksUIYW3kl3l39d",
+      "account": "15847",
+      "amount": 33,
+      "bank": "Hang Seng Bank HK",
+      "benificiary_addr": "928349383",
+      "transaction_value": 104,
+      "fee": 0.05,
+      "date": 1418077467003,
+      "status": 3
+    }
+  ],
+  "symbol": "btc_usd"
 }

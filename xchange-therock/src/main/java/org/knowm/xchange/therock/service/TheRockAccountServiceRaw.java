@@ -1,5 +1,10 @@
 package org.knowm.xchange.therock.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
@@ -9,12 +14,8 @@ import org.knowm.xchange.therock.dto.account.TheRockBalance;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawal;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import org.knowm.xchange.therock.dto.trade.TheRockTransactions;
-import si.mazi.rescu.RestProxyFactory;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import si.mazi.rescu.RestProxyFactory;
 
 public class TheRockAccountServiceRaw extends TheRockBaseService {
 
@@ -47,7 +48,7 @@ public class TheRockAccountServiceRaw extends TheRockBaseService {
   public TheRockWithdrawalResponse withdrawRipple(Currency currency, BigDecimal amount,
       String destinationAddress, Long destinationTag) throws TheRockException, IOException {
     final TheRockWithdrawal withdrawal = TheRockWithdrawal.createRippleWithdrawal(currency.getCurrencyCode(), amount
-            , destinationAddress, destinationTag);
+        , destinationAddress, destinationTag);
     return theRockAuthenticated.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), withdrawal);
   }
 

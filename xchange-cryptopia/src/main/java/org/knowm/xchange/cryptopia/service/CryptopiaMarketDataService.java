@@ -1,5 +1,7 @@
 package org.knowm.xchange.cryptopia.service;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptopia.CryptopiaAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -10,8 +12,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
 
 public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw implements MarketDataService {
 

@@ -1,5 +1,9 @@
 package org.knowm.xchange.bittrex.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalancesResponse;
@@ -11,10 +15,6 @@ import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalsHistoryResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 public class BittrexAccountServiceRaw extends BittrexBaseService {
 

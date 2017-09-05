@@ -41,12 +41,11 @@ public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw im
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-
     Integer since = null; // all trades possible
     if (args != null && args.length > 0) {
       // parameter 1, if present, is the since param
       if (args[0] instanceof Integer) {
-         since = (Integer) args[0];
+        since = (Integer) args[0];
       } else {
         throw new IllegalArgumentException("Extra argument #1,  'since', must be an int (was " + args[0].getClass() + ")");
       }

@@ -1,5 +1,8 @@
 package org.knowm.xchange.cryptopia.service;
 
+import java.io.IOException;
+import java.util.Collection;
+
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -19,9 +22,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.Collection;
 
 public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements TradeService {
   public CryptopiaTradeService(CryptopiaExchange exchange) {

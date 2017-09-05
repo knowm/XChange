@@ -8,7 +8,6 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.hitbtc.dto.InternalTransferResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcAddress;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;

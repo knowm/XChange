@@ -1,13 +1,9 @@
 package org.knowm.xchange.cryptopia;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaOrderBook;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTicker;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTradePair;
-import si.mazi.rescu.ParamsDigest;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
@@ -18,10 +14,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
+
+import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
+import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
+import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
+import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaOrderBook;
+import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTicker;
+import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTradePair;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.ParamsDigest;
 
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)

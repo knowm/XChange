@@ -13,10 +13,10 @@ import org.knowm.xchange.exceptions.ExchangeException;
 public final class BitstampUtils {
 
   private static final SimpleDateFormat DATE_FORMAT;
-  
+
   static {
-      DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
   }
 
   /**

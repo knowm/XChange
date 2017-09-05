@@ -1,5 +1,9 @@
 package org.knowm.xchange.bleutrade.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeException;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
@@ -11,13 +15,8 @@ import org.knowm.xchange.bleutrade.dto.account.BleutradeWithdrawReturn;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
 public class BleutradeAccountServiceRaw extends BleutradeBaseService {
-  
+
   public BleutradeAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
@@ -26,7 +25,7 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
   public String withdraw(Currency currency, BigDecimal amount, String address) throws IOException {
     BleutradeWithdrawReturn response = bleutrade.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address);
 
-    if(!response.success) {
+    if (!response.success) {
       throw new ExchangeException("Withdraw funds failed: " + response.toString());
     }
 

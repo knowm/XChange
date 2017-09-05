@@ -35,7 +35,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public final class BittrexAdapters {
 
   public static final Logger log = LoggerFactory.getLogger(BittrexAdapters.class);
@@ -207,8 +206,8 @@ public final class BittrexAdapters {
     for (BittrexDepositHistory f : bittrexFundingHistories) {
       if (f != null) {
         fundingRecords.add(new FundingRecord(f.getCryptoAddress(), f.getLastUpdated(), new Currency(f.getCurrency()),
-                f.getAmount(), String.valueOf(f.getId()), f.getTxId(), FundingRecord.Type.DEPOSIT, FundingRecord.Status.COMPLETE,
-                null, null, null));
+            f.getAmount(), String.valueOf(f.getId()), f.getTxId(), FundingRecord.Type.DEPOSIT, FundingRecord.Status.COMPLETE,
+            null, null, null));
       }
     }
     return fundingRecords;
@@ -232,7 +231,7 @@ public final class BittrexAdapters {
       if (f != null) {
         final FundingRecord.Status status = fromWithdrawalRecord(f);
         fundingRecords.add(new FundingRecord(f.getAddress(), f.getOpened(), new Currency(f.getCurrency()),
-                f.getAmount(), f.getPaymentUuid(), f.getTxId(), FundingRecord.Type.WITHDRAWAL, status, null, f.getTxCost(), null));
+            f.getAmount(), f.getPaymentUuid(), f.getTxId(), FundingRecord.Type.WITHDRAWAL, status, null, f.getTxCost(), null));
       }
     }
     return fundingRecords;

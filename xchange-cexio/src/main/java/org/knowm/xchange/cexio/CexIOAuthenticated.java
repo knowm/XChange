@@ -5,7 +5,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
@@ -64,23 +69,23 @@ public interface CexIOAuthenticated extends CexIO {
   @POST
   @Path("archived_orders/{baseCcy}/{counterCcy}")
   List<CexIOArchivedOrder> archivedOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-                                          @PathParam("baseCcy") String baseCcy,
-                                          @PathParam("counterCcy") String counterCcy,
-                                          @FormParam("limit") Integer limit,
-                                          @FormParam("dateFrom") Long dateFrom,
-                                          @FormParam("dateTo") Long dateTo,
-                                          @FormParam("lastTxDateFrom") Long lastTxDateFrom,
-                                          @FormParam("lastTxDateTo") Long lastTxDateTo,
-                                          @FormParam("status") String status) throws HttpStatusIOException;
+      @PathParam("baseCcy") String baseCcy,
+      @PathParam("counterCcy") String counterCcy,
+      @FormParam("limit") Integer limit,
+      @FormParam("dateFrom") Long dateFrom,
+      @FormParam("dateTo") Long dateTo,
+      @FormParam("lastTxDateFrom") Long lastTxDateFrom,
+      @FormParam("lastTxDateTo") Long lastTxDateTo,
+      @FormParam("status") String status) throws HttpStatusIOException;
 
   @POST
   @Path("get_order/")
   CexIOOpenOrder getOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-                          @FormParam("id") String orderId) throws IOException;
+      @FormParam("id") String orderId) throws IOException;
 
   @POST
   @Path("get_order_tx/")
   Map getOrderTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-                           @FormParam("id") String orderId) throws IOException;
+      @FormParam("id") String orderId) throws IOException;
 
 }

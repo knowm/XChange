@@ -402,7 +402,7 @@ public final class BTCChinaAdapters {
       for (final BTCChinaDeposit deposit : deposits) {
         final FundingRecord.Status status = FundingRecord.Status.resolveStatus(deposit.getStatus());
         final FundingRecord fundingRecordEntry = new FundingRecord(deposit.getAddress(), adaptDate(deposit.getDate()), Currency.getInstance(deposit.getCurrency()),
-                deposit.getAmount(), String.valueOf(deposit.getId()), null, FundingRecord.Type.DEPOSIT, status, null, null, null);
+            deposit.getAmount(), String.valueOf(deposit.getId()), null, FundingRecord.Type.DEPOSIT, status, null, null, null);
         fundingRecords.add(fundingRecordEntry);
       }
     }
@@ -412,7 +412,7 @@ public final class BTCChinaAdapters {
       for (final BTCChinaWithdrawal withdrawal : withdrawals) {
         final FundingRecord.Status status = FundingRecord.Status.resolveStatus(withdrawal.getStatus());
         final FundingRecord fundingRecordEntry = new FundingRecord(withdrawal.getAddress(), adaptDate(withdrawal.getDate()), Currency.getInstance(withdrawal.getCurrency()),
-                withdrawal.getAmount(), String.valueOf(withdrawal.getId()), withdrawal.getTransaction(), FundingRecord.Type.WITHDRAWAL, status, null, null, null);
+            withdrawal.getAmount(), String.valueOf(withdrawal.getId()), withdrawal.getTransaction(), FundingRecord.Type.WITHDRAWAL, status, null, null, null);
         fundingRecords.add(fundingRecordEntry);
       }
     }
@@ -427,19 +427,18 @@ public final class BTCChinaAdapters {
     for (Map.Entry<String, BTCChinaOrder[]> entry : orders.entrySet()) {
       final BTCChinaOrder[] orderArr = entry.getValue();
 
-      if (orderArr!= null && orderArr.length > 0) {
+      if (orderArr != null && orderArr.length > 0) {
 
         CurrencyPair currencyPairFromKey = null;
         try {
           currencyPairFromKey = adaptCurrencyPairFromOrdersMarketKey(entry.getKey());
         } catch (Throwable e) {
-          if(currencyPair != null){
+          if (currencyPair != null) {
             currencyPairFromKey = currencyPair;
           } else {
             throw new IllegalArgumentException("Unknown currency pair for the set with one of the order(s) as : " + orderArr[0]);
           }
         }
-
 
         for (BTCChinaOrder order : entry.getValue()) {
           final List<UserTrade> tradeList = adaptUserTradeFromOrder(order, currencyPairFromKey);
@@ -449,25 +448,25 @@ public final class BTCChinaAdapters {
       }
     }
 
-    if (tradeHistory.size() > 0){
+    if (tradeHistory.size() > 0) {
       return new UserTrades(tradeHistory, TradeSortType.SortByID);
     }
 
     return null;
   }
 
-
   private static List<UserTrade> adaptUserTradeFromOrder(BTCChinaOrder order, CurrencyPair currencyPair) {
     final List<UserTrade> tradeList = new ArrayList<UserTrade>();
     final BTCChinaOrderDetail[] fills = order.getDetails();
-    if (fills != null && fills.length > 0){
+    if (fills != null && fills.length > 0) {
       final OrderType orderType = order.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
       final String orderId = String.valueOf(order.getId());
       final String tradeId = String.valueOf(order.getId());
-      for (final BTCChinaOrderDetail fill: fills){
+      for (final BTCChinaOrderDetail fill : fills) {
         final BigDecimal price = fill.getPrice();
         final BigDecimal amount = fill.getAmount();
-        final Date date = adaptDate(fill.getDateline());;
+        final Date date = adaptDate(fill.getDateline());
+        ;
         tradeList.add(new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, null, null));
       }
     }

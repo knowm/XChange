@@ -1,5 +1,9 @@
 package org.knowm.xchange.quoine;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -10,11 +14,8 @@ import org.knowm.xchange.quoine.service.QuoineAccountService;
 import org.knowm.xchange.quoine.service.QuoineMarketDataService;
 import org.knowm.xchange.quoine.service.QuoineTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class QuoineExchange extends BaseExchange implements Exchange {
 

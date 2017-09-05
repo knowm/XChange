@@ -1,1 +1,17 @@
-{"ticker":{"BidPrice":1725,"AskPrice":1729,"Open":1720.25,"High":1730,"Low":1688,"Last":1725,"LastQuantity":0.1,"PrevCls":1720,"Volume":113.3411,"Volume24H":285.417,"Timestamp":1494401953273,"ExecutionLimitDown":1469.45,"ExecutionLimitUp":1988.09}}
+{
+  "ticker": {
+    "BidPrice": 1725,
+    "AskPrice": 1729,
+    "Open": 1720.25,
+    "High": 1730,
+    "Low": 1688,
+    "Last": 1725,
+    "LastQuantity": 0.1,
+    "PrevCls": 1720,
+    "Volume": 113.3411,
+    "Volume24H": 285.417,
+    "Timestamp": 1494401953273,
+    "ExecutionLimitDown": 1469.45,
+    "ExecutionLimitUp": 1988.09
+  }
+}

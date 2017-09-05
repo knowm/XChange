@@ -1,6 +1,5 @@
 package org.knowm.xchange.dsx.dto.account;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**

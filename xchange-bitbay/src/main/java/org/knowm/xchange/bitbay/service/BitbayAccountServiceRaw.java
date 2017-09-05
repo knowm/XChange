@@ -1,10 +1,5 @@
 package org.knowm.xchange.bitbay.service;
 
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.FundingRecord;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -13,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.FundingRecord;
 
 /**
  * @author Z. Dolezal

@@ -191,11 +191,11 @@ public class BTCETradeService extends BTCETradeServiceRaw implements TradeServic
   @Override
   public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     Collection<Order> orders = new ArrayList<>(orderIds.length);
-    
+
     for (String orderId : orderIds) {
-        orders.add(BTCEAdapters.adaptOrderInfo(orderId, getBTCEOrderInfo(Long.valueOf(orderId))));
+      orders.add(BTCEAdapters.adaptOrderInfo(orderId, getBTCEOrderInfo(Long.valueOf(orderId))));
     }
-    
+
     return orders;
   }
 

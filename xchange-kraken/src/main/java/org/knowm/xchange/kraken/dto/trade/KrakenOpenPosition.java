@@ -1,11 +1,12 @@
 package org.knowm.xchange.kraken.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags.KrakenOrderFlagsDeserializer;
-
 import java.math.BigDecimal;
 import java.util.Set;
+
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags.KrakenOrderFlagsDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class KrakenOpenPosition {
 
@@ -45,12 +46,12 @@ public class KrakenOpenPosition {
    * @param volumeInQuoteCurrency
    */
   public KrakenOpenPosition(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair,
-                            @JsonProperty("time") long tradeUnixTimestamp, @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType,
-                            @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
-                            @JsonProperty("vol_closed") BigDecimal volumeClosed, @JsonProperty("margin") BigDecimal margin, @JsonProperty("volue") BigDecimal value,
-                            @JsonProperty("net") BigDecimal netDifference, @JsonProperty("misc") String miscellaneous,
-                            @JsonProperty("oflags") @JsonDeserialize(using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFlags,
-                            @JsonProperty("viqc") BigDecimal volumeInQuoteCurrency) {
+      @JsonProperty("time") long tradeUnixTimestamp, @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType,
+      @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
+      @JsonProperty("vol_closed") BigDecimal volumeClosed, @JsonProperty("margin") BigDecimal margin, @JsonProperty("volue") BigDecimal value,
+      @JsonProperty("net") BigDecimal netDifference, @JsonProperty("misc") String miscellaneous,
+      @JsonProperty("oflags") @JsonDeserialize(using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFlags,
+      @JsonProperty("viqc") BigDecimal volumeInQuoteCurrency) {
 
     this.orderTxId = orderTxId;
     this.assetPair = assetPair;

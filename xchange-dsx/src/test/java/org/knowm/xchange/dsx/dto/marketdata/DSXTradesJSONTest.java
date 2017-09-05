@@ -27,7 +27,7 @@ public class DSXTradesJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     DSXTradesWrapper dsxTradesWrapper = mapper.readValue(is, DSXTradesWrapper.class);
 
-    assertThat(dsxTradesWrapper.getTrades(DSXAdapters.getPair(CurrencyPair.BTC_USD)) [0].getPrice()).isEqualTo(new BigDecimal("1588.09000"));
+    assertThat(dsxTradesWrapper.getTrades(DSXAdapters.getPair(CurrencyPair.BTC_USD))[0].getPrice()).isEqualTo(new BigDecimal("1588.09000"));
     assertThat(dsxTradesWrapper.getTrades(DSXAdapters.getPair(CurrencyPair.BTC_USD)).length).isEqualTo(150);
   }
 }
