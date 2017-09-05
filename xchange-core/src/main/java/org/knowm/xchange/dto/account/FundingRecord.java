@@ -217,6 +217,81 @@ public final class FundingRecord {
         address, date, currency, amount, internalId, externalId, description, type, status, balance, fee);
   }
 
+  public static final class Builder {
+
+    private String address;
+    private Date date;
+    private Currency currency;
+    private BigDecimal amount;
+    private String internalId;
+    private String externalId;
+    private String description;
+    private Type type;
+    private Status status;
+    private BigDecimal balance;
+    private BigDecimal fee;
+
+    public Builder setAddress(String address) {
+      this.address = address;
+      return this;
+    }
+
+    public Builder setDate(Date date) {
+      this.date = date;
+      return this;
+    }
+
+    public Builder setCurrency(Currency currency) {
+      this.currency = currency;
+      return this;
+    }
+
+    public Builder setAmount(BigDecimal amount) {
+      this.amount = amount;
+      return this;
+    }
+
+    public Builder setInternalId(String internalId) {
+      this.internalId = internalId;
+      return this;
+    }
+
+    public Builder setExternalId(String externalId) {
+      this.externalId = externalId;
+      return this;
+    }
+
+    public Builder setDescription(String description) {
+      this.description = description;
+      return this;
+    }
+
+    public Builder setType(Type type) {
+      this.type = type;
+      return this;
+    }
+
+    public Builder setStatus(Status status) {
+      this.status = status;
+      return this;
+    }
+
+    public Builder setBalance(BigDecimal balance) {
+      this.balance = balance;
+      return this;
+    }
+
+    public Builder setFee(BigDecimal fee) {
+      this.fee = fee;
+      return this;
+    }
+
+    public FundingRecord build() {
+      return new FundingRecord(address, date, currency, amount, internalId, externalId, type, status, balance, fee, description);
+    }
+  }
+  
+  
   /**
    * <p>
    * Enum representing funding transaction type
