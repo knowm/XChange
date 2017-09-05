@@ -1,8 +1,5 @@
 package org.knowm.xchange.bitbay.service;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.dto.trade.BitbayCancelResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
@@ -10,6 +7,9 @@ import org.knowm.xchange.bitbay.dto.trade.BitbayTradeResponse;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Z. Dolezal

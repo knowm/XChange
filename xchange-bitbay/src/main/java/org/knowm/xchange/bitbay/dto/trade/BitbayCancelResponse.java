@@ -1,8 +1,7 @@
 package org.knowm.xchange.bitbay.dto.trade;
 
-import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 
 /**
  * @author Z. Dolezal

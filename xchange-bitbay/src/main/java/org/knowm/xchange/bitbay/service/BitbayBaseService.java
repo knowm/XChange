@@ -8,7 +8,6 @@ import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
