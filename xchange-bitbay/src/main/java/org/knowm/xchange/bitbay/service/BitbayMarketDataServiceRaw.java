@@ -1,12 +1,12 @@
 package org.knowm.xchange.bitbay.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.io.IOException;
 
 /**
  * @author kpysniak
