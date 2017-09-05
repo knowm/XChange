@@ -15,7 +15,6 @@ import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 
 /**
  * Deprecated -- Please use org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw
- *
  */
 @Deprecated
 public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {

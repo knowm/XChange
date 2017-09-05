@@ -6,7 +6,6 @@ import org.knowm.xchange.ExchangeSpecification;
 
 public class BaseAuthenticatedServiceTest extends BaseServiceTest {
 
-
   private static final String API_KEY = "hitbtc_api_key";
   private static final String SECRET_KEY = "hitbtc_secret_key";
 

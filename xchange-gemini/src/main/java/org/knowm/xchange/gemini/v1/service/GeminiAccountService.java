@@ -1,5 +1,9 @@
 package org.knowm.xchange.gemini.v1.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -8,16 +12,11 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
-import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 public class GeminiAccountService extends GeminiAccountServiceRaw implements AccountService {
 

@@ -18,7 +18,6 @@ public class HitbtcAccountServiceTest extends BaseAuthenticatedServiceTest {
 
   private HitbtcAccountService service = (HitbtcAccountService) exchange.getAccountService();
 
-
   @Test
   public void testGetAccountInfo() throws IOException {
 

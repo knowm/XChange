@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.hitbtc.v2.BaseServiceTest;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class HitbtcMarketDataServiceRawTest extends BaseServiceTest {

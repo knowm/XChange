@@ -14,13 +14,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcAddress;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcException;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 
 import si.mazi.rescu.HttpStatusIOException;

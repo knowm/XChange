@@ -43,13 +43,13 @@ public class PoloniexBaseService extends BaseExchangeService implements BaseServ
         objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
       }
     });
-    
+
     // allow HTTP read timeout to be altered per exchange
     int customHttpReadTimeout = exchange.getExchangeSpecification().getHttpReadTimeout();
     if (customHttpReadTimeout > 0) {
       rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
     }
-    
+
     this.poloniexAuthenticated = RestProxyFactory.createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), rescuConfig);
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = PoloniexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

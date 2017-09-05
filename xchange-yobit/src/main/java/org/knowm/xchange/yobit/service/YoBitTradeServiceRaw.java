@@ -1,5 +1,11 @@
 package org.knowm.xchange.yobit.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -17,12 +23,6 @@ import org.knowm.xchange.yobit.YoBit;
 import org.knowm.xchange.yobit.YoBitAdapters;
 import org.knowm.xchange.yobit.YoBitExchange;
 import org.knowm.xchange.yobit.dto.BaseYoBitResponse;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> implements TradeService {
 
@@ -76,12 +76,12 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
 
   public BaseYoBitResponse cancelOrder(CancelOrderByIdParams params) throws IOException {
     return service.cancelOrder(
-          exchange.getExchangeSpecification().getApiKey(),
-          signatureCreator,
-          "CancelOrder",
-          exchange.getNonceFactory(),
-          Long.valueOf(params.getOrderId())
-      );
+        exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator,
+        "CancelOrder",
+        exchange.getNonceFactory(),
+        Long.valueOf(params.getOrderId())
+    );
   }
 
   public BaseYoBitResponse tradeHistory(Integer count, Long offset, String market, Long fromTransactionId, Long endTransactionId, String order, Long fromTimestamp, Long toTimestamp) throws IOException {

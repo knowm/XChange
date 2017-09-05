@@ -1,5 +1,10 @@
 package org.knowm.xchange.cryptopia;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
@@ -13,12 +18,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CryptopiaExchange extends BaseExchange {
 

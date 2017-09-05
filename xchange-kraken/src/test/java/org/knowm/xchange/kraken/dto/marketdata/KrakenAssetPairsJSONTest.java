@@ -29,8 +29,9 @@ public class KrakenAssetPairsJSONTest {
     List<String> leverage_buy = Arrays.asList("2", "3", "4", "5");
     List<String> leverage_sell = Arrays.asList("2", "3", "4", "5");
     expectedAssetPairInfo = new KrakenAssetPair("XBTUSD", "currency", "XXBT", "currency", "ZUSD", "unit", 3, 8, new BigDecimal(1),
-        fees,  fees_maker, "ZUSD", new BigDecimal(80), new BigDecimal(40), leverage_buy, leverage_sell);
+        fees, fees_maker, "ZUSD", new BigDecimal(80), new BigDecimal(40), leverage_buy, leverage_sell);
   }
+
   @Test
   public void testUnmarshal() throws IOException {
 

@@ -1,8 +1,8 @@
 package org.knowm.xchange.kraken.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WithdrawInfo {
   /*

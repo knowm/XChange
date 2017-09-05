@@ -1,5 +1,13 @@
 package org.knowm.xchange.bleutrade.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimeZone;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
@@ -13,14 +21,6 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
 
 public class BleutradeAccountService extends BleutradeAccountServiceRaw implements AccountService {
 

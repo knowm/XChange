@@ -1,5 +1,10 @@
 package org.knowm.xchange.gemini.v1.service;
 
+import static org.knowm.xchange.gemini.v1.GeminiUtils.convertToGeminiCcyName;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -10,11 +15,6 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import static org.knowm.xchange.gemini.v1.GeminiUtils.convertToGeminiCcyName;
 
 public class GeminiAccountServiceRaw extends GeminiBaseService {
 

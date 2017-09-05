@@ -58,11 +58,11 @@ public abstract class BaseExchangeService {
     BigDecimal amount = tradableAmount.stripTrailingZeros();
     BigDecimal minimumAmount = metaData.getMinimumAmount();
     if (minimumAmount != null) {
-        if (amount.scale() > minimumAmount.scale()) {
-          throw new IllegalArgumentException("Unsupported amount scale " + amount.scale());
-        } else if (amount.compareTo(minimumAmount) < 0) {
-          throw new IllegalArgumentException("Order amount less than minimum");
-        }
+      if (amount.scale() > minimumAmount.scale()) {
+        throw new IllegalArgumentException("Unsupported amount scale " + amount.scale());
+      } else if (amount.compareTo(minimumAmount) < 0) {
+        throw new IllegalArgumentException("Order amount less than minimum");
+      }
     }
   }
 }

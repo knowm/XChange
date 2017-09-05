@@ -1,8 +1,8 @@
 package org.knowm.xchange.therock.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * https://api.therocktrading.com/doc/v1/index.html#api-Trading_API-Transactions

@@ -31,10 +31,8 @@ public class HitbtcAccountServiceRawTest extends BaseAuthenticatedServiceTest {
 
   private HitbtcAccountServiceRaw service = (HitbtcAccountServiceRaw) exchange.getAccountService();
 
-
   @Test
   public void testGetWalletRaw() throws IOException {
-
 
     List<HitbtcBalance> balance = service.getWalletRaw();
 
@@ -45,7 +43,7 @@ public class HitbtcAccountServiceRawTest extends BaseAuthenticatedServiceTest {
 
     Assert.assertNotNull(balance);
     BigDecimal expected = new BigDecimal("0.05000000");
-    Assert.assertTrue( expected.equals(balanceMap.get(Currency.BTC).getAvailable()));
+    Assert.assertTrue(expected.equals(balanceMap.get(Currency.BTC).getAvailable()));
   }
 
   @Test
@@ -70,7 +68,7 @@ public class HitbtcAccountServiceRawTest extends BaseAuthenticatedServiceTest {
     List<HitbtcTransaction> transactions = service.getTransactions();
 
     Assert.assertTrue(!transactions.isEmpty());
-    Assert.assertTrue(StringUtils.isNotEmpty( transactions.get(0).getId() ));
+    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
   }
 
   //Should return {"error":{"code":20001,"message":"Insufficient funds","description":"Check that the funds are sufficient, given commissions"}} --I'm poor

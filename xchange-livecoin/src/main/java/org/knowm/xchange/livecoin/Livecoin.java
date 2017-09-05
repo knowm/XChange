@@ -29,7 +29,7 @@ public interface Livecoin {
   @GET
   @Path("exchange/last_trades?currencyPair={baseCurrency}/{targetCurrency}")
   LivecoinTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
-  
+
   @GET
   @Path("exchange/ticker?currencyPair={baseCurrency}/{targetCurrency}")
   LivecoinTicker getTicker(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;

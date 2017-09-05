@@ -3,8 +3,6 @@ package org.knowm.xchange.cryptofacilities;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -87,24 +85,24 @@ public class CryptoFacilitiesAdapters {
 
     Map<String, CryptoFacilitiesAccountInfo> accounts = cryptoFacilitiesAccounts.getAccounts();
     List<Wallet> wallets = new ArrayList<>();
-    
-    for(String accountName : accounts.keySet()) {
-        List<Balance> balances = new ArrayList<>(accounts.get(accountName).getBalances().size());
-        Balance balance;
 
-        for (Entry<String, BigDecimal> balancePair : accounts.get(accountName).getBalances().entrySet()) {
-          if (!accountName.equalsIgnoreCase("bitcoincash") && balancePair.getKey().equalsIgnoreCase("xbt")) {
-            // For xbt balance we construct both total=deposited xbt and available=total - margin balances
-            balance = new Balance(Currency.BTC, balancePair.getValue(), accounts.get(accountName).getAuxiliary().get("af"));
-          } else {
-            Currency currency = adaptCurrency(balancePair.getKey());
-            balance = new Balance(currency, balancePair.getValue());
-          }
-          balances.add(balance);
+    for (String accountName : accounts.keySet()) {
+      List<Balance> balances = new ArrayList<>(accounts.get(accountName).getBalances().size());
+      Balance balance;
+
+      for (Entry<String, BigDecimal> balancePair : accounts.get(accountName).getBalances().entrySet()) {
+        if (!accountName.equalsIgnoreCase("bitcoincash") && balancePair.getKey().equalsIgnoreCase("xbt")) {
+          // For xbt balance we construct both total=deposited xbt and available=total - margin balances
+          balance = new Balance(Currency.BTC, balancePair.getValue(), accounts.get(accountName).getAuxiliary().get("af"));
+        } else {
+          Currency currency = adaptCurrency(balancePair.getKey());
+          balance = new Balance(currency, balancePair.getValue());
         }
-        
-        wallets.add(new Wallet(accountName, accountName, balances));
-    }    
+        balances.add(balance);
+      }
+
+      wallets.add(new Wallet(accountName, accountName, balances));
+    }
     return new AccountInfo(username, wallets);
   }
 

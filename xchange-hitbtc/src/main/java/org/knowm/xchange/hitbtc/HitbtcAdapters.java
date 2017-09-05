@@ -1,5 +1,12 @@
 package org.knowm.xchange.hitbtc;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -31,13 +38,6 @@ import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class HitbtcAdapters {
 
@@ -293,7 +293,7 @@ public class HitbtcAdapters {
     FundingRecord.Status status = transaction.status.equals("success") ? FundingRecord.Status.COMPLETE : FundingRecord.Status.FAILED;//todo: find out if there are more statuses
 
     String bitcoinAddress = transaction.bitcoinAddress;
-    if(bitcoinAddress == null || bitcoinAddress.equals(""))
+    if (bitcoinAddress == null || bitcoinAddress.equals(""))
       bitcoinAddress = transaction.destinationData;
 
     return new FundingRecord(

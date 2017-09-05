@@ -1,5 +1,9 @@
 package org.knowm.xchange.bitstamp.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
@@ -15,10 +19,6 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * @author Matija Mazi

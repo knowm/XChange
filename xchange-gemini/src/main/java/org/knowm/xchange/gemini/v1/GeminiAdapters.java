@@ -285,7 +285,7 @@ public final class GeminiAdapters {
 
   private static Date convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
 
-    return new Date((long)Math.floor(timestampInSeconds.doubleValue() * 1000));
+    return new Date((long) Math.floor(timestampInSeconds.doubleValue() * 1000));
   }
 
   public static ExchangeMetaData adaptMetaData(List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {

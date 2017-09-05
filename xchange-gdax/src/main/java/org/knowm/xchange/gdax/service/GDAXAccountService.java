@@ -1,5 +1,12 @@
 package org.knowm.xchange.gdax.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -16,13 +23,6 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GDAXAccountService extends GDAXAccountServiceRaw implements AccountService {
 
@@ -98,15 +98,15 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
       Map<Integer, Map> allForAccount = new HashMap<>();
 
       Integer lastId = null;
-      while(true) {
+      while (true) {
         List<Map> ledger = ledger(accountId, lastId);
-        if(ledger.isEmpty())
+        if (ledger.isEmpty())
           break;
 
         for (Map map : ledger) {
           lastId = Integer.valueOf(map.get("id").toString());
 
-          if(allForAccount.containsKey(lastId))
+          if (allForAccount.containsKey(lastId))
             throw new IllegalStateException("Should not happen");
 
           allForAccount.put(lastId, map);
@@ -115,7 +115,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
       for (Map map : allForAccount.values()) {
         boolean isTransfer = map.get("type").toString().equals("transfer");
-        if(!isTransfer)
+        if (!isTransfer)
           continue;
 
         Map details = (Map) map.get("details");
@@ -123,25 +123,25 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
         String transferType = details.get("transfer_type").toString();
 
         FundingRecord.Type type;
-        if(transferType.equals("deposit"))
+        if (transferType.equals("deposit"))
           type = FundingRecord.Type.DEPOSIT;
-        else if(transferType.equals("withdraw"))
+        else if (transferType.equals("withdraw"))
           type = FundingRecord.Type.WITHDRAWAL;
         else
           continue;
 
         fundingHistory.add(new FundingRecord(
-                null,
-                DateUtils.fromISO8601DateString(map.get("created_at").toString()),
-                currency,
-                new BigDecimal(map.get("amount").toString()),
-                details.get("transfer_id").toString(),
-                null,
-                type,
-                FundingRecord.Status.COMPLETE,
-                new BigDecimal(map.get("balance").toString()),
-                null,
-                null
+            null,
+            DateUtils.fromISO8601DateString(map.get("created_at").toString()),
+            currency,
+            new BigDecimal(map.get("amount").toString()),
+            details.get("transfer_id").toString(),
+            null,
+            type,
+            FundingRecord.Status.COMPLETE,
+            new BigDecimal(map.get("balance").toString()),
+            null,
+            null
         ));
       }
     }

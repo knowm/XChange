@@ -80,10 +80,10 @@ public class LivecoinAdapters {
       CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, null, priceScale);
       currencyPairs.put(pair, cpmd);
 
-      if(!currencies.containsKey(pair.base))
+      if (!currencies.containsKey(pair.base))
         currencies.put(pair.base, null);
 
-      if(!currencies.containsKey(pair.counter))
+      if (!currencies.containsKey(pair.counter))
         currencies.put(pair.counter, null);
     }
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
@@ -116,7 +116,7 @@ public class LivecoinAdapters {
     BigDecimal high = ticker.getHigh();
     BigDecimal low = ticker.getLow();
     BigDecimal volume = ticker.getVolume();
-    
+
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).build();
   }
 }

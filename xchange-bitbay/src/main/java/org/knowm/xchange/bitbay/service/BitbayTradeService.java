@@ -1,5 +1,9 @@
 package org.knowm.xchange.bitbay.service;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.BitbayAdapters;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
@@ -18,10 +22,6 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsZero;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Z. Dolezal
@@ -43,7 +43,6 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
     List<BitbayOrder> response = getBitbayOpenOrders();
     return BitbayAdapters.adaptOpenOrders(response);
   }
-
 
   @Override
   public String placeMarketOrder(

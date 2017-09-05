@@ -1,8 +1,8 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Mikhail Wall
@@ -18,58 +18,58 @@ public final class DSXBar {
   private final long timestamp;
 
   public DSXBar(@JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open,
-                @JsonProperty("low") BigDecimal low, @JsonProperty("close") BigDecimal close,
-                @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp) {
+      @JsonProperty("low") BigDecimal low, @JsonProperty("close") BigDecimal close,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp) {
 
-      this.high = high;
-      this.open = open;
-      this.low = low;
-      this.close = close;
-      this.amount = amount;
-      this.timestamp = timestamp;
+    this.high = high;
+    this.open = open;
+    this.low = low;
+    this.close = close;
+    this.amount = amount;
+    this.timestamp = timestamp;
   }
 
   public BigDecimal getHigh() {
 
-      return high;
+    return high;
   }
 
   public BigDecimal getOpen() {
 
-      return open;
+    return open;
   }
 
   public BigDecimal getLow() {
 
-      return low;
+    return low;
   }
 
   public BigDecimal getClose() {
 
-      return close;
+    return close;
   }
 
   public BigDecimal getAmount() {
 
-      return amount;
+    return amount;
   }
 
   public long getTimestamp() {
 
-      return timestamp;
+    return timestamp;
   }
 
   @Override
   public String toString() {
 
-      return "DSXBar{" +
-              "high=" + high +
-              ", open=" + open +
-              ", low=" + low +
-              ", close=" + close +
-              ", amount=" + amount +
-              ", timestamp=" + timestamp +
-              '}';
+    return "DSXBar{" +
+        "high=" + high +
+        ", open=" + open +
+        ", low=" + low +
+        ", close=" + close +
+        ", amount=" + amount +
+        ", timestamp=" + timestamp +
+        '}';
   }
 
 }

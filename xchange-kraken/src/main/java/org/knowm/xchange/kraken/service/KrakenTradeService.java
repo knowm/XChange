@@ -1,5 +1,8 @@
 package org.knowm.xchange.kraken.service;
 
+import java.io.IOException;
+import java.util.Collection;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -19,9 +22,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.io.IOException;
-import java.util.Collection;
 
 public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeService {
 
@@ -74,7 +74,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
 
   /**
    * @param params Can optionally implement {@link TradeHistoryParamOffset} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types
-   *               will be ignored.
+   * will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {

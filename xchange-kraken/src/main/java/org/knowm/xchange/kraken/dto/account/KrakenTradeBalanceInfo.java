@@ -1,8 +1,8 @@
 package org.knowm.xchange.kraken.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenTradeBalanceInfo {
 
@@ -28,8 +28,8 @@ public class KrakenTradeBalanceInfo {
    * @param marginLevel
    */
   public KrakenTradeBalanceInfo(@JsonProperty("tb") BigDecimal tradeBalance, @JsonProperty("m") BigDecimal margin,
-                                @JsonProperty("n") BigDecimal unrealizedGainsLosses, @JsonProperty("c") BigDecimal costBasis, @JsonProperty("v") BigDecimal floatingValuation,
-                                @JsonProperty("e") BigDecimal equity, @JsonProperty("mf") BigDecimal freeMargin, @JsonProperty("ml") BigDecimal marginLevel) {
+      @JsonProperty("n") BigDecimal unrealizedGainsLosses, @JsonProperty("c") BigDecimal costBasis, @JsonProperty("v") BigDecimal floatingValuation,
+      @JsonProperty("e") BigDecimal equity, @JsonProperty("mf") BigDecimal freeMargin, @JsonProperty("ml") BigDecimal marginLevel) {
 
     this.tradeBalance = tradeBalance;
     this.margin = margin;

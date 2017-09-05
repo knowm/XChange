@@ -1,8 +1,8 @@
 package org.knowm.xchange.kraken.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenVolumeFee {
 
@@ -24,8 +24,8 @@ public class KrakenVolumeFee {
    * @param tierVolume
    */
   public KrakenVolumeFee(@JsonProperty("fee") BigDecimal fee, @JsonProperty("minfee") BigDecimal minFee, @JsonProperty("maxfee") BigDecimal maxFee,
-                         @JsonProperty("nextfee") BigDecimal nextFee, @JsonProperty("nextvolume") BigDecimal nextVolume,
-                         @JsonProperty("tiervolume") BigDecimal tierVolume) {
+      @JsonProperty("nextfee") BigDecimal nextFee, @JsonProperty("nextvolume") BigDecimal nextVolume,
+      @JsonProperty("tiervolume") BigDecimal tierVolume) {
 
     this.fee = fee;
     this.minFee = minFee;

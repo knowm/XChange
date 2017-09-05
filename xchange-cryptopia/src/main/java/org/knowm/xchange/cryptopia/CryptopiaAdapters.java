@@ -1,5 +1,11 @@
 package org.knowm.xchange.cryptopia;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaOrder;
@@ -20,12 +26,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Various adapters for converting from Cryptopia DTOs to XChange DTOs
  */
@@ -38,7 +38,7 @@ public final class CryptopiaAdapters {
    * Adapts a CryptopiaOrderBook to an OrderBook Object
    *
    * @param cryptopiaOrderBook The exchange specific order book
-   * @param currencyPair       (e.g. BTC/USD)
+   * @param currencyPair (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(CryptopiaOrderBook cryptopiaOrderBook, CurrencyPair currencyPair) {
@@ -66,7 +66,7 @@ public final class CryptopiaAdapters {
    * Adapts a CryptopiaTicker to a Ticker Object
    *
    * @param cryptopiaTicker The exchange specific ticker
-   * @param currencyPair    (e.g. BTC/USD)
+   * @param currencyPair (e.g. BTC/USD)
    * @return The XChange ticker
    */
   public static Ticker adaptTicker(CryptopiaTicker cryptopiaTicker, CurrencyPair currencyPair) {

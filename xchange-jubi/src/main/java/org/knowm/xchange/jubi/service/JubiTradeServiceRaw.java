@@ -1,5 +1,9 @@
 package org.knowm.xchange.jubi.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.jubi.JubiAuthernticated;
@@ -9,12 +13,9 @@ import org.knowm.xchange.jubi.dto.trade.JubiOrderType;
 import org.knowm.xchange.jubi.dto.trade.JubiTradeResult;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Created by Dzf on 2017/7/16.
@@ -33,13 +34,13 @@ public class JubiTradeServiceRaw extends JubiBaseService {
     String coinType = currencyPair != null ? currencyPair.base.getCurrencyCode().toLowerCase() : "";
     long since = startTime != null ? startTime.getTime() : 0;
     return jubiAuthernticated.getOrderHistory(coinType, exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory(), since, "all", signatureCreator);
+        exchange.getNonceFactory(), since, "all", signatureCreator);
   }
 
   public JubiOrderHistory getJubiOpenOrder(CurrencyPair currencyPair) throws IOException {
     String coinType = currencyPair != null ? currencyPair.base.getCurrencyCode().toLowerCase() : "";
     return jubiAuthernticated.getOrderHistory(coinType, exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory(), 0, "open", signatureCreator);
+        exchange.getNonceFactory(), 0, "open", signatureCreator);
   }
 
   public JubiTradeHistoryParams createJubiTradeHistoryParams(CurrencyPair currencyPair) {
@@ -57,19 +58,19 @@ public class JubiTradeServiceRaw extends JubiBaseService {
   public JubiOrderStatus getJubiOrderStatus(BigDecimal orderId, CurrencyPair currencyPair) throws IOException {
     String coinType = currencyPair != null ? currencyPair.base.getCurrencyCode().toLowerCase() : "";
     return jubiAuthernticated.getOrderStatus(coinType, orderId, exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory(), signatureCreator);
+        exchange.getNonceFactory(), signatureCreator);
   }
 
   public JubiTradeResult placeJubiOrder(CurrencyPair currencyPair, BigDecimal amount, BigDecimal price, JubiOrderType type) throws IOException {
     String coinType = currencyPair != null ? currencyPair.base.getCurrencyCode().toLowerCase() : "";
     return jubiAuthernticated.placeOrder(amount, coinType, exchange.getExchangeSpecification().getApiKey(), exchange.getNonceFactory(),
-            price, type.name().toLowerCase(), signatureCreator);
+        price, type.name().toLowerCase(), signatureCreator);
   }
 
   public boolean cancelJubiOrder(CurrencyPair currencyPair, BigDecimal id) throws IOException {
     String coinType = currencyPair != null ? currencyPair.base.getCurrencyCode().toLowerCase() : "";
     JubiTradeResult result = jubiAuthernticated.cancelOrder(coinType, id, exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory(), signatureCreator);
+        exchange.getNonceFactory(), signatureCreator);
     return result.isSuccess();
   }
 }

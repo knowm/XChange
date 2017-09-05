@@ -1,13 +1,14 @@
 package org.knowm.xchange.jubi.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Dzf on 2017/7/7.
@@ -24,11 +25,11 @@ public class JubiBalance {
   private final Map<String, BigDecimal> lockedFunds;
 
   public JubiBalance(@JsonProperty("uid") String uid,
-                     @JsonProperty("asset") BigDecimal asset,
-                     @JsonProperty("result") boolean result,
-                     @JsonProperty("code") String code,
-                     @JsonProperty("moflag") int mobileFlag,
-                     @JsonProperty("nameauth") int nameAuthorized) {
+      @JsonProperty("asset") BigDecimal asset,
+      @JsonProperty("result") boolean result,
+      @JsonProperty("code") String code,
+      @JsonProperty("moflag") int mobileFlag,
+      @JsonProperty("nameauth") int nameAuthorized) {
     this.uid = uid;
     this.asset = asset;
     this.result = result;
@@ -85,6 +86,6 @@ public class JubiBalance {
   @Override
   public String toString() {
     return String.format("JubiBalance: {uid=%s, asset=%s, result=%b, code=%s, mobileFlag=%d, nameAuthorized=%d, availableFunds=%s, lockedFunds=%s}",
-            uid, asset, result, code, mobileFlag, nameAuthorized, availableFunds, lockedFunds);
+        uid, asset, result, code, mobileFlag, nameAuthorized, availableFunds, lockedFunds);
   }
 }

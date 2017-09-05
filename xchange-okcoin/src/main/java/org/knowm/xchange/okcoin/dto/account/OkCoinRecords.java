@@ -27,9 +27,9 @@ public class OkCoinRecords {
   private final Integer status;
 
   public OkCoinRecords(@JsonProperty("addr") final String address, @JsonProperty("account") final String account,
-                       @JsonProperty("amount") final BigDecimal amount, @JsonProperty("bank") final String bank,
-                       @JsonProperty("benificiary_addr") final String benificiaryAddress, @JsonProperty("transaction_value") final BigDecimal transactionValue,
-                       @JsonProperty("fee") final BigDecimal fee, @JsonProperty("date") final Long date, @JsonProperty("status") final Integer status) {
+      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("bank") final String bank,
+      @JsonProperty("benificiary_addr") final String benificiaryAddress, @JsonProperty("transaction_value") final BigDecimal transactionValue,
+      @JsonProperty("fee") final BigDecimal fee, @JsonProperty("date") final Long date, @JsonProperty("status") final Integer status) {
 
     this.address = address;
     this.account = account;
@@ -86,11 +86,10 @@ public class OkCoinRecords {
     return status;
   }
 
-  public enum RechargeStatus{
+  public enum RechargeStatus {
     FAILURE(-1, "Failure"),
     WAIT_CONFIRMATION(0, "Wait Confirmation"),
-    COMPLETE(1, "Complete"),
-    ;
+    COMPLETE(1, "Complete"),;
 
     private static final Map<Integer, RechargeStatus> fromInt = new HashMap<Integer, RechargeStatus>();
 
@@ -102,7 +101,7 @@ public class OkCoinRecords {
     private int code;
     private String status;
 
-    RechargeStatus(int code, String status){
+    RechargeStatus(int code, String status) {
       this.code = code;
       this.status = status;
     }
@@ -116,7 +115,7 @@ public class OkCoinRecords {
     }
   }
 
-  public enum WithdrawalStatus{
+  public enum WithdrawalStatus {
     REVOKED(-3, "Revoked"),
     CANCELLED(-2, "Cancelled"),
     FAILURE(-1, "Failure"),
@@ -125,8 +124,7 @@ public class OkCoinRecords {
     COMPLETE(2, "Complete"),
     EMAIL_CONFIRMATION(3, "Email Confirmation"),
     VERIFYING(4, "Verifying"),
-    WAIT_CONFIRMATION(5, "Wait Confirmation"),
-    ;
+    WAIT_CONFIRMATION(5, "Wait Confirmation"),;
 
     private static final Map<Integer, WithdrawalStatus> fromInt = new HashMap<Integer, WithdrawalStatus>();
 
@@ -138,7 +136,7 @@ public class OkCoinRecords {
     private int code;
     private String status;
 
-    WithdrawalStatus(int code, String status){
+    WithdrawalStatus(int code, String status) {
       this.code = code;
       this.status = status;
     }

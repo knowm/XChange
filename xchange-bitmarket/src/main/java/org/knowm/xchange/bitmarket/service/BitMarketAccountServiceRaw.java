@@ -1,5 +1,9 @@
 package org.knowm.xchange.bitmarket.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketDepositResponse;
@@ -9,10 +13,6 @@ import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryOperations;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * @author kfonal

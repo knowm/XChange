@@ -1,15 +1,18 @@
 package org.knowm.xchange.jubi.dto.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.jubi.JubiAdapters;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import static org.fest.assertions.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * Created by Dzf on 2017/7/13.
  */

@@ -86,14 +86,13 @@ public final class FundingRecord {
    * @param balance Balance of the associated account after the transaction is performed
    * @param fee Transaction Fee Amount (always positive)
    * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
-   *
    * @deprecated Use the constructor with enum status parameter.
    */
   @Deprecated
   public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
-                       final String internalId, final String externalId,
-                       final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
-                       final String description){
+      final String internalId, final String externalId,
+      final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
+      final String description) {
     this(address, date, currency, amount, internalId, externalId, type, Status.resolveStatus(status), balance, fee, description);
     if (this.status == null && status != null) {
       this.description = this.description == null || this.description.isEmpty()
@@ -118,9 +117,9 @@ public final class FundingRecord {
    * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
    */
   public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
-                       final String internalId, final String externalId,
-                       final Type type, final Status status, final BigDecimal balance, final BigDecimal fee,
-                       final String description){
+      final String internalId, final String externalId,
+      final Type type, final Status status, final BigDecimal balance, final BigDecimal fee,
+      final String description) {
     this.address = address;
     this.date = date;
     this.currency = currency;
@@ -290,8 +289,7 @@ public final class FundingRecord {
       return new FundingRecord(address, date, currency, amount, internalId, externalId, type, status, balance, fee, description);
     }
   }
-  
-  
+
   /**
    * <p>
    * Enum representing funding transaction type
@@ -313,34 +311,41 @@ public final class FundingRecord {
   }
 
   public enum Status {
-    /** The user has requested the withdrawal or deposit, or the exchange has detected an initiated deposit,
+    /**
+     * The user has requested the withdrawal or deposit, or the exchange has detected an initiated deposit,
      * but the exchange still has to fully process the funding.
-     * The funds are not available to the user. The funding request may possibly still be cancelled though. */
-    PROCESSING("WAIT CONFIRMATION","EMAIL CONFIRMATION","EMAIL SENT","AWAITING APPROVAL","VERIFYING","PENDING_APPROVAL","PENDING"),
+     * The funds are not available to the user. The funding request may possibly still be cancelled though.
+     */
+    PROCESSING("WAIT CONFIRMATION", "EMAIL CONFIRMATION", "EMAIL SENT", "AWAITING APPROVAL", "VERIFYING", "PENDING_APPROVAL", "PENDING"),
 
-    /** The exchange has processed the transfer fully and successfully.
+    /**
+     * The exchange has processed the transfer fully and successfully.
      * The funding typically cannot be cancelled any more.
      * For withdrawals, the funds are gone from the exchange, though they may have not reached their destination yet.
-     * For deposits, the funds are available to the user. */
+     * For deposits, the funds are available to the user.
+     */
     COMPLETE("COMPLETED"),
 
-    /** The transfer was cancelled either by the user or by the exchange. */
-    CANCELLED("REVOKED","CANCEL","REFUND"),
+    /**
+     * The transfer was cancelled either by the user or by the exchange.
+     */
+    CANCELLED("REVOKED", "CANCEL", "REFUND"),
 
-    /** The transfer has failed for any reason other than user cancellation after it was initiated and before it was successfully processed.
-     * For withdrawals, the funds are available to the user again. */
-    FAILED("FAILURE"),
-    ;
+    /**
+     * The transfer has failed for any reason other than user cancellation after it was initiated and before it was successfully processed.
+     * For withdrawals, the funds are available to the user again.
+     */
+    FAILED("FAILURE"),;
 
     private String[] statusArray;
 
     private static final Map<String, Status> fromString = new HashMap<String, Status>();
 
     static {
-      for (final Status status : values()){
+      for (final Status status : values()) {
         final String[] statusArray = status.statusArray;
-        if (statusArray != null){
-          for (final String statusStr : statusArray){
+        if (statusArray != null) {
+          for (final String statusStr : statusArray) {
             fromString.put(statusStr, status);
           }
         }
@@ -348,7 +353,7 @@ public final class FundingRecord {
       }
     }
 
-    Status(String... statusArray){
+    Status(String... statusArray) {
       this.statusArray = statusArray;
     }
 

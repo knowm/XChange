@@ -1,8 +1,8 @@
 package org.knowm.xchange.kraken.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenOrderResponse {
 

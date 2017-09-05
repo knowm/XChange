@@ -15,7 +15,7 @@ public class DSXOrderbookWrapper {
   @JsonCreator
   public DSXOrderbookWrapper(Map<String, DSXOrderbook> result) {
 
-      this.orderbookMap = result;
+    this.orderbookMap = result;
   }
 
   public Map<String, DSXOrderbook> getOrderbookMap() {
@@ -25,19 +25,19 @@ public class DSXOrderbookWrapper {
 
   public DSXOrderbook getOrderbook(String pair) {
 
-      DSXOrderbook result = null;
-      if (orderbookMap.containsKey(pair)) {
-          result = orderbookMap.get(pair);
-      }
-      return result;
+    DSXOrderbook result = null;
+    if (orderbookMap.containsKey(pair)) {
+      result = orderbookMap.get(pair);
+    }
+    return result;
   }
 
   @Override
   public String toString() {
 
-      return "DSXOrderbookWrapper{" +
-              "orderbookMap=" + orderbookMap.toString() +
-              '}';
+    return "DSXOrderbookWrapper{" +
+        "orderbookMap=" + orderbookMap.toString() +
+        '}';
   }
 
 }

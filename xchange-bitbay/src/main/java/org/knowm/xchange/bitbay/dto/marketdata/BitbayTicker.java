@@ -1,8 +1,8 @@
 package org.knowm.xchange.bitbay.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kpysniak
@@ -31,8 +31,8 @@ public final class BitbayTicker {
    * @param volume
    */
   public BitbayTicker(@JsonProperty("max") BigDecimal max, @JsonProperty("min") BigDecimal min, @JsonProperty("last") BigDecimal last,
-                      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("vwap") BigDecimal vwap,
-                      @JsonProperty("average") BigDecimal average, @JsonProperty("volume") BigDecimal volume) {
+      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("average") BigDecimal average, @JsonProperty("volume") BigDecimal volume) {
 
     this.max = max;
     this.min = min;

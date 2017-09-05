@@ -14,11 +14,11 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
+import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -124,7 +124,6 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
     public HitbtcTradeHistoryParams() {
     }
-
 
     @Override
     public void setCurrencyPair(CurrencyPair pair) {

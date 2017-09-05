@@ -2,7 +2,6 @@ package org.knowm.xchange.hitbtc.v2.dto;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcSymbol {

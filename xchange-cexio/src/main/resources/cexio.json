@@ -45,7 +45,7 @@
       "trading_fee": 0.001,
       "min_amount": 0.010000000
     },
-     "BCH/BTC": {
+    "BCH/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0000,
       "min_amount": 0.100000000

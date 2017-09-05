@@ -6,15 +6,14 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 
 public class HitbtcTradeServiceRaw extends HitbtcBaseService {
-
 
   public HitbtcTradeServiceRaw(Exchange exchange) {
     super(exchange);
@@ -33,7 +32,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     String side = HitbtcAdapters.getSide(marketOrder.getType()).toString();
     String orderId = HitbtcAdapters.createOrderId(marketOrder, nonce);
 
-    return hitbtc.postHitbtcNewOrder(orderId, symbol, side,null, marketOrder.getTradableAmount(), "market", "IOC");
+    return hitbtc.postHitbtcNewOrder(orderId, symbol, side, null, marketOrder.getTradableAmount(), "market", "IOC");
   }
 
   public HitbtcExecutionReport placeMarketOrderRaw(MarketOrder marketOrder) throws IOException {

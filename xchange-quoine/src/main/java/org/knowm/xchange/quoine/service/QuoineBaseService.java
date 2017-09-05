@@ -1,5 +1,7 @@
 package org.knowm.xchange.quoine.service;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -7,10 +9,9 @@ import org.knowm.xchange.quoine.QuoineAuthenticated;
 import org.knowm.xchange.quoine.QuoineExchange;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
+
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
 
 public class QuoineBaseService extends BaseExchangeService implements BaseService {
 

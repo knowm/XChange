@@ -1,8 +1,8 @@
 package org.knowm.xchange.bitbay.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Z. Dolezal
@@ -27,9 +27,9 @@ public class BitbayOrder {
    * start_price : starting price for whole amount when offer was added
    */
   public BitbayOrder(@JsonProperty("order_id") long id, @JsonProperty("order_currency") String currency, @JsonProperty("order_date") String date,
-                     @JsonProperty("payment_currency") String paymentCurrency, @JsonProperty("type") String type, @JsonProperty("status") String status,
-                     @JsonProperty("units") BigDecimal amount, @JsonProperty("start_units") BigDecimal startAmount,
-                     @JsonProperty("current_price") BigDecimal currentPrice, @JsonProperty("start_price") BigDecimal startPrice) {
+      @JsonProperty("payment_currency") String paymentCurrency, @JsonProperty("type") String type, @JsonProperty("status") String status,
+      @JsonProperty("units") BigDecimal amount, @JsonProperty("start_units") BigDecimal startAmount,
+      @JsonProperty("current_price") BigDecimal currentPrice, @JsonProperty("start_price") BigDecimal startPrice) {
 
     this.id = id;
     this.currency = currency;

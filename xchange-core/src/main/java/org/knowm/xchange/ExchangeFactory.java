@@ -92,9 +92,9 @@ public enum ExchangeFactory {
     Exchange exchange = createExchangeWithoutSpecification(exchangeClassName);
 
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
-    if (userName != null)  specification.setUserName(userName);
-    if (password != null)  specification.setPassword(password);
-    if (apiKey != null)    specification.setApiKey(apiKey);
+    if (userName != null) specification.setUserName(userName);
+    if (password != null) specification.setPassword(password);
+    if (apiKey != null) specification.setApiKey(apiKey);
     if (secretKey != null) specification.setSecretKey(secretKey);
     exchange.applySpecification(specification);
 

@@ -11,7 +11,6 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
-import org.knowm.xchange.service.BaseService;
 
 public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
@@ -46,7 +45,5 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
     return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair));
   }
-
-
 
 }
