@@ -1,17 +1,18 @@
 package org.knowm.xchange.coinfloor.dto.trade;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Objects;
+
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Objects;
 
 public class CoinfloorUserTransaction {
   public String datetime = "";

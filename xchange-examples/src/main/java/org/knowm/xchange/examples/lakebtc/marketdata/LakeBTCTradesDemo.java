@@ -1,15 +1,15 @@
 package org.knowm.xchange.examples.lakebtc.marketdata;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import org.knowm.xchange.lakebtc.service.LakeBTCMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
 
 /**
  * Created by Cristi on 12/22/2014.

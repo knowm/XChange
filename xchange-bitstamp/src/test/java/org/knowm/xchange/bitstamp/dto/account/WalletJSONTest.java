@@ -30,9 +30,9 @@ public class WalletJSONTest {
 
     Map<String, Balance> balances = new HashMap<>();
     for (Balance b : bitstampBalance.getBalances()) {
-        balances.put(b.getCurrency(), b);
+      balances.put(b.getCurrency(), b);
     }
-    
+
     // Verify that the example data was unmarshalled correctly
     assertThat(balances.get("btc").getAvailable()).isEqualTo(new BigDecimal("6.99990000"));
     assertThat(balances.get("btc").getReserved()).isEqualTo(new BigDecimal("0"));

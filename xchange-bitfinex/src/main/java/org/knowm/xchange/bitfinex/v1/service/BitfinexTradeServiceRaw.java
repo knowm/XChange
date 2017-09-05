@@ -44,7 +44,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
   /**
    * Constructor
-   * 
+   *
    * @param exchange
    */
   public BitfinexTradeServiceRaw(Exchange exchange) {
