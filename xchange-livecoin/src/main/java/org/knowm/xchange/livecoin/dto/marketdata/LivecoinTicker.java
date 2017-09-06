@@ -1,8 +1,8 @@
 package org.knowm.xchange.livecoin.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 public class LivecoinTicker {
   private final BigDecimal last;
@@ -16,10 +16,10 @@ public class LivecoinTicker {
   private final BigDecimal bestAsk;
 
   public LivecoinTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high,
-      @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("max_bid") BigDecimal maxBid,
-      @JsonProperty("min_ask") BigDecimal minAsk, @JsonProperty("best_bid") BigDecimal bestBid,
-      @JsonProperty("best_ask") BigDecimal bestAsk) {
+                        @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
+                        @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("max_bid") BigDecimal maxBid,
+                        @JsonProperty("min_ask") BigDecimal minAsk, @JsonProperty("best_bid") BigDecimal bestBid,
+                        @JsonProperty("best_ask") BigDecimal bestAsk) {
 
     this.last = last;
     this.high = high;
