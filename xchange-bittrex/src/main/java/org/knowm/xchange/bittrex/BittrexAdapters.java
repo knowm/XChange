@@ -151,6 +151,12 @@ public final class BittrexAdapters {
     return new Wallet(wallets);
   }
 
+  public static Balance adaptBalance(BittrexBalance balance) {
+    return new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(), balance.getAvailable(),
+        balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+        balance.getPending());
+  }
+
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {
 
     List<UserTrade> trades = new ArrayList<>();
