@@ -39,7 +39,7 @@ public class BittrexAccountDemo {
 
     System.out.println("------------RAW-----------");
 
-    List<BittrexBalance> wallets = accountService.getBittrexAccountInfo();
+    List<BittrexBalance> wallets = accountService.getBittrexBalances();
     System.out.println(wallets);
 
     System.out.println(accountService.getBittrexDepositAddress("BTC"));

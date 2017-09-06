@@ -33,7 +33,7 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
     super(exchange);
   }
 
-  public List<BittrexBalance> getBittrexAccountInfo() throws IOException {
+  public List<BittrexBalance> getBittrexBalances() throws IOException {
 
     BittrexBalancesResponse response = bittrexAuthenticated.getBalances(apiKey, signatureCreator, exchange.getNonceFactory());
 
@@ -44,11 +44,11 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
     }
   }
 
-  public Balance getBittrexBalance(Currency currency) throws IOException {
+  public BittrexBalance getBittrexBalance(Currency currency) throws IOException {
     BittrexBalanceResponse response = bittrexAuthenticated.getBalance(apiKey, signatureCreator, exchange.getNonceFactory(), currency == null ? null
         : currency.getCurrencyCode());
     if (response.getSuccess()) {
-      return BittrexAdapters.adaptBalance(response.getResult());
+      return response.getResult();
     } else {
       throw new ExchangeException(response.getMessage());
     }
