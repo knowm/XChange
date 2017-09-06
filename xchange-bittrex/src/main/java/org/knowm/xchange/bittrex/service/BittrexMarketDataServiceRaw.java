@@ -16,6 +16,8 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummaryResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbolsResponse;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexTickerResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTradesResponse;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -43,6 +45,16 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
       throw new ExchangeException(response.getMessage());
     }
 
+  }
+
+  public BittrexTicker getBittrexTicker(CurrencyPair currencyPair) throws IOException {
+    BittrexTickerResponse response = bittrexAuthenticated.getTicker(BittrexUtils.toPairString(currencyPair));
+
+    if (response.getSuccess()) {
+      return response.getTicker();
+    } else {
+      throw new ExchangeException(response.getMessage());
+    }
   }
 
   public ArrayList<BittrexSymbol> getBittrexSymbols() throws IOException {

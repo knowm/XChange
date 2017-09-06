@@ -13,11 +13,16 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepthResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummariesResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbolsResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummaryResponse;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexTickerResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTradesResponse;
 
 @Path("v1.1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bittrex {
+
+  @GET
+  @Path("/public/getticker")
+  BittrexTickerResponse getTicker(@QueryParam("market") String market) throws IOException;
 
   @GET
   @Path("public/getmarketsummary/")
