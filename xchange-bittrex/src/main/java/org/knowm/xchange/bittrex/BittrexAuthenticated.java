@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.knowm.xchange.bittrex.dto.account.BittrexBalanceResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalancesResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositAddressResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositsHistoryResponse;
@@ -35,8 +36,13 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("account/getbalances")
-  BittrexBalancesResponse balances(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+  BittrexBalancesResponse getBalances(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+  @GET
+  @Path("/account/getbalance")
+  BittrexBalanceResponse getBalance(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("currency") String currency) throws IOException;
 
   @GET
   @Path("market/buylimit")
