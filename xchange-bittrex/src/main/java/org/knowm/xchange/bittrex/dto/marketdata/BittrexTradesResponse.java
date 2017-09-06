@@ -37,7 +37,7 @@ public class BittrexTradesResponse {
   @Override
   public String toString() {
 
-    return "BittrexTickerResponse [success=" + success + ", message=" + message + ", trades=" + Arrays.toString(trades) + "]";
+    return "BittrexTradesResponse [success=" + success + ", message=" + message + ", trades=" + Arrays.toString(trades) + "]";
   }
 
 }

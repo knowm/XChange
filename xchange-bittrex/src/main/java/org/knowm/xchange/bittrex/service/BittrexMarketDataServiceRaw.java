@@ -11,11 +11,11 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrenciesResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrency;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepth;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepthResponse;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummariesResponse;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummaryResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbolsResponse;
-import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
-import org.knowm.xchange.bittrex.dto.marketdata.BittrexTickerResponse;
-import org.knowm.xchange.bittrex.dto.marketdata.BittrexTickersResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTradesResponse;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -57,24 +57,24 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
 
   }
 
-  public BittrexTicker getBittrexTicker(String pair) throws IOException {
+  public BittrexMarketSummary getBittrexMarketSummary(String pair) throws IOException {
 
-    BittrexTickerResponse response = bittrexAuthenticated.getTicker(pair);
+    BittrexMarketSummaryResponse response = bittrexAuthenticated.getMarketSummary(pair);
 
     if (response.getSuccess()) {
-      return response.getTicker();
+      return response.getMarketSummary();
     } else {
       throw new ExchangeException(response.getMessage());
     }
 
   }
 
-  public ArrayList<BittrexTicker> getBittrexTickers() throws IOException {
+  public ArrayList<BittrexMarketSummary> getBittrexMarketSummaries() throws IOException {
 
-    BittrexTickersResponse response = bittrexAuthenticated.getTickers();
+    BittrexMarketSummariesResponse response = bittrexAuthenticated.getMarketSummaries();
 
     if (response.isSuccess()) {
-      return response.getTickers();
+      return response.getMarketSummaries();
     } else {
       throw new ExchangeException(response.getMessage());
     }

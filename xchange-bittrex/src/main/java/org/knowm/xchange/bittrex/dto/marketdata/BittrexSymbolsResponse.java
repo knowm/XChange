@@ -37,7 +37,7 @@ public class BittrexSymbolsResponse {
   @Override
   public String toString() {
 
-    return "BittrexTickerResponse [success=" + success + ", message=" + message + ", symbols " + symbols.size() + "=" + symbols + "]";
+    return "BittrexSymbolsResponse [success=" + success + ", message=" + message + ", symbols " + symbols.size() + "=" + symbols + "]";
   }
 
 }

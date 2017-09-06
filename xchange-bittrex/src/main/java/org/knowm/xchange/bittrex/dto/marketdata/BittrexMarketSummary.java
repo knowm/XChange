@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BittrexTicker {
+public class BittrexMarketSummary {
 
   private BigDecimal ask;
   private BigDecimal baseVolume;
@@ -21,7 +21,7 @@ public class BittrexTicker {
   private String timeStamp;
   private BigDecimal volume;
 
-  public BittrexTicker(@JsonProperty("Ask") BigDecimal ask, @JsonProperty("BaseVolume") BigDecimal baseVolume, @JsonProperty("Bid") BigDecimal bid,
+  public BittrexMarketSummary(@JsonProperty("Ask") BigDecimal ask, @JsonProperty("BaseVolume") BigDecimal baseVolume, @JsonProperty("Bid") BigDecimal bid,
       @JsonProperty("Created") String created, @JsonProperty("DisplayMarketName") String displayMarketName, @JsonProperty("High") BigDecimal high,
       @JsonProperty("Last") BigDecimal last, @JsonProperty("Low") BigDecimal low, @JsonProperty("MarketName") String marketName,
       @JsonProperty("OpenBuyOrders") int openBuyOrders, @JsonProperty("OpenSellOrders") int openSellOrders,
@@ -186,7 +186,7 @@ public class BittrexTicker {
   @Override
   public String toString() {
 
-    return "BittrexTicker [ask=" + ask + ", baseVolume=" + baseVolume + ", bid=" + bid + ", created=" + created + ", displayMarketName="
+    return "BittrexMarketSummary [ask=" + ask + ", baseVolume=" + baseVolume + ", bid=" + bid + ", created=" + created + ", displayMarketName="
         + displayMarketName + ", high=" + high + ", last=" + last + ", low=" + low + ", marketName=" + marketName + ", openBuyOrders=" + openBuyOrders
         + ", openSellOrders=" + openSellOrders + ", prevDay=" + prevDay + ", timeStamp=" + timeStamp + ", volume=" + volume + "]";
   }
