@@ -1,16 +1,15 @@
 package org.knowm.xchange.livecoin.service;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
-import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestrictions;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
+
+import java.io.IOException;
+import java.util.List;
 
 public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> {
 
@@ -18,13 +17,16 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
     super(Livecoin.class, exchange);
   }
 
-  public List<LivecoinRestriction> getConbaseExProducts() throws IOException {
-    LivecoinRestrictions data = (LivecoinRestrictions) coinbaseEx.getProducts();
-    return data.getRestrictions();
+  public List<LivecoinRestriction> getRestrictions() throws IOException {
+    return service.getRestrictions().getRestrictions();
   }
 
   public LivecoinTicker getLivecoinTicker(CurrencyPair currencyPair) throws IOException {
-    return this.coinbaseEx.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+    return service.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+  }
+
+  public List<LivecoinTicker> getAllTickers() throws IOException {
+    return service.getTicker();
   }
 
   public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth) throws IOException {
@@ -32,12 +34,14 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
       return null;
     }
 
-    return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase(),
-        depth);
+    return service.getOrderBook(
+        currencyPair.base.getCurrencyCode().toUpperCase(),
+        currencyPair.counter.getCurrencyCode().toUpperCase(),
+        depth
+    );
   }
 
   public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
-
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
       if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
@@ -51,6 +55,6 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
   }
 
   public LivecoinTrade[] getTrades(CurrencyPair currencyPair) throws IOException {
-    return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+    return service.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
   }
 }
