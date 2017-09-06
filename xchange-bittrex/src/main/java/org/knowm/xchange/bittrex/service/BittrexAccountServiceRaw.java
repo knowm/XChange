@@ -12,6 +12,8 @@ import org.knowm.xchange.bittrex.dto.account.BittrexBalancesResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositAddressResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositsHistoryResponse;
+import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
+import org.knowm.xchange.bittrex.dto.account.BittrexOrderResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalsHistoryResponse;
@@ -47,6 +49,16 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
         : currency.getCurrencyCode());
     if (response.getSuccess()) {
       return BittrexAdapters.adaptBalance(response.getResult());
+    } else {
+      throw new ExchangeException(response.getMessage());
+    }
+  }
+
+  public BittrexOrder getBittrexOrder(String uuid) throws IOException {
+    BittrexOrderResponse response = bittrexAuthenticated.getOrder(apiKey, signatureCreator, exchange.getNonceFactory(), uuid);
+
+    if (response.getSuccess()) {
+      return response.getResult();
     } else {
       throw new ExchangeException(response.getMessage());
     }
