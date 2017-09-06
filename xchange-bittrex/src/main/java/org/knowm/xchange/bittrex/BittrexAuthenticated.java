@@ -14,6 +14,7 @@ import org.knowm.xchange.bittrex.dto.account.BittrexBalanceResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalancesResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositAddressResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositsHistoryResponse;
+import org.knowm.xchange.bittrex.dto.account.BittrexOrderResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalsHistoryResponse;
 import org.knowm.xchange.bittrex.dto.trade.BittrexCancelOrderResponse;
@@ -77,6 +78,11 @@ public interface BittrexAuthenticated extends Bittrex {
   @Path("market/getopenorders")
   BittrexOpenOrdersResponse openorders(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market) throws IOException;
+
+  @GET
+  @Path("/account/getorder")
+  BittrexOrderResponse getOrder(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("uuid") String uuid) throws IOException;
 
   @GET
   @Path("account/getorderhistory")
