@@ -93,10 +93,11 @@ public interface AccountService extends BaseService {
 
   /**
    * @return list of funding history if available or an empty list otherwise. This should never return null.
-   * @throws ExchangeException
-   * @throws NotAvailableFromExchangeException
-   * @throws NotYetImplementedForExchangeException
-   * @throws IOException
+   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
+   *                                               implemented
+   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   List<FundingRecord> getFundingHistory(
       TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
