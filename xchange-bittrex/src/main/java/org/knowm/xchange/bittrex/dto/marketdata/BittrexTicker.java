@@ -29,4 +29,10 @@ public class BittrexTicker {
   public BigDecimal getLast() {
     return last;
   }
+
+  @Override
+  public String toString() {
+
+    return "BittrexTicker [bid=" + bid + ", ask= " + ask + ", last=" + last + "]";
+  }
 }

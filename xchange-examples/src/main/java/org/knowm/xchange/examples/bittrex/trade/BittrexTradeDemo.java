@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.bittrex.v1.trade;
+package org.knowm.xchange.examples.bittrex.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -8,7 +8,7 @@ import org.knowm.xchange.bittrex.service.BittrexTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.examples.bittrex.v1.BittrexExamplesUtils;
+import org.knowm.xchange.examples.bittrex.BittrexExamplesUtils;
 import org.knowm.xchange.service.trade.TradeService;
 
 public class BittrexTradeDemo {
