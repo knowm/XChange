@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.bittrex.v1;
+package org.knowm.xchange.examples.bittrex;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
