@@ -3,6 +3,8 @@ package org.knowm.xchange.bittrex.dto.account;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.knowm.xchange.bittrex.BittrexUtils;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BittrexOrder {
@@ -200,8 +202,8 @@ public class BittrexOrder {
   }
 
   @JsonProperty("Opened")
-  public void setOpened(Date opened) {
-    this.opened = opened;
+  public void setOpened(String opened) {
+    this.opened = BittrexUtils.toDate(opened);
   }
 
   @JsonProperty("Closed")
@@ -210,8 +212,8 @@ public class BittrexOrder {
   }
 
   @JsonProperty("Closed")
-  public void setClosed(Date closed) {
-    this.closed = closed;
+  public void setClosed(String closed) {
+    this.closed = BittrexUtils.toDate(closed);
   }
 
   @JsonProperty("IsOpen")
