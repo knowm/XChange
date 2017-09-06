@@ -21,7 +21,7 @@ public class BittrexAccountDemo {
 
     AccountService accountService = exchange.getAccountService();
 
-   // generic(accountService);
+    generic(accountService);
     raw((BittrexAccountServiceRaw) accountService);
   }
 
