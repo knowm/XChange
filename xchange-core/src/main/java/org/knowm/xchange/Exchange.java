@@ -33,7 +33,7 @@ public interface Exchange {
   /**
    * The Meta Data defining some semi-static properties of an exchange such as currency pairs, trading fees, etc.
    *
-   * @return
+   * @return The exchange's meta data
    */
   ExchangeMetaData getExchangeMetaData();
 
@@ -41,7 +41,7 @@ public interface Exchange {
    * Returns a list of CurrencyPair objects. This list can either come originally from a loaded json file or from a remote call if the implementation
    * override's the `remoteInit` method.
    *
-   * @return
+   * @return The exchange's symbols
    */
   List<CurrencyPair> getExchangeSymbols();
 
@@ -50,7 +50,7 @@ public interface Exchange {
    * is serialized and sent. If a method of a rest accepts ValueFactory as a parameter, it's evaluated, the message is serialized and sent in a single
    * synchronized block.
    *
-   * @return
+   * @return Synchronized value factory
    */
   SynchronizedValueFactory<Long> getNonceFactory();
 
