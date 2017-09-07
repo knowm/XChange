@@ -1,8 +1,8 @@
 package org.knowm.xchange.quoine.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 public class QuoineTransaction {
   public final String id;
@@ -20,11 +20,12 @@ public class QuoineTransaction {
   public final String transaction_hash;
   public final String execution;
   public final String loan;
+  public final String notes;
 
   public QuoineTransaction(@JsonProperty("id") String id, @JsonProperty("created_at") Long createdAt, @JsonProperty("gross_amount") BigDecimal gross_amount, @JsonProperty("net_amount") BigDecimal net_amount,
-      @JsonProperty("exchange_fee") BigDecimal exchange_fee, @JsonProperty("network_fee") BigDecimal network_fee, @JsonProperty("transaction_type") String transaction_type, @JsonProperty("from_account_id") String from_account_id,
-      @JsonProperty("to_account_id") String to_account_id, @JsonProperty("from_role") String from_role, @JsonProperty("to_role") String to_role, @JsonProperty("state") String state,
-      @JsonProperty("transaction_hash") String transaction_hash, @JsonProperty("execution") String execution, @JsonProperty("loan") String loan) {
+                           @JsonProperty("exchange_fee") BigDecimal exchange_fee, @JsonProperty("network_fee") BigDecimal network_fee, @JsonProperty("transaction_type") String transaction_type, @JsonProperty("from_account_id") String from_account_id,
+                           @JsonProperty("to_account_id") String to_account_id, @JsonProperty("from_role") String from_role, @JsonProperty("to_role") String to_role, @JsonProperty("state") String state,
+                           @JsonProperty("transaction_hash") String transaction_hash, @JsonProperty("execution") String execution, @JsonProperty("loan") String loan, @JsonProperty("notes") String notes) {
     this.id = id;
     this.createdAt = createdAt;
     this.gross_amount = gross_amount;
@@ -40,6 +41,7 @@ public class QuoineTransaction {
     this.transaction_hash = transaction_hash;
     this.execution = execution;
     this.loan = loan;
+    this.notes = notes;
   }
 
   @Override

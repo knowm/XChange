@@ -1,15 +1,10 @@
 package org.knowm.xchange.quoine;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -25,7 +20,14 @@ import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.quoine.dto.trade.Model;
 import org.knowm.xchange.quoine.dto.trade.QuoineExecution;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
+import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class QuoineAdapters {
 
@@ -177,5 +179,29 @@ public class QuoineAdapters {
 
   public static String toPairString(CurrencyPair currencyPair) {
     return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+  }
+
+  public static FundingRecord adaptFunding(Currency currency, QuoineTransaction transaction, FundingRecord.Type deposit) {
+    BigDecimal fee = null;
+    if (transaction.exchange_fee != null)
+      fee = transaction.exchange_fee;
+
+    if (transaction.network_fee != null) {
+      fee = fee == null ? transaction.network_fee : fee.add(transaction.network_fee);
+    }
+
+    return new FundingRecord(
+        null,
+        DateUtils.fromUnixTime(transaction.createdAt),
+        currency,
+        transaction.gross_amount,
+        transaction.id,
+        transaction.transaction_hash,
+        deposit,
+        FundingRecord.Status.COMPLETE,
+        null,
+        fee,
+        transaction.notes
+    );
   }
 }
