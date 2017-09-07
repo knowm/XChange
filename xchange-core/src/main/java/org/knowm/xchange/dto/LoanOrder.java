@@ -155,10 +155,7 @@ public class LoanOrder {
     } else if (!tradableAmount.equals(other.tradableAmount)) {
       return false;
     }
-    if (type != other.type) {
-      return false;
-    }
-    return true;
+    return type == other.type;
   }
 
 }
