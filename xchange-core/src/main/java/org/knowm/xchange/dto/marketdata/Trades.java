@@ -80,11 +80,14 @@ public class Trades {
   public String toString() {
 
     StringBuilder sb = new StringBuilder("Trades\n");
-    sb.append("lastID= " + lastID + "\n");
+    sb.append("lastID= ")
+      .append(lastID)
+      .append("\n");
+
     for (Trade trade : getTrades()) {
-      sb.append("[trade=");
-      sb.append(trade.toString());
-      sb.append("]\n");
+      sb.append("[trade=")
+        .append(trade.toString())
+        .append("]\n");
     }
     return sb.toString();
   }
