@@ -1,10 +1,5 @@
 package org.knowm.xchange.quoine.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -16,9 +11,17 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quoine.QuoineAdapters;
 import org.knowm.xchange.quoine.dto.account.BitcoinAccount;
 import org.knowm.xchange.quoine.dto.account.FiatAccount;
+import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -88,6 +91,72 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotAvailableFromExchangeException();
+    Integer page = 1;
+    Integer limit = null;
+    Currency currency = null;
+
+    if (params instanceof TradeHistoryParamCurrency) {
+      currency = ((TradeHistoryParamCurrency) params).getCurrency();
+    }
+
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging tradeHistoryParamPaging = (TradeHistoryParamPaging) params;
+      page = tradeHistoryParamPaging.getPageNumber();
+      limit = tradeHistoryParamPaging.getPageLength();
+    }
+
+    List<FundingRecord> res = new ArrayList<>();
+    for (QuoineTransaction transaction : depositHistory(currency, limit, page)) {
+      res.add(QuoineAdapters.adaptFunding(currency, transaction, FundingRecord.Type.DEPOSIT));
+    }
+    for (QuoineTransaction transaction : withdrawalHistory(currency, limit, page)) {
+      res.add(QuoineAdapters.adaptFunding(currency, transaction, FundingRecord.Type.WITHDRAWAL));
+    }
+    return res;
+  }
+
+  public static class QuoineFundingHistoryParam implements TradeHistoryParamCurrency, TradeHistoryParamPaging {
+    private Currency currency;
+    private Integer pageLength;
+    private Integer pageNumber;
+
+    public QuoineFundingHistoryParam(Currency currency, Integer pageLength, Integer pageNumber) {
+      this.currency = currency;
+      this.pageLength = pageLength;
+      this.pageNumber = pageNumber;
+    }
+
+    public QuoineFundingHistoryParam() {
+    }
+
+    @Override
+    public void setCurrency(Currency currency) {
+      this.currency = currency;
+    }
+
+    @Override
+    public Currency getCurrency() {
+      return currency;
+    }
+
+    @Override
+    public void setPageLength(Integer pageLength) {
+      this.pageLength = pageLength;
+    }
+
+    @Override
+    public Integer getPageLength() {
+      return pageLength;
+    }
+
+    @Override
+    public void setPageNumber(Integer pageNumber) {
+      this.pageNumber = pageNumber;
+    }
+
+    @Override
+    public Integer getPageNumber() {
+      return pageNumber;
+    }
   }
 }
