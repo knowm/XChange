@@ -339,7 +339,7 @@ public final class FundingRecord {
 
     private String[] statusArray;
 
-    private static final Map<String, Status> fromString = new HashMap<String, Status>();
+    private static final Map<String, Status> fromString = new HashMap<>();
 
     static {
       for (final Status status : values()) {
