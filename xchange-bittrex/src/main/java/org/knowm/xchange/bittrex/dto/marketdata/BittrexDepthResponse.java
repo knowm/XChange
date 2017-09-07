@@ -34,7 +34,7 @@ public class BittrexDepthResponse {
   @Override
   public String toString() {
 
-    return "BittrexTickerResponse [success=" + success + ", message=" + message + ", depth=" + depth + "]";
+    return "BittrexDepthResponse [success=" + success + ", message=" + message + ", depth=" + depth + "]";
   }
 
 }

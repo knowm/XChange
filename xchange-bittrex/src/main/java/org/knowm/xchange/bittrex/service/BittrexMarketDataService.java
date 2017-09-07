@@ -38,7 +38,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw implem
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BittrexAdapters.adaptTicker(getBittrexTicker(BittrexUtils.toPairString(currencyPair)), currencyPair);
+    return BittrexAdapters.adaptTicker(getBittrexMarketSummary(BittrexUtils.toPairString(currencyPair)), currencyPair);
   }
 
   /**
