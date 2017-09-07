@@ -33,11 +33,12 @@ public final class Ticker {
    * Constructor
    *
    * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
-   * @param last
-   * @param bid
-   * @param ask
-   * @param high
-   * @param low
+   * @param last Last price
+   * @param bid Bid price
+   * @param ask Ask price
+   * @param high High price
+   * @param low Low price
+   * @param vwap Volume Weighted Average Price
    * @param volume 24h volume
    * @param timestamp - the timestamp of the ticker according to the exchange's server, null if not provided
    */
