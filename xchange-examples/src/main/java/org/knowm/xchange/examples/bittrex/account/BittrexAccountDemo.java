@@ -1,15 +1,16 @@
-package org.knowm.xchange.examples.bittrex.v1.account;
+package org.knowm.xchange.examples.bittrex.account;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bittrex.Bittrex;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.service.BittrexAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.examples.bittrex.v1.BittrexExamplesUtils;
+import org.knowm.xchange.examples.bittrex.BittrexExamplesUtils;
 import org.knowm.xchange.service.account.AccountService;
 
 public class BittrexAccountDemo {
@@ -39,10 +40,13 @@ public class BittrexAccountDemo {
 
     System.out.println("------------RAW-----------");
 
-    List<BittrexBalance> wallets = accountService.getBittrexAccountInfo();
-    System.out.println(wallets);
+    List<BittrexBalance> balances = accountService.getBittrexBalances();
+    System.out.println(balances);
 
-    System.out.println(accountService.getBittrexDepositAddress("BTC"));
+    String depositAddress = accountService.getBittrexDepositAddress("BTC");
+    System.out.println(depositAddress);
 
+    BittrexBalance balance = accountService.getBittrexBalance(Currency.getInstance("BCC"));
+    System.out.println(balance);
   }
 }

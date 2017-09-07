@@ -36,7 +36,7 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(BittrexAdapters.adaptWallet(getBittrexAccountInfo()));
+    return new AccountInfo(BittrexAdapters.adaptWallet(getBittrexBalances()));
   }
 
   @Override

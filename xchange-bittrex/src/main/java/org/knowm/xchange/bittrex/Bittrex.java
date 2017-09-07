@@ -10,9 +10,10 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrenciesResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepthResponse;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummariesResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbolsResponse;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummaryResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTickerResponse;
-import org.knowm.xchange.bittrex.dto.marketdata.BittrexTickersResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTradesResponse;
 
 @Path("v1.1")
@@ -20,12 +21,16 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexTradesResponse;
 public interface Bittrex {
 
   @GET
-  @Path("public/getmarketsummary/")
+  @Path("/public/getticker")
   BittrexTickerResponse getTicker(@QueryParam("market") String market) throws IOException;
 
   @GET
+  @Path("public/getmarketsummary/")
+  BittrexMarketSummaryResponse getMarketSummary(@QueryParam("market") String market) throws IOException;
+
+  @GET
   @Path("public/getmarketsummaries/")
-  BittrexTickersResponse getTickers() throws IOException;
+  BittrexMarketSummariesResponse getMarketSummaries() throws IOException;
 
   @GET
   @Path("public/getorderbook/")

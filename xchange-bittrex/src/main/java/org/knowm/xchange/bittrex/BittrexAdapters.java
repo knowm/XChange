@@ -11,8 +11,8 @@ import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
-import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.trade.BittrexLimitOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
@@ -123,16 +123,16 @@ public final class BittrexAdapters {
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static Ticker adaptTicker(BittrexTicker bittrexTicker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(BittrexMarketSummary marketSummary, CurrencyPair currencyPair) {
 
-    BigDecimal last = bittrexTicker.getLast();
-    BigDecimal bid = bittrexTicker.getBid();
-    BigDecimal ask = bittrexTicker.getAsk();
-    BigDecimal high = bittrexTicker.getHigh();
-    BigDecimal low = bittrexTicker.getLow();
-    BigDecimal volume = bittrexTicker.getVolume();
+    BigDecimal last = marketSummary.getLast();
+    BigDecimal bid = marketSummary.getBid();
+    BigDecimal ask = marketSummary.getAsk();
+    BigDecimal high = marketSummary.getHigh();
+    BigDecimal low = marketSummary.getLow();
+    BigDecimal volume = marketSummary.getVolume();
 
-    Date timestamp = BittrexUtils.toDate(bittrexTicker.getTimeStamp());
+    Date timestamp = BittrexUtils.toDate(marketSummary.getTimeStamp());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
@@ -149,6 +149,12 @@ public final class BittrexAdapters {
     }
 
     return new Wallet(wallets);
+  }
+
+  public static Balance adaptBalance(BittrexBalance balance) {
+    return new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(), balance.getAvailable(),
+        balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+        balance.getPending());
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {
