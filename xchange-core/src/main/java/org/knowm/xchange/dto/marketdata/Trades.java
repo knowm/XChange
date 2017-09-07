@@ -22,8 +22,8 @@ public class Trades {
   /**
    * Constructor
    *
-   * @param trades
-   * @param tradeSortType
+   * @param trades List of trades
+   * @param tradeSortType Trade sort type
    */
   public Trades(List<Trade> trades, TradeSortType tradeSortType) {
 
@@ -33,8 +33,8 @@ public class Trades {
   /**
    * Constructor
    *
-   * @param trades The list of trades
-   * @param lastID
+   * @param trades A list of trades
+   * @param lastID Last Unique ID
    */
   public Trades(List<Trade> trades, long lastID, TradeSortType tradeSortType) {
 
