@@ -30,10 +30,10 @@ public class CurrencyPairMetaData {
   /**
    * Constructor
    *
-   * @param tradingFee
-   * @param minimumAmount
-   * @param maximumAmount
-   * @param priceScale
+   * @param tradingFee Trading fee (fraction)
+   * @param minimumAmount Minimum trade amount
+   * @param maximumAmount Maximum trade amount
+   * @param priceScale Price scale
    */
   public CurrencyPairMetaData(@JsonProperty("trading_fee") BigDecimal tradingFee, @JsonProperty("min_amount") BigDecimal minimumAmount,
       @JsonProperty("max_amount") BigDecimal maximumAmount, @JsonProperty("price_scale") Integer priceScale) {
