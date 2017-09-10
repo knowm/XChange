@@ -20,7 +20,7 @@ public class BitstampErrorDeserializer extends JsonDeserializer<String> {
     } else if (node.isObject()) {
       JsonNode allNode = node.get("__all__");
       if (allNode != null && allNode.isArray()) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (JsonNode msgNode : allNode) {
           buf.append(msgNode.textValue());
           buf.append(",");
