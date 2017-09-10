@@ -24,7 +24,7 @@ import si.mazi.rescu.HttpStatusIOException;
  * Test ignored in default build because it requires production authentication credentials. See {@link BaseAuthenticatedServiceTest}.
  */
 @Ignore
-public class HitbtcAccountServiceRawTest extends BaseAuthenticatedServiceTest {
+public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedServiceTest {
 
   @Rule
   public final ExpectedException exception = ExpectedException.none();

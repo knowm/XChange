@@ -11,7 +11,7 @@ import org.knowm.xchange.hitbtc.v2.BaseServiceTest;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class HitbtcMarketDataServiceRawTest extends BaseServiceTest {
+public class HitbtcMarketDataServiceRawIntegration extends BaseServiceTest {
 
   @Test
   public void testGetHitbtcSymbols() throws IOException {

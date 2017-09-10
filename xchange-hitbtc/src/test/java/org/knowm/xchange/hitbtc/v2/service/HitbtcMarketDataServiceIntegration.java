@@ -13,7 +13,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.hitbtc.v2.BaseServiceTest;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class HitbtcMarketDataServiceTest extends BaseServiceTest {
+public class HitbtcMarketDataServiceIntegration extends BaseServiceTest {
 
   @Test
   public void testGetTicker() throws IOException {
