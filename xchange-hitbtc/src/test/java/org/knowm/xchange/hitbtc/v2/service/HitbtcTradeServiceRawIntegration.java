@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
  * Test ignored in default build because it requires production authentication credentials. See {@link BaseAuthenticatedServiceTest}.
  */
 @Ignore
-public class HitbtcTradeServiceRawTest extends BaseAuthenticatedServiceTest {
+public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTest {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(HitbtcTradeServiceRawTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(HitbtcTradeServiceRawIntegration.class);
 
   private HitbtcTradeServiceRaw service = (HitbtcTradeServiceRaw) exchange.getTradeService();
 

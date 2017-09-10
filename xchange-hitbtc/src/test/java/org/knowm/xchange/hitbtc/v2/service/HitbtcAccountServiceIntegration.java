@@ -14,7 +14,7 @@ import org.knowm.xchange.hitbtc.v2.BaseAuthenticatedServiceTest;
  * Test ignored in default build because it requires production authentication credentials. See {@link BaseAuthenticatedServiceTest}.
  */
 @Ignore
-public class HitbtcAccountServiceTest extends BaseAuthenticatedServiceTest {
+public class HitbtcAccountServiceIntegration extends BaseAuthenticatedServiceTest {
 
   private HitbtcAccountService service = (HitbtcAccountService) exchange.getAccountService();
 
