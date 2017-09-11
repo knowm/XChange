@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 public class ISO8601DateDeserializer extends JsonDeserializer<Date> {
 
   @Override
-  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException {
 
     return DateUtils.fromISO8601DateString(jp.getValueAsString());
   }
