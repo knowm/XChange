@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.2.2-SNAPSHOT</version>
+        <version>4.2.3-SNAPSHOT</version>
     </parent>
     <artifactId>xchange-yobit</artifactId>
     <name>XChange YoBit</name>
@@ -23,6 +23,13 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- For Joining Strings -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -12,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
+import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccounts;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
@@ -33,6 +34,12 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
   @Path("/account")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesAccount account(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+  @POST
+  @Path("/accounts")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  CryptoFacilitiesAccounts accounts(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST

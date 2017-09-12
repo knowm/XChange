@@ -31,8 +31,7 @@ System.out.println(ticker.toString());
 
 To use the private API services, `AccountService` and `TradeService`, create an `ExchangeSpecification` with a unique API key and secret key (in some
 cases more info is required), which you obtain through the exchange's web interface. For more examples of adding the keys to the
-`ExchangeSpecification` including storing them in a configuration file, see [Frequently Asked Questions](https://github
-.com/timmolter/XChange/wiki/Frequently-Asked-Questions).
+`ExchangeSpecification` including storing them in a configuration file, see [Frequently Asked Questions](https://github.com/timmolter/XChange/wiki/Frequently-Asked-Questions).
 
 ```java
 ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
@@ -101,17 +100,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>4.2.1</version>
+      <version>4.2.2</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>4.2.1</version>
+      <version>4.2.2</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
-      <version>4.2.1</version>
+      <version>4.2.2</version>
     </dependency>
 
 For snapshots, add the following repository to your pom.xml file.
@@ -124,7 +123,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.2.2-SNAPSHOT
+    4.2.3-SNAPSHOT
     
 ## Building with Maven
 

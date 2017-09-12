@@ -129,7 +129,7 @@ public final class BitfinexAdapters {
 
     /**
      * Constructor
-     * 
+     *
      * @param timestamp
      * @param limitOrders
      */

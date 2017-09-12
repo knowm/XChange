@@ -122,7 +122,7 @@ public interface BTCEAuthenticated extends BTCE {
   enum SortOrder {
     ASC, DESC
   }
-  
+
   /**
    * POST to retrieve order info from BTCE exchange.
    *

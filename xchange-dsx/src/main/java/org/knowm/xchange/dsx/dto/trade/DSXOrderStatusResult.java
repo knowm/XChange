@@ -74,15 +74,15 @@ public class DSXOrderStatusResult {
   @Override
   public String toString() {
     return "DSXOrderStatusResult{" +
-      "pair='" + pair + '\'' +
-      ", type='" + type + '\'' +
-      ", remainingVolume=" + remainingVolume +
-      ", volume=" + volume +
-      ", rate=" + rate +
-      ", timestampCreated=" + timestampCreated +
-      ", status=" + status +
-      ", orderType='" + orderType + '\'' +
-      ", deals=" + Arrays.toString(deals) +
-      '}';
+        "pair='" + pair + '\'' +
+        ", type='" + type + '\'' +
+        ", remainingVolume=" + remainingVolume +
+        ", volume=" + volume +
+        ", rate=" + rate +
+        ", timestampCreated=" + timestampCreated +
+        ", status=" + status +
+        ", orderType='" + orderType + '\'' +
+        ", deals=" + Arrays.toString(deals) +
+        '}';
   }
 }

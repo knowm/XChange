@@ -1,15 +1,16 @@
 package org.knowm.xchange.jubi.service;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.jubi.Jubi;
 import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
 import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
-import si.mazi.rescu.RestProxyFactory;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * Created by Yingzhe on 3/17/2015.
@@ -46,8 +47,8 @@ public class JubiMarketDataServiceRaw extends JubiBaseService {
   }
 
   public JubiTrade[] getJubiTrades(CurrencyPair currencyPair, Object[] args) throws IOException {
-    return  (args != null && args.length > 0 && args[0] != null && args[0] instanceof Long)
-            ? jubi.getTradesSince(currencyPair.base.getCurrencyCode().toLowerCase(), (Long) args[0])
-            : jubi.getTrades(currencyPair.base.getCurrencyCode().toLowerCase());
+    return (args != null && args.length > 0 && args[0] != null && args[0] instanceof Long)
+        ? jubi.getTradesSince(currencyPair.base.getCurrencyCode().toLowerCase(), (Long) args[0])
+        : jubi.getTrades(currencyPair.base.getCurrencyCode().toLowerCase());
   }
 }

@@ -43,13 +43,13 @@ public class CoinmateTickerData {
 
   @JsonCreator
   public CoinmateTickerData(
-          @JsonProperty("last") BigDecimal last,
-          @JsonProperty("high") BigDecimal high,
-          @JsonProperty("low") BigDecimal low,
-          @JsonProperty("amount") BigDecimal amount,
-          @JsonProperty("bid") BigDecimal bid,
-          @JsonProperty("ask") BigDecimal ask,
-          @JsonProperty("timestamp") long timestamp) {
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("timestamp") long timestamp) {
 
     this.last = last;
     this.high = high;

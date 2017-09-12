@@ -3,12 +3,12 @@
     "BTC/USD": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.001500000
+      "min_amount": 0.010000000
     },
     "BTC/EUR": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.001500000
+      "min_amount": 0.010000000
     },
     "EUR/USD": {
       "price_scale": 2,
@@ -18,17 +18,17 @@
     "XRP/USD": {
       "price_scale": 5,
       "trading_fee": 0.0025,
-      "min_amount": 40.0000000
+      "min_amount": 200.0000000
     },
     "XRP/EUR": {
       "price_scale": 5,
       "trading_fee": 0.0025,
-      "min_amount": 40.0000000
+      "min_amount": 200.0000000
     },
     "XRP/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
-      "min_amount": 40.0000000
+      "min_amount": 200.0000000
     },
     "LTC/USD": {
       "price_scale": 2,
@@ -47,18 +47,18 @@
     },
     "ETH/EUR": {
       "price_scale": 2,
-      "trading_fee": 0.0000,
-      "min_amount": 0.02000000
+      "trading_fee": 0.0025,
+      "min_amount": 5
     },
     "ETH/USD": {
       "price_scale": 2,
-      "trading_fee": 0.0000,
-      "min_amount": 0.02000000
+      "trading_fee": 0.0025,
+      "min_amount": 5
     },
     "ETH/BTC": {
       "price_scale": 8,
-      "trading_fee": 0.0000,
-      "min_amount": 0.02000000
+      "trading_fee": 0.0025,
+      "min_amount": 5
     }
   },
   "currencies": {
@@ -79,7 +79,7 @@
     },
     "ETH": {
       "scale": 8
-    }    
+    }
   },
   "private_rate_limits": [
     {

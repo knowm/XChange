@@ -1,13 +1,13 @@
 package org.knowm.xchange.kraken.dto.trade;
 
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.IOrderFlags;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.IOrderFlags;
 
 public class KrakenStandardOrder {
 

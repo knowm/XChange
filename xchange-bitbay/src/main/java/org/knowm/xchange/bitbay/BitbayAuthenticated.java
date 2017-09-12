@@ -3,6 +3,7 @@ package org.knowm.xchange.bitbay;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -75,4 +76,8 @@ public interface BitbayAuthenticated {
   List<BitbayOrder> orders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("moment") SynchronizedValueFactory<Long> timestamp) throws IOException;
 
+  @POST
+  @FormParam("method")
+  List<Map> history(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("limit") int limit);
 }

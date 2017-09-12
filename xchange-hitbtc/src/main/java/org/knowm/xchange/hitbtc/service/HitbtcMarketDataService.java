@@ -13,8 +13,9 @@ import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades.HitbtcTradesSortFiel
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * @author kpysniak
+ * Deprecated -- Please migrate to org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataService
  */
+@Deprecated
 public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implements MarketDataService {
 
   /**
@@ -42,9 +43,9 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    if (args.length == 0)
+    if (args == null || args.length == 0) {
       return HitbtcAdapters.adaptTrades(getHitbtcTradesRecent(currencyPair, 1000), currencyPair);
-
+    }
     long from = (Long) args[0]; // <trade_id> or <timestamp>
     HitbtcTradesSortField sortBy = (HitbtcTradesSortField) args[1]; // "trade_id" or "timestamp"
     HitbtcTradesSortDirection sortDirection = (HitbtcTradesSortDirection) args[2]; // "asc" or "desc"

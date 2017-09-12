@@ -27,7 +27,6 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
   }
 
   /**
-   *
    * @param pairs String of currency pairs to retrieve (e.g. "btcusd-btceur")
    * @return DSXTickerWrapper object
    * @throws IOException

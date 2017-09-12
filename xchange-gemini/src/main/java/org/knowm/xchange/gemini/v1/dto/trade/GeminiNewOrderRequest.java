@@ -3,8 +3,8 @@ package org.knowm.xchange.gemini.v1.dto.trade;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GeminiNewOrderRequest {
 
@@ -34,7 +34,7 @@ public class GeminiNewOrderRequest {
 
   @JsonProperty("options")
   protected Object[] options;
-  
+
   /**
    * Constructor
    *
@@ -106,7 +106,7 @@ public class GeminiNewOrderRequest {
 
   @JsonInclude(Include.NON_NULL)
   public Object[] getOptions() {
-    
+
     return options;
   }
 }

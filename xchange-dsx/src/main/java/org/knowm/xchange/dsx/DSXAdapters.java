@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
 public class DSXAdapters {
 
   private static final Logger log = LoggerFactory.getLogger(DSXAdapters.class);
+
   private DSXAdapters() {
 
   }
@@ -111,16 +112,16 @@ public class DSXAdapters {
 
   public static Wallet adaptWallet(DSXAccountInfo dsxAccountInfo) {
     List<Balance> balances = new ArrayList<>();
-    for (Entry<String, DSXCurrencyAmount> e: dsxAccountInfo.getFunds().entrySet()) {
-        String currency = e.getKey();
-        BigDecimal total = e.getValue().getTotal();
-        BigDecimal available =  e.getValue().getAvailable();
-        if (available == null) {
-            available = total;
-        }
-        balances.add(new Balance(Currency.getInstance(currency), total, available));
+    for (Entry<String, DSXCurrencyAmount> e : dsxAccountInfo.getFunds().entrySet()) {
+      String currency = e.getKey();
+      BigDecimal total = e.getValue().getTotal();
+      BigDecimal available = e.getValue().getAvailable();
+      if (available == null) {
+        available = total;
+      }
+      balances.add(new Balance(Currency.getInstance(currency), total, available));
     }
-    
+
     return new Wallet(balances);
   }
 

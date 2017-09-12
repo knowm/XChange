@@ -9,11 +9,11 @@ import org.knowm.xchange.itbit.v1.ItBitExchange;
  * Created by joseph on 6/15/17.
  */
 public class ItBitDemoUtils {
-    public static Exchange createExchange() {
-        ExchangeSpecification exSpec = new ItBitExchange().getDefaultExchangeSpecification();
-        exSpec.setUserName("userId/walletId");
-        exSpec.setApiKey("xxx");
-        exSpec.setSecretKey("xxx");
-        return ExchangeFactory.INSTANCE.createExchange(exSpec);
-    }
+  public static Exchange createExchange() {
+    ExchangeSpecification exSpec = new ItBitExchange().getDefaultExchangeSpecification();
+    exSpec.setUserName("userId/walletId");
+    exSpec.setApiKey("xxx");
+    exSpec.setSecretKey("xxx");
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
+  }
 }

@@ -13,13 +13,13 @@ public class CurrencyPairMetaData {
   private final BigDecimal tradingFee;
 
   /**
-   * Minimum trade amount, the scale indicates price step
+   * Minimum trade amount
    */
   @JsonProperty("min_amount")
   private final BigDecimal minimumAmount;
 
   /**
-   * Minimum trade amount, the scale indicates price step
+   * Maximum trade amount
    */
   @JsonProperty("max_amount")
   private final BigDecimal maximumAmount;
@@ -30,10 +30,10 @@ public class CurrencyPairMetaData {
   /**
    * Constructor
    *
-   * @param tradingFee
-   * @param minimumAmount
-   * @param maximumAmount
-   * @param priceScale
+   * @param tradingFee Trading fee (fraction)
+   * @param minimumAmount Minimum trade amount
+   * @param maximumAmount Maximum trade amount
+   * @param priceScale Price scale
    */
   public CurrencyPairMetaData(@JsonProperty("trading_fee") BigDecimal tradingFee, @JsonProperty("min_amount") BigDecimal minimumAmount,
       @JsonProperty("max_amount") BigDecimal maximumAmount, @JsonProperty("price_scale") Integer priceScale) {

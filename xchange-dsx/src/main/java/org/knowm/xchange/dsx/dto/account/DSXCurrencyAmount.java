@@ -16,7 +16,8 @@ public class DSXCurrencyAmount {
   }
 
   // constructor for correct json parsing
-  public DSXCurrencyAmount() {}
+  public DSXCurrencyAmount() {
+  }
 
   public BigDecimal getTotal() {
     return total;

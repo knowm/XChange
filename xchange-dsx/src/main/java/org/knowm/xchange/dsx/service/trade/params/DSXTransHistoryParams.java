@@ -1,5 +1,7 @@
 package org.knowm.xchange.dsx.service.trade.params;
 
+import java.util.Date;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
@@ -7,8 +9,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-
-import java.util.Date;
 
 public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrency, TradeHistoryParamsSorted, TradeHistoryParamLimit {
 
@@ -40,71 +40,71 @@ public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHis
 
   @Override
   public void setStartId(String startId) {
-      this.startId = startId;
+    this.startId = startId;
   }
 
   @Override
   public void setLimit(Integer limit) {
-      this.limit = limit;
+    this.limit = limit;
   }
 
   @Override
   public Integer getLimit() {
-      return limit;
+    return limit;
   }
 
   @Override
   public String getStartId() {
-      return startId;
+    return startId;
   }
 
   @Override
   public void setEndId(String endId) {
-      this.endId = endId;
+    this.endId = endId;
   }
 
   @Override
   public String getEndId() {
-      return endId;
+    return endId;
   }
 
   @Override
   public void setStartTime(Date startTime) {
-      this.startTime = startTime;
+    this.startTime = startTime;
   }
 
   @Override
   public Date getStartTime() {
-      return startTime;
+    return startTime;
   }
 
   @Override
   public void setEndTime(Date endTime) {
-      this.endTime = endTime;
+    this.endTime = endTime;
   }
 
   @Override
   public Date getEndTime() {
-      return endTime;
+    return endTime;
   }
 
   @Override
   public Order getOrder() {
-      return order;
+    return order;
   }
 
   @Override
   public void setOrder(Order order) {
-      this.order = order;
+    this.order = order;
   }
 
   @Override
   public void setCurrency(Currency currency) {
-      this.currency = currency;
+    this.currency = currency;
   }
 
   @Override
   public Currency getCurrency() {
-      return currency;
+    return currency;
   }
 }

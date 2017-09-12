@@ -1,9 +1,15 @@
 {
   "currency_pairs": {
     "BTC/CNY": {
+      "min_amount": 0.01,
       "price_scale": 2
     },
     "LTC/CNY": {
+      "min_amount": 0.1,
+      "price_scale": 2
+    },
+    "ETH/CNY": {
+      "min_amount": 0.01,
       "price_scale": 2
     }
   },

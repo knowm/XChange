@@ -1,11 +1,39 @@
 {
   "currency_pairs": {
-    "BTC/USD": {},
-    "BTC/EUR": {},
-    "BTC/HKD": {},
-    "ETH/BTC": {},
-    "ETH/EUR": {},
-    "REP/BTC": {}
+    "BTC/USD": {
+      "price_scale": 2
+    },
+    "ETH/USD": {
+      "price_scale": 2
+    },
+    "BTC/EUR": {
+      "price_scale": 2
+    },
+    "BTC/HKD": {
+      "price_scale": 8
+    },
+    "ETH/BTC": {
+      "price_scale": 8
+    },
+    "ETH/EUR": {
+      "price_scale": 2
+    },
+    "REP/BTC": {
+      "price_scale": 8
+    },
+    "DGD/BTC": {
+      "price_scale": 8
+    }
   },
-  "currencies": {}
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "USD": {
+      "scale": 2
+    }
+  }
 }

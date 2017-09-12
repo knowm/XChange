@@ -78,7 +78,7 @@ public final class Wallet {
    */
   public Wallet(String id, Balance... balances) {
 
-    this(id, null, (Collection<Balance>) Arrays.asList(balances));
+    this(id, null, Arrays.asList(balances));
   }
 
   /**

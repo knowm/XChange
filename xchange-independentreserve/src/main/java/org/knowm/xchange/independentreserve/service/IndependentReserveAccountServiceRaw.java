@@ -51,20 +51,20 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
     }
     return independentReserveBalance;
   }
-  
-    public IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse synchDigitalCurrencyDepositAddressWithBlockchain(String depositAddress) throws IOException {
-        Long nonce = exchange.getNonceFactory().createValue();
-        String apiKey = exchange.getExchangeSpecification().getApiKey();
-        IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest req = new IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest(apiKey, nonce, depositAddress);
-        req.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.SYNCH_DIGITAL_CURRENCY_DEPOSIT_ADDRESS_WITH_BLOCKCHAIN, nonce, req.getParameters()));
-        return independentReserveAuthenticated.synchDigitalCurrencyDepositAddressWithBlockchain(req);
-    }
-    
-    public void withdrawDigitalCurrency(BigDecimal amount, String withdrawalAddress, String comment) throws IndependentReserveHttpStatusException, IOException {
-        Long nonce = exchange.getNonceFactory().createValue();
-        IndependentReserveWithdrawDigitalCurrencyRequest req = new IndependentReserveWithdrawDigitalCurrencyRequest(exchange.getExchangeSpecification().getApiKey()
-                , nonce, amount, withdrawalAddress, comment);
-        req.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.WithdrawDigitalCurrency, nonce, req.getParameters()));
-        Object withdrawDigitalCurrency = independentReserveAuthenticated.withdrawDigitalCurrency(req);
-    }
+
+  public IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse synchDigitalCurrencyDepositAddressWithBlockchain(String depositAddress) throws IOException {
+    Long nonce = exchange.getNonceFactory().createValue();
+    String apiKey = exchange.getExchangeSpecification().getApiKey();
+    IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest req = new IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest(apiKey, nonce, depositAddress);
+    req.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.SYNCH_DIGITAL_CURRENCY_DEPOSIT_ADDRESS_WITH_BLOCKCHAIN, nonce, req.getParameters()));
+    return independentReserveAuthenticated.synchDigitalCurrencyDepositAddressWithBlockchain(req);
+  }
+
+  public void withdrawDigitalCurrency(BigDecimal amount, String withdrawalAddress, String comment) throws IndependentReserveHttpStatusException, IOException {
+    Long nonce = exchange.getNonceFactory().createValue();
+    IndependentReserveWithdrawDigitalCurrencyRequest req = new IndependentReserveWithdrawDigitalCurrencyRequest(exchange.getExchangeSpecification().getApiKey()
+        , nonce, amount, withdrawalAddress, comment);
+    req.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.WithdrawDigitalCurrency, nonce, req.getParameters()));
+    Object withdrawDigitalCurrency = independentReserveAuthenticated.withdrawDigitalCurrency(req);
+  }
 }

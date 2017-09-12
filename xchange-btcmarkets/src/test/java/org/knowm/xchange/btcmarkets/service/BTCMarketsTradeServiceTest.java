@@ -1,15 +1,12 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,26 +14,16 @@ import org.junit.runner.RunWith;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
-import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOpenOrdersAndTradeHistoryRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;

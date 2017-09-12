@@ -1,5 +1,9 @@
 package org.knowm.xchange.quoine.service;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,10 +27,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Matija Mazi
@@ -104,7 +104,7 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
 
     List<QuoineExecution> executions = executions(currencyPair, limit, pageNumber);
 
-    if(currencyPair == null)
+    if (currencyPair == null)
       throw new IllegalStateException("Need to specify TradeHistoryParamCurrencyPair");
 
     return new UserTrades(QuoineAdapters.adapt(executions, currencyPair), Trades.TradeSortType.SortByTimestamp);

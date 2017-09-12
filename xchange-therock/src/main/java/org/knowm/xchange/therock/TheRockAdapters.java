@@ -2,12 +2,12 @@ package org.knowm.xchange.therock;
 
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -33,7 +33,7 @@ import org.knowm.xchange.therock.dto.trade.TheRockOrders;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrade;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrades;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 public final class TheRockAdapters {
 

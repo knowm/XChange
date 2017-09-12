@@ -46,7 +46,7 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
     if (customHttpReadTimeout > 0) {
       rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
     }
-    
+
     kraken = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), rescuConfig);
     signatureCreator = KrakenDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

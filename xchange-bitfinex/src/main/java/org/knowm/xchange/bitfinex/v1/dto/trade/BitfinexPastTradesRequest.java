@@ -24,7 +24,7 @@ public class BitfinexPastTradesRequest {
    * Trades made after this timestamp won’t be returned.
    */
   @JsonProperty("until")
-  @JsonInclude(JsonInclude.Include.NON_NULL) 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   protected Long endTime;
 
   @JsonProperty("limit_trades")

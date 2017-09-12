@@ -136,7 +136,8 @@ public class BitbayAdapters {
 
     return new OpenOrders(result);
   }
- public static UserTrades adaptTradeHistory(List<BitbayOrder> orders) {
+
+  public static UserTrades adaptTradeHistory(List<BitbayOrder> orders) {
     List<UserTrade> result = new ArrayList<>();
 
     for (BitbayOrder order : orders) {
@@ -163,6 +164,7 @@ public class BitbayAdapters {
     return new LimitOrder(type, bitbayOrder.getAmount(), currencyPair, String.valueOf(bitbayOrder.getId()), date,
         bitbayOrder.getStartPrice().divide(bitbayOrder.getStartAmount()));
   }
+
   private static UserTrade createUserTrade(BitbayOrder bitbayOrder) {
     CurrencyPair currencyPair = new CurrencyPair(bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
     OrderType type = "ask".equals(bitbayOrder.getType()) ? OrderType.ASK : OrderType.BID;
@@ -176,10 +178,10 @@ public class BitbayAdapters {
     }
 
     return new UserTrade(type,
-            bitbayOrder.getAmount(),
-            currencyPair,
-            bitbayOrder.getCurrentPrice().divide(bitbayOrder.getStartAmount()),
-            date,
-            String.valueOf(bitbayOrder.getId()),  String.valueOf(bitbayOrder.getId()), null,null);
+        bitbayOrder.getAmount(),
+        currencyPair,
+        bitbayOrder.getCurrentPrice().divide(bitbayOrder.getStartAmount()),
+        date,
+        String.valueOf(bitbayOrder.getId()), String.valueOf(bitbayOrder.getId()), null, null);
   }
 }

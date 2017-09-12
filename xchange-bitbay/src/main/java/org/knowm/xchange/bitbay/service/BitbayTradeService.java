@@ -44,8 +44,6 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
     return BitbayAdapters.adaptOpenOrders(response);
   }
 
-
-
   @Override
   public String placeMarketOrder(
       MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
@@ -74,7 +72,7 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
       cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
     }
     return false;
-    
+
   }
 
   @Override

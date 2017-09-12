@@ -94,7 +94,7 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
     Collection<Order> orders = new ArrayList<>(orderIds.length);
 
     for (String orderId : orderIds) {
-      orders.add(GDAXAdapters.adaptOrder(orderId,  super.getOrder(orderId)));
+      orders.add(GDAXAdapters.adaptOrder(orderId, super.getOrder(orderId)));
     }
 
     return orders;

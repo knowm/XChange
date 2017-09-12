@@ -1,8 +1,8 @@
 package org.knowm.xchange.yobit.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BaseYoBitResponse {
   public final boolean success;
