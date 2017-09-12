@@ -259,7 +259,7 @@ public final class GeminiAdapters {
         status = OrderStatus.FILLED;
       }
 
-      LimitOrder limitOrder = new LimitOrder(orderType, order.getOriginalAmount(), currencyPair, String.valueOf(order.getId()),
+      LimitOrder limitOrder = new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()),
               timestamp, order.getPrice(), order.getAvgExecutionPrice(), order.getExecutedAmount(), status);
 
       limitOrders.add(limitOrder);
