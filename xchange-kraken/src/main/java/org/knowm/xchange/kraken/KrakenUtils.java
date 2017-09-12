@@ -71,27 +71,27 @@ public class KrakenUtils {
 		  if (currencyPairIn.length() == 6)
 		  {
 			  Currency base = new Currency(currencyPairIn.substring(0, 3));
-   		      if (base.getIso4217Currency() != null) 
+   		      if (base.getCommonlyUsedCurrency() != null) 
 			  {
-   		    	base = base.getIso4217Currency();
+   		    	base = base.getCommonlyUsedCurrency();
 			  }
 			  Currency counter = new Currency(currencyPairIn.substring(3,6));
-   		      if (counter.getIso4217Currency() != null) 
+   		      if (counter.getCommonlyUsedCurrency() != null) 
 			  {
-   		    	counter = counter.getIso4217Currency();
+   		    	counter = counter.getCommonlyUsedCurrency();
 			  }
 			  pair = new CurrencyPair(base, counter);
 		  } else if (currencyPairIn.length() == 7) 
 		  {
 			  Currency base = new Currency(currencyPairIn.substring(0, 4));
-   		      if (base.getIso4217Currency() != null) 
+   		      if (base.getCommonlyUsedCurrency() != null) 
 			  {
-   		    	base = base.getIso4217Currency();
+   		    	base = base.getCommonlyUsedCurrency();
 			  }
 			  Currency counter = new Currency(currencyPairIn.substring(4,7));
-   		      if (counter.getIso4217Currency() != null) 
+   		      if (counter.getCommonlyUsedCurrency() != null) 
 			  {
-   		    	counter = counter.getIso4217Currency();
+   		    	counter = counter.getCommonlyUsedCurrency();
 			  }
 			  pair = new CurrencyPair(base, counter);
 		  }

@@ -73,7 +73,7 @@ public class MarketOrder extends Order {
 
     public static Builder from(Order order) {
 
-      return (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp())
+      return (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getOriginalAmount()).timestamp(order.getTimestamp())
           .id(order.getId()).flags(order.getOrderFlags()).averagePrice(order.getAveragePrice()).orderStatus(order.getStatus());
     }
 
