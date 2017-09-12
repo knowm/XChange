@@ -102,10 +102,22 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     return remainingAmount;
   }
 
+  /**
+   * @return The remaining order amount
+   */
+  public BigDecimal getFilledAmount() {
+
+	if (remainingAmount != null)
+	{
+		return getOriginalAmount().min(remainingAmount);
+	}
+    return null;
+  }
+
   @Override
   public String toString() {
 
-    return "LimitOrder [limitPrice=" + limitPrice + ", remainigAmount=" + remainingAmount + ", " + super.toString() + "]";
+    return "LimitOrder [limitPrice=" + limitPrice + ", remainingAmount=" + remainingAmount + ", " + super.toString() + "]";
   }
 
   @Override
