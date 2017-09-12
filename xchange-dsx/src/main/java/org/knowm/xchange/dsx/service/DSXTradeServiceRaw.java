@@ -1,11 +1,15 @@
 package org.knowm.xchange.dsx.service;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dsx.DSXAuthenticatedV2;
 import org.knowm.xchange.dsx.dto.trade.DSXActiveOrdersReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersResult;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersReturn;
-import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderResult;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXFeesResult;
 import org.knowm.xchange.dsx.dto.trade.DSXFeesReturn;
@@ -20,11 +24,6 @@ import org.knowm.xchange.dsx.dto.trade.DSXTradeResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Mikhail Wall
@@ -123,7 +122,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
    * @param endId ID of the last trade of the selection
    * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
    * @param since Time from which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
-   * @param end 	Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param end Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
    * @param pair Currency pair
    * @return Map of trade history result
    * @throws IOException
@@ -170,6 +169,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
 
   /**
    * Get Map of order history from DSX exchange. All parameters are nullable
+   *
    * @param count Number of orders to display. Default value is 1000
    * @param fromId ID of the first order of the selection
    * @param endId ID of the last order of the selection

@@ -18,7 +18,7 @@ public class GDAXFillTest {
   public void unmarshalTest() throws IOException {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
-    
+
     InputStream is = getClass().getResourceAsStream("/trade/example-fills.json");
     GDAXFill[] fills = mapper.readValue(is, GDAXFill[].class);
 

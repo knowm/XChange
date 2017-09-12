@@ -30,6 +30,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Path("api")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
+@Deprecated
 public interface BitstampAuthenticated {
 
   /**
@@ -120,10 +121,9 @@ public interface BitstampAuthenticated {
   BitstampRippleDepositAddress getRippleDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
-
   @POST
   @Path("order_status/")
   public BitstampOrderStatusResponse getOrderStatus(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                                                    @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") int orderId) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") int orderId) throws BitstampException, IOException;
 
 }

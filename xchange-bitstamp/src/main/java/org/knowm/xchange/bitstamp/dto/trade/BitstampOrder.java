@@ -5,11 +5,11 @@ import java.util.Date;
 
 import org.knowm.xchange.bitstamp.BitstampUtils;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 /**
  * @author Matija Mazi

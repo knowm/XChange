@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.btce.v3.BTCEAuthenticated;
 import org.knowm.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import org.knowm.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
 import org.knowm.xchange.btce.v3.dto.account.BTCEWithDrawInfoReturn;

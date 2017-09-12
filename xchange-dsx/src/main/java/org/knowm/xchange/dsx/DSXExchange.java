@@ -63,7 +63,7 @@ public class DSXExchange extends BaseExchange implements Exchange {
       dsxExchangeInfo = marketDataService.getDSXInfo();
       exchangeMetaData = DSXAdapters.toMetaData(dsxExchangeInfo, dsxMetaData);
     } catch (Exception e) {
-      logger.warn("An exception occurred while loading the metadata");
+      logger.warn("An exception occurred while loading the metadata", e);
     }
   }
 

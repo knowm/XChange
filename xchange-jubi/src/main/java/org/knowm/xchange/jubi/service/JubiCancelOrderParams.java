@@ -1,9 +1,9 @@
 package org.knowm.xchange.jubi.service;
 
+import java.math.BigDecimal;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-
-import java.math.BigDecimal;
 
 /**
  * Created by Dzf on 2017/7/24.

@@ -1,7 +1,6 @@
 package org.knowm.xchange.gemini.v1.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -13,8 +12,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiNonceOnlyRequest;

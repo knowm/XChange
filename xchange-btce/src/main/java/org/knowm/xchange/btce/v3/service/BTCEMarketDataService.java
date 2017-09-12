@@ -51,7 +51,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements M
     String pairs = BTCEAdapters.getPair(currencyPair);
     BTCEDepthWrapper btceDepthWrapper = null;
 
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       Object arg0 = args[0];
       if (!(arg0 instanceof Integer) || ((Integer) arg0 < 1) || ((Integer) arg0 > FULL_SIZE)) {
         throw new ExchangeException("Orderbook size argument must be an Integer in the range: (1, 2000)!");

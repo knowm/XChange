@@ -41,7 +41,8 @@ public interface Gemini {
 
   @GET
   @Path("trades/{symbol}")
-  GeminiTrade[] getTrades(@PathParam("symbol") String symbol, @QueryParam("timestamp") long timestamp) throws IOException, GeminiException;
+  GeminiTrade[] getTrades(@PathParam("symbol") String symbol, @QueryParam("timestamp") long timestamp,
+      @QueryParam("limit_trades") int limit_trades) throws IOException, GeminiException;
 
   @GET
   @Path("lends/{currency}")

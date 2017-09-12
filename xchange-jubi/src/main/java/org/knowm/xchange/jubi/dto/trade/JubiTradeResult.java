@@ -1,9 +1,9 @@
 package org.knowm.xchange.jubi.dto.trade;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.math.BigDecimal;
 
 /**
  * Created by Dzf on 2017/7/16.
@@ -15,8 +15,8 @@ public class JubiTradeResult {
 
   @JsonCreator
   public JubiTradeResult(@JsonProperty("result") final boolean result,
-                         @JsonProperty("code") final int errorCode,
-                         @JsonProperty("id") final  BigDecimal id) {
+      @JsonProperty("code") final int errorCode,
+      @JsonProperty("id") final BigDecimal id) {
     this.success = result;
     this.errorCode = errorCode;
     this.id = id;

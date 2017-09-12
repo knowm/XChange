@@ -1,5 +1,9 @@
 package org.knowm.xchange.jubi.service.marketdata;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.util.Map;
+
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -9,10 +13,6 @@ import org.knowm.xchange.jubi.JubiExchange;
 import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
 import org.knowm.xchange.jubi.service.JubiMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.util.Map;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Created by Yingzhe on 3/17/2015.

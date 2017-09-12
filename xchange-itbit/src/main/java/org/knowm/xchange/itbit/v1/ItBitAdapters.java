@@ -1,6 +1,20 @@
 package org.knowm.xchange.itbit.v1;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -25,20 +39,7 @@ import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 public final class ItBitAdapters {
 
@@ -127,7 +128,7 @@ public final class ItBitAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
-    if(orders == null)
+    if (orders == null)
       return limitOrders;
 
     for (BigDecimal[] level : orders) {
@@ -139,7 +140,7 @@ public final class ItBitAdapters {
   }
 
   private static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderId, OrderType orderType,
-                                       Date timestamp) {
+      Date timestamp) {
 
     return new LimitOrder(orderType, amount, currencyPair, orderId, timestamp, price);
   }
@@ -233,12 +234,12 @@ public final class ItBitAdapters {
     return getCryptoFormat().format(amount);
   }
 
-  public static CurrencyPair adaptCurrencyPairToExchange(CurrencyPair currencyPair){
+  public static CurrencyPair adaptCurrencyPairToExchange(CurrencyPair currencyPair) {
     return new CurrencyPair(adaptCurrencyToExchange(currencyPair.base), adaptCurrencyToExchange(currencyPair.counter));
   }
 
-  public static Currency adaptCurrencyToExchange(Currency currency){
-    if (currency == Currency.BTC){
+  public static Currency adaptCurrencyToExchange(Currency currency) {
+    if (currency == Currency.BTC) {
       return currency.getIso4217Currency();
     }
     return currency;

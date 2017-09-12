@@ -143,9 +143,9 @@ public class BTCETradeServiceRaw extends BTCEBaseService {
   public BTCEOrderInfoResult getBTCEOrderInfo(Long orderId) throws IOException {
 
     BTCEOrderInfoReturn btceOrderInfo = btce.OrderInfo(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
-    
+
     checkResult(btceOrderInfo);
-    
+
     return btceOrderInfo.getReturnValue().values().iterator().next();
   }
 }

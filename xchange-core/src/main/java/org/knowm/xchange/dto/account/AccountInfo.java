@@ -38,7 +38,7 @@ public final class AccountInfo {
   public AccountInfo(Wallet... wallets) {
 
     // TODO when refactoring for separate feature interfaces, change this constructor to require at least two wallets
-    this(null, (BigDecimal) null, wallets);
+    this(null, null, wallets);
   }
 
   /**
@@ -46,7 +46,7 @@ public final class AccountInfo {
    */
   public AccountInfo(Collection<Wallet> wallets) {
 
-    this(null, (BigDecimal) null, wallets);
+    this(null, null, wallets);
   }
 
   /**

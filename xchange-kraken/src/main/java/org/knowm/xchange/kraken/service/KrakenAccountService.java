@@ -24,7 +24,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-import org.knowm.xchange.utils.DateUtils;
 
 public class KrakenAccountService extends KrakenAccountServiceRaw implements AccountService {
 
@@ -70,26 +69,19 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    String startTime = null;
-    String endTime = null;
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    Date startTime = null;
+    Date endTime = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
-      final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
-      if (timeSpanParam.getStartTime() != null) {
-        startTime = String.valueOf(DateUtils.toUnixTime(timeSpanParam.getStartTime()));
-      }
-      if (timeSpanParam.getEndTime() != null) {
-        endTime = String.valueOf(DateUtils.toUnixTime(timeSpanParam.getEndTime()));
-      }
+      TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+      startTime = timeSpanParam.getStartTime();
+      endTime = timeSpanParam.getEndTime();
     }
 
-    String offset = null;
+    Long offset = null;
     if (params instanceof TradeHistoryParamOffset) {
-      final TradeHistoryParamOffset offsetParam = (TradeHistoryParamOffset) params;
-      if (offsetParam.getOffset() != null) {
-        offset = String.valueOf(offsetParam.getOffset());
-      }
+      offset = ((TradeHistoryParamOffset) params).getOffset();
     }
 
     Currency[] currencies = null;

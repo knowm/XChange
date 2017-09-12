@@ -138,7 +138,7 @@ public class BTCEAdapterTest {
     assertThat(lastTrade.getFeeAmount()).isNull();
 
   }
-  
+
   @Test
   public void testOrderInfoAdapter() throws IOException {
 
@@ -150,10 +150,10 @@ public class BTCEAdapterTest {
     BTCEOrderInfoReturn bTCEOrderInfoReturn = mapper.readValue(is, BTCEOrderInfoReturn.class);
 
     Map<Long, BTCEOrderInfoResult> rv = bTCEOrderInfoReturn.getReturnValue();
-    
+
     assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
-    
-    LimitOrder order = BTCEAdapters.adaptOrderInfo("343152",rv.get(343152L));
+
+    LimitOrder order = BTCEAdapters.adaptOrderInfo("343152", rv.get(343152L));
 
     // verify all fields filled
     assertThat(order.getType()).isEqualTo(OrderType.ASK);

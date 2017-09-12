@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test DSXOrderbook JSON parsing
+ *
  * @author Mikhail Wall
  */
 public class DSXDepthJSONTest {

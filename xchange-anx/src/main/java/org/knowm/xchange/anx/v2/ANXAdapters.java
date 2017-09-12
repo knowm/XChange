@@ -1,5 +1,11 @@
 package org.knowm.xchange.anx.v2;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.anx.v2.dto.ANXValue;
 import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfo;
 import org.knowm.xchange.anx.v2.dto.account.ANXWallet;
@@ -25,12 +31,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Various adapters for converting from anx DTOs to XChange DTOs
@@ -72,7 +72,7 @@ public final class ANXAdapters {
    * @return
    */
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString,
-                                      String id, Date timestamp) {
+      String id, Date timestamp) {
 
     // place a limit order
     OrderType orderType = adaptSide(orderTypeString);
@@ -322,11 +322,11 @@ public final class ANXAdapters {
         date,
         currency,
         value.getValue(),
-        null,
+        entry.getTransactionId(),
         null,
         type,
         FundingRecord.Status.COMPLETE,
-        balance.getValue(),
+        balance == null ? null : balance.getValue(),
         null,
         null
     );

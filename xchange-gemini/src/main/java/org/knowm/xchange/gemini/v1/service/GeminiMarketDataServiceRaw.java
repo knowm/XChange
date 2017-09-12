@@ -71,10 +71,10 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
     }
   }
 
-  public GeminiTrade[] getGeminiTrades(String pair, long sinceTimestamp) throws IOException {
+  public GeminiTrade[] getGeminiTrades(String pair, long sinceTimestamp, int limitTrades) throws IOException {
 
     try {
-      GeminiTrade[] GeminiTrades = Gemini.getTrades(pair, sinceTimestamp);
+      GeminiTrade[] GeminiTrades = Gemini.getTrades(pair, sinceTimestamp, limitTrades);
       return GeminiTrades;
     } catch (GeminiException e) {
       throw new ExchangeException("Gemini returned an error", e);

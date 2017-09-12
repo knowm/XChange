@@ -45,7 +45,9 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
     String pairs = DSXAdapters.getPair(currencyPair);
     String accountType = null;
     try {
-      accountType = (String) args[0];
+      if (args != null) {
+        accountType = (String) args[0];
+      }
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no argument given.
     }
@@ -71,7 +73,9 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
 
     String accountType = null;
     try {
-      accountType = (String) args[0];
+      if (args != null) {
+        accountType = (String) args[0];
+      }
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no argument given.
     }
@@ -101,7 +105,9 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
     String pairs = DSXAdapters.getPair(currencyPair);
     int numberOfItems = -1;
     try {
-      numberOfItems = (Integer) args[0];
+      if (args != null) {
+        numberOfItems = (Integer) args[0]; //can this really be args[0] if we are also using args[0] as a string below??
+      }
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no argument given.
     }
@@ -109,7 +115,9 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
 
     String accountType = null;
     try {
-      accountType = (String) args[0];
+      if (args != null) {
+        accountType = (String) args[0];
+      }
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no argument given.
     }
