@@ -1,8 +1,8 @@
 package org.knowm.xchange.hitbtc.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcPaymentBalance {
 
@@ -25,8 +25,8 @@ public class HitbtcPaymentBalance {
   @Override
   public String toString() {
     return "HitbtcPaymentBalance{" +
-            "currencyCode='" + currencyCode + '\'' +
-            ", balance=" + balance +
-            '}';
+        "currencyCode='" + currencyCode + '\'' +
+        ", balance=" + balance +
+        '}';
   }
 }

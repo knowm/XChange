@@ -1,5 +1,8 @@
 package org.knowm.xchange.coinbase.dto.account;
 
+//NOTE: Order of imports matters. put fasterxml ones before xchange. Fails when compiling with Maven for some reason.
+// @formatter: off
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -21,7 +24,8 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-//NOTE: Order of imports matters. put fasterxml ones before xchange. Fails when compiling with Maven for some reason.
+// @formatter: on
+
 
 /**
  * @author jamespedwards42

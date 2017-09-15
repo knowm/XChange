@@ -1,11 +1,12 @@
 package org.knowm.xchange.coinfloor.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.Objects;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 
-import java.math.BigDecimal;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CoinfloorBalance {
   @JsonProperty("gbp_balance")

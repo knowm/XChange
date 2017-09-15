@@ -1,12 +1,13 @@
 package org.knowm.xchange.jubi.dto.trade;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.knowm.xchange.jubi.JubiUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.jubi.JubiUtils;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Created by Dzf on 2017/7/16.
@@ -21,11 +22,11 @@ public class JubiOrder {
   private final BigDecimal amountOutstanding;
 
   public JubiOrder(@JsonProperty("id") BigDecimal id,
-                   @JsonProperty("datetime") String datetime,
-                   @JsonProperty("type") @JsonDeserialize(using = JubiOrderType.JubiOrderTypeDeserializer.class) JubiOrderType type,
-                   @JsonProperty("price") BigDecimal price,
-                   @JsonProperty("amount_original") BigDecimal amountOriginal,
-                   @JsonProperty("amount_outstanding") BigDecimal amountOutstanding) {
+      @JsonProperty("datetime") String datetime,
+      @JsonProperty("type") @JsonDeserialize(using = JubiOrderType.JubiOrderTypeDeserializer.class) JubiOrderType type,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount_original") BigDecimal amountOriginal,
+      @JsonProperty("amount_outstanding") BigDecimal amountOutstanding) {
     this.id = id;
     this.datetime = JubiUtils.parseDate(datetime);
     this.type = type;
@@ -61,6 +62,6 @@ public class JubiOrder {
   @Override
   public String toString() {
     return String.format("JubiOrder{id=%s, datetime=%s, type=%s, price=%s, original amount=%s, outstanding amount=%s}",
-            id, datetime, type, price, amountOriginal, amountOutstanding);
+        id, datetime, type, price, amountOriginal, amountOutstanding);
   }
 }

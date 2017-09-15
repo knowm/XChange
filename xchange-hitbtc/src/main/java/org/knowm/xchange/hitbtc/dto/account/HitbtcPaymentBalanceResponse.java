@@ -1,9 +1,10 @@
 package org.knowm.xchange.hitbtc.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
+
 import org.knowm.xchange.hitbtc.dto.HitbtcBaseResponse;
 
-import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcPaymentBalanceResponse extends HitbtcBaseResponse {
 
@@ -20,7 +21,7 @@ public class HitbtcPaymentBalanceResponse extends HitbtcBaseResponse {
   @Override
   public String toString() {
     return "HitbtcPaymentBalanceResponse{" +
-            "balances=" + Arrays.toString(balances) +
-            '}';
+        "balances=" + Arrays.toString(balances) +
+        '}';
   }
 }

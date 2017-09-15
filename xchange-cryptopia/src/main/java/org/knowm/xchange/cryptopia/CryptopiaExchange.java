@@ -1,15 +1,22 @@
 package org.knowm.xchange.cryptopia;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTradePair;
+import org.knowm.xchange.cryptopia.service.CryptopiaAccountService;
 import org.knowm.xchange.cryptopia.service.CryptopiaMarketDataService;
 import org.knowm.xchange.cryptopia.service.CryptopiaMarketDataServiceRaw;
+import org.knowm.xchange.cryptopia.service.CryptopiaTradeService;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -17,10 +24,14 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class CryptopiaExchange extends BaseExchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private Map<CurrencyPair, CryptopiaTradePair> lookupByCcyPair;
+  private Map<Long, CryptopiaTradePair> lookupById;
 
   @Override
   protected void initServices() {
+    this.accountService = new CryptopiaAccountService(this);
     this.marketDataService = new CryptopiaMarketDataService(this);
+    this.tradeService = new CryptopiaTradeService(this);
   }
 
   @Override
@@ -45,6 +56,29 @@ public class CryptopiaExchange extends BaseExchange {
     List<CryptopiaCurrency> currencies = ((CryptopiaMarketDataServiceRaw) marketDataService).getCryptopiaCurrencies();
     List<CryptopiaTradePair> tradePairs = ((CryptopiaMarketDataServiceRaw) marketDataService).getCryptopiaTradePairs();
 
+    Map<CurrencyPair, CryptopiaTradePair> lookupByCcyPair = new HashMap<>();
+    Map<Long, CryptopiaTradePair> lookupById = new HashMap<>();
+    for (CryptopiaTradePair tradePair : tradePairs) {
+      lookupByCcyPair.put(CurrencyPairDeserializer.getCurrencyPairFromString(tradePair.getLabel()), tradePair);
+      lookupById.put(tradePair.getId(), tradePair);
+    }
+
+    this.lookupByCcyPair = lookupByCcyPair;
+    this.lookupById = lookupById;
+
     exchangeMetaData = CryptopiaAdapters.adaptToExchangeMetaData(currencies, tradePairs);
+  }
+
+  public Long tradePairId(CurrencyPair currencyPair) {
+    return lookupByCcyPair.get(currencyPair).getId();
+  }
+
+  public CryptopiaTradePair tradePair(Long id) {
+    return lookupById.get(id);
+  }
+
+  @Override
+  public AccountService getAccountService() {
+    return accountService;
   }
 }

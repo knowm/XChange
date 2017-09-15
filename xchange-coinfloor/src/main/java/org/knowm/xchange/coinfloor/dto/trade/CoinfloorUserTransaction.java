@@ -1,17 +1,18 @@
 package org.knowm.xchange.coinfloor.dto.trade;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Objects;
+
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Objects;
 
 public class CoinfloorUserTransaction {
   public String datetime = "";
@@ -125,6 +126,8 @@ public class CoinfloorUserTransaction {
       return Currency.ETH;
     } else if (bch.signum() != 0) {
       return Currency.BCH;
+    } else if (xrp.signum() != 0) {
+      return Currency.XRP;
     } else {
       return null;
     }
@@ -147,6 +150,14 @@ public class CoinfloorUserTransaction {
       }
     } else if (btc.signum() != 0) {
       return btc;
+    } else if (bch.signum() != 0) {
+      return bch;
+    } else if (xrp.signum() != 0) {
+      return xrp;
+    } else if (ltc.signum() != 0) {
+      return ltc;
+    } else if (eth.signum() != 0) {
+      return eth;
     } else if (gbp.signum() != 0) {
       return gbp;
     } else if (usd.signum() != 0) {

@@ -183,10 +183,19 @@ public class PoloniexAdapters {
     String orderId = String.valueOf(userTrade.getOrderNumber());
 
     // Poloniex returns fee as a multiplier, e.g. a 0.2% fee is 0.002
-    BigDecimal feeAmount = amount.multiply(price).multiply(userTrade.getFee());
+    // fee currency/size depends on trade direction (buy/sell). It appears to be rounded down
+    final BigDecimal feeAmount;
+    final String feeCurrencyCode;
+    if (orderType == OrderType.ASK) {
+      feeAmount = amount.multiply(price).multiply(userTrade.getFee()).setScale(8, BigDecimal.ROUND_DOWN);
+      feeCurrencyCode = currencyPair.counter.getCurrencyCode();
+    } else {
+      feeAmount = amount.multiply(userTrade.getFee()).setScale(8, BigDecimal.ROUND_DOWN);
+      feeCurrencyCode = currencyPair.base.getCurrencyCode();
+    }
 
     return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, feeAmount,
-        Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+        Currency.getInstance(feeCurrencyCode));
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(Map<String, PoloniexCurrencyInfo> poloniexCurrencyInfo,
@@ -199,7 +208,7 @@ public class PoloniexAdapters {
 
       Currency ccy = Currency.getInstance(entry.getKey());
 
-      if(!currencyMetaDataMap.containsKey(ccy))
+      if (!currencyMetaDataMap.containsKey(ccy))
         currencyMetaDataMap.put(ccy, currencyArchetype);
     }
 
@@ -209,7 +218,7 @@ public class PoloniexAdapters {
     for (String market : poloniexMarketData.keySet()) {
       CurrencyPair currencyPair = PoloniexUtils.toCurrencyPair(market);
 
-      if(!marketMetaDataMap.containsKey(currencyPair))
+      if (!marketMetaDataMap.containsKey(currencyPair))
         marketMetaDataMap.put(currencyPair, marketArchetype);
     }
 

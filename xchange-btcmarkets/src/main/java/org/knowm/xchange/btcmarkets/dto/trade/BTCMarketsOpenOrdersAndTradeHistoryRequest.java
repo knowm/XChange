@@ -8,19 +8,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"currency", "instrument", "limit", "since"})
 public class BTCMarketsOpenOrdersAndTradeHistoryRequest {
 
-    public final String currency;
-    public final String instrument;
-    public final Integer limit;
-    public final Long since;
+  public final String currency;
+  public final String instrument;
+  public final Integer limit;
+  public final Long since;
 
-    /**
-     * @see https://github.com/BTCMarkets/API/wiki/Trading-API#order-history & https://github.com/BTCMarkets/API/wiki/Trading-API#open-orders
-     * @param since the ascending trade id
-     */
-    public BTCMarketsOpenOrdersAndTradeHistoryRequest(String currency, String instrument, Integer limit, Long since) {
-        this.currency = currency;
-        this.instrument = instrument;
-        this.limit = limit;
-        this.since = since;
-    }
+  /**
+   * @param since the ascending trade id
+   * @see https://github.com/BTCMarkets/API/wiki/Trading-API#order-history & https://github.com/BTCMarkets/API/wiki/Trading-API#open-orders
+   */
+  public BTCMarketsOpenOrdersAndTradeHistoryRequest(String currency, String instrument, Integer limit, Long since) {
+    this.currency = currency;
+    this.instrument = instrument;
+    this.limit = limit;
+    this.since = since;
+  }
 }

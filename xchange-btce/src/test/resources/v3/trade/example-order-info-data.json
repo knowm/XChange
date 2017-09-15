@@ -4,7 +4,7 @@
     "343152": {
       "pair": "btc_usd",
       "type": "sell",
-      "start_amount": 2.00000000,      
+      "start_amount": 2.00000000,
       "amount": 1.00000000,
       "rate": 3.00000000,
       "timestamp_created": 1342448420,

@@ -21,49 +21,53 @@ import org.knowm.xchange.luno.dto.marketdata.LunoTrades;
 @Produces(MediaType.APPLICATION_JSON)
 public interface Luno {
 
-    /**
-     * Market data API calls can be accessed by anyone without authentication.
-     * @param pair required - Currency pair e.g. XBTZAR
-     * @return
-     * @throws IOException
-     * @throws LunoException
-     */
-    @GET
-    @Path("ticker")
-    LunoTicker ticker(@QueryParam("pair") String pair) throws IOException, LunoException;
+  /**
+   * Market data API calls can be accessed by anyone without authentication.
+   *
+   * @param pair required - Currency pair e.g. XBTZAR
+   * @return
+   * @throws IOException
+   * @throws LunoException
+   */
+  @GET
+  @Path("ticker")
+  LunoTicker ticker(@QueryParam("pair") String pair) throws IOException, LunoException;
 
-    /**
-     * Returns the latest ticker indicators from all active Luno exchanges.
-     * @return
-     * @throws IOException
-     * @throws LunoException
-     */
-    @GET
-    @Path("tickers")
-    LunoTickers tickers() throws IOException, LunoException;
+  /**
+   * Returns the latest ticker indicators from all active Luno exchanges.
+   *
+   * @return
+   * @throws IOException
+   * @throws LunoException
+   */
+  @GET
+  @Path("tickers")
+  LunoTickers tickers() throws IOException, LunoException;
 
-    /**
-     * Returns a list of bids and asks in the order book. Ask orders are sorted by price ascending. Bid orders are sorted by 
-     * price descending. Note that multiple orders at the same price are not necessarily conflated.
-     * @param pair required - Currency pair e.g. XBTZAR
-     * @return
-     * @throws IOException
-     * @throws LunoException
-     */
-    @GET
-    @Path("orderbook")
-    LunoOrderBook orderbook(@QueryParam("pair") String pair) throws IOException, LunoException;
-    
-    /**
-     * Returns a list of the most recent trades. At most 100 results are returned per call.
-     * @param pair required - Currency pair e.g. XBTZAR
-     * @param since optional - Fetch trades executed after this time, specified as a Unix timestamp in milliseconds.
-     * @return
-     * @throws IOException
-     * @throws LunoException
-     */
-    @GET
-    @Path("trades")
-    LunoTrades trades(@QueryParam("pair") String pair, @QueryParam("since") Long since) throws IOException, LunoException;
+  /**
+   * Returns a list of bids and asks in the order book. Ask orders are sorted by price ascending. Bid orders are sorted by
+   * price descending. Note that multiple orders at the same price are not necessarily conflated.
+   *
+   * @param pair required - Currency pair e.g. XBTZAR
+   * @return
+   * @throws IOException
+   * @throws LunoException
+   */
+  @GET
+  @Path("orderbook")
+  LunoOrderBook orderbook(@QueryParam("pair") String pair) throws IOException, LunoException;
+
+  /**
+   * Returns a list of the most recent trades. At most 100 results are returned per call.
+   *
+   * @param pair required - Currency pair e.g. XBTZAR
+   * @param since optional - Fetch trades executed after this time, specified as a Unix timestamp in milliseconds.
+   * @return
+   * @throws IOException
+   * @throws LunoException
+   */
+  @GET
+  @Path("trades")
+  LunoTrades trades(@QueryParam("pair") String pair, @QueryParam("since") Long since) throws IOException, LunoException;
 
 }

@@ -3,8 +3,6 @@ package org.knowm.xchange.btcmarkets.service;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
-import java.util.Date;
-
 import org.junit.Test;
 
 public class BTCMarketsTradeServiceHistoryParamsTest {

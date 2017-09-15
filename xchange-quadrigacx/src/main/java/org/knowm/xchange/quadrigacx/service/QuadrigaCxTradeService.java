@@ -1,5 +1,14 @@
 package org.knowm.xchange.quadrigacx.service;
 
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -26,15 +35,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements TradeService {
 
@@ -153,8 +153,8 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
 
     if (params instanceof TradeHistoryParamsSorted) {
       TradeHistoryParamsSorted.Order order = ((TradeHistoryParamsSorted) params).getOrder();
-      if(order != null) {
-        if(order.equals(TradeHistoryParamsSorted.Order.asc))
+      if (order != null) {
+        if (order.equals(TradeHistoryParamsSorted.Order.asc))
           sort = "asc";
         else
           sort = "desc";

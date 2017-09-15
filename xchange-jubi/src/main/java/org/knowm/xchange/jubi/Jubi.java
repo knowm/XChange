@@ -1,15 +1,16 @@
 package org.knowm.xchange.jubi;
 
-import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
-import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
+import java.io.IOException;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.Map;
+
+import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
+import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
 
 /**
  * Created by Yingzhe on 3/16/2015.

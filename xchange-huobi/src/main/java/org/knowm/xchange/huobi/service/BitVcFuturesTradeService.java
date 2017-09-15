@@ -17,7 +17,6 @@ import org.knowm.xchange.huobi.FuturesContract;
 import org.knowm.xchange.huobi.dto.trade.BitVcFuturesPlaceOrderResult;
 import org.knowm.xchange.huobi.dto.trade.BitVcFuturesPositionByContract;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;

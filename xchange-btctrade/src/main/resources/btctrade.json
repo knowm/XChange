@@ -1,12 +1,15 @@
 {
   "currency_pairs": {
-    "BTC/USD": {
+    "BTC/CNY": {
       "price_scale": 5
     },
-    "LTC/USD": {
+    "ETH/CNY": {
       "price_scale": 5
     },
-    "DOGE/USD": {
+    "LTC/CNY": {
+      "price_scale": 5
+    },
+    "DOGE/CNY": {
       "price_scale": 5
     }
   },

@@ -1,11 +1,11 @@
 package org.knowm.xchange.jubi.service;
 
+import java.util.Date;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-
-import java.util.Date;
 
 /**
  * Created by Dzf on 2017/7/18.
@@ -26,7 +26,7 @@ public class JubiTradeHistoryParams implements TradeHistoryParamCurrencyPair, Tr
 
   @Override
   public void setCurrencyPair(CurrencyPair pair) {
-    this.currencyPair =  currencyPair;
+    this.currencyPair = currencyPair;
   }
 
   @Override

@@ -2,6 +2,7 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
+import org.knowm.xchange.utils.DateUtils;
 
 /**
  * @author jamespedwards42
@@ -146,12 +148,21 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset,
+  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, Date start, Date end, Long offset,
       Currency... assets) throws IOException {
+    String startTime = null;
+    String endTime = null;
+
+    if (start != null) {
+      startTime = String.valueOf(DateUtils.toUnixTime(start));
+    }
+    if (end != null) {
+      endTime = String.valueOf(DateUtils.toUnixTime(end));
+    }
 
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();
 
-    KrakenLedgerResult ledgerResult = kraken.ledgers(null, delimitAssets(assets), ledgerTypeString, start, end, offset,
+    KrakenLedgerResult ledgerResult = kraken.ledgers(null, delimitAssets(assets), ledgerTypeString, startTime, endTime, offset,
         exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return checkResult(ledgerResult).getLedgerMap();
   }

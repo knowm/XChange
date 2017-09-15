@@ -210,27 +210,27 @@ public final class BTCEAdapters {
    * @return
    */
   public static LimitOrder adaptOrderInfo(String orderId, BTCEOrderInfoResult orderInfo) {
-      
+
     OrderType orderType = orderInfo.getType() == BTCEOrderInfoResult.Type.buy ? OrderType.BID : OrderType.ASK;
     BigDecimal price = orderInfo.getRate();
     Date timestamp = DateUtils.fromMillisUtc(orderInfo.getTimestampCreated() * 1000L);
     CurrencyPair currencyPair = adaptCurrencyPair(orderInfo.getPair());
     OrderStatus orderStatus = null;
     switch (orderInfo.getStatus()) {
-        case 0:
-            if (orderInfo.getAmount().compareTo(orderInfo.getStartAmount()) == 0){
-                orderStatus = OrderStatus.NEW;
-            } else {
-                orderStatus = OrderStatus.PARTIALLY_FILLED;
-            }
-            break;
-        case 1:
-            orderStatus = OrderStatus.FILLED;
-            break;
-        case 2:
-        case 3:
-            orderStatus = OrderStatus.CANCELED;
-            break;
+      case 0:
+        if (orderInfo.getAmount().compareTo(orderInfo.getStartAmount()) == 0) {
+          orderStatus = OrderStatus.NEW;
+        } else {
+          orderStatus = OrderStatus.PARTIALLY_FILLED;
+        }
+        break;
+      case 1:
+        orderStatus = OrderStatus.FILLED;
+        break;
+      case 2:
+      case 3:
+        orderStatus = OrderStatus.CANCELED;
+        break;
     }
 
     return new LimitOrder(orderType, orderInfo.getStartAmount(), currencyPair, orderId, timestamp, price, price, orderInfo.getStartAmount().subtract(orderInfo.getAmount()), orderStatus);

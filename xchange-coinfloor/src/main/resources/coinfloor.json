@@ -15,10 +15,17 @@
     "BCH/GBP": {
       "price_scale": 0,
       "min_amount": 0.00010000
+    },
+    "ETH/GBP": {
+      "price_scale": 0,
+      "min_amount": 0.00010000
     }
   },
   "currencies": {
     "BCH": {
+      "scale": 4
+    },
+    "ETH": {
       "scale": 4
     },
     "BTC": {

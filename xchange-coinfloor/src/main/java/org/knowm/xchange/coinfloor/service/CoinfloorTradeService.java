@@ -121,7 +121,7 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
       offset = null;
     }
 
-    TradeHistoryParamsSorted.Order sort = null;
+    TradeHistoryParamsSorted.Order sort;
     if (params instanceof TradeHistoryParamsSorted) {
       sort = ((TradeHistoryParamsSorted) params).getOrder();
     } else {

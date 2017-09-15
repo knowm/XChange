@@ -4,11 +4,11 @@ import org.knowm.xchange.quoine.dto.account.BitcoinAccount;
 import org.knowm.xchange.quoine.dto.account.FiatAccount;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountBalance;
 import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
+import org.knowm.xchange.quoine.dto.trade.QuoineExecutionsResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequestWrapper;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
-import org.knowm.xchange.quoine.dto.trade.QuoineExecutionsResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineTradesResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransactionsResponse;
 import si.mazi.rescu.ParamsDigest;
@@ -34,7 +34,7 @@ public interface QuoineAuthenticated extends Quoine {
   FiatAccount[] getFiatAccountInfo(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
                                    @HeaderParam("Content-Type") String contentType) throws IOException;
 
- @GET
+  @GET
   @Path("crypto_accounts")
   BitcoinAccount[] getCryptoAccountInfo(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
                                         @HeaderParam("Content-Type") String contentType) throws IOException;
@@ -83,7 +83,6 @@ public interface QuoineAuthenticated extends Quoine {
   @GET
   @Path("transactions")
   QuoineTransactionsResponse transactions(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer, @HeaderParam("Content-Type") String contentType,
-                                          @QueryParam("currency") String currency, @QueryParam("limit") Integer limit, @QueryParam("page") Integer page) throws IOException;
-
+                                          @QueryParam("currency") String currency, @QueryParam("transaction_type") String transactionType, @QueryParam("limit") Integer limit, @QueryParam("page") Integer page) throws IOException;
 
 }

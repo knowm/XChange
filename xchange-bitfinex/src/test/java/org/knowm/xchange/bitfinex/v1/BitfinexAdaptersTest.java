@@ -74,7 +74,7 @@ public class BitfinexAdaptersTest {
   /**
    * Create 60 {@link BitfinexLevel}s. The values increase as the array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1 day in
    * order to test the correct handling of the given timestamp.
-   * 
+   *
    * @return The generated responses.
    */
   private BitfinexLevel[] initLevels() {
@@ -115,7 +115,7 @@ public class BitfinexAdaptersTest {
   /**
    * Create 60 {@link BitfinexOrderStatusResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour
    * + 1 day in order to test the correct handling of the given timestamp.
-   * 
+   *
    * @return The generated responses.
    */
   private BitfinexOrderStatusResponse[] initOrderStatusResponses() {
@@ -165,7 +165,7 @@ public class BitfinexAdaptersTest {
   /**
    * Create 60 {@link BitfinexTradeResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1
    * day in order to test the correct handling of the given timestamp.
-   * 
+   *
    * @return The generated responses.
    */
   private BitfinexTradeResponse[] initTradeResponses() {

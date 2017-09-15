@@ -7,7 +7,6 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gdax.service.GDAXMarketDataServiceRaw;
 
-
 public class GDAXExchangeIntegration {
 
   @Test

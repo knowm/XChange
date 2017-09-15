@@ -111,7 +111,7 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
   }
 
   public List<QuoineTransaction> transactions(Currency currency, Integer limit, Integer page) throws IOException {
-    QuoineTransactionsResponse transactions = quoine.transactions(QUOINE_API_VERSION, signatureCreator, contentType, currency == null ? null : currency.getCurrencyCode(), limit, page);
+    QuoineTransactionsResponse transactions = quoine.transactions(QUOINE_API_VERSION, signatureCreator, contentType, currency == null ? null : currency.getCurrencyCode(), null, limit, page);
     return transactions.models;
   }
 

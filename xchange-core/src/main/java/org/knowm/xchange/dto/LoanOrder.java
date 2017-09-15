@@ -43,12 +43,12 @@ public class LoanOrder {
   /**
    * Constructor
    *
-   * @param type
-   * @param currency
-   * @param tradableAmount
-   * @param dayPeriod
-   * @param id
-   * @param timestamp - The timestamp on the order according to the exchange's server, null if not provided
+   * @param type Order type i.e. bid or ask
+   * @param currency The loan currency
+   * @param tradableAmount Amount to be ordered / amount that was ordered
+   * @param dayPeriod Duration of loan in days
+   * @param id An identifier that uniquely identifies the order
+   * @param timestamp The timestamp on the order according to the exchange's server, null if not provided
    */
   public LoanOrder(OrderType type, String currency, BigDecimal tradableAmount, int dayPeriod, String id, Date timestamp) {
 
@@ -155,10 +155,7 @@ public class LoanOrder {
     } else if (!tradableAmount.equals(other.tradableAmount)) {
       return false;
     }
-    if (type != other.type) {
-      return false;
-    }
-    return true;
+    return type == other.type;
   }
 
 }

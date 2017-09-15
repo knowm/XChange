@@ -1,11 +1,6 @@
 package org.knowm.xchange.jubi.dto.trade;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.jubi.JubiAdapters;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +8,13 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.jubi.JubiAdapters;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created by Dzf on 2017/7/16.

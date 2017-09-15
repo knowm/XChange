@@ -1,5 +1,7 @@
 package org.knowm.xchange.gdax.service;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -11,12 +13,10 @@ import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
 
@@ -43,7 +43,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
       GdaxTradeHistoryParams historyParams = (GdaxTradeHistoryParams) tradeHistoryParams;
       orderId = historyParams.txId;
       CurrencyPair currencyPair = historyParams.getCurrencyPair();
-      if(currencyPair != null) {
+      if (currencyPair != null) {
         productId = toProductId(currencyPair);
       }
       startingOrderId = historyParams.paginationOrderId;
@@ -53,7 +53,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
     } else if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
       TradeHistoryParamCurrencyPair ccyPairParams = (TradeHistoryParamCurrencyPair) tradeHistoryParams;
       CurrencyPair currencyPair = ccyPairParams.getCurrencyPair();
-      if(currencyPair != null) {
+      if (currencyPair != null) {
         productId = toProductId(currencyPair);
       }
     }

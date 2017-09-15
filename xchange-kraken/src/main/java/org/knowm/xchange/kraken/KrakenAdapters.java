@@ -2,6 +2,7 @@ package org.knowm.xchange.kraken;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -20,29 +21,12 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
-import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
-import org.knowm.xchange.kraken.dto.trade.KrakenUserTrade;
+import org.knowm.xchange.kraken.dto.marketdata.*;
+import org.knowm.xchange.kraken.dto.trade.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class KrakenAdapters {
 
@@ -191,12 +175,20 @@ public class KrakenAdapters {
 
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
-    BigDecimal tradableAmount = krakenOrder.getVolume().subtract(krakenOrder.getVolumeExecuted());
+    BigDecimal originalAmount = krakenOrder.getVolume();
+    BigDecimal filledAmount = krakenOrder.getVolumeExecuted();
     CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
-    return new LimitOrder(type, tradableAmount, pair, id, timestamp,
-        orderDescription.getPrice());
+    OrderStatus status = adaptOrderStatus(krakenOrder.getStatus());
+
+    if (status == OrderStatus.NEW && filledAmount.compareTo(BigDecimal.ZERO) > 0
+            && filledAmount.compareTo(originalAmount) < 0) {
+      status = OrderStatus.PARTIALLY_FILLED;
+    }
+
+    return new LimitOrder(type, originalAmount, pair, id, timestamp, orderDescription.getPrice(),
+            orderDescription.getPrice(), filledAmount, status);
   }
 
   public static UserTrades adaptTradesHistory(Map<String, KrakenTrade> krakenTrades) {
@@ -239,7 +231,7 @@ public class KrakenAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData originalMetaData, Map<String, KrakenAssetPair> krakenPairs,
-                                                         Map<String, KrakenAsset> krakenAssets) {
+      Map<String, KrakenAsset> krakenAssets) {
 
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
     // add assets before pairs to Utils!
@@ -299,5 +291,22 @@ public class KrakenAdapters {
       }
     }
     return fundingRecords;
+  }
+
+  public static OrderStatus adaptOrderStatus(KrakenOrderStatus status) {
+    switch (status) {
+      case PENDING:
+        return OrderStatus.PENDING_NEW;
+      case OPEN:
+        return OrderStatus.NEW;
+      case CLOSED:
+        return OrderStatus.FILLED;
+      case CANCELED:
+        return OrderStatus.CANCELED;
+      case EXPIRED:
+        return OrderStatus.EXPIRED;
+      default:
+        return null;
+    }
   }
 }

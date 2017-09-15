@@ -38,7 +38,7 @@ public class LakeBTCTradesDemo {
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {
     LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getMarketDataService();
-    BigDecimal[][] trades = marketDataService.getLakeBTCOrderBookCNY().getAsks();
+    BigDecimal[][] trades = marketDataService.getLakeOrderBook(CurrencyPair.BTC_CNY).getAsks();
 
     System.out.println("Ask size: " + trades.length);
     System.out.println("Ask(0): " + Arrays.toString(trades[0]));
