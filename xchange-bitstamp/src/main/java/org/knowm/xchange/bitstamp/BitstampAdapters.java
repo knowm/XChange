@@ -52,13 +52,13 @@ public final class BitstampAdapters {
   public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-      List<Balance> balances = new ArrayList<>();
-      for (org.knowm.xchange.bitstamp.dto.account.BitstampBalance.Balance b : bitstampBalance.getBalances()) {
-          Balance xchangeBalance = new Balance(new Currency(b.getCurrency().toUpperCase()), b.getBalance(), b.getAvailable(),
-                  b.getReserved(), ZERO, ZERO, b.getBalance().subtract(b.getAvailable()).subtract(b.getReserved()), ZERO);
-          balances.add(xchangeBalance);
-      }
-      return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(balances));
+    List<Balance> balances = new ArrayList<>();
+    for (org.knowm.xchange.bitstamp.dto.account.BitstampBalance.Balance b : bitstampBalance.getBalances()) {
+      Balance xchangeBalance = new Balance(new Currency(b.getCurrency().toUpperCase()), b.getBalance(), b.getAvailable(),
+          b.getReserved(), ZERO, ZERO, b.getBalance().subtract(b.getAvailable()).subtract(b.getReserved()), ZERO);
+      balances.add(xchangeBalance);
+    }
+    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(balances));
   }
 
   /**
@@ -157,36 +157,36 @@ public final class BitstampAdapters {
 
   }
 
-    /**
-     * Adapt the user's trades
-     *
-     * @param bitstampUserTransactions
-     * @return
-     */
-    public static UserTrades adaptTradeHistory(BitstampUserTransaction[] bitstampUserTransactions) {
+  /**
+   * Adapt the user's trades
+   *
+   * @param bitstampUserTransactions
+   * @return
+   */
+  public static UserTrades adaptTradeHistory(BitstampUserTransaction[] bitstampUserTransactions) {
 
-        List<UserTrade> trades = new ArrayList<>();
-        long lastTradeId = 0;
-        for (BitstampUserTransaction t : bitstampUserTransactions) {
-            if (!t.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
-                continue;
-            }
-            final OrderType orderType;
-            if (t.getCounterAmount().doubleValue() == 0.0){
-                orderType = t.getBaseAmount().doubleValue() < 0.0 ? OrderType.ASK : OrderType.BID;
-            } else {
-                orderType = t.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
-            }
+    List<UserTrade> trades = new ArrayList<>();
+    long lastTradeId = 0;
+    for (BitstampUserTransaction t : bitstampUserTransactions) {
+      if (!t.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
+        continue;
+      }
+      final OrderType orderType;
+      if (t.getCounterAmount().doubleValue() == 0.0) {
+        orderType = t.getBaseAmount().doubleValue() < 0.0 ? OrderType.ASK : OrderType.BID;
+      } else {
+        orderType = t.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
+      }
 
-            long tradeId = t.getId();
-            if (tradeId > lastTradeId) {
-                lastTradeId = tradeId;
-            }
-            final CurrencyPair pair = new CurrencyPair(t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
-            UserTrade trade = new UserTrade(orderType, t.getBaseAmount().abs(), pair, t.getPrice().abs(), t.getDatetime()
-                    , Long.toString(tradeId), Long.toString(t.getOrderId()), t.getFee(), new Currency(t.getFeeCurrency().toUpperCase()));
-            trades.add(trade);
-        }
-        return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
+      long tradeId = t.getId();
+      if (tradeId > lastTradeId) {
+        lastTradeId = tradeId;
+      }
+      final CurrencyPair pair = new CurrencyPair(t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
+      UserTrade trade = new UserTrade(orderType, t.getBaseAmount().abs(), pair, t.getPrice().abs(), t.getDatetime()
+          , Long.toString(tradeId), Long.toString(t.getOrderId()), t.getFee(), new Currency(t.getFeeCurrency().toUpperCase()));
+      trades.add(trade);
     }
+    return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
+  }
 }

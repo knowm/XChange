@@ -15,8 +15,8 @@ public class QuoineExamplesUtils {
     ExchangeSpecification exSpec = new ExchangeSpecification(QuoineExchange.class);
 
     // enter your specific API access info here
-    exSpec.getExchangeSpecificParameters().put(QuoineExchange.KEY_TOKEN_ID, "");
-    exSpec.getExchangeSpecificParameters().put(QuoineExchange.KEY_USER_SECRET, "");
+    exSpec.setApiKey("KEY_TOKEN_ID");
+    exSpec.setSecretKey("KEY_USER_SECRET");
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }

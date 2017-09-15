@@ -197,7 +197,7 @@ public interface BTCChina {
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
   BTCChinaGetOrdersResponse getArchivedOrders(@HeaderParam("Authorization") ParamsDigest authorization,
-                                      @HeaderParam("Json-Rpc-Tonce") SynchronizedValueFactory<Long> jsonRpcTonce, BTCChinaGetArchivedOrdersRequest getArchivedOrdersRequest) throws IOException;
+      @HeaderParam("Json-Rpc-Tonce") SynchronizedValueFactory<Long> jsonRpcTonce, BTCChinaGetArchivedOrdersRequest getArchivedOrdersRequest) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

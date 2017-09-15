@@ -28,7 +28,7 @@ public class BTCETradeDataJSONTest {
     assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
     assertThat(rv.get(343152L).getTimestampCreated()).isEqualTo(1342448420L);
   }
-  
+
   @Test
   public void testOrderInfo() throws IOException {
 

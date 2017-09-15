@@ -1,8 +1,12 @@
 package org.knowm.xchange.bleutrade.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
-import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTrade;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -20,11 +24,6 @@ import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class BleutradeTradeService extends BleutradeTradeServiceRaw implements TradeService {
 

@@ -22,88 +22,88 @@ public final class DSXTicker {
   private final String pair;
 
   public DSXTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-                   @JsonProperty("avg") BigDecimal avg, @JsonProperty("vol") BigDecimal vol,
-                   @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("last") BigDecimal last,
-                   @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell,
-                   @JsonProperty("updated") long updated, @JsonProperty("pair") String pair) {
+      @JsonProperty("avg") BigDecimal avg, @JsonProperty("vol") BigDecimal vol,
+      @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("last") BigDecimal last,
+      @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell,
+      @JsonProperty("updated") long updated, @JsonProperty("pair") String pair) {
 
-      this.high = high;
-      this.low = low;
-      this.avg = avg;
-      this.vol = vol;
-      this.volCur = volCur;
-      this.last = last;
-      this.buy = buy;
-      this.sell = sell;
-      this.updated = updated;
-      this.pair = pair;
+    this.high = high;
+    this.low = low;
+    this.avg = avg;
+    this.vol = vol;
+    this.volCur = volCur;
+    this.last = last;
+    this.buy = buy;
+    this.sell = sell;
+    this.updated = updated;
+    this.pair = pair;
   }
 
   public BigDecimal getHigh() {
 
-      return high;
+    return high;
   }
 
   public BigDecimal getLow() {
 
-      return low;
+    return low;
   }
 
   public BigDecimal getAvg() {
 
-      return avg;
+    return avg;
   }
 
   public BigDecimal getVol() {
 
-      return vol;
+    return vol;
   }
 
   public BigDecimal getVolCur() {
 
-      return volCur;
+    return volCur;
   }
 
   public BigDecimal getLast() {
 
-      return last;
+    return last;
   }
 
   public BigDecimal getBuy() {
 
-      return buy;
+    return buy;
   }
 
   public BigDecimal getSell() {
 
-      return sell;
+    return sell;
   }
 
   public long getUpdated() {
 
-      return updated;
+    return updated;
   }
 
   public String getPair() {
 
-      return pair;
+    return pair;
   }
 
   @Override
   public String toString() {
 
-      return "DSXTicker{" +
-              "high=" + high +
-              ", low=" + low +
-              ", avg=" + avg +
-              ", vol=" + vol +
-              ", volCur=" + volCur +
-              ", last=" + last +
-              ", buy=" + buy +
-              ", sell=" + sell +
-              ", updated=" + updated +
-              ", pair='" + pair + '\'' +
-              '}';
+    return "DSXTicker{" +
+        "high=" + high +
+        ", low=" + low +
+        ", avg=" + avg +
+        ", vol=" + vol +
+        ", volCur=" + volCur +
+        ", last=" + last +
+        ", buy=" + buy +
+        ", sell=" + sell +
+        ", updated=" + updated +
+        ", pair='" + pair + '\'' +
+        '}';
   }
 
 }

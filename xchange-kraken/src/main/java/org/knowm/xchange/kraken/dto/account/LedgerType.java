@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = LedgerTypeDeserializer.class)
 public enum LedgerType {
 
-  DEPOSIT, WITHDRAWAL, TRADE, MARGIN, CREDIT, ROLLOVER;
+  DEPOSIT, WITHDRAWAL, TRADE, MARGIN, CREDIT, ROLLOVER, TRANSFER;
 
   @Override
   public String toString() {

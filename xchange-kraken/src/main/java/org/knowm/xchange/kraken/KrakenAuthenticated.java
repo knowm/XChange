@@ -56,7 +56,7 @@ public interface KrakenAuthenticated extends Kraken {
   @Path("private/Ledgers")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   KrakenLedgerResult ledgers(@FormParam("aclass") String assetClass, @FormParam("asset") String assets, @FormParam("type") String ledgerType,
-      @FormParam("start") String start, @FormParam("end") String end, @FormParam("ofs") String offset, @HeaderParam("API-Key") String apiKey,
+      @FormParam("start") String start, @FormParam("end") String end, @FormParam("ofs") Long offset, @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST

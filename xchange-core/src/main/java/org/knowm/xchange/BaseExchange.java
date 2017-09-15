@@ -109,8 +109,6 @@ public abstract class BaseExchange implements Exchange {
       try {
         logger.info("Calling Remote Init...");
         remoteInit();
-      } catch (ExchangeException e) {
-        throw e;
       } catch (IOException e) {
         throw new ExchangeException(e);
       }

@@ -1,5 +1,8 @@
 package org.knowm.xchange.bleutrade.service;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeException;
 import org.knowm.xchange.bleutrade.BleutradeUtils;
@@ -14,9 +17,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-
-import java.io.IOException;
-import java.util.List;
 
 public class BleutradeTradeServiceRaw extends BleutradeBaseService {
 
@@ -109,19 +109,19 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     if (params instanceof TradeHistoryParamCurrencyPair) {
       CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
 
-      if(currencyPair != null)
+      if (currencyPair != null)
         market = toMarket(currencyPair);
     }
 
-    if(market == null) {
+    if (market == null) {
       market = BleutradeTradeHistoryParams.ALL.market;
     }
 
-    if(orderStatus == null) {
+    if (orderStatus == null) {
       orderStatus = BleutradeTradeHistoryParams.ALL.orderStatus;
     }
 
-    if(orderType == null) {
+    if (orderType == null) {
       orderType = BleutradeTradeHistoryParams.ALL.orderType;
     }
 

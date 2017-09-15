@@ -18,7 +18,6 @@ import si.mazi.rescu.RestProxyFactory;
  */
 public class BitstampMarketDataServiceRaw extends BitstampBaseService {
 
-
   private final BitstampV2 bitstampV2;
 
   public BitstampMarketDataServiceRaw(Exchange exchange) {

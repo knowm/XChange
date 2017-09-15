@@ -1,5 +1,7 @@
 package org.knowm.xchange.yobit;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -9,9 +11,8 @@ import org.knowm.xchange.yobit.service.YoBitAccountService;
 import org.knowm.xchange.yobit.service.YoBitMarketDataService;
 import org.knowm.xchange.yobit.service.YoBitMarketDataServiceRaw;
 import org.knowm.xchange.yobit.service.YoBitTradeService;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class YoBitExchange extends BaseExchange implements Exchange {
 

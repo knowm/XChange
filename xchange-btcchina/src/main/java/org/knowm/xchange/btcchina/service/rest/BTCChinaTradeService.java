@@ -10,7 +10,6 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.BTCChinaAdapters;
 import org.knowm.xchange.btcchina.BTCChinaExchangeException;
-import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetArchivedOrdersRequest;
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
@@ -201,7 +200,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Tra
       tradeHistory.addAll(userTradesFromOrders.getUserTrades());
     }
 
-    if (limit == null){
+    if (limit == null) {
       limit = BTCChinaGetOrdersRequest.DEFAULT_LIMIT;
     }
 
@@ -210,7 +209,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Tra
      */
     int currentTime = (int) DateUtils.toUnixTime(System.currentTimeMillis());
     boolean fetchArchivedRecords = ((since == null) || ((currentTime - since) > 604800)) &&
-            (tradeHistory.size() < limit);
+        (tradeHistory.size() < limit);
 
     UserTrades userTrades = userTradesFromOrders;
     if (fetchArchivedRecords) {

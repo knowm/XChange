@@ -1,17 +1,18 @@
 package org.knowm.xchange.cexio.dto.trade;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.currency.Currency;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.knowm.xchange.currency.Currency;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /*
   {
@@ -69,10 +70,10 @@ public class CexIOArchivedOrder {
   public final String feeCcy;
 
   public CexIOArchivedOrder(String id, String type, String time, String lastTxTime,
-                            String lastTx, String pos, String status, String symbol1,
-                            String symbol2, String amount, String price, String remains,
-                            String tradingFeeMaker, String tradingFeeTaker, String tradingFeeUserVolumeAmount,
-                            String orderId, String feeValue, String feeCcy) {
+      String lastTx, String pos, String status, String symbol1,
+      String symbol2, String amount, String price, String remains,
+      String tradingFeeMaker, String tradingFeeTaker, String tradingFeeUserVolumeAmount,
+      String orderId, String feeValue, String feeCcy) {
     this.id = id;
     this.type = type;
     this.time = time;

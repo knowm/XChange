@@ -13,8 +13,9 @@ import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades.HitbtcTradesSortFiel
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * @author kpysniak
+ * Deprecated -- Please migrate to org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataService
  */
+@Deprecated
 public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implements MarketDataService {
 
   /**

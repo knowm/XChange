@@ -48,19 +48,19 @@ public class KrakenAdaptersTest {
 
   @Before
   public void before() throws JsonParseException, JsonMappingException, IOException {
-	  // Read in the JSON from the example resources
-	  InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
-	  // Use Jackson to parse it
-	  ObjectMapper mapper = new ObjectMapper();
-	  KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
-	  KrakenUtils.setKrakenAssets(krakenResult.getResult());
-	  
-	  // Read in the JSON from the example resources
-	  is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
-	  // Use Jackson to parse it
-	  mapper = new ObjectMapper();
-	  KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
-	  KrakenUtils.setKrakenAssetPairs(krakenAssetPairs.getResult());
+    // Read in the JSON from the example resources
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
+    KrakenUtils.setKrakenAssets(krakenResult.getResult());
+
+    // Read in the JSON from the example resources
+    is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+    // Use Jackson to parse it
+    mapper = new ObjectMapper();
+    KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
+    KrakenUtils.setKrakenAssetPairs(krakenAssetPairs.getResult());
   }
 
   @Test

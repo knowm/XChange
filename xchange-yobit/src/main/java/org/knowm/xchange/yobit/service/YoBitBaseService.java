@@ -5,6 +5,7 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.yobit.YoBit;
 import org.knowm.xchange.yobit.YoBitDigest;
+
 import si.mazi.rescu.RestProxyFactory;
 
 public class YoBitBaseService<T extends YoBit> extends BaseExchangeService implements BaseService {

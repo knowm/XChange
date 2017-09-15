@@ -1,5 +1,9 @@
 package org.knowm.xchange.examples.itbit.trade;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -12,10 +16,6 @@ import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.service.ItBitTradeServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
 
 public class ItBitTradesDemo {
 
@@ -42,7 +42,6 @@ public class ItBitTradesDemo {
     printOrderStatus(tradeService, placeLimitOrderBTC);
     printOpenOrders(tradeService);
 
-
     System.out.println("Cancelling " + placeLimitOrderXBT);
     tradeService.cancelOrder(placeLimitOrderXBT);
     printOrderStatus(tradeService, placeLimitOrderXBT);
@@ -66,7 +65,6 @@ public class ItBitTradesDemo {
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());
   }
-
 
   private static void printOrderStatus(TradeService tradeService, String orderId) throws IOException {
 

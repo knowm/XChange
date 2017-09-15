@@ -117,9 +117,19 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
+    // According to API docs, default is 50
+    int limitTrades = 50;
+    if (args != null && args.length > 1) {
+      if (args[1] instanceof Integer) {
+        limitTrades = ((Integer) args[1]).intValue();
+      } else {
+        throw new ExchangeException("Argument 1 must be an Integer!");
+      }
+    }
+
     long lastTradeTime = 0;
-    if (args != null && args.length == 1) {
-      // parameter 1, if present, is the last trade timestamp
+    if (args != null && args.length > 0) {
+      // parameter 0, if present, is the last trade timestamp
       if (args[0] instanceof Number) {
         Number arg = (Number) args[0];
         lastTradeTime = arg.longValue() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
@@ -128,10 +138,10 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
         lastTradeTime = arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       } else {
         throw new IllegalArgumentException(
-            "Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+            "Argument 0, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
       }
     }
-    GeminiTrade[] trades = getGeminiTrades(GeminiUtils.toPairString(currencyPair), lastTradeTime);
+    GeminiTrade[] trades = getGeminiTrades(GeminiUtils.toPairString(currencyPair), lastTradeTime, limitTrades);
 
     return GeminiAdapters.adaptTrades(trades, currencyPair);
   }

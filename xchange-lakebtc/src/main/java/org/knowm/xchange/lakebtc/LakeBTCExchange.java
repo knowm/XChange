@@ -28,7 +28,7 @@ public class LakeBTCExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://www.lakebtc.com/");
+    exchangeSpecification.setSslUri("https://api.lakebtc.com/");
     exchangeSpecification.setHost("https://lakebtc.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("LakeBTC");
