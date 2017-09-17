@@ -251,7 +251,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     public LimitOrder build() {
 
-      LimitOrder order = new LimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice, averagePrice, null, status);
+      LimitOrder order = new LimitOrder(orderType, tradableAmount, remainingAmount, currencyPair, id, timestamp, limitPrice, averagePrice, null, status);
       order.setOrderFlags(flags);
       return order;
     }
