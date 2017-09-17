@@ -50,7 +50,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
   }
 
   public boolean cancelAllBitstampOrders() throws IOException {
-    return bitstampAuthenticatedV2.cancelAllOrders(apiKey, signatureCreator, nonceFactory);
+    return bitstampAuthenticated.cancelAllOrders(apiKey, signatureCreator, nonceFactory);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, CurrencyPair pair) throws IOException {
