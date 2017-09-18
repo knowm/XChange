@@ -291,7 +291,7 @@ public final class BitfinexAdapters {
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
 
-      limitOrders.add(new LimitOrder(orderType, order.getOriginalAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice(),
+      limitOrders.add(new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice(),
           order.getAvgExecutionPrice(), order.getExecutedAmount(), status));
     }
 
