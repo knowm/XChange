@@ -71,14 +71,14 @@ public final class ANXAdapters {
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString,
+  public static LimitOrder adaptOrder(BigDecimal originalAmount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString,
       String id, Date timestamp) {
 
     // place a limit order
     OrderType orderType = adaptSide(orderTypeString);
     CurrencyPair currencyPair = adaptCurrencyPair(tradedCurrency, transactionCurrency);
 
-    LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, id, timestamp, price);
+    LimitOrder limitOrder = new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, price);
 
     return limitOrder;
 
