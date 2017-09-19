@@ -109,7 +109,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
 	if (remainingAmount != null)
 	{
-		return getOriginalAmount().min(remainingAmount);
+		return getOriginalAmount().subtract(remainingAmount);
 	}
     return null;
   }
