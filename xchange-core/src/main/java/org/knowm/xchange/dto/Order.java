@@ -96,7 +96,7 @@ public abstract class Order {
   /**
    * Amount to be ordered / amount that was ordered
    */
-  private final BigDecimal tradableAmount;
+  private final BigDecimal originalAmount;
 
   /**
    * Amount to be ordered / amount that has been matched against order on the order book/filled
@@ -135,10 +135,10 @@ public abstract class Order {
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    */
-  public Order(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp) {
+  public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp) {
 
     this.type = type;
-    this.tradableAmount = tradableAmount;
+    this.originalAmount = originalAmount;
     this.currencyPair = currencyPair;
     this.id = id;
     this.timestamp = timestamp;
@@ -156,11 +156,11 @@ public abstract class Order {
    * @param averagePrice the averagePrice of fill belonging to the order
    * @param status the status of the order at the exchange
    */
-  public Order(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
+  public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
       BigDecimal cumulativeAmount, OrderStatus status) {
 
     this.type = type;
-    this.tradableAmount = tradableAmount;
+    this.originalAmount = originalAmount;
     this.currencyPair = currencyPair;
     this.id = id;
     this.timestamp = timestamp;
@@ -186,12 +186,23 @@ public abstract class Order {
   }
 
   /**
+   * @deprecated use getOriginalAmount
    * @return The amount to trade
    */
   public BigDecimal getTradableAmount() {
 
-    return tradableAmount;
+    return getOriginalAmount();
   }
+
+  /**
+   * @return The amount to trade
+   */
+  public BigDecimal getOriginalAmount() {
+
+    return originalAmount;
+  }
+
+  
 
   /**
    * @return The amount that has been filled
@@ -268,7 +279,7 @@ public abstract class Order {
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
+    return "Order [type=" + type + ", originalAmount=" + originalAmount + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
         + ", id=" + id + ", timestamp=" + timestamp + ", status=" + status + "]";
   }
 
@@ -277,7 +288,7 @@ public abstract class Order {
 
     int hash = 7;
     hash = 83 * hash + (this.type != null ? this.type.hashCode() : 0);
-    hash = 83 * hash + (this.tradableAmount != null ? this.tradableAmount.hashCode() : 0);
+    hash = 83 * hash + (this.originalAmount != null ? this.originalAmount.hashCode() : 0);
     hash = 83 * hash + (this.currencyPair != null ? this.currencyPair.hashCode() : 0);
     hash = 83 * hash + (this.id != null ? this.id.hashCode() : 0);
     hash = 83 * hash + (this.timestamp != null ? this.timestamp.hashCode() : 0);
@@ -297,7 +308,7 @@ public abstract class Order {
     if (this.type != other.type) {
       return false;
     }
-    if ((this.tradableAmount == null) ? (other.tradableAmount != null) : this.tradableAmount.compareTo(other.tradableAmount) != 0) {
+    if ((this.originalAmount == null) ? (other.originalAmount != null) : this.originalAmount.compareTo(other.originalAmount) != 0) {
       return false;
     }
     if ((this.currencyPair == null) ? (other.currencyPair != null) : !this.currencyPair.equals(other.currencyPair)) {
