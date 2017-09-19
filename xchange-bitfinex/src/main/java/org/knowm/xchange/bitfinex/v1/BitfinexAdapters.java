@@ -150,9 +150,9 @@ public final class BitfinexAdapters {
     }
   }
 
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, Date timestamp) {
+  public static LimitOrder adaptOrder(BigDecimal originalAmount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, Date timestamp) {
 
-    return new LimitOrder(orderType, amount, currencyPair, "", timestamp, price);
+    return new LimitOrder(orderType, originalAmount, currencyPair, "", timestamp, price);
   }
 
   public static List<FixedRateLoanOrder> adaptFixedRateLoanOrders(BitfinexLendLevel[] orders, String currency, String orderType, String id) {
@@ -291,7 +291,7 @@ public final class BitfinexAdapters {
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
 
-      limitOrders.add(new LimitOrder(orderType, order.getOriginalAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice(),
+      limitOrders.add(new LimitOrder(orderType, order.getOriginalAmount(), order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice(),
           order.getAvgExecutionPrice(), order.getExecutedAmount(), status));
     }
 

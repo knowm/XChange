@@ -70,6 +70,14 @@ public interface BitstampAuthenticated {
   boolean cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") int orderId) throws BitstampException, IOException;
 
+  /**
+   * @return true if order has been canceled.
+   */
+  @POST
+  @Path("cancel_all_orders/")
+  boolean cancelAllOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+
   @POST
   @Path("v2/balance/")
   BitstampBalance getBalance(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
