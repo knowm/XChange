@@ -101,12 +101,12 @@ public class LivecoinAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
 
-  public static Trades adaptTrades(LivecoinTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(LivecoinTrade[] nativeTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);
+    List<Trade> trades = new ArrayList<>(nativeTrades.length);
 
-    for (int i = 0; i < coinbaseExTrades.length; i++) {
-      LivecoinTrade trade = coinbaseExTrades[i];
+    for (int i = 0; i < nativeTrades.length; i++) {
+      LivecoinTrade trade = nativeTrades[i];
 
       OrderType type = trade.getType().equals("SELL") ? OrderType.BID : OrderType.ASK;
 
@@ -114,7 +114,7 @@ public class LivecoinAdapters {
       trades.add(t);
     }
 
-    return new Trades(trades, coinbaseExTrades[0].getId(), TradeSortType.SortByID);
+    return new Trades(trades, nativeTrades[0].getId(), TradeSortType.SortByID);
   }
 
   private static Date parseDate(Long rawDateLong) {
