@@ -78,7 +78,7 @@ public class BitMarketTradeServiceRaw extends BitMarketBaseService {
     long offset = 0;
 
     if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = BitMarketUtils.CurrencyPairToBitMarketCurrencyPair(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+      currencyPair = BitMarketUtils.currencyPairToBitMarketCurrencyPair(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
     }
 
     if (params instanceof TradeHistoryParamOffset) {
