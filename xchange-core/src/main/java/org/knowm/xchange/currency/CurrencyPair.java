@@ -181,6 +181,11 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
   public static final CurrencyPair IOTA_ETH = new CurrencyPair(Currency.IOT, Currency.ETH);
   //end
 
+  // OMG
+  public static final CurrencyPair OMG_USD = new CurrencyPair(Currency.OMG, Currency.USD);
+  public static final CurrencyPair OMG_BTC = new CurrencyPair(Currency.OMG, Currency.BTC);
+  public static final CurrencyPair OMG_ETH = new CurrencyPair(Currency.OMG, Currency.ETH);
+
   // not real currencies, but tradable commodities (GH/s)
   public static final CurrencyPair GHs_BTC = new CurrencyPair(Currency.GHs, Currency.BTC);
   public static final CurrencyPair GHs_NMC = new CurrencyPair(Currency.GHs, Currency.NMC);

@@ -160,6 +160,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency NXT = createCurrency("NXT", "Nextcoin", null);
   public static final Currency NZD = createCurrency("NZD", "New Zealand Dollar", null);
   public static final Currency OMR = createCurrency("OMR", "Omani Rial", null);
+  public static final Currency OMG = createCurrency("OMG", "OmiseGO", null);
   public static final Currency PAB = createCurrency("PAB", "Panamanian Balboa", null);
   public static final Currency PEN = createCurrency("PEN", "Peruvian Nuevo Sol", null);
   public static final Currency PGK = createCurrency("PGK", "Papua New Guinean Kina", null);
