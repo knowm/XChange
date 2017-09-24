@@ -53,7 +53,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
             askQueue = orderBookAsks.get(currencyPair);
         }
 
-        String channel = currencyPair.toString().replace("/", "_");
+        String channel = PoloniexUtils.toPairString(currencyPair);
         Observable<OrderBook> result = streamingService.subscribeChannel(channel)
                 .map(pubSubData -> {
                     Date now = new Date();
@@ -111,7 +111,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        String channel = currencyPair.toString().replace("/", "_");
+        String channel = PoloniexUtils.toPairString(currencyPair);
         Observable<Trade> result = streamingService.subscribeChannel(channel)
                 .flatMap(pubSubData -> {
                     List<Trade> res = new ArrayList<Trade>();
