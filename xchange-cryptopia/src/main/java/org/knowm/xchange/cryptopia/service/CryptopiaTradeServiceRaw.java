@@ -43,12 +43,12 @@ public class CryptopiaTradeServiceRaw {
 
       Order.OrderType type = type(map);
 
-      BigDecimal tradableAmount = new BigDecimal("Amount");
-      BigDecimal remaining = new BigDecimal("Remaining");
-      BigDecimal total = new BigDecimal("Total");
+      BigDecimal tradableAmount = new BigDecimal(map.get("Amount").toString());
+      BigDecimal remaining = new BigDecimal(map.get("Remaining").toString());
+      BigDecimal total = new BigDecimal(map.get("Total").toString());
 
       String id = map.get("OrderId").toString();
-      Date timestamp = DateUtils.fromISO8601DateString(map.get("Timestamp").toString());
+      Date timestamp = DateUtils.fromISO8601DateString(map.get("TimeStamp").toString());
       BigDecimal limitPrice = new BigDecimal(map.get("Rate").toString());
       BigDecimal averagePrice = null;
       BigDecimal cumulativeAmount = tradableAmount.subtract(remaining);
