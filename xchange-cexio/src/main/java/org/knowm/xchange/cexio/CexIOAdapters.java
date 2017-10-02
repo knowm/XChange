@@ -1,13 +1,6 @@
 package org.knowm.xchange.cexio;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
@@ -32,7 +25,13 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 /**
  * Author: brox Since: 2/6/14
@@ -180,7 +179,7 @@ public class CexIOAdapters {
 
   public static UserTrade adaptArchivedOrder(CexIOArchivedOrder cexIOArchivedOrder) {
     try {
-      Date timestamp = fromISODateString(cexIOArchivedOrder.lastTxTime);
+      Date timestamp = fromISODateString(cexIOArchivedOrder.time);
 
       OrderType orderType = cexIOArchivedOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
       BigDecimal tradableAmount = new BigDecimal(cexIOArchivedOrder.amount);
