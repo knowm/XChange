@@ -1,10 +1,5 @@
 package org.knowm.xchange.gemini.v1.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,13 +18,18 @@ import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeService {
 
@@ -94,7 +94,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
 
   /**
    * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can optionally implement {@link TradeHistoryParamPaging} and
-   * {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be ignored.
+   *               {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -117,7 +117,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
       timestamp = 0;
     }
 
-    final int limit;
+    int limit;
     if (params instanceof TradeHistoryParamPaging) {
       TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
       Integer pageLength = pagingParams.getPageLength();
@@ -127,71 +127,22 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
       limit = 50;
     }
 
+    if (params instanceof TradeHistoryParamLimit) {
+      limit = ((TradeHistoryParamLimit) params).getLimit();
+    }
+
     final GeminiTradeResponse[] trades = getGeminiTradeHistory(symbol, timestamp, limit);
     return GeminiAdapters.adaptTradeHistory(trades, symbol);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-
-    return new GeminiTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
+    return new GeminiTradeHistoryParams(CurrencyPair.BTC_USD, 500, new Date(0));
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
-  }
-
-  public static class GeminiTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
-
-    private int count;
-    private CurrencyPair pair;
-    private Integer pageNumber;
-
-    public GeminiTradeHistoryParams(Date startTime, int count, CurrencyPair pair) {
-
-      super(startTime);
-
-      this.count = count;
-      this.pair = pair;
-    }
-
-    @Override
-    public void setPageLength(Integer count) {
-
-      this.count = count;
-    }
-
-    @Override
-    public Integer getPageLength() {
-
-      return count;
-    }
-
-    @Override
-    public void setPageNumber(Integer pageNumber) {
-
-      this.pageNumber = pageNumber;
-    }
-
-    @Override
-    public Integer getPageNumber() {
-
-      return pageNumber;
-    }
-
-    @Override
-    public CurrencyPair getCurrencyPair() {
-
-      return pair;
-    }
-
-    @Override
-    public void setCurrencyPair(CurrencyPair pair) {
-
-      this.pair = pair;
-    }
   }
 
   @Override
@@ -200,4 +151,58 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     throw new NotYetImplementedForExchangeException();
   }
 
+  public static class GeminiTradeHistoryParams implements TradeHistoryParams, TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsTimeSpan {
+    private CurrencyPair currencyPair;
+    private Integer limit;
+    private Date startTime;
+
+    public GeminiTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Date startTime) {
+      this.currencyPair = currencyPair;
+      this.limit = limit;
+      this.startTime = startTime;
+    }
+
+    public GeminiTradeHistoryParams() {
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair currencyPair) {
+      this.currencyPair = currencyPair;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
+
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
+    }
+
+    @Override
+    public Integer getLimit() {
+      return limit;
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Date getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      //ignored
+    }
+
+    @Override
+    public Date getEndTime() {
+      return null;
+    }
+  }
 }
