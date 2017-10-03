@@ -71,7 +71,7 @@ public class LivecoinTicker {
 
   @Override
   public String toString() {
-    return "YoBitTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", vwap=" + vwap
+    return "LivecoinTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", vwap=" + vwap
         + ", maxBid=" + maxBid + ", minAsk=" + minAsk + ", bestBid=" + bestBid + ", bestAsk=" + bestAsk + "]";
   }
 
