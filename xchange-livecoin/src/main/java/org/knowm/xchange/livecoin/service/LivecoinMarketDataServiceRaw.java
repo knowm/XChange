@@ -9,7 +9,9 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> {
 
@@ -39,6 +41,10 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
         currencyPair.counter.getCurrencyCode().toUpperCase(),
         depth
     );
+  }
+
+  public Map<String, LivecoinOrderBook> getAllOrderBooksRaw(int depth) throws IOException {
+    return service.getAllOrderBooks(depth);
   }
 
   public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
