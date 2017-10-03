@@ -1,8 +1,10 @@
 package org.knowm.xchange.livecoin.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.livecoin.Livecoin;
+import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
@@ -43,8 +45,9 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
     );
   }
 
-  public Map<String, LivecoinOrderBook> getAllOrderBooksRaw(int depth) throws IOException {
-    return service.getAllOrderBooks(depth);
+  public Map<CurrencyPair, LivecoinOrderBook> getAllOrderBooksRaw(int depth) throws IOException {
+    return LivecoinAdapters.adaptToCurrencyPairKeysMap(service.getAllOrderBooks(depth));
+
   }
 
   public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
