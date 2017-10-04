@@ -29,7 +29,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
 
   public List<LimitOrder> getOpenOrders(CurrencyPair currencyPair, Date issuedFrom, Date issuedTo, Long startRow, Long endRow) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     LivecoinPaginatedResponse response = service.clientOrders(apiKey, signatureCreator,
-        currencyPair.toString(),
+        currencyPair == null ? "" : currencyPair.toString(),
         "OPEN",
         DateUtils.toMillisNullSafe(issuedFrom),
         DateUtils.toMillisNullSafe(issuedTo),

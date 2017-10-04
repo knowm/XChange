@@ -64,13 +64,9 @@ public class LivecoinTradeService extends LivecoinTradeServiceRaw implements Tra
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     CurrencyPair currencyPair = null;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
+    if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
       currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
     }
-
-    if (currencyPair == null)
-      throw new IllegalStateException("Currency pair needed");
-
 
     Date start = new Date(0);
     Date end = new Date();
