@@ -18,6 +18,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,10 @@ public interface Livecoin {
   @Path("exchange/order_book?currencyPair={baseCurrency}/{targetCurrency}&depth={depth}")
   LivecoinOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
                                  @PathParam("depth") int depth) throws IOException;
+
+  @GET
+  @Path("exchange/all/order_book?depth={depth}")
+  Map<String, LivecoinOrderBook> getAllOrderBooks(@PathParam("depth") int depth) throws IOException;
 
   @GET
   @Path("exchange/last_trades?currencyPair={baseCurrency}/{targetCurrency}")
