@@ -1,6 +1,6 @@
 package org.knowm.xchange.bleutrade.service;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;

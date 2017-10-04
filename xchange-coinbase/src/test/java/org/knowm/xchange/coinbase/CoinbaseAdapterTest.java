@@ -1,6 +1,6 @@
 package org.knowm.xchange.coinbase;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,9 +55,9 @@ public class CoinbaseAdapterTest {
 
     AccountInfo accountInfo = CoinbaseAdapters.adaptAccountInfo(user);
     //// fest bug: map fields are compared by values() which is always false
-    //assertThat(wallet).isLenientEqualsToByIgnoringFields(expectedWallet, "balances");
+    //assertThat(wallet).isEqualToIgnoringGivenFields(expectedWallet, "balances");
     //assertThat(wallet.getBalance("BTC")).isEqualTo(expectedWallet.getBalance("BTC"));
-    assertThat(accountInfo).isEqualsToByComparingFields(expectedAccountInfo);
+    assertThat(accountInfo).isEqualToComparingFieldByField(expectedAccountInfo);
   }
 
   @Test
@@ -82,7 +82,7 @@ public class CoinbaseAdapterTest {
     assertThat(tradeList.size()).isEqualTo(1);
 
     UserTrade trade = tradeList.get(0);
-    assertThat(trade).isEqualsToByComparingFields(expectedTrade);
+    assertThat(trade).isEqualToComparingFieldByField(expectedTrade);
   }
 
   @Test
@@ -108,6 +108,6 @@ public class CoinbaseAdapterTest {
     Ticker ticker = CoinbaseAdapters.adaptTicker(CurrencyPair.BTC_USD, price, price, spotPrice, spotPriceHistory);
 
     // TOD  this seems broke. If you
-//    assertThat(ticker).isEqualsToByComparingFields(expectedTicker);
+//    assertThat(ticker).isEqualToComparingFieldByField(expectedTicker);
   }
 }
