@@ -38,7 +38,7 @@ public class BleutradeBaseServiceIntegration extends BleutradeServiceTestSupport
 
   @Test
   public void constructor() {
-    assertThat(Whitebox.getInternalState(service, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertThat((String)Whitebox.getInternalState(service, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test

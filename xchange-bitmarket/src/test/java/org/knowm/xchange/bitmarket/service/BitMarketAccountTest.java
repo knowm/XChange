@@ -54,7 +54,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
 
   @Test
   public void constructor() {
-    assertThat(Whitebox.getInternalState(accountService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertThat((String) Whitebox.getInternalState(accountService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test

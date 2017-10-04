@@ -66,7 +66,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
 
   @Test
   public void constructor() {
-    assertThat(Whitebox.getInternalState(tradeService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertThat((String) Whitebox.getInternalState(tradeService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test(expected = NotAvailableFromExchangeException.class)
