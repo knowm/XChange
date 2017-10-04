@@ -170,12 +170,12 @@
             <dependency>
                 <groupId>org.quickfixj</groupId>
                 <artifactId>quickfixj-core</artifactId>
-                <version>1.6.3</version>
+                <version>1.6.4</version>
             </dependency>
             <dependency>
                 <groupId>org.quickfixj</groupId>
                 <artifactId>quickfixj-messages-fix44</artifactId>
-                <version>1.6.3</version>
+                <version>1.6.4</version>
             </dependency>
 
             <!-- Charting -->
@@ -329,14 +329,14 @@
     <build>
 
         <plugins>
-            <!-- Ensure compilation is done under Java 7 in all environments -->
+            <!-- Ensure compilation is done under Java 8 in all environments -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                 </configuration>
@@ -417,7 +417,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <powermock.version>1.7.0</powermock.version>
+        <powermock.version>1.7.3</powermock.version>
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
 

@@ -45,7 +45,7 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
 
   @Test
   public void constructor() {
-    assertThat(Whitebox.getInternalState(dataService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertThat((String) Whitebox.getInternalState(dataService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test
