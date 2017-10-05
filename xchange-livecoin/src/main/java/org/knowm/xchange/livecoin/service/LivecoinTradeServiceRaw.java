@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
 
@@ -38,11 +40,10 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
 
     for (Map map : response.data) {
       Object statusRaw = map.get("orderStatus");
-      if (statusRaw != null && (statusRaw.toString().equals("OPEN") || statusRaw.toString().equals("PARTIALLY"))) {
+      if (statusRaw != null && (statusRaw.toString().equals("OPEN") || statusRaw.toString().equals("PARTIALLY_FILLED"))) {
         resp.add(LivecoinAdapters.adaptOpenOrder(map));
       }
     }
-
     return resp;
   }
 
