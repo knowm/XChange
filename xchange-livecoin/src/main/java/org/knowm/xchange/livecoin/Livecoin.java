@@ -104,6 +104,10 @@ public interface Livecoin {
                                          @QueryParam("currencyPair") String currencyPair, @QueryParam("openClosed") String openClosed, @QueryParam("issuedFrom") Long issuedFrom,
                                          @QueryParam("issuedTo") Long issuedTo, @QueryParam("startRow") Long startRow, @QueryParam("endRow") Long endRow) throws IOException;
 
+  @GET
+  @Path("exchange/client_orders")
+  LivecoinPaginatedResponse allClientOrders(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator) throws IOException;
+
   @POST
   @Path("exchange/buylimit")
   Map buyWithLimitOrder(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
