@@ -31,13 +31,13 @@ public interface Livecoin {
   LivecoinRestrictions getRestrictions() throws IOException;
 
   @GET
-  @Path("exchange/order_book?currencyPair={baseCurrency}/{targetCurrency}&depth={depth}")
+  @Path("exchange/order_book?currencyPair={baseCurrency}/{targetCurrency}&depth={depth}&groupByPrice={groupByPrice}")
   LivecoinOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
-                                 @PathParam("depth") int depth) throws IOException;
+                                 @PathParam("depth") int depth, @PathParam("groupByPrice") String groupByPrice) throws IOException;
 
   @GET
-  @Path("exchange/all/order_book?depth={depth}")
-  Map<String, LivecoinOrderBook> getAllOrderBooks(@PathParam("depth") int depth) throws IOException;
+  @Path("exchange/all/order_book?depth={depth}&groupByPrice={groupByPrice}")
+  Map<String, LivecoinOrderBook> getAllOrderBooks(@PathParam("depth") int depth, @PathParam("groupByPrice") String groupByPrice) throws IOException;
 
   @GET
   @Path("exchange/last_trades?currencyPair={baseCurrency}/{targetCurrency}")
