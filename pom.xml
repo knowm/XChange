@@ -5,7 +5,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.2.3-SNAPSHOT</version>
+    <version>4.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -92,6 +92,7 @@
         <module>xchange-cexio</module>
         <module>xchange-chbtc</module>
         <module>xchange-coinbase</module>
+        <module>xchange-coinmarketcap</module>
         <module>xchange-coinfloor</module>
         <module>xchange-coinmate</module>
         <module>xchange-core</module>
@@ -169,12 +170,12 @@
             <dependency>
                 <groupId>org.quickfixj</groupId>
                 <artifactId>quickfixj-core</artifactId>
-                <version>1.6.3</version>
+                <version>1.6.4</version>
             </dependency>
             <dependency>
                 <groupId>org.quickfixj</groupId>
                 <artifactId>quickfixj-messages-fix44</artifactId>
-                <version>1.6.3</version>
+                <version>1.6.4</version>
             </dependency>
 
             <!-- Charting -->
@@ -226,14 +227,6 @@
             <version>1.7.25</version>
         </dependency>
 
-        <!-- JUnit for testing -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- slf4j-simple implementation for testing -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -242,14 +235,21 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- FEST for fluent test assertions -->
+
+        <!-- JUnit for testing -->
         <dependency>
-            <groupId>org.easytesting</groupId>
-            <artifactId>fest-assert-core</artifactId>
-            <version>2.0M10</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.8.0</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
@@ -328,14 +328,14 @@
     <build>
 
         <plugins>
-            <!-- Ensure compilation is done under Java 7 in all environments -->
+            <!-- Ensure compilation is done under Java 8 in all environments -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                 </configuration>
@@ -416,7 +416,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <powermock.version>1.7.0</powermock.version>
+        <powermock.version>1.7.3</powermock.version>
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
 
