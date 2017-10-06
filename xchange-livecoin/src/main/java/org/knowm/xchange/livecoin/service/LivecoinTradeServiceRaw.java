@@ -1,5 +1,6 @@
 package org.knowm.xchange.livecoin.service;
 
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
 
@@ -27,24 +30,20 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     super(Livecoin.class, exchange);
   }
 
-  public List<LimitOrder> getOpenOrders(CurrencyPair currencyPair, Date issuedFrom, Date issuedTo, Long startRow, Long endRow) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    LivecoinPaginatedResponse response = service.clientOrders(apiKey, signatureCreator,
-        currencyPair.toString(),
-        "OPEN",
-        DateUtils.toMillisNullSafe(issuedFrom),
-        DateUtils.toMillisNullSafe(issuedTo),
-        startRow,
-        endRow
-    );
+  public List<LimitOrder> getAllOpenOrders() throws
+      ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    LivecoinPaginatedResponse response = service.allClientOrders(apiKey, signatureCreator);
 
     List<LimitOrder> resp = new ArrayList<>();
     if (response.data == null)
       return resp;
 
     for (Map map : response.data) {
-      resp.add(LivecoinAdapters.adaptOpenOrder(map));
+      Object statusRaw = map.get("orderStatus");
+      if (statusRaw != null && (statusRaw.toString().equals("OPEN") || statusRaw.toString().equals("PARTIALLY_FILLED"))) {
+        resp.add(LivecoinAdapters.adaptOpenOrder(map));
+      }
     }
-
     return resp;
   }
 
@@ -97,8 +96,16 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return response.get("orderId").toString();
   }
 
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException,
+      IOException {
     return cancelOrder(new CancelOrderByIdParams(orderId));
+  }
+
+  public boolean cancelOrder(CurrencyPair currencyPair, String orderId) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException,
+      IOException {
+    return cancelOrder(new LiveCoinCancelOrderParams(currencyPair, orderId));
   }
 
   public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {

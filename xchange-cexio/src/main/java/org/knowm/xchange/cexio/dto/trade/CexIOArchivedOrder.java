@@ -1,42 +1,65 @@
 package org.knowm.xchange.cexio.dto.trade;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.currency.Currency;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.knowm.xchange.currency.Currency;
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /*
   {
-    "id": "3914981594",
+    "id": "1",
     "type": "sell",
-    "time": "2017-06-20T15:52:34.756Z",
-    "lastTxTime": "2017-06-20T15:52:34.756Z",
-    "lastTx": "3914981600",
+    "time": "2017-09-09T10:56:30.612Z",
+    "lastTxTime": "2017-09-09T10:58:44.773Z",
+    "lastTx": "4307893035",
     "pos": null,
     "status": "d",
-    "symbol1": "ETH",
-    "symbol2": "BTC",
-    "amount": "0.69170800",
-    "price": "0.13845",
+    "symbol1": "BTC",
+    "symbol2": "GBP",
+    "amount": "0.05000000",
+    "price": "3435.0004",
+    "fa:GBP": "0.00",
+    "ta:GBP": "171.75",
     "remains": "0.00000000",
-    "tfa:BTC": "0.00019116",
-    "tta:BTC": "0.09576697",
-    "a:BTC:cds": "0.09576697",
-    "a:ETH:cds": "0.69170800",
-    "f:BTC:cds": "0.00019116",
+    "a:BTC:cds": "0.05000000",
+    "a:GBP:cds": "171.75",
+    "f:GBP:cds": "0.00",
     "tradingFeeMaker": "0",
-    "tradingFeeTaker": "0.20",
-    "tradingFeeUserVolumeAmount": "181982011",
-    "orderId": "3914981594"
+    "tradingFeeTaker": "0.17",
+    "tradingFeeUserVolumeAmount": "6457460231",
+    "orderId": "1"
+  },
+  {
+    "id": "2",
+    "type": "sell",
+    "time": "2017-09-09T10:50:27.028Z",
+    "lastTxTime": "2017-09-09T10:50:27.028Z",
+    "lastTx": "4307823094",
+    "pos": null,
+    "status": "d",
+    "symbol1": "BTC",
+    "symbol2": "GBP",
+    "amount": "0.06330000",
+    "price": "3421.1501",
+    "tfacf": "1",
+    "remains": "0.00000000",
+    "tfa:GBP": "0.37",
+    "tta:GBP": "216.55",
+    "a:BTC:cds": "0.06330000",
+    "a:GBP:cds": "216.55",
+    "f:GBP:cds": "0.37",
+    "tradingFeeMaker": "0",
+    "tradingFeeTaker": "0.17",
+    "tradingFeeUserVolumeAmount": "6451130231",
+    "orderId": "2"
   }
 
   status - "d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
@@ -70,10 +93,10 @@ public class CexIOArchivedOrder {
   public final String feeCcy;
 
   public CexIOArchivedOrder(String id, String type, String time, String lastTxTime,
-      String lastTx, String pos, String status, String symbol1,
-      String symbol2, String amount, String price, String remains,
-      String tradingFeeMaker, String tradingFeeTaker, String tradingFeeUserVolumeAmount,
-      String orderId, String feeValue, String feeCcy) {
+                            String lastTx, String pos, String status, String symbol1,
+                            String symbol2, String amount, String price, String remains,
+                            String tradingFeeMaker, String tradingFeeTaker, String tradingFeeUserVolumeAmount,
+                            String orderId, String feeValue, String feeCcy) {
     this.id = id;
     this.type = type;
     this.time = time;
@@ -110,7 +133,7 @@ public class CexIOArchivedOrder {
       String feeValue = null;
       String feeCcy = null;
       for (String key : map.keySet()) {
-        if (key.startsWith("tfa:") || key.startsWith("mfa:")) {
+        if (key.startsWith("tfa:") || key.startsWith("fa:")) {
           feeValue = map.get(key);
           feeCcy = key.split(":")[1];
         }

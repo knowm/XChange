@@ -1,6 +1,6 @@
 package org.knowm.xchange.bleutrade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
