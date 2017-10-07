@@ -42,6 +42,11 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
 
     ClientConfig rescuConfig = new ClientConfig(); // default rescu config
 
+    // allow HTTP connect- and read-timeout to be set per exchange
+    int customHttpConnTimeout = exchange.getExchangeSpecification().getHttpConnTimeout();
+    if (customHttpConnTimeout > 0) {
+      rescuConfig.setHttpConnTimeout(customHttpConnTimeout);
+    }
     int customHttpReadTimeout = exchange.getExchangeSpecification().getHttpReadTimeout();
     if (customHttpReadTimeout > 0) {
       rescuConfig.setHttpReadTimeout(customHttpReadTimeout);

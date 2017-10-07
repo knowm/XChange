@@ -44,6 +44,11 @@ public class PoloniexBaseService extends BaseExchangeService implements BaseServ
       }
     });
 
+    // allow HTTP connection timeout to be altered per exchange
+    int customHttpConnTimeout = exchange.getExchangeSpecification().getHttpConnTimeout();
+    if (customHttpConnTimeout > 0) {
+      rescuConfig.setHttpConnTimeout(customHttpConnTimeout);
+    }
     // allow HTTP read timeout to be altered per exchange
     int customHttpReadTimeout = exchange.getExchangeSpecification().getHttpReadTimeout();
     if (customHttpReadTimeout > 0) {

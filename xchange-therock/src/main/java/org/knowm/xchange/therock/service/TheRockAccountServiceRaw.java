@@ -15,6 +15,7 @@ import org.knowm.xchange.therock.dto.account.TheRockWithdrawal;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import org.knowm.xchange.therock.dto.trade.TheRockTransactions;
 
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 
 public class TheRockAccountServiceRaw extends TheRockBaseService {
@@ -28,7 +29,19 @@ public class TheRockAccountServiceRaw extends TheRockBaseService {
   protected TheRockAccountServiceRaw(Exchange exchange) {
     super(exchange);
     final ExchangeSpecification spec = exchange.getExchangeSpecification();
-    this.theRockAuthenticated = RestProxyFactory.createProxy(TheRockAuthenticated.class, spec.getSslUri());
+
+    // allow HTTP connect- and read-timeout to be set per exchange
+    ClientConfig rescuConfig = new ClientConfig(); // default rescu config
+    int customHttpConnTimeout = spec.getHttpConnTimeout();
+    if (customHttpConnTimeout > 0) {
+      rescuConfig.setHttpConnTimeout(customHttpConnTimeout);
+    }
+    int customHttpReadTimeout = spec.getHttpReadTimeout();
+    if (customHttpReadTimeout > 0) {
+      rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
+    }
+
+    this.theRockAuthenticated = RestProxyFactory.createProxy(TheRockAuthenticated.class, spec.getSslUri(), rescuConfig);
     apiKey = spec.getApiKey();
     this.signatureCreator = new TheRockDigest(spec.getSecretKey());
   }

@@ -19,11 +19,18 @@ public class LunoExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
+
+    // allow HTTP connect- and read-timeout to be set per exchange
     ClientConfig rescuConfig = new ClientConfig(); // default rescu config
+    int customHttpConnTimeout = getExchangeSpecification().getHttpConnTimeout();
+    if (customHttpConnTimeout > 0) {
+      rescuConfig.setHttpConnTimeout(customHttpConnTimeout);
+    }
     int customHttpReadTimeout = getExchangeSpecification().getHttpReadTimeout();
     if (customHttpReadTimeout > 0) {
       rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
     }
+
     final LunoAPI luno = new LunoAPIImpl(getExchangeSpecification().getApiKey(), getExchangeSpecification().getSecretKey(),
         getExchangeSpecification().getSslUri(), rescuConfig);
     this.marketDataService = new LunoMarketDataService(this, luno);
