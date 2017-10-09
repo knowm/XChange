@@ -106,7 +106,8 @@ public interface Livecoin {
 
   @GET
   @Path("exchange/client_orders")
-  LivecoinPaginatedResponse allClientOrders(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator) throws IOException;
+  LivecoinPaginatedResponse allClientOrders(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator, @QueryParam
+      ("openClosed") String openClosed) throws IOException;
 
   @POST
   @Path("exchange/buylimit")
