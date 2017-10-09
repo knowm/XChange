@@ -32,7 +32,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
 
   public List<LimitOrder> getAllOpenOrders() throws
       ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    LivecoinPaginatedResponse response = service.allClientOrders(apiKey, signatureCreator);
+    LivecoinPaginatedResponse response = service.allClientOrders(apiKey, signatureCreator, "OPEN");
 
     List<LimitOrder> resp = new ArrayList<>();
     if (response.data == null)
