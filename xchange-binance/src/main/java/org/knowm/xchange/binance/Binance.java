@@ -22,6 +22,9 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public interface Binance {
 
+  /**
+   * MARKET DATA API
+   */
   @GET
   @Path("v1/ticker/24hr?symbol={symbol}")
   BinanceTicker getTicker(@PathParam("symbol") String currencyPair) throws IOException;
@@ -29,5 +32,9 @@ public interface Binance {
   @GET
   @Path("v1/depth?symbol={symbol}&limit={limit}")
   BinanceOrderBook getOrderBook(@PathParam("symbol") String currencyPair, @PathParam("limit") String limit) throws IOException;
+
+  /**
+   * ACCOUNT API
+   */
 
 }

@@ -3,7 +3,7 @@ package org.knowm.xchange.binance;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.binance.service.BinanceMarketDataService;
+import org.knowm.xchange.binance.service.marketdata.BinanceMarketDataService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;

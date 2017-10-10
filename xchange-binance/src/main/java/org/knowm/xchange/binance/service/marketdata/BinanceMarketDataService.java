@@ -1,4 +1,4 @@
-package org.knowm.xchange.binance.service;
+package org.knowm.xchange.binance.service.marketdata;
 
 import java.io.IOException;
 

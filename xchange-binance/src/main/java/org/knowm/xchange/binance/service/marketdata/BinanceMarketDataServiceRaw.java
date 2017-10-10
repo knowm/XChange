@@ -1,4 +1,4 @@
-package org.knowm.xchange.binance.service;
+package org.knowm.xchange.binance.service.marketdata;
 
 import java.io.IOException;
 
@@ -6,6 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.Binance;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderBook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker;
+import org.knowm.xchange.binance.service.BinanceBaseService;
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class BinanceMarketDataServiceRaw extends BinanceBaseService<Binance> {
