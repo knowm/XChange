@@ -1,6 +1,6 @@
-Livecoin Exchange API specification
+Binance Exchange API specification
 ================================
 
 API Documentation
 ---------------------------
-https://www.livecoin.net/api/public
+https://www.binance.com/restapipub.html
