@@ -1,5 +1,7 @@
 package org.knowm.xchange.binance.service;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderBook;
@@ -9,11 +11,8 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
 
 public class BinanceMarketDataService extends BinanceMarketDataServiceRaw implements MarketDataService {
 
@@ -22,7 +21,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw implem
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException,  IOException {
     BinanceTicker ticker = getBinanceTicker(currencyPair);
     return BinanceAdapters.adaptTicker(ticker, currencyPair);
   }
@@ -34,8 +33,8 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw implem
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return null;
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException, NotYetImplementedForExchangeException {
+    throw new NotYetImplementedForExchangeException();
   }
 
 }
