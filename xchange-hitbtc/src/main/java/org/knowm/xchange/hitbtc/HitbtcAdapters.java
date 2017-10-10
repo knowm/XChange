@@ -229,7 +229,12 @@ public class HitbtcAdapters {
 
     for (HitbtcBalance balanceRaw : walletRaw) {
 
-      Balance balance = new Balance(Currency.getInstance(balanceRaw.getCurrencyCode()), null, balanceRaw.getCash(), balanceRaw.getReserved());
+      Balance balance = new Balance(
+          Currency.getInstance(balanceRaw.getCurrencyCode()),
+          balanceRaw.getCash().add(balanceRaw.getReserved()),
+          balanceRaw.getCash(),
+          balanceRaw.getReserved());
+      balances.add(balance);
       balances.add(balance);
 
     }
