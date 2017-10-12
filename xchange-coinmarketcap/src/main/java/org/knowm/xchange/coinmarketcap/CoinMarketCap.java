@@ -22,7 +22,7 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 public interface CoinMarketCap {
 
   @GET
-  @Path("/ticker")
+  @Path("/ticker/")
   List<CoinMarketCapTicker> getTickers() throws IOException;
 
   CoinMarketCapTicker getTicker(CoinMarketCap.Pair pair);
