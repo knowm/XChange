@@ -149,12 +149,17 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
 
   public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws IOException {
 
+    return cancelOrderRaw(orderId, "");
+  }
+
+  public HitbtcExecutionReportResponse cancelOrderRaw(String orderId, String cancelOrderId) throws IOException {
+
     // extract symbol and side from original order id: buy/sell
     String originalSide = HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId)).toString();
     String symbol = HitbtcAdapters.readSymbol(orderId);
 
     try {
-      return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, orderId, symbol, originalSide);
+      return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, cancelOrderId, symbol, originalSide);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
