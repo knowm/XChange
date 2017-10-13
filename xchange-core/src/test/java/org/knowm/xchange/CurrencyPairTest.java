@@ -1,9 +1,13 @@
 package org.knowm.xchange;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import junit.framework.Assert;
 
 public class CurrencyPairTest {
 
@@ -53,6 +57,18 @@ public class CurrencyPairTest {
     assertThat(CurrencyPair.BTC_CAD.base.getCurrencyCode()).isEqualTo("BTC");
     assertThat(CurrencyPair.BTC_CAD.counter.getCurrencyCode()).isEqualTo("CAD");
 
+  }
+
+  @Test
+  public void testParseCurrencyPair() {
+    assertEquals(CurrencyPair.parseCurrencyPair("ETHUSDT"), new CurrencyPair(Currency.ETH, Currency.USDT));
+    assertEquals(CurrencyPair.parseCurrencyPair("ETHUSD"), new CurrencyPair(Currency.ETH, Currency.USD));
+    assertEquals(CurrencyPair.parseCurrencyPair("USDTETH"), new CurrencyPair(Currency.USDT, Currency.ETH));
+    assertEquals(CurrencyPair.parseCurrencyPair("USDTUSDE"), new CurrencyPair(Currency.USDT, Currency.USDE));
+    assertEquals(CurrencyPair.parseCurrencyPair("USDT@@@"), new CurrencyPair(Currency.USDT, new Currency("@@@")));
+    assertEquals(CurrencyPair.parseCurrencyPair("@@@USDT"), new CurrencyPair(new Currency("@@@"),(Currency.USDT)));
+    assertEquals(CurrencyPair.parseCurrencyPair("@@@@USDT"), new CurrencyPair(new Currency("@@@@"),(Currency.USDT)));
+    assertEquals(CurrencyPair.parseCurrencyPair("UNKNOWN"), new CurrencyPair(new Currency("UNKN"), new Currency("OWN")));
   }
 
 }

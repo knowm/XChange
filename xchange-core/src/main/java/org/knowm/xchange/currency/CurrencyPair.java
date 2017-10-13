@@ -307,4 +307,24 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
 
     return (base.compareTo(o.base) << 16) + counter.compareTo(o.counter);
   }
+
+  /**
+   * Converts "ETHUSDT", "USDTBTC", etc... with first part being base and second part being counter to a CurrencyPair instance.
+   *
+   * @param currencyString the "XXXXXXX" form currency pair
+   * @return the CurrencyPair instance
+   */
+  public static CurrencyPair parseCurrencyPair(String currencyString) {
+    if (currencyString != null && currencyString.length() > 3) {
+      for (int i = 0; i < currencyString.length(); i++) {
+        Currency counterCandidate = Currency.getInstanceNoCreate(currencyString.substring(currencyString.length() - i));
+        if (counterCandidate != null) {
+          Currency base = new Currency(currencyString.substring(0, currencyString.length() - i));
+          return new CurrencyPair(base, counterCandidate);
+        }
+      }
+      return new CurrencyPair(currencyString.substring(0, currencyString.length() - 3), currencyString.substring(currencyString.length() - 3, currencyString.length()));
+    }
+    return null;
+  }
 }
