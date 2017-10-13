@@ -12,9 +12,9 @@ public class KrakenUserTrade extends UserTrade {
 
   private final BigDecimal cost;
 
-  public KrakenUserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id,
+  public KrakenUserTrade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id,
       String orderId, BigDecimal feeAmount, Currency feeCurrency, BigDecimal cost) {
-    super(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+    super(type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     this.cost = cost;
   }
 
@@ -29,7 +29,7 @@ public class KrakenUserTrade extends UserTrade {
     public static Builder from(KrakenUserTrade trade) {
       Builder builder = new Builder().cost(trade.getCost());
       builder.orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency());
-      builder.type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice())
+      builder.type(trade.getType()).originalAmount(trade.getOriginalAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice())
           .timestamp(trade.getTimestamp()).id(trade.getId());
       return builder;
     }
@@ -40,7 +40,7 @@ public class KrakenUserTrade extends UserTrade {
     }
 
     public KrakenUserTrade build() {
-      KrakenUserTrade trade = new KrakenUserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency, cost);
+      KrakenUserTrade trade = new KrakenUserTrade(type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency, cost);
       return trade;
     }
   }

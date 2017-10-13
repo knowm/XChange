@@ -171,14 +171,14 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
   @Override
   public String placeLimitOrder(
       LimitOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    CoinfloorOrder rawOrder = placeLimitOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount(), order.getLimitPrice());
+    CoinfloorOrder rawOrder = placeLimitOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount(), order.getLimitPrice());
     return Long.toString(rawOrder.getId());
   }
 
   @Override
   public String placeMarketOrder(
       MarketOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    placeMarketOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount());
+    placeMarketOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount());
     return ""; // coinfloor does not return an id for market orders
   }
 

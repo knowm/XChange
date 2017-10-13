@@ -14,8 +14,8 @@ public class PoloniexLimitOrder extends LimitOrder {
 
   private PoloniexTradeResponse response = null;
 
-  public PoloniexLimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
-    super(type, tradableAmount, currencyPair, id, timestamp, limitPrice);
+  public PoloniexLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
+    super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
   }
 
   public void setResponse(PoloniexTradeResponse value) {
@@ -33,7 +33,7 @@ public class PoloniexLimitOrder extends LimitOrder {
     }
 
     public PoloniexLimitOrder build() {
-      final PoloniexLimitOrder order = new PoloniexLimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice);
+      final PoloniexLimitOrder order = new PoloniexLimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice);
       order.setOrderFlags(flags);
       return order;
     }

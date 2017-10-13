@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.account;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import org.knowm.xchange.currency.Currency;
  * Funding information contains the detail of deposit/withdrawal transaction for a specific currency
  * </p>
  */
-public final class FundingRecord {
+public final class FundingRecord implements Serializable {
 
   /**
    * Crypto currency address for deposit/withdrawal

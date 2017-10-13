@@ -70,7 +70,7 @@ public class ANXTradeServiceRaw extends ANXBaseService {
     try {
       ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
           exchange.getNonceFactory(), marketOrder.getCurrencyPair().base.getCurrencyCode(), marketOrder.getCurrencyPair().counter.getCurrencyCode(),
-          marketOrder.getType().equals(Order.OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount(), null);
+          marketOrder.getType().equals(Order.OrderType.BID) ? "bid" : "ask", marketOrder.getOriginalAmount(), null);
       return anxGenericResponse;
     } catch (ANXException e) {
       throw handleError(e);

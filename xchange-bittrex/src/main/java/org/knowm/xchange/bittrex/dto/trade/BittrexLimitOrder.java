@@ -10,9 +10,9 @@ public class BittrexLimitOrder extends LimitOrder {
 
   private final BigDecimal pricePerUnit;
 
-  public BittrexLimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
+  public BittrexLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
       BigDecimal quantityRemaining, BigDecimal pricePerUnit) {
-    super(type, tradableAmount, quantityRemaining, currencyPair, id, timestamp, limitPrice);
+    super(type, originalAmount, quantityRemaining, currencyPair, id, timestamp, limitPrice);
 
     this.pricePerUnit = pricePerUnit;
   }

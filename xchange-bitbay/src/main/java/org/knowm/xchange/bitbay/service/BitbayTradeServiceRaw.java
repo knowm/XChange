@@ -30,7 +30,7 @@ public class BitbayTradeServiceRaw extends BitbayBaseService {
     String paymentCurrency = order.getCurrencyPair().counter.toString();
     String type = order.getType() == Order.OrderType.ASK ? "ask" : "bid";
 
-    BitbayTradeResponse response = bitbayAuthenticated.trade(apiKey, sign, exchange.getNonceFactory(), type, currency, order.getTradableAmount(),
+    BitbayTradeResponse response = bitbayAuthenticated.trade(apiKey, sign, exchange.getNonceFactory(), type, currency, order.getOriginalAmount(),
         paymentCurrency, order.getLimitPrice());
 
     checkError(response);

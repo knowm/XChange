@@ -1,5 +1,6 @@
 package org.knowm.xchange.currency;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.TreeSet;
  * Each object retains the code it was acquired with -- so {@link #getInstance}("BTC").{@link #getCurrencyCode}() will always be "BTC", even though
  * the proposed ISO 4217 code is "XBT"
  */
-public class Currency implements Comparable<Currency> {
+public class Currency implements Comparable<Currency>, Serializable {
 
   private static final Map<String, Currency> currencies = new HashMap<>();
 

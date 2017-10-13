@@ -80,7 +80,7 @@ public class HitbtcAdapterTest {
     assertThat(asks.size()).isEqualTo(3);
     LimitOrder order = asks.get(0);
     assertThat(order.getLimitPrice()).isEqualTo("609.58");
-    assertThat(order.getTradableAmount()).isEqualTo("1.23");
+    assertThat(order.getOriginalAmount()).isEqualTo("1.23");
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
@@ -121,7 +121,7 @@ public class HitbtcAdapterTest {
 
     Trade trade = adaptedTrades.getTrades().get(4);
     assertThat(trade.getType()).isEqualTo(OrderType.BID);
-    assertThat(trade.getTradableAmount()).isEqualTo("0.21");
+    assertThat(trade.getOriginalAmount()).isEqualTo("0.21");
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(trade.getPrice()).isEqualTo("347.65");
     assertThat(trade.getTimestamp()).isEqualTo(new Date(1447538550006L));

@@ -89,7 +89,7 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   public String placeLimitOrder(
       LimitOrder arg0) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    VaultoroNewOrderResponse response = super.placeLimitOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getTradableAmount(), arg0.getLimitPrice());
+    VaultoroNewOrderResponse response = super.placeLimitOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount(), arg0.getLimitPrice());
     return response.getData().getOrderID();
 
   }
@@ -98,7 +98,7 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   public String placeMarketOrder(
       MarketOrder arg0) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    VaultoroNewOrderResponse response = super.placeMarketOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getTradableAmount());
+    VaultoroNewOrderResponse response = super.placeMarketOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount());
     return response.getData().getOrderID();
 
   }

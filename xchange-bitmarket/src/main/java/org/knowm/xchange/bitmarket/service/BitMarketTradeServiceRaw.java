@@ -49,7 +49,7 @@ public class BitMarketTradeServiceRaw extends BitMarketBaseService {
     String market = order.getCurrencyPair().toString().replace("/", "");
     String type = order.getType() == Order.OrderType.ASK ? "sell" : "buy";
 
-    BitMarketTradeResponse response = bitMarketAuthenticated.trade(apiKey, sign, exchange.getNonceFactory(), market, type, order.getTradableAmount(),
+    BitMarketTradeResponse response = bitMarketAuthenticated.trade(apiKey, sign, exchange.getNonceFactory(), market, type, order.getOriginalAmount(),
         order.getLimitPrice());
 
     if (!response.getSuccess()) {
