@@ -177,12 +177,12 @@ public class HitbtcAdapters {
       CurrencyPair pair = adaptSymbol("BTCUSD");
 
       // minimumAmount is equal to lot size
-      BigDecimal tradableAmount = hitbtcOwnTrade.getQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
+      BigDecimal originalAmount = hitbtcOwnTrade.getQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
       Date timestamp = hitbtcOwnTrade.getTimestamp();
 
       String id = Long.toString(hitbtcOwnTrade.getId());
 
-      UserTrade trade = new UserTrade(type, tradableAmount, pair, hitbtcOwnTrade.getPrice(), timestamp, id, hitbtcOwnTrade.getClientOrderId(), hitbtcOwnTrade.getFee(),
+      UserTrade trade = new UserTrade(type, originalAmount, pair, hitbtcOwnTrade.getPrice(), timestamp, id, hitbtcOwnTrade.getClientOrderId(), hitbtcOwnTrade.getFee(),
           Currency.getInstance(pair.counter.getCurrencyCode()));
 
       trades.add(trade);

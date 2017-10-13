@@ -1,10 +1,11 @@
 package org.knowm.xchange.dto.meta;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CurrencyPairMetaData {
+public class CurrencyPairMetaData implements Serializable {
 
   /**
    * Trading fee (fraction)

@@ -74,7 +74,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     }
 
     baseAmount.setCurrency(order.getCurrencyPair().base.getCurrencyCode());
-    baseAmount.setValue(order.getTradableAmount());
+    baseAmount.setValue(order.getOriginalAmount());
     if (baseAmount.getCurrency().equals("XRP") == false) {
       // not XRP - need a counterparty for this currency
       final String counterparty = order.getBaseCounterparty();
@@ -85,7 +85,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     }
 
     counterAmount.setCurrency(order.getCurrencyPair().counter.getCurrencyCode());
-    counterAmount.setValue(order.getTradableAmount().multiply(order.getLimitPrice()));
+    counterAmount.setValue(order.getOriginalAmount().multiply(order.getLimitPrice()));
     if (counterAmount.getCurrency().equals("XRP") == false) {
       // not XRP - need a counterparty for this currency
       final String counterparty = order.getCounterCounterparty();
@@ -309,7 +309,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     final ITransferFeeSource transferFeeSource = (ITransferFeeSource) exchange.getAccountService();
     final String counterparty = order.getBaseCounterparty();
     final String currency = order.getCurrencyPair().base.getCurrencyCode();
-    final BigDecimal quantity = order.getTradableAmount();
+    final BigDecimal quantity = order.getOriginalAmount();
     final OrderType type = order.getType();
     return getExpectedTransferFee(transferFeeSource, counterparty, currency, quantity, type);
   }
@@ -321,7 +321,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     final ITransferFeeSource transferFeeSource = (ITransferFeeSource) exchange.getAccountService();
     final String counterparty = order.getCounterCounterparty();
     final String currency = order.getCurrencyPair().counter.getCurrencyCode();
-    final BigDecimal quantity = order.getTradableAmount().multiply(order.getLimitPrice());
+    final BigDecimal quantity = order.getOriginalAmount().multiply(order.getLimitPrice());
     final OrderType type;
     if (order.getType() == OrderType.BID) {
       type = OrderType.ASK;

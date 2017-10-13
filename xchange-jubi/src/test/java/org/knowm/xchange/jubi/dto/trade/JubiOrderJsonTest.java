@@ -44,7 +44,7 @@ public class JubiOrderJsonTest {
     assertThat(userTrades.getlastID()).isEqualTo(6860502);
     assertThat(userTrades.getTrades().get(0).getId()).isEqualTo("1071957");
     assertThat(userTrades.getTrades().get(0).getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(userTrades.getTrades().get(0).getTradableAmount()).isEqualTo(new BigDecimal(100000));
+    assertThat(userTrades.getTrades().get(0).getOriginalAmount()).isEqualTo(new BigDecimal(100000));
     assertThat(userTrades.getTrades().get(1).getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(userTrades.getTrades().get(7).getId()).isEqualTo("6860502");
   }

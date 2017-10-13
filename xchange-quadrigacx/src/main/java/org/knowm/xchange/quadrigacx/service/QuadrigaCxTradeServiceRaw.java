@@ -34,28 +34,28 @@ public class QuadrigaCxTradeServiceRaw extends QuadrigaCxBaseService {
         signatureCreator, exchange.getNonceFactory());
   }
 
-  public QuadrigaCxOrder sellQuadrigaCxOrder(CurrencyPair currencyPair, BigDecimal tradableAmount, BigDecimal price) throws IOException {
+  public QuadrigaCxOrder sellQuadrigaCxOrder(CurrencyPair currencyPair, BigDecimal originalAmount, BigDecimal price) throws IOException {
 
     return quadrigacxAuthenticated.sell(QuadrigaCxUtils.currencyPairToBook(currencyPair), exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory(), tradableAmount, price);
+        signatureCreator, exchange.getNonceFactory(), originalAmount, price);
   }
 
-  public QuadrigaCxOrder buyQuadrigaCxOrder(CurrencyPair currencyPair, BigDecimal tradableAmount, BigDecimal price) throws IOException {
+  public QuadrigaCxOrder buyQuadrigaCxOrder(CurrencyPair currencyPair, BigDecimal originalAmount, BigDecimal price) throws IOException {
 
     return quadrigacxAuthenticated.buy(QuadrigaCxUtils.currencyPairToBook(currencyPair), exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory(), tradableAmount, price);
+        signatureCreator, exchange.getNonceFactory(), originalAmount, price);
   }
 
-  public QuadrigaCxOrder sellQuadrigaCxOrder(CurrencyPair currencyPair, BigDecimal tradableAmount) throws IOException {
+  public QuadrigaCxOrder sellQuadrigaCxOrder(CurrencyPair currencyPair, BigDecimal originalAmount) throws IOException {
 
     return quadrigacxAuthenticated.sell(QuadrigaCxUtils.currencyPairToBook(currencyPair), exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory(), tradableAmount, null);
+        signatureCreator, exchange.getNonceFactory(), originalAmount, null);
   }
 
-  public QuadrigaCxOrder buyQuadrigaCxOrder(CurrencyPair currencyPair, BigDecimal tradableAmount) throws IOException {
+  public QuadrigaCxOrder buyQuadrigaCxOrder(CurrencyPair currencyPair, BigDecimal originalAmount) throws IOException {
 
     return quadrigacxAuthenticated.buy(QuadrigaCxUtils.currencyPairToBook(currencyPair), exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory(), tradableAmount, null);
+        signatureCreator, exchange.getNonceFactory(), originalAmount, null);
   }
 
   public boolean cancelQuadrigaCxOrder(String orderId) throws IOException {

@@ -87,7 +87,7 @@ public class BTCEAdapterTest {
     // verify all fields filled
     assertThat(trades.getTrades().get(0).getPrice().toString()).isEqualTo("760.999");
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.ASK);
-    assertThat(trades.getTrades().get(0).getTradableAmount().toString()).isEqualTo("0.028354");
+    assertThat(trades.getTrades().get(0).getOriginalAmount().toString()).isEqualTo("0.028354");
     assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     // assertThat("transactionCurrency should be PLN",
     // trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
@@ -159,7 +159,7 @@ public class BTCEAdapterTest {
     assertThat(order.getType()).isEqualTo(OrderType.ASK);
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertEquals(new BigDecimal("3.00000000"), order.getLimitPrice());
-    assertEquals(new BigDecimal("2.00000000"), order.getTradableAmount());
+    assertEquals(new BigDecimal("2.00000000"), order.getOriginalAmount());
     assertEquals(new BigDecimal("1.00000000"), order.getCumulativeAmount());
     assertEquals(OrderStatus.PARTIALLY_FILLED, order.getStatus());
     assertThat(order.getTimestamp().getTime()).isEqualTo(1342448420000L);

@@ -24,7 +24,7 @@ public class BitfinexTradeDemo {
 
     BitfinexTradeServiceRaw tradeService = (BitfinexTradeServiceRaw) bfx.getTradeService();
     LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("481.69"))
-        .tradableAmount(new BigDecimal("0.001")).build();
+        .originalAmount(new BigDecimal("0.001")).build();
     tradeService.placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
   }
 }

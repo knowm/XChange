@@ -63,10 +63,10 @@ public class CoinbaseAdapterTest {
   @Test
   public void testAdaptTrades() throws IOException {
 
-    BigDecimal tradableAmount = new BigDecimal("1.20000000");
-    BigDecimal price = new BigDecimal("905.10").divide(tradableAmount, RoundingMode.HALF_EVEN);
+    BigDecimal originalAmount = new BigDecimal("1.20000000");
+    BigDecimal price = new BigDecimal("905.10").divide(originalAmount, RoundingMode.HALF_EVEN);
 
-    UserTrade expectedTrade = new UserTrade(OrderType.BID, tradableAmount, CurrencyPair.BTC_USD, price,
+    UserTrade expectedTrade = new UserTrade(OrderType.BID, originalAmount, CurrencyPair.BTC_USD, price,
         DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"), "52f4411767c71baf9000003f", "52f4411667c71baf9000003c", new BigDecimal("9.05"),
         Currency.getInstance("USD"));
 

@@ -66,7 +66,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
     String side = side(limitOrder.getType());
     String productId = toProductId(limitOrder.getCurrencyPair());
 
-    return coinbaseEx.placeLimitOrder(new GDAXPlaceOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), side, productId, "limit", limitOrder.getOrderFlags()),
+    return coinbaseEx.placeLimitOrder(new GDAXPlaceOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), side, productId, "limit", limitOrder.getOrderFlags()),
         apiKey, digest, nonceFactory, passphrase);
   }
 
@@ -75,7 +75,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
     String side = side(marketOrder.getType());
     String productId = toProductId(marketOrder.getCurrencyPair());
 
-    return coinbaseEx.placeMarketOrder(new GDAXPlaceOrder(marketOrder.getTradableAmount(), null, side, productId, "market", marketOrder.getOrderFlags()), apiKey, digest,
+    return coinbaseEx.placeMarketOrder(new GDAXPlaceOrder(marketOrder.getOriginalAmount(), null, side, productId, "market", marketOrder.getOrderFlags()), apiKey, digest,
         nonceFactory, passphrase);
   }
 

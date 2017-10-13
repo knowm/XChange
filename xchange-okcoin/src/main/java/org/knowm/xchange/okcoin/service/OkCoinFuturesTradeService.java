@@ -94,7 +94,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     long orderId;
     if (marketOrder.getType() == OrderType.BID || marketOrder.getType() == OrderType.ASK) {
       orderId = futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrder.getType() == OrderType.BID ? "1" : "2", "0",
-          marketOrder.getTradableAmount().toPlainString(), futuresContract, 1, leverRate).getOrderId();
+          marketOrder.getOriginalAmount().toPlainString(), futuresContract, 1, leverRate).getOrderId();
       return String.valueOf(orderId);
     } else {
       return liquidateMarketOrder(marketOrder);
@@ -108,7 +108,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()),
         marketOrder.getType() == OrderType.BID || marketOrder.getType() == OrderType.EXIT_BID ? "3" : "4", "0",
-        marketOrder.getTradableAmount().toPlainString(), futuresContract, 1, leverRate).getOrderId();
+        marketOrder.getOriginalAmount().toPlainString(), futuresContract, 1, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
 
@@ -117,7 +117,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     long orderId;
     if (limitOrder.getType() == OrderType.BID || limitOrder.getType() == OrderType.ASK) {
       orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "1" : "2",
-          limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
+          limitOrder.getLimitPrice().toPlainString(), limitOrder.getOriginalAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
       return String.valueOf(orderId);
     } else {
       return liquidateLimitOrder(limitOrder);
@@ -131,7 +131,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()),
         limitOrder.getType() == OrderType.BID || limitOrder.getType() == OrderType.EXIT_BID ? "3" : "4", limitOrder.getLimitPrice().toPlainString(),
-        limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
+        limitOrder.getOriginalAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
 

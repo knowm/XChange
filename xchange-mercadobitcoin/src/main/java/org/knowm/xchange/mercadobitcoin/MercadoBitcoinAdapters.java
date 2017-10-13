@@ -188,7 +188,7 @@ public final class MercadoBitcoinAdapters {
         String txId = f.getKey();
         OperationEntry op = f.getValue();
         result.add(new UserTrade.Builder().currencyPair(pair).id(txId).orderId(orderId).price(op.getPrice()).timestamp(fromUnixTime(op.getCreated()))
-            .tradableAmount(op.getVolume()).type(type).build());
+            .originalAmount(op.getVolume()).type(type).build());
       }
     }
     // TODO verify sortType

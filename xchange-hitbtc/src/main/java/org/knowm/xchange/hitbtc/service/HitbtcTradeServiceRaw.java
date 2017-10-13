@@ -198,7 +198,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   }
 
   /**
-   * Represent tradableAmount in lots
+   * Represent originalAmount in lots
    *
    * @throws java.lang.IllegalArgumentException if the result were to be less than lot size for given currency pair
    */
@@ -207,7 +207,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     CurrencyPair pair = order.getCurrencyPair();
     BigDecimal lotDivisor = LOT_SIZES.get(pair);
 
-    BigDecimal lots = order.getTradableAmount().divide(lotDivisor, BigDecimal.ROUND_DOWN).setScale(0, BigDecimal.ROUND_DOWN);
+    BigDecimal lots = order.getOriginalAmount().divide(lotDivisor, BigDecimal.ROUND_DOWN).setScale(0, BigDecimal.ROUND_DOWN);
     if (lots.compareTo(BigDecimal.ONE) < 0) {
       throw new IllegalArgumentException("Tradable amount too low");
     }

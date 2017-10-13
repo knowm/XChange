@@ -41,7 +41,7 @@ public class CampBXTradeServiceRaw extends CampBXBaseService {
 
     CampBX.AdvTradeMode mode = marketOrder.getType() == Order.OrderType.ASK ? CampBX.AdvTradeMode.AdvancedSell : CampBX.AdvTradeMode.AdvancedBuy;
     CampBXResponse campBXResponse = campBX.tradeAdvancedMarketEnter(exchange.getExchangeSpecification().getUserName(),
-        exchange.getExchangeSpecification().getPassword(), mode, marketOrder.getTradableAmount(), CampBX.MarketPrice.Market, null, null, null);
+        exchange.getExchangeSpecification().getPassword(), mode, marketOrder.getOriginalAmount(), CampBX.MarketPrice.Market, null, null, null);
 
     return campBXResponse;
   }
@@ -50,7 +50,7 @@ public class CampBXTradeServiceRaw extends CampBXBaseService {
 
     CampBX.TradeMode mode = limitOrder.getType() == Order.OrderType.ASK ? CampBX.TradeMode.QuickSell : CampBX.TradeMode.QuickBuy;
     CampBXResponse campBXResponse = campBX.tradeEnter(exchange.getExchangeSpecification().getUserName(),
-        exchange.getExchangeSpecification().getPassword(), mode, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+        exchange.getExchangeSpecification().getPassword(), mode, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
 
     return campBXResponse;
   }

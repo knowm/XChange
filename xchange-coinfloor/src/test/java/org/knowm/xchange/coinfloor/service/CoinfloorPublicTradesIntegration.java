@@ -28,7 +28,7 @@ public class CoinfloorPublicTradesIntegration {
     int tradeCount = trades.getTrades().size();
     Trade mostRecentTrade = trades.getTrades().get(tradeCount - 1);
     assertThat(mostRecentTrade.getPrice()).isGreaterThan(BigDecimal.ZERO);
-    assertThat(mostRecentTrade.getTradableAmount()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(mostRecentTrade.getOriginalAmount()).isGreaterThan(BigDecimal.ZERO);
 
     assertThat(trades.getlastID()).isEqualTo(Long.parseLong(mostRecentTrade.getId()));
   }

@@ -50,12 +50,12 @@ public abstract class BaseExchangeService {
       throw new IllegalArgumentException("Invalid CurrencyPair");
     }
 
-    BigDecimal tradableAmount = order.getTradableAmount();
-    if (tradableAmount == null) {
-      throw new IllegalArgumentException("Missing tradableAmount");
+    BigDecimal originalAmount = order.getOriginalAmount();
+    if (originalAmount == null) {
+      throw new IllegalArgumentException("Missing originalAmount");
     }
 
-    BigDecimal amount = tradableAmount.stripTrailingZeros();
+    BigDecimal amount = originalAmount.stripTrailingZeros();
     BigDecimal minimumAmount = metaData.getMinimumAmount();
     if (minimumAmount != null) {
       if (amount.scale() > minimumAmount.scale()) {

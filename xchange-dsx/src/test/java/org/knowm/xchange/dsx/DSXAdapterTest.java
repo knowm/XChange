@@ -75,7 +75,7 @@ public class DSXAdapterTest {
 
     assertThat(trades.getTrades().get(0).getPrice().toString()).isEqualTo("1588.09000");
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(trades.getTrades().get(0).getTradableAmount().toString()).isEqualTo("0.03202392");
+    assertThat(trades.getTrades().get(0).getOriginalAmount().toString()).isEqualTo("0.03202392");
     assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2017-05-04 17:10:10 GMT");
   }
