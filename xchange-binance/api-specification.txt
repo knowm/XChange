@@ -1,6 +1,0 @@
-Binance Exchange API specification
-================================
-
-API Documentation
----------------------------
-https://www.binance.com/restapipub.html
