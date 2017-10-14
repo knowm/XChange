@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.trade;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * <p>
  * Open loan orders are loan order that have placed with the exchange that have not yet been matched to a counterparty.
  */
-public final class OpenLoanOrders {
+public final class OpenLoanOrders implements Serializable {
 
   private final List<FixedRateLoanOrder> openFixedRateLoanOrders;
   private final List<FloatingRateLoanOrder> openFloatingRateLoanOrders;

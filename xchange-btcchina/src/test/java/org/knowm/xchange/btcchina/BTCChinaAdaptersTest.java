@@ -67,7 +67,7 @@ public class BTCChinaAdaptersTest {
     Trade trade = BTCChinaAdapters.adaptTransaction(btcChinaTransaction);
 
     assertEquals(OrderType.ASK, trade.getType());
-    assertEquals(new BigDecimal("0.37460000"), trade.getTradableAmount());
+    assertEquals(new BigDecimal("0.37460000"), trade.getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, trade.getCurrencyPair());
     assertEquals(new BigDecimal("3790.95"), trade.getPrice());
     assertEquals(1402922707000L, trade.getTimestamp().getTime());
@@ -87,25 +87,25 @@ public class BTCChinaAdaptersTest {
 
     // bid 1@99
     assertEquals(new BigDecimal("99"), bids.get(0).getLimitPrice());
-    assertEquals(new BigDecimal("1"), bids.get(0).getTradableAmount());
+    assertEquals(new BigDecimal("1"), bids.get(0).getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, bids.get(0).getCurrencyPair());
     assertEquals(OrderType.BID, bids.get(0).getType());
 
     // bid 2@98
     assertEquals(new BigDecimal("98"), bids.get(1).getLimitPrice());
-    assertEquals(new BigDecimal("2"), bids.get(1).getTradableAmount());
+    assertEquals(new BigDecimal("2"), bids.get(1).getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, bids.get(1).getCurrencyPair());
     assertEquals(OrderType.BID, bids.get(1).getType());
 
     // ask 0.997@100
     assertEquals(new BigDecimal("100"), asks.get(0).getLimitPrice());
-    assertEquals(new BigDecimal("0.997"), asks.get(0).getTradableAmount());
+    assertEquals(new BigDecimal("0.997"), asks.get(0).getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, asks.get(0).getCurrencyPair());
     assertEquals(OrderType.ASK, asks.get(0).getType());
 
     // ask 2@101
     assertEquals(new BigDecimal("101"), asks.get(1).getLimitPrice());
-    assertEquals(new BigDecimal("2"), asks.get(1).getTradableAmount());
+    assertEquals(new BigDecimal("2"), asks.get(1).getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, asks.get(1).getCurrencyPair());
     assertEquals(OrderType.ASK, asks.get(1).getType());
 
@@ -124,7 +124,7 @@ public class BTCChinaAdaptersTest {
     assertEquals(OrderType.BID, order.getType());
     assertEquals(new BigDecimal("2000.00"), order.getLimitPrice());
     assertEquals(CurrencyPair.BTC_CNY, order.getCurrencyPair());
-    assertEquals(new BigDecimal("0.00100000"), order.getTradableAmount());
+    assertEquals(new BigDecimal("0.00100000"), order.getOriginalAmount());
     assertEquals(1396255376000L, order.getTimestamp().getTime());
   }
 

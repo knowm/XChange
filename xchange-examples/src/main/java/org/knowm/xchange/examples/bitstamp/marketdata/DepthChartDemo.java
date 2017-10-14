@@ -55,7 +55,7 @@ public class DepthChartDemo {
     for (LimitOrder limitOrder : orderBook.getBids()) {
       if (limitOrder.getLimitPrice().doubleValue() > 10) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getTradableAmount());
+        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedBidUnits);
       }
     }
@@ -73,7 +73,7 @@ public class DepthChartDemo {
     for (LimitOrder limitOrder : orderBook.getAsks()) {
       if (limitOrder.getLimitPrice().doubleValue() < 1000) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getTradableAmount());
+        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedAskUnits);
       }
     }

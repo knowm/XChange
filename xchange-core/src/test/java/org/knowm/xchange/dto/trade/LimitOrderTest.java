@@ -20,18 +20,18 @@ public class LimitOrderTest {
   @Test
   public void testBuilder() {
     final OrderType type = OrderType.BID;
-    final BigDecimal tradableAmount = new BigDecimal("99.401");
+    final BigDecimal originalAmount = new BigDecimal("99.401");
     final CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
     final BigDecimal limitPrice = new BigDecimal("251.64");
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
-    final LimitOrder copy = new LimitOrder.Builder(type, currencyPair).tradableAmount(tradableAmount).limitPrice(limitPrice).orderStatus(status)
+    final LimitOrder copy = new LimitOrder.Builder(type, currencyPair).originalAmount(originalAmount).limitPrice(limitPrice).orderStatus(status)
         .timestamp(timestamp).id(id).flag(TestFlags.TEST1).build();
 
     assertThat(copy.getType()).isEqualTo(type);
-    assertThat(copy.getTradableAmount()).isEqualTo(tradableAmount);
+    assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
     assertThat(copy.getCurrencyPair()).isEqualTo(currencyPair);
     assertThat(copy.getLimitPrice()).isEqualTo(limitPrice);
     assertThat(copy.getTimestamp()).isEqualTo(timestamp);
@@ -45,21 +45,21 @@ public class LimitOrderTest {
   @Test
   public void testBuilderFrom() {
     final OrderType type = OrderType.ASK;
-    final BigDecimal tradableAmount = new BigDecimal("100.501");
+    final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
     final BigDecimal limitPrice = new BigDecimal("250.34");
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
-    final LimitOrder original = new LimitOrder(type, tradableAmount, currencyPair, id, timestamp, limitPrice);
+    final LimitOrder original = new LimitOrder(type, originalAmount, currencyPair, id, timestamp, limitPrice);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
     original.setOrderStatus(status);
     final LimitOrder copy = LimitOrder.Builder.from(original).build();
 
     assertThat(copy.getType()).isEqualTo(original.getType());
-    assertThat(copy.getTradableAmount()).isEqualTo(original.getTradableAmount());
+    assertThat(copy.getOriginalAmount()).isEqualTo(original.getOriginalAmount());
     assertThat(copy.getCurrencyPair()).isEqualTo(original.getCurrencyPair());
     assertThat(copy.getLimitPrice()).isEqualTo(original.getLimitPrice());
     assertThat(copy.getTimestamp()).isEqualTo(original.getTimestamp());

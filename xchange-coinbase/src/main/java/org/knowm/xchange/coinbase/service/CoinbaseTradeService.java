@@ -52,8 +52,8 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, IOException {
 
-    final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ? super.buy(marketOrder.getTradableAmount())
-        : super.sell(marketOrder.getTradableAmount());
+    final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ? super.buy(marketOrder.getOriginalAmount())
+        : super.sell(marketOrder.getOriginalAmount());
     return transfer.getId();
   }
 

@@ -27,7 +27,7 @@ public class CoinfloorOrderBookIntegration {
 
     LimitOrder order = orderBook.getBids().get(0);
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_GBP);
-    assertThat(order.getTradableAmount()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(order.getOriginalAmount()).isGreaterThan(BigDecimal.ZERO);
     assertThat(order.getLimitPrice()).isGreaterThan(BigDecimal.ZERO);
   }
 }

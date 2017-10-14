@@ -47,7 +47,7 @@ public class BitcurexAdapterTest {
     // Verify all fields filled
     assertThat(asks.get(0).getLimitPrice().doubleValue()).isEqualTo(70.00000000);
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
-    assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(0.1021341);
+    assertThat(asks.get(0).getOriginalAmount().doubleValue()).isEqualTo(0.1021341);
     assertThat(asks.get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
 
   }
@@ -67,7 +67,7 @@ public class BitcurexAdapterTest {
 
     // Verify all fields filled
     assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 70.00000000);
-    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 23.99500000);
+    assertThat(trades.getTrades().get(0).getOriginalAmount().doubleValue() == 23.99500000);
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-07-29 16:53:28 GMT");
   }
 

@@ -61,9 +61,9 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
 
     final BTCTradePlaceOrderResult result;
     if (limitOrder.getType() == OrderType.BID) {
-      result = buy(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      result = buy(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     } else {
-      result = sell(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      result = sell(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     }
     return BTCTradeAdapters.adaptPlaceOrderResult(result);
   }
