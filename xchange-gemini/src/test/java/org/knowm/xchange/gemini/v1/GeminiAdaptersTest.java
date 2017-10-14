@@ -61,7 +61,7 @@ public class GeminiAdaptersTest {
       LimitOrder order = container.getLimitOrders().get(i);
       long expectedTimestampMillis = levels[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
 
-      assertEquals(levels[i].getAmount(), order.getTradableAmount());
+      assertEquals(levels[i].getAmount(), order.getOriginalAmount());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
       assertEquals(levels[i].getPrice(), order.getLimitPrice());
     }
@@ -152,7 +152,7 @@ public class GeminiAdaptersTest {
       Order.OrderType expectedOrderType = responses[i].getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
       assertEquals(responses[i].getPrice(), trade.getPrice());
-      assertEquals(responses[i].getAmount(), trade.getTradableAmount());
+      assertEquals(responses[i].getAmount(), trade.getOriginalAmount());
       assertEquals(GeminiAdapters.adaptCurrencyPair(SYMBOL), trade.getCurrencyPair());
       assertEquals(expectedTimestampMillis, trade.getTimestamp().getTime());
       assertEquals(expectedOrderType, trade.getType());

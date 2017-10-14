@@ -40,10 +40,6 @@
       "price_scale": 8,
       "min_amount": 30.00000000
     },
-    "XRP/GBP": {
-      "price_scale": 5,
-      "min_amount": 30.00000000
-    },
     "XRP/EUR": {
       "price_scale": 5,
       "min_amount": 30.00000000
@@ -118,10 +114,6 @@
     },
     "REP/EUR": {
       "price_scale": 3,
-      "min_amount": 0.300000000
-    },
-    "REP/CAD": {
-      "price_scale": 6,
       "min_amount": 0.300000000
     },
     "ZEC/BTC": {

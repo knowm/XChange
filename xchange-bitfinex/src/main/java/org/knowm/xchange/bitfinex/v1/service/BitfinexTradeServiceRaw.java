@@ -91,7 +91,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
     try {
       BitfinexOrderStatusResponse newOrder = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator,
-          new BitfinexNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair, marketOrder.getTradableAmount(),
+          new BitfinexNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair, marketOrder.getOriginalAmount(),
               BigDecimal.ONE, "bitfinex", type, orderType));
       return newOrder;
     } catch (BitfinexException e) {
@@ -131,7 +131,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
     BitfinexOrderStatusResponse response;
     if (replaceOrderId == Long.MIN_VALUE) { // order entry
       BitfinexNewOrderRequest request = new BitfinexNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair,
-          limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "bitfinex", type, orderType, isHidden, isPostOnly);
+          limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), "bitfinex", type, orderType, isHidden, isPostOnly);
       try {
         response = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, request);
       } catch (BitfinexException e) {
@@ -147,7 +147,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       }
 
       BitfinexReplaceOrderRequest request = new BitfinexReplaceOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), replaceOrderId,
-          pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "bitfinex", type, orderType, isHidden, isPostOnly, useRemaining);
+          pair, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), "bitfinex", type, orderType, isHidden, isPostOnly, useRemaining);
       try {
         response = bitfinex.replaceOrder(apiKey, payloadCreator, signatureCreator, request);
       } catch (BitfinexException e) {
@@ -173,13 +173,13 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
         String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
         String type = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
         String orderType = bitfinexOrderType.toString();
-        bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+        bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
       } else if (o instanceof MarketOrder) {
         MarketOrder marketOrder = (MarketOrder) o;
         String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
         String type = marketOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
         String orderType = bitfinexOrderType.toString();
-        bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, marketOrder.getTradableAmount(), BigDecimal.ONE);
+        bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, marketOrder.getOriginalAmount(), BigDecimal.ONE);
       }
     }
 
@@ -202,7 +202,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
           payloadCreator,
           signatureCreator,
           new BitfinexNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(), loanOrder
-              .getTradableAmount(), loanOrder.getRate(), loanOrder.getDayPeriod(), direction));
+              .getOriginalAmount(), loanOrder.getRate(), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
       throw new ExchangeException(e);
@@ -219,7 +219,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
           payloadCreator,
           signatureCreator,
           new BitfinexNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(), loanOrder
-              .getTradableAmount(), new BigDecimal("0.0"), loanOrder.getDayPeriod(), direction));
+              .getOriginalAmount(), new BigDecimal("0.0"), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
       throw new ExchangeException(e);

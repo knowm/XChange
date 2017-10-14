@@ -61,7 +61,7 @@ public class OrderBookTest {
         BigDecimal.TEN);
     orderBook.update(lowerBidUpdate);
     assertThat(orderBook.getBids().size()).isEqualTo(1);
-    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(BigDecimal.TEN);
+    assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(BigDecimal.TEN);
   }
 
   @Test

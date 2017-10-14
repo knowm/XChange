@@ -63,7 +63,7 @@ public class JubiTradeService extends JubiTradeServiceRaw implements TradeServic
   public String placeLimitOrder(LimitOrder order) throws IOException {
     JubiOrderType type = order.getType().equals(Order.OrderType.BID) ? JubiOrderType.Buy : JubiOrderType.Sell;
     CurrencyPair currencyPair = order.getCurrencyPair();
-    JubiTradeResult result = placeJubiOrder(currencyPair, order.getTradableAmount(), order.getLimitPrice(), type);
+    JubiTradeResult result = placeJubiOrder(currencyPair, order.getOriginalAmount(), order.getLimitPrice(), type);
     if (result.isSuccess()) {
       return result.getId().toPlainString();
     } else {

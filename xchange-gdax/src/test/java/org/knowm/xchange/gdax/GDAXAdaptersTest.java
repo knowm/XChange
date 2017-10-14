@@ -88,7 +88,7 @@ public class GDAXAdaptersTest {
     assertThat(trade.getId()).isEqualTo("470768");
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.ETH_BTC);
     assertThat(trade.getPrice()).isEqualTo("0.05915000");
-    assertThat(trade.getTradableAmount()).isEqualTo("0.01000000");
+    assertThat(trade.getOriginalAmount()).isEqualTo("0.01000000");
     assertThat(trade.getOrderId()).isEqualTo("b4b3bbb1-e0e3-4532-9413-23123448ce35");
     assertThat(trade.getTimestamp().getTime()).isEqualTo(1493623910243L);
     assertThat(trade.getFeeAmount()).isEqualTo("0.0000017745000000");

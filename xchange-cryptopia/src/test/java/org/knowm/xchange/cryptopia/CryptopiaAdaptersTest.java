@@ -51,7 +51,7 @@ public class CryptopiaAdaptersTest {
     // Verify all fields filled
     assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("0.07849890");
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("1.27390320"));
+    assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("1.27390320"));
     assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.ETH_BTC);
   }
 

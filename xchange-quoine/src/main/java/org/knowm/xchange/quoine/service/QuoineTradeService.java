@@ -58,7 +58,7 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     QuoineOrderResponse quoinePlaceOrderResponse = placeMarketOrder(marketOrder.getCurrencyPair(),
-        marketOrder.getType() == OrderType.ASK ? "sell" : "buy", marketOrder.getTradableAmount());
+        marketOrder.getType() == OrderType.ASK ? "sell" : "buy", marketOrder.getOriginalAmount());
     return quoinePlaceOrderResponse.getId();
   }
 
@@ -66,7 +66,7 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     QuoineOrderResponse quoinePlaceOrderResponse = placeLimitOrder(limitOrder.getCurrencyPair(),
-        limitOrder.getType() == OrderType.ASK ? "sell" : "buy", limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+        limitOrder.getType() == OrderType.ASK ? "sell" : "buy", limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     return quoinePlaceOrderResponse.getId();
   }
 

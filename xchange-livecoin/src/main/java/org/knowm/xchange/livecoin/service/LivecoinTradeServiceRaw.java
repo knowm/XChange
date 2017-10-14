@@ -74,9 +74,9 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
   public String makeMarketOrder(MarketOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     Map response;
     if (order.getType().equals(Order.OrderType.BID)) {
-      response = service.buyWithMarketOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getTradableAmount());
+      response = service.buyWithMarketOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getOriginalAmount());
     } else {
-      response = service.sellWithMarketOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getTradableAmount());
+      response = service.sellWithMarketOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getOriginalAmount());
     }
 
     return response.get("orderId").toString();
@@ -85,9 +85,9 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
   public String makeLimitOrder(LimitOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     Map response;
     if (order.getType().equals(Order.OrderType.BID)) {
-      response = service.buyWithLimitOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getLimitPrice(), order.getTradableAmount());
+      response = service.buyWithLimitOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getLimitPrice(), order.getOriginalAmount());
     } else {
-      response = service.sellWithLimitOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getLimitPrice(), order.getTradableAmount());
+      response = service.sellWithLimitOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getLimitPrice(), order.getOriginalAmount());
     }
 
     if (response.containsKey("success") && !Boolean.valueOf(response.get("success").toString()))
