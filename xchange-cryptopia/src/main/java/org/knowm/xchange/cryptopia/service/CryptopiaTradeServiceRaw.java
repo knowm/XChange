@@ -119,10 +119,10 @@ public class CryptopiaTradeServiceRaw {
       Date timestamp = CryptopiaAdapters.convertTimestamp(map.get("TimeStamp").toString());
       String id = map.get("TradeId").toString();
       BigDecimal fee = new BigDecimal(map.get("Fee").toString());
-      String orderId = map.get("TradePairId").toString();
-      Currency feeCcy = null;
+      String orderId = id;
 
       CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
+      Currency feeCcy = pair.counter;
       results.add(new UserTrade(
           type,
           amount,
