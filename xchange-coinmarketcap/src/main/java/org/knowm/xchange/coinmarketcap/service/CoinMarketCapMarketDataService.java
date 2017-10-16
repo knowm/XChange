@@ -133,5 +133,5 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
       currencies.add(ticker.getBaseCurrency());
     return currencies;
   }
-
 }
+

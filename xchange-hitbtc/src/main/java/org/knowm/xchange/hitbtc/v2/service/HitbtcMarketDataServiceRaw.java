@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcCandle;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
@@ -44,6 +45,10 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
       HitbtcSort sortDirection, long startIndex, long maxResults) throws IOException {
 
     return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair));
+  }
+
+  public List<HitbtcCandle> getHitbtcCandles(CurrencyPair currencyPair, int limit, String period) throws IOException {
+    return hitbtc.getHitbtcOHLC(HitbtcAdapters.adaptCurrencyPair(currencyPair), limit, period);
   }
 
 }

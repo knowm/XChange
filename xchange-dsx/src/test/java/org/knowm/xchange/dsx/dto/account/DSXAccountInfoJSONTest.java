@@ -1,6 +1,6 @@
 package org.knowm.xchange.dsx.dto.account;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +26,7 @@ public class DSXAccountInfoJSONTest {
     DSXAccountInfoReturn ai = mapper.readValue(is, DSXAccountInfoReturn.class);
 
     assertThat(ai.getReturnValue().getRights().isInfo()).isTrue();
-    assertThat(ai.getReturnValue().getFunds().get("BTC")).isEqualsToByComparingFields(new DSXCurrencyAmount(new BigDecimal("100"), new BigDecimal("95")));
-    assertThat(ai.getReturnValue().getFunds().get("USD")).isEqualsToByComparingFields(new DSXCurrencyAmount(new BigDecimal("10000"), new BigDecimal("9995")));
+    assertThat(ai.getReturnValue().getFunds().get("BTC")).isEqualToComparingFieldByField(new DSXCurrencyAmount(new BigDecimal("100"), new BigDecimal("95")));
+    assertThat(ai.getReturnValue().getFunds().get("USD")).isEqualToComparingFieldByField(new DSXCurrencyAmount(new BigDecimal("10000"), new BigDecimal("9995")));
   }
 }

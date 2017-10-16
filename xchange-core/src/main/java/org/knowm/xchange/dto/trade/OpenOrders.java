@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.trade;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * Open orders are orders that you have placed with the exchange that have not yet been matched to a counter-party.
  * </p>
  */
-public final class OpenOrders {
+public final class OpenOrders implements Serializable {
 
   private final List<LimitOrder> openOrders;
 

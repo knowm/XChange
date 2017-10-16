@@ -210,11 +210,11 @@ public class HitbtcAdapters {
       CurrencyPair pair = adaptSymbol(t.getSymbol());
 
       // minimumAmount is equal to lot size
-      BigDecimal tradableAmount = t.getExecQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
+      BigDecimal originalAmount = t.getExecQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
       Date timestamp = new Date(t.getTimestamp());
       String id = Long.toString(t.getTradeId());
 
-      UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
+      UserTrade trade = new UserTrade(type, originalAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
           Currency.getInstance(pair.counter.getCurrencyCode()));
 
       trades.add(trade);

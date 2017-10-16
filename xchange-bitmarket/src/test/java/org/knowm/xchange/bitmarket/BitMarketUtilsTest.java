@@ -1,6 +1,6 @@
 package org.knowm.xchange.bitmarket;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Ignore;
 import org.junit.Test;
