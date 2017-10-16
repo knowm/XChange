@@ -1,6 +1,6 @@
 package org.knowm.xchange.lakebtc;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +59,7 @@ public class LakeBTCAdapterTest {
     assertThat(asks.size()).isEqualTo(3);
     LimitOrder order = asks.get(0);
     assertThat(order.getLimitPrice()).isEqualTo("564.87");
-    assertThat(order.getTradableAmount()).isEqualTo("22.371");
+    assertThat(order.getOriginalAmount()).isEqualTo("22.371");
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 }

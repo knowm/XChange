@@ -86,9 +86,9 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
 
     QuadrigaCxOrder quadrigacxOrder;
     if (marketOrder.getType() == BID) {
-      quadrigacxOrder = buyQuadrigaCxOrder(marketOrder.getCurrencyPair(), marketOrder.getTradableAmount());
+      quadrigacxOrder = buyQuadrigaCxOrder(marketOrder.getCurrencyPair(), marketOrder.getOriginalAmount());
     } else {
-      quadrigacxOrder = sellQuadrigaCxOrder(marketOrder.getCurrencyPair(), marketOrder.getTradableAmount());
+      quadrigacxOrder = sellQuadrigaCxOrder(marketOrder.getCurrencyPair(), marketOrder.getOriginalAmount());
     }
     if (quadrigacxOrder.getErrorMessage() != null) {
       throw new ExchangeException(quadrigacxOrder.getErrorMessage());
@@ -102,9 +102,9 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
 
     QuadrigaCxOrder quadrigacxOrder;
     if (limitOrder.getType() == BID) {
-      quadrigacxOrder = buyQuadrigaCxOrder(limitOrder.getCurrencyPair(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      quadrigacxOrder = buyQuadrigaCxOrder(limitOrder.getCurrencyPair(), limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     } else {
-      quadrigacxOrder = sellQuadrigaCxOrder(limitOrder.getCurrencyPair(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      quadrigacxOrder = sellQuadrigaCxOrder(limitOrder.getCurrencyPair(), limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     }
     if (quadrigacxOrder.getErrorMessage() != null) {
       throw new ExchangeException(quadrigacxOrder.getErrorMessage());

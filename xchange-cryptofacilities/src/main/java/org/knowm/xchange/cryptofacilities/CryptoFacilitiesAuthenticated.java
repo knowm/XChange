@@ -11,7 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
 import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccounts;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
@@ -26,15 +25,9 @@ import si.mazi.rescu.SynchronizedValueFactory;
  * @author Jean-Christophe Laruelle
  */
 
-@Path("/api/v2")
+@Path("/api/v3")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
-
-  @POST
-  @Path("/account")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  CryptoFacilitiesAccount account(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("/accounts")

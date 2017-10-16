@@ -95,7 +95,7 @@ public final class TaurusAdapters {
     for (TaurusUserTransaction taurusUserTransaction : taurusUserTransactions) {
       if (taurusUserTransaction.getType().equals(TaurusUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
         OrderType orderType = taurusUserTransaction.getCad().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
-        BigDecimal tradableAmount = taurusUserTransaction.getBtc();
+        BigDecimal originalAmount = taurusUserTransaction.getBtc();
         BigDecimal price = taurusUserTransaction.getPrice();
         Date timestamp = taurusUserTransaction.getDatetime();
         long transactionId = taurusUserTransaction.getId();
@@ -107,7 +107,7 @@ public final class TaurusAdapters {
         final BigDecimal feeAmount = taurusUserTransaction.getFee();
         final CurrencyPair pair = CurrencyPair.BTC_CAD;
         final Currency feeCurrency = orderType == OrderType.BID ? pair.base : pair.counter;
-        trades.add(new UserTrade(orderType, tradableAmount, pair, price, timestamp, tradeId, orderId, feeAmount, feeCurrency));
+        trades.add(new UserTrade(orderType, originalAmount, pair, price, timestamp, tradeId, orderId, feeAmount, feeCurrency));
       }
     }
 

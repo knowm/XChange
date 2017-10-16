@@ -66,7 +66,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     }
 
     GeminiNewOrderRequest request = new GeminiNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair,
-        limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "Gemini", type, orderType, options);
+        limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), "Gemini", type, orderType, options);
 
     try {
       GeminiOrderStatusResponse newOrder = Gemini.newOrder(apiKey, payloadCreator, signatureCreator, request);

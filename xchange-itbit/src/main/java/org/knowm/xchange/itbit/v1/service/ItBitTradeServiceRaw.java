@@ -59,7 +59,7 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
     CurrencyPair exchangePair = ItBitAdapters.adaptCurrencyPairToExchange(limitOrder.getCurrencyPair());
-    String amount = ItBitAdapters.formatCryptoAmount(limitOrder.getTradableAmount());
+    String amount = ItBitAdapters.formatCryptoAmount(limitOrder.getOriginalAmount());
     String price = ItBitAdapters.formatFiatAmount(limitOrder.getLimitPrice());
 
     ItBitOrder postOrder = itBitAuthenticated.postOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId,

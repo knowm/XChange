@@ -40,9 +40,9 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
     return bitstampAuthenticatedV2.getOpenOrders(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair));
   }
 
-  public BitstampOrder placeBitstampOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal tradableAmount,
+  public BitstampOrder placeBitstampOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal originalAmount,
       BigDecimal price) throws IOException {
-    return bitstampAuthenticatedV2.placeOrder(apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), tradableAmount, price);
+    return bitstampAuthenticatedV2.placeOrder(apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), originalAmount, price);
   }
 
   public boolean cancelBitstampOrder(int orderId) throws IOException {

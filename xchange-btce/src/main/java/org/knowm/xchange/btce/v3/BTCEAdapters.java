@@ -192,12 +192,12 @@ public final class BTCEAdapters {
       BTCETradeHistoryResult result = entry.getValue();
       OrderType type = result.getType() == BTCETradeHistoryResult.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = result.getRate();
-      BigDecimal tradableAmount = result.getAmount();
+      BigDecimal originalAmount = result.getAmount();
       Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
       CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
-      trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, (Currency) null));
+      trades.add(new UserTrade(type, originalAmount, currencyPair, price, timeStamp, tradeId, orderId, null, (Currency) null));
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }

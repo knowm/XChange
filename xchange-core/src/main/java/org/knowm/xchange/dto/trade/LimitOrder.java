@@ -31,7 +31,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
   
   /**
    * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
+   * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
@@ -46,7 +46,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
   
   /**
    * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
+   * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
@@ -61,7 +61,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   /**
    * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
+   * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
@@ -172,7 +172,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     public static Builder from(Order order) {
 
-      Builder builder = (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getOriginalAmount())
+      Builder builder = (Builder) new Builder(order.getType(), order.getCurrencyPair()).originalAmount(order.getOriginalAmount())
           .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags()).orderStatus(order.getStatus())
           .averagePrice(order.getAveragePrice());
       if (order instanceof LimitOrder) {
@@ -189,11 +189,11 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     }
 
     @Override
-    public Builder tradableAmount(BigDecimal tradableAmount) {
+    public Builder originalAmount(BigDecimal originalAmount) {
 
-      return (Builder) super.tradableAmount(tradableAmount);
+      return (Builder) super.originalAmount(originalAmount);
     }
-    
+
     @Override
     public Builder currencyPair(CurrencyPair currencyPair) {
 
@@ -251,7 +251,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     public LimitOrder build() {
 
-      LimitOrder order = new LimitOrder(orderType, tradableAmount, remainingAmount, currencyPair, id, timestamp, limitPrice, averagePrice, null, status);
+      LimitOrder order = new LimitOrder(orderType, originalAmount, remainingAmount, currencyPair, id, timestamp, limitPrice, averagePrice, null, status);
       order.setOrderFlags(flags);
       return order;
     }

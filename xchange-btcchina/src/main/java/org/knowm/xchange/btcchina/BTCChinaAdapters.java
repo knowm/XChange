@@ -224,7 +224,7 @@ public final class BTCChinaAdapters {
 
   public static LimitOrder adaptLimitOrder(BTCChinaMarketDepthOrder order, OrderType orderType, CurrencyPair currencyPair) {
 
-    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(order.getPrice()).tradableAmount(order.getAmount()).build();
+    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(order.getPrice()).originalAmount(order.getAmount()).build();
   }
 
   public static List<LimitOrder> adaptOrders(BTCChinaOrder[] orders, CurrencyPair currencyPair) {

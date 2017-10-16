@@ -105,13 +105,13 @@ public class BTCChinaTradeStat {
       switch (trade.getType()) {
         case BID:
           bidCount++;
-          totalBid = totalBid.add(trade.getPrice().multiply(trade.getTradableAmount()));
-          totalBidTradable = totalBidTradable.add(trade.getTradableAmount());
+          totalBid = totalBid.add(trade.getPrice().multiply(trade.getOriginalAmount()));
+          totalBidTradable = totalBidTradable.add(trade.getOriginalAmount());
           break;
         case ASK:
           askCount++;
-          totalAsk = totalAsk.add(trade.getPrice().multiply(trade.getTradableAmount()));
-          totalAskTradable = totalAskTradable.add(trade.getTradableAmount());
+          totalAsk = totalAsk.add(trade.getPrice().multiply(trade.getOriginalAmount()));
+          totalAskTradable = totalAskTradable.add(trade.getOriginalAmount());
           break;
         default:
           break;

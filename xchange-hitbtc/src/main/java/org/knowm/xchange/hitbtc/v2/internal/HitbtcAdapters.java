@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -177,12 +178,12 @@ public class HitbtcAdapters {
       CurrencyPair pair = adaptSymbol("BTCUSD");
 
       // minimumAmount is equal to lot size
-      BigDecimal tradableAmount = hitbtcOwnTrade.getQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
+      BigDecimal originalAmount = hitbtcOwnTrade.getQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
       Date timestamp = hitbtcOwnTrade.getTimestamp();
 
       String id = Long.toString(hitbtcOwnTrade.getId());
 
-      UserTrade trade = new UserTrade(type, tradableAmount, pair, hitbtcOwnTrade.getPrice(), timestamp, id, hitbtcOwnTrade.getClientOrderId(), hitbtcOwnTrade.getFee(),
+      UserTrade trade = new UserTrade(type, originalAmount, pair, hitbtcOwnTrade.getPrice(), timestamp, id, hitbtcOwnTrade.getClientOrderId(), hitbtcOwnTrade.getFee(),
           Currency.getInstance(pair.counter.getCurrencyCode()));
 
       trades.add(trade);
@@ -241,21 +242,70 @@ public class HitbtcAdapters {
 
   public static FundingRecord adapt(HitbtcTransaction transaction) {
 
-    //todo: find out if there are more statuses
-    FundingRecord.Status status = transaction.getStatus().equals("success") ?
-        FundingRecord.Status.COMPLETE :
-        FundingRecord.Status.FAILED;
-
+    String description = transaction.getType() + " " + transaction.getStatus();
+    if (transaction.getIndex() != null) {
+        description += ", index: " + transaction.getIndex();
+    }
+    if (transaction.getHash() != null) {
+        description += ", hash: " + transaction.getHash();
+    }
+    if (transaction.getPaymentId() != null) {
+        description += ", paymentId: " + transaction.getPaymentId();
+    }
+    
     return new FundingRecord.Builder()
         .setAddress(transaction.getAddress())
-        .setCurrency(Currency.getInstanceNoCreate(transaction.getCurrency()))
+        .setCurrency(Currency.getInstance(transaction.getCurrency()))
         .setAmount(transaction.getAmount())
-        .setType(FundingRecord.Type.valueOf(transaction.getType()))
+        .setType(convertType(transaction.getType()))
         .setFee(transaction.getFee())
-        .setDescription(transaction.getType() + " " + transaction.getStatus())
-        .setStatus(status)
+        .setDescription(description)
+        .setStatus(convertStatus(transaction.getStatus()))
         .setInternalId(transaction.getId())
+        .setDate(transaction.getCreatedAt())
         .build();
   }
+
+  /**
+   * @see https://api.hitbtc.com/api/2/explore/ Transaction Model
+   * possible types: payout, payin, deposit, withdraw, bankToExchange, exchangeToBank
+   * @param type
+   * @return
+   */
+  private static Type convertType(String type) {
+    switch (type) {
+    case "payout":
+    case "withdraw":
+    case "exchangeToBank":
+        return Type.WITHDRAWAL;
+    case "payin":
+    case "deposit":
+    case "bankToExchange":
+        return Type.DEPOSIT;
+    default:
+        throw new RuntimeException("Unknown HitBTC transaction type: " + type);
+    }
+  }
+  
+  /**
+   * @see https://api.hitbtc.com/api/2/explore/ Transaction Model
+   * possible statusses: created, pending, failed, success
+   * @param type
+   * @return
+   */
+  private static FundingRecord.Status convertStatus(String status) {
+    switch (status) {
+    case "created":
+    case "pending":
+        return FundingRecord.Status.PROCESSING;
+    case "failed":
+        return FundingRecord.Status.FAILED;
+    case "success":
+        return FundingRecord.Status.COMPLETE;
+    default:
+        throw new RuntimeException("Unknown HitBTC transaction status: " + status);
+    }
+  }
+  
 
 }

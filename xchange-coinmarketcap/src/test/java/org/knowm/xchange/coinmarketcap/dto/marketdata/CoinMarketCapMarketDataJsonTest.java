@@ -1,6 +1,6 @@
 package org.knowm.xchange.coinmarketcap.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,10 +89,10 @@ public class CoinMarketCapMarketDataJsonTest {
     ObjectMapper mapper = new ObjectMapper();
     CoinMarketCapPrice price = mapper.readValue(is, CoinMarketCapPrice.class);
 
-    assertThat(price.getSubTotal()).isEqualsToByComparingFields(new CoinMarketCapMoney("USD", new BigDecimal("723.09")));
-    assertThat(price.getCoinMarketCapFee()).isEqualsToByComparingFields(new CoinMarketCapMoney("USD", new BigDecimal("7.23")));
-    assertThat(price.getBankFee()).isEqualsToByComparingFields(new CoinMarketCapMoney("USD", new BigDecimal("0.15")));
-    assertThat(price.getTotal()).isEqualsToByComparingFields(new CoinMarketCapMoney("USD", new BigDecimal("730.47")));
+    assertThat(price.getSubTotal()).isEqualToComparingFieldByField(new CoinMarketCapMoney("USD", new BigDecimal("723.09")));
+    assertThat(price.getCoinMarketCapFee()).isEqualToComparingFieldByField(new CoinMarketCapMoney("USD", new BigDecimal("7.23")));
+    assertThat(price.getBankFee()).isEqualToComparingFieldByField(new CoinMarketCapMoney("USD", new BigDecimal("0.15")));
+    assertThat(price.getTotal()).isEqualToComparingFieldByField(new CoinMarketCapMoney("USD", new BigDecimal("730.47")));
   }
 
   @Test
