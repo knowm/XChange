@@ -81,9 +81,6 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
       limit = ((TradeHistoryParamLimit) params).getLimit();
     }
 
-    if (currencyPair == null)
-      throw new IllegalStateException("Need to supply currency pair");
-
     return new UserTrades(tradeHistory(currencyPair, limit), Trades.TradeSortType.SortByTimestamp);
   }
 
