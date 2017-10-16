@@ -91,7 +91,7 @@ public class CryptoFacilitiesAdapters {
       Balance balance;
 
       for (Entry<String, BigDecimal> balancePair : accounts.get(accountName).getBalances().entrySet()) {
-        if (!accountName.equalsIgnoreCase("bitcoincash") && balancePair.getKey().equalsIgnoreCase("xbt")) {
+        if (!accountName.equalsIgnoreCase("cash") && balancePair.getKey().equalsIgnoreCase("xbt")) {
           // For xbt balance we construct both total=deposited xbt and available=total - margin balances
           balance = new Balance(Currency.BTC, balancePair.getValue(), accounts.get(accountName).getAuxiliary().get("af"));
         } else {
@@ -128,7 +128,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static LimitOrder adaptLimitOrder(CryptoFacilitiesOpenOrder ord) {
-    return new LimitOrder(adaptOrderType(ord.getDirection()), ord.getQuantity(), new CurrencyPair(ord.getSymbol(), ord.getSymbol().substring(6, 9)),
+    return new LimitOrder(adaptOrderType(ord.getDirection()), ord.getQuantity(), ord.getUnfilled(), new CurrencyPair(ord.getSymbol(), ord.getSymbol().substring(6, 9)),
         ord.getId(), ord.getTimestamp(), ord.getLimitPrice(), BigDecimal.ZERO, ord.getFilled(), adaptOrderStatus(ord.getStatus()));
   }
 
