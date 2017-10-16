@@ -107,12 +107,11 @@ public class CryptopiaTradeServiceRaw {
   }
 
   public List<UserTrade> tradeHistory(CurrencyPair currencyPair, Integer count) throws IOException {
-    CryptopiaBaseResponse<List<Map>> response = api.getTradeHistory(signatureCreator, new Cryptopia.GetTradeHistoryRequest(currencyPair.toString(), count == null ? 100 : count));
+    CryptopiaBaseResponse<List<Map>> response = api.getTradeHistory(signatureCreator, new Cryptopia.GetTradeHistoryRequest(currencyPair == null ? null : currencyPair.toString(), count == null ? 100 : count));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to get trade history: " + response.toString());
 
     List<UserTrade> results = new ArrayList<>();
-
     for (Map map : response.getData()) {
       Order.OrderType type = type(map);
       BigDecimal amount = new BigDecimal(map.get("Amount").toString());
@@ -123,10 +122,11 @@ public class CryptopiaTradeServiceRaw {
       String orderId = null;//todo: check this
       Currency feeCcy = null;
 
+      CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
       results.add(new UserTrade(
           type,
           amount,
-          currencyPair,
+          pair,
           price,
           timestamp,
           id,
