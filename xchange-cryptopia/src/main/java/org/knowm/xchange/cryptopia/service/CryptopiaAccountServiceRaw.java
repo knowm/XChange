@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.cryptopia.Cryptopia;
+import org.knowm.xchange.cryptopia.CryptopiaAdapters;
 import org.knowm.xchange.cryptopia.CryptopiaDigest;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
@@ -16,7 +17,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.DateUtils;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -74,7 +74,7 @@ public class CryptopiaAccountServiceRaw {
 
     List<FundingRecord> results = new ArrayList<>();
     for (Map map : response.getData()) {
-      Date timeStamp = DateUtils.fromISO8601DateString(map.get("Timestamp").toString());
+      Date timeStamp = CryptopiaAdapters.convertTimestamp(map.get("Timestamp").toString());
       Currency currency = Currency.getInstance(map.get("Currency").toString());
       FundingRecord.Type fundingType = map.get("Type").toString().equals(CryptopiaAccountService.CryptopiaFundingHistoryParams.Type.Deposit.name())
           ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL;
