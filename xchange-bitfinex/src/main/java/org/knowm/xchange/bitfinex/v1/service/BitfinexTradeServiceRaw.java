@@ -2,6 +2,7 @@ package org.knowm.xchange.bitfinex.v1.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -17,6 +18,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderMultiRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCreditResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexFundingTradeResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexLimitOrder;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOfferRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrder;
@@ -29,6 +31,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastFundingTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
@@ -291,6 +294,17 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       throw new ExchangeException(e);
     }
   }
+  
+  public BitfinexFundingTradeResponse[] getBitfinexFundingHistory(String symbol, Date until, int limit_trades) throws IOException {
+
+	    try {
+	      BitfinexFundingTradeResponse[] fundingTrades = bitfinex.pastFundingTrades(apiKey, payloadCreator, signatureCreator,
+	          new BitfinexPastFundingTradesRequest(String.valueOf(exchange.getNonceFactory().createValue()), symbol, until, limit_trades));
+	      return fundingTrades;
+	    } catch (BitfinexException e) {
+	      throw new ExchangeException(e);
+	    }
+	  }
 
   public BitfinexTradeResponse[] getBitfinexTradeHistory(String symbol, long startTime, Long endTime, int limit) throws IOException {
 
