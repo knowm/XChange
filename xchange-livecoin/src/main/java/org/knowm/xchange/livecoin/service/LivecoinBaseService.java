@@ -16,7 +16,7 @@ public class LivecoinBaseService<T extends Livecoin> extends BaseExchangeService
   public LivecoinBaseService(Class<T> type, Exchange exchange) {
     super(exchange);
 
-    this.service = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.service = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = LivecoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), apiKey);
   }

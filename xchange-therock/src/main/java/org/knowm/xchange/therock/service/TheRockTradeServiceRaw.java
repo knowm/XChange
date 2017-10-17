@@ -26,7 +26,7 @@ public class TheRockTradeServiceRaw extends TheRockBaseService {
   public TheRockTradeServiceRaw(Exchange exchange) {
     super(exchange);
     final ExchangeSpecification spec = exchange.getExchangeSpecification();
-    this.theRockAuthenticated = RestProxyFactory.createProxy(TheRockAuthenticated.class, spec.getSslUri());
+    this.theRockAuthenticated = RestProxyFactory.createProxy(TheRockAuthenticated.class, spec.getSslUri(), getClientConfig());
     this.signatureCreator = new TheRockDigest(spec.getSecretKey());
   }
 

@@ -23,7 +23,7 @@ public class VaultoroBaseService extends BaseExchangeService implements BaseServ
 
     super(exchange);
 
-    this.vaultoro = RestProxyFactory.createProxy(VaultoroAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.vaultoro = RestProxyFactory.createProxy(VaultoroAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = VaultoroDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

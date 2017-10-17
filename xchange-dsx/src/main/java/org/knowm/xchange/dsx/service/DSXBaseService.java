@@ -31,7 +31,7 @@ public class DSXBaseService extends BaseExchangeService implements BaseService {
   protected DSXBaseService(Exchange exchange) {
     super(exchange);
 
-    this.dsx = RestProxyFactory.createProxy(DSXAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri());
+    this.dsx = RestProxyFactory.createProxy(DSXAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = DSXHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

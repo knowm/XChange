@@ -23,7 +23,7 @@ public class BitVcBaseServiceRaw extends BaseExchangeService implements BaseServ
     super(exchange);
 
     final String baseUrl = exchange.getExchangeSpecification().getSslUri();
-    bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl);
+    bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl, getClientConfig());
     accessKey = exchange.getExchangeSpecification().getApiKey();
     digest = new HuobiDigest(exchange.getExchangeSpecification().getSecretKey(), "secret_key");
   }

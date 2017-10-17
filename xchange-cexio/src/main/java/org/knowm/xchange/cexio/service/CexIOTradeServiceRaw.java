@@ -46,7 +46,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
   public CexIOTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
-    cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     signatureCreator = CexIODigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }

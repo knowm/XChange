@@ -21,7 +21,7 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
      */
     protected BinanceBaseService(Exchange exchange) {
         super(exchange);
-        this.binance = RestProxyFactory.createProxy(BinanceAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+        this.binance = RestProxyFactory.createProxy(BinanceAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
         this.apiKey = exchange.getExchangeSpecification().getApiKey();
         this.signatureCreator = BinanceHmacDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     }

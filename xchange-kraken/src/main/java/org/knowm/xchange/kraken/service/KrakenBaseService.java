@@ -39,7 +39,7 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    kraken = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    kraken = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     signatureCreator = KrakenDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
