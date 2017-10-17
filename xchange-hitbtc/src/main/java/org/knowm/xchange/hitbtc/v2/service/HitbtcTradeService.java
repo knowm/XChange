@@ -14,8 +14,6 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
@@ -36,36 +34,29 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
     return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
     List<HitbtcOrder> openOrdersRaw = getOpenOrdersRaw();
     return HitbtcAdapters.adaptOpenOrders(openOrdersRaw);
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-
-    HitbtcExecutionReport placeMarketOrderRaw = placeMarketOrderRaw(marketOrder);
-    return placeMarketOrderRaw.getClientOrderId();
+    return placeMarketOrderRaw(marketOrder).clientOrderId;
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-
-    HitbtcExecutionReport placeLimitOrderRaw = placeLimitOrderRaw(limitOrder);
-    return placeLimitOrderRaw.getClientOrderId();
+    return placeLimitOrderRaw(limitOrder).clientOrderId;
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-
-    HitbtcExecutionReportResponse cancelOrderRaw = cancelOrderRaw(orderId);
-    return cancelOrderRaw.getCancelReject() == null && cancelOrderRaw.getExecutionReport() != null;
+      HitbtcOrder cancelOrderRaw = cancelOrderRaw(orderId);
+    return "canceled".equals(cancelOrderRaw.status);
   }
 
   @Override

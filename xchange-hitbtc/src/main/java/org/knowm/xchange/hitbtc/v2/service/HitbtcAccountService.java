@@ -12,7 +12,6 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.knowm.xchange.service.account.AccountService;
@@ -28,10 +27,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-
-    List<HitbtcBalance> walletRaw = getWalletRaw();
-
-    return new AccountInfo(HitbtcAdapters.adaptWallet(walletRaw));
+    return new AccountInfo(HitbtcAdapters.adaptWallet("Main", getMainBalance()), HitbtcAdapters.adaptWallet("Trading", getTradingBalance()));
   }
 
   @Override
