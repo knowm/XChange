@@ -25,7 +25,7 @@ public class OERMarketDataServiceRaw extends OERBaseService {
   public OERMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.openExchangeRates = RestProxyFactory.createProxy(OER.class, exchange.getExchangeSpecification().getPlainTextUri());
+    this.openExchangeRates = RestProxyFactory.createProxy(OER.class, exchange.getExchangeSpecification().getPlainTextUri(), getClientConfig());
   }
 
   public OERRates getOERTicker() throws IOException {

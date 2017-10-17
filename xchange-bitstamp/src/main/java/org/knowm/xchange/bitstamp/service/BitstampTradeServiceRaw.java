@@ -28,8 +28,10 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   public BitstampTradeServiceRaw(Exchange exchange) {
     super(exchange);
-    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.bitstampAuthenticatedV2 = RestProxyFactory.createProxy(BitstampAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
+    this.bitstampAuthenticatedV2 = RestProxyFactory.createProxy(BitstampAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.nonceFactory = exchange.getNonceFactory();
     this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),

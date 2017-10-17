@@ -22,7 +22,8 @@ public class GatecoinTradeServiceRaw extends GatecoinBaseService {
   public GatecoinTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.gatecoinAuthenticated = RestProxyFactory.createProxy(GatecoinAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.gatecoinAuthenticated = RestProxyFactory.createProxy(GatecoinAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.signatureCreator = GatecoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 

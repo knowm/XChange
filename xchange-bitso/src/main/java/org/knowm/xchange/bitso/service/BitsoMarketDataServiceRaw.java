@@ -20,7 +20,7 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
 
   public BitsoMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.bitso = RestProxyFactory.createProxy(Bitso.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitso = RestProxyFactory.createProxy(Bitso.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public BitsoOrderBook getBitsoOrderBook() throws IOException {

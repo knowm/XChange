@@ -47,7 +47,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   public CoinmateTradeServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }

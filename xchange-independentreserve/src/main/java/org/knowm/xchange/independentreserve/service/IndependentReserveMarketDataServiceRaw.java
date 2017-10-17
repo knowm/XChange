@@ -16,7 +16,8 @@ public class IndependentReserveMarketDataServiceRaw extends IndependentReserveBa
 
   public IndependentReserveMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.independentReserve = RestProxyFactory.createProxy(IndependentReserve.class, exchange.getExchangeSpecification().getSslUri());
+    this.independentReserve = RestProxyFactory.createProxy(IndependentReserve.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
   }
 
   public IndependentReserveOrderBook getIndependentReserveOrderBook(String baseSymbol, String counterSymbol) throws IOException {
