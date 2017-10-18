@@ -6,8 +6,6 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
@@ -24,42 +22,24 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     return hitbtc.getHitbtcActiveOrders();
   }
 
-  public HitbtcExecutionReportResponse placeMarketOrderRawBaseResponse(MarketOrder marketOrder) throws IOException {
+  public HitbtcOrder placeMarketOrderRaw(MarketOrder marketOrder) throws IOException {
 
     String symbol = marketOrder.getCurrencyPair().base.getCurrencyCode() + marketOrder.getCurrencyPair().counter.getCurrencyCode();
-
-    long nonce = exchange.getNonceFactory().createValue();
     String side = HitbtcAdapters.getSide(marketOrder.getType()).toString();
-    String orderId = HitbtcAdapters.createOrderId(marketOrder, nonce);
 
-    return hitbtc.postHitbtcNewOrder(orderId, symbol, side, null, marketOrder.getOriginalAmount(), "market", "IOC");
+    return hitbtc.postHitbtcNewOrder(null, symbol, side, null, marketOrder.getOriginalAmount(), "market", "IOC");
   }
 
-  public HitbtcExecutionReport placeMarketOrderRaw(MarketOrder marketOrder) throws IOException {
 
-    HitbtcExecutionReportResponse response = placeMarketOrderRawBaseResponse(marketOrder);
-    return response.getExecutionReport();
+  public HitbtcOrder placeLimitOrderRaw(LimitOrder limitOrder) throws IOException {
+      String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
+      String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
+      return hitbtc.postHitbtcNewOrder(null, symbol, side, limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), "limit", "GTC");
   }
 
-  public HitbtcExecutionReport placeLimitOrderRaw(LimitOrder limitOrder) throws IOException {
 
-    HitbtcExecutionReportResponse postHitbtcNewOrder = fillHitbtcExecutionReportResponse(limitOrder);
-    return postHitbtcNewOrder.getExecutionReport();
-  }
 
-  private HitbtcExecutionReportResponse fillHitbtcExecutionReportResponse(LimitOrder limitOrder) throws IOException {
-
-    String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
-    long nonce = exchange.getNonceFactory().createValue();
-    String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
-    String orderId = HitbtcAdapters.createOrderId(limitOrder, nonce);
-
-    return hitbtc.postHitbtcNewOrder(orderId, symbol, side, limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), "limit", "GTC");
-
-  }
-
-  public HitbtcExecutionReportResponse cancelOrderRaw(String clientOrderId) throws IOException {
-
+  public HitbtcOrder cancelOrderRaw(String clientOrderId) throws IOException {
     return hitbtc.cancelSingleOrder(clientOrderId);
   }
 

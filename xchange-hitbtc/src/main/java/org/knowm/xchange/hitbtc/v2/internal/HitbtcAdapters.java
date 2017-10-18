@@ -2,14 +2,16 @@ package org.knowm.xchange.hitbtc.v2.internal;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -36,11 +38,12 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
-import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class HitbtcAdapters {
 
   public static final char DELIMITER = '_';
+  /** known counter currencies at HitBTC */
+  private static final Set<String> counters = new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH"));
 
   private static final Map<String, FundingRecord.Type> FUNDING_TYPES = new HashMap<String, FundingRecord.Type>() {{
     put("exchangeToBank", null);//internal transfer
@@ -48,10 +51,11 @@ public class HitbtcAdapters {
     put("payin", FundingRecord.Type.DEPOSIT);
     put("payout", FundingRecord.Type.WITHDRAWAL);
   }};
-
-  public static CurrencyPair adaptSymbol(String symbolString) {
-
-    return CurrencyPairDeserializer.getCurrencyPairFromString(symbolString);
+  
+  public static CurrencyPair adaptSymbol(String symbol) {
+      String counter = counters.stream().filter(cnt -> symbol.endsWith(cnt)).findAny().orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
+      String base = symbol.substring(0, symbol.length() - counter.length());
+      return new CurrencyPair(base, counter);
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
@@ -146,16 +150,16 @@ public class HitbtcAdapters {
 
     for (HitbtcOrder hitbtcOrder : openOrdersRaw) {
 
-      OrderType type = adaptOrderType(hitbtcOrder.getSide());
+      OrderType type = adaptOrderType(hitbtcOrder.side);
 
       LimitOrder order =
           new LimitOrder(
               type,
-              hitbtcOrder.getCumQuantity(),
-              adaptSymbol(hitbtcOrder.getSymbol()),
-              hitbtcOrder.getClientOrderId(),
-              new Date(hitbtcOrder.getLastTimestamp()),
-              hitbtcOrder.getOrderPrice());
+              hitbtcOrder.quantity,
+              adaptSymbol(hitbtcOrder.symbol),
+              hitbtcOrder.clientOrderId,
+              hitbtcOrder.getCreatedAt(),
+              hitbtcOrder.price);
 
       openOrders.add(order);
     }
@@ -174,11 +178,9 @@ public class HitbtcAdapters {
     for (HitbtcOwnTrade hitbtcOwnTrade : tradeHistoryRaw) {
       OrderType type = adaptOrderType(hitbtcOwnTrade.getSide().getValue());
 
-      //TODO no longer available... need to fix
-      CurrencyPair pair = adaptSymbol("BTCUSD");
+      CurrencyPair pair = adaptSymbol(hitbtcOwnTrade.symbol);
 
-      // minimumAmount is equal to lot size
-      BigDecimal originalAmount = hitbtcOwnTrade.getQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
+      BigDecimal originalAmount = hitbtcOwnTrade.getQuantity();
       Date timestamp = hitbtcOwnTrade.getTimestamp();
 
       String id = Long.toString(hitbtcOwnTrade.getId());
@@ -192,7 +194,7 @@ public class HitbtcAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static Wallet adaptWallet(List<HitbtcBalance> hitbtcBalances) {
+  public static Wallet adaptWallet(String name, List<HitbtcBalance> hitbtcBalances) {
 
     List<Balance> balances = new ArrayList<>(hitbtcBalances.size());
 
@@ -201,22 +203,12 @@ public class HitbtcAdapters {
       Balance balance = new Balance(currency, balanceRaw.getAvailable(), balanceRaw.getAvailable().subtract(balanceRaw.getReserved()), balanceRaw.getReserved());
       balances.add(balance);
     }
-    return new Wallet(balances);
+    return new Wallet(name, name, balances);
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
 
     return pair == null ? null : pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
-  }
-
-  public static String createOrderId(Order order, long nonce) {
-
-    if (order.getId() == null || "".equals(order.getId())) {
-      // encoding side in client order id
-      return order.getType().name().substring(0, 1) + DELIMITER + adaptCurrencyPair(order.getCurrencyPair()) + DELIMITER + nonce;
-    } else {
-      return order.getId();
-    }
   }
 
   public static HitbtcSide getSide(OrderType type) {

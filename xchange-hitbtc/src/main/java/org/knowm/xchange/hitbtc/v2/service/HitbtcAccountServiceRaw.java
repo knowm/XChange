@@ -22,9 +22,6 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     super(exchange);
   }
 
-  public List<HitbtcBalance> getWalletRaw() throws IOException {
-    return hitbtc.getNewBalance();
-  }
 
   public String withdrawFundsRaw(Currency currency, BigDecimal amount, String address) throws HttpStatusIOException {
     Map response = hitbtc.payout(amount, currency.getCurrencyCode(), address);
@@ -56,8 +53,11 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     return response.id;
   }
 
-  public List<HitbtcBalance> getPaymentBalance() throws IOException {
-    return hitbtc.getPaymentBalance();
+  public List<HitbtcBalance> getMainBalance() throws IOException {
+    return hitbtc.getMainBalance();
+  }
+  public List<HitbtcBalance> getTradingBalance() throws IOException {
+    return hitbtc.getTradingBalance();
   }
 
   public String getDepositAddress(String currency) throws IOException {
