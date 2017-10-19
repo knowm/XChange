@@ -11,13 +11,8 @@ import org.knowm.xchange.dto.meta.RateLimit;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@SuppressWarnings("serial")
 public class BinanceMetaData extends ExchangeMetaData {
-
-    @JsonProperty
-    public int publicInfoCacheSeconds;
-
-    @JsonProperty
-    public int amountScale;
 
     public BinanceMetaData(@JsonProperty("currency_pairs") Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
             @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currencies,
