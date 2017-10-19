@@ -65,7 +65,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    return new KrakenFundingHistoryParams(null, null, null, new Currency[]{Currency.BTC, Currency.USD});
+    return new KrakenFundingHistoryParams(null, null, null, (Currency[]) null);
   }
 
   @Override
