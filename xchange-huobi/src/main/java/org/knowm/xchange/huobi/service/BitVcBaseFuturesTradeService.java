@@ -21,7 +21,8 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-public class BitVcFuturesTradeService extends BitVcFuturesServiceRaw implements TradeService {
+public class BitVcBaseFuturesTradeService extends BitVcBaseFuturesServiceRaw implements TradeService {
+
   private final FuturesContract futuresContract;
 
   private enum TradeTypes {
@@ -44,7 +45,7 @@ public class BitVcFuturesTradeService extends BitVcFuturesServiceRaw implements 
     }
   }
 
-  public BitVcFuturesTradeService(final Exchange exchange, final FuturesContract futuresContract) {
+  public BitVcBaseFuturesTradeService(final Exchange exchange, final FuturesContract futuresContract) {
     super(exchange);
 
     this.futuresContract = futuresContract;

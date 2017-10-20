@@ -3,16 +3,21 @@ package org.knowm.xchange.huobi.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.huobi.BitVcFutures;
 import org.knowm.xchange.huobi.dto.trade.BitVcFuturesPositionByContract;
+import org.knowm.xchange.service.BaseExchangeService;
+import org.knowm.xchange.service.BaseService;
 
 import si.mazi.rescu.RestProxyFactory;
 
-public class BitVcFuturesServiceRaw {
+public class BitVcBaseFuturesServiceRaw extends BaseExchangeService implements BaseService {
 
   protected final BitVcFutures bitvc;
   protected final String accessKey;
   protected HuobiDigest digest;
 
-  public BitVcFuturesServiceRaw(Exchange exchange) {
+  public BitVcBaseFuturesServiceRaw(Exchange exchange) {
+
+    super(exchange);
+
     this.bitvc = RestProxyFactory.createProxy(BitVcFutures.class, "https://api.bitvc.com/futures");
     this.accessKey = exchange.getExchangeSpecification().getApiKey();
 

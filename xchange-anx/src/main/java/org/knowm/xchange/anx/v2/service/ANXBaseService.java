@@ -25,6 +25,7 @@ public class ANXBaseService extends BaseExchangeService implements BaseService {
   }
 
   protected RuntimeException handleHttpError(HttpStatusIOException exception) throws IOException {
+
     if (exception.getHttpStatusCode() == 304) {
       return new NonceException(exception.getHttpBody());
     } else {
