@@ -19,10 +19,10 @@ public class GDAXBaseService extends BaseExchangeService implements BaseService 
   protected final String apiKey;
   protected final String passphrase;
 
-  protected GDAXBaseService( Exchange exchange) {
+  protected GDAXBaseService(Exchange exchange) {
 
     super(exchange);
-    this.coinbaseEx = RestProxyFactory.createProxy(GDAX.class, exchange.getExchangeSpecification().getSslUri());
+    this.coinbaseEx = RestProxyFactory.createProxy(GDAX.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.digest = GDAXDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.passphrase = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase");

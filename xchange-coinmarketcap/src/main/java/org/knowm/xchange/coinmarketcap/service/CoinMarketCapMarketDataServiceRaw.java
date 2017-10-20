@@ -24,7 +24,7 @@ class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements B
   public CoinMarketCapMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.coinmarketcap = RestProxyFactory.createProxy(CoinMarketCap.class, exchange.getExchangeSpecification().getSslUri());
+    this.coinmarketcap = RestProxyFactory.createProxy(CoinMarketCap.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public CoinMarketCapTicker getCoinMarketCapTicker(CurrencyPair pair) throws IOException {

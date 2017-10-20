@@ -16,6 +16,6 @@ public class YoBitBaseService<T extends YoBit> extends BaseExchangeService imple
     super(exchange);
 
     this.signatureCreator = YoBitDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey());
-    this.service = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.service = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 }

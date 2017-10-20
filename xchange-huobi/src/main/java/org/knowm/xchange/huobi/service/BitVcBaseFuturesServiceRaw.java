@@ -18,7 +18,7 @@ public class BitVcBaseFuturesServiceRaw extends BaseExchangeService implements B
 
     super(exchange);
 
-    this.bitvc = RestProxyFactory.createProxy(BitVcFutures.class, "https://api.bitvc.com/futures");
+    this.bitvc = RestProxyFactory.createProxy(BitVcFutures.class, "https://api.bitvc.com/futures", getClientConfig());
     this.accessKey = exchange.getExchangeSpecification().getApiKey();
 
     this.digest = new HuobiDigest(exchange.getExchangeSpecification().getSecretKey(), "secretKey");

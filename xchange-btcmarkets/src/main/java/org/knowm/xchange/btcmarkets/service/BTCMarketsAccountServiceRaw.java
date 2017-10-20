@@ -27,7 +27,7 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
   protected BTCMarketsAccountServiceRaw(Exchange exchange) {
     super(exchange);
     this.nonceFactory = exchange.getNonceFactory();
-    this.btcm = RestProxyFactory.createProxy(BTCMarketsAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.btcm = RestProxyFactory.createProxy(BTCMarketsAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.signer = new BTCMarketsDigest(exchange.getExchangeSpecification().getSecretKey());
   }
 

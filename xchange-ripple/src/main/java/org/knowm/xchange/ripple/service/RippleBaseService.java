@@ -25,7 +25,7 @@ public class RippleBaseService extends BaseExchangeService implements BaseServic
     } else {
       throw new IllegalStateException("either SSL or plain text URI must be specified");
     }
-    ripplePublic = RestProxyFactory.createProxy(RipplePublic.class, uri);
-    rippleAuthenticated = RestProxyFactory.createProxy(RippleAuthenticated.class, uri);
+    ripplePublic = RestProxyFactory.createProxy(RipplePublic.class, uri, getClientConfig());
+    rippleAuthenticated = RestProxyFactory.createProxy(RippleAuthenticated.class, uri, getClientConfig());
   }
 }

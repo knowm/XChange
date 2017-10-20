@@ -25,7 +25,7 @@ public class CampBXBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    ClientConfig config = new ClientConfig();
+    ClientConfig config = getClientConfig();
     // campbx server raises "internal error" if connected via these protocol versions
     config.setSslSocketFactory(CertHelper.createRestrictedSSLSocketFactory("TLSv1", "TLSv1.1"));
 
