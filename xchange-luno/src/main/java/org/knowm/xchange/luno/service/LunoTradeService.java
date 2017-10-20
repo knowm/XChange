@@ -21,7 +21,6 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.luno.LunoAPI;
 import org.knowm.xchange.luno.LunoUtil;
 import org.knowm.xchange.luno.dto.LunoBoolean;
 import org.knowm.xchange.luno.dto.trade.LunoPostOrder;
@@ -38,8 +37,8 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class LunoTradeService extends LunoBaseService implements TradeService {
 
-  public LunoTradeService(Exchange exchange, LunoAPI luno) {
-    super(exchange, luno);
+  public LunoTradeService(Exchange exchange) {
+    super(exchange);
   }
 
   @Override
@@ -56,7 +55,7 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException,
       NotYetImplementedForExchangeException, IOException {
     List<LimitOrder> list = new ArrayList<>();
-    for (org.knowm.xchange.luno.dto.trade.LunoOrders.Order lo : luno.listOrders(State.PENDING, null).getOrders()) {
+    for (org.knowm.xchange.luno.dto.trade.LunoOrders.Order lo : lunoAPI.listOrders(State.PENDING, null).getOrders()) {
       list.add(new LimitOrder(convert(lo.type), lo.limitVolume, LunoUtil.fromLunoPair(lo.pair), lo.orderId, lo.getCreationTimestamp(), lo.limitPrice));
     }
     return new OpenOrders(list);
@@ -79,16 +78,16 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     LunoPostOrder postOrder = marketOrder.getType() == OrderType.ASK
-        ? luno.postMarketOrder(LunoUtil.toLunoPair(marketOrder.getCurrencyPair()), org.knowm.xchange.luno.dto.trade.OrderType.SELL
+        ? lunoAPI.postMarketOrder(LunoUtil.toLunoPair(marketOrder.getCurrencyPair()), org.knowm.xchange.luno.dto.trade.OrderType.SELL
         , null, marketOrder.getOriginalAmount(), null, null)
-        : luno.postMarketOrder(LunoUtil.toLunoPair(marketOrder.getCurrencyPair()), org.knowm.xchange.luno.dto.trade.OrderType.BUY
+        : lunoAPI.postMarketOrder(LunoUtil.toLunoPair(marketOrder.getCurrencyPair()), org.knowm.xchange.luno.dto.trade.OrderType.BUY
         , marketOrder.getOriginalAmount().multiply(marketOrder.getAveragePrice()), null, null, null);
     return postOrder.orderId;
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    LunoPostOrder postLimitOrder = luno.postLimitOrder(LunoUtil.toLunoPair(limitOrder.getCurrencyPair()), convertForLimit(limitOrder.getType())
+    LunoPostOrder postLimitOrder = lunoAPI.postLimitOrder(LunoUtil.toLunoPair(limitOrder.getCurrencyPair()), convertForLimit(limitOrder.getType())
         , limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), null, null);
     return postLimitOrder.orderId;
   }
@@ -106,7 +105,7 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    LunoBoolean stopOrder = luno.stopOrder(orderId);
+    LunoBoolean stopOrder = lunoAPI.stopOrder(orderId);
     return stopOrder.success;
   }
 
@@ -134,7 +133,7 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
       limit = ((TradeHistoryParamLimit) params).getLimit();
     }
 
-    LunoUserTrades lunoTrades = luno.listTrades(LunoUtil.toLunoPair(currencyPair), since, limit);
+    LunoUserTrades lunoTrades = lunoAPI.listTrades(LunoUtil.toLunoPair(currencyPair), since, limit);
     List<UserTrade> trades = new ArrayList<>();
     for (org.knowm.xchange.luno.dto.trade.LunoUserTrades.UserTrade t : lunoTrades.getTrades()) {
       final CurrencyPair pair = LunoUtil.fromLunoPair(t.pair);

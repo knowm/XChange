@@ -19,11 +19,10 @@ public class LunoExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
 
-    final LunoAPI luno = new LunoAPIImpl(getExchangeSpecification().getApiKey(), getExchangeSpecification().getSecretKey(),
-        getExchangeSpecification().getSslUri());
-    this.marketDataService = new LunoMarketDataService(this, luno);
-    this.tradeService = new LunoTradeService(this, luno);
-    this.accountService = new LunoAccountService(this, luno);
+
+    this.marketDataService = new LunoMarketDataService(this);
+    this.tradeService = new LunoTradeService(this);
+    this.accountService = new LunoAccountService(this);
   }
 
   @Override

@@ -7,7 +7,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.gdax.GDAX;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
@@ -18,13 +17,13 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
+public class GDAXTradeServiceRaw extends GDAXBaseService {
 
   private final SynchronizedValueFactory<Long> nonceFactory;
 
   public GDAXTradeServiceRaw(Exchange exchange) {
 
-    super(GDAX.class, exchange);
+    super( exchange);
     this.nonceFactory = exchange.getNonceFactory();
   }
 

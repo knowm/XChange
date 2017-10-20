@@ -3,18 +3,14 @@ package org.knowm.xchange.huobi.service;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.huobi.BitVcFutures;
 import org.knowm.xchange.huobi.FuturesContract;
 import org.knowm.xchange.huobi.dto.marketdata.futures.BitVcExchangeRate;
 import org.knowm.xchange.huobi.dto.marketdata.futures.BitVcFuturesDepth;
 import org.knowm.xchange.huobi.dto.marketdata.futures.BitVcFuturesTicker;
 import org.knowm.xchange.huobi.dto.marketdata.futures.BitVcFuturesTrade;
 
-import si.mazi.rescu.RestProxyFactory;
+public class BitVcFuturesMarketDataServiceRaw extends BitVcBaseFuturesServiceRaw {
 
-public class BitVcFuturesMarketDataServiceRaw extends HuobiBaseService {
-
-  private final BitVcFutures bitvc;
   private final FuturesContract contract;
 
   /**
@@ -27,7 +23,6 @@ public class BitVcFuturesMarketDataServiceRaw extends HuobiBaseService {
 
     super(exchange);
 
-    this.bitvc = RestProxyFactory.createProxy(BitVcFutures.class, "http://market.bitvc.com/futures/");
     this.contract = contract;
   }
 
