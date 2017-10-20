@@ -151,7 +151,7 @@
             <dependency>
                 <groupId>com.github.mmazi</groupId>
                 <artifactId>rescu</artifactId>
-                <version>1.9.0</version>
+                <version>2.0.1</version>
             </dependency>
 
             <dependency>
