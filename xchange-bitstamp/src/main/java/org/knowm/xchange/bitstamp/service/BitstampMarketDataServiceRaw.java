@@ -23,7 +23,7 @@ public class BitstampMarketDataServiceRaw extends BitstampBaseService {
   public BitstampMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitstampV2 = RestProxyFactory.createProxy(BitstampV2.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitstampV2 = RestProxyFactory.createProxy(BitstampV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public BitstampTicker getBitstampTicker(CurrencyPair pair) throws IOException {

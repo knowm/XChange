@@ -26,7 +26,7 @@ public class CoinfloorAuthenticatedService extends CoinfloorService {
       return;
     }
 
-    ClientConfig config = new ClientConfig();
+    ClientConfig config = getClientConfig();
     ClientConfigUtil.addBasicAuthCredentials(config, specification.getUserName(), specification.getPassword());
 
     coinfloor = RestProxyFactory.createProxy(CoinfloorAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), config);

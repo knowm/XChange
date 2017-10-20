@@ -28,6 +28,7 @@ import org.knowm.xchange.luno.dto.trade.OrderType;
 import org.knowm.xchange.luno.dto.trade.State;
 
 import si.mazi.rescu.BasicAuthCredentials;
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 
 public class LunoAPIImpl implements LunoAPI {
@@ -35,10 +36,9 @@ public class LunoAPIImpl implements LunoAPI {
   private final LunoAuthenticated luno;
   private final BasicAuthCredentials auth;
 
+  public LunoAPIImpl(String key, String secret, String uri, ClientConfig clientConfig) {
 
-  public LunoAPIImpl(String key, String secret, String uri) {
-
-    luno = RestProxyFactory.createProxy(LunoAuthenticated.class, uri);
+    luno = RestProxyFactory.createProxy(LunoAuthenticated.class, uri, clientConfig);
     auth = new BasicAuthCredentials(key, secret);
   }
 

@@ -14,6 +14,6 @@ public class LunoBaseService extends BaseExchangeService implements BaseService 
 
     super(exchange);
     lunoAPI = new LunoAPIImpl(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey(),
-        exchange.getExchangeSpecification().getSslUri());
+        exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 }
