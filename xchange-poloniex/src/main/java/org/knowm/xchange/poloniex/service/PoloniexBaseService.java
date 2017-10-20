@@ -34,6 +34,8 @@ public class PoloniexBaseService extends BaseExchangeService implements BaseServ
   public PoloniexBaseService(Exchange exchange) {
 
     super(exchange);
+
+    // TODO should this be fixed/added in rescu itself?
     // Fix for empty string array mapping exception
     ClientConfig rescuConfig = new ClientConfig();
     rescuConfig.setJacksonObjectMapperFactory(new DefaultJacksonObjectMapperFactory() {
