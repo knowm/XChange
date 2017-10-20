@@ -21,6 +21,17 @@ public class HitbtcBaseService extends BaseExchangeService implements BaseServic
     String secretKey = exchange.getExchangeSpecification().getSecretKey();
 
     ClientConfig config = new ClientConfig();
+
+    // allow HTTP connect- and read-timeout to be set per exchange
+    int customHttpConnTimeout = exchange.getExchangeSpecification().getHttpConnTimeout();
+    if (customHttpConnTimeout > 0) {
+      config.setHttpConnTimeout(customHttpConnTimeout);
+    }
+    int customHttpReadTimeout = exchange.getExchangeSpecification().getHttpReadTimeout();
+    if (customHttpReadTimeout > 0) {
+      config.setHttpReadTimeout(customHttpReadTimeout);
+    }
+
     ClientConfigUtil.addBasicAuthCredentials(config, apiKey, secretKey);
     hitbtc = RestProxyFactory.createProxy(HitbtcAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), config);
   }

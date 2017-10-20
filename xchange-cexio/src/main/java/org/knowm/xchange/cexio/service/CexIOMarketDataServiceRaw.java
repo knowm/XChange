@@ -9,6 +9,7 @@ import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 
 /**
@@ -27,7 +28,18 @@ public class CexIOMarketDataServiceRaw extends CexIOBaseService {
 
     super(exchange);
 
-    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri());
+    // allow HTTP connect- and read-timeout to be set per exchange
+    ClientConfig rescuConfig = new ClientConfig(); // default rescu config
+    int customHttpConnTimeout = exchange.getExchangeSpecification().getHttpConnTimeout();
+    if (customHttpConnTimeout > 0) {
+      rescuConfig.setHttpConnTimeout(customHttpConnTimeout);
+    }
+    int customHttpReadTimeout = exchange.getExchangeSpecification().getHttpReadTimeout();
+    if (customHttpReadTimeout > 0) {
+      rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
+    }
+
+    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri(), rescuConfig);
   }
 
   public CexIOTicker getCexIOTicker(CurrencyPair currencyPair) throws IOException {

@@ -34,6 +34,8 @@ public class ExchangeSpecification {
 
   private int port = 80;
 
+  private int httpConnTimeout = 0; // default rescu configuration will be used if value not changed
+
   private int httpReadTimeout = 0; // default rescu configuration will be used if value not changed
 
   private String metaDataJsonFileOverride = null;
@@ -135,8 +137,31 @@ public class ExchangeSpecification {
   }
 
   /**
+   * Set the http connection timeout for the connection. If not supplied the default rescu timeout will be used. Check the exchange code to see if
+   * this option has been implemented.  (This value can also be set globally in "rescu.properties" by setting the property
+   * "rescu.http.connTimeoutMillis".)
+   *
+   * @param milliseconds the http read timeout in milliseconds
+   */
+  public void setHttpConnTimeout(int milliseconds) {
+
+    this.httpConnTimeout = milliseconds;
+  }
+
+  /**
+   * Get the http connection timeout for the connection. If the default value of zero is returned then the default rescu timeout will be applied.
+   * Check the exchange code to see if this option has been implemented.
+   *
+   * @return the http read timeout in milliseconds
+   */
+  public int getHttpConnTimeout() {
+
+    return httpConnTimeout;
+  }
+
+  /**
    * Set the http read timeout for the connection. If not supplied the default rescu timeout will be used. Check the exchange code to see if this
-   * option has been implemented.
+   * option has been implemented. (This value can also be set globally in "rescu.properties" by setting the property "rescu.http.readTimeoutMillis".)
    *
    * @param milliseconds the http read timeout in milliseconds
    */
