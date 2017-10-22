@@ -41,6 +41,11 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     return response.getExecutionReport();
   }
 
+  public HitbtcExecutionReportResponse updateMarketOrderRaw(String clientOrderId, Integer quantity, String requestClientId) throws IOException {
+
+    return hitbtc.updateHitbtcOrder("PATCH", clientOrderId, quantity, requestClientId);
+  }
+
   public HitbtcExecutionReport placeLimitOrderRaw(LimitOrder limitOrder) throws IOException {
 
     HitbtcExecutionReportResponse postHitbtcNewOrder = fillHitbtcExecutionReportResponse(limitOrder);

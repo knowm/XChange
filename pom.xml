@@ -149,7 +149,7 @@
             <dependency>
                 <groupId>com.github.mmazi</groupId>
                 <artifactId>rescu</artifactId>
-                <version>1.9.0</version>
+                <version>1.9.1-PATCH-SNAPSHOT</version>
             </dependency>
 
             <dependency>

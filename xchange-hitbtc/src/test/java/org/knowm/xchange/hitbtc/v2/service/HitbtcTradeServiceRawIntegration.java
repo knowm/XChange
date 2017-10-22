@@ -73,6 +73,15 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   }
 
   @Test
+  public void testUpdateOrder() throws IOException {
+
+//    exception.expect(HitbtcException.class);
+//    exception.expectMessage("Order not found");
+
+    service.updateMarketOrderRaw("WRONG", 0, "WRONG");
+  }
+
+  @Test
   public void testCancelOrder_wrongOrder() throws IOException {
 
     exception.expect(HitbtcException.class);
