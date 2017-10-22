@@ -24,6 +24,7 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 
 import si.mazi.rescu.HttpStatusIOException;
+import si.mazi.rescu.jaxrs.PATCH;
 
 /**
  * Version 2 of HitBtc API. See https://api.hitbtc.com/api/2/explore/
@@ -73,6 +74,13 @@ public interface HitbtcAuthenticated extends Hitbtc {
       @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side,
       @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity,
       @FormParam("type") String type, @FormParam("timeInForce") String timeInForce) throws IOException, HitbtcException;
+
+  @PATCH
+  @Path("order/{clientOrderId}")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  HitbtcExecutionReportResponse updateHitbtcOrder(@PathParam("clientOrderId") String clientOrderId, @FormParam("quantity") Integer quantity,
+      @FormParam("requestClientId") String requestClientId)
+      throws IOException, HitbtcException;
 
   @DELETE
   @Path("order")
