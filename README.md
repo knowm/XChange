@@ -1,6 +1,7 @@
 ## [![XChange](https://raw.githubusercontent.com/timmolter/XChange/develop/etc/XChange_64_64.png)](http://knowm.org/open-source/xchange) XChange
 
-XChange is a Java library providing a simple and consistent API for interacting with 50+ Bitcoin and other crypto currency exchanges providing a consistent interface for trading and accessing market data.
+XChange is a Java library providing a simple and consistent API for interacting with 60+ Bitcoin and other crypto currency exchanges providing a
+consistent interface for trading and accessing market data.
 
 ## Important!
 
@@ -14,16 +15,37 @@ A complete list of implemented exchanges, data providers and brokers can be foun
 
 Usage is very simple: Create an Exchange instance, get the appropriate service, and request data.
 
-## Example
+## Example 1: Public Market Data
 
-    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+```java
+Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
-    MarketDataService marketDataService = bitstamp.getMarketDataService();
+MarketDataService marketDataService = bitstamp.getMarketDataService();
 
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
-    System.out.println(ticker.toString());
-    
+System.out.println(ticker.toString());
+```
+
+## Example 2: Private Account Info
+
+To use the private API services, `AccountService` and `TradeService`, create an `ExchangeSpecification` with a unique API key and secret key (in some
+cases more info is required), which you obtain through the exchange's web interface. For more examples of adding the keys to the
+`ExchangeSpecification` including storing them in a configuration file, see [Frequently Asked Questions](https://github.com/timmolter/XChange/wiki/Frequently-Asked-Questions).
+
+```java
+ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
+exSpec.setUserName("34387");
+exSpec.setApiKey("a4SDmpl9s6xWJS5fkKRT6yn41vXuY0AM");
+exSpec.setSecretKey("sisJixU6Xd0d1yr6w02EHCb9UwYzTNuj");
+Exchange bitstamp ExchangeFactory.INSTANCE.createExchange(exSpec);
+
+// Get the account information
+AccountService accountService = bitstamp.getAccountService();
+AccountInfo accountInfo = accountService.getAccountInfo();
+System.out.println(accountInfo.toString());
+```
+
 All exchange implementations expose the same API, but you can also directly access the underlying "raw" data from the individual exchanges if you need to.
 
 Now go ahead and [study some more examples](http://knowm.org/open-source/xchange/xchange-example-code), [download the thing](http://knowm.org/open-source/xchange/xchange-change-log/) and [provide feedback](https://github.com/timmolter/XChange/issues).
@@ -47,13 +69,14 @@ Looking for streaming API? Use library [xchange-stream](https://github.com/bitri
 
 ## Wiki
 
-Home: https://github.com/timmolter/XChange/wiki  
-Design Notes: https://github.com/timmolter/XChange/wiki/Design-Notes  
-Milestones: https://github.com/timmolter/XChange/wiki/Milestones  
-Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support  
-New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices
-Installing SSL Certificates into TrustStore: https://github.com/timmolter/XChange/wiki/Installing-SSL-Certificates-into-TrustStore
-Getting Started with XChange for Noobies: https://github.com/timmolter/XChange/wiki/Getting-Started-with-XChange-for-Noobies
+* [Home](https://github.com/timmolter/XChange/wiki)
+* [FAQ](https://github.com/timmolter/XChange/wiki/Frequently-Asked-Questions)
+* [Design Notes](https://github.com/timmolter/XChange/wiki/Design-Notes)
+* [Milestones](https://github.com/timmolter/XChange/wiki/Milestones)
+* [Exchange Support](https://github.com/timmolter/XChange/wiki/Exchange-support)
+* [New Implementation Best Practices](https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices)
+* [Installing SSL Certificates into TrustStore](https://github.com/timmolter/XChange/wiki/Installing-SSL-Certificates-into-TrustStore)
+* [Getting Started with XChange for Noobies](https://github.com/timmolter/XChange/wiki/Getting-Started-with-XChange-for-Noobies)
 
 ## Continuous Integration
 
@@ -77,17 +100,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>4.2.0</version>
+      <version>4.2.3</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>4.2.0</version>
+      <version>4.2.3</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
-      <version>4.2.0</version>
+      <version>4.2.3</version>
     </dependency>
 
 For snapshots, add the following repository to your pom.xml file.
@@ -100,7 +123,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.2.1-SNAPSHOT
+    4.3.0-SNAPSHOT
     
 ## Building with Maven
 
@@ -109,6 +132,7 @@ run unit and integration tests: `mvn clean verify -DskipIntegrationTests=false`
 install in local Maven repo: `mvn clean install`  
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
+check for dependency updates: 'mvn versions:display-dependency-updates'
 
 ## Bugs
 

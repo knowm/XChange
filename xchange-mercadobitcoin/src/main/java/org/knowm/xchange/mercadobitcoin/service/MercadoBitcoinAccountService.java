@@ -14,6 +14,7 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdapters;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -39,6 +40,11 @@ public class MercadoBitcoinAccountService extends MercadoBitcoinAccountServiceRa
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

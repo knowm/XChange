@@ -1,6 +1,6 @@
 package org.knowm.xchange.lakebtc.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;

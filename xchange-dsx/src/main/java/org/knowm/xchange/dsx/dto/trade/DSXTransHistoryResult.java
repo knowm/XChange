@@ -85,11 +85,12 @@ public class DSXTransHistoryResult {
     return MessageFormat.format("DSXTransHistory[id={0}, type={1}, amount={2}, currency=''{3}'', description=''{4}'', status={5}, timestamp={6}, " +
         "commission={7}, address=''{8}'', txId={9}]", id, type, amount, currency, desc, status, timestamp, commission, address, txId);
   }
+
   /**
    * Type of transaction
    */
   public enum Type {
-      Incoming, Withdraw
+    Incoming, Withdraw
   }
 
   /**

@@ -334,6 +334,21 @@
     }
   },
   "currencies": {
+    "USD": {
+      "scale": 2
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "BTC": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
     "SYS": null,
     "STEEM": null,
     "ATX": null,
@@ -369,28 +384,23 @@
     "HNC": null,
     "LEO": null,
     "DGB": null,
-    "ETH": null,
     "WARP": null,
     "TAO": null,
     "BTA": null,
-    "BTC": null,
     "POST": null,
     "DASH": null,
     "YOC": null,
     "DOGE": null,
     "CURE": null,
-    "USD": null,
     "SLR": null,
     "THS": null,
     "XAB": null,
     "BLU": null,
     "ADZ": null,
-    "LTC": null,
     "SCN": null,
     "VOX": null,
     "COVAL": null,
     "CLOAK": null,
-    "EUR": null,
     "MAID": null,
     "ENT": null,
     "MONA": null,

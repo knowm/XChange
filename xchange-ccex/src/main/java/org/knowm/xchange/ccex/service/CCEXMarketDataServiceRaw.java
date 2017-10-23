@@ -24,7 +24,7 @@ public class CCEXMarketDataServiceRaw extends CCEXBaseService {
 
   public CCEXMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.ccex = RestProxyFactory.createProxy(CCEX.class, exchange.getExchangeSpecification().getSslUri());
+    this.ccex = RestProxyFactory.createProxy(CCEX.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public CCEXGetorderbook getCCEXOrderBook(CurrencyPair pair, int depth) throws IOException {

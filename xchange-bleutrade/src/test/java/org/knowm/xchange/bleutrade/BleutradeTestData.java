@@ -1,5 +1,7 @@
 package org.knowm.xchange.bleutrade;
 
+import static org.knowm.xchange.bleutrade.BleutradeUtils.toDate;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -41,10 +43,10 @@ public class BleutradeTestData {
   }
 
   protected static LimitOrder[] expectedOrders() {
-    return new LimitOrder[]{ // timestampas are always null:
-        // 'created' to 'timestamp' convertation is probably missed
-        new LimitOrder(Order.OrderType.BID, new BigDecimal("5.00000000"), CurrencyPair.LTC_BTC, "65489", null, new BigDecimal("0.01268311")),
-        new LimitOrder(Order.OrderType.ASK, new BigDecimal("795.00000000"), CurrencyPair.DOGE_BTC, "65724", null, new BigDecimal("0.00000055")),};
+    return new LimitOrder[]{
+        new LimitOrder(Order.OrderType.BID, new BigDecimal("20.00000000"), new BigDecimal("5.00000000"), CurrencyPair.LTC_BTC, "65489", toDate("2014-08-03 13:55:20"), new BigDecimal("0.01268311")),
+        new LimitOrder(Order.OrderType.ASK, new BigDecimal("150491.98700000"), new BigDecimal("795.00000000"), CurrencyPair.DOGE_BTC, "65724", toDate("2014-07-29 18:45:17"), new BigDecimal("0.00000055")),
+    };
   }
 
   protected static LimitOrder[] expectedBids() {

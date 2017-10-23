@@ -20,7 +20,7 @@ public class CoinfloorMarketDataServiceRaw extends BaseExchangeService {
   protected CoinfloorMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
 
-    coinfloor = RestProxyFactory.createProxy(CoinfloorPublic.class, exchange.getExchangeSpecification().getSslUri());
+    coinfloor = RestProxyFactory.createProxy(CoinfloorPublic.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public CoinfloorTicker getCoinfloorTicker(CurrencyPair pair) throws IOException {

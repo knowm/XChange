@@ -1,8 +1,8 @@
 package org.knowm.xchange.btc38.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author nxtpool
@@ -24,8 +24,8 @@ public class Btc38Trade {
    * @param tid
    */
   public Btc38Trade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-                    @JsonProperty("tid") String tid,
-                    @JsonProperty("type") String type) {
+      @JsonProperty("tid") String tid,
+      @JsonProperty("type") String type) {
 
     this.date = date;
     this.price = price;

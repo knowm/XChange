@@ -15,11 +15,13 @@ import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsMyTradingRequest;
+import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOpenOrdersAndTradeHistoryRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
+import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoRequest;
+import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoResponse;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsDigest;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -51,18 +53,25 @@ public interface BTCMarketsAuthenticated {
   @Path("order/open")
   @Consumes(MediaType.APPLICATION_JSON)
   BTCMarketsOrders getOpenOrders(@HeaderParam("apikey") String publicKey, @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
-      @HeaderParam("signature") BTCMarketsDigest signer, BTCMarketsMyTradingRequest request) throws BTCMarketsException, IOException;
+      @HeaderParam("signature") BTCMarketsDigest signer, BTCMarketsOpenOrdersAndTradeHistoryRequest request) throws BTCMarketsException, IOException;
 
   @POST
   @Path("order/history")
   @Consumes(MediaType.APPLICATION_JSON)
   BTCMarketsOrders getOrderHistory(@HeaderParam("apikey") String publicKey, @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
-      @HeaderParam("signature") BTCMarketsDigest signer, BTCMarketsMyTradingRequest request) throws BTCMarketsException, IOException;
+      @HeaderParam("signature") BTCMarketsDigest signer, BTCMarketsOpenOrdersAndTradeHistoryRequest request) throws BTCMarketsException, IOException;
 
   @POST
   @Path("order/trade/history")
   @Consumes(MediaType.APPLICATION_JSON)
   BTCMarketsTradeHistory getTradeHistory(@HeaderParam("apikey") String publicKey,
       @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory, @HeaderParam("signature") BTCMarketsDigest signer,
-      BTCMarketsMyTradingRequest request) throws BTCMarketsException, IOException;
+      BTCMarketsOpenOrdersAndTradeHistoryRequest request) throws BTCMarketsException, IOException;
+
+  @POST
+  @Path("fundtransfer/withdrawCrypto")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BTCMarketsWithdrawCryptoResponse withdrawCrypto(@HeaderParam("apikey") String publicKey,
+      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory, @HeaderParam("signature") BTCMarketsDigest signer,
+      BTCMarketsWithdrawCryptoRequest request) throws BTCMarketsException, IOException;
 }

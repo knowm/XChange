@@ -2,7 +2,11 @@ package org.knowm.xchange.bleutrade.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
@@ -14,7 +18,9 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BleutradeAccountService extends BleutradeAccountServiceRaw implements AccountService {
 
@@ -37,8 +43,16 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+    return withdraw(currency, amount, address);
+  }
 
-    throw new NotYetImplementedForExchangeException();
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override
@@ -53,8 +67,60 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    List<FundingRecord> fundingRecords = new ArrayList<>();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+    try {
+      for (WithdrawRecord record : withdrawalHistory()) {
+        String label = record.label;
+
+        BigDecimal amount = record.amount;
+        BigDecimal fee = null;
+
+        String[] parts = label.split(";");
+        String address = null;
+        if (parts.length == 3) {
+          amount = new BigDecimal(parts[0]);
+          address = parts[1];
+          fee = new BigDecimal(parts[2]);
+        }
+
+        fundingRecords.add(new FundingRecord(
+            address,
+            dateFormat.parse(record.timestamp),
+            Currency.getInstance(record.coin),
+            amount,
+            record.id,
+            record.transactionId,
+            FundingRecord.Type.WITHDRAWAL,
+            FundingRecord.Status.COMPLETE,
+            null,
+            fee,
+            label
+        ));
+      }
+
+      for (DepositRecord record : depositHistory()) {
+        fundingRecords.add(new FundingRecord(
+            null,
+            dateFormat.parse(record.timestamp),
+            Currency.getInstance(record.coin),
+            record.amount,
+            record.id,
+            null,
+            FundingRecord.Type.DEPOSIT,
+            FundingRecord.Status.COMPLETE,
+            null,
+            null,
+            record.label
+        ));
+      }
+    } catch (ParseException e) {
+      throw new IllegalStateException("Should not happen", e);
+    }
+
+    return fundingRecords;
   }
 }

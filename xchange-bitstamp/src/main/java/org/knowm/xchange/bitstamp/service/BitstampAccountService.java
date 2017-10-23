@@ -15,7 +15,10 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /**
  * @author Matija Mazi
@@ -40,12 +43,51 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+  }
 
-    final BitstampWithdrawal response = withdrawBitstampFunds(currency, amount, address, null);
-    if (response.getId() == null) {
-      return null;
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof RippleWithdrawFundsParams) {
+      RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
+
+      BitstampWithdrawal response = withdrawRippleFunds(rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address, rippleWithdrawFundsParams.tag);
+
+      if (response.error != null) {
+        throw new ExchangeException("Failed to withdraw: " + response.error);
+      }
+
+      if (response.getId() == null) {
+        return null;
+      }
+
+      return Integer.toString(response.getId());
+    } else if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+
+      BitstampWithdrawal response;
+      if (defaultParams.currency.equals(Currency.LTC)) {
+        response = withdrawLtcFunds(defaultParams.amount, defaultParams.address);
+      } else if (defaultParams.currency.equals(Currency.ETH)) {
+        response = withdrawEthFunds(defaultParams.amount, defaultParams.address);
+      } else if (defaultParams.currency.equals(Currency.BTC)) {
+        response = withdrawBtcFunds(defaultParams.amount, defaultParams.address);
+      } else {
+        throw new IllegalStateException("Cannot withdraw " + defaultParams.currency);
+      }
+
+      if (response.error != null) {
+        throw new ExchangeException("Failed to withdraw: " + response.error);
+      }
+
+      if (response.getId() == null) {
+        return null;
+      }
+
+      return Integer.toString(response.getId());
     }
-    return Integer.toString(response.getId());
+
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   /**
@@ -61,13 +103,11 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-      throw new NotAvailableFromExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-          throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-      throw new NotYetImplementedForExchangeException();
-      
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 }

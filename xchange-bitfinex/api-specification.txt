@@ -71,8 +71,8 @@ GET /lendbook/:currency
 Get the full lend book.
 Request:
 
-limit_bids (int): Optional. Limit the number of bids (loan demands) returned. May be 0 in which case the array of bids is empty. Default is 50. 
-limit_asks (int): Optional. Limit the number of asks (loan offers) returned. May be 0 in which case the array of asks is empty. Default is 50. 
+limit_bids (int): Optional. Limit the number of bids (loan demands) returned. May be 0 in which case the array of bids is empty. Default is 50.
+limit_asks (int): Optional. Limit the number of asks (loan offers) returned. May be 0 in which case the array of asks is empty. Default is 50.
 Response
 
 bids (array of loan demands):
@@ -90,8 +90,8 @@ GET /book/:symbol
 Get the full order book.
 Request:
 
-limit_bids (int): Optional. Limit the number of bids returned. May be 0 in which case the array of bids is empty. Default is 50. 
-limit_asks (int): Optional. Limit the number of asks returned. May be 0 in which case the array of asks is empty. Default is 50. 
+limit_bids (int): Optional. Limit the number of bids returned. May be 0 in which case the array of bids is empty. Default is 50.
+limit_asks (int): Optional. Limit the number of asks returned. May be 0 in which case the array of asks is empty. Default is 50.
 Response
 
 bids (array)
@@ -146,7 +146,7 @@ amount (decimal): Order size: how much to buy or sell.
 price (price): Price to buy or sell at. May omit if a market order.
 exchange (string): "bitfinex", "bitstamp", "all" (for no routing).
 side (string): Either "buy" or "sell".
-type (string): Either "market" / "limit" / "stop" / "trailing-stop" / "exchange market" / "exchange limit" / "exchange stop" / "exchange trailing-stop". (type starting by "exchange " are exchange orders, others are margin trading orders= 
+type (string): Either "market" / "limit" / "stop" / "trailing-stop" / "exchange market" / "exchange limit" / "exchange stop" / "exchange trailing-stop". (type starting by "exchange " are exchange orders, others are margin trading orders=
 is_hidden (bool) true if the order should be hidden. Default is false.
 Response
 
@@ -163,7 +163,7 @@ POST /order/new/multi
 Submit several new orders at once.
 Request
 
-The request is an array of the array containing the order options sent with the previous call /order/new. That is an array of the following array: 
+The request is an array of the array containing the order options sent with the previous call /order/new. That is an array of the following array:
 symbol (string): The name of the symbol (see `/symbols`).
 amount (decimal): Order size: how much to buy or sell.
 price (price): Price to buy or sell at. May omit if a market order.

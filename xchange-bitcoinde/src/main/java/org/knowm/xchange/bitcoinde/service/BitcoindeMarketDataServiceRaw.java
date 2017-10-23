@@ -3,19 +3,17 @@ package org.knowm.xchange.bitcoinde.service;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitcoinde.Bitcoinde;
-import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook;
-import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeRate;
-import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
+import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderbookWrapper;
+import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTradesWrapper;
 
-import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author matthewdowney
  */
 public class BitcoindeMarketDataServiceRaw extends BitcoindeBaseService {
 
-  private final Bitcoinde bitcoinde;
+  private final SynchronizedValueFactory<Long> nonceFactory;
 
   /**
    * Constructor
@@ -25,23 +23,18 @@ public class BitcoindeMarketDataServiceRaw extends BitcoindeBaseService {
   public BitcoindeMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class,
-        exchange.getExchangeSpecification().getSslUri() + exchange.getExchangeSpecification().getApiKey() + "/");
+    this.nonceFactory = exchange.getNonceFactory();
+
   }
 
-  public BitcoindeRate getBitcoindeRate() throws IOException {
+  public BitcoindeOrderbookWrapper getBitcoindeOrderBook() throws IOException {
 
-    return bitcoinde.getRate();
+    return bitcoinde.getOrderBook(apiKey, nonceFactory, signatureCreator);
   }
 
-  public BitcoindeOrderBook getBitcoindeOrderBook() throws IOException {
+  public BitcoindeTradesWrapper getBitcoindeTrades(Integer since) throws IOException {
 
-    return bitcoinde.getOrderBook();
-  }
-
-  public BitcoindeTrade[] getBitcoindeTrades() throws IOException {
-
-    return bitcoinde.getTrades();
+    return bitcoinde.getTrades(since, apiKey, nonceFactory, signatureCreator);
   }
 
 }

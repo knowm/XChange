@@ -1,11 +1,5 @@
 package org.knowm.xchange.coinfloor.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinfloor.CoinfloorAdapters;
 import org.knowm.xchange.coinfloor.dto.trade.CoinfloorOrder;
@@ -20,6 +14,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
@@ -29,6 +25,12 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements TradeService {
 
@@ -119,7 +121,7 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
       offset = null;
     }
 
-    TradeHistoryParamsSorted.Order sort = null;
+    TradeHistoryParamsSorted.Order sort;
     if (params instanceof TradeHistoryParamsSorted) {
       sort = ((TradeHistoryParamsSorted) params).getOrder();
     } else {
@@ -147,12 +149,12 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
         // no currency pairs have been supplied - search them all
         pairs = allConfiguredCurrencyPairs;
       }
+
+      for (CurrencyPair currencyPair : pairs) {
+        transactions.addAll(Arrays.asList(getUserTransactions(currencyPair, limit, offset, sort)));
+      }
     } else {
       transactions.addAll(Arrays.asList(getUserTransactions(pair, limit, offset, sort)));
-    }
-
-    for (CurrencyPair currencyPair : pairs) {
-      transactions.addAll(Arrays.asList(getUserTransactions(currencyPair, limit, offset, sort)));
     }
 
     return CoinfloorAdapters.adaptTradeHistory(transactions);
@@ -169,14 +171,14 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
   @Override
   public String placeLimitOrder(
       LimitOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    CoinfloorOrder rawOrder = placeLimitOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount(), order.getLimitPrice());
+    CoinfloorOrder rawOrder = placeLimitOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount(), order.getLimitPrice());
     return Long.toString(rawOrder.getId());
   }
 
   @Override
   public String placeMarketOrder(
       MarketOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    placeMarketOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount());
+    placeMarketOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount());
     return ""; // coinfloor does not return an id for market orders
   }
 
@@ -186,6 +188,14 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
     // API requires currency pair but value seems to be ignored - only the order ID is used for lookup. 
     CurrencyPair currencyPairValueIsIgnored = CurrencyPair.BTC_GBP;
     return cancelOrder(currencyPairValueIsIgnored, Long.parseLong(orderId));
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   @Override

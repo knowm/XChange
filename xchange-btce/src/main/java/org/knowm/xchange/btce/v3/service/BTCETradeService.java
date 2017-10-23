@@ -28,6 +28,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -83,7 +85,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements TradeServic
 
     String pair = BTCEAdapters.getPair(limitOrder.getCurrencyPair());
 
-    BTCEOrder btceOrder = new BTCEOrder(0, null, limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), type, pair);
+    BTCEOrder btceOrder = new BTCEOrder(0, null, limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), type, pair);
 
     BTCEPlaceOrderResult result = placeBTCEOrder(btceOrder);
     return Long.toString(result.getOrderId());
@@ -94,6 +96,14 @@ public class BTCETradeService extends BTCETradeServiceRaw implements TradeServic
 
     BTCECancelOrderResult ret = cancelBTCEOrder(Long.parseLong(orderId));
     return (ret != null);
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   /**
@@ -181,11 +191,11 @@ public class BTCETradeService extends BTCETradeServiceRaw implements TradeServic
   @Override
   public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     Collection<Order> orders = new ArrayList<>(orderIds.length);
-    
+
     for (String orderId : orderIds) {
-        orders.add(BTCEAdapters.adaptOrderInfo(orderId, getBTCEOrderInfo(Long.valueOf(orderId))));
+      orders.add(BTCEAdapters.adaptOrderInfo(orderId, getBTCEOrderInfo(Long.valueOf(orderId))));
     }
-    
+
     return orders;
   }
 

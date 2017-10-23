@@ -13,7 +13,7 @@ public class NotYetImplementedForExchangeException extends UnsupportedOperationE
   /**
    * Constructor
    *
-   * @param message
+   * @param message Message
    */
   public NotYetImplementedForExchangeException(String message) {
 

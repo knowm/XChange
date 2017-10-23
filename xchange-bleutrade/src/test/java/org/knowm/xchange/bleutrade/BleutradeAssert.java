@@ -1,6 +1,6 @@
 package org.knowm.xchange.bleutrade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
@@ -38,7 +38,7 @@ public class BleutradeAssert {
 
   public static void assertEquals(Trade o1, Trade o2) {
     assertThat(o1.getType()).isEqualTo(o2.getType());
-    assertThat(o1.getTradableAmount()).isEqualTo(o2.getTradableAmount());
+    assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
     assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
@@ -50,7 +50,8 @@ public class BleutradeAssert {
     assertThat(o1.getType()).isEqualTo(o2.getType());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
     assertThat(o1.getLimitPrice()).isEqualTo(o2.getLimitPrice());
-    assertThat(o1.getTradableAmount()).isEqualTo(o2.getTradableAmount());
+    assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
+    assertThat(o1.getRemainingAmount()).isEqualTo(o2.getRemainingAmount());
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
   }
 

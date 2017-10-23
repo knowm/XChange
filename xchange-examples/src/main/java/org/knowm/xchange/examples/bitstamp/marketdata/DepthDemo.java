@@ -31,7 +31,7 @@ public class DepthDemo {
 
   private static void generic(MarketDataService marketDataService) throws IOException {
 
-    // Get the latest order book data for BTC/CAD
+    // Get the latest order book data for BTC/USD
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
 
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
@@ -42,12 +42,12 @@ public class DepthDemo {
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
     System.out.println("Last Bid: " + orderBook.getBids().get(orderBook.getBids().size() - 1).toString());
 
-    System.out.println(orderBook.toString());
+    //    System.out.println(orderBook.toString());
   }
 
   private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
 
-    // Get the latest order book data for BTC/CAD
+    // Get the latest order book data for BTC/USD
     BitstampOrderBook orderBook = marketDataService.getBitstampOrderBook(CurrencyPair.BTC_USD);
 
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
@@ -56,7 +56,7 @@ public class DepthDemo {
 
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
 
-    System.out.println(orderBook.toString());
+    //    System.out.println(orderBook.toString());
   }
 
 }

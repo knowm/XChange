@@ -17,6 +17,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -51,8 +52,8 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, IOException {
 
-    final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ? super.buy(marketOrder.getTradableAmount())
-        : super.sell(marketOrder.getTradableAmount());
+    final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ? super.buy(marketOrder.getOriginalAmount())
+        : super.sell(marketOrder.getOriginalAmount());
     return transfer.getId();
   }
 
@@ -65,6 +66,11 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   @Override
   public boolean cancelOrder(String orderId) throws NotAvailableFromExchangeException {
 
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

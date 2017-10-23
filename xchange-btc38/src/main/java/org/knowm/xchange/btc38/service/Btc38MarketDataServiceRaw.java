@@ -1,15 +1,15 @@
 package org.knowm.xchange.btc38.service;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btc38.Btc38;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38Ticker;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38TickerReturn;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38Trade;
 import org.knowm.xchange.currency.CurrencyPair;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Yingzhe on 12/19/2014.
@@ -75,8 +75,8 @@ public class Btc38MarketDataServiceRaw extends Btc38BaseService<Btc38> {
 
   public Btc38Trade[] getBtc38Trades(CurrencyPair currencyPair, Object[] args) throws IOException {
     return (args != null && args.length > 0 && args[0] != null && args[0] instanceof Long)
-            ? btc38.getTradesFrom(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase(), (Long) args[0])
-            : btc38.getTrades(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase());
+        ? btc38.getTradesFrom(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase(), (Long) args[0])
+        : btc38.getTrades(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase());
   }
 
 }

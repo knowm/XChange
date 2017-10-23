@@ -47,6 +47,9 @@ public class CoinfloorAdapters {
   private static List<LimitOrder> createOrders(CurrencyPair pair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
+    if (orders == null)
+      return limitOrders;
+
     for (List<BigDecimal> priceAndAmount : orders) {
 
       if (priceAndAmount.size() != 2) {

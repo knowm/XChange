@@ -19,49 +19,49 @@ public class MarketOrder extends Order {
 
   /**
    * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
+   * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param status the status of the order at the exchange or broker
    */
-  public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
+  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
       BigDecimal cumulativeAmount, OrderStatus status) {
-    super(type, tradableAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
+    super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
   }
 
   /**
    * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
+   * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order
    */
-  public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp) {
+  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp) {
 
-    super(type, tradableAmount, currencyPair, id, timestamp);
+    super(type, originalAmount, currencyPair, id, timestamp);
   }
 
   /**
    * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
+   * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param timestamp the absolute time for this order
    */
-  public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, Date timestamp) {
+  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, Date timestamp) {
 
-    super(type, tradableAmount, currencyPair, "", timestamp);
+    super(type, originalAmount, currencyPair, "", timestamp);
   }
 
   /**
    * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
+   * @param originalAmount The amount to trade
    * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
    */
-  public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair) {
+  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair) {
 
-    super(type, tradableAmount, currencyPair, "", null);
+    super(type, originalAmount, currencyPair, "", null);
   }
 
   public static class Builder extends Order.Builder {
@@ -73,7 +73,7 @@ public class MarketOrder extends Order {
 
     public static Builder from(Order order) {
 
-      return (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp())
+      return new Builder(order.getType(), order.getCurrencyPair()).originalAmount(order.getOriginalAmount()).timestamp(order.getTimestamp())
           .id(order.getId()).flags(order.getOrderFlags()).averagePrice(order.getAveragePrice()).orderStatus(order.getStatus());
     }
 
@@ -96,9 +96,9 @@ public class MarketOrder extends Order {
     }
 
     @Override
-    public Builder tradableAmount(BigDecimal tradableAmount) {
+    public Builder originalAmount(BigDecimal originalAmount) {
 
-      return (Builder) super.tradableAmount(tradableAmount);
+      return (Builder) super.originalAmount(originalAmount);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class MarketOrder extends Order {
 
     public MarketOrder build() {
 
-      MarketOrder order = new MarketOrder(orderType, tradableAmount, currencyPair, id, timestamp, averagePrice, null, status);
+      MarketOrder order = new MarketOrder(orderType, originalAmount, currencyPair, id, timestamp, averagePrice, null, status);
       order.setOrderFlags(flags);
       return order;
     }

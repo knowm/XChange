@@ -12,6 +12,9 @@
     "LTC/BTC": {
       "price_scale": 8
     },
+    "ETH/BTC": {
+      "price_scale": 8
+    },
     "LTC/EUR": {
       "price_scale": 2
     },

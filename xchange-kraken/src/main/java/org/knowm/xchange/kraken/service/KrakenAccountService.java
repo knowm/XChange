@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -14,15 +15,17 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
+import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencies;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class KrakenAccountService extends KrakenAccountServiceRaw implements AccountService {
 
@@ -48,6 +51,15 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   }
 
   @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
+  }
+
+  @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     KrakenDepositAddress[] depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin", false);
     return KrakenAdapters.adaptKrakenDepositAddress(depositAddresses);
@@ -55,30 +67,23 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    return new KrakenFundingHistoryParams(null, null, null, new Currency[]{Currency.BTC, Currency.USD});
+    return new KrakenFundingHistoryParams(null, null, null, (Currency[]) null);
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    String startTime = null;
-    String endTime = null;
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    Date startTime = null;
+    Date endTime = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
-      final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
-      if (timeSpanParam.getStartTime() != null) {
-        startTime = String.valueOf(DateUtils.toUnixTime(timeSpanParam.getStartTime()));
-      }
-      if (timeSpanParam.getEndTime() != null) {
-        endTime = String.valueOf(DateUtils.toUnixTime(timeSpanParam.getEndTime()));
-      }
+      TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+      startTime = timeSpanParam.getStartTime();
+      endTime = timeSpanParam.getEndTime();
     }
 
-    String offset = null;
+    Long offset = null;
     if (params instanceof TradeHistoryParamOffset) {
-      final TradeHistoryParamOffset offsetParam = (TradeHistoryParamOffset) params;
-      if (offsetParam.getOffset() != null) {
-        offset = String.valueOf(offsetParam.getOffset());
-      }
+      offset = ((TradeHistoryParamOffset) params).getOffset();
     }
 
     Currency[] currencies = null;
@@ -94,7 +99,14 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
       final FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
       ledgerType = type == FundingRecord.Type.DEPOSIT ? LedgerType.DEPOSIT : type == FundingRecord.Type.WITHDRAWAL ? LedgerType.WITHDRAWAL : null;
     }
-    return KrakenAdapters.adaptFundingHistory(getKrakenLedgerInfo(ledgerType, startTime, endTime, offset, currencies));
+
+    if(ledgerType == null) {
+      Map<String, KrakenLedger> ledgerEntries = getKrakenLedgerInfo(LedgerType.DEPOSIT, startTime, endTime, offset, currencies);
+      ledgerEntries.putAll(getKrakenLedgerInfo(LedgerType.WITHDRAWAL, startTime, endTime, offset, currencies));
+      return KrakenAdapters.adaptFundingHistory(ledgerEntries);
+    } else {
+      return KrakenAdapters.adaptFundingHistory(getKrakenLedgerInfo(ledgerType, startTime, endTime, offset, currencies));
+    }
   }
 
   public static class KrakenFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan

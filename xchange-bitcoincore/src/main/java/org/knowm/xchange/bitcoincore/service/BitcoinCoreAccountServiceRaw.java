@@ -28,7 +28,7 @@ public class BitcoinCoreAccountServiceRaw extends BaseExchangeService {
 
     ExchangeSpecification specification = exchange.getExchangeSpecification();
 
-    ClientConfig config = new ClientConfig();
+    ClientConfig config = getClientConfig();
     String user = specification.getUserName();
     ClientConfigUtil.addBasicAuthCredentials(config, user == null ? "" : user, specification.getPassword());
 

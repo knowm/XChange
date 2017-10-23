@@ -66,7 +66,7 @@ public class DSXTransaction {
   public Status getStatus() {
     return status;
   }
-  
+
   public BigDecimal getCommission() {
     return commission;
   }
@@ -80,35 +80,36 @@ public class DSXTransaction {
   }
 
   public enum Status {
-      Failed(1), Completed(2), Processing(3), Rejected(4), Cancelling(5);
-      
-      private final int status;
-      Status(int status) {
-          this.status = status;
+    Failed(1), Completed(2), Processing(3), Rejected(4), Cancelling(5);
+
+    private final int status;
+
+    Status(int status) {
+      this.status = status;
+    }
+
+    private static final Map<Integer, Status> STATUS_MAP;
+
+    static {
+      STATUS_MAP = new HashMap<>();
+      for (Status s : Status.values()) {
+        STATUS_MAP.put(s.status, s);
       }
-      
-      private static final Map<Integer, Status> STATUS_MAP;
-      
-      static {
-          STATUS_MAP = new HashMap<>();
-          for(Status s : Status.values()) {
-              STATUS_MAP.put(s.status, s);
-          }
+    }
+
+    @JsonCreator
+    public static Status create(int status) {
+      Status result = STATUS_MAP.get(status);
+      if (result == null) {
+        throw new RuntimeException("Unknown transaction status: " + status + ", known are: " + STATUS_MAP.keySet());
       }
-      
-      @JsonCreator
-      public static Status create(int status) {
-          Status result = STATUS_MAP.get(status);
-          if (result == null) {
-              throw new RuntimeException("Unknown transaction status: " + status + ", known are: " + STATUS_MAP.keySet());
-          }
-          return result; 
-      }
+      return result;
+    }
   }
 
   @Override
   public String toString() {
     return "DSXTransaction [id=" + id + ", timestamp=" + timestamp + ", type=" + type + ", amount=" + amount + ", currency="
-            + currency + ", address=" + address + ", status=" + status + ", commission=" + commission + ", txId=" + txId + "]";
+        + currency + ", address=" + address + ", status=" + status + ", commission=" + commission + ", txId=" + txId + "]";
   }
 }

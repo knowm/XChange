@@ -1,10 +1,12 @@
 package org.knowm.xchange.livecoin.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
+
 public class LivecoinTicker {
+  private final String cur;
+  private final String symbol;
   private final BigDecimal last;
   private final BigDecimal high;
   private final BigDecimal low;
@@ -15,12 +17,15 @@ public class LivecoinTicker {
   private final BigDecimal bestBid;
   private final BigDecimal bestAsk;
 
-  public LivecoinTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high,
-      @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("max_bid") BigDecimal maxBid,
-      @JsonProperty("min_ask") BigDecimal minAsk, @JsonProperty("best_bid") BigDecimal bestBid,
-      @JsonProperty("best_ask") BigDecimal bestAsk) {
+  public LivecoinTicker(@JsonProperty("cur") String cur, @JsonProperty("symbol") String symbol,
+                        @JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high,
+                        @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
+                        @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("max_bid") BigDecimal maxBid,
+                        @JsonProperty("min_ask") BigDecimal minAsk, @JsonProperty("best_bid") BigDecimal bestBid,
+                        @JsonProperty("best_ask") BigDecimal bestAsk) {
 
+    this.cur = cur;
+    this.symbol = symbol;
     this.last = last;
     this.high = high;
     this.low = low;
@@ -69,10 +74,28 @@ public class LivecoinTicker {
     return bestBid;
   }
 
-  @Override
-  public String toString() {
-    return "YoBitTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", vwap=" + vwap
-        + ", maxBid=" + maxBid + ", minAsk=" + minAsk + ", bestBid=" + bestBid + ", bestAsk=" + bestAsk + "]";
+  public String getCur() {
+    return cur;
   }
 
+  public String getSymbol() {
+    return symbol;
+  }
+
+  @Override
+  public String toString() {
+    return "LivecoinTicker{" +
+        "cur=" + cur +
+        ", symbol=" + symbol +
+        ", last=" + last +
+        ", high=" + high +
+        ", low=" + low +
+        ", volume=" + volume +
+        ", vwap=" + vwap +
+        ", maxBid=" + maxBid +
+        ", minAsk=" + minAsk +
+        ", bestBid=" + bestBid +
+        ", bestAsk=" + bestAsk +
+        '}';
+  }
 }

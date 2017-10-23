@@ -41,12 +41,7 @@ public class LakeBTCDepthDemo {
     LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getMarketDataService();
 
     // Get the latest full order book data
-    LakeBTCOrderBook orderBook = marketDataService.getLakeBTCOrderBookCNY();
-    System.out.println(orderBook.toString());
-    System.out.println("size: " + (orderBook.getAsks().length + orderBook.getBids().length));
-
-    // Get the latest full order book data
-    orderBook = marketDataService.getLakeBTCOrderBookUSD();
+    LakeBTCOrderBook orderBook = marketDataService.getLakeOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().length + orderBook.getBids().length));
 

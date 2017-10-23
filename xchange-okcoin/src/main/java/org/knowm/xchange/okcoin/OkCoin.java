@@ -142,7 +142,7 @@ public interface OkCoin {
   @Path("withdraw.do")
   OKCoinWithdraw withdraw(@FormParam("api_key") String api_key, @FormParam("symbol") String symbol, @FormParam("sign") ParamsDigest sign,
       @FormParam("chargefee") String chargefee, @FormParam("trade_pwd") String trade_pwd, @FormParam("withdraw_address") String withdraw_address,
-      @FormParam("withdraw_amount") String withdraw_amount) throws IOException;
+      @FormParam("withdraw_amount") String withdraw_amount, @FormParam("target") String target) throws IOException;
 
   @POST
   @Path("account_records.do")

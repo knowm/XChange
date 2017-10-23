@@ -1,4 +1,59 @@
 {
+  "currency_pairs": {
+    "BTC/USD": {
+      "price_scale": 5
+    },
+    "BTC/EUR": {
+      "price_scale": 5
+    },
+    "ETH/EUR": {
+      "price_scale": 5
+    },
+    "ETH/BTC": {
+      "price_scale": 5
+    },
+    "ETH/USD": {
+      "price_scale": 5
+    },
+    "LTC/USD": {
+      "price_scale": 6
+    },
+    "LTC/EUR": {
+      "price_scale": 6
+    },
+    "LTC/BTC": {
+      "price_scale": 5
+    },
+    "EUR/USD": {
+      "price_scale": 6
+    },
+    "BTC/RUB": {
+      "price_scale": 5
+    }
+  },
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "USD": {
+      "scale": 2
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "XRP": {
+      "scale": 8
+    },
+    "PPC": {
+      "scale": 8
+    }
+  },
   "publicInfoCacheSeconds": 2,
   "amountScale": 8
 }

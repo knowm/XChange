@@ -1,9 +1,17 @@
 package org.knowm.xchange.anx.v2.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXAdapters;
 import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistoryEntry;
+import org.knowm.xchange.anx.v2.dto.account.ANXWithdrawalResponse;
+import org.knowm.xchange.anx.v2.dto.account.ANXWithdrawalResponseWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -11,16 +19,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /**
  * <p>
@@ -57,8 +61,26 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
       throw new IllegalArgumentException("Amount cannot be null");
     }
 
-    anxWithdrawFunds(currency.toString(), amount, address);
-    return "success";
+    ANXWithdrawalResponseWrapper wrapper = anxWithdrawFunds(currency.toString(), amount, address);
+    ANXWithdrawalResponse response = wrapper.getAnxWithdrawalResponse();
+
+    //eg: {  "result": "error",  "data": {    "message": "min size, params, or available funds problem."  }}
+    if (wrapper.getResult().equals("error")) {
+      throw new IllegalStateException("Failed to withdraw funds: " + response.getMessage());
+    } else if (wrapper.getError() != null) {//does this ever happen?
+      throw new IllegalStateException("Failed to withdraw funds: " + wrapper.getError());
+    } else {
+      return response.getTransactionId();
+    }
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override
@@ -73,8 +95,7 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
     List<FundingRecord> results = new ArrayList<>();
 
@@ -88,7 +109,6 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
     return results;
   }
-
 
   public static class AnxFundingHistoryParams implements TradeHistoryParamCurrency, TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
 

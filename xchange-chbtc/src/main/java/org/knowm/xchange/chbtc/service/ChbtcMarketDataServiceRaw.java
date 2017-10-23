@@ -21,7 +21,7 @@ public class ChbtcMarketDataServiceRaw extends BaseExchangeService implements Ba
 
   public ChbtcMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.chbtc = RestProxyFactory.createProxy(Chbtc.class, exchange.getExchangeSpecification().getSslUri());
+    this.chbtc = RestProxyFactory.createProxy(Chbtc.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public ChbtcOrderBook getChbtcOrderBook(CurrencyPair pair) throws IOException {

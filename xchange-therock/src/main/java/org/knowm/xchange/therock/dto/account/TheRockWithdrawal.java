@@ -16,7 +16,7 @@ public class TheRockWithdrawal {
   private Method withdrawMethod;
 
   private String destinationAddress;
-  
+
   private Long destinationTag = null;
 
   private BigDecimal amount;
@@ -52,12 +52,12 @@ public class TheRockWithdrawal {
   public String getDestinationAddress() {
     return destinationAddress;
   }
-  
+
   public Long getDestinationTag() {
     return destinationTag;
   }
 
-public BigDecimal getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 

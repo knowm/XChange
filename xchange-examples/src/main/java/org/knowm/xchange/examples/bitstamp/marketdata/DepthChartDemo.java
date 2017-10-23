@@ -38,6 +38,8 @@ public class DepthChartDemo {
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
 
+    System.out.println("orderBook = " + orderBook);
+
     System.out.println("received data.");
 
     System.out.println("plotting...");
@@ -53,9 +55,9 @@ public class DepthChartDemo {
     List<Number> yData = new ArrayList<>();
     BigDecimal accumulatedBidUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getBids()) {
-      if (limitOrder.getLimitPrice().doubleValue() > 10) {
+      if (limitOrder.getLimitPrice().doubleValue() > 100) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getTradableAmount());
+        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedBidUnits);
       }
     }
@@ -71,9 +73,9 @@ public class DepthChartDemo {
     yData = new ArrayList<>();
     BigDecimal accumulatedAskUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getAsks()) {
-      if (limitOrder.getLimitPrice().doubleValue() < 1000) {
+      if (limitOrder.getLimitPrice().doubleValue() < 12000) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getTradableAmount());
+        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedAskUnits);
       }
     }

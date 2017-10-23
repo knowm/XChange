@@ -39,7 +39,7 @@ public final class ANXUtils {
 
     for (LimitOrder openOrder : orders) {
       if (openOrder.getId().equalsIgnoreCase(id)) {
-        if (order.getCurrencyPair().equals(openOrder.getCurrencyPair()) && (order.getTradableAmount().compareTo(openOrder.getTradableAmount()) == 0)
+        if (order.getCurrencyPair().equals(openOrder.getCurrencyPair()) && (order.getOriginalAmount().compareTo(openOrder.getOriginalAmount()) == 0)
             && (order.getLimitPrice().compareTo(openOrder.getLimitPrice()) == 0)) {
           found = true;
         }

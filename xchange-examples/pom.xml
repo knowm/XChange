@@ -1,12 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.2.1-SNAPSHOT</version>
+        <version>4.3.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-examples</artifactId>
@@ -24,6 +23,15 @@
 
     <!-- Parent provides default configuration for dependencies -->
     <dependencies>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.knowm.xchart</groupId>
+            <artifactId>xchart</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.reflections</groupId>
@@ -307,18 +315,6 @@
             <artifactId>xchange-chbtc</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.knowm.xchart</groupId>
-            <artifactId>xchart</artifactId>
-        </dependency>
-
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-ccex</artifactId>
@@ -338,6 +334,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-dsx</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- XChange Cryptopia exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cryptopia</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

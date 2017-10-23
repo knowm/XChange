@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -64,12 +65,14 @@ public interface GeminiAuthenticated extends Gemini {
       @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiPastTradesRequest pastTradesRequest) throws IOException, GeminiException;
 
   @POST
-  @Path("withdraw")
-  GeminiWithdrawalResponse[] withdraw(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiWithdrawalRequest withdrawalRequest) throws IOException, GeminiException;
+  @Path("withdraw/{currency}")
+  GeminiWithdrawalResponse withdraw(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
+      @PathParam("currency") String currency, GeminiWithdrawalRequest withdrawalRequest) throws IOException, GeminiException;
 
   @POST
-  @Path("deposit/new")
-  GeminiDepositAddressResponse requestDeposit(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiDepositAddressRequest depositRequest) throws IOException, GeminiException;
+  @Path("deposit/{currency}/newAddress")
+  GeminiDepositAddressResponse requestNewAddress(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
+      @PathParam("currency") String currency, GeminiDepositAddressRequest depositRequest) throws IOException, GeminiException;
 }

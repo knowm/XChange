@@ -28,9 +28,13 @@ public class QuoineSignatureDigest implements ParamsDigest {
 
     String path = "/" + restInvocation.getMethodPath();
 
-    final String sign = builder.withClaim("path", path).withClaim("nonce", String.valueOf(nonceFactory.createValue())).withClaim("token_id", tokenID)
-        .sign(Algorithm.HMAC256(userSecret));
+    String queryString = restInvocation.getQueryString();
+    if (queryString != null && queryString.length() > 0)
+      path += "?" + restInvocation.getQueryString();
 
-    return sign;
+    return builder.withClaim("path", path)
+        .withClaim("nonce", String.valueOf(nonceFactory.createValue()))
+        .withClaim("token_id", tokenID)
+        .sign(Algorithm.HMAC256(userSecret));
   }
 }

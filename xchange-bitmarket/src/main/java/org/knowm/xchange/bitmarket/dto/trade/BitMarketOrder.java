@@ -47,7 +47,7 @@ public class BitMarketOrder {
     this.type = type;
     this.time = time;
     this.timestamp = new Date(time * 1000);
-    this.currencyPair = BitMarketUtils.BitMarketCurrencyPairToCurrencyPair(market);
+    this.currencyPair = BitMarketUtils.bitMarketCurrencyPairToCurrencyPair(market);
   }
 
   public long getId() {
@@ -71,7 +71,7 @@ public class BitMarketOrder {
   }
 
   public Order.OrderType getType() {
-    return BitMarketUtils.BitMarketOrderTypeToOrderType(type);
+    return BitMarketUtils.bitMarketOrderTypeToOrderType(type);
   }
 
   public long getTime() {

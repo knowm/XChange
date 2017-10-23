@@ -1,5 +1,8 @@
 package org.knowm.xchange.bleutrade.service;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeException;
 import org.knowm.xchange.bleutrade.BleutradeUtils;
@@ -7,14 +10,13 @@ import org.knowm.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTrade;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTradesWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-
-import java.io.IOException;
-import java.util.List;
 
 public class BleutradeTradeServiceRaw extends BleutradeBaseService {
 
@@ -34,7 +36,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
       BleutradePlaceOrderReturn response = bleutrade.buyLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString,
-          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+          limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -52,7 +54,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
       BleutradePlaceOrderReturn response = bleutrade.sellLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString,
-          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+          limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -90,7 +92,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     }
   }
 
-  public List<BleutradeOpenOrder> getTrades(TradeHistoryParams params) throws IOException {
+  public List<BluetradeExecutedTrade> getTrades(TradeHistoryParams params) throws IOException {
     String market = null;
     String orderStatus = null;
     String orderType = null;
@@ -107,34 +109,34 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     if (params instanceof TradeHistoryParamCurrencyPair) {
       CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
 
-      if(currencyPair != null)
+      if (currencyPair != null)
         market = toMarket(currencyPair);
     }
 
-    if(market == null) {
+    if (market == null) {
       market = BleutradeTradeHistoryParams.ALL.market;
     }
 
-    if(orderStatus == null) {
+    if (orderStatus == null) {
       orderStatus = BleutradeTradeHistoryParams.ALL.orderStatus;
     }
 
-    if(orderType == null) {
+    if (orderType == null) {
       orderType = BleutradeTradeHistoryParams.ALL.orderType;
     }
 
     try {
-      BleutradeOpenOrdersReturn response = bleutrade.getTrades(apiKey, signatureCreator, exchange.getNonceFactory(),
+      BluetradeExecutedTradesWrapper response = bleutrade.getTrades(apiKey, signatureCreator, exchange.getNonceFactory(),
           market,
           orderStatus,
           orderType
       );
 
-      if (!response.getSuccess()) {
-        throw new ExchangeException(response.getMessage());
+      if (!response.success) {
+        throw new ExchangeException(response.message);
       }
 
-      return response.getResult();
+      return response.result;
     } catch (BleutradeException e) {
       throw new ExchangeException(e);
     }

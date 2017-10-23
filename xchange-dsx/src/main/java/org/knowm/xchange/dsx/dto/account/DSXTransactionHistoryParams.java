@@ -9,59 +9,59 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class DSXTransactionHistoryParams implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan, TradeHistoryParamCurrency {
 
-    private Currency currency = null;
-    private String startId = null;
-    private String endId = null;
-    private Date startTime = null;
-    private Date endTime = null;
-    
-    @Override
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
+  private Currency currency = null;
+  private String startId = null;
+  private String endId = null;
+  private Date startTime = null;
+  private Date endTime = null;
 
-    @Override
-    public Currency getCurrency() {
-        return currency;
-    }
+  @Override
+  public void setCurrency(Currency currency) {
+    this.currency = currency;
+  }
 
-    @Override
-    public void setStartId(String startId) {
-        this.startId = startId;        
-    }
+  @Override
+  public Currency getCurrency() {
+    return currency;
+  }
 
-    @Override
-    public String getStartId() {
-        return startId;
-    }
+  @Override
+  public void setStartId(String startId) {
+    this.startId = startId;
+  }
 
-    @Override
-    public void setEndId(String endId) {
-        this.endId = endId;
-    }
+  @Override
+  public String getStartId() {
+    return startId;
+  }
 
-    @Override
-    public String getEndId() {
-        return endId;
-    }
+  @Override
+  public void setEndId(String endId) {
+    this.endId = endId;
+  }
 
-    @Override
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
+  @Override
+  public String getEndId() {
+    return endId;
+  }
 
-    @Override
-    public Date getStartTime() {
-        return startTime;
-    }
+  @Override
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
+  }
 
-    @Override
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
+  @Override
+  public Date getStartTime() {
+    return startTime;
+  }
 
-    @Override
-    public Date getEndTime() {
-        return endTime;
-    }
+  @Override
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
+  }
+
+  @Override
+  public Date getEndTime() {
+    return endTime;
+  }
 }

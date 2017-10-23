@@ -13,6 +13,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.vaultoro.VaultoroAdapters;
@@ -48,6 +50,14 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   }
 
   @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
+  }
+
+  @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
     throw new NotAvailableFromExchangeException();
@@ -79,7 +89,7 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   public String placeLimitOrder(
       LimitOrder arg0) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    VaultoroNewOrderResponse response = super.placeLimitOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getTradableAmount(), arg0.getLimitPrice());
+    VaultoroNewOrderResponse response = super.placeLimitOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount(), arg0.getLimitPrice());
     return response.getData().getOrderID();
 
   }
@@ -88,7 +98,7 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   public String placeMarketOrder(
       MarketOrder arg0) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    VaultoroNewOrderResponse response = super.placeMarketOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getTradableAmount());
+    VaultoroNewOrderResponse response = super.placeMarketOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount());
     return response.getData().getOrderID();
 
   }

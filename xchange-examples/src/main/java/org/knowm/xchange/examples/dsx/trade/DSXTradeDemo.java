@@ -8,7 +8,6 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersResult;
-import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderResult;
 import org.knowm.xchange.dsx.dto.trade.DSXOrder;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeResult;
 import org.knowm.xchange.dsx.service.DSXTradeServiceRaw;
@@ -79,7 +78,7 @@ public class DSXTradeDemo {
       System.out.println("tradeDSX return value:" + result2);
       printRawOpenOrders(tradeService);
 
-      DSXCancelOrderResult cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
+      boolean cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
       System.out.println("Canceling returned " + cancelResult);
 
       printRawOpenOrders(tradeService);
@@ -110,7 +109,7 @@ public class DSXTradeDemo {
 
       printRawOpenOrders(tradeService);
 
-      DSXCancelOrderResult cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
+      boolean cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
       System.out.println("Canceling returned " + cancelResult);
     } catch (ExchangeException e) {
       System.out.println(e.getMessage());

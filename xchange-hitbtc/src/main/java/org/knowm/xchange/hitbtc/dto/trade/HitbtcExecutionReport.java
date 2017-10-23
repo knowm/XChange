@@ -22,6 +22,7 @@ public class HitbtcExecutionReport {
   private final BigDecimal leavesQuantity;
   private final BigDecimal cumQuantity;
   private final BigDecimal averagePrice;
+  private final String orderStatus;
 
   public HitbtcExecutionReport(@JsonProperty("orderId") String orderId, @JsonProperty("clientOrderId") String clientOrderId,
       @JsonProperty("execReportType") String execReportType, @JsonProperty("orderRejectReason") String orderRejectReason,
@@ -29,7 +30,8 @@ public class HitbtcExecutionReport {
       @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("type") String type,
       @JsonProperty("timeInForce") String timeInForce, @JsonProperty("lastQuantity") BigDecimal lastQuantity,
       @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("leavesQuantity") BigDecimal leavesQuantity,
-      @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("averagePrice") BigDecimal averagePrice) {
+      @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("averagePrice") BigDecimal averagePrice,
+      @JsonProperty("orderStatus") String orderStatus) {
 
     super();
     this.orderId = orderId;
@@ -48,6 +50,7 @@ public class HitbtcExecutionReport {
     this.leavesQuantity = leavesQuantity;
     this.cumQuantity = cumQuantity;
     this.averagePrice = averagePrice;
+    this.orderStatus = orderStatus;
   }
 
   public String getOrderId() {
@@ -130,6 +133,10 @@ public class HitbtcExecutionReport {
     return averagePrice;
   }
 
+  public String getOrderStatus() {
+    return orderStatus;
+  }
+
   @Override
   public String toString() {
 
@@ -166,6 +173,8 @@ public class HitbtcExecutionReport {
     builder.append(cumQuantity);
     builder.append(", averagePrice=");
     builder.append(averagePrice);
+    builder.append(", orderStatus=");
+    builder.append(orderStatus);
     builder.append("]");
     return builder.toString();
   }

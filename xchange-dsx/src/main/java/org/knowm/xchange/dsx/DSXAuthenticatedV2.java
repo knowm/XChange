@@ -21,14 +21,14 @@ import org.knowm.xchange.dsx.dto.account.DSXTransactionStatusReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXActiveOrdersReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderReturn;
+import org.knowm.xchange.dsx.dto.trade.DSXFeesReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXOrder;
 import org.knowm.xchange.dsx.dto.trade.DSXOrderHistoryReturn;
+import org.knowm.xchange.dsx.dto.trade.DSXOrderStatusReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeHistoryReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
-import org.knowm.xchange.dsx.dto.trade.DSXFeesReturn;
-import org.knowm.xchange.dsx.dto.trade.DSXOrderStatusReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXVolumeReturn;
 
 import si.mazi.rescu.ParamsDigest;
@@ -92,8 +92,8 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/history/transactions")
-  DSXTransHistoryReturn TransHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("count") Long count,
+  DSXTransHistoryReturn transHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("count") Integer count,
       @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("type") DSXTransHistoryResult.Type type, @FormParam("status") DSXTransHistoryResult.Status status,
       @FormParam("currency") String currency) throws IOException;
@@ -117,8 +117,8 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/history/trades")
-  DSXTradeHistoryReturn TradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Long count,
+  DSXTradeHistoryReturn tradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Integer count,
       @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
@@ -140,7 +140,7 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/history/orders")
-  DSXOrderHistoryReturn OrderHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+  DSXOrderHistoryReturn orderHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Long count,
       @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
@@ -162,7 +162,7 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/order/new")
-  DSXTradeReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+  DSXTradeReturn trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("volume") BigDecimal volume,
       @FormParam("pair") String pair, @FormParam("orderType") DSXOrder.OrderType orderType) throws IOException;
 
@@ -178,7 +178,7 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/order/cancel")
-  DSXCancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+  DSXCancelOrderReturn cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") Long orderId) throws IOException;
 
   /**
@@ -284,6 +284,7 @@ public interface DSXAuthenticatedV2 extends DSX {
    * This method provides preparing for submitting crypto withdraw
    *
    * All parameters are obligatory (ie. none may be null)
+   *
    * @param currency Fiat currency name
    * @param amount Amount of fiat you want to withdraw
    * @return {"success": 1,"return": {"transactionId": 1}}

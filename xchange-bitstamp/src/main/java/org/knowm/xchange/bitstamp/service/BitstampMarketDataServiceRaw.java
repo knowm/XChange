@@ -18,13 +18,12 @@ import si.mazi.rescu.RestProxyFactory;
  */
 public class BitstampMarketDataServiceRaw extends BitstampBaseService {
 
-
   private final BitstampV2 bitstampV2;
 
   public BitstampMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitstampV2 = RestProxyFactory.createProxy(BitstampV2.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitstampV2 = RestProxyFactory.createProxy(BitstampV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public BitstampTicker getBitstampTicker(CurrencyPair pair) throws IOException {

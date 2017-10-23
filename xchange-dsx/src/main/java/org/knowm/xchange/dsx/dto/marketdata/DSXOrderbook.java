@@ -17,52 +17,52 @@ public final class DSXOrderbook {
   private final BigDecimal marketSellPrice;
 
   public DSXOrderbook(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids,
-                      @JsonProperty("market_buy_price") BigDecimal marketBuyPrice,
-                      @JsonProperty("market_sell_price") BigDecimal marketSellPrice) {
+      @JsonProperty("market_buy_price") BigDecimal marketBuyPrice,
+      @JsonProperty("market_sell_price") BigDecimal marketSellPrice) {
 
-      this.asks = asks;
-      this.bids = bids;
-      this.marketBuyPrice = marketBuyPrice;
-      this.marketSellPrice = marketSellPrice;
+    this.asks = asks;
+    this.bids = bids;
+    this.marketBuyPrice = marketBuyPrice;
+    this.marketSellPrice = marketSellPrice;
   }
 
   public List<BigDecimal[]> getAsks() {
 
-      return asks;
+    return asks;
   }
 
   public List<BigDecimal[]> getBids() {
 
-      return bids;
+    return bids;
   }
 
   public BigDecimal getMarketBuyPrice() {
 
-      return marketBuyPrice;
+    return marketBuyPrice;
   }
 
   public BigDecimal getMarketSellPrice() {
 
-      return marketSellPrice;
+    return marketSellPrice;
   }
 
   @Override
   public String toString() {
 
-      StringBuilder sb = new StringBuilder("DSXOrderbook [asks=");
-      for (BigDecimal[] a : asks) {
-          sb.append("[").append(a[0].toString()).append(",").append(a[1].toString()).append("],");
-      }
-      sb.append(" bids=");
-      for (BigDecimal[] b : bids) {
-          sb.append("[").append(b[0].toString()).append(",").append(b[1].toString()).append("],");
-      }
-      sb.append(", marketBuyPrice=");
-      sb.append(marketBuyPrice);
-      sb.append(", marketSellPrice=");
-      sb.append(marketSellPrice);
-      sb.append("]");
-      return sb.toString();
+    StringBuilder sb = new StringBuilder("DSXOrderbook [asks=");
+    for (BigDecimal[] a : asks) {
+      sb.append("[").append(a[0].toString()).append(",").append(a[1].toString()).append("],");
+    }
+    sb.append(" bids=");
+    for (BigDecimal[] b : bids) {
+      sb.append("[").append(b[0].toString()).append(",").append(b[1].toString()).append("],");
+    }
+    sb.append(", marketBuyPrice=");
+    sb.append(marketBuyPrice);
+    sb.append(", marketSellPrice=");
+    sb.append(marketSellPrice);
+    sb.append("]");
+    return sb.toString();
   }
 
 }

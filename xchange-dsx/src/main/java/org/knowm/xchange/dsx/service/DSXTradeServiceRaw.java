@@ -10,7 +10,6 @@ import org.knowm.xchange.dsx.DSXAuthenticatedV2;
 import org.knowm.xchange.dsx.dto.trade.DSXActiveOrdersReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersResult;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersReturn;
-import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderResult;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXFeesResult;
 import org.knowm.xchange.dsx.dto.trade.DSXFeesReturn;
@@ -68,21 +67,20 @@ public class DSXTradeServiceRaw extends DSXBaseService {
   public DSXTradeResult tradeDSX(DSXOrder order) throws IOException {
 
     String pair = order.getPair().toLowerCase();
-    DSXTradeReturn ret = dsx.Trade(apiKey, signatureCreator, exchange.getNonceFactory(), order.getType(), order.getRate(),
+    DSXTradeReturn ret = dsx.trade(apiKey, signatureCreator, exchange.getNonceFactory(), order.getType(), order.getRate(),
         order.getAmount(), pair, order.getOrderType());
     checkResult(ret);
     return ret.getReturnValue();
   }
 
-  public DSXCancelOrderResult cancelDSXOrder(long orderId) throws IOException {
+  public boolean cancelDSXOrder(long orderId) throws IOException {
 
-    DSXCancelOrderReturn ret = dsx.CancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
+    DSXCancelOrderReturn ret = dsx.cancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
     if (MSG_BAD_STATUS.equals(ret.getError())) {
-      return null;
+      return false;
     }
 
-    checkResult(ret);
-    return ret.getReturnValue();
+    return ret.isSuccess();
   }
 
   public DSXCancelAllOrdersResult cancelAllDSXOrders() throws IOException {
@@ -124,15 +122,15 @@ public class DSXTradeServiceRaw extends DSXBaseService {
    * @param endId ID of the last trade of the selection
    * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
    * @param since Time from which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
-   * @param end 	Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param end Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
    * @param pair Currency pair
    * @return Map of trade history result
    * @throws IOException
    */
-  public Map<Long, DSXTradeHistoryResult> getDSXTradeHistory(Long count, Long fromId, Long endId, DSXAuthenticatedV2.SortOrder order,
+  public Map<Long, DSXTradeHistoryResult> getDSXTradeHistory(Integer count, Long fromId, Long endId, DSXAuthenticatedV2.SortOrder order,
       Long since, Long end, String pair) throws IOException {
 
-    DSXTradeHistoryReturn dsxTradeHistory = dsx.TradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, endId,
+    DSXTradeHistoryReturn dsxTradeHistory = dsx.tradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, endId,
         order, since, end, pair);
     String error = dsxTradeHistory.getError();
     if (MSG_NO_TRADES.equals(error)) {
@@ -155,10 +153,10 @@ public class DSXTradeServiceRaw extends DSXBaseService {
    * @return Map of transaction history
    * @throws IOException
    */
-  public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Long count, Long fromId, Long endId, DSXAuthenticatedV2.SortOrder order,
+  public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Integer count, Long fromId, Long endId, DSXAuthenticatedV2.SortOrder order,
       Long since, Long end, DSXTransHistoryResult.Type type, DSXTransHistoryResult.Status status, String currency) throws IOException {
 
-    DSXTransHistoryReturn dsxTransHistory = dsx.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, endId,
+    DSXTransHistoryReturn dsxTransHistory = dsx.transHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, endId,
         order, since, end, type, status, currency);
     String error = dsxTransHistory.getError();
     if (MSG_NO_TRADES.equals(error)) {
@@ -171,6 +169,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
 
   /**
    * Get Map of order history from DSX exchange. All parameters are nullable
+   *
    * @param count Number of orders to display. Default value is 1000
    * @param fromId ID of the first order of the selection
    * @param endId ID of the last order of the selection
@@ -184,7 +183,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
   public Map<Long, DSXOrderHistoryResult> getDSXOrderHistory(Long count, Long fromId, Long endId, DSXAuthenticatedV2.SortOrder order,
       Long since, Long end, String pair) throws IOException {
 
-    DSXOrderHistoryReturn dsxOrderHistory = dsx.OrderHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId,
+    DSXOrderHistoryReturn dsxOrderHistory = dsx.orderHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId,
         endId, order, since, end, pair);
     String error = dsxOrderHistory.getError();
     if (MSG_NO_TRADES.equals(error)) {
