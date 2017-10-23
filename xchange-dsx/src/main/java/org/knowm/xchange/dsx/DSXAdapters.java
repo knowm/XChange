@@ -131,10 +131,9 @@ public class DSXAdapters {
       DSXOrder dsxOrder = dsxOrderMap.get(id);
       OrderType orderType = dsxOrder.getType() == DSXOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = dsxOrder.getRate();
-      Date timestamp = DateUtils.fromMillisUtc(dsxOrder.getTimestampCreated() * 1000L);
       CurrencyPair currencyPair = adaptCurrencyPair(dsxOrder.getPair());
 
-      limitOrders.add(new LimitOrder(orderType, dsxOrder.getAmount(), currencyPair, Long.toString(id), timestamp, price));
+      limitOrders.add(new LimitOrder(orderType, dsxOrder.getAmount(), currencyPair, Long.toString(id), null, price));
     }
     return new OpenOrders(limitOrders);
   }
@@ -237,6 +236,6 @@ public class DSXAdapters {
   public static LimitOrder createLimitOrder(MarketOrder marketOrder, DSXExchangeInfo dsxExchangeInfo) {
     DSXPairInfo dsxPairInfo = dsxExchangeInfo.getPairs().get(getPair(marketOrder.getCurrencyPair()));
     BigDecimal limitPrice = marketOrder.getType() == OrderType.BID ? dsxPairInfo.getMaxPrice() : dsxPairInfo.getMinPrice();
-    return LimitOrder.Builder.from(marketOrder).limitPrice(limitPrice).timestamp(new Date()).build();
+    return LimitOrder.Builder.from(marketOrder).limitPrice(limitPrice).build();
   }
 }

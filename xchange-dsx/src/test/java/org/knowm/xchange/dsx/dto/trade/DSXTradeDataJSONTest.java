@@ -28,7 +28,6 @@ public class DSXTradeDataJSONTest {
     DSXActiveOrdersReturn result = getResult("/trade/example-open-orders-data.json", DSXActiveOrdersReturn.class);
     Map<Long, DSXOrder> rv = result.getReturnValue();
     assertThat(rv.keySet()).containsAll(Collections.singletonList(956L));
-    assertThat(rv.get(956L).getTimestampCreated()).isEqualTo(142123698L);
   }
 
   @Test
