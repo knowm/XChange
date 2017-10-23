@@ -1,6 +1,6 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -31,7 +31,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class BitfinexAdaptersTest {
 
   private final static String MARKET = "bitfinex";
-  private final static String EXCHANGE = "exchange";
   private final static String SYMBOL = "BTCUSD";
 
   @Test
@@ -66,7 +65,7 @@ public class BitfinexAdaptersTest {
       LimitOrder order = container.getLimitOrders().get(i);
       long expectedTimestampMillis = levels[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
 
-      assertEquals(levels[i].getAmount(), order.getTradableAmount());
+      assertEquals(levels[i].getAmount(), order.getOriginalAmount());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
       assertEquals(levels[i].getPrice(), order.getLimitPrice());
     }
@@ -105,7 +104,7 @@ public class BitfinexAdaptersTest {
       Order.OrderType expectedOrderType = responses[i].getSide().equalsIgnoreCase("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
 
       assertEquals(String.valueOf(responses[i].getId()), order.getId());
-      assertEquals(responses[i].getRemainingAmount(), order.getTradableAmount());
+      assertEquals(responses[i].getOriginalAmount(), order.getOriginalAmount());
       assertEquals(BitfinexAdapters.adaptCurrencyPair(SYMBOL), order.getCurrencyPair());
       assertEquals(expectedOrderType, order.getType());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
@@ -135,7 +134,7 @@ public class BitfinexAdaptersTest {
       BigDecimal originalAmount = new BigDecimal("70");
       BigDecimal remainingAmount = originalAmount.subtract(new BigDecimal(i * 1));
       BigDecimal executedAmount = originalAmount.subtract(remainingAmount);
-      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, EXCHANGE, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
+      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
           wasForced, originalAmount, remainingAmount, executedAmount);
     }
 
@@ -155,7 +154,7 @@ public class BitfinexAdaptersTest {
       Order.OrderType expectedOrderType = responses[i].getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
       assertEquals(responses[i].getPrice(), trade.getPrice());
-      assertEquals(responses[i].getAmount(), trade.getTradableAmount());
+      assertEquals(responses[i].getAmount(), trade.getOriginalAmount());
       assertEquals(BitfinexAdapters.adaptCurrencyPair(SYMBOL), trade.getCurrencyPair());
       assertEquals(expectedTimestampMillis, trade.getTimestamp().getTime());
       assertEquals(expectedOrderType, trade.getType());
@@ -201,8 +200,8 @@ public class BitfinexAdaptersTest {
 
     List<FundingRecord> fundingRecords = BitfinexAdapters.adaptFundingHistory(response);
 
-    for (FundingRecord record : fundingRecords){
-      if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())){
+    for (FundingRecord record : fundingRecords) {
+      if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())) {
         assertThat(record.getStatus()).isEqualTo(FundingRecord.Status.PROCESSING);
         assertEquals(new BigDecimal("0.01"), record.getAmount());
         assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());

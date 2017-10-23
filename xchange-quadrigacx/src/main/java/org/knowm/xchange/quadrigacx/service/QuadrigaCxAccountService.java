@@ -14,7 +14,9 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAdapters;
 import org.knowm.xchange.quadrigacx.dto.account.QuadrigaCxBalance;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw implements AccountService {
 
@@ -34,7 +36,21 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw implem
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    return (currency.equals(Currency.BTC) ? withdrawBitcoin(amount, address) : withdrawEther(amount, address));
+    if (currency.equals(Currency.BTC))
+      return withdrawBitcoin(amount, address);
+    else if (currency.equals(Currency.ETH))
+      return withdrawEther(amount, address);
+    else
+      throw new IllegalStateException("unsupported ccy " + currency);
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   /**
@@ -42,9 +58,12 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw implem
    */
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-
-    return currency.equals(Currency.BTC) ? getQuadrigaCxBitcoinDepositAddress().getDepositAddress()
-        : getQuadrigaCxEtherDepositAddress().getDepositAddress();
+    if (currency.equals(Currency.BTC))
+      return getQuadrigaCxBitcoinDepositAddress().getDepositAddress();
+    else if (currency.equals(Currency.ETH))
+      return getQuadrigaCxEtherDepositAddress().getDepositAddress();
+    else
+      throw new IllegalStateException("unsupported ccy " + currency);
   }
 
   @Override

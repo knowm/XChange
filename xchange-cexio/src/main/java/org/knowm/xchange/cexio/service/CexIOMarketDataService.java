@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
+import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -36,7 +37,14 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return CexIOAdapters.adaptOrderBook(getCexIOOrderBook(currencyPair), currencyPair);
+    CexIODepth cexIODepth = getCexIOOrderBook(currencyPair);
+
+    if (cexIODepth.getError() != null) {
+      //eg: 'Rate limit exceeded'
+      throw new ExchangeException("CexIO getOrderBook request for " + currencyPair + " failed with: " + cexIODepth.getError());
+    }
+
+    return CexIOAdapters.adaptOrderBook(cexIODepth, currencyPair);
   }
 
   @Override
@@ -44,7 +52,7 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
 
     CexIOTrade[] trades;
 
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       Object arg0 = args[0];
       if (!(arg0 instanceof Number)) {
         throw new ExchangeException("arg[0] must be a Number used to represent since trade id.");

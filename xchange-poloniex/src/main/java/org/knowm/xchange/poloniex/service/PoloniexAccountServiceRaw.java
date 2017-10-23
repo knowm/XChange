@@ -83,7 +83,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
   /**
    * @param paymentId For XMR withdrawals, you may optionally specify "paymentId".
    */
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address, @Nullable String paymentId) throws IOException {
+  public String withdraw(Currency currency, BigDecimal amount, String address, @Nullable String paymentId) throws IOException {
     return poloniexAuthenticated
         .withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address, paymentId).getResponse();
   }

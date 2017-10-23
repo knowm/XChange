@@ -1,6 +1,6 @@
 package org.knowm.xchange.gdax.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,7 @@ public class GDAXFillTest {
   public void unmarshalTest() throws IOException {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
-    
+
     InputStream is = getClass().getResourceAsStream("/trade/example-fills.json");
     GDAXFill[] fills = mapper.readValue(is, GDAXFill[].class);
 

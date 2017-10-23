@@ -1,6 +1,6 @@
 package org.knowm.xchange.kraken.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +24,7 @@ public class KrakenAssetsJSONTest {
     KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
     Map<String, KrakenAsset> assets = krakenResult.getResult();
 
-    assertThat(assets).hasSize(9);
+    assertThat(assets).hasSize(27);
     KrakenAsset asset = assets.get("XXBT");
     assertThat(asset.getAltName()).isEqualTo("XBT");
     assertThat(asset.getAssetClass()).isEqualTo("currency");

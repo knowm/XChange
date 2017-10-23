@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class QuadrigaCxBalance {
 
-  private Map<String, BigDecimal> currencyReserved = new HashMap<>();
-  private Map<String, BigDecimal> currencyAvailable = new HashMap<>();
-  private Map<String, BigDecimal> currencyBalance = new HashMap<>();
+  private Map<Currency, BigDecimal> currencyReserved = new HashMap<>();
+  private Map<Currency, BigDecimal> currencyAvailable = new HashMap<>();
+  private Map<Currency, BigDecimal> currencyBalance = new HashMap<>();
   private List<Currency> currencies = new ArrayList<>();
 
   private final BigDecimal fee;
@@ -32,34 +32,36 @@ public final class QuadrigaCxBalance {
   public void setCurrencyAmount(String currencyBalance, BigDecimal amount) {
 
     String[] parts = currencyBalance.split("_");
+    Currency currency = Currency.getInstance(parts[0].toUpperCase());
+
     if (parts.length > 1) {
       switch (parts[1]) {
         case "reserved":
-          this.currencyReserved.put(parts[0], amount);
+          this.currencyReserved.put(currency, amount);
           break;
         case "available":
-          this.currencyAvailable.put(parts[0], amount);
+          this.currencyAvailable.put(currency, amount);
           break;
         case "balance":
-          this.currencyBalance.put(parts[0], amount);
+          this.currencyBalance.put(currency, amount);
           break;
       }
-      Currency currency = new Currency(parts[0]);
+
       if (!currencies.contains(currency))
         currencies.add(currency);
     }
   }
 
   public BigDecimal getCurrencyBalance(Currency currency) {
-    return this.currencyBalance.get(currency.getCurrencyCode().toLowerCase());
+    return this.currencyBalance.get(currency);
   }
 
   public BigDecimal getCurrencyReserved(Currency currency) {
-    return this.currencyReserved.get(currency.getCurrencyCode().toLowerCase());
+    return this.currencyReserved.get(currency);
   }
 
   public BigDecimal getCurrencyAvailable(Currency currency) {
-    return this.currencyAvailable.get(currency.getCurrencyCode().toLowerCase());
+    return this.currencyAvailable.get(currency);
   }
 
   public List<Currency> getCurrencyList() {

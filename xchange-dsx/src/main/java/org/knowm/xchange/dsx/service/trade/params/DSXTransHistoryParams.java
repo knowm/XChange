@@ -2,83 +2,25 @@ package org.knowm.xchange.dsx.service.trade.params;
 
 import java.util.Date;
 
-import org.knowm.xchange.dsx.DSXAuthenticatedV2;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
-/**
- * @author Mikhail Wall
- */
+public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrency, TradeHistoryParamsSorted, TradeHistoryParamLimit {
 
-public class DSXTransHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan {
-
-  private DSXAuthenticatedV2.SortOrder sortOrder;
   private DSXTransHistoryResult.Status status;
   private DSXTransHistoryResult.Type type;
   private String startId;
   private String endId;
   private Date startTime;
   private Date endTime;
-
-  @Override
-  public void setStartId(String startId) {
-
-    this.startId = startId;
-  }
-
-  @Override
-  public String getStartId() {
-
-    return startId;
-  }
-
-  @Override
-  public void setEndId(String endId) {
-
-    this.endId = endId;
-  }
-
-  @Override
-  public String getEndId() {
-
-    return endId;
-  }
-
-  @Override
-  public void setStartTime(Date startTime) {
-
-    this.startTime = startTime;
-  }
-
-  @Override
-  public Date getStartTime() {
-
-    return startTime;
-  }
-
-  @Override
-  public void setEndTime(Date endTime) {
-
-    this.endTime = endTime;
-  }
-
-  @Override
-  public Date getEndTime() {
-
-    return endTime;
-  }
-
-  public void setSortOrder(DSXAuthenticatedV2.SortOrder sortOrder) {
-
-    this.sortOrder = sortOrder;
-  }
-
-  public DSXAuthenticatedV2.SortOrder getSortOrder() {
-
-    return sortOrder;
-  }
+  private Currency currency;
+  private Order order;
+  private Integer limit;
 
   public DSXTransHistoryResult.Status getStatus() {
     return status;
@@ -94,5 +36,75 @@ public class DSXTransHistoryParams extends DefaultTradeHistoryParamPaging implem
 
   public void setType(DSXTransHistoryResult.Type type) {
     this.type = type;
+  }
+
+  @Override
+  public void setStartId(String startId) {
+    this.startId = startId;
+  }
+
+  @Override
+  public void setLimit(Integer limit) {
+    this.limit = limit;
+  }
+
+  @Override
+  public Integer getLimit() {
+    return limit;
+  }
+
+  @Override
+  public String getStartId() {
+    return startId;
+  }
+
+  @Override
+  public void setEndId(String endId) {
+    this.endId = endId;
+  }
+
+  @Override
+  public String getEndId() {
+    return endId;
+  }
+
+  @Override
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
+  }
+
+  @Override
+  public Date getStartTime() {
+    return startTime;
+  }
+
+  @Override
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
+  }
+
+  @Override
+  public Date getEndTime() {
+    return endTime;
+  }
+
+  @Override
+  public Order getOrder() {
+    return order;
+  }
+
+  @Override
+  public void setOrder(Order order) {
+    this.order = order;
+  }
+
+  @Override
+  public void setCurrency(Currency currency) {
+    this.currency = currency;
+  }
+
+  @Override
+  public Currency getCurrency() {
+    return currency;
   }
 }

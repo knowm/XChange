@@ -8,7 +8,6 @@ public class BitfinexOrderStatusResponse {
 
   private final long id;
   private final String symbol;
-  private final String exchange;
   private final BigDecimal price;
   private final BigDecimal avgExecutionPrice;
   private final String side;
@@ -26,7 +25,6 @@ public class BitfinexOrderStatusResponse {
    *
    * @param id
    * @param symbol
-   * @param exchange
    * @param price
    * @param avgExecutionPrice
    * @param side
@@ -39,7 +37,7 @@ public class BitfinexOrderStatusResponse {
    * @param remainingAmount
    * @param executedAmount
    */
-  public BitfinexOrderStatusResponse(@JsonProperty("id") long id, @JsonProperty("symbol") String symbol, @JsonProperty("exchange") String exchange,
+  public BitfinexOrderStatusResponse(@JsonProperty("order_id") long id, @JsonProperty("symbol") String symbol,
       @JsonProperty("price") BigDecimal price, @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side,
       @JsonProperty("type") String type, @JsonProperty("timestamp") BigDecimal timestamp, @JsonProperty("is_live") boolean isLive,
       @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("was_forced") boolean wasForced,
@@ -48,7 +46,6 @@ public class BitfinexOrderStatusResponse {
 
     this.id = id;
     this.symbol = symbol;
-    this.exchange = exchange;
     this.price = price;
     this.avgExecutionPrice = avgExecutionPrice;
     this.side = side;
@@ -80,11 +77,6 @@ public class BitfinexOrderStatusResponse {
   public boolean getWasForced() {
 
     return wasForced;
-  }
-
-  public String getExchange() {
-
-    return exchange;
   }
 
   public String getType() {
@@ -140,8 +132,6 @@ public class BitfinexOrderStatusResponse {
     builder.append(id);
     builder.append(", symbol=");
     builder.append(symbol);
-    builder.append(", exchange=");
-    builder.append(exchange);
     builder.append(", price=");
     builder.append(price);
     builder.append(", avgExecutionPrice=");

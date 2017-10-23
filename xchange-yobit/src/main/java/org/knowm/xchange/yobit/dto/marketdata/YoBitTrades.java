@@ -2,8 +2,10 @@ package org.knowm.xchange.yobit.dto.marketdata;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades.YoBitTradesDeserializer;
@@ -20,23 +22,22 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = YoBitTradesDeserializer.class)
 public class YoBitTrades {
 
-  private List<YoBitTrade> trades;
+  public final Map<String, List<YoBitTrade>> trades;
 
-  public YoBitTrades(List<YoBitTrade> trades) {
+  public YoBitTrades(Map<String, List<YoBitTrade>> trades) {
     super();
     this.trades = trades;
   }
 
-  public List<YoBitTrade> getTrades() {
+  public Map<String, List<YoBitTrade>> getTrades() {
     return trades;
   }
 
   static class YoBitTradesDeserializer extends JsonDeserializer<YoBitTrades> {
 
-    private List<YoBitTrade> trades = new ArrayList<>();
-
     @Override
     public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+      Map<String, List<YoBitTrade>> trades = new HashMap<>();
 
       ObjectCodec oc = p.getCodec();
       JsonNode node = oc.readTree(p);
@@ -47,12 +48,15 @@ public class YoBitTrades {
           Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
 
           JsonNode priceNode = priceEntryNode.getValue();
+          String ccyPair = priceEntryNode.getKey();
+
+          List<YoBitTrade> res = new ArrayList<>();
+          trades.put(ccyPair, res);
 
           if (priceNode.isArray()) {
             for (JsonNode jsonNode : priceNode) {
               ObjectMapper jsonObjectMapper = new ObjectMapper();
-              YoBitTrade yoBitTrade = jsonObjectMapper.convertValue(jsonNode, YoBitTrade.class);
-              trades.add(yoBitTrade);
+              res.add(jsonObjectMapper.convertValue(jsonNode, YoBitTrade.class));
             }
           }
         }

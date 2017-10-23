@@ -1,13 +1,15 @@
 package org.knowm.xchange.gdax.service;
 
-import net.iharder.Base64;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.RestInvocation;
+import java.io.IOException;
 
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
-import java.io.IOException;
+
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.BaseParamsDigest;
+
+import net.iharder.Base64;
+import si.mazi.rescu.RestInvocation;
 
 public class GDAXDigest extends BaseParamsDigest {
 

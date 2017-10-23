@@ -1,0 +1,18 @@
+[
+  {
+    "id": "6860502",
+    "datetime": "2017-07-16 15:48:10",
+    "type": "buy",
+    "price": 9.4e-5,
+    "amount_original": 239123.471,
+    "amount_outstanding": 239123.471
+  },
+  {
+    "id": "6860504",
+    "datetime": "2017-07-16 10:48:10",
+    "type": "sell",
+    "price": 11,
+    "amount_original": 2333,
+    "amount_outstanding": 233
+  }
+]

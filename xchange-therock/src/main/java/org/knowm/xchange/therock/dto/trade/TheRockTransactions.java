@@ -1,5 +1,7 @@
 package org.knowm.xchange.therock.dto.trade;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -8,9 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TheRockTransactions {
 
   private final TheRockTransaction[] transactions;
+  private final Map meta;
 
-  public TheRockTransactions(@JsonProperty("transactions") TheRockTransaction[] transactions, @JsonProperty("meta") Object ignored) {
+  public TheRockTransactions(@JsonProperty("transactions") TheRockTransaction[] transactions, @JsonProperty("meta") Map meta) {
     this.transactions = transactions;
+    this.meta = meta;
   }
 
   public int getCount() {

@@ -1,5 +1,13 @@
 package org.knowm.xchange.bleutrade;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeLevel;
@@ -9,6 +17,7 @@ import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeOrderBook;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -26,14 +35,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class BleutradeAdapters {
 
@@ -77,7 +78,7 @@ public class BleutradeAdapters {
 
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.ASK, currencyPair);
       builder.limitPrice(ask.getRate());
-      builder.tradableAmount(ask.getQuantity());
+      builder.originalAmount(ask.getQuantity());
       asks.add(builder.build());
     }
 
@@ -85,7 +86,7 @@ public class BleutradeAdapters {
 
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.BID, currencyPair);
       builder.limitPrice(bid.getRate());
-      builder.tradableAmount(bid.getQuantity());
+      builder.originalAmount(bid.getQuantity());
       bids.add(builder.build());
     }
 
@@ -102,7 +103,7 @@ public class BleutradeAdapters {
       builder.currencyPair(currencyPair);
       builder.price(bleutradeTrade.getPrice());
       builder.timestamp(BleutradeUtils.toDate(bleutradeTrade.getTimeStamp()));
-      builder.tradableAmount(bleutradeTrade.getQuantity());
+      builder.originalAmount(bleutradeTrade.getQuantity());
       builder.type(bleutradeTrade.getOrderType().equals("BUY") ? OrderType.BID : OrderType.ASK);
       trades.add(builder.build());
     }
@@ -135,7 +136,9 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(type, currencyPair);
       builder.id(bleuTradeOpenOrder.getOrderId());
       builder.limitPrice(bleuTradeOpenOrder.getPrice());
-      builder.tradableAmount(bleuTradeOpenOrder.getQuantityRemaining());
+      builder.remainingAmount(bleuTradeOpenOrder.getQuantityRemaining());
+      builder.originalAmount(bleuTradeOpenOrder.getQuantity());
+      builder.timestamp(BleutradeUtils.toDate(bleuTradeOpenOrder.getCreated()));
       openOrders.add(builder.build());
     }
 
@@ -164,17 +167,17 @@ public class BleutradeAdapters {
     return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null);
   }
 
-  public static UserTrade adaptUserTrade(BleutradeOpenOrder trade) {
-    OrderType orderType = trade.getType().equalsIgnoreCase("sell") ? OrderType.ASK : OrderType.BID;
-    CurrencyPair currencyPair = BleutradeUtils.toCurrencyPair(trade.getExchange());
+  public static UserTrade adaptUserTrade(BluetradeExecutedTrade trade) {
+    OrderType orderType = trade.type.equalsIgnoreCase("sell") ? OrderType.ASK : OrderType.BID;
+    CurrencyPair currencyPair = BleutradeUtils.toCurrencyPair(trade.exchange);
     return new UserTrade(
         orderType,
-        trade.getQuantity(),
+        trade.quantity,
         currencyPair,
-        trade.getPrice(),
-        BleutradeUtils.toDate(trade.getCreated()),
-        trade.getOrderId(),
-        trade.getOrderId(),
+        trade.price,
+        BleutradeUtils.toDate(trade.created),
+        trade.orderId,
+        trade.orderId,
         null,
         null
     );

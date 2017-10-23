@@ -1,13 +1,15 @@
 package org.knowm.xchange.quoine.dto.account;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class QuoineAccountBalance {
 
   private final String currency;
-  private final double balance;
+  private final BigDecimal balance;
 
-  public QuoineAccountBalance(@JsonProperty("currency") String currency, @JsonProperty("balance") double balance) {
+  public QuoineAccountBalance(@JsonProperty("currency") String currency, @JsonProperty("balance") BigDecimal balance) {
     this.currency = currency;
     this.balance = balance;
   }
@@ -16,7 +18,7 @@ public final class QuoineAccountBalance {
     return currency;
   }
 
-  public double getBalance() {
+  public BigDecimal getBalance() {
     return balance;
   }
 

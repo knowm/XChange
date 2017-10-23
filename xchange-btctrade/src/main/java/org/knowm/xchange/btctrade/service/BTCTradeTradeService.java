@@ -19,6 +19,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -59,9 +61,9 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
 
     final BTCTradePlaceOrderResult result;
     if (limitOrder.getType() == OrderType.BID) {
-      result = buy(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      result = buy(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     } else {
-      result = sell(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      result = sell(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     }
     return BTCTradeAdapters.adaptPlaceOrderResult(result);
   }
@@ -71,6 +73,14 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
 
     BTCTradeResult result = cancelBTCTradeOrder(orderId);
     return BTCTradeAdapters.adaptResult(result);
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   /**

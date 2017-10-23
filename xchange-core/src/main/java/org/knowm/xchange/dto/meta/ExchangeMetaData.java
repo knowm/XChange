@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.meta;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * <p/>
  * This class is used only in the API by the classes that merge metadata stored in custom JSON file and online info from the remote exchange.
  */
-public class ExchangeMetaData {
+public class ExchangeMetaData implements Serializable {
 
   @JsonProperty("currency_pairs")
   private Map<CurrencyPair, CurrencyPairMetaData> currencyPairs;

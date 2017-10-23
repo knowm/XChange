@@ -1,6 +1,6 @@
 package org.knowm.xchange.dsx.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +37,7 @@ public class DSXTradeDataJSONTest {
 
     DSXTradeResult rv = result.getReturnValue();
     assertThat(rv.getFunds().keySet().containsAll(Arrays.asList("BTC", "USD", "EUR", "LTC"))).isTrue();
-    assertThat(rv.getFunds().get("BTC")).isEqualsToByComparingFields(new DSXCurrencyAmount(new BigDecimal("100"), new BigDecimal("95")));
+    assertThat(rv.getFunds().get("BTC")).isEqualToComparingFieldByField(new DSXCurrencyAmount(new BigDecimal("100"), new BigDecimal("95")));
     assertThat(rv.getOrderId()).isEqualTo(1067L);
   }
 

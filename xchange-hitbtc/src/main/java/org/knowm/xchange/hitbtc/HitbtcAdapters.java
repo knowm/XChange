@@ -12,6 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -24,6 +25,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.hitbtc.dto.TransactionResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
@@ -34,11 +36,19 @@ import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
+import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class HitbtcAdapters {
 
   public static final char DELIM = '_';
+
+  private static final Map<String, FundingRecord.Type> FUNDING_TYPES = new HashMap<String, FundingRecord.Type>() {{
+    put("exchangeToBank", null);//internal transfer
+    put("bankToExchange", null);//internal transfer
+    put("payin", FundingRecord.Type.DEPOSIT);
+    put("payout", FundingRecord.Type.WITHDRAWAL);
+  }};
 
   /**
    * Singleton
@@ -170,8 +180,14 @@ public class HitbtcAdapters {
 
       OrderType type = adaptOrderType(o.getSide());
 
-      LimitOrder order = new LimitOrder(type, o.getExecQuantity(), adaptSymbol(o.getSymbol()), o.getClientOrderId(), new Date(o.getLastTimestamp()),
-          o.getOrderPrice());
+      LimitOrder order =
+          new LimitOrder(
+              type,
+              o.getOrderQuantity(),
+              adaptSymbol(o.getSymbol()),
+              o.getClientOrderId(),
+              new Date(o.getLastTimestamp()),
+              o.getOrderPrice());
 
       openOrders.add(order);
     }
@@ -194,11 +210,11 @@ public class HitbtcAdapters {
       CurrencyPair pair = adaptSymbol(t.getSymbol());
 
       // minimumAmount is equal to lot size
-      BigDecimal tradableAmount = t.getExecQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
+      BigDecimal originalAmount = t.getExecQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
       Date timestamp = new Date(t.getTimestamp());
       String id = Long.toString(t.getTradeId());
 
-      UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
+      UserTrade trade = new UserTrade(type, originalAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
           Currency.getInstance(pair.counter.getCurrencyCode()));
 
       trades.add(trade);
@@ -241,10 +257,14 @@ public class HitbtcAdapters {
   }
 
   public static String readSymbol(String orderId) {
-
     int start = orderId.indexOf(DELIM);
-    int end = orderId.indexOf(DELIM, start + 1);
-    return orderId.substring(start + 1, end);
+    if (start != -1) {
+      int end = orderId.indexOf(DELIM, start + 1);
+      if (end != -1) {
+        return orderId.substring(start + 1, end);
+      }
+    }
+    return "";
   }
 
   public static HitbtcTrade.HitbtcTradeSide getSide(OrderType type) {
@@ -267,4 +287,27 @@ public class HitbtcAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
+  public static FundingRecord adapt(TransactionResponse transaction) {
+    FundingRecord.Type type = FUNDING_TYPES.get(transaction.type);
+
+    FundingRecord.Status status = transaction.status.equals("success") ? FundingRecord.Status.COMPLETE : FundingRecord.Status.FAILED;//todo: find out if there are more statuses
+
+    String bitcoinAddress = transaction.bitcoinAddress;
+    if (bitcoinAddress == null || bitcoinAddress.equals(""))
+      bitcoinAddress = transaction.destinationData;
+
+    return new FundingRecord(
+        bitcoinAddress,
+        DateUtils.fromUnixTime(transaction.finished),
+        Currency.getInstanceNoCreate(transaction.currencyCodeTo),
+        transaction.amountTo,
+        transaction.id,
+        transaction.externalData,
+        type,
+        status,
+        null,
+        transaction.commissionPercent,
+        transaction.type + " " + transaction.status
+    );
+  }
 }

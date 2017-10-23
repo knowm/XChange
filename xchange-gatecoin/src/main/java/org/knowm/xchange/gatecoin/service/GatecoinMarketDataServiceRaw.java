@@ -25,7 +25,7 @@ public class GatecoinMarketDataServiceRaw extends GatecoinBaseService {
   public GatecoinMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.gatecoin = RestProxyFactory.createProxy(Gatecoin.class, exchange.getExchangeSpecification().getSslUri());
+    this.gatecoin = RestProxyFactory.createProxy(Gatecoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public GatecoinTickerResult getGatecoinTicker() throws IOException {

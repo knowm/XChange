@@ -15,6 +15,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw implements AccountService {
 
@@ -32,13 +33,18 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw impl
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount,
       String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-    throw new UnsupportedOperationException();
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String requestDepositAddress(Currency currency,
       String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-    throw new UnsupportedOperationException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

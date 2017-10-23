@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
@@ -22,8 +23,11 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -97,6 +101,14 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     return cancelBitfinexOrder(orderId);
   }
 
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
+  }
+
   /**
    * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can optionally implement {@link TradeHistoryParamPaging} and
    * {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be ignored.
@@ -114,25 +126,29 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
       throw new ExchangeException("CurrencyPair must be supplied");
     }
 
-    final long timestamp;
+    long startTime = 0;
+    Long endTime = null;
+    int limit = 50;
+
     if (params instanceof TradeHistoryParamsTimeSpan) {
-      Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
-      timestamp = DateUtils.toUnixTime(startTime);
-    } else {
-      timestamp = 0;
+      TradeHistoryParamsTimeSpan paramsTimeSpan = (TradeHistoryParamsTimeSpan) params;
+      startTime = DateUtils.toUnixTimeNullSafe(paramsTimeSpan.getStartTime());
+      endTime = DateUtils.toUnixTimeNullSafe(paramsTimeSpan.getEndTime());
     }
 
-    final int limit;
     if (params instanceof TradeHistoryParamPaging) {
       TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
       Integer pageLength = pagingParams.getPageLength();
       Integer pageNum = pagingParams.getPageNumber();
       limit = (pageLength != null && pageNum != null) ? pageLength * (pageNum + 1) : 50;
-    } else {
-      limit = 50;
     }
 
-    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
+    if (params instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
+      limit = tradeHistoryParamLimit.getLimit();
+    }
+
+    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, startTime, endTime, limit);
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }
 
@@ -201,7 +217,21 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+    List<Order> openOrders = new ArrayList<>();
+
+    for (String orderId : orderIds) {
+
+      BitfinexOrderStatusResponse orderStatus = getBitfinexOrderStatus(orderId);
+      BitfinexOrderStatusResponse[] orderStatuses = new BitfinexOrderStatusResponse[1];
+      if (orderStatus != null) {
+        orderStatuses[0] = orderStatus;
+        OpenOrders orders = BitfinexAdapters.adaptOrders(orderStatuses);
+        openOrders.add(orders.getOpenOrders().get(0));
+      }
+
+    }
+    return openOrders;
+
   }
 
   public BigDecimal getMakerFee() throws IOException {

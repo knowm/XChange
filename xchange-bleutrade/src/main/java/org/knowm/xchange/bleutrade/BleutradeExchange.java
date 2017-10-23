@@ -18,7 +18,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BleutradeExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
+  //until bluetrade offer more than one api key, it is invalid to create more than one nonce
+  private static SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   protected void initServices() {

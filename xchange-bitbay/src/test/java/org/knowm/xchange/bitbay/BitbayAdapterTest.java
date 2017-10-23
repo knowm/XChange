@@ -1,6 +1,6 @@
 package org.knowm.xchange.bitbay;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,13 +58,13 @@ public class BitbayAdapterTest {
 
     assertThat(openOrders.getOpenOrders().size()).isEqualTo(2);
     assertThat(openOrders.getOpenOrders().get(0).getLimitPrice()).isEqualByComparingTo("1400");
-    assertThat(openOrders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("0.10000000");
+    assertThat(openOrders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("0.10000000");
     assertThat(openOrders.getOpenOrders().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(openOrders.getOpenOrders().get(0).getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(openOrders.getOpenOrders().get(0).getId()).isEqualTo("59057271");
 
     assertThat(openOrders.getOpenOrders().get(1).getLimitPrice()).isEqualByComparingTo("1500");
-    assertThat(openOrders.getOpenOrders().get(1).getTradableAmount()).isEqualTo("0.10000000");
+    assertThat(openOrders.getOpenOrders().get(1).getOriginalAmount()).isEqualTo("0.10000000");
     assertThat(openOrders.getOpenOrders().get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(openOrders.getOpenOrders().get(1).getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(openOrders.getOpenOrders().get(1).getId()).isEqualTo("59057261");

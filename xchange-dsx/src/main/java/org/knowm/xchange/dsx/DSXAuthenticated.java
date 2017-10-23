@@ -126,7 +126,7 @@ public interface DSXAuthenticated extends DSX {
    * @param pair Currency pair.
    * @return
    * @throws IOException
-   * @deprecated Use {@link DSXAuthenticatedV2#OrderHistory(String, ParamsDigest, SynchronizedValueFactory, Long, Long, Long, DSXAuthenticatedV2.SortOrder,
+   * @deprecated Use {@link DSXAuthenticatedV2#orderHistory(String, ParamsDigest, SynchronizedValueFactory, Long, Long, Long, DSXAuthenticatedV2.SortOrder,
    * Long, Long, String)}
    */
   @Deprecated
@@ -146,7 +146,7 @@ public interface DSXAuthenticated extends DSX {
    * @param amount The amount which is necessary to buy/sell
    * @param pair pair, eg. btcusd
    * @throws IOException
-   * @deprecated Use {@link DSXAuthenticatedV2#Trade(String, ParamsDigest, SynchronizedValueFactory, DSXOrder.Type, BigDecimal, BigDecimal, String, DSXOrder.OrderType)}
+   * @deprecated Use {@link DSXAuthenticatedV2#trade(String, ParamsDigest, SynchronizedValueFactory, DSXOrder.Type, BigDecimal, BigDecimal, String, DSXOrder.OrderType)}
    * DSXOrder.OrderType, String)}
    */
   @Deprecated
@@ -161,7 +161,7 @@ public interface DSXAuthenticated extends DSX {
    * @param orderId Id of order to cancel
    * @return
    * @throws IOException
-   * @deprecated Use {@link DSXAuthenticatedV2#CancelOrder(String, ParamsDigest, SynchronizedValueFactory, Long)}
+   * @deprecated Use {@link DSXAuthenticatedV2#cancelOrder(String, ParamsDigest, SynchronizedValueFactory, Long)}
    */
   @Deprecated
   @POST

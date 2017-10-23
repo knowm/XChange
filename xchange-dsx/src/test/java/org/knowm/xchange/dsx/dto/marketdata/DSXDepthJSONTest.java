@@ -1,6 +1,6 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test DSXOrderbook JSON parsing
+ *
  * @author Mikhail Wall
  */
 public class DSXDepthJSONTest {

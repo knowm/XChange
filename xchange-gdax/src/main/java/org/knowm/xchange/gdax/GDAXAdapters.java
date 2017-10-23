@@ -12,6 +12,8 @@ import java.util.TimeZone;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -127,16 +129,17 @@ public class GDAXAdapters {
 
   }
 
-  public static Wallet adaptAccountInfo(GDAXAccount[] coinbaseExAccountInfo) {
-    List<Balance> balances = new ArrayList<>(coinbaseExAccountInfo.length);
+  public static Wallet adaptAccountInfo(GDAXAccount[] gdaxAccounts) {
 
-    for (int i = 0; i < coinbaseExAccountInfo.length; i++) {
-      GDAXAccount account = coinbaseExAccountInfo[i];
+    List<Balance> balances = new ArrayList<>(gdaxAccounts.length);
 
-      balances.add(new Balance(Currency.getInstance(account.getCurrency()), account.getBalance(), account.getAvailable(), account.getHold()));
+    for (int i = 0; i < gdaxAccounts.length; i++) {
+
+      GDAXAccount gdaxAccount = gdaxAccounts[i];
+      balances.add(new Balance(Currency.getInstance(gdaxAccount.getCurrency()), gdaxAccount.getBalance(), gdaxAccount.getAvailable(), gdaxAccount.getHold()));
     }
 
-    return new Wallet(coinbaseExAccountInfo[0].getProfile_id(), balances);
+    return new Wallet(gdaxAccounts[0].getProfile_id(), balances);
   }
 
   public static OpenOrders adaptOpenOrders(GDAXOrder[] coinbaseExOpenOrders) {
@@ -150,11 +153,25 @@ public class GDAXAdapters {
 
       Date createdAt = parseDate(order.getCreatedAt());
 
-      orders.add(new LimitOrder(type, order.getSize(), currencyPair, order.getId(), createdAt, order.getPrice()));
+      OrderStatus orderStatus = order.getFilledSize().compareTo(BigDecimal.ZERO) == 0 ?
+          Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
 
+      LimitOrder limitOrder = new LimitOrder(type, order.getSize(), order.getSize().subtract(order.getFilledSize()), currencyPair,
+              order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
+
+      orders.add(limitOrder);
     }
 
     return new OpenOrders(orders);
+  }
+
+  public static LimitOrder adaptOrder(String orderId, GDAXOrder order) {
+    OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
+    CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
+
+    Date createdAt = parseDate(order.getCreatedAt());
+
+    return (new LimitOrder(type, order.getSize(), currencyPair, order.getId(), createdAt, order.getPrice()));
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {

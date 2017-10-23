@@ -37,6 +37,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPagingSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
@@ -81,9 +83,9 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     CoinmateTradeResponse response;
 
     if (marketOrder.getType().equals(Order.OrderType.ASK)) {
-      response = sellCoinmateInstant(marketOrder.getTradableAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
+      response = sellCoinmateInstant(marketOrder.getOriginalAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
     } else if (marketOrder.getType().equals(Order.OrderType.BID)) {
-      response = buyCoinmateInstant(marketOrder.getTradableAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
+      response = buyCoinmateInstant(marketOrder.getOriginalAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
     } else {
       throw new CoinmateException("Unknown order type");
     }
@@ -97,9 +99,9 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     CoinmateTradeResponse response;
 
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {
-      response = sellCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
+      response = sellCoinmateLimit(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
     } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
-      response = buyCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
+      response = buyCoinmateLimit(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
     } else {
       throw new CoinmateException("Unknown order type");
     }
@@ -113,6 +115,14 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     CoinmateCancelOrderResponse response = cancelCoinmateOrder(orderId);
 
     return response.getData();
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   @Override

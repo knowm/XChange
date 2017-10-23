@@ -20,6 +20,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -72,6 +73,21 @@ public final class BitfinexAdapters {
     String tradableIdentifier = adaptBitfinexCurrency(bitfinexSymbol.substring(0, 3));
     String transactionCurrency = adaptBitfinexCurrency(bitfinexSymbol.substring(3));
     return new CurrencyPair(tradableIdentifier, transactionCurrency);
+  }
+
+  public static OrderStatus adaptOrderStatus(BitfinexOrderStatusResponse order) {
+
+    if (order.isCancelled())
+      return OrderStatus.CANCELED;
+    else if (order.getExecutedAmount().compareTo(BigDecimal.ZERO) == 0)
+      return OrderStatus.NEW;
+    else if (order.getExecutedAmount().compareTo(order.getOriginalAmount()) < 0)
+      return OrderStatus.PARTIALLY_FILLED;
+    else if (order.getExecutedAmount().compareTo(order.getOriginalAmount()) == 0)
+      return OrderStatus.FILLED;
+    else
+      return null;
+
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
@@ -134,9 +150,9 @@ public final class BitfinexAdapters {
     }
   }
 
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, Date timestamp) {
+  public static LimitOrder adaptOrder(BigDecimal originalAmount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, Date timestamp) {
 
-    return new LimitOrder(orderType, amount, currencyPair, "", timestamp, price);
+    return new LimitOrder(orderType, originalAmount, currencyPair, "", timestamp, price);
   }
 
   public static List<FixedRateLoanOrder> adaptFixedRateLoanOrders(BitfinexLendLevel[] orders, String currency, String orderType, String id) {
@@ -269,11 +285,14 @@ public final class BitfinexAdapters {
     List<LimitOrder> limitOrders = new ArrayList<>(activeOrders.length);
 
     for (BitfinexOrderStatusResponse order : activeOrders) {
+
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
+      OrderStatus status = adaptOrderStatus(order);
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
-      limitOrders
-          .add(new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice()));
+
+      limitOrders.add(new LimitOrder(orderType, order.getOriginalAmount(), order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice(),
+          order.getAvgExecutionPrice(), order.getExecutedAmount(), status));
     }
 
     return new OpenOrders(limitOrders);
@@ -327,13 +346,12 @@ public final class BitfinexAdapters {
       String description = responseEntry.getDescription();
       String txnId = null;
       final Currency currency = Currency.getInstance(responseEntry.getCurrency());
-      if (description.contains("txid: ")){
-        txnId = description.substring(description.indexOf("txid: ")+ "txid: ".length());
+      if (description.contains("txid: ")) {
+        txnId = description.substring(description.indexOf("txid: ") + "txid: ".length());
       }
       final FundingRecord.Status status = FundingRecord.Status.resolveStatus(responseEntry.getStatus());
-      FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(),
-              currency, responseEntry.getAmount(), String.valueOf(responseEntry.getId()), txnId, responseEntry.getType(),
-              status, null, null, description);
+      FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(), currency, responseEntry.getAmount(),
+          String.valueOf(responseEntry.getId()), txnId, responseEntry.getType(), status, null, null, description);
 
       fundingRecords.add(fundingRecordEntry);
     }

@@ -15,7 +15,9 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -23,6 +25,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.TheRockExchange;
+import org.knowm.xchange.therock.dto.TheRockCancelOrderParams;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 
 /**
@@ -37,14 +40,14 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, ExchangeException {
-    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), null,
+    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getOriginalAmount(), null,
         TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.market);
     return placedOrder.getId().toString();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, ExchangeException {
-    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), order.getLimitPrice(),
+    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getOriginalAmount(), order.getLimitPrice(),
         TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.limit);
     return placedOrder.getId().toString();
   }
@@ -80,10 +83,20 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
   public boolean cancelOrder(String orderId) throws IOException {
     CurrencyPair cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(TheRockExchange.CURRENCY_PAIR);
     if (cp == null) {
-      throw new ExchangeException("Provide currencyPair attribute via setExchangeSpecificParameters.");
+      throw new ExchangeException("Provide TheRockCancelOrderParams with orderId and currencyPair");
     }
 
-    return "deleted".equals(cancelTheRockOrder(cp, Long.parseLong(orderId)).getStatus());
+    return cancelOrder(new TheRockCancelOrderParams(cp, Long.parseLong(orderId)));
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof TheRockCancelOrderParams) {
+      TheRockCancelOrderParams params = (TheRockCancelOrderParams) orderParams;
+      TheRockOrder cancelledOrder = cancelTheRockOrder(params.currencyPair, params.orderId);
+      return "deleted".equals(cancelledOrder.getStatus());
+    }
+    return false;
   }
 
   /**
@@ -100,6 +113,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
     if (!(params instanceof TradeHistoryParamCurrencyPair)) {
       throw new ExchangeException("TheRock API recquires " + TradeHistoryParamCurrencyPair.class.getName());
     }
+
     TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;
     Long sinceTradeId = null; // get all trades starting from a specific trade_id
     if (params instanceof TradeHistoryParamsIdSpan) {
@@ -109,15 +123,24 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
       } catch (Throwable ignored) {
       }
     }
+
     Date after = null;
     Date before = null;
-
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan time = (TradeHistoryParamsTimeSpan) params;
       after = time.getStartTime();
       before = time.getEndTime();
     }
-    return TheRockAdapters.adaptUserTrades(getTheRockUserTrades(pairParams.getCurrencyPair(), sinceTradeId, after, before),
+
+    int pageLength = 200;
+    int page = 0;
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging tradeHistoryParamPaging = (TradeHistoryParamPaging) params;
+      pageLength = tradeHistoryParamPaging.getPageLength();
+      page = tradeHistoryParamPaging.getPageNumber();
+    }
+
+    return TheRockAdapters.adaptUserTrades(getTheRockUserTrades(pairParams.getCurrencyPair(), sinceTradeId, after, before, pageLength, page),
         pairParams.getCurrencyPair());
   }
 

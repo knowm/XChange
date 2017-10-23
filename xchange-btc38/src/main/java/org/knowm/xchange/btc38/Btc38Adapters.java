@@ -1,5 +1,13 @@
 package org.knowm.xchange.btc38;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.btc38.dto.marketdata.Btc38Ticker;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38Trade;
 import org.knowm.xchange.currency.Currency;
@@ -11,9 +19,6 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * Created by Yingzhe on 12/18/2014.
@@ -57,7 +62,7 @@ public class Btc38Adapters {
 
       Order.OrderType orderType = btc38Trade.getType().equals("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
       Trade trade = new Trade(orderType, btc38Trade.getAmount(), currencyPair, btc38Trade.getPrice(), new Date(btc38Trade.getDate() * 1000),
-              btc38Trade.getTid());
+          btc38Trade.getTid());
 
       tradeList.add(trade);
     }

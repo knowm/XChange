@@ -20,7 +20,7 @@ import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
  * @author Mikhail Wall
  */
 public class DSXAccountServiceRaw extends DSXBaseService {
-    
+
   /**
    * Constructor
    *
@@ -32,7 +32,6 @@ public class DSXAccountServiceRaw extends DSXBaseService {
   }
 
   /**
-   *
    * @return DSXAccountInfo[transactionCount=0, openOrderes=3, serverTime=1,494,239,098, rights=Rights[info=true, trade=true, withdraw={2}],
    * funds='{BTC=129.6642376500, USD=69208.3700000000, EUR=100000.0000000000, LTC=10000.0000000000, RUB=100000.0000000000}'
    * total='{BTC=130, USD=70000, EUR=100000.0000000000, LTC=10000.0000000000, RUB=100000.0000000000}']
@@ -47,7 +46,6 @@ public class DSXAccountServiceRaw extends DSXBaseService {
   }
 
   /**
-   *
    * @param currency Currency to withdraw
    * @param address Withdrawall address
    * @param amount Amount of withdrawal
@@ -78,8 +76,8 @@ public class DSXAccountServiceRaw extends DSXBaseService {
     checkResult(result);
     return result.getReturnValue();
   }
+
   /**
-   *
    * @param currency Currency for getting address
    * @param newAddress 0 - get old address, 1 - generate new address
    * @return address
@@ -92,21 +90,22 @@ public class DSXAccountServiceRaw extends DSXBaseService {
     return String.valueOf(info.getReturnValue().getAddress());
   }
 
-    /**
-     * Get Map of transactions (withdrawals/deposits) from DSX exchange. Not all parameters are required.
-     * @param fromId
-     * @param toId
-     * @param type
-     * @param status
-     * @param currency
-     * @return
-     * @throws IOException
-     */
-    public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Long to, Long fromId, Long toId, DSXAuthenticatedV2.SortOrder sortOrder, Long since, Long end,
-        DSXTransHistoryResult.Type type, DSXTransHistoryResult.Status status, String currency) throws IOException {
-      DSXTransHistoryReturn dsxTransHistory = dsx.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), to, fromId, toId, sortOrder, since,
-          end, type, status, currency);
-        checkResult(dsxTransHistory);
-        return dsxTransHistory.getReturnValue();
-    }
+  /**
+   * Get Map of transactions (withdrawals/deposits) from DSX exchange. Not all parameters are required.
+   *
+   * @param fromId
+   * @param toId
+   * @param type
+   * @param status
+   * @param currency
+   * @return
+   * @throws IOException
+   */
+  public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Integer count, Long fromId, Long toId, DSXAuthenticatedV2.SortOrder sortOrder, Long since, Long end,
+      DSXTransHistoryResult.Type type, DSXTransHistoryResult.Status status, String currency) throws IOException {
+    DSXTransHistoryReturn dsxTransHistory = dsx.transHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, toId, sortOrder, since,
+        end, type, status, currency);
+    checkResult(dsxTransHistory);
+    return dsxTransHistory.getReturnValue();
+  }
 }

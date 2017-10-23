@@ -26,18 +26,12 @@ public final class GeminiUtils {
    * @param currency
    * @return
    */
-  public static String convertToGeminiWithdrawalType(String currency) {
+  public static String convertToGeminiCcyName(String currency) {
 
     if (currency.toUpperCase().equals("BTC"))
-      return "bitcoin";
-    if (currency.toUpperCase().equals("LTC"))
-      return "litecoin";
-    if (currency.toUpperCase().equals("USD"))
-      return "wire";
-    if (currency.toUpperCase().equals("TETHER"))
-      return "tether";
+      return "btc";
     if (currency.toUpperCase().equals("ETH"))
-      return "ethereum";
+      return "eth";
 
     throw new GeminiException("Cannot determine withdrawal type.");
   }

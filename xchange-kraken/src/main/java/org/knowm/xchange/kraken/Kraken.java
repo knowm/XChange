@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenOHLCResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
@@ -27,6 +28,10 @@ public interface Kraken {
   @GET
   @Path("public/Ticker")
   KrakenTickerResult getTicker(@QueryParam("pair") String currencyPairs);
+
+  @GET
+  @Path("public/OHLC")
+  KrakenOHLCResult getOHLC(@QueryParam("pair") String currencyPairs, @QueryParam("interval") Integer interval, @QueryParam("since") Long since);
 
   @GET
   @Path("public/Depth")

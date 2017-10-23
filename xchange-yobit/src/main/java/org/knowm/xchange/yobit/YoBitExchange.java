@@ -5,16 +5,18 @@ import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
+import org.knowm.xchange.yobit.service.YoBitAccountService;
 import org.knowm.xchange.yobit.service.YoBitMarketDataService;
 import org.knowm.xchange.yobit.service.YoBitMarketDataServiceRaw;
+import org.knowm.xchange.yobit.service.YoBitTradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class YoBitExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2014NonceFactory();
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
@@ -35,15 +37,13 @@ public class YoBitExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.marketDataService = new YoBitMarketDataService(this);
-    this.accountService = null; // new LIVECOINAccountService(this);
-    this.tradeService = null; // new LIVECOINTradeService(this);
+    this.accountService = new YoBitAccountService(this);
+    this.tradeService = new YoBitTradeService(this);
   }
 
   @Override
   public void remoteInit() throws IOException {
     YoBitInfo products = ((YoBitMarketDataServiceRaw) marketDataService).getProducts();
     exchangeMetaData = YoBitAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
-    //System.out.println("JSON: " + ObjectMapperHelper.toJSON(exchangeMetaData));
   }
-
 }

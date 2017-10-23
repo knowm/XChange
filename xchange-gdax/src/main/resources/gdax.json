@@ -3,46 +3,68 @@
     "BTC/GBP": {
       "min_amount": 0.01,
       "max_amount": 10000.00,
-      "price_scale": 8
+      "price_scale": 2
     },
     "BTC/USD": {
       "min_amount": 0.01,
       "max_amount": 10000.00,
-      "price_scale": 8
+      "price_scale": 2
     },
     "ETH/USD": {
       "min_amount": 0.01,
       "max_amount": 1000000.00,
-      "price_scale": 8
+      "price_scale": 2
     },
     "BTC/EUR": {
       "min_amount": 0.01,
       "max_amount": 10000.00,
-      "price_scale": 8
+      "price_scale": 2
+    },
+    "ETH/EUR": {
+      "min_amount": 0.01,
+      "max_amount": 10000.00,
+      "price_scale": 2
     },
     "ETH/BTC": {
       "min_amount": 0.01000,
       "max_amount": 1000000.00000,
-      "price_scale": 8
+      "price_scale": 5
     },
     "LTC/USD": {
       "min_amount": 0.01,
       "max_amount": 1000000.00,
-      "price_scale": 8
+      "price_scale": 2
     },
     "LTC/BTC": {
       "min_amount": 0.01000,
       "max_amount": 1000000.00000,
-      "price_scale": 8
+      "price_scale": 5
+    },
+    "LTC/EUR": {
+      "min_amount": 0.01,
+      "max_amount": 10000.00,
+      "price_scale": 2
     }
   },
   "currencies": {
-    "EUR": null,
-    "LTC": null,
-    "USD": null,
-    "BTC": null,
-    "ETH": null,
-    "GBP": null
+    "EUR": {
+      "scale": 2
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 2
+    },
+    "BTC": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "GBP": {
+      "scale": 2
+    }
   },
   "public_rate_limits": [
     {

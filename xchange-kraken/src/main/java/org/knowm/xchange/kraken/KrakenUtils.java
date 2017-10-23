@@ -1,44 +1,23 @@
 package org.knowm.xchange.kraken;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 
 /**
  * @author timmolter
  */
 public class KrakenUtils {
 
-  private static final Set<Currency> FIAT_CURRENCIES = new HashSet<>();
-  private static final Set<Currency> DIGITAL_CURRENCIES = new HashSet<>();
-
-  static {
-
-    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("USD"));
-    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("EUR"));
-    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("JPY"));
-    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("KRW"));
-    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("GBP"));
-    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("CAD"));
-
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("BTC"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("DAO"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("ETH"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("LTC"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("NMC"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XBT"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XDG"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XLM"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XRP"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XVN"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("ETC"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XMR"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("ZEC"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("REP"));
-  }
+  private static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
+  private static Map<CurrencyPair, String> assetPairMapReverse = new HashMap<CurrencyPair, String>();
+  private static Map<String, Currency> assetsMap = new HashMap<String, Currency>();
+  private static Map<Currency, String> assetsMapReverse = new HashMap<Currency, String>();
 
   /**
    * Private Constructor
@@ -47,53 +26,88 @@ public class KrakenUtils {
 
   }
 
-  public static String createKrakenCurrencyPair(CurrencyPair currencyPair) {
-    // DASH and GNO are strange exceptions for X and Z adds.
-    String baseCurrencyCode = currencyPair.base.getCurrencyCode();
-    if ("DASH".equals(baseCurrencyCode) || "GNO".equals(baseCurrencyCode) || "EOS".equals(baseCurrencyCode)) {
-      Currency counter = currencyPair.counter;
-      if (counter.getIso4217Currency() != null) {
-        counter = currencyPair.counter.getIso4217Currency();
+  public static void setKrakenAssetPairs(Map<String, KrakenAssetPair> pairs) {
+    if (assetPairMap.isEmpty()) {
+      for (Map.Entry<String, KrakenAssetPair> entry : pairs.entrySet()) {
+        //  skip dark markets!
+        if (!entry.getKey().endsWith(".d")) {
+          CurrencyPair pair = new CurrencyPair(translateKrakenCurrencyCode(entry.getValue().getBase()), translateKrakenCurrencyCode(entry.getValue().getQuote()));
+          assetPairMap.put(entry.getKey(), pair);
+          assetPairMapReverse.put(pair, entry.getKey());
+        }
       }
-      return baseCurrencyCode + counter.getCurrencyCode();
     }
-    return getKrakenCurrencyCode(currencyPair.base) + getKrakenCurrencyCode(currencyPair.counter);
+  }
+
+  public static void setKrakenAssets(Map<String, KrakenAsset> assetSource) {
+    if (assetsMap.isEmpty()) {
+      for (Map.Entry<String, KrakenAsset> entry : assetSource.entrySet()) {
+        assetsMap.put(entry.getKey(), Currency.getInstance(entry.getValue().getAltName()));
+        assetsMapReverse.put(Currency.getInstance(entry.getValue().getAltName()), entry.getKey());
+      }
+    }
+  }
+
+  public static String createKrakenCurrencyPair(CurrencyPair currencyPair) {
+    return assetPairMapReverse.get(currencyPair);
+  }
+
+  public static CurrencyPair translateKrakenCurrencyPair(String currencyPairIn) {
+	  CurrencyPair pair = assetPairMap.get(currencyPairIn);
+	  if (pair == null) 
+	  {
+		  // kraken can give short pairs back from open orders ?
+		  if (currencyPairIn.length() == 6)
+		  {
+			  Currency base = new Currency(currencyPairIn.substring(0, 3));
+   		      if (base.getCommonlyUsedCurrency() != null) 
+			  {
+   		    	base = base.getCommonlyUsedCurrency();
+			  }
+			  Currency counter = new Currency(currencyPairIn.substring(3,6));
+   		      if (counter.getCommonlyUsedCurrency() != null) 
+			  {
+   		    	counter = counter.getCommonlyUsedCurrency();
+			  }
+			  pair = new CurrencyPair(base, counter);
+		  } else if (currencyPairIn.length() == 7) 
+		  {
+			  Currency base = new Currency(currencyPairIn.substring(0, 4));
+   		      if (base.getCommonlyUsedCurrency() != null) 
+			  {
+   		    	base = base.getCommonlyUsedCurrency();
+			  }
+			  Currency counter = new Currency(currencyPairIn.substring(4,7));
+   		      if (counter.getCommonlyUsedCurrency() != null) 
+			  {
+   		    	counter = counter.getCommonlyUsedCurrency();
+			  }
+			  pair = new CurrencyPair(base, counter);
+		  }
+	  }
+	  return pair;
   }
 
   public static String createKrakenCurrencyPair(Currency tradableIdentifier, Currency currency) {
-      return createKrakenCurrencyPair(new CurrencyPair(tradableIdentifier, currency));
+    return createKrakenCurrencyPair(new CurrencyPair(tradableIdentifier, currency));
   }
 
   public static String getKrakenCurrencyCode(Currency currency) {
-
-    String c = currency.getCurrencyCode();
-    if ("USDT".equals(c) || "KFEE".equals(c) || "DASH".equals(c) || "GNO".equals(c) || "EOS".equals(c)) {
-      return c;
+    if (currency.getIso4217Currency() != null) {
+      currency = currency.getIso4217Currency();
     }
-
-    if (FIAT_CURRENCIES.contains(currency)) {
-      return "Z" + currency;
-
-    } else if (DIGITAL_CURRENCIES.contains(currency)) {
-
-      if (currency.getIso4217Currency() != null) {
-        currency = currency.getIso4217Currency();
-      }
-      return "X" + currency;
+    String krakenCode = assetsMapReverse.get(currency);
+    if (krakenCode == null) {
+      throw new ExchangeException("Kraken does not support the currency code " + currency);
     }
-
-    throw new ExchangeException("Kraken does not support the currency code " + currency);
+    return krakenCode;
   }
 
-  public static Currency addCurrencyAndGetCode(String krakenCurrencyString) {
-
-    Currency currencyCode = KrakenAdapters.adaptCurrency(krakenCurrencyString);
-    if (krakenCurrencyString.startsWith("X")) {
-      DIGITAL_CURRENCIES.add(currencyCode);
-    } else {
-      FIAT_CURRENCIES.add(currencyCode);
+  public static Currency translateKrakenCurrencyCode(String currencyIn) {
+    Currency currencyOut = assetsMap.get(currencyIn);
+    if (currencyOut == null) {
+      throw new ExchangeException("Kraken does not support the currency code " + currencyIn);
     }
-
-    return currencyCode;
+    return currencyOut.getCommonlyUsedCurrency();
   }
 }

@@ -193,6 +193,6 @@ public interface ANXV2 {
   @Path("money/wallet/history")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
-                                           @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency,
-                                           @FormParam("page") Integer page, @FormParam("from") Long from, @FormParam("to") Long to) throws ANXException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency,
+      @FormParam("page") Integer page, @FormParam("from") Long from, @FormParam("to") Long to) throws ANXException, IOException;
 }

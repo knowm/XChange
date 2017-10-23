@@ -1,13 +1,15 @@
 package org.knowm.xchange.btce.v3.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.btce.v3.BTCEAuthenticated;
 import org.knowm.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import org.knowm.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
 import org.knowm.xchange.btce.v3.dto.account.BTCEWithDrawInfoReturn;
+import org.knowm.xchange.btce.v3.dto.trade.BTCETransHistoryResult;
+import org.knowm.xchange.btce.v3.dto.trade.BTCETransHistoryReturn;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * Author: brox
@@ -49,4 +51,11 @@ public class BTCEAccountServiceRaw extends BTCEBaseService {
     return String.valueOf(info.getReturnValue().gettId());
   }
 
+  public Map<Long, BTCETransHistoryResult> transferHistory() throws IOException {
+    BTCETransHistoryReturn info = btce.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), null, null, null, null, null, null, null);
+
+    checkResult(info);
+
+    return info.getReturnValue();
+  }
 }

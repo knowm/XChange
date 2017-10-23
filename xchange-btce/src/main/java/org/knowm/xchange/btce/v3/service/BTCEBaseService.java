@@ -8,7 +8,6 @@ import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -30,7 +29,7 @@ public class BTCEBaseService extends BaseExchangeService implements BaseService 
 
     super(exchange);
 
-    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
@@ -44,6 +43,8 @@ public class BTCEBaseService extends BaseExchangeService implements BaseService 
           throw new NonceException(error);
         } else if (error.startsWith(ERR_MSG_FUNDS)) {
           throw new FundsExceededException(error);
+        } else if (error.equals("no transactions")) {
+          return;//this isn't an error - just an indicator that there's no data
         }
       }
       throw new ExchangeException(error);

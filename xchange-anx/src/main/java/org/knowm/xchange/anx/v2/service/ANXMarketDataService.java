@@ -55,7 +55,7 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
 
     // Request data
     ANXDepthWrapper anxDepthWrapper = null;
-    if (args.length > 0) {
+    if (args != null && args.length > 0) {
       if (args[0] instanceof String) {
         if ("full" == args[0]) {
           anxDepthWrapper = getANXFullOrderBook(currencyPair);

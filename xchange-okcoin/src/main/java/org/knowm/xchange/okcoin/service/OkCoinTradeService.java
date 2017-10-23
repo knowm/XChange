@@ -22,6 +22,8 @@ import org.knowm.xchange.okcoin.OkCoinUtils;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
@@ -84,12 +86,12 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
     if (marketOrder.getType().equals(OrderType.BID)) {
       marketOrderType = "buy_market";
-      rate = marketOrder.getTradableAmount().toPlainString();
+      rate = marketOrder.getOriginalAmount().toPlainString();
       amount = "1";
     } else {
       marketOrderType = "sell_market";
       rate = "1";
-      amount = marketOrder.getTradableAmount().toPlainString();
+      amount = marketOrder.getOriginalAmount().toPlainString();
     }
 
     long orderId = trade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrderType, rate, amount).getOrderId();
@@ -100,7 +102,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     long orderId = trade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "buy" : "sell",
-        limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString()).getOrderId();
+        limitOrder.getLimitPrice().toPlainString(), limitOrder.getOriginalAmount().toPlainString()).getOrderId();
     return String.valueOf(orderId);
   }
 
@@ -128,6 +130,14 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
       }
     }
     return ret;
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   /**

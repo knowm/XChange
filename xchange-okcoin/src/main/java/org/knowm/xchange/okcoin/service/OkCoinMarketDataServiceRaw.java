@@ -26,7 +26,7 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBaseService {
 
     super(exchange);
 
-    okCoin = RestProxyFactory.createProxy(OkCoin.class, exchange.getExchangeSpecification().getSslUri());
+    okCoin = RestProxyFactory.createProxy(OkCoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public OkCoinTickerResponse getTicker(CurrencyPair currencyPair) throws IOException {

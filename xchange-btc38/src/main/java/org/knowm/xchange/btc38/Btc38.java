@@ -1,15 +1,16 @@
 package org.knowm.xchange.btc38;
 
-import org.knowm.xchange.btc38.dto.marketdata.Btc38TickerReturn;
-import org.knowm.xchange.btc38.dto.marketdata.Btc38Trade;
+import java.io.IOException;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.Map;
+
+import org.knowm.xchange.btc38.dto.marketdata.Btc38TickerReturn;
+import org.knowm.xchange.btc38.dto.marketdata.Btc38Trade;
 
 /**
  * Created by Yingzhe on 12/17/2014.
@@ -28,7 +29,6 @@ public interface Btc38 {
   @GET
   @Path("ticker.php?c=all&mk_type={marketType}")
   Map<String, Btc38TickerReturn> getMarketTicker(@PathParam("marketType") String marketType) throws IOException;
-
 
   @GET
   @Path("trades.php?c={c}&mk_type={marketType}")

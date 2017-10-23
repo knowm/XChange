@@ -20,10 +20,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.utils.DateUtils;
 
 /**
@@ -50,16 +52,25 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-      String c = currency.getCurrencyCode();
-      // currently DSX support 3 fiat currencies: EUR, USD, RUB
-      boolean fiat = "EUR".equals(currency) || "USD".equals(currency) || "RUB".equals(currency);
-      long transactionId = fiat
-              ? withdrawFiat(c, amount)
-              : withdrawCrypto(c, address, amount, null);
-      submitWithdraw(transactionId);
-      return Long.toString(transactionId);
+    String c = currency.getCurrencyCode();
+    // currently DSX support 3 fiat currencies: EUR, USD, RUB
+    boolean fiat = "EUR".equals(currency) || "USD".equals(currency) || "RUB".equals(currency);
+    long transactionId = fiat
+        ? withdrawFiat(c, amount)
+        : withdrawCrypto(c, address, amount, null);
+    submitWithdraw(transactionId);
+    return Long.toString(transactionId);
   }
-  
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
+  }
+
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     return requestAddress(currency.toString(), Integer.parseInt(args[0]));
@@ -73,7 +84,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException,
       NotYetImplementedForExchangeException, IOException {
-    Long count = null;
+    Integer count = 1000;//todo: parameterize this
     Long since = null;
     Long end = null;
     Long fromId = null;
@@ -108,46 +119,48 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
 
     List<FundingRecord> result = new ArrayList<>();
     for (Map.Entry<Long, DSXTransHistoryResult> t : getDSXTransHistory(count, fromId, toId, null, since, end, type, status, currency).entrySet()) {
-        result.add(new FundingRecord(t.getValue().getAddress(), new Date(t.getValue().getTimestamp() * 1000), Currency.getInstance(t.getValue().getCurrency()),
-            t.getValue().getAmount(), Long.toString(t.getValue().getId()), null, convert(t.getValue().getType()), convert(t.getValue().getStatus()), null,
-            t.getValue().getCommission(), null));
+      result.add(new FundingRecord(t.getValue().getAddress(), new Date(t.getValue().getTimestamp() * 1000), Currency.getInstance(t.getValue().getCurrency()),
+          t.getValue().getAmount(), Long.toString(t.getValue().getId()), null, convert(t.getValue().getType()), convert(t.getValue().getStatus()), null,
+          t.getValue().getCommission(), null));
     }
     return result;
   }
 
   private FundingRecord.Status convert(DSXTransHistoryResult.Status status) {
-      switch (status) {
+    switch (status) {
       case Completed:
-          return FundingRecord.Status.COMPLETE;
+        return FundingRecord.Status.COMPLETE;
       case Failed:
-          return FundingRecord.Status.FAILED;
+        return FundingRecord.Status.FAILED;
       case Processing:
-          return FundingRecord.Status.PROCESSING;
+        return FundingRecord.Status.PROCESSING;
       case Rejected:
-          return FundingRecord.Status.CANCELLED;
+        return FundingRecord.Status.CANCELLED;
       default:
-          throw new RuntimeException("Unknown DSX transaction status: " + status);
-      }
+        throw new RuntimeException("Unknown DSX transaction status: " + status);
+    }
   }
 
   private FundingRecord.Type convert(DSXTransHistoryResult.Type type) {
-      switch (type) {
-        case Incoming: return FundingRecord.Type.DEPOSIT;
-        case Withdraw: return FundingRecord.Type.WITHDRAWAL;
+    switch (type) {
+      case Incoming:
+        return FundingRecord.Type.DEPOSIT;
+      case Withdraw:
+        return FundingRecord.Type.WITHDRAWAL;
       default:
         throw new RuntimeException("Unknown DSX transaction type: " + type);
-      }
+    }
   }
 
   private static Long nullSafeUnixTime(Date time) {
-      return time != null ? DateUtils.toUnixTime(time) : null;
+    return time != null ? DateUtils.toUnixTime(time) : null;
   }
 
   private static Long nullSafeToLong(String str) {
-      try {
-          return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
-      } catch (NumberFormatException e) {
-          return null;
-      }
+    try {
+      return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
+    } catch (NumberFormatException e) {
+      return null;
+    }
   }
 }
