@@ -7,12 +7,13 @@ import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
-import si.mazi.rescu.HttpStatusIOException;
+import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,11 +24,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author brox
- */
 @Path("api")
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)//todo: get rid of this, all requests should be json
 @Produces(MediaType.APPLICATION_JSON)
 public interface CexIOAuthenticated extends CexIO {
 
@@ -65,16 +63,10 @@ public interface CexIOAuthenticated extends CexIO {
                             @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
   @Path("archived_orders/{baseCcy}/{counterCcy}")
-  List<CexIOArchivedOrder> archivedOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-                                          @PathParam("baseCcy") String baseCcy,
-                                          @PathParam("counterCcy") String counterCcy,
-                                          @FormParam("limit") Integer limit,
-                                          @FormParam("dateFrom") Long dateFrom,
-                                          @FormParam("dateTo") Long dateTo,
-                                          @FormParam("lastTxDateFrom") Long lastTxDateFrom,
-                                          @FormParam("lastTxDateTo") Long lastTxDateTo,
-                                          @FormParam("status") String status) throws HttpStatusIOException;
+  List<CexIOArchivedOrder> archivedOrders(@HeaderParam("signature") ParamsDigest signer, @PathParam("baseCcy") String baseCcy, @PathParam("counterCcy") String counterCcy, ArchivedOrdersRequest request);
 
   @POST
   @Path("get_order/")
