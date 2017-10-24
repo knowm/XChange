@@ -228,4 +228,74 @@ public interface BinanceAuthenticated extends Binance {
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
     
+    @POST
+    @Path("wapi/v1/withdraw.html")
+    /**
+     * Submit a withdraw request.
+     * @param asset
+     * @param address
+     * @param amount
+     * @param name      optional, description of the address
+     * @param recvWindow        optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    Object withdraw(@FormParam("asset") String asset
+            , @FormParam("address") String address
+            , @FormParam("amount") BigDecimal amount
+            , @FormParam("name") String name
+            , @FormParam("recvWindow") Long recvWindow
+            , @FormParam("timestamp") long timestamp
+            , @HeaderParam(X_MBX_APIKEY) String apiKey
+            , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
+    
+    @POST
+    @Path("wapi/v1/getDepositHistory.html")
+    /**
+     * Fetch deposit history.
+     * @param asset     optional
+     * @param startTime optional
+     * @param endTime   optional
+     * @param recvWindow        optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    Object depositHistory(@FormParam("asset") String asset
+            , @FormParam("startTime") Long startTime
+            , @FormParam("startTime") Long endTime
+            , @FormParam("recvWindow") Long recvWindow
+            , @FormParam("timestamp") long timestamp
+            , @HeaderParam(X_MBX_APIKEY) String apiKey
+            , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
+    
+    @POST
+    @Path("wapi/v1/getWithdrawHistory.html")
+    /**
+     * Fetch withdraw history.
+     * @param asset     optional
+     * @param startTime optional
+     * @param endTime   optional
+     * @param recvWindow        optional
+     * @param timestamp
+     * @param apiKey
+     * @param signature
+     * @return
+     * @throws IOException
+     * @throws BinanceException
+     */
+    Object withdrawHistory(@FormParam("asset") String asset
+            , @FormParam("startTime") Long startTime
+            , @FormParam("startTime") Long endTime
+            , @FormParam("recvWindow") Long recvWindow
+            , @FormParam("timestamp") long timestamp
+            , @HeaderParam(X_MBX_APIKEY) String apiKey
+            , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
 }
