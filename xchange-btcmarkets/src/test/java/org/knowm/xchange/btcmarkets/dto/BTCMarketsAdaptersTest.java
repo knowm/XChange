@@ -1,6 +1,6 @@
 package org.knowm.xchange.btcmarkets.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
@@ -46,7 +45,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(orderBook.getTimeStamp().getTime()).isEqualTo(1442997827000L);
     assertThat(orderBook.getAsks()).hasSize(135);
     assertThat(orderBook.getAsks().get(2).getLimitPrice()).isEqualTo(new BigDecimal("329.41"));
-    assertThat(orderBook.getAsks().get(2).getTradableAmount()).isEqualTo(new BigDecimal("10.0"));
+    assertThat(orderBook.getAsks().get(2).getOriginalAmount()).isEqualTo(new BigDecimal("10.0"));
     assertThat(orderBook.getBids()).hasSize(94);
   }
 
@@ -62,7 +61,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(openOrders.getOpenOrders().get(1).getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(openOrders.getOpenOrders().get(1).getTimestamp().getTime()).isEqualTo(1378636912705L);
     assertThat(openOrders.getOpenOrders().get(1).getLimitPrice()).isEqualTo("130.00000000");
-    assertThat(openOrders.getOpenOrders().get(1).getTradableAmount()).isEqualTo("0.10000000");
+    assertThat(openOrders.getOpenOrders().get(1).getOriginalAmount()).isEqualTo("0.10000000");
   }
 
   @Test
@@ -87,10 +86,10 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(userTrades.get(2).getId()).isEqualTo("45118157");
     assertThat(userTrades.get(2).getTimestamp().getTime()).isEqualTo(1442994673684L);
     assertThat(userTrades.get(2).getPrice()).isEqualTo("330.00000000");
-    assertThat(userTrades.get(2).getTradableAmount()).isEqualTo("0.00100000");
+    assertThat(userTrades.get(2).getOriginalAmount()).isEqualTo("0.00100000");
     assertThat(userTrades.get(2).getType()).isEqualTo(Order.OrderType.BID);
     assertThat(userTrades.get(2).getFeeAmount()).isEqualTo("0.00280499");
-    assertThat(userTrades.get(2).getFeeCurrency()).isEqualTo(Currency.AUD);
+    assertThat(userTrades.get(2).getFeeCurrency()).isEqualTo(Currency.BTC);
     assertThat(userTrades.get(2).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
     assertThat(userTrades.get(1).getType()).isEqualTo(Order.OrderType.ASK);
   }

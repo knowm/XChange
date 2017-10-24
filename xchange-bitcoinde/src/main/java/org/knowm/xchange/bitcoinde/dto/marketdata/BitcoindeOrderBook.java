@@ -18,7 +18,7 @@ public class BitcoindeOrderBook {
 
   /**
    * Constructor.
-   * 
+   *
    * @param asks
    * @param bids
    */

@@ -1,7 +1,8 @@
 package org.knowm.xchange.ripple.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.ripple.dto.RippleAmount;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class RippleOrder {
 

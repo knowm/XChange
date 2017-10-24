@@ -9,8 +9,8 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
-import org.knowm.xchange.kraken.service.polling.KrakenTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.kraken.service.KrakenTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Test placing a limit order at Kraken
@@ -27,7 +27,7 @@ public class KrakenLimitOrderDemo {
 
   private static void generic(Exchange krakenExchange) throws IOException {
 
-    PollingTradeService tradeService = krakenExchange.getPollingTradeService();
+    TradeService tradeService = krakenExchange.getTradeService();
 
     OrderType orderType = (OrderType.ASK);
     BigDecimal tradeableAmount = new BigDecimal("0.01");
@@ -41,7 +41,7 @@ public class KrakenLimitOrderDemo {
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getTradeService();
 
     OrderType orderType = (OrderType.ASK);
     BigDecimal tradeableAmount = new BigDecimal("0.01");

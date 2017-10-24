@@ -3,12 +3,11 @@ package org.knowm.xchange.btcchina.service;
 import javax.crypto.Mac;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.btcchina.BTCChinaUtils;
 import org.knowm.xchange.btcchina.dto.BTCChinaRequest;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.BasicAuthCredentials;
 import si.mazi.rescu.RestInvocation;
@@ -25,7 +24,6 @@ public class BTCChinaDigest extends BaseParamsDigest {
   /**
    * Constructor
    *
-   * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private BTCChinaDigest(String exchangeAccessKey, String exchangeSecretKey) {

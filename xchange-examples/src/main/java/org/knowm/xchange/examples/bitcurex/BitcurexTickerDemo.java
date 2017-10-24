@@ -6,10 +6,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitcurex.BitcurexExchange;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexTicker;
-import org.knowm.xchange.bitcurex.service.polling.BitcurexMarketDataServiceRaw;
+import org.knowm.xchange.bitcurex.service.BitcurexMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Ticker at Bitcurex
@@ -32,8 +32,8 @@ public class BitcurexTickerDemo {
 
   private static void generic(Exchange bitcurex, CurrencyPair pair) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitcurex.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = bitcurex.getMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
     Ticker ticker = marketDataService.getTicker(pair);
@@ -46,7 +46,7 @@ public class BitcurexTickerDemo {
 
   private static void raw(Exchange bitcurex, String currency) throws IOException {
 
-    BitcurexMarketDataServiceRaw bitcurexMarketDataServiceRaw = (BitcurexMarketDataServiceRaw) bitcurex.getPollingMarketDataService();
+    BitcurexMarketDataServiceRaw bitcurexMarketDataServiceRaw = (BitcurexMarketDataServiceRaw) bitcurex.getMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
     BitcurexTicker ticker = bitcurexMarketDataServiceRaw.getBitcurexTicker(currency);

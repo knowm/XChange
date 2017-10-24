@@ -8,10 +8,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
-import org.knowm.xchange.poloniex.service.polling.PoloniexAccountService;
-import org.knowm.xchange.poloniex.service.polling.PoloniexMarketDataService;
-import org.knowm.xchange.poloniex.service.polling.PoloniexMarketDataServiceRaw;
-import org.knowm.xchange.poloniex.service.polling.PoloniexTradeService;
+import org.knowm.xchange.poloniex.service.PoloniexAccountService;
+import org.knowm.xchange.poloniex.service.PoloniexMarketDataService;
+import org.knowm.xchange.poloniex.service.PoloniexMarketDataServiceRaw;
+import org.knowm.xchange.poloniex.service.PoloniexTradeService;
 import org.knowm.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -26,9 +26,9 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new PoloniexMarketDataService(this);
-    this.pollingAccountService = new PoloniexAccountService(this);
-    this.pollingTradeService = new PoloniexTradeService(this);
+    this.marketDataService = new PoloniexMarketDataService(this);
+    this.accountService = new PoloniexAccountService(this);
+    this.tradeService = new PoloniexTradeService(this);
   }
 
   @Override
@@ -53,7 +53,7 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException {
 
-    PoloniexMarketDataServiceRaw poloniexMarketDataServiceRaw = (PoloniexMarketDataServiceRaw) pollingMarketDataService;
+    PoloniexMarketDataServiceRaw poloniexMarketDataServiceRaw = (PoloniexMarketDataServiceRaw) marketDataService;
 
     Map<String, PoloniexCurrencyInfo> poloniexCurrencyInfoMap = poloniexMarketDataServiceRaw.getPoloniexCurrencyInfo();
     Map<String, PoloniexMarketData> poloniexMarketDataMap = poloniexMarketDataServiceRaw.getAllPoloniexTickers();

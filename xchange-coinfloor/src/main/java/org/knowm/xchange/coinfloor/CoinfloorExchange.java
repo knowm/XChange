@@ -1,53 +1,42 @@
 package org.knowm.xchange.coinfloor;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.coinfloor.dto.streaming.CoinfloorStreamingConfiguration;
-import org.knowm.xchange.coinfloor.streaming.CoinfloorStreamingExchangeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
+import org.knowm.xchange.coinfloor.service.CoinfloorAccountService;
+import org.knowm.xchange.coinfloor.service.CoinfloorMarketDataService;
+import org.knowm.xchange.coinfloor.service.CoinfloorTradeService;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author obsessiveOrange
- */
-public class CoinfloorExchange extends BaseExchange implements Exchange {
+public class CoinfloorExchange extends BaseExchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setPlainTextUriStreaming("ws://api.coinfloor.co.uk");
-    exchangeSpecification.setSslUriStreaming("wss://api.coinfloor.co.uk");
-    exchangeSpecification.setHost("coinfloor.co.uk");
-    exchangeSpecification.setPort(80);
-    exchangeSpecification.setExchangeName("Coinfloor");
-    exchangeSpecification.setExchangeDescription(
-        "Coinfloor is a company registered in England and Wales registration number 08493818. Coinfloor allows users to trade Bitcoin. Coinfloor LTD is registered at 200 Aldergate C/O Buckworth Solicitors EC1A 4HD London, United Kingdom.");
-
-    return exchangeSpecification;
-  }
-
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
-
-    return new CoinfloorStreamingExchangeService(this, (CoinfloorStreamingConfiguration) exchangeStreamingConfiguration);
-  }
-
-  public StreamingExchangeService getStreamingExchangeService() {
-
-    return getStreamingExchangeService(new CoinfloorStreamingConfiguration(10, 10000, 60000, false, true, false));
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    // Coinfloor uses it's own custom request factory for making authenticated API calls
-    return null;
+    ExchangeSpecification specification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    specification.setShouldLoadRemoteMetaData(false);
+    specification.setSslUri("https://webapi.coinfloor.co.uk:8090/");
+    specification.setExchangeName("Coinfloor");
+    specification.setExchangeDescription("Coinfloor exchange");
+    return specification;
   }
 
   @Override
   protected void initServices() {
+    this.marketDataService = new CoinfloorMarketDataService(this);
+    this.accountService = new CoinfloorAccountService(this);
+    this.tradeService = new CoinfloorTradeService(this);
+  }
+
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {
+    // there are no suitable API calls to use for remote init
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    return null;
   }
 }

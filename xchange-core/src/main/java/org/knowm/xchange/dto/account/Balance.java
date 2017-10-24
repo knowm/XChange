@@ -1,11 +1,11 @@
 package org.knowm.xchange.dto.account;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
+import org.knowm.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.knowm.xchange.currency.Currency;
 
 /**
  * <p>
@@ -18,7 +18,7 @@ import org.knowm.xchange.currency.Currency;
  * This class is immutable.
  * </p>
  */
-public final class Balance implements Comparable<Balance> {
+public final class Balance implements Comparable<Balance>, Serializable {
 
   private static final Logger log = LoggerFactory.getLogger(Balance.class);
 

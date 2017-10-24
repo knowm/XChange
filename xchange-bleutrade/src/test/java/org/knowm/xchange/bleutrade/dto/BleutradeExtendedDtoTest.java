@@ -1,12 +1,11 @@
 package org.knowm.xchange.bleutrade.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 
 import org.junit.Ignore;
 import org.junit.Test;
-
 import org.knowm.xchange.bleutrade.BleutradeException;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalanceReturn;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalancesReturn;

@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.utils.jackson.UnixTimestampDeserializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class BTCMarketsOrderBook {
 
@@ -16,10 +17,14 @@ public class BTCMarketsOrderBook {
 
   private Date timestamp;
 
-  /** (price, amount) pairs in units of 10e-8 */
+  /**
+   * (price, amount) pairs in units of 10e-8
+   */
   private List<BigDecimal[]> bids;
 
-  /** (price, amount) pairs in units of 10e-8 */
+  /**
+   * (price, amount) pairs in units of 10e-8
+   */
   private List<BigDecimal[]> asks;
 
   public String getCurrency() {

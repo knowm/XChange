@@ -19,7 +19,7 @@ public final class BTCChinaTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param amount
    * @param date
    * @param price

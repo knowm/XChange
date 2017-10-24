@@ -18,7 +18,7 @@ public final class ANXDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */
@@ -71,7 +71,7 @@ public final class ANXDepth {
 
     /**
      * Constructor
-     * 
+     *
      * @param value
      * @param valueInt
      * @param currency

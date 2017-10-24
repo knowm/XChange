@@ -7,11 +7,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btctrade.BTCTradeExchange;
-import org.knowm.xchange.btctrade.service.polling.BTCTradeTradeServiceRaw;
+import org.knowm.xchange.btctrade.service.BTCTradeTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class TradeDemo {
 
@@ -35,7 +35,7 @@ public class TradeDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
     // Bid.
     String orderId = tradeService.placeLimitOrder(
@@ -54,7 +54,7 @@ public class TradeDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCTradeTradeServiceRaw tradeService = (BTCTradeTradeServiceRaw) exchange.getPollingTradeService();
+    BTCTradeTradeServiceRaw tradeService = (BTCTradeTradeServiceRaw) exchange.getTradeService();
 
     // Buy.
     String orderId = tradeService.buy(MIN_AMOUNT_PER_ORDER.multiply(new BigDecimal("1000")), MIN_PRICE_IN_CNY).getId();

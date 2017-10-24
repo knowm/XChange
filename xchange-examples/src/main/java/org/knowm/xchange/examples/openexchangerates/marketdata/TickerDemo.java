@@ -9,8 +9,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.oer.OERExchange;
 import org.knowm.xchange.oer.dto.marketdata.OERRates;
-import org.knowm.xchange.oer.service.polling.OERMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.oer.service.OERMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Ticker at Open Exchange Rates
@@ -32,8 +32,8 @@ public class TickerDemo {
 
   private static void generic(Exchange openExchangeRates) throws IOException {
 
-    // Interested in the polling market data feed
-    PollingMarketDataService marketDataService = openExchangeRates.getPollingMarketDataService();
+    // Interested in the market data feed
+    MarketDataService marketDataService = openExchangeRates.getMarketDataService();
 
     // Get the latest ticker data showing EUR/USD
     Ticker ticker = marketDataService.getTicker(CurrencyPair.EUR_USD);
@@ -53,7 +53,7 @@ public class TickerDemo {
 
   private static void raw(Exchange openExchangeRates) throws IOException {
 
-    OERMarketDataServiceRaw oERMarketDataServiceRaw = (OERMarketDataServiceRaw) openExchangeRates.getPollingMarketDataService();
+    OERMarketDataServiceRaw oERMarketDataServiceRaw = (OERMarketDataServiceRaw) openExchangeRates.getMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
     OERRates oERRates = oERMarketDataServiceRaw.getOERTicker();

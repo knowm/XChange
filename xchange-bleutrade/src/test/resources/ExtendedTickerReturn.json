@@ -1,35 +1,37 @@
 {
-  "success" : true,
-  "message" : "",
-  "result" : [{
-    "MarketName" : "BLEU_BTC",
-    "PrevDay" : 0.00095000,
-    "High" : 0.00105000,
-    "Low" : 0.00086000,
-    "Last" : 0.00101977,
-    "Average" : 0.00103455,
-    "Volume" : 2450.97496015,
-    "BaseVolume" : 2.40781647,
-    "TimeStamp" : "2014-07-29 11:19:30",
-    "Bid" : 0.00100000,
-    "Ask" : 0.00101977,
-    "IsActive" : true,
-    "foo" : 1
-  }, {
-    "MarketName" : "LTC_BTC",
-    "PrevDay" : 0.00095000,
-    "High" : 0.01333000,
-    "Low" : 0.01167001,
-    "Last" : 0.01333000,
-    "Average" : 0.01235000,
-    "Volume" : 14.46077245,
-    "BaseVolume" : 0.18765956,
-    "TimeStamp" : "2014-07-29 11:48:02",
-    "Bid" : 0.01268311,
-    "Ask" : 0.01333000,
-    "IsActive" : true,
-    "bar" : true
-  }
+  "success": true,
+  "message": "",
+  "result": [
+    {
+      "MarketName": "BLEU_BTC",
+      "PrevDay": 0.00095000,
+      "High": 0.00105000,
+      "Low": 0.00086000,
+      "Last": 0.00101977,
+      "Average": 0.00103455,
+      "Volume": 2450.97496015,
+      "BaseVolume": 2.40781647,
+      "TimeStamp": "2014-07-29 11:19:30",
+      "Bid": 0.00100000,
+      "Ask": 0.00101977,
+      "IsActive": true,
+      "foo": 1
+    },
+    {
+      "MarketName": "LTC_BTC",
+      "PrevDay": 0.00095000,
+      "High": 0.01333000,
+      "Low": 0.01167001,
+      "Last": 0.01333000,
+      "Average": 0.01235000,
+      "Volume": 14.46077245,
+      "BaseVolume": 0.18765956,
+      "TimeStamp": "2014-07-29 11:48:02",
+      "Bid": 0.01268311,
+      "Ask": 0.01333000,
+      "IsActive": true,
+      "bar": true
+    }
   ],
-  "ext" : "extended value"
+  "ext": "extended value"
 }

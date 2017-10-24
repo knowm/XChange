@@ -2,9 +2,10 @@ package org.knowm.xchange.bitso.dto.trade;
 
 import java.math.BigDecimal;
 
+import org.knowm.xchange.bitso.util.BitsoTransactionTypeDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.bitso.util.BitsoTransactionTypeDeserializer;
 
 /**
  * @author Piotr Ładyżyński
@@ -15,10 +16,14 @@ public final class BitsoUserTransaction {
   private final long id;
   private final String order_id;
   private final TransactionType type;
-  /** MXN amount, negative -> BID, positive -> ASK */
+  /**
+   * MXN amount, negative -> BID, positive -> ASK
+   */
   private final BigDecimal mxn;
   private final BigDecimal btc;
-  /** price, has the reciprocal sign compared to 'mxn' value */
+  /**
+   * price, has the reciprocal sign compared to 'mxn' value
+   */
   private final BigDecimal rate;
   private final BigDecimal fee;
 

@@ -8,17 +8,17 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitso.BitsoExchange;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
-import org.knowm.xchange.bitso.service.polling.BitsoMarketDataServiceRaw;
+import org.knowm.xchange.bitso.service.BitsoMarketDataServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Depth at Bitso
- * 
+ *
  * @author Piotr Ładyżyński
  */
 public class BitsoMarketDataDemo {
@@ -28,15 +28,15 @@ public class BitsoMarketDataDemo {
     // Use the factory to get Bitso exchange API using default settings
     Exchange bitso = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitso.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = bitso.getMarketDataService();
 
     generic(marketDataService);
     raw((BitsoMarketDataServiceRaw) marketDataService);
 
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
     CurrencyPair cp = new CurrencyPair(Currency.BTC, Currency.MXN);
     Ticker ticker = marketDataService.getTicker(cp);
     System.out.println("Ticker: " + ticker);
@@ -55,7 +55,7 @@ public class BitsoMarketDataDemo {
     System.out.println(orderBook.toString());
 
     // Get trades within the last hour
-    Object[] args = { "hour" };
+    Object[] args = {"hour"};
     List<Trade> trades = marketDataService.getTrades(cp, args).getTrades();
     System.out.println("Number Trades within last hour: " + trades.size());
     for (Trade t : trades) {

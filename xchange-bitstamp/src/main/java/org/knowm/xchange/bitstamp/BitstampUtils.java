@@ -3,6 +3,7 @@ package org.knowm.xchange.bitstamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -11,7 +12,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
  */
 public final class BitstampUtils {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  private static final SimpleDateFormat DATE_FORMAT;
+
+  static {
+    DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+  }
 
   /**
    * private Constructor
@@ -23,13 +29,13 @@ public final class BitstampUtils {
   /**
    * Format a date String for Bitstamp
    *
-   * @param dateString
-   * @return
+   * @param dateString A {@code String} whose beginning should be parsed.
+   * @return A {@link Date}
    */
   public static Date parseDate(String dateString) {
 
     try {
-      return DATE_FORMAT.parse(dateString);
+      return dateString == null ? null : DATE_FORMAT.parse(dateString);
     } catch (ParseException e) {
       throw new ExchangeException("Illegal date/time format", e);
     }

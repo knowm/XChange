@@ -17,7 +17,7 @@ public class CexIOTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param amount
    * @param price
    * @param date

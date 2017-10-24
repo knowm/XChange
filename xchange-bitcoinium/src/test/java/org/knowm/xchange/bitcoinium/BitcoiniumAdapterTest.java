@@ -1,14 +1,12 @@
 package org.knowm.xchange.bitcoinium;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumDepthJSONTest;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
@@ -17,6 +15,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the BitcoiniumAdapter class
@@ -38,7 +38,7 @@ public class BitcoiniumAdapterTest {
     // Verify all fields filled
     assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo(new BigDecimal("522.9"));
     assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(OrderType.ASK);
-    assertThat(orderBook.getAsks().get(0).getTradableAmount()).isEqualTo(new BigDecimal("1.07"));
+    assertThat(orderBook.getAsks().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("1.07"));
     assertThat(orderBook.getAsks().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 

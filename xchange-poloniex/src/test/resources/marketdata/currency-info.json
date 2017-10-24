@@ -1,12 +1,12 @@
 {
-   "1CR":{
-      "txFee":0.01,
-      "minConf":3,
-      "disabled":0
-   },
-   "ABY":{
-      "txFee":0.01,
-      "minConf":8,
-      "disabled":0
-   }
+  "1CR": {
+    "txFee": 0.01,
+    "minConf": 3,
+    "disabled": 0
+  },
+  "ABY": {
+    "txFee": 0.01,
+    "minConf": 8,
+    "disabled": 0
+  }
 }

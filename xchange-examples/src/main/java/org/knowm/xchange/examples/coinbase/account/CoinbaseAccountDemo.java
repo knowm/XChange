@@ -19,11 +19,11 @@ import org.knowm.xchange.coinbase.dto.account.CoinbaseTransactions;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUsers;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.service.polling.CoinbaseAccountService;
+import org.knowm.xchange.coinbase.service.CoinbaseAccountService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.coinbase.CoinbaseDemoUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * @author jamespedwards42
@@ -33,13 +33,13 @@ public class CoinbaseAccountDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange coinbase = CoinbaseDemoUtils.createExchange();
-    PollingAccountService accountService = coinbase.getPollingAccountService();
+    AccountService accountService = coinbase.getAccountService();
 
     generic(accountService);
     raw((CoinbaseAccountService) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("Account Info: " + accountInfo);
@@ -47,7 +47,7 @@ public class CoinbaseAccountDemo {
     String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit Address: " + depositAddress);
 
-    // String transactionHash = accountService.withdrawFunds(new BigDecimal(".01"), "1CYmvfR53AYPj87TjxXZQrLZ8z8dRUKDMs");
+    // String transactionHash = accountService.withdrawFunds(new BigDecimal(".01"), "XXX");
     // System.out.println("Bitcoin blockchain transaction hash: " + transactionHash);
   }
 
@@ -137,7 +137,7 @@ public class CoinbaseAccountDemo {
     System.out.println(cancelResponse);
 
     // CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction
-    // .createSendMoneyRequest("1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB", MoneyUtils.parse("BTC .01"))
+    // .createSendMoneyRequest("XXX", MoneyUtils.parse("BTC .01"))
     // .withNotes("Demo Money!").withInstantBuy(false).withUserFee("0.0");
     // CoinbaseTransaction sendTransaction = accountService.sendMoney(sendMoneyRequest);
     // System.out.println(sendTransaction);

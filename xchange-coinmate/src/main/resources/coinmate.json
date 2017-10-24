@@ -20,7 +20,7 @@
   },
   "private_rate_limits": [
     {
-      "calls" : 600,
+      "calls": 600,
       "time_unit": "minutes"
     }
   ],

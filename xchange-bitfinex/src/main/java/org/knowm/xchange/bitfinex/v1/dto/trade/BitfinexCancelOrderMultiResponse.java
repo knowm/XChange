@@ -8,7 +8,7 @@ public class BitfinexCancelOrderMultiResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    */
   public BitfinexCancelOrderMultiResponse(@JsonProperty("result") String result) {

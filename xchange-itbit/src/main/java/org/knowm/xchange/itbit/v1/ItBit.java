@@ -19,11 +19,10 @@ public interface ItBit {
 
   @GET
   @Path("/markets/{ident}{currency}/order_book")
-  ItBitDepth getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
-      throws IOException, ItBitException;
+  ItBitDepth getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException, ItBitException;
 
   @GET
   @Path("/markets/{ident}{currency}/trades")
-  ItBitTrades getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") long sinceId)
-      throws IOException, ItBitException;
+  ItBitTrades getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
+      @QueryParam("since") long sinceId) throws IOException, ItBitException;
 }

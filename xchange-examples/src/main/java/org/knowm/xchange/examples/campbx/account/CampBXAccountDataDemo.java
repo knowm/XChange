@@ -8,7 +8,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.campbx.CampBXExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * Demonstrate requesting Market Data from CampBX
@@ -23,7 +23,7 @@ public class CampBXAccountDataDemo {
     campbx.getExchangeSpecification().setUserName("XChange");
     campbx.getExchangeSpecification().setPassword("The Java API");
 
-    PollingAccountService accountService = campbx.getPollingAccountService();
+    AccountService accountService = campbx.getAccountService();
 
     AccountInfo wallet = accountService.getAccountInfo();
     System.out.println("wallet = " + wallet);
@@ -31,7 +31,7 @@ public class CampBXAccountDataDemo {
     String depositAddr = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("depositAddr = " + depositAddr);
 
-    String txid = accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.1"), "1FgpMU9CgQffjLK5YoR2yK5XGj5cq4iCBf");
+    String txid = accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.1"), "XXX");
     System.out.println("See the withdrawal transaction: http://blockchain.info/tx-index/" + txid);
   }
 

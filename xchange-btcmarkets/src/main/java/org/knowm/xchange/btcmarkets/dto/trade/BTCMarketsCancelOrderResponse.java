@@ -2,9 +2,10 @@ package org.knowm.xchange.btcmarkets.dto.trade;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsBaseResponse;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import si.mazi.rescu.ExceptionalReturnContentException;
 

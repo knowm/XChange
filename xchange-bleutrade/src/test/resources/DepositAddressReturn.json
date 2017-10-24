@@ -1,8 +1,8 @@
 {
-  "success" : true,
-  "message" : "",
-  "result" : {
-    "Currency" : "BTC",
-    "Address" : "1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9"
+  "success": true,
+  "message": "",
+  "result": {
+    "Currency": "BTC",
+    "Address": "1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9"
   }
 }

@@ -1,23 +1,25 @@
 {
-  "success" : true,
-  "message" : "",
-  "result" : [{
-    "Currency" : "BTC",
-    "CurrencyLong" : "Bitcoin",
-    "MinConfirmation" : 2,
-    "TxFee" : 0.00080000,
-    "IsActive" : true,
-    "CoinType" : "BITCOIN",
-    "MaintenanceMode" : false
-  }, {
-    "Currency" : "LTC",
-    "CurrencyLong" : "Litecoin",
-    "MinConfirmation" : 4,
-    "TxFee" : 0.02000000,
-    "IsActive" : true,
-    "CoinType" : "BITCOIN",
-    "MaintenanceMode" : false
-  }
+  "success": true,
+  "message": "",
+  "result": [
+    {
+      "Currency": "BTC",
+      "CurrencyLong": "Bitcoin",
+      "MinConfirmation": 2,
+      "TxFee": 0.00080000,
+      "IsActive": true,
+      "CoinType": "BITCOIN",
+      "MaintenanceMode": false
+    },
+    {
+      "Currency": "LTC",
+      "CurrencyLong": "Litecoin",
+      "MinConfirmation": 4,
+      "TxFee": 0.02000000,
+      "IsActive": true,
+      "CoinType": "BITCOIN",
+      "MaintenanceMode": false
+    }
   ],
-  "ext" : "extended value"
+  "ext": "extended value"
 }

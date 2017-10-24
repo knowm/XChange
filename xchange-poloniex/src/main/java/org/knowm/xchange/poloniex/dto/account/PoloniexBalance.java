@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "available", "onOrders", "btcValue" })
+@JsonPropertyOrder({"available", "onOrders", "btcValue"})
 public class PoloniexBalance {
   @JsonProperty("available")
   private BigDecimal available;

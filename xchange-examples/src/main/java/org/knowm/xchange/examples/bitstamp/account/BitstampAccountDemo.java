@@ -10,11 +10,11 @@ import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
-import org.knowm.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
+import org.knowm.xchange.bitstamp.service.BitstampAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.bitstamp.BitstampDemoUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * <p>
@@ -34,13 +34,13 @@ public class BitstampAccountDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange bitstamp = BitstampDemoUtils.createExchange();
-    PollingAccountService accountService = bitstamp.getPollingAccountService();
+    AccountService accountService = bitstamp.getAccountService();
 
     generic(accountService);
     raw((BitstampAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
@@ -49,7 +49,7 @@ public class BitstampAccountDemo {
     String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
+    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 
@@ -74,8 +74,7 @@ public class BitstampAccountDemo {
       System.out.println(unconfirmedDeposit);
     }
 
-    BitstampWithdrawal withdrawResult = accountService.withdrawBitstampFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4),
-        "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
+    BitstampWithdrawal withdrawResult = accountService.withdrawBtcFunds(new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("BitstampBooleanResponse = " + withdrawResult);
   }
 }

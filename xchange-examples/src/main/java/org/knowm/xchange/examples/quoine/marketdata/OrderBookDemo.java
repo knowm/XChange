@@ -8,8 +8,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.quoine.QuoineExchange;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
-import org.knowm.xchange.quoine.service.polling.QuoineMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.quoine.service.QuoineMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class OrderBookDemo {
 
@@ -24,8 +24,8 @@ public class OrderBookDemo {
 
   private static void generic(Exchange quoineExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService quoineMarketDataService = quoineExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService quoineMarketDataService = quoineExchange.getMarketDataService();
 
     // Get the latest full order book data for NMC/XRP
     OrderBook orderBook = quoineMarketDataService.getOrderBook(CurrencyPair.BTC_USD);
@@ -35,8 +35,8 @@ public class OrderBookDemo {
 
   private static void raw(Exchange quoineExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    QuoineMarketDataServiceRaw quoineMarketDataService = (QuoineMarketDataServiceRaw) quoineExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    QuoineMarketDataServiceRaw quoineMarketDataService = (QuoineMarketDataServiceRaw) quoineExchange.getMarketDataService();
 
     // Get the latest order book data
     QuoineOrderBook quoineOrderBook = quoineMarketDataService.getOrderBook(1);

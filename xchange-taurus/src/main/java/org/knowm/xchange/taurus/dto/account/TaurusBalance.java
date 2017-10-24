@@ -2,8 +2,9 @@ package org.knowm.xchange.taurus.dto.account;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.taurus.dto.TaurusBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi

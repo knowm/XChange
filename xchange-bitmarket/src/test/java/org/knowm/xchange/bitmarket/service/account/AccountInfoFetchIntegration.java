@@ -4,11 +4,10 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmarket.ExchangeUtils;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * @author kfonal
@@ -30,7 +29,7 @@ public class AccountInfoFetchIntegration {
       return; // forces pass if there is no keys passed
     }
 
-    PollingAccountService service = exchange.getPollingAccountService();
+    AccountService service = exchange.getAccountService();
     assertNotNull(service);
     //verify account info exists
     AccountInfo info = service.getAccountInfo();

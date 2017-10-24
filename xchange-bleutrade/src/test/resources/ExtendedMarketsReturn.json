@@ -1,25 +1,27 @@
 {
-  "success" : true,
-  "message" : "",
-  "result" : [{
-    "MarketCurrency" : "DOGE",
-    "BaseCurrency" : "BTC",
-    "MarketCurrencyLong" : "Dogecoin",
-    "BaseCurrencyLong" : "Bitcoin",
-    "MinTradeSize" : 0.10000000,
-    "MarketName" : "DOGE_BTC",
-    "IsActive" : true,
-    "foo" : 1
-  }, {
-    "MarketCurrency" : "BLEU",
-    "BaseCurrency" : "BTC",
-    "MarketCurrencyLong" : "Bleutrade Share",
-    "BaseCurrencyLong" : "Bitcoin",
-    "MinTradeSize" : 0.00000001,
-    "MarketName" : "BLEU_BTC",
-    "IsActive" : true,
-    "bar" : true
-  }
+  "success": true,
+  "message": "",
+  "result": [
+    {
+      "MarketCurrency": "DOGE",
+      "BaseCurrency": "BTC",
+      "MarketCurrencyLong": "Dogecoin",
+      "BaseCurrencyLong": "Bitcoin",
+      "MinTradeSize": 0.10000000,
+      "MarketName": "DOGE_BTC",
+      "IsActive": true,
+      "foo": 1
+    },
+    {
+      "MarketCurrency": "BLEU",
+      "BaseCurrency": "BTC",
+      "MarketCurrencyLong": "Bleutrade Share",
+      "BaseCurrencyLong": "Bitcoin",
+      "MinTradeSize": 0.00000001,
+      "MarketName": "BLEU_BTC",
+      "IsActive": true,
+      "bar": true
+    }
   ],
-  "ext" : "extended value"
+  "ext": "extended value"
 }

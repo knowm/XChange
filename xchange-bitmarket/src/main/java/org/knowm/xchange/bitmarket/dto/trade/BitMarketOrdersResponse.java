@@ -3,9 +3,10 @@ package org.knowm.xchange.bitmarket.dto.trade;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitmarket.dto.BitMarketAPILimit;
 import org.knowm.xchange.bitmarket.dto.BitMarketBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kfonal

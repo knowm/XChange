@@ -7,10 +7,10 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btctrade.BTCTradeExchange;
 import org.knowm.xchange.btctrade.dto.trade.BTCTradeOrder;
-import org.knowm.xchange.btctrade.service.polling.BTCTradeTradeServiceRaw;
+import org.knowm.xchange.btctrade.service.BTCTradeTradeServiceRaw;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class TradeHistoryDemo {
 
@@ -31,7 +31,7 @@ public class TradeHistoryDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open orders: " + openOrders);
@@ -42,7 +42,7 @@ public class TradeHistoryDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCTradeTradeServiceRaw tradeService = (BTCTradeTradeServiceRaw) exchange.getPollingTradeService();
+    BTCTradeTradeServiceRaw tradeService = (BTCTradeTradeServiceRaw) exchange.getTradeService();
 
     BTCTradeOrder[] orders = tradeService.getBTCTradeOrders(0, "open");
     System.out.println("Open orders: " + orders.length);

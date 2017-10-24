@@ -1,0 +1,37 @@
+{
+  "currency_pairs": {
+    "BTC/CAD": {
+      "price_scale": 2
+    },
+    "BTC/USD": {
+      "price_scale": 2
+    },
+    "ETH/BTC": {
+      "price_scale": 2
+    },
+    "ETH/CAD": {
+      "price_scale": 2
+    }
+  },
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "CAD": {
+      "scale": 2
+    },
+    "USD": {
+      "scale": 2
+    }
+  },
+  "private_rate_limits": [
+    {
+      "calls": 60,
+      "time_unit": "minutes"
+    }
+  ],
+  "share_rate_limits": true
+}

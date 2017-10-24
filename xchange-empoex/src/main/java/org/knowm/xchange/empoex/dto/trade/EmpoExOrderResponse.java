@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "success", "message", "order_id" })
+@JsonPropertyOrder({"success", "message", "order_id"})
 public class EmpoExOrderResponse {
 
   @JsonProperty("success")

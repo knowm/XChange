@@ -7,13 +7,13 @@ import java.util.List;
 import org.knowm.xchange.ripple.dto.RippleAmount;
 
 public interface IRippleTradeTransaction {
-  public List<RippleAmount> getBalanceChanges();
+  List<RippleAmount> getBalanceChanges();
 
-  public BigDecimal getFee();
+  BigDecimal getFee();
 
-  public long getOrderId();
+  long getOrderId();
 
-  public String getHash();
+  String getHash();
 
-  public Date getTimestamp();
+  Date getTimestamp();
 }

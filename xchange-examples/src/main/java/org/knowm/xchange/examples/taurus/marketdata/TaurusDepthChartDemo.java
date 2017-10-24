@@ -6,20 +6,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.taurus.TaurusExchange;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.markers.SeriesMarkers;
-
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.knowm.xchange.taurus.TaurusExchange;
 
 /**
  * Demonstrate requesting OrderBook from Taurus and plotting it using XChart.
@@ -32,7 +31,7 @@ public class TaurusDepthChartDemo {
     Exchange taurusExchange = ExchangeFactory.INSTANCE.createExchange(TaurusExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = taurusExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = taurusExchange.getMarketDataService();
 
     System.out.println("fetching data...");
 
@@ -50,13 +49,13 @@ public class TaurusDepthChartDemo {
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
 
     // BIDS
-    List<Number> xData = new ArrayList<Number>();
-    List<Number> yData = new ArrayList<Number>();
+    List<Number> xData = new ArrayList<>();
+    List<Number> yData = new ArrayList<>();
     BigDecimal accumulatedBidUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getBids()) {
       if (limitOrder.getLimitPrice().doubleValue() > 10) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getTradableAmount());
+        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedBidUnits);
       }
     }
@@ -68,13 +67,13 @@ public class TaurusDepthChartDemo {
     series.setMarker(SeriesMarkers.NONE);
 
     // ASKS
-    xData = new ArrayList<Number>();
-    yData = new ArrayList<Number>();
+    xData = new ArrayList<>();
+    yData = new ArrayList<>();
     BigDecimal accumulatedAskUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getAsks()) {
       if (limitOrder.getLimitPrice().doubleValue() < 1000) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getTradableAmount());
+        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedAskUnits);
       }
     }

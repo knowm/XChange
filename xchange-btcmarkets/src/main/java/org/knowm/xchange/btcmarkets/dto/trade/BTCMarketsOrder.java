@@ -4,16 +4,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.knowm.xchange.utils.jackson.BtcToSatoshi;
+import org.knowm.xchange.utils.jackson.MillisecTimestampDeserializer;
+import org.knowm.xchange.utils.jackson.SatoshiToBtc;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.knowm.xchange.utils.jackson.BtcToSatoshi;
-import org.knowm.xchange.utils.jackson.MillisecTimestampDeserializer;
-import org.knowm.xchange.utils.jackson.SatoshiToBtc;
 
-@JsonPropertyOrder({ "currency", "instrument", "price", "volume", "orderSide", "ordertype", "clientRequestId" })
+@JsonPropertyOrder({"currency", "instrument", "price", "volume", "orderSide", "ordertype", "clientRequestId"})
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BTCMarketsOrder {
 

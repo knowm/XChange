@@ -1,12 +1,28 @@
 {
   "currencies": {
-    "BNC": {"scale": 8},
-    "BTC": {"scale": 8},
-    "EUR": {"scale": 8},
-    "DOGE": {"scale": 8},
-    "LTC": {"scale": 8},
-    "USD": {"scale": 8},
-    "XDN": {"scale": 8},
-    "XMR": {"scale": 8}
+    "BNC": {
+      "scale": 8
+    },
+    "BTC": {
+      "scale": 8
+    },
+    "EUR": {
+      "scale": 8
+    },
+    "DOGE": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 8
+    },
+    "XDN": {
+      "scale": 8
+    },
+    "XMR": {
+      "scale": 8
+    }
   }
 }

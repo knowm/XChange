@@ -2,9 +2,10 @@ package org.knowm.xchange.kraken.dto.marketdata;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
 import org.knowm.xchange.kraken.dto.trade.KrakenType;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenPublicTrade {
 

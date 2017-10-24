@@ -27,6 +27,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 
 /**
  * Conversion between XChange CurrencyPair and Coinmate API
+ *
  * @author Martin Stachon
  */
 public class CoinmateUtils {
@@ -40,7 +41,7 @@ public class CoinmateUtils {
     if ("BTC_EUR".equals(currencyPair)) {
       return CurrencyPair.BTC_EUR;
     } else if ("BTC_CZK".equals(currencyPair)) {
-      return CurrencyPair.BTC_CZK; 
+      return CurrencyPair.BTC_CZK;
     } else {
       return null;
     }

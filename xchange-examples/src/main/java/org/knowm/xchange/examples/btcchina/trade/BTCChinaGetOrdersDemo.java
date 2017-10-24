@@ -6,11 +6,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeService;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeService;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeServiceRaw;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Demo for {@link BTCChinaTradeServiceRaw#getBTCChinaOrders(Boolean, String, Integer, Integer)} . and {@link BTCChinaTradeService#getOpenOrders()}.
@@ -18,8 +18,8 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 public class BTCChinaGetOrdersDemo {
 
   static Exchange exchange = BTCChinaExamplesUtils.getExchange();
-  static PollingTradeService tradeService = exchange.getPollingTradeService();
-  static BTCChinaTradeServiceRaw tradeServiceRaw = (BTCChinaTradeServiceRaw) exchange.getPollingTradeService();
+  static TradeService tradeService = exchange.getTradeService();
+  static BTCChinaTradeServiceRaw tradeServiceRaw = (BTCChinaTradeServiceRaw) exchange.getTradeService();
 
   public static void main(String[] args) throws IOException {
 

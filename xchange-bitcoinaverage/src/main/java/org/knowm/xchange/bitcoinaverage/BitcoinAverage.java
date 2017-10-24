@@ -21,10 +21,10 @@ public interface BitcoinAverage {
 
   @GET
   @Path("ticker/global/{currency}/")
-  public BitcoinAverageTicker getTicker(@PathParam("currency") String currency) throws IOException;
+  BitcoinAverageTicker getTicker(@PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("ticker/global/all")
-  public BitcoinAverageTickers getAllTickers() throws IOException;
+  BitcoinAverageTickers getAllTickers() throws IOException;
 
 }

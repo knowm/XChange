@@ -18,7 +18,7 @@ public class HitbtcTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param date
    * @param price
    * @param amount
@@ -66,7 +66,7 @@ public class HitbtcTrade {
     return "HitbtcTrade{" + "date=" + date + ", price=" + price + ", amount=" + amount + ", tid='" + tid + "', side='" + side + "'" + "}";
   }
 
-  public static enum HitbtcTradeSide {
+  public enum HitbtcTradeSide {
 
     BUY("buy"), SELL("sell");
 

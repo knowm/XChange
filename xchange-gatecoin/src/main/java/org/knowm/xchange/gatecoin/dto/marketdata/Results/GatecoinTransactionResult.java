@@ -1,10 +1,11 @@
 package org.knowm.xchange.gatecoin.dto.marketdata.Results;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.gatecoin.dto.GatecoinResult;
 import org.knowm.xchange.gatecoin.dto.marketdata.GatecoinTransaction;
 import org.knowm.xchange.gatecoin.dto.marketdata.ResponseStatus;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author sumdeha

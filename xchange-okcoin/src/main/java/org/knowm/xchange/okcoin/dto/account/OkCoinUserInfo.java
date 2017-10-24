@@ -1,7 +1,8 @@
 package org.knowm.xchange.okcoin.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinErrorResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OkCoinUserInfo extends OkCoinErrorResult {
 

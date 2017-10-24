@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.account;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.Map;
  * Account information is anything particular associated with the user's login
  * </p>
  */
-public final class AccountInfo {
+public final class AccountInfo  implements Serializable {
 
   /**
    * The name on the account
@@ -33,24 +34,24 @@ public final class AccountInfo {
   private final Map<String, Wallet> wallets;
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(Wallet... wallets) {
 
     // TODO when refactoring for separate feature interfaces, change this constructor to require at least two wallets
-    this(null, (BigDecimal) null, wallets);
+    this(null, null, wallets);
   }
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(Collection<Wallet> wallets) {
 
-    this(null, (BigDecimal) null, wallets);
+    this(null, null, wallets);
   }
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(String username, Wallet... wallets) {
 
@@ -58,7 +59,7 @@ public final class AccountInfo {
   }
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(String username, Collection<Wallet> wallets) {
 
@@ -83,7 +84,7 @@ public final class AccountInfo {
       Wallet wallet = wallets.iterator().next();
       this.wallets = Collections.singletonMap(wallet.getId(), wallet);
     } else {
-      this.wallets = new HashMap<String, Wallet>();
+      this.wallets = new HashMap<>();
       for (Wallet wallet : wallets) {
         if (this.wallets.containsKey(wallet.getId())) {
           throw new IllegalArgumentException("duplicate wallets passed to AccountInfo");
@@ -95,7 +96,7 @@ public final class AccountInfo {
   }
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(String username, BigDecimal tradingFee, Wallet... wallets) {
 

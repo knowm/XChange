@@ -30,7 +30,7 @@ public class KrakenTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param orderTxId
    * @param assetPair
    * @param unixTimestamp

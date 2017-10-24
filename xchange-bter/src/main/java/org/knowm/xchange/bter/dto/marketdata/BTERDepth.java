@@ -2,8 +2,9 @@ package org.knowm.xchange.bter.dto.marketdata;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bter.dto.BTERBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing depth from Bter
@@ -15,7 +16,7 @@ public class BTERDepth extends BTERBaseResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

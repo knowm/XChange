@@ -10,20 +10,25 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTCChinaAdaptersTest {
 
@@ -36,7 +41,7 @@ public class BTCChinaAdaptersTest {
     Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
     assertEquals(3, tickers.size());
 
-    assertEquals(new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC)), tickers.keySet());
+    assertEquals(new HashSet<>(Arrays.asList(CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC)), tickers.keySet());
 
     Ticker btccny = tickers.get(CurrencyPair.BTC_CNY);
     assertEquals(new BigDecimal("2894.97"), btccny.getHigh());
@@ -62,37 +67,11 @@ public class BTCChinaAdaptersTest {
     Trade trade = BTCChinaAdapters.adaptTransaction(btcChinaTransaction);
 
     assertEquals(OrderType.ASK, trade.getType());
-    assertEquals(new BigDecimal("0.37460000"), trade.getTradableAmount());
+    assertEquals(new BigDecimal("0.37460000"), trade.getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, trade.getCurrencyPair());
     assertEquals(new BigDecimal("3790.95"), trade.getPrice());
     assertEquals(1402922707000L, trade.getTimestamp().getTime());
     assertEquals("12158242", trade.getId());
-  }
-
-  @Test
-  public void testAdaptOrderBookBTCChinaDepth() throws IOException {
-
-    BTCChinaDepth btcChinaDepth = mapper.readValue(getClass().getResource("/marketdata/example-depth-data.json"), BTCChinaDepth.class);
-    OrderBook orderBook = BTCChinaAdapters.adaptOrderBook(btcChinaDepth, CurrencyPair.BTC_CNY);
-
-    List<LimitOrder> bids = orderBook.getBids();
-    List<LimitOrder> asks = orderBook.getAsks();
-
-    // bid 4.51@544.83
-    assertEquals(new BigDecimal("544.83"), bids.get(0).getLimitPrice());
-    assertEquals(new BigDecimal("4.51"), bids.get(0).getTradableAmount());
-
-    // bid 4.19@543.38
-    assertEquals(new BigDecimal("543.38"), bids.get(1).getLimitPrice());
-    assertEquals(new BigDecimal("4.19"), bids.get(1).getTradableAmount());
-
-    // ask 49.234@546
-    assertEquals(new BigDecimal("546"), asks.get(0).getLimitPrice());
-    assertEquals(new BigDecimal("49.234"), asks.get(0).getTradableAmount());
-
-    // ask 10.934@547
-    assertEquals(new BigDecimal("547"), asks.get(1).getLimitPrice());
-    assertEquals(new BigDecimal("10.934"), asks.get(1).getTradableAmount());
   }
 
   @Test
@@ -108,25 +87,25 @@ public class BTCChinaAdaptersTest {
 
     // bid 1@99
     assertEquals(new BigDecimal("99"), bids.get(0).getLimitPrice());
-    assertEquals(new BigDecimal("1"), bids.get(0).getTradableAmount());
+    assertEquals(new BigDecimal("1"), bids.get(0).getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, bids.get(0).getCurrencyPair());
     assertEquals(OrderType.BID, bids.get(0).getType());
 
     // bid 2@98
     assertEquals(new BigDecimal("98"), bids.get(1).getLimitPrice());
-    assertEquals(new BigDecimal("2"), bids.get(1).getTradableAmount());
+    assertEquals(new BigDecimal("2"), bids.get(1).getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, bids.get(1).getCurrencyPair());
     assertEquals(OrderType.BID, bids.get(1).getType());
 
     // ask 0.997@100
     assertEquals(new BigDecimal("100"), asks.get(0).getLimitPrice());
-    assertEquals(new BigDecimal("0.997"), asks.get(0).getTradableAmount());
+    assertEquals(new BigDecimal("0.997"), asks.get(0).getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, asks.get(0).getCurrencyPair());
     assertEquals(OrderType.ASK, asks.get(0).getType());
 
     // ask 2@101
     assertEquals(new BigDecimal("101"), asks.get(1).getLimitPrice());
-    assertEquals(new BigDecimal("2"), asks.get(1).getTradableAmount());
+    assertEquals(new BigDecimal("2"), asks.get(1).getOriginalAmount());
     assertEquals(CurrencyPair.BTC_CNY, asks.get(1).getCurrencyPair());
     assertEquals(OrderType.ASK, asks.get(1).getType());
 
@@ -145,7 +124,7 @@ public class BTCChinaAdaptersTest {
     assertEquals(OrderType.BID, order.getType());
     assertEquals(new BigDecimal("2000.00"), order.getLimitPrice());
     assertEquals(CurrencyPair.BTC_CNY, order.getCurrencyPair());
-    assertEquals(new BigDecimal("0.00100000"), order.getTradableAmount());
+    assertEquals(new BigDecimal("0.00100000"), order.getOriginalAmount());
     assertEquals(1396255376000L, order.getTimestamp().getTime());
   }
 
@@ -160,4 +139,28 @@ public class BTCChinaAdaptersTest {
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("insufficient_balance"));
   }
 
+  @Test
+  public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
+
+    final BTCChinaGetDepositsResponse depositsResponse = mapper.readValue(getClass().getResource("dto/account/response/getDeposits.json"),
+        BTCChinaGetDepositsResponse.class);
+    final BTCChinaGetWithdrawalsResponse withdrawalResponse = mapper.readValue(getClass().getResource("dto/account/response/getWithdrawals.json"),
+        BTCChinaGetWithdrawalsResponse.class);
+    final List<FundingRecord> fundingRecords = BTCChinaAdapters.adaptFundingHistory(depositsResponse, withdrawalResponse);
+    final FundingRecord depositRecord = fundingRecords.get(1);
+    final FundingRecord withdrawalRecord = fundingRecords.get(3);
+
+    assertEquals("mkrmyZyM9jBYGw5EB3wWmfgJ4Mvqnu7gEu", depositRecord.getAddress());
+    assertEquals(Currency.BTC, depositRecord.getCurrency());
+    assertEquals(new BigDecimal("2"), depositRecord.getAmount());
+    assertEquals(FundingRecord.Status.COMPLETE, depositRecord.getStatus());
+
+    assertEquals("15MGzXJnfugniyy7ZDw3hSjkm4tHPHzHba", withdrawalRecord.getAddress());
+    assertEquals(Currency.BTC, withdrawalRecord.getCurrency());
+    assertEquals(new BigDecimal("0.1"), withdrawalRecord.getAmount());
+    assertEquals(FundingRecord.Status.PROCESSING, withdrawalRecord.getStatus());
+
+    assertEquals(FundingRecord.Type.DEPOSIT, depositRecord.getType());
+    assertEquals(FundingRecord.Type.WITHDRAWAL, withdrawalRecord.getType());
+  }
 }

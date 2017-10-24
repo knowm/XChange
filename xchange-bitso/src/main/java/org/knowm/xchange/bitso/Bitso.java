@@ -25,24 +25,24 @@ public interface Bitso {
    */
   @GET
   @Path("order_book/")
-  public BitsoOrderBook getOrderBook() throws BitsoException, IOException;
+  BitsoOrderBook getOrderBook() throws BitsoException, IOException;
 
   @GET
   @Path("ticker/")
-  public BitsoTicker getTicker() throws BitsoException, IOException;
+  BitsoTicker getTicker() throws BitsoException, IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions/")
-  public BitsoTransaction[] getTransactions() throws BitsoException, IOException;
+  BitsoTransaction[] getTransactions() throws BitsoException, IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions/")
-  public BitsoTransaction[] getTransactions(@QueryParam("time") String time) throws BitsoException, IOException;
+  BitsoTransaction[] getTransactions(@QueryParam("time") String time) throws BitsoException, IOException;
 
 }

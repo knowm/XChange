@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.examples.anx.v2.ANXExamplesUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * Demo requesting account info at ANX
@@ -17,7 +17,7 @@ public class BitcoinDepositAddressDemo {
     Exchange ANX = ANXExamplesUtils.createExchange();
 
     // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = ANX.getPollingAccountService();
+    AccountService accountService = ANX.getAccountService();
 
     // Request a Bitcoin deposit address
     String address = accountService.requestDepositAddress(Currency.BTC);

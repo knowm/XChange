@@ -1,12 +1,13 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Jean-Christophe Laruelle
@@ -20,10 +21,10 @@ public class CryptoFacilitiesOpenOrders extends CryptoFacilitiesResult {
   private final List<CryptoFacilitiesOpenOrder> orders;
 
   public CryptoFacilitiesOpenOrders(@JsonProperty("result") String result, @JsonProperty("error") String error,
-      @JsonProperty("serverTime") String strServerTime, @JsonProperty("openorders") List<CryptoFacilitiesOpenOrder> orders) throws ParseException {
+      @JsonProperty("serverTime") String strServerTime, @JsonProperty("openOrders") List<CryptoFacilitiesOpenOrder> orders) throws ParseException {
 
     super(result, error);
-    
+
     this.serverTime = strServerTime == null ? null : DATE_FORMAT.parse(strServerTime);
     this.orders = orders;
   }
@@ -36,16 +37,16 @@ public class CryptoFacilitiesOpenOrders extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess()) {
-        String res = "CryptoFacilitiesOpenOrders [orders=";
-        for (CryptoFacilitiesOpenOrder ord : orders)
-          res = res + ord.toString() + ", ";
-        res = res + " ]";
+      StringBuilder res = new StringBuilder("CryptoFacilitiesOpenOrders [orders=");
+      for (CryptoFacilitiesOpenOrder ord : orders)
+        res.append(ord.toString()).append(", ");
+      res.append(" ]");
 
-        return res;
+      return res.toString();
     } else {
-        return super.toString();
+      return super.toString();
     }
-  
+
   }
 
 }

@@ -15,9 +15,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "balances", "auxiliary", "marginRequirements", "triggerEstimates" })
+@JsonPropertyOrder({"type", "currency", "balances", "auxiliary", "marginRequirements", "triggerEstimates"})
 public class CryptoFacilitiesAccountInfo {
 
+  @JsonProperty("type")
+  private String type;
+  @JsonProperty("currency")
+  private String currency;
   @JsonProperty("balances")
   private Map<String, BigDecimal> balances;
   @JsonProperty("auxiliary")
@@ -26,6 +30,30 @@ public class CryptoFacilitiesAccountInfo {
   private Map<String, BigDecimal> marginRequirements;
   @JsonProperty("triggerEstimates")
   private Map<String, BigDecimal> triggerEstimates;
+
+  @JsonProperty("type")
+  public String getType() {
+
+    return type;
+  }
+
+  @JsonProperty("type")
+  public void setType(String type) {
+
+    this.type = type;
+  }
+
+  @JsonProperty("currency")
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  @JsonProperty("currency")
+  public void setCurrency(String currency) {
+
+    this.currency = currency;
+  }
 
   @JsonProperty("balances")
   public Map<String, BigDecimal> getBalances() {

@@ -6,20 +6,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.knowm.xchange.dto.Order.IOrderFlags;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.knowm.xchange.dto.Order.IOrderFlags;
 
 public enum KrakenOrderFlags implements IOrderFlags {
 
-  VIQC, // volume in quote currency
   FCIB, // prefer fee in base currency
   FCIQ, // prefer fee in quote currency
-  NOMPP; // no market price protection
+  NOMPP, // no market price protection
+  POST, // for market maker orders 
+  VIQC; // volume in quote currency
 
   @Override
   public String toString() {
@@ -32,7 +34,7 @@ public enum KrakenOrderFlags implements IOrderFlags {
     return fromString.get(orderTypeString.toLowerCase());
   }
 
-  private static final Map<String, KrakenOrderFlags> fromString = new HashMap<String, KrakenOrderFlags>();
+  private static final Map<String, KrakenOrderFlags> fromString = new HashMap<>();
 
   static {
     for (KrakenOrderFlags orderFlag : values())

@@ -2,6 +2,10 @@ package org.knowm.xchange.coinbase.dto.merchant;
 
 import java.io.IOException;
 
+import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButtonType.CoinbaseButtonTypeDeserializer;
+import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -10,9 +14,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButtonType.CoinbaseButtonTypeDeserializer;
-import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
-import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
 /**
  * @author jamespedwards42
@@ -25,8 +26,7 @@ public enum CoinbaseButtonType {
 
   static class CoinbaseButtonTypeDeserializer extends JsonDeserializer<CoinbaseButtonType> {
 
-    private static final EnumFromStringHelper<CoinbaseButtonType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseButtonType>(
-        CoinbaseButtonType.class);
+    private static final EnumFromStringHelper<CoinbaseButtonType> FROM_STRING_HELPER = new EnumFromStringHelper<>(CoinbaseButtonType.class);
 
     @Override
     public CoinbaseButtonType deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {

@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.account;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,7 +18,7 @@ import org.knowm.xchange.currency.Currency;
  * A wallet has a set of current balances in various currencies held on the exchange.
  * </p>
  */
-public final class Wallet {
+public final class Wallet implements Serializable {
 
   /**
    * A unique identifier for this wallet
@@ -55,7 +56,7 @@ public final class Wallet {
       Balance balance = balances.iterator().next();
       this.balances = Collections.singletonMap(balance.getCurrency(), balance);
     } else {
-      this.balances = new HashMap<Currency, Balance>();
+      this.balances = new HashMap<>();
       for (Balance balance : balances) {
         if (this.balances.containsKey(balance.getCurrency()))
           // this class could merge balances, but probably better to catch mistakes and let the exchange merge them
@@ -66,7 +67,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(String id, Collection<Balance> balances) {
 
@@ -74,15 +75,15 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(String id, Balance... balances) {
 
-    this(id, null, (Collection<Balance>) Arrays.asList(balances));
+    this(id, null, Arrays.asList(balances));
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(Collection<Balance> balances) {
 
@@ -90,7 +91,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(Balance... balances) {
 

@@ -8,15 +8,32 @@ public class QuoineNewMarginOrderRequest extends QuoineNewOrderRequest {
   @JsonProperty("leverage_level")
   private final int leverageLevel;
 
-  public QuoineNewMarginOrderRequest(String orderType, String currencyPairCode, String side, BigDecimal quantity, BigDecimal price,
-      int leverageLevel) {
-    super(orderType, currencyPairCode, side, quantity, price);
+  @JsonProperty("funding_currency")
+  private final String fundingCurrency;
+
+  @JsonProperty("order_direction")
+  private final String orderDirection;
+
+  public QuoineNewMarginOrderRequest(String orderType, int productCode, String side, BigDecimal quantity, BigDecimal price, int leverageLevel,
+      String fundingCurrency) {
+    super(orderType, productCode, side, quantity, price);
 
     this.leverageLevel = leverageLevel;
+    this.fundingCurrency = fundingCurrency;
+
+    this.orderDirection = "netout";
   }
 
   public int getLeverageLevel() {
     return leverageLevel;
+  }
+
+  public String getFundingCurrency() {
+    return fundingCurrency;
+  }
+
+  public String getOrderDirection() {
+    return orderDirection;
   }
 
   @Override
@@ -24,12 +41,12 @@ public class QuoineNewMarginOrderRequest extends QuoineNewOrderRequest {
     StringBuilder builder = new StringBuilder();
     builder.append("QuoineNewMarginOrderRequest [leverageLevel=");
     builder.append(leverageLevel);
+    builder.append(", getFundingCurrency()=");
+    builder.append(fundingCurrency);
     builder.append(", getOrderType()=");
     builder.append(getOrderType());
-    builder.append(", getProductCode()=");
-    builder.append(getProductCode());
-    builder.append(", getCurrencyPairCode()=");
-    builder.append(getCurrencyPairCode());
+    builder.append(", getProductId()=");
+    builder.append(getProductId());
     builder.append(", getSide()=");
     builder.append(getSide());
     builder.append(", getQuantity()=");

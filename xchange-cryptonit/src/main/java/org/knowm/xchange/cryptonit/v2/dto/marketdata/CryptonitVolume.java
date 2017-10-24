@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 public final class CryptonitVolume {
 
-  private final Map<String, BigDecimal> volumes = new HashMap<String, BigDecimal>();
+  private final Map<String, BigDecimal> volumes = new HashMap<>();
 
   public Map<String, BigDecimal> getVolumes() {
 

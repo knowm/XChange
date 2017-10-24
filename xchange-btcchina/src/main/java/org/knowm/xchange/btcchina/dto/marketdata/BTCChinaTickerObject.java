@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaTickerObject implements Serializable {
 
-  private static final long serialVersionUID = 2014080901L;
-
   private final BigDecimal buy;
   private final BigDecimal high;
   private final BigDecimal last;
@@ -22,7 +20,7 @@ public class BTCChinaTickerObject implements Serializable {
 
   /**
    * Constructor
-   * 
+   *
    * @param buy Latest bid price.
    * @param sell Latest ask price.
    * @param high Highest price in last 24h.

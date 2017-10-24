@@ -2,16 +2,17 @@ package org.knowm.xchange.kraken.dto.trade.results;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.kraken.dto.KrakenResult;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult.KrakenOpenOrders;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenOpenOrdersResult extends KrakenResult<KrakenOpenOrders> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */
@@ -26,7 +27,7 @@ public class KrakenOpenOrdersResult extends KrakenResult<KrakenOpenOrders> {
 
     /**
      * Constructor
-     * 
+     *
      * @param orders
      */
     public KrakenOpenOrders(@JsonProperty("open") Map<String, KrakenOrder> orders) {

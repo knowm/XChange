@@ -7,8 +7,8 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.mercadobitcoin.InteractiveAuthenticatedExchange;
 import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
-import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinAccountServiceRaw;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinAccountServiceRaw;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * <p>
@@ -28,13 +28,13 @@ public class MercadoBitcoinAccountDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange mercadoBitcoin = InteractiveAuthenticatedExchange.createInstanceFromDefaultInput();
-    PollingAccountService accountService = mercadoBitcoin.getPollingAccountService();
+    AccountService accountService = mercadoBitcoin.getAccountService();
 
     generic(accountService);
     raw((MercadoBitcoinAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();

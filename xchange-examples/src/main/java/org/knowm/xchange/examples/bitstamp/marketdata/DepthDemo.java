@@ -6,10 +6,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitstamp.BitstampExchange;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
-import org.knowm.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
+import org.knowm.xchange.bitstamp.service.BitstampMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Depth at Bitstamp
@@ -21,17 +21,17 @@ public class DepthDemo {
     // Use the factory to get Bitstamp exchange API using default settings
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = bitstamp.getMarketDataService();
 
     generic(marketDataService);
     raw((BitstampMarketDataServiceRaw) marketDataService);
 
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
-    // Get the latest order book data for BTC/CAD
+    // Get the latest order book data for BTC/USD
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
 
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
@@ -42,12 +42,12 @@ public class DepthDemo {
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
     System.out.println("Last Bid: " + orderBook.getBids().get(orderBook.getBids().size() - 1).toString());
 
-    System.out.println(orderBook.toString());
+    //    System.out.println(orderBook.toString());
   }
 
   private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
 
-    // Get the latest order book data for BTC/CAD
+    // Get the latest order book data for BTC/USD
     BitstampOrderBook orderBook = marketDataService.getBitstampOrderBook(CurrencyPair.BTC_USD);
 
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
@@ -56,7 +56,7 @@ public class DepthDemo {
 
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
 
-    System.out.println(orderBook.toString());
+    //    System.out.println(orderBook.toString());
   }
 
 }

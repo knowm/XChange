@@ -43,7 +43,7 @@ public final class BitcurexAdapters {
    */
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bitcurexOrders, CurrencyPair currencyPair, OrderType orderType, String id) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (BigDecimal[] bitcurexOrder : bitcurexOrders) {
       limitOrders.add(adaptOrder(bitcurexOrder[1], bitcurexOrder[0], currencyPair, orderType, id));
@@ -94,7 +94,7 @@ public final class BitcurexAdapters {
    */
   public static Trades adaptTrades(BitcurexTrade[] bitcurexTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>();
+    List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
     for (BitcurexTrade bitcurexTrade : bitcurexTrades) {
       long tradeId = bitcurexTrade.getTid();
@@ -133,7 +133,7 @@ public final class BitcurexAdapters {
   public static Wallet adaptWallet(BitcurexFunds funds) {
 
     // Adapt to XChange DTOs
-    List<Balance> balances = new ArrayList<Balance>(2);
+    List<Balance> balances = new ArrayList<>(2);
     balances.add(new Balance(Currency.BTC, funds.getBtcs()));
 
     BigDecimal eur = funds.getEurs();

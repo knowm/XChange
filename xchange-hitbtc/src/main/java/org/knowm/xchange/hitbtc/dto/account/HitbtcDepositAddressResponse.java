@@ -1,7 +1,8 @@
 package org.knowm.xchange.hitbtc.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.hitbtc.dto.HitbtcBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcDepositAddressResponse extends HitbtcBaseResponse {
 

@@ -18,9 +18,10 @@ import si.mazi.rescu.RestInvocation;
 
 public class HuobiDigest implements ParamsDigest {
 
-  private static final char[] DIGITS_LOWER = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+  private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
   private final String secretKey;
+  private final String secretKeyDigestName;
   private final MessageDigest md;
   private final Comparator<Entry<String, String>> comparator = new Comparator<Map.Entry<String, String>>() {
 
@@ -31,9 +32,10 @@ public class HuobiDigest implements ParamsDigest {
     }
   };
 
-  public HuobiDigest(String secretKey) {
+  public HuobiDigest(String secretKey, String secretKeySignatureName) {
 
     this.secretKey = secretKey;
+    this.secretKeyDigestName = secretKeySignatureName;
 
     try {
       md = MessageDigest.getInstance("MD5");
@@ -60,9 +62,9 @@ public class HuobiDigest implements ParamsDigest {
     final Params params = restInvocation.getParamsMap().get(FormParam.class);
     final Map<String, String> nameValueMap = params.asHttpHeaders();
     nameValueMap.remove("sign");
-    nameValueMap.put("secret_key", secretKey);
+    nameValueMap.put(secretKeyDigestName, secretKey);
 
-    final List<Map.Entry<String, String>> nameValueList = new ArrayList<Map.Entry<String, String>>(nameValueMap.entrySet());
+    final List<Map.Entry<String, String>> nameValueList = new ArrayList<>(nameValueMap.entrySet());
     Collections.sort(nameValueList, comparator);
 
     final Params newParams = Params.of();

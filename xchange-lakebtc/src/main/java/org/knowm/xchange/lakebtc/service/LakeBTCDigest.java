@@ -3,12 +3,11 @@ package org.knowm.xchange.lakebtc.service;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.lakebtc.LakeBTCUtil;
 import org.knowm.xchange.lakebtc.dto.LakeBTCRequest;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.BasicAuthCredentials;
 import si.mazi.rescu.RestInvocation;

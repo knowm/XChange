@@ -1,0 +1,22 @@
+{
+  "result": {
+    "deposit": [
+      {
+        "id": 49751,
+        "address": "mufUAWHCius1jZpjB4zCUwzaRbYuwXCupC",
+        "currency": "BTC",
+        "amount": 1,
+        "date": 1376910685,
+        "status": "pending"
+      },
+      {
+        "id": 49749,
+        "address": "mkrmyZyM9jBYGw5EB3wWmfgJ4Mvqnu7gEu",
+        "currency": "BTC",
+        "amount": 2,
+        "date": 1376906645,
+        "status": "completed"
+      }
+    ]
+  }
+}

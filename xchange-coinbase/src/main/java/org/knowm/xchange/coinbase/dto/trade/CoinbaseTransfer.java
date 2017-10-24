@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
+import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
+import org.knowm.xchange.utils.DateUtils;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -12,12 +19,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
-import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
-import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
-import org.knowm.xchange.utils.DateUtils;
 
 /**
  * @author jamespedwards42
@@ -142,7 +143,7 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
 
   public enum CoinbaseTransferStatus {
 
-    PENDING, COMPLETED, CANCELED, REVERSED;
+    PENDING, COMPLETED, CANCELED, REVERSED
   }
 
   static class CoinbaseTransferDeserializer extends JsonDeserializer<CoinbaseTransfer> {
@@ -155,7 +156,7 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
 
       final JsonNode successNode = node.path("success");
       boolean success = true;
-      final List<String> errors = new ArrayList<String>();
+      final List<String> errors = new ArrayList<>();
       if (successNode.isBoolean()) {
         success = successNode.asBoolean();
         final JsonNode errorsNode = node.path("errors");

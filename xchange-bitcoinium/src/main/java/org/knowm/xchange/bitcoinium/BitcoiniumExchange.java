@@ -3,7 +3,7 @@ package org.knowm.xchange.bitcoinium;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
+import org.knowm.xchange.bitcoinium.service.BitcoiniumMarketDataService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -11,7 +11,7 @@ public class BitcoiniumExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BitcoiniumMarketDataService(this);
+    this.marketDataService = new BitcoiniumMarketDataService(this);
   }
 
   @Override

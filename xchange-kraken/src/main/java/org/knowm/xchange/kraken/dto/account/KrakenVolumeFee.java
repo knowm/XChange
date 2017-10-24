@@ -15,7 +15,7 @@ public class KrakenVolumeFee {
 
   /**
    * Constructor
-   * 
+   *
    * @param fee
    * @param minFee
    * @param maxFee

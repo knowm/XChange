@@ -3,9 +3,9 @@ package org.knowm.xchange.itbit.v1;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.itbit.v1.service.polling.ItBitAccountService;
-import org.knowm.xchange.itbit.v1.service.polling.ItBitMarketDataService;
-import org.knowm.xchange.itbit.v1.service.polling.ItBitTradeService;
+import org.knowm.xchange.itbit.v1.service.ItBitAccountService;
+import org.knowm.xchange.itbit.v1.service.ItBitMarketDataService;
+import org.knowm.xchange.itbit.v1.service.ItBitTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -16,9 +16,9 @@ public class ItBitExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new ItBitMarketDataService(this);
-    this.pollingAccountService = new ItBitAccountService(this);
-    this.pollingTradeService = new ItBitTradeService(this);
+    this.marketDataService = new ItBitMarketDataService(this);
+    this.accountService = new ItBitAccountService(this);
+    this.tradeService = new ItBitTradeService(this);
   }
 
   @Override

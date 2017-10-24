@@ -8,11 +8,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * @author ObsessiveOrange Demonstrate requesting Order Book at BTC China
@@ -22,8 +22,8 @@ public class BTCChinaDepthDemo {
   // Use the factory to get the BTCChina exchange API using default settings
   static Exchange btcchina = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
 
-  // Interested in the public polling market data feed (no authentication)
-  static PollingMarketDataService marketDataService = btcchina.getPollingMarketDataService();
+  // Interested in the public market data feed (no authentication)
+  static MarketDataService marketDataService = btcchina.getMarketDataService();
 
   public static void main(String[] args) throws IOException {
 

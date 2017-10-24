@@ -13,9 +13,9 @@ public class BitfinexOfferStatusRequest {
 
   @JsonProperty("order_id")
   @JsonRawValue
-  private int orderId;
+  private long orderId;
 
-  public BitfinexOfferStatusRequest(String nonce, int orderId) {
+  public BitfinexOfferStatusRequest(String nonce, long orderId) {
 
     this.request = "/v1/offer/status";
     this.orderId = orderId;

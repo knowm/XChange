@@ -14,7 +14,7 @@ public class KrakenDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

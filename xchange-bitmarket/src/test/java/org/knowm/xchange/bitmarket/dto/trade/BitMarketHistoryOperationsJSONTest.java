@@ -1,12 +1,11 @@
 package org.knowm.xchange.bitmarket.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
 import org.knowm.xchange.bitmarket.dto.BitMarketDtoTestSupport;
 
 /**

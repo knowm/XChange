@@ -16,7 +16,7 @@ public abstract class Assert {
    * <p>
    * Asserts that a condition is true
    * </p>
-   * 
+   *
    * @param condition The condition under test
    * @param message The message for any exception
    */
@@ -31,7 +31,7 @@ public abstract class Assert {
    * <p>
    * Asserts that an object is not null
    * </p>
-   * 
+   *
    * @param object The object under test
    * @param message The message for any exception
    */
@@ -44,7 +44,7 @@ public abstract class Assert {
 
   /**
    * Asserts that a String is not null and of a certain length
-   * 
+   *
    * @param input The input under test
    * @param message The message for any exception
    */
@@ -58,7 +58,7 @@ public abstract class Assert {
 
   /**
    * Asserts that a Collection is not null and of a certain size
-   * 
+   *
    * @param input The input under test
    * @param message The message for any exception
    */

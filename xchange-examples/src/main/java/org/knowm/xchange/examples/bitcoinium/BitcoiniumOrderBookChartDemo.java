@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
-import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.XYSeries;
-import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
-import org.knowm.xchart.style.markers.SeriesMarkers;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinium.BitcoiniumExchange;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook.CondensedOrder;
-import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
+import org.knowm.xchange.bitcoinium.service.BitcoiniumMarketDataServiceRaw;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
@@ -34,8 +33,8 @@ public class BitcoiniumOrderBookChartDemo {
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    // Interested in the public polling market data feed (no authentication)
-    BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
 
     System.out.println("fetching data...");
 
@@ -79,7 +78,7 @@ public class BitcoiniumOrderBookChartDemo {
 
   private static List<Float> getPriceData(CondensedOrder[] condensedOrders) {
 
-    List<Float> priceData = new ArrayList<Float>();
+    List<Float> priceData = new ArrayList<>();
     for (int i = 0; i < condensedOrders.length; i++) {
       priceData.add(condensedOrders[i].getPrice().floatValue());
     }
@@ -88,7 +87,7 @@ public class BitcoiniumOrderBookChartDemo {
 
   private static List<Float> getVolumeData(CondensedOrder[] condensedOrders) {
 
-    List<Float> volumeData = new ArrayList<Float>();
+    List<Float> volumeData = new ArrayList<>();
     for (int i = 0; i < condensedOrders.length; i++) {
       volumeData.add(condensedOrders[i].getVolume().floatValue());
     }

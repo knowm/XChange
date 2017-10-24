@@ -11,7 +11,7 @@ public class BTCChinaIcebergOrderRequest extends BTCChinaRequest {
    * Construct a buy/sell iceberg order request.
    *
    * @param price The price in quote currency to buy 1 base currency. Max 2 decimals for BTC/CNY and LTC/CNY markets. 4 decimals for LTC/BTC market.
-   *        Market iceberg order is executed by setting price to 'null'.
+   * Market iceberg order is executed by setting price to 'null'.
    * @param amount The total amount of LTC/BTC to buy. Supports 4 decimal places for BTC and 3 decimal places for LTC.
    * @param disclosedAmount The disclosed amount of LTC/BTC to buy. Supports 4 decimal places for BTC and 3 decimal places for LTC.
    * @param variance Default to 0. Must be less than 1. When given, used as variance to the disclosed amount when the order is created.

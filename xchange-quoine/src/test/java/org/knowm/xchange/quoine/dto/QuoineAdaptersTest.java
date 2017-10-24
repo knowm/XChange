@@ -1,6 +1,6 @@
 package org.knowm.xchange.quoine.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Wallet;
@@ -25,6 +23,8 @@ import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineTickerJSONTest;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersListJSONTest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class QuoineAdaptersTest {
 

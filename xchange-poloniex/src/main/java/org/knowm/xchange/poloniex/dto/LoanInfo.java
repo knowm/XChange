@@ -1,8 +1,8 @@
 package org.knowm.xchange.poloniex.dto;
 
-import org.knowm.xchange.dto.LoanOrder;
-
 import java.util.List;
+
+import org.knowm.xchange.dto.LoanOrder;
 
 /**
  * <p>
@@ -20,7 +20,6 @@ public final class LoanInfo {
    * Used loans
    */
   private final List<LoanOrder> usedLoans;
-
 
   /**
    * Constructs an {@link LoanInfo}.

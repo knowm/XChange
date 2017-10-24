@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
-import org.knowm.xchange.cexio.service.polling.CexIOTradeServiceRaw;
+import org.knowm.xchange.cexio.service.CexIOTradeServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -16,7 +16,7 @@ import org.knowm.xchange.examples.cexio.CexIODemoUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Author: brox Since: 2/6/14
@@ -27,15 +27,15 @@ public class TradeDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange exchange = CexIODemoUtils.createExchange();
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
     generic(tradeService);
     raw((CexIOTradeServiceRaw) tradeService);
 
   }
 
-  private static void generic(PollingTradeService tradeService)
-      throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  private static void generic(
+      TradeService tradeService) throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     printOpenOrders(tradeService);
 
@@ -65,7 +65,7 @@ public class TradeDemo {
     System.out.println(openOrders);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+  private static void printOpenOrders(TradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders.toString());

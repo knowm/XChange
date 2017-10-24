@@ -2,9 +2,6 @@ package org.knowm.xchange.btcchina.service.fix;
 
 import java.math.BigDecimal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.btcchina.BTCChinaAdapters;
 import org.knowm.xchange.btcchina.service.fix.fix44.AccountInfoRequest;
 import org.knowm.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
@@ -12,6 +9,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import quickfix.Application;
 import quickfix.DoNotSend;

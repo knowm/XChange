@@ -1,9 +1,8 @@
 {
-   "error":[
-
-   ],
-   "result":{
-      "unixtime":1391835876,
-      "rfc1123":"Sat,  8 Feb 14 05:04:36 +0000"
-   }
+  "error": [
+  ],
+  "result": {
+    "unixtime": 1391835876,
+    "rfc1123": "Sat,  8 Feb 14 05:04:36 +0000"
+  }
 }

@@ -1,13 +1,12 @@
 {
-   "error":[
-
-   ],
-   "result":{
-      "descr":{
-         "order":"sell 0.01000000 XBTLTC @ limit 45.25000"
-      },
-      "txid":[
-         "OWQJ5O-ZWYC7-5R7POQ"
-      ]
-   }
+  "error": [
+  ],
+  "result": {
+    "descr": {
+      "order": "sell 0.01000000 XBTLTC @ limit 45.25000"
+    },
+    "txid": [
+      "OWQJ5O-ZWYC7-5R7POQ"
+    ]
+  }
 }

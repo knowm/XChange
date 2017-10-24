@@ -1,8 +1,16 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.junit.Test;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWalletJSONTest;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
@@ -11,27 +19,22 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitfinexAdaptersTest {
 
   private final static String MARKET = "bitfinex";
-  private final static String EXCHANGE = "exchange";
   private final static String SYMBOL = "BTCUSD";
 
   @Test
-  public void shouldAdaptBalances() throws IOException{
+  public void shouldAdaptBalances() throws IOException {
     // Read in the JSON from the example resources
     InputStream is = BitfinexWalletJSONTest.class.getResourceAsStream("/v1/account/example-account-info-balance.json");
 
@@ -55,14 +58,14 @@ public class BitfinexAdaptersTest {
     BitfinexAdapters.OrdersContainer container = BitfinexAdapters.adaptOrders(levels, CurrencyPair.BTC_USD, OrderType.BID);
 
     BitfinexLevel lastLevel = levels[levels.length - 1];
-    assertEquals(lastLevel.getTimestamp().multiply(new BigDecimal(1000l)).longValue(), container.getTimestamp());
+    assertEquals(lastLevel.getTimestamp().multiply(new BigDecimal(1000L)).longValue(), container.getTimestamp());
     assertEquals(container.getLimitOrders().size(), levels.length);
 
     for (int i = 0; i < levels.length; i++) {
       LimitOrder order = container.getLimitOrders().get(i);
-      long expectedTimestampMillis = levels[i].getTimestamp().multiply(new BigDecimal(1000l)).longValue();
+      long expectedTimestampMillis = levels[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
 
-      assertEquals(levels[i].getAmount(), order.getTradableAmount());
+      assertEquals(levels[i].getAmount(), order.getOriginalAmount());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
       assertEquals(levels[i].getPrice(), order.getLimitPrice());
     }
@@ -79,9 +82,9 @@ public class BitfinexAdaptersTest {
     BitfinexLevel[] responses = new BitfinexLevel[60];
 
     for (int i = 0; i < responses.length; i++) {
-      BigDecimal price = new BigDecimal(350l + i);
+      BigDecimal price = new BigDecimal(350L + i);
       BigDecimal timestamp = new BigDecimal("1414669893.823615468").add(new BigDecimal(i * (1 + 60 + 60 * 60 + 60 * 60 * 24)));
-      BigDecimal amount = new BigDecimal(1l + i);
+      BigDecimal amount = new BigDecimal(1L + i);
       responses[i] = new BitfinexLevel(price, amount, timestamp);
     }
 
@@ -97,11 +100,11 @@ public class BitfinexAdaptersTest {
 
     for (int i = 0; i < responses.length; i++) {
       LimitOrder order = orders.getOpenOrders().get(i);
-      long expectedTimestampMillis = responses[i].getTimestamp().multiply(new BigDecimal(1000l)).longValue();
+      long expectedTimestampMillis = responses[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
       Order.OrderType expectedOrderType = responses[i].getSide().equalsIgnoreCase("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
 
       assertEquals(String.valueOf(responses[i].getId()), order.getId());
-      assertEquals(responses[i].getRemainingAmount(), order.getTradableAmount());
+      assertEquals(responses[i].getOriginalAmount(), order.getOriginalAmount());
       assertEquals(BitfinexAdapters.adaptCurrencyPair(SYMBOL), order.getCurrencyPair());
       assertEquals(expectedOrderType, order.getType());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
@@ -120,7 +123,7 @@ public class BitfinexAdaptersTest {
     BitfinexOrderStatusResponse[] responses = new BitfinexOrderStatusResponse[60];
 
     for (int i = 0; i < responses.length; i++) {
-      BigDecimal price = new BigDecimal(350l + i);
+      BigDecimal price = new BigDecimal(350L + i);
       BigDecimal avgExecutionPrice = price.add(new BigDecimal(0.25 * i));
       String side = i % 2 == 0 ? "buy" : "sell";
       String type = "limit";
@@ -131,7 +134,7 @@ public class BitfinexAdaptersTest {
       BigDecimal originalAmount = new BigDecimal("70");
       BigDecimal remainingAmount = originalAmount.subtract(new BigDecimal(i * 1));
       BigDecimal executedAmount = originalAmount.subtract(remainingAmount);
-      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, EXCHANGE, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
+      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
           wasForced, originalAmount, remainingAmount, executedAmount);
     }
 
@@ -147,11 +150,11 @@ public class BitfinexAdaptersTest {
 
     for (int i = 0; i < responses.length; i++) {
       Trade trade = trades.getTrades().get(i);
-      long expectedTimestampMillis = responses[i].getTimestamp().multiply(new BigDecimal(1000l)).longValue();
+      long expectedTimestampMillis = responses[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
       Order.OrderType expectedOrderType = responses[i].getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
       assertEquals(responses[i].getPrice(), trade.getPrice());
-      assertEquals(responses[i].getAmount(), trade.getTradableAmount());
+      assertEquals(responses[i].getAmount(), trade.getOriginalAmount());
       assertEquals(BitfinexAdapters.adaptCurrencyPair(SYMBOL), trade.getCurrencyPair());
       assertEquals(expectedTimestampMillis, trade.getTimestamp().getTime());
       assertEquals(expectedOrderType, trade.getType());
@@ -172,17 +175,46 @@ public class BitfinexAdaptersTest {
     int orderId = 1000;
 
     for (int i = 0; i < responses.length; i++) {
-      BigDecimal price = new BigDecimal(350l + i);
-      BigDecimal amount = new BigDecimal(1l + i);
+      BigDecimal price = new BigDecimal(350L + i);
+      BigDecimal amount = new BigDecimal(1L + i);
       BigDecimal timestamp = new BigDecimal("1414658239.41373654").add(new BigDecimal(i * (1 + 60 + 60 * 60 + 60 * 60 * 24)));
       String type = i % 2 == 0 ? "buy" : "sell";
       String tradeIdString = String.valueOf(tradeId++);
       String orderIdString = String.valueOf(orderId++);
-      BigDecimal feeAmount = new BigDecimal(0l);
+      BigDecimal feeAmount = new BigDecimal(0L);
       String feeCurrency = "USD";
       responses[i] = new BitfinexTradeResponse(price, amount, timestamp, MARKET, type, tradeIdString, orderIdString, feeAmount, feeCurrency);
     }
 
     return responses;
+  }
+
+  @Test
+  public void testAdaptFundingHistory() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is = BitfinexAdaptersTest.class.getResourceAsStream("/v1/account/example-deposit-withdrawal-info-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitfinexDepositWithdrawalHistoryResponse[] response = mapper.readValue(is, BitfinexDepositWithdrawalHistoryResponse[].class);
+
+    List<FundingRecord> fundingRecords = BitfinexAdapters.adaptFundingHistory(response);
+
+    for (FundingRecord record : fundingRecords) {
+      if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())) {
+        assertThat(record.getStatus()).isEqualTo(FundingRecord.Status.PROCESSING);
+        assertEquals(new BigDecimal("0.01"), record.getAmount());
+        assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());
+        assertEquals(null, record.getExternalId());
+        assertEquals(Currency.BTC, record.getCurrency());
+      } else {
+        assertThat(record.getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
+        assertEquals(new BigDecimal("0.07"), record.getAmount());
+        assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ", record.getAddress());
+        assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer", record.getDescription());
+        assertEquals("offchain transfer", record.getExternalId());
+        assertEquals(Currency.BTC, record.getCurrency());
+      }
+    }
   }
 }

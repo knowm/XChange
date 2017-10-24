@@ -1,22 +1,28 @@
 {
-	"result": {
-		"market_depth": {
-			"bid": [{
-				"price": 99,
-				"amount": 1
-			}, {
-				"price": 98,
-				"amount": 2
-			}],
-			"ask": [{
-				"price": 100,
-				"amount": 0.997
-			}, {
-				"price": 101,
-				"amount": 2
-			}],
-			"date": 1407060232
-		}
-	},
-	"id": "1"
+  "result": {
+    "market_depth": {
+      "bid": [
+        {
+          "price": 99,
+          "amount": 1
+        },
+        {
+          "price": 98,
+          "amount": 2
+        }
+      ],
+      "ask": [
+        {
+          "price": 100,
+          "amount": 0.997
+        },
+        {
+          "price": 101,
+          "amount": 2
+        }
+      ],
+      "date": 1407060232
+    }
+  },
+  "id": "1"
 }

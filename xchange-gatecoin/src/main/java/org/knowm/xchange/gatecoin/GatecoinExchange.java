@@ -3,11 +3,9 @@ package org.knowm.xchange.gatecoin;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinAccountService;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinMarketDataService;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinTradeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
+import org.knowm.xchange.gatecoin.service.GatecoinAccountService;
+import org.knowm.xchange.gatecoin.service.GatecoinMarketDataService;
+import org.knowm.xchange.gatecoin.service.GatecoinTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -28,26 +26,20 @@ public class GatecoinExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
 
-    this.pollingMarketDataService = new GatecoinMarketDataService(this);
-    this.pollingTradeService = new GatecoinTradeService(this);
-    this.pollingAccountService = new GatecoinAccountService(this);
+    this.marketDataService = new GatecoinMarketDataService(this);
+    this.tradeService = new GatecoinTradeService(this);
+    this.accountService = new GatecoinAccountService(this);
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://www.gatecoin.com");
-    exchangeSpecification.setHost("www.gatecoin.com");
+    exchangeSpecification.setSslUri("https://api.gatecoin.com");
+    exchangeSpecification.setHost("api.gatecoin.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Gatecoin");
     return exchangeSpecification;
-  }
-
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    throw new IllegalArgumentException("Gatecoin only supports GatecoinStreamingConfiguration");
   }
 
   @Override

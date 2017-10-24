@@ -1,6 +1,6 @@
 package org.knowm.xchange.bter;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,10 +13,6 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bter.dto.account.BTERFunds;
 import org.knowm.xchange.bter.dto.marketdata.BTERCurrencyPairs;
 import org.knowm.xchange.bter.dto.marketdata.BTERDepth;
@@ -34,6 +30,10 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTERAdapterTest {
 
@@ -69,7 +69,7 @@ public class BTERAdapterTest {
 
     LimitOrder adaptedOrder = adaptedOrderList.get(0);
     assertThat(adaptedOrder.getType()).isEqualTo(OrderType.ASK);
-    assertThat(adaptedOrder.getTradableAmount()).isEqualTo("0.384");
+    assertThat(adaptedOrder.getOriginalAmount()).isEqualTo("0.384");
     assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);
     assertThat(adaptedOrder.getId()).isEqualTo("12941907");
     assertThat(adaptedOrder.getTimestamp()).isNull();
@@ -93,7 +93,7 @@ public class BTERAdapterTest {
 
     Trade trade = tradeList.get(0);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
-    assertThat(trade.getTradableAmount()).isEqualTo("0.0129");
+    assertThat(trade.getOriginalAmount()).isEqualTo("0.0129");
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_CNY);
     assertThat(trade.getPrice()).isEqualTo("3942");
     assertThat(trade.getTimestamp()).isEqualTo(new Date(1393908191000L));
@@ -159,7 +159,7 @@ public class BTERAdapterTest {
 
     LimitOrder ask = asks.get(0);
     assertThat(ask.getLimitPrice()).isEqualTo("0.1785");
-    assertThat(ask.getTradableAmount()).isEqualTo("1324.111");
+    assertThat(ask.getOriginalAmount()).isEqualTo("1324.111");
     assertThat(ask.getType()).isEqualTo(OrderType.ASK);
     assertThat(ask.getTimestamp()).isNull();
     assertThat(ask.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);

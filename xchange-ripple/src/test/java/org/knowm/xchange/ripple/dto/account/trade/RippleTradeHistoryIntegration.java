@@ -1,12 +1,11 @@
 package org.knowm.xchange.ripple.dto.account.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -14,8 +13,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.trade.RippleUserTrade;
-import org.knowm.xchange.ripple.service.polling.params.RippleTradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.ripple.service.params.RippleTradeHistoryParams;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class RippleTradeHistoryIntegration {
 
@@ -25,7 +24,7 @@ public class RippleTradeHistoryIntegration {
   @Test
   public void getTradeHistoryTest() throws Exception {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
-    final PollingTradeService tradeService = exchange.getPollingTradeService();
+    final TradeService tradeService = exchange.getTradeService();
 
     final RippleTradeHistoryParams params = (RippleTradeHistoryParams) tradeService.createTradeHistoryParams();
     params.setPageLength(25);

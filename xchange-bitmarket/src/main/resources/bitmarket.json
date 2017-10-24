@@ -1,17 +1,34 @@
 {
   "currency_pairs": {
     "BTC/PLN": {
-      "price_scale": 8
+      "price_scale": 8,
+      "min_amount": 0.00000001
     },
     "BTC/EUR": {
-      "price_scale": 8
+      "price_scale": 4,
+      "min_amount": 0.01000000
     },
     "LTC/PLN": {
-      "price_scale": 8
+      "price_scale": 8,
+      "min_amount": 0.00000001
     },
     "LTC/BTC": {
-      "price_scale": 8
+      "price_scale": 5,
+      "min_amount": 0.00100000
     }
   },
-  "currencies": {}
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "EUR": {
+      "scale": 4
+    },
+    "PLN": {
+      "scale": 2
+    }
+  }
 }

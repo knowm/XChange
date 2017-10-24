@@ -23,8 +23,9 @@
  */
 package org.knowm.xchange.coinmate.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Martin Stachon
@@ -32,7 +33,7 @@ import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 public class CoinmateCancelOrderWithInfoResponse extends CoinmateBaseResponse<CoinmateCancelOrderWithInfoResponseData> {
 
   public CoinmateCancelOrderWithInfoResponse(@JsonProperty("error") boolean error, @JsonProperty("errorMessage") String errorMessage,
-          @JsonProperty("data") CoinmateCancelOrderWithInfoResponseData data) {
+      @JsonProperty("data") CoinmateCancelOrderWithInfoResponseData data) {
 
     super(error, errorMessage, data);
   }

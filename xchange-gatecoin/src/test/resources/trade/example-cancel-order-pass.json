@@ -1,7 +1,7 @@
-       {
-                                        "responseStatus": {
-                                            "message": "OK"
-                                        }
-                                    }
+{
+  "responseStatus": {
+    "message": "OK"
+  }
+}
       
  

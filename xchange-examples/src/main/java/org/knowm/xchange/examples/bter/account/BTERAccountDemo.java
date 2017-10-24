@@ -4,29 +4,29 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bter.dto.account.BTERFunds;
-import org.knowm.xchange.bter.service.polling.BTERPollingAccountServiceRaw;
+import org.knowm.xchange.bter.service.BTERAccountServiceRaw;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.bter.BTERDemoUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 public class BTERAccountDemo {
 
   public static void main(String[] args) throws IOException {
 
     Exchange exchange = BTERDemoUtils.createExchange();
-    PollingAccountService accountService = exchange.getPollingAccountService();
+    AccountService accountService = exchange.getAccountService();
 
     generic(accountService);
-    raw((BTERPollingAccountServiceRaw) accountService);
+    raw((BTERAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println(accountInfo);
   }
 
-  private static void raw(BTERPollingAccountServiceRaw accountService) throws IOException {
+  private static void raw(BTERAccountServiceRaw accountService) throws IOException {
 
     BTERFunds accountFunds = accountService.getBTERAccountInfo();
     System.out.println(accountFunds);

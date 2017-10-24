@@ -20,28 +20,27 @@ public interface Bleutrade {
 
   @GET
   @Path("public/getcurrencies")
-  public BleutradeCurrenciesReturn getBleutradeCurrencies() throws IOException;
+  BleutradeCurrenciesReturn getBleutradeCurrencies() throws IOException;
 
   @GET
   @Path("public/getmarkets")
-  public BleutradeMarketsReturn getBleutradeMarkets() throws IOException;
+  BleutradeMarketsReturn getBleutradeMarkets() throws IOException;
 
   @GET
   @Path("public/getmarketsummary")
-  public BleutradeTickerReturn getBleutradeTicker(@QueryParam("market") String market) throws IOException;
+  BleutradeTickerReturn getBleutradeTicker(@QueryParam("market") String market) throws IOException;
 
   @GET
   @Path("public/getmarketsummaries")
-  public BleutradeTickerReturn getBleutradeTickers() throws IOException;
+  BleutradeTickerReturn getBleutradeTickers() throws IOException;
 
   @GET
   @Path("public/getorderbook")
-  public BleutradeOrderBookReturn getBleutradeOrderBook(@QueryParam("market") String market, @QueryParam("type") String type,
+  BleutradeOrderBookReturn getBleutradeOrderBook(@QueryParam("market") String market, @QueryParam("type") String type,
       @QueryParam("depth") int depth) throws IOException;
 
   @GET
   @Path("public/getmarkethistory")
-  public BleutradeMarketHistoryReturn getBleutradeMarketHistory(@QueryParam("market") String market, @QueryParam("count") int count)
-      throws IOException;
+  BleutradeMarketHistoryReturn getBleutradeMarketHistory(@QueryParam("market") String market, @QueryParam("count") int count) throws IOException;
 
 }

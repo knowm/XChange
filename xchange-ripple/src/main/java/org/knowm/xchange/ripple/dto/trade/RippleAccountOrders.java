@@ -2,8 +2,9 @@ package org.knowm.xchange.ripple.dto.trade;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.ripple.dto.RippleCommon;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RippleAccountOrders extends RippleCommon {
   @JsonProperty("orders")

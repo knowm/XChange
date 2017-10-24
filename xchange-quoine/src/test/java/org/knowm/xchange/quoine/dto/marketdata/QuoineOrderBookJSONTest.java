@@ -1,6 +1,6 @@
 package org.knowm.xchange.quoine.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,9 +27,9 @@ public class QuoineOrderBookJSONTest {
 
     // Verify that the example data was unmarshalled correctly
 
-    assertThat(quoineOrderBook.getBuyPriceLevels().get(0).get(0)).isEqualTo(new BigDecimal("226.69718")); // first bid price
-    assertThat(quoineOrderBook.getBuyPriceLevels().get(0).get(1)).isEqualTo(new BigDecimal("0.02000")); // first bid amount
-    assertThat(quoineOrderBook.getSellPriceLevels().get(0).get(0)).isEqualTo(new BigDecimal("226.95718")); // first ask price
-    assertThat(quoineOrderBook.getSellPriceLevels().get(0).get(1)).isEqualTo(new BigDecimal("0.02000")); // first ask amount
+    assertThat(quoineOrderBook.getBuyPriceLevels().get(0)[0]).isEqualTo(new BigDecimal("226.69718")); // first bid price
+    assertThat(quoineOrderBook.getBuyPriceLevels().get(0)[1]).isEqualTo(new BigDecimal("0.02000")); // first bid amount
+    assertThat(quoineOrderBook.getSellPriceLevels().get(0)[0]).isEqualTo(new BigDecimal("226.95718")); // first ask price
+    assertThat(quoineOrderBook.getSellPriceLevels().get(0)[1]).isEqualTo(new BigDecimal("0.02000")); // first ask amount
   }
 }

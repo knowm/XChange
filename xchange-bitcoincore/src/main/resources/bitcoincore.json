@@ -1,0 +1,7 @@
+{
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    }
+  }
+}

@@ -1,6 +1,6 @@
 package org.knowm.xchange.taurus.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,9 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import org.junit.Test;
+import org.knowm.xchange.dto.Order;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.dto.Order;
 
 /**
  * Test Transaction[] JSON parsing

@@ -2,16 +2,17 @@ package org.knowm.xchange.coinbase.dto.account;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
 import org.knowm.xchange.coinbase.dto.auth.CoinbaseOAuth;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseMerchant;
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author jamespedwards42

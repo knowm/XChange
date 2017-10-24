@@ -1,18 +1,17 @@
 package org.knowm.xchange.btce.v3;
 
-import java.io.InputStream;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import org.knowm.xchange.btce.v3.dto.meta.BTCEMetaData;
-import org.knowm.xchange.btce.v3.service.polling.BTCEAccountService;
-import org.knowm.xchange.btce.v3.service.polling.BTCEMarketDataService;
-import org.knowm.xchange.btce.v3.service.polling.BTCETradeService;
+import org.knowm.xchange.btce.v3.service.BTCEAccountService;
+import org.knowm.xchange.btce.v3.service.BTCEMarketDataService;
+import org.knowm.xchange.btce.v3.service.BTCETradeService;
 import org.knowm.xchange.utils.nonce.TimestampIncrementingNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.InputStream;
 
 public class BTCEExchange extends BaseExchange implements Exchange {
 
@@ -23,17 +22,17 @@ public class BTCEExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
 
-    this.pollingMarketDataService = new BTCEMarketDataService(this);
-    this.pollingAccountService = new BTCEAccountService(this);
-    this.pollingTradeService = new BTCETradeService(this);
+    this.marketDataService = new BTCEMarketDataService(this);
+    this.accountService = new BTCEAccountService(this);
+    this.tradeService = new BTCETradeService(this);
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://btc-e.com");
-    exchangeSpecification.setHost("btc-e.com");
+    exchangeSpecification.setSslUri("https://wex.nz");
+    exchangeSpecification.setHost("btc-e.nz");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTC-e");
     exchangeSpecification.setExchangeDescription("BTC-e is a Bitcoin exchange registered in Russia.");
@@ -56,7 +55,7 @@ public class BTCEExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() {
     try {
-      BTCEMarketDataService marketDataService = (BTCEMarketDataService) pollingMarketDataService;
+      BTCEMarketDataService marketDataService = (BTCEMarketDataService) this.marketDataService;
       btceExchangeInfo = marketDataService.getBTCEInfo();
       exchangeMetaData = BTCEAdapters.toMetaData(btceExchangeInfo, btceMetaData);
     } catch (Exception e) {

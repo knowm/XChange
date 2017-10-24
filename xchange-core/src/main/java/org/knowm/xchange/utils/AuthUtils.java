@@ -4,7 +4,7 @@ public class AuthUtils {
 
   /**
    * Generates a BASE64 Basic Authentication String
-   * 
+   *
    * @param user
    * @param pass
    * @return BASE64 Basic Authentication String

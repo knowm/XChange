@@ -2,8 +2,9 @@ package org.knowm.xchange.btce.v3.dto.trade;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btce.v3.dto.BTCEReturn;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Return value from TradeHistory, including overal status and map of transaction ids to TransHistoryResult.

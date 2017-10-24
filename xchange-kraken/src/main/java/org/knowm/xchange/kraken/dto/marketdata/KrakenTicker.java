@@ -22,7 +22,7 @@ public class KrakenTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param ask
    * @param bid
    * @param close

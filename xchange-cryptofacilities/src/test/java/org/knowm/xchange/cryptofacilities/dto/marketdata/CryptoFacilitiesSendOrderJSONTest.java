@@ -1,6 +1,6 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,9 +29,9 @@ public class CryptoFacilitiesSendOrderJSONTest {
     assertThat(cryptoFacilitiesOrder.isSuccess()).isTrue();
     assertThat(cryptoFacilitiesOrder.getStatus()).isEqualTo("placed");
     assertThat(cryptoFacilitiesOrder.getOrderId()).isEqualTo("c18f0c17-9971-40e6-8e5b-10df05d422f0");
-    
-//    assertThat(cryptoFacilitiesOrder.isSuccess()).isFalse();
-//    assertThat(cryptoFacilitiesOrder.getError().equalsIgnoreCase("apiLimitExceeded")).isTrue();
+
+    //    assertThat(cryptoFacilitiesOrder.isSuccess()).isFalse();
+    //    assertThat(cryptoFacilitiesOrder.getError().equalsIgnoreCase("apiLimitExceeded")).isTrue();
   }
 
 }

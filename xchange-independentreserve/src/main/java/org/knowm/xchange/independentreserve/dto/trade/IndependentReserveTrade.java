@@ -3,6 +3,8 @@ package org.knowm.xchange.independentreserve.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.xml.bind.DatatypeConverter;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -10,25 +12,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class IndependentReserveTrade {
   private final String tradeGuid;
-  private final Date tradeTimestampUtc;
+  private final Date tradeTimestamp;
   private final String orderGuid;
   private final String orderType;
-  private final Date orderTimestampUtc;
+  private final Date orderTimestamp;
   private final BigDecimal volumeTraded;
   private final BigDecimal price;
   private final String primaryCurrencyCode;
   private final String secondaryCurrencyCode;
 
   public IndependentReserveTrade(@JsonProperty("OrderGuid") String orderGuid, @JsonProperty("TradeGuid") String tradeGuid,
-      @JsonProperty("TradeTimestampUtc") Date tradeTimestampUtc, @JsonProperty("OrderType") String orderType,
-      @JsonProperty("OrderTimestampUtc") Date orderTimestampUtc, @JsonProperty("VolumeTraded") BigDecimal volumeTraded,
+      @JsonProperty("TradeTimestampUtc") String tradeTimestampUtc, @JsonProperty("OrderType") String orderType,
+      @JsonProperty("OrderTimestampUtc") String orderTimestampUtc, @JsonProperty("VolumeTraded") BigDecimal volumeTraded,
       @JsonProperty("Price") BigDecimal price, @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
       @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode) {
     this.orderGuid = orderGuid;
     this.tradeGuid = tradeGuid;
-    this.tradeTimestampUtc = tradeTimestampUtc;
+    this.tradeTimestamp = DatatypeConverter.parseDateTime(tradeTimestampUtc).getTime();
     this.orderType = orderType;
-    this.orderTimestampUtc = orderTimestampUtc;
+    this.orderTimestamp = DatatypeConverter.parseDateTime(orderTimestampUtc).getTime();
     this.volumeTraded = volumeTraded;
     this.price = price;
     this.primaryCurrencyCode = primaryCurrencyCode;
@@ -40,7 +42,7 @@ public class IndependentReserveTrade {
   }
 
   public Date getOrderTimestampUtc() {
-    return orderTimestampUtc;
+    return orderTimestamp;
   }
 
   public String getOrderType() {
@@ -63,8 +65,8 @@ public class IndependentReserveTrade {
     return tradeGuid;
   }
 
-  public Date getTradeTimestampUtc() {
-    return tradeTimestampUtc;
+  public Date getTradeTimestamp() {
+    return tradeTimestamp;
   }
 
   public BigDecimal getVolumeTraded() {

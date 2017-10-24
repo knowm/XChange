@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public class GHashIOWorkers {
 
-  private final Map<String, GHashIOWorker> workers = new HashMap<String, GHashIOWorker>();
+  private final Map<String, GHashIOWorker> workers = new HashMap<>();
 
   public Map<String, GHashIOWorker> getWorkers() {
 

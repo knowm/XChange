@@ -24,7 +24,7 @@ public final class Txs {
 
   /**
    * Constructor
-   * 
+   *
    * @param block_height
    * @param hash
    * @param inputs

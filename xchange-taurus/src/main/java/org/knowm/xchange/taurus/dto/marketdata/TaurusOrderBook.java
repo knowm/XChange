@@ -4,9 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.knowm.xchange.utils.jackson.UnixTimestampDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.utils.jackson.UnixTimestampDeserializer;
 
 /**
  * @author Matija Mazi
@@ -25,12 +26,16 @@ public class TaurusOrderBook {
     this.timestamp = timestamp;
   }
 
-  /** (price, amount) */
+  /**
+   * (price, amount)
+   */
   public List<List<BigDecimal>> getBids() {
     return bids;
   }
 
-  /** (price, amount) */
+  /**
+   * (price, amount)
+   */
   public List<List<BigDecimal>> getAsks() {
     return asks;
   }

@@ -10,28 +10,28 @@ import org.knowm.xchange.bter.dto.trade.BTEROpenOrder;
 import org.knowm.xchange.bter.dto.trade.BTEROpenOrders;
 import org.knowm.xchange.bter.dto.trade.BTEROrderStatus;
 import org.knowm.xchange.bter.dto.trade.BTERTrade;
-import org.knowm.xchange.bter.service.polling.BTERPollingTradeServiceRaw;
+import org.knowm.xchange.bter.service.BTERTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.bter.BTERDemoUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
 
 public class BTERTradeDemo {
 
   public static void main(String[] args) throws IOException, InterruptedException {
 
     Exchange exchange = BTERDemoUtils.createExchange();
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
     generic(tradeService);
-    raw((BTERPollingTradeServiceRaw) tradeService);
+    raw((BTERTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException, InterruptedException {
+  private static void generic(TradeService tradeService) throws IOException, InterruptedException {
 
     LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal("0.384"), CurrencyPair.LTC_BTC, "", null, new BigDecimal("0.0265"));
     String orderId = tradeService.placeLimitOrder(limitOrder);
@@ -61,7 +61,7 @@ public class BTERTradeDemo {
     System.out.println(tradeHistory);
   }
 
-  private static void raw(BTERPollingTradeServiceRaw tradeService) throws IOException, InterruptedException {
+  private static void raw(BTERTradeServiceRaw tradeService) throws IOException, InterruptedException {
 
     String placedOrderId = tradeService.placeBTERLimitOrder(CurrencyPair.LTC_BTC, BTEROrderType.SELL, new BigDecimal("0.0265"),
         new BigDecimal("0.384"));

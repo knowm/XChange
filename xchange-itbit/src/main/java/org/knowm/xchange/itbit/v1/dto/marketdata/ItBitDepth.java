@@ -12,7 +12,7 @@ public class ItBitDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

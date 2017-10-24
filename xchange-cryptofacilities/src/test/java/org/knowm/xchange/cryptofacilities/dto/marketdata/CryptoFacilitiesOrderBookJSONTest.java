@@ -1,6 +1,6 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +34,7 @@ public class CryptoFacilitiesOrderBookJSONTest {
     assertThat(asks.size()).isEqualTo(28);
     assertThat(asks.get(0).get(0)).isEqualTo(new BigDecimal("644.74"));
     assertThat(asks.get(0).get(1)).isEqualTo(new BigDecimal("8"));
-    
+
     List<List<BigDecimal>> bids = cryptoFacilitiesOrderBook.getBids();
     assertThat(bids.size()).isEqualTo(23);
     assertThat(bids.get(0).get(0)).isEqualTo(new BigDecimal("643.92"));

@@ -3,9 +3,9 @@ package org.knowm.xchange.btctrade;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.btctrade.service.polling.BTCTradeAccountService;
-import org.knowm.xchange.btctrade.service.polling.BTCTradeMarketDataService;
-import org.knowm.xchange.btctrade.service.polling.BTCTradeTradeService;
+import org.knowm.xchange.btctrade.service.BTCTradeAccountService;
+import org.knowm.xchange.btctrade.service.BTCTradeMarketDataService;
+import org.knowm.xchange.btctrade.service.BTCTradeTradeService;
 import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -16,10 +16,10 @@ public class BTCTradeExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BTCTradeMarketDataService(this);
+    this.marketDataService = new BTCTradeMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null) {
-      this.pollingAccountService = new BTCTradeAccountService(this);
-      this.pollingTradeService = new BTCTradeTradeService(this);
+      this.accountService = new BTCTradeAccountService(this);
+      this.tradeService = new BTCTradeTradeService(this);
     }
   }
 

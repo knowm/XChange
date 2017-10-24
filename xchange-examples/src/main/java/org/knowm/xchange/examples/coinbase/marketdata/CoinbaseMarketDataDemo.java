@@ -13,10 +13,10 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
-import org.knowm.xchange.coinbase.service.polling.CoinbaseMarketDataService;
+import org.knowm.xchange.coinbase.service.CoinbaseMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * @author jamespedwards42
@@ -26,13 +26,13 @@ public class CoinbaseMarketDataDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange coinbaseExchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
-    PollingMarketDataService marketDataService = coinbaseExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = coinbaseExchange.getMarketDataService();
 
     generic(marketDataService);
     raw((CoinbaseMarketDataService) marketDataService);
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD, true);
     System.out.println(ticker);

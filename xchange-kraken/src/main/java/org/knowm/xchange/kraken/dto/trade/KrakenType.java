@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.kraken.dto.trade.KrakenType.KrakenTypeDeserializer;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -11,8 +14,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.kraken.dto.trade.KrakenType.KrakenTypeDeserializer;
 
 @JsonDeserialize(using = KrakenTypeDeserializer.class)
 public enum KrakenType {
@@ -35,7 +36,7 @@ public enum KrakenType {
     return type == OrderType.ASK ? KrakenType.SELL : KrakenType.BUY;
   }
 
-  private static final Map<String, KrakenType> fromString = new HashMap<String, KrakenType>();
+  private static final Map<String, KrakenType> fromString = new HashMap<>();
 
   static {
     for (KrakenType type : values())

@@ -1,7 +1,8 @@
 package org.knowm.xchange.bter.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bter.dto.BTERBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTERPlaceOrderReturn extends BTERBaseResponse {
 
@@ -9,10 +10,6 @@ public class BTERPlaceOrderReturn extends BTERBaseResponse {
 
   /**
    * Constructor
-   * 
-   * @param success
-   * @param value
-   * @param error
    */
   private BTERPlaceOrderReturn(@JsonProperty("result") boolean result, @JsonProperty("order_id") String anOrderId,
       @JsonProperty("msg") String message) {

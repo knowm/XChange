@@ -9,12 +9,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
-import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Depth at Mercado Bitcoin
- * 
+ *
  * @author Copied from Bitstamp and adapted by Felipe Micaroni Lalli
  */
 public class DepthDemo {
@@ -24,15 +24,15 @@ public class DepthDemo {
     // Use the factory to get Mercado Bitcoin exchange API using default settings
     Exchange mercadoBitcoin = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = mercadoBitcoin.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = mercadoBitcoin.getMarketDataService();
 
     generic(marketDataService);
     raw((MercadoBitcoinMarketDataServiceRaw) marketDataService);
 
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     // Get the latest order book data for LTC/BRL
     OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));

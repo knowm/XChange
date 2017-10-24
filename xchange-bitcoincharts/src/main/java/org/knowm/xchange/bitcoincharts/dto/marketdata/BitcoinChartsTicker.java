@@ -23,7 +23,7 @@ public final class BitcoinChartsTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param ask
    * @param avg
    * @param bid
@@ -45,12 +45,12 @@ public final class BitcoinChartsTicker {
     this.avg = avg;
     this.bid = bid;
     this.close = close;
-    this.currency = currency;
+    this.currency = currency.toUpperCase();
     this.currencyVolume = currencyVolume;
     this.high = high;
     this.latestTrade = latestTrade;
     this.low = low;
-    this.symbol = symbol;
+    this.symbol = symbol.toUpperCase();
     this.volume = volume;
   }
 

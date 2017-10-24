@@ -12,7 +12,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.retries.IPredicate;
 import org.knowm.xchange.utils.retries.Retries;
 
@@ -26,7 +26,7 @@ public class RetriesDemo {
 
   public static void main(String[] args) throws Exception {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class.getName());
-    PollingMarketDataService service = exchange.getPollingMarketDataService();
+    MarketDataService service = exchange.getMarketDataService();
     CurrencyPair cp = new CurrencyPair("BTC", "MXN");
 
     try {
@@ -41,8 +41,8 @@ public class RetriesDemo {
 
   }
 
-  private static void getMarketDataTooFastWithoutRetries(PollingMarketDataService service, CurrencyPair cp)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  private static void getMarketDataTooFastWithoutRetries(MarketDataService service,
+      CurrencyPair cp) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     System.out.println("Polling for orderbooks too fast without using Retries:");
     for (int i = 0; i < 50; i++) {
@@ -52,7 +52,7 @@ public class RetriesDemo {
     }
   }
 
-  private static void getMarketDataTooFastWithRetries(final PollingMarketDataService service, final CurrencyPair cp) throws Exception {
+  private static void getMarketDataTooFastWithRetries(final MarketDataService service, final CurrencyPair cp) throws Exception {
 
     System.out.println("Polling for orderbooks too fast using Retries:");
     final Callable<OrderBook> orderBookAction = new Callable<OrderBook>() {

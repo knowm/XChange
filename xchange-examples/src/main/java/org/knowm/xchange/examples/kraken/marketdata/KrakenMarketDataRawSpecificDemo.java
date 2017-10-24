@@ -9,7 +9,7 @@ import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssets;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenServerTime;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenSpreads;
-import org.knowm.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
+import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
 
 public class KrakenMarketDataRawSpecificDemo {
 
@@ -18,8 +18,8 @@ public class KrakenMarketDataRawSpecificDemo {
     // Use the factory to get Kraken exchange API using default settings
     Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getMarketDataService();
 
     KrakenServerTime serverTime = krakenMarketDataService.getServerTime();
     System.out.println(serverTime);

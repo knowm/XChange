@@ -1,18 +1,51 @@
 {
-  "success":true,
-  "data":{
-    "BTCPLN":{
-      "buy":[
-        {"id":31393,"market":"BTCPLN","amount":0.20000000,"rate":3000.0000,"fiat":600.00000000,"type":"buy","time":1432661682}
+  "success": true,
+  "data": {
+    "BTCPLN": {
+      "buy": [
+        {
+          "id": 31393,
+          "market": "BTCPLN",
+          "amount": 0.20000000,
+          "rate": 3000.0000,
+          "fiat": 600.00000000,
+          "type": "buy",
+          "time": 1432661682
+        }
       ],
-      "sell":[
-        {"id":31391,"market":"BTCPLN","amount":0.08000000,"rate":4140.0000,"fiat":331.20000000,"type":"sell","time":1432551696}
-      ]},
-    "BTCEUR":{"buy":[],"sell":[]},
-    "LTCPLN":{"buy":[],"sell":[]},
-    "LTCBTC":{"buy":[],"sell":[]},
-    "LiteMineXBTC":{"buy":[],"sell":[]}
+      "sell": [
+        {
+          "id": 31391,
+          "market": "BTCPLN",
+          "amount": 0.08000000,
+          "rate": 4140.0000,
+          "fiat": 331.20000000,
+          "type": "sell",
+          "time": 1432551696
+        }
+      ]
+    },
+    "BTCEUR": {
+      "buy": [],
+      "sell": []
+    },
+    "LTCPLN": {
+      "buy": [],
+      "sell": []
+    },
+    "LTCBTC": {
+      "buy": [],
+      "sell": []
+    },
+    "LiteMineXBTC": {
+      "buy": [],
+      "sell": []
+    }
   },
-  "time":1432662326,
-  "limit":{"used":4,"allowed":6000,"expires":1432668000}
+  "time": 1432662326,
+  "limit": {
+    "used": 4,
+    "allowed": 6000,
+    "expires": 1432668000
+  }
 }

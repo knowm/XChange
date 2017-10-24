@@ -13,7 +13,7 @@ public class BitfinexBalancesResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param type
    * @param currency
    * @param amount

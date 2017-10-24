@@ -30,7 +30,7 @@ public class ExchangeMetaDataTest {
    */
   @Test
   public void testGetPollDelayMillisMulti() {
-    assertEquals(1000L, (long) ExchangeMetaData.getPollDelayMillis(new RateLimit[] { new RateLimit(2, 1, SECONDS), new RateLimit(1, 1, SECONDS) }));
+    assertEquals(1000L, (long) ExchangeMetaData.getPollDelayMillis(new RateLimit[]{new RateLimit(2, 1, SECONDS), new RateLimit(1, 1, SECONDS)}));
   }
 
   /**

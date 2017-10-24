@@ -15,30 +15,48 @@ public final class BitfinexUtils {
 
   }
 
+  public static String adaptXchangeCurrency(String xchangeSymbol) {
+    String currency = xchangeSymbol.toLowerCase();
+    if (currency.equals("dash")) {
+      currency = "dsh";
+    }
+    return currency;
+  }
+
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.base.toString().toLowerCase() + currencyPair.counter.toString().toLowerCase();
+    return adaptXchangeCurrency(currencyPair.base.toString()) + adaptXchangeCurrency(currencyPair.counter.toString());
   }
 
   /**
-   * can be “bitcoin”, “litecoin” or “ethereum” or “tether” or “wire”.
-   * 
+   * can be one of the following ['bitcoin', 'litecoin', 'ethereum', 'ethereumc', 'mastercoin', 'zcash', 'monero', 'wire', 'dash']
+   *
    * @param currency
    * @return
    */
   public static String convertToBitfinexWithdrawalType(String currency) {
+    switch (currency.toUpperCase()) {
+      case "BTC":
+        return "bitcoin";
+      case "LTC":
+        return "litecoin";
+      case "ETH":
+        return "ethereum";
+      case "ETC":
+        return "ethereumc";
+      case "ZEC":
+        return "zcash";
+      case "XMR":
+        return "monero";
+      case "USD":
+        return "mastercoin";
+      case "DASH":
+        return "dash";
+      case "TETHER":
+        return "tether";
+      default:
+        throw new BitfinexException("Cannot determine withdrawal type.");
+    }
 
-    if (currency.toUpperCase().equals("BTC"))
-      return "bitcoin";
-    if (currency.toUpperCase().equals("LTC"))
-      return "litecoin";
-    if (currency.toUpperCase().equals("USD"))
-      return "wire";
-    if (currency.toUpperCase().equals("TETHER"))
-      return "tether";
-    if (currency.toUpperCase().equals("ETH"))
-      return "ethereum";
-
-    throw new BitfinexException("Cannot determine withdrawal type.");
   }
 }

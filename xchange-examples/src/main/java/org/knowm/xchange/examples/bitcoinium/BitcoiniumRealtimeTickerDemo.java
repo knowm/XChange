@@ -9,22 +9,20 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
-import org.knowm.xchart.XChartPanel;
-import org.knowm.xchart.XYChart;
-import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.XYSeries;
-import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
-import org.knowm.xchart.internal.Series_AxesChart;
-import org.knowm.xchart.style.Styler.LegendPosition;
-import org.knowm.xchart.style.markers.SeriesMarkers;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinium.BitcoiniumExchange;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
+import org.knowm.xchange.bitcoinium.service.BitcoiniumMarketDataServiceRaw;
+import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
+import org.knowm.xchart.style.Styler.LegendPosition;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
@@ -33,6 +31,7 @@ import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceR
  */
 public class BitcoiniumRealtimeTickerDemo {
 
+  XYChart chart;
   BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
   List<Date> xAxisData;
   List<Float> yAxisData;
@@ -52,8 +51,8 @@ public class BitcoiniumRealtimeTickerDemo {
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    // Interested in the public polling market data feed (no authentication)
-    bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
 
     // Setup the panel
     final XChartPanel<XYChart> chartPanel = buildPanel();
@@ -89,7 +88,9 @@ public class BitcoiniumRealtimeTickerDemo {
           if (xAxisData.get(xAxisData.size() - 1).getTime() != timestamp.getTime()) {
             xAxisData.add(timestamp);
             yAxisData.add(price);
-            Series_AxesChart series = chartPanel.updateSeries(SERIES_NAME, xAxisData, yAxisData, null);
+            XYSeries series = chart.updateXYSeries(SERIES_NAME, xAxisData, yAxisData, null);
+            chartPanel.revalidate();
+            chartPanel.repaint();
             System.out.println(series.getXData());
             System.out.println(series.getYData());
           } else {
@@ -102,7 +103,8 @@ public class BitcoiniumRealtimeTickerDemo {
     };
 
     Timer timer = new Timer();
-    timer.scheduleAtFixedRate(chartUpdaterTask, 0, 10000); // every ten seconds
+    timer.scheduleAtFixedRate(chartUpdaterTask, 0, 10000); // every ten
+    // seconds
 
   }
 
@@ -116,8 +118,8 @@ public class BitcoiniumRealtimeTickerDemo {
     System.out.println(bitcoiniumTickerHistory.toString());
 
     // build ticker history chart series data
-    xAxisData = new ArrayList<Date>();
-    yAxisData = new ArrayList<Float>();
+    xAxisData = new ArrayList<>();
+    yAxisData = new ArrayList<>();
     for (int i = 0; i < bitcoiniumTickerHistory.getCondensedTickers().length; i++) {
 
       BitcoiniumTicker bitcoiniumTicker = bitcoiniumTickerHistory.getCondensedTickers()[i];
@@ -130,8 +132,7 @@ public class BitcoiniumRealtimeTickerDemo {
     }
 
     // Create Chart
-    XYChart chart = new XYChartBuilder().width(800).height(600).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time").yAxisTitle("Price")
-        .build();
+    chart = new XYChartBuilder().width(800).height(600).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time").yAxisTitle("Price").build();
 
     // Customize Chart
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);

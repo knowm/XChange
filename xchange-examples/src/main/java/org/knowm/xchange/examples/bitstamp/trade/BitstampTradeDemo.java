@@ -6,13 +6,15 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.Side;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
-import org.knowm.xchange.bitstamp.service.polling.BitstampTradeServiceRaw;
+import org.knowm.xchange.bitstamp.service.BitstampTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.bitstamp.BitstampDemoUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
  * <p>
@@ -28,34 +30,41 @@ public class BitstampTradeDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange bitstamp = BitstampDemoUtils.createExchange();
-    PollingTradeService tradeService = bitstamp.getPollingTradeService();
+    TradeService tradeService = bitstamp.getTradeService();
 
     generic(tradeService);
     raw((BitstampTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
+    final OpenOrdersParamCurrencyPair openOrdersParamsBtcEur = (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    openOrdersParamsBtcEur.setCurrencyPair(CurrencyPair.BTC_EUR);
+    final OpenOrdersParamCurrencyPair openOrdersParamsBtcUsd = (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    openOrdersParamsBtcUsd.setCurrencyPair(CurrencyPair.BTC_USD);
 
-    printOpenOrders(tradeService);
+    final OpenOrdersParams openOrdersParamsAll = tradeService.createOpenOrdersParams();
+
+    printOpenOrders(tradeService, openOrdersParamsAll);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".001"), CurrencyPair.BTC_USD, "", null, new BigDecimal("1000.00"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.BID), new BigDecimal(".01"), CurrencyPair.BTC_EUR, null, null, new BigDecimal("500.00"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
-    printOpenOrders(tradeService);
+    printOpenOrders(tradeService, openOrdersParamsAll);
+    printOpenOrders(tradeService, openOrdersParamsBtcEur);
+    printOpenOrders(tradeService, openOrdersParamsBtcUsd);
 
     // Cancel the added order
     boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
     System.out.println("Canceling returned " + cancelResult);
 
-    printOpenOrders(tradeService);
+    printOpenOrders(tradeService, openOrdersParamsAll);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
-
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println("Open Orders: " + openOrders.toString());
+  private static void printOpenOrders(TradeService tradeService, OpenOrdersParams openOrdersParams) throws IOException {
+    OpenOrders openOrders = tradeService.getOpenOrders(openOrdersParams);
+    System.out.printf("Open Orders for %s: %s%n", openOrdersParams, openOrders);
   }
 
   private static void raw(BitstampTradeServiceRaw tradeService) throws IOException {

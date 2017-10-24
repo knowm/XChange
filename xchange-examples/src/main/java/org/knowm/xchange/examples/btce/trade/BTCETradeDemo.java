@@ -8,14 +8,14 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import org.knowm.xchange.btce.v3.dto.trade.BTCEOrder;
 import org.knowm.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
-import org.knowm.xchange.btce.v3.service.polling.BTCETradeServiceRaw;
+import org.knowm.xchange.btce.v3.service.BTCETradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.btce.BTCEExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * @author Matija Mazi
@@ -31,7 +31,7 @@ public class BTCETradeDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
     printOpenOrders(tradeService);
 
@@ -57,7 +57,7 @@ public class BTCETradeDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCETradeServiceRaw tradeService = (BTCETradeServiceRaw) exchange.getPollingTradeService();
+    BTCETradeServiceRaw tradeService = (BTCETradeServiceRaw) exchange.getTradeService();
 
     printRawOpenOrders(tradeService);
 
@@ -83,7 +83,7 @@ public class BTCETradeDemo {
     printRawOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+  private static void printOpenOrders(TradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

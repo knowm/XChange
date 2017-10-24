@@ -17,7 +17,7 @@ public class BitfinexBalancesRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    */
   public BitfinexBalancesRequest(String nonce) {
