@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
-@JsonPropertyOrder({ "currency", "counterparty", "value" })
+@JsonPropertyOrder({"currency", "counterparty", "value"})
 public final class RippleAmount {
 
   @JsonProperty("currency")

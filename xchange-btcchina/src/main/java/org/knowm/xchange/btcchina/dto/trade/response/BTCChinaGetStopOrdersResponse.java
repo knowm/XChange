@@ -1,13 +1,14 @@
 package org.knowm.xchange.btcchina.dto.trade.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btcchina.dto.BTCChinaError;
 import org.knowm.xchange.btcchina.dto.BTCChinaResponse;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaStopOrdersObject;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Response of {@code getStopOrders}.
- * 
+ *
  * @see <a href="http://btcchina.org/api-trade-documentation-en#getstoporders">Trade API(English)</a>
  * @see <a href="http://btcchina.org/api-trade-documentation-zh#getstoporders">Trade API(Chinese)</a>
  */

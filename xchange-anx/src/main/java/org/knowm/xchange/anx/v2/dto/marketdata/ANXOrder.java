@@ -17,7 +17,7 @@ public final class ANXOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param price
    * @param amount
    * @param priceInt

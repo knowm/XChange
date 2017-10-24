@@ -1,4 +1,0 @@
-BitKonan Exchange API specification
-======================================
-
-https://bitkonan.com/info/api

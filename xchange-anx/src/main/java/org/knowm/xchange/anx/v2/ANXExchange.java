@@ -5,9 +5,9 @@ import java.io.InputStream;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
-import org.knowm.xchange.anx.v2.service.polling.ANXAccountService;
-import org.knowm.xchange.anx.v2.service.polling.ANXMarketDataService;
-import org.knowm.xchange.anx.v2.service.polling.ANXTradeService;
+import org.knowm.xchange.anx.v2.service.ANXAccountService;
+import org.knowm.xchange.anx.v2.service.ANXMarketDataService;
+import org.knowm.xchange.anx.v2.service.ANXTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -20,9 +20,9 @@ public class ANXExchange extends BaseExchange {
   @Override
   protected void initServices() {
     // Configure the basic services if configuration does not apply
-    this.pollingMarketDataService = new ANXMarketDataService(this);
-    this.pollingTradeService = new ANXTradeService(this);
-    this.pollingAccountService = new ANXAccountService(this);
+    this.marketDataService = new ANXMarketDataService(this);
+    this.tradeService = new ANXTradeService(this);
+    this.accountService = new ANXAccountService(this);
   }
 
   @Override

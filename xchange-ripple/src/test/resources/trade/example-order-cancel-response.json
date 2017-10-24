@@ -1,12 +1,12 @@
 {
-   "success":true,
-   "order":{
-      "account":"sn3nxiW7v8KXzPzAqzyHXbSSKNuN9",
-      "fee":"0.012",
-      "offer_sequence":99,
-      "sequence":100
-   },
-   "hash":"71AE74B03DE3B9A06C559AD4D173A362D96B7D2A5AA35F56B9EF21543D627F34",
-   "ledger":"9592219",
-   "state":"validated"
+  "success": true,
+  "order": {
+    "account": "sn3nxiW7v8KXzPzAqzyHXbSSKNuN9",
+    "fee": "0.012",
+    "offer_sequence": 99,
+    "sequence": 100
+  },
+  "hash": "71AE74B03DE3B9A06C559AD4D173A362D96B7D2A5AA35F56B9EF21543D627F34",
+  "ledger": "9592219",
+  "state": "validated"
 }

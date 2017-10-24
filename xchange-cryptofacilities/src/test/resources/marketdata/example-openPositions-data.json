@@ -1,20 +1,20 @@
 {
-        "result" : "success",
-        "serverTime" : "2016-02-25T09:45:53.818Z",
-        "openPositions" : [
-                {
-                        "fillTime" : "2016-02-25T09:47:01.000Z",
-                        "symbol" : "f-xbt:usd-sep16",
-                        "side" : "long",
-                        "size" : 1,
-                        "price" : 425.5
-                },
-                {
-                        "fillTime" : "2016-02-25T09:47:01.000Z",
-                        "symbol" : "f-xbt:usd-dec16",
-                        "side" : "short",
-                        "size" : 1,
-                        "price" : 450.2
-                }
-        ]
+  "result": "success",
+  "serverTime": "2016-02-25T09:45:53.818Z",
+  "openPositions": [
+    {
+      "fillTime": "2016-02-25T09:47:01.000Z",
+      "symbol": "f-xbt:usd-sep16",
+      "side": "long",
+      "size": 1,
+      "price": 425.5
+    },
+    {
+      "fillTime": "2016-02-25T09:47:01.000Z",
+      "symbol": "f-xbt:usd-dec16",
+      "side": "short",
+      "size": 1,
+      "price": 450.2
+    }
+  ]
 }

@@ -7,11 +7,11 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.campbx.CampBXExchange;
 import org.knowm.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import org.knowm.xchange.campbx.dto.marketdata.CampBXTicker;
-import org.knowm.xchange.campbx.service.polling.CampBXMarketDataServiceRaw;
+import org.knowm.xchange.campbx.service.CampBXMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Market Data from CampBX
@@ -28,8 +28,8 @@ public class CampBXMarketDataDemo {
 
   private static void generic(Exchange campBXExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService campBXGenericMarketDataService = campBXExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService campBXGenericMarketDataService = campBXExchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = campBXGenericMarketDataService.getTicker(CurrencyPair.BTC_USD);
@@ -46,8 +46,8 @@ public class CampBXMarketDataDemo {
 
   private static void raw(Exchange campBXExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    CampBXMarketDataServiceRaw campBXspecificMarketDataService = (CampBXMarketDataServiceRaw) campBXExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    CampBXMarketDataServiceRaw campBXspecificMarketDataService = (CampBXMarketDataServiceRaw) campBXExchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     CampBXTicker campBXTicker = campBXspecificMarketDataService.getCampBXTicker();

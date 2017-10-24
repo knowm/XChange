@@ -3,9 +3,10 @@ package org.knowm.xchange.campbx.dto.trade;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.campbx.dto.CampBXOrder;
 import org.knowm.xchange.campbx.dto.CampBXResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi
@@ -13,9 +14,9 @@ import org.knowm.xchange.campbx.dto.CampBXResponse;
 public final class MyOpenOrders extends CampBXResponse {
 
   @JsonProperty("Buy")
-  private List<CampBXOrder> buy = new ArrayList<CampBXOrder>();
+  private List<CampBXOrder> buy = new ArrayList<>();
   @JsonProperty("Sell")
-  private List<CampBXOrder> sell = new ArrayList<CampBXOrder>();
+  private List<CampBXOrder> sell = new ArrayList<>();
 
   public List<CampBXOrder> getBuy() {
 

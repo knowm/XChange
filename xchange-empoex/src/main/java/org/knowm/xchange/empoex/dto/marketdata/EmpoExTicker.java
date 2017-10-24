@@ -14,8 +14,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "pairname", "last", "base_volume_24hr", "low", "high", "bid", "ask", "open_buy_volume", "open_sell_volume",
-    "open_buy_volume_base", "open_sell_volume_base", "change" })
+@JsonPropertyOrder({"pairname", "last", "base_volume_24hr", "low", "high", "bid", "ask", "open_buy_volume", "open_sell_volume",
+                       "open_buy_volume_base", "open_sell_volume_base", "change"})
 public class EmpoExTicker {
 
   @JsonProperty("pairname")

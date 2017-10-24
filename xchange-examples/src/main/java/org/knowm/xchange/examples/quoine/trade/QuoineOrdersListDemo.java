@@ -5,15 +5,15 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.examples.quoine.QuoineExamplesUtils;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
-import org.knowm.xchange.quoine.service.polling.QuoineTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.quoine.service.QuoineTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class QuoineOrdersListDemo {
 
   public static void main(String[] args) throws IOException {
 
     Exchange exchange = QuoineExamplesUtils.createExchange();
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
     raw((QuoineTradeServiceRaw) tradeService);
   }
@@ -21,7 +21,7 @@ public class QuoineOrdersListDemo {
   private static void raw(QuoineTradeServiceRaw tradeServiceRaw) throws IOException {
 
     // list orders
-    QuoineOrdersList quoineOrdersList = tradeServiceRaw.listQuoineOrders("BTCUSD");
+    QuoineOrdersList quoineOrdersList = tradeServiceRaw.listQuoineOrders();
     System.out.println(quoineOrdersList.toString());
   }
 

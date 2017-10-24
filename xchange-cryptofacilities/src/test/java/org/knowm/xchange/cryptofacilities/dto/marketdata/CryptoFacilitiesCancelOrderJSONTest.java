@@ -1,6 +1,6 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,9 +28,9 @@ public class CryptoFacilitiesCancelOrderJSONTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(cryptoFacilitiesCancel.isSuccess()).isTrue();
     assertThat(cryptoFacilitiesCancel.getStatus()).isEqualTo("cancelled");
-    
-//    assertThat(cryptoFacilitiesCancel.isSuccess()).isFalse();
-//    assertThat(cryptoFacilitiesCancel.getError().equalsIgnoreCase("apiLimitExceeded")).isTrue();
+
+    //    assertThat(cryptoFacilitiesCancel.isSuccess()).isFalse();
+    //    assertThat(cryptoFacilitiesCancel.getError().equalsIgnoreCase("apiLimitExceeded")).isTrue();
   }
 
 }

@@ -1,12 +1,12 @@
 {
-    "return": {
-        "funds": {
-            "ltc": "0.00000000",
-            "brl": "248.29516",
-            "btc": "0.25000000"
-        },
-        "server_time": "1417409950",
-        "open_orders": 0
+  "return": {
+    "funds": {
+      "ltc": "0.00000000",
+      "brl": "248.29516",
+      "btc": "0.25000000"
     },
-    "success": 1
+    "server_time": "1417409950",
+    "open_orders": 0
+  },
+  "success": 1
 }

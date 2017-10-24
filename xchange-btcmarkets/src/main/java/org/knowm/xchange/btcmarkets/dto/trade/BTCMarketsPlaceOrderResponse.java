@@ -1,7 +1,8 @@
 package org.knowm.xchange.btcmarkets.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCMarketsPlaceOrderResponse extends BTCMarketsBaseResponse {
 

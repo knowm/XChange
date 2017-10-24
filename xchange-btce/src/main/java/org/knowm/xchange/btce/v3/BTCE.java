@@ -28,8 +28,8 @@ public interface BTCE {
   @GET
   @Path("api/3/ticker/{pairs}")
   @Produces(MediaType.APPLICATION_JSON)
-  BTCETickerWrapper getTicker(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid)
-      throws IOException;
+  BTCETickerWrapper getTicker(@PathParam("pairs") String pairs,
+      @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
 
   @GET
   @Path("api/3/depth/{pairs}")

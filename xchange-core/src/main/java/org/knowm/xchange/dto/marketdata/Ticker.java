@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.marketdata;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import org.knowm.xchange.utils.DateUtils;
  * A ticker contains data representing the latest trade.
  * </p>
  */
-public final class Ticker {
+public final class Ticker implements Serializable {
 
   private final CurrencyPair currencyPair;
   private final BigDecimal last;
@@ -33,11 +34,12 @@ public final class Ticker {
    * Constructor
    *
    * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
-   * @param last
-   * @param bid
-   * @param ask
-   * @param high
-   * @param low
+   * @param last Last price
+   * @param bid Bid price
+   * @param ask Ask price
+   * @param high High price
+   * @param low Low price
+   * @param vwap Volume Weighted Average Price
    * @param volume 24h volume
    * @param timestamp - the timestamp of the ticker according to the exchange's server, null if not provided
    */

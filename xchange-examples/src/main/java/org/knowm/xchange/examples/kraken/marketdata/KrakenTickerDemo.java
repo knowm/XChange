@@ -9,8 +9,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
-import org.knowm.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class KrakenTickerDemo {
 
@@ -25,8 +25,8 @@ public class KrakenTickerDemo {
 
   private static void generic(Exchange krakenExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = krakenExchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
@@ -41,8 +41,8 @@ public class KrakenTickerDemo {
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
     KrakenTicker ticker = krakenMarketDataService.getKrakenTicker(CurrencyPair.BTC_EUR);

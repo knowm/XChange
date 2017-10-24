@@ -11,7 +11,7 @@ public class KrakenAsset {
 
   /**
    * Constructor
-   * 
+   *
    * @param altName
    * @param assetClass
    * @param scale

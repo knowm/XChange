@@ -1,58 +1,53 @@
 package org.knowm.xchange.therock.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TheRockTrade {
 
-    private final BigDecimal amount;
-    private final long date;
-    private final BigDecimal price;
-    private final long tid;
+  public enum Side {
+    sell, buy, close_long, close_short
+  }
 
-    public TheRockTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price,
-                        @JsonProperty("tid") long tid) {
+  private final BigDecimal amount;
+  private final Date date;
+  private final BigDecimal price;
+  private final long id;
+  private final Side side;
 
-        this.amount = amount;
-        this.date = date;
-        this.price = price;
-        this.tid = tid;
-    }
+  public TheRockTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") Date date, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("id") long id, @JsonProperty("side") Side tradeSide) {
+    this.amount = amount;
+    this.date = date;
+    this.price = price;
+    this.id = id;
+    this.side = tradeSide;
+  }
 
-    public BigDecimal getAmount() {
+  public BigDecimal getAmount() {
+    return amount;
+  }
 
-        return amount;
-    }
+  public Date getDate() {
+    return date;
+  }
 
-    public long getDate() {
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-        return date;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public BigDecimal getPrice() {
+  public Side getSide() {
+    return side;
+  }
 
-        return price;
-    }
-
-    public long getTid() {
-
-        return tid;
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("ItBitTrade [amount=");
-        builder.append(amount);
-        builder.append(", timestamp=");
-        builder.append(date);
-        builder.append(", date=");
-        builder.append(price);
-        builder.append(", tid=");
-        builder.append(tid);
-        builder.append("]");
-        return builder.toString();
-    }
+  @Override
+  public String toString() {
+    return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
+  }
 }

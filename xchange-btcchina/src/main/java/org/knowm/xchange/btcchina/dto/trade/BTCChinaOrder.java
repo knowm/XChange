@@ -1,6 +1,7 @@
 package org.knowm.xchange.btcchina.dto.trade;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,7 +22,7 @@ public class BTCChinaOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param type
    * @param price
@@ -96,7 +97,7 @@ public class BTCChinaOrder {
   public String toString() {
 
     return String.format("BTCChinaOrder{id=%d, type=%s, price=%s, currency=%s, amount=%s, amountOriginal=%s, date=%d, status=%s, details=%s}", id,
-        type, price, currency, amount, amountOriginal, date, status, details);
+        type, price, currency, amount, amountOriginal, date, status, Arrays.toString(details));
   }
 
 }

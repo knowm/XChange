@@ -44,15 +44,15 @@ public interface Coinmate {
 
   @GET
   @Path("ticker")
-  public CoinmateTicker getTicker(@QueryParam("currencyPair") String currencyPair) throws IOException;
+  CoinmateTicker getTicker(@QueryParam("currencyPair") String currencyPair) throws IOException;
 
   @GET
   @Path("orderBook")
-  public CoinmateOrderBook getOrderBook(@QueryParam("currencyPair") String currencyPair, @QueryParam("groupByPriceLimit") boolean groupByPriceLimit)
-      throws IOException;
+  CoinmateOrderBook getOrderBook(@QueryParam("currencyPair") String currencyPair,
+      @QueryParam("groupByPriceLimit") boolean groupByPriceLimit) throws IOException;
 
   @GET
   @Path("transactions")
-  public CoinmateTransactions getTransactions(@QueryParam("minutesIntoHistory") int minutesIntoHistory) throws IOException;
+  CoinmateTransactions getTransactions(@QueryParam("minutesIntoHistory") int minutesIntoHistory) throws IOException;
 
 }

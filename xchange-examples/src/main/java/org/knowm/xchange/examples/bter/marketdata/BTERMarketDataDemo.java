@@ -13,26 +13,26 @@ import org.knowm.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInf
 import org.knowm.xchange.bter.dto.marketdata.BTERTicker;
 import org.knowm.xchange.bter.dto.marketdata.BTERTradeHistory;
 import org.knowm.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
-import org.knowm.xchange.bter.service.polling.BTERPollingMarketDataServiceRaw;
+import org.knowm.xchange.bter.service.BTERMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BTERMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BTERExchange.class.getName());
-    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
     generic(marketDataService);
-    raw((BTERPollingMarketDataServiceRaw) marketDataService);
+    raw((BTERMarketDataServiceRaw) marketDataService);
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.PPC_BTC);
     System.out.println(ticker);
@@ -51,7 +51,7 @@ public class BTERMarketDataDemo {
     }
   }
 
-  private static void raw(BTERPollingMarketDataServiceRaw marketDataService) throws IOException {
+  private static void raw(BTERMarketDataServiceRaw marketDataService) throws IOException {
 
     Map<CurrencyPair, BTERMarketInfo> marketInfoMap = marketDataService.getBTERMarketInfo();
     System.out.println(marketInfoMap);

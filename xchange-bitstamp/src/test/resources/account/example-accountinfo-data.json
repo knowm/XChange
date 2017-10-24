@@ -1,12 +1,15 @@
 {
-    "btc_reserved":"0",
-    "fee":"0.5000",
-    "btc_available":"6.99990000",
-    "usd_reserved":"172.87",
-    "eur_reserved":"71.05",
-    "btc_balance":"6.99990000",
-    "usd_balance":"172.87",
-    "eur_balance":"71.05",    
-    "usd_available":"0.00",
-    "eur_available":"0.00"    
+  "btc_reserved": "0",
+  "fee": "0.5000",
+  "btc_available": "6.99990000",
+  "usd_reserved": "172.87",
+  "eur_reserved": "71.05",
+  "btc_balance": "6.99990000",
+  "usd_balance": "172.87",
+  "eur_balance": "71.05",
+  "usd_available": "0.00",
+  "eur_available": "0.00",
+  "xrp_balance": "7771.05654",
+  "xrp_available": "7771.05654",
+  "xrp_reserved": "0.00"
 }

@@ -56,7 +56,7 @@ public class LakeBTCAdapters {
   }
 
   private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (BigDecimal[] order : orders) {
       limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, null, order[0]));
     }
@@ -78,7 +78,7 @@ public class LakeBTCAdapters {
    */
   public static Trades adaptTrades(LakeBTCTradeResponse[] transactions, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (LakeBTCTradeResponse trade : transactions) {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;
@@ -116,17 +116,17 @@ public class LakeBTCAdapters {
    */
   public static UserTrades adaptTradeHistory(LakeBTCTradeResponse[] transactions) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (LakeBTCTradeResponse trade : transactions) {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;
-      BigDecimal tradableAmount = trade.getAmount();
+      BigDecimal originalAmount = trade.getAmount();
       BigDecimal price = trade.getTotal().abs();
       Date timestamp = DateUtils.fromMillisUtc(trade.getAt() * 1000L);
 
       final String tradeId = trade.getId();
       final CurrencyPair currencyPair = CurrencyPair.BTC_CNY;
-      UserTrade userTrade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, null, null,
+      UserTrade userTrade = new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, null, null,
           Currency.getInstance(currencyPair.counter.getCurrencyCode()));
       trades.add(userTrade);
     }

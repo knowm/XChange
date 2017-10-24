@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,10 @@ import java.util.Map;
 import org.knowm.xchange.btcchina.dto.BTCChinaResponse;
 import org.knowm.xchange.btcchina.dto.BTCChinaValue;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaAccountInfo;
+import org.knowm.xchange.btcchina.dto.account.BTCChinaDeposit;
+import org.knowm.xchange.btcchina.dto.account.BTCChinaWithdrawal;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
@@ -19,6 +24,7 @@ import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaMarketDepth;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaMarketDepthOrder;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaOrder;
+import org.knowm.xchange.btcchina.dto.trade.BTCChinaOrderDetail;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaOrders;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import org.knowm.xchange.currency.Currency;
@@ -27,12 +33,16 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -58,7 +68,7 @@ public final class BTCChinaAdapters {
    */
   public static List<LimitOrder> adaptOrders(BigDecimal[][] btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(btcchinaOrders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(btcchinaOrders.length);
 
     for (BigDecimal[] btcchinaOrder : btcchinaOrders) {
       limitOrders.add(adaptOrder(btcchinaOrder[1], btcchinaOrder[0], currencyPair, orderType));
@@ -106,7 +116,7 @@ public final class BTCChinaAdapters {
    */
   public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.length);
+    List<Trade> tradesList = new ArrayList<>(btcchinaTrades.length);
     long latestTradeId = 0;
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
       long tradeId = btcchinaTrade.getTid();
@@ -143,7 +153,7 @@ public final class BTCChinaAdapters {
 
   public static Map<CurrencyPair, Ticker> adaptTickers(BTCChinaTicker btcChinaTicker) {
 
-    Map<CurrencyPair, Ticker> tickers = new LinkedHashMap<CurrencyPair, Ticker>(btcChinaTicker.size());
+    Map<CurrencyPair, Ticker> tickers = new LinkedHashMap<>(btcChinaTicker.size());
     for (Map.Entry<String, BTCChinaTickerObject> entry : btcChinaTicker.entrySet()) {
       CurrencyPair currencyPair = adaptCurrencyPairFromTickerMarketKey(entry.getKey());
       tickers.put(currencyPair, adaptTicker(entry.getValue(), currencyPair));
@@ -163,7 +173,7 @@ public final class BTCChinaAdapters {
 
   public static Wallet adaptWallet(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {
 
-    List<Balance> wallet = new ArrayList<Balance>(balances.size());
+    List<Balance> wallet = new ArrayList<>(balances.size());
 
     for (Map.Entry<String, BTCChinaValue> entry : balances.entrySet()) {
       BTCChinaValue frozen = frozens.get(entry.getKey());
@@ -205,7 +215,7 @@ public final class BTCChinaAdapters {
 
   public static List<LimitOrder> adaptLimitOrders(BTCChinaMarketDepthOrder[] orders, OrderType orderType, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
     for (BTCChinaMarketDepthOrder order : orders) {
       limitOrders.add(adaptLimitOrder(order, orderType, currencyPair));
     }
@@ -214,12 +224,12 @@ public final class BTCChinaAdapters {
 
   public static LimitOrder adaptLimitOrder(BTCChinaMarketDepthOrder order, OrderType orderType, CurrencyPair currencyPair) {
 
-    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(order.getPrice()).tradableAmount(order.getAmount()).build();
+    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(order.getPrice()).originalAmount(order.getAmount()).build();
   }
 
   public static List<LimitOrder> adaptOrders(BTCChinaOrder[] orders, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
     for (BTCChinaOrder order : orders) {
       LimitOrder limitOrder = adaptLimitOrder(order, currencyPair);
@@ -231,7 +241,7 @@ public final class BTCChinaAdapters {
 
   public static List<LimitOrder> adaptOrders(BTCChinaOrders orders, CurrencyPair specifiedCurrencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     BTCChinaOrder[] certainCurrencyPairOrders = orders.getOrdersArray();
     if (certainCurrencyPairOrders != null) {
@@ -304,7 +314,7 @@ public final class BTCChinaAdapters {
    */
   public static UserTrades adaptTransactions(List<BTCChinaTransaction> transactions) {
 
-    List<UserTrade> tradeHistory = new ArrayList<UserTrade>(transactions.size());
+    List<UserTrade> tradeHistory = new ArrayList<>(transactions.size());
 
     for (BTCChinaTransaction transaction : transactions) {
       UserTrade adaptTransaction = adaptTransaction(transaction);
@@ -350,22 +360,116 @@ public final class BTCChinaAdapters {
 
     switch (status.toUpperCase()) {
 
-    case "OPEN":
-      return OrderStatus.NEW;
-    case "CLOSED":
-      return OrderStatus.FILLED;
-    case "CANCELLED":
-      return OrderStatus.CANCELED;
-    case "PENDING":
-      return OrderStatus.PENDING_NEW;
-    case "ERROR":
-      return OrderStatus.REJECTED;
-    case "INSUFFICIENT_BALANCE":
-      return OrderStatus.REJECTED;
-    default:
-      return null;
+      case "OPEN":
+        return OrderStatus.NEW;
+      case "CLOSED":
+        return OrderStatus.FILLED;
+      case "CANCELLED":
+        return OrderStatus.CANCELED;
+      case "PENDING":
+        return OrderStatus.PENDING_NEW;
+      case "ERROR":
+        return OrderStatus.REJECTED;
+      case "INSUFFICIENT_BALANCE":
+        return OrderStatus.REJECTED;
+      default:
+        return null;
     }
 
   }
 
+  public static ExchangeMetaData adaptToExchangeMetaData(Map<String, BTCChinaTickerObject> products) {
+
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+
+    for (String product : products.keySet()) {
+      CurrencyPair pair = adaptCurrencyPair(product);
+      currencies.put(pair.base, null);
+      currencies.put(pair.counter, null);
+    }
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, false);
+
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(final BTCChinaGetDepositsResponse depositsResponse,
+      final BTCChinaGetWithdrawalsResponse withdrawalsResponse) {
+
+    final List<FundingRecord> fundingRecords = new ArrayList<>();
+
+    if (depositsResponse != null && depositsResponse.getResult() != null) {
+      final BTCChinaDeposit[] deposits = depositsResponse.getResult().getDeposits();
+      for (final BTCChinaDeposit deposit : deposits) {
+        final FundingRecord.Status status = FundingRecord.Status.resolveStatus(deposit.getStatus());
+        final FundingRecord fundingRecordEntry = new FundingRecord(deposit.getAddress(), adaptDate(deposit.getDate()), Currency.getInstance(deposit.getCurrency()),
+            deposit.getAmount(), String.valueOf(deposit.getId()), null, FundingRecord.Type.DEPOSIT, status, null, null, null);
+        fundingRecords.add(fundingRecordEntry);
+      }
+    }
+
+    if (withdrawalsResponse != null && withdrawalsResponse.getResult() != null) {
+      final BTCChinaWithdrawal[] withdrawals = withdrawalsResponse.getResult().getWithdrawals();
+      for (final BTCChinaWithdrawal withdrawal : withdrawals) {
+        final FundingRecord.Status status = FundingRecord.Status.resolveStatus(withdrawal.getStatus());
+        final FundingRecord fundingRecordEntry = new FundingRecord(withdrawal.getAddress(), adaptDate(withdrawal.getDate()), Currency.getInstance(withdrawal.getCurrency()),
+            withdrawal.getAmount(), String.valueOf(withdrawal.getId()), withdrawal.getTransaction(), FundingRecord.Type.WITHDRAWAL, status, null, null, null);
+        fundingRecords.add(fundingRecordEntry);
+      }
+    }
+
+    return fundingRecords;
+  }
+
+  public static UserTrades adaptUserTradesFromOrders(BTCChinaOrders orders, CurrencyPair currencyPair) {
+
+    final List<UserTrade> tradeHistory = new ArrayList<UserTrade>();
+
+    for (Map.Entry<String, BTCChinaOrder[]> entry : orders.entrySet()) {
+      final BTCChinaOrder[] orderArr = entry.getValue();
+
+      if (orderArr != null && orderArr.length > 0) {
+
+        CurrencyPair currencyPairFromKey = null;
+        try {
+          currencyPairFromKey = adaptCurrencyPairFromOrdersMarketKey(entry.getKey());
+        } catch (Throwable e) {
+          if (currencyPair != null) {
+            currencyPairFromKey = currencyPair;
+          } else {
+            throw new IllegalArgumentException("Unknown currency pair for the set with one of the order(s) as : " + orderArr[0]);
+          }
+        }
+
+        for (BTCChinaOrder order : entry.getValue()) {
+          final List<UserTrade> tradeList = adaptUserTradeFromOrder(order, currencyPairFromKey);
+          tradeHistory.addAll(tradeList);
+        }
+
+      }
+    }
+
+    if (tradeHistory.size() > 0) {
+      return new UserTrades(tradeHistory, TradeSortType.SortByID);
+    }
+
+    return null;
+  }
+
+  private static List<UserTrade> adaptUserTradeFromOrder(BTCChinaOrder order, CurrencyPair currencyPair) {
+    final List<UserTrade> tradeList = new ArrayList<UserTrade>();
+    final BTCChinaOrderDetail[] fills = order.getDetails();
+    if (fills != null && fills.length > 0) {
+      final OrderType orderType = order.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
+      final String orderId = String.valueOf(order.getId());
+      final String tradeId = String.valueOf(order.getId());
+      for (final BTCChinaOrderDetail fill : fills) {
+        final BigDecimal price = fill.getPrice();
+        final BigDecimal amount = fill.getAmount();
+        final Date date = adaptDate(fill.getDateline());
+        ;
+        tradeList.add(new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, null, null));
+      }
+    }
+    return tradeList;
+  }
 }

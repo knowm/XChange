@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class EnumFromStringHelper<T extends Enum<T>> {
 
-  private final Map<String, T> fromString = new HashMap<String, T>();
+  private final Map<String, T> fromString = new HashMap<>();
 
   public EnumFromStringHelper(Class<T> enumClass) {
 

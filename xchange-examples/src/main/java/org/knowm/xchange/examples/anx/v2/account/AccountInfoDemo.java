@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.anx.v2.ANXExamplesUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * Demo requesting account info at ANX
@@ -17,7 +17,7 @@ public class AccountInfoDemo {
     Exchange anx = ANXExamplesUtils.createExchange();
 
     // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = anx.getPollingAccountService();
+    AccountService accountService = anx.getAccountService();
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();

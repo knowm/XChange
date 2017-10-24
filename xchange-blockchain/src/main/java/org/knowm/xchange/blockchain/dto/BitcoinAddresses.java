@@ -13,7 +13,7 @@ public final class BitcoinAddresses {
 
   /**
    * Constructor
-   * 
+   *
    * @param bitcoinAddresses
    */
   public BitcoinAddresses(@JsonProperty("addresses") List<BitcoinAddress> bitcoinAddresses) {

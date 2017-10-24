@@ -46,7 +46,7 @@ public final class CoinbaseAdapters {
 
   public static UserTrades adaptTrades(CoinbaseTransfers transfers) {
 
-    final List<UserTrade> trades = new ArrayList<UserTrade>();
+    final List<UserTrade> trades = new ArrayList<>();
     for (CoinbaseTransfer transfer : transfers.getTransfers()) {
       trades.add(adaptTrade(transfer));
     }
@@ -58,28 +58,28 @@ public final class CoinbaseAdapters {
 
     final OrderType orderType = adaptOrderType(transfer.getType());
     final CoinbaseMoney btcAmount = transfer.getBtcAmount();
-    final BigDecimal tradableAmount = btcAmount.getAmount();
+    final BigDecimal originalAmount = btcAmount.getAmount();
     final String tradableIdentifier = btcAmount.getCurrency();
     final CoinbaseMoney subTotal = transfer.getSubtotal();
     final String transactionCurrency = subTotal.getCurrency();
-    final BigDecimal price = subTotal.getAmount().divide(tradableAmount, RoundingMode.HALF_EVEN);
+    final BigDecimal price = subTotal.getAmount().divide(originalAmount, RoundingMode.HALF_EVEN);
     final Date timestamp = transfer.getCreatedAt();
     final String id = transfer.getTransactionId();
     final String transferId = transfer.getId();
     final BigDecimal feeAmount = transfer.getCoinbaseFee().getAmount();
     final String feeCurrency = transfer.getCoinbaseFee().getCurrency();
 
-    return new UserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, transferId,
+    return new UserTrade(orderType, originalAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, transferId,
         feeAmount, Currency.getInstance(feeCurrency));
   }
 
   public static OrderType adaptOrderType(CoinbaseTransferType transferType) {
 
     switch (transferType) {
-    case BUY:
-      return OrderType.BID;
-    case SELL:
-      return OrderType.ASK;
+      case BUY:
+        return OrderType.BID;
+      case SELL:
+        return OrderType.ASK;
     }
     return null;
   }

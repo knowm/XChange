@@ -1,84 +1,84 @@
 {
-  "result" : "success",
-  "serverTime" : "2016-04-04T10:13:55.374Z",
-  "instruments" : [
+  "result": "success",
+  "serverTime": "2016-04-04T10:13:55.374Z",
+  "instruments": [
     {
-      "tradeable" : true,
-      "lastTradingTime" : "2016-04-29T16:00:00.000Z",
-      "symbol" : "f-xbt:usd-apr16-w5",
-      "underlying" : "cf-hbpi",
-      "contractSize" : 1,
-      "type" : "futures",
-      "tickSize" : 0.01
+      "tradeable": true,
+      "lastTradingTime": "2016-04-29T16:00:00.000Z",
+      "symbol": "f-xbt:usd-apr16-w5",
+      "underlying": "cf-hbpi",
+      "contractSize": 1,
+      "type": "futures",
+      "tickSize": 0.01
     },
     {
-      "tradeable" : true,
-      "lastTradingTime" : "2016-09-16T16:00:00.000Z",
-      "symbol" : "f-xbt:usd-sep16",
-      "underlying" : "cf-hbpi",
-      "contractSize" : 1,
-      "type" : "futures",
-      "tickSize" : 0.01
+      "tradeable": true,
+      "lastTradingTime": "2016-09-16T16:00:00.000Z",
+      "symbol": "f-xbt:usd-sep16",
+      "underlying": "cf-hbpi",
+      "contractSize": 1,
+      "type": "futures",
+      "tickSize": 0.01
     },
     {
-      "tradeable" : true,
-      "lastTradingTime" : "2016-04-08T16:00:00.000Z",
-      "symbol" : "f-xbt:usd-apr16-w2",
-      "underlying" : "cf-hbpi",
-      "contractSize" : 1,
-      "type" : "futures",
-      "tickSize" : 0.01
+      "tradeable": true,
+      "lastTradingTime": "2016-04-08T16:00:00.000Z",
+      "symbol": "f-xbt:usd-apr16-w2",
+      "underlying": "cf-hbpi",
+      "contractSize": 1,
+      "type": "futures",
+      "tickSize": 0.01
     },
     {
-      "tradeable" : true,
-      "lastTradingTime" : "2016-04-15T16:00:00.000Z",
-      "symbol" : "f-xbt:usd-apr16-w3",
-      "underlying" : "cf-hbpi",
-      "contractSize" : 1,
-      "type" : "futures",
-      "tickSize" : 0.01
+      "tradeable": true,
+      "lastTradingTime": "2016-04-15T16:00:00.000Z",
+      "symbol": "f-xbt:usd-apr16-w3",
+      "underlying": "cf-hbpi",
+      "contractSize": 1,
+      "type": "futures",
+      "tickSize": 0.01
     },
     {
-      "tradeable" : true,
-      "lastTradingTime" : "2016-06-17T16:00:00.000Z",
-      "symbol" : "f-xbt:usd-jun16",
-      "underlying" : "cf-hbpi",
-      "contractSize" : 1,
-      "type" : "futures",
-      "tickSize" : 0.01
+      "tradeable": true,
+      "lastTradingTime": "2016-06-17T16:00:00.000Z",
+      "symbol": "f-xbt:usd-jun16",
+      "underlying": "cf-hbpi",
+      "contractSize": 1,
+      "type": "futures",
+      "tickSize": 0.01
     },
     {
-      "tradeable" : true,
-      "lastTradingTime" : "2016-12-16T16:00:00.000Z",
-      "symbol" : "f-xbt:usd-dec16",
-      "underlying" : "cf-hbpi",
-      "contractSize" : 1,
-      "type" : "futures",
-      "tickSize" : 0.01
+      "tradeable": true,
+      "lastTradingTime": "2016-12-16T16:00:00.000Z",
+      "symbol": "f-xbt:usd-dec16",
+      "underlying": "cf-hbpi",
+      "contractSize": 1,
+      "type": "futures",
+      "tickSize": 0.01
     },
     {
-      "tradeable" : true,
-      "lastTradingTime" : "2016-04-22T16:00:00.000Z",
-      "symbol" : "f-xbt:usd-apr16-w4",
-      "underlying" : "cf-hbpi",
-      "contractSize" : 1,
-      "type" : "futures",
-      "tickSize" : 0.01
+      "tradeable": true,
+      "lastTradingTime": "2016-04-22T16:00:00.000Z",
+      "symbol": "f-xbt:usd-apr16-w4",
+      "underlying": "cf-hbpi",
+      "contractSize": 1,
+      "type": "futures",
+      "tickSize": 0.01
     },
     {
-      "tradeable" : false,
-      "symbol" : "cf-bpi",
-      "type" : "spot index"
+      "tradeable": false,
+      "symbol": "cf-bpi",
+      "type": "spot index"
     },
     {
-      "tradeable" : false,
-      "symbol" : "cf-hbpi",
-      "type" : "spot index"
+      "tradeable": false,
+      "symbol": "cf-hbpi",
+      "type": "spot index"
     },
     {
-      "tradeable" : false,
-      "symbol" : "cf-bpi-v",
-      "type" : "volatility index"
+      "tradeable": false,
+      "symbol": "cf-bpi-v",
+      "type": "volatility index"
     }
   ]
 }

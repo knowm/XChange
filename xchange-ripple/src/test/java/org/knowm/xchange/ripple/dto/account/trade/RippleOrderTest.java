@@ -1,14 +1,12 @@
 package org.knowm.xchange.ripple.dto.account.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.RippleAmount;
 import org.knowm.xchange.ripple.dto.trade.RippleAccountOrders;
@@ -17,6 +15,8 @@ import org.knowm.xchange.ripple.dto.trade.RippleOrderCancelResponse;
 import org.knowm.xchange.ripple.dto.trade.RippleOrderEntryResponse;
 import org.knowm.xchange.ripple.dto.trade.RippleOrderResponseBody;
 import org.knowm.xchange.ripple.dto.trade.RippleOrderTransaction;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RippleOrderTest {
 

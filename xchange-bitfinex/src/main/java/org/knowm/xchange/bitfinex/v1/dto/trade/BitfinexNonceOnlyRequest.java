@@ -12,7 +12,7 @@ public class BitfinexNonceOnlyRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param request
    * @param nonce
    */

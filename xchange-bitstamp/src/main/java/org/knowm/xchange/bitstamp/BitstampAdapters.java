@@ -52,20 +52,13 @@ public final class BitstampAdapters {
   public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-    final BigDecimal usdWithdrawing = bitstampBalance.getUsdBalance().subtract(bitstampBalance.getUsdAvailable())
-        .subtract(bitstampBalance.getUsdReserved());
-    final BigDecimal eurWithdrawing = bitstampBalance.getEurBalance().subtract(bitstampBalance.getEurAvailable())
-            .subtract(bitstampBalance.getEurReserved());
-    final BigDecimal btcWithdrawing = bitstampBalance.getBtcBalance().subtract(bitstampBalance.getBtcAvailable())
-        .subtract(bitstampBalance.getBtcReserved());
-    Balance usdBalance = new Balance(Currency.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
-        bitstampBalance.getUsdReserved(), ZERO, ZERO, usdWithdrawing, ZERO);
-    Balance eurBalance = new Balance(Currency.EUR, bitstampBalance.getEurBalance(), bitstampBalance.getEurAvailable(),
-            bitstampBalance.getEurReserved(), ZERO, ZERO, eurWithdrawing, ZERO);
-    Balance btcBalance = new Balance(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
-        bitstampBalance.getBtcReserved(), ZERO, ZERO, btcWithdrawing, ZERO);
-
-    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(usdBalance, eurBalance, btcBalance));
+    List<Balance> balances = new ArrayList<>();
+    for (org.knowm.xchange.bitstamp.dto.account.BitstampBalance.Balance b : bitstampBalance.getBalances()) {
+      Balance xchangeBalance = new Balance(new Currency(b.getCurrency().toUpperCase()), b.getBalance(), b.getAvailable(),
+          b.getReserved(), ZERO, ZERO, b.getBalance().subtract(b.getAvailable()).subtract(b.getReserved()), ZERO);
+      balances.add(xchangeBalance);
+    }
+    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(balances));
   }
 
   /**
@@ -75,17 +68,15 @@ public final class BitstampAdapters {
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
-
+  public static OrderBook adaptOrderBook(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair) {
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitstampOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitstampOrderBook.getBids());
-    Date date = new Date(bitstampOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
-    return new OrderBook(date, asks, bids);
+    return new OrderBook(bitstampOrderBook.getTimestamp(), asks, bids);
   }
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
@@ -114,7 +105,7 @@ public final class BitstampAdapters {
    */
   public static Trades adaptTrades(BitstampTransaction[] transactions, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (BitstampTransaction tx : transactions) {
       final long tradeId = tx.getTid();
@@ -174,29 +165,28 @@ public final class BitstampAdapters {
    */
   public static UserTrades adaptTradeHistory(BitstampUserTransaction[] bitstampUserTransactions) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
-    for (BitstampUserTransaction bitstampUserTransaction : bitstampUserTransactions) {
-      if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
-        OrderType orderType = bitstampUserTransaction.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
-        BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
-        BigDecimal price = bitstampUserTransaction.getPrice().abs();
-        Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
-        long transactionId = bitstampUserTransaction.getId();
-        if (transactionId > lastTradeId) {
-          lastTradeId = transactionId;
-        }
-        final String tradeId = String.valueOf(transactionId);
-        final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
-        final BigDecimal feeAmount = bitstampUserTransaction.getFee();
-        final CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, new Currency(bitstampUserTransaction.getCounterCurrency()));
-
-        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-            Currency.getInstance(currencyPair.counter.getCurrencyCode()));
-        trades.add(trade);
+    for (BitstampUserTransaction t : bitstampUserTransactions) {
+      if (!t.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
+        continue;
       }
-    }
+      final OrderType orderType;
+      if (t.getCounterAmount().doubleValue() == 0.0) {
+        orderType = t.getBaseAmount().doubleValue() < 0.0 ? OrderType.ASK : OrderType.BID;
+      } else {
+        orderType = t.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
+      }
 
+      long tradeId = t.getId();
+      if (tradeId > lastTradeId) {
+        lastTradeId = tradeId;
+      }
+      final CurrencyPair pair = new CurrencyPair(t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
+      UserTrade trade = new UserTrade(orderType, t.getBaseAmount().abs(), pair, t.getPrice().abs(), t.getDatetime()
+          , Long.toString(tradeId), Long.toString(t.getOrderId()), t.getFee(), new Currency(t.getFeeCurrency().toUpperCase()));
+      trades.add(trade);
+    }
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
   }
 }

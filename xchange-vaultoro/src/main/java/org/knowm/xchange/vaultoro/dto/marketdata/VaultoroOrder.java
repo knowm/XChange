@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "Gold_Price", "Gold_Amount" })
+@JsonPropertyOrder({"Gold_Price", "Gold_Amount"})
 public class VaultoroOrder {
 
   @JsonProperty("Gold_Price")

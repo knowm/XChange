@@ -2,8 +2,9 @@ package org.knowm.xchange.coinbase.dto.marketdata;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author jamespedwards42

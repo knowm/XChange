@@ -42,9 +42,9 @@ public final class BTCTradeAdapters {
 
   private static final Map<String, CurrencyPair> currencyPairs = getCurrencyPairs();
 
-  private static final Map<String, CurrencyPair> getCurrencyPairs() {
+  private static Map<String, CurrencyPair> getCurrencyPairs() {
 
-    Map<String, CurrencyPair> currencyPairs = new HashMap<String, CurrencyPair>(4);
+    Map<String, CurrencyPair> currencyPairs = new HashMap<>(4);
     currencyPairs.put("1", CurrencyPair.BTC_CNY);
     // Seems they only provides API methods for the BTC_CNY.
     // But, anyway, we can place LTC_CNY orders from the website,
@@ -94,7 +94,7 @@ public final class BTCTradeAdapters {
 
   private static List<LimitOrder> adaptLimitOrders(BigDecimal[][] orders, CurrencyPair currencyPair, OrderType type) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
     for (BigDecimal[] order : orders) {
       limitOrders.add(adaptLimitOrder(order, currencyPair, type));
     }
@@ -109,7 +109,7 @@ public final class BTCTradeAdapters {
   public static Trades adaptTrades(BTCTradeTrade[] btcTradeTrades, CurrencyPair currencyPair) {
 
     int length = btcTradeTrades.length;
-    List<Trade> trades = new ArrayList<Trade>(length);
+    List<Trade> trades = new ArrayList<>(length);
     for (BTCTradeTrade btcTradeTrade : btcTradeTrades) {
       trades.add(adaptTrade(btcTradeTrade, currencyPair));
     }
@@ -146,7 +146,7 @@ public final class BTCTradeAdapters {
 
     checkException(balance);
 
-    List<Balance> balances = new ArrayList<Balance>(5);
+    List<Balance> balances = new ArrayList<>(5);
     balances.add(new Balance(Currency.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()), zeroIfNull(balance.getBtcBalance()),
         zeroIfNull(balance.getBtcReserved())));
     balances.add(new Balance(Currency.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()), zeroIfNull(balance.getLtcBalance()),
@@ -184,7 +184,7 @@ public final class BTCTradeAdapters {
 
   public static OpenOrders adaptOpenOrders(BTCTradeOrder[] btcTradeOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>(btcTradeOrders.length);
+    List<LimitOrder> openOrders = new ArrayList<>(btcTradeOrders.length);
     for (BTCTradeOrder order : btcTradeOrders) {
       LimitOrder limitOrder = adaptLimitOrder(order);
       if (limitOrder != null) {
@@ -212,7 +212,7 @@ public final class BTCTradeAdapters {
 
   public static UserTrades adaptTrades(BTCTradeOrder[] btcTradeOrders, BTCTradeOrder[] btcTradeOrderDetails) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     for (int i = 0; i < btcTradeOrders.length; i++) {
       BTCTradeOrder order = btcTradeOrders[i];
 

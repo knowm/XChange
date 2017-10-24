@@ -17,10 +17,8 @@ public class BTEROpenOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param id orderId
-   * @param sellCode sell currency code String representation
-   * @param buyCode buy currency code String representation
    * @param sellAmount amount to sell
    * @param buyAmount amount to buy
    */

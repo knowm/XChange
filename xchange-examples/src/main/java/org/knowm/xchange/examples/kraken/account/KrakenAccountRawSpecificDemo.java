@@ -9,7 +9,7 @@ import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
-import org.knowm.xchange.kraken.service.polling.KrakenAccountServiceRaw;
+import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
 
 public class KrakenAccountRawSpecificDemo {
 
@@ -17,7 +17,7 @@ public class KrakenAccountRawSpecificDemo {
 
     Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
-    KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) krakenExchange.getPollingAccountService();
+    KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) krakenExchange.getAccountService();
 
     KrakenTradeBalanceInfo balanceInfo = rawKrakenAcctService.getKrakenTradeBalance();
     System.out.println(balanceInfo);

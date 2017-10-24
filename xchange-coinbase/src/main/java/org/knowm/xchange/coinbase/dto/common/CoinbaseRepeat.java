@@ -2,6 +2,10 @@ package org.knowm.xchange.coinbase.dto.common;
 
 import java.io.IOException;
 
+import org.knowm.xchange.coinbase.dto.common.CoinbaseRepeat.CoinbaseRepeatDeserializer;
+import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -10,9 +14,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.knowm.xchange.coinbase.dto.common.CoinbaseRepeat.CoinbaseRepeatDeserializer;
-import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
-import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
 /**
  * @author jamespedwards42
@@ -25,7 +26,7 @@ public enum CoinbaseRepeat {
 
   static class CoinbaseRepeatDeserializer extends JsonDeserializer<CoinbaseRepeat> {
 
-    private static final EnumFromStringHelper<CoinbaseRepeat> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRepeat>(CoinbaseRepeat.class);
+    private static final EnumFromStringHelper<CoinbaseRepeat> FROM_STRING_HELPER = new EnumFromStringHelper<>(CoinbaseRepeat.class);
 
     @Override
     public CoinbaseRepeat deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {

@@ -1,7 +1,8 @@
 package org.knowm.xchange.anx.v2.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.anx.v2.dto.ANXValue;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing Ticker from ANX
@@ -20,7 +21,7 @@ public final class ANXTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param high
    * @param low
    * @param avg

@@ -1,9 +1,10 @@
 package org.knowm.xchange.btcchina.dto.account.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btcchina.dto.BTCChinaError;
 import org.knowm.xchange.btcchina.dto.BTCChinaResponse;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaAccountInfo;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author David Yam
@@ -12,7 +13,7 @@ public class BTCChinaGetAccountInfoResponse extends BTCChinaResponse<BTCChinaAcc
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param result
    */

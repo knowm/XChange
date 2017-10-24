@@ -7,11 +7,10 @@ import java.util.Map;
 
 import javax.crypto.Mac;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.RestInvocation;
 
@@ -40,7 +39,7 @@ public class IndependentReserveDigest extends BaseParamsDigest {
     throw new IllegalStateException("For Independent Reserve one should use digestParamsToString method instead");
   }
 
-  public String digestParamsToString(ExchangeEndpoint endpoint, Long nonce, Map<String, String> parameters) {
+  public String digestParamsToString(ExchangeEndpoint endpoint, Long nonce, Map<String, Object> parameters) {
     Mac mac256 = getMac();
 
     String url = ExchangeEndpoint.getUrlBasingOnEndpoint(sslUri, endpoint) + ",";
@@ -56,19 +55,35 @@ public class IndependentReserveDigest extends BaseParamsDigest {
     mac256.update(namedNonce.getBytes());
 
     if (parameters != null && parameters.size() > 0) {
-      List<String> namedParameters = new ArrayList<String>();
-      for (Map.Entry<String, String> parameter : parameters.entrySet()) {
-        String namedParameter = parameter.getKey() + "=" + parameter.getValue();
+      List<String> namedParameters = new ArrayList<>();
+      for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
+        Object value = parameter.getValue();
+        StringBuilder valueStr;
+        if (value == null) {
+          valueStr = null;
+        } else if (value instanceof Object[]) {
+          valueStr = new StringBuilder();
+          for (Object o : (Object[]) value) {
+            if (valueStr.length() != 0) {
+              valueStr.append(',');
+            }
+            valueStr.append(String.valueOf(o));
+          }
+        } else {
+          valueStr = new StringBuilder(String.valueOf(value));
+        }
+
+        String namedParameter = parameter.getKey() + "=" + valueStr;
         namedParameters.add(namedParameter);
       }
-      String joinedNamedParameters = "";
+      StringBuilder joinedNamedParameters = new StringBuilder();
       for (String namedParameter : namedParameters) {
-        joinedNamedParameters += namedParameter + ",";
+        joinedNamedParameters.append(namedParameter).append(",");
       }
-      joinedNamedParameters = joinedNamedParameters.substring(0, joinedNamedParameters.length() - 1);
-      if (!joinedNamedParameters.equals("")) {
-        joinedNamedParameters = "," + joinedNamedParameters;
-        mac256.update(joinedNamedParameters.getBytes());
+      joinedNamedParameters = new StringBuilder(joinedNamedParameters.substring(0, joinedNamedParameters.length() - 1));
+      if (!joinedNamedParameters.toString().equals("")) {
+        joinedNamedParameters.insert(0, ",");
+        mac256.update(joinedNamedParameters.toString().getBytes());
       }
     }
     return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();

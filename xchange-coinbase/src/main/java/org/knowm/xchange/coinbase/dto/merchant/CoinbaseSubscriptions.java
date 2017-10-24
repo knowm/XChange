@@ -2,8 +2,9 @@ package org.knowm.xchange.coinbase.dto.merchant;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.coinbase.dto.CoinbasePagedResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author jamespedwards42

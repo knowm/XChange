@@ -3,10 +3,11 @@ package org.knowm.xchange.bitso.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.knowm.xchange.bitso.BitsoUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.bitso.BitsoUtils;
 
 /**
  * @author Piotr Ładyżyński
@@ -15,7 +16,9 @@ public final class BitsoOrder {
 
   private final String id;
   private final String datetime;
-  /** 0 - buy (bid); 1 - sell (ask) */
+  /**
+   * 0 - buy (bid); 1 - sell (ask)
+   */
   private final int type;
   private final BigDecimal price;
   private final BigDecimal amount;

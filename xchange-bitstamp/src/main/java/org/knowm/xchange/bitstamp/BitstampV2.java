@@ -14,7 +14,7 @@ import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
-import org.knowm.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
+import org.knowm.xchange.bitstamp.service.BitstampMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
@@ -38,10 +38,8 @@ public interface BitstampV2 {
    */
   @GET
   @Path("transactions/{pair}/")
-  BitstampTransaction[] getTransactions(
-      @PathParam("pair") Pair pair,
-      @QueryParam("time") BitstampMarketDataServiceRaw.BitstampTime time
-  ) throws IOException, BitstampException;
+  BitstampTransaction[] getTransactions(@PathParam("pair") Pair pair,
+      @QueryParam("time") BitstampMarketDataServiceRaw.BitstampTime time) throws IOException, BitstampException;
 
   class Pair {
     public final CurrencyPair pair;
@@ -66,7 +64,7 @@ public interface BitstampV2 {
 
     @Override
     public String toString() {
-      return String.format("%s%s", pair.base.getCurrencyCode().toLowerCase(), pair.counter.getCurrencyCode().toLowerCase());
+      return pair == null ? "" : String.format("%s%s", pair.base.getCurrencyCode().toLowerCase(), pair.counter.getCurrencyCode().toLowerCase());
     }
   }
 

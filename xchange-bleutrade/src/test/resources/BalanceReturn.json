@@ -1,12 +1,12 @@
 {
-  "success" : true,
-  "message" : "",
-  "result" : {
-    "Currency" : "BTC",
-    "Balance" : 15.49843675,
-    "Available" : 13.98901996,
-    "Pending" : 0.00000000,
-    "CryptoAddress" : "1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9",
-    "IsActive" : true
+  "success": true,
+  "message": "",
+  "result": {
+    "Currency": "BTC",
+    "Balance": 15.49843675,
+    "Available": 13.98901996,
+    "Pending": 0.00000000,
+    "CryptoAddress": "1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9",
+    "IsActive": true
   }
 }

@@ -26,7 +26,7 @@ public final class GatecoinTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param currencyPair
    * @param open
    * @param last

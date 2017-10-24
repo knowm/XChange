@@ -7,6 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades.KrakenTradesDeserializer;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
+import org.knowm.xchange.kraken.dto.trade.KrakenType;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -14,9 +18,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades.KrakenTradesDeserializer;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
 
 @JsonDeserialize(using = KrakenTradesDeserializer.class)
 public class KrakenPublicTrades {
@@ -51,7 +52,7 @@ public class KrakenPublicTrades {
     @Override
     public KrakenPublicTrades deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      List<KrakenPublicTrade> krakenTrades = new ArrayList<KrakenPublicTrade>();
+      List<KrakenPublicTrade> krakenTrades = new ArrayList<>();
       long last = 0;
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);

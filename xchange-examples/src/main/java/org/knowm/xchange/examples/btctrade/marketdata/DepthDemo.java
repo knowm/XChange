@@ -6,10 +6,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btctrade.BTCTradeExchange;
 import org.knowm.xchange.btctrade.dto.marketdata.BTCTradeDepth;
-import org.knowm.xchange.btctrade.service.polling.BTCTradeMarketDataServiceRaw;
+import org.knowm.xchange.btctrade.service.BTCTradeMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting order book at BTCTrade.
@@ -26,8 +26,8 @@ public class DepthDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication).
-    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication).
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the order book data for BTC/CNY.
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CNY);
@@ -39,8 +39,8 @@ public class DepthDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication).
-    BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication).
+    BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getMarketDataService();
 
     // Get the order book data for BTC/CNY.
     BTCTradeDepth depth = marketDataService.getBTCTradeDepth();

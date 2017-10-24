@@ -4,9 +4,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags.KrakenOrderFlagsDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags.KrakenOrderFlagsDeserializer;
 
 public class KrakenOrder {
 
@@ -32,7 +33,7 @@ public class KrakenOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param refId
    * @param userRefId
    * @param status

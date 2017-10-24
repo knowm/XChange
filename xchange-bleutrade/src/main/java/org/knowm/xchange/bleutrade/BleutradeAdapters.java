@@ -17,6 +17,7 @@ import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeOrderBook;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -32,6 +33,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class BleutradeAdapters {
@@ -39,7 +41,7 @@ public class BleutradeAdapters {
   public static Set<CurrencyPair> adaptBleutradeCurrencyPairs(BleutradeMarketsReturn response) {
 
     List<BleutradeMarket> markets = response.getResult();
-    Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
+    Set<CurrencyPair> currencyPairs = new HashSet<>();
 
     for (BleutradeMarket market : markets) {
       currencyPairs.add(BleutradeUtils.toCurrencyPair(market.getMarketName()));
@@ -69,14 +71,14 @@ public class BleutradeAdapters {
     List<BleutradeLevel> bleutradeAsks = bleutradeOrderBook.getSell();
     List<BleutradeLevel> bleutradeBids = bleutradeOrderBook.getBuy();
 
-    List<LimitOrder> asks = new ArrayList<LimitOrder>();
-    List<LimitOrder> bids = new ArrayList<LimitOrder>();
+    List<LimitOrder> asks = new ArrayList<>();
+    List<LimitOrder> bids = new ArrayList<>();
 
     for (BleutradeLevel ask : bleutradeAsks) {
 
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.ASK, currencyPair);
       builder.limitPrice(ask.getRate());
-      builder.tradableAmount(ask.getQuantity());
+      builder.originalAmount(ask.getQuantity());
       asks.add(builder.build());
     }
 
@@ -84,7 +86,7 @@ public class BleutradeAdapters {
 
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.BID, currencyPair);
       builder.limitPrice(bid.getRate());
-      builder.tradableAmount(bid.getQuantity());
+      builder.originalAmount(bid.getQuantity());
       bids.add(builder.build());
     }
 
@@ -93,7 +95,7 @@ public class BleutradeAdapters {
 
   public static Trades adaptBleutradeMarketHistory(List<BleutradeTrade> bleutradeTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
 
     for (BleutradeTrade bleutradeTrade : bleutradeTrades) {
 
@@ -101,7 +103,7 @@ public class BleutradeAdapters {
       builder.currencyPair(currencyPair);
       builder.price(bleutradeTrade.getPrice());
       builder.timestamp(BleutradeUtils.toDate(bleutradeTrade.getTimeStamp()));
-      builder.tradableAmount(bleutradeTrade.getQuantity());
+      builder.originalAmount(bleutradeTrade.getQuantity());
       builder.type(bleutradeTrade.getOrderType().equals("BUY") ? OrderType.BID : OrderType.ASK);
       trades.add(builder.build());
     }
@@ -111,7 +113,7 @@ public class BleutradeAdapters {
 
   public static Wallet adaptBleutradeBalances(List<BleutradeBalance> bleutradeBalances) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     for (BleutradeBalance bleutradeBalance : bleutradeBalances) {
       balances.add(new Balance(Currency.getInstance(bleutradeBalance.getCurrency()), bleutradeBalance.getBalance(), bleutradeBalance.getAvailable(),
@@ -124,7 +126,7 @@ public class BleutradeAdapters {
 
   public static OpenOrders adaptBleutradeOpenOrders(List<BleutradeOpenOrder> bleutradeOpenOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
 
     for (BleutradeOpenOrder bleuTradeOpenOrder : bleutradeOpenOrders) {
 
@@ -134,7 +136,9 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(type, currencyPair);
       builder.id(bleuTradeOpenOrder.getOrderId());
       builder.limitPrice(bleuTradeOpenOrder.getPrice());
-      builder.tradableAmount(bleuTradeOpenOrder.getQuantityRemaining());
+      builder.remainingAmount(bleuTradeOpenOrder.getQuantityRemaining());
+      builder.originalAmount(bleuTradeOpenOrder.getQuantity());
+      builder.timestamp(BleutradeUtils.toDate(bleuTradeOpenOrder.getCreated()));
       openOrders.add(builder.build());
     }
 
@@ -143,8 +147,8 @@ public class BleutradeAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(List<BleutradeCurrency> bleutradeCurrencies, List<BleutradeMarket> bleutradeMarkets) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = new HashMap<CurrencyPair, CurrencyPairMetaData>();
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<Currency, CurrencyMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>();
 
     for (BleutradeCurrency bleutradeCurrency : bleutradeCurrencies) {
       // the getTxFee parameter is the withdrawal charge in the currency in question
@@ -163,4 +167,19 @@ public class BleutradeAdapters {
     return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null);
   }
 
+  public static UserTrade adaptUserTrade(BluetradeExecutedTrade trade) {
+    OrderType orderType = trade.type.equalsIgnoreCase("sell") ? OrderType.ASK : OrderType.BID;
+    CurrencyPair currencyPair = BleutradeUtils.toCurrencyPair(trade.exchange);
+    return new UserTrade(
+        orderType,
+        trade.quantity,
+        currencyPair,
+        trade.price,
+        BleutradeUtils.toDate(trade.created),
+        trade.orderId,
+        trade.orderId,
+        null,
+        null
+    );
+  }
 }

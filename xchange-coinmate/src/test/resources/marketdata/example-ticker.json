@@ -1,12 +1,13 @@
 {
-    "error": false,
-    "errorMessage": null,
-    "data": {
-        "last": 254.08,
-        "high": 255.43,
-        "low": 250.02,
-        "amount": 42.78294066,
-        "bid": 252.93,
-        "ask": 254.08
-    }
+  "error": false,
+  "errorMessage": null,
+  "data": {
+    "last": 254.08,
+    "high": 255.43,
+    "low": 250.02,
+    "amount": 42.78294066,
+    "bid": 252.93,
+    "ask": 254.08,
+    "timestamp": 1485461577
+  }
 }

@@ -1,9 +1,4 @@
-Coinfloor Exchange API specification
+Coinfloor BIST API specification
 ================================
 
-Public API
-
-Documentation
--------------
-https://coinfloor.co.uk/api
-
+https://github.com/coinfloor/API/blob/master/BIST.md

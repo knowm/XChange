@@ -1,16 +1,16 @@
 package org.knowm.xchange.btce.v3.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.btce.v3.BTCEAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test BTCETrade[] JSON parsing

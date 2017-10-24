@@ -1,22 +1,22 @@
 {
- "settings": {
- "account": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
- "transfer_rate": 1002000000,
- "password_spent": false,
- "require_destination_tag": true,
- "require_authorization": false,
- "disallow_xrp": false,
- "disable_master": false,
- "no_freeze": false,
- "global_freeze": false,
- "default_ripple": true,
- "transaction_sequence": "2279",
- "email_hash": "5B33B93C7FFE384D53450FC666BB11FB",
- "wallet_locator": "",
- "wallet_size": "",
- "message_key": "",
- "domain": "bitstamp.net",
- "signers": ""
- },
- "success": true
+  "settings": {
+    "account": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+    "transfer_rate": 1002000000,
+    "password_spent": false,
+    "require_destination_tag": true,
+    "require_authorization": false,
+    "disallow_xrp": false,
+    "disable_master": false,
+    "no_freeze": false,
+    "global_freeze": false,
+    "default_ripple": true,
+    "transaction_sequence": "2279",
+    "email_hash": "5B33B93C7FFE384D53450FC666BB11FB",
+    "wallet_locator": "",
+    "wallet_size": "",
+    "message_key": "",
+    "domain": "bitstamp.net",
+    "signers": ""
+  },
+  "success": true
 }

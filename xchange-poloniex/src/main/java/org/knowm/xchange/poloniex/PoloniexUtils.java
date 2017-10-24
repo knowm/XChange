@@ -1,16 +1,17 @@
 package org.knowm.xchange.poloniex;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import org.knowm.xchange.currency.CurrencyPair;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
+import org.knowm.xchange.currency.CurrencyPair;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
  * @author Zach Holmes
@@ -20,8 +21,7 @@ public class PoloniexUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    String pairString = currencyPair.counter.getCurrencyCode().toUpperCase() + "_" + currencyPair.base.getCurrencyCode().toUpperCase();
-    return pairString;
+    return currencyPair.counter.getCurrencyCode().toUpperCase() + "_" + currencyPair.base.getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair toCurrencyPair(String pair) {

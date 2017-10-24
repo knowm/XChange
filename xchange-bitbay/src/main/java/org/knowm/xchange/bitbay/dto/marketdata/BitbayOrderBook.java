@@ -15,7 +15,7 @@ public class BitbayOrderBook {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

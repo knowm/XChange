@@ -3,9 +3,9 @@ package org.knowm.xchange.coinbase;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.coinbase.service.polling.CoinbaseAccountService;
-import org.knowm.xchange.coinbase.service.polling.CoinbaseMarketDataService;
-import org.knowm.xchange.coinbase.service.polling.CoinbaseTradeService;
+import org.knowm.xchange.coinbase.service.CoinbaseAccountService;
+import org.knowm.xchange.coinbase.service.CoinbaseMarketDataService;
+import org.knowm.xchange.coinbase.service.CoinbaseTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -19,9 +19,9 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new CoinbaseMarketDataService(this);
-    this.pollingAccountService = new CoinbaseAccountService(this);
-    this.pollingTradeService = new CoinbaseTradeService(this);
+    this.marketDataService = new CoinbaseMarketDataService(this);
+    this.accountService = new CoinbaseAccountService(this);
+    this.tradeService = new CoinbaseTradeService(this);
   }
 
   @Override

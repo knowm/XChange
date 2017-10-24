@@ -52,7 +52,8 @@ public final class BitcoinChartsAdapters {
   }
 
   public static ExchangeMetaData adaptMetaData(ExchangeMetaData exchangeMetaData, BitcoinChartsTicker[] tickers) {
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
+
+    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
 
     for (BitcoinChartsTicker ticker : tickers) {
       BigDecimal anyPrice = firstNonNull(ticker.getAsk(), ticker.getBid(), ticker.getClose(), ticker.getHigh(), ticker.getHigh());
@@ -65,6 +66,7 @@ public final class BitcoinChartsAdapters {
   }
 
   private static <T> T firstNonNull(T... objects) {
+
     for (T o : objects) {
       if (o != null) {
         return o;

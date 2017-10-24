@@ -1,63 +1,63 @@
 {
-   "current_user":{
-      "id":"527d2a1ffedcb8b73b000028",
-      "email":"xchange@demo.com",
-      "name":"First Last"
-   },
-   "balance":{
-      "amount":"7.00927800",
-      "currency":"BTC"
-   },
-   "transactions":[
-      {
-         "transaction":{
-            "id":"52d8d8685a62c7613e000277",
-            "created_at":"2014-01-16T23:14:48-08:00",
-            "hsh":null,
-            "amount":{
-               "amount":"1.00000000",
-               "currency":"BTC"
-            },
-            "request":false,
-            "status":"complete",
-            "sender":{
-               "id":"5083a5410924750200000001",
-               "email":"transfers@coinbase.com",
-               "name":"Coinbase"
-            },
-            "recipient":{
-               "id":"527d2a1ffedcb8b73b000028",
-               "email":"xchange@demo.com",
-               "name":"First Last"
-            },
-            "recipient_address":"xchange@demo.com",
-            "notes":"notes",
-            "idem":""
-         }
-      },
-      {
-         "transaction":{
-            "id":"528708506d1510455a000426",
-            "created_at":"2013-11-15T21:53:20-08:00",
-            "hsh":"1591920f74de1f05465051c1df7a8ae32c820c616a325d2488d788b7b9782ceb",
-            "amount":{
-               "amount":"-0.10000000",
-               "currency":"BTC"
-            },
-            "request":false,
-            "status":"complete",
-            "sender":{
-               "id":"527d2a1ffedcb8b73b000028",
-               "email":"xchange@demo.com",
-               "name":"First Last"
-            },
-            "recipient_address":"1AVyz9Sahat5ejV9oA46DKoADXYpmsRBLr",
-            "notes":"transfer test",
-            "idem":""
-         }
+  "current_user": {
+    "id": "527d2a1ffedcb8b73b000028",
+    "email": "xchange@demo.com",
+    "name": "First Last"
+  },
+  "balance": {
+    "amount": "7.00927800",
+    "currency": "BTC"
+  },
+  "transactions": [
+    {
+      "transaction": {
+        "id": "52d8d8685a62c7613e000277",
+        "created_at": "2014-01-16T23:14:48-08:00",
+        "hsh": null,
+        "amount": {
+          "amount": "1.00000000",
+          "currency": "BTC"
+        },
+        "request": false,
+        "status": "complete",
+        "sender": {
+          "id": "5083a5410924750200000001",
+          "email": "transfers@coinbase.com",
+          "name": "Coinbase"
+        },
+        "recipient": {
+          "id": "527d2a1ffedcb8b73b000028",
+          "email": "xchange@demo.com",
+          "name": "First Last"
+        },
+        "recipient_address": "xchange@demo.com",
+        "notes": "notes",
+        "idem": ""
       }
-   ],
-   "total_count":2,
-   "num_pages":1,
-   "current_page":1
+    },
+    {
+      "transaction": {
+        "id": "528708506d1510455a000426",
+        "created_at": "2013-11-15T21:53:20-08:00",
+        "hsh": "1591920f74de1f05465051c1df7a8ae32c820c616a325d2488d788b7b9782ceb",
+        "amount": {
+          "amount": "-0.10000000",
+          "currency": "BTC"
+        },
+        "request": false,
+        "status": "complete",
+        "sender": {
+          "id": "527d2a1ffedcb8b73b000028",
+          "email": "xchange@demo.com",
+          "name": "First Last"
+        },
+        "recipient_address": "1AVyz9Sahat5ejV9oA46DKoADXYpmsRBLr",
+        "notes": "transfer test",
+        "idem": ""
+      }
+    }
+  ],
+  "total_count": 2,
+  "num_pages": 1,
+  "current_page": 1
 }

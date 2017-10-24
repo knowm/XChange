@@ -12,7 +12,7 @@ public class LakeBTCTickers {
 
   /**
    * Constructor
-   * 
+   *
    * @param usd
    * @param cny
    */

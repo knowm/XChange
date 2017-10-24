@@ -5,8 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Panchen
@@ -40,12 +41,12 @@ public class CryptoFacilitiesFills extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess()) {
-      String res = "CryptoFacilitiesFills [serverTime=" + DATE_FORMAT.format(serverTime) + ", fills=";
+      StringBuilder res = new StringBuilder("CryptoFacilitiesFills [serverTime=" + DATE_FORMAT.format(serverTime) + ", fills=");
       for (CryptoFacilitiesFill fill : fills)
-        res = res + fill.toString() + ", ";
-      res = res + " ]";
+        res.append(fill.toString()).append(", ");
+      res.append(" ]");
 
-      return res;
+      return res.toString();
     } else {
       return super.toString();
     }

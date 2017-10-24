@@ -11,18 +11,18 @@ public class BitcoindeTrade {
 
   private final long date;
   private final BigDecimal price;
-  private final String amount;
-  private final long tid;
+  private final BigDecimal amount;
+  private final int tid;
 
   /**
    * Constructor
-   * 
+   *
    * @param tid
    * @param price
    * @param amount
    * @param date
    */
-  public BitcoindeTrade(@JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") String amount,
+  public BitcoindeTrade(@JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("date") long date) {
 
     this.tid = tid;
@@ -31,7 +31,7 @@ public class BitcoindeTrade {
     this.date = date;
   }
 
-  public long getTid() {
+  public int getTid() {
 
     return tid;
   }
@@ -41,7 +41,7 @@ public class BitcoindeTrade {
     return price;
   }
 
-  public String getAmount() {
+  public BigDecimal getAmount() {
 
     return amount;
   }
@@ -54,6 +54,6 @@ public class BitcoindeTrade {
   @Override
   public String toString() {
 
-    return "BitcoindeTrade{" + "date=" + date + ", price=" + price + ", amount='" + amount + "', date=" + date + '}';
+    return "BitcoindeTrade{" + "date=" + date + ", price=" + price + ", amount='" + amount + "', tid=" + tid + '}';
   }
 }

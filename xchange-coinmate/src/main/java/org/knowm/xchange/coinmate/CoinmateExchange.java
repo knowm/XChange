@@ -26,9 +26,9 @@ package org.knowm.xchange.coinmate;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.coinmate.service.polling.CoinmateAccountService;
-import org.knowm.xchange.coinmate.service.polling.CoinmateMarketDataService;
-import org.knowm.xchange.coinmate.service.polling.CoinmateTradeService;
+import org.knowm.xchange.coinmate.service.CoinmateAccountService;
+import org.knowm.xchange.coinmate.service.CoinmateMarketDataService;
+import org.knowm.xchange.coinmate.service.CoinmateTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -47,9 +47,9 @@ public class CoinmateExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new CoinmateMarketDataService(this);
-    this.pollingAccountService = new CoinmateAccountService(this);
-    this.pollingTradeService = new CoinmateTradeService(this);
+    this.marketDataService = new CoinmateMarketDataService(this);
+    this.accountService = new CoinmateAccountService(this);
+    this.tradeService = new CoinmateTradeService(this);
 
   }
 

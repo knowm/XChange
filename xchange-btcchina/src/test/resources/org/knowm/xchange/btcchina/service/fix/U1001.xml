@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <message>
-	<header>
-		<field name="BeginString" tag="8"><![CDATA[FIX.4.4]]></field>
-		<field name="BodyLength" tag="9"><![CDATA[323]]></field>
-		<field name="MsgSeqNum" tag="34"><![CDATA[2]]></field>
-		<field enum="AccountInfoResponse" name="MsgType" tag="35"><![CDATA[U1001]]></field>
-		<field name="SenderCompID" tag="49"><![CDATA[BTCC-FIX-SERVER]]></field>
-		<field name="SendingTime" tag="52"><![CDATA[20141122-14:44:03.374]]></field>
-		<field name="TargetCompID" tag="56"><![CDATA[9dfa65ee-e023-48fb-a8c1-cba6ea4b01ff]]></field>
-	</header>
-	<body>
-		<field name="Account" tag="1"><![CDATA[1416667441762000:Basic OWRmYTY1ZWUtZTAyMy00OGZiLWE4YzEtY2JhNmVhNGIwMWZmOmJhNWFhZDA2M2NiM2E5MzM4MjE4ZDViZTU4NDRiYzg4MTRhYjVhMTQ=]]></field>
-		<field name="AccReqID" tag="8000"><![CDATA[dd6a228e-c2a5-4915-bfa3-78ba1fac91c3]]></field>
-		<field name="Balance" tag="9000"><![CDATA[3]]></field>
-		<groups name="Balance" tag="9000">
-			<group>
-				<field name="Currency" tag="15"><![CDATA[BTC]]></field>
-				<field name="Amount" tag="8001"><![CDATA[0.001]]></field>
-			</group>
-			<group>
-				<field name="Currency" tag="15"><![CDATA[LTC]]></field>
-				<field name="Amount" tag="8001"><![CDATA[0]]></field>
-			</group>
-			<group>
-				<field name="Currency" tag="15"><![CDATA[CNY]]></field>
-				<field name="Amount" tag="8001"><![CDATA[0]]></field>
-			</group>
-		</groups>
-	</body>
-	<trailer>
-		<field name="CheckSum" tag="10"><![CDATA[169]]></field>
-	</trailer>
+    <header>
+        <field name="BeginString" tag="8"><![CDATA[FIX.4.4]]></field>
+        <field name="BodyLength" tag="9"><![CDATA[323]]></field>
+        <field name="MsgSeqNum" tag="34"><![CDATA[2]]></field>
+        <field enum="AccountInfoResponse" name="MsgType" tag="35"><![CDATA[U1001]]></field>
+        <field name="SenderCompID" tag="49"><![CDATA[BTCC-FIX-SERVER]]></field>
+        <field name="SendingTime" tag="52"><![CDATA[20141122-14:44:03.374]]></field>
+        <field name="TargetCompID" tag="56"><![CDATA[9dfa65ee-e023-48fb-a8c1-cba6ea4b01ff]]></field>
+    </header>
+    <body>
+        <field name="Account" tag="1">
+            <![CDATA[1416667441762000:Basic OWRmYTY1ZWUtZTAyMy00OGZiLWE4YzEtY2JhNmVhNGIwMWZmOmJhNWFhZDA2M2NiM2E5MzM4MjE4ZDViZTU4NDRiYzg4MTRhYjVhMTQ=]]></field>
+        <field name="AccReqID" tag="8000"><![CDATA[dd6a228e-c2a5-4915-bfa3-78ba1fac91c3]]></field>
+        <field name="Balance" tag="9000"><![CDATA[3]]></field>
+        <groups name="Balance" tag="9000">
+            <group>
+                <field name="Currency" tag="15"><![CDATA[BTC]]></field>
+                <field name="Amount" tag="8001"><![CDATA[0.001]]></field>
+            </group>
+            <group>
+                <field name="Currency" tag="15"><![CDATA[LTC]]></field>
+                <field name="Amount" tag="8001"><![CDATA[0]]></field>
+            </group>
+            <group>
+                <field name="Currency" tag="15"><![CDATA[CNY]]></field>
+                <field name="Amount" tag="8001"><![CDATA[0]]></field>
+            </group>
+        </groups>
+    </body>
+    <trailer>
+        <field name="CheckSum" tag="10"><![CDATA[169]]></field>
+    </trailer>
 </message>

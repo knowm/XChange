@@ -6,7 +6,7 @@ import org.knowm.xchange.btcchina.dto.BTCChinaRequest;
 
 /**
  * Request for {@code buyStopOrder} and {@code sellStopOrder}.
- * 
+ *
  * @see <a href="http://btcchina.org/api-trade-documentation-en#stop_order_api_methods">Trade API(English)</a>
  * @see <a href="http://btcchina.org/api-trade-documentation-zh#stop_order_api_methods">Trade API(Chinese)</a>
  */

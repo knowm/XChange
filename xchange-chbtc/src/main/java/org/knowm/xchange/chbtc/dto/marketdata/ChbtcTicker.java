@@ -37,7 +37,6 @@ public class ChbtcTicker {
 
   @Override
   public String toString() {
-    return String.format("ChbtcTicker{last=%s, high=%s, low=%s, vol=%s, buy=%s, sell=%s}",
-        last, high, low, vol, buy, sell);
+    return String.format("ChbtcTicker{last=%s, high=%s, low=%s, vol=%s, buy=%s, sell=%s}", last, high, low, vol, buy, sell);
   }
 }

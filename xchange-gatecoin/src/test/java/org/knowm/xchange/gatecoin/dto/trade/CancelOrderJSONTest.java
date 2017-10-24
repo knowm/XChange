@@ -1,16 +1,16 @@
 package org.knowm.xchange.gatecoin.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
+import org.knowm.xchange.gatecoin.dto.GatecoinException;
+import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.gatecoin.dto.GatecoinException;
-import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
 
 import si.mazi.rescu.ExceptionalReturnContentException;
 

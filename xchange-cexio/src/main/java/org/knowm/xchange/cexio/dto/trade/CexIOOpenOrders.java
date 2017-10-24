@@ -5,6 +5,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders.CexIOOpenOrdersDeserializer;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrder.Type;
+import org.knowm.xchange.exceptions.ExchangeException;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -12,9 +16,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders.CexIOOpenOrdersDeserializer;
-import org.knowm.xchange.cexio.dto.trade.CexIOOrder.Type;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 @JsonDeserialize(using = CexIOOpenOrdersDeserializer.class)
 public class CexIOOpenOrders {
@@ -28,7 +29,7 @@ public class CexIOOpenOrders {
 
   public CexIOOpenOrders() {
 
-    this.openOrders = new ArrayList<CexIOOrder>();
+    this.openOrders = new ArrayList<>();
   }
 
   public List<CexIOOrder> getOpenOrders() {
@@ -70,7 +71,7 @@ public class CexIOOpenOrders {
         }
       }
 
-      final List<CexIOOrder> openOrders = new ArrayList<CexIOOrder>();
+      final List<CexIOOrder> openOrders = new ArrayList<>();
       if (openOrdersNode.isArray()) {
         for (JsonNode openOrderNode : openOrdersNode) {
           final long id = openOrderNode.path("id").asLong();

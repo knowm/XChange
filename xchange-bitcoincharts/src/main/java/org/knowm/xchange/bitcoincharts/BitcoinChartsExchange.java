@@ -6,7 +6,7 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
-import org.knowm.xchange.bitcoincharts.service.polling.BitcoinChartsMarketDataService;
+import org.knowm.xchange.bitcoincharts.service.BitcoinChartsMarketDataService;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -22,7 +22,8 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BitcoinChartsMarketDataService(this);
+
+    this.marketDataService = new BitcoinChartsMarketDataService(this);
   }
 
   @Override
@@ -40,13 +41,17 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
   }
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-    BitcoinChartsTicker[] tickers = ((BitcoinChartsMarketDataService) pollingMarketDataService).getBitcoinChartsTickers();
+
+    BitcoinChartsTicker[] tickers = ((BitcoinChartsMarketDataService) marketDataService).getBitcoinChartsTickers();
     exchangeMetaData = BitcoinChartsAdapters.adaptMetaData(exchangeMetaData, tickers);
+    // String json = ObjectMapperHelper.toJSON(exchangeMetaData);
+    // System.out.println("json: " + json);
   }
 }

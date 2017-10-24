@@ -3,16 +3,15 @@ package org.knowm.xchange.huobi;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.huobi.service.polling.BitVcAccountService;
-import org.knowm.xchange.huobi.service.polling.BitVcFuturesMarketDataService;
-import org.knowm.xchange.huobi.service.polling.BitVcTradeServiceRaw;
-import org.knowm.xchange.huobi.service.polling.GenericTradeService;
-import org.knowm.xchange.huobi.service.polling.HuobiAccountService;
-import org.knowm.xchange.huobi.service.polling.HuobiMarketDataService;
-import org.knowm.xchange.huobi.service.polling.HuobiTradeServiceRaw;
-import org.knowm.xchange.huobi.service.streaming.HuobiStreamingExchangeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
+import org.knowm.xchange.huobi.service.BitVcAccountServiceRaw;
+import org.knowm.xchange.huobi.service.BitVcBaseFuturesAccountService;
+import org.knowm.xchange.huobi.service.BitVcFuturesMarketDataService;
+import org.knowm.xchange.huobi.service.BitVcBaseFuturesTradeService;
+import org.knowm.xchange.huobi.service.BitVcTradeServiceRaw;
+import org.knowm.xchange.huobi.service.GenericTradeService;
+import org.knowm.xchange.huobi.service.HuobiAccountService;
+import org.knowm.xchange.huobi.service.HuobiMarketDataService;
+import org.knowm.xchange.huobi.service.HuobiTradeServiceRaw;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -24,15 +23,68 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
   public static final String TRADE_PASSWORD_PARAMETER = "trade_password";
 
-  /** Potentially different market data endpoints should be settable */
+  /**
+   * Potentially different market data endpoints should be settable
+   */
   public static final String HUOBI_MARKET_DATA = "huobi_uri_marketdata";
+
+  /**
+   * Using BitVc Spot for execution
+   */
   public static final String USE_BITVC = "use_bitvc";
-  public static final String USE_BITVC_FUTURES = "use_bitvc_futures";
+  /**
+   * Use BitVc Futures for market data
+   */
+  public static final String USE_BITVC_FUTURES_MARKET_DATA = "use_bitvc_futures";
+  /**
+   * Use BitVc Futures for execution
+   */
+  public static final String USE_BITVC_FUTURES_EXECUTION = "use_bitvc_futures_execution";
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
+
+    concludeHostParams(exchangeSpecification);
+  }
+
+  @Override
+  protected void initServices() {
+
+    concludeHostParams(exchangeSpecification);
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)
+        && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES_MARKET_DATA).equals(true)) {
+
+      marketDataService = new BitVcFuturesMarketDataService(this, futuresContractOfConfig(exchangeSpecification));
+    } else {
+      marketDataService = new HuobiMarketDataService(this);
+    }
+
+    if (exchangeSpecification.getApiKey() != null) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
+
+        // BitVc futures execution or spot execution
+        if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES_EXECUTION).equals(true)) {
+          accountService = new BitVcBaseFuturesAccountService(this);
+          tradeService = new BitVcBaseFuturesTradeService(this, futuresContractOfConfig(exchangeSpecification));
+        } else {
+          accountService = new BitVcAccountServiceRaw(this);
+          tradeService = new GenericTradeService(this, new BitVcTradeServiceRaw(this));
+        }
+      } else {
+        accountService = new HuobiAccountService(this);
+        tradeService = new GenericTradeService(this, new HuobiTradeServiceRaw(this));
+
+      }
+    }
+  }
+
+  /**
+   * Adjust host parameters depending on exchange specific parameters
+   */
+  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
       exchangeSpecification.setSslUri("https://api.bitvc.com");
@@ -40,31 +92,8 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     }
   }
 
-  @Override
-  protected void initServices() {
-    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)
-        && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES).equals(true)) {
-      FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
-
-      pollingMarketDataService = new BitVcFuturesMarketDataService(this, contract);
-    } else {
-      pollingMarketDataService = new HuobiMarketDataService(this);
-    }
-
-    if (exchangeSpecification.getApiKey() != null) {
-      if ((Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC)) {
-        pollingAccountService = new BitVcAccountService(this);
-        pollingTradeService = new GenericTradeService(this, new BitVcTradeServiceRaw(this));
-
-      } else {
-        pollingAccountService = new HuobiAccountService(this);
-        pollingTradeService = new GenericTradeService(this, new HuobiTradeServiceRaw(this));
-
-      }
-    }
-  }
-
   private static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
+
     FuturesContract contract;
 
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
@@ -86,13 +115,14 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     spec.setExchangeDescription("Huobi-Family Exchange (Huobi, BitVC, BitVC Futures)");
 
     /* by default we request market data from huobi and execute on bitvc */
-    spec.setPlainTextUri("http://market.huobi.com/staticmarket");
+    spec.setPlainTextUri("http://api.huobi.com/staticmarket");
     spec.setSslUri("https://api.huobi.com/apiv3");
 
     /* set to true if trade and account service should be from BitVc too */
     spec.setExchangeSpecificParametersItem(USE_BITVC, false);
-    spec.setExchangeSpecificParametersItem(USE_BITVC_FUTURES, false);
-    spec.setExchangeSpecificParametersItem(HUOBI_MARKET_DATA, "http://market.huobi.com/staticmarket");
+    spec.setExchangeSpecificParametersItem(USE_BITVC_FUTURES_MARKET_DATA, false);
+    spec.setExchangeSpecificParametersItem(USE_BITVC_FUTURES_EXECUTION, false);
+    spec.setExchangeSpecificParametersItem(HUOBI_MARKET_DATA, "http://api.huobi.com/staticmarket");
     spec.setExchangeSpecificParametersItem("Websocket_SslUri", "http://hq.huobi.com");
 
     return spec;
@@ -100,16 +130,9 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     // BitVC doesn't require a nonce for it's authenticated API
     return null;
   }
 
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-    if (!(Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC)) {
-      return new HuobiStreamingExchangeService(getExchangeSpecification(), configuration);
-    } else {
-      return super.getStreamingExchangeService(configuration);
-    }
-  }
 }

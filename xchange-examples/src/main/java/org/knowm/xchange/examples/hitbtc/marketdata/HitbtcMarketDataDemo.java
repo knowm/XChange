@@ -10,19 +10,13 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.hitbtc.HitbtcExampleUtils;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSnapshotFullRefresh;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
-import org.knowm.xchange.hitbtc.service.polling.HitbtcMarketDataServiceRaw;
-import org.knowm.xchange.hitbtc.service.streaming.HitbtcStreamingMarketDataConfiguration;
-import org.knowm.xchange.hitbtc.service.streaming.HitbtcStreamingMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.knowm.xchange.service.streaming.ExchangeEvent;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
+import org.knowm.xchange.hitbtc.service.HitbtcMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class HitbtcMarketDataDemo {
 
@@ -33,15 +27,14 @@ public class HitbtcMarketDataDemo {
     hitbtcExchange.remoteInit();
     System.out.println("Market metadata: " + hitbtcExchange.getExchangeMetaData().getCurrencyPairs().toString());
 
-    PollingMarketDataService marketDataService = hitbtcExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = hitbtcExchange.getMarketDataService();
 
     generic(marketDataService);
     raw((HitbtcMarketDataServiceRaw) marketDataService);
 
-    rawStreaming(new HitbtcStreamingMarketDataServiceRaw(hitbtcExchange, new HitbtcStreamingMarketDataConfiguration()));
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println("BTC / USD Ticker: " + ticker.toString());
@@ -110,35 +103,4 @@ public class HitbtcMarketDataDemo {
     System.out.println(trades.toString());
   }
 
-  private static void rawStreaming(StreamingExchangeService marketDataService) throws Exception {
-
-    marketDataService.connect();
-
-    boolean gotFullRefresh = false;
-    while (!gotFullRefresh) {
-
-      ExchangeEvent exchangeEvent = marketDataService.getNextEvent();
-      Object payload = exchangeEvent.getPayload();
-
-      if (payload == null) {
-
-        System.out.println("Websocket: " + exchangeEvent.getData());
-
-      } else if (payload.getClass() == HitbtcIncrementalRefresh.class) {
-
-        System.out.println("Websocket: " + payload.toString());
-
-      } else { // payload.getClass() == HitbtcSnapshotFullRefresh.class
-
-        HitbtcSnapshotFullRefresh snapshot = (HitbtcSnapshotFullRefresh) payload;
-        gotFullRefresh = true;
-
-        System.out.println("Websocket: " + snapshot.getSymbol() + " snapshot, seqNo=" + snapshot.getSnapshotSeqNo() + ", exchangeStatus="
-            + snapshot.getExchangeStatus());
-
-      }
-    }
-
-    marketDataService.disconnect();
-  }
 }

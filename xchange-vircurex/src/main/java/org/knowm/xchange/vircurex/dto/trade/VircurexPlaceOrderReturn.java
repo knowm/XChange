@@ -13,7 +13,7 @@ public class VircurexPlaceOrderReturn {
 
   /**
    * Constructor
-   * 
+   *
    * @param orderId
    */
   public VircurexPlaceOrderReturn(@JsonProperty("orederid") String orderId) {

@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfers;
-import org.knowm.xchange.coinbase.service.polling.CoinbaseTradeService;
+import org.knowm.xchange.coinbase.service.CoinbaseTradeService;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.coinbase.CoinbaseDemoUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 
 /**
  * @author jamespedwards42
@@ -18,13 +18,13 @@ public class CoinbaseTradeDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange coinbase = CoinbaseDemoUtils.createExchange();
-    PollingTradeService tradeService = coinbase.getPollingTradeService();
+    TradeService tradeService = coinbase.getTradeService();
 
     generic(tradeService);
     raw((CoinbaseTradeService) tradeService);
   }
 
-  public static void generic(PollingTradeService tradeService) throws IOException {
+  public static void generic(TradeService tradeService) throws IOException {
 
     // MarketOrder marketOrder = new MarketOrder(OrderType.BID, new BigDecimal(".01"), Currency.BTC, Currency.USD);
     // String orderId = tradeService.placeMarketOrder(marketOrder);

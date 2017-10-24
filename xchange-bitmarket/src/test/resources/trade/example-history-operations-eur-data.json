@@ -1,17 +1,34 @@
 {
-  "success":true,
-  "data":{
-    "total":8,
-    "start":0,
-    "count":8,
-    "results":[
-      {"id":11852566,"amount":67.05690389,"currency":"EUR","time":1430687948,"rate":842.00030000,"commission":0.30312011,"type":"trade"},
-      {"id":11852548,"amount":75.43901688,"currency":"EUR","time":1434017185,"rate":842.00030000,"commission":0.34101012,"type":"trade"}]
+  "success": true,
+  "data": {
+    "total": 8,
+    "start": 0,
+    "count": 8,
+    "results": [
+      {
+        "id": 11852566,
+        "amount": 67.05690389,
+        "currency": "EUR",
+        "time": 1430687948,
+        "rate": 842.00030000,
+        "commission": 0.30312011,
+        "type": "trade"
+      },
+      {
+        "id": 11852548,
+        "amount": 75.43901688,
+        "currency": "EUR",
+        "time": 1434017185,
+        "rate": 842.00030000,
+        "commission": 0.34101012,
+        "type": "trade"
+      }
+    ]
   },
-  "time":1434130899,
-  "limit":{
-    "used":6,
-    "allowed":6000,
-    "expires":1434132000
+  "time": 1434130899,
+  "limit": {
+    "used": 6,
+    "allowed": 6000,
+    "expires": 1434132000
   }
 }

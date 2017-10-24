@@ -1,7 +1,8 @@
 package org.knowm.xchange.btce.v3.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btce.v3.dto.BTCEReturn;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi
@@ -10,7 +11,7 @@ public class BTCECancelOrderReturn extends BTCEReturn<BTCECancelOrderResult> {
 
   /**
    * Constructor
-   * 
+   *
    * @param success
    * @param value
    * @param error

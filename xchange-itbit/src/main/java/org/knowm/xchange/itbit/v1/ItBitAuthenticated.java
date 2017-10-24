@@ -39,12 +39,14 @@ public interface ItBitAuthenticated {
   @GET
   @Path("wallets")
   ItBitAccountInfoReturn[] getInfo(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
-      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("userId") String userId) throws IOException, ItBitException;
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory,
+      @QueryParam("userId") String userId) throws IOException, ItBitException;
 
   @GET
   @Path("wallets/{walletId}")
   ItBitAccountInfoReturn getWallet(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
-      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId) throws IOException, ItBitException;
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory,
+      @PathParam("walletId") String walletId) throws IOException, ItBitException;
 
   @GET
   @Path("wallets/{walletId}/orders")
@@ -66,7 +68,9 @@ public interface ItBitAuthenticated {
       @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId,
       ItBitPlaceOrderRequest request) throws IOException, ItBitException;
 
-  /** Returns empty body, return object is always null */
+  /**
+   * Returns empty body, return object is always null
+   */
   @DELETE
   @Path("wallets/{walletId}/orders/{orderId}")
   Object cancelOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
@@ -84,22 +88,15 @@ public interface ItBitAuthenticated {
   @Path("wallets/{walletId}/cryptocurrency_deposits")
   @Consumes(MediaType.APPLICATION_JSON)
   ItBitDepositResponse requestDeposit(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
-      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId, ItBitDepositRequest request)
-      throws IOException, ItBitException;
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId,
+      ItBitDepositRequest request) throws IOException, ItBitException;
 
   @GET
   @Path("wallets/{walletId}/trades")
   @Consumes(MediaType.APPLICATION_JSON)
-  ItBitTradeHistory getUserTradeHistory(
-      @HeaderParam("Authorization") ParamsDigest signer,
-      @HeaderParam("X-Auth-Timestamp") long timestamp,
-      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory,
-      @PathParam("walletId") String walletId,
-      @QueryParam("lastExecutionId") String lastExecutionId,
-      @QueryParam("page") Integer page,
-      @QueryParam("perPage") Integer perPage,
-      @QueryParam("rangeStart") Date rangeStart,
-      @QueryParam("rangeStart") Date rangeEnd
-  ) throws IOException, ItBitException;
+  ItBitTradeHistory getUserTradeHistory(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId,
+      @QueryParam("lastExecutionId") String lastExecutionId, @QueryParam("page") Integer page, @QueryParam("perPage") Integer perPage,
+      @QueryParam("rangeStart") Date rangeStart, @QueryParam("rangeStart") Date rangeEnd) throws IOException, ItBitException;
 
 }

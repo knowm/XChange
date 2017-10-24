@@ -1,6 +1,6 @@
 package org.knowm.xchange.bleutrade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
@@ -17,8 +17,8 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeMarket;
-import org.knowm.xchange.bleutrade.service.polling.BleutradeMarketDataService;
-import org.knowm.xchange.bleutrade.service.polling.BleutradeServiceTestSupport;
+import org.knowm.xchange.bleutrade.service.BleutradeMarketDataService;
+import org.knowm.xchange.bleutrade.service.BleutradeServiceTestSupport;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -47,9 +47,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -60,9 +60,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -75,9 +75,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -89,9 +89,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -103,9 +103,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test(expected = NullPointerException.class)
@@ -153,11 +153,11 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
         createBleutradeMarket("DOGE", "BTC", "Dogecoin", "Bitcoin", new BigDecimal("0.10000000"), "DOGE_BTC", true),
         createBleutradeMarket("BLEU", "BTC", "Bleutrade Share", "Bitcoin", new BigDecimal("0.00000001"), "BLEU_BTC", true));
 
-    BleutradeMarketDataService pollingMarketDataServiceMock = mock(BleutradeMarketDataService.class);
-    PowerMockito.when(pollingMarketDataServiceMock.getBleutradeCurrencies()).thenReturn(currenciesStub);
-    PowerMockito.when(pollingMarketDataServiceMock.getBleutradeMarkets()).thenReturn(marketsStub);
+    BleutradeMarketDataService marketDataServiceMock = mock(BleutradeMarketDataService.class);
+    PowerMockito.when(marketDataServiceMock.getBleutradeCurrencies()).thenReturn(currenciesStub);
+    PowerMockito.when(marketDataServiceMock.getBleutradeMarkets()).thenReturn(marketsStub);
 
-    Whitebox.setInternalState(exchange, "pollingMarketDataService", pollingMarketDataServiceMock);
+    Whitebox.setInternalState(exchange, "marketDataService", marketDataServiceMock);
 
     // when
     exchange.remoteInit();

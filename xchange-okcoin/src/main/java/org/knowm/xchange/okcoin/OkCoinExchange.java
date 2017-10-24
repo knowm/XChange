@@ -2,15 +2,12 @@ package org.knowm.xchange.okcoin;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.okcoin.service.polling.OkCoinAccountService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinFuturesAccountService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinFuturesMarketDataService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinFuturesTradeService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinMarketDataService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinTradeService;
-import org.knowm.xchange.okcoin.service.streaming.OkCoinStreamingExchangeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
+import org.knowm.xchange.okcoin.service.OkCoinAccountService;
+import org.knowm.xchange.okcoin.service.OkCoinFuturesAccountService;
+import org.knowm.xchange.okcoin.service.OkCoinFuturesMarketDataService;
+import org.knowm.xchange.okcoin.service.OkCoinFuturesTradeService;
+import org.knowm.xchange.okcoin.service.OkCoinMarketDataService;
+import org.knowm.xchange.okcoin.service.OkCoinTradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -31,38 +28,56 @@ public class OkCoinExchange extends BaseExchange {
 
   @Override
   protected void initServices() {
+
     concludeHostParams(exchangeSpecification);
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
 
-      this.pollingMarketDataService = new OkCoinFuturesMarketDataService(this, contract);
+      this.marketDataService = new OkCoinFuturesMarketDataService(this, contract);
       if (exchangeSpecification.getApiKey() != null) {
-        this.pollingAccountService = new OkCoinFuturesAccountService(this);
-        this.pollingTradeService = new OkCoinFuturesTradeService(this, contract, futuresLeverageOfConfig(exchangeSpecification));
+        this.accountService = new OkCoinFuturesAccountService(this);
+        this.tradeService = new OkCoinFuturesTradeService(this, contract, futuresLeverageOfConfig(exchangeSpecification));
       }
     } else {
-      this.pollingMarketDataService = new OkCoinMarketDataService(this);
+      this.marketDataService = new OkCoinMarketDataService(this);
       if (exchangeSpecification.getApiKey() != null) {
-        this.pollingAccountService = new OkCoinAccountService(this);
-        this.pollingTradeService = new OkCoinTradeService(this);
+        this.accountService = new OkCoinAccountService(this);
+        this.tradeService = new OkCoinTradeService(this);
       }
     }
   }
 
-  /** Adjust host parameters depending on exchange specific parameters */
+  /**
+   * Adjust host parameters depending on exchange specific parameters
+   */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
-    if (exchangeSpecification.getExchangeSpecificParameters() != null && exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
-      exchangeSpecification.setSslUri("https://www.okcoin.com/api");
-      exchangeSpecification.setHost("www.okcoin.com");
-      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
+
+    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) &&
+          exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(false)) {
+
+        exchangeSpecification.setSslUri("https://www.okcoin.com/api");
+        exchangeSpecification.setHost("www.okcoin.com");
+        exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
+
+      } else if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) &&
+          exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+
+        exchangeSpecification.setSslUri("https://www.okex.com/api");
+        exchangeSpecification.setHost("www.okex.com");
+        exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okex.com:10440/websocket/okcoinapi");
+
+      }
     }
   }
 
-
-  /** Extract futures leverage used by spec */
+  /**
+   * Extract futures leverage used by spec
+   */
   private static int futuresLeverageOfConfig(ExchangeSpecification exchangeSpecification) {
+
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Leverage")) {
       return Integer.valueOf((String) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Leverage"));
     } else {
@@ -71,8 +86,11 @@ public class OkCoinExchange extends BaseExchange {
     }
   }
 
-  /** Extract contract used by spec */
+  /**
+   * Extract contract used by spec
+   */
   public static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
+
     FuturesContract contract;
 
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
@@ -106,12 +124,8 @@ public class OkCoinExchange extends BaseExchange {
   }
 
   @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-    return new OkCoinStreamingExchangeService(getExchangeSpecification(), configuration);
-  }
-
-  @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     // This exchange doesn't use a nonce for authentication
     return null;
   }

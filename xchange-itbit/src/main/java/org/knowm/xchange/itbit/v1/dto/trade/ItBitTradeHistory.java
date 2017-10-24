@@ -2,7 +2,6 @@ package org.knowm.xchange.itbit.v1.dto.trade;
 
 import java.util.List;
 
-
 public class ItBitTradeHistory {
   private Integer totalNumberOfRecords;
   private Integer currentPageNumber;

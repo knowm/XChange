@@ -1,6 +1,6 @@
 package org.knowm.xchange.bitcurex;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexAccountJSONTest;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexDepthJSONTest;
@@ -26,6 +24,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the BitcurexAdapter class
@@ -47,7 +47,7 @@ public class BitcurexAdapterTest {
     // Verify all fields filled
     assertThat(asks.get(0).getLimitPrice().doubleValue()).isEqualTo(70.00000000);
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
-    assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(0.1021341);
+    assertThat(asks.get(0).getOriginalAmount().doubleValue()).isEqualTo(0.1021341);
     assertThat(asks.get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
 
   }
@@ -67,7 +67,7 @@ public class BitcurexAdapterTest {
 
     // Verify all fields filled
     assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 70.00000000);
-    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 23.99500000);
+    assertThat(trades.getTrades().get(0).getOriginalAmount().doubleValue() == 23.99500000);
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-07-29 16:53:28 GMT");
   }
 

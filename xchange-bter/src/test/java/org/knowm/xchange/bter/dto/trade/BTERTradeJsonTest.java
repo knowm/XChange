@@ -1,16 +1,16 @@
 package org.knowm.xchange.bter.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bter.dto.BTEROrderType;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTERTradeJsonTest {
 

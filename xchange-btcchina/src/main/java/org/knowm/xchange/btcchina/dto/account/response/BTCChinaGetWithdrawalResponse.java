@@ -1,9 +1,10 @@
 package org.knowm.xchange.btcchina.dto.account.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btcchina.dto.BTCChinaError;
 import org.knowm.xchange.btcchina.dto.BTCChinaResponse;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaWithdrawalObject;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaGetWithdrawalResponse extends BTCChinaResponse<BTCChinaWithdrawalObject> {
 

@@ -2,6 +2,9 @@ package org.knowm.xchange.bitstamp.dto.account;
 
 import java.io.IOException;
 
+import org.knowm.xchange.bitstamp.dto.BitstampBaseResponse;
+import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress.BitstampDepositAddressDeserializer;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -9,8 +12,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.bitstamp.dto.BitstampBaseResponse;
-import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress.BitstampDepositAddressDeserializer;
 
 @JsonDeserialize(using = BitstampDepositAddressDeserializer.class)
 public class BitstampDepositAddress extends BitstampBaseResponse {

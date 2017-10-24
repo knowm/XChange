@@ -3,9 +3,9 @@ package org.knowm.xchange.therock;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.therock.service.polling.TheRockAccountService;
-import org.knowm.xchange.therock.service.polling.TheRockMarketDataService;
-import org.knowm.xchange.therock.service.polling.TheRockTradeService;
+import org.knowm.xchange.therock.service.TheRockAccountService;
+import org.knowm.xchange.therock.service.TheRockMarketDataService;
+import org.knowm.xchange.therock.service.TheRockTradeService;
 import org.knowm.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -14,6 +14,10 @@ import si.mazi.rescu.SynchronizedValueFactory;
  * @author Matija Mazi
  */
 public class TheRockExchange extends BaseExchange implements Exchange {
+  /**
+   * @deprecated use TheRockCancelOrderParams instead
+   */
+  public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
 
   private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
 
@@ -24,10 +28,10 @@ public class TheRockExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new TheRockMarketDataService(this);
+    this.marketDataService = new TheRockMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null) {
-      this.pollingTradeService = new TheRockTradeService(this);
-      this.pollingAccountService = new TheRockAccountService(this);
+      this.tradeService = new TheRockTradeService(this);
+      this.accountService = new TheRockAccountService(this);
     }
   }
 

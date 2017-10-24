@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.knowm.xchange.bter.dto.BTERBaseResponse;
+import org.knowm.xchange.bter.dto.marketdata.BTERTicker.BTERTickerTickerDeserializer;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -15,8 +18,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.knowm.xchange.bter.dto.BTERBaseResponse;
-import org.knowm.xchange.bter.dto.marketdata.BTERTicker.BTERTickerTickerDeserializer;
 
 @JsonDeserialize(using = BTERTickerTickerDeserializer.class)
 public class BTERTicker extends BTERBaseResponse {
@@ -100,7 +101,7 @@ public class BTERTicker extends BTERBaseResponse {
       final BigDecimal low = getNumberIfPresent(tickerNode.path("low"));
       final BigDecimal sell = getNumberIfPresent(tickerNode.path("sell"));
       final BigDecimal buy = getNumberIfPresent(tickerNode.path("buy"));
-      final Map<String, BigDecimal> volumes = new HashMap<String, BigDecimal>();
+      final Map<String, BigDecimal> volumes = new HashMap<>();
 
       if (tickerNode instanceof ObjectNode) {
         final ObjectNode tickerDataObjectNode = (ObjectNode) tickerNode;

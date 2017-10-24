@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class BitcoinAverageTickers {
 
-  private Map<String, BitcoinAverageTicker> tickers = new HashMap<String, BitcoinAverageTicker>();
+  private Map<String, BitcoinAverageTicker> tickers = new HashMap<>();
   private Date timestamp;
 
   // Could alternatively add setters, but since these are mandatory

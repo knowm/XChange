@@ -3,10 +3,11 @@ package org.knowm.xchange.bitmarket.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitmarket.BitMarketUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kfonal
@@ -46,7 +47,7 @@ public class BitMarketOrder {
     this.type = type;
     this.time = time;
     this.timestamp = new Date(time * 1000);
-    this.currencyPair = BitMarketUtils.BitMarketCurrencyPairToCurrencyPair(market);
+    this.currencyPair = BitMarketUtils.bitMarketCurrencyPairToCurrencyPair(market);
   }
 
   public long getId() {
@@ -70,7 +71,7 @@ public class BitMarketOrder {
   }
 
   public Order.OrderType getType() {
-    return BitMarketUtils.BitMarketOrderTypeToOrderType(type);
+    return BitMarketUtils.bitMarketOrderTypeToOrderType(type);
   }
 
   public long getTime() {

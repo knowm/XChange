@@ -1,9 +1,9 @@
 {
-  "currency" : "AUD",
-  "instrument" : "BTC",
-  "price" : 13000000000,
-  "volume" : 10000000,
-  "orderSide" : "Bid",
-  "ordertype" : "Limit",
-  "clientRequestId" : "abc-cdf-1000"
+  "currency": "AUD",
+  "instrument": "BTC",
+  "price": 13000000000,
+  "volume": 10000000,
+  "orderSide": "Bid",
+  "ordertype": "Limit",
+  "clientRequestId": "abc-cdf-1000"
 }

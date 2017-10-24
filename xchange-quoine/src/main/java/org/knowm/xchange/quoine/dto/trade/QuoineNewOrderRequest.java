@@ -7,13 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class QuoineNewOrderRequest {
 
   @JsonProperty("order_type")
-  private final String orderType;//  Values: limit, market or range.
+  private final String orderType;//  Values: limit, market or market_with_range
 
-  @JsonProperty("product_code")
-  private final String productCode = "CASH"; //  Values: CASH
-
-  @JsonProperty("currency_pair_code")
-  private final String currencyPairCode; // Values: BTCUSD, BTCEUR, BTCJPY, BTCSGD, BTCHKD, BTCIDR, BTCAUD, BTCPHP.
+  @JsonProperty("product_id")
+  private final int productId;
 
   @JsonProperty("side")
   private final String side; // buy or sell
@@ -24,18 +21,12 @@ public class QuoineNewOrderRequest {
   @JsonProperty("price")
   private final BigDecimal price; //  Price of BTC you want to trade.
 
-  /**
-   * Constructor
-   *
-   * @param orderType
-   * @param currencyPairCode
-   * @param side
-   * @param quantity
-   * @param price
-   */
-  public QuoineNewOrderRequest(String orderType, String currencyPairCode, String side, BigDecimal quantity, BigDecimal price) {
+  //  @JsonProperty("price_range")
+  //  private final boolean priceRange;
+
+  public QuoineNewOrderRequest(String orderType, int productId, String side, BigDecimal quantity, BigDecimal price) {
     this.orderType = orderType;
-    this.currencyPairCode = currencyPairCode;
+    this.productId = productId;
     this.side = side;
     this.quantity = quantity;
     this.price = price;
@@ -45,12 +36,8 @@ public class QuoineNewOrderRequest {
     return orderType;
   }
 
-  public String getProductCode() {
-    return productCode;
-  }
-
-  public String getCurrencyPairCode() {
-    return currencyPairCode;
+  public int getProductId() {
+    return productId;
   }
 
   public String getSide() {
@@ -67,8 +54,8 @@ public class QuoineNewOrderRequest {
 
   @Override
   public String toString() {
-    return "QuoineNewOrderRequest [orderType=" + orderType + ", productCode=" + productCode + ", currencyPairCode=" + currencyPairCode + ", side="
-        + side + ", quantity=" + quantity + ", price=" + price + "]";
+    return "QuoineNewOrderRequest [orderType=" + orderType + ", productId=" + productId + ", side=" + side + ", quantity=" + quantity + ", price="
+        + price + "]";
   }
 
 }

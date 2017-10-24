@@ -15,7 +15,7 @@ import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
 import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.kraken.dto.trade.KrakenType;
-import org.knowm.xchange.kraken.service.polling.KrakenTradeServiceRaw;
+import org.knowm.xchange.kraken.service.KrakenTradeServiceRaw;
 
 public class KrakenTradeRawSpecificDemo {
 
@@ -24,7 +24,7 @@ public class KrakenTradeRawSpecificDemo {
     Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
     // Interested in the private trading functionality (authentication)
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getTradeService();
 
     KrakenStandardOrder order = // stop at -5% loss, take profit at +$10 price increase.
         KrakenStandardOrder.getLimitOrderBuilder(CurrencyPair.BTC_USD, KrakenType.BUY, "100.00", new BigDecimal("2.12345678"))

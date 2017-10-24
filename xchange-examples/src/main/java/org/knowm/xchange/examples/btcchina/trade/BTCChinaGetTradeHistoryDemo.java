@@ -3,24 +3,24 @@ package org.knowm.xchange.examples.btcchina.trade;
 import java.io.IOException;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeService;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeService;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeServiceRaw;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 /**
- * Demo for {@link BTCChinaTradeService#getTradeHistory(org.knowm.xchange.service.polling.trade.params.TradeHistoryParams)}.
+ * Demo for {@link BTCChinaTradeService#getTradeHistory(TradeHistoryParams)}.
  */
 public class BTCChinaGetTradeHistoryDemo {
 
   private static Exchange btcchina = BTCChinaExamplesUtils.getExchange();
-  private static PollingTradeService tradeService = btcchina.getPollingTradeService();
+  private static TradeService tradeService = btcchina.getTradeService();
   private static BTCChinaTradeServiceRaw tradeServiceRaw = (BTCChinaTradeServiceRaw) tradeService;
 
   public static void main(String[] args) throws IOException {

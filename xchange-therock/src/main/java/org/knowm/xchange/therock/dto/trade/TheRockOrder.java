@@ -2,24 +2,33 @@ package org.knowm.xchange.therock.dto.trade;
 
 import java.math.BigDecimal;
 
+import org.knowm.xchange.therock.TheRock;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import org.knowm.xchange.therock.TheRock;
 
 /**
  * @author Matija Mazi
+ * @author Pnk
  */
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 public class TheRockOrder {
 
   private Long id;
+  private TheRock.Pair fundId;
   private Side side;
   private Type type;
+  private String status;
   private BigDecimal amount;
   private BigDecimal amountUnfilled;
   private BigDecimal price;
-  private TheRock.Pair fundId;
-  private String status;
+  private String conditionalType;
+  private BigDecimal conditionalPrice;
+  private String date;
+  private String closeOn;
+  private boolean dark;
+  private BigDecimal leverage;
+  private long positionId;
 
   protected TheRockOrder() {
   }
@@ -36,12 +45,20 @@ public class TheRockOrder {
     return id;
   }
 
+  public TheRock.Pair getFundId() {
+    return fundId;
+  }
+
   public Side getSide() {
     return side;
   }
 
   public Type getType() {
     return type;
+  }
+
+  public String getStatus() {
+    return status;
   }
 
   public BigDecimal getAmount() {
@@ -56,12 +73,32 @@ public class TheRockOrder {
     return price;
   }
 
-  public TheRock.Pair getFundId() {
-    return fundId;
+  public String getConditionalType() {
+    return conditionalType;
   }
 
-  public String getStatus() {
-    return status;
+  public BigDecimal getConditionalPrice() {
+    return conditionalPrice;
+  }
+
+  public String getDate() {
+    return date;
+  }
+
+  public String getCloseOn() {
+    return closeOn;
+  }
+
+  public boolean isDark() {
+    return dark;
+  }
+
+  public BigDecimal getLeverage() {
+    return leverage;
+  }
+
+  public long getPositionId() {
+    return positionId;
   }
 
   @Override

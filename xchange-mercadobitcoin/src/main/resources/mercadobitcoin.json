@@ -8,16 +8,16 @@
     }
   },
   "currencies": {},
-  "private_rate_limits":[
+  "private_rate_limits": [
     {
-      "calls":60,
-      "time_unit":"minutes"
+      "calls": 60,
+      "time_unit": "minutes"
     }
   ],
-  "public_rate_limits":[
+  "public_rate_limits": [
     {
-      "calls":1,
-      "time_unit":"minutes"
+      "calls": 1,
+      "time_unit": "minutes"
     }
   ]
 }

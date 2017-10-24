@@ -1,6 +1,6 @@
 package org.knowm.xchange.cryptonit.v2;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -10,9 +10,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionLikeType;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitTicker;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitTradesJSONTest;
@@ -22,6 +19,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionLikeType;
 
 /**
  * Tests the cryptonitAdapter class
@@ -43,7 +43,7 @@ public class CryptonitAdapterTest {
     // Verify all fields filled
     assertEquals(new BigDecimal("604.449"), asks.get(0).getLimitPrice().stripTrailingZeros());
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
-    assertEquals(new BigDecimal("0.16029"), asks.get(0).getTradableAmount().stripTrailingZeros());
+    assertEquals(new BigDecimal("0.16029"), asks.get(0).getOriginalAmount().stripTrailingZeros());
     assertThat(asks.get(0).getCurrencyPair().base.getCurrencyCode()).isEqualTo("BTC");
     assertThat(asks.get(0).getCurrencyPair().counter.getCurrencyCode()).isEqualTo("USD");
 
@@ -65,7 +65,7 @@ public class CryptonitAdapterTest {
     // Verify all fields filled
     assertThat(trades.getlastID()).isEqualTo(268133L);
     assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 605.997);
-    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 1.189100000);
+    assertThat(trades.getTrades().get(0).getOriginalAmount().doubleValue() == 1.189100000);
     assertThat(trades.getTrades().get(0).getCurrencyPair().base.getCurrencyCode() == "BTC");
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-06-20 00:09:10 GMT");
   }

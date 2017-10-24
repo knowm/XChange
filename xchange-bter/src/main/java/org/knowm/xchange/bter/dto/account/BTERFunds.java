@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bter.dto.BTERBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTERFunds extends BTERBaseResponse {
 
@@ -15,7 +16,6 @@ public class BTERFunds extends BTERBaseResponse {
   /**
    * Constructor
    *
-   * @param aResult
    * @param theAvailableFunds
    * @param theLockedFunds
    */

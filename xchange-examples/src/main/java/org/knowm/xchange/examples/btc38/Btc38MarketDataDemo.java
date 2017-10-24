@@ -1,7 +1,7 @@
 package org.knowm.xchange.examples.btc38;
 
 import org.knowm.xchange.btc38.Btc38Exchange;
-import org.knowm.xchange.btc38.service.polling.Btc38MarketDataService;
+import org.knowm.xchange.btc38.service.Btc38MarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
@@ -14,7 +14,7 @@ public class Btc38MarketDataDemo {
 
     Btc38Exchange exchange = new Btc38Exchange();
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
-    Btc38MarketDataService marketDataService = (Btc38MarketDataService) exchange.getPollingMarketDataService();
+    Btc38MarketDataService marketDataService = (Btc38MarketDataService) exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("DOGE", "BTC"));
     System.out.println(ticker.toString());
   }

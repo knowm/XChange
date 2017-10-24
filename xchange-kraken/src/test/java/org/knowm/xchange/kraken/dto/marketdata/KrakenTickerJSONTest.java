@@ -1,6 +1,6 @@
 package org.knowm.xchange.kraken.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,13 +8,13 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import org.junit.Test;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 
 /**
  * Test KrakenTicker JSON parsing
- * 
+ *
  * @author Raphael Voellmy
  */
 public class KrakenTickerJSONTest {

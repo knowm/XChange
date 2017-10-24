@@ -18,6 +18,6 @@ public interface BitcoinCharts {
   @GET
   @Path("v1/markets.json")
   @Produces(MediaType.APPLICATION_JSON)
-  public BitcoinChartsTicker[] getMarketData() throws IOException;
+  BitcoinChartsTicker[] getMarketData() throws IOException;
 
 }

@@ -1,6 +1,6 @@
 package org.knowm.xchange.kraken.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 
 /**
  * Test KrakenDepth JSON parsing

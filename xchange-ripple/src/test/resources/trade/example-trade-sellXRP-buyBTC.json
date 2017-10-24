@@ -1,56 +1,56 @@
 {
-  "hash":"1111111111111111111111111111111111111111111111111111111111111111",
-  "ledger":11111111,
-  "validated":true,
-  "timestamp":"2011-11-11T11:11:11.111Z",
-  "fee":"0.012",
-  "action":"order_create",
-  "direction":"outgoing",
-  "order":{
-    "account":"r111111111111111111111111111111111",
-    "taker_pays":{
-      "currency":"BTC",
-      "value":"0.00002857",
-      "counterparty":"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+  "hash": "1111111111111111111111111111111111111111111111111111111111111111",
+  "ledger": 11111111,
+  "validated": true,
+  "timestamp": "2011-11-11T11:11:11.111Z",
+  "fee": "0.012",
+  "action": "order_create",
+  "direction": "outgoing",
+  "order": {
+    "account": "r111111111111111111111111111111111",
+    "taker_pays": {
+      "currency": "BTC",
+      "value": "0.00002857",
+      "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
     },
-    "taker_gets":{
-      "currency":"XRP",
-      "value":"1",
-      "counterparty":""
+    "taker_gets": {
+      "currency": "XRP",
+      "value": "1",
+      "counterparty": ""
     },
-    "passive":false,
-    "immediate_or_cancel":false,
-    "fill_or_kill":false,
-    "type":"buy",
-    "sequence":1111
+    "passive": false,
+    "immediate_or_cancel": false,
+    "fill_or_kill": false,
+    "type": "buy",
+    "sequence": 1111
   },
-  "balance_changes":[
+  "balance_changes": [
     {
-      "counterparty":"",
-      "currency":"XRP",
-      "value":"-1.012"
+      "counterparty": "",
+      "currency": "XRP",
+      "value": "-1.012"
     },
     {
-      "counterparty":"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q",
-      "currency":"BTC",
-      "value":"0.000028572057152"
+      "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q",
+      "currency": "BTC",
+      "value": "0.000028572057152"
     }
   ],
-  "order_changes":[
+  "order_changes": [
     {
-      "taker_pays":{
-        "currency":"BTC",
-        "value":"0.00002857",
-        "counterparty":"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+      "taker_pays": {
+        "currency": "BTC",
+        "value": "0.00002857",
+        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
       },
-      "taker_gets":{
-        "currency":"XRP",
-        "value":"1",
-        "counterparty":""
+      "taker_gets": {
+        "currency": "XRP",
+        "value": "1",
+        "counterparty": ""
       },
-      "sequence":1111,
-      "status":"closed"
+      "sequence": 1111,
+      "status": "closed"
     }
   ],
-  "success":true
+  "success": true
 }

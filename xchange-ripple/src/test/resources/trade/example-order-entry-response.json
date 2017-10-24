@@ -1,22 +1,22 @@
 {
-   "success":true,
-   "order":{
-      "account":"sn3nxiW7v8KXzPzAqzyHXbSSKNuN9",
-      "taker_pays":{
-         "currency":"JPY",
-         "counterparty":"rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6",
-         "value":"4000"
-      },
-      "taker_gets":{
-         "currency":"USD",
-         "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-         "value":".25"
-      },
-      "fee":"0.012",
-      "type":"sell",
-      "sequence":99
-   },
-   "hash":"71AE74B03DE3B9A06C559AD4D173A362D96B7D2A5AA35F56B9EF21543D627F34",
-   "ledger":"9592219",
-   "state":"validated"
+  "success": true,
+  "order": {
+    "account": "sn3nxiW7v8KXzPzAqzyHXbSSKNuN9",
+    "taker_pays": {
+      "currency": "JPY",
+      "counterparty": "rMAz5ZnK73nyNUL4foAvaxdreczCkG3vA6",
+      "value": "4000"
+    },
+    "taker_gets": {
+      "currency": "USD",
+      "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+      "value": ".25"
+    },
+    "fee": "0.012",
+    "type": "sell",
+    "sequence": 99
+  },
+  "hash": "71AE74B03DE3B9A06C559AD4D173A362D96B7D2A5AA35F56B9EF21543D627F34",
+  "ledger": "9592219",
+  "state": "validated"
 }

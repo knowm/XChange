@@ -19,7 +19,7 @@ public class CexIOTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param last
    * @param high
    * @param low

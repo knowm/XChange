@@ -1,0 +1,25 @@
+{
+  "result": {
+    "withdrawal": [
+      {
+        "id": 20351,
+        "address": "15MGzXJnfugniyy7ZDw3hSjkm4tHPHzHba",
+        "currency": "BTC",
+        "amount": 0.1,
+        "date": 1376891209,
+        "transaction": null,
+        "status": "pending"
+      },
+      {
+        "id": 20352,
+        "address": "15MGzXJnfugniyy7ZDw3hSjkm4tHPHzHba",
+        "currency": "BTC",
+        "amount": 0.1,
+        "date": 1376891268,
+        "transaction": null,
+        "status": "pending"
+      }
+    ]
+  },
+  "id": "1"
+}

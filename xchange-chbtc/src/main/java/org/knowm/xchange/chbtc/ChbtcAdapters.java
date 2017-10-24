@@ -19,7 +19,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 public final class ChbtcAdapters {
 
-  private ChbtcAdapters() { }
+  private ChbtcAdapters() {
+  }
 
   public static Ticker adaptTicker(ChbtcTicker t, CurrencyPair currencyPair) {
     return new Ticker.Builder().currencyPair(currencyPair).last(t.getLast()).bid(t.getBuy()).ask(t.getSell()).high(t.getHigh()).low(t.getLow())
@@ -32,11 +33,7 @@ public final class ChbtcAdapters {
     return new OrderBook(new Date(), asks, bids);
   }
 
-  private static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair,
-      Order.OrderType orderType,
-      List<List<BigDecimal>> orders
-  ) {
+  private static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
@@ -45,11 +42,7 @@ public final class ChbtcAdapters {
     return limitOrders;
   }
 
-  private static LimitOrder createOrder(
-      CurrencyPair currencyPair,
-      List<BigDecimal> priceAndAmount,
-      Order.OrderType orderType
-  ) {
+  private static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
     return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, null, null, priceAndAmount.get(0));
   }
 

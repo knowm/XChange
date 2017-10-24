@@ -1,646 +1,646 @@
 [
-   [
-      "Afghan Afghani (AFN)",
-      "AFN"
-   ],
-   [
-      "Albanian Lek (ALL)",
-      "ALL"
-   ],
-   [
-      "Algerian Dinar (DZD)",
-      "DZD"
-   ],
-   [
-      "Angolan Kwanza (AOA)",
-      "AOA"
-   ],
-   [
-      "Argentine Peso (ARS)",
-      "ARS"
-   ],
-   [
-      "Armenian Dram (AMD)",
-      "AMD"
-   ],
-   [
-      "Aruban Florin (AWG)",
-      "AWG"
-   ],
-   [
-      "Australian Dollar (AUD)",
-      "AUD"
-   ],
-   [
-      "Azerbaijani Manat (AZN)",
-      "AZN"
-   ],
-   [
-      "Bahamian Dollar (BSD)",
-      "BSD"
-   ],
-   [
-      "Bahraini Dinar (BHD)",
-      "BHD"
-   ],
-   [
-      "Bangladeshi Taka (BDT)",
-      "BDT"
-   ],
-   [
-      "Barbadian Dollar (BBD)",
-      "BBD"
-   ],
-   [
-      "Belarusian Ruble (BYR)",
-      "BYR"
-   ],
-   [
-      "Belize Dollar (BZD)",
-      "BZD"
-   ],
-   [
-      "Bermudian Dollar (BMD)",
-      "BMD"
-   ],
-   [
-      "Bhutanese Ngultrum (BTN)",
-      "BTN"
-   ],
-   [
-      "Bolivian Boliviano (BOB)",
-      "BOB"
-   ],
-   [
-      "Bosnia and Herzegovina Convertible Mark (BAM)",
-      "BAM"
-   ],
-   [
-      "Botswana Pula (BWP)",
-      "BWP"
-   ],
-   [
-      "Brazilian Real (BRL)",
-      "BRL"
-   ],
-   [
-      "British Pound (GBP)",
-      "GBP"
-   ],
-   [
-      "Brunei Dollar (BND)",
-      "BND"
-   ],
-   [
-      "Bulgarian Lev (BGN)",
-      "BGN"
-   ],
-   [
-      "Burundian Franc (BIF)",
-      "BIF"
-   ],
-   [
-      "Cambodian Riel (KHR)",
-      "KHR"
-   ],
-   [
-      "Canadian Dollar (CAD)",
-      "CAD"
-   ],
-   [
-      "Cape Verdean Escudo (CVE)",
-      "CVE"
-   ],
-   [
-      "Cayman Islands Dollar (KYD)",
-      "KYD"
-   ],
-   [
-      "Central African Cfa Franc (XAF)",
-      "XAF"
-   ],
-   [
-      "Cfp Franc (XPF)",
-      "XPF"
-   ],
-   [
-      "Chilean Peso (CLP)",
-      "CLP"
-   ],
-   [
-      "Chinese Renminbi Yuan (CNY)",
-      "CNY"
-   ],
-   [
-      "Colombian Peso (COP)",
-      "COP"
-   ],
-   [
-      "Comorian Franc (KMF)",
-      "KMF"
-   ],
-   [
-      "Congolese Franc (CDF)",
-      "CDF"
-   ],
-   [
-      "Costa Rican Col\u00f3n (CRC)",
-      "CRC"
-   ],
-   [
-      "Croatian Kuna (HRK)",
-      "HRK"
-   ],
-   [
-      "Cuban Peso (CUP)",
-      "CUP"
-   ],
-   [
-      "Czech Koruna (CZK)",
-      "CZK"
-   ],
-   [
-      "Danish Krone (DKK)",
-      "DKK"
-   ],
-   [
-      "Djiboutian Franc (DJF)",
-      "DJF"
-   ],
-   [
-      "Dominican Peso (DOP)",
-      "DOP"
-   ],
-   [
-      "East Caribbean Dollar (XCD)",
-      "XCD"
-   ],
-   [
-      "Egyptian Pound (EGP)",
-      "EGP"
-   ],
-   [
-      "Eritrean Nakfa (ERN)",
-      "ERN"
-   ],
-   [
-      "Estonian Kroon (EEK)",
-      "EEK"
-   ],
-   [
-      "Ethiopian Birr (ETB)",
-      "ETB"
-   ],
-   [
-      "Euro (EUR)",
-      "EUR"
-   ],
-   [
-      "Falkland Pound (FKP)",
-      "FKP"
-   ],
-   [
-      "Fijian Dollar (FJD)",
-      "FJD"
-   ],
-   [
-      "Gambian Dalasi (GMD)",
-      "GMD"
-   ],
-   [
-      "Georgian Lari (GEL)",
-      "GEL"
-   ],
-   [
-      "Ghanaian Cedi (GHS)",
-      "GHS"
-   ],
-   [
-      "Ghanaian Cedi (GHS)",
-      "GHS"
-   ],
-   [
-      "Gibraltar Pound (GIP)",
-      "GIP"
-   ],
-   [
-      "Guatemalan Quetzal (GTQ)",
-      "GTQ"
-   ],
-   [
-      "Guinean Franc (GNF)",
-      "GNF"
-   ],
-   [
-      "Guyanese Dollar (GYD)",
-      "GYD"
-   ],
-   [
-      "Haitian Gourde (HTG)",
-      "HTG"
-   ],
-   [
-      "Honduran Lempira (HNL)",
-      "HNL"
-   ],
-   [
-      "Hong Kong Dollar (HKD)",
-      "HKD"
-   ],
-   [
-      "Hungarian Forint (HUF)",
-      "HUF"
-   ],
-   [
-      "Icelandic Kr\u00f3na (ISK)",
-      "ISK"
-   ],
-   [
-      "Indian Rupee (INR)",
-      "INR"
-   ],
-   [
-      "Indonesian Rupiah (IDR)",
-      "IDR"
-   ],
-   [
-      "Iranian Rial (IRR)",
-      "IRR"
-   ],
-   [
-      "Iraqi Dinar (IQD)",
-      "IQD"
-   ],
-   [
-      "Israeli New Sheqel (ILS)",
-      "ILS"
-   ],
-   [
-      "Jamaican Dollar (JMD)",
-      "JMD"
-   ],
-   [
-      "Japanese Yen (JPY)",
-      "JPY"
-   ],
-   [
-      "Japanese Yen (JPY)",
-      "JPY"
-   ],
-   [
-      "Jordanian Dinar (JOD)",
-      "JOD"
-   ],
-   [
-      "Kazakhstani Tenge (KZT)",
-      "KZT"
-   ],
-   [
-      "Kenyan Shilling (KES)",
-      "KES"
-   ],
-   [
-      "Kuwaiti Dinar (KWD)",
-      "KWD"
-   ],
-   [
-      "Kyrgyzstani Som (KGS)",
-      "KGS"
-   ],
-   [
-      "Lao Kip (LAK)",
-      "LAK"
-   ],
-   [
-      "Latvian Lats (LVL)",
-      "LVL"
-   ],
-   [
-      "Lebanese Pound (LBP)",
-      "LBP"
-   ],
-   [
-      "Lesotho Loti (LSL)",
-      "LSL"
-   ],
-   [
-      "Liberian Dollar (LRD)",
-      "LRD"
-   ],
-   [
-      "Libyan Dinar (LYD)",
-      "LYD"
-   ],
-   [
-      "Lithuanian Litas (LTL)",
-      "LTL"
-   ],
-   [
-      "Macanese Pataca (MOP)",
-      "MOP"
-   ],
-   [
-      "Macedonian Denar (MKD)",
-      "MKD"
-   ],
-   [
-      "Malagasy Ariary (MGA)",
-      "MGA"
-   ],
-   [
-      "Malawian Kwacha (MWK)",
-      "MWK"
-   ],
-   [
-      "Malaysian Ringgit (MYR)",
-      "MYR"
-   ],
-   [
-      "Maldivian Rufiyaa (MVR)",
-      "MVR"
-   ],
-   [
-      "Mauritanian Ouguiya (MRO)",
-      "MRO"
-   ],
-   [
-      "Mauritian Rupee (MUR)",
-      "MUR"
-   ],
-   [
-      "Mexican Peso (MXN)",
-      "MXN"
-   ],
-   [
-      "Moldovan Leu (MDL)",
-      "MDL"
-   ],
-   [
-      "Mongolian T\u00f6gr\u00f6g (MNT)",
-      "MNT"
-   ],
-   [
-      "Moroccan Dirham (MAD)",
-      "MAD"
-   ],
-   [
-      "Mozambican Metical (MZN)",
-      "MZN"
-   ],
-   [
-      "Myanmar Kyat (MMK)",
-      "MMK"
-   ],
-   [
-      "Namibian Dollar (NAD)",
-      "NAD"
-   ],
-   [
-      "Nepalese Rupee (NPR)",
-      "NPR"
-   ],
-   [
-      "Netherlands Antillean Gulden (ANG)",
-      "ANG"
-   ],
-   [
-      "New Taiwan Dollar (TWD)",
-      "TWD"
-   ],
-   [
-      "New Zealand Dollar (NZD)",
-      "NZD"
-   ],
-   [
-      "Nicaraguan C\u00f3rdoba (NIO)",
-      "NIO"
-   ],
-   [
-      "Nigerian Naira (NGN)",
-      "NGN"
-   ],
-   [
-      "North Korean Won (KPW)",
-      "KPW"
-   ],
-   [
-      "Norwegian Krone (NOK)",
-      "NOK"
-   ],
-   [
-      "Omani Rial (OMR)",
-      "OMR"
-   ],
-   [
-      "Pakistani Rupee (PKR)",
-      "PKR"
-   ],
-   [
-      "Panamanian Balboa (PAB)",
-      "PAB"
-   ],
-   [
-      "Papua New Guinean Kina (PGK)",
-      "PGK"
-   ],
-   [
-      "Paraguayan Guaran\u00ed (PYG)",
-      "PYG"
-   ],
-   [
-      "Peruvian Nuevo Sol (PEN)",
-      "PEN"
-   ],
-   [
-      "Philippine Peso (PHP)",
-      "PHP"
-   ],
-   [
-      "Polish Z\u0142oty (PLN)",
-      "PLN"
-   ],
-   [
-      "Qatari Riyal (QAR)",
-      "QAR"
-   ],
-   [
-      "Romanian Leu (RON)",
-      "RON"
-   ],
-   [
-      "Russian Ruble (RUB)",
-      "RUB"
-   ],
-   [
-      "Rwandan Franc (RWF)",
-      "RWF"
-   ],
-   [
-      "Saint Helenian Pound (SHP)",
-      "SHP"
-   ],
-   [
-      "Salvadoran Col\u00f3n (SVC)",
-      "SVC"
-   ],
-   [
-      "Samoan Tala (WST)",
-      "WST"
-   ],
-   [
-      "Saudi Riyal (SAR)",
-      "SAR"
-   ],
-   [
-      "Serbian Dinar (RSD)",
-      "RSD"
-   ],
-   [
-      "Seychellois Rupee (SCR)",
-      "SCR"
-   ],
-   [
-      "Sierra Leonean Leone (SLL)",
-      "SLL"
-   ],
-   [
-      "Singapore Dollar (SGD)",
-      "SGD"
-   ],
-   [
-      "Solomon Islands Dollar (SBD)",
-      "SBD"
-   ],
-   [
-      "Somali Shilling (SOS)",
-      "SOS"
-   ],
-   [
-      "South African Rand (ZAR)",
-      "ZAR"
-   ],
-   [
-      "South Korean Won (KRW)",
-      "KRW"
-   ],
-   [
-      "Sri Lankan Rupee (LKR)",
-      "LKR"
-   ],
-   [
-      "Sudanese Pound (SDG)",
-      "SDG"
-   ],
-   [
-      "Surinamese Dollar (SRD)",
-      "SRD"
-   ],
-   [
-      "Swazi Lilangeni (SZL)",
-      "SZL"
-   ],
-   [
-      "Swedish Krona (SEK)",
-      "SEK"
-   ],
-   [
-      "Swiss Franc (CHF)",
-      "CHF"
-   ],
-   [
-      "Syrian Pound (SYP)",
-      "SYP"
-   ],
-   [
-      "S\u00e3o Tom\u00e9 and Pr\u00edncipe Dobra (STD)",
-      "STD"
-   ],
-   [
-      "Tajikistani Somoni (TJS)",
-      "TJS"
-   ],
-   [
-      "Tanzanian Shilling (TZS)",
-      "TZS"
-   ],
-   [
-      "Thai Baht (THB)",
-      "THB"
-   ],
-   [
-      "Tongan Pa\u02bbanga (TOP)",
-      "TOP"
-   ],
-   [
-      "Trinidad and Tobago Dollar (TTD)",
-      "TTD"
-   ],
-   [
-      "Tunisian Dinar (TND)",
-      "TND"
-   ],
-   [
-      "Turkish Lira (TRY)",
-      "TRY"
-   ],
-   [
-      "Turkmenistani Manat (TMM)",
-      "TMM"
-   ],
-   [
-      "Turkmenistani Manat (TMM)",
-      "TMM"
-   ],
-   [
-      "Ugandan Shilling (UGX)",
-      "UGX"
-   ],
-   [
-      "Ukrainian Hryvnia (UAH)",
-      "UAH"
-   ],
-   [
-      "United Arab Emirates Dirham (AED)",
-      "AED"
-   ],
-   [
-      "United States Dollar (USD)",
-      "USD"
-   ],
-   [
-      "Uruguayan Peso (UYU)",
-      "UYU"
-   ],
-   [
-      "Uzbekistani Som (UZS)",
-      "UZS"
-   ],
-   [
-      "Vanuatu Vatu (VUV)",
-      "VUV"
-   ],
-   [
-      "Venezuelan Bol\u00edvar (VEF)",
-      "VEF"
-   ],
-   [
-      "Vietnamese \u0110\u1ed3ng (VND)",
-      "VND"
-   ],
-   [
-      "West African Cfa Franc (XOF)",
-      "XOF"
-   ],
-   [
-      "Yemeni Rial (YER)",
-      "YER"
-   ],
-   [
-      "Zambian Kwacha (ZMK)",
-      "ZMK"
-   ],
-   [
-      "Zimbabwean Dollar (ZWL)",
-      "ZWL"
-   ]
+  [
+    "Afghan Afghani (AFN)",
+    "AFN"
+  ],
+  [
+    "Albanian Lek (ALL)",
+    "ALL"
+  ],
+  [
+    "Algerian Dinar (DZD)",
+    "DZD"
+  ],
+  [
+    "Angolan Kwanza (AOA)",
+    "AOA"
+  ],
+  [
+    "Argentine Peso (ARS)",
+    "ARS"
+  ],
+  [
+    "Armenian Dram (AMD)",
+    "AMD"
+  ],
+  [
+    "Aruban Florin (AWG)",
+    "AWG"
+  ],
+  [
+    "Australian Dollar (AUD)",
+    "AUD"
+  ],
+  [
+    "Azerbaijani Manat (AZN)",
+    "AZN"
+  ],
+  [
+    "Bahamian Dollar (BSD)",
+    "BSD"
+  ],
+  [
+    "Bahraini Dinar (BHD)",
+    "BHD"
+  ],
+  [
+    "Bangladeshi Taka (BDT)",
+    "BDT"
+  ],
+  [
+    "Barbadian Dollar (BBD)",
+    "BBD"
+  ],
+  [
+    "Belarusian Ruble (BYR)",
+    "BYR"
+  ],
+  [
+    "Belize Dollar (BZD)",
+    "BZD"
+  ],
+  [
+    "Bermudian Dollar (BMD)",
+    "BMD"
+  ],
+  [
+    "Bhutanese Ngultrum (BTN)",
+    "BTN"
+  ],
+  [
+    "Bolivian Boliviano (BOB)",
+    "BOB"
+  ],
+  [
+    "Bosnia and Herzegovina Convertible Mark (BAM)",
+    "BAM"
+  ],
+  [
+    "Botswana Pula (BWP)",
+    "BWP"
+  ],
+  [
+    "Brazilian Real (BRL)",
+    "BRL"
+  ],
+  [
+    "British Pound (GBP)",
+    "GBP"
+  ],
+  [
+    "Brunei Dollar (BND)",
+    "BND"
+  ],
+  [
+    "Bulgarian Lev (BGN)",
+    "BGN"
+  ],
+  [
+    "Burundian Franc (BIF)",
+    "BIF"
+  ],
+  [
+    "Cambodian Riel (KHR)",
+    "KHR"
+  ],
+  [
+    "Canadian Dollar (CAD)",
+    "CAD"
+  ],
+  [
+    "Cape Verdean Escudo (CVE)",
+    "CVE"
+  ],
+  [
+    "Cayman Islands Dollar (KYD)",
+    "KYD"
+  ],
+  [
+    "Central African Cfa Franc (XAF)",
+    "XAF"
+  ],
+  [
+    "Cfp Franc (XPF)",
+    "XPF"
+  ],
+  [
+    "Chilean Peso (CLP)",
+    "CLP"
+  ],
+  [
+    "Chinese Renminbi Yuan (CNY)",
+    "CNY"
+  ],
+  [
+    "Colombian Peso (COP)",
+    "COP"
+  ],
+  [
+    "Comorian Franc (KMF)",
+    "KMF"
+  ],
+  [
+    "Congolese Franc (CDF)",
+    "CDF"
+  ],
+  [
+    "Costa Rican Col\u00f3n (CRC)",
+    "CRC"
+  ],
+  [
+    "Croatian Kuna (HRK)",
+    "HRK"
+  ],
+  [
+    "Cuban Peso (CUP)",
+    "CUP"
+  ],
+  [
+    "Czech Koruna (CZK)",
+    "CZK"
+  ],
+  [
+    "Danish Krone (DKK)",
+    "DKK"
+  ],
+  [
+    "Djiboutian Franc (DJF)",
+    "DJF"
+  ],
+  [
+    "Dominican Peso (DOP)",
+    "DOP"
+  ],
+  [
+    "East Caribbean Dollar (XCD)",
+    "XCD"
+  ],
+  [
+    "Egyptian Pound (EGP)",
+    "EGP"
+  ],
+  [
+    "Eritrean Nakfa (ERN)",
+    "ERN"
+  ],
+  [
+    "Estonian Kroon (EEK)",
+    "EEK"
+  ],
+  [
+    "Ethiopian Birr (ETB)",
+    "ETB"
+  ],
+  [
+    "Euro (EUR)",
+    "EUR"
+  ],
+  [
+    "Falkland Pound (FKP)",
+    "FKP"
+  ],
+  [
+    "Fijian Dollar (FJD)",
+    "FJD"
+  ],
+  [
+    "Gambian Dalasi (GMD)",
+    "GMD"
+  ],
+  [
+    "Georgian Lari (GEL)",
+    "GEL"
+  ],
+  [
+    "Ghanaian Cedi (GHS)",
+    "GHS"
+  ],
+  [
+    "Ghanaian Cedi (GHS)",
+    "GHS"
+  ],
+  [
+    "Gibraltar Pound (GIP)",
+    "GIP"
+  ],
+  [
+    "Guatemalan Quetzal (GTQ)",
+    "GTQ"
+  ],
+  [
+    "Guinean Franc (GNF)",
+    "GNF"
+  ],
+  [
+    "Guyanese Dollar (GYD)",
+    "GYD"
+  ],
+  [
+    "Haitian Gourde (HTG)",
+    "HTG"
+  ],
+  [
+    "Honduran Lempira (HNL)",
+    "HNL"
+  ],
+  [
+    "Hong Kong Dollar (HKD)",
+    "HKD"
+  ],
+  [
+    "Hungarian Forint (HUF)",
+    "HUF"
+  ],
+  [
+    "Icelandic Kr\u00f3na (ISK)",
+    "ISK"
+  ],
+  [
+    "Indian Rupee (INR)",
+    "INR"
+  ],
+  [
+    "Indonesian Rupiah (IDR)",
+    "IDR"
+  ],
+  [
+    "Iranian Rial (IRR)",
+    "IRR"
+  ],
+  [
+    "Iraqi Dinar (IQD)",
+    "IQD"
+  ],
+  [
+    "Israeli New Sheqel (ILS)",
+    "ILS"
+  ],
+  [
+    "Jamaican Dollar (JMD)",
+    "JMD"
+  ],
+  [
+    "Japanese Yen (JPY)",
+    "JPY"
+  ],
+  [
+    "Japanese Yen (JPY)",
+    "JPY"
+  ],
+  [
+    "Jordanian Dinar (JOD)",
+    "JOD"
+  ],
+  [
+    "Kazakhstani Tenge (KZT)",
+    "KZT"
+  ],
+  [
+    "Kenyan Shilling (KES)",
+    "KES"
+  ],
+  [
+    "Kuwaiti Dinar (KWD)",
+    "KWD"
+  ],
+  [
+    "Kyrgyzstani Som (KGS)",
+    "KGS"
+  ],
+  [
+    "Lao Kip (LAK)",
+    "LAK"
+  ],
+  [
+    "Latvian Lats (LVL)",
+    "LVL"
+  ],
+  [
+    "Lebanese Pound (LBP)",
+    "LBP"
+  ],
+  [
+    "Lesotho Loti (LSL)",
+    "LSL"
+  ],
+  [
+    "Liberian Dollar (LRD)",
+    "LRD"
+  ],
+  [
+    "Libyan Dinar (LYD)",
+    "LYD"
+  ],
+  [
+    "Lithuanian Litas (LTL)",
+    "LTL"
+  ],
+  [
+    "Macanese Pataca (MOP)",
+    "MOP"
+  ],
+  [
+    "Macedonian Denar (MKD)",
+    "MKD"
+  ],
+  [
+    "Malagasy Ariary (MGA)",
+    "MGA"
+  ],
+  [
+    "Malawian Kwacha (MWK)",
+    "MWK"
+  ],
+  [
+    "Malaysian Ringgit (MYR)",
+    "MYR"
+  ],
+  [
+    "Maldivian Rufiyaa (MVR)",
+    "MVR"
+  ],
+  [
+    "Mauritanian Ouguiya (MRO)",
+    "MRO"
+  ],
+  [
+    "Mauritian Rupee (MUR)",
+    "MUR"
+  ],
+  [
+    "Mexican Peso (MXN)",
+    "MXN"
+  ],
+  [
+    "Moldovan Leu (MDL)",
+    "MDL"
+  ],
+  [
+    "Mongolian T\u00f6gr\u00f6g (MNT)",
+    "MNT"
+  ],
+  [
+    "Moroccan Dirham (MAD)",
+    "MAD"
+  ],
+  [
+    "Mozambican Metical (MZN)",
+    "MZN"
+  ],
+  [
+    "Myanmar Kyat (MMK)",
+    "MMK"
+  ],
+  [
+    "Namibian Dollar (NAD)",
+    "NAD"
+  ],
+  [
+    "Nepalese Rupee (NPR)",
+    "NPR"
+  ],
+  [
+    "Netherlands Antillean Gulden (ANG)",
+    "ANG"
+  ],
+  [
+    "New Taiwan Dollar (TWD)",
+    "TWD"
+  ],
+  [
+    "New Zealand Dollar (NZD)",
+    "NZD"
+  ],
+  [
+    "Nicaraguan C\u00f3rdoba (NIO)",
+    "NIO"
+  ],
+  [
+    "Nigerian Naira (NGN)",
+    "NGN"
+  ],
+  [
+    "North Korean Won (KPW)",
+    "KPW"
+  ],
+  [
+    "Norwegian Krone (NOK)",
+    "NOK"
+  ],
+  [
+    "Omani Rial (OMR)",
+    "OMR"
+  ],
+  [
+    "Pakistani Rupee (PKR)",
+    "PKR"
+  ],
+  [
+    "Panamanian Balboa (PAB)",
+    "PAB"
+  ],
+  [
+    "Papua New Guinean Kina (PGK)",
+    "PGK"
+  ],
+  [
+    "Paraguayan Guaran\u00ed (PYG)",
+    "PYG"
+  ],
+  [
+    "Peruvian Nuevo Sol (PEN)",
+    "PEN"
+  ],
+  [
+    "Philippine Peso (PHP)",
+    "PHP"
+  ],
+  [
+    "Polish Z\u0142oty (PLN)",
+    "PLN"
+  ],
+  [
+    "Qatari Riyal (QAR)",
+    "QAR"
+  ],
+  [
+    "Romanian Leu (RON)",
+    "RON"
+  ],
+  [
+    "Russian Ruble (RUB)",
+    "RUB"
+  ],
+  [
+    "Rwandan Franc (RWF)",
+    "RWF"
+  ],
+  [
+    "Saint Helenian Pound (SHP)",
+    "SHP"
+  ],
+  [
+    "Salvadoran Col\u00f3n (SVC)",
+    "SVC"
+  ],
+  [
+    "Samoan Tala (WST)",
+    "WST"
+  ],
+  [
+    "Saudi Riyal (SAR)",
+    "SAR"
+  ],
+  [
+    "Serbian Dinar (RSD)",
+    "RSD"
+  ],
+  [
+    "Seychellois Rupee (SCR)",
+    "SCR"
+  ],
+  [
+    "Sierra Leonean Leone (SLL)",
+    "SLL"
+  ],
+  [
+    "Singapore Dollar (SGD)",
+    "SGD"
+  ],
+  [
+    "Solomon Islands Dollar (SBD)",
+    "SBD"
+  ],
+  [
+    "Somali Shilling (SOS)",
+    "SOS"
+  ],
+  [
+    "South African Rand (ZAR)",
+    "ZAR"
+  ],
+  [
+    "South Korean Won (KRW)",
+    "KRW"
+  ],
+  [
+    "Sri Lankan Rupee (LKR)",
+    "LKR"
+  ],
+  [
+    "Sudanese Pound (SDG)",
+    "SDG"
+  ],
+  [
+    "Surinamese Dollar (SRD)",
+    "SRD"
+  ],
+  [
+    "Swazi Lilangeni (SZL)",
+    "SZL"
+  ],
+  [
+    "Swedish Krona (SEK)",
+    "SEK"
+  ],
+  [
+    "Swiss Franc (CHF)",
+    "CHF"
+  ],
+  [
+    "Syrian Pound (SYP)",
+    "SYP"
+  ],
+  [
+    "S\u00e3o Tom\u00e9 and Pr\u00edncipe Dobra (STD)",
+    "STD"
+  ],
+  [
+    "Tajikistani Somoni (TJS)",
+    "TJS"
+  ],
+  [
+    "Tanzanian Shilling (TZS)",
+    "TZS"
+  ],
+  [
+    "Thai Baht (THB)",
+    "THB"
+  ],
+  [
+    "Tongan Pa\u02bbanga (TOP)",
+    "TOP"
+  ],
+  [
+    "Trinidad and Tobago Dollar (TTD)",
+    "TTD"
+  ],
+  [
+    "Tunisian Dinar (TND)",
+    "TND"
+  ],
+  [
+    "Turkish Lira (TRY)",
+    "TRY"
+  ],
+  [
+    "Turkmenistani Manat (TMM)",
+    "TMM"
+  ],
+  [
+    "Turkmenistani Manat (TMM)",
+    "TMM"
+  ],
+  [
+    "Ugandan Shilling (UGX)",
+    "UGX"
+  ],
+  [
+    "Ukrainian Hryvnia (UAH)",
+    "UAH"
+  ],
+  [
+    "United Arab Emirates Dirham (AED)",
+    "AED"
+  ],
+  [
+    "United States Dollar (USD)",
+    "USD"
+  ],
+  [
+    "Uruguayan Peso (UYU)",
+    "UYU"
+  ],
+  [
+    "Uzbekistani Som (UZS)",
+    "UZS"
+  ],
+  [
+    "Vanuatu Vatu (VUV)",
+    "VUV"
+  ],
+  [
+    "Venezuelan Bol\u00edvar (VEF)",
+    "VEF"
+  ],
+  [
+    "Vietnamese \u0110\u1ed3ng (VND)",
+    "VND"
+  ],
+  [
+    "West African Cfa Franc (XOF)",
+    "XOF"
+  ],
+  [
+    "Yemeni Rial (YER)",
+    "YER"
+  ],
+  [
+    "Zambian Kwacha (ZMK)",
+    "ZMK"
+  ],
+  [
+    "Zimbabwean Dollar (ZWL)",
+    "ZWL"
+  ]
 ]

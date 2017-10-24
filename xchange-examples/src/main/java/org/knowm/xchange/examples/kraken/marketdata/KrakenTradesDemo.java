@@ -8,8 +8,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades;
-import org.knowm.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class KrakenTradesDemo {
 
@@ -19,13 +19,13 @@ public class KrakenTradesDemo {
     Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
     generic(krakenExchange);
-    raw(krakenExchange);
+//    raw(krakenExchange);
   }
 
   private static void generic(Exchange krakenExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = krakenExchange.getMarketDataService();
 
     // Get the latest trade data for BTC_USD
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
@@ -35,15 +35,15 @@ public class KrakenTradesDemo {
 
     // Get the latest trade data for BTC_USD for the past 12 hours (note:
     // doesn't account for time zone differences, should use UTC instead)
-    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, (long) (System.nanoTime() - (12 * 60 * 60 * Math.pow(10, 9))));
-    System.out.println(trades);
-    System.out.println("Trades size: " + trades.getTrades().size());
+//    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, (long) (System.nanoTime() - (12 * 60 * 60 * Math.pow(10, 9))));
+//    System.out.println(trades);
+//    System.out.println("Trades size: " + trades.getTrades().size());
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getMarketDataService();
 
     // Get the latest trade data for BTC_USD
     KrakenPublicTrades krakenPublicTrades = krakenMarketDataService.getKrakenTrades(CurrencyPair.BTC_USD);

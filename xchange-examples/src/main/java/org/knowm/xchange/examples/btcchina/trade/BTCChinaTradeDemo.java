@@ -9,28 +9,26 @@ import org.knowm.xchange.btcchina.dto.trade.BTCChinaOrder;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaOrders;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
- * @author ObsessiveOrange
- *         <p>
- *         Example showing the following:
- *         </p>
- *         <ul>
- *         <li>Connect to BTCChina exchange with authentication</li>
- *         <li>Enter, review and cancel limit orders</li>
- *         </ul>
+ * Example showing the following:
+ * <p>
+ * <ul>
+ * <li>Connect to BTCChina exchange with authentication</li>
+ * <li>Enter, review and cancel limit orders</li>
+ * </ul>
  */
 public class BTCChinaTradeDemo {
 
   static Exchange btcchina = BTCChinaExamplesUtils.getExchange();
-  static PollingTradeService tradeService = btcchina.getPollingTradeService();
+  static TradeService tradeService = btcchina.getTradeService();
 
   public static void main(String[] args) throws IOException, InterruptedException {
 

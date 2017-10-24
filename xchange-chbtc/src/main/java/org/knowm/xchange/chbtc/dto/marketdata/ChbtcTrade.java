@@ -3,11 +3,11 @@ package org.knowm.xchange.chbtc.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
 
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 public class ChbtcTrade {
@@ -46,11 +46,14 @@ public class ChbtcTrade {
 
   @Override
   public String toString() {
-    return String.format("ChbtcTrade{date=%s, tid=%d, price=%s, amount=%s, type=%s, tradeType=%s}",
-        date, tid, price, amount, type, tradeType);
+    return String.format("ChbtcTrade{date=%s, tid=%d, price=%s, amount=%s, type=%s, tradeType=%s}", date, tid, price, amount, type, tradeType);
   }
 
-  public enum Type { buy, sell }
+  public enum Type {
+    buy, sell
+  }
 
-  public enum TradeType { bid, ask }
+  public enum TradeType {
+    bid, ask
+  }
 }

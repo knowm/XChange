@@ -1,6 +1,6 @@
 package org.knowm.xchange.btce.v3.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.btce.v3.dto.BTCEReturn;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETradeHistoryResult.Type;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test BTCETradeData JSON parsing
@@ -27,6 +27,17 @@ public class BTCETradeDataJSONTest {
     Map<Long, BTCEOrder> rv = result.getReturnValue();
     assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
     assertThat(rv.get(343152L).getTimestampCreated()).isEqualTo(1342448420L);
+  }
+
+  @Test
+  public void testOrderInfo() throws IOException {
+
+    BTCEOrderInfoReturn result = getResult("/v3/trade/example-order-info-data.json", BTCEOrderInfoReturn.class);
+    // Verify that the example data was unmarshalled correctly
+    Map<Long, BTCEOrderInfoResult> rv = result.getReturnValue();
+    assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
+    assertThat(rv.get(343152L).getTimestampCreated()).isEqualTo(1342448420L);
+    assertThat(rv.get(343152L).getStartAmount()).isEqualTo(new BigDecimal("2.00000000"));
   }
 
   @Test

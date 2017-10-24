@@ -1,6 +1,6 @@
 package org.knowm.xchange.quoine.dto.account;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +29,5 @@ public class QuoineWalletJSONTest {
     assertThat(quoineAccountInfo.getBitcoinAccount().getId()).isEqualTo(59);
     assertThat(quoineAccountInfo.getBitcoinAccount().getBalance()).isEqualTo(new BigDecimal("2.63499784"));
     assertThat(quoineAccountInfo.getFiatAccounts()[0].getId()).isEqualTo(52);
-    assertThat(quoineAccountInfo.getFiatAccounts()[0].getBank().getName()).isEqualTo("Standard Chartered Bank");
-    assertThat(quoineAccountInfo.getFiatAccounts()[0].getBank().getBankAccountNumbers()[0].getBankId()).isEqualTo(3);
   }
 }

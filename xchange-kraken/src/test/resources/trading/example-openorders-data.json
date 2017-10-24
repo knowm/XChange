@@ -1,57 +1,151 @@
 {
-	"error":[
-	
-	],
-	"result":{
-		"open":{
-		    "OR6QMM-BCKM4-Q6YHIN":{
-				"refid":null,
-				"userref":null,
-				"status":"open",
-				"opentm":1380586080.222,
-				"starttm":0,
-				"expiretm":0,
-				"descr":{
-					"pair":"LTCEUR",
-					"type":"buy",
-					"ordertype":"limit",
-					"price":"13.00000",
-					"price2":"0",
-					"leverage":"none",
-					"order":"buy 0.01000000 LTCEUR @ limit 13.00000"
-				},
-				"vol":"0.01000000",
-				"vol_exec":"0.00000000",
-				"cost":"0.00000",
-				"fee":"0.00000",
-				"price":"0.00000",
-				"misc":"",
-				"oflags":""
-			},
-			"OWY4RO-RLFMH-7FB7IY":{
-				"refid":null,
-				"userref":null,
-				"status":"open",
-				"opentm":1390467544.1734,
-				"starttm":0,
-				"expiretm":0,
-				"descr":{
-					"pair":"LTCEUR",
-					"type":"buy",
-					"ordertype":"take-profit-limit",
-					"price":"10.00000",
-					"price2":"10.00000",
-					"leverage":"none",
-					"order":"buy 0.10000000 LTCEUR @ take profit 10.00000 -> limit 10.00000"
-				},
-				"vol":"0.10000000",
-				"vol_exec":"0.00000000",
-				"cost":"0.00000",
-				"fee":"0.00000",
-				"price":"0.00000",
-				"misc":"",
-				"oflags":""
-			}
-		}
-	}
+  "error": [],
+  "result": {
+    "open": {
+      "O767CW-TXHCL-FWZ5R2": {
+        "refid": null,
+        "userref": null,
+        "status": "open",
+        "opentm": 1499872460.2572,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "XRPXBT",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "0.00001000",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 1000.00000000 XRPXBT @ limit 0.00001000"
+        },
+        "vol": "1000.00000000",
+        "vol_exec": "0.00000000",
+        "cost": "0.000000000",
+        "fee": "0.000000000",
+        "price": "0.000000000",
+        "misc": "",
+        "oflags": "fciq"
+      },
+      "OTDWN5-IULEB-TB4D3G": {
+        "refid": null,
+        "userref": null,
+        "status": "open",
+        "opentm": 1499872419.1626,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "REPETH",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "0.01000",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 10.00000000 REPETH @ limit 0.01000"
+        },
+        "vol": "10.00000000",
+        "vol_exec": "0.00000000",
+        "cost": "0.000000",
+        "fee": "0.000000",
+        "price": "0.000000",
+        "misc": "",
+        "oflags": "fciq"
+      },
+      "OAFWLV-M5O5T-IMSVT6": {
+        "refid": null,
+        "userref": null,
+        "status": "open",
+        "opentm": 1499872344.4374,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "ETHEUR",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "100.00000",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 0.10000000 ETHEUR @ limit 100.00000"
+        },
+        "vol": "0.10000000",
+        "vol_exec": "0.00000000",
+        "cost": "0.00000",
+        "fee": "0.00000",
+        "price": "0.00000",
+        "misc": "",
+        "oflags": "fciq"
+      },
+      "OXLQGY-PMIFY-TCNDXM": {
+        "refid": null,
+        "userref": null,
+        "status": "open",
+        "opentm": 1499872302.6361,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "ETHXBT",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "0.010000",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 1.00000000 ETHXBT @ limit 0.010000"
+        },
+        "vol": "1.00000000",
+        "vol_exec": "0.00000000",
+        "cost": "0.000000",
+        "fee": "0.000000",
+        "price": "0.000000",
+        "misc": "",
+        "oflags": "fciq"
+      },
+      "OU5JPQ-OIDTK-QIGIGI": {
+        "refid": null,
+        "userref": null,
+        "status": "open",
+        "opentm": 1499872263.3548,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "XBTEUR",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "1000.000",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 0.01000000 XBTEUR @ limit 1000.000"
+        },
+        "vol": "0.01000000",
+        "vol_exec": "0.00000000",
+        "cost": "0.00000",
+        "fee": "0.00000",
+        "price": "0.00000",
+        "misc": "",
+        "oflags": "fciq"
+      },
+      "O3WLFA-OJX3I-46RI46": {
+        "refid": null,
+        "userref": null,
+        "status": "open",
+        "opentm": 1499871883.0832,
+        "starttm": 0,
+        "expiretm": 0,
+        "descr": {
+          "pair": "XRPEUR",
+          "type": "buy",
+          "ordertype": "limit",
+          "price": "0.010000",
+          "price2": "0",
+          "leverage": "none",
+          "order": "buy 1000.00000000 XRPEUR @ limit 0.010000"
+        },
+        "vol": "1000.00000000",
+        "vol_exec": "0.00000000",
+        "cost": "0.00000000",
+        "fee": "0.00000000",
+        "price": "0.00000000",
+        "misc": "",
+        "oflags": "fciq"
+      }
+    }
+  }
 }

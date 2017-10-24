@@ -1,53 +1,53 @@
 {
-   "current_user":{
-      "id":"527d2a1ffedcb8b73b000028",
-      "email":"test@test.com",
-      "name":"first last"
-   },
-   "balance":{
-      "amount":"7.10000000",
-      "currency":"BTC"
-   },
-   "account_changes":[
-      {
-         "id":"52f4411aabf9534a02000085",
-         "created_at":"2014-02-06T18:12:42-08:00",
-         "transaction_id":"52f4411aabf9534a02000081",
-         "confirmed":true,
-         "cache":{
-            "notes_present":true,
-            "category":"tx",
-            "other_user":{
-               "id":"5083a5410924750200000001",
-               "name":"Coinbase",
-               "email":"transfers@coinbase.com"
-            }
-         },
-         "amount":{
-            "amount":"1.20000000",
-            "currency":"BTC"
-         }
+  "current_user": {
+    "id": "527d2a1ffedcb8b73b000028",
+    "email": "test@test.com",
+    "name": "first last"
+  },
+  "balance": {
+    "amount": "7.10000000",
+    "currency": "BTC"
+  },
+  "account_changes": [
+    {
+      "id": "52f4411aabf9534a02000085",
+      "created_at": "2014-02-06T18:12:42-08:00",
+      "transaction_id": "52f4411aabf9534a02000081",
+      "confirmed": true,
+      "cache": {
+        "notes_present": true,
+        "category": "tx",
+        "other_user": {
+          "id": "5083a5410924750200000001",
+          "name": "Coinbase",
+          "email": "transfers@coinbase.com"
+        }
       },
-      {
-         "id":"52ef0e5e2c369bc91e00056d",
-         "created_at":"2014-02-02T19:34:48-08:00",
-         "transaction_id":"52ef0e5861c35c96370000c7",
-         "confirmed":true,
-         "cache":{
-            "notes_present":false,
-            "category":"tx",
-            "other_user":{
-               "id":null,
-               "name":"an external account"
-            }
-         },
-         "amount":{
-            "amount":"-0.10000000",
-            "currency":"BTC"
-         }
+      "amount": {
+        "amount": "1.20000000",
+        "currency": "BTC"
       }
-   ],
-   "total_count":2,
-   "num_pages":1,
-   "current_page":1
+    },
+    {
+      "id": "52ef0e5e2c369bc91e00056d",
+      "created_at": "2014-02-02T19:34:48-08:00",
+      "transaction_id": "52ef0e5861c35c96370000c7",
+      "confirmed": true,
+      "cache": {
+        "notes_present": false,
+        "category": "tx",
+        "other_user": {
+          "id": null,
+          "name": "an external account"
+        }
+      },
+      "amount": {
+        "amount": "-0.10000000",
+        "currency": "BTC"
+      }
+    }
+  ],
+  "total_count": 2,
+  "num_pages": 1,
+  "current_page": 1
 }

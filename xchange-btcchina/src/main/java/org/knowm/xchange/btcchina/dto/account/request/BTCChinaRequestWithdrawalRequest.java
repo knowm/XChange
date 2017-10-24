@@ -24,7 +24,7 @@ public final class BTCChinaRequestWithdrawalRequest extends BTCChinaRequest {
   @Override
   public String toString() {
 
-    return String.format("BTCChinaRequestWithdrawalRequest{id=%d, method=%s, params=%s}", id, method, params.toString());
+    return String.format("BTCChinaRequestWithdrawalRequest{id=%d, method=%s, params=%s}", id, method, params);
   }
 
 }

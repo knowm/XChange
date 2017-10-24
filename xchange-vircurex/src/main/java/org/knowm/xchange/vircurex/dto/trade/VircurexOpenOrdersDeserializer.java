@@ -21,7 +21,7 @@ public class VircurexOpenOrdersDeserializer extends JsonDeserializer<VircurexOpe
   @Override
   public VircurexOpenOrdersReturn deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException {
 
-    List<VircurexOpenOrder> openOrdersList = new ArrayList<VircurexOpenOrder>();
+    List<VircurexOpenOrder> openOrdersList = new ArrayList<>();
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode jsonNodes = mapper.readTree(jsonParser);
 

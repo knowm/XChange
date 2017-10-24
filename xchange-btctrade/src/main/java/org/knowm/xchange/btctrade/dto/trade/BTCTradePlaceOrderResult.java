@@ -1,7 +1,8 @@
 package org.knowm.xchange.btctrade.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btctrade.dto.BTCTradeResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCTradePlaceOrderResult extends BTCTradeResult {
 

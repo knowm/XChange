@@ -1,6 +1,7 @@
 package org.knowm.xchange.cryptofacilities;
 
 import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -15,7 +16,7 @@ import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTickers
  * @author Jean-Christophe Laruelle
  */
 
-@Path("/api/v2")
+@Path("/api/v3")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CryptoFacilities {
 

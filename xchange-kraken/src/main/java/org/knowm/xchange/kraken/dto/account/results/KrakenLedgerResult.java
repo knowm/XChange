@@ -2,16 +2,17 @@ package org.knowm.xchange.kraken.dto.account.results;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.kraken.dto.KrakenResult;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult.KrakenLedgers;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenLedgerResult extends KrakenResult<KrakenLedgers> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */
@@ -27,7 +28,7 @@ public class KrakenLedgerResult extends KrakenResult<KrakenLedgers> {
 
     /**
      * Constructor
-     * 
+     *
      * @param ledgerMap
      */
     public KrakenLedgers(Map<String, KrakenLedger> ledgerMap) {
@@ -38,7 +39,7 @@ public class KrakenLedgerResult extends KrakenResult<KrakenLedgers> {
 
     /**
      * Constructor
-     * 
+     *
      * @param ledgerMap
      * @param count
      */

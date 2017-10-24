@@ -1,34 +1,29 @@
 {
-    "result": "success",
-    "serverTime": "2016-02-25T09:45:53.818Z",
-    "account":
-        {
-            "balances":
-                {
-                    "f-xbt:usd-feb16-w4": 50,
-                    "f-xbt:usd-mar16-w1": -15,
-                    "xbt": 141.31756797
-                },
-            "auxiliary":
-                {
-                    "af": 100.73891563,
-                    "pnl": 12.42134766,
-                    "pv": 153.73891563,
-                    "usd": -119012.92
-                },
-            "marginRequirements":
-                {
-                    "im": 52.8,
-                    "mm": 23.76,
-                    "lt": 39.6,
-                    "tt": 15.84
-                },
-            "triggerEstimates":
-                {
-                    "im": 311,
-                    "mm": 300,
-                    "lt": 289,
-                    "tt": 283
-                }
-        }
+  "result": "success",
+  "serverTime": "2016-02-25T09:45:53.818Z",
+  "account": {
+    "balances": {
+      "f-xbt:usd-feb16-w4": 50,
+      "f-xbt:usd-mar16-w1": -15,
+      "xbt": 141.31756797
+    },
+    "auxiliary": {
+      "af": 100.73891563,
+      "pnl": 12.42134766,
+      "pv": 153.73891563,
+      "usd": -119012.92
+    },
+    "marginRequirements": {
+      "im": 52.8,
+      "mm": 23.76,
+      "lt": 39.6,
+      "tt": 15.84
+    },
+    "triggerEstimates": {
+      "im": 311,
+      "mm": 300,
+      "lt": 289,
+      "tt": 283
+    }
+  }
 }

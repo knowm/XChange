@@ -4,16 +4,17 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.taurus.dto.TaurusBaseResponse;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.knowm.xchange.utils.jackson.SqlUtcTimeDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author Matija Mazi
@@ -75,19 +76,21 @@ public final class TaurusOrder extends TaurusBaseResponse {
     cancelled, active, partiallyFilled, complete, unknown
   }
 
-  /** (-1 - cancelled; 0 - active; 1 - partially filled; 2 - complete) */
+  /**
+   * (-1 - cancelled; 0 - active; 1 - partially filled; 2 - complete)
+   */
   public static class StatusDeserializer extends JsonDeserializer<Status> {
     @Override
     public Status deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       switch (jp.getValueAsInt()) {
-      case -1:
-        return Status.cancelled;
-      case 0:
-        return Status.active;
-      case 1:
-        return Status.partiallyFilled;
-      case 2:
-        return Status.complete;
+        case -1:
+          return Status.cancelled;
+        case 0:
+          return Status.active;
+        case 1:
+          return Status.partiallyFilled;
+        case 2:
+          return Status.complete;
       }
       return Status.unknown;
     }

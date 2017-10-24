@@ -1,9 +1,8 @@
 package org.knowm.xchange.ripple.service.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,8 +11,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.RippleException;
 import org.knowm.xchange.ripple.dto.trade.RippleLimitOrder;
-import org.knowm.xchange.ripple.service.polling.params.RippleMarketDataParams;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.ripple.service.params.RippleMarketDataParams;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class RippleOrderBookIntegration {
 
@@ -22,7 +21,7 @@ public class RippleOrderBookIntegration {
     final int depthLimit = 15;
 
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
-    final PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    final MarketDataService marketDataService = exchange.getMarketDataService();
 
     final RippleMarketDataParams params = new RippleMarketDataParams();
 
@@ -58,7 +57,7 @@ public class RippleOrderBookIntegration {
     final int depthLimit = 15;
 
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
-    final PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    final MarketDataService marketDataService = exchange.getMarketDataService();
 
     final RippleMarketDataParams params = new RippleMarketDataParams();
 

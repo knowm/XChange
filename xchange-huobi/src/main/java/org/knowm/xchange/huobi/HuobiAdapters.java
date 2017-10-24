@@ -60,7 +60,7 @@ public final class HuobiAdapters {
 
   private static List<LimitOrder> adaptOrderBook(BigDecimal[][] orders, OrderType type, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
     for (BigDecimal[] order : orders) {
       LimitOrder limitOrder = new LimitOrder(type, order[1], currencyPair, null, null, order[0]);
       limitOrders.add(limitOrder);
@@ -76,7 +76,7 @@ public final class HuobiAdapters {
 
   private static List<Trade> adaptTrades(HuobiTradeObject[] trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradeList = new ArrayList<Trade>(trades.length);
+    List<Trade> tradeList = new ArrayList<>(trades.length);
     for (HuobiTradeObject trade : trades) {
       tradeList.add(adaptTrade(trade, currencyPair));
     }
@@ -139,7 +139,7 @@ public final class HuobiAdapters {
 
   public static List<LimitOrder> adaptOpenOrders(HuobiOrder[] orders, CurrencyPair currencyPair) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> openOrders = new ArrayList<>(orders.length);
     for (HuobiOrder order : orders) {
       openOrders.add(adaptOpenOrder(order, currencyPair));
     }

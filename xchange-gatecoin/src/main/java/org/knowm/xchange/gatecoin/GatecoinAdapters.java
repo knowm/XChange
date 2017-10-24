@@ -50,7 +50,7 @@ public final class GatecoinAdapters {
    */
   public static Wallet adaptWallet(GatecoinBalance[] gatecoinBalances) {
 
-    ArrayList<Balance> balances = new ArrayList<Balance>();
+    ArrayList<Balance> balances = new ArrayList<>();
 
     for (GatecoinBalance balance : gatecoinBalances) {
       Currency ccy = Currency.getInstance(balance.getCurrency());
@@ -79,7 +79,7 @@ public final class GatecoinAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, GatecoinDepth[] orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (GatecoinDepth priceVolume : orders) {
 
       limitOrders.add((createOrder(currencyPair, priceVolume, orderType)));
@@ -101,7 +101,7 @@ public final class GatecoinAdapters {
 
   public static Trades adaptTrades(GatecoinTransaction[] transactions, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (GatecoinTransaction tx : transactions) {
       final long tradeId = tx.getTransactionId();
@@ -144,14 +144,14 @@ public final class GatecoinAdapters {
    */
   public static UserTrades adaptTradeHistory(GatecoinTradeHistoryResult gatecoinUserTrades) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     if (gatecoinUserTrades != null) {
       GatecoinTradeHistory[] tradeHistory = gatecoinUserTrades.getTransactions();
       for (GatecoinTradeHistory gatecoinUserTrade : tradeHistory) {
         final boolean isAsk = Objects.equals(gatecoinUserTrade.getWay().toLowerCase(), "ask");
         OrderType orderType = isAsk ? OrderType.ASK : OrderType.BID;
-        BigDecimal tradableAmount = gatecoinUserTrade.getQuantity();
+        BigDecimal originalAmount = gatecoinUserTrade.getQuantity();
         BigDecimal price = gatecoinUserTrade.getPrice();
         Date timestamp = GatecoinUtils.parseUnixTSToDateTime(gatecoinUserTrade.getTransactionTime());
         long transactionId = gatecoinUserTrade.getTransactionId();
@@ -161,11 +161,11 @@ public final class GatecoinAdapters {
         final String tradeId = String.valueOf(transactionId);
         final String orderId = isAsk ? gatecoinUserTrade.getAskOrderID() : gatecoinUserTrade.getBidOrderID();
         final BigDecimal feeRate = gatecoinUserTrade.getFeeRate();
-        final BigDecimal feeAmount = feeRate.multiply(tradableAmount).multiply(price).setScale(8, BigDecimal.ROUND_CEILING);
+        final BigDecimal feeAmount = feeRate.multiply(originalAmount).multiply(price).setScale(8, BigDecimal.ROUND_CEILING);
 
         final CurrencyPair currencyPair = new CurrencyPair(gatecoinUserTrade.getCurrencyPair().substring(0, 3),
             gatecoinUserTrade.getCurrencyPair().substring(3, 6));
-        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
+        UserTrade trade = new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
             Currency.getInstance(currencyPair.counter.getCurrencyCode()));
         trades.add(trade);
       }

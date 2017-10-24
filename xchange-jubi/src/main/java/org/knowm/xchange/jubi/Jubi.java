@@ -1,6 +1,7 @@
 package org.knowm.xchange.jubi;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,11 +10,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
+import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
 
 /**
  * Created by Yingzhe on 3/16/2015.
  */
-@Path("v1")
+@Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Jubi {
   /**
@@ -25,5 +27,17 @@ public interface Jubi {
    */
   @GET
   @Path("ticker/?coin={baseCurrency}")
-  public JubiTicker getTicker(@PathParam("baseCurrency") String baseCurrency) throws IOException;
+  JubiTicker getTicker(@PathParam("baseCurrency") String baseCurrency) throws IOException;
+
+  @GET
+  @Path("allticker")
+  Map<String, JubiTicker> getAllTicker() throws IOException;
+
+  @GET
+  @Path("orders/?coin={baseCurrency}")
+  JubiTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency) throws IOException;
+
+  @GET
+  @Path("orders/?coin={baseCurrency}&since={since}")
+  JubiTrade[] getTradesSince(@PathParam("baseCurrency") String baseCurrency, @PathParam("since") Long since) throws IOException;
 }

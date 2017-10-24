@@ -1,8 +1,8 @@
 {
-  "result" : "success",
-  "serverTime" : "2016-07-07T12:22:21.504Z",
-  "orderBook" : {
-    "asks" : [
+  "result": "success",
+  "serverTime": "2016-07-07T12:22:21.504Z",
+  "orderBook": {
+    "asks": [
       [
         644.74,
         8
@@ -116,7 +116,7 @@
         8
       ]
     ],
-    "bids" : [
+    "bids": [
       [
         643.92,
         9

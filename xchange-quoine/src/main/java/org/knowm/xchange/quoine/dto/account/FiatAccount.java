@@ -17,8 +17,6 @@ public final class FiatAccount {
   private final String pusherChannel;
   private final BigDecimal lowestOfferInterestRate;
   private final BigDecimal highestOfferInterestRate;
-  private BigDecimal freeBalance;
-  private Bank bank;
 
   /**
    * Constructor
@@ -31,15 +29,12 @@ public final class FiatAccount {
    * @param pusherChannel
    * @param lowestOfferInterestRate
    * @param highestOfferInterestRate
-   * @param freeBalance
-   * @param bank
    */
   public FiatAccount(@JsonProperty("id") Integer id, @JsonProperty("currency") String currency,
       @JsonProperty("currency_symbol") String currencySymbol, @JsonProperty("balance") BigDecimal balance,
       @JsonProperty("send_to_btc_address") String sendToBtcAddress, @JsonProperty("pusher_channel") String pusherChannel,
       @JsonProperty("lowest_offer_interest_rate") BigDecimal lowestOfferInterestRate,
-      @JsonProperty("highest_offer_interest_rate") BigDecimal highestOfferInterestRate, @JsonProperty("free_balance") BigDecimal freeBalance,
-      @JsonProperty("bank") Bank bank) {
+      @JsonProperty("highest_offer_interest_rate") BigDecimal highestOfferInterestRate) {
     this.id = id;
     this.currency = currency;
     this.currencySymbol = currencySymbol;
@@ -48,24 +43,6 @@ public final class FiatAccount {
     this.pusherChannel = pusherChannel;
     this.lowestOfferInterestRate = lowestOfferInterestRate;
     this.highestOfferInterestRate = highestOfferInterestRate;
-    this.freeBalance = freeBalance;
-    this.bank = bank;
-  }
-
-  public BigDecimal getFreeBalance() {
-    return freeBalance;
-  }
-
-  public void setFreeBalance(BigDecimal freeBalance) {
-    this.freeBalance = freeBalance;
-  }
-
-  public Bank getBank() {
-    return bank;
-  }
-
-  public void setBank(Bank bank) {
-    this.bank = bank;
   }
 
   public Integer getId() {
@@ -104,7 +81,7 @@ public final class FiatAccount {
   public String toString() {
     return "FiatAccount [id=" + id + ", currency=" + currency + ", currencySymbol=" + currencySymbol + ", balance=" + balance + ", sendToBtcAddress="
         + sendToBtcAddress + ", pusherChannel=" + pusherChannel + ", lowestOfferInterestRate=" + lowestOfferInterestRate
-        + ", highestOfferInterestRate=" + highestOfferInterestRate + ", freeBalance=" + freeBalance + ", bank=" + bank + "]";
+        + ", highestOfferInterestRate=" + highestOfferInterestRate;
   }
 
 }

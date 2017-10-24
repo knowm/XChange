@@ -2,8 +2,9 @@ package org.knowm.xchange.btce.v3.dto.trade;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btce.v3.dto.BTCEReturn;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Raphael Voellmy
@@ -12,7 +13,7 @@ public class BTCETradeHistoryReturn extends BTCEReturn<Map<Long, BTCETradeHistor
 
   /**
    * Constructor
-   * 
+   *
    * @param success
    * @param value
    * @param error

@@ -7,7 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btce.v3.BTCEExchange;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import org.knowm.xchange.btce.v3.dto.meta.BTCEMetaData;
-import org.knowm.xchange.btce.v3.service.polling.BTCEMarketDataService;
+import org.knowm.xchange.btce.v3.service.BTCEMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -36,7 +36,7 @@ public class BTCEMetaDataDemo {
   }
 
   private static void rawRemote(Exchange btce) throws IOException {
-    BTCEExchangeInfo btceInfo = ((BTCEMarketDataService) btce.getPollingMarketDataService()).getBTCEInfo();
+    BTCEExchangeInfo btceInfo = ((BTCEMarketDataService) btce.getMarketDataService()).getBTCEInfo();
     System.out.println("BTCE remote meta data: " + btceInfo);
 
   }
@@ -45,8 +45,7 @@ public class BTCEMetaDataDemo {
     ExchangeMetaData metaData = (ExchangeMetaData) exchange.getExchangeMetaData();
     System.out.println("BTCE generic meta data: " + metaData);
 
-    exchange.getPollingTradeService()
-        .verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).tradableAmount(BigDecimal.ONE).build());
+    exchange.getTradeService().verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).originalAmount(BigDecimal.ONE).build());
   }
 
 }

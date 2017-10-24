@@ -2,10 +2,11 @@ package org.knowm.xchange.coinbase.dto.account;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.coinbase.dto.CoinbasePagedResult;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author jamespedwards42

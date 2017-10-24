@@ -1,5 +1,8 @@
 package org.knowm.xchange.coinbase.dto.account;
 
+//NOTE: Order of imports matters. put fasterxml ones before xchange. Fails when compiling with Maven for some reason.
+// @formatter: off
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,12 +16,16 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus.CoinbaseTransactionStatusDeserializer;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
+
+// @formatter: on
+
 
 /**
  * @author jamespedwards42
@@ -120,7 +127,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
     static class CoinbaseTransactionStatusDeserializer extends JsonDeserializer<CoinbaseTransactionStatus> {
 
-      private static final EnumFromStringHelper<CoinbaseTransactionStatus> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseTransactionStatus>(
+      private static final EnumFromStringHelper<CoinbaseTransactionStatus> FROM_STRING_HELPER = new EnumFromStringHelper<>(
           CoinbaseTransactionStatus.class);
 
       @Override

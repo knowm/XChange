@@ -1,14 +1,39 @@
 {
-  "success":true,
-  "data":{
-    "id":31408,
-    "order":{
-      "id":31408,"market":"BTCPLN","amount":0.50000000,"rate":4000.0000,"fiat":2000.00000000,"type":"sell","time":1432916922},
-    "balances":{
-      "available":{
-        "PLN":1197.00000000,"EUR":0.00000000,"BTC":27.01000000,"LTC":0.00000000,"DOGE":0.00000000,"PPC":0.00000000,"LiteMineX":0.00000000},
-      "blocked":{
-        "PLN":570.00000000,"BTC":3.05000000,"EUR":0.00000000,"LTC":0.00000000,"LiteMineX":0.00000000}}},
-  "time":1432916922,
-  "limit":{"used":39,"allowed":6000,"expires":1432920000}
+  "success": true,
+  "data": {
+    "id": 31408,
+    "order": {
+      "id": 31408,
+      "market": "BTCPLN",
+      "amount": 0.50000000,
+      "rate": 4000.0000,
+      "fiat": 2000.00000000,
+      "type": "sell",
+      "time": 1432916922
+    },
+    "balances": {
+      "available": {
+        "PLN": 1197.00000000,
+        "EUR": 0.00000000,
+        "BTC": 27.01000000,
+        "LTC": 0.00000000,
+        "DOGE": 0.00000000,
+        "PPC": 0.00000000,
+        "LiteMineX": 0.00000000
+      },
+      "blocked": {
+        "PLN": 570.00000000,
+        "BTC": 3.05000000,
+        "EUR": 0.00000000,
+        "LTC": 0.00000000,
+        "LiteMineX": 0.00000000
+      }
+    }
+  },
+  "time": 1432916922,
+  "limit": {
+    "used": 39,
+    "allowed": 6000,
+    "expires": 1432920000
+  }
 }

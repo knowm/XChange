@@ -1,14 +1,14 @@
 package org.knowm.xchange.gatecoin.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
+import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
 
 /**
  * Test Transaction[] JSON parsing

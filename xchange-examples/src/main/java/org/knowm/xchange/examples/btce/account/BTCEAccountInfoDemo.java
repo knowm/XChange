@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btce.v3.dto.account.BTCEAccountInfo;
-import org.knowm.xchange.btce.v3.service.polling.BTCEAccountServiceRaw;
+import org.knowm.xchange.btce.v3.service.BTCEAccountServiceRaw;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.btce.BTCEExamplesUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * Demo requesting account info at BTC-E
@@ -24,7 +24,7 @@ public class BTCEAccountInfoDemo {
   private static void generic(Exchange exchange) throws IOException {
 
     // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = exchange.getPollingAccountService();
+    AccountService accountService = exchange.getAccountService();
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
@@ -34,10 +34,10 @@ public class BTCEAccountInfoDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the private account functionality (authentication)
-    BTCEAccountServiceRaw accountService = (BTCEAccountServiceRaw) exchange.getPollingAccountService();
+    BTCEAccountServiceRaw accountService = (BTCEAccountServiceRaw) exchange.getAccountService();
 
     // Get the account information
-    BTCEAccountInfo accountInfo = accountService.getBTCEAccountInfo(null, null, null, null, null, null, null);
+    BTCEAccountInfo accountInfo = accountService.getBTCEAccountInfo();
     System.out.println("BTCE Wallet as String: " + accountInfo.toString());
   }
 

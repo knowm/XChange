@@ -1,15 +1,15 @@
 package org.knowm.xchange.campbx.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.knowm.xchange.campbx.dto.marketdata.CampBXTicker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.campbx.dto.marketdata.CampBXTicker;
 
 /**
  * Test BitstampTicker JSON parsing

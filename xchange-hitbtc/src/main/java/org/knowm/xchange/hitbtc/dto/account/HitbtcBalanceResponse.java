@@ -2,8 +2,9 @@ package org.knowm.xchange.hitbtc.dto.account;
 
 import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.hitbtc.dto.HitbtcBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcBalanceResponse extends HitbtcBaseResponse {
 

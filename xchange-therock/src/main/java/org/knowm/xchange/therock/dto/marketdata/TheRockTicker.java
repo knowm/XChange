@@ -3,11 +3,12 @@ package org.knowm.xchange.therock.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 /**
  * @author Matija Mazi

@@ -3,13 +3,9 @@ package org.knowm.xchange.bitstamp;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitstamp.service.polling.BitstampAccountService;
-import org.knowm.xchange.bitstamp.service.polling.BitstampMarketDataService;
-import org.knowm.xchange.bitstamp.service.polling.BitstampTradeService;
-import org.knowm.xchange.bitstamp.service.streaming.BitstampPusherService;
-import org.knowm.xchange.bitstamp.service.streaming.BitstampStreamingConfiguration;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
+import org.knowm.xchange.bitstamp.service.BitstampAccountService;
+import org.knowm.xchange.bitstamp.service.BitstampMarketDataService;
+import org.knowm.xchange.bitstamp.service.BitstampTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -19,15 +15,14 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class BitstampExchange extends BaseExchange implements Exchange {
 
-  public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
-
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BitstampMarketDataService(this);
-    this.pollingTradeService = new BitstampTradeService(this);
-    this.pollingAccountService = new BitstampAccountService(this);
+
+    this.marketDataService = new BitstampMarketDataService(this);
+    this.tradeService = new BitstampTradeService(this);
+    this.accountService = new BitstampAccountService(this);
   }
 
   @Override
@@ -40,16 +35,6 @@ public class BitstampExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeName("Bitstamp");
     exchangeSpecification.setExchangeDescription("Bitstamp is a Bitcoin exchange registered in Slovenia.");
     return exchangeSpecification;
-  }
-
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    if (configuration instanceof BitstampStreamingConfiguration) {
-      return new BitstampPusherService(this, (BitstampStreamingConfiguration) configuration);
-    }
-
-    throw new IllegalArgumentException("Bitstamp only supports BitstampStreamingConfiguration");
   }
 
   @Override

@@ -15,12 +15,11 @@ public class BTCEOrder {
   private final BigDecimal amount;
   private final BigDecimal rate;
   private final Long timestampCreated;
-  /** 0: active; 1: ??; 2: cancelled */
-  private final int status;
+  private final int status; // deprecated, always 0
 
   /**
    * Constructor
-   * 
+   *
    * @param status
    * @param timestampCreated
    * @param rate
@@ -65,6 +64,7 @@ public class BTCEOrder {
     return timestampCreated;
   }
 
+  @Deprecated
   public int getStatus() {
 
     return status;
@@ -77,7 +77,7 @@ public class BTCEOrder {
         timestampCreated, status);
   }
 
-  public static enum Type {
+  public enum Type {
     buy, sell
   }
 }

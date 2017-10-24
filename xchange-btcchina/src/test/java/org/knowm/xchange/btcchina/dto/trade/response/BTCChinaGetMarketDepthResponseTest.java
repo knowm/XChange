@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.knowm.xchange.btcchina.dto.trade.BTCChinaMarketDepthOrder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.btcchina.dto.trade.BTCChinaMarketDepthOrder;
 
 public class BTCChinaGetMarketDepthResponseTest {
 
