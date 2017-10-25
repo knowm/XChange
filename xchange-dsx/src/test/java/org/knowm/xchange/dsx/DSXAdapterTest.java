@@ -95,10 +95,11 @@ public class DSXAdapterTest {
     Ticker ticker = DSXAdapters.adaptTicker(dsxTickerWrapper.getTicker(DSXAdapters.getPair(CurrencyPair.BTC_USD)), CurrencyPair.BTC_USD);
 
     assertThat(ticker.getLast().toString()).isEqualTo("101.773");
-    assertThat(ticker.getLow().toString()).isEqualTo("100.51");
+    assertThat(ticker.getLow().toString()).isEqualTo("91.14");
     assertThat(ticker.getHigh().toString()).isEqualTo("109.88");
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("16541.51969"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("1632898.2249"));
     assertThat(DateUtils.toUTCString(ticker.getTimestamp())).isEqualTo("2013-06-09 22:18:28 GMT");
+    
   }
 
   @Test
