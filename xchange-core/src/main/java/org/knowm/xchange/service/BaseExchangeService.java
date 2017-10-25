@@ -63,6 +63,12 @@ public abstract class BaseExchangeService {
     if (customHttpReadTimeout > 0) {
       rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
     }
+    if (exchange.getExchangeSpecification().getProxyHost() != null) {
+      rescuConfig.setProxyHost(exchange.getExchangeSpecification().getProxyHost());
+    }
+    if (exchange.getExchangeSpecification().getProxyPort() != null) {
+      rescuConfig.setProxyPort(exchange.getExchangeSpecification().getProxyPort());
+    }
     return rescuConfig;
   }
 
