@@ -231,6 +231,9 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair EOS_ETH = new CurrencyPair(Currency.EOS, Currency.ETH);
   public static final CurrencyPair EOS_BTC = new CurrencyPair(Currency.EOS, Currency.BTC);
 
+  public static final CurrencyPair BCC_USD = new CurrencyPair(Currency.BCC, Currency.USD);
+  public static final CurrencyPair BCC_BTC = new CurrencyPair(Currency.BCC, Currency.BTC);
+
   public final Currency base;
   public final Currency counter;
 
