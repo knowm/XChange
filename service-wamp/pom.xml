@@ -18,7 +18,7 @@
         <dependency>
             <groupId>ws.wamp.jawampa</groupId>
             <artifactId>jawampa-netty</artifactId>
-            <version>0.4.2</version>
+            <version>0.5.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-codec-http</artifactId>
-            <version>4.1.7.Final</version>
+            <version>4.1.11.Final</version>
         </dependency>
         <dependency>
             <groupId>com.github.akarnokd</groupId>

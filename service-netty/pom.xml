@@ -16,10 +16,11 @@
             <version>${project.parent.version}</version>
         </dependency>
 
+        <!-- Netty version compatible with service-wamp -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.7.Final</version>
+            <version>4.1.11.Final</version>
         </dependency>
 
         <dependency>
