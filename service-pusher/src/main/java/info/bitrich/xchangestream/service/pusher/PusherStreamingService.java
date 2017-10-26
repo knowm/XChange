@@ -43,7 +43,11 @@ public class PusherStreamingService {
 
             @Override
             public void onError(String message, String code, Exception throwable) {
-                e.onError(throwable);
+                if (throwable != null) {
+                    e.onError(throwable);
+                } else {
+                    e.onError(new RuntimeException("No exception found: [code: " + code + "], message: " + message));
+                }
             }
         }, ConnectionState.ALL));
     }
