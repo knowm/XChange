@@ -280,7 +280,8 @@ public final class BTCEAdapters {
 
   private static void addCurrencyMetaData(Currency symbol, Map<Currency, CurrencyMetaData> currencies, BTCEMetaData btceMetaData) {
     if (!currencies.containsKey(symbol)) {
-      currencies.put(symbol, new CurrencyMetaData(btceMetaData.amountScale));
+      BigDecimal withdrawalFee = btceMetaData.getCurrencies().get(symbol) == null ? null : btceMetaData.getCurrencies().get(symbol).getWithdrawalFee();	
+      currencies.put(symbol, new CurrencyMetaData(btceMetaData.amountScale, withdrawalFee));
     }
   }
 
