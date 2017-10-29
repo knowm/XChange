@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
@@ -19,7 +20,10 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -28,6 +32,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.DateUtils;
 
 /**
@@ -188,5 +193,29 @@ public final class BitstampAdapters {
       trades.add(trade);
     }
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
+  }
+
+  public static Map.Entry<String, BigDecimal> findNonzeroAmount(BitstampUserTransaction transaction) throws ExchangeException {
+    for(Map.Entry<String, BigDecimal> entry: transaction.getAmounts().entrySet()) {
+      if(entry.getValue().abs().compareTo(new BigDecimal(1e-6)) == 1) {
+        return entry;
+      }
+    }
+    throw new ExchangeException("Could not find non-zero amount in transaction (id: " + transaction.getId() + ")");
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(List<BitstampUserTransaction> userTransactions) {
+    List<FundingRecord> fundingRecords = new ArrayList<>();
+    for (BitstampUserTransaction trans : userTransactions) {
+      if (trans.isDeposit() || trans.isWithdrawal()) {
+        FundingRecord.Type type = trans.isDeposit() ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL;
+        Map.Entry<String, BigDecimal> amount = BitstampAdapters.findNonzeroAmount(trans);
+        FundingRecord record = new FundingRecord(null, trans.getDatetime(),
+            Currency.getInstance(amount.getKey()), amount.getValue().abs(),
+            String.valueOf(trans.getId()), null, type, FundingRecord.Status.COMPLETE, null, trans.getFee(), null);
+        fundingRecords.add(record);
+      }
+    }
+    return fundingRecords;
   }
 }
