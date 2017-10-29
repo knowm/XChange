@@ -26,6 +26,8 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
+import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
+import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccountAddress;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
@@ -148,6 +150,21 @@ public interface GDAX {
   GDAXWithdrawCryptoResponse withdrawCrypto(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       GDAXWithdrawFundsRequest request) throws HttpStatusIOException;
+
+  @GET
+  @Path("coinbase-accounts")
+  GDAXCoinbaseAccount[] getCoinbaseAccounts(@HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws HttpStatusIOException;
+
+  @POST
+  @Path("coinbase-accounts/{account_id}/addresses")
+  GDAXCoinbaseAccountAddress getCoinbaseAccountAddress(@HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      @PathParam("account_id") String accountId);
 
   class GDAXReportRequest {
     public final @JsonProperty("type") String type;
