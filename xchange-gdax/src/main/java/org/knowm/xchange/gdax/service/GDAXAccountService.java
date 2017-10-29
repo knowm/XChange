@@ -11,6 +11,7 @@ import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
+import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -82,8 +83,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-
-    throw new NotAvailableFromExchangeException();
+    return new GDAXTradeHistoryParams();
   }
 
   @Override
