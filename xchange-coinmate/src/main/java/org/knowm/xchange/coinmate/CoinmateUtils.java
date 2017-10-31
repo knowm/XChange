@@ -42,6 +42,8 @@ public class CoinmateUtils {
       return CurrencyPair.BTC_EUR;
     } else if ("BTC_CZK".equals(currencyPair)) {
       return CurrencyPair.BTC_CZK;
+    } else if ("LTC_BTC".equals(currencyPair)) {
+      return CurrencyPair.LTC_BTC;
     } else {
       return null;
     }

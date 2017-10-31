@@ -66,7 +66,7 @@ public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw impl
   @Override
   public Trades getTrades(CurrencyPair currencyPair,
       Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return CoinmateAdapters.adaptTrades(getCoinmateTransactions(TRANSACTIONS_MINUTES_INTO_HISTORY));
+    return CoinmateAdapters.adaptTrades(getCoinmateTransactions(TRANSACTIONS_MINUTES_INTO_HISTORY, CoinmateUtils.getPair(currencyPair)));
   }
 
 }
