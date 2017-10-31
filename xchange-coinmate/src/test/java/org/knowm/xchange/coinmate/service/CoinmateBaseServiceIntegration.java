@@ -41,27 +41,37 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 public class CoinmateBaseServiceIntegration {
 
   @Test
-  public void tickerFetchTestEUR() throws Exception {
+  public void tickerFetchTestBTC_EUR() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker tickerEUR = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
-    System.out.println(tickerEUR.toString());
-    assertThat(tickerEUR).isNotNull();
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
+    System.out.println(ticker.toString());
+    assertThat(ticker).isNotNull();
   }
 
   @Test
-  public void tickerFetchTestCZK() throws Exception {
+  public void tickerFetchTestBTC_CZK() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker tickerCZK = marketDataService.getTicker(new CurrencyPair("BTC", "CZK"));
-    System.out.println(tickerCZK.toString());
-    assertThat(tickerCZK).isNotNull();
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "CZK"));
+    System.out.println(ticker.toString());
+    assertThat(ticker).isNotNull();
   }
 
   @Test
-  public void orderBookFetchTestEUR() throws Exception {
+  public void tickerFetchTestLTC_BTC() throws Exception {
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    MarketDataService marketDataService = exchange.getMarketDataService();
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.LTC_BTC);
+    System.out.println(ticker.toString());
+    assertThat(ticker).isNotNull();
+  }
+
+  @Test
+  public void orderBookFetchTestBTC_EUR() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -71,7 +81,7 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void orderBookFetchTestCZK() throws Exception {
+  public void orderBookFetchTestBTC_CZK() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -81,7 +91,17 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void tradesFetchTestEUR() throws Exception {
+  public void orderBookFetchTestLTC_BTC() throws Exception {
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    MarketDataService marketDataService = exchange.getMarketDataService();
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_BTC);
+    System.out.println(orderBook.toString());
+    assertThat(orderBook).isNotNull();
+  }
+
+  @Test
+  public void tradesFetchTestBTC_EUR() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -91,11 +111,21 @@ public class CoinmateBaseServiceIntegration {
   }
 
   @Test
-  public void tradesFetchTestCZK() throws Exception {
+  public void tradesFetchTestBTC_CZK() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CZK);
+    System.out.println(trades.getTrades().toString());
+    assertThat(trades).isNotNull();
+  }
+
+  @Test
+  public void tradesFetchTestLTC_BTC() throws Exception {
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    MarketDataService marketDataService = exchange.getMarketDataService();
+    Trades trades = marketDataService.getTrades(CurrencyPair.LTC_BTC);
     System.out.println(trades.getTrades().toString());
     assertThat(trades).isNotNull();
   }
