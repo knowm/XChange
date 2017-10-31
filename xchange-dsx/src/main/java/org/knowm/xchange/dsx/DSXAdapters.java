@@ -101,9 +101,9 @@ public class DSXAdapters {
     BigDecimal bid = dSXTicker.getSell();
     BigDecimal ask = dSXTicker.getBuy();
     BigDecimal high = dSXTicker.getHigh();
-    BigDecimal low = dSXTicker.getAvg();
-    BigDecimal avg = dSXTicker.getVolCur();
-    BigDecimal volume = dSXTicker.getVolCur();
+    BigDecimal low = dSXTicker.getLow();
+    BigDecimal avg = dSXTicker.getAvg();
+    BigDecimal volume = dSXTicker.getVol();
     Date timestamp = DateUtils.fromMillisUtc(dSXTicker.getUpdated() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume)
