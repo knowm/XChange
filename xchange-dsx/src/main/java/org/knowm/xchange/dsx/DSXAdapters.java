@@ -132,10 +132,9 @@ public class DSXAdapters {
       DSXOrder dsxOrder = dsxOrderMap.get(id);
       OrderType orderType = dsxOrder.getType() == DSXOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = dsxOrder.getRate();
-      Date timestamp = DateUtils.fromMillisUtc(dsxOrder.getTimestampCreated() * 1000L);
       CurrencyPair currencyPair = adaptCurrencyPair(dsxOrder.getPair());
 
-      limitOrders.add(new LimitOrder(orderType, dsxOrder.getAmount(), currencyPair, Long.toString(id), timestamp, price));
+      limitOrders.add(new LimitOrder(orderType, dsxOrder.getAmount(), currencyPair, Long.toString(id), null, price));
     }
     return new OpenOrders(limitOrders);
   }
