@@ -13,6 +13,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 public final class BitstampUtils {
 
   private static final SimpleDateFormat DATE_FORMAT;
+  public static final int MAX_TRANSACTIONS_PER_QUERY = 1000;
 
   static {
     DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

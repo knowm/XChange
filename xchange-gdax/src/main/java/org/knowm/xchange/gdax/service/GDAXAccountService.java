@@ -10,7 +10,10 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
+import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
+import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccountAddress;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
+import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -77,13 +80,24 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    GDAXCoinbaseAccount[] coinbaseAccounts = getCoinbaseAccounts();
+    GDAXCoinbaseAccount depositAccount = null;
+
+    for(GDAXCoinbaseAccount account: coinbaseAccounts) {
+      Currency accountCurrency = new Currency(account.getCurrency());
+      if(account.isActive() && account.getType().equals("wallet") && accountCurrency.equals(currency)) {
+        depositAccount = account;
+        break;
+      }
+    }
+
+    GDAXCoinbaseAccountAddress depositAddress = getCoinbaseAccountAddress(depositAccount.getId());
+    return depositAddress.getAddress();
   }
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-
-    throw new NotAvailableFromExchangeException();
+    return new GDAXTradeHistoryParams();
   }
 
   @Override
