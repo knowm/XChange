@@ -29,8 +29,8 @@ public final class BitstampUtils {
   /**
    * Format a date String for Bitstamp
    *
-   * @param dateString
-   * @return
+   * @param dateString A {@code String} whose beginning should be parsed.
+   * @return A {@link Date}
    */
   public static Date parseDate(String dateString) {
 

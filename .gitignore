@@ -30,3 +30,13 @@ META-INF/
 
 # externalized configuration file for keys
 exchangeConfiguration.json
+
+# emacs
+*~
+\#*\#
+
+# ignore tags
+GTAGS
+GRTAGS
+GPATH
+GSYMS

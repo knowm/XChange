@@ -54,9 +54,9 @@ public class AdaptersTest {
 
     OrderBook genericOrderBook = PaymiumAdapters.adaptMarketDepth(PaymiumMarketDepth, CurrencyPair.BTC_EUR);
 
-    assertEquals(genericOrderBook.getAsks().get(0).getTradableAmount(), new BigDecimal("0.48762"));
+    assertEquals(genericOrderBook.getAsks().get(0).getOriginalAmount(), new BigDecimal("0.48762"));
     assertEquals(genericOrderBook.getAsks().get(0).getLimitPrice(), new BigDecimal("24.48996"));
-    assertEquals(genericOrderBook.getBids().get(0).getTradableAmount(), new BigDecimal("0.40491093"));
+    assertEquals(genericOrderBook.getBids().get(0).getOriginalAmount(), new BigDecimal("0.40491093"));
     assertEquals(genericOrderBook.getBids().get(0).getLimitPrice(), new BigDecimal("24.001"));
 
   }
@@ -74,7 +74,7 @@ public class AdaptersTest {
     Trades genericTrades = PaymiumAdapters.adaptTrade(PaymiumTrades, CurrencyPair.BTC_EUR);
 
     assertEquals(genericTrades.getTrades().get(0).getPrice(), new BigDecimal("5.0"));
-    assertEquals(genericTrades.getTrades().get(0).getTradableAmount(), new BigDecimal("980.0"));
+    assertEquals(genericTrades.getTrades().get(0).getOriginalAmount(), new BigDecimal("980.0"));
 
   }
 

@@ -40,12 +40,12 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
         case BID:
           newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
               //unit price, amount, currency concatenated by commas
-              new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getTradableAmount().toString(), pair)));
+              new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getOriginalAmount().toString(), pair)));
           break;
         case ASK:
           newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
               //unit price, amount, currency concatenated by commas
-              new LakeBTCSellOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getTradableAmount().toString(), pair)));
+              new LakeBTCSellOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getOriginalAmount().toString(), pair)));
           break;
       }
       return newOrder;
@@ -62,13 +62,13 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
         case BID:
           newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
               //unit price, amount, currency concatenated by commas
-              new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
+              new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getOriginalAmount().toString(), pair)));
           break;
         case ASK:
           newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
               //unit price, amount, currency concatenated by commas
               new LakeBTCSellOrderRequest(
-                  String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
+                  String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getOriginalAmount().toString(), pair)));
           break;
       }
       return newOrder;

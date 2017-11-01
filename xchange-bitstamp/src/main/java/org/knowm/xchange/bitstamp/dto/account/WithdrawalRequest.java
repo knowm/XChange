@@ -49,6 +49,7 @@ public class WithdrawalRequest {
     return Status.fromString(statusOriginal);
   }
 
+  @JsonProperty("status")
   public String getStatusOriginal() {
     return statusOriginal;
   }

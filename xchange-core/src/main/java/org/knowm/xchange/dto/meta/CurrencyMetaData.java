@@ -1,8 +1,10 @@
 package org.knowm.xchange.dto.meta;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CurrencyMetaData {
+public class CurrencyMetaData implements Serializable {
 
   @JsonProperty("scale")
   private final int scale;

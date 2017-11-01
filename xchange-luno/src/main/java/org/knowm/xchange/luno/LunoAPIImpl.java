@@ -33,16 +33,12 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class LunoAPIImpl implements LunoAPI {
 
-  protected final static String URI = "https://api.mybitx.com";
   private final LunoAuthenticated luno;
   private final BasicAuthCredentials auth;
 
-  public LunoAPIImpl(String key, String secret) {
-    this(key, secret, URI, null);
-  }
+  public LunoAPIImpl(String key, String secret, String uri, ClientConfig clientConfig) {
 
-  public LunoAPIImpl(String key, String secret, String uri, ClientConfig config) {
-    luno = RestProxyFactory.createProxy(LunoAuthenticated.class, uri, config);
+    luno = RestProxyFactory.createProxy(LunoAuthenticated.class, uri, clientConfig);
     auth = new BasicAuthCredentials(key, secret);
   }
 

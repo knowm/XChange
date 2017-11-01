@@ -22,7 +22,7 @@ public class JubiMarketDataServiceRaw extends JubiBaseService {
 
   public JubiMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.jubi = RestProxyFactory.createProxy(Jubi.class, exchange.getExchangeSpecification().getSslUri());
+    this.jubi = RestProxyFactory.createProxy(Jubi.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public JubiTicker getJubiTicker(String baseCurrency, String targetCurrency) throws IOException {

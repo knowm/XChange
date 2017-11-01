@@ -26,7 +26,8 @@ public class CCEXBaseService extends BaseExchangeService implements BaseService 
 
     super(exchange);
 
-    this.cCEXAuthenticated = RestProxyFactory.createProxy(CCEXAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.cCEXAuthenticated = RestProxyFactory.createProxy(CCEXAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = CCEXDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

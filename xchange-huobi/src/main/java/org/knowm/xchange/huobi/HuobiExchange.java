@@ -3,10 +3,10 @@ package org.knowm.xchange.huobi;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.huobi.service.BitVcAccountService;
-import org.knowm.xchange.huobi.service.BitVcFuturesAccountService;
+import org.knowm.xchange.huobi.service.BitVcAccountServiceRaw;
+import org.knowm.xchange.huobi.service.BitVcBaseFuturesAccountService;
 import org.knowm.xchange.huobi.service.BitVcFuturesMarketDataService;
-import org.knowm.xchange.huobi.service.BitVcFuturesTradeService;
+import org.knowm.xchange.huobi.service.BitVcBaseFuturesTradeService;
 import org.knowm.xchange.huobi.service.BitVcTradeServiceRaw;
 import org.knowm.xchange.huobi.service.GenericTradeService;
 import org.knowm.xchange.huobi.service.HuobiAccountService;
@@ -67,10 +67,10 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
         // BitVc futures execution or spot execution
         if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES_EXECUTION).equals(true)) {
-          accountService = new BitVcFuturesAccountService(this);
-          tradeService = new BitVcFuturesTradeService(this, futuresContractOfConfig(exchangeSpecification));
+          accountService = new BitVcBaseFuturesAccountService(this);
+          tradeService = new BitVcBaseFuturesTradeService(this, futuresContractOfConfig(exchangeSpecification));
         } else {
-          accountService = new BitVcAccountService(this);
+          accountService = new BitVcAccountServiceRaw(this);
           tradeService = new GenericTradeService(this, new BitVcTradeServiceRaw(this));
         }
       } else {

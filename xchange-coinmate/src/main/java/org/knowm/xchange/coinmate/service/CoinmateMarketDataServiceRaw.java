@@ -42,7 +42,7 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
 
   public CoinmateMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.coinmate = RestProxyFactory.createProxy(Coinmate.class, exchange.getExchangeSpecification().getSslUri());
+    this.coinmate = RestProxyFactory.createProxy(Coinmate.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public CoinmateTicker getCoinmateTicker(String currencyPair) throws IOException {

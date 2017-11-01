@@ -14,8 +14,8 @@ public class GeminiLimitOrder extends LimitOrder {
 
   private GeminiOrderStatusResponse response = null;
 
-  public GeminiLimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
-    super(type, tradableAmount, currencyPair, id, timestamp, limitPrice);
+  public GeminiLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
+    super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
   }
 
   public void setResponse(GeminiOrderStatusResponse value) {
@@ -33,7 +33,7 @@ public class GeminiLimitOrder extends LimitOrder {
     }
 
     public GeminiLimitOrder build() {
-      final GeminiLimitOrder order = new GeminiLimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice);
+      final GeminiLimitOrder order = new GeminiLimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice);
       order.setOrderFlags(flags);
       return order;
     }

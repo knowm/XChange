@@ -36,7 +36,7 @@ public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw impl
       }
     }
 
-    return LivecoinAdapters.adaptOrderBook(getOrderBookRaw(currencyPair, depth), currencyPair);
+    return LivecoinAdapters.adaptOrderBook(getOrderBookRaw(currencyPair, depth, Boolean.TRUE), currencyPair);
   }
 
   @Override

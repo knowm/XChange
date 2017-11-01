@@ -20,6 +20,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -30,19 +31,16 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new IllegalStateException("Need to supply currency pair");
+      return new OpenOrders(getOpenOrders(null, null));
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     CurrencyPair currencyPair = null;
-    Integer count = 100;
-
     if (params instanceof OpenOrdersParamCurrencyPair) {
       currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
     }
-
-    return new OpenOrders(getOpenOrders(currencyPair, count));
+    return new OpenOrders(getOpenOrders(currencyPair, null));
   }
 
   @Override
@@ -52,19 +50,19 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return submitTrade(limitOrder.getCurrencyPair(), limitOrder.getType(), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+    return submitTrade(limitOrder.getCurrencyPair(), limitOrder.getType(), limitOrder.getLimitPrice(), limitOrder.getOriginalAmount());
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new IllegalStateException("Need to supply currency pair");
+    return cancel(orderId);
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      CryptopiaCancelOrderParams params = (CryptopiaCancelOrderParams) orderParams;
-      return cancel(params.orderId, params.currencyPair);
+        CancelOrderByIdParams params = (CancelOrderByIdParams) orderParams;
+      return cancel(params.orderId);
     } else {
       throw new IllegalStateException("Dont understand " + orderParams);
     }
@@ -83,20 +81,17 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
       limit = ((TradeHistoryParamLimit) params).getLimit();
     }
 
-    if (currencyPair == null)
-      throw new IllegalStateException("Need to supply currency pair");
-
     return new UserTrades(tradeHistory(currencyPair, limit), Trades.TradeSortType.SortByTimestamp);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+    return new CryptopiaTradeHistoryParams();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotAvailableFromExchangeException();
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override
@@ -112,15 +107,6 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
   @Override
   public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
-  }
-
-  public static class CryptopiaCancelOrderParams extends CancelOrderByIdParams {
-    public final CurrencyPair currencyPair;
-
-    public CryptopiaCancelOrderParams(CurrencyPair currencyPair, String orderId) {
-      super(orderId);
-      this.currencyPair = currencyPair;
-    }
   }
 
   public static class CryptopiaTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit {

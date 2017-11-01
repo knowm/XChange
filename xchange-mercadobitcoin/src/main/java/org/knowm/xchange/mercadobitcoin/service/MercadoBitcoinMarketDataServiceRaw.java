@@ -30,7 +30,7 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
   public MercadoBitcoinMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.mercadoBitcoin = RestProxyFactory.createProxy(MercadoBitcoin.class, exchange.getExchangeSpecification().getSslUri());
+    this.mercadoBitcoin = RestProxyFactory.createProxy(MercadoBitcoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public MercadoBitcoinOrderBook getMercadoBitcoinOrderBook(CurrencyPair currencyPair) throws IOException {

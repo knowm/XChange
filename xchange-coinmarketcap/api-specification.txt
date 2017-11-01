@@ -1,0 +1,8 @@
+CoinMarketCap API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://coinmarketcap.com/api/

@@ -1,15 +1,19 @@
 package org.knowm.xchange.livecoin.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.livecoin.Livecoin;
+import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> {
 
@@ -29,7 +33,7 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
     return service.getTicker();
   }
 
-  public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth) throws IOException {
+  public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth, Boolean groupByPrice) throws IOException {
     if (!this.checkProductExists(currencyPair)) {
       return null;
     }
@@ -37,8 +41,14 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
     return service.getOrderBook(
         currencyPair.base.getCurrencyCode().toUpperCase(),
         currencyPair.counter.getCurrencyCode().toUpperCase(),
-        depth
+        depth,
+        groupByPrice.toString()
     );
+  }
+
+  public Map<CurrencyPair, LivecoinOrderBook> getAllOrderBooksRaw(int depth, Boolean groupByPrice) throws IOException {
+    return LivecoinAdapters.adaptToCurrencyPairKeysMap(service.getAllOrderBooks(depth, groupByPrice.toString()));
+
   }
 
   public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {

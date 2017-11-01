@@ -16,7 +16,7 @@ import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTickers
  * @author Jean-Christophe Laruelle
  */
 
-@Path("/api/v2")
+@Path("/api/v3")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CryptoFacilities {
 

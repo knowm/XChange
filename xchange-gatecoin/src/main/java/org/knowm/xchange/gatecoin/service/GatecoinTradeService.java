@@ -76,9 +76,9 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
     String ccyPair = marketOrder.getCurrencyPair().toString().replace("/", "");
     GatecoinPlaceOrderResult gatecoinPlaceOrderResult;
     if (marketOrder.getType() == BID) {
-      gatecoinPlaceOrderResult = placeGatecoinOrder(marketOrder.getTradableAmount(), BigDecimal.ZERO, "BID", ccyPair);
+      gatecoinPlaceOrderResult = placeGatecoinOrder(marketOrder.getOriginalAmount(), BigDecimal.ZERO, "BID", ccyPair);
     } else {
-      gatecoinPlaceOrderResult = placeGatecoinOrder(marketOrder.getTradableAmount(), BigDecimal.ZERO, "ASK", ccyPair);
+      gatecoinPlaceOrderResult = placeGatecoinOrder(marketOrder.getOriginalAmount(), BigDecimal.ZERO, "ASK", ccyPair);
     }
 
     return gatecoinPlaceOrderResult.getOrderId();
@@ -90,9 +90,9 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
     String ccyPair = limitOrder.getCurrencyPair().toString().replace("/", "");
     GatecoinPlaceOrderResult gatecoinOrderResult;
     if (limitOrder.getType() == BID) {
-      gatecoinOrderResult = placeGatecoinOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "BID", ccyPair);
+      gatecoinOrderResult = placeGatecoinOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), "BID", ccyPair);
     } else {
-      gatecoinOrderResult = placeGatecoinOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "ASK", ccyPair);
+      gatecoinOrderResult = placeGatecoinOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), "ASK", ccyPair);
     }
     return gatecoinOrderResult.getOrderId();
   }

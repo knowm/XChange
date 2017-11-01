@@ -19,15 +19,15 @@ public final class FloatingRateLoanOrder extends LoanOrder implements Comparable
   /**
    * @param type Either BID (debtor) or ASK (creditor)
    * @param currency The loan currency code
-   * @param tradableAmount Units of currency
+   * @param originalAmount Units of currency
    * @param dayPeriod Loan duration in days
    * @param id An id (usually provided by the exchange)
    * @param timestamp The absolute time for this order
    */
-  public FloatingRateLoanOrder(Order.OrderType type, String currency, BigDecimal tradableAmount, int dayPeriod, String id, Date timestamp,
+  public FloatingRateLoanOrder(Order.OrderType type, String currency, BigDecimal originalAmount, int dayPeriod, String id, Date timestamp,
       BigDecimal rate) {
 
-    super(type, currency, tradableAmount, dayPeriod, id, timestamp);
+    super(type, currency, originalAmount, dayPeriod, id, timestamp);
     this.rate = rate;
   }
 

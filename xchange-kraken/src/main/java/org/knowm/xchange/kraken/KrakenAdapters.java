@@ -117,10 +117,10 @@ public class KrakenAdapters {
   public static Trade adaptTrade(KrakenPublicTrade krakenPublicTrade, CurrencyPair currencyPair) {
 
     OrderType type = adaptOrderType(krakenPublicTrade.getType());
-    BigDecimal tradableAmount = krakenPublicTrade.getVolume();
+    BigDecimal originalAmount = krakenPublicTrade.getVolume();
     Date timestamp = new Date((long) (krakenPublicTrade.getTime() * 1000L));
 
-    return new Trade(type, tradableAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, String.valueOf((long) (krakenPublicTrade.getTime() *
+    return new Trade(type, originalAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, String.valueOf((long) (krakenPublicTrade.getTime() *
         10000L)));
   }
 
@@ -175,8 +175,10 @@ public class KrakenAdapters {
 
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
+
     BigDecimal originalAmount = krakenOrder.getVolume();
     BigDecimal filledAmount = krakenOrder.getVolumeExecuted();
+    BigDecimal remainingAmount = originalAmount.min(filledAmount);
     CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
@@ -187,7 +189,7 @@ public class KrakenAdapters {
       status = OrderStatus.PARTIALLY_FILLED;
     }
 
-    return new LimitOrder(type, originalAmount, pair, id, timestamp, orderDescription.getPrice(),
+    return new LimitOrder(type, originalAmount, remainingAmount, pair, id, timestamp, orderDescription.getPrice(),
             orderDescription.getPrice(), filledAmount, status);
   }
 
@@ -204,14 +206,14 @@ public class KrakenAdapters {
   public static KrakenUserTrade adaptTrade(KrakenTrade krakenTrade, String tradeId) {
 
     OrderType orderType = adaptOrderType(krakenTrade.getType());
-    BigDecimal tradableAmount = krakenTrade.getVolume();
+    BigDecimal originalAmount = krakenTrade.getVolume();
     String krakenAssetPair = krakenTrade.getAssetPair();
     CurrencyPair pair = adaptCurrencyPair(krakenAssetPair);
     Date timestamp = new Date((long) (krakenTrade.getUnixTimestamp() * 1000L));
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigDecimal price = (averagePrice == null) ? krakenTrade.getPrice() : averagePrice;
 
-    return new KrakenUserTrade(orderType, tradableAmount, pair, price, timestamp, tradeId,
+    return new KrakenUserTrade(orderType, originalAmount, pair, price, timestamp, tradeId,
         krakenTrade.getOrderTxId(), krakenTrade.getFee(), pair.counter, krakenTrade.getCost());
   }
 

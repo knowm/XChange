@@ -17,8 +17,9 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-public class BitVcFuturesAccountService extends BitVcFuturesServiceRaw implements AccountService {
-  public BitVcFuturesAccountService(final Exchange exchange) {
+public class BitVcBaseFuturesAccountService extends BitVcBaseFuturesServiceRaw implements AccountService {
+
+  public BitVcBaseFuturesAccountService(final Exchange exchange) {
     super(exchange);
   }
 

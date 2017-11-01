@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.marketdata;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import org.knowm.xchange.utils.DateUtils;
  * A ticker contains data representing the latest trade.
  * </p>
  */
-public final class Ticker {
+public final class Ticker implements Serializable {
 
   private final CurrencyPair currencyPair;
   private final BigDecimal last;
