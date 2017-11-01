@@ -17,13 +17,13 @@ import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class GDAXAccountServiceRaw extends GDAXBaseService<GDAX> {
+public class GDAXAccountServiceRaw extends GDAXBaseService {
 
   private final SynchronizedValueFactory<Long> nonceFactory;
 
   public GDAXAccountServiceRaw(Exchange exchange) {
 
-    super(GDAX.class, exchange);
+    super(exchange);
     this.nonceFactory = exchange.getNonceFactory();
   }
 

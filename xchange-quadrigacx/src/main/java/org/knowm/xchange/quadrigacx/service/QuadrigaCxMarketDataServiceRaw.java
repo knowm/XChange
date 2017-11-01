@@ -18,7 +18,7 @@ public class QuadrigaCxMarketDataServiceRaw extends QuadrigaCxBaseService {
 
   public QuadrigaCxMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.quadrigacx = RestProxyFactory.createProxy(QuadrigaCx.class, exchange.getExchangeSpecification().getSslUri());
+    this.quadrigacx = RestProxyFactory.createProxy(QuadrigaCx.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public QuadrigaCxOrderBook getQuadrigaCxOrderBook(CurrencyPair currencyPair) throws IOException {

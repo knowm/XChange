@@ -16,7 +16,7 @@ public class BTCMarketsMarketDataServiceRaw extends BTCMarketsBaseService {
 
   public BTCMarketsMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.btcmarkets = RestProxyFactory.createProxy(BTCMarkets.class, exchange.getExchangeSpecification().getSslUri());
+    this.btcmarkets = RestProxyFactory.createProxy(BTCMarkets.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public BTCMarketsTicker getBTCMarketsTicker(CurrencyPair currencyPair) throws IOException {

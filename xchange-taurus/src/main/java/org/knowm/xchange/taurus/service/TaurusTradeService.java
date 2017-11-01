@@ -69,8 +69,8 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements TradeSe
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, TaurusException {
-    TaurusOrder taurusOrder = limitOrder.getType() == BID ? buyTaurusOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice())
-        : sellTaurusOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    TaurusOrder taurusOrder = limitOrder.getType() == BID ? buyTaurusOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice())
+        : sellTaurusOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
 
     return taurusOrder.getId();
   }

@@ -1,6 +1,6 @@
 package org.knowm.xchange.bitmarket;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -29,7 +29,7 @@ public class BitMarketAssert {
 
   public static void assertEquals(Trade o1, Trade o2) {
     assertThat(o1.getType()).isEqualTo(o2.getType());
-    assertThat(o1.getTradableAmount()).isEqualTo(o2.getTradableAmount());
+    assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
     assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
@@ -38,7 +38,7 @@ public class BitMarketAssert {
 
   public static void assertEquals(UserTrade o1, UserTrade o2) {
     assertThat(o1.getType()).isEqualTo(o2.getType());
-    assertThat(o1.getTradableAmount()).isEqualTo(o2.getTradableAmount());
+    assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
     assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
@@ -54,7 +54,7 @@ public class BitMarketAssert {
     assertThat(o1.getType()).isEqualTo(o2.getType());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
     assertThat(o1.getLimitPrice()).isEqualTo(o2.getLimitPrice());
-    assertThat(o1.getTradableAmount()).isEqualTo(o2.getTradableAmount());
+    assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
   }
 
@@ -63,7 +63,7 @@ public class BitMarketAssert {
     assertThat(o1.getType()).isEqualTo(o2.getType());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
     assertThat(o1.getLimitPrice()).isEqualTo(o2.getLimitPrice());
-    assertThat(o1.getTradableAmount()).isEqualTo(o2.getTradableAmount());
+    assertThat(o1.getOriginalAmount()).isEqualTo(o2.getOriginalAmount());
   }
 
   public static void assertEquals(Ticker o1, Ticker o2) {

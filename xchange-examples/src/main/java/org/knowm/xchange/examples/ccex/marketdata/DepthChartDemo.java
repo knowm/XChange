@@ -42,12 +42,12 @@ public class DepthChartDemo {
 
     for (LimitOrder limitOrder : orderBook.getBids()) {
       System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
-          + limitOrder.getTradableAmount());
+          + limitOrder.getOriginalAmount());
     }
 
     for (LimitOrder limitOrder : orderBook.getAsks()) {
       System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
-          + limitOrder.getTradableAmount());
+          + limitOrder.getOriginalAmount());
     }
 
     System.out.println("plotting...");
@@ -64,7 +64,7 @@ public class DepthChartDemo {
     BigDecimal accumulatedBidUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getBids()) {
       xData.add(limitOrder.getLimitPrice());
-      accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getTradableAmount());
+      accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getOriginalAmount());
       yData.add(accumulatedBidUnits);
     }
     Collections.reverse(xData);
@@ -80,7 +80,7 @@ public class DepthChartDemo {
     BigDecimal accumulatedAskUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getAsks()) {
       xData.add(limitOrder.getLimitPrice());
-      accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getTradableAmount());
+      accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getOriginalAmount());
       yData.add(accumulatedAskUnits);
     }
 

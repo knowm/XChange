@@ -1,11 +1,5 @@
 package org.knowm.xchange.anx.v2;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.anx.v2.dto.ANXValue;
 import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfo;
 import org.knowm.xchange.anx.v2.dto.account.ANXWallet;
@@ -31,6 +25,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Various adapters for converting from anx DTOs to XChange DTOs
@@ -71,14 +71,14 @@ public final class ANXAdapters {
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString,
+  public static LimitOrder adaptOrder(BigDecimal originalAmount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString,
       String id, Date timestamp) {
 
     // place a limit order
     OrderType orderType = adaptSide(orderTypeString);
     CurrencyPair currencyPair = adaptCurrencyPair(tradedCurrency, transactionCurrency);
 
-    LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, id, timestamp, price);
+    LimitOrder limitOrder = new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, price);
 
     return limitOrder;
 
@@ -312,7 +312,12 @@ public final class ANXAdapters {
     else
       throw new IllegalStateException("should not get here");
 
-    Date date = DateUtils.fromMillisUtc(Long.valueOf(entry.getDate()));
+    Long rawDate = Long.valueOf(entry.getDate());
+    //this date is not in utc, it's in HK time (I think) - for example: 1495759124000 should translate to 2017-05-26 09:38:44
+
+    Long eightHours = 1000 * 60 * 60 * 8L;
+    Date date = DateUtils.fromMillisUtc(rawDate + eightHours);
+
     ANXValue value = entry.getValue();
     Currency currency = new Currency(value.getCurrency());
     ANXValue balance = entry.getBalance();

@@ -83,7 +83,7 @@ public class GenericTradeService extends BaseExchangeService implements TradeSer
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     HuobiPlaceOrderResult result = tradeServiceRaw.placeMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()),
-        marketOrder.getTradableAmount());
+        marketOrder.getOriginalAmount());
     return HuobiAdapters.adaptPlaceOrderResult(result);
   }
 
@@ -91,7 +91,7 @@ public class GenericTradeService extends BaseExchangeService implements TradeSer
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     HuobiPlaceOrderResult result = tradeServiceRaw.placeLimitOrder(limitOrder.getType(), coinTypes.get(limitOrder.getCurrencyPair()),
-        limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+        limitOrder.getLimitPrice(), limitOrder.getOriginalAmount());
     return HuobiAdapters.adaptPlaceOrderResult(result);
   }
 

@@ -1,6 +1,6 @@
 package org.knowm.xchange.anx.v2;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,7 +87,7 @@ public class ANXAdapterTest {
     Assert.assertEquals(new BigDecimal("412.34567"), openorders.get(0).getLimitPrice());
     Assert.assertEquals(OrderType.ASK, openorders.get(0).getType());
     Assert.assertEquals(new BigDecimal("412.34567"), openorders.get(0).getLimitPrice());
-    Assert.assertEquals(new BigDecimal("10.00000000"), openorders.get(0).getTradableAmount());
+    Assert.assertEquals(new BigDecimal("10.00000000"), openorders.get(0).getOriginalAmount());
 
     Assert.assertEquals("BTC", openorders.get(0).getCurrencyPair().base.getCurrencyCode());
     Assert.assertEquals("HKD", openorders.get(0).getCurrencyPair().counter.getCurrencyCode());
@@ -112,7 +112,7 @@ public class ANXAdapterTest {
     // Verify all fields filled
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
 
-    Assert.assertEquals(new BigDecimal("16.00000000"), asks.get(0).getTradableAmount());
+    Assert.assertEquals(new BigDecimal("16.00000000"), asks.get(0).getOriginalAmount());
     Assert.assertEquals(new BigDecimal("3260.40000"), asks.get(0).getLimitPrice());
 
     Assert.assertEquals("BTC", asks.get(0).getCurrencyPair().base.getCurrencyCode());
@@ -138,7 +138,7 @@ public class ANXAdapterTest {
     assertThat(tradeList.size()).isEqualTo(2);
 
     Trade trade = tradeList.get(0);
-    assertThat(trade.getTradableAmount()).isEqualTo("0.25");
+    assertThat(trade.getOriginalAmount()).isEqualTo("0.25");
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(trade.getPrice()).isEqualTo("655");
     assertThat(trade.getId()).isEqualTo("1402189342525");

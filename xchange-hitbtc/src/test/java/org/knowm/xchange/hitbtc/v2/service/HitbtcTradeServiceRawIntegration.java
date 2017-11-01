@@ -2,6 +2,7 @@ package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,9 @@ import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+
 /**
  * Test ignored in default build because it requires production authentication credentials. See {@link BaseAuthenticatedServiceTest}.
  */
@@ -30,6 +34,8 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   private static final Logger LOGGER = LoggerFactory.getLogger(HitbtcTradeServiceRawIntegration.class);
 
   private HitbtcTradeServiceRaw service = (HitbtcTradeServiceRaw) exchange.getTradeService();
+
+  private SecureRandom secureRandom = new SecureRandom();
 
   @Rule
   public final ExpectedException exception = ExpectedException.none();
@@ -73,13 +79,30 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   }
 
   @Test
+  @Ignore //needs authentication params
   public void testUpdateOrder() throws IOException {
 
-    exception.expect(HitbtcException.class);
-    exception.expectMessage("Order not found");
+    String orderId = String.valueOf(secureRandom.nextInt());
+    BigDecimal askingPrice = new BigDecimal(12000);
 
-    service.updateMarketOrderRaw("WRONG", 0, "WRONG");
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.01"), CurrencyPair.BTC_USD, orderId, null, askingPrice);
+
+    HitbtcOrder hitbtcOrder = null;
+
+    try {
+      hitbtcOrder = service.placeLimitOrderRaw(limitOrder);
+      assertThat(hitbtcOrder).isNotNull();
+
+      hitbtcOrder = service.updateMarketOrderRaw(hitbtcOrder.clientOrderId, new BigDecimal("0.02"), "");
+    }
+    finally {
+       if (hitbtcOrder != null) {
+         service.cancelOrderRaw(hitbtcOrder.clientOrderId);
+       }
+    }
   }
+
+
 
   @Test
   public void testCancelOrder_wrongOrder() throws IOException {

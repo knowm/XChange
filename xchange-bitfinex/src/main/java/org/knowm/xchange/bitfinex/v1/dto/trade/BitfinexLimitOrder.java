@@ -14,8 +14,8 @@ public class BitfinexLimitOrder extends LimitOrder {
 
   private BitfinexOrderStatusResponse response = null;
 
-  public BitfinexLimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
-    super(type, tradableAmount, currencyPair, id, timestamp, limitPrice);
+  public BitfinexLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
+    super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
   }
 
   public void setResponse(BitfinexOrderStatusResponse value) {
@@ -33,7 +33,7 @@ public class BitfinexLimitOrder extends LimitOrder {
     }
 
     public BitfinexLimitOrder build() {
-      final BitfinexLimitOrder order = new BitfinexLimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice);
+      final BitfinexLimitOrder order = new BitfinexLimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice);
       order.setOrderFlags(flags);
       return order;
     }

@@ -34,7 +34,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
   @Test
   public void testGetWalletRaw() throws IOException {
 
-    List<HitbtcBalance> balance = service.getWalletRaw();
+    List<HitbtcBalance> balance = service.getMainBalance();
 
     Map<Currency, HitbtcBalance> balanceMap = new HashMap<>();
     for (HitbtcBalance hitbtcBalance : balance) {
@@ -49,7 +49,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
   @Test
   public void testGetPaymentBalance() throws IOException {
 
-    List<HitbtcBalance> response = service.getPaymentBalance();
+    List<HitbtcBalance> response = service.getMainBalance();
 
     Assert.assertTrue(!response.isEmpty());
   }
