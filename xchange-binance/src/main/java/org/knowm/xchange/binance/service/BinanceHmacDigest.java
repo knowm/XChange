@@ -40,24 +40,29 @@ public class BinanceHmacDigest extends BaseParamsDigest {
     public String digestParams(RestInvocation restInvocation) {
         try {
             final String input;
-            switch (restInvocation.getHttpMethod()) {
-            case "GET":
-            case "DELETE":
+            
+            if (restInvocation.getPath().startsWith("wapi/")) {
+                // little dirty hack for /wapi methods
                 input = getQuery(restInvocation);
-                break;
-            case "POST":
-                input =  restInvocation.getRequestBody();
-                break;
-            default:
-                throw new RuntimeException("Not support http method: " + restInvocation.getHttpMethod());
+            } else {
+                switch (restInvocation.getHttpMethod()) {
+                case "GET":
+                case "DELETE":
+                    input = getQuery(restInvocation);
+                    break;
+                case "POST":
+                    input =  restInvocation.getRequestBody();
+                    break;
+                default:
+                    throw new RuntimeException("Not support http method: " + restInvocation.getHttpMethod());
+                }
             }
-
+            
             Mac mac = getMac();
             mac.update(input.getBytes("UTF-8"));
             String printBase64Binary = DatatypeConverter.printHexBinary(mac.doFinal());
             LOG.debug("value to sign: {},  signature: {}", input, printBase64Binary);
-
-        
+            
             // https://github.com/mmazi/rescu/issues/62
             // Seems rescu does not support ParamsDigest in QueryParam.
             // hack to replace the signature in the invocation URL.

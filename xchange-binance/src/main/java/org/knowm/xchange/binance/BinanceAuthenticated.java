@@ -16,6 +16,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.DepositList;
+import org.knowm.xchange.binance.dto.account.WithdrawList;
+import org.knowm.xchange.binance.dto.account.WithdrawRequest;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
@@ -244,7 +247,7 @@ public interface BinanceAuthenticated extends Binance {
      * @throws IOException
      * @throws BinanceException
      */
-    Object withdraw(@FormParam("asset") String asset
+    WithdrawRequest withdraw(@FormParam("asset") String asset
             , @FormParam("address") String address
             , @FormParam("amount") BigDecimal amount
             , @FormParam("name") String name
@@ -268,7 +271,7 @@ public interface BinanceAuthenticated extends Binance {
      * @throws IOException
      * @throws BinanceException
      */
-    Object depositHistory(@FormParam("asset") String asset
+    DepositList depositHistory(@FormParam("asset") String asset
             , @FormParam("startTime") Long startTime
             , @FormParam("startTime") Long endTime
             , @FormParam("recvWindow") Long recvWindow
@@ -291,7 +294,7 @@ public interface BinanceAuthenticated extends Binance {
      * @throws IOException
      * @throws BinanceException
      */
-    Object withdrawHistory(@FormParam("asset") String asset
+    WithdrawList withdrawHistory(@FormParam("asset") String asset
             , @FormParam("startTime") Long startTime
             , @FormParam("startTime") Long endTime
             , @FormParam("recvWindow") Long recvWindow
