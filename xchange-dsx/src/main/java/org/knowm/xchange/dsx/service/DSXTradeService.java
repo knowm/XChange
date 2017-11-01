@@ -66,7 +66,6 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     Map<Long, DSXOrder> orders = getDSXActiveOrders(null);
     return DSXAdapters.adaptOrders(orders);
-
   }
 
   @Override
@@ -84,7 +83,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     String pair = DSXAdapters.getPair(limitOrder.getCurrencyPair());
 
-    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), limitOrder.getTimestamp().getTime(),
+    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(),
         3, DSXOrder.OrderType.limit);
 
     DSXTradeResult result = tradeDSX(dsxOrder);
