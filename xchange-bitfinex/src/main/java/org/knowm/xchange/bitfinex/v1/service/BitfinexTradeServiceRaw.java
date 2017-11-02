@@ -306,11 +306,11 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 	    }
 	  }
 
-  public BitfinexTradeResponse[] getBitfinexTradeHistory(String symbol, long startTime, Long endTime, int limit) throws IOException {
+  public BitfinexTradeResponse[] getBitfinexTradeHistory(String symbol, long startTime, Long endTime, Integer limit, Integer reverse) throws IOException {
 
     try {
       BitfinexTradeResponse[] trades = bitfinex.pastTrades(apiKey, payloadCreator, signatureCreator,
-          new BitfinexPastTradesRequest(String.valueOf(exchange.getNonceFactory().createValue()), symbol, startTime, endTime, limit));
+          new BitfinexPastTradesRequest(String.valueOf(exchange.getNonceFactory().createValue()), symbol, startTime, endTime, limit, reverse));
       return trades;
     } catch (BitfinexException e) {
       throw new ExchangeException(e);
