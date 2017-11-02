@@ -85,9 +85,6 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @Path("order/{clientOrderId}")
   HitbtcOrder cancelSingleOrder(@PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
 
-  //TODO Add replace or update order via PATCH with upgrade to JSR311
-  // PATCH /order/{clientOrderId}
-
   @GET
   @Path("trading/balance")
   List<HitbtcBalance> getTradingBalance() throws IOException, HitbtcException;
