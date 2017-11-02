@@ -32,7 +32,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
   private HitbtcAccountServiceRaw service = (HitbtcAccountServiceRaw) exchange.getAccountService();
 
   @Test
-  public void testGetWalletRaw() throws IOException {
+  public void testGetMainBalance() throws IOException {
 
     List<HitbtcBalance> balance = service.getMainBalance();
 
@@ -42,7 +42,22 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
     }
 
     Assert.assertNotNull(balance);
-    BigDecimal expected = new BigDecimal("0.05000000");
+    BigDecimal expected = new BigDecimal("0.00000000");
+    Assert.assertTrue(expected.equals(balanceMap.get(Currency.BTC).getAvailable()));
+  }
+
+  @Test
+  public void testGetTradingBalance() throws IOException {
+
+    List<HitbtcBalance> balance = service.getTradingBalance();
+
+    Map<Currency, HitbtcBalance> balanceMap = new HashMap<>();
+    for (HitbtcBalance hitbtcBalance : balance) {
+      balanceMap.put(Currency.getInstance(hitbtcBalance.getCurrency()), hitbtcBalance);
+    }
+
+    Assert.assertNotNull(balance);
+    BigDecimal expected = new BigDecimal("0.040000000");
     Assert.assertTrue(expected.equals(balanceMap.get(Currency.BTC).getAvailable()));
   }
 
