@@ -73,7 +73,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @Path("order/{clientOrderId}")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   HitbtcOrder updateHitbtcOrder(@PathParam("clientOrderId") String clientOrderId, @FormParam("quantity") BigDecimal quantity,
-      @FormParam("requestClientId") String requestClientId)
+      @FormParam("requestClientId") String requestClientId, @FormParam("price") BigDecimal price)
       throws IOException, HitbtcException;
 
   @DELETE
