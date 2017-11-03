@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -80,12 +81,12 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
 
   @Test
   @Ignore //needs authentication params
-  public void testUpdateOrder() throws IOException {
+  public void testUpdateOrder_noPrice() throws IOException {
 
     String orderId = String.valueOf(secureRandom.nextInt());
-    BigDecimal askingPrice = new BigDecimal(12000);
+    BigDecimal askingPrice = new BigDecimal("0.05");
 
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.01"), CurrencyPair.BTC_USD, orderId, null, askingPrice);
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.01"), CurrencyPair.ETH_BTC, orderId, null, askingPrice);
 
     HitbtcOrder hitbtcOrder = null;
 
@@ -93,12 +94,38 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
       hitbtcOrder = service.placeLimitOrderRaw(limitOrder);
       assertThat(hitbtcOrder).isNotNull();
 
-      hitbtcOrder = service.updateMarketOrderRaw(hitbtcOrder.clientOrderId, new BigDecimal("0.02"), "");
+      hitbtcOrder = service.updateMarketOrderRaw(hitbtcOrder.clientOrderId, new BigDecimal("0.02"), "", Optional.empty());
     }
     finally {
        if (hitbtcOrder != null) {
          service.cancelOrderRaw(hitbtcOrder.clientOrderId);
        }
+    }
+  }
+
+  @Test
+  @Ignore //needs authentication params
+  public void testUpdateOrder_withPrice() throws IOException {
+
+    String orderId = String.valueOf(secureRandom.nextInt());
+    BigDecimal askingPrice = new BigDecimal("0.05");
+
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.01"), CurrencyPair.ETH_BTC, orderId, null, askingPrice);
+
+    HitbtcOrder hitbtcOrder = null;
+
+    try {
+      hitbtcOrder = service.placeLimitOrderRaw(limitOrder);
+      assertThat(hitbtcOrder).isNotNull();
+
+      Optional<BigDecimal> newPrice = Optional.of(new BigDecimal("0.051"));
+
+      hitbtcOrder = service.updateMarketOrderRaw(hitbtcOrder.clientOrderId, new BigDecimal("0.02"), "", newPrice);
+    }
+    finally {
+      if (hitbtcOrder != null) {
+        service.cancelOrderRaw(hitbtcOrder.clientOrderId);
+      }
     }
   }
 
