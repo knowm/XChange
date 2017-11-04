@@ -32,13 +32,12 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     return hitbtc.postHitbtcNewOrder(null, symbol, side, null, marketOrder.getOriginalAmount(), "market", "IOC");
   }
 
-
   public HitbtcOrder placeLimitOrderRaw(LimitOrder limitOrder) throws IOException {
-      String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
-      String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
-      return hitbtc.postHitbtcNewOrder(null, symbol, side, limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), "limit", "GTC");
-  }
 
+    String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
+    String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
+    return hitbtc.postHitbtcNewOrder(null, symbol, side, limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), "limit", "GTC");
+  }
 
   public HitbtcOrder updateMarketOrderRaw(String clientOrderId, BigDecimal quantity, String requestClientId, Optional<BigDecimal> price) throws IOException {
 
@@ -46,6 +45,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   }
 
   public HitbtcOrder cancelOrderRaw(String clientOrderId) throws IOException {
+
     return hitbtc.cancelSingleOrder(clientOrderId);
   }
 
@@ -60,6 +60,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   }
 
   public List<HitbtcBalance> getTradingBalance() throws IOException {
+
     return hitbtc.getTradingBalance();
   }
 
