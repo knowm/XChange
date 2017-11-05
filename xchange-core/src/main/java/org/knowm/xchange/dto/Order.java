@@ -155,6 +155,7 @@ public abstract class Order implements Serializable {
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    * @param averagePrice the averagePrice of fill belonging to the order
+   * @param cumulativeAmount the amount that has been filled
    * @param status the status of the order at the exchange
    */
   public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
@@ -202,6 +203,14 @@ public abstract class Order implements Serializable {
     return cumulativeAmount;
   }
 
+  /**
+   * @return The remaining order amount
+   */
+  public BigDecimal getRemainingAmount() {
+
+    return originalAmount.subtract(cumulativeAmount);
+  }
+  
   /**
    * @return The average price of the fills in the order
    */
@@ -321,6 +330,7 @@ public abstract class Order implements Serializable {
     protected String id;
     protected Date timestamp;
     protected BigDecimal averagePrice;
+    protected BigDecimal cumulativeAmount;
     protected OrderStatus status;
 
     protected final Set<IOrderFlags> flags = new HashSet<>();
@@ -353,6 +363,12 @@ public abstract class Order implements Serializable {
 
       this.averagePrice = averagePrice;
       return this;
+    }
+    
+    public Builder cumulativeAmount(BigDecimal cumulativeAmount) {
+
+        this.cumulativeAmount = cumulativeAmount;
+        return this;
     }
 
     public Builder currencyPair(CurrencyPair currencyPair) {
