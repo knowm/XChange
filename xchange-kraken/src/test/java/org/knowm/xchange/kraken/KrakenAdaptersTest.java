@@ -98,7 +98,7 @@ public class KrakenAdaptersTest {
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 
     Set<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
-    assertThat(pairs).hasSize(57);
+    assertThat(pairs).hasSize(52);
     assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
     System.out.println("pairs = " + pairs);
   }

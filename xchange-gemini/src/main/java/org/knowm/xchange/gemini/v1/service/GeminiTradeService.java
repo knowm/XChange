@@ -151,7 +151,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     throw new NotYetImplementedForExchangeException();
   }
 
-  public static class GeminiTradeHistoryParams implements TradeHistoryParams, TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsTimeSpan {
+  public static class GeminiTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsTimeSpan {
     private CurrencyPair currencyPair;
     private Integer limit;
     private Date startTime;
