@@ -80,7 +80,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
 
     try {
       Gemini.cancelOrders(apiKey, payloadCreator, signatureCreator,
-          new GeminiCancelOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(orderId)));
+          new GeminiCancelOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), Long.valueOf(orderId)));
       return true;
     } catch (GeminiException e) {
       if (e.getMessage().equals("Order could not be cancelled.")) {
@@ -95,7 +95,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
 
     try {
       GeminiOrderStatusResponse orderStatus = Gemini.orderStatus(apiKey, payloadCreator, signatureCreator,
-          new GeminiOrderStatusRequest(String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(orderId)));
+          new GeminiOrderStatusRequest(String.valueOf(exchange.getNonceFactory().createValue()), Long.valueOf(orderId)));
       return orderStatus;
     } catch (GeminiException e) {
       throw new ExchangeException(e);
