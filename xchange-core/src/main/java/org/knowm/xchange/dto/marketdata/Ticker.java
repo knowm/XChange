@@ -17,6 +17,7 @@ import org.knowm.xchange.utils.DateUtils;
 public final class Ticker {
 
   private final CurrencyPair currencyPair;
+  private final BigDecimal open;
   private final BigDecimal last;
   private final BigDecimal bid;
   private final BigDecimal ask;
@@ -42,9 +43,9 @@ public final class Ticker {
    * @param volume 24h volume
    * @param timestamp - the timestamp of the ticker according to the exchange's server, null if not provided
    */
-  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal vwap,
+  private Ticker(CurrencyPair currencyPair, BigDecimal open, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal vwap,
       BigDecimal volume, Date timestamp) {
-
+    this.open = open;
     this.currencyPair = currencyPair;
     this.last = last;
     this.bid = bid;
@@ -59,6 +60,11 @@ public final class Ticker {
   public CurrencyPair getCurrencyPair() {
 
     return currencyPair;
+  }
+
+  public BigDecimal getOpen() {
+
+    return open;
   }
 
   public BigDecimal getLast() {
@@ -104,7 +110,7 @@ public final class Ticker {
   @Override
   public String toString() {
 
-    return "Ticker [currencyPair=" + currencyPair + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ",avg="
+    return "Ticker [currencyPair=" + currencyPair + ", open=" + open + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ",avg="
         + vwap + ", volume=" + volume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
   }
 
@@ -120,6 +126,7 @@ public final class Ticker {
   public static class Builder {
 
     private CurrencyPair currencyPair;
+    private BigDecimal open;
     private BigDecimal last;
     private BigDecimal bid;
     private BigDecimal ask;
@@ -136,7 +143,7 @@ public final class Ticker {
 
       validateState();
 
-      Ticker ticker = new Ticker(currencyPair, last, bid, ask, high, low, vwap, volume, timestamp);
+      Ticker ticker = new Ticker(currencyPair, open, last, bid, ask, high, low, vwap, volume, timestamp);
 
       isBuilt = true;
 
@@ -153,6 +160,12 @@ public final class Ticker {
     public Builder currencyPair(CurrencyPair currencyPair) {
 
       this.currencyPair = currencyPair;
+      return this;
+    }
+
+    public Builder open(BigDecimal open) {
+
+      this.open = open;
       return this;
     }
 
