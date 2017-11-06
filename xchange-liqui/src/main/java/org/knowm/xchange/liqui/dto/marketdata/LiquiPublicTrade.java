@@ -1,6 +1,7 @@
 package org.knowm.xchange.liqui.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.liqui.dto.LiquiTradeType;
 
 import java.math.BigDecimal;
 

@@ -1,4 +1,4 @@
-package org.knowm.xchange.liqui.dto.marketdata;
+package org.knowm.xchange.liqui.dto;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.dto.Order;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,6 +28,11 @@ public enum LiquiTradeType {
         return fromString.get(typeString.toLowerCase());
     }
 
+    public static LiquiTradeType fromOrderType(final Order.OrderType type) {
+
+        return type == Order.OrderType.ASK ? LiquiTradeType.SELL : LiquiTradeType.BUY;
+    }
+
     private static final Map<String, LiquiTradeType> fromString = new HashMap<>();
 
     static {
@@ -35,6 +41,8 @@ public enum LiquiTradeType {
 
         fromString.put("bid", BUY);
         fromString.put("ask", SELL);
+        fromString.put("buy", BUY);
+        fromString.put("sell", SELL);
     }
 
     static class TradeTypeDeserializer extends JsonDeserializer<LiquiTradeType> {

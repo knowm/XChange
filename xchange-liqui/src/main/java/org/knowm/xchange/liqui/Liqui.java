@@ -3,8 +3,8 @@ package org.knowm.xchange.liqui;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.liqui.dto.marketdata.result.LiquiDepthResult;
 import org.knowm.xchange.liqui.dto.marketdata.result.LiquiInfoResult;
+import org.knowm.xchange.liqui.dto.marketdata.result.LiquiPublicTradesResult;
 import org.knowm.xchange.liqui.dto.marketdata.result.LiquiTickersResult;
-import org.knowm.xchange.liqui.dto.marketdata.result.LiquiTradesResult;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -43,12 +43,12 @@ public interface Liqui {
     @GET
     @Path("trades/{pairs}")
     @Produces(MediaType.APPLICATION_JSON)
-    LiquiTradesResult getTrades(@PathParam("pairs") Pairs pairs);
+    LiquiPublicTradesResult getTrades(@PathParam("pairs") Pairs pairs);
 
     @GET
     @Path("trades/{pairs}")
     @Produces(MediaType.APPLICATION_JSON)
-    LiquiTradesResult getTrades(@PathParam("pairs") Pairs pairs, @QueryParam("limit") int limit);
+    LiquiPublicTradesResult getTrades(@PathParam("pairs") Pairs pairs, @QueryParam("limit") int limit);
 
 
     class Pairs {

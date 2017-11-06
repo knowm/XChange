@@ -2,10 +2,10 @@ package org.knowm.xchange.liqui.marketdata;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.knowm.xchange.liqui.dto.LiquiTradeType;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicTrade;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicTrades;
-import org.knowm.xchange.liqui.dto.marketdata.LiquiTradeType;
-import org.knowm.xchange.liqui.dto.marketdata.result.LiquiTradesResult;
+import org.knowm.xchange.liqui.dto.marketdata.result.LiquiPublicTradesResult;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ public class LiquiTradesJSONTest {
         final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
 
         final ObjectMapper mapper = new ObjectMapper();
-        final LiquiTradesResult tradesResult = mapper.readValue(is, LiquiTradesResult.class);
+        final LiquiPublicTradesResult tradesResult = mapper.readValue(is, LiquiPublicTradesResult.class);
         final Map<String, LiquiPublicTrades> result = tradesResult.getResult();
 
         assertThat(result.get("eth_zec")).isEqualTo(null);
