@@ -6,10 +6,10 @@ import org.knowm.xchange.liqui.dto.marketdata.LiquiResult;
 
 import java.util.Map;
 
-public class LiquiTradesResult extends LiquiResult<Map<String, LiquiPublicTrades>> {
+public class LiquiPublicTradesResult extends LiquiResult<Map<String, LiquiPublicTrades>> {
 
     @JsonCreator
-    public LiquiTradesResult(final Map<String, LiquiPublicTrades> trades) {
+    public LiquiPublicTradesResult(final Map<String, LiquiPublicTrades> trades) {
         super(trades);
     }
 }
