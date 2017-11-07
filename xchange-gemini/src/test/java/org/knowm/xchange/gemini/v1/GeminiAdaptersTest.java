@@ -103,6 +103,7 @@ public class GeminiAdaptersTest {
       assertEquals(responses[i].getOriginalAmount(), order.getOriginalAmount());
       assertEquals(responses[i].getRemainingAmount(), order.getRemainingAmount());
       assertEquals(responses[i].getExecutedAmount(), order.getOriginalAmount().subtract(order.getRemainingAmount()));
+      assertEquals(responses[i].getExecutedAmount(), order.getCumulativeAmount());
       assertEquals(GeminiAdapters.adaptCurrencyPair(SYMBOL), order.getCurrencyPair());
       assertEquals(expectedOrderType, order.getType());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());

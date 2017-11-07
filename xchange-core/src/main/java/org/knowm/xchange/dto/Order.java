@@ -208,6 +208,10 @@ public abstract class Order implements Serializable {
    */
   public BigDecimal getRemainingAmount() {
 
+	if (originalAmount == null || cumulativeAmount == null) {
+		return null;
+	}
+	
     return originalAmount.subtract(cumulativeAmount);
   }
 
@@ -331,7 +335,8 @@ public abstract class Order implements Serializable {
     protected CurrencyPair currencyPair;
     protected String id;
     protected Date timestamp;
-    protected BigDecimal averagePrice;
+    protected BigDecimal averagePrice = BigDecimal.ZERO;
+    protected BigDecimal cumulativeAmount = BigDecimal.ZERO;
     protected OrderStatus status;
 
     protected final Set<IOrderFlags> flags = new HashSet<>();
@@ -378,6 +383,15 @@ public abstract class Order implements Serializable {
       return this;
     }
 
+    /**
+     * originalAmount must be initiated beforehand.
+     */
+    public Builder remainingAmount(BigDecimal remainingAmount) {
+
+    	this.cumulativeAmount = originalAmount.subtract(remainingAmount);
+    	return this;
+    }
+    
     public Builder currencyPair(CurrencyPair currencyPair) {
 
       this.currencyPair = currencyPair;
