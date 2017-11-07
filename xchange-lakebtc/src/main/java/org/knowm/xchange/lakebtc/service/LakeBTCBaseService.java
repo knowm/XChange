@@ -42,7 +42,7 @@ public class LakeBTCBaseService extends BaseExchangeService implements BaseServi
 
   }
 
-  @SuppressWarnings("rawtypes")
+
   public static <T extends LakeBTCResponse> T checkResult(T returnObject) {
 
     if (returnObject.getResult() == null) {

@@ -25,7 +25,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+
 public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
   @Test
