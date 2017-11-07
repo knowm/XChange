@@ -10,7 +10,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
  * Poloniex order response contains details of any trades that have just executed in the order entry return value. If a LimitOrder of this type is
  * supplied to the trade service orderEntry method it will be populated with this information.
  */
-@SuppressWarnings("serial")
+
 public class GeminiLimitOrder extends LimitOrder {
 
   private GeminiOrderStatusResponse response = null;

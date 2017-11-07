@@ -3,7 +3,7 @@ package org.knowm.xchange.binance.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-@SuppressWarnings("serial")
+
 public class BinanceException extends RuntimeException {
     
     public final int code;
