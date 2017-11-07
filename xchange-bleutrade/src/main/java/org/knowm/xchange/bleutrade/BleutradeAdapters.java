@@ -138,8 +138,8 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(type, currencyPair);
       builder.id(bleuTradeOpenOrder.getOrderId());
       builder.limitPrice(bleuTradeOpenOrder.getPrice());
-      builder.remainingAmount(bleuTradeOpenOrder.getQuantityRemaining());
       builder.originalAmount(bleuTradeOpenOrder.getQuantity());
+      builder.remainingAmount(bleuTradeOpenOrder.getQuantityRemaining());
       builder.timestamp(BleutradeUtils.toDate(bleuTradeOpenOrder.getCreated()));
       openOrders.add(builder.build());
     }

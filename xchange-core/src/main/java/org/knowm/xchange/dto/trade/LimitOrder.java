@@ -202,6 +202,21 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     }
 
     @Override
+    public Builder cumulativeAmount(BigDecimal cumulativeAmount) {
+
+        return (Builder) super.cumulativeAmount(cumulativeAmount);
+    }
+    
+    /**
+     * originalAmount must be initiated beforehand.
+     */
+    @Override
+    public Builder remainingAmount(BigDecimal remainingAmount) {
+
+    	return (Builder) super.remainingAmount(remainingAmount);
+    }
+    
+    @Override
     public Builder flag(IOrderFlags flag) {
 
       return (Builder) super.flag(flag);
@@ -218,7 +233,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       this.limitPrice = limitPrice;
       return this;
     }
-
+    
     public LimitOrder build() {
 
       LimitOrder order;
