@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.Order.OrderStatus;
 
 /**
  * <p>
@@ -38,19 +37,20 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     super(type, originalAmount, currencyPair, id, timestamp);
     this.limitPrice = limitPrice;
   }
-  
+
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param remainingAmount The remaining amount
+   * @param cumulativeAmount The cumulative amount
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
-  public LimitOrder(OrderType type, BigDecimal originalAmount, BigDecimal remainingAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
+  public LimitOrder(OrderType type, BigDecimal originalAmount, BigDecimal cumulativeAmount, CurrencyPair currencyPair, String id, Date timestamp,
+      BigDecimal limitPrice) {
 
-    super(type, originalAmount, currencyPair, id, timestamp, BigDecimal.ZERO, originalAmount.subtract(remainingAmount), OrderStatus.PENDING_NEW);
+    super(type, originalAmount, currencyPair, id, timestamp, BigDecimal.ZERO, cumulativeAmount, OrderStatus.PENDING_NEW);
     this.limitPrice = limitPrice;
   }
 
@@ -71,7 +71,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
     this.limitPrice = limitPrice;
   }
-  
+
   /**
    * @return The limit price
    */
@@ -79,20 +79,11 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     return limitPrice;
   }
-  
-
-  /**
-   * @return The remaining order amount
-   */
-  public BigDecimal getFilledAmount() {
-
-	return getCumulativeAmount();
-  }
 
   @Override
   public String toString() {
 
-    return "LimitOrder [limitPrice=" + limitPrice + ", remainingAmount=" + this.getRemainingAmount() + ", " + super.toString() + "]";
+    return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
   }
 
   @Override
@@ -169,6 +160,18 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     }
 
     @Override
+
+    public Builder cumulativeAmount(BigDecimal originalAmount) {
+
+      return (Builder) super.cumulativeAmount(originalAmount);
+    }
+
+    public Builder remainingAmount(BigDecimal remainingAmount) {
+
+      return (Builder) super.remainingAmount(remainingAmount);
+    }
+
+    @Override
     public Builder currencyPair(CurrencyPair currencyPair) {
 
       return (Builder) super.currencyPair(currencyPair);
@@ -215,17 +218,15 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       this.limitPrice = limitPrice;
       return this;
     }
-    
-    public Builder remainingAmount(BigDecimal remainingAmount) {
-
-      this.cumulativeAmount = originalAmount.subtract(remainingAmount);
-      return this;
-    }
-
 
     public LimitOrder build() {
 
-      LimitOrder order = new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice, averagePrice, cumulativeAmount, status);
+      LimitOrder order;
+      if (remainingAmount != null) {
+        order = new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice, averagePrice, originalAmount.subtract(remainingAmount), status);
+      } else {
+        order = new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice, averagePrice, cumulativeAmount, status);
+      }
       order.setOrderFlags(flags);
       return order;
     }
