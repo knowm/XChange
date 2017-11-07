@@ -1,6 +1,11 @@
 package org.knowm.xchange.gemini.v1;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,11 +22,7 @@ import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import static org.junit.Assert.assertEquals;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GeminiAdaptersTest {
 
@@ -101,7 +102,7 @@ public class GeminiAdaptersTest {
       assertEquals(String.valueOf(responses[i].getId()), order.getId());
       assertEquals(responses[i].getOriginalAmount(), order.getOriginalAmount());
       assertEquals(responses[i].getRemainingAmount(), order.getRemainingAmount());
-      assertEquals(responses[i].getExecutedAmount(), order.getFilledAmount());
+      assertEquals(responses[i].getExecutedAmount(), order.getOriginalAmount().subtract(order.getRemainingAmount()));
       assertEquals(GeminiAdapters.adaptCurrencyPair(SYMBOL), order.getCurrencyPair());
       assertEquals(expectedOrderType, order.getType());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
