@@ -189,7 +189,7 @@ public class KrakenAdapters {
       status = OrderStatus.PARTIALLY_FILLED;
     }
 
-    return new LimitOrder(type, originalAmount, remainingAmount, pair, id, timestamp, orderDescription.getPrice(),
+    return new LimitOrder(type, originalAmount, pair, id, timestamp, orderDescription.getPrice(),
             orderDescription.getPrice(), filledAmount, status);
   }
 
