@@ -26,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 public class GeminiAdaptersTest {
 
   private final static String MARKET = "Gemini";
-  private final static String EXCHANGE = "exchange";
   private final static String SYMBOL = "BTCUSD";
 
   @Test
@@ -169,8 +168,8 @@ public class GeminiAdaptersTest {
   private GeminiTradeResponse[] initTradeResponses() {
 
     GeminiTradeResponse[] responses = new GeminiTradeResponse[60];
-    int tradeId = 2000;
-    int orderId = 1000;
+    long tradeId = 2000;
+    long orderId = 1000;
 
     for (int i = 0; i < responses.length; i++) {
       BigDecimal price = new BigDecimal(350L + i);
