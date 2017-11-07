@@ -210,7 +210,7 @@ public abstract class Order implements Serializable {
 
     return originalAmount.subtract(cumulativeAmount);
   }
-  
+
   /**
    * @return The average price of the fills in the order
    */
@@ -278,7 +278,7 @@ public abstract class Order implements Serializable {
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", originalAmount=" + originalAmount + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
+    return "Order [type=" + type + ", originalAmount=" + originalAmount + ", cumulativeAmount=" + getCumulativeAmount() + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
         + ", id=" + id + ", timestamp=" + timestamp + ", status=" + status + "]";
   }
 
@@ -326,11 +326,12 @@ public abstract class Order implements Serializable {
 
     protected OrderType orderType;
     protected BigDecimal originalAmount;
+    protected BigDecimal cumulativeAmount;
+    protected BigDecimal remainingAmount;
     protected CurrencyPair currencyPair;
     protected String id;
     protected Date timestamp;
     protected BigDecimal averagePrice;
-    protected BigDecimal cumulativeAmount;
     protected OrderStatus status;
 
     protected final Set<IOrderFlags> flags = new HashSet<>();
@@ -359,16 +360,22 @@ public abstract class Order implements Serializable {
       return this;
     }
 
+    public Builder cumulativeAmount(BigDecimal cumulativeAmount) {
+
+      this.cumulativeAmount = cumulativeAmount;
+      return this;
+    }
+
+    public Builder remainingAmount(BigDecimal remainingAmount) {
+
+      this.remainingAmount = remainingAmount;
+      return this;
+    }
+
     public Builder averagePrice(BigDecimal averagePrice) {
 
       this.averagePrice = averagePrice;
       return this;
-    }
-    
-    public Builder cumulativeAmount(BigDecimal cumulativeAmount) {
-
-        this.cumulativeAmount = cumulativeAmount;
-        return this;
     }
 
     public Builder currencyPair(CurrencyPair currencyPair) {
@@ -400,5 +407,6 @@ public abstract class Order implements Serializable {
       this.flags.add(flag);
       return this;
     }
+
   }
 }

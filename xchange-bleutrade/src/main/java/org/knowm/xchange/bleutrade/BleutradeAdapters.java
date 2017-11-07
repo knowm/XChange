@@ -79,6 +79,7 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.ASK, currencyPair);
       builder.limitPrice(ask.getRate());
       builder.originalAmount(ask.getQuantity());
+      builder.cumulativeAmount(BigDecimal.ZERO);
       asks.add(builder.build());
     }
 
@@ -87,6 +88,7 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.BID, currencyPair);
       builder.limitPrice(bid.getRate());
       builder.originalAmount(bid.getQuantity());
+      builder.cumulativeAmount(BigDecimal.ZERO);
       bids.add(builder.build());
     }
 
