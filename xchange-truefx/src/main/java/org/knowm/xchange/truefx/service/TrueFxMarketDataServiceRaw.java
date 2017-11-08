@@ -25,7 +25,7 @@ public class TrueFxMarketDataServiceRaw extends BaseExchangeService {
   protected TrueFxMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
 
-    final ClientConfig config = new ClientConfig();
+    final ClientConfig config = getClientConfig();
     config.setJacksonObjectMapperFactory(factory);
 
     trueFx = RestProxyFactory.createProxy(TrueFxPublic.class, exchange.getExchangeSpecification().getPlainTextUri(), config);

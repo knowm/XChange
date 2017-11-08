@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.cryptopia.Cryptopia;
-import org.knowm.xchange.cryptopia.CryptopiaDigest;
+import org.knowm.xchange.cryptopia.CryptopiaAdapters;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
 import org.knowm.xchange.currency.Currency;
@@ -17,24 +17,21 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.DateUtils;
 
-import si.mazi.rescu.RestProxyFactory;
+public class CryptopiaTradeServiceRaw extends CryptopiaBaseService{
 
-public class CryptopiaTradeServiceRaw {
-
-  private final Cryptopia api;
-  private final CryptopiaDigest signatureCreator;
   private final CryptopiaExchange exchange;
 
   public CryptopiaTradeServiceRaw(CryptopiaExchange exchange) {
-    this.api = RestProxyFactory.createProxy(Cryptopia.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = CryptopiaDigest.createInstance(exchange.getNonceFactory(), exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey());
+
+    super(exchange);
+
     this.exchange = exchange;
   }
-
+  
   public List<LimitOrder> getOpenOrders(CurrencyPair currencyPair, Integer count) throws IOException {
-    CryptopiaBaseResponse<List<Map>> response = api.getOpenOrders(signatureCreator, new Cryptopia.GetOpenOrdersRequest(currencyPair.toString(), count));
+
+    CryptopiaBaseResponse<List<Map>> response = cryptopia.getOpenOrders(signatureCreator, new Cryptopia.GetOpenOrdersRequest(currencyPair == null ? null : currencyPair.toString(), count));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to get open orders: " + response.toString());
 
@@ -43,21 +40,25 @@ public class CryptopiaTradeServiceRaw {
 
       Order.OrderType type = type(map);
 
-      BigDecimal tradableAmount = new BigDecimal(map.get("Amount").toString());
+      BigDecimal originalAmount = new BigDecimal(map.get("Amount").toString());
       BigDecimal remaining = new BigDecimal(map.get("Remaining").toString());
       BigDecimal total = new BigDecimal(map.get("Total").toString());
 
       String id = map.get("OrderId").toString();
-      Date timestamp = DateUtils.fromISO8601DateString(map.get("TimeStamp").toString());
+      Date timestamp = CryptopiaAdapters.convertTimestamp(map.get("TimeStamp").toString());
+      
+      
+      // asd
       BigDecimal limitPrice = new BigDecimal(map.get("Rate").toString());
       BigDecimal averagePrice = null;
-      BigDecimal cumulativeAmount = tradableAmount.subtract(remaining);
+      BigDecimal cumulativeAmount = originalAmount.subtract(remaining);
       Order.OrderStatus status = Order.OrderStatus.PENDING_NEW;
 
+      CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
       results.add(new LimitOrder(
           type,
-          tradableAmount,
-          currencyPair,
+          originalAmount,
+          pair,
           id,
           timestamp,
           limitPrice,
@@ -73,7 +74,7 @@ public class CryptopiaTradeServiceRaw {
   public String submitTrade(CurrencyPair currencyPair, LimitOrder.OrderType type, BigDecimal price, BigDecimal amount) throws IOException {
     String rawType = type.equals(Order.OrderType.BID) ? "Buy" : "Sell";
 
-    CryptopiaBaseResponse<Map> response = api.submitTrade(signatureCreator, new Cryptopia.SubmitTradeRequest(currencyPair.toString(), rawType, price, amount));
+    CryptopiaBaseResponse<Map> response = cryptopia.submitTrade(signatureCreator, new Cryptopia.SubmitTradeRequest(currencyPair.toString(), rawType, price, amount));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to submit order: " + response.toString());
 
@@ -86,38 +87,43 @@ public class CryptopiaTradeServiceRaw {
     }
   }
 
-  public boolean cancel(String orderId, CurrencyPair currencyPair) throws IOException {
-    Long marketId = exchange.tradePairId(currencyPair);
-
-    CryptopiaBaseResponse<List> response = api.cancelTrade(signatureCreator, new Cryptopia.CancelTradeRequest("All", orderId, marketId));
-
+  public boolean cancel(String orderId) throws IOException {
+    CryptopiaBaseResponse<List> response = cryptopia.cancelTrade(signatureCreator, new Cryptopia.CancelTradeRequest("Trade", orderId, null));
     if (!response.isSuccess())
-      throw new ExchangeException("Failed to cancel order: " + response.toString());
+      throw new ExchangeException("Failed to cancel order " + orderId + ": " + response.toString());
 
+    return !response.getData().isEmpty();
+  }
+  
+  public boolean cancelAll(CurrencyPair currencyPair) throws IOException {
+    Long marketId = currencyPair == null ? null : exchange.tradePairId(currencyPair);
+    CryptopiaBaseResponse<List> response = cryptopia.cancelTrade(signatureCreator, new Cryptopia.CancelTradeRequest("TradePair", null, marketId));
+    if (!response.isSuccess())
+      throw new ExchangeException("Failed to cancel orders for pair " + currencyPair + ": " + response.toString());
     return !response.getData().isEmpty();
   }
 
   public List<UserTrade> tradeHistory(CurrencyPair currencyPair, Integer count) throws IOException {
-    CryptopiaBaseResponse<List<Map>> response = api.getTradeHistory(signatureCreator, new Cryptopia.GetTradeHistoryRequest(currencyPair.toString(), count == null ? 100 : count));
+    CryptopiaBaseResponse<List<Map>> response = cryptopia.getTradeHistory(signatureCreator, new Cryptopia.GetTradeHistoryRequest(currencyPair == null ? null : currencyPair.toString(), count == null ? 100 : count));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to get trade history: " + response.toString());
 
     List<UserTrade> results = new ArrayList<>();
-
     for (Map map : response.getData()) {
       Order.OrderType type = type(map);
       BigDecimal amount = new BigDecimal(map.get("Amount").toString());
       BigDecimal price = new BigDecimal(map.get("Rate").toString());
-      Date timestamp = DateUtils.fromISO8601DateString(map.get("TimeStamp").toString());
+      Date timestamp = CryptopiaAdapters.convertTimestamp(map.get("TimeStamp").toString());
       String id = map.get("TradeId").toString();
       BigDecimal fee = new BigDecimal(map.get("Fee").toString());
-      String orderId = null;//todo: check this
-      Currency feeCcy = null;
+      String orderId = id;
 
+      CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
+      Currency feeCcy = pair.counter;
       results.add(new UserTrade(
           type,
           amount,
-          currencyPair,
+          pair,
           price,
           timestamp,
           id,

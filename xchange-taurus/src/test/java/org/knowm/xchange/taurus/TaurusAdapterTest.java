@@ -1,6 +1,6 @@
 package org.knowm.xchange.taurus;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,15 +72,15 @@ public class TaurusAdapterTest {
 
     //    ["305.00", "1.00000000"],["302.00", "0.47300000"],
     assertThat(orderBook.getBids().get(2).getLimitPrice()).isEqualTo("305.00");
-    assertThat(orderBook.getBids().get(2).getTradableAmount()).isEqualTo("1.00000000");
+    assertThat(orderBook.getBids().get(2).getOriginalAmount()).isEqualTo("1.00000000");
     assertThat(orderBook.getBids().get(2).getType()).isEqualTo(OrderType.BID);
     assertThat(orderBook.getBids().get(3).getLimitPrice()).isEqualTo("302.00");
-    assertThat(orderBook.getBids().get(3).getTradableAmount()).isEqualTo("0.47300000");
+    assertThat(orderBook.getBids().get(3).getOriginalAmount()).isEqualTo("0.47300000");
     assertThat(orderBook.getBids().get(3).getType()).isEqualTo(OrderType.BID);
 
     //    ["318.00", "0.68500000"]
     assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo("318.00");
-    assertThat(orderBook.getAsks().get(0).getTradableAmount()).isEqualTo("0.68500000");
+    assertThat(orderBook.getAsks().get(0).getOriginalAmount()).isEqualTo("0.68500000");
     assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(OrderType.ASK);
   }
 
@@ -100,7 +100,7 @@ public class TaurusAdapterTest {
     // verify all fields filled
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("310.00"));
     assertThat(trade.getType()).isNull();
-    assertThat(trade.getTradableAmount()).isEqualTo(new BigDecimal("0.01000000"));
+    assertThat(trade.getOriginalAmount()).isEqualTo(new BigDecimal("0.01000000"));
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_CAD);
     assertThat(trade.getId()).isEqualTo("132");
     assertThat(trade.getTimestamp().getTime()).isEqualTo(1427270265000L);

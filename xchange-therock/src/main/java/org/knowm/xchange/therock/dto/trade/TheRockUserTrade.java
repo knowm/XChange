@@ -83,7 +83,7 @@ public class TheRockUserTrade {
     return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
   }
 
-  @SuppressWarnings("unused")
+
   private static class TheRockUserTradeTransaction {
     private final long id;
     private final Date date;

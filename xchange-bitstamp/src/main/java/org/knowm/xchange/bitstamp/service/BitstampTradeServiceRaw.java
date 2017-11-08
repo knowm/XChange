@@ -28,8 +28,10 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   public BitstampTradeServiceRaw(Exchange exchange) {
     super(exchange);
-    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.bitstampAuthenticatedV2 = RestProxyFactory.createProxy(BitstampAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
+    this.bitstampAuthenticatedV2 = RestProxyFactory.createProxy(BitstampAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.nonceFactory = exchange.getNonceFactory();
     this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
@@ -40,9 +42,9 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
     return bitstampAuthenticatedV2.getOpenOrders(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair));
   }
 
-  public BitstampOrder placeBitstampOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal tradableAmount,
+  public BitstampOrder placeBitstampOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal originalAmount,
       BigDecimal price) throws IOException {
-    return bitstampAuthenticatedV2.placeOrder(apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), tradableAmount, price);
+    return bitstampAuthenticatedV2.placeOrder(apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), originalAmount, price);
   }
 
   public boolean cancelBitstampOrder(int orderId) throws IOException {

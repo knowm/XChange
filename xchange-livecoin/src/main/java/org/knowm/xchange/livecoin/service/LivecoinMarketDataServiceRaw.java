@@ -33,7 +33,7 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
     return service.getTicker();
   }
 
-  public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth) throws IOException {
+  public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth, Boolean groupByPrice) throws IOException {
     if (!this.checkProductExists(currencyPair)) {
       return null;
     }
@@ -41,12 +41,13 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
     return service.getOrderBook(
         currencyPair.base.getCurrencyCode().toUpperCase(),
         currencyPair.counter.getCurrencyCode().toUpperCase(),
-        depth
+        depth,
+        groupByPrice.toString()
     );
   }
 
-  public Map<CurrencyPair, LivecoinOrderBook> getAllOrderBooksRaw(int depth) throws IOException {
-    return LivecoinAdapters.adaptToCurrencyPairKeysMap(service.getAllOrderBooks(depth));
+  public Map<CurrencyPair, LivecoinOrderBook> getAllOrderBooksRaw(int depth, Boolean groupByPrice) throws IOException {
+    return LivecoinAdapters.adaptToCurrencyPairKeysMap(service.getAllOrderBooks(depth, groupByPrice.toString()));
 
   }
 

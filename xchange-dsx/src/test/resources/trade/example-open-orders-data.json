@@ -6,7 +6,6 @@
       "type": "buy",
       "volume": 12,
       "rate": 320,
-      "timestampCreated": 142123698,
       "status": 0,
       "orderType": "limit"
     }

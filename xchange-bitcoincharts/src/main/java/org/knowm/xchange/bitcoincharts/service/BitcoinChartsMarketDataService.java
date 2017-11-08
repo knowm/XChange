@@ -30,7 +30,7 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService imp
   public BitcoinChartsMarketDataService(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinCharts = RestProxyFactory.createProxy(BitcoinCharts.class, exchange.getExchangeSpecification().getPlainTextUri());
+    this.bitcoinCharts = RestProxyFactory.createProxy(BitcoinCharts.class, exchange.getExchangeSpecification().getPlainTextUri(), getClientConfig());
   }
 
   @Override

@@ -28,7 +28,7 @@ public class HitbtcBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    this.hitbtc = RestProxyFactory.createProxy(HitbtcAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.hitbtc = RestProxyFactory.createProxy(HitbtcAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     String apiKey = exchange.getExchangeSpecification().getSecretKey();
     this.signatureCreator = apiKey != null && !apiKey.isEmpty() ? HitbtcHmacDigest.createInstance(apiKey) : null;

@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 /**
  * Data object representing an order for a loan
  */
-public class LoanOrder {
+public class LoanOrder implements Serializable {
 
   /**
    * Order type i.e. bid or ask
@@ -23,7 +24,7 @@ public class LoanOrder {
   /**
    * Amount to be ordered / amount that was ordered
    */
-  private final BigDecimal tradableAmount;
+  private final BigDecimal originalAmount;
 
   /**
    * Duration of loan in days
@@ -45,16 +46,16 @@ public class LoanOrder {
    *
    * @param type Order type i.e. bid or ask
    * @param currency The loan currency
-   * @param tradableAmount Amount to be ordered / amount that was ordered
+   * @param originalAmount Amount to be ordered / amount that was ordered
    * @param dayPeriod Duration of loan in days
    * @param id An identifier that uniquely identifies the order
    * @param timestamp The timestamp on the order according to the exchange's server, null if not provided
    */
-  public LoanOrder(OrderType type, String currency, BigDecimal tradableAmount, int dayPeriod, String id, Date timestamp) {
+  public LoanOrder(OrderType type, String currency, BigDecimal originalAmount, int dayPeriod, String id, Date timestamp) {
 
     this.type = type;
     this.currency = currency;
-    this.tradableAmount = tradableAmount;
+    this.originalAmount = originalAmount;
     this.dayPeriod = dayPeriod;
     this.id = id;
     this.timestamp = timestamp;
@@ -70,9 +71,9 @@ public class LoanOrder {
     return currency;
   }
 
-  public BigDecimal getTradableAmount() {
+  public BigDecimal getOriginalAmount() {
 
-    return tradableAmount;
+    return originalAmount;
   }
 
   public int getDayPeriod() {
@@ -93,7 +94,7 @@ public class LoanOrder {
   @Override
   public String toString() {
 
-    return "LoanOrder [type=" + type + ", currency=" + currency + ", tradableAmount=" + tradableAmount + ", dayPeriod=" + dayPeriod + ", id=" + id
+    return "LoanOrder [type=" + type + ", currency=" + currency + ", originalAmount=" + originalAmount + ", dayPeriod=" + dayPeriod + ", id=" + id
         + ", timestamp=" + timestamp + "]";
   }
 
@@ -106,7 +107,7 @@ public class LoanOrder {
     result = prime * result + dayPeriod;
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
-    result = prime * result + ((tradableAmount == null) ? 0 : tradableAmount.hashCode());
+    result = prime * result + ((originalAmount == null) ? 0 : originalAmount.hashCode());
     result = prime * result + ((type == null) ? 0 : type.hashCode());
     return result;
   }
@@ -148,11 +149,11 @@ public class LoanOrder {
     } else if (!timestamp.equals(other.timestamp)) {
       return false;
     }
-    if (tradableAmount == null) {
-      if (other.tradableAmount != null) {
+    if (originalAmount == null) {
+      if (other.originalAmount != null) {
         return false;
       }
-    } else if (!tradableAmount.equals(other.tradableAmount)) {
+    } else if (!originalAmount.equals(other.originalAmount)) {
       return false;
     }
     return type == other.type;

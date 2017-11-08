@@ -33,7 +33,7 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
 
     super(exchange);
 
-    coinbase = RestProxyFactory.createProxy(CoinbaseAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    coinbase = RestProxyFactory.createProxy(CoinbaseAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     signatureCreator = CoinbaseDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 

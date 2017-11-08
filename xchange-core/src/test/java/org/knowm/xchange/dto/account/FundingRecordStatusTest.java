@@ -1,7 +1,7 @@
 package org.knowm.xchange.dto.account;
 
 import static java.math.BigDecimal.ONE;
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
 

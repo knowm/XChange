@@ -32,7 +32,7 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
   public BitcoiniumMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinium = RestProxyFactory.createProxy(Bitcoinium.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitcoinium = RestProxyFactory.createProxy(Bitcoinium.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   /**

@@ -26,7 +26,8 @@ public class JubiTradeServiceRaw extends JubiBaseService {
 
   public JubiTradeServiceRaw(Exchange exchange) {
     super(exchange);
-    this.jubiAuthernticated = RestProxyFactory.createProxy(JubiAuthernticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.jubiAuthernticated = RestProxyFactory.createProxy(JubiAuthernticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.signatureCreator = JubiPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 

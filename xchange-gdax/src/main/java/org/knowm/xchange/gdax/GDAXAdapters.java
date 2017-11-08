@@ -1,5 +1,15 @@
 package org.knowm.xchange.gdax;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -20,16 +30,16 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
-import org.knowm.xchange.gdax.dto.marketdata.*;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBookEntry;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class GDAXAdapters {
 
@@ -119,16 +129,17 @@ public class GDAXAdapters {
 
   }
 
-  public static Wallet adaptAccountInfo(GDAXAccount[] coinbaseExAccountInfo) {
-    List<Balance> balances = new ArrayList<>(coinbaseExAccountInfo.length);
+  public static Wallet adaptAccountInfo(GDAXAccount[] gdaxAccounts) {
 
-    for (int i = 0; i < coinbaseExAccountInfo.length; i++) {
-      GDAXAccount account = coinbaseExAccountInfo[i];
+    List<Balance> balances = new ArrayList<>(gdaxAccounts.length);
 
-      balances.add(new Balance(Currency.getInstance(account.getCurrency()), account.getBalance(), account.getAvailable(), account.getHold()));
+    for (int i = 0; i < gdaxAccounts.length; i++) {
+
+      GDAXAccount gdaxAccount = gdaxAccounts[i];
+      balances.add(new Balance(Currency.getInstance(gdaxAccount.getCurrency()), gdaxAccount.getBalance(), gdaxAccount.getAvailable(), gdaxAccount.getHold()));
     }
 
-    return new Wallet(coinbaseExAccountInfo[0].getProfile_id(), balances);
+    return new Wallet(gdaxAccounts[0].getProfile_id(), balances);
   }
 
   public static OpenOrders adaptOpenOrders(GDAXOrder[] coinbaseExOpenOrders) {
@@ -145,7 +156,7 @@ public class GDAXAdapters {
       OrderStatus orderStatus = order.getFilledSize().compareTo(BigDecimal.ZERO) == 0 ?
           Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
 
-      LimitOrder limitOrder = new LimitOrder(type, order.getSize(), order.getSize().subtract(order.getFilledSize()), currencyPair,
+      LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
               order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
 
       orders.add(limitOrder);

@@ -31,13 +31,13 @@ public interface Livecoin {
   LivecoinRestrictions getRestrictions() throws IOException;
 
   @GET
-  @Path("exchange/order_book?currencyPair={baseCurrency}/{targetCurrency}&depth={depth}")
+  @Path("exchange/order_book?currencyPair={baseCurrency}/{targetCurrency}&depth={depth}&groupByPrice={groupByPrice}")
   LivecoinOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
-                                 @PathParam("depth") int depth) throws IOException;
+                                 @PathParam("depth") int depth, @PathParam("groupByPrice") String groupByPrice) throws IOException;
 
   @GET
-  @Path("exchange/all/order_book?depth={depth}")
-  Map<String, LivecoinOrderBook> getAllOrderBooks(@PathParam("depth") int depth) throws IOException;
+  @Path("exchange/all/order_book?depth={depth}&groupByPrice={groupByPrice}")
+  Map<String, LivecoinOrderBook> getAllOrderBooks(@PathParam("depth") int depth, @PathParam("groupByPrice") String groupByPrice) throws IOException;
 
   @GET
   @Path("exchange/last_trades?currencyPair={baseCurrency}/{targetCurrency}")
@@ -103,6 +103,11 @@ public interface Livecoin {
   LivecoinPaginatedResponse clientOrders(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
                                          @QueryParam("currencyPair") String currencyPair, @QueryParam("openClosed") String openClosed, @QueryParam("issuedFrom") Long issuedFrom,
                                          @QueryParam("issuedTo") Long issuedTo, @QueryParam("startRow") Long startRow, @QueryParam("endRow") Long endRow) throws IOException;
+
+  @GET
+  @Path("exchange/client_orders")
+  LivecoinPaginatedResponse allClientOrders(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator, @QueryParam
+      ("openClosed") String openClosed) throws IOException;
 
   @POST
   @Path("exchange/buylimit")

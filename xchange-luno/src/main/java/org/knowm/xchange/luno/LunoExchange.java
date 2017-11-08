@@ -9,7 +9,6 @@ import org.knowm.xchange.luno.service.LunoAccountService;
 import org.knowm.xchange.luno.service.LunoMarketDataService;
 import org.knowm.xchange.luno.service.LunoTradeService;
 
-import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -19,16 +18,11 @@ public class LunoExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    ClientConfig rescuConfig = new ClientConfig(); // default rescu config
-    int customHttpReadTimeout = getExchangeSpecification().getHttpReadTimeout();
-    if (customHttpReadTimeout > 0) {
-      rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
-    }
-    final LunoAPI luno = new LunoAPIImpl(getExchangeSpecification().getApiKey(), getExchangeSpecification().getSecretKey(),
-        getExchangeSpecification().getSslUri(), rescuConfig);
-    this.marketDataService = new LunoMarketDataService(this, luno);
-    this.tradeService = new LunoTradeService(this, luno);
-    this.accountService = new LunoAccountService(this, luno);
+
+
+    this.marketDataService = new LunoMarketDataService(this);
+    this.tradeService = new LunoTradeService(this);
+    this.accountService = new LunoAccountService(this);
   }
 
   @Override

@@ -117,7 +117,7 @@ public final class BitsoAdapters {
       if (bitsoUserTransaction.getType().equals(BitsoUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
         boolean sell = bitsoUserTransaction.getMxn().doubleValue() > 0.0;
         Order.OrderType orderType = sell ? Order.OrderType.ASK : Order.OrderType.BID;
-        BigDecimal tradableAmount = bitsoUserTransaction.getBtc();
+        BigDecimal originalAmount = bitsoUserTransaction.getBtc();
         BigDecimal price = bitsoUserTransaction.getPrice().abs();
         Date timestamp = BitsoUtils.parseDate(bitsoUserTransaction.getDatetime());
         long transactionId = bitsoUserTransaction.getId();
@@ -130,7 +130,7 @@ public final class BitsoAdapters {
         final CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, Currency.MXN);
 
         String feeCurrency = sell ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode();
-        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
+        UserTrade trade = new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
             Currency.getInstance(feeCurrency));
         trades.add(trade);
       }

@@ -44,12 +44,12 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
   @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, BTCMarketsException {
-    return placeOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount(), BigDecimal.ZERO, BTCMarketsOrder.Type.Market);
+    return placeOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount(), BigDecimal.ZERO, BTCMarketsOrder.Type.Market);
   }
 
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, BTCMarketsException {
-    return placeOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount(), order.getLimitPrice(), BTCMarketsOrder.Type.Limit);
+    return placeOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount(), order.getLimitPrice(), BTCMarketsOrder.Type.Limit);
   }
 
   private String placeOrder(CurrencyPair currencyPair, Order.OrderType orderSide, BigDecimal amount, BigDecimal price,

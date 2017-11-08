@@ -23,6 +23,10 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+/**
+* Deprecated -- Please use org.knowm.xchange.hitbtc.v2.service.HitbtcAccountService
+*/
+@Deprecated
 public class HitbtcAccountService extends HitbtcAccountServiceRaw implements AccountService {
 
   /**

@@ -66,7 +66,7 @@ public final class TheRockAdapters {
   }
 
   private static LimitOrder adaptBid(CurrencyPair currencyPair, Order.OrderType orderType, TheRockBid theRockBid, Date timestamp) {
-    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(theRockBid.getPrice()).tradableAmount(theRockBid.getAmount())
+    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(theRockBid.getPrice()).originalAmount(theRockBid.getAmount())
         .timestamp(timestamp).build();
   }
 
@@ -95,7 +95,7 @@ public final class TheRockAdapters {
   public static UserTrade adaptUserTrade(TheRockUserTrade trade, CurrencyPair currencyPair) throws InvalidFormatException {
     final String tradeId = String.valueOf(trade.getId());
     //return new UserTrade(trade.getSide() == Side.sell ? OrderType.ASK : BID, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), tradeId);
-    return new UserTrade.Builder().id(tradeId).tradableAmount(trade.getAmount()).currencyPair(currencyPair).price(trade.getPrice())
+    return new UserTrade.Builder().id(tradeId).originalAmount(trade.getAmount()).currencyPair(currencyPair).price(trade.getPrice())
         .timestamp(trade.getDate()).orderId(String.valueOf(trade.getOrderId())).type(trade.getSide() == Side.buy ? OrderType.BID : OrderType.ASK)
         .feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency() == null ? null : new Currency(trade.getFeeCurrency())).build();
   }
