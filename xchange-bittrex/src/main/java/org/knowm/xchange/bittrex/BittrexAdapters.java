@@ -83,6 +83,10 @@ public final class BittrexAdapters {
 
   public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
 
+	if (orders == null) {
+		return new ArrayList<>();
+	}
+	
     List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
     for (BittrexLevel order : orders) {
