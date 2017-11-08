@@ -193,7 +193,7 @@
                 <version>0.9.11</version>
             </dependency>
 
-            <!-- SLF4J implementation for use in exxamples -->
+            <!-- SLF4J implementation for use in examples -->
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
