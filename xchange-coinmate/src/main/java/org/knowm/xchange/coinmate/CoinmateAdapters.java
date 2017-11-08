@@ -35,10 +35,7 @@ import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrdersEntry;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
+import org.knowm.xchange.coinmate.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -57,9 +54,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
  * @author Martin Stachon
  */
 public class CoinmateAdapters {
-
-  // the currency pairs supported by the exchange
-  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = {CurrencyPair.BTC_EUR, CurrencyPair.BTC_CZK,};
 
   /**
    * Adapts a CoinmateTicker to a Ticker Object
@@ -130,20 +124,25 @@ public class CoinmateAdapters {
     return new Wallet(balances);
   }
 
-  public static UserTrades adaptTradeHistory(CoinmateTransactionHistory coinmateTradeHistory) {
+  public static UserTrades adaptTransactionHistory(CoinmateTransactionHistory coinmateTradeHistory) {
     List<UserTrade> trades = new ArrayList<>(coinmateTradeHistory.getData().size());
 
     for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
       Order.OrderType orderType;
       String transactionType = entry.getTransactionType();
-      if (transactionType.equals("BUY") || transactionType.equals("QUICK_BUY")) {
-        orderType = Order.OrderType.BID;
-      } else if (transactionType.equals("SELL") || transactionType.equals("QUICK_SELL")) {
-        orderType = Order.OrderType.ASK;
-      } else {
-        // here we ignore the other types, such as withdrawal, voucher etc.
-        continue;
-      }
+        switch (transactionType) {
+            case "BUY":
+            case "QUICK_BUY":
+                orderType = Order.OrderType.BID;
+                break;
+            case "SELL":
+            case "QUICK_SELL":
+                orderType = Order.OrderType.ASK;
+                break;
+            default:
+                // here we ignore the other types, such as withdrawal, voucher etc.
+                continue;
+        }
 
       UserTrade trade = new UserTrade(orderType, entry.getAmount(), CoinmateUtils.getPair(entry.getAmountCurrency() + "_" + entry.getPriceCurrency()),
           entry.getPrice(), new Date(entry.getTimestamp()), Long.toString(entry.getTransactionId()), Long.toString(entry.getOrderId()),
@@ -180,7 +179,7 @@ public class CoinmateAdapters {
     return ordersList;
   }
 
-  public static String adaptOrder(TradeHistoryParamsSorted.Order order) {
+  public static String adaptSortOrder(TradeHistoryParamsSorted.Order order) {
     switch (order) {
       case asc:
         return "ASC";

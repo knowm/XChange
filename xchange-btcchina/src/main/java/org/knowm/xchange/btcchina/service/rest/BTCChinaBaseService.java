@@ -32,12 +32,12 @@ public class BTCChinaBaseService extends BaseExchangeService implements BaseServ
 
     Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
 
-    this.btcChina = RestProxyFactory.createProxy(BTCChina.class, exchange.getExchangeSpecification().getSslUri());
+    this.btcChina = RestProxyFactory.createProxy(BTCChina.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.signatureCreator = BTCChinaDigest.createInstance(exchange.getExchangeSpecification().getApiKey(),
         exchange.getExchangeSpecification().getSecretKey());
   }
 
-  @SuppressWarnings("rawtypes")
+
   public static <T extends BTCChinaResponse> T checkResult(T returnObject) {
 
     if (returnObject.getError() != null) {

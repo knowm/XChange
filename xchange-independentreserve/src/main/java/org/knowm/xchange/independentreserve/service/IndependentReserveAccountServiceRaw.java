@@ -34,7 +34,7 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
     super(exchange);
 
     this.independentReserveAuthenticated = RestProxyFactory.createProxy(IndependentReserveAuthenticated.class,
-        exchange.getExchangeSpecification().getSslUri());
+        exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.signatureCreator = IndependentReserveDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSslUri());
   }

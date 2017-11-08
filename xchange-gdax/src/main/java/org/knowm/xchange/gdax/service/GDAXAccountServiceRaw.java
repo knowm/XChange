@@ -13,17 +13,19 @@ import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawFundsRequest;
+import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
+import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccountAddress;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class GDAXAccountServiceRaw extends GDAXBaseService<GDAX> {
+public class GDAXAccountServiceRaw extends GDAXBaseService {
 
   private final SynchronizedValueFactory<Long> nonceFactory;
 
   public GDAXAccountServiceRaw(Exchange exchange) {
 
-    super(GDAX.class, exchange);
+    super(exchange);
     this.nonceFactory = exchange.getNonceFactory();
   }
 
@@ -54,5 +56,13 @@ public class GDAXAccountServiceRaw extends GDAXBaseService<GDAX> {
 
   public List report(String reportId) throws IOException {
     return coinbaseEx.getReport(apiKey, digest, nonceFactory, passphrase, reportId);
+  }
+
+  public GDAXCoinbaseAccount[] getCoinbaseAccounts() throws IOException {
+    return coinbaseEx.getCoinbaseAccounts(apiKey, digest, nonceFactory, passphrase);
+  }
+
+  public GDAXCoinbaseAccountAddress getCoinbaseAccountAddress(String accountId) throws IOException {
+    return coinbaseEx.getCoinbaseAccountAddress(apiKey, digest, nonceFactory, passphrase, accountId);
   }
 }

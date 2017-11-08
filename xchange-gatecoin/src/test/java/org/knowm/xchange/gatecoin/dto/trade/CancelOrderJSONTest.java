@@ -1,6 +1,6 @@
 package org.knowm.xchange.gatecoin.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +39,7 @@ public class CancelOrderJSONTest {
     }
 
     is = CancelOrderJSONTest.class.getResourceAsStream("/trade/example-cancel-order-fail.json");
-    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+
     GatecoinException exceptionResult = mapper.readValue(is, GatecoinException.class);
 
     assertThat(exceptionResult.getMessage()).contains("Cancel order rejected");

@@ -1,5 +1,7 @@
 package org.knowm.xchange.currency;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
@@ -15,7 +17,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * </p>
  */
 @JsonSerialize(using = CustomCurrencyPairSerializer.class)
-public class CurrencyPair implements Comparable<CurrencyPair> {
+public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
   // Provide some standard major symbols
   public static final CurrencyPair EUR_USD = new CurrencyPair(Currency.EUR, Currency.USD);
@@ -128,7 +130,7 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
   public static final CurrencyPair FTC_LTC = new CurrencyPair(Currency.FTC, Currency.LTC);
 
   public static final CurrencyPair XMR_BTC = new CurrencyPair(Currency.XMR, Currency.BTC);
-  public static final CurrencyPair XMR_USD = new CurrencyPair(Currency.XMR, Currency.BTC);
+  public static final CurrencyPair XMR_USD = new CurrencyPair(Currency.XMR, Currency.USD);
 
   public static final CurrencyPair XPM_USD = new CurrencyPair(Currency.XPM, Currency.USD);
   public static final CurrencyPair XPM_CNY = new CurrencyPair(Currency.XPM, Currency.CNY);
@@ -229,6 +231,9 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
   public static final CurrencyPair EOS_ETH = new CurrencyPair(Currency.EOS, Currency.ETH);
   public static final CurrencyPair EOS_BTC = new CurrencyPair(Currency.EOS, Currency.BTC);
 
+  public static final CurrencyPair BCC_USD = new CurrencyPair(Currency.BCC, Currency.USD);
+  public static final CurrencyPair BCC_BTC = new CurrencyPair(Currency.BCC, Currency.BTC);
+
   public final Currency base;
   public final Currency counter;
 
@@ -267,6 +272,7 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
    * Parse currency pair from a string in the same format as returned by toString() method - ABC/XYZ
    */
   public CurrencyPair(String currencyPair) {
+
     int split = currencyPair.indexOf('/');
     if (split < 1) {
       throw new IllegalArgumentException("Could not parse currency pair from '" + currencyPair + "'");

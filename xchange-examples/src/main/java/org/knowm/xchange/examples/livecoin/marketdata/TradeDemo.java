@@ -29,7 +29,7 @@ public class TradeDemo {
     System.out.println("received data.");
 
     for (Trade trade : trades.getTrades()) {
-      System.out.println(trade.getType() + " " + trade.getCurrencyPair() + " Price: " + trade.getPrice() + " Amount: " + trade.getTradableAmount());
+      System.out.println(trade.getType() + " " + trade.getCurrencyPair() + " Price: " + trade.getPrice() + " Amount: " + trade.getOriginalAmount());
     }
   }
 

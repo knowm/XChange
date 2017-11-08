@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 /**
  * Data object representing an order
  */
-public abstract class Order {
+public abstract class Order implements Serializable {
 
   public enum OrderType {
 
@@ -130,7 +131,7 @@ public abstract class Order {
 
   /**
    * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
+   * @param originalAmount The amount to trade
    * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
@@ -149,11 +150,12 @@ public abstract class Order {
 
   /**
    * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
+   * @param originalAmount The amount to trade
    * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    * @param averagePrice the averagePrice of fill belonging to the order
+   * @param cumulativeAmount the amount that has been filled
    * @param status the status of the order at the exchange
    */
   public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
@@ -186,15 +188,6 @@ public abstract class Order {
   }
 
   /**
-   * @deprecated use getOriginalAmount
-   * @return The amount to trade
-   */
-  public BigDecimal getTradableAmount() {
-
-    return getOriginalAmount();
-  }
-
-  /**
    * @return The amount to trade
    */
   public BigDecimal getOriginalAmount() {
@@ -202,14 +195,20 @@ public abstract class Order {
     return originalAmount;
   }
 
-  
-
   /**
    * @return The amount that has been filled
    */
   public BigDecimal getCumulativeAmount() {
 
     return cumulativeAmount;
+  }
+
+  /**
+   * @return The remaining order amount
+   */
+  public BigDecimal getRemainingAmount() {
+
+    return originalAmount.subtract(cumulativeAmount);
   }
 
   /**
@@ -279,7 +278,7 @@ public abstract class Order {
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", originalAmount=" + originalAmount + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
+    return "Order [type=" + type + ", originalAmount=" + originalAmount + ", cumulativeAmount=" + getCumulativeAmount() + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
         + ", id=" + id + ", timestamp=" + timestamp + ", status=" + status + "]";
   }
 
@@ -326,7 +325,9 @@ public abstract class Order {
   public abstract static class Builder {
 
     protected OrderType orderType;
-    protected BigDecimal tradableAmount;
+    protected BigDecimal originalAmount;
+    protected BigDecimal cumulativeAmount;
+    protected BigDecimal remainingAmount;
     protected CurrencyPair currencyPair;
     protected String id;
     protected Date timestamp;
@@ -353,9 +354,21 @@ public abstract class Order {
       return this;
     }
 
-    public Builder tradableAmount(BigDecimal tradableAmount) {
+    public Builder originalAmount(BigDecimal originalAmount) {
 
-      this.tradableAmount = tradableAmount;
+      this.originalAmount = originalAmount;
+      return this;
+    }
+
+    public Builder cumulativeAmount(BigDecimal cumulativeAmount) {
+
+      this.cumulativeAmount = cumulativeAmount;
+      return this;
+    }
+
+    public Builder remainingAmount(BigDecimal remainingAmount) {
+
+      this.remainingAmount = remainingAmount;
       return this;
     }
 
@@ -394,5 +407,6 @@ public abstract class Order {
       this.flags.add(flag);
       return this;
     }
+
   }
 }

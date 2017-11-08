@@ -1,89 +1,70 @@
 package org.knowm.xchange.cexio;
 
+import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
+import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
+import org.knowm.xchange.cexio.dto.PlaceOrderRequest;
 import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
 import org.knowm.xchange.cexio.dto.account.GHashIOWorkers;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
-import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author brox
- */
 @Path("api")
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public interface CexIOAuthenticated extends CexIO {
 
-  @POST
-  @Path("balance/")
-  CexIOBalanceInfo getBalance(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                              @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+    @POST
+    @Path("balance/")
+    CexIOBalanceInfo getBalance(@HeaderParam("signature") ParamsDigest signer, CexIORequest cexIORequest) throws IOException;
 
-  @POST
-  @Path("open_orders/{ident}/{currency}/")
-  CexIOOpenOrders getOpenOrders(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
-                                @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                                @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+    @POST
+    @Path("open_orders/{ident}/{currency}/")
+    CexIOOpenOrders getOpenOrders(@HeaderParam("signature") ParamsDigest signer, @PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, CexIORequest cexIORequest) throws IOException;
 
-  @POST
-  @Path("cancel_order/")
-  Object cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                     @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") long orderId) throws IOException;
+    @POST
+    @Path("cancel_order/")
+    Object cancelOrder(@HeaderParam("signature") ParamsDigest signer, CexioSingleOrderIdRequest request) throws IOException;
 
-  @POST
-  @Path("place_order/{ident}/{currency}/")
-  CexIOOrder placeOrder(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @FormParam("key") String apiKey,
-                        @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("type") CexIOOrder.Type type,
-                        @FormParam("price") BigDecimal price, @FormParam("amount") BigDecimal amount) throws IOException;
+    @POST
+    @Path("place_order/{ident}/{currency}/")
+    CexIOOrder placeOrder(@HeaderParam("signature") ParamsDigest signer, PlaceOrderRequest placeOrderRequest) throws IOException;
 
-  // GHash.IO calls
-  @POST
-  @Path("ghash.io/hashrate")
-  GHashIOHashrate getHashrate(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                              @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+    // GHash.IO calls
+    @POST
+    @Path("ghash.io/hashrate")
+    GHashIOHashrate getHashrate(@HeaderParam("signature") ParamsDigest signer) throws IOException;
 
-  @POST
-  @Path("ghash.io/workers")
-  GHashIOWorkers getWorkers(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                            @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+    @POST
+    @Path("ghash.io/workers")
+    GHashIOWorkers getWorkers(@HeaderParam("signature") ParamsDigest signer) throws IOException;
 
-  @POST
-  @Path("archived_orders/{baseCcy}/{counterCcy}")
-  List<CexIOArchivedOrder> archivedOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-                                          @PathParam("baseCcy") String baseCcy,
-                                          @PathParam("counterCcy") String counterCcy,
-                                          @FormParam("limit") Integer limit,
-                                          @FormParam("dateFrom") Long dateFrom,
-                                          @FormParam("dateTo") Long dateTo,
-                                          @FormParam("lastTxDateFrom") Long lastTxDateFrom,
-                                          @FormParam("lastTxDateTo") Long lastTxDateTo,
-                                          @FormParam("status") String status) throws HttpStatusIOException;
+    @POST
+    @Path("archived_orders/{baseCcy}/{counterCcy}")
+    List<CexIOArchivedOrder> archivedOrders(@HeaderParam("signature") ParamsDigest signer, @PathParam("baseCcy") String baseCcy, @PathParam("counterCcy") String counterCcy, ArchivedOrdersRequest request);
 
-  @POST
-  @Path("get_order/")
-  CexIOOpenOrder getOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-                          @FormParam("id") String orderId) throws IOException;
+    @POST
+    @Path("get_order/")
+    CexIOOpenOrder getOrder(@HeaderParam("signature") ParamsDigest signer, CexioSingleOrderIdRequest request) throws IOException;
 
-  @POST
-  @Path("get_order_tx/")
-  Map getOrderTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-                           @FormParam("id") String orderId) throws IOException;
+    @POST
+    @Path("get_order_tx/")
+    Map getOrderTransactions(@HeaderParam("signature") ParamsDigest signer, CexioSingleOrderIdRequest request) throws IOException;
 
 }

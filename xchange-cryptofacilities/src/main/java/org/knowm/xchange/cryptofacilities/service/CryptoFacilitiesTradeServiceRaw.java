@@ -36,7 +36,7 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBaseService
     if (order.getType().equals(OrderType.ASK)) {
       side = "sell";
     }
-    BigDecimal size = order.getTradableAmount();
+    BigDecimal size = order.getOriginalAmount();
     BigDecimal limitPrice = order.getLimitPrice();
 
     CryptoFacilitiesOrder ord = cryptoFacilities.sendOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,

@@ -11,6 +11,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
+import org.knowm.xchange.bitstamp.BitstampUtils;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
@@ -75,7 +76,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, BitstampException {
     BitstampAuthenticatedV2.Side side = order.getType().equals(BID) ? BitstampAuthenticatedV2.Side.buy : BitstampAuthenticatedV2.Side.sell;
-    BitstampOrder bitstampOrder = placeBitstampOrder(order.getCurrencyPair(), side, order.getTradableAmount(), order.getLimitPrice());
+    BitstampOrder bitstampOrder = placeBitstampOrder(order.getCurrencyPair(), side, order.getOriginalAmount(), order.getLimitPrice());
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
     }
@@ -126,7 +127,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new BitstampTradeHistoryParams(null, 1000);
+    return new BitstampTradeHistoryParams(null, BitstampUtils.MAX_TRANSACTIONS_PER_QUERY);
   }
 
   @Override

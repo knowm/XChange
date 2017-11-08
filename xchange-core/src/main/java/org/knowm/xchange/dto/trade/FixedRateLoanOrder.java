@@ -22,15 +22,15 @@ public final class FixedRateLoanOrder extends LoanOrder implements Comparable<Fi
   /**
    * @param type Either BID (debtor) or ASK (creditor)
    * @param currency The loan currency code
-   * @param tradableAmount Units of currency
+   * @param originalAmount Units of currency
    * @param dayPeriod Loan duration in days
    * @param id An id (usually provided by the exchange)
    * @param timestamp The absolute time for this order
    * @param rate The fixed rate of return for a day
    */
-  public FixedRateLoanOrder(OrderType type, String currency, BigDecimal tradableAmount, int dayPeriod, String id, Date timestamp, BigDecimal rate) {
+  public FixedRateLoanOrder(OrderType type, String currency, BigDecimal originalAmount, int dayPeriod, String id, Date timestamp, BigDecimal rate) {
 
-    super(type, currency, tradableAmount, dayPeriod, id, timestamp);
+    super(type, currency, originalAmount, dayPeriod, id, timestamp);
 
     this.rate = rate;
   }

@@ -1,6 +1,6 @@
 package org.knowm.xchange.bleutrade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
@@ -31,7 +31,7 @@ import org.powermock.reflect.Whitebox;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @RunWith(PowerMockRunner.class)
-public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
+public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
   private BleutradeExchange exchange;
   private ExchangeSpecification exchangeSpecification;
 
@@ -47,9 +47,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -60,9 +60,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -75,9 +75,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -89,9 +89,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -103,9 +103,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat((BleutradeExchange)Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test(expected = NullPointerException.class)

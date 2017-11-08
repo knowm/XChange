@@ -1,0 +1,9 @@
+Binance Exchange API specification
+==============================
+
+
+This api provides access to such information as tickers, trades, orderbooks and common statistics of currency pairs.
+
+Documentation
+-------------
+https://www.binance.com/restapipub.html

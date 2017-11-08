@@ -19,6 +19,10 @@ import org.knowm.xchange.hitbtc.dto.account.HitbtcPaymentBalanceResponse;
 
 import si.mazi.rescu.HttpStatusIOException;
 
+/**
+ * Deprecated -- Please use org.knowm.xchange.hitbtc.v2.service.HitbtcAccountServiceRaw
+ */
+@Deprecated
 public class HitbtcAccountServiceRaw extends HitbtcBaseService {
 
   /**

@@ -18,7 +18,8 @@ public class TaurusAccountServiceRaw extends TaurusBaseService {
   protected TaurusAccountServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.taurusAuthenticated = RestProxyFactory.createProxy(TaurusAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.taurusAuthenticated = RestProxyFactory.createProxy(TaurusAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.signatureCreator = TaurusDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }

@@ -109,7 +109,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     }
 
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> newOrderResult = mercadoBitcoinPlaceLimitOrder(pair, type,
-        limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+        limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
 
     return MercadoBitcoinUtils.makeMercadoBitcoinOrderId(limitOrder.getCurrencyPair(), newOrderResult.getTheReturn().keySet().iterator().next());
   }

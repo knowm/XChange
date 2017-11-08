@@ -1,6 +1,6 @@
 package org.knowm.xchange.hitbtc.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -22,7 +22,6 @@ public class TickerFetchIntegration {
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
-    System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
 

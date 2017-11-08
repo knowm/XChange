@@ -64,7 +64,7 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   public String placeLimitOrder(
       LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return independentReservePlaceLimitOrder(limitOrder.getCurrencyPair(), limitOrder.getType(), limitOrder.getLimitPrice(),
-        limitOrder.getTradableAmount());
+        limitOrder.getOriginalAmount());
   }
 
   @Override

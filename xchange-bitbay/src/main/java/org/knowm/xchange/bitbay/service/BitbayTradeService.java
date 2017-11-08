@@ -1,17 +1,17 @@
 package org.knowm.xchange.bitbay.service;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.BitbayAdapters;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.bitbay.dto.trade.BitbayTradeResponse;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
@@ -19,9 +19,15 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsZero;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Z. Dolezal
@@ -77,8 +83,15 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    List<BitbayOrder> response = getBitbayOpenOrders();
-    return BitbayAdapters.adaptTradeHistory(response);
+    CurrencyPair currencyPair = null;
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    }
+
+    List<Map> response = getBitbayTransactions(currencyPair);
+    List<UserTrade> trades = BitbayAdapters.adaptTransactions(response);
+
+    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
   @Override

@@ -23,7 +23,7 @@ public class Btc38BaseService<T extends Btc38> extends BaseExchangeService imple
 
     super(exchange);
 
-    this.btc38 = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.btc38 = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
 }

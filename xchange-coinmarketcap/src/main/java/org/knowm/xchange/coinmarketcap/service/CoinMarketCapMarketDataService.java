@@ -19,6 +19,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import java.util.Collection;
 
 /**
  * @author allenday
@@ -123,4 +124,14 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
     }
     return currencies;
   }
+
+  @Override
+  public List<CoinMarketCapCurrency> getCoinMarketCapCurrencies() throws IOException {
+    Collection<CoinMarketCapTicker> tickers = this.tickers.values();
+    List<CoinMarketCapCurrency> currencies = new ArrayList<>();
+    for (CoinMarketCapTicker ticker : tickers)
+      currencies.add(ticker.getBaseCurrency());
+    return currencies;
+  }
 }
+

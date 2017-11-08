@@ -2,10 +2,12 @@ package org.knowm.xchange.huobi.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.huobi.BitVc;
+import org.knowm.xchange.service.BaseExchangeService;
+import org.knowm.xchange.service.BaseService;
 
 import si.mazi.rescu.RestProxyFactory;
 
-public class BitVcBaseTradeService extends HuobiBaseService {
+public class BitVcBaseServiceRaw extends BaseExchangeService implements BaseService  {
 
   protected final BitVc bitvc;
   protected final String accessKey;
@@ -16,12 +18,12 @@ public class BitVcBaseTradeService extends HuobiBaseService {
    *
    * @param exchange
    */
-  public BitVcBaseTradeService(Exchange exchange) {
+  public BitVcBaseServiceRaw(Exchange exchange) {
 
     super(exchange);
 
     final String baseUrl = exchange.getExchangeSpecification().getSslUri();
-    bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl);
+    bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl, getClientConfig());
     accessKey = exchange.getExchangeSpecification().getApiKey();
     digest = new HuobiDigest(exchange.getExchangeSpecification().getSecretKey(), "secret_key");
   }

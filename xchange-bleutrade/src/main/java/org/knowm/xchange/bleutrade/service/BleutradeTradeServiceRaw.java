@@ -36,7 +36,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
       BleutradePlaceOrderReturn response = bleutrade.buyLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString,
-          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+          limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -54,7 +54,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
       BleutradePlaceOrderReturn response = bleutrade.sellLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString,
-          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+          limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
