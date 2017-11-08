@@ -104,7 +104,18 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
-    final BitstampDepositAddress response = getBitstampBitcoinDepositAddress();
+    BitstampDepositAddress response = null;
+    
+    if (currency.equals(Currency.BTC)) {
+    		response = getBitstampBitcoinDepositAddress();
+    } else if (currency.equals(Currency.LTC)) {
+		response = getBitstampLitecoinDepositAddress();
+    } else if (currency.equals(Currency.ETH)) {
+    	  	response = getBitstampEthereumDepositAddress();
+    } else {
+    		throw new IllegalStateException("Unsupported currency " + currency);
+    }
+
     return response.getDepositAddress();
 
   }
