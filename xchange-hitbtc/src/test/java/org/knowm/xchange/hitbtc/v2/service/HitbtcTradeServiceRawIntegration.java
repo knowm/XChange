@@ -80,7 +80,6 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   }
 
   @Test
-  @Ignore //needs authentication params
   public void testUpdateOrder_noPrice() throws IOException {
 
     String orderId = String.valueOf(secureRandom.nextInt());
@@ -104,7 +103,6 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   }
 
   @Test
-  @Ignore //needs authentication params
   public void testUpdateOrder_withPrice() throws IOException {
 
     String orderId = String.valueOf(secureRandom.nextInt());
