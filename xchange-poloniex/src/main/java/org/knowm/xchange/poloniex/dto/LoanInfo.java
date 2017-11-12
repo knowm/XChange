@@ -22,14 +22,20 @@ public final class LoanInfo {
   private final List<LoanOrder> usedLoans;
 
   /**
+   * Opened loans
+   */
+  private final List<LoanOrder> openedLoans;
+
+  /**
    * Constructs an {@link LoanInfo}.
    *
    * @param providedLoans provided loans.
    * @param usedLoans used loans.
    */
-  public LoanInfo(List<LoanOrder> providedLoans, List<LoanOrder> usedLoans) {
+  public LoanInfo(List<LoanOrder> providedLoans, List<LoanOrder> usedLoans, List<LoanOrder> openedLoans) {
     this.providedLoans = providedLoans;
     this.usedLoans = usedLoans;
+    this.openedLoans = openedLoans;
   }
 
   public List<LoanOrder> getProvidedLoans() {
@@ -38,6 +44,10 @@ public final class LoanInfo {
 
   public List<LoanOrder> getUsedLoans() {
     return usedLoans;
+  }
+
+  public List<LoanOrder> getOpenedLoans() {
+    return openedLoans;
   }
 
 }

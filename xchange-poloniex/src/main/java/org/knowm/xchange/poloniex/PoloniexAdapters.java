@@ -145,7 +145,7 @@ public class PoloniexAdapters {
       loans.put(item.getKey(), loanOrders);
     }
 
-    return new LoanInfo(loans.get("provided"), loans.get("used"));
+    return new LoanInfo(loans.get("provided"), loans.get("used"), loans.get("opened"));
   }
 
   public static OpenOrders adaptPoloniexOpenOrders(Map<String, PoloniexOpenOrder[]> poloniexOpenOrders) {
