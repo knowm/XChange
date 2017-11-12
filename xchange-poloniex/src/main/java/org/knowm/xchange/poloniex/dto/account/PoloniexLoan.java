@@ -46,6 +46,10 @@ public class PoloniexLoan {
     return currency;
   }
 
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+
   public BigDecimal getRate() {
     return rate;
   }
