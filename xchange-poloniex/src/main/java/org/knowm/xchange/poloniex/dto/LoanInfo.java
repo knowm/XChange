@@ -31,7 +31,6 @@ public final class LoanInfo {
    *
    * @param providedLoans provided loans.
    * @param usedLoans used loans.
-   * @param openedLoans open loans.
    */
   public LoanInfo(List<LoanOrder> providedLoans, List<LoanOrder> usedLoans, List<LoanOrder> openedLoans) {
     this.providedLoans = providedLoans;
