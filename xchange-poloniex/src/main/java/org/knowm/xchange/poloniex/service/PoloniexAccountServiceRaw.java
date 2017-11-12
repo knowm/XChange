@@ -2,11 +2,13 @@ package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -60,6 +62,16 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
   public LoanInfo getLoanInfo() throws IOException {
     try {
       HashMap<String, PoloniexLoan[]> response = poloniexAuthenticated.returnActiveLoans(apiKey, signatureCreator, exchange.getNonceFactory());
+      HashMap<String, PoloniexLoan[]> response2 = poloniexAuthenticated.returnOpenLoanOffers(apiKey, signatureCreator, exchange.getNonceFactory());
+      ArrayList<PoloniexLoan> poloniexLoans = new ArrayList<PoloniexLoan>();
+      for(Map.Entry<String, PoloniexLoan[]> entry : response2.entrySet()) {
+        for(PoloniexLoan pl : entry.getValue()) {
+          pl.setCurrency(entry.getKey());
+          poloniexLoans.add(pl);
+        }
+      }
+      PoloniexLoan[] pltmp = new PoloniexLoan[poloniexLoans.size()];
+      response.put("opened",poloniexLoans.toArray(pltmp));
       return PoloniexAdapters.adaptPoloniexLoans(response);
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
@@ -83,7 +95,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
   /**
    * @param paymentId For XMR withdrawals, you may optionally specify "paymentId".
    */
-  public String withdraw(Currency currency, BigDecimal amount, String address, @Nullable String paymentId) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address, @Nullable String paymentId) throws IOException {
     return poloniexAuthenticated
         .withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address, paymentId).getResponse();
   }
