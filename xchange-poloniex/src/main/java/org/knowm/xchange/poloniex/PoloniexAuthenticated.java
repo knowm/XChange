@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import android.support.annotation.Nullable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
@@ -42,7 +42,11 @@ public interface PoloniexAuthenticated {
   @POST
   @FormParam("command")
   HashMap<String, PoloniexLoan[]> returnActiveLoans(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
+                                                    @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  HashMap<String, PoloniexLoan[]> returnOpenLoanOffers(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+                                                    @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
