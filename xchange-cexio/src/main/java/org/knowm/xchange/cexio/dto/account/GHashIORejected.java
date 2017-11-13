@@ -1,8 +1,8 @@
 package org.knowm.xchange.cexio.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * Author: veken0m
@@ -19,7 +19,7 @@ public class GHashIORejected {
    * @param lowdiff
    */
   public GHashIORejected(@JsonProperty("stale") BigDecimal stale, @JsonProperty("duplicate") BigDecimal duplicate,
-      @JsonProperty("lowdiff") BigDecimal lowdiff) {
+                         @JsonProperty("lowdiff") BigDecimal lowdiff) {
 
     this.stale = stale;
     this.duplicate = duplicate;
