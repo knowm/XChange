@@ -19,6 +19,7 @@
         <module>xchange-coinmate</module>
         <module>xchange-gdax</module>
         <module>xchange-bitfinex</module>
+        <module>xchange-bitmex</module>
     </modules>
 
     <name>xchange-stream</name>
