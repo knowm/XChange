@@ -25,10 +25,10 @@ public class CexIOBaseService extends BaseExchangeService implements BaseService
 
     cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     signatureCreator = CexIODigest.createInstance(
-            exchange.getExchangeSpecification().getSecretKey(),
-            exchange.getExchangeSpecification().getUserName(),
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory()
+        exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getUserName(),
+        exchange.getExchangeSpecification().getApiKey(),
+        exchange.getNonceFactory()
     );
 
   }

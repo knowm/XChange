@@ -8,7 +8,6 @@ import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -72,8 +71,10 @@ public class BitbayAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
-    for (BigDecimal[] order : orders) {
-      limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
+    if(orders != null) {
+      for (BigDecimal[] order : orders) {
+        limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
+      }
     }
 
     return limitOrders;

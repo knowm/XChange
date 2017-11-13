@@ -1,8 +1,8 @@
 package org.knowm.xchange.cexio.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * Author: brox Since: 2/5/14
@@ -28,8 +28,8 @@ public class CexIOTicker {
    * @param ask
    */
   public CexIOTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("timestamp") long timestamp) {
+                     @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
+                     @JsonProperty("timestamp") long timestamp) {
 
     this.last = last;
     this.high = high;
