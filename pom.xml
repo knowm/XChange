@@ -18,6 +18,7 @@
         <module>xchange-poloniex</module>
         <module>xchange-coinmate</module>
         <module>xchange-gdax</module>
+        <module>xchange-bitfinex</module>
     </modules>
 
     <name>xchange-stream</name>
