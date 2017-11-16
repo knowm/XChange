@@ -9,6 +9,7 @@
 
     <modules>
         <module>xchange-stream-core</module>
+        <module>service-pubnub</module>
         <module>service-pusher</module>
         <module>service-netty</module>
         <module>service-wamp</module>
@@ -21,6 +22,7 @@
         <module>xchange-bitfinex</module>
         <module>xchange-bitmex</module>
         <module>xchange-poloniex2</module>
+        <module>xchange-bitflyer</module>
     </modules>
 
     <name>xchange-stream</name>
