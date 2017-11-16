@@ -162,8 +162,10 @@ public abstract class NettyStreamingService<T> {
             return;
         }
 
-        WebSocketFrame frame = new TextWebSocketFrame(message);
-        webSocketChannel.writeAndFlush(frame);
+        if (message != null) {
+            WebSocketFrame frame = new TextWebSocketFrame(message);
+            webSocketChannel.writeAndFlush(frame);
+        }
     }
 
     public Observable<T> subscribeChannel(String channelName, Object... args) {
@@ -179,7 +181,6 @@ public abstract class NettyStreamingService<T> {
                 channels.put(channelId, e);
                 try {
                     sendMessage(getSubscribeMessage(channelName, args));
-                    System.out.println(String.format("Channel connect: %s", channelId));
                 } catch (IOException throwable) {
                     e.onError(throwable);
                 }
