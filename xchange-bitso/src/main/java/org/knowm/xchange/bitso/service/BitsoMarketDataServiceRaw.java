@@ -47,12 +47,6 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
         HOUR, MINUTE
     }
 
-    private void checkCounter(CurrencyPair pair) {
-        if (!Currency.USD.equals(pair.counter)) {
-            throw new IllegalArgumentException("Unsupported counter symbol " + pair.counter);
-        }
-    }
-
     public BitsoTicker getBitsoTicker(CurrencyPair pair) throws IOException {
         return bitso.getTicker(pair.base + "_" + pair.counter);
     }
