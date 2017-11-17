@@ -24,6 +24,7 @@
         <module>xchange-poloniex2</module>
         <module>xchange-bitflyer</module>
         <module>xchange-gemini</module>
+        <module>xchange-wex</module>
     </modules>
 
     <name>xchange-stream</name>

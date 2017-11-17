@@ -100,6 +100,7 @@ Exchange | order books | trades | tickers
 **Poloniex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **GDAX** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Gemini** | :heavy_check_mark: | :heavy_check_mark: | :x:
+**Wex** | :heavy_check_mark: | :heavy_check_mark: | :x:
 
 - :heavy_check_mark: - implemented
 - :construction: - missing but can be implemented
