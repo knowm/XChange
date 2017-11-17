@@ -81,7 +81,7 @@ public class CoinmateStreamingMarketDataServiceTest {
             assertThat(trade1.getCurrencyPair()).as("Currency pair").isEqualTo(expected1.getCurrencyPair());
             assertThat(trade1.getPrice()).as("Price").isEqualTo(expected1.getPrice());
             assertThat(trade1.getTimestamp()).as("Timestamp").isEqualTo(expected1.getTimestamp());
-            assertThat(trade1.getTradableAmount()).as("Amount").isEqualTo(expected1.getTradableAmount());
+            assertThat(trade1.getOriginalAmount()).as("Amount").isEqualTo(expected1.getOriginalAmount());
             assertThat(trade1.getType()).as("Type").isEqualTo(expected1.getType());
             return true;
         });
@@ -91,7 +91,7 @@ public class CoinmateStreamingMarketDataServiceTest {
             assertThat(trade1.getCurrencyPair()).as("Currency pair").isEqualTo(expected2.getCurrencyPair());
             assertThat(trade1.getPrice()).as("Price").isEqualTo(expected2.getPrice());
             assertThat(trade1.getTimestamp()).as("Timestamp").isEqualTo(expected2.getTimestamp());
-            assertThat(trade1.getTradableAmount()).as("Amount").isEqualTo(expected2.getTradableAmount());
+            assertThat(trade1.getOriginalAmount()).as("Amount").isEqualTo(expected2.getOriginalAmount());
             assertThat(trade1.getType()).as("Type").isEqualTo(expected2.getType());
             return true;
         });

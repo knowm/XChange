@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -82,7 +81,7 @@ public class BitstampStreamingMarketDataServiceTest {
             assertThat(trade1.getCurrencyPair()).as("Currency pair").isEqualTo(expected.getCurrencyPair());
             assertThat(trade1.getPrice()).as("Price").isEqualTo(expected.getPrice());
             // assertThat(trade1.getTimestamp()).as("Timestamp").isEqualTo(expected.getTimestamp());
-            assertThat(trade1.getTradableAmount()).as("Amount").isEqualTo(expected.getTradableAmount());
+            assertThat(trade1.getOriginalAmount()).as("Amount").isEqualTo(expected.getOriginalAmount());
             assertThat(trade1.getType()).as("Type").isEqualTo(expected.getType());
             return true;
         });
