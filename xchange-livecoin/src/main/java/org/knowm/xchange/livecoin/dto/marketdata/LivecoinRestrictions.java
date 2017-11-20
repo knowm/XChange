@@ -1,9 +1,9 @@
 package org.knowm.xchange.livecoin.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LivecoinRestrictions {
 

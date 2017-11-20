@@ -19,7 +19,7 @@ public class BitcoindeBaseService extends BaseExchangeService implements BaseSer
   protected BitcoindeBaseService(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BitcoindeDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), apiKey);
   }

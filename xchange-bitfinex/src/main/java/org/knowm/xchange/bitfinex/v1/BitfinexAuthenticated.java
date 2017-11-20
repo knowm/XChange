@@ -28,6 +28,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderMultiRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderMultiResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCreditResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexFundingTradeResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOfferRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderMultiRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderMultiResponse;
@@ -37,6 +38,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastFundingTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
@@ -127,7 +129,12 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("mytrades")
   BitfinexTradeResponse[] pastTrades(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexPastTradesRequest pastTradesRequest) throws IOException, BitfinexException;
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexPastTradesRequest pastTradesRequest) throws IOException, BitfinexException;  
+
+  @POST
+  @Path("mytrades_funding")
+  BitfinexFundingTradeResponse[] pastFundingTrades(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexPastFundingTradesRequest bitfinexPastFundingTradesRequest) throws IOException, BitfinexException;  
 
   @POST
   @Path("credits")
@@ -155,5 +162,4 @@ public interface BitfinexAuthenticated extends Bitfinex {
   BitfinexDepositWithdrawalHistoryResponse[] depositWithdrawalHistory(@HeaderParam("X-BFX-APIKEY") String apiKey,
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexDepositWithdrawalHistoryRequest request) throws IOException, BitfinexException;
-
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.gemini.v1.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -13,8 +12,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiNonceOnlyRequest;
@@ -69,7 +66,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     }
 
     GeminiNewOrderRequest request = new GeminiNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair,
-        limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "Gemini", type, orderType, options);
+        limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), "Gemini", type, orderType, options);
 
     try {
       GeminiOrderStatusResponse newOrder = Gemini.newOrder(apiKey, payloadCreator, signatureCreator, request);
@@ -83,7 +80,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
 
     try {
       Gemini.cancelOrders(apiKey, payloadCreator, signatureCreator,
-          new GeminiCancelOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(orderId)));
+          new GeminiCancelOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), Long.valueOf(orderId)));
       return true;
     } catch (GeminiException e) {
       if (e.getMessage().equals("Order could not be cancelled.")) {
@@ -98,7 +95,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
 
     try {
       GeminiOrderStatusResponse orderStatus = Gemini.orderStatus(apiKey, payloadCreator, signatureCreator,
-          new GeminiOrderStatusRequest(String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(orderId)));
+          new GeminiOrderStatusRequest(String.valueOf(exchange.getNonceFactory().createValue()), Long.valueOf(orderId)));
       return orderStatus;
     } catch (GeminiException e) {
       throw new ExchangeException(e);

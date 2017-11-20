@@ -151,7 +151,7 @@ public final class GatecoinAdapters {
       for (GatecoinTradeHistory gatecoinUserTrade : tradeHistory) {
         final boolean isAsk = Objects.equals(gatecoinUserTrade.getWay().toLowerCase(), "ask");
         OrderType orderType = isAsk ? OrderType.ASK : OrderType.BID;
-        BigDecimal tradableAmount = gatecoinUserTrade.getQuantity();
+        BigDecimal originalAmount = gatecoinUserTrade.getQuantity();
         BigDecimal price = gatecoinUserTrade.getPrice();
         Date timestamp = GatecoinUtils.parseUnixTSToDateTime(gatecoinUserTrade.getTransactionTime());
         long transactionId = gatecoinUserTrade.getTransactionId();
@@ -161,11 +161,11 @@ public final class GatecoinAdapters {
         final String tradeId = String.valueOf(transactionId);
         final String orderId = isAsk ? gatecoinUserTrade.getAskOrderID() : gatecoinUserTrade.getBidOrderID();
         final BigDecimal feeRate = gatecoinUserTrade.getFeeRate();
-        final BigDecimal feeAmount = feeRate.multiply(tradableAmount).multiply(price).setScale(8, BigDecimal.ROUND_CEILING);
+        final BigDecimal feeAmount = feeRate.multiply(originalAmount).multiply(price).setScale(8, BigDecimal.ROUND_CEILING);
 
         final CurrencyPair currencyPair = new CurrencyPair(gatecoinUserTrade.getCurrencyPair().substring(0, 3),
             gatecoinUserTrade.getCurrencyPair().substring(3, 6));
-        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
+        UserTrade trade = new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
             Currency.getInstance(currencyPair.counter.getCurrencyCode()));
         trades.add(trade);
       }

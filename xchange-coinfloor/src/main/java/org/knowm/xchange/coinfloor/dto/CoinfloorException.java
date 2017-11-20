@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
-@SuppressWarnings("serial")
+
 public class CoinfloorException extends HttpStatusExceptionSupport {
 
   private final int errorCode;

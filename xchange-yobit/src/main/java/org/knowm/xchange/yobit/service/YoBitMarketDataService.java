@@ -1,5 +1,12 @@
 package org.knowm.xchange.yobit.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -24,13 +31,6 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBooksReturn;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTickersReturn;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrade;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 
 public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements MarketDataService {
 

@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-//import static org.fest.assertions.api.Assertions.assertThat;
+//import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test ANXWalletHistory JSON parsing

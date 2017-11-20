@@ -22,6 +22,8 @@ public class BittrexWithdrawalHistory {
   private String currency;
   @JsonProperty("Amount")
   private BigDecimal amount;
+  @JsonProperty("Address")
+  private String address;
   @JsonProperty("Opened")
   private Date opened;
   @JsonProperty("Authorized")
@@ -65,6 +67,16 @@ public class BittrexWithdrawalHistory {
   @JsonProperty("Amount")
   public void setAmount(BigDecimal amount) {
     this.amount = amount;
+  }
+
+  @JsonProperty("Address")
+  public String getAddress() {
+    return address;
+  }
+
+  @JsonProperty("Address")
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   @JsonProperty("Opened")

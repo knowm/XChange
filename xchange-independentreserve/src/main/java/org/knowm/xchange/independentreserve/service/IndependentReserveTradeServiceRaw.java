@@ -41,7 +41,7 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
     super(exchange);
 
     this.independentReserveAuthenticated = RestProxyFactory.createProxy(IndependentReserveAuthenticated.class,
-        exchange.getExchangeSpecification().getSslUri());
+        exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.signatureCreator = IndependentReserveDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSslUri());
   }
@@ -72,7 +72,7 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
   }
 
   public String independentReservePlaceLimitOrder(CurrencyPair currencyPair, Order.OrderType type, BigDecimal limitPrice,
-      BigDecimal tradableAmount) throws IOException {
+      BigDecimal originalAmount) throws IOException {
     Long nonce = exchange.getNonceFactory().createValue();
     String apiKey = exchange.getExchangeSpecification().getApiKey();
 
@@ -84,7 +84,7 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
     }
 
     IndependentReservePlaceLimitOrderRequest independentReservePlaceLimitOrderRequest = new IndependentReservePlaceLimitOrderRequest(apiKey, nonce,
-        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), orderType, limitPrice.toString(), tradableAmount.toString());
+        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), orderType, limitPrice.toString(), originalAmount.toString());
     independentReservePlaceLimitOrderRequest.setSignature(
         signatureCreator.digestParamsToString(ExchangeEndpoint.PLACE_LIMIT_ORDER, nonce, independentReservePlaceLimitOrderRequest.getParameters()));
 

@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.account;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,7 +18,7 @@ import org.knowm.xchange.currency.Currency;
  * A wallet has a set of current balances in various currencies held on the exchange.
  * </p>
  */
-public final class Wallet {
+public final class Wallet implements Serializable {
 
   /**
    * A unique identifier for this wallet
@@ -78,7 +79,7 @@ public final class Wallet {
    */
   public Wallet(String id, Balance... balances) {
 
-    this(id, null, (Collection<Balance>) Arrays.asList(balances));
+    this(id, null, Arrays.asList(balances));
   }
 
   /**

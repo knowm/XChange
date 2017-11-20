@@ -8,7 +8,6 @@ public class InternalTransferResponse {
   public final String statusCode;
   public final String body;
 
-
   public InternalTransferResponse(@JsonProperty("transaction") String transactionId, @JsonProperty("message") String message, @JsonProperty("statusCode") String statusCode, @JsonProperty("body") String body) {
     this.transactionId = transactionId;
     this.message = message;

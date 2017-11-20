@@ -1,6 +1,6 @@
 package org.knowm.xchange.bitcoinium;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +38,7 @@ public class BitcoiniumAdapterTest {
     // Verify all fields filled
     assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo(new BigDecimal("522.9"));
     assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(OrderType.ASK);
-    assertThat(orderBook.getAsks().get(0).getTradableAmount()).isEqualTo(new BigDecimal("1.07"));
+    assertThat(orderBook.getAsks().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("1.07"));
     assertThat(orderBook.getAsks().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 

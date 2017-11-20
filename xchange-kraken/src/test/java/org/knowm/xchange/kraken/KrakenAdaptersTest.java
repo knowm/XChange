@@ -1,6 +1,6 @@
 package org.knowm.xchange.kraken;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,20 +47,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class KrakenAdaptersTest {
 
   @Before
-  public void before() throws JsonParseException, JsonMappingException, IOException {
-	  // Read in the JSON from the example resources
-	  InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
-	  // Use Jackson to parse it
-	  ObjectMapper mapper = new ObjectMapper();
-	  KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
-	  KrakenUtils.setKrakenAssets(krakenResult.getResult());
-	  
-	  // Read in the JSON from the example resources
-	  is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
-	  // Use Jackson to parse it
-	  mapper = new ObjectMapper();
-	  KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
-	  KrakenUtils.setKrakenAssetPairs(krakenAssetPairs.getResult());
+  public void before() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
+    KrakenUtils.setKrakenAssets(krakenResult.getResult());
+
+    // Read in the JSON from the example resources
+    is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+    // Use Jackson to parse it
+    mapper = new ObjectMapper();
+    KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
+    KrakenUtils.setKrakenAssetPairs(krakenAssetPairs.getResult());
   }
 
   @Test
@@ -98,7 +99,7 @@ public class KrakenAdaptersTest {
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 
     Set<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
-    assertThat(pairs).hasSize(57);
+    assertThat(pairs).hasSize(56);
     assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
     System.out.println("pairs = " + pairs);
   }
@@ -119,7 +120,7 @@ public class KrakenAdaptersTest {
     assertThat(trades.getTrades().get(0).getPrice()).isEqualTo("1023.82219");
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(trades.getTrades().get(0).getTimestamp()).isEqualTo(new Date(1385579841777L));
-    assertThat(trades.getTrades().get(1).getTradableAmount()).isEqualTo("0.01500000");
+    assertThat(trades.getTrades().get(1).getOriginalAmount()).isEqualTo("0.01500000");
     assertThat(trades.getlastID()).isEqualTo(1385579841881785998L);
 
   }
@@ -144,7 +145,7 @@ public class KrakenAdaptersTest {
     assertThat(asks.size()).isEqualTo(3);
     LimitOrder order = asks.get(0);
     assertThat(order.getLimitPrice()).isEqualTo(new BigDecimal("530.75513"));
-    assertThat(order.getTradableAmount()).isEqualTo("0.248");
+    assertThat(order.getOriginalAmount()).isEqualTo("0.248");
     assertThat(order.getTimestamp()).isEqualTo(new Date(1391825343000L));
   }
 
@@ -181,7 +182,7 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders()).hasSize(6);
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("O767CW-TXHCL-FWZ5R2");
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("0.00001000");
-    assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1000.00000000");
+    assertThat(orders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("1000.00000000");
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.XRP);
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.BTC);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
@@ -203,7 +204,7 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders()).hasSize(1);
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("500.00000");
-    assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1.00000000");
+    assertThat(orders.getOpenOrders().get(0).getOriginalAmount()).isEqualTo("1.00000000");
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.BTC);
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
@@ -229,7 +230,7 @@ public class KrakenAdaptersTest {
     assertThat(trade).isInstanceOf(KrakenUserTrade.class);
     assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
-    assertThat(trade.getTradableAmount()).isEqualTo("0.50000000");
+    assertThat(trade.getOriginalAmount()).isEqualTo("0.50000000");
     assertThat(trade.getCurrencyPair().base).isEqualTo(Currency.LTC);
     assertThat(trade.getCurrencyPair().counter).isEqualTo(Currency.BTC);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);

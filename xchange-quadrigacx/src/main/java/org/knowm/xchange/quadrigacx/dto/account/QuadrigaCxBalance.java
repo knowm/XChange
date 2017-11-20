@@ -1,14 +1,15 @@
 package org.knowm.xchange.quadrigacx.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.currency.Currency;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.knowm.xchange.currency.Currency;
+
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class QuadrigaCxBalance {
 

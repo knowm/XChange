@@ -1,5 +1,13 @@
 package org.knowm.xchange.bleutrade;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeLevel;
@@ -27,14 +35,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class BleutradeAdapters {
 
@@ -78,7 +78,8 @@ public class BleutradeAdapters {
 
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.ASK, currencyPair);
       builder.limitPrice(ask.getRate());
-      builder.tradableAmount(ask.getQuantity());
+      builder.originalAmount(ask.getQuantity());
+      builder.cumulativeAmount(BigDecimal.ZERO);
       asks.add(builder.build());
     }
 
@@ -86,7 +87,8 @@ public class BleutradeAdapters {
 
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.BID, currencyPair);
       builder.limitPrice(bid.getRate());
-      builder.tradableAmount(bid.getQuantity());
+      builder.originalAmount(bid.getQuantity());
+      builder.cumulativeAmount(BigDecimal.ZERO);
       bids.add(builder.build());
     }
 
@@ -103,7 +105,7 @@ public class BleutradeAdapters {
       builder.currencyPair(currencyPair);
       builder.price(bleutradeTrade.getPrice());
       builder.timestamp(BleutradeUtils.toDate(bleutradeTrade.getTimeStamp()));
-      builder.tradableAmount(bleutradeTrade.getQuantity());
+      builder.originalAmount(bleutradeTrade.getQuantity());
       builder.type(bleutradeTrade.getOrderType().equals("BUY") ? OrderType.BID : OrderType.ASK);
       trades.add(builder.build());
     }
@@ -136,7 +138,8 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(type, currencyPair);
       builder.id(bleuTradeOpenOrder.getOrderId());
       builder.limitPrice(bleuTradeOpenOrder.getPrice());
-      builder.tradableAmount(bleuTradeOpenOrder.getQuantityRemaining());
+      builder.remainingAmount(bleuTradeOpenOrder.getQuantityRemaining());
+      builder.originalAmount(bleuTradeOpenOrder.getQuantity());
       builder.timestamp(BleutradeUtils.toDate(bleuTradeOpenOrder.getCreated()));
       openOrders.add(builder.build());
     }

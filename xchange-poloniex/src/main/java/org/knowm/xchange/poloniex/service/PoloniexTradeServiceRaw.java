@@ -100,14 +100,14 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
         Method marginMethod = PoloniexAuthenticated.class.getDeclaredMethod(name, String.class, ParamsDigest.class, SynchronizedValueFactory.class,
             String.class, String.class, String.class, Double.class);
         PoloniexTradeResponse response = (PoloniexTradeResponse) marginMethod.invoke(poloniexAuthenticated, apiKey, signatureCreator,
-            exchange.getNonceFactory(), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
+            exchange.getNonceFactory(), limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
             PoloniexUtils.toPairString(limitOrder.getCurrencyPair()), lendingRate);
         return response;
       } else {
         Method method = PoloniexAuthenticated.class.getDeclaredMethod(name, String.class, ParamsDigest.class, SynchronizedValueFactory.class,
             String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
         PoloniexTradeResponse response = (PoloniexTradeResponse) method.invoke(poloniexAuthenticated, apiKey, signatureCreator,
-            exchange.getNonceFactory(), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
+            exchange.getNonceFactory(), limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
             PoloniexUtils.toPairString(limitOrder.getCurrencyPair()), fillOrKill, immediateOrCancel, postOnly);
         return response;
       }
@@ -118,7 +118,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice, PoloniexOrderFlags flag) throws IOException {
+  public PoloniexMoveResponse move(String orderId, BigDecimal originalAmount, BigDecimal limitPrice, PoloniexOrderFlags flag) throws IOException {
 
     Integer immediateOrCancel;
     if (flag == PoloniexOrderFlags.IMMEDIATE_OR_CANCEL) {
@@ -135,16 +135,16 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     }
 
     try {
-      return poloniexAuthenticated.moveOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId, tradableAmount.toPlainString(),
+      return poloniexAuthenticated.moveOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId, originalAmount.toPlainString(),
           limitPrice.toPlainString(), immediateOrCancel, postOnly);
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
     }
   }
 
-  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice) throws IOException {
+  public PoloniexMoveResponse move(String orderId, BigDecimal originalAmount, BigDecimal limitPrice) throws IOException {
 
-    return move(orderId, tradableAmount, limitPrice, null);
+    return move(orderId, originalAmount, limitPrice, null);
   }
 
   public boolean cancel(String orderId) throws IOException {

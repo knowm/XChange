@@ -1,14 +1,15 @@
 package org.knowm.xchange.cryptopia;
 
-import net.iharder.Base64;
-import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+
+import org.knowm.xchange.service.BaseParamsDigest;
+
+import net.iharder.Base64;
+import si.mazi.rescu.RestInvocation;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CryptopiaDigest extends BaseParamsDigest {
 

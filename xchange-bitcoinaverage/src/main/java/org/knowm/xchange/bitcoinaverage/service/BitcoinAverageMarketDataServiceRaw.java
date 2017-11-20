@@ -29,7 +29,7 @@ public class BitcoinAverageMarketDataServiceRaw extends BitcoinAverageBaseServic
   public BitcoinAverageMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinAverage = RestProxyFactory.createProxy(BitcoinAverage.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitcoinAverage = RestProxyFactory.createProxy(BitcoinAverage.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public BitcoinAverageTicker getBitcoinAverageTicker(String tradableIdentifier, String currency) throws IOException {

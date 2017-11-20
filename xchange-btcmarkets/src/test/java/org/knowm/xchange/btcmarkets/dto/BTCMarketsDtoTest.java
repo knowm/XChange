@@ -1,6 +1,6 @@
 package org.knowm.xchange.btcmarkets.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -25,7 +25,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+
 public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
   @Test

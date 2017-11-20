@@ -8,7 +8,6 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersResult;
-import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderResult;
 import org.knowm.xchange.dsx.dto.trade.DSXOrder;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeResult;
 import org.knowm.xchange.dsx.service.DSXTradeServiceRaw;
@@ -63,7 +62,7 @@ public class DSXTradeDemo {
 
     DSXOrder.Type type = DSXOrder.Type.buy;
     String pair = "btcusd";
-    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.01"), new BigDecimal("900"), new Date().getTime(), 0, DSXOrder.OrderType.limit);
+    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.01"), new BigDecimal("900"),0, DSXOrder.OrderType.limit);
 
     DSXTradeResult result = null;
     DSXTradeResult result1 = null;
@@ -101,7 +100,7 @@ public class DSXTradeDemo {
     // place buy order
     DSXOrder.Type type = DSXOrder.Type.buy;
     String pair = "btcusd";
-    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("900"), new Date().getTime(), 0, DSXOrder.OrderType.limit);
+    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("900"),0, DSXOrder.OrderType.limit);
 
     DSXTradeResult result = null;
     try {

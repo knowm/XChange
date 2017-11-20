@@ -1,5 +1,9 @@
 package org.knowm.xchange.therock.service;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Date;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -24,10 +28,6 @@ import org.knowm.xchange.therock.TheRockExchange;
 import org.knowm.xchange.therock.dto.TheRockCancelOrderParams;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-
 /**
  * @author Matija Mazi
  * @author Pnk
@@ -40,14 +40,14 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, ExchangeException {
-    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), null,
+    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getOriginalAmount(), null,
         TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.market);
     return placedOrder.getId().toString();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, ExchangeException {
-    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), order.getLimitPrice(),
+    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getOriginalAmount(), order.getLimitPrice(),
         TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.limit);
     return placedOrder.getId().toString();
   }

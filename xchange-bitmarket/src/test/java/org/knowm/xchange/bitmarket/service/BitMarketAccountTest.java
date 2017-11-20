@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitmarket.service;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
 
   @Test
   public void constructor() {
-    assertThat(Whitebox.getInternalState(accountService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertThat((String) Whitebox.getInternalState(accountService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test

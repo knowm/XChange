@@ -78,9 +78,9 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
 
     BitsoOrder bitsoOrder;
     if (limitOrder.getType() == BID) {
-      bitsoOrder = buyBitoOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      bitsoOrder = buyBitoOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     } else {
-      bitsoOrder = sellBitsoOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      bitsoOrder = sellBitsoOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     }
     if (bitsoOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitsoOrder.getErrorMessage());

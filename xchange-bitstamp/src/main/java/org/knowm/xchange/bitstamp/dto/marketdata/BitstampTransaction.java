@@ -58,7 +58,7 @@ public class BitstampTransaction {
     return type;
   }
 
-    @Override
+  @Override
   public String toString() {
 
     StringBuilder builder = new StringBuilder();

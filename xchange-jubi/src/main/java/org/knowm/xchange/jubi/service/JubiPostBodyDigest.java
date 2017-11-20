@@ -1,16 +1,22 @@
 package org.knowm.xchange.jubi.service;
 
-import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.Params;
-import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
+import javax.crypto.Mac;
+import javax.ws.rs.FormParam;
+
+import org.knowm.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.Params;
+import si.mazi.rescu.RestInvocation;
 
 /**
  * Created by Dzf on 2017/7/8.

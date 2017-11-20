@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GeminiOrderStatusResponse {
 
-  private final int id;
+  private final long id;
   private final String symbol;
   private final BigDecimal price;
   private final BigDecimal avgExecutionPrice;
@@ -37,7 +37,7 @@ public class GeminiOrderStatusResponse {
    * @param remainingAmount
    * @param executedAmount
    */
-  public GeminiOrderStatusResponse(@JsonProperty("order_id") int id, @JsonProperty("symbol") String symbol,
+  public GeminiOrderStatusResponse(@JsonProperty("order_id") long id, @JsonProperty("symbol") String symbol,
       @JsonProperty("price") BigDecimal price, @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side,
       @JsonProperty("type") String type, @JsonProperty("timestamp") BigDecimal timestamp, @JsonProperty("is_live") boolean isLive,
       @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("was_forced") boolean wasForced,
@@ -79,7 +79,6 @@ public class GeminiOrderStatusResponse {
     return wasForced;
   }
 
-
   public String getType() {
 
     return type;
@@ -110,7 +109,7 @@ public class GeminiOrderStatusResponse {
     return timestamp;
   }
 
-  public int getId() {
+  public long getId() {
 
     return id;
   }

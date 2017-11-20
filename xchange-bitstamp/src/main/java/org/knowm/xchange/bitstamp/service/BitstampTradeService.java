@@ -11,6 +11,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
+import org.knowm.xchange.bitstamp.BitstampUtils;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
@@ -25,6 +26,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelAllOrders;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
@@ -74,7 +76,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, BitstampException {
     BitstampAuthenticatedV2.Side side = order.getType().equals(BID) ? BitstampAuthenticatedV2.Side.buy : BitstampAuthenticatedV2.Side.sell;
-    BitstampOrder bitstampOrder = placeBitstampOrder(order.getCurrencyPair(), side, order.getTradableAmount(), order.getLimitPrice());
+    BitstampOrder bitstampOrder = placeBitstampOrder(order.getCurrencyPair(), side, order.getOriginalAmount(), order.getLimitPrice());
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
     }
@@ -91,6 +93,8 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    } else if (orderParams instanceof CancelAllOrders) {
+      cancelAllBitstampOrders();
     }
     return false;
   }
@@ -123,7 +127,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new BitstampTradeHistoryParams(null, 1000);
+    return new BitstampTradeHistoryParams(null, BitstampUtils.MAX_TRANSACTIONS_PER_QUERY);
   }
 
   @Override

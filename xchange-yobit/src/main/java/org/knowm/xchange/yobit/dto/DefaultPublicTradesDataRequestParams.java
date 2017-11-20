@@ -4,11 +4,11 @@ import org.knowm.xchange.currency.CurrencyPair;
 
 public class DefaultPublicTradesDataRequestParams extends MultiCurrencyPublicTradesDataRequestParams {
 
-    public DefaultPublicTradesDataRequestParams(CurrencyPair currencyPair) {
-        super(currencyPair);
-    }
+  public DefaultPublicTradesDataRequestParams(CurrencyPair currencyPair) {
+    super(currencyPair);
+  }
 
-    public CurrencyPair getCurrencyPair() {
-        return currencyPairs.iterator().next();
-    }
+  public CurrencyPair getCurrencyPair() {
+    return currencyPairs.iterator().next();
+  }
 }

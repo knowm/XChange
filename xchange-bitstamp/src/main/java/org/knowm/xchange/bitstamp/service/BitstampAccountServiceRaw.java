@@ -1,5 +1,10 @@
 package org.knowm.xchange.bitstamp.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
@@ -14,13 +19,9 @@ import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author gnandiga
@@ -33,7 +34,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   private final BitstampAuthenticatedV2 bitstampAuthenticatedV2;
   private final String apiKey;
   private final SynchronizedValueFactory<Long> nonceFactory;
-  
+
   /**
    * Constructor
    *
@@ -43,9 +44,11 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     super(exchange);
 
-    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.bitstampAuthenticatedV2 = RestProxyFactory.createProxy(BitstampAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri());
-    
+    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
+    this.bitstampAuthenticatedV2 = RestProxyFactory.createProxy(BitstampAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
+
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getUserName(), apiKey);
     this.nonceFactory = exchange.getNonceFactory();
@@ -103,6 +106,26 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     return response;
   }
 
+  public BitstampDepositAddress getBitstampLitecoinDepositAddress() throws IOException {
+
+    final BitstampDepositAddress response = bitstampAuthenticated.getLitecoinDepositAddress(exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator, exchange.getNonceFactory());
+    if (response.getError() != null) {
+      throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+    }
+    return response;
+  }
+  
+  public BitstampDepositAddress getBitstampEthereumDepositAddress() throws IOException {
+
+    final BitstampDepositAddress response = bitstampAuthenticated.getEthereumDepositAddress(exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator, exchange.getNonceFactory());
+    if (response.getError() != null) {
+      throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+    }
+    return response;
+  }
+
   public BitstampRippleDepositAddress getRippleDepositAddress() throws IOException {
 
     return bitstampAuthenticated.getRippleDepositAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
@@ -133,9 +156,8 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     return response;
   }
 
-  
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, CurrencyPair pair, Long offset,
-                                                               String sort) throws IOException {
+      String sort) throws IOException {
     return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions,
         offset, sort);
   }

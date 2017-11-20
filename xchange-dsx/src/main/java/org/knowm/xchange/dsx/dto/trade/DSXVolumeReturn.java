@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Mikhail Wall
  */
 
-public class DSXVolumeReturn extends DSXReturn<DSXVolumeResult>  {
+public class DSXVolumeReturn extends DSXReturn<DSXVolumeResult> {
 
   public DSXVolumeReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXVolumeResult value,
       @JsonProperty("error") String error) {

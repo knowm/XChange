@@ -1,6 +1,6 @@
 package org.knowm.xchange.gdax.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -18,11 +18,11 @@ public class GDAXPlaceOrderTest {
     assertThat(orderFlagsNull.getTimeInForce()).isEqualTo(null);
 
     Set<IOrderFlags> flags = new HashSet<>();
-    
+
     GDAXPlaceOrder order = new GDAXPlaceOrder(BigDecimal.ZERO, BigDecimal.ZERO, "side", "productId", "type", flags);
     assertThat(order.isPostOnly()).isEqualTo(null);
     assertThat(order.getTimeInForce()).isEqualTo(null);
-    
+
     flags.add(GDAXOrderFlags.FILL_OR_KILL);
     assertThat(order.isPostOnly()).isEqualTo(null);
     assertThat(order.getTimeInForce()).isEqualTo("FOK");

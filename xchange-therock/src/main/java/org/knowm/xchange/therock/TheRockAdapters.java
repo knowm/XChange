@@ -2,12 +2,12 @@ package org.knowm.xchange.therock;
 
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -33,7 +33,7 @@ import org.knowm.xchange.therock.dto.trade.TheRockOrders;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrade;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrades;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 public final class TheRockAdapters {
 
@@ -66,7 +66,7 @@ public final class TheRockAdapters {
   }
 
   private static LimitOrder adaptBid(CurrencyPair currencyPair, Order.OrderType orderType, TheRockBid theRockBid, Date timestamp) {
-    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(theRockBid.getPrice()).tradableAmount(theRockBid.getAmount())
+    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(theRockBid.getPrice()).originalAmount(theRockBid.getAmount())
         .timestamp(timestamp).build();
   }
 
@@ -95,7 +95,7 @@ public final class TheRockAdapters {
   public static UserTrade adaptUserTrade(TheRockUserTrade trade, CurrencyPair currencyPair) throws InvalidFormatException {
     final String tradeId = String.valueOf(trade.getId());
     //return new UserTrade(trade.getSide() == Side.sell ? OrderType.ASK : BID, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), tradeId);
-    return new UserTrade.Builder().id(tradeId).tradableAmount(trade.getAmount()).currencyPair(currencyPair).price(trade.getPrice())
+    return new UserTrade.Builder().id(tradeId).originalAmount(trade.getAmount()).currencyPair(currencyPair).price(trade.getPrice())
         .timestamp(trade.getDate()).orderId(String.valueOf(trade.getOrderId())).type(trade.getSide() == Side.buy ? OrderType.BID : OrderType.ASK)
         .feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency() == null ? null : new Currency(trade.getFeeCurrency())).build();
   }

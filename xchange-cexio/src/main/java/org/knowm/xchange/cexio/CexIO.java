@@ -1,6 +1,8 @@
 package org.knowm.xchange.cexio;
 
-import java.io.IOException;
+import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
+import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
+import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -10,10 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
-import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
-import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
+import java.io.IOException;
 
 /**
  * @author brox
@@ -37,6 +36,6 @@ public interface CexIO {
   @POST
   @Path("trade_history/{ident}/{currency}/")
   CexIOTrade[] getTradesSince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
-      @DefaultValue("1") @FormParam("since") long since) throws IOException;
+                              @DefaultValue("1") @FormParam("since") long since) throws IOException;
 
 }

@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.account;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.Map;
  * Account information is anything particular associated with the user's login
  * </p>
  */
-public final class AccountInfo {
+public final class AccountInfo  implements Serializable {
 
   /**
    * The name on the account
@@ -38,7 +39,7 @@ public final class AccountInfo {
   public AccountInfo(Wallet... wallets) {
 
     // TODO when refactoring for separate feature interfaces, change this constructor to require at least two wallets
-    this(null, (BigDecimal) null, wallets);
+    this(null, null, wallets);
   }
 
   /**
@@ -46,7 +47,7 @@ public final class AccountInfo {
    */
   public AccountInfo(Collection<Wallet> wallets) {
 
-    this(null, (BigDecimal) null, wallets);
+    this(null, null, wallets);
   }
 
   /**

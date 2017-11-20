@@ -50,8 +50,10 @@ public class YoBitOrderBook {
     private List<YoBitAsksBidsData> parse(JsonNode nodeArray) {
       List<YoBitAsksBidsData> res = new ArrayList<>();
 
-      for (JsonNode jsonNode : nodeArray) {
-        res.add(new YoBitAsksBidsData(BigDecimal.valueOf(jsonNode.get(1).asDouble()), BigDecimal.valueOf(jsonNode.get(0).asDouble())));
+      if(nodeArray != null) {
+        for (JsonNode jsonNode : nodeArray) {
+          res.add(new YoBitAsksBidsData(BigDecimal.valueOf(jsonNode.get(1).asDouble()), BigDecimal.valueOf(jsonNode.get(0).asDouble())));
+        }
       }
 
       return res;

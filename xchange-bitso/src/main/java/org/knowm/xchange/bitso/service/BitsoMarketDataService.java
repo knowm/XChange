@@ -25,12 +25,12 @@ public class BitsoMarketDataService extends BitsoMarketDataServiceRaw implements
   @Override
   public Ticker getTicker(CurrencyPair currencyPair,
       Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return BitsoAdapters.adaptTicker(getBitsoTicker(), currencyPair);
+    return BitsoAdapters.adaptTicker(getBitsoTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BitsoAdapters.adaptOrderBook(getBitsoOrderBook(), currencyPair, 1000);
+    return BitsoAdapters.adaptOrderBook(getBitsoOrderBook(currencyPair), currencyPair, 1000);
   }
 
   @Override
