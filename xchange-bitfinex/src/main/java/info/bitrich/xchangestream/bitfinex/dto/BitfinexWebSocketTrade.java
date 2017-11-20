@@ -49,6 +49,6 @@ public class BitfinexWebSocketTrade {
             type = "buy";
         }
 
-        return new BitfinexTrade(price, amount, timestamp,"bitfinex", tradeId, type);
+        return new BitfinexTrade(price, amount, timestamp / 1000,"bitfinex", tradeId, type);
     }
 }
