@@ -1,5 +1,10 @@
 package org.knowm.xchange.hitbtc.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -11,13 +16,13 @@ import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcDepositAddressResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcPaymentBalanceResponse;
+
 import si.mazi.rescu.HttpStatusIOException;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
+/**
+ * Deprecated -- Please use org.knowm.xchange.hitbtc.v2.service.HitbtcAccountServiceRaw
+ */
+@Deprecated
 public class HitbtcAccountServiceRaw extends HitbtcBaseService {
 
   /**

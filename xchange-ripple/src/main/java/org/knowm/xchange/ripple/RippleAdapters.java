@@ -149,17 +149,17 @@ public abstract class RippleAdapters {
       // Funded vs Unfunded https://wiki.ripple.com/Unfunded_offers
 
       // amount of base currency
-      final BigDecimal tradableAmount;
+      final BigDecimal originalAmount;
       if (orderType == OrderType.BID) {
-        tradableAmount = rippleOrder.getTakerPaysFunded().getValue();
+        originalAmount = rippleOrder.getTakerPaysFunded().getValue();
       } else {
-        tradableAmount = rippleOrder.getTakerGetsFunded().getValue();
+        originalAmount = rippleOrder.getTakerGetsFunded().getValue();
       }
 
       // price in counter currency
       final BigDecimal price = rippleOrder.getPrice().getValue();
 
-      final RippleLimitOrder order = new RippleLimitOrder(orderType, tradableAmount, currencyPair, Integer.toString(rippleOrder.getSequence()), null,
+      final RippleLimitOrder order = new RippleLimitOrder(orderType, originalAmount, currencyPair, Integer.toString(rippleOrder.getSequence()), null,
           price, baseCounterparty, counterCounterparty);
       limitOrders.add(order);
     }
@@ -200,7 +200,7 @@ public abstract class RippleAdapters {
 
       final RippleLimitOrder xchangeOrder = (RippleLimitOrder) new RippleLimitOrder.Builder(orderType, pair)
           .baseCounterparty(baseAmount.getCounterparty()).counterCounterparty(counterAmount.getCounterparty()).id(Long.toString(order.getSequence()))
-          .limitPrice(price).timestamp(null).tradableAmount(baseAmount.getValue()).build();
+          .limitPrice(price).timestamp(null).originalAmount(baseAmount.getValue()).build();
       list.add(xchangeOrder);
     }
 
@@ -346,7 +346,7 @@ public abstract class RippleAdapters {
 
     final RippleUserTrade.Builder builder = (RippleUserTrade.Builder) new RippleUserTrade.Builder().currencyPair(currencyPair)
         .feeAmount(transactionFee).feeCurrency(Currency.XRP).id(trade.getHash()).orderId(orderId).price(price.stripTrailingZeros())
-        .timestamp(trade.getTimestamp()).tradableAmount(quantity.stripTrailingZeros()).type(type);
+        .timestamp(trade.getTimestamp()).originalAmount(quantity.stripTrailingZeros()).type(type);
     builder.baseTransferFee(baseTransferFee.abs());
     builder.counterTransferFee(counterTransferFee.abs());
     if (base.getCounterparty().length() > 0) {

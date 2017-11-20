@@ -1,7 +1,5 @@
 package org.knowm.xchange.bittrex.dto.marketdata;
 
-import java.util.ArrayList;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BittrexTickerResponse {
@@ -11,12 +9,11 @@ public class BittrexTickerResponse {
   private final BittrexTicker ticker;
 
   public BittrexTickerResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
-      @JsonProperty("result") ArrayList<BittrexTicker> result) {
+      @JsonProperty("result") BittrexTicker result) {
 
-    super();
     this.success = success;
     this.message = message;
-    this.ticker = result.get(0);
+    this.ticker = result;
   }
 
   public boolean getSuccess() {

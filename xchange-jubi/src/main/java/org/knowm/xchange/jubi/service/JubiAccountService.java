@@ -1,5 +1,9 @@
 package org.knowm.xchange.jubi.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -11,10 +15,6 @@ import org.knowm.xchange.jubi.JubiAdapters;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Created by Dzf on 2017/7/10.
@@ -51,7 +51,7 @@ public class JubiAccountService extends JubiAccountServiceRaw implements Account
 
   @Override
   public List<FundingRecord> getFundingHistory(
-          TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

@@ -67,10 +67,6 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
       currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
     }
 
-    if (currencyPair == null) {
-      throw new ExchangeException("CurrencyPair parameter must not be null.");
-    }
-
     String currencyPairString = CoinmateUtils.getPair(currencyPair);
     CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPairString);
     List<LimitOrder> orders = CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders, currencyPair);
@@ -83,9 +79,9 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     CoinmateTradeResponse response;
 
     if (marketOrder.getType().equals(Order.OrderType.ASK)) {
-      response = sellCoinmateInstant(marketOrder.getTradableAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
+      response = sellCoinmateInstant(marketOrder.getOriginalAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
     } else if (marketOrder.getType().equals(Order.OrderType.BID)) {
-      response = buyCoinmateInstant(marketOrder.getTradableAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
+      response = buyCoinmateInstant(marketOrder.getOriginalAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
     } else {
       throw new CoinmateException("Unknown order type");
     }
@@ -99,9 +95,9 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     CoinmateTradeResponse response;
 
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {
-      response = sellCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
+      response = sellCoinmateLimit(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
     } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
-      response = buyCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
+      response = buyCoinmateLimit(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
     } else {
       throw new CoinmateException("Unknown order type");
     }
@@ -127,9 +123,11 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    // here we use the Transaction History call, which includes also withdrawals etc.
+    // there is also Order History call, but this returns orders rather than trades
     DefaultTradeHistoryParamPagingSorted myParams = (DefaultTradeHistoryParamPagingSorted) params;
-    return CoinmateAdapters.adaptTradeHistory(
-        getCoinmateTradeHistory(myParams.getPageNumber(), myParams.getPageLength(), CoinmateAdapters.adaptOrder(myParams.getOrder())));
+    return CoinmateAdapters.adaptTransactionHistory(
+        getCoinmateTradeHistory(myParams.getPageNumber(), myParams.getPageLength(), CoinmateAdapters.adaptSortOrder(myParams.getOrder())));
   }
 
   @Override

@@ -1,10 +1,10 @@
 package org.knowm.xchange.gemini.v1.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRawValue;
+import java.math.BigDecimal;
 
 import javax.ws.rs.PathParam;
-import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GeminiWithdrawalRequest {
 

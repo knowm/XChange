@@ -39,7 +39,7 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
 
     CexIODepth cexIODepth = getCexIOOrderBook(currencyPair);
 
-    if(cexIODepth.getError() != null) {
+    if (cexIODepth.getError() != null) {
       //eg: 'Rate limit exceeded'
       throw new ExchangeException("CexIO getOrderBook request for " + currencyPair + " failed with: " + cexIODepth.getError());
     }

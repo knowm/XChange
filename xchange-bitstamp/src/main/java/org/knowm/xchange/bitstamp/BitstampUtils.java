@@ -13,10 +13,11 @@ import org.knowm.xchange.exceptions.ExchangeException;
 public final class BitstampUtils {
 
   private static final SimpleDateFormat DATE_FORMAT;
-  
+  public static final int MAX_TRANSACTIONS_PER_QUERY = 1000;
+
   static {
-      DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
   }
 
   /**
@@ -29,8 +30,8 @@ public final class BitstampUtils {
   /**
    * Format a date String for Bitstamp
    *
-   * @param dateString
-   * @return
+   * @param dateString A {@code String} whose beginning should be parsed.
+   * @return A {@link Date}
    */
   public static Date parseDate(String dateString) {
 

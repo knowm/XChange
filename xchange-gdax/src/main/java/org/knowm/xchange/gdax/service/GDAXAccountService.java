@@ -10,15 +10,22 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
+import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
+import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccountAddress;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
+import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.utils.DateUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GDAXAccountService extends GDAXAccountServiceRaw implements AccountService {
 
@@ -73,19 +80,87 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    GDAXCoinbaseAccount[] coinbaseAccounts = getCoinbaseAccounts();
+    GDAXCoinbaseAccount depositAccount = null;
+
+    for(GDAXCoinbaseAccount account: coinbaseAccounts) {
+      Currency accountCurrency = new Currency(account.getCurrency());
+      if(account.isActive() && account.getType().equals("wallet") && accountCurrency.equals(currency)) {
+        depositAccount = account;
+        break;
+      }
+    }
+
+    GDAXCoinbaseAccountAddress depositAddress = getCoinbaseAccountAddress(depositAccount.getId());
+    return depositAddress.getAddress();
   }
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-
-    throw new NotAvailableFromExchangeException();
+    return new GDAXTradeHistoryParams();
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+    List<FundingRecord> fundingHistory = new ArrayList<>();
 
-    throw new NotYetImplementedForExchangeException();
+    for (GDAXAccount gdaxAccount : getCoinbaseExAccountInfo()) {
+      String accountId = gdaxAccount.getId();
+
+      Currency currency = Currency.getInstance(gdaxAccount.getCurrency());
+
+      Map<Integer, Map> allForAccount = new HashMap<>();
+
+      Integer lastId = null;
+      while (true) {
+        List<Map> ledger = ledger(accountId, lastId);
+        if (ledger.isEmpty())
+          break;
+
+        for (Map map : ledger) {
+          lastId = Integer.valueOf(map.get("id").toString());
+
+          if (allForAccount.containsKey(lastId))
+            throw new IllegalStateException("Should not happen");
+
+          allForAccount.put(lastId, map);
+        }
+      }
+
+      for (Map map : allForAccount.values()) {
+        boolean isTransfer = map.get("type").toString().equals("transfer");
+        if (!isTransfer)
+          continue;
+
+        Map details = (Map) map.get("details");
+
+        String transferType = details.get("transfer_type").toString();
+
+        FundingRecord.Type type;
+        if (transferType.equals("deposit"))
+          type = FundingRecord.Type.DEPOSIT;
+        else if (transferType.equals("withdraw"))
+          type = FundingRecord.Type.WITHDRAWAL;
+        else
+          continue;
+
+        fundingHistory.add(new FundingRecord(
+            null,
+            DateUtils.fromISO8601DateString(map.get("created_at").toString()),
+            currency,
+            new BigDecimal(map.get("amount").toString()),
+            details.get("transfer_id").toString(),
+            null,
+            type,
+            FundingRecord.Status.COMPLETE,
+            new BigDecimal(map.get("balance").toString()),
+            null,
+            null
+        ));
+      }
+    }
+
+    return fundingHistory;
   }
 
   public static class GDAXMoveFundsParams implements WithdrawFundsParams {

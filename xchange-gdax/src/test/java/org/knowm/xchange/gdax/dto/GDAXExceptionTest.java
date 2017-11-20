@@ -1,6 +1,6 @@
 package org.knowm.xchange.gdax.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,7 @@ public class GDAXExceptionTest {
   public void unmarshalTest() throws IOException {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
-    
+
     InputStream is = getClass().getResourceAsStream("/trade/example-order-entry-reject.json");
     GDAXException exception = mapper.readValue(is, GDAXException.class);
     assertThat(exception.getMessage()).startsWith("Insufficient funds");

@@ -31,7 +31,7 @@ public final class BitcoindeAdapters {
 
   }
 
-    public static final Comparator<LimitOrder> ASK_COMPARATOR = new Comparator<LimitOrder>() {
+  public static final Comparator<LimitOrder> ASK_COMPARATOR = new Comparator<LimitOrder>() {
     @Override
     public int compare(LimitOrder o1, LimitOrder o2) {
       return o1.getLimitPrice().compareTo(o2.getLimitPrice());

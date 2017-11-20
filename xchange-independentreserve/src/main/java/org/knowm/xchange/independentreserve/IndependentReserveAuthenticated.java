@@ -31,10 +31,9 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransact
 @Path("Private")
 @Produces(MediaType.APPLICATION_JSON)
 public interface IndependentReserveAuthenticated {
-    
+
   public static final String SynchDigitalCurrencyDepositAddressWithBlockchain = "SynchDigitalCurrencyDepositAddressWithBlockchain";
   public static final String WithdrawDigitalCurrency = "WithdrawDigitalCurrency";
-  
 
   @POST
   @Path("GetAccounts")
@@ -64,14 +63,16 @@ public interface IndependentReserveAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveCancelOrderResponse cancelOrder(
       IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest) throws IndependentReserveHttpStatusException, IOException;
-  
+
   @POST
   @Path("GetTransactions")
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveTransactionsResponse getTransactions(
       IndependentReserveTransactionsRequest independentReserveTransactionsRequest) throws IndependentReserveHttpStatusException, IOException;
-  
-  /** Forces the deposit address to be checked for new Bitcoin or Ether deposits. */
+
+  /**
+   * Forces the deposit address to be checked for new Bitcoin or Ether deposits.
+   */
   @POST
   @Path(SynchDigitalCurrencyDepositAddressWithBlockchain)
   @Consumes(MediaType.APPLICATION_JSON)

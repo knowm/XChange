@@ -1,6 +1,6 @@
 package org.knowm.xchange.coinfloor.service;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -28,7 +28,7 @@ public class CoinfloorPublicTradesIntegration {
     int tradeCount = trades.getTrades().size();
     Trade mostRecentTrade = trades.getTrades().get(tradeCount - 1);
     assertThat(mostRecentTrade.getPrice()).isGreaterThan(BigDecimal.ZERO);
-    assertThat(mostRecentTrade.getTradableAmount()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(mostRecentTrade.getOriginalAmount()).isGreaterThan(BigDecimal.ZERO);
 
     assertThat(trades.getlastID()).isEqualTo(Long.parseLong(mostRecentTrade.getId()));
   }

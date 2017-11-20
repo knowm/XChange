@@ -79,7 +79,6 @@ public class BitfinexOrderStatusResponse {
     return wasForced;
   }
 
-
   public String getType() {
 
     return type;

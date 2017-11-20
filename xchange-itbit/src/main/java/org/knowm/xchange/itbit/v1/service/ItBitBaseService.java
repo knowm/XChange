@@ -30,11 +30,11 @@ public class ItBitBaseService extends BaseExchangeService implements BaseService
     super(exchange);
 
     this.itBitAuthenticated = RestProxyFactory.createProxy(ItBitAuthenticated.class,
-        (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("authHost"));
+        (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("authHost"), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = ItBitHmacPostBodyDigest.createInstance(apiKey, exchange.getExchangeSpecification().getSecretKey());
 
-    this.itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchange.getExchangeSpecification().getSslUri());
+    this.itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
 
     this.userId = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("userId");
     this.walletId = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("walletId");

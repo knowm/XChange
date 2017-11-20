@@ -1,6 +1,6 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -65,7 +65,7 @@ public class BitfinexAdaptersTest {
       LimitOrder order = container.getLimitOrders().get(i);
       long expectedTimestampMillis = levels[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
 
-      assertEquals(levels[i].getAmount(), order.getTradableAmount());
+      assertEquals(levels[i].getAmount(), order.getOriginalAmount());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
       assertEquals(levels[i].getPrice(), order.getLimitPrice());
     }
@@ -74,7 +74,7 @@ public class BitfinexAdaptersTest {
   /**
    * Create 60 {@link BitfinexLevel}s. The values increase as the array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1 day in
    * order to test the correct handling of the given timestamp.
-   * 
+   *
    * @return The generated responses.
    */
   private BitfinexLevel[] initLevels() {
@@ -104,7 +104,7 @@ public class BitfinexAdaptersTest {
       Order.OrderType expectedOrderType = responses[i].getSide().equalsIgnoreCase("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
 
       assertEquals(String.valueOf(responses[i].getId()), order.getId());
-      assertEquals(responses[i].getOriginalAmount(), order.getTradableAmount());
+      assertEquals(responses[i].getOriginalAmount(), order.getOriginalAmount());
       assertEquals(BitfinexAdapters.adaptCurrencyPair(SYMBOL), order.getCurrencyPair());
       assertEquals(expectedOrderType, order.getType());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
@@ -115,7 +115,7 @@ public class BitfinexAdaptersTest {
   /**
    * Create 60 {@link BitfinexOrderStatusResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour
    * + 1 day in order to test the correct handling of the given timestamp.
-   * 
+   *
    * @return The generated responses.
    */
   private BitfinexOrderStatusResponse[] initOrderStatusResponses() {
@@ -154,7 +154,7 @@ public class BitfinexAdaptersTest {
       Order.OrderType expectedOrderType = responses[i].getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
       assertEquals(responses[i].getPrice(), trade.getPrice());
-      assertEquals(responses[i].getAmount(), trade.getTradableAmount());
+      assertEquals(responses[i].getAmount(), trade.getOriginalAmount());
       assertEquals(BitfinexAdapters.adaptCurrencyPair(SYMBOL), trade.getCurrencyPair());
       assertEquals(expectedTimestampMillis, trade.getTimestamp().getTime());
       assertEquals(expectedOrderType, trade.getType());
@@ -165,7 +165,7 @@ public class BitfinexAdaptersTest {
   /**
    * Create 60 {@link BitfinexTradeResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1
    * day in order to test the correct handling of the given timestamp.
-   * 
+   *
    * @return The generated responses.
    */
   private BitfinexTradeResponse[] initTradeResponses() {

@@ -1,15 +1,14 @@
 package org.knowm.xchange.cexio.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIO;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 import org.knowm.xchange.currency.CurrencyPair;
-
 import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
 
 /**
  * @author timmolter
@@ -27,7 +26,7 @@ public class CexIOMarketDataServiceRaw extends CexIOBaseService {
 
     super(exchange);
 
-    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri());
+    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public CexIOTicker getCexIOTicker(CurrencyPair currencyPair) throws IOException {

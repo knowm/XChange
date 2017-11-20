@@ -21,7 +21,7 @@ public class CryptoFacilitiesOpenOrders extends CryptoFacilitiesResult {
   private final List<CryptoFacilitiesOpenOrder> orders;
 
   public CryptoFacilitiesOpenOrders(@JsonProperty("result") String result, @JsonProperty("error") String error,
-      @JsonProperty("serverTime") String strServerTime, @JsonProperty("openorders") List<CryptoFacilitiesOpenOrder> orders) throws ParseException {
+      @JsonProperty("serverTime") String strServerTime, @JsonProperty("openOrders") List<CryptoFacilitiesOpenOrder> orders) throws ParseException {
 
     super(result, error);
 

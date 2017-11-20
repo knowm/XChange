@@ -14,7 +14,7 @@ import org.knowm.xchange.huobi.dto.trade.HuobiOrderInfo;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrderResult;
 import org.knowm.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
 
-public class BitVcTradeServiceRaw extends BitVcBaseTradeService implements TradeServiceRaw {
+public class BitVcTradeServiceRaw extends BitVcBaseServiceRaw implements TradeServiceRaw {
 
   /**
    * Constructor

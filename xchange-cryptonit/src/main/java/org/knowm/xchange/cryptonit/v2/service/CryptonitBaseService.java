@@ -22,7 +22,7 @@ public class CryptonitBaseService extends BaseExchangeService implements BaseSer
 
     super(exchange);
 
-    ClientConfig config = new ClientConfig();
+    ClientConfig config = getClientConfig();
     // cryptonit server disconnects immediately or raises "protocol version" if connected via these protocol versions
     config.setSslSocketFactory(CertHelper.createRestrictedSSLSocketFactory("SSLv2Hello", "TLSv1", "TLSv1.1"));
 

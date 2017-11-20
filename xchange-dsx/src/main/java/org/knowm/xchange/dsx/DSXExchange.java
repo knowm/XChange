@@ -1,5 +1,7 @@
 package org.knowm.xchange.dsx;
 
+import java.io.InputStream;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -9,9 +11,8 @@ import org.knowm.xchange.dsx.service.DSXAccountService;
 import org.knowm.xchange.dsx.service.DSXMarketDataService;
 import org.knowm.xchange.dsx.service.DSXTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.InputStream;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Mikhail Wall

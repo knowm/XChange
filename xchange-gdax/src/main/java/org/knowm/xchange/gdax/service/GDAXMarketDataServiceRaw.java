@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.gdax.GDAX;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
@@ -15,11 +14,11 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 /**
  * Created by Yingzhe on 4/6/2015.
  */
-public class GDAXMarketDataServiceRaw extends GDAXBaseService<GDAX> {
+public class GDAXMarketDataServiceRaw extends GDAXBaseService {
 
   public GDAXMarketDataServiceRaw(Exchange exchange) {
 
-    super(GDAX.class, exchange);
+    super(exchange);
   }
 
   public GDAXProductTicker getCoinbaseExProductTicker(CurrencyPair currencyPair) throws IOException {

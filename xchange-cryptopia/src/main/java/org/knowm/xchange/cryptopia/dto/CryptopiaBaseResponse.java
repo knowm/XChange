@@ -12,7 +12,7 @@ public class CryptopiaBaseResponse<T> {
 
   @JsonCreator
   public CryptopiaBaseResponse(@JsonProperty("Success") boolean success, @JsonProperty("Message") String message,
-                               @JsonProperty("Data") T data, @JsonProperty("Error") String error) {
+      @JsonProperty("Data") T data, @JsonProperty("Error") String error) {
     this.success = success;
     this.message = message;
     this.data = data;

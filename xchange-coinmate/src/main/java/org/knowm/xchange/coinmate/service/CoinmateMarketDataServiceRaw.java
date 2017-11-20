@@ -42,7 +42,7 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
 
   public CoinmateMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.coinmate = RestProxyFactory.createProxy(Coinmate.class, exchange.getExchangeSpecification().getSslUri());
+    this.coinmate = RestProxyFactory.createProxy(Coinmate.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public CoinmateTicker getCoinmateTicker(String currencyPair) throws IOException {
@@ -61,8 +61,8 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
     return orderBook;
   }
 
-  public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory) throws IOException {
-    CoinmateTransactions transactions = coinmate.getTransactions(minutesIntoHistory);
+  public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory, String currencyPair) throws IOException {
+    CoinmateTransactions transactions = coinmate.getTransactions(minutesIntoHistory, currencyPair);
 
     throwExceptionIfError(transactions);
 

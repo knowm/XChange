@@ -1,7 +1,9 @@
 package org.knowm.xchange.cryptopia.service;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cryptopia.Cryptopia;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
@@ -11,19 +13,13 @@ import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTradePair;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
-import java.util.List;
 
 public class CryptopiaMarketDataServiceRaw extends CryptopiaBaseService {
 
-  private final Cryptopia cryptopia;
 
   public CryptopiaMarketDataServiceRaw(Exchange exchange) {
-    super(exchange);
 
-    this.cryptopia = RestProxyFactory.createProxy(Cryptopia.class, exchange.getExchangeSpecification().getSslUri());
+    super(exchange);
   }
 
   public List<CryptopiaCurrency> getCryptopiaCurrencies() throws IOException {

@@ -1,13 +1,13 @@
 package org.knowm.xchange.jubi.dto.trade;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Created by Dzf on 2017/7/16.
@@ -71,9 +71,10 @@ public class JubiOrderStatus {
   public BigDecimal getAmountOutstanding() {
     return this.order != null ? this.order.getAmountOutstanding() : null;
   }
+
   @Override
   public String toString() {
     return String.format("JubiOrderStatus{result=%s, status=%s, avg_price=%s, order=%s}",
-            result, status, avgPrice, order);
+        result, status, avgPrice, order);
   }
 }

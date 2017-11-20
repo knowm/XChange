@@ -1,15 +1,15 @@
 {
   "currency_pairs": {
     "BTC/EUR": {
-      "price_scale": 2,
+      "price_scale": 1,
       "min_amount": 0.002000000
     },
     "BTC/USD": {
-      "price_scale": 2,
+      "price_scale": 1,
       "min_amount": 0.002000000
     },
     "BTC/CAD": {
-      "price_scale": 2,
+      "price_scale": 1,
       "min_amount": 0.002000000
     },
     "BTC/JPY": {
@@ -17,11 +17,11 @@
       "min_amount": 0.002000000
     },
     "LTC/EUR": {
-      "price_scale": 4,
+      "price_scale": 2,
       "min_amount": 0.10000000
     },
     "LTC/USD": {
-      "price_scale": 4,
+      "price_scale": 2,
       "min_amount": 0.10000000
     },
     "LTC/BTC": {
@@ -33,35 +33,31 @@
       "min_amount": 3000.00000
     },
     "XLM/BTC": {
-      "price_scale": 7,
+      "price_scale": 8,
       "min_amount": 300.000000
     },
     "XRP/BTC": {
-      "price_scale": 6,
-      "min_amount": 30.00000000
-    },
-    "XRP/GBP": {
-      "price_scale": 5,
+      "price_scale": 8,
       "min_amount": 30.00000000
     },
     "XRP/EUR": {
-      "price_scale": 6,
+      "price_scale": 5,
       "min_amount": 30.00000000
     },
     "XRP/USD": {
-      "price_scale": 6,
+      "price_scale": 5,
       "min_amount": 30.00000000
     },
     "ETH/BTC": {
-      "price_scale": 6,
+      "price_scale": 5,
       "min_amount": 0.020000000
     },
     "ETH/EUR": {
-      "price_scale": 3,
+      "price_scale": 2,
       "min_amount": 0.020000000
     },
     "ETH/USD": {
-      "price_scale": 3,
+      "price_scale": 2,
       "min_amount": 0.020000000
     },
     "XMR/BTC": {
@@ -69,11 +65,11 @@
       "min_amount": 0.100000000
     },
     "XMR/EUR": {
-      "price_scale": 4,
+      "price_scale": 2,
       "min_amount": 0.100000000
     },
     "XMR/USD": {
-      "price_scale": 4,
+      "price_scale": 2,
       "min_amount": 0.100000000
     },
     "ETC/BTC": {
@@ -81,11 +77,11 @@
       "min_amount": 0.300000000
     },
     "ETC/EUR": {
-      "price_scale": 4,
+      "price_scale": 3,
       "min_amount": 0.300000000
     },
     "ETC/USD": {
-      "price_scale": 4,
+      "price_scale": 3,
       "min_amount": 0.300000000
     },
     "ETC/ETH": {
@@ -97,15 +93,15 @@
       "min_amount": 0.100000000
     },
     "MLN/ETH": {
-      "price_scale": 6,
+      "price_scale": 5,
       "min_amount": 0.100000000
     },
     "ETH/CAD": {
-      "price_scale": 3,
+      "price_scale": 2,
       "min_amount": 0.020000000
     },
     "ETH/JPY": {
-      "price_scale": 1,
+      "price_scale": 0,
       "min_amount": 0.020000000
     },
     "REP/BTC": {
@@ -113,27 +109,23 @@
       "min_amount": 0.300000000
     },
     "REP/ETH": {
-      "price_scale": 6,
+      "price_scale": 5,
       "min_amount": 0.300000000
     },
     "REP/EUR": {
-      "price_scale": 4,
-      "min_amount": 0.300000000
-    },
-    "REP/CAD": {
-      "price_scale": 6,
+      "price_scale": 3,
       "min_amount": 0.300000000
     },
     "ZEC/BTC": {
-      "price_scale": 6,
+      "price_scale": 5,
       "min_amount": 0.030000000
     },
     "ZEC/EUR": {
-      "price_scale": 3,
+      "price_scale": 2,
       "min_amount": 0.030000000
     },
     "ZEC/USD": {
-      "price_scale": 3,
+      "price_scale": 2,
       "min_amount": 0.030000000
     },
     "USDT/USD": {
@@ -141,39 +133,39 @@
       "min_amount": 5.0
     },
     "DASH/BTC": {
-      "price_scale": 6,
+      "price_scale": 5,
       "min_amount": 0.030000000
     },
     "DASH/EUR": {
-      "price_scale": 3,
+      "price_scale": 2,
       "min_amount": 0.030000000
     },
     "DASH/USD": {
-      "price_scale": 3,
+      "price_scale": 2,
       "min_amount": 0.030000000
     },
     "GNO/ETH": {
-      "price_scale": 6,
+      "price_scale": 4,
       "min_amount": 0.030000000
     },
     "GNO/BTC": {
-      "price_scale": 6,
+      "price_scale": 5,
       "min_amount": 0.030000000
     },
     "BCH/BTC": {
-      "price_scale": 6,
+      "price_scale": 5,
       "min_amount": 0.020000000
     },
     "BCH/EUR": {
-      "price_scale": 3,
+      "price_scale": 1,
       "min_amount": 0.020000000
     },
     "BCH/USD": {
-      "price_scale": 3,
+      "price_scale": 1,
       "min_amount": 0.020000000
     },
     "EOS/BTC": {
-      "price_scale": 6,
+      "price_scale": 7,
       "min_amount": 3.00000000
     },
     "EOS/ETH": {
@@ -181,7 +173,7 @@
       "min_amount": 3.00000000
     },
     "ICN/BTC": {
-      "price_scale": 6
+      "price_scale": 7
     },
     "ICN/ETH": {
       "price_scale": 6

@@ -45,6 +45,6 @@ public class DSXMetaDataDemo {
     ExchangeMetaData metaData = exchange.getExchangeMetaData();
     System.out.println("DSX generic meta data: " + metaData);
 
-    exchange.getTradeService().verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).tradableAmount(BigDecimal.ONE).build());
+    exchange.getTradeService().verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).originalAmount(BigDecimal.ONE).build());
   }
 }

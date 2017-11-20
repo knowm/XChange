@@ -1,6 +1,6 @@
 package org.knowm.xchange.btce.v3.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +28,7 @@ public class BTCETradeDataJSONTest {
     assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
     assertThat(rv.get(343152L).getTimestampCreated()).isEqualTo(1342448420L);
   }
-  
+
   @Test
   public void testOrderInfo() throws IOException {
 

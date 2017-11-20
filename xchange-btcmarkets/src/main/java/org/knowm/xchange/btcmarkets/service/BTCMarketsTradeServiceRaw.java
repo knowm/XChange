@@ -1,5 +1,9 @@
 package org.knowm.xchange.btcmarkets.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.UUID;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
@@ -11,12 +15,9 @@ import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import org.knowm.xchange.currency.CurrencyPair;
+
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.UUID;
 
 public class BTCMarketsTradeServiceRaw extends BTCMarketsBaseService {
 
@@ -27,7 +28,7 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBaseService {
   public BTCMarketsTradeServiceRaw(Exchange exchange) {
     super(exchange);
     final ExchangeSpecification spec = exchange.getExchangeSpecification();
-    this.btcm = RestProxyFactory.createProxy(BTCMarketsAuthenticated.class, spec.getSslUri());
+    this.btcm = RestProxyFactory.createProxy(BTCMarketsAuthenticated.class, spec.getSslUri(), getClientConfig());
     this.signer = new BTCMarketsDigest(spec.getSecretKey());
     this.nonceFactory = exchange.getNonceFactory();
   }

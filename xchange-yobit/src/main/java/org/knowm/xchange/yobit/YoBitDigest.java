@@ -1,13 +1,15 @@
 package org.knowm.xchange.yobit;
 
-import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.Params;
-import si.mazi.rescu.RestInvocation;
+import java.io.IOException;
+import java.math.BigInteger;
 
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
-import java.io.IOException;
-import java.math.BigInteger;
+
+import org.knowm.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.Params;
+import si.mazi.rescu.RestInvocation;
 
 public class YoBitDigest extends BaseParamsDigest {
 

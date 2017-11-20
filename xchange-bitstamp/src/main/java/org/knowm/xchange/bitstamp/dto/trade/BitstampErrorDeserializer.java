@@ -3,7 +3,6 @@ package org.knowm.xchange.bitstamp.dto.trade;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -12,7 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class BitstampErrorDeserializer extends JsonDeserializer<String> {
 
   @Override
-  public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+  public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
 
     ObjectCodec oc = jsonParser.getCodec();
     JsonNode node = oc.readTree(jsonParser);
@@ -21,7 +20,7 @@ public class BitstampErrorDeserializer extends JsonDeserializer<String> {
     } else if (node.isObject()) {
       JsonNode allNode = node.get("__all__");
       if (allNode != null && allNode.isArray()) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (JsonNode msgNode : allNode) {
           buf.append(msgNode.textValue());
           buf.append(",");
