@@ -36,7 +36,7 @@ import si.mazi.rescu.ParamsDigest;
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BinanceAuthenticated extends Binance {
-    
+
     public static final String SIGNATURE = "signature";
     static final String X_MBX_APIKEY = "X-MBX-APIKEY";
 
@@ -72,7 +72,7 @@ public interface BinanceAuthenticated extends Binance {
             , @FormParam("timestamp") long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
-    
+
     @POST
     @Path("api/v3/order/test")
     /**
@@ -105,7 +105,7 @@ public interface BinanceAuthenticated extends Binance {
             , @FormParam("timestamp") long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
-    
+
     @GET
     @Path("api/v3/order")
     /**
@@ -129,7 +129,7 @@ public interface BinanceAuthenticated extends Binance {
             , @QueryParam("timestamp") long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
-    
+
     @DELETE
     @Path("api/v3/order")
     /**
@@ -154,7 +154,7 @@ public interface BinanceAuthenticated extends Binance {
             , @QueryParam("timestamp") long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
-    
+
     @GET
     @Path("api/v3/openOrders")
     /**
@@ -171,7 +171,7 @@ public interface BinanceAuthenticated extends Binance {
             , @QueryParam("timestamp")long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
-    
+
     @GET
     @Path("api/v3/allOrders")
     /**
@@ -195,7 +195,7 @@ public interface BinanceAuthenticated extends Binance {
             , @QueryParam("timestamp") long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
-    
+
 
     @GET
     @Path("api/v3/account")
@@ -234,7 +234,7 @@ public interface BinanceAuthenticated extends Binance {
             , @QueryParam("timestamp") long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
-    
+
     @POST
     @Path("wapi/v1/withdraw.html")
     /**
@@ -259,7 +259,7 @@ public interface BinanceAuthenticated extends Binance {
             , @FormParam("timestamp") long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
-    
+
     @POST
     @Path("wapi/v1/getDepositHistory.html")
     /**
@@ -282,7 +282,7 @@ public interface BinanceAuthenticated extends Binance {
             , @FormParam("timestamp") long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
-    
+
     @POST
     @Path("wapi/v1/getWithdrawHistory.html")
     /**
@@ -315,7 +315,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   @POST
   @Path("/api/v1/userDataStream")
-  BinanceListenKey startUserDataStream(@HeaderParam("X-MBX-APIKEY") String apiKey) throws BinanceException, IOException;
+  BinanceListenKey startUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey) throws IOException, BinanceException;
 
   /**
    * Keeps the authenticated websocket session alive.
@@ -327,8 +327,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   @PUT
   @Path("/api/v1/userDataStream?listenKey={listenKey}")
-  Map keepAliveUserDataStream(@HeaderParam("X-MBX-APIKEY") String apiKey,
-      @PathParam("listenKey") String listenKey) throws BinanceException, IOException;
+  Map keepAliveUserDataStream(@FormParam("listenKey") String listenKey, @HeaderParam(X_MBX_APIKEY) String apiKey) throws IOException, BinanceException;
 
   /**
    * Closes the websocket authenticated connection.
@@ -340,6 +339,5 @@ public interface BinanceAuthenticated extends Binance {
    */
   @DELETE
   @Path("/api/v1/userDataStream?listenKey={listenKey}")
-  Map closeUserDataStream(@HeaderParam("X-MBX-APIKEY") String apiKey,
-      @PathParam("listenKey") String listenKey) throws BinanceException, IOException;
+  Map closeUserDataStream(@FormParam("listenKey") String listenKey, @HeaderParam(X_MBX_APIKEY) String apiKey) throws IOException, BinanceException;
 }

@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xchange-binance</artifactId>
+    <artifactId>xchange-binance_custom</artifactId>
 
     <name>XChange Binance</name>
     <description>XChange implementation for the Binance Exchange</description>
