@@ -3,13 +3,16 @@ package org.knowm.xchange.binance;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +23,7 @@ import org.knowm.xchange.binance.dto.account.DepositList;
 import org.knowm.xchange.binance.dto.account.WithdrawList;
 import org.knowm.xchange.binance.dto.account.WithdrawRequest;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceTrade;
@@ -301,4 +305,41 @@ public interface BinanceAuthenticated extends Binance {
             , @FormParam("timestamp") long timestamp
             , @HeaderParam(X_MBX_APIKEY) String apiKey
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
+
+  /**
+   * Returns a listen key for websocket login.
+   * @param apiKey the api key
+   * @return
+   * @throws BinanceException
+   * @throws IOException
+   */
+  @POST
+  @Path("/api/v1/userDataStream")
+  BinanceListenKey startUserDataStream(@HeaderParam("X-MBX-APIKEY") String apiKey) throws BinanceException, IOException;
+
+  /**
+   * Keeps the authenticated websocket session alive.
+   * @param apiKey the api key
+   * @param listenKey the api secret
+   * @return
+   * @throws BinanceException
+   * @throws IOException
+   */
+  @PUT
+  @Path("/api/v1/userDataStream?listenKey={listenKey}")
+  Map keepAliveUserDataStream(@HeaderParam("X-MBX-APIKEY") String apiKey,
+      @PathParam("listenKey") String listenKey) throws BinanceException, IOException;
+
+  /**
+   * Closes the websocket authenticated connection.
+   * @param apiKey the api key
+   * @param listenKey the api secret
+   * @return
+   * @throws BinanceException
+   * @throws IOException
+   */
+  @DELETE
+  @Path("/api/v1/userDataStream?listenKey={listenKey}")
+  Map closeUserDataStream(@HeaderParam("X-MBX-APIKEY") String apiKey,
+      @PathParam("listenKey") String listenKey) throws BinanceException, IOException;
 }
