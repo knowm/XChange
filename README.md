@@ -91,11 +91,17 @@ Listening for live updates of
 
 Exchange | order books | trades | tickers
 -------- | ----------- | ------ | -------
-**Bitstamp** | :heavy_check_mark: | :heavy_check_mark: | :x: 
-**Coinmate** | :heavy_check_mark: | :heavy_check_mark: | :x: 
+**Bitfinex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+**Bitflyer** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+**BitMEX** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+**Bitstamp** | :heavy_check_mark: | :heavy_check_mark: | :x:
+**Coinmate** | :heavy_check_mark: | :heavy_check_mark: | :x:
 **OKCoin** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+**OKEx** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Poloniex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
-**GDAX** | :construction: | :heavy_check_mark: | :heavy_check_mark: 
+**GDAX** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+**Gemini** | :heavy_check_mark: | :heavy_check_mark: | :x:
+**Wex** | :heavy_check_mark: | :heavy_check_mark: | :x:
 
 - :heavy_check_mark: - implemented
 - :construction: - missing but can be implemented

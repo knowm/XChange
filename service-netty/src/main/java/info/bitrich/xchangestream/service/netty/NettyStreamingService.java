@@ -23,18 +23,26 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class NettyStreamingService<T> {
     private static final Logger LOG = LoggerFactory.getLogger(NettyStreamingService.class);
 
+    private final int maxFramePayloadLength;
     private final URI uri;
     private Channel webSocketChannel;
     protected Map<String, ObservableEmitter<T>> channels = new ConcurrentHashMap<>();
 
     public NettyStreamingService(String apiUrl) {
+        this(apiUrl, 65536);
+    }
+
+    public NettyStreamingService(String apiUrl, int maxFramePayloadLength) {
         try {
+            this.maxFramePayloadLength = maxFramePayloadLength;
             uri = new URI(apiUrl);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("Error parsing URI " + apiUrl, e);
@@ -80,8 +88,8 @@ public abstract class NettyStreamingService<T> {
                 EventLoopGroup group = new NioEventLoopGroup();
 
                 final WebSocketClientHandler handler = getWebSocketClientHandler(WebSocketClientHandshakerFactory.newHandshaker(
-                  uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders()),
-                  this::massegeHandler);
+                  uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders(), maxFramePayloadLength),
+                  this::messageHandler);
 
                 Bootstrap b = new Bootstrap();
                 b.group(group)
@@ -93,11 +101,14 @@ public abstract class NettyStreamingService<T> {
                                 if (sslCtx != null) {
                                     p.addLast(sslCtx.newHandler(ch.alloc(), host, port));
                                 }
-                                p.addLast(
-                                        new HttpClientCodec(),
-                                        new HttpObjectAggregator(8192),
-                                        getWebSocketClientExtensionHandler(),
-                                        handler);
+
+                                WebSocketClientExtensionHandler clientExtensionHandler = getWebSocketClientExtensionHandler();
+                                List<ChannelHandler> handlers = new ArrayList<>(4);
+                                handlers.add(new HttpClientCodec());
+                                handlers.add(new HttpObjectAggregator(8192));
+                                handlers.add(handler);
+                                if (clientExtensionHandler != null) handlers.add(clientExtensionHandler);
+                                p.addLast(handlers.toArray(new ChannelHandler[handlers.size()]));
                             }
                         });
 
@@ -127,12 +138,16 @@ public abstract class NettyStreamingService<T> {
 
     public abstract String getUnsubscribeMessage(String channelName) throws IOException;
 
+    public String getSubscriptionUniqueId(String channelName, Object... args) {
+      return channelName;
+    }
+
     /**
      * Handler that receives incoming messages.
      *
      * @param message Content of the message from the server.
      */
-    public abstract void massegeHandler(String message);
+    public abstract void messageHandler(String message);
 
     public void sendMessage(String message) {
         LOG.debug("Sending message: {}", message);
@@ -147,28 +162,35 @@ public abstract class NettyStreamingService<T> {
             return;
         }
 
-        WebSocketFrame frame = new TextWebSocketFrame(message);
-        webSocketChannel.writeAndFlush(frame);
+        if (message != null) {
+            WebSocketFrame frame = new TextWebSocketFrame(message);
+            webSocketChannel.writeAndFlush(frame);
+        }
     }
 
     public Observable<T> subscribeChannel(String channelName, Object... args) {
-        LOG.info("Subscribing to channel {}", channelName);
+        final String channelId = getSubscriptionUniqueId(channelName, args);
+        LOG.info("Subscribing to channel {}", channelId);
 
         return Observable.<T>create(e -> {
             if (webSocketChannel == null || !webSocketChannel.isOpen()) {
                 e.onError(new NotConnectedException());
             }
 
-            channels.put(channelName, e);
-            try {
-                sendMessage(getSubscribeMessage(channelName, args));
-            } catch (IOException throwable) {
-                e.onError(throwable);
+            if (!channels.containsKey(channelId)) {
+                channels.put(channelId, e);
+                try {
+                    sendMessage(getSubscribeMessage(channelName, args));
+                } catch (IOException throwable) {
+                    e.onError(throwable);
+                }
             }
         }).doOnDispose(() -> {
-            sendMessage(getUnsubscribeMessage(channelName));
-            channels.remove(channelName);
-        });
+            if (!channels.containsKey(channelId)) {
+                sendMessage(getUnsubscribeMessage(channelId));
+                channels.remove(channelId);
+            }
+        }).share();
     }
 
     protected String getChannel(T message) {

@@ -21,7 +21,7 @@ public class GDAXWebSocketSubscriptionMessageTest {
     
     String serialized = mapper.writeValueAsString(message);
 
-    Assert.assertEquals("{\"type\":\"subscribe\",\"product_id\":\"BTC-USD\"}", serialized);
+    Assert.assertEquals("{\"type\":\"subscribe\",\"product_ids\":[\"BTC-USD\"],\"channels\":[\"level2\",\"ticker\",\"matches\"]}", serialized);
     
   }
 }

@@ -6,13 +6,17 @@ import io.reactivex.Completable;
 import org.knowm.xchange.okcoin.OkCoinExchange;
 
 public class OkCoinStreamingExchange extends OkCoinExchange implements StreamingExchange {
-    private static final String API_URI = "wss://real.okcoin.com:10440/websocket/okcoinapi";
+    private static final String API_URI = "wss://real.okcoin.com:10440/websocket";
 
     private final OkCoinStreamingService streamingService;
     private OkCoinStreamingMarketDataService streamingMarketDataService;
 
     public OkCoinStreamingExchange() {
         streamingService = new OkCoinStreamingService(API_URI);
+    }
+
+    protected OkCoinStreamingExchange(OkCoinStreamingService streamingService) {
+        this.streamingService = streamingService;
     }
 
     @Override

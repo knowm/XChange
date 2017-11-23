@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.service.pusher;
 
 import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
@@ -21,6 +22,12 @@ public class PusherStreamingService {
 
     public PusherStreamingService(String apiKey) {
         pusher = new Pusher(apiKey);
+    }
+
+    public PusherStreamingService(String apiKey, String cluster) {
+        PusherOptions options = new PusherOptions();
+        options.setCluster(cluster);
+        pusher = new Pusher(apiKey, options);
     }
 
     /**

@@ -21,7 +21,7 @@ public class OkCoinStreamingServiceTest {
 
     @Test
     public void testGetSubscribeMessage() throws Exception {
-        String subscribeMessage = streamingService.getSubscribeMessage("orderbook");
+        String subscribeMessage = streamingService.getSubscribeMessage("ok_sub_spot_btc_usd_depth");
         String expected = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("subscribe.json").toURI())));
         assertThat(subscribeMessage).isEqualTo(expected);
     }
@@ -31,7 +31,7 @@ public class OkCoinStreamingServiceTest {
         String subscribeMessage = streamingService.getUnsubscribeMessage("orderbook");
         String expected = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("unsubscribe.json").toURI())));
         assertThat(subscribeMessage).isEqualTo(expected);
-    }
+}
 
     @Test
     public void testGetChannelFromMessage() throws Exception {
@@ -39,6 +39,6 @@ public class OkCoinStreamingServiceTest {
         JsonNode data = new ObjectMapper().readTree(expected);
         String channel = streamingService.getChannelNameFromMessage(data);
 
-        assertThat(channel).isEqualTo("ok_btcusd_depth");
+        assertThat(channel).isEqualTo("ok_sub_spot_btc_usd_depth");
     }
 }
