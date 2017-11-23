@@ -16,7 +16,7 @@ public class BTCECancelOrderResult {
 
   /**
    * Constructor
-   * 
+   *
    * @param orderId
    * @param funds
    */

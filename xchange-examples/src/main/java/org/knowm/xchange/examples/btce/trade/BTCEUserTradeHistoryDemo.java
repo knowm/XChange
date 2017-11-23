@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
-import org.knowm.xchange.btce.v3.service.polling.BTCETradeServiceRaw;
-import org.knowm.xchange.btce.v3.service.polling.trade.params.BTCETradeHistoryParams;
+import org.knowm.xchange.btce.v3.service.BTCETradeServiceRaw;
+import org.knowm.xchange.btce.v3.service.trade.params.BTCETradeHistoryParams;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.btce.BTCEExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class BTCEUserTradeHistoryDemo {
 
@@ -23,7 +23,7 @@ public class BTCEUserTradeHistoryDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
     try {
       BTCETradeHistoryParams params = new BTCETradeHistoryParams();
       params.setCurrencyPair(CurrencyPair.BTC_USD);
@@ -37,7 +37,7 @@ public class BTCEUserTradeHistoryDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCETradeServiceRaw tradeService = (BTCETradeServiceRaw) exchange.getPollingTradeService();
+    BTCETradeServiceRaw tradeService = (BTCETradeServiceRaw) exchange.getTradeService();
     Map<Long, BTCETradeHistoryResult> trades = null;
     try {
       trades = tradeService.getBTCETradeHistory(null, null, null, null, null, null, null, null);

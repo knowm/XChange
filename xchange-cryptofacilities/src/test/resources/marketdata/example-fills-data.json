@@ -1,24 +1,24 @@
 {
-        "result" : "success",
-        "serverTime" : "2016-02-25T09:45:53.818Z",
-        "fills" : [
-                {
-                        "fillTime" : "2016-02-25T09:47:01.000Z",
-                        "order_id" : "c18f0c17-9971-40e6-8e5b-10df05d422f0",
-                        "fill_id" : "522d4e08-96e7-4b44-9694-bfaea8fe215e",
-                        "symbol" : "f-xbt:usd-sep16",
-                        "side" : "buy",
-                        "size" : 2,
-                        "price" : 425.5
-                },
-                {
-                        "fillTime" : "2016-02-25T09:47:01.000Z",
-                        "order_id" : "c18f0c17-9971-40e6-8e5b-10df05d422f0",
-                        "fill_id" : "865cc3d0-12ee-4ac5-8418-233ea40e6b39",
-                        "symbol" : "f-xbt:usd-sep16",
-                        "side" : "buy",
-                        "size" : 3,
-                        "price" : 425.5
-                }
-        ]
+  "result": "success",
+  "serverTime": "2016-02-25T09:45:53.818Z",
+  "fills": [
+    {
+      "fillTime": "2016-02-25T09:47:01.000Z",
+      "order_id": "c18f0c17-9971-40e6-8e5b-10df05d422f0",
+      "fill_id": "522d4e08-96e7-4b44-9694-bfaea8fe215e",
+      "symbol": "f-xbt:usd-sep16",
+      "side": "buy",
+      "size": 2,
+      "price": 425.5
+    },
+    {
+      "fillTime": "2016-02-25T09:47:01.000Z",
+      "order_id": "c18f0c17-9971-40e6-8e5b-10df05d422f0",
+      "fill_id": "865cc3d0-12ee-4ac5-8418-233ea40e6b39",
+      "symbol": "f-xbt:usd-sep16",
+      "side": "buy",
+      "size": 3,
+      "price": 425.5
+    }
+  ]
 }

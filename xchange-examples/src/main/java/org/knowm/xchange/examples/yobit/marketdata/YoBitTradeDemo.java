@@ -7,7 +7,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.yobit.YoBitExchange;
 
 /**
@@ -15,23 +15,22 @@ import org.knowm.xchange.yobit.YoBitExchange;
  */
 public class YoBitTradeDemo {
 
-	public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-		Exchange yoBitExchange = ExchangeFactory.INSTANCE.createExchange(YoBitExchange.class.getName());
+    Exchange yoBitExchange = ExchangeFactory.INSTANCE.createExchange(YoBitExchange.class.getName());
 
-		// Interested in the public market data feed (no authentication)
-		PollingMarketDataService marketDataService = yoBitExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = yoBitExchange.getMarketDataService();
 
-		System.out.println("fetching data...");
-		
-		Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
+    System.out.println("fetching data...");
 
-		System.out.println("received data.");
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
 
-		for (Trade trade : trades.getTrades()) {
-			System.out.println(trade.getType() + " " + trade.getCurrencyPair() + " Price: "
-					+ trade.getPrice() + " Amount: " + trade.getTradableAmount());
-		}
-	}
+    System.out.println("received data.");
+
+    for (Trade trade : trades.getTrades()) {
+      System.out.println(trade.getType() + " " + trade.getCurrencyPair() + " Price: " + trade.getPrice() + " Amount: " + trade.getOriginalAmount());
+    }
+  }
 
 }

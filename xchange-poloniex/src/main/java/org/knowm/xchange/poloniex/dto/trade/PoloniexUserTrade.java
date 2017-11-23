@@ -1,9 +1,5 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
-/**
- * @author Zach Holmes
- */
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "tradeId", "date", "rate", "amount", "total", "fee", "orderNumber", "type" })
+@JsonPropertyOrder({"tradeId", "date", "rate", "amount", "total", "fee", "orderNumber", "type"})
 public class PoloniexUserTrade {
 
   @JsonProperty("tradeID")

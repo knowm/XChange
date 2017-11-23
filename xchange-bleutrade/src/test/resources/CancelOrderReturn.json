@@ -1,5 +1,7 @@
 {
-  "success" : true,
-  "message" : "",
-  "result" : ["12345"]
+  "success": true,
+  "message": "",
+  "result": [
+    "12345"
+  ]
 }

@@ -1,6 +1,6 @@
 package org.knowm.xchange.mercadobitcoin;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +52,7 @@ public class MercadoBitcoinAdapterTest {
     // verify all fields filled
     assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("1004.16826");
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
-    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("0.16614"));
+    assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("0.16614"));
     assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_BRL);
   }
 
@@ -73,7 +73,7 @@ public class MercadoBitcoinAdapterTest {
     assertThat(trades.getTrades().get(0).getId()).isEqualTo("98519");
     assertThat(trades.getTrades().get(0).getPrice().toString()).isEqualTo("1015");
     assertThat(trades.getTrades().get(0).getType() == OrderType.BID);
-    assertThat(trades.getTrades().get(0).getTradableAmount()).isEqualTo(new BigDecimal("1"));
+    assertThat(trades.getTrades().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("1"));
     assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_BRL);
   }
 
@@ -133,7 +133,7 @@ public class MercadoBitcoinAdapterTest {
 
     List<LimitOrder> orders = MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currency.LTC, Currency.BRL), apiResult);
 
-    Map<String, LimitOrder> orderById = new HashMap<String, LimitOrder>();
+    Map<String, LimitOrder> orderById = new HashMap<>();
 
     for (LimitOrder order : orders) {
       orderById.put(order.getId(), order);
@@ -142,7 +142,7 @@ public class MercadoBitcoinAdapterTest {
     assertThat(orderById.get("1212").getType()).isEqualTo(OrderType.ASK);
     assertThat(orderById.get("1212").getTimestamp()).isEqualTo(new Date(1378929161000L));
     assertThat(orderById.get("1212").getLimitPrice()).isEqualTo(new BigDecimal("6.00000"));
-    assertThat(orderById.get("1212").getTradableAmount()).isEqualTo(new BigDecimal("165.47309607"));
+    assertThat(orderById.get("1212").getOriginalAmount()).isEqualTo(new BigDecimal("165.47309607"));
     assertThat(orderById.get("1212").getCurrencyPair()).isEqualTo(new CurrencyPair(Currency.LTC, Currency.BRL));
   }
 }

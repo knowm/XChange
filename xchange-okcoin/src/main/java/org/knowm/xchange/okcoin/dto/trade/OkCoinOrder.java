@@ -23,8 +23,11 @@ public class OkCoinOrder {
 
   private final BigDecimal price;
 
+  private final BigDecimal averagePrice;
+
   public OkCoinOrder(@JsonProperty("order_id") final long orderId, @JsonProperty("status") final int status,
-      @JsonProperty("symbol") final String symbol, @JsonProperty("type") final String type, @JsonProperty("price") final BigDecimal price,
+      @JsonProperty("symbol") final String symbol, @JsonProperty("type") final String type,
+      @JsonProperty("price") final BigDecimal price, @JsonProperty("avg_price") final BigDecimal averagePrice,
       @JsonProperty("amount") final BigDecimal amount, @JsonProperty("deal_amount") final BigDecimal dealAmount,
       @JsonProperty("create_date") final Date createDate) {
 
@@ -35,6 +38,7 @@ public class OkCoinOrder {
     this.amount = amount;
     this.dealAmount = dealAmount;
     this.price = price;
+    this.averagePrice = averagePrice;
     this.createDate = createDate;
   }
 
@@ -76,5 +80,10 @@ public class OkCoinOrder {
   public BigDecimal getPrice() {
 
     return price;
+  }
+
+  public BigDecimal getAveragePrice() {
+
+    return averagePrice;
   }
 }

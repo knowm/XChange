@@ -11,7 +11,7 @@ public class KrakenQueryTradeResult extends KrakenResult<Map<String, KrakenTrade
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

@@ -14,7 +14,7 @@ public class KrakenServerTime {
 
   /**
    * Constructor
-   * 
+   *
    * @param unixTime
    * @param rfc1123Time
    */

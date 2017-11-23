@@ -19,6 +19,6 @@ public interface OER {
 
   @GET
   @Path("latest.json")
-  public OERTickers getTickers(@QueryParam("app_id") String appId) throws IOException;
+  OERTickers getTickers(@QueryParam("app_id") String appId) throws IOException;
 
 }

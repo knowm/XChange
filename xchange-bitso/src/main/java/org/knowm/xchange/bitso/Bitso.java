@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -25,24 +26,24 @@ public interface Bitso {
    */
   @GET
   @Path("order_book/")
-  public BitsoOrderBook getOrderBook() throws BitsoException, IOException;
+  BitsoOrderBook getOrderBook() throws BitsoException, IOException;
 
   @GET
-  @Path("ticker/")
-  public BitsoTicker getTicker() throws BitsoException, IOException;
-
-  /**
-   * Returns descending list of transactions.
-   */
-  @GET
-  @Path("transactions/")
-  public BitsoTransaction[] getTransactions() throws BitsoException, IOException;
+  @Path("ticker/?book={currency}")
+  BitsoTicker getTicker(@PathParam("currency") String currency) throws BitsoException, IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions/")
-  public BitsoTransaction[] getTransactions(@QueryParam("time") String time) throws BitsoException, IOException;
+  BitsoTransaction[] getTransactions() throws BitsoException, IOException;
+
+  /**
+   * Returns descending list of transactions.
+   */
+  @GET
+  @Path("transactions/")
+  BitsoTransaction[] getTransactions(@QueryParam("time") String time) throws BitsoException, IOException;
 
 }

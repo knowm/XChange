@@ -18,7 +18,7 @@ public class BTCEWithdrawInfo {
 
   /**
    * Constructor
-   * 
+   *
    * @param tId
    * @param amountSent
    * @param funds The funds

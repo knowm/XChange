@@ -13,9 +13,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.trade.TradeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +30,9 @@ public abstract class BaseExchange implements Exchange {
   protected ExchangeSpecification exchangeSpecification;
   protected ExchangeMetaData exchangeMetaData;
 
-  protected PollingMarketDataService pollingMarketDataService;
-  protected PollingTradeService pollingTradeService;
-  protected PollingAccountService pollingAccountService;
+  protected MarketDataService marketDataService;
+  protected TradeService tradeService;
+  protected AccountService accountService;
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -73,7 +73,7 @@ public abstract class BaseExchange implements Exchange {
 
       this.exchangeSpecification = exchangeSpecification;
     }
-    
+
     if (this.exchangeSpecification.getMetaDataJsonFileOverride() != null) { // load the metadata from the file system
 
       InputStream is = null;
@@ -109,8 +109,6 @@ public abstract class BaseExchange implements Exchange {
       try {
         logger.info("Calling Remote Init...");
         remoteInit();
-      } catch (ExchangeException e) {
-        throw e;
       } catch (IOException e) {
         throw new ExchangeException(e);
       }
@@ -150,7 +148,7 @@ public abstract class BaseExchange implements Exchange {
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
-    return new ArrayList<CurrencyPair>(getExchangeMetaData().getCurrencyPairs().keySet());
+    return new ArrayList<>(getExchangeMetaData().getCurrencyPairs().keySet());
   }
 
   public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {
@@ -170,22 +168,19 @@ public abstract class BaseExchange implements Exchange {
     return exchangeMetaData;
   }
 
-  @Override
-  public PollingMarketDataService getPollingMarketDataService() {
+  public MarketDataService getMarketDataService() {
 
-    return pollingMarketDataService;
+    return marketDataService;
   }
 
-  @Override
-  public PollingTradeService getPollingTradeService() {
+  public TradeService getTradeService() {
 
-    return pollingTradeService;
+    return tradeService;
   }
 
-  @Override
-  public PollingAccountService getPollingAccountService() {
+  public AccountService getAccountService() {
 
-    return pollingAccountService;
+    return accountService;
   }
 
   @Override

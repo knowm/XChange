@@ -16,7 +16,7 @@ public class BitbayTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param date
    * @param price
    * @param amount

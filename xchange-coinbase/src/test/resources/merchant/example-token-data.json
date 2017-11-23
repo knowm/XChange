@@ -1,7 +1,7 @@
 {
-   "success":true,
-   "token":{
-      "token_id":"4193b86c7c7d54b32a7ca0974a97d8e21793713478162bb88834993be24dda40",
-      "address":"12uXAka4ncEcVTWfvifPzq3n4kFC9qyvNz"
-   }
+  "success": true,
+  "token": {
+    "token_id": "4193b86c7c7d54b32a7ca0974a97d8e21793713478162bb88834993be24dda40",
+    "address": "12uXAka4ncEcVTWfvifPzq3n4kFC9qyvNz"
+  }
 }

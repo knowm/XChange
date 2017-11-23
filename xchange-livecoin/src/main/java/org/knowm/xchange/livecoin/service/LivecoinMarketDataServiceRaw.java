@@ -1,51 +1,70 @@
 package org.knowm.xchange.livecoin.service;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.livecoin.Livecoin;
+import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
-import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestrictions;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 
-public class LivecoinMarketDataServiceRaw extends LivecoinBasePollingService<Livecoin> {
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
-	public LivecoinMarketDataServiceRaw(Exchange exchange) {
-		super(Livecoin.class, exchange);
-	}
+public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> {
 
-	public List<LivecoinRestriction> getConbaseExProducts() throws IOException {
-		LivecoinRestrictions data = (LivecoinRestrictions) coinbaseEx.getProducts();
-		return data.getRestrictions();
-	}
+  public LivecoinMarketDataServiceRaw(Exchange exchange) {
+    super(Livecoin.class, exchange);
+  }
 
-	public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth) throws IOException {
-		if (!this.checkProductExists(currencyPair)) {
-			return null;
-		}
+  public List<LivecoinRestriction> getRestrictions() throws IOException {
+    return service.getRestrictions().getRestrictions();
+  }
 
-		return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase(),
-				currencyPair.counter.getCurrencyCode().toUpperCase(), depth);
-	}
+  public LivecoinTicker getLivecoinTicker(CurrencyPair currencyPair) throws IOException {
+    return service.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+  }
 
-	public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
+  public List<LivecoinTicker> getAllTickers() throws IOException {
+    return service.getTicker();
+  }
 
-		boolean currencyPairSupported = false;
-		for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-			if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-					&& cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
-				currencyPairSupported = true;
-				break;
-			}
-		}
+  public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth, Boolean groupByPrice) throws IOException {
+    if (!this.checkProductExists(currencyPair)) {
+      return null;
+    }
 
-		return currencyPairSupported;
-	}
+    return service.getOrderBook(
+        currencyPair.base.getCurrencyCode().toUpperCase(),
+        currencyPair.counter.getCurrencyCode().toUpperCase(),
+        depth,
+        groupByPrice.toString()
+    );
+  }
 
-	public LivecoinTrade[] getTrades(CurrencyPair currencyPair) throws IOException {
-		return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-	}
+  public Map<CurrencyPair, LivecoinOrderBook> getAllOrderBooksRaw(int depth, Boolean groupByPrice) throws IOException {
+    return LivecoinAdapters.adaptToCurrencyPairKeysMap(service.getAllOrderBooks(depth, groupByPrice.toString()));
+
+  }
+
+  public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
+    boolean currencyPairSupported = false;
+    for (CurrencyPair cp : exchange.getExchangeSymbols()) {
+      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
+          && cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+        currencyPairSupported = true;
+        break;
+      }
+    }
+
+    return currencyPairSupported;
+  }
+
+  public LivecoinTrade[] getTrades(CurrencyPair currencyPair) throws IOException {
+    return service.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+  }
 }

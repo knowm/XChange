@@ -1,6 +1,6 @@
 package org.knowm.xchange.anx.v2.dto.account;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -14,8 +14,6 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.anx.v2.ANXExchange;
-import org.knowm.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
-import org.knowm.xchange.anx.v2.dto.account.polling.ANXWallet;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.knowm.xchange.currency.Currency;
 
@@ -69,11 +67,11 @@ public class WalletJSONTest {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
     ANXMetaData anxMetaData = ((ANXExchange) exchange).getANXMetaData();
 
-    Set<String> metadataCurrencyStrings = new TreeSet<String>();
+    Set<String> metadataCurrencyStrings = new TreeSet<>();
     for (Currency currency : anxMetaData.getCurrencies().keySet())
       metadataCurrencyStrings.add(currency.toString());
 
-    assertEquals(wallets.keySet(), metadataCurrencyStrings);
+    assertEquals(new TreeSet<>(wallets.keySet()), metadataCurrencyStrings);
 
   }
 }

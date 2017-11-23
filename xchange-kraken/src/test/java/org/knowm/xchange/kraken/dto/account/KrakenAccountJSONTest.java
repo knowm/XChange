@@ -1,6 +1,6 @@
 package org.knowm.xchange.kraken.dto.account;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -101,5 +101,13 @@ public class KrakenAccountJSONTest {
     assertThat(fee.getNextFee()).isEqualTo("0.2900");
     assertThat(fee.getNextVolume()).isEqualTo("1000.0000");
     assertThat(fee.getTierVolume()).isEqualTo("0.0000");
+
+    KrakenVolumeFee maker = tradeVolume.getFeesMaker().get("XXBTZUSD");
+    assertThat(maker.getFee()).isEqualTo("0.1600");
+    assertThat(maker.getMinFee()).isEqualTo("0.0000");
+    assertThat(maker.getMaxFee()).isEqualTo("0.1600");
+    assertThat(maker.getNextFee()).isEqualTo("0.1400");
+    assertThat(maker.getNextVolume()).isEqualTo("1000.0000");
+    assertThat(maker.getTierVolume()).isEqualTo("0.0000");
   }
 }

@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
+import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccountInfo;
+import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccounts;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFill;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
@@ -62,7 +65,7 @@ public class CryptoFacilitiesAdapters {
 
   public static AccountInfo adaptAccount(CryptoFacilitiesAccount cryptoFacilitiesAccount, String username) {
 
-    List<Balance> balances = new ArrayList<Balance>(cryptoFacilitiesAccount.getBalances().size());
+    List<Balance> balances = new ArrayList<>(cryptoFacilitiesAccount.getBalances().size());
     Balance balance;
 
     for (Entry<String, BigDecimal> balancePair : cryptoFacilitiesAccount.getBalances().entrySet()) {
@@ -76,6 +79,31 @@ public class CryptoFacilitiesAdapters {
       balances.add(balance);
     }
     return new AccountInfo(username, new Wallet(balances));
+  }
+
+  public static AccountInfo adaptAccounts(CryptoFacilitiesAccounts cryptoFacilitiesAccounts, String username) {
+
+    Map<String, CryptoFacilitiesAccountInfo> accounts = cryptoFacilitiesAccounts.getAccounts();
+    List<Wallet> wallets = new ArrayList<>();
+
+    for (String accountName : accounts.keySet()) {
+      List<Balance> balances = new ArrayList<>(accounts.get(accountName).getBalances().size());
+      Balance balance;
+
+      for (Entry<String, BigDecimal> balancePair : accounts.get(accountName).getBalances().entrySet()) {
+        if (!accountName.equalsIgnoreCase("cash") && balancePair.getKey().equalsIgnoreCase("xbt")) {
+          // For xbt balance we construct both total=deposited xbt and available=total - margin balances
+          balance = new Balance(Currency.BTC, balancePair.getValue(), accounts.get(accountName).getAuxiliary().get("af"));
+        } else {
+          Currency currency = adaptCurrency(balancePair.getKey());
+          balance = new Balance(currency, balancePair.getValue());
+        }
+        balances.add(balance);
+      }
+
+      wallets.add(new Wallet(accountName, accountName, balances));
+    }
+    return new AccountInfo(username, wallets);
   }
 
   public static String adaptOrderId(CryptoFacilitiesOrder order) {
@@ -105,7 +133,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(CryptoFacilitiesOpenOrders orders) {
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     if (orders != null && orders.isSuccess()) {
       for (CryptoFacilitiesOpenOrder ord : orders.getOrders()) {
@@ -127,7 +155,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static UserTrades adaptFills(CryptoFacilitiesFills cryptoFacilitiesFills) {
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
 
     if (cryptoFacilitiesFills != null && cryptoFacilitiesFills.isSuccess()) {
       for (CryptoFacilitiesFill fill : cryptoFacilitiesFills.getFills()) {
@@ -147,7 +175,7 @@ public class CryptoFacilitiesAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));

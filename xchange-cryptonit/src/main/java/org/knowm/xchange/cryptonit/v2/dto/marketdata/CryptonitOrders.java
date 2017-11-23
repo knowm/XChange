@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public final class CryptonitOrders {
 
-  private final Map<String, CryptonitOrder> orders = new HashMap<String, CryptonitOrder>();
+  private final Map<String, CryptonitOrder> orders = new HashMap<>();
 
   public Map<String, CryptonitOrder> getOrders() {
 

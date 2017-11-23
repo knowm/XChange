@@ -1,9 +1,9 @@
 package org.knowm.xchange.cexio.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Author: brox Since: 2/7/14
@@ -16,13 +16,13 @@ public class CexIOBalance {
 
   /**
    * Constructor
-   * 
+   *
    * @param available Available balance
-   * @param orders Balance in pending orders
-   * @param bonus Referral program bonus
+   * @param orders    Balance in pending orders
+   * @param bonus     Referral program bonus
    */
   public CexIOBalance(@JsonProperty("available") BigDecimal available, @JsonProperty("orders") BigDecimal orders,
-      @JsonProperty("bonus") BigDecimal bonus) {
+                      @JsonProperty("bonus") BigDecimal bonus) {
 
     this.available = available;
     this.orders = orders;

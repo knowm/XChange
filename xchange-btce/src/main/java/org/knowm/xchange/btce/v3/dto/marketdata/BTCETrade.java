@@ -19,7 +19,7 @@ public class BTCETrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param tradeType
    * @param price
    * @param amount

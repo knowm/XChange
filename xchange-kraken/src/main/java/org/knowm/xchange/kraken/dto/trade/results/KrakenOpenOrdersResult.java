@@ -12,7 +12,7 @@ public class KrakenOpenOrdersResult extends KrakenResult<KrakenOpenOrders> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */
@@ -27,7 +27,7 @@ public class KrakenOpenOrdersResult extends KrakenResult<KrakenOpenOrders> {
 
     /**
      * Constructor
-     * 
+     *
      * @param orders
      */
     public KrakenOpenOrders(@JsonProperty("open") Map<String, KrakenOrder> orders) {

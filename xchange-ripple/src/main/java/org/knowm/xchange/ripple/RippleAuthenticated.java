@@ -30,7 +30,7 @@ public interface RippleAuthenticated {
   @POST
   @Path("accounts/{address}/orders")
   @Consumes(MediaType.APPLICATION_JSON)
-  public RippleOrderEntryResponse orderEntry(@PathParam("address") final String address, @QueryParam("validated") final boolean validated,
+  RippleOrderEntryResponse orderEntry(@PathParam("address") final String address, @QueryParam("validated") final boolean validated,
       final RippleOrderEntryRequest request) throws IOException, RippleException;
 
   /**
@@ -39,7 +39,7 @@ public interface RippleAuthenticated {
   @DELETE
   @Path("accounts/{address}/orders/{orderId}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public RippleOrderCancelResponse orderCancel(@PathParam("address") final String address, @PathParam("orderId") final long orderId,
+  RippleOrderCancelResponse orderCancel(@PathParam("address") final String address, @PathParam("orderId") final long orderId,
       @QueryParam("validated") final boolean validated, final RippleOrderCancelRequest request) throws IOException, RippleException;
 
 }

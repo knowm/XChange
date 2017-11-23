@@ -18,8 +18,19 @@ public class IndependentReserveTransactionsResponse {
     this.totalPages = totalPages;
   }
 
-  public List<IndependentReserveTransaction> getIndependentReserveTranasactions() { return independentReserveTransactions; }
-  public int getPageSize() { return pageSize; }
-  public int getTotalItems() { return totalItems; }
-  public int getTotalPages() { return totalPages; }
+  public List<IndependentReserveTransaction> getIndependentReserveTranasactions() {
+    return independentReserveTransactions;
+  }
+
+  public int getPageSize() {
+    return pageSize;
+  }
+
+  public int getTotalItems() {
+    return totalItems;
+  }
+
+  public int getTotalPages() {
+    return totalPages;
+  }
 }

@@ -6,12 +6,12 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXDepth;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTicker;
-import org.knowm.xchange.anx.v2.service.polling.ANXMarketDataServiceRaw;
+import org.knowm.xchange.anx.v2.service.ANXMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.examples.anx.v2.ANXExamplesUtils;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class ANXMarketdataDemo {
 
@@ -20,7 +20,7 @@ public class ANXMarketdataDemo {
     Exchange anx = ANXExamplesUtils.createExchange();
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = anx.getPollingMarketDataService();
+    MarketDataService marketDataService = anx.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);

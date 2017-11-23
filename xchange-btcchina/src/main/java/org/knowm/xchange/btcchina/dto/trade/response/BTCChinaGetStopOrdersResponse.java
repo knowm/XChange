@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Response of {@code getStopOrders}.
- * 
+ *
  * @see <a href="http://btcchina.org/api-trade-documentation-en#getstoporders">Trade API(English)</a>
  * @see <a href="http://btcchina.org/api-trade-documentation-zh#getstoporders">Trade API(Chinese)</a>
  */

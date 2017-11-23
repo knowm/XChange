@@ -8,7 +8,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.therock.TheRockExampleUtils;
-import org.knowm.xchange.therock.service.polling.TheRockTradeService;
+import org.knowm.xchange.therock.service.TheRockTradeService;
 
 public class TheRockTradeDemo {
 
@@ -21,7 +21,7 @@ public class TheRockTradeDemo {
 
   private static void generic(Exchange theRockExchange) throws IOException, InterruptedException {
     //create
-    TheRockTradeService tradeService = (TheRockTradeService) theRockExchange.getPollingTradeService();
+    TheRockTradeService tradeService = (TheRockTradeService) theRockExchange.getTradeService();
     BigDecimal amount = new BigDecimal("0.01");
     BigDecimal price = new BigDecimal("50.0");
     LimitOrder limitOrder = new LimitOrder(OrderType.BID, amount, BTC_EUR, null, null, price);

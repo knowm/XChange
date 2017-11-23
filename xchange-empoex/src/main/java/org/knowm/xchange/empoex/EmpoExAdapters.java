@@ -44,7 +44,7 @@ public final class EmpoExAdapters {
 
   public static Trades adaptEmpoExTrades(List<EmpoExTrade> raw, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
 
     for (EmpoExTrade trade : raw) {
 
@@ -53,7 +53,7 @@ public final class EmpoExAdapters {
       BigDecimal amount = new BigDecimal(trade.getAmount().replace(",", ""));
       BigDecimal price = new BigDecimal(trade.getPrice().replace(",", ""));
 
-      trades.add(new Trade.Builder().currencyPair(currencyPair).price(price).tradableAmount(amount).timestamp(date).type(type).build());
+      trades.add(new Trade.Builder().currencyPair(currencyPair).price(price).originalAmount(amount).timestamp(date).type(type).build());
     }
 
     return new Trades(trades, TradeSortType.SortByTimestamp);
@@ -64,21 +64,21 @@ public final class EmpoExAdapters {
     List<EmpoExLevel> rawAsks = raw.get("sell");
     List<EmpoExLevel> rawBids = raw.get("buy");
 
-    List<LimitOrder> asks = new ArrayList<LimitOrder>();
-    List<LimitOrder> bids = new ArrayList<LimitOrder>();
+    List<LimitOrder> asks = new ArrayList<>();
+    List<LimitOrder> bids = new ArrayList<>();
 
     for (EmpoExLevel ask : rawAsks) {
 
       BigDecimal amount = new BigDecimal(ask.getAmount().replace(",", ""));
       BigDecimal price = new BigDecimal(ask.getPrice().replace(",", ""));
-      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).tradableAmount(amount).limitPrice(price).build());
+      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).originalAmount(amount).limitPrice(price).build());
     }
 
     for (EmpoExLevel bid : rawBids) {
 
       BigDecimal amount = new BigDecimal(bid.getAmount().replace(",", ""));
       BigDecimal price = new BigDecimal(bid.getPrice().replace(",", ""));
-      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).tradableAmount(amount).limitPrice(price).build());
+      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).originalAmount(amount).limitPrice(price).build());
     }
 
     return new OrderBook(null, asks, bids);
@@ -86,7 +86,7 @@ public final class EmpoExAdapters {
 
   public static Wallet adaptBalances(List<EmpoExBalance> raw) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     for (EmpoExBalance empoExBalance : raw) {
 
@@ -99,7 +99,7 @@ public final class EmpoExAdapters {
 
   public static OpenOrders adaptOpenOrders(Map<String, List<EmpoExOpenOrder>> raw) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
 
     for (String pairString : raw.keySet()) {
 
@@ -122,7 +122,7 @@ public final class EmpoExAdapters {
     BigDecimal price = new BigDecimal(raw.getValue().replace(",", ""));
     OrderType type = raw.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
-    return new LimitOrder.Builder(type, currencyPair).id(orderId).tradableAmount(amount).limitPrice(price).build();
+    return new LimitOrder.Builder(type, currencyPair).id(orderId).originalAmount(amount).limitPrice(price).build();
   }
 
 }

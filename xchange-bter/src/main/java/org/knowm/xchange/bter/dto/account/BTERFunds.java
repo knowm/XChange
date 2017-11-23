@@ -16,7 +16,6 @@ public class BTERFunds extends BTERBaseResponse {
   /**
    * Constructor
    *
-   * @param aResult
    * @param theAvailableFunds
    * @param theLockedFunds
    */

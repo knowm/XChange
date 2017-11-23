@@ -6,7 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.examples.anx.v2.ANXExamplesUtils;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class ANXDepthDemo {
 
@@ -16,7 +16,7 @@ public class ANXDepthDemo {
     Exchange anx = ANXExamplesUtils.createExchange();
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = anx.getPollingMarketDataService();
+    MarketDataService marketDataService = anx.getMarketDataService();
 
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);

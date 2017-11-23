@@ -18,7 +18,7 @@ public class KrakenOrderDescription {
 
   /**
    * Constructor
-   * 
+   *
    * @param assetPair
    * @param type
    * @param orderType

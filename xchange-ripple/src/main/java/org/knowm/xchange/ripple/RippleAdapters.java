@@ -36,12 +36,12 @@ import org.knowm.xchange.ripple.dto.trade.RippleAccountOrders;
 import org.knowm.xchange.ripple.dto.trade.RippleAccountOrdersBody;
 import org.knowm.xchange.ripple.dto.trade.RippleLimitOrder;
 import org.knowm.xchange.ripple.dto.trade.RippleUserTrade;
-import org.knowm.xchange.ripple.service.polling.RippleAccountService;
-import org.knowm.xchange.ripple.service.polling.RippleTradeServiceRaw;
-import org.knowm.xchange.ripple.service.polling.params.RippleMarketDataParams;
-import org.knowm.xchange.ripple.service.polling.params.RippleTradeHistoryPreferredCurrencies;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.ripple.service.RippleAccountService;
+import org.knowm.xchange.ripple.service.RippleTradeServiceRaw;
+import org.knowm.xchange.ripple.service.params.RippleMarketDataParams;
+import org.knowm.xchange.ripple.service.params.RippleTradeHistoryPreferredCurrencies;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +67,7 @@ public abstract class RippleAdapters {
   public static AccountInfo adaptAccountInfo(final RippleAccountBalances account, final String username) {
 
     // Adapt account balances to XChange balances
-    final Map<String, List<Balance>> balances = new HashMap<String, List<Balance>>();
+    final Map<String, List<Balance>> balances = new HashMap<>();
     for (final RippleBalance balance : account.getBalances()) {
       final String walletId;
       if (balance.getCurrency().equals("XRP")) {
@@ -81,7 +81,7 @@ public abstract class RippleAdapters {
       balances.get(walletId).add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue()));
     }
 
-    final List<Wallet> accountInfo = new ArrayList<Wallet>(balances.size());
+    final List<Wallet> accountInfo = new ArrayList<>(balances.size());
     for (final Map.Entry<String, List<Balance>> wallet : balances.entrySet()) {
       accountInfo.add(new Wallet(wallet.getKey(), wallet.getValue()));
     }
@@ -140,7 +140,7 @@ public abstract class RippleAdapters {
 
   public static List<LimitOrder> createOrders(final CurrencyPair currencyPair, final OrderType orderType, final List<RippleOrder> orders,
       final String baseCounterparty, final String counterCounterparty) {
-    final List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    final List<LimitOrder> limitOrders = new ArrayList<>();
     for (final RippleOrder rippleOrder : orders) {
 
       // Taker Pays = the amount the taker must pay to consume this order.
@@ -149,17 +149,17 @@ public abstract class RippleAdapters {
       // Funded vs Unfunded https://wiki.ripple.com/Unfunded_offers
 
       // amount of base currency
-      final BigDecimal tradableAmount;
+      final BigDecimal originalAmount;
       if (orderType == OrderType.BID) {
-        tradableAmount = rippleOrder.getTakerPaysFunded().getValue();
+        originalAmount = rippleOrder.getTakerPaysFunded().getValue();
       } else {
-        tradableAmount = rippleOrder.getTakerGetsFunded().getValue();
+        originalAmount = rippleOrder.getTakerGetsFunded().getValue();
       }
 
       // price in counter currency
       final BigDecimal price = rippleOrder.getPrice().getValue();
 
-      final RippleLimitOrder order = new RippleLimitOrder(orderType, tradableAmount, currencyPair, Integer.toString(rippleOrder.getSequence()), null,
+      final RippleLimitOrder order = new RippleLimitOrder(orderType, originalAmount, currencyPair, Integer.toString(rippleOrder.getSequence()), null,
           price, baseCounterparty, counterCounterparty);
       limitOrders.add(order);
     }
@@ -172,7 +172,7 @@ public abstract class RippleAdapters {
    * Counterparties set in additional data since there is no other way of the application receiving this information.
    */
   public static OpenOrders adaptOpenOrders(final RippleAccountOrders rippleOrders, final int scale) {
-    final List<LimitOrder> list = new ArrayList<LimitOrder>(rippleOrders.getOrders().size());
+    final List<LimitOrder> list = new ArrayList<>(rippleOrders.getOrders().size());
     for (final RippleAccountOrdersBody order : rippleOrders.getOrders()) {
 
       final OrderType orderType;
@@ -200,7 +200,7 @@ public abstract class RippleAdapters {
 
       final RippleLimitOrder xchangeOrder = (RippleLimitOrder) new RippleLimitOrder.Builder(orderType, pair)
           .baseCounterparty(baseAmount.getCounterparty()).counterCounterparty(counterAmount.getCounterparty()).id(Long.toString(order.getSequence()))
-          .limitPrice(price).timestamp(null).tradableAmount(baseAmount.getValue()).build();
+          .limitPrice(price).timestamp(null).originalAmount(baseAmount.getValue()).build();
       list.add(xchangeOrder);
     }
 
@@ -346,7 +346,7 @@ public abstract class RippleAdapters {
 
     final RippleUserTrade.Builder builder = (RippleUserTrade.Builder) new RippleUserTrade.Builder().currencyPair(currencyPair)
         .feeAmount(transactionFee).feeCurrency(Currency.XRP).id(trade.getHash()).orderId(orderId).price(price.stripTrailingZeros())
-        .timestamp(trade.getTimestamp()).tradableAmount(quantity.stripTrailingZeros()).type(type);
+        .timestamp(trade.getTimestamp()).originalAmount(quantity.stripTrailingZeros()).type(type);
     builder.baseTransferFee(baseTransferFee.abs());
     builder.counterTransferFee(counterTransferFee.abs());
     if (base.getCounterparty().length() > 0) {
@@ -360,7 +360,7 @@ public abstract class RippleAdapters {
 
   public static UserTrades adaptTrades(final Collection<IRippleTradeTransaction> tradesForAccount, final TradeHistoryParams params,
       final RippleAccountService accountService, final int roundingScale) throws IOException {
-    final List<UserTrade> trades = new ArrayList<UserTrade>();
+    final List<UserTrade> trades = new ArrayList<>();
     for (final IRippleTradeTransaction orderDetails : tradesForAccount) {
       final UserTrade trade = adaptTrade(orderDetails, params, accountService, roundingScale);
       if (trade == null) {

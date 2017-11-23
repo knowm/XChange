@@ -1,153 +1,153 @@
 {
-  "ltc":{
-    "ticker":""
+  "ltc": {
+    "ticker": ""
   },
-  "doge":{
-    "ticker":{
-      "high":6.0e-7,
-      "low":5.1e-7,
-      "last":5.5e-7,
-      "vol":9201658.258436,
-      "buy":5.5e-7,
-      "sell":5.7e-7
+  "doge": {
+    "ticker": {
+      "high": 6.0e-7,
+      "low": 5.1e-7,
+      "last": 5.5e-7,
+      "vol": 9201658.258436,
+      "buy": 5.5e-7,
+      "sell": 5.7e-7
     }
   },
-  "xrp":{
-    "ticker":{
-      "high":8.55e-5,
-      "low":8.01e-5,
-      "last":8.55e-5,
-      "vol":6865.224918,
-      "buy":8.11e-5,
-      "sell":9.39e-5
+  "xrp": {
+    "ticker": {
+      "high": 8.55e-5,
+      "low": 8.01e-5,
+      "last": 8.55e-5,
+      "vol": 6865.224918,
+      "buy": 8.11e-5,
+      "sell": 9.39e-5
     }
   },
-  "bts":{
-    "ticker":{
-      "high":4.9e-5,
-      "low":4.4e-5,
-      "last":4.8e-5,
-      "vol":168947.690647,
-      "buy":4.7e-5,
-      "sell":5.0e-5
+  "bts": {
+    "ticker": {
+      "high": 4.9e-5,
+      "low": 4.4e-5,
+      "last": 4.8e-5,
+      "vol": 168947.690647,
+      "buy": 4.7e-5,
+      "sell": 5.0e-5
     }
   },
-  "str":{
-    "ticker":{
-      "high":1.55e-5,
-      "low":1.01e-5,
-      "last":1.01e-5,
-      "vol":2181.589906,
-      "buy":1.01e-5,
-      "sell":1.54e-5
+  "str": {
+    "ticker": {
+      "high": 1.55e-5,
+      "low": 1.01e-5,
+      "last": 1.01e-5,
+      "vol": 2181.589906,
+      "buy": 1.01e-5,
+      "sell": 1.54e-5
     }
   },
-  "xcn":{
-    "ticker":{
-      "high":1.5e-6,
-      "low":1.5e-6,
-      "last":1.5e-6,
-      "vol":1851.33,
-      "buy":1.5e-6,
-      "sell":3.0e-6
+  "xcn": {
+    "ticker": {
+      "high": 1.5e-6,
+      "low": 1.5e-6,
+      "last": 1.5e-6,
+      "vol": 1851.33,
+      "buy": 1.5e-6,
+      "sell": 3.0e-6
     }
   },
-  "bils":{
-    "ticker":""
+  "bils": {
+    "ticker": ""
   },
-  "bost":{
-    "ticker":""
+  "bost": {
+    "ticker": ""
   },
-  "anc":{
-    "ticker":""
+  "anc": {
+    "ticker": ""
   },
-  "wdc":{
-    "ticker":""
+  "wdc": {
+    "ticker": ""
   },
-  "nxt":{
-    "ticker":{
-      "high":5.8e-5,
-      "low":4.7e-5,
-      "last":5.8e-5,
-      "vol":3451.027808,
-      "buy":4.8e-5,
-      "sell":5.8e-5
+  "nxt": {
+    "ticker": {
+      "high": 5.8e-5,
+      "low": 4.7e-5,
+      "last": 5.8e-5,
+      "vol": 3451.027808,
+      "buy": 4.8e-5,
+      "sell": 5.8e-5
     }
   },
-  "nas":{
-    "ticker":""
+  "nas": {
+    "ticker": ""
   },
-  "bc":{
-    "ticker":{
-      "high":6.9e-5,
-      "low":5.9e-5,
-      "last":6.9e-5,
-      "vol":132.128831,
-      "buy":6.5e-5,
-      "sell":8.7e-5
+  "bc": {
+    "ticker": {
+      "high": 6.9e-5,
+      "low": 5.9e-5,
+      "last": 6.9e-5,
+      "vol": 132.128831,
+      "buy": 6.5e-5,
+      "sell": 8.7e-5
     }
   },
-  "sys":{
-    "ticker":{
-      "high":1.1e-6,
-      "low":9.0e-7,
-      "last":9.0e-7,
-      "vol":6666,
-      "buy":1.0e-6,
-      "sell":1.4e-6
+  "sys": {
+    "ticker": {
+      "high": 1.1e-6,
+      "low": 9.0e-7,
+      "last": 9.0e-7,
+      "vol": 6666,
+      "buy": 1.0e-6,
+      "sell": 1.4e-6
     }
   },
-  "nrs":{
-    "ticker":{
-      "high":1.9e-5,
-      "low":1.9e-5,
-      "last":1.9e-5,
-      "vol":2000,
-      "buy":1.8e-5,
-      "sell":3.2e-5
+  "nrs": {
+    "ticker": {
+      "high": 1.9e-5,
+      "low": 1.9e-5,
+      "last": 1.9e-5,
+      "vol": 2000,
+      "buy": 1.8e-5,
+      "sell": 3.2e-5
     }
   },
-  "med":{
-    "ticker":{
-      "high":1.99e-6,
-      "low":1.71e-6,
-      "last":1.99e-6,
-      "vol":106496.847002,
-      "buy":1.75e-6,
-      "sell":2.0e-6
+  "med": {
+    "ticker": {
+      "high": 1.99e-6,
+      "low": 1.71e-6,
+      "last": 1.99e-6,
+      "vol": 106496.847002,
+      "buy": 1.75e-6,
+      "sell": 2.0e-6
     }
   },
-  "eac":{
-    "ticker":{
-      "high":3.0e-8,
-      "low":3.0e-8,
-      "last":3.0e-8,
-      "vol":8740662.971834,
-      "buy":2.0e-8,
-      "sell":3.0e-8
+  "eac": {
+    "ticker": {
+      "high": 3.0e-8,
+      "low": 3.0e-8,
+      "last": 3.0e-8,
+      "vol": 8740662.971834,
+      "buy": 2.0e-8,
+      "sell": 3.0e-8
     }
   },
-  "voot":{
-    "ticker":{
-      "high":5.9e-7,
-      "low":4.0e-7,
-      "last":4.0e-7,
-      "vol":33902.718739,
-      "buy":4.1e-7,
-      "sell":5.8e-7
+  "voot": {
+    "ticker": {
+      "high": 5.9e-7,
+      "low": 4.0e-7,
+      "last": 4.0e-7,
+      "vol": 33902.718739,
+      "buy": 4.1e-7,
+      "sell": 5.8e-7
     }
   },
-  "sync":{
-    "ticker":""
+  "sync": {
+    "ticker": ""
   },
-  "tmc":{
-    "ticker":{
-      "high":0.000147,
-      "low":0.000125,
-      "last":0.000147,
-      "vol":147620.853137,
-      "buy":0.000136,
-      "sell":0.000146
+  "tmc": {
+    "ticker": {
+      "high": 0.000147,
+      "low": 0.000125,
+      "last": 0.000147,
+      "vol": 147620.853137,
+      "buy": 0.000136,
+      "sell": 0.000146
     }
   }
 }

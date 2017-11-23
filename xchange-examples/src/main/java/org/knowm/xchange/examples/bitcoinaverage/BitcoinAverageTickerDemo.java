@@ -6,10 +6,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitcoinaverage.BitcoinAverageExchange;
 import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
-import org.knowm.xchange.bitcoinaverage.service.polling.BitcoinAverageMarketDataServiceRaw;
+import org.knowm.xchange.bitcoinaverage.service.BitcoinAverageMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BitcoinAverageTickerDemo {
 
@@ -24,8 +24,8 @@ public class BitcoinAverageTickerDemo {
 
   private static void generic(Exchange bitcoinAverageExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitcoinAverageExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = bitcoinAverageExchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
@@ -39,7 +39,7 @@ public class BitcoinAverageTickerDemo {
   private static void raw(Exchange bitcoinAverageExchange) throws IOException {
 
     BitcoinAverageMarketDataServiceRaw bitcoinAverageMarketDataServiceRaw = (BitcoinAverageMarketDataServiceRaw) bitcoinAverageExchange
-        .getPollingMarketDataService();
+        .getMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
     BitcoinAverageTicker ticker = bitcoinAverageMarketDataServiceRaw.getBitcoinAverageTicker("BTC", "EUR");

@@ -12,8 +12,8 @@ public class NotAvailableFromExchangeException extends UnsupportedOperationExcep
 
   /**
    * Constructor
-   * 
-   * @param message
+   *
+   * @param message Message
    */
   private NotAvailableFromExchangeException(String message) {
 

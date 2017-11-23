@@ -12,7 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -33,7 +33,7 @@ public class DepthChartDemo {
     Exchange mercadoExchange = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = mercadoExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = mercadoExchange.getMarketDataService();
 
     System.out.println("fetching data...");
 
@@ -51,13 +51,13 @@ public class DepthChartDemo {
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
 
     // BIDS
-    List<Number> xData = new ArrayList<Number>();
-    List<Number> yData = new ArrayList<Number>();
+    List<Number> xData = new ArrayList<>();
+    List<Number> yData = new ArrayList<>();
     BigDecimal accumulatedBidUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getBids()) {
       if (limitOrder.getLimitPrice().doubleValue() > 20) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getTradableAmount());
+        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedBidUnits);
       }
     }
@@ -69,13 +69,13 @@ public class DepthChartDemo {
     series.setMarker(SeriesMarkers.NONE);
 
     // ASKS
-    xData = new ArrayList<Number>();
-    yData = new ArrayList<Number>();
+    xData = new ArrayList<>();
+    yData = new ArrayList<>();
     BigDecimal accumulatedAskUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getAsks()) {
       if (limitOrder.getLimitPrice().doubleValue() < 2000) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getTradableAmount());
+        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedAskUnits);
       }
     }

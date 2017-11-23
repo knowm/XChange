@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class RippleAccountBalances extends RippleCommon {
 
   @JsonProperty("balances")
-  private List<RippleBalance> balances = new ArrayList<RippleBalance>();
+  private List<RippleBalance> balances = new ArrayList<>();
 
   public List<RippleBalance> getBalances() {
     return balances;

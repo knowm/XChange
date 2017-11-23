@@ -20,7 +20,7 @@ public final class BitbayTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param max
    * @param min
    * @param last

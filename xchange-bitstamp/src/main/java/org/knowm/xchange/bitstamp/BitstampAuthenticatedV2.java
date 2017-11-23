@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitstamp.dto.BitstampException;
+import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
@@ -44,10 +45,29 @@ public interface BitstampAuthenticatedV2 {
   @Path("user_transactions/{pair}/")
   BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("pair") BitstampV2.Pair pair,
-      @FormParam("limit") Long numberOfTransactions, @FormParam("offset") Long offset, @FormParam("sort") String sort)
-      throws BitstampException, IOException;
+      @FormParam("limit") Long numberOfTransactions, @FormParam("offset") Long offset,
+      @FormParam("sort") String sort) throws BitstampException, IOException;
 
   enum Side {
     buy, sell
   }
+
+  @POST
+  @Path("xrp_withdrawal/")
+  BitstampWithdrawal xrpWithdrawal(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String rippleAddress, @FormParam("destination_tag") String destinationTag) throws BitstampException, IOException;
+
+  @POST
+  @Path("ltc_withdrawal/")
+  BitstampWithdrawal withdrawLitecoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address) throws BitstampException, IOException;
+
+  @POST
+  @Path("eth_withdrawal/")
+  BitstampWithdrawal withdrawEther(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address) throws BitstampException, IOException;
+
 }

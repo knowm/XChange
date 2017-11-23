@@ -9,7 +9,7 @@ public class KrakenOrderResult extends KrakenResult<KrakenOrderResponse> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

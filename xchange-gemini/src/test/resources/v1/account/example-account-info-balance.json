@@ -1,20 +1,20 @@
-   [
-      {
-         "type":"exchange",
-         "currency":"usd",
-         "amount":"5.5",
-         "available":"5.5"
-      },
-      {
-         "type":"trading",
-         "currency":"usd",
-         "amount":"100",
-         "available":"50"
-      },
-      {
-         "type":"deposit",
-         "currency":"btc",
-         "amount":"50",
-         "available":"30"
-      }
-   ]
+[
+  {
+    "type": "exchange",
+    "currency": "usd",
+    "amount": "5.5",
+    "available": "5.5"
+  },
+  {
+    "type": "trading",
+    "currency": "usd",
+    "amount": "100",
+    "available": "50"
+  },
+  {
+    "type": "deposit",
+    "currency": "btc",
+    "amount": "50",
+    "available": "30"
+  }
+]

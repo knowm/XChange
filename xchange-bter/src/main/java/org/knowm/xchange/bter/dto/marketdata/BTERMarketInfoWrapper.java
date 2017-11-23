@@ -89,7 +89,7 @@ public class BTERMarketInfoWrapper {
     @Override
     public BTERMarketInfoWrapper deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      Map<CurrencyPair, BTERMarketInfo> marketInfoMap = new HashMap<CurrencyPair, BTERMarketInfo>();
+      Map<CurrencyPair, BTERMarketInfo> marketInfoMap = new HashMap<>();
 
       ObjectCodec oc = jp.getCodec();
       JsonNode marketsNodeWrapper = oc.readTree(jp);

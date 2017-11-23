@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexOfferStatusResponse {
 
-  private final int id;
+  private final long id;
   private final String currency;
   private final BigDecimal rate;
   private final int period;
@@ -19,7 +19,7 @@ public class BitfinexOfferStatusResponse {
   private final BigDecimal remainingAmount;
   private final BigDecimal executedAmount;
 
-  public BitfinexOfferStatusResponse(@JsonProperty("id") int id, @JsonProperty("currency") String currency, @JsonProperty("rate") BigDecimal rate,
+  public BitfinexOfferStatusResponse(@JsonProperty("id") long id, @JsonProperty("currency") String currency, @JsonProperty("rate") BigDecimal rate,
       @JsonProperty("period") int period, @JsonProperty("direction") String direction, @JsonProperty("type") String type,
       @JsonProperty("timestamp") BigDecimal timestamp, @JsonProperty("is_live") boolean isLive, @JsonProperty("is_cancelled") boolean isCancelled,
       @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount,
@@ -39,7 +39,7 @@ public class BitfinexOfferStatusResponse {
     this.executedAmount = executedAmount;
   }
 
-  public int getId() {
+  public long getId() {
 
     return id;
   }

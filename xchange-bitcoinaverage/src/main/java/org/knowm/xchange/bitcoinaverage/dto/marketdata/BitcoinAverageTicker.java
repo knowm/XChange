@@ -25,12 +25,11 @@ public final class BitcoinAverageTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param bid
    * @param ask
    * @param volume
    * @param last
-   * @param avg
    * @param timestamp
    */
 
@@ -75,10 +74,7 @@ public final class BitcoinAverageTicker {
     try {
       // Parse the timestamp into a Date object
       return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(timestamp);
-    } catch (IllegalArgumentException e) {
-      // Return current Date
-      return new Date();
-    } catch (ParseException e) {
+    } catch (IllegalArgumentException | ParseException e) {
       // Return current Date
       return new Date();
     }

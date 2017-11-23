@@ -10,7 +10,7 @@ public class OkCoinException extends ExchangeException {
 
   /**
    * Constructor.
-   * 
+   *
    * @param errorCode the error code.
    * @param message the exception message.
    */

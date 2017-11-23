@@ -10,7 +10,7 @@
       "currencyPair": "BTCHKD",
       "way": "Ask",
       "feeRate": 0.0015
-    },   
+    },
     {
       "transactionId": 24581,
       "transactionTime": "1435552601",
@@ -43,7 +43,7 @@
       "currencyPair": "BTCUSD",
       "way": "Bid",
       "feeRate": 0.0015
-    }   
+    }
   ],
   "responseStatus": {
     "message": "OK"

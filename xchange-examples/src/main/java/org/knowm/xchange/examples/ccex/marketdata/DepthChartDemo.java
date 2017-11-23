@@ -6,20 +6,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
-import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.XYSeries;
-import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
-import org.knowm.xchart.style.markers.SeriesMarkers;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ccex.CCEXExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
 /**
  * Demonstrate requesting OrderBook from C-CEX and plotting it using XChart.
@@ -32,7 +31,7 @@ public class DepthChartDemo {
     Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = ccexExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = ccexExchange.getMarketDataService();
 
     System.out.println("fetching data...");
 
@@ -40,16 +39,16 @@ public class DepthChartDemo {
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.XAUR_BTC);
 
     System.out.println("received data.");
-    
-    for (LimitOrder limitOrder : orderBook.getBids()) {
-		System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: "
-				+ limitOrder.getLimitPrice() + " Amount: " + limitOrder.getTradableAmount());
-	}
 
-	for (LimitOrder limitOrder : orderBook.getAsks()) {
-		System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: "
-				+ limitOrder.getLimitPrice() + " Amount: " + limitOrder.getTradableAmount());
-	}
+    for (LimitOrder limitOrder : orderBook.getBids()) {
+      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
+          + limitOrder.getOriginalAmount());
+    }
+
+    for (LimitOrder limitOrder : orderBook.getAsks()) {
+      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
+          + limitOrder.getOriginalAmount());
+    }
 
     System.out.println("plotting...");
 
@@ -60,13 +59,13 @@ public class DepthChartDemo {
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
 
     // BIDS
-    List<Number> xData = new ArrayList<Number>();
-    List<Number> yData = new ArrayList<Number>();
+    List<Number> xData = new ArrayList<>();
+    List<Number> yData = new ArrayList<>();
     BigDecimal accumulatedBidUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getBids()) {
-        xData.add(limitOrder.getLimitPrice());
-        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getTradableAmount());
-        yData.add(accumulatedBidUnits);
+      xData.add(limitOrder.getLimitPrice());
+      accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getOriginalAmount());
+      yData.add(accumulatedBidUnits);
     }
     Collections.reverse(xData);
     Collections.reverse(yData);
@@ -76,13 +75,13 @@ public class DepthChartDemo {
     series.setMarker(SeriesMarkers.NONE);
 
     // ASKS
-    xData = new ArrayList<Number>();
-    yData = new ArrayList<Number>();
+    xData = new ArrayList<>();
+    yData = new ArrayList<>();
     BigDecimal accumulatedAskUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getAsks()) {
-        xData.add(limitOrder.getLimitPrice());
-        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getTradableAmount());
-        yData.add(accumulatedAskUnits);
+      xData.add(limitOrder.getLimitPrice());
+      accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getOriginalAmount());
+      yData.add(accumulatedAskUnits);
     }
 
     // Asks Series

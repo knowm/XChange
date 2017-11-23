@@ -15,7 +15,7 @@ public class LakeBTCOrderBook {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

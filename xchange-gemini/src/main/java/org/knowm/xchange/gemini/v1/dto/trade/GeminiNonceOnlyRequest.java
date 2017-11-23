@@ -12,7 +12,7 @@ public class GeminiNonceOnlyRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param request
    * @param nonce
    */

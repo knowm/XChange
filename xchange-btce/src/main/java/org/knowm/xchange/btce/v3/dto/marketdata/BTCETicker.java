@@ -21,7 +21,7 @@ public final class BTCETicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param high
    * @param low
    * @param vol

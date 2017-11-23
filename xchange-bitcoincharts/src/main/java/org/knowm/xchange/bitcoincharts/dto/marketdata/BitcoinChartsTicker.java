@@ -23,7 +23,7 @@ public final class BitcoinChartsTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param ask
    * @param avg
    * @param bid

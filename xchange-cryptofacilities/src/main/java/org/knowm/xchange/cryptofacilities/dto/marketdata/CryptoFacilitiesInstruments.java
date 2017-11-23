@@ -37,12 +37,12 @@ public class CryptoFacilitiesInstruments extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess()) {
-      String res = "CryptoFacilitiesInstruments [serverTime=" + DATE_FORMAT.format(serverTime) + ",instruments=";
+      StringBuilder res = new StringBuilder("CryptoFacilitiesInstruments [serverTime=" + DATE_FORMAT.format(serverTime) + ",instruments=");
       for (CryptoFacilitiesInstrument ct : instruments)
-        res = res + ct.toString() + ", ";
-      res = res + " ]";
+        res.append(ct.toString()).append(", ");
+      res.append(" ]");
 
-      return res;
+      return res.toString();
     } else {
       return super.toString();
     }

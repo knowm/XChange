@@ -1,0 +1,29 @@
+package org.knowm.xchange.binance.service;
+
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.BinanceAuthenticated;
+import org.knowm.xchange.service.BaseExchangeService;
+import org.knowm.xchange.service.BaseService;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
+public class BinanceBaseService extends BaseExchangeService implements BaseService {
+
+    protected final String apiKey;
+    protected final BinanceAuthenticated binance;
+    protected final ParamsDigest signatureCreator;
+    
+    /**
+     * Constructor
+     *
+     * @param exchange
+     */
+    protected BinanceBaseService(Exchange exchange) {
+        super(exchange);
+        this.binance = RestProxyFactory.createProxy(BinanceAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        this.apiKey = exchange.getExchangeSpecification().getApiKey();
+        this.signatureCreator = BinanceHmacDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    }
+    
+}

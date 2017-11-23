@@ -9,7 +9,7 @@ public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelOrderRespo
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */
@@ -25,7 +25,7 @@ public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelOrderRespo
 
     /**
      * Constructor
-     * 
+     *
      * @param count
      * @param pending
      */

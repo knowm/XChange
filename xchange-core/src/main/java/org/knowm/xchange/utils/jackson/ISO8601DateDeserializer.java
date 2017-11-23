@@ -12,13 +12,13 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
  * Deserializes an ISO 8601 formatted Date String to a Java Date ISO 8601 format: yyyy-MM-dd'T'HH:mm:ssX
- * 
+ *
  * @author jamespedwards42
  */
 public class ISO8601DateDeserializer extends JsonDeserializer<Date> {
 
   @Override
-  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException {
 
     return DateUtils.fromISO8601DateString(jp.getValueAsString());
   }

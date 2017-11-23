@@ -28,7 +28,7 @@ public class KrakenOpenPosition {
 
   /**
    * Constructor
-   * 
+   *
    * @param orderTxId
    * @param assetPair
    * @param tradeUnixTimestamp

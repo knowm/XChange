@@ -5,32 +5,32 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.yobit.YoBit;
+import org.knowm.xchange.yobit.YoBitAdapters;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBooksReturn;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTickersReturn;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
-public class YoBitMarketDataServiceRaw extends YoBitBasePollingService<YoBit> {
+public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
 
-	protected YoBitMarketDataServiceRaw(Exchange exchange) {
-		super(YoBit.class, exchange);
-	}
+  protected YoBitMarketDataServiceRaw(Exchange exchange) {
+    super(YoBit.class, exchange);
+  }
 
-	public YoBitInfo getProducts() throws IOException {
-		YoBitInfo data = coinbaseEx.getProducts();
-		return data;
-	}
+  public YoBitInfo getProducts() throws IOException {
+    return service.getProducts();
+  }
 
-	public YoBitOrderBook getOrderBookA(CurrencyPair currencyPair, Long limit) throws IOException {
-		/*
-		 * if (!this.checkProductExists(currencyPair)) { return null; }
-		 */
+  // TODO error message handling http 414 (url too long)
+  public YoBitTickersReturn getYoBitTickers(Iterable<CurrencyPair> currencyPairs) throws IOException {
+    return service.getTickers(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs));
+  }
 
-		return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toLowerCase(),
-				currencyPair.counter.getCurrencyCode().toLowerCase(), limit);
-	}
+  public YoBitOrderBooksReturn getOrderBooks(Iterable<CurrencyPair> currencyPairs, Integer limit) throws IOException {
+    return service.getOrderBooks(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs), limit);
+  }
 
-	public YoBitTrades getTrades(CurrencyPair currencyPair) throws IOException {
-		return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode().toLowerCase(),
-				currencyPair.counter.getCurrencyCode().toLowerCase());
-	}
+  public YoBitTrades getPublicTrades(Iterable<CurrencyPair> currencyPairs) throws IOException {
+    return service.getTrades(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs));
+  }
 }

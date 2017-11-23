@@ -40,7 +40,7 @@ public class CoinbaseSpotPriceHistory {
 
   public static CoinbaseSpotPriceHistory fromRawString(String spotPriceHistoryString) {
 
-    final List<CoinbaseHistoricalSpotPrice> historicalPrices = new ArrayList<CoinbaseHistoricalSpotPrice>();
+    final List<CoinbaseHistoricalSpotPrice> historicalPrices = new ArrayList<>();
     // Parse in reverse because they are inconsistent with the number of decimals for the rates
     // which makes it difficult to differentiate from the following year. Going in reverse
     // we can rely on the comma.

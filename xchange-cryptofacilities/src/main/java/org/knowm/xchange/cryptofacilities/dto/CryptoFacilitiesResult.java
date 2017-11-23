@@ -13,7 +13,7 @@ public class CryptoFacilitiesResult {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

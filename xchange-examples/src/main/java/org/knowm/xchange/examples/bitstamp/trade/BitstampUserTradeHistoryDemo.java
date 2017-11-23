@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
-import org.knowm.xchange.bitstamp.service.polling.BitstampTradeHistoryParams;
-import org.knowm.xchange.bitstamp.service.polling.BitstampTradeServiceRaw;
+import org.knowm.xchange.bitstamp.service.BitstampTradeHistoryParams;
+import org.knowm.xchange.bitstamp.service.BitstampTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.bitstamp.BitstampDemoUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * <p>
@@ -25,13 +25,13 @@ public class BitstampUserTradeHistoryDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange bitstamp = BitstampDemoUtils.createExchange();
-    PollingTradeService tradeService = bitstamp.getPollingTradeService();
+    TradeService tradeService = bitstamp.getTradeService();
 
     generic(tradeService);
     raw((BitstampTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
 
     Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println(trades);

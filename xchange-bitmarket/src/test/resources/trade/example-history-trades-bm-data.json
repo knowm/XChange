@@ -1,5 +1,5 @@
 {
-  "success":true,
+  "success": true,
   "data": {
     "total": 5,
     "start": 0,
@@ -17,11 +17,10 @@
       }
     ]
   },
-  "time":1455443322,
-  "limit":
-  {
-    "used" : 1,
-    "allowed" : 200,
-    "expires" : 1395750600
+  "time": 1455443322,
+  "limit": {
+    "used": 1,
+    "allowed": 200,
+    "expires": 1395750600
   }
 }

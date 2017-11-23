@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.gdax.GDAX;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
@@ -15,11 +14,11 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 /**
  * Created by Yingzhe on 4/6/2015.
  */
-public class GDAXMarketDataServiceRaw extends GDAXBasePollingService<GDAX> {
+public class GDAXMarketDataServiceRaw extends GDAXBaseService {
 
   public GDAXMarketDataServiceRaw(Exchange exchange) {
 
-    super(GDAX.class, exchange);
+    super(exchange);
   }
 
   public GDAXProductTicker getCoinbaseExProductTicker(CurrencyPair currencyPair) throws IOException {
@@ -63,7 +62,7 @@ public class GDAXMarketDataServiceRaw extends GDAXBasePollingService<GDAX> {
     return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
   }
 
-  public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
+  public boolean checkProductExists(CurrencyPair currencyPair) {
 
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
@@ -77,7 +76,7 @@ public class GDAXMarketDataServiceRaw extends GDAXBasePollingService<GDAX> {
     return currencyPairSupported;
   }
 
-  public List<GDAXProduct> getConbaseExProducts() throws IOException {
+  public List<GDAXProduct> getCoinbaseExProducts() throws IOException {
 
     return coinbaseEx.getProducts();
   }

@@ -41,12 +41,12 @@ public class CryptoFacilitiesOpenPositions extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess()) {
-      String res = "CryptoFacilitiesOpenPositions [serverTime=" + DATE_FORMAT.format(serverTime) + ", openPositions=";
+      StringBuilder res = new StringBuilder("CryptoFacilitiesOpenPositions [serverTime=" + DATE_FORMAT.format(serverTime) + ", openPositions=");
       for (CryptoFacilitiesOpenPosition openPosition : openPositions)
-        res = res + openPosition.toString() + ", ";
-      res = res + " ]";
+        res.append(openPosition.toString()).append(", ");
+      res.append(" ]");
 
-      return res;
+      return res.toString();
     } else {
       return super.toString();
     }

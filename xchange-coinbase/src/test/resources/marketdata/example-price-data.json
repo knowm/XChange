@@ -1,26 +1,26 @@
 {
-   "subtotal":{
-      "amount":"723.09",
-      "currency":"USD"
-   },
-   "fees":[
-      {
-         "coinbase":{
-            "amount":"7.23",
-            "currency":"USD"
-         }
-      },
-      {
-         "bank":{
-            "amount":"0.15",
-            "currency":"USD"
-         }
+  "subtotal": {
+    "amount": "723.09",
+    "currency": "USD"
+  },
+  "fees": [
+    {
+      "coinbase": {
+        "amount": "7.23",
+        "currency": "USD"
       }
-   ],
-   "total":{
-      "amount":"730.47",
-      "currency":"USD"
-   },
-   "amount":"730.47",
-   "currency":"USD"
+    },
+    {
+      "bank": {
+        "amount": "0.15",
+        "currency": "USD"
+      }
+    }
+  ],
+  "total": {
+    "amount": "730.47",
+    "currency": "USD"
+  },
+  "amount": "730.47",
+  "currency": "USD"
 }

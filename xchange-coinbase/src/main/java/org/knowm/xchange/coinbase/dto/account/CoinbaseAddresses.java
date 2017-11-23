@@ -54,7 +54,7 @@ public class CoinbaseAddresses extends CoinbasePagedResult {
       final JsonNode node = oc.readTree(jp);
       final JsonNode addressesArrayNode = node.path("addresses");
 
-      final List<CoinbaseAddress> addresses = new ArrayList<CoinbaseAddress>();
+      final List<CoinbaseAddress> addresses = new ArrayList<>();
       for (JsonNode addressNode : addressesArrayNode) {
         addresses.add(getAddressFromNode(addressNode));
       }

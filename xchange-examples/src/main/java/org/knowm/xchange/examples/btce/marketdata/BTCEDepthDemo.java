@@ -7,10 +7,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btce.v3.BTCEExchange;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEDepth;
-import org.knowm.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
+import org.knowm.xchange.btce.v3.service.BTCEMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Order Book at BTC-E
@@ -27,8 +27,8 @@ public class BTCEDepthDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the latest full order book data for LTC/USD
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_USD);
@@ -49,8 +49,8 @@ public class BTCEDepthDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getMarketDataService();
 
     // Get the latest full order book data for LTC/USD
     Map<String, BTCEDepth> depth = marketDataService.getBTCEDepth("ltc_usd", 7).getDepthMap();

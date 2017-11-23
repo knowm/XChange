@@ -14,7 +14,7 @@ public class KrakenDepthResult extends KrakenResult<Map<String, KrakenDepth>> {
 
   /**
    * Constructor
-   * 
+   *
    * @param error array of string error messages
    * @param result the returned depths
    */

@@ -15,7 +15,7 @@ public final class Out {
 
   /**
    * Constructor
-   * 
+   *
    * @param addr
    * @param n
    * @param tx_index

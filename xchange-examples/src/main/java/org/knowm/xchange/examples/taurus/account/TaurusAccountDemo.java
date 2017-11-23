@@ -7,9 +7,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.taurus.TaurusDemoUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.taurus.dto.account.TaurusBalance;
-import org.knowm.xchange.taurus.service.polling.TaurusAccountServiceRaw;
+import org.knowm.xchange.taurus.service.TaurusAccountServiceRaw;
 
 /**
  * <p>
@@ -29,13 +29,13 @@ public class TaurusAccountDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange taurus = TaurusDemoUtils.createExchange();
-    PollingAccountService accountService = taurus.getPollingAccountService();
+    AccountService accountService = taurus.getAccountService();
 
     generic(accountService);
     raw((TaurusAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
@@ -44,7 +44,7 @@ public class TaurusAccountDemo {
     String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "1MqzGxp6fPdkCyEHe3hZK7rgnSSzHABh7f");
+    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 
@@ -57,7 +57,7 @@ public class TaurusAccountDemo {
     String depositAddress = accountService.getTaurusBitcoinDepositAddress();
     System.out.println("TaurusDepositAddress address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawTaurusFunds(new BigDecimal(1).movePointLeft(4), "1MqzGxp6fPdkCyEHe3hZK7rgnSSzHABh7f");
+    String withdrawResult = accountService.withdrawTaurusFunds(new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("TaurusBooleanResponse = " + withdrawResult);
   }
 }

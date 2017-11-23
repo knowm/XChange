@@ -7,44 +7,44 @@ import java.util.concurrent.TimeUnit;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ccex.dto.account.CCEXBalance;
-import org.knowm.xchange.ccex.service.pooling.CCEXAccountServiceRaw;
+import org.knowm.xchange.ccex.service.CCEXAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.examples.ccex.CCEXExamplesUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 public class CCEXAccountDemo {
-	
-	public static void main(String[] args) throws IOException, InterruptedException {
 
-	    Exchange exchange = CCEXExamplesUtils.getExchange();
+  public static void main(String[] args) throws IOException, InterruptedException {
 
-	    PollingAccountService accountService = exchange.getPollingAccountService();
+    Exchange exchange = CCEXExamplesUtils.getExchange();
 
-	    generic(accountService);
-	    TimeUnit.SECONDS.sleep(1);
-	    raw((CCEXAccountServiceRaw) accountService);
-	  }
+    AccountService accountService = exchange.getAccountService();
 
-	  private static void generic(PollingAccountService accountService) throws IOException, InterruptedException {
+    generic(accountService);
+    TimeUnit.SECONDS.sleep(1);
+    raw((CCEXAccountServiceRaw) accountService);
+  }
 
-	    System.out.println("----------GENERIC---------");
+  private static void generic(AccountService accountService) throws IOException, InterruptedException {
 
-	    Map<Currency, Balance> balances = accountService.getAccountInfo().getWallet().getBalances();
-	    System.out.println(balances);
-	    TimeUnit.SECONDS.sleep(1);
-	    System.out.println(accountService.requestDepositAddress(Currency.BTC));
+    System.out.println("----------GENERIC---------");
 
-	  }
+    Map<Currency, Balance> balances = accountService.getAccountInfo().getWallet().getBalances();
+    System.out.println(balances);
+    TimeUnit.SECONDS.sleep(1);
+    System.out.println(accountService.requestDepositAddress(Currency.BTC));
 
-	  private static void raw(CCEXAccountServiceRaw accountService) throws IOException, InterruptedException {
+  }
 
-	    System.out.println("------------RAW-----------");
+  private static void raw(CCEXAccountServiceRaw accountService) throws IOException, InterruptedException {
 
-	    List<CCEXBalance> wallets = accountService.getCCEXAccountInfo();
-	    System.out.println(wallets);
-	    TimeUnit.SECONDS.sleep(1);
-	    System.out.println(accountService.getCCEXDepositAddress("BTC"));
+    System.out.println("------------RAW-----------");
 
-	  }
+    List<CCEXBalance> wallets = accountService.getCCEXAccountInfo();
+    System.out.println(wallets);
+    TimeUnit.SECONDS.sleep(1);
+    System.out.println(accountService.getCCEXDepositAddress("BTC"));
+
+  }
 }

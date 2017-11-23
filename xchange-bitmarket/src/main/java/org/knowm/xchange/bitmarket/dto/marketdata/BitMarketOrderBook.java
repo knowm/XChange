@@ -15,7 +15,7 @@ public class BitMarketOrderBook {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

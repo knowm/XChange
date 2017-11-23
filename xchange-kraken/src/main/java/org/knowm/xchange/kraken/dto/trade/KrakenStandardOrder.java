@@ -193,6 +193,12 @@ public class KrakenStandardOrder {
         .withSecondaryPrice(limitPrice);
   }
 
+  public static KrakenOrderBuilder getSettlePositionOrderBuilder(CurrencyPair currencyPair, KrakenType type, BigDecimal volume) {
+
+    //Leverage parameter is required but its value is irrelevant for settling position
+    return new KrakenOrderBuilder(currencyPair, type, KrakenOrderType.SETTLE_POSITION, volume).withLeverage("2");
+  }
+
   public static class KrakenOrderBuilder {
 
     private final CurrencyPair currencyPair;
@@ -216,7 +222,7 @@ public class KrakenStandardOrder {
       this.type = type;
       this.orderType = orderType;
       this.volume = volume;
-      this.orderFlags = new HashSet<IOrderFlags>();
+      this.orderFlags = new HashSet<>();
       this.startTime = "0";
       this.positionTxId = "0";
       this.validateOnly = false;
@@ -282,7 +288,7 @@ public class KrakenStandardOrder {
 
     public KrakenOrderBuilder withCloseOrder(KrakenOrderType orderType, String price, String secondaryPrice) {
 
-      closeOrder = new HashMap<String, String>();
+      closeOrder = new HashMap<>();
       closeOrder.put("ordertype", orderType.toString());
       closeOrder.put("price", price);
       closeOrder.put("price2", secondaryPrice);

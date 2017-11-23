@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
-import org.knowm.xchange.bitso.service.polling.BitsoTradeServiceRaw;
+import org.knowm.xchange.bitso.service.BitsoTradeServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.bitso.BitsoDemoUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * <p>
@@ -30,13 +30,13 @@ public class BitsoTradeDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange bitso = BitsoDemoUtils.createExchange();
-    PollingTradeService tradeService = bitso.getPollingTradeService();
+    TradeService tradeService = bitso.getTradeService();
 
     generic(tradeService);
     raw((BitsoTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
 
     printOpenOrders(tradeService);
 
@@ -55,7 +55,7 @@ public class BitsoTradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+  private static void printOpenOrders(TradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

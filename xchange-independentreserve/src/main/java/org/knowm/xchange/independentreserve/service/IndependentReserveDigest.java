@@ -55,35 +55,35 @@ public class IndependentReserveDigest extends BaseParamsDigest {
     mac256.update(namedNonce.getBytes());
 
     if (parameters != null && parameters.size() > 0) {
-      List<String> namedParameters = new ArrayList<String>();
+      List<String> namedParameters = new ArrayList<>();
       for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
         Object value = parameter.getValue();
-        String valueStr;
+        StringBuilder valueStr;
         if (value == null) {
-            valueStr = null;
+          valueStr = null;
         } else if (value instanceof Object[]) {
-            valueStr = "";
-            for (Object o : (Object[]) value) {
-                if (valueStr.length() != 0) {
-                    valueStr += ',';
-                }
-                valueStr += String.valueOf(o);
+          valueStr = new StringBuilder();
+          for (Object o : (Object[]) value) {
+            if (valueStr.length() != 0) {
+              valueStr.append(',');
             }
+            valueStr.append(String.valueOf(o));
+          }
         } else {
-            valueStr = String.valueOf(value);
+          valueStr = new StringBuilder(String.valueOf(value));
         }
-        
+
         String namedParameter = parameter.getKey() + "=" + valueStr;
         namedParameters.add(namedParameter);
       }
-      String joinedNamedParameters = "";
+      StringBuilder joinedNamedParameters = new StringBuilder();
       for (String namedParameter : namedParameters) {
-        joinedNamedParameters += namedParameter + ",";
+        joinedNamedParameters.append(namedParameter).append(",");
       }
-      joinedNamedParameters = joinedNamedParameters.substring(0, joinedNamedParameters.length() - 1);
-      if (!joinedNamedParameters.equals("")) {
-        joinedNamedParameters = "," + joinedNamedParameters;
-        mac256.update(joinedNamedParameters.getBytes());
+      joinedNamedParameters = new StringBuilder(joinedNamedParameters.substring(0, joinedNamedParameters.length() - 1));
+      if (!joinedNamedParameters.toString().equals("")) {
+        joinedNamedParameters.insert(0, ",");
+        mac256.update(joinedNamedParameters.toString().getBytes());
       }
     }
     return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();

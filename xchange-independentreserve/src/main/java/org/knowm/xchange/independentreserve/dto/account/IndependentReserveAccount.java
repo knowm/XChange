@@ -46,9 +46,8 @@ public class IndependentReserveAccount {
 
   @Override
   public String toString() {
-    return "IndependentReserveAccount [accountGuid=" + accountGuid + ", accountStatus=" + accountStatus + ", availableBalance="
-        + availableBalance + ", currencyCode=" + currencyCode + ", totalBalance=" + totalBalance + "]";
+    return "IndependentReserveAccount [accountGuid=" + accountGuid + ", accountStatus=" + accountStatus + ", availableBalance=" + availableBalance
+        + ", currencyCode=" + currencyCode + ", totalBalance=" + totalBalance + "]";
   }
-  
-  
+
 }

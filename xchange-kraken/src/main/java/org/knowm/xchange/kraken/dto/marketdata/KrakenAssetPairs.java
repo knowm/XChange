@@ -8,7 +8,7 @@ public class KrakenAssetPairs {
 
   /**
    * Constructor
-   * 
+   *
    * @param assetPairMap
    */
   public KrakenAssetPairs(Map<String, KrakenAssetPair> assetPairMap) {

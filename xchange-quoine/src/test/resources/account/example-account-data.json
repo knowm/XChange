@@ -1,151 +1,66 @@
 {
-   "bitcoin_account":{
-      "id":59,
-      "balance":2.63499784,
-      "address":"15hybRabh6cspBDQRTQ7vTdcwTkPYNAz1f",
-      "currency":"BTC",
-      "currency_symbol":"\u0e3f",
-      "pusher_channel":"user_59_account_btc",
-      "btc_minimum_withdraw":0.02,
-      "lowest_offer_interest_rate":"0.00029",
-      "highest_offer_interest_rate":"0.05000",
-      "free_balance":2.63499784
-   },
-   "fiat_accounts":[
-      {
-         "id":52,
-         "currency":"SGD",
-         "currency_symbol":"S$",
-         "balance":242.33394,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_sgd",
-         "lowest_offer_interest_rate":"0.00045",
-         "highest_offer_interest_rate":"0.00050",
-         "free_balance":242.33394,
-         "bank":{
-            "name":"Standard Chartered Bank",
-            "branch":"001",
-            "acc_type":"CA",
-            "acc_name":"QUOINE PTE. LTD. ",
-            "bank_address":"",
-            "swift":"SCBLSGSGXXX",
-            "bank_account_numbers":[
-               {
-                  "account_number":"0106356348",
-                  "bank_id":3,
-                  "currency":"SGD",
-                  "id":1
-               }
-            ]
-         }
-      },
-      {
-         "id":259,
-         "currency":"JPY",
-         "currency_symbol":"\u00a5",
-         "balance":12546.36144,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_jpy",
-         "lowest_offer_interest_rate":"0.00005",
-         "highest_offer_interest_rate":"0.00020",
-         "free_balance":12546.36144,
-         "bank":{
-            "name":"\u30b8\u30e3\u30d1\u30f3\u30cd\u30c3\u30c8\u30d0\u30f3\u30af",
-            "branch":"\u3059\u305a\u3081\u652f\u5e97 002",
-            "acc_type":"\u666e\u901a",
-            "acc_name":"\u30ab)\u30a2\u30eb\u30d0\u30b3\u30a2,    \u682a\u5f0f\u4f1a\u793e \u30a2\u30eb\u30d0\u30b3\u30a2",
-            "bank_address":"",
-            "swift":"",
-            "bank_account_numbers":[
-               {
-                  "account_number":"4287908",
-                  "bank_id":1,
-                  "currency":"JPY",
-                  "id":3
-               }
-            ]
-         }
-      },
-      {
-         "id":296,
-         "currency":"IDR",
-         "currency_symbol":"Rp",
-         "balance":2751688.96057,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_idr",
-         "lowest_offer_interest_rate":"0.00033",
-         "highest_offer_interest_rate":"0.00050",
-         "free_balance":2679672.96057,
-         "bank":{
-            "name":"BCA",
-            "branch":"Menara Mulia",
-            "acc_type":"Giro",
-            "acc_name":"PT. INDOMOG",
-            "bank_address":"",
-            "swift":"",
-            "bank_account_numbers":[
-               {
-                  "account_number":"255.301.3020",
-                  "bank_id":6,
-                  "currency":"IDR",
-                  "id":6
-               }
-            ]
-         }
-      },
-      {
-         "id":298,
-         "currency":"EUR",
-         "currency_symbol":"\u20ac",
-         "balance":0.0,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_eur",
-         "lowest_offer_interest_rate":"0.00050",
-         "highest_offer_interest_rate":"0.20000",
-         "free_balance":0.0,
-         "bank":{
-            "name":"Standard Chartered Bank",
-            "branch":"001",
-            "acc_type":"CA",
-            "acc_name":"QUOINE PTE. LTD.",
-            "bank_address":"",
-            "swift":"SCBLSGSGXXX",
-            "bank_account_numbers":[
-               {
-                  "account_number":"0104999586",
-                  "bank_id":5,
-                  "currency":"EUR",
-                  "id":5
-               }
-            ]
-         }
-      },
-      {
-         "id":297,
-         "currency":"USD",
-         "currency_symbol":"$",
-         "balance":440.84955,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_usd",
-         "lowest_offer_interest_rate":"0.00005",
-         "highest_offer_interest_rate":"0.00020",
-         "free_balance":440.84955,
-         "bank":{
-            "name":"Standard Chartered Bank",
-            "branch":"001",
-            "acc_type":"CA",
-            "acc_name":"QUOINE PTE. LTD. ",
-            "bank_address":"",
-            "swift":"SCBLSGSGXXX",
-            "bank_account_numbers":[
-               {
-                  "account_number":"0104999594",
-                  "bank_id":4,
-                  "currency":"USD",
-                  "id":4
-               }
-            ]
-         }
-      }
-   ]
+  "bitcoin_account": {
+    "id": 59,
+    "balance": 2.63499784,
+    "address": "15hybRabh6cspBDQRTQ7vTdcwTkPYNAz1f",
+    "currency": "BTC",
+    "currency_symbol": "\u0e3f",
+    "pusher_channel": "user_59_account_btc",
+    "btc_minimum_withdraw": 0.02,
+    "lowest_offer_interest_rate": "0.00029",
+    "highest_offer_interest_rate": "0.05000",
+    "free_balance": "0.0"
+  },
+  "fiat_accounts": [
+    {
+      "id": 52,
+      "currency": "SGD",
+      "currency_symbol": "S$",
+      "balance": 242.33394,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_sgd",
+      "lowest_offer_interest_rate": "0.00045",
+      "highest_offer_interest_rate": "0.00050"
+    },
+    {
+      "id": 259,
+      "currency": "JPY",
+      "currency_symbol": "\u00a5",
+      "balance": 12546.36144,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_jpy",
+      "lowest_offer_interest_rate": "0.00005",
+      "highest_offer_interest_rate": "0.00020"
+    },
+    {
+      "id": 296,
+      "currency": "IDR",
+      "currency_symbol": "Rp",
+      "balance": 2751688.96057,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_idr",
+      "lowest_offer_interest_rate": "0.00033",
+      "highest_offer_interest_rate": "0.00050"
+    },
+    {
+      "id": 298,
+      "currency": "EUR",
+      "currency_symbol": "\u20ac",
+      "balance": 0.0,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_eur",
+      "lowest_offer_interest_rate": "0.00050",
+      "highest_offer_interest_rate": "0.20000"
+    },
+    {
+      "id": 297,
+      "currency": "USD",
+      "currency_symbol": "$",
+      "balance": 440.84955,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_usd",
+      "lowest_offer_interest_rate": "0.00005",
+      "highest_offer_interest_rate": "0.00020"
+    }
+  ]
 }

@@ -1,12 +1,11 @@
 package org.knowm.xchange.anx.v2.dto.account;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-import org.knowm.xchange.anx.v2.dto.account.polling.ANXBitcoinDepositAddress;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,7 +1,7 @@
 package org.knowm.xchange.gatecoin;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.offset;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
 
 import java.io.IOException;
 import java.io.InputStream;

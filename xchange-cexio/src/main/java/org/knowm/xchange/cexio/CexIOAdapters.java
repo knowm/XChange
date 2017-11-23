@@ -1,16 +1,13 @@
 package org.knowm.xchange.cexio;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
+import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,7 +22,16 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 /**
  * Author: brox Since: 2/6/14
@@ -38,7 +44,7 @@ public class CexIOAdapters {
   /**
    * Adapts a CexIOTrade to a Trade Object
    *
-   * @param trade CexIO trade object
+   * @param trade        CexIO trade object
    * @param currencyPair trade currencies
    * @return The XChange Trade
    */
@@ -54,13 +60,13 @@ public class CexIOAdapters {
   /**
    * Adapts a CexIOTrade[] to a Trades Object
    *
-   * @param cexioTrades The CexIO trade data returned by API
+   * @param cexioTrades  The CexIO trade data returned by API
    * @param currencyPair trade currencies
    * @return The trades
    */
   public static Trades adaptTrades(CexIOTrade[] cexioTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>();
+    List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
     for (CexIOTrade trade : cexioTrades) {
       long tradeId = trade.getTid();
@@ -76,7 +82,7 @@ public class CexIOAdapters {
   /**
    * Adapts a CexIOTicker to a Ticker Object
    *
-   * @param ticker The exchange specific ticker
+   * @param ticker       The exchange specific ticker
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The ticker
    */
@@ -97,14 +103,14 @@ public class CexIOAdapters {
   /**
    * Adapts Cex.IO Depth to OrderBook Object
    *
-   * @param depth Cex.IO order book
+   * @param depth        Cex.IO order book
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(CexIODepth depth, CurrencyPair currencyPair) {
 
-    List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, depth.getAsks());
-    List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, depth.getBids());
+    List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, depth.getAsks());
+    List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, depth.getBids());
     Date date = new Date(depth.getTimestamp() * 1000);
     return new OrderBook(date, asks, bids);
   }
@@ -112,85 +118,32 @@ public class CexIOAdapters {
   /**
    * Adapts CexIOBalanceInfo to Wallet
    *
-   * @param balance CexIOBalanceInfo balance
+   * @param cexIOBalanceInfo CexIOBalanceInfo balance
    * @return The account info
    */
-  public static Wallet adaptWallet(CexIOBalanceInfo balance) {
+  public static Wallet adaptWallet(CexIOBalanceInfo cexIOBalanceInfo) {
 
-    List<Balance> balances = new ArrayList<Balance>();
-
-    // Adapt to XChange DTOs
-    if (balance.getBalanceBTC() != null) {
-      balances.add(adaptBalance(Currency.BTC, balance.getBalanceBTC()));
-    }
-    if (balance.getBalanceLTC() != null) {
-      balances.add(adaptBalance(Currency.LTC, balance.getBalanceLTC()));
-    }
-    if (balance.getBalanceNMC() != null) {
-      balances.add(adaptBalance(Currency.NMC, balance.getBalanceNMC()));
-    }
-    if (balance.getBalanceIXC() != null) {
-      balances.add(adaptBalance(Currency.IXC, balance.getBalanceIXC()));
-    }
-    if (balance.getBalanceDVC() != null) {
-      balances.add(adaptBalance(Currency.DVC, balance.getBalanceDVC()));
-    }
-    if (balance.getBalanceGHS() != null) {
-      balances.add(adaptBalance(Currency.GHs, balance.getBalanceGHS()));
-    }
-    if (balance.getBalanceUSD() != null) {
-      balances.add(adaptBalance(Currency.USD, balance.getBalanceUSD()));
-    }
-    if (balance.getBalanceDRK() != null) {
-      balances.add(adaptBalance(Currency.DRK, balance.getBalanceDRK()));
-    }
-    if (balance.getBalanceEUR() != null) {
-      balances.add(adaptBalance(Currency.EUR, balance.getBalanceEUR()));
-    }
-    if (balance.getBalanceDOGE() != null) {
-      balances.add(adaptBalance(Currency.DOGE, balance.getBalanceDOGE()));
-    }
-    if (balance.getBalanceFTC() != null) {
-      balances.add(adaptBalance(Currency.FTC, balance.getBalanceFTC()));
-    }
-    if (balance.getBalanceMEC() != null) {
-      balances.add(adaptBalance(Currency.MEC, balance.getBalanceMEC()));
-    }
-    if (balance.getBalanceWDC() != null) {
-      balances.add(adaptBalance(Currency.WDC, balance.getBalanceWDC()));
-    }
-    if (balance.getBalanceMYR() != null) {
-      balances.add(adaptBalance(Currency.MYR, balance.getBalanceMYR()));
-    }
-    if (balance.getBalanceAUR() != null) {
-      balances.add(adaptBalance(Currency.AUR, balance.getBalanceAUR()));
-    }
-    if (balance.getBalancePOT() != null) {
-      balances.add(adaptBalance(Currency.POT, balance.getBalancePOT()));
-    }
-    if (balance.getBalanceANC() != null) {
-      balances.add(adaptBalance(Currency.ANC, balance.getBalanceANC()));
-    }
-    if (balance.getBalanceDGB() != null) {
-      balances.add(adaptBalance(Currency.DGB, balance.getBalanceDGB()));
-    }
-    if (balance.getBalanceUSDE() != null) {
-      balances.add(adaptBalance(Currency.USDE, balance.getBalanceUSDE()));
-    }
-    if (balance.getBalanceETH() != null) {
-      balances.add(adaptBalance(Currency.ETH, balance.getBalanceETH()));
+    List<Balance> balances = new ArrayList<>();
+    for (String ccyName : cexIOBalanceInfo.getBalances().keySet()) {
+      CexIOBalance cexIOBalance = cexIOBalanceInfo.getBalances().get(ccyName);
+      balances.add(adaptBalance(new Currency(ccyName), cexIOBalance));
     }
 
     return new Wallet(balances);
   }
 
   public static Balance adaptBalance(Currency currency, CexIOBalance balance) {
-    return new Balance(currency, null, balance.getAvailable(), balance.getOrders());
+    BigDecimal inOrders = balance.getOrders();
+    BigDecimal frozen = inOrders == null ? BigDecimal.ZERO : inOrders;
+    return new Balance(currency, null, balance.getAvailable(), frozen);
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
+    if (orders == null)
+      return limitOrders;
+
     for (List<BigDecimal> o : orders) {
       checkArgument(o.size() == 2, "Expected a pair (price, amount) but got {0} elements.", o.size());
       limitOrders.add(createOrder(currencyPair, o, orderType));
@@ -198,7 +151,7 @@ public class CexIOAdapters {
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
   }
@@ -212,12 +165,12 @@ public class CexIOAdapters {
 
   public static OpenOrders adaptOpenOrders(List<CexIOOrder> cexIOOrderList) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
-      Order.OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? Order.OrderType.BID : Order.OrderType.ASK;
+      OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       String id = Long.toString(cexIOOrder.getId());
-      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getPending(),
+      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getPending(),
           new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id,
           DateUtils.fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()));
     }
@@ -226,4 +179,33 @@ public class CexIOAdapters {
 
   }
 
+  public static UserTrade adaptArchivedOrder(CexIOArchivedOrder cexIOArchivedOrder) {
+    try {
+      Date timestamp = fromISODateString(cexIOArchivedOrder.time);
+
+      OrderType orderType = cexIOArchivedOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
+      BigDecimal originalAmount = new BigDecimal(cexIOArchivedOrder.amount);
+      CurrencyPair currencyPair = new CurrencyPair(cexIOArchivedOrder.symbol1, cexIOArchivedOrder.symbol2);
+      BigDecimal price = cexIOArchivedOrder.price;
+      String id = cexIOArchivedOrder.id;
+      String orderId = cexIOArchivedOrder.orderId;
+
+      Currency feeCcy = cexIOArchivedOrder.feeCcy == null ? null : Currency.getInstance(cexIOArchivedOrder.feeCcy);
+      BigDecimal fee = cexIOArchivedOrder.feeValue;
+
+      return new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, id, orderId, fee, feeCcy);
+    } catch (InvalidFormatException e) {
+      throw new IllegalStateException("Cannot format date " + cexIOArchivedOrder.time, e);
+    }
+  }
+
+  public static Order adaptOrder(CexIOOpenOrder cexIOOrder) {
+    OrderType orderType = cexIOOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
+    BigDecimal originalAmount = new BigDecimal(cexIOOrder.amount);
+    CurrencyPair currencyPair = new CurrencyPair(cexIOOrder.symbol1, cexIOOrder.symbol2);
+    Date timestamp = new Date(cexIOOrder.time);
+    BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
+
+    return new LimitOrder(orderType, originalAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice);
+  }
 }

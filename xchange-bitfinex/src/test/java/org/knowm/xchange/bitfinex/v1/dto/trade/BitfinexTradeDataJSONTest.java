@@ -2,14 +2,12 @@ package org.knowm.xchange.bitfinex.v1.dto.trade;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +19,6 @@ public class BitfinexTradeDataJSONTest {
    *
    * @throws IOException
    */
-  @Ignore
   @Test
   public void testPlaceOrder() throws IOException {
 
@@ -30,7 +27,6 @@ public class BitfinexTradeDataJSONTest {
 
     assertEquals(4003264, response.getId());
     assertEquals("btcusd", response.getSymbol());
-    assertEquals("bitfinex", response.getExchange());
     assertEquals(new BigDecimal("900.0"), response.getPrice());
     assertEquals(new BigDecimal("0.0"), response.getAvgExecutionPrice());
     assertEquals("sell", response.getSide());
@@ -52,7 +48,6 @@ public class BitfinexTradeDataJSONTest {
 
     assertEquals(4003242, response.getId());
     assertEquals("btcusd", response.getSymbol());
-    assertNull(response.getExchange());
     assertEquals(new BigDecimal("900.0"), response.getPrice());
     assertEquals(new BigDecimal("0.0"), response.getAvgExecutionPrice());
     assertEquals("sell", response.getSide());
@@ -74,7 +69,6 @@ public class BitfinexTradeDataJSONTest {
 
     assertEquals(4003242, response.getId());
     assertEquals("btcusd", response.getSymbol());
-    assertNull(response.getExchange());
     assertEquals(new BigDecimal("900.0"), response.getPrice());
     assertEquals(new BigDecimal("0.0"), response.getAvgExecutionPrice());
     assertEquals("sell", response.getSide());

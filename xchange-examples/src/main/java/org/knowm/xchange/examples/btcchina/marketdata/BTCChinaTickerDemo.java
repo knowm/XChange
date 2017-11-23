@@ -8,10 +8,10 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * @author ObsessiveOrange Demonstrate requesting Ticker at BTC China
@@ -21,8 +21,8 @@ public class BTCChinaTickerDemo {
   // Use the factory to get the BTC China exchange API using default settings
   static Exchange btcchina = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
 
-  // Interested in the public polling market data feed (no authentication)
-  static PollingMarketDataService marketDataService = btcchina.getPollingMarketDataService();
+  // Interested in the public market data feed (no authentication)
+  static MarketDataService marketDataService = btcchina.getMarketDataService();
 
   public static void main(String[] args) throws IOException {
 

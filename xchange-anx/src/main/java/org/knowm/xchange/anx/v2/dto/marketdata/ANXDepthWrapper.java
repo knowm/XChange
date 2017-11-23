@@ -13,7 +13,7 @@ public class ANXDepthWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxDepth
    * @param error

@@ -9,21 +9,16 @@ public class KrakenTradeVolume {
 
   private final String currency;
   private final BigDecimal volume;
-  private final Map<String, KrakenVolumeFee> fees;
+  private final Map<String, KrakenVolumeFee> feesTaker;
+  private final Map<String, KrakenVolumeFee> feesMaker;
 
-  /**
-   * Constructor
-   * 
-   * @param currency
-   * @param volume
-   * @param fees
-   */
   public KrakenTradeVolume(@JsonProperty("currency") String currency, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("fees") Map<String, KrakenVolumeFee> fees) {
+      @JsonProperty("fees") Map<String, KrakenVolumeFee> feesTaker, @JsonProperty("fees_maker") Map<String, KrakenVolumeFee> feesMaker) {
 
     this.currency = currency;
     this.volume = volume;
-    this.fees = fees;
+    this.feesTaker = feesTaker;
+    this.feesMaker = feesMaker;
   }
 
   public String getCurrency() {
@@ -38,12 +33,17 @@ public class KrakenTradeVolume {
 
   public Map<String, KrakenVolumeFee> getFees() {
 
-    return fees;
+    return feesTaker;
+  }
+
+  public Map<String, KrakenVolumeFee> getFeesMaker() {
+
+    return feesMaker;
   }
 
   @Override
   public String toString() {
 
-    return "KrakenTradeVolume [currency=" + currency + ", volume=" + volume + ", fees=" + fees + "]";
+    return "KrakenTradeVolume [currency=" + currency + ", volume=" + volume + ", feesTaker=" + feesTaker + ", feesMaker=" + feesMaker + "]";
   }
 }

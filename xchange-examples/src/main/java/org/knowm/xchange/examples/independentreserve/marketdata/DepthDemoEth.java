@@ -9,8 +9,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.independentreserve.IndependentReserveExchange;
 import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
-import org.knowm.xchange.independentreserve.service.polling.IndependentReserveMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.independentreserve.service.IndependentReserveMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Author: Aleksey Baryshnikov Date: 2/9/16 Demonstrate requesting Ether Depth at Independent Reserve
@@ -21,15 +21,15 @@ public class DepthDemoEth {
     // Use the factory to get IndependentReserve exchange API using default settings
     Exchange independentReserve = ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = independentReserve.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = independentReserve.getMarketDataService();
 
     generic(marketDataService);
     raw((IndependentReserveMarketDataServiceRaw) marketDataService);
 
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     // Get the latest order book data for ETH/USD
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.ETH_USD);

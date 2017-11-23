@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.knowm.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

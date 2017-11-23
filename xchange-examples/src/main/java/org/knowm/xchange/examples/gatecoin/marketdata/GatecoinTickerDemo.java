@@ -8,8 +8,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.gatecoin.GatecoinExchange;
 import org.knowm.xchange.gatecoin.dto.marketdata.GatecoinTicker;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.gatecoin.service.GatecoinMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Ticker at Gatecoin. You can access both the raw data from Gatecoin or the XChange generic DTO data format.
@@ -21,14 +21,14 @@ public class GatecoinTickerDemo {
     // Use the factory to get gatecoin exchange API using default settings
     Exchange gatecoin = ExchangeFactory.INSTANCE.createExchange(GatecoinExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = gatecoin.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = gatecoin.getMarketDataService();
 
     generic(marketDataService);
     raw((GatecoinMarketDataServiceRaw) marketDataService);
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 

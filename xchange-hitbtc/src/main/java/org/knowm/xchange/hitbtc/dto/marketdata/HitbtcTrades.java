@@ -13,7 +13,7 @@ public class HitbtcTrades {
 
   /**
    * Constructor
-   * 
+   *
    * @param hitbtcTrades
    */
   public HitbtcTrades(@JsonProperty("trades") List<HitbtcTrade> hitbtcTrades) {
@@ -32,7 +32,7 @@ public class HitbtcTrades {
     return "HitbtcTrades{" + "trades=" + hitbtcTrades.toString() + '}';
   }
 
-  public static enum HitbtcTradesSortField {
+  public enum HitbtcTradesSortField {
 
     SORT_BY_TRADE_ID("trade_id"), SORT_BY_TIMESTAMP("ts");
 
@@ -50,7 +50,7 @@ public class HitbtcTrades {
     }
   }
 
-  public static enum HitbtcTradesSortDirection {
+  public enum HitbtcTradesSortDirection {
 
     SORT_ASCENDING("asc"), SORT_DESCENDING("desc");
 

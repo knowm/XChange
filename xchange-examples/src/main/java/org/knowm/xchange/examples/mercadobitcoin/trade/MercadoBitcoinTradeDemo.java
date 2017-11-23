@@ -15,8 +15,8 @@ import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResul
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrdersEntry;
-import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * <p>
@@ -34,13 +34,13 @@ public class MercadoBitcoinTradeDemo {
   public static void main(String[] args) throws IOException, InterruptedException {
 
     Exchange mercadoBitcoin = InteractiveAuthenticatedExchange.createInstanceFromDefaultInput();
-    PollingTradeService tradeService = mercadoBitcoin.getPollingTradeService();
+    TradeService tradeService = mercadoBitcoin.getTradeService();
 
     generic(tradeService);
     raw((MercadoBitcoinTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException, InterruptedException {
+  private static void generic(TradeService tradeService) throws IOException, InterruptedException {
 
     printOpenOrders(tradeService);
 
@@ -58,7 +58,7 @@ public class MercadoBitcoinTradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException, InterruptedException {
+  private static void printOpenOrders(TradeService tradeService) throws IOException, InterruptedException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

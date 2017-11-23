@@ -2,6 +2,8 @@ package org.knowm.xchange.gemini.v1.dto.trade;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GeminiNewOrderRequest {
@@ -30,9 +32,12 @@ public class GeminiNewOrderRequest {
   @JsonProperty("price")
   protected BigDecimal price;
 
+  @JsonProperty("options")
+  protected Object[] options;
+
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param symbol
    * @param amount
@@ -41,7 +46,7 @@ public class GeminiNewOrderRequest {
    * @param side
    * @param type
    */
-  public GeminiNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type) {
+  public GeminiNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type, Object[] options) {
 
     this.request = "/v1/order/new";
     this.nonce = nonce;
@@ -51,6 +56,7 @@ public class GeminiNewOrderRequest {
     this.exchange = exchange;
     this.side = side;
     this.type = type;
+    this.options = options;
   }
 
   public String getRequest() {
@@ -98,4 +104,9 @@ public class GeminiNewOrderRequest {
     return price.toPlainString();
   }
 
+  @JsonInclude(Include.NON_NULL)
+  public Object[] getOptions() {
+
+    return options;
+  }
 }

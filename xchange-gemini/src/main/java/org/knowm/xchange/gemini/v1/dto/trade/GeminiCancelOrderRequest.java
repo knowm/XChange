@@ -13,15 +13,15 @@ public class GeminiCancelOrderRequest {
 
   @JsonProperty("order_id")
   @JsonRawValue
-  private int orderId;
+  private long orderId;
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param orderId
    */
-  public GeminiCancelOrderRequest(String nonce, int orderId) {
+  public GeminiCancelOrderRequest(String nonce, long orderId) {
 
     this.request = "/v1/order/cancel";
     this.orderId = orderId;

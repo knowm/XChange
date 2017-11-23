@@ -3,9 +3,9 @@ package org.knowm.xchange.cryptofacilities;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.cryptofacilities.service.polling.CryptoFacilitiesAccountService;
-import org.knowm.xchange.cryptofacilities.service.polling.CryptoFacilitiesMarketDataService;
-import org.knowm.xchange.cryptofacilities.service.polling.CryptoFacilitiesTradeService;
+import org.knowm.xchange.cryptofacilities.service.CryptoFacilitiesAccountService;
+import org.knowm.xchange.cryptofacilities.service.CryptoFacilitiesMarketDataService;
+import org.knowm.xchange.cryptofacilities.service.CryptoFacilitiesTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -20,9 +20,9 @@ public class CryptoFacilitiesExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new CryptoFacilitiesMarketDataService(this);
-    this.pollingAccountService = new CryptoFacilitiesAccountService(this);
-    this.pollingTradeService = new CryptoFacilitiesTradeService(this);
+    this.marketDataService = new CryptoFacilitiesMarketDataService(this);
+    this.accountService = new CryptoFacilitiesAccountService(this);
+    this.tradeService = new CryptoFacilitiesTradeService(this);
   }
 
   @Override

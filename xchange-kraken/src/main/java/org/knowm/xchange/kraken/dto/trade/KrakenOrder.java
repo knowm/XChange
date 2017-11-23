@@ -33,7 +33,7 @@ public class KrakenOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param refId
    * @param userRefId
    * @param status

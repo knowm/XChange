@@ -13,7 +13,7 @@ public class BTCChinaGetAccountInfoResponse extends BTCChinaResponse<BTCChinaAcc
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param result
    */

@@ -1,0 +1,29 @@
+{
+  "currency_pairs": {
+    "BTC/ZAR": {
+      "price_scale": 3,
+      "min_amount": 0.001000000
+    },
+    "BTC/MYR": {
+      "price_scale": 3,
+      "min_amount": 0.001000000
+    },
+    "BTC/IDR": {
+      "price_scale": 3,
+      "min_amount": 0.001000000
+    },
+    "BTC/NGN": {
+      "price_scale": 3,
+      "min_amount": 0.001000000
+    }
+  },
+  "currencies": {},
+  "public_rate_limits": [
+    {
+      "calls": 1,
+      "time_span": 6,
+      "time_unit": "seconds"
+    }
+  ],
+  "share_rate_limits": false
+}

@@ -13,8 +13,10 @@ import java.util.Set;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -29,6 +31,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
+import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -38,6 +41,7 @@ import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderStatus;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.kraken.dto.trade.KrakenType;
 import org.knowm.xchange.kraken.dto.trade.KrakenUserTrade;
@@ -56,7 +60,7 @@ public class KrakenAdapters {
   public static OrdersContainer adaptOrders(List<KrakenPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
 
     long maxTimestamp = -1 * Long.MAX_VALUE;
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.size());
 
     for (KrakenPublicOrder order : orders) {
       if (order.getTimestamp() > maxTimestamp) {
@@ -120,7 +124,7 @@ public class KrakenAdapters {
 
   public static Trades adaptTrades(List<KrakenPublicTrade> krakenTrades, CurrencyPair currencyPair, long last) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     for (KrakenPublicTrade krakenTrade : krakenTrades) {
       trades.add(adaptTrade(krakenTrade, currencyPair));
     }
@@ -131,15 +135,16 @@ public class KrakenAdapters {
   public static Trade adaptTrade(KrakenPublicTrade krakenPublicTrade, CurrencyPair currencyPair) {
 
     OrderType type = adaptOrderType(krakenPublicTrade.getType());
-    BigDecimal tradableAmount = krakenPublicTrade.getVolume();
+    BigDecimal originalAmount = krakenPublicTrade.getVolume();
     Date timestamp = new Date((long) (krakenPublicTrade.getTime() * 1000L));
 
-    return new Trade(type, tradableAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, "0");
+    return new Trade(type, originalAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, String.valueOf((long) (krakenPublicTrade.getTime() *
+        10000L)));
   }
 
   public static Wallet adaptWallet(Map<String, BigDecimal> krakenWallet) {
 
-    List<Balance> balances = new ArrayList<Balance>(krakenWallet.size());
+    List<Balance> balances = new ArrayList<>(krakenWallet.size());
     for (Entry<String, BigDecimal> balancePair : krakenWallet.entrySet()) {
       Currency currency = adaptCurrency(balancePair.getKey());
       Balance balance = new Balance(currency, balancePair.getValue());
@@ -150,31 +155,27 @@ public class KrakenAdapters {
 
   public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> krakenCurrencyPairs) {
 
-    Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
+    Set<CurrencyPair> currencyPairs = new HashSet<>();
     for (String krakenCurrencyPair : krakenCurrencyPairs) {
-      currencyPairs.add(adaptCurrencyPair(krakenCurrencyPair));
+      CurrencyPair currencyPair = adaptCurrencyPair(krakenCurrencyPair);
+      if (currencyPair != null) {
+        currencyPairs.add(currencyPair);
+      }
     }
     return currencyPairs;
   }
 
   public static Currency adaptCurrency(String krakenCurrencyCode) {
-
-    String currencyCode = (krakenCurrencyCode.length() == 4) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
-
-    return Currency.getInstance(currencyCode).getCommonlyUsedCurrency();
+    return KrakenUtils.translateKrakenCurrencyCode(krakenCurrencyCode);
   }
 
   public static CurrencyPair adaptCurrencyPair(String krakenCurrencyPair) {
-
-    Currency firstCurrency = adaptCurrency(krakenCurrencyPair.substring(0, 4));
-    Currency secondCurrency = adaptCurrency(krakenCurrencyPair.substring(4));
-
-    return new CurrencyPair(firstCurrency, secondCurrency);
+    return KrakenUtils.translateKrakenCurrencyPair(krakenCurrencyPair);
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, KrakenOrder> krakenOrders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (Entry<String, KrakenOrder> krakenOrderEntry : krakenOrders.entrySet()) {
       KrakenOrder krakenOrder = krakenOrderEntry.getValue();
       KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
@@ -195,18 +196,27 @@ public class KrakenAdapters {
 
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
-    BigDecimal tradableAmount = krakenOrder.getVolume().subtract(krakenOrder.getVolumeExecuted());
-    Currency tradableIdentifier = adaptCurrency(orderDescription.getAssetPair().substring(0, 3));
-    Currency transactionCurrency = adaptCurrency(orderDescription.getAssetPair().substring(3));
+
+    BigDecimal originalAmount = krakenOrder.getVolume();
+    BigDecimal filledAmount = krakenOrder.getVolumeExecuted();
+    BigDecimal remainingAmount = originalAmount.min(filledAmount);
+    CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
-    return new LimitOrder(type, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), id, timestamp,
-        orderDescription.getPrice());
+    OrderStatus status = adaptOrderStatus(krakenOrder.getStatus());
+
+    if (status == OrderStatus.NEW && filledAmount.compareTo(BigDecimal.ZERO) > 0
+        && filledAmount.compareTo(originalAmount) < 0) {
+      status = OrderStatus.PARTIALLY_FILLED;
+    }
+
+    return new LimitOrder(type, originalAmount, pair, id, timestamp, orderDescription.getPrice(),
+        orderDescription.getPrice(), filledAmount, status);
   }
 
   public static UserTrades adaptTradesHistory(Map<String, KrakenTrade> krakenTrades) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     for (Entry<String, KrakenTrade> krakenTradeEntry : krakenTrades.entrySet()) {
       trades.add(adaptTrade(krakenTradeEntry.getValue(), krakenTradeEntry.getKey()));
     }
@@ -217,16 +227,15 @@ public class KrakenAdapters {
   public static KrakenUserTrade adaptTrade(KrakenTrade krakenTrade, String tradeId) {
 
     OrderType orderType = adaptOrderType(krakenTrade.getType());
-    BigDecimal tradableAmount = krakenTrade.getVolume();
+    BigDecimal originalAmount = krakenTrade.getVolume();
     String krakenAssetPair = krakenTrade.getAssetPair();
-    Currency tradableIdentifier = adaptCurrency(krakenAssetPair.substring(0, 4));
-    Currency transactionCurrency = adaptCurrency(krakenAssetPair.substring(4));
+    CurrencyPair pair = adaptCurrencyPair(krakenAssetPair);
     Date timestamp = new Date((long) (krakenTrade.getUnixTimestamp() * 1000L));
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigDecimal price = (averagePrice == null) ? krakenTrade.getPrice() : averagePrice;
 
-    return new KrakenUserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, tradeId,
-        krakenTrade.getOrderTxId(), krakenTrade.getFee(), transactionCurrency, krakenTrade.getCost());
+    return new KrakenUserTrade(orderType, originalAmount, pair, price, timestamp, tradeId,
+        krakenTrade.getOrderTxId(), krakenTrade.getFee(), pair.counter, krakenTrade.getCost());
   }
 
   public static OrderType adaptOrderType(KrakenType krakenType) {
@@ -248,26 +257,79 @@ public class KrakenAdapters {
       Map<String, KrakenAsset> krakenAssets) {
 
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    // add assets before pairs to Utils!
+    KrakenUtils.setKrakenAssets(krakenAssets);
+    KrakenUtils.setKrakenAssetPairs(krakenPairs);
+
     pairs.putAll(originalMetaData.getCurrencyPairs());
     for (String krakenPairCode : krakenPairs.keySet()) {
-      KrakenAssetPair krakenPair = krakenPairs.get(krakenPairCode);
-      pairs.put(adaptCurrencyPair(krakenPairCode), adaptPair(krakenPair));
+      //  skip dark markets!
+      if (!krakenPairCode.endsWith(".d")) {
+        KrakenAssetPair krakenPair = krakenPairs.get(krakenPairCode);
+        pairs.put(adaptCurrencyPair(krakenPairCode), adaptPair(krakenPair, pairs.get(adaptCurrencyPair(krakenPairCode))));
+      }
     }
 
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     currencies.putAll(originalMetaData.getCurrencies());
     for (String krakenAssetCode : krakenAssets.keySet()) {
       KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
-      currencies.put(KrakenUtils.addCurrencyAndGetCode(krakenAssetCode), new CurrencyMetaData(krakenAsset.getScale()));
+      Currency currencyCode = KrakenAdapters.adaptCurrency(krakenAssetCode);
+      currencies.put(currencyCode, new CurrencyMetaData(krakenAsset.getScale()));
     }
+
     return new ExchangeMetaData(pairs, currencies, originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
         originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
         originalMetaData == null ? null : originalMetaData.isShareRateLimits());
-
   }
 
-  private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair) {
-    // TODO
-    return null;
+  private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
+    if (OriginalMeta != null) {
+      return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), OriginalMeta.getMinimumAmount(),
+          OriginalMeta.getMaximumAmount(), krakenPair.getPairScale());
+    } else {
+      return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), null, null, krakenPair.getPairScale());
+    }
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(Map<String, KrakenLedger> krakenLedgerInfo) {
+
+    final List<FundingRecord> fundingRecords = new ArrayList<>();
+    for (Entry<String, KrakenLedger> ledgerEntry : krakenLedgerInfo.entrySet()) {
+      final KrakenLedger krakenLedger = ledgerEntry.getValue();
+      if (krakenLedger.getLedgerType() != null) {
+        final Currency currency = adaptCurrency(krakenLedger.getAsset());
+        if (currency != null) {
+          final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
+          final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
+          if (type != null) {
+            final String internalId = krakenLedger.getRefId(); // or ledgerEntry.getKey()?
+            FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
+                currency, krakenLedger.getTransactionAmount(), internalId, null,
+                FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
+                FundingRecord.Status.COMPLETE, krakenLedger.getBalance(), krakenLedger.getFee(), null);
+            fundingRecords.add(fundingRecordEntry);
+          }
+        }
+      }
+    }
+    return fundingRecords;
+  }
+
+  public static OrderStatus adaptOrderStatus(KrakenOrderStatus status) {
+    switch (status) {
+      case PENDING:
+        return OrderStatus.PENDING_NEW;
+      case OPEN:
+        return OrderStatus.NEW;
+      case CLOSED:
+        return OrderStatus.FILLED;
+      case CANCELED:
+        return OrderStatus.CANCELED;
+      case EXPIRED:
+        return OrderStatus.EXPIRED;
+      default:
+        return null;
+    }
   }
 }

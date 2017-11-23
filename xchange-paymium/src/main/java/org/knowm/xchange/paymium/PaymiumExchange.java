@@ -3,7 +3,7 @@ package org.knowm.xchange.paymium;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.paymium.service.polling.PaymiumMarketDataService;
+import org.knowm.xchange.paymium.service.PaymiumMarketDataService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -24,7 +24,7 @@ public class PaymiumExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new PaymiumMarketDataService(this);
+    this.marketDataService = new PaymiumMarketDataService(this);
   }
 
   @Override

@@ -13,34 +13,34 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public interface CoinbaseTransactionInfo {
 
   @JsonIgnore
-  public String getId();
+  String getId();
 
   @JsonIgnore
-  public Date getCreatedAt();
+  Date getCreatedAt();
 
   @JsonIgnore
-  public CoinbaseMoney getAmount();
+  CoinbaseMoney getAmount();
 
   @JsonIgnore
-  public boolean isRequest();
+  boolean isRequest();
 
   @JsonIgnore
-  public CoinbaseTransactionStatus getStatus();
+  CoinbaseTransactionStatus getStatus();
 
   @JsonIgnore
-  public CoinbaseUser getSender();
+  CoinbaseUser getSender();
 
   @JsonIgnore
-  public CoinbaseUser getRecipient();
+  CoinbaseUser getRecipient();
 
   @JsonIgnore
-  public String getRecipientAddress();
+  String getRecipientAddress();
 
-  public String getNotes();
-
-  @JsonIgnore
-  public String getTransactionHash();
+  String getNotes();
 
   @JsonIgnore
-  public String getIdempotencyKey();
-};
+  String getTransactionHash();
+
+  @JsonIgnore
+  String getIdempotencyKey();
+}

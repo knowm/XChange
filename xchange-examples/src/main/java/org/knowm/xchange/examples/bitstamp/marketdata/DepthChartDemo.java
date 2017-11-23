@@ -12,7 +12,7 @@ import org.knowm.xchange.bitstamp.BitstampExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -31,12 +31,14 @@ public class DepthChartDemo {
     Exchange bitstampExchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitstampExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = bitstampExchange.getMarketDataService();
 
     System.out.println("fetching data...");
 
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
+
+    System.out.println("orderBook = " + orderBook);
 
     System.out.println("received data.");
 
@@ -49,13 +51,13 @@ public class DepthChartDemo {
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
 
     // BIDS
-    List<Number> xData = new ArrayList<Number>();
-    List<Number> yData = new ArrayList<Number>();
+    List<Number> xData = new ArrayList<>();
+    List<Number> yData = new ArrayList<>();
     BigDecimal accumulatedBidUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getBids()) {
-      if (limitOrder.getLimitPrice().doubleValue() > 10) {
+      if (limitOrder.getLimitPrice().doubleValue() > 100) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getTradableAmount());
+        accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedBidUnits);
       }
     }
@@ -67,13 +69,13 @@ public class DepthChartDemo {
     series.setMarker(SeriesMarkers.NONE);
 
     // ASKS
-    xData = new ArrayList<Number>();
-    yData = new ArrayList<Number>();
+    xData = new ArrayList<>();
+    yData = new ArrayList<>();
     BigDecimal accumulatedAskUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getAsks()) {
-      if (limitOrder.getLimitPrice().doubleValue() < 1000) {
+      if (limitOrder.getLimitPrice().doubleValue() < 12000) {
         xData.add(limitOrder.getLimitPrice());
-        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getTradableAmount());
+        accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedAskUnits);
       }
     }

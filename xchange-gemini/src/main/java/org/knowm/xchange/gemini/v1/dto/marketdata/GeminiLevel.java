@@ -12,7 +12,7 @@ public class GeminiLevel {
 
   /**
    * Constructor
-   * 
+   *
    * @param price
    * @param amount
    * @param timestamp
@@ -43,7 +43,7 @@ public class GeminiLevel {
   @Override
   public String toString() {
 
-    return "BitfinexLevel [price=" + price + ", amount=" + amount + ", timestamp=" + timestamp + "]";
+    return "GeminiLevel [price=" + price + ", amount=" + amount + ", timestamp=" + timestamp + "]";
   }
 
 }

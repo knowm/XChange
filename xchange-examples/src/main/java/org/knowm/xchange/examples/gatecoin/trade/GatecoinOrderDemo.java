@@ -14,21 +14,21 @@ import org.knowm.xchange.gatecoin.dto.trade.GatecoinOrder;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.gatecoin.service.GatecoinTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class GatecoinOrderDemo {
 
   public static void main(String[] args) throws IOException {
 
     Exchange gatecoin = GatecoinDemoUtils.createExchange();
-    PollingTradeService tradeService = gatecoin.getPollingTradeService();
+    TradeService tradeService = gatecoin.getTradeService();
 
     generic(tradeService);
     raw((GatecoinTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
 
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("2"), CurrencyPair.BTC_USD, "", null, new BigDecimal("1000.00"));
@@ -47,7 +47,7 @@ public class GatecoinOrderDemo {
     System.out.println("Canceling returned " + cancelResult);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+  private static void printOpenOrders(TradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

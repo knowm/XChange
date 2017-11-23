@@ -1,15 +1,15 @@
 {
-	"uid": 1,
-	"nameauth": 1,
-	"moflag": "0",
-	"btc_balance": 1,
-	"btc_reserved": 2,
-	"ltc_balance": 3,
-	"ltc_reserved": 4,
-	"doge_balance": 5,
-	"doge_reserved": 6,
-	"ybc_balance": 7,
-	"ybc_reserved": 8,
-	"cny_balance": 9,
-	"cny_reserved": 10
+  "uid": 1,
+  "nameauth": 1,
+  "moflag": "0",
+  "btc_balance": 1,
+  "btc_reserved": 2,
+  "ltc_balance": 3,
+  "ltc_reserved": 4,
+  "doge_balance": 5,
+  "doge_reserved": 6,
+  "ybc_balance": 7,
+  "ybc_reserved": 8,
+  "cny_balance": 9,
+  "cny_reserved": 10
 }

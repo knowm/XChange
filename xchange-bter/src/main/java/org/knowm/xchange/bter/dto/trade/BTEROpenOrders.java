@@ -15,7 +15,7 @@ public class BTEROpenOrders extends BTERBaseResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param orders
    * @param msg

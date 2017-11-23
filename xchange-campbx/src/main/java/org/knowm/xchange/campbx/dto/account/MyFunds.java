@@ -1,8 +1,5 @@
 package org.knowm.xchange.campbx.dto.account;
 
-/**
- * @author Matija Mazi 
- */
 import java.math.BigDecimal;
 
 import org.knowm.xchange.campbx.dto.CampBXResponse;

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "result", "trades", "msg" })
+@JsonPropertyOrder({"result", "trades", "msg"})
 public class BTERTradeHistoryReturn extends BTERBaseResponse {
 
   @JsonProperty("result")

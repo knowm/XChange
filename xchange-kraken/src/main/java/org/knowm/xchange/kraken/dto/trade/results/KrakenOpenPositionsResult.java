@@ -11,7 +11,7 @@ public class KrakenOpenPositionsResult extends KrakenResult<Map<String, KrakenOp
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

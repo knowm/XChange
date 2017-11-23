@@ -6,46 +6,44 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CCEXGetorderhistoryResponse {
 
-	private boolean success;
-	private String message;
-	private List<CCEXOrderhistory> result;
-	
-	public CCEXGetorderhistoryResponse(
-			@JsonProperty("success") boolean success, 
-			@JsonProperty("message") String message, 
-			@JsonProperty("result") List<CCEXOrderhistory> result) {
-		super();
-		this.success = success;
-		this.message = message;
-		this.result = result;
-	}
+  private boolean success;
+  private String message;
+  private List<CCEXOrderhistory> result;
 
-	public boolean isSuccess() {
-		return success;
-	}
+  public CCEXGetorderhistoryResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+      @JsonProperty("result") List<CCEXOrderhistory> result) {
+    super();
+    this.success = success;
+    this.message = message;
+    this.result = result;
+  }
 
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
+  public boolean isSuccess() {
+    return success;
+  }
 
-	public String getMessage() {
-		return message;
-	}
+  public void setSuccess(boolean success) {
+    this.success = success;
+  }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+  public String getMessage() {
+    return message;
+  }
 
-	public List<CCEXOrderhistory> getResult() {
-		return result;
-	}
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
-	public void setResult(List<CCEXOrderhistory> result) {
-		this.result = result;
-	}
+  public List<CCEXOrderhistory> getResult() {
+    return result;
+  }
 
-	@Override
-	public String toString() {
-		return "CCEXGetorderhistoryResponse [success=" + success + ", message=" + message + ", result=" + result + "]";
-	}
+  public void setResult(List<CCEXOrderhistory> result) {
+    this.result = result;
+  }
+
+  @Override
+  public String toString() {
+    return "CCEXGetorderhistoryResponse [success=" + success + ", message=" + message + ", result=" + result + "]";
+  }
 }

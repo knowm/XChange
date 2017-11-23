@@ -14,7 +14,7 @@ public class GeminiLendLevel {
 
   /**
    * Constructor
-   * 
+   *
    * @param rate
    * @param amount
    * @param period
@@ -59,6 +59,6 @@ public class GeminiLendLevel {
   @Override
   public String toString() {
 
-    return "BitfinexLendLevel [rate=" + rate + ", amount=" + amount + ", period=" + period + ", timestamp=" + timestamp + ", frr=" + frr + "]";
+    return "GeminiLendLevel [rate=" + rate + ", amount=" + amount + ", period=" + period + ", timestamp=" + timestamp + ", frr=" + frr + "]";
   }
 }

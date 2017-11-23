@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaMarketDepthOrder;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeServiceRaw;
 import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
 
 /**
@@ -14,7 +14,7 @@ import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
 public class BTCChinaGetMarketDepthDemo {
 
   private static Exchange exchange = BTCChinaExamplesUtils.getExchange();
-  private static BTCChinaTradeServiceRaw tradeService = (BTCChinaTradeServiceRaw) exchange.getPollingTradeService();
+  private static BTCChinaTradeServiceRaw tradeService = (BTCChinaTradeServiceRaw) exchange.getTradeService();
 
   public static void main(String[] args) throws IOException {
 

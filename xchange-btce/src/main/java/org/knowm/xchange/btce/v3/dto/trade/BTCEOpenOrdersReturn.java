@@ -13,7 +13,7 @@ public class BTCEOpenOrdersReturn extends BTCEReturn<Map<Long, BTCEOrder>> {
 
   /**
    * Constructor
-   * 
+   *
    * @param success
    * @param value
    * @param error

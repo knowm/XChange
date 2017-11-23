@@ -1,9 +1,8 @@
 {
-        "result" : "success",
-        "serverTime" : "2016-02-25T09:45:53.818Z",
-        "cancelStatus" : 
-                {
-                        "receivedTime" : "2016-02-25T09:47:01.000Z",
-                        "status" : "cancelled"
-                }
+  "result": "success",
+  "serverTime": "2016-02-25T09:45:53.818Z",
+  "cancelStatus": {
+    "receivedTime": "2016-02-25T09:47:01.000Z",
+    "status": "cancelled"
+  }
 }

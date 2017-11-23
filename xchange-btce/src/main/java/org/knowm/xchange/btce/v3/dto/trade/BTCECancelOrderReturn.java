@@ -11,7 +11,7 @@ public class BTCECancelOrderReturn extends BTCEReturn<BTCECancelOrderResult> {
 
   /**
    * Constructor
-   * 
+   *
    * @param success
    * @param value
    * @param error

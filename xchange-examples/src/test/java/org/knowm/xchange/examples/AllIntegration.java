@@ -1,6 +1,6 @@
 package org.knowm.xchange.examples;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +29,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.retries.IPredicate;
 import org.knowm.xchange.utils.retries.Retries;
 import org.reflections.Reflections;
@@ -42,7 +42,7 @@ public class AllIntegration {
   @Parameterized.Parameters(name = "{index}:{1}")
   public static Iterable<Object[]> data() {
 
-    List<Object[]> exchangeClasses = new ArrayList<Object[]>();
+    List<Object[]> exchangeClasses = new ArrayList<>();
 
     // Find every Exchange
     Reflections reflections = new Reflections("org.knowm.xchange");
@@ -51,7 +51,7 @@ public class AllIntegration {
         continue;
       }
 
-      exchangeClasses.add(new Object[] { exchangeClass, exchangeClass.getSimpleName() });
+      exchangeClasses.add(new Object[]{exchangeClass, exchangeClass.getSimpleName()});
     }
 
     return exchangeClasses;
@@ -107,8 +107,8 @@ public class AllIntegration {
     Assume.assumeNotNull(service);
 
     String methodName = method.getName();
-    Collection<R> results = new ArrayList<R>(firstArgumentOptions.size());
-    final ArrayList<Object> arguments = new ArrayList<Object>(restStaticArguments.length + 1);
+    Collection<R> results = new ArrayList<>(firstArgumentOptions.size());
+    final ArrayList<Object> arguments = new ArrayList<>(restStaticArguments.length + 1);
     arguments.add(null);
     arguments.addAll(Arrays.asList(restStaticArguments));
 
@@ -182,21 +182,21 @@ public class AllIntegration {
   @Test
   public void testGetTicker() throws Throwable {
 
-    Method method = PollingMarketDataService.class.getMethod("getTicker", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
+    Method method = MarketDataService.class.getMethod("getTicker", CurrencyPair.class, Object[].class);
+    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[]{});
   }
 
   @Test
   public void testGetOrderBook() throws Throwable {
 
-    Method method = PollingMarketDataService.class.getMethod("getOrderBook", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
+    Method method = MarketDataService.class.getMethod("getOrderBook", CurrencyPair.class, Object[].class);
+    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[]{});
   }
 
   @Test
   public void testGetTrades() throws Throwable {
 
-    Method method = PollingMarketDataService.class.getMethod("getTrades", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
+    Method method = MarketDataService.class.getMethod("getTrades", CurrencyPair.class, Object[].class);
+    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[]{});
   }
 }

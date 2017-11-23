@@ -1,15 +1,17 @@
 package org.knowm.xchange.dto.marketdata;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Data object representing a Trade
  */
-public class Trade {
+public class Trade implements Serializable{
 
   /**
    * Did this trade result from the execution of a bid or a ask?
@@ -19,7 +21,7 @@ public class Trade {
   /**
    * Amount that was traded
    */
-  protected final BigDecimal tradableAmount;
+  protected final BigDecimal originalAmount;
 
   /**
    * The currency pair
@@ -43,21 +45,19 @@ public class Trade {
 
   /**
    * This constructor is called to create a public Trade object in
-   * {@link org.knowm.xchange.service.polling.marketdata.PollingMarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)}
-   * implementations) since it's missing the orderId and fee parameters.
+   * {@link MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)} implementations) since it's missing the orderId and fee
+   * parameters.
    *
    * @param type The trade type (BID side or ASK side)
-   * @param tradableAmount The depth of this trade
-   * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
-   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param originalAmount The depth of this trade
    * @param price The price (either the bid or the ask)
    * @param timestamp The timestamp of the trade according to the exchange's server, null if not provided
    * @param id The id of the trade
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
+  public Trade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
 
     this.type = type;
-    this.tradableAmount = tradableAmount;
+    this.originalAmount = originalAmount;
     this.currencyPair = currencyPair;
     this.price = price;
     this.timestamp = timestamp;
@@ -69,9 +69,9 @@ public class Trade {
     return type;
   }
 
-  public BigDecimal getTradableAmount() {
+  public BigDecimal getOriginalAmount() {
 
-    return tradableAmount;
+    return originalAmount;
   }
 
   public CurrencyPair getCurrencyPair() {
@@ -115,21 +115,21 @@ public class Trade {
   @Override
   public String toString() {
 
-    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp="
+    return "Trade [type=" + type + ", originalAmount=" + originalAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp="
         + timestamp + ", id=" + id + "]";
   }
 
   public static class Builder {
 
     protected OrderType type;
-    protected BigDecimal tradableAmount;
+    protected BigDecimal originalAmount;
     protected CurrencyPair currencyPair;
     protected BigDecimal price;
     protected Date timestamp;
     protected String id;
 
     public static Builder from(Trade trade) {
-      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair())
+      return new Builder().type(trade.getType()).originalAmount(trade.getOriginalAmount()).currencyPair(trade.getCurrencyPair())
           .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId());
     }
 
@@ -139,9 +139,9 @@ public class Trade {
       return this;
     }
 
-    public Builder tradableAmount(BigDecimal tradableAmount) {
+    public Builder originalAmount(BigDecimal originalAmount) {
 
-      this.tradableAmount = tradableAmount;
+      this.originalAmount = originalAmount;
       return this;
     }
 
@@ -171,7 +171,7 @@ public class Trade {
 
     public Trade build() {
 
-      return new Trade(type, tradableAmount, currencyPair, price, timestamp, id);
+      return new Trade(type, originalAmount, currencyPair, price, timestamp, id);
     }
   }
 }

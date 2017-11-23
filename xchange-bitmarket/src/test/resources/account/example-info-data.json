@@ -1,27 +1,22 @@
 {
-  "success":true,
-  "data":
-  {
-    "balances":
-    {
-      "available":
-      {
-        "PLN":4.166000000000,
-        "BTC":0.029140000000,
-        "LTC":10.301000000000
+  "success": true,
+  "data": {
+    "balances": {
+      "available": {
+        "PLN": 4.166000000000,
+        "BTC": 0.029140000000,
+        "LTC": 10.301000000000
       },
-      "blocked":
-      {
-        "PLN":59.4,
-        "BTC":0,
-        "LTC":0.089
+      "blocked": {
+        "PLN": 59.4,
+        "BTC": 0,
+        "LTC": 0.089
       }
     }
   },
-  "limit":
-  {
-    "used" : 1,
-    "allowed" : 200,
-    "expires" : 1395750600
+  "limit": {
+    "used": 1,
+    "allowed": 200,
+    "expires": 1395750600
   }
 }

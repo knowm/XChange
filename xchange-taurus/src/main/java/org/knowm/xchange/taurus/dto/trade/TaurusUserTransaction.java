@@ -17,11 +17,15 @@ public final class TaurusUserTransaction {
   private final long id;
   private final String orderId;
   private final TransactionType type;
-  /** CAD amount, negative -> BID, positive -> ASK */
+  /**
+   * CAD amount, negative -> BID, positive -> ASK
+   */
   private final BigDecimal cad;
   private final BigDecimal btc;
   private final BigDecimal price;
-  /** fee seems to be in BTC for buys, CAD for sells */
+  /**
+   * fee seems to be in BTC for buys, CAD for sells
+   */
   private final BigDecimal fee;
 
   public TaurusUserTransaction(@JsonProperty("datetime") @JsonDeserialize(using = SqlUtcTimeDeserializer.class) Date datetime,

@@ -26,7 +26,7 @@ public enum CoinbaseScope {
 
   static class CoinbaseScopeDeserializer extends JsonDeserializer<CoinbaseScope> {
 
-    private static final EnumFromStringHelper<CoinbaseScope> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseScope>(CoinbaseScope.class);
+    private static final EnumFromStringHelper<CoinbaseScope> FROM_STRING_HELPER = new EnumFromStringHelper<>(CoinbaseScope.class);
 
     @Override
     public CoinbaseScope deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {

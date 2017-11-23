@@ -11,14 +11,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BTCEPlaceOrderResult {
 
-  private final long orderId;
+  private final long orderId; // 0 if order completely filled, initial order_id otherwise
   private final BigDecimal received;
   private final BigDecimal remains;
   private final Map<String, BigDecimal> funds;
 
   /**
    * Constructor
-   * 
+   *
    * @param orderId
    * @param received
    * @param remains

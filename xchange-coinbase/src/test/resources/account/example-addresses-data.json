@@ -1,23 +1,23 @@
 {
-   "addresses":[
-      {
-         "address":{
-            "address":"1LXZPr7eXqM6FqjY9qoTY9PsWJ7NftCPAN",
-            "callback_url":null,
-            "label":null,
-            "created_at":"2014-02-14T16:50:18-08:00"
-         }
-      },
-      {
-         "address":{
-            "address":"19mEG3d1QDch24mcDkwgfjzRYfEGpyMoQr",
-            "callback_url":"",
-            "label":"blockchain",
-            "created_at":"2013-11-08T16:59:57-08:00"
-         }
+  "addresses": [
+    {
+      "address": {
+        "address": "1LXZPr7eXqM6FqjY9qoTY9PsWJ7NftCPAN",
+        "callback_url": null,
+        "label": null,
+        "created_at": "2014-02-14T16:50:18-08:00"
       }
-   ],
-   "total_count":2,
-   "num_pages":1,
-   "current_page":1
+    },
+    {
+      "address": {
+        "address": "19mEG3d1QDch24mcDkwgfjzRYfEGpyMoQr",
+        "callback_url": "",
+        "label": "blockchain",
+        "created_at": "2013-11-08T16:59:57-08:00"
+      }
+    }
+  ],
+  "total_count": 2,
+  "num_pages": 1,
+  "current_page": 1
 }

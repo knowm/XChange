@@ -17,10 +17,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcchina.BTCChinaExchange;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeService.BTCChinaTradeHistoryParams;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeService.BTCChinaTradeHistoryParams;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class BTCChinaTradeStat {
 
   private static final Logger log = LoggerFactory.getLogger(BTCChinaTradeStat.class);
 
-  private final PollingTradeService tradeService;
+  private final TradeService tradeService;
 
   public BTCChinaTradeStat(String accessKey, String secretKey) {
     final ExchangeSpecification spec = new ExchangeSpecification(BTCChinaExchange.class);
@@ -37,7 +37,7 @@ public class BTCChinaTradeStat {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
 
-    tradeService = exchange.getPollingTradeService();
+    tradeService = exchange.getTradeService();
   }
 
   /**
@@ -53,12 +53,12 @@ public class BTCChinaTradeStat {
    */
   private List<UserTrade> getUserTrades(Date startTime, Date endTime) throws IOException {
     final long start = startTime.getTime(), end = endTime.getTime();
-    final List<UserTrade> trades = new ArrayList<UserTrade>();
+    final List<UserTrade> trades = new ArrayList<>();
     final Integer pageLength = 1000;
     final String type = "all";
     final Integer startId = null;
 
-    for (int pageNumber = 0;; pageNumber++) {
+    for (int pageNumber = 0; ; pageNumber++) {
       log.trace("pageNumber: {}", pageNumber);
 
       final BTCChinaTradeHistoryParams params = new BTCChinaTradeHistoryParams(pageLength, pageNumber, type, startTime, startId);
@@ -103,18 +103,18 @@ public class BTCChinaTradeStat {
 
     for (UserTrade trade : trades) {
       switch (trade.getType()) {
-      case BID:
-        bidCount++;
-        totalBid = totalBid.add(trade.getPrice().multiply(trade.getTradableAmount()));
-        totalBidTradable = totalBidTradable.add(trade.getTradableAmount());
-        break;
-      case ASK:
-        askCount++;
-        totalAsk = totalAsk.add(trade.getPrice().multiply(trade.getTradableAmount()));
-        totalAskTradable = totalAskTradable.add(trade.getTradableAmount());
-        break;
-      default:
-        break;
+        case BID:
+          bidCount++;
+          totalBid = totalBid.add(trade.getPrice().multiply(trade.getOriginalAmount()));
+          totalBidTradable = totalBidTradable.add(trade.getOriginalAmount());
+          break;
+        case ASK:
+          askCount++;
+          totalAsk = totalAsk.add(trade.getPrice().multiply(trade.getOriginalAmount()));
+          totalAskTradable = totalAskTradable.add(trade.getOriginalAmount());
+          break;
+        default:
+          break;
       }
     }
 

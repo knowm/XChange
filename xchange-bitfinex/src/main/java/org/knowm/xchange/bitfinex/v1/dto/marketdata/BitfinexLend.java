@@ -12,7 +12,7 @@ public class BitfinexLend {
 
   /**
    * Constructor
-   * 
+   *
    * @param rate
    * @param amountLent
    * @param timestamp

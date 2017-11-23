@@ -76,19 +76,21 @@ public final class TaurusOrder extends TaurusBaseResponse {
     cancelled, active, partiallyFilled, complete, unknown
   }
 
-  /** (-1 - cancelled; 0 - active; 1 - partially filled; 2 - complete) */
+  /**
+   * (-1 - cancelled; 0 - active; 1 - partially filled; 2 - complete)
+   */
   public static class StatusDeserializer extends JsonDeserializer<Status> {
     @Override
     public Status deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       switch (jp.getValueAsInt()) {
-      case -1:
-        return Status.cancelled;
-      case 0:
-        return Status.active;
-      case 1:
-        return Status.partiallyFilled;
-      case 2:
-        return Status.complete;
+        case -1:
+          return Status.cancelled;
+        case 0:
+          return Status.active;
+        case 1:
+          return Status.partiallyFilled;
+        case 2:
+          return Status.complete;
       }
       return Status.unknown;
     }

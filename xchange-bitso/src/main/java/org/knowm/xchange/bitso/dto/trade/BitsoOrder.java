@@ -16,7 +16,9 @@ public final class BitsoOrder {
 
   private final String id;
   private final String datetime;
-  /** 0 - buy (bid); 1 - sell (ask) */
+  /**
+   * 0 - buy (bid); 1 - sell (ask)
+   */
   private final int type;
   private final BigDecimal price;
   private final BigDecimal amount;

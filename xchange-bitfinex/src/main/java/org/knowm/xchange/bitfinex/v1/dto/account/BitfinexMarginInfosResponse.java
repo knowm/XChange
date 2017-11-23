@@ -17,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "margin_balance", "tradable_balance", "unrealized_pl", "unrealized_swap", "net_value", "required_margin", "leverage",
-    "margin_requirement", "margin_limits", "message" })
+@JsonPropertyOrder({"margin_balance", "tradable_balance", "unrealized_pl", "unrealized_swap", "net_value", "required_margin", "leverage",
+                       "margin_requirement", "margin_limits", "message"})
 public class BitfinexMarginInfosResponse {
 
   @JsonProperty("margin_balance")

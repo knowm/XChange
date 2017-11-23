@@ -1,20 +1,20 @@
 [
   {
-    "created_at": "2013-01-22T08:19:41Z", 
-    "created_at_int" : 1363858355,                      
-    "currency": "EUR", 
-    "price": 5.0, 
-    "traded_btc": 980.0, 
-    "traded_currency": 4940.0, 
+    "created_at": "2013-01-22T08:19:41Z",
+    "created_at_int": 1363858355,
+    "currency": "EUR",
+    "price": 5.0,
+    "traded_btc": 980.0,
+    "traded_currency": 4940.0,
     "uuid": "1c86abf0-170a-4101-84d1-cdad913c95dd"
   },
   {
-    "created_at": "2013-01-22T08:19:41Z", 
-    "created_at_int" : 1363858355,                      
-    "currency": "EUR", 
-    "price": 6.0, 
-    "traded_btc": 10.0, 
-    "traded_currency": 60.0, 
+    "created_at": "2013-01-22T08:19:41Z",
+    "created_at_int": 1363858355,
+    "currency": "EUR",
+    "price": 6.0,
+    "traded_btc": 10.0,
+    "traded_currency": 60.0,
     "uuid": "170aabf0-1c86-4101-84d1-cdad913c95dd"
-  }      
+  }
 ]

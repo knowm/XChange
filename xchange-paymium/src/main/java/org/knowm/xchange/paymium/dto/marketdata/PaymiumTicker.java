@@ -20,7 +20,7 @@ public final class PaymiumTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param high
    * @param low
    * @param volume

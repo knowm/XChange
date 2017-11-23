@@ -11,7 +11,7 @@ public final class Inputs {
 
   /**
    * Constructor
-   * 
+   *
    * @param prev_out
    */
   public Inputs(@JsonProperty("prev_out") Out prev_out) {

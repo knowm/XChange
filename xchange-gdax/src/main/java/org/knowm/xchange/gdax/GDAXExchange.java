@@ -4,26 +4,25 @@ import java.io.IOException;
 import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.service.GDAXAccountService;
 import org.knowm.xchange.gdax.service.GDAXMarketDataService;
 import org.knowm.xchange.gdax.service.GDAXMarketDataServiceRaw;
 import org.knowm.xchange.gdax.service.GDAXTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class GDAXExchange extends BaseExchange implements Exchange {
+public class GDAXExchange extends BaseExchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new GDAXMarketDataService(this);
-    this.pollingAccountService = new GDAXAccountService(this);
-    this.pollingTradeService = new GDAXTradeService(this);
+    this.marketDataService = new GDAXMarketDataService(this);
+    this.accountService = new GDAXAccountService(this);
+    this.tradeService = new GDAXTradeService(this);
   }
 
   @Override
@@ -47,8 +46,7 @@ public class GDAXExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException {
 
-    List<GDAXProduct> products = ((GDAXMarketDataServiceRaw) pollingMarketDataService).getConbaseExProducts();
+    List<GDAXProduct> products = ((GDAXMarketDataServiceRaw) marketDataService).getCoinbaseExProducts();
     exchangeMetaData = GDAXAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
-    //    System.out.println("JSON: " + ObjectMapperHelper.toJSON(exchangeMetaData));
   }
 }

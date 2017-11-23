@@ -1,9 +1,9 @@
 {
-	"result": {
-		"order_btccny": [],
-		"order_ltccny": [],
-		"order_ltcbtc": [],
-		"date": 1407054786
-	},
-	"id": "4"
+  "result": {
+    "order_btccny": [],
+    "order_ltccny": [],
+    "order_ltcbtc": [],
+    "date": 1407054786
+  },
+  "id": "4"
 }

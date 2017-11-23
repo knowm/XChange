@@ -4,9 +4,9 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.utils.nonce.CurrentTime250NonceFactory;
-import org.knowm.xchange.vircurex.service.polling.VircurexAccountService;
-import org.knowm.xchange.vircurex.service.polling.VircurexMarketDataService;
-import org.knowm.xchange.vircurex.service.polling.VircurexTradeService;
+import org.knowm.xchange.vircurex.service.VircurexAccountService;
+import org.knowm.xchange.vircurex.service.VircurexMarketDataService;
+import org.knowm.xchange.vircurex.service.VircurexTradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -16,9 +16,9 @@ public class VircurexExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new VircurexMarketDataService(this);
-    this.pollingAccountService = new VircurexAccountService(this);
-    this.pollingTradeService = new VircurexTradeService(this);
+    this.marketDataService = new VircurexMarketDataService(this);
+    this.accountService = new VircurexAccountService(this);
+    this.tradeService = new VircurexTradeService(this);
   }
 
   @Override

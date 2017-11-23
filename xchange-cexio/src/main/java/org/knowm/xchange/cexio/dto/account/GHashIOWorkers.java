@@ -1,9 +1,9 @@
 package org.knowm.xchange.cexio.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 /**
  * Author: veken0m
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public class GHashIOWorkers {
 
-  private final Map<String, GHashIOWorker> workers = new HashMap<String, GHashIOWorker>();
+  private final Map<String, GHashIOWorker> workers = new HashMap<>();
 
   public Map<String, GHashIOWorker> getWorkers() {
 

@@ -10,12 +10,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
-import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Trades at Mercado Bitcoin
- * 
+ *
  * @author Copied from Bitstamp and adapted by Felipe Micaroni Lalli
  */
 public class TradesDemo {
@@ -25,8 +25,8 @@ public class TradesDemo {
     // Use the factory to get Mercado Bitcoin exchange API using default settings
     Exchange mercadoBitcoin = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = mercadoBitcoin.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = mercadoBitcoin.getMarketDataService();
 
     Long now = new Date().getTime();
 
@@ -35,7 +35,7 @@ public class TradesDemo {
 
   }
 
-  private static void generic(Long now, PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(Long now, MarketDataService marketDataService) throws IOException {
 
     // Get the latest trade data for BTC/BRL
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_BRL);

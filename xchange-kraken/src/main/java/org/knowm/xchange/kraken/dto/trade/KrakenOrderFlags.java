@@ -34,7 +34,7 @@ public enum KrakenOrderFlags implements IOrderFlags {
     return fromString.get(orderTypeString.toLowerCase());
   }
 
-  private static final Map<String, KrakenOrderFlags> fromString = new HashMap<String, KrakenOrderFlags>();
+  private static final Map<String, KrakenOrderFlags> fromString = new HashMap<>();
 
   static {
     for (KrakenOrderFlags orderFlag : values())

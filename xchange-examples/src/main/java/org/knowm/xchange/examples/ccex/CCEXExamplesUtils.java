@@ -6,12 +6,12 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.ccex.CCEXExchange;
 
 public class CCEXExamplesUtils {
-	public static Exchange getExchange() {
+  public static Exchange getExchange() {
 
-	    ExchangeSpecification exSpec = new ExchangeSpecification(CCEXExchange.class);
-	    exSpec.setApiKey("");
-	    exSpec.setSecretKey("");
+    ExchangeSpecification exSpec = new ExchangeSpecification(CCEXExchange.class);
+    exSpec.setApiKey("");
+    exSpec.setSecretKey("");
 
-	    return ExchangeFactory.INSTANCE.createExchange(exSpec);
-	  }
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
+  }
 }

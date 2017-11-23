@@ -10,10 +10,6 @@ public class BTERPlaceOrderReturn extends BTERBaseResponse {
 
   /**
    * Constructor
-   * 
-   * @param success
-   * @param value
-   * @param error
    */
   private BTERPlaceOrderReturn(@JsonProperty("result") boolean result, @JsonProperty("order_id") String anOrderId,
       @JsonProperty("msg") String message) {

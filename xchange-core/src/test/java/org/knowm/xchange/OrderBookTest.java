@@ -1,6 +1,6 @@
 package org.knowm.xchange;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ public class OrderBookTest {
     LimitOrder askOrder = new LimitOrder(OrderType.ASK, BigDecimal.ONE, CurrencyPair.BTC_USD, "", null, BigDecimal.TEN.add(BigDecimal.ONE));
     LimitOrder bidOrder = new LimitOrder(OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, "", null, BigDecimal.TEN);
 
-    List<LimitOrder> asks = new ArrayList<LimitOrder>(Arrays.asList(askOrder));
-    List<LimitOrder> bids = new ArrayList<LimitOrder>(Arrays.asList(bidOrder));
+    List<LimitOrder> asks = new ArrayList<>(Arrays.asList(askOrder));
+    List<LimitOrder> bids = new ArrayList<>(Arrays.asList(bidOrder));
     Date timeStamp = new Date(0);
     orderBook = new OrderBook(timeStamp, asks, bids);
 
@@ -61,7 +61,7 @@ public class OrderBookTest {
         BigDecimal.TEN);
     orderBook.update(lowerBidUpdate);
     assertThat(orderBook.getBids().size()).isEqualTo(1);
-    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(BigDecimal.TEN);
+    assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(BigDecimal.TEN);
   }
 
   @Test

@@ -169,7 +169,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
   @JsonIgnore
   public List<String> getSuggestedPrices() {
 
-    final List<String> suggestedPrices = new ArrayList<String>();
+    final List<String> suggestedPrices = new ArrayList<>();
     suggestedPrices.add(button.price1);
     suggestedPrices.add(button.price2);
     suggestedPrices.add(button.price3);
@@ -490,16 +490,16 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
             "Only " + MAX_SUGGESTED_PRICES + " suggested prices are allowed. There was an attempt to add " + suggestedPrices.length + " prices.");
 
       switch (suggestedPrices.length) {
-      case 5:
-        this.price5 = suggestedPrices[4];
-      case 4:
-        this.price4 = suggestedPrices[3];
-      case 3:
-        this.price3 = suggestedPrices[2];
-      case 2:
-        this.price2 = suggestedPrices[1];
-      case 1:
-        this.price1 = suggestedPrices[0];
+        case 5:
+          this.price5 = suggestedPrices[4];
+        case 4:
+          this.price4 = suggestedPrices[3];
+        case 3:
+          this.price3 = suggestedPrices[2];
+        case 2:
+          this.price2 = suggestedPrices[1];
+        case 1:
+          this.price1 = suggestedPrices[0];
       }
 
       return this;

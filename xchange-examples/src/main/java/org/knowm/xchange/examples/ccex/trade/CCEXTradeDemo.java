@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ccex.service.pooling.CCEXTradeServiceRaw;
+import org.knowm.xchange.ccex.service.CCEXTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.ccex.CCEXExamplesUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class CCEXTradeDemo {
 
@@ -17,17 +17,17 @@ public class CCEXTradeDemo {
 
     Exchange exchange = CCEXExamplesUtils.getExchange();
 
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
     generic(tradeService);
     raw((CCEXTradeServiceRaw) tradeService);
 
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
 
     CurrencyPair pair = new CurrencyPair("DASH", "BTC");
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000")).tradableAmount(new BigDecimal("100"))
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000")).originalAmount(new BigDecimal("100"))
         .build();
 
     try {
@@ -61,7 +61,7 @@ public class CCEXTradeDemo {
   private static void raw(CCEXTradeServiceRaw tradeService) throws IOException {
 
     CurrencyPair pair = new CurrencyPair("DASH", "BTC");
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000")).tradableAmount(new BigDecimal("100"))
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000")).originalAmount(new BigDecimal("100"))
         .build();
 
     try {

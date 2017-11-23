@@ -8,7 +8,7 @@ import org.knowm.xchange.coinbase.dto.merchant.CoinbaseOrder;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseOrders;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseSubscription;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
-import org.knowm.xchange.coinbase.service.polling.CoinbaseAccountService;
+import org.knowm.xchange.coinbase.service.CoinbaseAccountService;
 import org.knowm.xchange.examples.coinbase.CoinbaseDemoUtils;
 
 /**
@@ -19,7 +19,7 @@ public class CoinbaseMerchantDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange coinbase = CoinbaseDemoUtils.createExchange();
-    CoinbaseAccountService accountService = (CoinbaseAccountService) coinbase.getPollingAccountService();
+    CoinbaseAccountService accountService = (CoinbaseAccountService) coinbase.getAccountService();
 
     CoinbaseSubscriptions subscriptions = accountService.getCoinbaseSubscriptions();
     System.out.println(subscriptions);

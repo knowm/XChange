@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * NOTE: Divide by 10^8 to get the decimal value of BTC amounts
- * 
+ *
  * @author timmolter
  */
 public final class BitcoinAddress {
@@ -24,7 +24,7 @@ public final class BitcoinAddress {
 
   /**
    * Constructor
-   * 
+   *
    * @param address
    * @param final_balance
    * @param hash160

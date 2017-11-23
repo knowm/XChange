@@ -15,7 +15,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinium.BitcoiniumExchange;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook.CondensedOrder;
-import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
+import org.knowm.xchange.bitcoinium.service.BitcoiniumMarketDataServiceRaw;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -54,8 +54,8 @@ public class BitcoiniumRealtimeOrderbookDemo {
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    // Interested in the public polling market data feed (no authentication)
-    bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
 
     // Setup the panel
     final XChartPanel<XYChart> chartPanel = buildPanel();
@@ -122,7 +122,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
     series = chart.addSeries(ASKS_SERIES_NAME, xAxisAskData, yAxisAskData);
     series.setMarker(SeriesMarkers.NONE);
 
-    return new XChartPanel<XYChart>(chart);
+    return new XChartPanel<>(chart);
   }
 
   private void updateData() throws IOException {
@@ -153,7 +153,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
 
   private static List<Float> getPriceData(CondensedOrder[] condensedOrders) {
 
-    List<Float> priceData = new ArrayList<Float>();
+    List<Float> priceData = new ArrayList<>();
     for (int i = 0; i < condensedOrders.length; i++) {
       priceData.add(condensedOrders[i].getPrice().floatValue());
     }
@@ -162,7 +162,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
 
   private static List<Float> getVolumeData(CondensedOrder[] condensedOrders) {
 
-    List<Float> volumeData = new ArrayList<Float>();
+    List<Float> volumeData = new ArrayList<>();
     for (int i = 0; i < condensedOrders.length; i++) {
       volumeData.add(condensedOrders[i].getVolume().floatValue());
     }

@@ -14,7 +14,7 @@ public final class ANXValue {
 
   /**
    * Constructor
-   * 
+   *
    * @param value
    * @param currency
    */

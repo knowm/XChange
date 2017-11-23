@@ -1,6 +1,6 @@
 package org.knowm.xchange.itbit.v1.service;
 
-import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
@@ -17,10 +17,11 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
   private static final String FIELD_SEPARATOR = "\",\"";
 
   private final String apiKey;
+  private final Charset charset;
 
   /**
    * Constructor
-   * 
+   *
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
@@ -28,6 +29,7 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
 
     super(secretKeyBase64, HMAC_SHA_512);
     this.apiKey = apiKey;
+    this.charset = Charset.forName("UTF-8");
   }
 
   public static ItBitHmacPostBodyDigest createInstance(String apiKey, String secretKeyBase64) {
@@ -59,16 +61,17 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
 
     String verb = restInvocation.getHttpMethod().trim();
     String invocationUrl = restInvocation.getInvocationUrl().trim();
-    String message = new StringBuilder("[\"").append(verb).append(FIELD_SEPARATOR).append(invocationUrl).append(FIELD_SEPARATOR).append(requestBody)
-        .append(FIELD_SEPARATOR).append(currentNonce).append(FIELD_SEPARATOR).append(currentTimestamp).append("\"]").toString();
-
-    md.update((currentNonce + message).getBytes());
-    BigInteger hash = new BigInteger(md.digest());
+    String jsonEncodedArray = new StringBuilder("[\"").append(verb).append(FIELD_SEPARATOR).append(invocationUrl).append(FIELD_SEPARATOR)
+        .append(requestBody).append(FIELD_SEPARATOR).append(currentNonce).append(FIELD_SEPARATOR).append(currentTimestamp).append("\"]").toString();
+    md.update(currentNonce.getBytes(charset));
+    md.update(jsonEncodedArray.getBytes(charset));
+    byte[] messageHash = md.digest();
 
     Mac mac512 = getMac();
-    mac512.update(invocationUrl.getBytes());
-    mac512.update(hash.toByteArray());
+    mac512.update(invocationUrl.getBytes(charset));
+    mac512.update(messageHash);
 
-    return apiKey + ":" + Base64.encodeBytes((new BigInteger(mac512.doFinal())).toByteArray());
+    byte[] hmacDigest = mac512.doFinal();
+    return apiKey + ":" + Base64.encodeBytes(hmacDigest);
   }
 }

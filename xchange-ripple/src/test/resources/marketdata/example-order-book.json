@@ -1,630 +1,630 @@
 {
-   "order_book":"XRP/BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-   "ledger":"13796967",
-   "validated":true,
-   "bids":[
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003373502057421809"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"1.346439063213329",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"1.346439063213329",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"39912.205189",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"39912.205189",
-            "counterparty":""
-         },
-         "order_maker":"rwmnMXpRXFqHLYzwyeggJQ8fu5bPyxqup1",
-         "sequence":409019,
-         "passive":false,
-         "sell":false
+  "order_book": "XRP/BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+  "ledger": "13796967",
+  "validated": true,
+  "bids": [
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003373502057421809"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003359856786328473"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"0.216",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"0.216",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"6428.845446",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"6428.845446",
-            "counterparty":""
-         },
-         "order_maker":"rfCFLzNJYvvnoGHWQYACmJpTgkLUaugLEw",
-         "sequence":5773607,
-         "passive":false,
-         "sell":false
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "1.346439063213329",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003359331429228158"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"1.2958004",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"1.2958004",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"38573.16336",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"38573.16336",
-            "counterparty":""
-         },
-         "order_maker":"rwBYyfufTzk77zUSKEu4MvixfarC35av1J",
-         "sequence":966095,
-         "passive":false,
-         "sell":false
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "1.346439063213329",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003358195980080506"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"0.2176156096",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"0.2176156096",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"6480.134301",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"6480.134301",
-            "counterparty":""
-         },
-         "order_maker":"rM3X3QSr8icjTGpaF52dozhbT2BZSXJQYM",
-         "sequence":2390956,
-         "passive":false,
-         "sell":false
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "39912.205189",
+        "counterparty": ""
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.000033570114554105"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"0.03571462",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"0.03571462",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"1063.881386",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"1063.881386",
-            "counterparty":""
-         },
-         "order_maker":"rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
-         "sequence":1011398,
-         "passive":false,
-         "sell":true
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "39912.205189",
+        "counterparty": ""
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003343815389077937"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"1.83",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"1.83",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"54727.901725",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"54727.901725",
-            "counterparty":""
-         },
-         "order_maker":"rfCFLzNJYvvnoGHWQYACmJpTgkLUaugLEw",
-         "sequence":5773592,
-         "passive":false,
-         "sell":false
+      "order_maker": "rwmnMXpRXFqHLYzwyeggJQ8fu5bPyxqup1",
+      "sequence": 409019,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003359856786328473"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003340550837113926"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"0.3179449073",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"0.3179449073",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"9517.738924",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"9517.738924",
-            "counterparty":""
-         },
-         "order_maker":"rM3X3QSr8icjTGpaF52dozhbT2BZSXJQYM",
-         "sequence":2390762,
-         "passive":false,
-         "sell":false
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "0.216",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003337404967393553"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"2.5",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"2.5",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"74908.5",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"74908.5",
-            "counterparty":""
-         },
-         "order_maker":"rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
-         "sequence":1011308,
-         "passive":false,
-         "sell":true
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "0.216",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003333333333333333"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"2.4494",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"2.4494",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"73482",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"73482",
-            "counterparty":""
-         },
-         "order_maker":"reEuy2bbhCnY79bvY8JtBnPULLNFyYsnr",
-         "sequence":67,
-         "passive":false,
-         "sell":true
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "6428.845446",
+        "counterparty": ""
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003317721777288062"
-         },
-         "taker_gets_funded":{
-            "currency":"BTC",
-            "value":"2.200131861501334",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_gets_total":{
-            "currency":"BTC",
-            "value":"2.200131861501334",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_funded":{
-            "currency":"XRP",
-            "value":"66314.537782",
-            "counterparty":""
-         },
-         "taker_pays_total":{
-            "currency":"XRP",
-            "value":"66314.537782",
-            "counterparty":""
-         },
-         "order_maker":"rBztfz5wmDXXgB3KQd5LgtbHZz28KGpYP5",
-         "sequence":1303704,
-         "passive":false,
-         "sell":false
-      }
-   ],
-   "asks":[
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003380846624897726"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"35447.914936",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"35447.914936",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"1.198439635710373",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"1.198439635710373",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
-         "sequence":1011310,
-         "passive":false,
-         "sell":false
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "6428.845446",
+        "counterparty": ""
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003392866215999731"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"6307.351554",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"6307.351554",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"0.214",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"0.214",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rfCFLzNJYvvnoGHWQYACmJpTgkLUaugLEw",
-         "sequence":5773625,
-         "passive":false,
-         "sell":false
+      "order_maker": "rfCFLzNJYvvnoGHWQYACmJpTgkLUaugLEw",
+      "sequence": 5773607,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003359331429228158"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003394991365332204"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"7140.585345",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"7140.585345",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"0.2424222558969268",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"0.2424222558969268",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rM3X3QSr8icjTGpaF52dozhbT2BZSXJQYM",
-         "sequence":2390955,
-         "passive":false,
-         "sell":false
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "1.2958004",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003395585738539898"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"58900",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"58900",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"2",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"2",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rBRXcf7BYs2CN7GfAAXjLQPEh7d46BP9RE",
-         "sequence":6852,
-         "passive":false,
-         "sell":false
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "1.2958004",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.0000339692489977998"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"69267.458346",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"69267.458346",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"2.35296354",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"2.35296354",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
-         "sequence":1011311,
-         "passive":false,
-         "sell":false
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "38573.16336",
+        "counterparty": ""
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003409595803703574"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"58657.979278",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"58657.979278",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"2",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"2",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rfCFLzNJYvvnoGHWQYACmJpTgkLUaugLEw",
-         "sequence":5773606,
-         "passive":false,
-         "sell":false
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "38573.16336",
+        "counterparty": ""
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003413072372750551"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"39514.192291",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"39514.192291",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"1.348647980399649",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"1.348647980399649",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rwmnMXpRXFqHLYzwyeggJQ8fu5bPyxqup1",
-         "sequence":409020,
-         "passive":false,
-         "sell":false
+      "order_maker": "rwBYyfufTzk77zUSKEu4MvixfarC35av1J",
+      "sequence": 966095,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003358195980080506"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003417239082717928"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"40478.032017",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"40478.032017",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"1.38323113",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"1.38323113",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
-         "sequence":1011312,
-         "passive":false,
-         "sell":false
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "0.2176156096",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.0000341903700751839"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"66314.537782",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"66314.537782",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"2.267318588131345",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"2.267318588131345",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rBztfz5wmDXXgB3KQd5LgtbHZz28KGpYP5",
-         "sequence":1303705,
-         "passive":false,
-         "sell":true
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "0.2176156096",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
       },
-      {
-         "price":{
-            "currency":"BTC",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-            "value":"0.00003426853990917158"
-         },
-         "taker_gets_funded":{
-            "currency":"XRP",
-            "value":"27199.15512",
-            "counterparty":""
-         },
-         "taker_gets_total":{
-            "currency":"XRP",
-            "value":"27199.15512",
-            "counterparty":""
-         },
-         "taker_pays_funded":{
-            "currency":"BTC",
-            "value":"0.9320753327254685",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "taker_pays_total":{
-            "currency":"BTC",
-            "value":"0.9320753327254685",
-            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-         },
-         "order_maker":"rwBYyfufTzk77zUSKEu4MvixfarC35av1J",
-         "sequence":966096,
-         "passive":false,
-         "sell":false
-      }
-   ],
-   "success":true
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "6480.134301",
+        "counterparty": ""
+      },
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "6480.134301",
+        "counterparty": ""
+      },
+      "order_maker": "rM3X3QSr8icjTGpaF52dozhbT2BZSXJQYM",
+      "sequence": 2390956,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.000033570114554105"
+      },
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "0.03571462",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "0.03571462",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "1063.881386",
+        "counterparty": ""
+      },
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "1063.881386",
+        "counterparty": ""
+      },
+      "order_maker": "rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
+      "sequence": 1011398,
+      "passive": false,
+      "sell": true
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003343815389077937"
+      },
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "1.83",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "1.83",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "54727.901725",
+        "counterparty": ""
+      },
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "54727.901725",
+        "counterparty": ""
+      },
+      "order_maker": "rfCFLzNJYvvnoGHWQYACmJpTgkLUaugLEw",
+      "sequence": 5773592,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003340550837113926"
+      },
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "0.3179449073",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "0.3179449073",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "9517.738924",
+        "counterparty": ""
+      },
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "9517.738924",
+        "counterparty": ""
+      },
+      "order_maker": "rM3X3QSr8icjTGpaF52dozhbT2BZSXJQYM",
+      "sequence": 2390762,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003337404967393553"
+      },
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "2.5",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "2.5",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "74908.5",
+        "counterparty": ""
+      },
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "74908.5",
+        "counterparty": ""
+      },
+      "order_maker": "rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
+      "sequence": 1011308,
+      "passive": false,
+      "sell": true
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003333333333333333"
+      },
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "2.4494",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "2.4494",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "73482",
+        "counterparty": ""
+      },
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "73482",
+        "counterparty": ""
+      },
+      "order_maker": "reEuy2bbhCnY79bvY8JtBnPULLNFyYsnr",
+      "sequence": 67,
+      "passive": false,
+      "sell": true
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003317721777288062"
+      },
+      "taker_gets_funded": {
+        "currency": "BTC",
+        "value": "2.200131861501334",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_gets_total": {
+        "currency": "BTC",
+        "value": "2.200131861501334",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_funded": {
+        "currency": "XRP",
+        "value": "66314.537782",
+        "counterparty": ""
+      },
+      "taker_pays_total": {
+        "currency": "XRP",
+        "value": "66314.537782",
+        "counterparty": ""
+      },
+      "order_maker": "rBztfz5wmDXXgB3KQd5LgtbHZz28KGpYP5",
+      "sequence": 1303704,
+      "passive": false,
+      "sell": false
+    }
+  ],
+  "asks": [
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003380846624897726"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "35447.914936",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "35447.914936",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "1.198439635710373",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "1.198439635710373",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
+      "sequence": 1011310,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003392866215999731"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "6307.351554",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "6307.351554",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "0.214",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "0.214",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rfCFLzNJYvvnoGHWQYACmJpTgkLUaugLEw",
+      "sequence": 5773625,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003394991365332204"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "7140.585345",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "7140.585345",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "0.2424222558969268",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "0.2424222558969268",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rM3X3QSr8icjTGpaF52dozhbT2BZSXJQYM",
+      "sequence": 2390955,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003395585738539898"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "58900",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "58900",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "2",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "2",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rBRXcf7BYs2CN7GfAAXjLQPEh7d46BP9RE",
+      "sequence": 6852,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.0000339692489977998"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "69267.458346",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "69267.458346",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "2.35296354",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "2.35296354",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
+      "sequence": 1011311,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003409595803703574"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "58657.979278",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "58657.979278",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "2",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "2",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rfCFLzNJYvvnoGHWQYACmJpTgkLUaugLEw",
+      "sequence": 5773606,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003413072372750551"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "39514.192291",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "39514.192291",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "1.348647980399649",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "1.348647980399649",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rwmnMXpRXFqHLYzwyeggJQ8fu5bPyxqup1",
+      "sequence": 409020,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003417239082717928"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "40478.032017",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "40478.032017",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "1.38323113",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "1.38323113",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rJnZ4YHCUsHvQu7R6mZohevKJDHFzVD6Zr",
+      "sequence": 1011312,
+      "passive": false,
+      "sell": false
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.0000341903700751839"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "66314.537782",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "66314.537782",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "2.267318588131345",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "2.267318588131345",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rBztfz5wmDXXgB3KQd5LgtbHZz28KGpYP5",
+      "sequence": 1303705,
+      "passive": false,
+      "sell": true
+    },
+    {
+      "price": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0.00003426853990917158"
+      },
+      "taker_gets_funded": {
+        "currency": "XRP",
+        "value": "27199.15512",
+        "counterparty": ""
+      },
+      "taker_gets_total": {
+        "currency": "XRP",
+        "value": "27199.15512",
+        "counterparty": ""
+      },
+      "taker_pays_funded": {
+        "currency": "BTC",
+        "value": "0.9320753327254685",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "taker_pays_total": {
+        "currency": "BTC",
+        "value": "0.9320753327254685",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      },
+      "order_maker": "rwBYyfufTzk77zUSKEu4MvixfarC35av1J",
+      "sequence": 966096,
+      "passive": false,
+      "sell": false
+    }
+  ],
+  "success": true
 }

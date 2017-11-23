@@ -6,8 +6,8 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
-import org.knowm.xchange.bitfinex.v1.service.polling.BitfinexMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class LendDepthDemo {
 
@@ -16,8 +16,8 @@ public class LendDepthDemo {
     // Use the factory to get BFX exchange API using default settings
     Exchange bfx = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bfx.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = bfx.getMarketDataService();
 
     raw((BitfinexMarketDataServiceRaw) marketDataService);
   }

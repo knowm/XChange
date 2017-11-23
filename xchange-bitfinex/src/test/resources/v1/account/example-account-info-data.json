@@ -1,6 +1,6 @@
-   {
-      "type":"exchange",
-      "currency":"usd",
-      "amount":"8.53524686",
-      "available":"8.53524686"
-   }
+{
+  "type": "exchange",
+  "currency": "usd",
+  "amount": "8.53524686",
+  "available": "8.53524686"
+}

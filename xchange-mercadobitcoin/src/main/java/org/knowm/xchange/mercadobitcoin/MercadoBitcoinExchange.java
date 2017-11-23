@@ -3,9 +3,9 @@ package org.knowm.xchange.mercadobitcoin;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinAccountService;
-import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataService;
-import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinTradeService;
+import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinAccountService;
+import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinMarketDataService;
+import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -31,9 +31,9 @@ public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new MercadoBitcoinMarketDataService(this);
-    this.pollingAccountService = new MercadoBitcoinAccountService(this);
-    this.pollingTradeService = new MercadoBitcoinTradeService(this);
+    this.marketDataService = new MercadoBitcoinMarketDataService(this);
+    this.accountService = new MercadoBitcoinAccountService(this);
+    this.tradeService = new MercadoBitcoinTradeService(this);
   }
 
   @Override

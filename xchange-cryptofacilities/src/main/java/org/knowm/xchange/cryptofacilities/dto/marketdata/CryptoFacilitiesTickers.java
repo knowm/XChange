@@ -52,13 +52,13 @@ public class CryptoFacilitiesTickers extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess()) {
-      String res = "CryptoFacilitiesTickers [serverTime=" + DATE_FORMAT.format(serverTime) + ", tickers=";
+      StringBuilder res = new StringBuilder("CryptoFacilitiesTickers [serverTime=" + DATE_FORMAT.format(serverTime) + ", tickers=");
       for (CryptoFacilitiesTicker ticker : tickers) {
-        res = res + ticker.toString() + ", ";
+        res.append(ticker.toString()).append(", ");
       }
-      res = res + " ]";
+      res.append(" ]");
 
-      return res;
+      return res.toString();
     } else {
       return super.toString();
     }

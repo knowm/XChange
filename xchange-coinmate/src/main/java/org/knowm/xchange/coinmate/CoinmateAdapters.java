@@ -35,10 +35,7 @@ import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrdersEntry;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
+import org.knowm.xchange.coinmate.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -51,15 +48,12 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 /**
  * @author Martin Stachon
  */
 public class CoinmateAdapters {
-
-  // the currency pairs supported by the exchange
-  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = { CurrencyPair.BTC_EUR, CurrencyPair.BTC_CZK, };
 
   /**
    * Adapts a CoinmateTicker to a Ticker Object
@@ -76,13 +70,14 @@ public class CoinmateAdapters {
     BigDecimal high = coinmateTicker.getData().getHigh();
     BigDecimal low = coinmateTicker.getData().getLow();
     BigDecimal volume = coinmateTicker.getData().getAmount();
+    Date timestamp = new Date(coinmateTicker.getData().getTimestamp() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
 
   }
 
   public static List<LimitOrder> createOrders(List<CoinmateOrderBookEntry> coinmateOrders, Order.OrderType type, CurrencyPair currencyPair) {
-    List<LimitOrder> orders = new ArrayList<LimitOrder>(coinmateOrders.size());
+    List<LimitOrder> orders = new ArrayList<>(coinmateOrders.size());
     for (CoinmateOrderBookEntry entry : coinmateOrders) {
       LimitOrder order = new LimitOrder(type, entry.getAmount(), currencyPair, null, null, entry.getPrice());
       orders.add(order);
@@ -98,11 +93,10 @@ public class CoinmateAdapters {
   }
 
   public static Trades adaptTrades(CoinmateTransactions coinmateTransactions) {
-    List<Trade> trades = new ArrayList<Trade>(coinmateTransactions.getData().size());
+    List<Trade> trades = new ArrayList<>(coinmateTransactions.getData().size());
 
     for (CoinmateTransactionsEntry coinmateEntry : coinmateTransactions.getData()) {
-      Trade trade = new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(),
-          new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
+      Trade trade = adaptTrade(coinmateEntry);
       trades.add(trade);
     }
 
@@ -110,10 +104,15 @@ public class CoinmateAdapters {
     return new Trades(trades, Trades.TradeSortType.SortByID);
   }
 
+  public static Trade adaptTrade(CoinmateTransactionsEntry coinmateEntry) {
+    return new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(),
+        new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
+  }
+
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
 
     CoinmateBalanceData funds = coinmateBalance.getData();
-    List<Balance> balances = new ArrayList<Balance>(funds.size());
+    List<Balance> balances = new ArrayList<>(funds.size());
 
     for (String lcCurrency : funds.keySet()) {
       Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
@@ -125,20 +124,25 @@ public class CoinmateAdapters {
     return new Wallet(balances);
   }
 
-  public static UserTrades adaptTradeHistory(CoinmateTransactionHistory coinmateTradeHistory) {
-    List<UserTrade> trades = new ArrayList<UserTrade>(coinmateTradeHistory.getData().size());
+  public static UserTrades adaptTransactionHistory(CoinmateTransactionHistory coinmateTradeHistory) {
+    List<UserTrade> trades = new ArrayList<>(coinmateTradeHistory.getData().size());
 
     for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
       Order.OrderType orderType;
       String transactionType = entry.getTransactionType();
-      if (transactionType.equals("BUY") || transactionType.equals("QUICK_BUY")) {
-        orderType = Order.OrderType.BID;
-      } else if (transactionType.equals("SELL") || transactionType.equals("QUICK_SELL")) {
-        orderType = Order.OrderType.ASK;
-      } else {
-        // here we ignore the other types, such as withdrawal, voucher etc.
-        continue;
-      }
+        switch (transactionType) {
+            case "BUY":
+            case "QUICK_BUY":
+                orderType = Order.OrderType.BID;
+                break;
+            case "SELL":
+            case "QUICK_SELL":
+                orderType = Order.OrderType.ASK;
+                break;
+            default:
+                // here we ignore the other types, such as withdrawal, voucher etc.
+                continue;
+        }
 
       UserTrade trade = new UserTrade(orderType, entry.getAmount(), CoinmateUtils.getPair(entry.getAmountCurrency() + "_" + entry.getPriceCurrency()),
           entry.getPrice(), new Date(entry.getTimestamp()), Long.toString(entry.getTransactionId()), Long.toString(entry.getOrderId()),
@@ -175,14 +179,14 @@ public class CoinmateAdapters {
     return ordersList;
   }
 
-  public static String adaptOrder(TradeHistoryParamsSorted.Order order) {
+  public static String adaptSortOrder(TradeHistoryParamsSorted.Order order) {
     switch (order) {
-    case asc:
-      return "ASC";
-    case desc:
-      return "DESC";
-    default:
-      throw new IllegalArgumentException();
+      case asc:
+        return "ASC";
+      case desc:
+        return "DESC";
+      default:
+        throw new IllegalArgumentException();
     }
   }
 }

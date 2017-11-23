@@ -6,31 +6,28 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CCEXMarkets {
-	private final Boolean success;
-	private final String message;
-	private List<CCEXMarket> result = new ArrayList<CCEXMarket>();
-	
-	public CCEXMarkets(
-			@JsonProperty("success") Boolean success, 
-			@JsonProperty("message") String message, 
-			@JsonProperty("result") List<CCEXMarket> result) {
-		super();
-		this.success = success;
-		this.message = message;
-		this.result = result;
-	}
+  private final Boolean success;
+  private final String message;
+  private List<CCEXMarket> result = new ArrayList<>();
 
-	public Boolean getSuccess() {
-		return success;
-	}
+  public CCEXMarkets(@JsonProperty("success") Boolean success, @JsonProperty("message") String message,
+      @JsonProperty("result") List<CCEXMarket> result) {
+    super();
+    this.success = success;
+    this.message = message;
+    this.result = result;
+  }
 
-	public String getMessage() {
-		return message;
-	}
+  public Boolean getSuccess() {
+    return success;
+  }
 
-	public List<CCEXMarket> getResult() {
-		return result;
-	}
-	
-	
+  public String getMessage() {
+    return message;
+  }
+
+  public List<CCEXMarket> getResult() {
+    return result;
+  }
+
 }

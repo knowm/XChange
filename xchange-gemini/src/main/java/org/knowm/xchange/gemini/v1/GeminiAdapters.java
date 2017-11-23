@@ -1,16 +1,9 @@
 package org.knowm.xchange.gemini.v1;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -22,23 +15,18 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
-import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendLevel;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTicker;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
+import org.knowm.xchange.gemini.v1.dto.marketdata.*;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.Map.Entry;
 
 public final class GeminiAdapters {
 
@@ -50,7 +38,7 @@ public final class GeminiAdapters {
 
   public static List<CurrencyPair> adaptCurrencyPairs(Collection<String> GeminiSymbol) {
 
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
     for (String symbol : GeminiSymbol) {
       currencyPairs.add(adaptCurrencyPair(symbol));
     }
@@ -81,7 +69,7 @@ public final class GeminiAdapters {
   public static OrdersContainer adaptOrders(GeminiLevel[] GeminiLevels, CurrencyPair currencyPair, OrderType orderType) {
 
     BigDecimal maxTimestamp = new BigDecimal(Long.MIN_VALUE);
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(GeminiLevels.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(GeminiLevels.length);
 
     for (GeminiLevel GeminiLevel : GeminiLevels) {
       if (GeminiLevel.getTimestamp().compareTo(maxTimestamp) > 0) {
@@ -92,7 +80,7 @@ public final class GeminiAdapters {
       limitOrders.add(adaptOrder(GeminiLevel.getAmount(), GeminiLevel.getPrice(), currencyPair, orderType, timestamp));
     }
 
-    long maxTimestampInMillis = maxTimestamp.multiply(new BigDecimal(1000l)).longValue();
+    long maxTimestampInMillis = maxTimestamp.multiply(new BigDecimal(1000L)).longValue();
     return new OrdersContainer(maxTimestampInMillis, limitOrders);
   }
 
@@ -131,7 +119,7 @@ public final class GeminiAdapters {
 
   public static List<FixedRateLoanOrder> adaptFixedRateLoanOrders(GeminiLendLevel[] orders, String currency, String orderType, String id) {
 
-    List<FixedRateLoanOrder> loanOrders = new ArrayList<FixedRateLoanOrder>(orders.length);
+    List<FixedRateLoanOrder> loanOrders = new ArrayList<>(orders.length);
 
     for (GeminiLendLevel order : orders) {
       if ("yes".equalsIgnoreCase(order.getFrr())) {
@@ -159,7 +147,7 @@ public final class GeminiAdapters {
 
   public static List<FloatingRateLoanOrder> adaptFloatingRateLoanOrders(GeminiLendLevel[] orders, String currency, String orderType, String id) {
 
-    List<FloatingRateLoanOrder> loanOrders = new ArrayList<FloatingRateLoanOrder>(orders.length);
+    List<FloatingRateLoanOrder> loanOrders = new ArrayList<>(orders.length);
 
     for (GeminiLendLevel order : orders) {
       if ("no".equals(order.getFrr())) {
@@ -197,7 +185,7 @@ public final class GeminiAdapters {
 
   public static Trades adaptTrades(GeminiTrade[] trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>(trades.length);
+    List<Trade> tradesList = new ArrayList<>(trades.length);
     long lastTradeId = 0;
     for (GeminiTrade trade : trades) {
       long tradeId = trade.getTradeId();
@@ -211,22 +199,20 @@ public final class GeminiAdapters {
 
   public static Ticker adaptTicker(GeminiTicker GeminiTicker, CurrencyPair currencyPair) {
 
-    BigDecimal last = GeminiTicker.getLast_price();
+    BigDecimal last = GeminiTicker.getLast();
     BigDecimal bid = GeminiTicker.getBid();
     BigDecimal ask = GeminiTicker.getAsk();
-    BigDecimal high = GeminiTicker.getHigh();
-    BigDecimal low = GeminiTicker.getLow();
-    BigDecimal volume = GeminiTicker.getVolume();
+    BigDecimal volume = GeminiTicker.getVolume().getBaseVolume(currencyPair);
 
-    Date timestamp = DateUtils.fromMillisUtc((long) (GeminiTicker.getTimestamp() * 1000L));
+    Date timestamp = DateUtils.fromMillisUtc(GeminiTicker.getVolume().getTimestampMS());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp)
         .build();
   }
 
   public static Wallet adaptWallet(GeminiBalancesResponse[] response) {
 
-    Map<String, BigDecimal[]> balancesByCurrency = new HashMap<String, BigDecimal[]>(); // {total, available}
+    Map<String, BigDecimal[]> balancesByCurrency = new HashMap<>(); // {total, available}
 
     // for each currency we have multiple balances types: exchange, trading, deposit.
     // each of those may be partially frozen/available
@@ -234,7 +220,7 @@ public final class GeminiAdapters {
       String currencyName = balance.getCurrency().toUpperCase();
       BigDecimal[] balanceDetail = balancesByCurrency.get(currencyName);
       if (balanceDetail == null) {
-        balanceDetail = new BigDecimal[] { balance.getAmount(), balance.getAvailable() };
+        balanceDetail = new BigDecimal[]{balance.getAmount(), balance.getAvailable()};
       } else {
         balanceDetail[0] = balanceDetail[0].add(balance.getAmount());
         balanceDetail[1] = balanceDetail[1].add(balance.getAvailable());
@@ -242,7 +228,7 @@ public final class GeminiAdapters {
       balancesByCurrency.put(currencyName, balanceDetail);
     }
 
-    List<Balance> balances = new ArrayList<Balance>(balancesByCurrency.size());
+    List<Balance> balances = new ArrayList<>(balancesByCurrency.size());
     for (Entry<String, BigDecimal[]> entry : balancesByCurrency.entrySet()) {
       String currencyName = entry.getKey();
       BigDecimal[] balanceDetail = entry.getValue();
@@ -256,14 +242,27 @@ public final class GeminiAdapters {
 
   public static OpenOrders adaptOrders(GeminiOrderStatusResponse[] activeOrders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(activeOrders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(activeOrders.length);
 
     for (GeminiOrderStatusResponse order : activeOrders) {
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
-      limitOrders
-          .add(new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice()));
+
+      OrderStatus status = OrderStatus.NEW;
+
+      if (order.isCancelled()) {
+        status = Order.OrderStatus.CANCELED;
+      } else if (order.getExecutedAmount().signum() > 0 && order.getExecutedAmount().compareTo(order.getOriginalAmount()) < 0) {
+        status = OrderStatus.PARTIALLY_FILLED;
+      } else if (order.getExecutedAmount().compareTo(order.getOriginalAmount()) == 0) {
+        status = OrderStatus.FILLED;
+      }
+
+      LimitOrder limitOrder = new LimitOrder(orderType, order.getOriginalAmount(), currencyPair,
+              String.valueOf(order.getId()), timestamp, order.getPrice(), order.getAvgExecutionPrice(), order.getExecutedAmount(), status);
+
+      limitOrders.add(limitOrder);
     }
 
     return new OpenOrders(limitOrders);
@@ -271,7 +270,7 @@ public final class GeminiAdapters {
 
   public static UserTrades adaptTradeHistory(GeminiTradeResponse[] trades, String symbol) {
 
-    List<UserTrade> pastTrades = new ArrayList<UserTrade>(trades.length);
+    List<UserTrade> pastTrades = new ArrayList<>(trades.length);
     CurrencyPair currencyPair = adaptCurrencyPair(symbol);
 
     for (GeminiTradeResponse trade : trades) {
@@ -285,10 +284,9 @@ public final class GeminiAdapters {
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
   }
 
-  private static Date convertBigDecimalTimestampToDate(BigDecimal timestamp) {
+  private static Date convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
 
-    BigDecimal timestampInMillis = timestamp.multiply(new BigDecimal("1000"));
-    return new Date(timestampInMillis.longValue());
+    return new Date((long) Math.floor(timestampInSeconds.doubleValue() * 1000));
   }
 
   public static ExchangeMetaData adaptMetaData(List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
@@ -296,13 +294,13 @@ public final class GeminiAdapters {
     Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
     for (CurrencyPair c : currencyPairs) {
-      if (!pairsMap.keySet().contains(c)) {
+      if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }
-      if (!currenciesMap.keySet().contains(c.base)) {
+      if (!currenciesMap.containsKey(c.base)) {
         currenciesMap.put(c.base, null);
       }
-      if (!currenciesMap.keySet().contains(c.base)) {
+      if (!currenciesMap.containsKey(c.counter)) {
         currenciesMap.put(c.counter, null);
       }
     }
@@ -310,3 +308,4 @@ public final class GeminiAdapters {
     return metaData;
   }
 }
+

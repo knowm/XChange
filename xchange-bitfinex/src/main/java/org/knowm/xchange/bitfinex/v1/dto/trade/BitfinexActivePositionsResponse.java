@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexActivePositionsResponse {
 
-  private final int id;
+  private final long id;
   private final String symbol;
   private final String status;
   private final BigDecimal base;
@@ -18,7 +18,7 @@ public class BitfinexActivePositionsResponse {
   private final BigDecimal pnl;
   private final OrderType orderType;
 
-  public BitfinexActivePositionsResponse(@JsonProperty("id") int id, @JsonProperty("symbol") String symbol, @JsonProperty("status") String status,
+  public BitfinexActivePositionsResponse(@JsonProperty("id") long id, @JsonProperty("symbol") String symbol, @JsonProperty("status") String status,
       @JsonProperty("base") BigDecimal base, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") BigDecimal timestamp,
       @JsonProperty("swap") BigDecimal swap, @JsonProperty("pl") BigDecimal pnl) {
 
@@ -34,7 +34,7 @@ public class BitfinexActivePositionsResponse {
     this.orderType = amount.signum() < 0 ? OrderType.ASK : OrderType.BID;
   }
 
-  public int getId() {
+  public long getId() {
 
     return id;
   }

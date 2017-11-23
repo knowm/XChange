@@ -1,85 +1,75 @@
 package org.knowm.xchange.examples.itbit.trade;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.itbit.v1.ItBitExchange;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.examples.itbit.ItBitDemoUtils;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
+import org.knowm.xchange.itbit.v1.service.ItBitTradeServiceRaw;
+import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.TradeService;
 
-/**
- * Tests all calls to itBit
- */
 public class ItBitTradesDemo {
 
   public static void main(String[] args) throws Exception {
 
-    // Use the factory to get BTC-E exchange API using default settings
-    Exchange itbit = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
-    ExchangeSpecification defaultExchangeSpecification = itbit.getDefaultExchangeSpecification();
+    Exchange itbit = ItBitDemoUtils.createExchange();
 
-    defaultExchangeSpecification.setUserName("userId/walletId");
-    defaultExchangeSpecification.setApiKey("xxx");
-    defaultExchangeSpecification.setSecretKey("xxx");
+    AccountService account = itbit.getAccountService();
+    TradeService tradeService = itbit.getTradeService();
 
-    itbit.applySpecification(defaultExchangeSpecification);
+    AccountInfo accountInfo = account.getAccountInfo();
+    System.out.println("Account Info: " + accountInfo);
 
-    // get all services
-    PollingMarketDataService marketDataService = itbit.getPollingMarketDataService();
-    PollingAccountService accout = itbit.getPollingAccountService();
-    PollingTradeService trades = itbit.getPollingTradeService();
+    printOpenOrders(tradeService);
 
-    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("XBT", "USD"));
-    System.out.println("BIDS: " + orderBook.getBids());
-    System.out.println("ASKS: " + orderBook.getAsks());
+    String placeLimitOrderXBT = tradeService.placeLimitOrder(
+        new LimitOrder(OrderType.BID, BigDecimal.valueOf(0.001), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(300)));
+    String placeLimitOrderBTC = tradeService.placeLimitOrder(
+        new LimitOrder(OrderType.BID, BigDecimal.valueOf(0.001), new CurrencyPair("BTC", "USD"), "0", new Date(), BigDecimal.valueOf(360)));
 
-    Trades trades2 = marketDataService.getTrades(new CurrencyPair("XBT", "USD"), 22233);
-    System.out.println("Current trades:" + trades2);
+    System.out.println("limit order id " + placeLimitOrderXBT);
+    System.out.println("limit order id " + placeLimitOrderBTC);
+    printOrderStatus(tradeService, placeLimitOrderXBT);
+    printOrderStatus(tradeService, placeLimitOrderBTC);
+    printOpenOrders(tradeService);
 
-    AccountInfo accountInfo = accout.getAccountInfo();
+    System.out.println("Cancelling " + placeLimitOrderXBT);
+    tradeService.cancelOrder(placeLimitOrderXBT);
+    printOrderStatus(tradeService, placeLimitOrderXBT);
+    printOpenOrders(tradeService);
 
-    System.out.println(accountInfo);
-    OpenOrders openOrders = trades.getOpenOrders();
-    System.out.println("open orders: " + openOrders);
+    System.out.println("Cancelling " + placeLimitOrderBTC);
+    tradeService.cancelOrder(placeLimitOrderBTC);
+    printOrderStatus(tradeService, placeLimitOrderBTC);
+    printOpenOrders(tradeService);
 
-    for (LimitOrder o : openOrders.getOpenOrders()) {
-      System.out.println("Order " + o.getId() + " .. cancelling!");
-      System.out.println(trades.cancelOrder(o.getId()));
-
-    }
-
-    String placeLimitOrder1 = trades.placeLimitOrder(
-        new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(300)));
-    String placeLimitOrder2 = trades.placeLimitOrder(
-        new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(350)));
-    String placeLimitOrder3 = trades.placeLimitOrder(
-        new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(360)));
-    String placeLimitOrder4 = trades.placeLimitOrder(
-        new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(370)));
-
-    System.out.println("limit order id " + placeLimitOrder1);
-    System.out.println("limit order id " + placeLimitOrder2);
-    System.out.println("limit order id " + placeLimitOrder3);
-    System.out.println("limit order id " + placeLimitOrder4);
-
-    trades.placeLimitOrder(
-        new LimitOrder(OrderType.ASK, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(770)));
-
-    System.out.println("Cancelling " + placeLimitOrder1);
-    trades.cancelOrder(placeLimitOrder1);
-
-    Trades tradeHistory = trades.getTradeHistory(trades.createTradeHistoryParams());
+    Trades tradeHistory = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println("Trade history: " + tradeHistory);
+
+    printOrderStatus(tradeService, placeLimitOrderXBT);
+    printOrderStatus(tradeService, placeLimitOrderBTC);
+    printOpenOrders(tradeService);
+  }
+
+  private static void printOpenOrders(TradeService tradeService) throws IOException {
+
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println("Open Orders: " + openOrders.toString());
+  }
+
+  private static void printOrderStatus(TradeService tradeService, String orderId) throws IOException {
+
+    final ItBitTradeServiceRaw tradeServiceRaw = (ItBitTradeServiceRaw) tradeService;
+    final ItBitOrder response = tradeServiceRaw.getItBitOrder(orderId);
+    System.out.println("Order Status: " + response.toString());
   }
 }

@@ -10,7 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.taurus.dto.TaurusException;
 import org.knowm.xchange.taurus.dto.account.TaurusBalance;
 import org.knowm.xchange.taurus.dto.trade.TaurusOrder;
@@ -32,14 +32,14 @@ public interface TaurusAuthenticated extends Taurus {
   @POST
   @Path("buy/")
   TaurusOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-      throws TaurusException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("price") BigDecimal price) throws TaurusException, IOException;
 
   @POST
   @Path("sell/")
   TaurusOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-      throws TaurusException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("price") BigDecimal price) throws TaurusException, IOException;
 
   // todo: market order
 
@@ -70,6 +70,6 @@ public interface TaurusAuthenticated extends Taurus {
   @POST
   @Path("bitcoin_withdrawal/")
   String withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
-      throws TaurusException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address) throws TaurusException, IOException;
 }

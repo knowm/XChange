@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexCreditResponse {
 
-  private final int id;
+  private final long id;
   private final String currency;
   private final String status;
   private final BigDecimal rate;
@@ -14,7 +14,7 @@ public class BitfinexCreditResponse {
   private final BigDecimal amount;
   private final BigDecimal timestamp;
 
-  public BitfinexCreditResponse(@JsonProperty("id") int id, @JsonProperty("currency") String currency, @JsonProperty("status") String status,
+  public BitfinexCreditResponse(@JsonProperty("id") long id, @JsonProperty("currency") String currency, @JsonProperty("status") String status,
       @JsonProperty("rate") BigDecimal rate, @JsonProperty("period") int period, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("timestamp") BigDecimal timestamp) {
 
@@ -27,7 +27,7 @@ public class BitfinexCreditResponse {
     this.timestamp = timestamp;
   }
 
-  public int getId() {
+  public long getId() {
 
     return id;
   }

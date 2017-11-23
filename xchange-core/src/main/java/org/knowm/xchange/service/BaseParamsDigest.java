@@ -23,8 +23,8 @@ public abstract class BaseParamsDigest implements ParamsDigest {
 
   /**
    * Constructor
-   * 
-   * @param secretKeyBase64
+   *
+   * @param secretKeyBase64 Base64 secret key
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   protected BaseParamsDigest(String secretKeyBase64, final String hmacString) throws IllegalArgumentException {
@@ -54,8 +54,8 @@ public abstract class BaseParamsDigest implements ParamsDigest {
 
   /**
    * Constructor
-   * 
-   * @param secretKeyBase64
+   *
+   * @param secretKeyBase64 Base64 secret key
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   protected BaseParamsDigest(byte[] secretKeyBase64, final String hmacString) throws IllegalArgumentException {

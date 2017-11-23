@@ -13,7 +13,7 @@ public class BTCETradeHistoryReturn extends BTCEReturn<Map<Long, BTCETradeHistor
 
   /**
    * Constructor
-   * 
+   *
    * @param success
    * @param value
    * @param error

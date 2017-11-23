@@ -3,9 +3,9 @@ package org.knowm.xchange.bitmarket;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitmarket.service.polling.BitMarketAccountService;
-import org.knowm.xchange.bitmarket.service.polling.BitMarketDataService;
-import org.knowm.xchange.bitmarket.service.polling.BitMarketTradeService;
+import org.knowm.xchange.bitmarket.service.BitMarketAccountService;
+import org.knowm.xchange.bitmarket.service.BitMarketDataService;
+import org.knowm.xchange.bitmarket.service.BitMarketTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -19,9 +19,9 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BitMarketDataService(this);
-    this.pollingTradeService = new BitMarketTradeService(this);
-    this.pollingAccountService = new BitMarketAccountService(this);
+    this.marketDataService = new BitMarketDataService(this);
+    this.tradeService = new BitMarketTradeService(this);
+    this.accountService = new BitMarketAccountService(this);
   }
 
   @Override

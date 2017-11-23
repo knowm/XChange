@@ -12,13 +12,13 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
  * Deserializes an ISO formatted Date String to a Java Date ISO format: 'yyyy-MM-dd'T'HH:mm:ss.SSS'Z''
- * 
+ *
  * @author jamespedwards42
  */
 public class ISODateDeserializer extends JsonDeserializer<Date> {
 
   @Override
-  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException {
 
     return DateUtils.fromISODateString(jp.getValueAsString());
   }

@@ -1,1 +1,7 @@
-{"error": {"__all__": ["Minimum order size is $1"]}}
+{
+  "error": {
+    "__all__": [
+      "Minimum order size is $1"
+    ]
+  }
+}

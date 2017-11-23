@@ -11,7 +11,7 @@ public class KrakenQueryLedgerResult extends KrakenResult<Map<String, KrakenLedg
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

@@ -1,6 +1,7 @@
 package org.knowm.xchange.dto.meta;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * Describe a call rate limit as a number of calls per some time span.
  */
-public class RateLimit {
+public class RateLimit implements Serializable {
 
   @JsonProperty("calls")
   public int calls = 1;
@@ -48,7 +49,7 @@ public class RateLimit {
 
   /**
    * @return this rate limit as a number of milliseconds required between any two remote calls, assuming the client makes consecutive calls without
-   *         any bursts or breaks for an infinite period of time.
+   * any bursts or breaks for an infinite period of time.
    */
   @JsonIgnore
   public long getPollDelayMillis() {

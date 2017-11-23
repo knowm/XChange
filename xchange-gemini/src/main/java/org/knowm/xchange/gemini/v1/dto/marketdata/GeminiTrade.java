@@ -15,7 +15,7 @@ public class GeminiTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param price
    * @param amount
    * @param timestamp
@@ -67,7 +67,7 @@ public class GeminiTrade {
   public String toString() {
 
     StringBuilder builder = new StringBuilder();
-    builder.append("BitfinexTrade [price=");
+    builder.append("GeminiTrade [price=");
     builder.append(price);
     builder.append(", amount=");
     builder.append(amount);

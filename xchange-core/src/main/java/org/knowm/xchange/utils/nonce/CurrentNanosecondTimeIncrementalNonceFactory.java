@@ -4,7 +4,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CurrentNanosecondTimeIncrementalNonceFactory implements SynchronizedValueFactory<Long> {
 
-  private long lastNonce = 0l;
+  private long lastNonce = 0L;
 
   @Override
   public Long createValue() {
