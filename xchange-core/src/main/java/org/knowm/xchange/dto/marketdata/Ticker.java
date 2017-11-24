@@ -122,7 +122,7 @@ public final class Ticker implements Serializable {
   public String toString() {
 
     return "Ticker [currencyPair=" + currencyPair + ", open=" + open + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ",avg="
-        + vwap + ", volume=" + volume +", quoteVolume=" + quoteVolume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
+        + vwap + ", volume=" + volume + ", quoteVolume=" + quoteVolume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
   }
 
   /**
