@@ -2,9 +2,9 @@ package org.knowm.xchange.liqui.marketdata;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.knowm.xchange.liqui.dto.marketdata.LiquiDepth;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicAsk;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicBid;
-import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicOrders;
 import org.knowm.xchange.liqui.dto.marketdata.result.LiquiDepthResult;
 
 import java.io.InputStream;
@@ -22,11 +22,11 @@ public class LiquiDepthJSONTest {
 
         final ObjectMapper mapper = new ObjectMapper();
         final LiquiDepthResult depthResult = mapper.readValue(is, LiquiDepthResult.class);
-        final Map<String, LiquiPublicOrders> result = depthResult.getResult();
+        final Map<String, LiquiDepth> result = depthResult.getResult();
 
         assertThat(result.get("eth_zec")).isEqualTo(null);
 
-        final LiquiPublicOrders ethBtc = result.get("eth_btc");
+        final LiquiDepth ethBtc = result.get("eth_btc");
         final List<LiquiPublicAsk> ethAsks = ethBtc.getAsks();
         assertThat(ethAsks.get(0).getPrice()).isEqualTo(new BigDecimal("0.05282309"));
         assertThat(ethAsks.get(1).getPrice()).isEqualTo(new BigDecimal("0.05282838"));
@@ -45,7 +45,7 @@ public class LiquiDepthJSONTest {
         assertThat(ethBids.get(1).getVolume()).isEqualTo(new BigDecimal("2.67897679"));
         assertThat(ethBids.get(2).getVolume()).isEqualTo(new BigDecimal("0.20048711"));
 
-        final LiquiPublicOrders ltcBtc = result.get("ltc_btc");
+        final LiquiDepth ltcBtc = result.get("ltc_btc");
         final List<LiquiPublicAsk> ltcAsks = ltcBtc.getAsks();
         assertThat(ltcAsks.get(0).getPrice()).isEqualTo(new BigDecimal("0.00949897"));
         assertThat(ltcAsks.get(1).getPrice()).isEqualTo(new BigDecimal("0.00950312"));

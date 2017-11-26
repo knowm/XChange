@@ -6,14 +6,14 @@ import java.util.Map;
 
 public class LiquiTradeHistory {
 
-    private final Map<Long, LiquiHistoricalTrade> history;
+    private final Map<Long, LiquiUserTrade> history;
 
     @JsonCreator
-    public LiquiTradeHistory(final Map<Long, LiquiHistoricalTrade> history) {
+    public LiquiTradeHistory(final Map<Long, LiquiUserTrade> history) {
         this.history = history;
     }
 
-    public Map<Long, LiquiHistoricalTrade> getHistory() {
+    public Map<Long, LiquiUserTrade> getHistory() {
         return history;
     }
 

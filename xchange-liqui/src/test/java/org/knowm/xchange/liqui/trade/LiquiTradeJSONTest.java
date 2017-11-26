@@ -34,4 +34,12 @@ public class LiquiTradeJSONTest {
         assertThat(funds.get("btc")).isEqualTo(new BigDecimal("0.0"));
 
     }
+
+    @Test
+    public void testError() throws Exception {
+        final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/example-error.json");
+
+        final ObjectMapper mapper = new ObjectMapper();
+        final LiquiTradeResult result = mapper.readValue(is, LiquiTradeResult.class);
+    }
 }

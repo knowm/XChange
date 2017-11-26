@@ -15,14 +15,14 @@ public class LiquiTickerJSONTest {
 
     @Test
     public void testUnmarshall() throws Exception {
-        InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
-        ObjectMapper mapper = new ObjectMapper();
-        LiquiTickersResult tickersResult = mapper.readValue(is, LiquiTickersResult.class);
-        Map<String, LiquiTicker> tickers = tickersResult.getResult();
+        final ObjectMapper mapper = new ObjectMapper();
+        final LiquiTickersResult tickersResult = mapper.readValue(is, LiquiTickersResult.class);
+        final Map<String, LiquiTicker> tickers = tickersResult.getResult();
 
         assertThat(tickers.get("eth_zec")).isEqualTo(null);
-        LiquiTicker ethBtc = tickers.get("eth_btc");
+        final LiquiTicker ethBtc = tickers.get("eth_btc");
 
         assertThat(ethBtc.getHigh()).isEqualTo(new BigDecimal("0.05252557"));
         assertThat(ethBtc.getLow()).isEqualTo(new BigDecimal("0.04929928"));
@@ -34,7 +34,7 @@ public class LiquiTickerJSONTest {
         assertThat(ethBtc.getSell()).isEqualTo(new BigDecimal("0.05065031"));
         assertThat(ethBtc.getUpdated()).isEqualTo(1509055549L);
 
-        LiquiTicker ltcBtc = tickers.get("ltc_btc");
+        final LiquiTicker ltcBtc = tickers.get("ltc_btc");
         assertThat(ltcBtc.getHigh()).isEqualTo(new BigDecimal("0.00979768"));
         assertThat(ltcBtc.getLow()).isEqualTo(new BigDecimal("0.00938322"));
         assertThat(ltcBtc.getAvg()).isEqualTo(new BigDecimal("0.00959045"));
@@ -44,6 +44,5 @@ public class LiquiTickerJSONTest {
         assertThat(ltcBtc.getBuy()).isEqualTo(new BigDecimal("0.00950768"));
         assertThat(ltcBtc.getSell()).isEqualTo(new BigDecimal("0.00955432"));
         assertThat(ltcBtc.getUpdated()).isEqualTo(1509055549L);
-
     }
 }

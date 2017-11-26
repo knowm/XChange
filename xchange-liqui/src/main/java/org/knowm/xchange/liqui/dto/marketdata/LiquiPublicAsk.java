@@ -11,9 +11,9 @@ public class LiquiPublicAsk {
     private final BigDecimal volume;
 
     @JsonCreator
-    public LiquiPublicAsk(final List<Double> ask) {
-        price = new BigDecimal(ask.get(0).toString());
-        volume = new BigDecimal(ask.get(1).toString());
+    public LiquiPublicAsk(final List<String> ask) {
+        price = new BigDecimal(ask.get(0));
+        volume = new BigDecimal(ask.get(1));
     }
 
     public BigDecimal getPrice() {
