@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class LiquiPublicOrders {
+public class LiquiDepth {
 
     private final LiquiPublicAsks asks;
     private final LiquiPublicBids bids;
 
-    public LiquiPublicOrders(@JsonProperty("asks") final LiquiPublicAsks asks, @JsonProperty("bids") final LiquiPublicBids bids) {
+    public LiquiDepth(@JsonProperty("asks") final LiquiPublicAsks asks, @JsonProperty("bids") final LiquiPublicBids bids) {
         this.asks = asks;
         this.bids = bids;
     }
@@ -24,7 +24,7 @@ public class LiquiPublicOrders {
 
     @Override
     public String toString() {
-        return "LiquiPublicOrders{" +
+        return "LiquiDepth{" +
                 "asks=" + asks +
                 ", bids=" + bids +
                 '}';

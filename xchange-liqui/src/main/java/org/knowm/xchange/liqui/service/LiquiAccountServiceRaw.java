@@ -8,7 +8,7 @@ public class LiquiAccountServiceRaw extends LiquiBaseService {
         super(exchange);
     }
 
-    public LiquiAccountInfo getAccountInfo() {
+    public LiquiAccountInfo getAccountInfoRaw() {
         return liquiAuthenticated.getInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
                 exchange.getNonceFactory(), "getInfo").getResult();
     }

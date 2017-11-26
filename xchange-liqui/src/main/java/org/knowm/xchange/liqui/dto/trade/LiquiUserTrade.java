@@ -6,7 +6,7 @@ import org.knowm.xchange.liqui.dto.LiquiTradeType;
 
 import java.math.BigDecimal;
 
-public class LiquiHistoricalTrade {
+public class LiquiUserTrade {
 
     private final CurrencyPair pair;
     private final long tradeId;
@@ -17,10 +17,10 @@ public class LiquiHistoricalTrade {
     private final boolean yourOrder;
     private final long timestamp;
 
-    public LiquiHistoricalTrade(@JsonProperty("pair") final String pair, @JsonProperty("type") final LiquiTradeType type,
-                                @JsonProperty("amount") final String amount, @JsonProperty("rate") final String rate,
-                                @JsonProperty("order_id") final long orderId, @JsonProperty("is_your_order") final boolean yourOrder,
-                                @JsonProperty("timestamp") final long timestamp, @JsonProperty("trade_id") final long tradeId) {
+    public LiquiUserTrade(@JsonProperty("pair") final String pair, @JsonProperty("type") final LiquiTradeType type,
+                          @JsonProperty("amount") final String amount, @JsonProperty("rate") final String rate,
+                          @JsonProperty("order_id") final long orderId, @JsonProperty("is_your_order") final boolean yourOrder,
+                          @JsonProperty("timestamp") final long timestamp, @JsonProperty("trade_id") final long tradeId) {
         final String[] split = pair.split("_");
         this.pair = new CurrencyPair(split[0], split[1]);
         this.type = type;
@@ -67,7 +67,7 @@ public class LiquiHistoricalTrade {
 
     @Override
     public String toString() {
-        return "LiquiHistoricalTrade{" +
+        return "LiquiUserTrade{" +
                 "pair=" + pair +
                 ", tradeId=" + tradeId +
                 ", type=" + type +

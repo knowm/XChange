@@ -11,9 +11,9 @@ public class LiquiPublicBid {
     private final BigDecimal volume;
 
     @JsonCreator
-    public LiquiPublicBid(final List<Double> ask) {
-        price = new BigDecimal(ask.get(0).toString());
-        volume = new BigDecimal(ask.get(1).toString());
+    public LiquiPublicBid(final List<String> ask) {
+        price = new BigDecimal(ask.get(0));
+        volume = new BigDecimal(ask.get(1));
     }
 
     public BigDecimal getPrice() {

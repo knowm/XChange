@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.liqui.dto.LiquiTradeType;
-import org.knowm.xchange.liqui.dto.trade.LiquiHistoricalTrade;
+import org.knowm.xchange.liqui.dto.trade.LiquiUserTrade;
 import org.knowm.xchange.liqui.dto.trade.result.LiquiTradeHistoryResult;
 import org.knowm.xchange.liqui.marketdata.LiquiTickerJSONTest;
 
@@ -24,8 +24,8 @@ public class LiquiTradeHistoryJSONTest {
         final LiquiTradeHistoryResult tradeHistoryResult = mapper.readValue(is, LiquiTradeHistoryResult.class);
         assertThat(tradeHistoryResult.isSuccess()).isTrue();
 
-        final Map<Long, LiquiHistoricalTrade> history = tradeHistoryResult.getResult().getHistory();
-        final LiquiHistoricalTrade trade = history.get(37225796L);
+        final Map<Long, LiquiUserTrade> history = tradeHistoryResult.getResult().getHistory();
+        final LiquiUserTrade trade = history.get(37225796L);
 
         assertThat(trade.getPair()).isEqualTo(new CurrencyPair("trx", "btc"));
         assertThat(trade.getOrderId()).isEqualTo(110486609L);
