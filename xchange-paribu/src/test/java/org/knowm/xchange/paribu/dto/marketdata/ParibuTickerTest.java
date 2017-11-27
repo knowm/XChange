@@ -21,10 +21,10 @@ public class ParibuTickerTest {
     // Read in the JSON from the example resources
     InputStream is = ParibuTickerTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
     ObjectMapper mapper = new ObjectMapper();
-    ParibuTicker btcTurkTicker = mapper.readValue(is, ParibuTicker.class);
+    ParibuTicker paribuTicker = mapper.readValue(is, ParibuTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    BTC_TL btcTL = btcTurkTicker.getBtcTL();
+    BTC_TL btcTL = paribuTicker.getBtcTL();
     assertThat(btcTL.getLast()).isEqualTo(new BigDecimal("41400"));
     assertThat(btcTL.getLowestAsk()).isEqualTo(new BigDecimal("41450.89"));
     assertThat(btcTL.getHighestBid()).isEqualTo(new BigDecimal("41400"));
