@@ -19,10 +19,10 @@ public class ParibuTickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get BTCTurk exchange API using default settings
-    Exchange btcTurk = ParibuDemoUtils.createExchange();
+    Exchange paribu = ParibuDemoUtils.createExchange();
 
     // Interested in the public market data feed (no authentication)
-    MarketDataService marketDataService = btcTurk.getMarketDataService();
+    MarketDataService marketDataService = paribu.getMarketDataService();
 
     generic(marketDataService);
     raw((ParibuMarketDataService) marketDataService);
@@ -34,7 +34,7 @@ public class ParibuTickerDemo {
   }
 
   private static void raw(ParibuMarketDataService marketDataService) throws IOException {
-    ParibuTicker btcTurkTicker = marketDataService.getParibuTicker();
-    System.out.println(btcTurkTicker.toString());
+    ParibuTicker paribuTicker = marketDataService.getParibuTicker();
+    System.out.println(paribuTicker.toString());
   }
 }

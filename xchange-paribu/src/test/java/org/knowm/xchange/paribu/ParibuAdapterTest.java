@@ -24,9 +24,9 @@ public class ParibuAdapterTest {
     InputStream is = ParibuAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    ParibuTicker btcTurkTicker = mapper.readValue(is, ParibuTicker.class);
+    ParibuTicker paribuTicker = mapper.readValue(is, ParibuTicker.class);
 
-    Ticker ticker = ParibuAdapters.adaptTicker(btcTurkTicker,new CurrencyPair("BTC","TRY"));
+    Ticker ticker = ParibuAdapters.adaptTicker(paribuTicker,new CurrencyPair("BTC","TRY"));
     assertThat(ticker).isNotNull();
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("41400"));
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("41450.89"));
