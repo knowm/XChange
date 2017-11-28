@@ -5,6 +5,9 @@
     },
     "BTC/CZK": {
       "price_scale": 2
+    },
+    "LTC/BTC": {
+      "price_scale": 5
     }
   },
   "currencies": {
@@ -16,6 +19,9 @@
     },
     "CZK": {
       "scale": 2
+    },
+    "LTC": {
+      "scale": 8
     }
   },
   "private_rate_limits": [

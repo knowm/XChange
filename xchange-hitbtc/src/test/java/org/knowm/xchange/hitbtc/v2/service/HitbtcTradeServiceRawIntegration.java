@@ -2,8 +2,10 @@ package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -21,6 +23,9 @@ import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+
 /**
  * Test ignored in default build because it requires production authentication credentials. See {@link BaseAuthenticatedServiceTest}.
  */
@@ -30,6 +35,8 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   private static final Logger LOGGER = LoggerFactory.getLogger(HitbtcTradeServiceRawIntegration.class);
 
   private HitbtcTradeServiceRaw service = (HitbtcTradeServiceRaw) exchange.getTradeService();
+
+  private SecureRandom secureRandom = new SecureRandom();
 
   @Rule
   public final ExpectedException exception = ExpectedException.none();
@@ -71,6 +78,56 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
 
     service.placeMarketOrderRaw(limitOrder);
   }
+
+  @Test
+  public void testUpdateOrder_noPrice() throws IOException {
+
+    String orderId = String.valueOf(secureRandom.nextInt());
+    BigDecimal askingPrice = new BigDecimal("0.05");
+
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.01"), CurrencyPair.ETH_BTC, orderId, null, askingPrice);
+
+    HitbtcOrder hitbtcOrder = null;
+
+    try {
+      hitbtcOrder = service.placeLimitOrderRaw(limitOrder);
+      assertThat(hitbtcOrder).isNotNull();
+
+      hitbtcOrder = service.updateMarketOrderRaw(hitbtcOrder.clientOrderId, new BigDecimal("0.02"), "", Optional.empty());
+    }
+    finally {
+       if (hitbtcOrder != null) {
+         service.cancelOrderRaw(hitbtcOrder.clientOrderId);
+       }
+    }
+  }
+
+  @Test
+  public void testUpdateOrder_withPrice() throws IOException {
+
+    String orderId = String.valueOf(secureRandom.nextInt());
+    BigDecimal askingPrice = new BigDecimal("0.05");
+
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.01"), CurrencyPair.ETH_BTC, orderId, null, askingPrice);
+
+    HitbtcOrder hitbtcOrder = null;
+
+    try {
+      hitbtcOrder = service.placeLimitOrderRaw(limitOrder);
+      assertThat(hitbtcOrder).isNotNull();
+
+      Optional<BigDecimal> newPrice = Optional.of(new BigDecimal("0.051"));
+
+      hitbtcOrder = service.updateMarketOrderRaw(hitbtcOrder.clientOrderId, new BigDecimal("0.02"), "", newPrice);
+    }
+    finally {
+      if (hitbtcOrder != null) {
+        service.cancelOrderRaw(hitbtcOrder.clientOrderId);
+      }
+    }
+  }
+
+
 
   @Test
   public void testCancelOrder_wrongOrder() throws IOException {

@@ -36,7 +36,7 @@ public class QuoineAdapters {
     Ticker.Builder builder = new Ticker.Builder();
     builder.ask(quoineTicker.getMarketAsk());
     builder.bid(quoineTicker.getMarketBid());
-    builder.last(quoineTicker.getLastPrice24h());
+    builder.last(quoineTicker.getLastTradedPrice());
     builder.volume(quoineTicker.getVolume24h());
     builder.currencyPair(currencyPair);
     return builder.build();

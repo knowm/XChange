@@ -31,7 +31,7 @@ import org.powermock.reflect.Whitebox;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @RunWith(PowerMockRunner.class)
-public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
+public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
   private BleutradeExchange exchange;
   private ExchangeSpecification exchangeSpecification;
 

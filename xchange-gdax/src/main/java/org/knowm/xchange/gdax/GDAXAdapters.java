@@ -156,7 +156,7 @@ public class GDAXAdapters {
       OrderStatus orderStatus = order.getFilledSize().compareTo(BigDecimal.ZERO) == 0 ?
           Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
 
-      LimitOrder limitOrder = new LimitOrder(type, order.getSize(), order.getSize().subtract(order.getFilledSize()), currencyPair,
+      LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
               order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
 
       orders.add(limitOrder);

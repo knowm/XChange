@@ -7,7 +7,6 @@ import org.knowm.xchange.cexio.service.CexIOAccountService;
 import org.knowm.xchange.cexio.service.CexIOMarketDataService;
 import org.knowm.xchange.cexio.service.CexIOTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CexIOExchange extends BaseExchange implements Exchange {
