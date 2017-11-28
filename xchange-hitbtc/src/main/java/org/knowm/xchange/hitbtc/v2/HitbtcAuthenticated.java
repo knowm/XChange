@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -68,6 +69,13 @@ public interface HitbtcAuthenticated extends Hitbtc {
       @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity,
       @FormParam("type") String type, @FormParam("timeInForce") String timeInForce) throws IOException, HitbtcException;
 
+  @PATCH
+  @Path("order/{clientOrderId}")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  HitbtcOrder updateHitbtcOrder(@PathParam("clientOrderId") String clientOrderId, @FormParam("quantity") BigDecimal quantity,
+      @FormParam("requestClientId") String requestClientId, @FormParam("price") BigDecimal price)
+      throws IOException, HitbtcException;
+
   @DELETE
   @Path("order")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -76,9 +84,6 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @DELETE
   @Path("order/{clientOrderId}")
   HitbtcOrder cancelSingleOrder(@PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
-
-  //TODO Add replace or update order via PATCH with upgrade to JSR311
-  // PATCH /order/{clientOrderId}
 
   @GET
   @Path("trading/balance")

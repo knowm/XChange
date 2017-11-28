@@ -3,11 +3,13 @@ package org.knowm.xchange.bittrex.service;
 import static org.knowm.xchange.service.trade.params.TradeHistoryParamsZero.PARAMS_ZERO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexAdapters;
+import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -104,7 +106,18 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   @Override
   public Collection<Order> getOrder(
       String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+    List<Order> orders = new ArrayList<>();
+
+    for (String orderId : orderIds) {
+
+      BittrexOrder order = getBittrexOrder(orderId);
+      if (order != null) {
+        LimitOrder limitOrder = BittrexAdapters.adaptOrder(order);
+        orders.add(limitOrder);
+      }
+
+    }
+    return orders;
   }
 
 }

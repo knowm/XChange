@@ -1,10 +1,5 @@
 package org.knowm.xchange.dsx.service;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -40,6 +35,11 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
+
 /**
  * @author Mikhail Wall
  */
@@ -66,7 +66,6 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     Map<Long, DSXOrder> orders = getDSXActiveOrders(null);
     return DSXAdapters.adaptOrders(orders);
-
   }
 
   @Override
@@ -84,7 +83,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     String pair = DSXAdapters.getPair(limitOrder.getCurrencyPair());
 
-    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), limitOrder.getTimestamp().getTime(),
+    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(),
         3, DSXOrder.OrderType.limit);
 
     DSXTradeResult result = tradeDSX(dsxOrder);
@@ -136,8 +135,8 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan timeParams = (TradeHistoryParamsTimeSpan) params;
-      since = nullSafeUnixTime(timeParams.getStartTime());
-      end = nullSafeUnixTime(timeParams.getEndTime());
+      since = DateUtils.toMillisNullSafe(timeParams.getStartTime());
+      end = DateUtils.toMillisNullSafe(timeParams.getEndTime());
     }
 
     if (params instanceof TradeHistoryParamCurrencyPair) {

@@ -94,7 +94,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     List<UserTrade> trades = new ArrayList<>();
     for (CexIOArchivedOrder cexIOArchivedOrder : archivedOrders(params)) {
-      if(cexIOArchivedOrder.status.equals("c"))//"d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
+      if (cexIOArchivedOrder.status.equals("c"))//"d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
         continue;
       trades.add(CexIOAdapters.adaptArchivedOrder(cexIOArchivedOrder));
     }

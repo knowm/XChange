@@ -27,6 +27,10 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
+/**
+ * Deprecated -- Please use org.knowm.xchange.hitbtc.v2.service.HitbtcTradeService
+ */
+@Deprecated
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeService {
 
   /**

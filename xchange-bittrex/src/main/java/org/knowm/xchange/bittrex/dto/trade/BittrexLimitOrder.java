@@ -12,7 +12,22 @@ public class BittrexLimitOrder extends LimitOrder {
 
   public BittrexLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
       BigDecimal quantityRemaining, BigDecimal pricePerUnit) {
-    super(type, originalAmount, quantityRemaining, currencyPair, id, timestamp, limitPrice);
+    super(type, originalAmount, quantityRemaining == null ? null : originalAmount.subtract(quantityRemaining), currencyPair, id, timestamp, limitPrice);
+
+    this.pricePerUnit = pricePerUnit;
+  }
+
+  public BittrexLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
+                           BigDecimal quantityRemaining, BigDecimal pricePerUnit, OrderStatus status) {
+    super(type, 
+      originalAmount,
+      currencyPair,
+      id,
+      timestamp,
+      limitPrice,
+      BigDecimal.ZERO,
+      quantityRemaining == null ? null : originalAmount.subtract(quantityRemaining),
+      status);
 
     this.pricePerUnit = pricePerUnit;
   }

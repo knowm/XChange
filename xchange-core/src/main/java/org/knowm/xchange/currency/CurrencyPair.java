@@ -70,6 +70,8 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair BTC_INR = new CurrencyPair(Currency.BTC, Currency.INR);
   public static final CurrencyPair BTC_XAUR = new CurrencyPair(Currency.BTC, Currency.XAUR);
   public static final CurrencyPair BTC_IOC = new CurrencyPair(Currency.BTC, Currency.IOC);
+  public static final CurrencyPair BTC_TRY = new CurrencyPair(Currency.BTC, Currency.TRY);
+  public static final CurrencyPair ETH_TRY = new CurrencyPair(Currency.ETH, Currency.TRY);
 
   public static final CurrencyPair BCH_USD = new CurrencyPair(Currency.BCH, Currency.USD);
   public static final CurrencyPair BCH_AUD = new CurrencyPair(Currency.BCH, Currency.AUD);
@@ -204,32 +206,35 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair UTC_EUR = new CurrencyPair(Currency.UTC, Currency.EUR);
   public static final CurrencyPair UTC_BTC = new CurrencyPair(Currency.UTC, Currency.BTC);
   public static final CurrencyPair UTC_LTC = new CurrencyPair(Currency.UTC, Currency.LTC);
-  
-    // Kraken additional pairs
+
+  // Kraken additional pairs
   public static final CurrencyPair ETC_BTC = new CurrencyPair(Currency.ETC, Currency.BTC);
   public static final CurrencyPair ETC_EUR = new CurrencyPair(Currency.ETC, Currency.EUR);
   public static final CurrencyPair ETC_ETH = new CurrencyPair(Currency.ETC, Currency.ETH);
   public static final CurrencyPair ETC_USD = new CurrencyPair(Currency.ETC, Currency.USD);
-  
+
   public static final CurrencyPair ICN_BTC = new CurrencyPair(Currency.ICN, Currency.BTC);
   public static final CurrencyPair ICN_ETH = new CurrencyPair(Currency.ICN, Currency.ETH);
-  
+
   public static final CurrencyPair DASH_USD = new CurrencyPair(Currency.DASH, Currency.USD);
   public static final CurrencyPair DASH_EUR = new CurrencyPair(Currency.DASH, Currency.EUR);
   public static final CurrencyPair DASH_BTC = new CurrencyPair(Currency.DASH, Currency.BTC);
-  
+
   public static final CurrencyPair MLN_ETH = new CurrencyPair(Currency.MLN, Currency.ETH);
   public static final CurrencyPair MLN_BTC = new CurrencyPair(Currency.MLN, Currency.BTC);
-  
+
   public static final CurrencyPair ZEC_EUR = new CurrencyPair(Currency.ZEC, Currency.EUR);
   public static final CurrencyPair ZEC_USD = new CurrencyPair(Currency.ZEC, Currency.USD);
   public static final CurrencyPair ZEC_BTC = new CurrencyPair(Currency.ZEC, Currency.BTC);
-  
+
   public static final CurrencyPair GNO_ETH = new CurrencyPair(Currency.GNO, Currency.ETH);
   public static final CurrencyPair GNO_BTC = new CurrencyPair(Currency.GNO, Currency.BTC);
-  
+
   public static final CurrencyPair EOS_ETH = new CurrencyPair(Currency.EOS, Currency.ETH);
   public static final CurrencyPair EOS_BTC = new CurrencyPair(Currency.EOS, Currency.BTC);
+
+  public static final CurrencyPair BCC_USD = new CurrencyPair(Currency.BCC, Currency.USD);
+  public static final CurrencyPair BCC_BTC = new CurrencyPair(Currency.BCC, Currency.BTC);
 
   public final Currency base;
   public final Currency counter;

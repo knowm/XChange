@@ -55,7 +55,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-      HitbtcOrder cancelOrderRaw = cancelOrderRaw(orderId);
+    HitbtcOrder cancelOrderRaw = cancelOrderRaw(orderId);
     return "canceled".equals(cancelOrderRaw.status);
   }
 
@@ -73,6 +73,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+
     int count = 1000;
     int offset = 0;
 
@@ -130,16 +131,19 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public void verifyOrder(LimitOrder limitOrder) {
 
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public void verifyOrder(MarketOrder marketOrder) {
 
+    throw new NotYetImplementedForExchangeException();
   }
 }

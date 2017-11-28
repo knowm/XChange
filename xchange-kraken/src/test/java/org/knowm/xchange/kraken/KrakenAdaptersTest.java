@@ -47,7 +47,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class KrakenAdaptersTest {
 
   @Before
-  public void before() throws JsonParseException, JsonMappingException, IOException {
+  public void before() throws IOException {
+
     // Read in the JSON from the example resources
     InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
     // Use Jackson to parse it
@@ -98,7 +99,7 @@ public class KrakenAdaptersTest {
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 
     Set<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
-    assertThat(pairs).hasSize(57);
+    assertThat(pairs).hasSize(56);
     assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
     System.out.println("pairs = " + pairs);
   }
