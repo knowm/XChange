@@ -1,0 +1,5 @@
+{
+  "success": 0,
+  "code": 807,
+  "error": "Total sum could not be less than 0.0001."
+}

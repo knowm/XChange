@@ -352,6 +352,11 @@
             <artifactId>xchange-paribu</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-liqui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
