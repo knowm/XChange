@@ -129,6 +129,8 @@
         <module>xchange-vaultoro</module>
         <module>xchange-vircurex</module>
         <module>xchange-yobit</module>
+        <module>xchange-btcturk</module>
+        <module>xchange-paribu</module>
     </modules>
 
     <repositories>
