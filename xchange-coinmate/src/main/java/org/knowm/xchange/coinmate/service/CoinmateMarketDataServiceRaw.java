@@ -61,8 +61,8 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
     return orderBook;
   }
 
-  public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory) throws IOException {
-    CoinmateTransactions transactions = coinmate.getTransactions(minutesIntoHistory);
+  public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory, String currencyPair) throws IOException {
+    CoinmateTransactions transactions = coinmate.getTransactions(minutesIntoHistory, currencyPair);
 
     throwExceptionIfError(transactions);
 

@@ -5,7 +5,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.3.0-SNAPSHOT</version>
+    <version>4.3.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -130,6 +130,8 @@
         <module>xchange-vircurex</module>
         <module>xchange-yobit</module>
         <module>xchange-liqui</module>
+        <module>xchange-btcturk</module>
+        <module>xchange-paribu</module>
     </modules>
 
     <repositories>
@@ -158,14 +160,14 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.5</version>
+                <version>2.6</version>
             </dependency>
 
             <!--For String Joining, etc. -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.6</version>
+                <version>3.7</version>
             </dependency>
 
             <!-- For FIX API -->
@@ -194,7 +196,7 @@
                 <version>0.9.11</version>
             </dependency>
 
-            <!-- SLF4J implementation for use in exxamples -->
+            <!-- SLF4J implementation for use in examples -->
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>

@@ -44,7 +44,7 @@ public class CexIOAdapters {
   /**
    * Adapts a CexIOTrade to a Trade Object
    *
-   * @param trade CexIO trade object
+   * @param trade        CexIO trade object
    * @param currencyPair trade currencies
    * @return The XChange Trade
    */
@@ -60,7 +60,7 @@ public class CexIOAdapters {
   /**
    * Adapts a CexIOTrade[] to a Trades Object
    *
-   * @param cexioTrades The CexIO trade data returned by API
+   * @param cexioTrades  The CexIO trade data returned by API
    * @param currencyPair trade currencies
    * @return The trades
    */
@@ -82,7 +82,7 @@ public class CexIOAdapters {
   /**
    * Adapts a CexIOTicker to a Ticker Object
    *
-   * @param ticker The exchange specific ticker
+   * @param ticker       The exchange specific ticker
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The ticker
    */
@@ -103,7 +103,7 @@ public class CexIOAdapters {
   /**
    * Adapts Cex.IO Depth to OrderBook Object
    *
-   * @param depth Cex.IO order book
+   * @param depth        Cex.IO order book
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
@@ -133,7 +133,9 @@ public class CexIOAdapters {
   }
 
   public static Balance adaptBalance(Currency currency, CexIOBalance balance) {
-    return new Balance(currency, null, balance.getAvailable(), balance.getOrders());
+    BigDecimal inOrders = balance.getOrders();
+    BigDecimal frozen = inOrders == null ? BigDecimal.ZERO : inOrders;
+    return new Balance(currency, null, balance.getAvailable(), frozen);
   }
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
@@ -184,16 +186,16 @@ public class CexIOAdapters {
       OrderType orderType = cexIOArchivedOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
       BigDecimal originalAmount = new BigDecimal(cexIOArchivedOrder.amount);
       CurrencyPair currencyPair = new CurrencyPair(cexIOArchivedOrder.symbol1, cexIOArchivedOrder.symbol2);
-      BigDecimal price = new BigDecimal(cexIOArchivedOrder.price);
+      BigDecimal price = cexIOArchivedOrder.price;
       String id = cexIOArchivedOrder.id;
       String orderId = cexIOArchivedOrder.orderId;
 
       Currency feeCcy = cexIOArchivedOrder.feeCcy == null ? null : Currency.getInstance(cexIOArchivedOrder.feeCcy);
-      BigDecimal fee = cexIOArchivedOrder.feeValue == null ? null : new BigDecimal(cexIOArchivedOrder.feeValue);
+      BigDecimal fee = cexIOArchivedOrder.feeValue;
 
       return new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, id, orderId, fee, feeCcy);
     } catch (InvalidFormatException e) {
-      throw new IllegalStateException("Cannot format date " + cexIOArchivedOrder.lastTxTime, e);
+      throw new IllegalStateException("Cannot format date " + cexIOArchivedOrder.time, e);
     }
   }
 

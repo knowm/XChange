@@ -37,7 +37,7 @@ public class BTCChinaBaseService extends BaseExchangeService implements BaseServ
         exchange.getExchangeSpecification().getSecretKey());
   }
 
-  @SuppressWarnings("rawtypes")
+
   public static <T extends BTCChinaResponse> T checkResult(T returnObject) {
 
     if (returnObject.getError() != null) {

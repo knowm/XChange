@@ -118,13 +118,12 @@ public class LiquiAdapters {
 
         final BigDecimal originalAmount = orderInfo.getStartAmount();
         final BigDecimal filledAmount = orderInfo.getAmount();
-        final BigDecimal remainingAmount = originalAmount.min(filledAmount);
         final CurrencyPair pair = orderInfo.getPair();
         final Date timestamp = new Date(orderInfo.getTimestampCreated() * 1000L);
 
         final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
 
-        return new LimitOrder(type, originalAmount, remainingAmount, pair, String.valueOf(id), timestamp, orderInfo.getRate(),
+        return new LimitOrder(type, originalAmount, pair, String.valueOf(id), timestamp, orderInfo.getRate(),
                 orderInfo.getRate(), filledAmount, status);
     }
 

@@ -68,22 +68,28 @@
   },
   "currencies": {
     "BCH": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.001
     },
     "BTC": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.001
     },
     "ETH": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.01
     },
     "GBP": {
-      "scale": 2
+      "scale": 2,
+      "withdrawal_fee": 3.80
     },
     "EUR": {
-      "scale": 2
+      "scale": 2,
+      "withdrawal_fee": 3.80
     },
     "USD": {
-      "scale": 2
+      "scale": 2,
+      "withdrawal_fee": 3.80
     }
   },
   "private_rate_limits": [
