@@ -23,22 +23,100 @@
   },
   "currencies": {
     "BTC": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.001
     },
     "ETH": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.005
+    },
+    "ETC": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "USDT": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
     },
     "LTC": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.01
     },
     "XRP": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 5.0
     },
     "PPC": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.02
+    },
+    "VTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.02
+    },
+    "BLK": {
+      "scale": 8,
+      "withdrawal_fee": 0.02
+    },
+    "GAME": {
+      "scale": 8,
+      "withdrawal_fee": 0.2
+    },
+    "SYS": {
+      "scale": 8,
+      "withdrawal_fee": 0.0002
+    },
+    "AMP": {
+      "scale": 8,
+      "withdrawal_fee": 5.0
+    },
+    "PPC": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "LSK": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "BTCD": {
+      "scale": 8,
+      "withdrawal_fee": 0.02
+    },
+    "DASH": {
+      "scale": 8,
+      "withdrawal_fee": 0.002
+    },
+    "XMR": {
+      "scale": 8,
+      "withdrawal_fee": 0.04
+    },
+    "BCH": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "STEEM": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "FCT": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "DGB": {
+      "scale": 8,
+      "withdrawal_fee": 0.02
     },
     "DOGE": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0
+    },
+    "SC": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "ZEC": {
+      "scale": 8,
+      "withdrawal_fee": 0.005
     }
   }
 }

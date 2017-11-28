@@ -84,7 +84,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         }
         BinanceCancelOrderParams p = (BinanceCancelOrderParams) params;
         super.cancelOrder(BinanceAdapters.toSymbol(p.pair), BinanceAdapters.id(p.orderId), null, null, null, System.currentTimeMillis());
-        return false;
+        return true;
     }
 
     @Override
@@ -94,6 +94,9 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         }
         TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;
         CurrencyPair pair = pairParams.getCurrencyPair();
+        if (pair == null) {
+            throw new ExchangeException("You need to provide the currency pair to get the user trades.");
+        }
         
         Integer limit = null;
         if (params instanceof TradeHistoryParamLimit) {
@@ -103,7 +106,10 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         Long fromId = null;
         if (params instanceof TradeHistoryParamsIdSpan) {
             TradeHistoryParamsIdSpan idParams = (TradeHistoryParamsIdSpan) params;
-            fromId = BinanceAdapters.id(idParams.getStartId());
+            
+            try {
+                fromId = BinanceAdapters.id(idParams.getStartId());
+            } catch (Throwable ignored) {}
         }
         
         List<BinanceTrade> binanceTrades = super.myTrades(BinanceAdapters.toSymbol(pair), limit, fromId, null, System.currentTimeMillis());

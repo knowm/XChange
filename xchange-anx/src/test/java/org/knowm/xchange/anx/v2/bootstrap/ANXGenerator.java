@@ -88,21 +88,21 @@ public class ANXGenerator {
     maxAmount.put(EGD, null);
 
     for (Currency crypto : cryptos) {
-      currencyMap.put(crypto, new CurrencyMetaData(8));
+      currencyMap.put(crypto, new CurrencyMetaData(8, null));
     }
 
-    currencyMap.put(CNY, new CurrencyMetaData(8));
+    currencyMap.put(CNY, new CurrencyMetaData(8, null));
     for (Currency fiat : fiats) {
       if (!currencyMap.containsKey(fiat)) {
-        currencyMap.put(fiat, new CurrencyMetaData(2));
+        currencyMap.put(fiat, new CurrencyMetaData(2, null));
       }
     }
 
     // extra currencies available, but not traded
-    currencyMap.put(CHF, new CurrencyMetaData(2));
-    currencyMap.put(NMC, new CurrencyMetaData(8));
-    currencyMap.put(BGC, new CurrencyMetaData(8));
-    currencyMap.put(PPC, new CurrencyMetaData(8));
+    currencyMap.put(CHF, new CurrencyMetaData(2, null));
+    currencyMap.put(NMC, new CurrencyMetaData(8, null));
+    currencyMap.put(BGC, new CurrencyMetaData(8, null));
+    currencyMap.put(PPC, new CurrencyMetaData(8, null));
 
     Collections.addAll(pairs, pairsOther);
 

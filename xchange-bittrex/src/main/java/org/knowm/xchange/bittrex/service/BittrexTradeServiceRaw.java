@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
+import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
+import org.knowm.xchange.bittrex.dto.account.BittrexOrderResponse;
 import org.knowm.xchange.bittrex.dto.trade.BittrexCancelOrderResponse;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrdersResponse;
@@ -130,4 +132,13 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
     }
   }
 
+  public BittrexOrder getBittrexOrder(String uuid) throws IOException {
+    BittrexOrderResponse response = bittrexAuthenticated.getOrder(apiKey, signatureCreator, exchange.getNonceFactory(), uuid);
+
+    if (response.getSuccess()) {
+      return response.getResult();
+    } else {
+      throw new ExchangeException(response.getMessage());
+    }
+  }
 }

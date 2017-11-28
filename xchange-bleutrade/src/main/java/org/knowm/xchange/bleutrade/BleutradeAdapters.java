@@ -79,6 +79,7 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.ASK, currencyPair);
       builder.limitPrice(ask.getRate());
       builder.originalAmount(ask.getQuantity());
+      builder.cumulativeAmount(BigDecimal.ZERO);
       asks.add(builder.build());
     }
 
@@ -87,6 +88,7 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.BID, currencyPair);
       builder.limitPrice(bid.getRate());
       builder.originalAmount(bid.getQuantity());
+      builder.cumulativeAmount(BigDecimal.ZERO);
       bids.add(builder.build());
     }
 
@@ -152,7 +154,7 @@ public class BleutradeAdapters {
 
     for (BleutradeCurrency bleutradeCurrency : bleutradeCurrencies) {
       // the getTxFee parameter is the withdrawal charge in the currency in question
-      currencyMetaDataMap.put(Currency.getInstance(bleutradeCurrency.getCurrency()), new CurrencyMetaData(8));
+      currencyMetaDataMap.put(Currency.getInstance(bleutradeCurrency.getCurrency()), new CurrencyMetaData(8, null));
     }
 
     // https://bleutrade.com/help/fees_and_deadlines 11/25/2015 all == 0.25%

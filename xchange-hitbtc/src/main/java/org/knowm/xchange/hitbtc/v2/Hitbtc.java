@@ -20,11 +20,13 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 @Path("/api/2/")
 public interface Hitbtc {
 
-  //Public API
-
   @GET
   @Path("public/symbol")
   List<HitbtcSymbol> getSymbols() throws IOException;
+
+  @GET
+  @Path("public/ticker")
+  List<HitbtcTicker> getTickers() throws IOException;
 
   @GET
   @Path("public/ticker/{symbol}")
@@ -45,6 +47,5 @@ public interface Hitbtc {
   @GET
   @Path("public/candles/{symbol}")
   List<HitbtcCandle> getHitbtcOHLC(@PathParam("symbol") String symbol, @QueryParam("limit") int limit, @QueryParam("period") String period) throws IOException;
-
 
 }

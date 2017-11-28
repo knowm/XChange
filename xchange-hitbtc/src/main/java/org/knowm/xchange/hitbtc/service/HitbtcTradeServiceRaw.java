@@ -24,6 +24,10 @@ import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
+/**
+ * Deprecated -- Please use org.knowm.xchange.hitbtc.v2.service.HitbtcTradeServiceRaw
+ */
+@Deprecated
 public class HitbtcTradeServiceRaw extends HitbtcBaseService {
 
   // TODO move this to metadata

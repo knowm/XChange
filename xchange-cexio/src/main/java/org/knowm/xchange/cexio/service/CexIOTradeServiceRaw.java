@@ -1,7 +1,11 @@
 package org.knowm.xchange.cexio.service;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cexio.CexIOAuthenticated;
+import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
+import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.CexioSingleIdRequest;
+import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
+import org.knowm.xchange.cexio.dto.PlaceOrderRequest;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
@@ -14,10 +18,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.utils.DateUtils;
 import si.mazi.rescu.HttpStatusIOException;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,29 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.utils.DateUtils.toMillisNullSafe;
 import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
-
-/**
- * @author timmolter
- */
 
 public class CexIOTradeServiceRaw extends CexIOBaseService {
 
-  private final CexIOAuthenticated cexIOAuthenticated;
-  private ParamsDigest signatureCreator;
-
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public CexIOTradeServiceRaw(Exchange exchange) {
-
     super(exchange);
-    cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-    signatureCreator = CexIODigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
-        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public List<CexIOOrder> getCexIOOpenOrders(CurrencyPair currencyPair) throws IOException {
@@ -58,8 +42,12 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     String tradableIdentifier = currencyPair.base.getCurrencyCode();
     String transactionCurrency = currencyPair.counter.getCurrencyCode();
 
-    CexIOOpenOrders openOrders = cexIOAuthenticated.getOpenOrders(tradableIdentifier, transactionCurrency,
-        exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    CexIOOpenOrders openOrders = cexIOAuthenticated.getOpenOrders(
+        signatureCreator,
+        tradableIdentifier,
+        transactionCurrency,
+        new CexIORequest()
+    );
 
     for (CexIOOrder cexIOOrder : openOrders.getOpenOrders()) {
       cexIOOrder.setTradableIdentifier(tradableIdentifier);
@@ -82,10 +70,15 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
   public CexIOOrder placeCexIOLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    CexIOOrder order = cexIOAuthenticated.placeOrder(limitOrder.getCurrencyPair().base.getCurrencyCode(),
-        limitOrder.getCurrencyPair().counter.getCurrencyCode(), exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory(), (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice(),
-        limitOrder.getOriginalAmount());
+    CexIOOrder order = cexIOAuthenticated.placeOrder(
+        signatureCreator,
+        limitOrder.getCurrencyPair().base.getCurrencyCode(),
+        limitOrder.getCurrencyPair().counter.getCurrencyCode(),
+        new PlaceOrderRequest(
+            (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell),
+            limitOrder.getLimitPrice(),
+            limitOrder.getOriginalAmount()
+        ));
     if (order.getErrorMessage() != null) {
       throw new ExchangeException(order.getErrorMessage());
     }
@@ -93,9 +86,8 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
   }
 
   public boolean cancelCexIOOrder(String orderId) throws IOException {
-
     return cexIOAuthenticated
-        .cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), Long.parseLong(orderId))
+        .cancelOrder(signatureCreator, new CexioSingleOrderIdRequest(orderId))
         .equals(true);
   }
 
@@ -127,10 +119,10 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
       if (tradeHistoryParams instanceof TradeHistoryParamsTimeSpan) {
         TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) tradeHistoryParams;
 
-//        lastTxDateFrom = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getStartTime());
-//        lastTxDateTo = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getEndTime());
-        dateFrom = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getStartTime());
-        dateTo = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getEndTime());
+        lastTxDateFrom = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getStartTime());
+        lastTxDateTo = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getEndTime());
+//        dateFrom = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getStartTime());
+//        dateTo = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getEndTime());
       }
 
       if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
@@ -149,11 +141,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
       }
     }
 
-    //todo: get the date parameters working, they seem to be ignored
-
-    return cexIOAuthenticated.archivedOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-        baseCcy,
-        counterCcy,
+    ArchivedOrdersRequest request = new ArchivedOrdersRequest(
         limit,
         dateFrom,
         dateTo,
@@ -161,14 +149,16 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
         lastTxDateTo,
         status
     );
+
+    return cexIOAuthenticated.archivedOrders(signatureCreator, baseCcy, counterCcy, request);
   }
 
   public CexIOOpenOrder getOrderDetail(String orderId) throws IOException {
-    return cexIOAuthenticated.getOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);
+    return cexIOAuthenticated.getOrder(signatureCreator, new CexioSingleOrderIdRequest(orderId));
   }
 
   public Map getOrderTransactions(String orderId) throws IOException {
-    return cexIOAuthenticated.getOrderTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);
+    return cexIOAuthenticated.getOrderTransactions(signatureCreator, new CexioSingleIdRequest(orderId));
   }
 
   public static class CexIOTradeHistoryParams implements TradeHistoryParams, TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan, TradeHistoryParamLimit {

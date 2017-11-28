@@ -1,0 +1,47 @@
+The documentation for BTCTurk BTCTrader's white label exchange platform API.
+================================
+
+Public API
+
+
+Documentation
+-------------
+https://github.com/BTCTrader/broker-api-docs
+
+
+Ticker
+------
+https://www.btcturk.com/api/ticker
+
+
+Orders
+------
+https://www.btcturk.com/api/orderbook?pairSymbol=BTCTRY
+
+
+Trades
+------
+https://www.btcturk.com/api/trades?pairSymbol=BTCTRY&last=COUNT (Max. value for count parameter is 500)
+
+
+REQUEST LIMITS
+------
+.../api/ticker requests are limited to 10 requests per 100 miliseconds.
+Other requests are limited to 1 request per 100 miliseconds.
+If you make more than 50 consequent unauthorized requests your IP address will be blocked
+
+
+Trading Fees
+------
+30 day trading volume in Turkish Lira |	Maker Fee              | Taker Fee
+0 - 100,000	                          | 0,20% (0.002) + KDV    | 0,35% (0.0035) + KDV
+100,000 - 500,000                     |	0,15% (0.0015) + KDV   | 0,30% (0.003) + KDV
+500,000 +                             | 0,10% (0.001) + KDV    | 0,20% (0.002) + KDV
+
+
+Testing
+------
+You can use the testing platform to test the APIs. The balances on the test sites are not real and do not represent any real value. The testing platforms work on Bitcoin TESTNET and you can deposit TESTNET coins to your account. The testing platforms are:
+
+[BTCTurk Test] (https://btctrader-broker-btcturk.azurewebsites.net/)
+Important Our mobile applications will not work with the testing platforms. They can only be synced with our live platforms.

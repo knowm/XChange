@@ -155,6 +155,7 @@ public abstract class Order implements Serializable {
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    * @param averagePrice the averagePrice of fill belonging to the order
+   * @param cumulativeAmount the amount that has been filled
    * @param status the status of the order at the exchange
    */
   public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
@@ -200,6 +201,16 @@ public abstract class Order implements Serializable {
   public BigDecimal getCumulativeAmount() {
 
     return cumulativeAmount;
+  }
+
+  /**
+   * @return The remaining order amount
+   */
+  public BigDecimal getRemainingAmount() {
+    if (cumulativeAmount != null) {
+      return originalAmount.subtract(cumulativeAmount);
+    }
+    return originalAmount;
   }
 
   /**
@@ -269,7 +280,7 @@ public abstract class Order implements Serializable {
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", originalAmount=" + originalAmount + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
+    return "Order [type=" + type + ", originalAmount=" + originalAmount + ", cumulativeAmount=" + getCumulativeAmount() + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
         + ", id=" + id + ", timestamp=" + timestamp + ", status=" + status + "]";
   }
 
@@ -317,6 +328,8 @@ public abstract class Order implements Serializable {
 
     protected OrderType orderType;
     protected BigDecimal originalAmount;
+    protected BigDecimal cumulativeAmount;
+    protected BigDecimal remainingAmount;
     protected CurrencyPair currencyPair;
     protected String id;
     protected Date timestamp;
@@ -346,6 +359,18 @@ public abstract class Order implements Serializable {
     public Builder originalAmount(BigDecimal originalAmount) {
 
       this.originalAmount = originalAmount;
+      return this;
+    }
+
+    public Builder cumulativeAmount(BigDecimal cumulativeAmount) {
+
+      this.cumulativeAmount = cumulativeAmount;
+      return this;
+    }
+
+    public Builder remainingAmount(BigDecimal remainingAmount) {
+
+      this.remainingAmount = remainingAmount;
       return this;
     }
 
@@ -384,5 +409,6 @@ public abstract class Order implements Serializable {
       this.flags.add(flag);
       return this;
     }
+
   }
 }

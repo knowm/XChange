@@ -128,7 +128,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static LimitOrder adaptLimitOrder(CryptoFacilitiesOpenOrder ord) {
-    return new LimitOrder(adaptOrderType(ord.getDirection()), ord.getQuantity(), ord.getUnfilled(), new CurrencyPair(ord.getSymbol(), ord.getSymbol().substring(6, 9)),
+    return new LimitOrder(adaptOrderType(ord.getDirection()), ord.getQuantity(), new CurrencyPair(ord.getSymbol(), ord.getSymbol().substring(6, 9)),
         ord.getId(), ord.getTimestamp(), ord.getLimitPrice(), BigDecimal.ZERO, ord.getFilled(), adaptOrderStatus(ord.getStatus()));
   }
 
