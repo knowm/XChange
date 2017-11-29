@@ -76,6 +76,15 @@ public interface TheRockAuthenticated {
       @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
 
   @GET
+  @Path("funds/{fund_id}/orders")
+  TheRockOrders orders(@PathParam("fund_id") TheRock.Pair currencyPair, @HeaderParam(X_TRT_KEY) String publicKey,
+      @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
+      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
+      @QueryParam("after") Date after, @QueryParam("before") Date before, @QueryParam("status") String status,
+      @QueryParam("side") TheRockOrder.Side side, @QueryParam("position_id") Long positionId, @QueryParam("page") int page
+  ) throws TheRockException, IOException;
+
+  @GET
   @Path("funds/{fund_id}/orders/{id}")
   TheRockOrder showOrder(@PathParam("fund_id") TheRock.Pair currencyPair, @PathParam("id") Long orderId, @HeaderParam(X_TRT_KEY) String publicKey,
       @HeaderParam(X_TRT_SIGN) TheRockDigest signer,
