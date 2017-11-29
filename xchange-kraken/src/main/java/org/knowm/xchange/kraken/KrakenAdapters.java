@@ -111,6 +111,7 @@ public class KrakenAdapters {
   public static Ticker adaptTicker(KrakenTicker krakenTicker, CurrencyPair currencyPair) {
 
     Ticker.Builder builder = new Ticker.Builder();
+    builder.open(krakenTicker.getOpen());
     builder.ask(krakenTicker.getAsk().getPrice());
     builder.bid(krakenTicker.getBid().getPrice());
     builder.last(krakenTicker.getClose().getPrice());

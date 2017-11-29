@@ -78,6 +78,7 @@ public class KrakenAdaptersTest {
     Ticker ticker = KrakenAdapters.adaptTicker(krakenTicker.getResult().get(krakenCurencyPair), currencyPair);
 
     // Verify that the example data was unmarshalled correctly
+    assertThat(ticker.getOpen()).isEqualTo(new BigDecimal("568.98910"));
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("562.26651"));
     assertThat(ticker.getBid()).isEqualTo(new BigDecimal("560.46600"));
     assertThat(ticker.getLow()).isEqualTo(new BigDecimal("560.00000"));
