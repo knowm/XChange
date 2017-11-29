@@ -69,11 +69,16 @@ public class YoBitAdapters {
       currencyPairs.put(pair, new CurrencyPairMetaData(value.getFee(), minSize, null, priceScale));
 
       if (!currencies.containsKey(pair.base)) {
-    	BigDecimal withdrawalFee = exchangeMetaData.getCurrencies().get(pair.base) == null ? null : exchangeMetaData.getCurrencies().get(pair.base).getWithdrawalFee();
-    	currencies.put(pair.base, new CurrencyMetaData(8, withdrawalFee));
+        CurrencyMetaData currencyMetaData = exchangeMetaData.getCurrencies().get(pair.base);
+        BigDecimal withdrawalFee = currencyMetaData == null ? null : currencyMetaData.getWithdrawalFee();
+        currencies.put(pair.base, new CurrencyMetaData(8, withdrawalFee));
       }
-      if (!currencies.containsKey(pair.counter))
-        currencies.put(pair.counter, new CurrencyMetaData(8, exchangeMetaData.getCurrencies().get(pair.counter).getWithdrawalFee()));
+
+      if (!currencies.containsKey(pair.counter)) {
+        CurrencyMetaData currencyMetaData = exchangeMetaData.getCurrencies().get(pair.counter);
+        CurrencyMetaData withdrawalFee = currencyMetaData == null ? null : new CurrencyMetaData(8, currencyMetaData.getWithdrawalFee());
+        currencies.put(pair.counter, withdrawalFee);
+      }
     }
 
     return exchangeMetaData;
