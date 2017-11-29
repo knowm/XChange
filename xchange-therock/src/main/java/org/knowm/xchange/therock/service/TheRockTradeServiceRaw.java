@@ -62,6 +62,19 @@ public class TheRockTradeServiceRaw extends TheRockBaseService {
     }
   }
 
+  public TheRockOrders getTheRockOrders(CurrencyPair currencyPair, Date after, Date before, String status, TheRockOrder.Side side,
+      Long positionId, int page) throws TheRockException, IOException {
+    try {
+      return theRockAuthenticated.orders(new TheRock.Pair(currencyPair),
+          exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+          exchange.getNonceFactory(),
+          after, before, status, side, positionId, page
+      );
+    } catch (TheRockException e) {
+      throw new ExchangeException(e);
+    }
+  }
+
   public TheRockOrder showTheRockOrder(CurrencyPair currencyPair, Long orderId) throws TheRockException, IOException {
     try {
       return theRockAuthenticated.showOrder(new TheRock.Pair(currencyPair), orderId, exchange.getExchangeSpecification().getApiKey(),
