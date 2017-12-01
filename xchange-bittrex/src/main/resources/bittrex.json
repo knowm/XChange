@@ -114,6 +114,10 @@
       "scale": 8,
       "withdrawal_fee": 0.1
     },
+    "EMC2": {
+      "scale": 8,
+      "withdrawal_fee": 0.2
+    },
     "ZEC": {
       "scale": 8,
       "withdrawal_fee": 0.005
