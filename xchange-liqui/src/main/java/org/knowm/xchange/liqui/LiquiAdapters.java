@@ -121,7 +121,7 @@ public class LiquiAdapters {
         final OrderType type = adaptOrderType(orderInfo.getType());
 
         final BigDecimal originalAmount = orderInfo.getStartAmount();
-        final BigDecimal filledAmount = orderInfo.getAmount();
+        final BigDecimal filledAmount = orderInfo.getStartAmount().subtract(orderInfo.getAmount());
         final CurrencyPair pair = orderInfo.getPair();
         final Date timestamp = new Date(orderInfo.getTimestampCreated() * 1000L);
 
