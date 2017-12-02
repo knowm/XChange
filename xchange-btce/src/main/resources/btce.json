@@ -20,11 +20,14 @@
     },
     "BTC/EUR": {
       "price_scale": 5
+    },
+    "EUR/USD": {
+      "price_scale": 5
     }
   },
   "currencies": {
     "EUR": {
-      "scale": 8,
+      "scale": 2,
       "withdrawal_fee": 0
     },
     "RUR": {
@@ -32,7 +35,7 @@
       "withdrawal_fee": 0
     },
     "USD": {
-      "scale": 8,
+      "scale": 2,
       "withdrawal_fee": 0
     },
     "BTC": {
