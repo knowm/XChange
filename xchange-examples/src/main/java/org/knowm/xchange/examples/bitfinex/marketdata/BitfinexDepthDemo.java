@@ -32,7 +32,7 @@ public class BitfinexDepthDemo {
   private static void generic(MarketDataService marketDataService) throws IOException {
 
     // Get the latest order book data for CurrencyPair.BTC_USD
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, 10000, 10000);
 
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
