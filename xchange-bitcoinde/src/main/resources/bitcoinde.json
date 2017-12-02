@@ -3,6 +3,14 @@
     "BTC/EUR": {
       "price_scale": 2,
       "trading_fee": 0.5
+    },
+    "BCH/EUR": {
+      "price_scale": 2,
+      "trading_fee": 0.5
+    },
+    "ETH/EUR": {
+      "price_scale": 2,
+      "trading_fee": 0.5
     }
   },
   "currencies": {},
