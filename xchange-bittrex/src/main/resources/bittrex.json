@@ -1,10 +1,22 @@
 {
   "currency_pairs": {
+    "BCC/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
     "LTC/BTC": {
       "price_scale": 8,
       "min_amount": 0.00050000
     },
     "ETH/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "NEO/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "IOC/BTC": {
       "price_scale": 8,
       "min_amount": 0.00050000
     },
@@ -17,6 +29,10 @@
       "min_amount": 0.00050000
     },
     "PPC/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "XLM/BTC": {
       "price_scale": 8,
       "min_amount": 0.00050000
     }
