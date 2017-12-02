@@ -4,6 +4,9 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -16,6 +19,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.liqui.dto.LiquiTradeType;
+import org.knowm.xchange.liqui.dto.account.LiquiAccountInfo;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiDepth;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiPairInfo;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicAsk;
@@ -198,5 +202,15 @@ public class LiquiAdapters {
     public static CurrencyPair adaptCurrencyPair(final String pair) {
         final String[] split = pair.split("_");
         return new CurrencyPair(split[0], split[1]);
+    }
+
+    public static AccountInfo adaptAccountInfo(final LiquiAccountInfo info) {
+        final Map<Currency, BigDecimal> funds = info.getFunds().getFunds();
+        final List<Balance> balances = funds.entrySet().stream()
+                .map(entry -> new Balance(entry.getKey(), entry.getValue())).collect(Collectors.toList());
+
+        final Wallet wallet = new Wallet("Liqui wallet", balances);
+
+        return new AccountInfo(wallet);
     }
 }
