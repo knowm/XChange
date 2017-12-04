@@ -1,9 +1,5 @@
 package org.knowm.xchange.okcoin;
 
-import static org.knowm.xchange.currency.Currency.BTC;
-import static org.knowm.xchange.currency.Currency.LTC;
-import static org.knowm.xchange.currency.Currency.USD;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +42,8 @@ import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult.Transa
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrder;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.utils.DateUtils;
+
+import static org.knowm.xchange.currency.Currency.*;
 
 public final class OkCoinAdapters {
 
@@ -146,11 +144,13 @@ public final class OkCoinAdapters {
     OkCoinFuturesInfoCross info = futureUserInfo.getInfo();
     OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
     OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
+    OkcoinFuturesFundsCross bchFunds = info.getBchFunds();
 
     Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
     Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
+    Balance bchBalance = new Balance(BCH, bchFunds.getAccountRights());
 
-    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance));
+    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance, bchBalance));
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
