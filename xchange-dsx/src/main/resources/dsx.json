@@ -29,10 +29,19 @@
     },
     "BTC/RUB": {
       "price_scale": 5
+    },
+    "BCC/BTC": {
+      "price_scale": 5
+    },
+    "BCC/EUR": {
+      "price_scale": 5
     }
   },
   "currencies": {
     "BTC": {
+      "scale": 8
+    },
+    "BCC": {
       "scale": 8
     },
     "EUR": {

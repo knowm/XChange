@@ -214,7 +214,7 @@
     },
     "BTC/EUR": {
       "min_amount": 0.00500,
-      "price_scale": 8
+      "price_scale": 5
     },
     "MOJO/BTC": {
       "min_amount": 500.00000000,
