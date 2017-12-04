@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -44,7 +46,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     @Override
     public String withdrawFunds(Currency currency, BigDecimal amount, String address)
             throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        super.withdraw(currency.getCurrencyCode(), address, amount, null, null, System.currentTimeMillis());
+        withdraw0(currency.getCurrencyCode(), address, amount);
         return null;
     }
 
@@ -55,8 +57,14 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
             throw new RuntimeException("DefaultWithdrawFundsParams must be provided.");
         }
         DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-        super.withdraw(p.currency.getCurrencyCode(), p.address, p.amount, null, null, System.currentTimeMillis());
+        withdraw0(p.currency.getCurrencyCode(), p.address, p.amount);
         return null;
+    }
+    
+    private void withdraw0(String asset, String address, BigDecimal amount) throws IOException, BinanceException {
+        // the name parameter seams to be mandatory
+        String name = address.length() <= 10 ? address : address.substring(0, 10);
+        super.withdraw(asset, address, amount, name, null, System.currentTimeMillis());
     }
 
     @Override
@@ -103,17 +111,48 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         List<FundingRecord> result = new ArrayList<>();
         if (withdrawals) {
             super.withdrawHistory(asset, startTime, endTime, null, System.currentTimeMillis()).forEach(w -> {
-                result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, null, null, Type.WITHDRAWAL, Integer.toString(w.status), null, null, null));
+                result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, null, null, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
             });
         }
         
         if (deposits) {
             super.depositHistory(asset, startTime, endTime, null, System.currentTimeMillis()).forEach(d -> {
-                result.add(new FundingRecord(null, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, null, Type.DEPOSIT, Integer.toString(d.status), null, null, null));
+                result.add(new FundingRecord(null, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, null, Type.DEPOSIT, depositStatus(d.status), null, null, null));
             });
         }
         
         return result;
+    }
+
+    /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */ 
+    private static FundingRecord.Status withdrawStatus(int status) {
+        switch (status) {
+        case 0:
+        case 2:
+        case 4:
+            return Status.PROCESSING;
+        case 1:
+            return Status.CANCELLED;
+        case 3:
+        case 5:
+            return Status.FAILED;
+        case 6:
+            return Status.COMPLETE;
+        default:
+            throw new RuntimeException("Unknown binance withdraw status: " + status);
+        }
+    }
+    
+    /** (0:pending,1:success) */
+    private static FundingRecord.Status depositStatus(int status) {
+        switch (status) {
+        case 0:
+            return Status.PROCESSING;
+        case 1:
+            return Status.COMPLETE;
+        default:
+            throw new RuntimeException("Unknown binance deposit status: " + status);
+        }
     }
 
 }
