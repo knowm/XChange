@@ -25,16 +25,16 @@ public class TickerDemo {
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currency.GHs, Currency.BTC));
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currency.BTC, Currency.USD));
 
-    System.out.println("Pair: " + Currency.GHs + "/" + Currency.BTC);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
-    System.out.println("Bid: " + ticker.getBid().toString());
-    System.out.println("Ask: " + ticker.getAsk().toString());
-    System.out.println("Timestamp: " + ticker.getTimestamp().toString());
+    System.out.println("Pair: " + ticker.getCurrencyPair());
+    System.out.println("Last: " + ticker.getLast());
+    System.out.println("Volume: " + ticker.getVolume());
+    System.out.println("High: " + ticker.getHigh());
+    System.out.println("Low: " + ticker.getLow());
+    System.out.println("Bid: " + ticker.getBid());
+    System.out.println("Ask: " + ticker.getAsk());
+    System.out.println("Timestamp: " + ticker.getTimestamp());
   }
 
 }
