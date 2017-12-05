@@ -141,12 +141,6 @@
             <artifactId>xchange-cexio</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange Bter exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-bter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange ANX exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
