@@ -1,0 +1,19 @@
+{
+  "result": "true",
+  "pairs": [
+    {
+      "btc_cny": {
+        "decimal_places": 2,
+        "min_amount": 0.5,
+        "fee": 0
+      }
+    },
+    {
+      "ltc_cny": {
+        "decimal_places": 2,
+        "min_amount": 0.5,
+        "fee": 0
+      }
+    }
+  ]
+}

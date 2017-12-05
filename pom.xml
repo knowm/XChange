@@ -85,7 +85,6 @@
         <module>xchange-btcmarkets</module>
         <module>xchange-btctrade</module>
         <module>xchange-btcturk</module>
-        <module>xchange-bter</module>
         <module>xchange-campbx</module>
         <module>xchange-ccex</module>
         <module>xchange-cexio</module>
@@ -101,6 +100,7 @@
         <module>xchange-empoex</module>
         <module>xchange-examples</module>
         <module>xchange-gatecoin</module>
+        <module>xchange-gateio</module>
         <module>xchange-gdax</module>
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
