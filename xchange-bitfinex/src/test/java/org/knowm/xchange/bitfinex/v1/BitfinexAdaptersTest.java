@@ -191,6 +191,7 @@ public class BitfinexAdaptersTest {
 
   @Test
   public void testAdaptFundingHistory() throws IOException {
+
     // Read in the JSON from the example resources
     InputStream is = BitfinexAdaptersTest.class.getResourceAsStream("/v1/account/example-deposit-withdrawal-info-data.json");
 

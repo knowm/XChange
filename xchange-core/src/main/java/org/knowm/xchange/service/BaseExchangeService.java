@@ -46,12 +46,13 @@ public abstract class BaseExchangeService {
   }
 
   /**
-   * Get a ClientConfig object which contains exchange-specific timeout values (<i>httpConnTimeout</i> and <i>httpReadTimeout</i>) if they were present in
-   * the ExchangeSpecification of this instance. Subclasses are encouraged to use this config object when creating a RestCU proxy.
+   * Get a ClientConfig object which contains exchange-specific timeout values (<i>httpConnTimeout</i> and <i>httpReadTimeout</i>) if they were
+   * present in the ExchangeSpecification of this instance. Subclasses are encouraged to use this config object when creating a RestCU proxy.
    *
    * @return a rescu client config object
    */
   public ClientConfig getClientConfig() {
+
     ClientConfig rescuConfig = new ClientConfig(); // create default rescu config
 
     // set per exchange connection- and read-timeout (if they have been set in the ExchangeSpecification)
