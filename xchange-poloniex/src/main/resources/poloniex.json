@@ -56,10 +56,6 @@
       "trading_fee": 0.0025,
       "price_scale": 8
     },
-    "NOTE/BTC": {
-      "trading_fee": 0.0025,
-      "price_scale": 8
-    },
     "STR/BTC": {
       "trading_fee": 0.0025,
       "price_scale": 8
@@ -145,10 +141,6 @@
       "price_scale": 8
     },
     "DCR/BTC": {
-      "trading_fee": 0.0025,
-      "price_scale": 8
-    },
-    "NAUT/BTC": {
       "trading_fee": 0.0025,
       "price_scale": 8
     },
@@ -550,10 +542,6 @@
       "scale": 8,
       "withdrawal_fee": 0.10000000
     },
-    "NAUT": {
-      "scale": 8,
-      "withdrawal_fee": 0.00000001
-    },
     "NXC": {
       "scale": 8,
       "withdrawal_fee": 0.01000000
@@ -571,10 +559,6 @@
       "withdrawal_fee": 0.01000000
     },
     "SBD": {
-      "scale": 8,
-      "withdrawal_fee": 0.01000000
-    },
-    "NOTE": {
       "scale": 8,
       "withdrawal_fee": 0.01000000
     },
