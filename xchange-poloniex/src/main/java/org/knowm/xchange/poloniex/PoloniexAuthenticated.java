@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
+import org.knowm.xchange.poloniex.dto.account.TransferResponse;
 import org.knowm.xchange.poloniex.dto.account.WithdrawalResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
@@ -118,6 +119,12 @@ public interface PoloniexAuthenticated {
   WithdrawalResponse withdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address, @FormParam("paymentId") @Nullable String paymentId) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
+  TransferResponse transferBalance(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+                            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount,
+                            @FormParam("fromAccount") String fromAccount, @FormParam("toAccount") String toAccount) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")

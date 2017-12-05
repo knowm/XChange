@@ -7,6 +7,7 @@ import java.util.Objects;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.coinmarketcap.dto.marketdata.CoinMarketCapTicker;
@@ -24,6 +25,14 @@ public interface CoinMarketCap {
   @GET
   @Path("/ticker/")
   List<CoinMarketCapTicker> getTickers() throws IOException;
+  
+  /**
+   * @param limit number of results. 0 = unlimited
+   * @see #getTickers()
+   */
+  @GET
+  @Path("/ticker/")
+  List<CoinMarketCapTicker> getTickers(@QueryParam("limit") int limit) throws IOException;
 
   CoinMarketCapTicker getTicker(CoinMarketCap.Pair pair);
 
