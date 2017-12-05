@@ -19,6 +19,7 @@ public class LakeBTCExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
+
     this.marketDataService = new LakeBTCMarketDataService(this);
     this.accountService = new LakeBTCAccountService(this);
     this.tradeService = new LakeBTCTradeService(this);

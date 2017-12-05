@@ -2,7 +2,6 @@ package org.knowm.xchange.hitbtc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class HitbtcException extends RuntimeException {
 
   @JsonProperty("message")

@@ -69,7 +69,7 @@ public class TradeServiceIntegration {
     assertNotNull(exchange);
     TradeService service = exchange.getTradeService();
     assertNotNull(service);
-    OpenOrdersParamCurrencyPair params = (OpenOrdersParamCurrencyPair)service.createOpenOrdersParams();
+    OpenOrdersParamCurrencyPair params = (OpenOrdersParamCurrencyPair) service.createOpenOrdersParams();
     assertNotNull(params);
     params.setCurrencyPair(CurrencyPair.BTC_CZK);
     OpenOrders orders = service.getOpenOrders(params);

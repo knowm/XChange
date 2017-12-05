@@ -1,5 +1,11 @@
 package org.knowm.xchange.quadrigacx;
 
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -19,12 +25,6 @@ import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxTicker;
 import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxTransaction;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxUserTransaction;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public final class QuadrigaCxAdapters {
 

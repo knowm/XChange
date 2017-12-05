@@ -180,6 +180,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency PYG = createCurrency("PYG", "Paraguayan Guarani", null);
   public static final Currency QAR = createCurrency("QAR", "Qatari Rial", null);
   public static final Currency QRK = createCurrency("QRK", "QuarkCoin", null);
+  public static final Currency QTUM = createCurrency("QTUM", "Qtum", null);
   public static final Currency REP = createCurrency("REP", "Augur", null);
   public static final Currency RON = createCurrency("RON", "Romanian Leu", null);
   public static final Currency RSD = createCurrency("RSD", "Serbian Dinar", null);
@@ -453,7 +454,7 @@ public class Currency implements Comparable<Currency>, Serializable {
     return comparison;
   }
 
-  private static class CurrencyAttributes implements Serializable{
+  private static class CurrencyAttributes implements Serializable {
 
     public final Set<String> codes;
     public final String isoCode;

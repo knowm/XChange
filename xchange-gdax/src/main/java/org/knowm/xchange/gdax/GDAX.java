@@ -47,7 +47,7 @@ public interface GDAX {
 
   @GET
   @Path("products")
-  List<GDAXProduct> getProducts() throws GDAXException, IOException;
+  GDAXProduct[] getProducts() throws GDAXException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/ticker")

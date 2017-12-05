@@ -11,7 +11,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 /**
  * Immutable data object representing a Market Depth update.
  */
-public final class OrderBookUpdate  implements Serializable {
+public final class OrderBookUpdate implements Serializable {
 
   private final LimitOrder limitOrder;
 

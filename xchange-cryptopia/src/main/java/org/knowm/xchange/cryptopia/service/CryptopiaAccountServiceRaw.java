@@ -17,8 +17,7 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-public class CryptopiaAccountServiceRaw extends CryptopiaBaseService{
-
+public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
 
   public CryptopiaAccountServiceRaw(CryptopiaExchange exchange) {
 

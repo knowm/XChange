@@ -2,6 +2,8 @@ package org.knowm.xchange.coinmarketcap.service.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -9,8 +11,6 @@ import org.knowm.xchange.coinmarketcap.CoinMarketCapExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.util.List;
 
 /**
  * @author allenday
@@ -35,6 +35,6 @@ public class TickerFetchIntegration {
         found = true;
       }
     }
-    assert(found);
+    assert (found);
   }
 }

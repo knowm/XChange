@@ -1,5 +1,11 @@
 package org.knowm.xchange.livecoin.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -16,12 +22,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class LivecoinAccountService extends LivecoinAccountServiceRaw implements AccountService {
   public LivecoinAccountService(LivecoinExchange exchange) {

@@ -1,5 +1,9 @@
 package org.knowm.xchange.coinmarketcap;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -14,10 +18,6 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author allenday
@@ -75,7 +75,6 @@ public class CoinMarketCapExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
   }
-
 
   @Override
   public TradeService getTradeService() {

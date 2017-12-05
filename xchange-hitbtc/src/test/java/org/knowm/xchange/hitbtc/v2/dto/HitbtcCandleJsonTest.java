@@ -1,14 +1,15 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HitbtcCandleJsonTest {
 
@@ -21,7 +22,8 @@ public class HitbtcCandleJsonTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    TypeReference<List<HitbtcCandle>> typeReference = new TypeReference<List<HitbtcCandle>>() {};
+    TypeReference<List<HitbtcCandle>> typeReference = new TypeReference<List<HitbtcCandle>>() {
+    };
 
     List<HitbtcCandle> hitbtcCandles = mapper.readValue(is, typeReference);
 

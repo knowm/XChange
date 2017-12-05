@@ -1,5 +1,11 @@
 package org.knowm.xchange.quoine;
 
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -23,12 +29,6 @@ import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
 import org.knowm.xchange.utils.DateUtils;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 public class QuoineAdapters {
 
   public static Ticker adaptTicker(QuoineProduct quoineTicker, CurrencyPair currencyPair) {
@@ -36,7 +36,7 @@ public class QuoineAdapters {
     Ticker.Builder builder = new Ticker.Builder();
     builder.ask(quoineTicker.getMarketAsk());
     builder.bid(quoineTicker.getMarketBid());
-    builder.last(quoineTicker.getLastPrice24h());
+    builder.last(quoineTicker.getLastTradedPrice());
     builder.volume(quoineTicker.getVolume24h());
     builder.currencyPair(currencyPair);
     return builder.build();

@@ -157,7 +157,7 @@ public class GDAXAdapters {
           Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
 
       LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
-              order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
+          order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
 
       orders.add(limitOrder);
     }
@@ -175,6 +175,7 @@ public class GDAXAdapters {
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {
+
     List<UserTrade> trades = new ArrayList<>(coinbaseExFills.length);
 
     for (int i = 0; i < coinbaseExFills.length; i++) {
@@ -184,7 +185,7 @@ public class GDAXAdapters {
 
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
 
-      // ToDo add fee amount
+      // TODO add fee amount
       UserTrade t = new UserTrade(type, fill.getSize(), currencyPair, fill.getPrice(), parseDate(fill.getCreatedAt()),
           String.valueOf(fill.getTradeId()), fill.getOrderId(), fill.getFee(), (Currency) null);
       trades.add(t);
@@ -214,12 +215,14 @@ public class GDAXAdapters {
     return new CurrencyPair(product.getBaseCurrency(), product.getTargetCurrency());
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, List<GDAXProduct> products) {
+  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, GDAXProduct[] products) {
+
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (GDAXProduct product : products) {
-      BigDecimal minSize = product.getBaseMinSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
-      BigDecimal maxSize = product.getBaseMaxSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
+
+      BigDecimal minSize = product.getBaseMinSize();
+      BigDecimal maxSize = product.getBaseMaxSize();
 
       CurrencyPair pair = adaptCurrencyPair(product);
 

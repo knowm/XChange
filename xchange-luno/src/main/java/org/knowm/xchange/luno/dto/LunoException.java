@@ -2,7 +2,6 @@ package org.knowm.xchange.luno.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class LunoException extends RuntimeException {
 
   private final String error;

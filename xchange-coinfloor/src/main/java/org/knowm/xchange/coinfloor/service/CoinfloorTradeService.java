@@ -1,5 +1,11 @@
 package org.knowm.xchange.coinfloor.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinfloor.CoinfloorAdapters;
 import org.knowm.xchange.coinfloor.dto.trade.CoinfloorOrder;
@@ -25,12 +31,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements TradeService {
 

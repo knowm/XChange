@@ -1,6 +1,9 @@
 package org.knowm.xchange.livecoin.service;
 
-import org.knowm.xchange.currency.CurrencyPair;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Date;
+
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -16,12 +19,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
 
 public class LivecoinTradeService extends LivecoinTradeServiceRaw implements TradeService {
   public LivecoinTradeService(LivecoinExchange livecoinExchange) {

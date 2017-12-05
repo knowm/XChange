@@ -135,8 +135,8 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan timeParams = (TradeHistoryParamsTimeSpan) params;
-      since = nullSafeUnixTime(timeParams.getStartTime());
-      end = nullSafeUnixTime(timeParams.getEndTime());
+      since = DateUtils.toMillisNullSafe(timeParams.getStartTime());
+      end = DateUtils.toMillisNullSafe(timeParams.getEndTime());
     }
 
     if (params instanceof TradeHistoryParamCurrencyPair) {

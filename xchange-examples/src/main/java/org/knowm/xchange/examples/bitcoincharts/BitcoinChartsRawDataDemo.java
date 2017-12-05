@@ -23,8 +23,7 @@ public class BitcoinChartsRawDataDemo {
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = bitcoinChartsExchange.getMarketDataService();
 
-
-    BitcoinChartsMarketDataService marketDataServiceRaw=(BitcoinChartsMarketDataService)marketDataService;
+    BitcoinChartsMarketDataService marketDataServiceRaw = (BitcoinChartsMarketDataService) marketDataService;
 
     BitcoinChartsTicker[] marketData = marketDataServiceRaw.getBitcoinChartsTickers();
     for (BitcoinChartsTicker data : marketData) {
