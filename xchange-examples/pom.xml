@@ -300,11 +300,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-chbtc</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>xchange-ccex</artifactId>
             <version>${project.version}</version>
         </dependency>
