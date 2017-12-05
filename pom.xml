@@ -83,7 +83,6 @@
         <module>xchange-blockchain</module>
         <module>xchange-btc38</module>
         <module>xchange-btcc</module>
-        <module>xchange-btcchina</module>
         <module>xchange-btcmarkets</module>
         <module>xchange-btctrade</module>
         <module>xchange-btcturk</module>
