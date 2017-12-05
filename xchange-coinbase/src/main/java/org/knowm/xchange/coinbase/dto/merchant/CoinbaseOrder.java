@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-
 /**
  * @author jamespedwards42
  */
@@ -110,7 +109,7 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
       return FROM_STRING_HELPER.fromJsonString(jsonString);
     }
   }
-  
+
   private static class CoinbaseOrderInfo {
 
     private final String id;
