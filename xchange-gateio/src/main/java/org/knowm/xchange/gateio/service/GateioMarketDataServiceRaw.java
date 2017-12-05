@@ -2,14 +2,18 @@ package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTickers;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.currency.CurrencyPair;
 
@@ -32,11 +36,28 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     return bterMarketInfo.getMarketInfoMap();
   }
 
-  public Map<CurrencyPair, GateioTicker> getBTERTickers() throws IOException {
+  public Map<CurrencyPair, Ticker> getBTERTickers() throws IOException {
 
-    GateioTickers gateioTickers = bter.getTickers();
+    Map<String, GateioTicker> gateioTickers = bter.getTickers();
+    Map<CurrencyPair, Ticker> adaptedTickers = new HashMap<>(gateioTickers.size());
+    gateioTickers.forEach((currencyPairString, gateioTicker) -> {
+      String[] currencyPairStringSplit = currencyPairString.split("_");
+      CurrencyPair currencyPair = new CurrencyPair(new Currency(currencyPairStringSplit[0].toUpperCase()), new Currency(currencyPairStringSplit[1].toUpperCase()));
+      adaptedTickers.put(currencyPair, GateioAdapters.adaptTicker(currencyPair, gateioTicker));
+    });
 
-    return handleResponse(gateioTickers).getTickerMap();
+    return adaptedTickers;
+  }
+
+  public Map<CurrencyPair, GateioDepth> getGateioDepths() throws IOException {
+    Map<String, GateioDepth> depths = bter.getDepths();
+    Map<CurrencyPair, GateioDepth> adaptedDepths = new HashMap<>(depths.size());
+    depths.forEach((currencyPairString, gateioDepth) -> {
+      String[] currencyPairStringSplit = currencyPairString.split("_");
+      CurrencyPair currencyPair = new CurrencyPair(new Currency(currencyPairStringSplit[0].toUpperCase()), new Currency(currencyPairStringSplit[1].toUpperCase()));
+      adaptedDepths.put(currencyPair, gateioDepth);
+    });
+    return adaptedDepths;
   }
 
   public GateioTicker getBTERTicker(String tradableIdentifier, String currency) throws IOException {
