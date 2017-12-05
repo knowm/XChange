@@ -59,14 +59,16 @@ public final class GateioAdapters {
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, GateioTicker gateioTicker) {
 
-    BigDecimal ask = gateioTicker.getSell();
-    BigDecimal bid = gateioTicker.getBuy();
+    BigDecimal ask = gateioTicker.getLowestAsk();
+    BigDecimal bid = gateioTicker.getHighestBid();
     BigDecimal last = gateioTicker.getLast();
-    BigDecimal low = gateioTicker.getLow();
-    BigDecimal high = gateioTicker.getHigh();
-    BigDecimal volume = gateioTicker.getVolume(currencyPair.base.getCurrencyCode());
+    BigDecimal low = gateioTicker.getLow24hr();
+    BigDecimal high = gateioTicker.getHigh24hr();
+    // Looks like gate.io vocabulary is inverted...
+    BigDecimal baseVolume = gateioTicker.getQuoteVolume();
+    BigDecimal quoteVolume = gateioTicker.getBaseVolume();
 
-    return new Ticker.Builder().currencyPair(currencyPair).ask(ask).bid(bid).last(last).low(low).high(high).volume(volume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).ask(ask).bid(bid).last(last).low(low).high(high).volume(baseVolume).quoteVolume(quoteVolume).build();
   }
 
   public static LimitOrder adaptOrder(GateioPublicOrder order, CurrencyPair currencyPair, OrderType orderType) {
@@ -96,15 +98,10 @@ public final class GateioAdapters {
 
   public static LimitOrder adaptOrder(GateioOpenOrder order, Collection<CurrencyPair> currencyPairs) {
 
-    CurrencyPair possibleCurrencyPair = new CurrencyPair(order.getBuyCurrency(), order.getSellCurrency());
-    if (!currencyPairs.contains(possibleCurrencyPair)) {
-      BigDecimal price = order.getBuyAmount().divide(order.getSellAmount(), 8, RoundingMode.HALF_UP);
-      return new LimitOrder(OrderType.ASK, order.getSellAmount(), new CurrencyPair(order.getSellCurrency(), order.getBuyCurrency()), order.getId(),
-          null, price);
-    } else {
-      BigDecimal price = order.getSellAmount().divide(order.getBuyAmount(), 8, RoundingMode.HALF_UP);
-      return new LimitOrder(OrderType.BID, order.getBuyAmount(), possibleCurrencyPair, order.getId(), null, price);
-    }
+    String[] currencyPairSplit = order.getCurrencyPair().split("_");
+    CurrencyPair currencyPair = new CurrencyPair(currencyPairSplit[0], currencyPairSplit[1]);
+    return new LimitOrder(order.getType().equals("sell") ? OrderType.ASK : OrderType.BID, order.getAmount(), currencyPair, order.getOrderNumber(),
+        null, order.getRate());
   }
 
   public static OpenOrders adaptOpenOrders(GateioOpenOrders openOrders, Collection<CurrencyPair> currencyPairs) {
@@ -158,6 +155,13 @@ public final class GateioAdapters {
       BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency.toString());
 
       balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
+    }
+    for (Entry<String, BigDecimal> funds : bterAccountInfo.getLockedFunds().entrySet()) {
+      Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
+      if (balances.stream().noneMatch(balance -> balance.getCurrency().equals(currency))) {
+        BigDecimal amount = funds.getValue();
+        balances.add(new Balance(currency, null, BigDecimal.ZERO, amount));
+      }
     }
 
     return new Wallet(balances);
