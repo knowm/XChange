@@ -43,6 +43,7 @@ public final class DepositList extends WapiResponse<List<BinanceDeposit>> {
         public final long insertTime;
         public final BigDecimal amount;
         public final String asset;
+        /** (0:pending,1:success) */
         public final int status;
         
         public BinanceDeposit(@JsonProperty("insertTime") long insertTime

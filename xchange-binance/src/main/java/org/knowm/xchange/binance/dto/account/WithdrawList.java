@@ -48,6 +48,7 @@ public final class WithdrawList extends WapiResponse<List<BinanceWithdraw>> {
         public final String txId;
         public final String asset;
         public final long applyTime;
+        /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */ 
         public final int status;
         public BinanceWithdraw(@JsonProperty("amount") BigDecimal amount, @JsonProperty("address") String address
                 , @JsonProperty("successTime") long successTime, @JsonProperty("txId") String txId

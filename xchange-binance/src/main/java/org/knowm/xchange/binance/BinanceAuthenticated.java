@@ -12,7 +12,6 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -236,7 +235,7 @@ public interface BinanceAuthenticated extends Binance {
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
 
     @POST
-    @Path("wapi/v1/withdraw.html")
+    @Path("wapi/v3/withdraw.html")
     /**
      * Submit a withdraw request.
      * @param asset
@@ -261,7 +260,7 @@ public interface BinanceAuthenticated extends Binance {
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
 
     @POST
-    @Path("wapi/v1/getDepositHistory.html")
+    @Path("wapi/v3/depositHistory.html")
     /**
      * Fetch deposit history.
      * @param asset     optional
@@ -284,7 +283,7 @@ public interface BinanceAuthenticated extends Binance {
             , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
 
     @POST
-    @Path("wapi/v1/getWithdrawHistory.html")
+    @Path("wapi/v3/withdrawHistory.html")
     /**
      * Fetch withdraw history.
      * @param asset     optional
