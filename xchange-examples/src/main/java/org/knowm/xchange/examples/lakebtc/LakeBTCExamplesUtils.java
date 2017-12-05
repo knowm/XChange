@@ -17,13 +17,13 @@ public class LakeBTCExamplesUtils {
 
     Exchange lakeBtcExchange = ExchangeFactory.INSTANCE.createExchange(LakeBTCExchange.class.getName());
 
-    lakeBtcExchange.getExchangeSpecification().setSslUri("https://www.LakeBTC.com");
-    lakeBtcExchange.getExchangeSpecification().setHost("https://lakebtc.com");
-    lakeBtcExchange.getExchangeSpecification().setPort(80);
-    lakeBtcExchange.getExchangeSpecification().setApiKey("API Key");
-    lakeBtcExchange.getExchangeSpecification().setSecretKey("Secret==");
-    lakeBtcExchange.getExchangeSpecification().setUserName("email");
-    lakeBtcExchange.applySpecification(lakeBtcExchange.getExchangeSpecification());
+    //    lakeBtcExchange.getExchangeSpecification().setSslUri("https://www.LakeBTC.com");
+    //    lakeBtcExchange.getExchangeSpecification().setHost("https://lakebtc.com");
+    //    lakeBtcExchange.getExchangeSpecification().setPort(80);
+    //    lakeBtcExchange.getExchangeSpecification().setApiKey("API Key");
+    //    lakeBtcExchange.getExchangeSpecification().setSecretKey("Secret==");
+    //    lakeBtcExchange.getExchangeSpecification().setUserName("email");
+    //    lakeBtcExchange.applySpecification(lakeBtcExchange.getExchangeSpecification());
     return lakeBtcExchange;
   }
 }
