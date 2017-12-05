@@ -13,6 +13,7 @@ public class GDAXPlaceOrderTest {
 
   @Test
   public void flagTest() {
+
     GDAXPlaceOrder orderFlagsNull = new GDAXPlaceOrder(BigDecimal.ZERO, BigDecimal.ZERO, "side", "productId", "type", null);
     assertThat(orderFlagsNull.isPostOnly()).isEqualTo(null);
     assertThat(orderFlagsNull.getTimeInForce()).isEqualTo(null);

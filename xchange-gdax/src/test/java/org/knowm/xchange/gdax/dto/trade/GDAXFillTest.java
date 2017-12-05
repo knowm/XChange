@@ -16,6 +16,7 @@ public class GDAXFillTest {
 
   @Test
   public void unmarshalTest() throws IOException {
+
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
