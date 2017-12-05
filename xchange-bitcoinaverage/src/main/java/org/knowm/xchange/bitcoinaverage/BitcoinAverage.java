@@ -20,11 +20,11 @@ import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
 public interface BitcoinAverage {
 
   @GET
-  @Path("ticker/global/{currency}/")
-  BitcoinAverageTicker getTicker(@PathParam("currency") String currency) throws IOException;
+  @Path("indices/global/ticker/{symbol}")
+  BitcoinAverageTicker getTicker(@PathParam("symbol") String symbol) throws IOException;
 
   @GET
-  @Path("ticker/global/all")
-  BitcoinAverageTickers getAllTickers() throws IOException;
+  @Path("indices/global/ticker/short?crypto={crypto}")
+  BitcoinAverageTickers getShortTickers(@PathParam("crypto") String crypto) throws IOException;
 
 }
