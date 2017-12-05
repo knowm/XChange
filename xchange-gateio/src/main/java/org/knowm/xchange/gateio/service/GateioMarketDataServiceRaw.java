@@ -25,42 +25,42 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     super(exchange);
   }
 
-  public Map<CurrencyPair, GateioMarketInfoWrapper.BTERMarketInfo> getBTERMarketInfo() throws IOException {
+  public Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> getGateioMarketInfo() throws IOException {
 
     GateioMarketInfoWrapper bterMarketInfo = bter.getMarketInfo();
 
     return bterMarketInfo.getMarketInfoMap();
   }
 
-  public Map<CurrencyPair, GateioTicker> getBTERTickers() throws IOException {
+  public Map<CurrencyPair, GateioTicker> getGateioTickers() throws IOException {
 
     GateioTickers gateioTickers = bter.getTickers();
 
     return handleResponse(gateioTickers).getTickerMap();
   }
 
-  public GateioTicker getBTERTicker(String tradableIdentifier, String currency) throws IOException {
+  public GateioTicker getGateioTicker(String tradableIdentifier, String currency) throws IOException {
 
     GateioTicker gateioTicker = bter.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(gateioTicker);
   }
 
-  public GateioDepth getBTEROrderBook(String tradeableIdentifier, String currency) throws IOException {
+  public GateioDepth getGateioOrderBook(String tradeableIdentifier, String currency) throws IOException {
 
     GateioDepth gateioDepth = bter.getFullDepth(tradeableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(gateioDepth);
   }
 
-  public GateioTradeHistory getBTERTradeHistory(String tradeableIdentifier, String currency) throws IOException {
+  public GateioTradeHistory getGateioTradeHistory(String tradeableIdentifier, String currency) throws IOException {
 
     GateioTradeHistory tradeHistory = bter.getTradeHistory(tradeableIdentifier, currency);
 
     return handleResponse(tradeHistory);
   }
 
-  public GateioTradeHistory getBTERTradeHistorySince(String tradeableIdentifier, String currency, String tradeId) throws IOException {
+  public GateioTradeHistory getGateioTradeHistorySince(String tradeableIdentifier, String currency, String tradeId) throws IOException {
 
     GateioTradeHistory tradeHistory = bter.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
 

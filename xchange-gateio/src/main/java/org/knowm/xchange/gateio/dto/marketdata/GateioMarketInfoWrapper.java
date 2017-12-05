@@ -23,14 +23,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = BTERMarketInfoWrapperDeserializer.class)
 public class GateioMarketInfoWrapper {
 
-  private final Map<CurrencyPair, BTERMarketInfo> marketInfoMap;
+  private final Map<CurrencyPair, GateioMarketInfo> marketInfoMap;
 
-  private GateioMarketInfoWrapper(Map<CurrencyPair, BTERMarketInfo> marketInfoMap) {
+  private GateioMarketInfoWrapper(Map<CurrencyPair, GateioMarketInfo> marketInfoMap) {
 
     this.marketInfoMap = marketInfoMap;
   }
 
-  public Map<CurrencyPair, BTERMarketInfo> getMarketInfoMap() {
+  public Map<CurrencyPair, GateioMarketInfo> getMarketInfoMap() {
 
     return marketInfoMap;
   }
@@ -41,14 +41,14 @@ public class GateioMarketInfoWrapper {
     return "GateioMarketInfoWrapper [marketInfoMap=" + marketInfoMap + "]";
   }
 
-  public static class BTERMarketInfo {
+  public static class GateioMarketInfo {
 
     private final CurrencyPair currencyPair;
     private final int decimalPlaces;
     private final BigDecimal minAmount;
     private final BigDecimal fee;
 
-    public BTERMarketInfo(CurrencyPair currencyPair, int decimalPlaces, BigDecimal minAmount, BigDecimal fee) {
+    public GateioMarketInfo(CurrencyPair currencyPair, int decimalPlaces, BigDecimal minAmount, BigDecimal fee) {
 
       this.currencyPair = currencyPair;
       this.decimalPlaces = decimalPlaces;
@@ -89,7 +89,7 @@ public class GateioMarketInfoWrapper {
     @Override
     public GateioMarketInfoWrapper deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      Map<CurrencyPair, BTERMarketInfo> marketInfoMap = new HashMap<>();
+      Map<CurrencyPair, GateioMarketInfo> marketInfoMap = new HashMap<>();
 
       ObjectCodec oc = jp.getCodec();
       JsonNode marketsNodeWrapper = oc.readTree(jp);
@@ -105,7 +105,7 @@ public class GateioMarketInfoWrapper {
             int decimalPlaces = marketInfoData.path("decimal_places").asInt();
             BigDecimal minAmount = new BigDecimal(marketInfoData.path("min_amount").asText());
             BigDecimal fee = new BigDecimal(marketInfoData.path("fee").asText());
-            BTERMarketInfo marketInfoObject = new BTERMarketInfo(currencyPair, decimalPlaces, minAmount, fee);
+            GateioMarketInfo marketInfoObject = new GateioMarketInfo(currencyPair, decimalPlaces, minAmount, fee);
 
             marketInfoMap.put(currencyPair, marketInfoObject);
           } else {

@@ -5,13 +5,13 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bter.BTERExchange;
+import org.knowm.xchange.gateio.GateioExchange;
 
 public class GateioMetaDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    ExchangeSpecification exSpec = new BTERExchange().getDefaultExchangeSpecification();
+    ExchangeSpecification exSpec = new GateioExchange().getDefaultExchangeSpecification();
     exSpec.setShouldLoadRemoteMetaData(true);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
 
