@@ -9,8 +9,7 @@
     <packaging>pom</packaging>
 
     <name>XChange</name>
-    <description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of cryptocurrency exchanges.
-    </description>
+    <description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of cryptocurrency exchanges.</description>
     <url>http://knowm.org/open-source/xchange</url>
     <inceptionYear>2012</inceptionYear>
 
@@ -19,6 +18,26 @@
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        
+        <version.assertj>3.8.0</version.assertj>
+        <version.commons.io>2.6</version.commons.io>
+        <version.commons.lang3>3.7</version.commons.lang3>
+        <version.fasterxml>2.9.1</version.fasterxml>
+        <version.github.mmazi>2.0.1</version.github.mmazi>
+        <version.junit>4.12</version.junit>
+        <version.knowm.xchart>3.4.0</version.knowm.xchart>
+        <version.powermock>1.7.3</version.powermock>
+        <version.qos.logback>1.2.3</version.qos.logback>
+        <version.reflections>0.9.11</version.reflections>
+        <version.slf4j>1.7.25</version.slf4j>
+        
+        <skipIntegrationTests>true</skipIntegrationTests>
+    </properties>
+
+    
     <developers>
         <developer>
             <name>Tim Molter</name>
@@ -150,58 +169,87 @@
             <dependency>
                 <groupId>com.github.mmazi</groupId>
                 <artifactId>rescu</artifactId>
-                <version>2.0.1</version>
+                <version>${version.github.mmazi}</version>
             </dependency>
 
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.6</version>
+                <version>${version.commons.io}</version>
             </dependency>
 
             <!--For String Joining, etc. -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.7</version>
+                <version>${version.commons.lang3}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${version.fasterxml}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${version.fasterxml}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${version.fasterxml}</version>
             </dependency>
 
             <!-- Charting -->
             <dependency>
                 <groupId>org.knowm.xchart</groupId>
                 <artifactId>xchart</artifactId>
-                <version>3.4.0</version>
+                <version>${version.knowm.xchart}</version>
             </dependency>
 
             <!-- Reflections - java runtime metadata analysis for integration testing -->
             <dependency>
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
-                <version>0.9.11</version>
+                <version>${version.reflections}</version>
             </dependency>
 
             <!-- SLF4J implementation for use in examples -->
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+            <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>1.2.3</version>
+                <version>${version.qos.logback}</version>
             </dependency>
 
             <!-- PowerMockito for unit tests -->
             <dependency>
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-module-junit4</artifactId>
-                <version>${powermock.version}</version>
-                <scope>test</scope>
+                <version>${version.powermock}</version>
             </dependency>
             <dependency>
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-api-mockito</artifactId>
-                <version>${powermock.version}</version>
-                <scope>test</scope>
+                <version>${version.powermock}</version>
             </dependency>
 
-
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${version.assertj}</version>
+            </dependency>
+            
         </dependencies>
     </dependencyManagement>
 
@@ -212,14 +260,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
         </dependency>
 
         <!-- SLF4J implementation for use in tests -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
             <scope>test</scope>
         </dependency>
 
@@ -227,14 +273,11 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.8.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -399,12 +442,5 @@
 
         </plugins>
     </build>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <powermock.version>1.7.3</powermock.version>
-        <skipIntegrationTests>true</skipIntegrationTests>
-    </properties>
 
 </project>
