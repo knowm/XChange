@@ -26,7 +26,7 @@ import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 
 import si.mazi.rescu.ParamsDigest;
 
-@Path("/v1")
+@Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface OkCoin {
 

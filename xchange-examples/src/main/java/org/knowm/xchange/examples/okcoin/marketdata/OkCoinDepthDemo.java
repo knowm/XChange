@@ -19,7 +19,7 @@ public class OkCoinDepthDemo {
     ExchangeSpecification exSpec = new ExchangeSpecification(OkCoinExchange.class);
 
     // flag to set Use_Intl (USD) or China (default)
-    exSpec.setExchangeSpecificParametersItem("Use_Intl", false);
+    exSpec.setExchangeSpecificParametersItem("Use_Intl", true);
     Exchange okcoinExchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
 
     generic(okcoinExchange);
