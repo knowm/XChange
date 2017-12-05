@@ -1,7 +1,6 @@
 package org.knowm.xchange.gdax;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -46,7 +45,7 @@ public class GDAXExchange extends BaseExchange {
   @Override
   public void remoteInit() throws IOException {
 
-    List<GDAXProduct> products = ((GDAXMarketDataServiceRaw) marketDataService).getCoinbaseExProducts();
+    GDAXProduct[] products = ((GDAXMarketDataServiceRaw) marketDataService).getCoinbaseExProducts();
     exchangeMetaData = GDAXAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
   }
 }

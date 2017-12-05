@@ -30,6 +30,7 @@ public class GDAXAdaptersTest {
 
   @Test
   public void parseDateTest() {
+
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03Z").getTime()).isEqualTo(1493737803000L);
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1Z").getTime()).isEqualTo(1493737803100L);
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12Z").getTime()).isEqualTo(1493737803120L);
@@ -73,6 +74,7 @@ public class GDAXAdaptersTest {
 
   @Test
   public void testTradeHistoryAdapter() throws IOException {
+
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
