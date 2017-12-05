@@ -30,7 +30,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.BTERMarketInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
 import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
@@ -122,7 +122,7 @@ public final class GateioAdapters {
     return (cryptoTradeOrderType.equals(GateioOrderType.BUY)) ? OrderType.BID : OrderType.ASK;
   }
 
-  public static Trade adaptTrade(GateioTradeHistory.BTERPublicTrade trade, CurrencyPair currencyPair) {
+  public static Trade adaptTrade(GateioTradeHistory.GateioPublicTrade trade, CurrencyPair currencyPair) {
 
     OrderType orderType = adaptOrderType(trade.getType());
     Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
@@ -134,7 +134,7 @@ public final class GateioAdapters {
 
     List<Trade> tradeList = new ArrayList<>();
     long lastTradeId = 0;
-    for (GateioTradeHistory.BTERPublicTrade trade : tradeHistory.getTrades()) {
+    for (GateioTradeHistory.GateioPublicTrade trade : tradeHistory.getTrades()) {
       String tradeIdString = trade.getTradeId();
       if (!tradeIdString.isEmpty()) {
         long tradeId = Long.valueOf(tradeIdString);
@@ -183,14 +183,14 @@ public final class GateioAdapters {
         (Currency) null);
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(Map<CurrencyPair, BTERMarketInfo> currencyPair2BTERMarketInfoMap) {
+  public static ExchangeMetaData adaptToExchangeMetaData(Map<CurrencyPair, GateioMarketInfo> currencyPair2BTERMarketInfoMap) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
 
-    for (Entry<CurrencyPair, BTERMarketInfo> entry : currencyPair2BTERMarketInfoMap.entrySet()) {
+    for (Entry<CurrencyPair, GateioMarketInfo> entry : currencyPair2BTERMarketInfoMap.entrySet()) {
 
       CurrencyPair currencyPair = entry.getKey();
-      BTERMarketInfo btermarketInfo = entry.getValue();
+      GateioMarketInfo btermarketInfo = entry.getValue();
 
       CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(btermarketInfo.getFee(), btermarketInfo.getMinAmount(), null,
           btermarketInfo.getDecimalPlaces());

@@ -32,7 +32,7 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(GateioAdapters.adaptWallet(super.getBTERAccountInfo()));
+    return new AccountInfo(GateioAdapters.adaptWallet(super.getGateioAccountInfo()));
   }
 
   @Override
@@ -42,7 +42,8 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(
+      WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 
