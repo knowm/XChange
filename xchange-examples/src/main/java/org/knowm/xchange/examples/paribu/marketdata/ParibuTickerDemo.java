@@ -18,7 +18,7 @@ public class ParibuTickerDemo {
 
   public static void main(String[] args) throws IOException {
 
-    // Use the factory to get BTCTurk exchange API using default settings
+    // Use the factory to get Paribu exchange API using default settings
     Exchange paribu = ParibuDemoUtils.createExchange();
 
     // Interested in the public market data feed (no authentication)
