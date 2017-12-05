@@ -64,20 +64,61 @@ public final class CoinMarketCapTicker {
     this.lastUpdated = lastUpdated;
   }
 
-  public String getID() { return id; }
-  public String getName() { return name; }
-  public CoinMarketCapCurrency getBaseCurrency() { return baseCurrency; }
-  public String getIsoCode() { return isoCode; }
-  public BigDecimal getPriceUSD() { return priceUSD; }
-  public BigDecimal getPriceBTC() { return priceBTC; }
-  public BigDecimal getVolume24hUSD() { return volume24hUSD; }
-  public BigDecimal getMarketCapUSD() { return marketCapUSD; }
-  public BigDecimal getAvailableSupply() { return availableSupply; }
-  public BigDecimal getTotalSupply() { return totalSupply; }
-  public BigDecimal getPctChange1h() { return pctChange1h; }
-  public BigDecimal getPctChange24h() { return pctChange24h; }
-  public BigDecimal getPctChange7d() { return pctChange7d; }
-  public Date getLastUpdated() { return lastUpdated; }
+  public String getID() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public CoinMarketCapCurrency getBaseCurrency() {
+    return baseCurrency;
+  }
+
+  public String getIsoCode() {
+    return isoCode;
+  }
+
+  public BigDecimal getPriceUSD() {
+    return priceUSD;
+  }
+
+  public BigDecimal getPriceBTC() {
+    return priceBTC;
+  }
+
+  public BigDecimal getVolume24hUSD() {
+    return volume24hUSD;
+  }
+
+  public BigDecimal getMarketCapUSD() {
+    return marketCapUSD;
+  }
+
+  public BigDecimal getAvailableSupply() {
+    return availableSupply;
+  }
+
+  public BigDecimal getTotalSupply() {
+    return totalSupply;
+  }
+
+  public BigDecimal getPctChange1h() {
+    return pctChange1h;
+  }
+
+  public BigDecimal getPctChange24h() {
+    return pctChange24h;
+  }
+
+  public BigDecimal getPctChange7d() {
+    return pctChange7d;
+  }
+
+  public Date getLastUpdated() {
+    return lastUpdated;
+  }
 
   @Override
   public String toString() {
@@ -98,7 +139,7 @@ public final class CoinMarketCapTicker {
         String id = node.get("id").asText();
         String name = node.get("name").asText();
         String symbol = node.get("symbol").asText();
-        Date lastUpdated = new Date(node.get("last_updated").asLong()*1000);
+        Date lastUpdated = new Date(node.get("last_updated").asLong() * 1000);
         BigDecimal rank = new BigDecimal(node.get("rank").asInt());
         BigDecimal priceUSD = new BigDecimal(node.get("price_usd").asDouble());
         BigDecimal priceBTC = new BigDecimal(node.get("price_btc").asDouble());

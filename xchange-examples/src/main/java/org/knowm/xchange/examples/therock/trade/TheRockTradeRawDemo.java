@@ -39,9 +39,19 @@ public class TheRockTradeRawDemo {
     print(orderResult);
     Thread.sleep(3000);
 
-    //get-orders
+    //get-orders (without any parameters besides pair, only open orders will be returned)
     TheRockOrders orders = tradeService.getTheRockOrders(BTC_EUR);
     print(orders);
+    Thread.sleep(3000);
+
+    //get execute orders, only page 1
+    TheRockOrders executedOrders = tradeService.getTheRockOrders(BTC_EUR, null, null, "executed", null, null, 1);
+    print(executedOrders);
+    Thread.sleep(3000);
+
+    //get only executed sell order, starting on page 3
+    TheRockOrders execSellOrders = tradeService.getTheRockOrders(BTC_EUR, null, null, "executed", Side.sell, null, 1);
+    print(execSellOrders);
     Thread.sleep(3000);
 
     //cancel

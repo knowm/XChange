@@ -18,7 +18,6 @@ public class HitbtcCandle {
 
   private BigDecimal volumeQuote;
 
-
   @Override
   public String toString() {
     return "KrakenOHLC [timestamp=" + timestamp + ", open=" + open + ", max=" + max + ", min=" + min + ", close=" + close + ", volumeQuote=" + volumeQuote + ", volume=" + volume + "]";

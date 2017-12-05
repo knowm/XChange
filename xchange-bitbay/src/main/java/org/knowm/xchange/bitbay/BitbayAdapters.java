@@ -1,5 +1,14 @@
 package org.knowm.xchange.bitbay;
 
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
 import org.knowm.xchange.bitbay.dto.acount.BitbayBalance;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
@@ -8,7 +17,6 @@ import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -21,15 +29,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author kpysniak
@@ -72,8 +71,10 @@ public class BitbayAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
-    for (BigDecimal[] order : orders) {
-      limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
+    if (orders != null) {
+      for (BigDecimal[] order : orders) {
+        limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
+      }
     }
 
     return limitOrders;
@@ -194,7 +195,7 @@ public class BitbayAdapters {
         OrderType orderType;
         String type = map.get("type").toString();
 
-        if(type.equals("BID"))
+        if (type.equals("BID"))
           orderType = OrderType.BID;
         else if (type.equals("ASK"))
           orderType = OrderType.ASK;
@@ -216,15 +217,15 @@ public class BitbayAdapters {
         String id = (type + "_" + date + "_" + market).replaceAll("\\s+", "");
 
         trades.add(new UserTrade(
-                orderType,
-                amount,
-                pair,
-                price,
-                timestamp,
-                id,
-                null,
-                fee,
-                null
+            orderType,
+            amount,
+            pair,
+            price,
+            timestamp,
+            id,
+            null,
+            fee,
+            null
         ));
       } catch (ParseException e) {
         throw new IllegalStateException("Cannot parse " + map);

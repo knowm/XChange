@@ -4,6 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
+
 import si.mazi.rescu.RestProxyFactory;
 
 /**
@@ -25,10 +26,10 @@ public class CexIOBaseService extends BaseExchangeService implements BaseService
 
     cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     signatureCreator = CexIODigest.createInstance(
-            exchange.getExchangeSpecification().getSecretKey(),
-            exchange.getExchangeSpecification().getUserName(),
-            exchange.getExchangeSpecification().getApiKey(),
-            exchange.getNonceFactory()
+        exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getUserName(),
+        exchange.getExchangeSpecification().getApiKey(),
+        exchange.getNonceFactory()
     );
 
   }

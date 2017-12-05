@@ -11,8 +11,8 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrenciesResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepthResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummariesResponse;
-import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbolsResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummaryResponse;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbolsResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTickerResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTradesResponse;
 

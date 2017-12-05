@@ -1,5 +1,12 @@
 package org.knowm.xchange.yobit.dto.marketdata;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook.YoBitOrderBookDeserializer;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -7,12 +14,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook.YoBitOrderBookDeserializer;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @JsonDeserialize(using = YoBitOrderBookDeserializer.class)
 public class YoBitOrderBook {
@@ -50,7 +51,7 @@ public class YoBitOrderBook {
     private List<YoBitAsksBidsData> parse(JsonNode nodeArray) {
       List<YoBitAsksBidsData> res = new ArrayList<>();
 
-      if(nodeArray != null) {
+      if (nodeArray != null) {
         for (JsonNode jsonNode : nodeArray) {
           res.add(new YoBitAsksBidsData(BigDecimal.valueOf(jsonNode.get(1).asDouble()), BigDecimal.valueOf(jsonNode.get(0).asDouble())));
         }

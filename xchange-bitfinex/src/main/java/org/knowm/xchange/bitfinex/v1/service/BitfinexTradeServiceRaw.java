@@ -294,17 +294,17 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       throw new ExchangeException(e);
     }
   }
-  
+
   public BitfinexFundingTradeResponse[] getBitfinexFundingHistory(String symbol, Date until, int limit_trades) throws IOException {
 
-	    try {
-	      BitfinexFundingTradeResponse[] fundingTrades = bitfinex.pastFundingTrades(apiKey, payloadCreator, signatureCreator,
-	          new BitfinexPastFundingTradesRequest(String.valueOf(exchange.getNonceFactory().createValue()), symbol, until, limit_trades));
-	      return fundingTrades;
-	    } catch (BitfinexException e) {
-	      throw new ExchangeException(e);
-	    }
-	  }
+    try {
+      BitfinexFundingTradeResponse[] fundingTrades = bitfinex.pastFundingTrades(apiKey, payloadCreator, signatureCreator,
+          new BitfinexPastFundingTradesRequest(String.valueOf(exchange.getNonceFactory().createValue()), symbol, until, limit_trades));
+      return fundingTrades;
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e);
+    }
+  }
 
   public BitfinexTradeResponse[] getBitfinexTradeHistory(String symbol, long startTime, Long endTime, Integer limit, Integer reverse) throws IOException {
 

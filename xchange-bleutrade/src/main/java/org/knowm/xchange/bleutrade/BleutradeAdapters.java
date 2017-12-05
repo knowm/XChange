@@ -154,7 +154,7 @@ public class BleutradeAdapters {
 
     for (BleutradeCurrency bleutradeCurrency : bleutradeCurrencies) {
       // the getTxFee parameter is the withdrawal charge in the currency in question
-      currencyMetaDataMap.put(Currency.getInstance(bleutradeCurrency.getCurrency()), new CurrencyMetaData(8));
+      currencyMetaDataMap.put(Currency.getInstance(bleutradeCurrency.getCurrency()), new CurrencyMetaData(8, null));
     }
 
     // https://bleutrade.com/help/fees_and_deadlines 11/25/2015 all == 0.25%

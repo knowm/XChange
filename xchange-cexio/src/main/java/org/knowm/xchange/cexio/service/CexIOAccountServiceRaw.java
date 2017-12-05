@@ -1,14 +1,14 @@
 package org.knowm.xchange.cexio.service;
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
 import org.knowm.xchange.cexio.dto.account.GHashIOWorker;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import java.io.IOException;
-import java.util.Map;
 
 public class CexIOAccountServiceRaw extends CexIOBaseService {
 

@@ -3,6 +3,7 @@ package org.knowm.xchange.coinmarketcap.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +20,13 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import java.util.Collection;
 
 /**
  * @author allenday
  */
 public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServiceRaw implements MarketDataService {
 
-  private Map<String,CoinMarketCapTicker> tickers;
+  private Map<String, CoinMarketCapTicker> tickers;
 
   /**
    * Constructor
@@ -50,9 +50,9 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
     Currency b = currencyPair.base;
     Currency c = currencyPair.counter;
 
-    if (!tickers.containsKey(b.getCurrencyCode()) && b.getCurrencyCode().compareTo("USD")!=0)
+    if (!tickers.containsKey(b.getCurrencyCode()) && b.getCurrencyCode().compareTo("USD") != 0)
       throw new IOException("unsupported ISO 4217 Currency: " + b.getCurrencyCode());
-    if (!tickers.containsKey(c.getCurrencyCode()) && c.getCurrencyCode().compareTo("USD")!=0)
+    if (!tickers.containsKey(c.getCurrencyCode()) && c.getCurrencyCode().compareTo("USD") != 0)
       throw new IOException("unsupported ISO 4217 Currency: " + c.getCurrencyCode());
     if (b.getCurrencyCode().compareTo(c.getCurrencyCode()) == 0)
       throw new IOException("base and counter currency must not be identical");

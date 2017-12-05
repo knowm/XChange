@@ -21,12 +21,14 @@ public interface Bitcoinde {
 
   @GET
   @Path("orders/compact")
-  BitcoindeOrderbookWrapper getOrderBook(@HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+  BitcoindeOrderbookWrapper getOrderBook(@QueryParam("trading_pair") String trading_pair, @HeaderParam("X-API-KEY") String apiKey, @HeaderParam
+      ("X-API-NONCE")
+      SynchronizedValueFactory<Long> nonce,
       @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
 
   @GET
   @Path("trades/history")
-  BitcoindeTradesWrapper getTrades(@QueryParam("since_tid") Integer since, @HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE")
+  BitcoindeTradesWrapper getTrades(@QueryParam("trading_pair") String trading_pair, @QueryParam("since_tid") Integer since, @HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE")
       SynchronizedValueFactory<Long> nonce,
       @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
 }

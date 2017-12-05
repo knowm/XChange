@@ -16,7 +16,7 @@ import java.util.Map;
  * Account information is anything particular associated with the user's login
  * </p>
  */
-public final class AccountInfo  implements Serializable {
+public final class AccountInfo implements Serializable {
 
   /**
    * The name on the account

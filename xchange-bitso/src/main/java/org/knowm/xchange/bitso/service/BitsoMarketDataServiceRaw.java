@@ -7,6 +7,7 @@ import org.knowm.xchange.bitso.Bitso;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTransaction;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -23,7 +24,7 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
     this.bitso = RestProxyFactory.createProxy(Bitso.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
-  public BitsoOrderBook getBitsoOrderBook() throws IOException {
+  public BitsoOrderBook getBitsoOrderBook(CurrencyPair pair) throws IOException {
     return bitso.getOrderBook();
   }
 
@@ -46,7 +47,7 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
     HOUR, MINUTE
   }
 
-  public BitsoTicker getBitsoTicker() throws IOException {
-    return bitso.getTicker();
+  public BitsoTicker getBitsoTicker(CurrencyPair pair) throws IOException {
+    return bitso.getTicker(pair.base + "_" + pair.counter);
   }
 }

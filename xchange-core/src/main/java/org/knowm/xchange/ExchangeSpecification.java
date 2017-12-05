@@ -130,7 +130,6 @@ public class ExchangeSpecification {
     this.proxyHost = proxyHost;
   }
 
-
   /**
    * Get the port of the http proxy server (e.g. "80").
    *

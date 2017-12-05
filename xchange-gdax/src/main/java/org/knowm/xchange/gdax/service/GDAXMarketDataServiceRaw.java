@@ -1,7 +1,6 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -76,7 +75,7 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     return currencyPairSupported;
   }
 
-  public List<GDAXProduct> getCoinbaseExProducts() throws IOException {
+  public GDAXProduct[] getCoinbaseExProducts() throws IOException {
 
     return coinbaseEx.getProducts();
   }

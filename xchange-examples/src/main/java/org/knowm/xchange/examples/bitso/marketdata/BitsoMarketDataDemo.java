@@ -64,11 +64,11 @@ public class BitsoMarketDataDemo {
   }
 
   private static void raw(BitsoMarketDataServiceRaw marketDataService) throws IOException {
-    BitsoTicker ticker = marketDataService.getBitsoTicker();
+    BitsoTicker ticker = marketDataService.getBitsoTicker(CurrencyPair.BTC_MXN);
     System.out.println("Ticker: " + ticker);
 
     // Get the latest order book data for BTCMXN
-    BitsoOrderBook orderBook = marketDataService.getBitsoOrderBook();
+    BitsoOrderBook orderBook = marketDataService.getBitsoOrderBook(CurrencyPair.BTC_MXN);
 
     System.out.println("Current Order Book size for BTC / MXN: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 

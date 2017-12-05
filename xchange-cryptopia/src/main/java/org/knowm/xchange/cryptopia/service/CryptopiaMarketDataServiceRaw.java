@@ -16,7 +16,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 
 public class CryptopiaMarketDataServiceRaw extends CryptopiaBaseService {
 
-
   public CryptopiaMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);

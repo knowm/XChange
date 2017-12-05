@@ -107,6 +107,9 @@
     "ETH": {
       "scale": 8
     },
+    "IOT": {
+      "scale": 8
+    },
     "LTC": {
       "scale": 8
     },

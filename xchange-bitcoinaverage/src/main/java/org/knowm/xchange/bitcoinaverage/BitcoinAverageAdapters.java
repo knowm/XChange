@@ -50,7 +50,10 @@ public final class BitcoinAverageAdapters {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     for (String currency : tickers.getTickers().keySet()) {
-      currencyPairs.put(new CurrencyPair(BTC, Currency.getInstance(currency)), null);
+      if (!currency.startsWith("BTC")) {
+        throw new IllegalStateException("Unsupported currency: " + currency);
+      }
+      currencyPairs.put(new CurrencyPair(BTC, Currency.getInstance(currency.substring(3))), null);
     }
     return new ExchangeMetaData(currencyPairs, Collections.<Currency, CurrencyMetaData>emptyMap(), null, null, null);
   }

@@ -25,6 +25,7 @@ public class KrakenBaseServiceTest {
   public void testDelimitSetOrderFlags() {
 
     ExchangeSpecification specification = new ExchangeSpecification(KrakenExchange.class);
+    specification.setShouldLoadRemoteMetaData(false);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
     KrakenBaseService service = new KrakenBaseService(exchange);
 
