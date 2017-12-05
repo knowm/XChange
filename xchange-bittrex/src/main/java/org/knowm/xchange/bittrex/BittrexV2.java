@@ -18,4 +18,8 @@ public interface BittrexV2 {
   @Path("pub/market/getticks")
   BittrexChartDataResponse getChartData(@QueryParam("marketname") String market, @QueryParam("tickinterval") String tickInterval) throws IOException;
 
+  @GET
+  @Path("pub/market/GetLatestTick")
+    //Probably _ is a timestamp. tickInterval must be in [“oneMin”, “fiveMin”, “thirtyMin”, “hour”, “day”].
+  BittrexChartDataResponse getLatestTick(@QueryParam("marketName") String market, @QueryParam("tickInterval") String tickInterval, @QueryParam("_") Long timeStamp);
 }
