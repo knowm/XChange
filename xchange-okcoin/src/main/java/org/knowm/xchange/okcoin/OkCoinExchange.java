@@ -55,19 +55,17 @@ public class OkCoinExchange extends BaseExchange {
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) &&
-          exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(false)) {
-
-        exchangeSpecification.setSslUri("https://www.okcoin.com/api");
-        exchangeSpecification.setHost("www.okcoin.com");
-        exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
-
-      } else if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) &&
-          exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)
+          && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(false)) {
 
         exchangeSpecification.setSslUri("https://www.okex.com/api");
         exchangeSpecification.setHost("www.okex.com");
-        exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okex.com:10440/websocket/okcoinapi");
+
+      } else if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)
+          && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+
+        exchangeSpecification.setSslUri("https://www.okex.com/api");
+        exchangeSpecification.setHost("www.okex.com");
 
       }
     }
@@ -109,16 +107,14 @@ public class OkCoinExchange extends BaseExchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://www.okcoin.cn/api");
-    exchangeSpecification.setHost("www.okcoin.cn");
+    exchangeSpecification.setSslUri("https://www.okex.cn/api");
+    exchangeSpecification.setHost("www.okex.cn");
     exchangeSpecification.setExchangeName("OKCoin");
     exchangeSpecification.setExchangeDescription("OKCoin is a globally oriented crypto-currency trading platform.");
 
     // set to true to automatically use the Intl_ parameters for ssluri and host
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Intl", false);
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Futures", false);
-
-    exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.cn:10440/websocket/okcoinapi");
 
     return exchangeSpecification;
   }
