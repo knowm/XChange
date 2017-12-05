@@ -104,7 +104,6 @@
         <module>xchange-gdax</module>
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
-        <module>xchange-huobi</module>
         <module>xchange-itbit</module>
         <module>xchange-independentreserve</module>
         <module>xchange-jubi</module>
