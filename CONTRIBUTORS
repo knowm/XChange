@@ -16,6 +16,8 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
+小田謙太郎
+=
 Achterhoeker
 Alejandro Reyero
 Aleksey Baryshnikov
@@ -33,6 +35,7 @@ Benedict Wong
 Benedikt Bünz
 Bilgin Ibryam
 Boris Aksenov
+Bruno Volpato
 Bryan
 Bryan Hernandez
 Carbo Kuo
@@ -50,6 +53,7 @@ DrawFun
 Eric Anderson
 Erland Lewin
 EzBar
+Ezer Bar-Aviv
 Fabien André
 Felipe Micaroni Lalli
 GENiALi
@@ -87,6 +91,7 @@ Krystian Nowak
 Krzysiek
 Leonid Shamis
 LifeIsGoodMF
+Luca Rosellini
 Lukas Zaoralek
 Lukáš Krejza
 Macarse
@@ -101,6 +106,7 @@ Matthew Downey
 Maxim Fefilov
 Michael Lagace
 Michael Lagacé
+Mike Gerlyand
 Mikelle
 Mikhail Wall
 Miso Oprendek
@@ -110,6 +116,7 @@ Norbert Sándor
 ObsessiveOrange
 Oleg Khomenko
 Oscar Francia
+Pan, Xinyang
 Panchen
 Peter N. Steinmetz
 Piotr Ladyzynski
@@ -119,6 +126,7 @@ Rafał Krupiński
 Raphael Voellmy
 Richard Flint
 Robert Felker
+Roei Bar Aviv
 Roman Belkov
 Ronald Bultman
 Ryan Sundberg
@@ -128,8 +136,11 @@ Sergio Rodriguez
 Sikerdebaard
 Sumedha Saxena
 TM Lee
+Thomas Diesler
 Thomas Muhm
+Tillerino
 Tim Molter
+Tomas Cere
 U-TORA\cristian.lucaci
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
@@ -198,6 +209,7 @@ piotr
 pnkwpk
 pozheg
 seanrobb
+semihunaldi
 senecaso
 sikerdebaard
 simonkeliuotis
@@ -215,4 +227,3 @@ will
 wvr
 ww3456
 zholmes
-小田謙太郎
