@@ -30,129 +30,133 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BinanceAccountService extends BinanceAccountServiceRaw implements AccountService {
 
-    public BinanceAccountService(Exchange exchange) {
-        super(exchange);
+  public BinanceAccountService(Exchange exchange) {
+    super(exchange);
+  }
+
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
+    BinanceAccountInformation acc = super.account(null, System.currentTimeMillis());
+    List<Balance> balances = acc.balances.stream()
+        .map(b -> new Balance(Currency.getInstance(b.asset), b.free.add(b.locked), b.free))
+        .collect(Collectors.toList());
+    return new AccountInfo(new Wallet(balances));
+  }
+
+  @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    withdraw0(currency.getCurrencyCode(), address, amount);
+    return null;
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (!(params instanceof DefaultWithdrawFundsParams)) {
+      throw new RuntimeException("DefaultWithdrawFundsParams must be provided.");
+    }
+    DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
+    withdraw0(p.currency.getCurrencyCode(), p.address, p.amount);
+    return null;
+  }
+
+  private void withdraw0(String asset, String address, BigDecimal amount) throws IOException, BinanceException {
+    // the name parameter seams to be mandatory
+    String name = address.length() <= 10 ? address : address.substring(0, 10);
+    super.withdraw(asset, address, amount, name, null, System.currentTimeMillis());
+  }
+
+  @Override
+  public String requestDepositAddress(Currency currency, String... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    return new BinanceFundingHistoryParams();
+  }
+
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof TradeHistoryParamCurrency) {
+      throw new RuntimeException("You must provide the currency in order to get the funding history (TradeHistoryParamCurrency).");
+    }
+    TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
+    final String asset = cp.getCurrency().getCurrencyCode();
+
+    boolean withdrawals = true;
+    boolean deposits = true;
+
+    Long startTime = null;
+    Long endTime = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan tp = (TradeHistoryParamsTimeSpan) params;
+      if (tp.getStartTime() != null) {
+        startTime = tp.getStartTime().getTime();
+      }
+      if (tp.getEndTime() != null) {
+        endTime = tp.getEndTime().getTime();
+      }
     }
 
-    @Override
-    public AccountInfo getAccountInfo() throws IOException {
-        BinanceAccountInformation acc = super.account(null, System.currentTimeMillis());
-        List<Balance> balances = acc.balances.stream()
-                .map(b -> new Balance(Currency.getInstance(b.asset), b.free.add(b.locked), b.free))
-                .collect(Collectors.toList());
-        return new AccountInfo(new Wallet(balances));
+    if (params instanceof HistoryParamsFundingType) {
+      HistoryParamsFundingType f = (HistoryParamsFundingType) params;
+      withdrawals = f.getType() != null && f.getType() == Type.WITHDRAWAL;
+      deposits = f.getType() != null && f.getType() == Type.DEPOSIT;
     }
 
-    @Override
-    public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-            throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        withdraw0(currency.getCurrencyCode(), address, amount);
-        return null;
+    List<FundingRecord> result = new ArrayList<>();
+    if (withdrawals) {
+      super.withdrawHistory(asset, startTime, endTime, null, System.currentTimeMillis()).forEach(w -> {
+        result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, null, null, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
+      });
     }
 
-    @Override
-    public String withdrawFunds(WithdrawFundsParams params)
-            throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        if (!(params instanceof DefaultWithdrawFundsParams)) {
-            throw new RuntimeException("DefaultWithdrawFundsParams must be provided.");
-        }
-        DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-        withdraw0(p.currency.getCurrencyCode(), p.address, p.amount);
-        return null;
-    }
-    
-    private void withdraw0(String asset, String address, BigDecimal amount) throws IOException, BinanceException {
-        // the name parameter seams to be mandatory
-        String name = address.length() <= 10 ? address : address.substring(0, 10);
-        super.withdraw(asset, address, amount, name, null, System.currentTimeMillis());
+    if (deposits) {
+      super.depositHistory(asset, startTime, endTime, null, System.currentTimeMillis()).forEach(d -> {
+        result.add(new FundingRecord(null, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, null, Type.DEPOSIT, depositStatus(d.status), null, null, null));
+      });
     }
 
-    @Override
-    public String requestDepositAddress(Currency currency, String... args)
-            throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        throw new NotAvailableFromExchangeException();
-    }
+    return result;
+  }
 
-    @Override
-    public TradeHistoryParams createFundingHistoryParams() {
-        return new BinanceFundingHistoryParams();
+  /**
+   * (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed)
+   */
+  private static FundingRecord.Status withdrawStatus(int status) {
+    switch (status) {
+      case 0:
+      case 2:
+      case 4:
+        return Status.PROCESSING;
+      case 1:
+        return Status.CANCELLED;
+      case 3:
+      case 5:
+        return Status.FAILED;
+      case 6:
+        return Status.COMPLETE;
+      default:
+        throw new RuntimeException("Unknown binance withdraw status: " + status);
     }
+  }
 
-    @Override
-    public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-            throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        if (params instanceof TradeHistoryParamCurrency) {
-            throw new RuntimeException("You must provide the currency in order to get the funding history (TradeHistoryParamCurrency).");
-        }
-        TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
-        final String asset = cp.getCurrency().getCurrencyCode();
-        
-        boolean withdrawals = true;
-        boolean deposits = true;
-        
-        Long startTime = null;
-        Long endTime = null;
-        if (params instanceof TradeHistoryParamsTimeSpan) {
-            TradeHistoryParamsTimeSpan tp = (TradeHistoryParamsTimeSpan) params;
-            if (tp.getStartTime() != null) {
-                startTime = tp.getStartTime().getTime();
-            }
-            if (tp.getEndTime() != null) {
-                endTime = tp.getEndTime().getTime();
-            }
-        }
-        
-        if (params instanceof HistoryParamsFundingType) {
-            HistoryParamsFundingType f = (HistoryParamsFundingType) params;
-            withdrawals = f.getType() != null && f.getType() == Type.WITHDRAWAL;
-            deposits = f.getType() != null && f.getType() == Type.DEPOSIT;
-        }
-        
-        List<FundingRecord> result = new ArrayList<>();
-        if (withdrawals) {
-            super.withdrawHistory(asset, startTime, endTime, null, System.currentTimeMillis()).forEach(w -> {
-                result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, null, null, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
-            });
-        }
-        
-        if (deposits) {
-            super.depositHistory(asset, startTime, endTime, null, System.currentTimeMillis()).forEach(d -> {
-                result.add(new FundingRecord(null, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, null, Type.DEPOSIT, depositStatus(d.status), null, null, null));
-            });
-        }
-        
-        return result;
+  /**
+   * (0:pending,1:success)
+   */
+  private static FundingRecord.Status depositStatus(int status) {
+    switch (status) {
+      case 0:
+        return Status.PROCESSING;
+      case 1:
+        return Status.COMPLETE;
+      default:
+        throw new RuntimeException("Unknown binance deposit status: " + status);
     }
-
-    /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */ 
-    private static FundingRecord.Status withdrawStatus(int status) {
-        switch (status) {
-        case 0:
-        case 2:
-        case 4:
-            return Status.PROCESSING;
-        case 1:
-            return Status.CANCELLED;
-        case 3:
-        case 5:
-            return Status.FAILED;
-        case 6:
-            return Status.COMPLETE;
-        default:
-            throw new RuntimeException("Unknown binance withdraw status: " + status);
-        }
-    }
-    
-    /** (0:pending,1:success) */
-    private static FundingRecord.Status depositStatus(int status) {
-        switch (status) {
-        case 0:
-            return Status.PROCESSING;
-        case 1:
-            return Status.COMPLETE;
-        default:
-            throw new RuntimeException("Unknown binance deposit status: " + status);
-        }
-    }
+  }
 
 }

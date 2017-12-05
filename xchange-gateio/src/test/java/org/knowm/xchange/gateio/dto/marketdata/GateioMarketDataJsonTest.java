@@ -11,9 +11,9 @@ import java.util.Map;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.BTERMarketInfo;
-import org.knowm.xchange.currency.CurrencyPair;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -2,10 +2,10 @@ package org.knowm.xchange.gateio.dto.trade;
 
 import java.math.BigDecimal;
 
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
-import org.knowm.xchange.currency.CurrencyPair;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

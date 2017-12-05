@@ -22,7 +22,6 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     super(exchange);
   }
 
-
   public String withdrawFundsRaw(Currency currency, BigDecimal amount, String address) throws HttpStatusIOException {
     Map response = hitbtc.payout(amount, currency.getCurrencyCode(), address);
     //todo: handle "not enough funds" case more gracefully - the service returns a 409 with this body > {"code":"InvalidArgument","message":"Balance not enough"}
@@ -56,6 +55,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
   public List<HitbtcBalance> getMainBalance() throws IOException {
     return hitbtc.getMainBalance();
   }
+
   public List<HitbtcBalance> getTradingBalance() throws IOException {
     return hitbtc.getTradingBalance();
   }

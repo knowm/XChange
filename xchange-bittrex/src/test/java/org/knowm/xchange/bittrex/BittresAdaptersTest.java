@@ -1,20 +1,19 @@
 package org.knowm.xchange.bittrex;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+
+import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
 import org.knowm.xchange.dto.Order;
 
-import java.math.BigDecimal;
-
-import static org.junit.Assert.assertEquals;
-
 public class BittresAdaptersTest {
-  
+
   @Test
-  public void testAdaptBittresOrderIsNew(){
+  public void testAdaptBittresOrderIsNew() {
     BittrexOrder order = new BittrexOrder();
-    
+
     order.setType("LIMIT_SELL");
     order.setExchange("USDT-ETH");
     order.setQuantity(new BigDecimal("100.32"));
@@ -25,7 +24,7 @@ public class BittresAdaptersTest {
   }
 
   @Test
-  public void testAdaptBittresOrderIsPartiallyFilled(){
+  public void testAdaptBittresOrderIsPartiallyFilled() {
     BittrexOrder order = new BittrexOrder();
 
     order.setType("LIMIT_SELL");
@@ -38,7 +37,7 @@ public class BittresAdaptersTest {
   }
 
   @Test
-  public void testAdaptBittresOrderIsCancelPending(){
+  public void testAdaptBittresOrderIsCancelPending() {
     BittrexOrder order = new BittrexOrder();
 
     order.setType("LIMIT_SELL");
@@ -51,7 +50,7 @@ public class BittresAdaptersTest {
   }
 
   @Test
-  public void testAdaptBittresOrderIsCanceled(){
+  public void testAdaptBittresOrderIsCanceled() {
     BittrexOrder order = new BittrexOrder();
 
     order.setType("LIMIT_SELL");
@@ -64,7 +63,7 @@ public class BittresAdaptersTest {
   }
 
   @Test
-  public void testAdaptBittresOrderIsFilled(){
+  public void testAdaptBittresOrderIsFilled() {
     BittrexOrder order = new BittrexOrder();
 
     order.setType("LIMIT_SELL");

@@ -106,7 +106,7 @@ public final class Ticker implements Serializable {
     return volume;
   }
 
-  public BigDecimal getQuoteVolume(){
+  public BigDecimal getQuoteVolume() {
     if (quoteVolume == null && volume != null && last != null) {
       return volume.multiply(last);
     }

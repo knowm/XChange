@@ -38,7 +38,7 @@ public final class CryptopiaAdapters {
 
   private CryptopiaAdapters() {
   }
-  
+
   public static Date convertTimestamp(String timestamp) {
     Calendar cal = DatatypeConverter.parseDateTime(timestamp);
     cal.setTimeZone(TimeZone.getTimeZone(TIMEZONE));

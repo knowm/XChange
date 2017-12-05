@@ -2,10 +2,10 @@ package org.knowm.xchange.wex.v3.service.trade.params;
 
 import java.util.Date;
 
-import org.knowm.xchange.wex.v3.WexAuthenticated;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.wex.v3.WexAuthenticated;
 
 /**
  * Transaction History paging params which combine id and time parameters and sort order.

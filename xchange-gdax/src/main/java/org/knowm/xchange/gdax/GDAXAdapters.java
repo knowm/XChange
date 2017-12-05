@@ -157,7 +157,7 @@ public class GDAXAdapters {
           Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
 
       LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
-              order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
+          order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
 
       orders.add(limitOrder);
     }

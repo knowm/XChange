@@ -38,7 +38,7 @@ public class BitfinexPastTradesRequest {
   @JsonProperty("reverse")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   protected Integer reverse;
-  
+
   public BitfinexPastTradesRequest(String nonce, String symbol, long startTime, Long endTime, Integer limitTrades, Integer reverse) {
     this.request = "/v1/mytrades";
     this.nonce = nonce;

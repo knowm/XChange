@@ -1,8 +1,8 @@
 package org.knowm.xchange.poloniex.dto.account;
 
-        import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-        import si.mazi.rescu.ExceptionalReturnContentException;
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class WithdrawalResponse {
   private String response;

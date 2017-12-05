@@ -1,13 +1,14 @@
 package org.knowm.xchange.wex.v3.service;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.wex.v3.WexAuthenticated;
-import org.knowm.xchange.wex.v3.dto.WexReturn;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.wex.v3.WexAuthenticated;
+import org.knowm.xchange.wex.v3.dto.WexReturn;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 

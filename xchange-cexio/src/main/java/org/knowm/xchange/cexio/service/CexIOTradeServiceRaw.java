@@ -1,5 +1,14 @@
 package org.knowm.xchange.cexio.service;
 
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
 import org.knowm.xchange.cexio.dto.CexIORequest;
@@ -18,16 +27,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+
 import si.mazi.rescu.HttpStatusIOException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 public class CexIOTradeServiceRaw extends CexIOBaseService {
 

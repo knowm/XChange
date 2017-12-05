@@ -1,5 +1,8 @@
 package org.knowm.xchange.livecoin;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -9,10 +12,8 @@ import org.knowm.xchange.livecoin.service.LivecoinMarketDataService;
 import org.knowm.xchange.livecoin.service.LivecoinMarketDataServiceRaw;
 import org.knowm.xchange.livecoin.service.LivecoinTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-import java.util.List;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class LivecoinExchange extends BaseExchange implements Exchange {
 

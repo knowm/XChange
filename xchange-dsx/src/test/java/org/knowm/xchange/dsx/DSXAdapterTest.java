@@ -99,7 +99,7 @@ public class DSXAdapterTest {
     assertThat(ticker.getHigh().toString()).isEqualTo("109.88");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("1632898.2249"));
     assertThat(DateUtils.toUTCString(ticker.getTimestamp())).isEqualTo("2013-06-09 22:18:28 GMT");
-    
+
   }
 
   @Test

@@ -1,8 +1,8 @@
 package org.knowm.xchange.cexio.dto;
 
-import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
-
 import java.math.BigDecimal;
+
+import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 
 public class PlaceOrderRequest extends CexIORequest {
   public final CexIOOrder.Type type;

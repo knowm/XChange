@@ -123,8 +123,8 @@ public interface PoloniexAuthenticated {
   @POST
   @FormParam("command")
   TransferResponse transferBalance(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-                            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount,
-                            @FormParam("fromAccount") String fromAccount, @FormParam("toAccount") String toAccount) throws PoloniexException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount,
+      @FormParam("fromAccount") String fromAccount, @FormParam("toAccount") String toAccount) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")

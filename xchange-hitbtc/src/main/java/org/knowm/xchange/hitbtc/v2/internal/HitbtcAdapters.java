@@ -42,7 +42,9 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 public class HitbtcAdapters {
 
   public static final char DELIMITER = '_';
-  /** known counter currencies at HitBTC */
+  /**
+   * known counter currencies at HitBTC
+   */
   private static final Set<String> counters = new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH"));
 
   private static final Map<String, FundingRecord.Type> FUNDING_TYPES = new HashMap<String, FundingRecord.Type>() {{
@@ -51,11 +53,11 @@ public class HitbtcAdapters {
     put("payin", FundingRecord.Type.DEPOSIT);
     put("payout", FundingRecord.Type.WITHDRAWAL);
   }};
-  
+
   public static CurrencyPair adaptSymbol(String symbol) {
-      String counter = counters.stream().filter(cnt -> symbol.endsWith(cnt)).findAny().orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
-      String base = symbol.substring(0, symbol.length() - counter.length());
-      return new CurrencyPair(base, counter);
+    String counter = counters.stream().filter(cnt -> symbol.endsWith(cnt)).findAny().orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
+    String base = symbol.substring(0, symbol.length() - counter.length());
+    return new CurrencyPair(base, counter);
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
@@ -236,15 +238,15 @@ public class HitbtcAdapters {
 
     String description = transaction.getType() + " " + transaction.getStatus();
     if (transaction.getIndex() != null) {
-        description += ", index: " + transaction.getIndex();
+      description += ", index: " + transaction.getIndex();
     }
     if (transaction.getHash() != null) {
-        description += ", hash: " + transaction.getHash();
+      description += ", hash: " + transaction.getHash();
     }
     if (transaction.getPaymentId() != null) {
-        description += ", paymentId: " + transaction.getPaymentId();
+      description += ", paymentId: " + transaction.getPaymentId();
     }
-    
+
     return new FundingRecord.Builder()
         .setAddress(transaction.getAddress())
         .setCurrency(Currency.getInstance(transaction.getCurrency()))
@@ -259,45 +261,44 @@ public class HitbtcAdapters {
   }
 
   /**
-   * @see https://api.hitbtc.com/api/2/explore/ Transaction Model
-   * possible types: payout, payin, deposit, withdraw, bankToExchange, exchangeToBank
    * @param type
    * @return
+   * @see https://api.hitbtc.com/api/2/explore/ Transaction Model
+   * possible types: payout, payin, deposit, withdraw, bankToExchange, exchangeToBank
    */
   private static Type convertType(String type) {
     switch (type) {
-    case "payout":
-    case "withdraw":
-    case "exchangeToBank":
+      case "payout":
+      case "withdraw":
+      case "exchangeToBank":
         return Type.WITHDRAWAL;
-    case "payin":
-    case "deposit":
-    case "bankToExchange":
+      case "payin":
+      case "deposit":
+      case "bankToExchange":
         return Type.DEPOSIT;
-    default:
+      default:
         throw new RuntimeException("Unknown HitBTC transaction type: " + type);
     }
   }
-  
+
   /**
-   * @see https://api.hitbtc.com/api/2/explore/ Transaction Model
-   * possible statusses: created, pending, failed, success
    * @param type
    * @return
+   * @see https://api.hitbtc.com/api/2/explore/ Transaction Model
+   * possible statusses: created, pending, failed, success
    */
   private static FundingRecord.Status convertStatus(String status) {
     switch (status) {
-    case "created":
-    case "pending":
+      case "created":
+      case "pending":
         return FundingRecord.Status.PROCESSING;
-    case "failed":
+      case "failed":
         return FundingRecord.Status.FAILED;
-    case "success":
+      case "success":
         return FundingRecord.Status.COMPLETE;
-    default:
+      default:
         throw new RuntimeException("Unknown HitBTC transaction status: " + status);
     }
   }
-  
 
 }

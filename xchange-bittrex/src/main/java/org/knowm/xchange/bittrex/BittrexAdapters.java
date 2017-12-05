@@ -85,10 +85,10 @@ public final class BittrexAdapters {
 
   public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
 
-	if (orders == null) {
-		return new ArrayList<>();
-	}
-	
+    if (orders == null) {
+      return new ArrayList<>();
+    }
+
     List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
     for (BittrexLevel order : orders) {
@@ -104,39 +104,39 @@ public final class BittrexAdapters {
 
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }
-  
-  public static LimitOrder adaptOrder(BittrexOrder order){
+
+  public static LimitOrder adaptOrder(BittrexOrder order) {
     OrderType type = order.getType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
     String[] currencies = order.getExchange().split("-");
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
 
     Order.OrderStatus status = Order.OrderStatus.NEW;
-    
+
     BigDecimal qty = order.getQuantity();
     BigDecimal qtyRem = order.getQuantityRemaining() != null ? order.getQuantityRemaining() : order.getQuantity();
     Boolean isOpen = order.getIsOpen();
     Boolean isCancelling = order.getCancelInitiated();
     int qtyRemainingToQty = qtyRem.compareTo(qty);
     int qtyRemainingIsZero = qtyRem.compareTo(BigDecimal.ZERO);
-    
-    if (isOpen && !isCancelling && qtyRemainingToQty < 0){
+
+    if (isOpen && !isCancelling && qtyRemainingToQty < 0) {
       /* The order is open and remaining quantity less than order quantity */
       status = Order.OrderStatus.PARTIALLY_FILLED;
-    } else if (!isOpen && !isCancelling && qtyRemainingIsZero <= 0){
+    } else if (!isOpen && !isCancelling && qtyRemainingIsZero <= 0) {
       /* The order is closed and remaining quantity is zero */
       status = Order.OrderStatus.FILLED;
-    } else if (isOpen && isCancelling){
+    } else if (isOpen && isCancelling) {
       /* The order is open and the isCancelling flag has been set */
-      status  = Order.OrderStatus.PENDING_CANCEL;
-    } else if (!isOpen && isCancelling){
+      status = Order.OrderStatus.PENDING_CANCEL;
+    } else if (!isOpen && isCancelling) {
       /* The order is closed and the isCancelling flag has been set */
       status = Order.OrderStatus.CANCELED;
     }
-    
+
     return new BittrexLimitOrder(
-      type,
-      order.getQuantity(), pair, order.getOrderUuid(),
-      order.getOpened(), order.getLimit(), order.getQuantityRemaining(), order.getPricePerUnit(), status);
+        type,
+        order.getQuantity(), pair, order.getOrderUuid(),
+        order.getOpened(), order.getLimit(), order.getQuantityRemaining(), order.getPricePerUnit(), status);
   }
 
   public static Trade adaptTrade(BittrexTrade trade, CurrencyPair currencyPair) {

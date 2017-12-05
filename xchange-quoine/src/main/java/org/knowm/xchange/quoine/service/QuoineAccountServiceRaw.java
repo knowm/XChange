@@ -1,5 +1,8 @@
 package org.knowm.xchange.quoine.service;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -12,10 +15,8 @@ import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransactionsResponse;
 import org.knowm.xchange.utils.Assert;
-import si.mazi.rescu.HttpStatusIOException;
 
-import java.io.IOException;
-import java.util.List;
+import si.mazi.rescu.HttpStatusIOException;
 
 public class QuoineAccountServiceRaw extends QuoineBaseService {
 

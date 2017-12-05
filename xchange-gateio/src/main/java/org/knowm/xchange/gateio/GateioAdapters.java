@@ -11,16 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.knowm.xchange.gateio.dto.GateioOrderType;
-import org.knowm.xchange.gateio.dto.account.GateioFunds;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.BTERMarketInfo;
-import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
-import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
-import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
-import org.knowm.xchange.gateio.dto.trade.GateioTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -37,6 +27,16 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.gateio.dto.GateioOrderType;
+import org.knowm.xchange.gateio.dto.account.GateioFunds;
+import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
+import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.BTERMarketInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
+import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
+import org.knowm.xchange.gateio.dto.trade.GateioTrade;
 import org.knowm.xchange.utils.DateUtils;
 
 /**

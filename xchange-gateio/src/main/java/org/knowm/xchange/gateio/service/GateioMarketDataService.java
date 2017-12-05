@@ -3,14 +3,14 @@ package org.knowm.xchange.gateio.service;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.gateio.GateioAdapters;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.gateio.GateioAdapters;
+import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class GateioMarketDataService extends GateioMarketDataServiceRaw implements MarketDataService {

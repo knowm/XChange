@@ -100,7 +100,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
       ledgerType = type == FundingRecord.Type.DEPOSIT ? LedgerType.DEPOSIT : type == FundingRecord.Type.WITHDRAWAL ? LedgerType.WITHDRAWAL : null;
     }
 
-    if(ledgerType == null) {
+    if (ledgerType == null) {
       Map<String, KrakenLedger> ledgerEntries = getKrakenLedgerInfo(LedgerType.DEPOSIT, startTime, endTime, offset, currencies);
       ledgerEntries.putAll(getKrakenLedgerInfo(LedgerType.WITHDRAWAL, startTime, endTime, offset, currencies));
       return KrakenAdapters.adaptFundingHistory(ledgerEntries);
