@@ -83,7 +83,6 @@ public class TheRockUserTrade {
     return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
   }
 
-
   private static class TheRockUserTradeTransaction {
     private final long id;
     private final Date date;

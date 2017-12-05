@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gateio.dto.GateioOrderType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

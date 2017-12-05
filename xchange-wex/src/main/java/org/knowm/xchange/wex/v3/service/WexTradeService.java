@@ -7,17 +7,6 @@ import java.util.Date;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.wex.v3.WexAdapters;
-import org.knowm.xchange.wex.v3.WexAuthenticated;
-import org.knowm.xchange.wex.v3.WexExchange;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexExchangeInfo;
-import org.knowm.xchange.wex.v3.dto.trade.WexCancelOrderResult;
-import org.knowm.xchange.wex.v3.dto.trade.WexOrder;
-import org.knowm.xchange.wex.v3.dto.trade.WexPlaceOrderResult;
-import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryResult;
-import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryResult;
-import org.knowm.xchange.wex.v3.service.trade.params.WexTradeHistoryParams;
-import org.knowm.xchange.wex.v3.service.trade.params.WexTransHistoryParams;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -38,6 +27,17 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.wex.v3.WexAdapters;
+import org.knowm.xchange.wex.v3.WexAuthenticated;
+import org.knowm.xchange.wex.v3.WexExchange;
+import org.knowm.xchange.wex.v3.dto.marketdata.WexExchangeInfo;
+import org.knowm.xchange.wex.v3.dto.trade.WexCancelOrderResult;
+import org.knowm.xchange.wex.v3.dto.trade.WexOrder;
+import org.knowm.xchange.wex.v3.dto.trade.WexPlaceOrderResult;
+import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryResult;
+import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryResult;
+import org.knowm.xchange.wex.v3.service.trade.params.WexTradeHistoryParams;
+import org.knowm.xchange.wex.v3.service.trade.params.WexTransHistoryParams;
 
 /**
  * @author Matija Mazi

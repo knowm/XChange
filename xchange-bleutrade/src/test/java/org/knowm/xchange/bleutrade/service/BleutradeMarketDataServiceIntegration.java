@@ -59,7 +59,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
 
   @Test
   public void constructor() {
-    assertThat((String)Whitebox.getInternalState(marketDataService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertThat((String) Whitebox.getInternalState(marketDataService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test

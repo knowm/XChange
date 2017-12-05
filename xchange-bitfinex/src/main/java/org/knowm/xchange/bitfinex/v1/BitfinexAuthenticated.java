@@ -129,12 +129,12 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("mytrades")
   BitfinexTradeResponse[] pastTrades(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexPastTradesRequest pastTradesRequest) throws IOException, BitfinexException;  
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexPastTradesRequest pastTradesRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("mytrades_funding")
   BitfinexFundingTradeResponse[] pastFundingTrades(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexPastFundingTradesRequest bitfinexPastFundingTradesRequest) throws IOException, BitfinexException;  
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexPastFundingTradesRequest bitfinexPastFundingTradesRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("credits")

@@ -1,18 +1,20 @@
 package org.knowm.xchange.livecoin;
 
-import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.Params;
-import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.QueryParam;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.crypto.Mac;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.QueryParam;
+
+import org.knowm.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.Params;
+import si.mazi.rescu.RestInvocation;
 
 public class LivecoinDigest extends BaseParamsDigest {
 

@@ -11,7 +11,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 /**
  * Data object representing a Trade
  */
-public class Trade implements Serializable{
+public class Trade implements Serializable {
 
   /**
    * Did this trade result from the execution of a bid or a ask?

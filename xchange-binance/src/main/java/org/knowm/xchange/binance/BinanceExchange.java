@@ -15,55 +15,55 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange implements Exchange {
 
-    private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
-    private BinanceMetaData binanceMetaData;
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
+  private BinanceMetaData binanceMetaData;
 
-    @Override
-    protected void initServices() {
-        this.marketDataService = new BinanceMarketDataService(this);
-        this.tradeService = new BinanceTradeService(this);
-        this.accountService = new BinanceAccountService(this);
-    }
+  @Override
+  protected void initServices() {
+    this.marketDataService = new BinanceMarketDataService(this);
+    this.tradeService = new BinanceTradeService(this);
+    this.accountService = new BinanceAccountService(this);
+  }
 
-    @Override
-    public SynchronizedValueFactory<Long> getNonceFactory() {
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
 
-        return nonceFactory;
-    }
+    return nonceFactory;
+  }
 
-    @Override
-    protected void loadExchangeMetaData(InputStream is) {
+  @Override
+  protected void loadExchangeMetaData(InputStream is) {
 
-        binanceMetaData = loadMetaData(is, BinanceMetaData.class);
-    }
+    binanceMetaData = loadMetaData(is, BinanceMetaData.class);
+  }
 
-    @Override
-    public ExchangeSpecification getDefaultExchangeSpecification() {
-        ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
-        spec.setSslUri("https://www.binance.com");
-        spec.setHost("www.binance.com");
-        spec.setPort(80);
-        spec.setExchangeName("Binance");
-        spec.setExchangeDescription("Binance Exchange.");
-        return spec;
-    }
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
+    ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
+    spec.setSslUri("https://www.binance.com");
+    spec.setHost("www.binance.com");
+    spec.setPort(80);
+    spec.setExchangeName("Binance");
+    spec.setExchangeDescription("Binance Exchange.");
+    return spec;
+  }
 
-    @Override
-    public void remoteInit() {
-        try {
-            BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
+  @Override
+  public void remoteInit() {
+    try {
+      BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
             /*
              * binanceExchangeInfo = marketDataService.getBinanceInfo();
              * exchangeMetaData =
              * BinanceAdapters.toMetaData(binanceExchangeInfo, binanceMetaData);
              */
-        } catch (Exception e) {
-            logger.warn("An exception occurred while loading the metadata", e);
-        }
+    } catch (Exception e) {
+      logger.warn("An exception occurred while loading the metadata", e);
     }
+  }
 
-    public BinanceMetaData getDsxMetaData() {
-        return binanceMetaData;
-    }
+  public BinanceMetaData getDsxMetaData() {
+    return binanceMetaData;
+  }
 
 }

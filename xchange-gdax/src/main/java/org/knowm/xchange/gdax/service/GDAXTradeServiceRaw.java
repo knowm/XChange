@@ -23,7 +23,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
   public GDAXTradeServiceRaw(Exchange exchange) {
 
-    super( exchange);
+    super(exchange);
     this.nonceFactory = exchange.getNonceFactory();
   }
 

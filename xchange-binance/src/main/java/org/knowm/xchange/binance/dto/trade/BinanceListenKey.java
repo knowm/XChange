@@ -7,17 +7,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BinanceListenKey {
 
-    private String listenKey;
+  private String listenKey;
 
-    public BinanceListenKey(@JsonProperty("listenKey") String listenKey) {
-        this.listenKey = listenKey;
-    }
+  public BinanceListenKey(@JsonProperty("listenKey") String listenKey) {
+    this.listenKey = listenKey;
+  }
 
-    public String getListenKey() {
-        return listenKey;
-    }
+  public String getListenKey() {
+    return listenKey;
+  }
 
-    public void setListenKey(String listenKey) {
-        this.listenKey = listenKey;
-    }
+  public void setListenKey(String listenKey) {
+    this.listenKey = listenKey;
+  }
 }

@@ -1,22 +1,11 @@
 package org.knowm.xchange.coinmarketcap.dto.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 import org.junit.Test;
-import org.knowm.xchange.utils.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.MapLikeType;
 
 /**
  * @author allenday
@@ -45,12 +34,11 @@ public class CoinMarketCapMarketDataJsonTest {
         btc = t;
     }
 
-    assert(eth.getIsoCode().compareTo("ETH")==0);
-    assert(btc.getIsoCode().compareTo("BTC")==0);
-    assert(btc.getPriceUSD().doubleValue()==4423.52);
-    assert(eth.getPriceUSD().doubleValue()==298.777);
-    assert(eth.getPriceBTC().doubleValue()==0.067607);
-
+    assert (eth.getIsoCode().compareTo("ETH") == 0);
+    assert (btc.getIsoCode().compareTo("BTC") == 0);
+    assert (btc.getPriceUSD().doubleValue() == 4423.52);
+    assert (eth.getPriceUSD().doubleValue() == 298.777);
+    assert (eth.getPriceBTC().doubleValue() == 0.067607);
 
 //    Map<String, BigDecimal> exchangeRates = mapper.readValue(is, mapType);
 //

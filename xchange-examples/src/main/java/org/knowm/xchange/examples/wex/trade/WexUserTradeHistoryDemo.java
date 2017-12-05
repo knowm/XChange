@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryResult;
-import org.knowm.xchange.wex.v3.service.WexTradeServiceRaw;
-import org.knowm.xchange.wex.v3.service.trade.params.WexTradeHistoryParams;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.wex.WexExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryResult;
+import org.knowm.xchange.wex.v3.service.WexTradeServiceRaw;
+import org.knowm.xchange.wex.v3.service.trade.params.WexTradeHistoryParams;
 
 public class WexUserTradeHistoryDemo {
 

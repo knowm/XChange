@@ -30,7 +30,6 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
 
   private static final Logger LOGGER = LoggerFactory.getLogger(org.knowm.xchange.hitbtc.HitbtcExchange.class);
 
-
   static {
     setupPatchSupport();
   }
@@ -95,8 +94,7 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
       };
       // set the new methods - including patch
       methodsField.set(null, methods);
-    }
-    catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
+    } catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
       LOGGER.error("Error while setting up PATCH support");
     }
 

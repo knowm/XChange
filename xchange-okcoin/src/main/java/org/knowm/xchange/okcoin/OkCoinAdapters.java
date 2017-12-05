@@ -1,5 +1,10 @@
 package org.knowm.xchange.okcoin;
 
+import static org.knowm.xchange.currency.Currency.BCH;
+import static org.knowm.xchange.currency.Currency.BTC;
+import static org.knowm.xchange.currency.Currency.LTC;
+import static org.knowm.xchange.currency.Currency.USD;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,8 +47,6 @@ import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult.Transa
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrder;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.utils.DateUtils;
-
-import static org.knowm.xchange.currency.Currency.*;
 
 public final class OkCoinAdapters {
 

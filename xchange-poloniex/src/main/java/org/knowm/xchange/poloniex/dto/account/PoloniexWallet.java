@@ -5,6 +5,6 @@ package org.knowm.xchange.poloniex.dto.account;
  */
 public enum PoloniexWallet {
 
-    EXCHANGE, MARGIN;
+  EXCHANGE, MARGIN;
 
 }

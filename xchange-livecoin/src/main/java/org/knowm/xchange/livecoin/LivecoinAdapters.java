@@ -1,5 +1,17 @@
 package org.knowm.xchange.livecoin;
 
+import static org.knowm.xchange.currency.Currency.getInstance;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,18 +35,6 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-
-import static org.knowm.xchange.currency.Currency.getInstance;
 
 public class LivecoinAdapters {
 
@@ -78,7 +78,7 @@ public class LivecoinAdapters {
 
     Set<Map.Entry<String, LivecoinOrderBook>> entries = orderBooksRaw.entrySet();
     Map<CurrencyPair, LivecoinOrderBook> converted = new HashMap<>(entries.size());
-    for(Map.Entry<String, LivecoinOrderBook> entry: entries) {
+    for (Map.Entry<String, LivecoinOrderBook> entry : entries) {
       String[] currencyPairSplit = entry.getKey().split("/");
       CurrencyPair currencyPair = new CurrencyPair(currencyPairSplit[0], currencyPairSplit[1]);
       converted.put(currencyPair, entry.getValue());
