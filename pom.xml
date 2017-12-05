@@ -81,7 +81,6 @@
         <module>xchange-bittrex</module>
         <module>xchange-bleutrade</module>
         <module>xchange-blockchain</module>
-        <module>xchange-btc38</module>
         <module>xchange-btcc</module>
         <module>xchange-btcmarkets</module>
         <module>xchange-btctrade</module>
@@ -167,18 +166,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.7</version>
-            </dependency>
-
-            <!-- For FIX API -->
-            <dependency>
-                <groupId>org.quickfixj</groupId>
-                <artifactId>quickfixj-core</artifactId>
-                <version>1.6.4</version>
-            </dependency>
-            <dependency>
-                <groupId>org.quickfixj</groupId>
-                <artifactId>quickfixj-messages-fix44</artifactId>
-                <version>1.6.4</version>
             </dependency>
 
             <!-- Charting -->

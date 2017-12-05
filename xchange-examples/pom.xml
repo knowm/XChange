@@ -231,12 +231,6 @@
             <artifactId>xchange-bitso</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange BTC38 exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-btc38</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange Jubi exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
