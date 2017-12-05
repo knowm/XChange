@@ -89,7 +89,6 @@
         <module>xchange-campbx</module>
         <module>xchange-ccex</module>
         <module>xchange-cexio</module>
-        <module>xchange-chbtc</module>
         <module>xchange-coinbase</module>
         <module>xchange-coinmarketcap</module>
         <module>xchange-coinfloor</module>
