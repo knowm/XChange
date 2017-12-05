@@ -217,22 +217,28 @@ public class GDAXAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, List<GDAXProduct> products) {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
+
     for (GDAXProduct product : products) {
-      BigDecimal minSize = product.getBaseMinSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
-      BigDecimal maxSize = product.getBaseMaxSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
+        int minSizeScale = product.getBaseMinSize().scale() > product.getQuoteIncrement().scale() ? product.getBaseMinSize().scale():product.getQuoteIncrement().scale();
 
-      CurrencyPair pair = adaptCurrencyPair(product);
+        BigDecimal minSize = product.getBaseMinSize().setScale(minSizeScale, BigDecimal.ROUND_UNNECESSARY);
+        BigDecimal maxSize = product.getBaseMaxSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
 
-      CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
-      int priceScale = staticMetaData == null ? 8 : staticMetaData.getPriceScale();
-      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, maxSize, priceScale);
-      currencyPairs.put(pair, cpmd);
+        CurrencyPair pair = adaptCurrencyPair(product);
 
-      if (!currencies.containsKey(pair.base))
-        currencies.put(pair.base, null);
-      if (!currencies.containsKey(pair.counter))
-        currencies.put(pair.counter, null);
+        CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
+        int priceScale = staticMetaData == null ? 8 : staticMetaData.getPriceScale();
+        CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, maxSize, priceScale);
+        currencyPairs.put(pair, cpmd);
+
+        if (!currencies.containsKey(pair.base))
+          currencies.put(pair.base, null);
+        if (!currencies.containsKey(pair.counter))
+          currencies.put(pair.counter, null);
     }
+
+
+
     return new ExchangeMetaData(currencyPairs, currencies, exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(), true);
   }
 
