@@ -29,7 +29,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     super(exchange);
   }
 
-  public Map<CurrencyPair, GateioMarketInfoWrapper.BTERMarketInfo> getBTERMarketInfo() throws IOException {
+  public Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> getBTERMarketInfo() throws IOException {
 
     GateioMarketInfoWrapper bterMarketInfo = bter.getMarketInfo();
 
