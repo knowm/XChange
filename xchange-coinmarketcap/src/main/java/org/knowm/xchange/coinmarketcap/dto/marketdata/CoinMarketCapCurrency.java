@@ -4,6 +4,7 @@ import org.knowm.xchange.currency.Currency;
 
 public class CoinMarketCapCurrency {
   Currency currency;
+
   public CoinMarketCapCurrency(String code) {
     currency = new Currency(code);
   }

@@ -3,11 +3,11 @@ package org.knowm.xchange.examples.wex.account;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.wex.v3.dto.account.WexAccountInfo;
-import org.knowm.xchange.wex.v3.service.WexAccountServiceRaw;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.wex.WexExamplesUtils;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.wex.v3.dto.account.WexAccountInfo;
+import org.knowm.xchange.wex.v3.service.WexAccountServiceRaw;
 
 /**
  * Demo requesting account info at BTC-E

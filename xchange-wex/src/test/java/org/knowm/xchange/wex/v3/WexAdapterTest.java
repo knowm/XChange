@@ -11,6 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexDepth;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexDepthJSONTest;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexDepthWrapper;
@@ -23,15 +32,6 @@ import org.knowm.xchange.wex.v3.dto.trade.WexOrderInfoReturn;
 import org.knowm.xchange.wex.v3.dto.trade.WexTradeDataJSONTest;
 import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryJSONTest;
 import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryReturn;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderStatus;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.utils.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

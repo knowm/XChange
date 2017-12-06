@@ -1,6 +1,11 @@
 package org.knowm.xchange.livecoin.service;
 
-import org.knowm.xchange.currency.Currency;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -15,14 +20,6 @@ import org.knowm.xchange.livecoin.LivecoinExchange;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
 

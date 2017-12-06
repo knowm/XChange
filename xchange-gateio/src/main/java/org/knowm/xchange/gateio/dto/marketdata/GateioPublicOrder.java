@@ -3,7 +3,7 @@ package org.knowm.xchange.gateio.dto.marketdata;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder.BTERPublicOrderDeserializer;
+import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder.GateioPublicOrderDeserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(using = BTERPublicOrderDeserializer.class)
+@JsonDeserialize(using = GateioPublicOrderDeserializer.class)
 public class GateioPublicOrder {
 
   private final BigDecimal price;
@@ -41,7 +41,7 @@ public class GateioPublicOrder {
     return "GateioPublicOrder [price=" + price + ", amount=" + amount + "]";
   }
 
-  static class BTERPublicOrderDeserializer extends JsonDeserializer<GateioPublicOrder> {
+  static class GateioPublicOrderDeserializer extends JsonDeserializer<GateioPublicOrder> {
 
     @Override
     public GateioPublicOrder deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {

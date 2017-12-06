@@ -1,9 +1,9 @@
 package org.knowm.xchange.gateio.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gateio.GateioAuthenticated;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 

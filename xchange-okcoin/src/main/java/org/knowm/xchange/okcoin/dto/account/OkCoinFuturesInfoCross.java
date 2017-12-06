@@ -8,7 +8,7 @@ public class OkCoinFuturesInfoCross {
   private final OkcoinFuturesFundsCross bchFunds;
 
   public OkCoinFuturesInfoCross(@JsonProperty("btc") final OkcoinFuturesFundsCross btcFunds,
-      @JsonProperty("ltc") final OkcoinFuturesFundsCross ltcFunds, @JsonProperty("bch") final OkcoinFuturesFundsCross bchFunds ) {
+      @JsonProperty("ltc") final OkcoinFuturesFundsCross ltcFunds, @JsonProperty("bch") final OkcoinFuturesFundsCross bchFunds) {
     this.btcFunds = btcFunds;
     this.ltcFunds = ltcFunds;
     this.bchFunds = bchFunds;
@@ -22,5 +22,7 @@ public class OkCoinFuturesInfoCross {
     return ltcFunds;
   }
 
-  public OkcoinFuturesFundsCross getBchFunds() { return bchFunds; }
+  public OkcoinFuturesFundsCross getBchFunds() {
+    return bchFunds;
+  }
 }

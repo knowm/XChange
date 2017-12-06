@@ -28,7 +28,12 @@ import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
-import org.knowm.xchange.coinmate.dto.trade.*;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -60,7 +65,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
 
   public CoinmateOrderHistory getCoinmateOrderHistory(String currencyPair, int limit) throws IOException {
     CoinmateOrderHistory orderHistory = coinmateAuthenticated.getOrderHistory(exchange.getExchangeSpecification().getApiKey(),
-            exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), currencyPair, limit);
+        exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), currencyPair, limit);
 
     throwExceptionIfError(orderHistory);
 

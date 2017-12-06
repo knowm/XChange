@@ -2,7 +2,6 @@ package org.knowm.xchange.bitcoincore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class BitcoinCoreException extends RuntimeException {
 
   private final String error;

@@ -75,7 +75,7 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
 
     List<FundingRecord> fundingRecords = new ArrayList<>();
 
-    if(map == null)
+    if (map == null)
       return fundingRecords;
 
     for (Long key : map.keySet()) {
@@ -84,25 +84,25 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
       FundingRecord.Status status = FundingRecord.Status.COMPLETE;//todo
 
       FundingRecord.Type type;//todo
-      if(result.getType().equals(WexTransHistoryResult.Type.BTC_deposit))
+      if (result.getType().equals(WexTransHistoryResult.Type.BTC_deposit))
         type = FundingRecord.Type.DEPOSIT;
-      else if(result.getType().equals(WexTransHistoryResult.Type.BTC_withdrawal))
+      else if (result.getType().equals(WexTransHistoryResult.Type.BTC_withdrawal))
         type = FundingRecord.Type.WITHDRAWAL;
       else
         continue;
 
       fundingRecords.add(new FundingRecord(
-              null,
-              DateUtils.fromMillisUtc(result.getTimestamp()),
-              Currency.getInstance(result.getCurrency()),
-              result.getAmount(),
-              String.valueOf(key),
-              null,
-              type,
-              status,
-              null,
-              null,
-              result.getDescription()
+          null,
+          DateUtils.fromMillisUtc(result.getTimestamp()),
+          Currency.getInstance(result.getCurrency()),
+          result.getAmount(),
+          String.valueOf(key),
+          null,
+          type,
+          status,
+          null,
+          null,
+          result.getDescription()
       ));
     }
 

@@ -4,9 +4,9 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.wex.v3.ExchangeUtils;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.wex.v3.ExchangeUtils;
 
 /**
  * Integration tests for Wallet retrieval. For these tests to function, a file 'v3/exchangeConfiguration.json' must be on the classpath and contain

@@ -454,7 +454,7 @@ public class Currency implements Comparable<Currency>, Serializable {
     return comparison;
   }
 
-  private static class CurrencyAttributes implements Serializable{
+  private static class CurrencyAttributes implements Serializable {
 
     public final Set<String> codes;
     public final String isoCode;

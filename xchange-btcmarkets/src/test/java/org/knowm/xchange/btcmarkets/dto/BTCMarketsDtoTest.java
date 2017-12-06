@@ -25,7 +25,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-
 public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
   @Test

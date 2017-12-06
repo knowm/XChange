@@ -115,7 +115,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     }
     return response;
   }
-  
+
   public BitstampDepositAddress getBitstampEthereumDepositAddress() throws IOException {
 
     final BitstampDepositAddress response = bitstampAuthenticated.getEthereumDepositAddress(exchange.getExchangeSpecification().getApiKey(),

@@ -1,20 +1,18 @@
 package org.knowm.xchange.hitbtc;
 
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 
-import java.io.IOException;
-
 /**
+ * Base class for making test calls which require authentication to HitBtc services. Since HitBtc has no test system,
+ * these credentials should be private to the person running them. Thus the tests will be ignored for default suite runs.
  *
- *  Base class for making test calls which require authentication to HitBtc services. Since HitBtc has no test system,
- *  these credentials should be private to the person running them. Thus the tests will be ignored for default suite runs.
- *
- *  example
+ * example
  * -Dhitbtc_api_key=XXXXXXXXXX
  * -Dhitbtc_secret_key=YYYYYYYYY
- *
  */
 public class AuthenticatedBaseTestCase {
 

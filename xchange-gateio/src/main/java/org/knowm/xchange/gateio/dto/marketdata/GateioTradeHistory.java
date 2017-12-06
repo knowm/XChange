@@ -10,10 +10,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GateioTradeHistory extends GateioBaseResponse {
 
-  private final List<BTERPublicTrade> trades;
+  private final List<GateioPublicTrade> trades;
   private final String elapsed;
 
-  private GateioTradeHistory(@JsonProperty("data") List<BTERPublicTrade> trades, @JsonProperty("result") boolean result,
+  private GateioTradeHistory(@JsonProperty("data") List<GateioPublicTrade> trades, @JsonProperty("result") boolean result,
       @JsonProperty("elapsed") String elapsed) {
 
     super(result, null);
@@ -21,7 +21,7 @@ public class GateioTradeHistory extends GateioBaseResponse {
     this.elapsed = elapsed;
   }
 
-  public List<BTERPublicTrade> getTrades() {
+  public List<GateioPublicTrade> getTrades() {
 
     return trades;
   }
@@ -37,7 +37,7 @@ public class GateioTradeHistory extends GateioBaseResponse {
     return "BTERPublicTrades [trades=" + trades + ", elapsed=" + elapsed + "]";
   }
 
-  public static class BTERPublicTrade {
+  public static class GateioPublicTrade {
 
     private final long date;
     private final BigDecimal price;
@@ -45,7 +45,7 @@ public class GateioTradeHistory extends GateioBaseResponse {
     private final String tradeId;
     private final GateioOrderType type;
 
-    private BTERPublicTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+    private GateioPublicTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
         @JsonProperty("tid") String tradeId, @JsonProperty("type") GateioOrderType type) {
 
       this.date = date;

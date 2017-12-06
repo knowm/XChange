@@ -11,6 +11,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
@@ -56,7 +57,7 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
 
     GDAXIdResponse response = placeGDAXLimitOrder(limitOrder);
     return response.getId();

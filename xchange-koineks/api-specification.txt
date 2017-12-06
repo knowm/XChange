@@ -1,0 +1,14 @@
+The documentation for Koineks exchange platform
+================================
+
+Public API
+
+
+Documentation
+-------------
+No documentation
+
+
+Ticker
+------
+https://koineks.com/ticker

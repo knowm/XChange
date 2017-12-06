@@ -5,10 +5,6 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.wex.v3.dto.trade.WexCancelOrderResult;
-import org.knowm.xchange.wex.v3.dto.trade.WexOrder;
-import org.knowm.xchange.wex.v3.dto.trade.WexPlaceOrderResult;
-import org.knowm.xchange.wex.v3.service.WexTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -16,6 +12,10 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.wex.WexExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.wex.v3.dto.trade.WexCancelOrderResult;
+import org.knowm.xchange.wex.v3.dto.trade.WexOrder;
+import org.knowm.xchange.wex.v3.dto.trade.WexPlaceOrderResult;
+import org.knowm.xchange.wex.v3.service.WexTradeServiceRaw;
 
 /**
  * @author Matija Mazi

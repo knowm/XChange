@@ -5,7 +5,6 @@ import java.util.Map;
 import org.knowm.xchange.dsx.dto.account.DSXCurrencyAmount;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.dsx.dto.account.DSXCurrencyAmount;
 
 /**
  * @author Mikhail Wall
