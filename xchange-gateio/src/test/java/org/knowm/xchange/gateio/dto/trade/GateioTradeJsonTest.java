@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -29,14 +30,13 @@ public class GateioTradeJsonTest {
     assertThat(openOrders.getMessage()).isEqualTo("Success");
 
     List<GateioOpenOrder> openOrderList = openOrders.getOrders();
-    Assertions.assertThat(openOrderList).hasSize(1);
+    Assertions.assertThat(openOrderList).hasSize(2);
 
     GateioOpenOrder openOrder = openOrderList.get(0);
-    assertThat(openOrder.getId()).isEqualTo("12941907");
-    assertThat(openOrder.getSellCurrency()).isEqualTo("LTC");
-    assertThat(openOrder.getBuyCurrency()).isEqualTo("BTC");
-    assertThat(openOrder.getSellAmount()).isEqualTo("0.384");
-    assertThat(openOrder.getBuyAmount()).isEqualTo("0.010176");
+    assertThat(openOrder.getId()).isEqualTo("3");
+    assertThat(openOrder.getCurrencyPair().split("_")[0]).isEqualTo("eth");
+    assertThat(openOrder.getCurrencyPair().split("_")[1]).isEqualTo("btc");
+    assertThat(openOrder.getAmount()).isEqualTo(new BigDecimal("100000"));
   }
 
   @Test

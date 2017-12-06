@@ -6,27 +6,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GateioPlaceOrderReturn extends GateioBaseResponse {
 
-  private final String orderId;
+  private final String orderNumber;
 
   /**
    * Constructor
    */
-  private GateioPlaceOrderReturn(@JsonProperty("result") boolean result, @JsonProperty("order_id") String anOrderId,
+  private GateioPlaceOrderReturn(@JsonProperty("result") boolean result, @JsonProperty("orderNumber") String orderNumber,
       @JsonProperty("msg") String message) {
 
     super(result, message);
-    orderId = anOrderId;
+    this.orderNumber = orderNumber;
   }
 
   public String getOrderId() {
 
-    return orderId;
+    return orderNumber;
   }
 
   @Override
   public String toString() {
 
-    return "GateioPlaceOrderReturn [orderId=" + orderId + "]";
+    return "GateioPlaceOrderReturn [orderNumber=" + orderNumber + "]";
   }
 
 }
