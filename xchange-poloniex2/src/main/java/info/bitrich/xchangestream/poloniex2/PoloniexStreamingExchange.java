@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.poloniex2;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
@@ -60,7 +61,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
   }
 
   @Override
-  public Completable connect() {
+  public Completable connect(ProductSubscription... args) {
     return streamingService.connect();
   }
 

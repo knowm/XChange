@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.bitmex;
 
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
@@ -26,7 +27,7 @@ public class BitmexStreamingExchange extends BaseExchange implements StreamingEx
   }
 
   @Override
-  public Completable connect() {
+  public Completable connect(ProductSubscription... args) {
     return streamingService.connect();
   }
 

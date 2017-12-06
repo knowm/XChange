@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.gdax;
 
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
@@ -27,7 +28,10 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
   }
 
   @Override
-  public Completable connect() {
+  public Completable connect(ProductSubscription... args) {
+    if (args == null || args.length == 0) throw new UnsupportedOperationException("The ProductSubscription must be defined!");
+    streamingService.subscribeMultipleCurrencyPairs(args);
+
     return streamingService.connect();
   }
 

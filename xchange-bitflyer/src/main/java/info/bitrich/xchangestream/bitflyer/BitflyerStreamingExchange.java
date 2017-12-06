@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.bitflyer;
 
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.pubnub.PubnubStreamingService;
@@ -27,7 +28,7 @@ public class BitflyerStreamingExchange extends BaseExchange implements Streaming
   }
 
   @Override
-  public Completable connect() {
+  public Completable connect(ProductSubscription... args) {
     return streamingService.connect();
   }
 

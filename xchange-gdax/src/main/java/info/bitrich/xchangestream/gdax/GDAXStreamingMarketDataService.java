@@ -16,12 +16,8 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 import static io.netty.util.internal.StringUtil.isNullOrEmpty;
 import static org.knowm.xchange.gdax.GDAXAdapters.*;
@@ -40,13 +36,21 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
     this.service = service;
   }
 
-  public void subscribeMultipleCurrencyPairs(CurrencyPair[] currencyPairs) throws IOException {
-    if (currencyPairs == null || currencyPairs.length == 0) throw new IOException("currencyPairs is null or has 0 length");
-    service.subscribeMultipleCurrencyPairs(currencyPairs);
+  private boolean containsPair(List<CurrencyPair> pairs, CurrencyPair pair) {
+    for (CurrencyPair item : pairs) {
+      if (item.compareTo(pair) == 0) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+    if (!containsPair(service.getProduct().getOrderBook(), currencyPair))
+      throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
+
     String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
     final ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -79,6 +83,9 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
    * @return an Observable of {@link GDAXProductTicker}.
    */
   public Observable<GDAXProductTicker> getRawTicker(CurrencyPair currencyPair, Object... args) {
+    if (!containsPair(service.getProduct().getTicker(), currencyPair))
+      throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for ticker", currencyPair));
+
     String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
     final ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -103,6 +110,9 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
    */
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+    if (!containsPair(service.getProduct().getTicker(), currencyPair))
+      throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for ticker", currencyPair));
+
     String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
     final ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -118,6 +128,9 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+    if (!containsPair(service.getProduct().getTrades(), currencyPair))
+      throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for trades", currencyPair));
+
     String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
     final ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

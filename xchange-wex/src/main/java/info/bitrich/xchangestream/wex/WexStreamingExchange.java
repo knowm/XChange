@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.wex;
 
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
@@ -27,7 +28,7 @@ public class WexStreamingExchange extends BTCEExchange implements StreamingExcha
   }
 
   @Override
-  public Completable connect() {
+  public Completable connect(ProductSubscription... args) {
     return streamingService.connect();
   }
 
