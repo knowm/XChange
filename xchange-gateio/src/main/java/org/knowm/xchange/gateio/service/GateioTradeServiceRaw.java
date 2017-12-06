@@ -64,7 +64,13 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   public String placeGateioLimitOrder(CurrencyPair currencyPair, GateioOrderType orderType, BigDecimal rate, BigDecimal amount) throws IOException {
 
     String pair = String.format("%s_%s", currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()).toLowerCase();
-    GateioPlaceOrderReturn orderId = bter.placeOrder(pair, orderType, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
+
+    GateioPlaceOrderReturn orderId;
+    if (orderType.equals(GateioOrderType.BUY)) {
+      orderId = bter.buy(pair, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
+    } else {
+      orderId = bter.sell(pair, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
+    }
 
     return handleResponse(orderId).getOrderId();
   }
