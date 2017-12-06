@@ -29,40 +29,40 @@ public class GDAXAccountServiceRaw extends GDAXBaseService {
     this.nonceFactory = exchange.getNonceFactory();
   }
 
-  public GDAXAccount[] getCoinbaseExAccountInfo() throws GDAXException, IOException {
-    return coinbaseEx.getAccounts(apiKey, digest, nonceFactory, passphrase);
+  public GDAXAccount[] getGDAXAccountInfo() throws GDAXException, IOException {
+    return gdax.getAccounts(apiKey, digest, nonceFactory, passphrase);
   }
 
   public GDAXSendMoneyResponse sendMoney(String accountId, String to, BigDecimal amount, Currency currency) throws GDAXException, IOException {
-    return coinbaseEx.sendMoney(new GDAXSendMoneyRequest(to, amount, currency.getCurrencyCode()), apiKey, digest, nonceFactory, passphrase,
+    return gdax.sendMoney(new GDAXSendMoneyRequest(to, amount, currency.getCurrencyCode()), apiKey, digest, nonceFactory, passphrase,
         accountId);
   }
 
   public GDAXWithdrawCryptoResponse withdrawCrypto(String address, BigDecimal amount, Currency currency) throws GDAXException, IOException {
-    return coinbaseEx.withdrawCrypto(apiKey, digest, nonceFactory, passphrase, new GDAXWithdrawFundsRequest(amount, currency.getCurrencyCode(), address));
+    return gdax.withdrawCrypto(apiKey, digest, nonceFactory, passphrase, new GDAXWithdrawFundsRequest(amount, currency.getCurrencyCode(), address));
   }
 
   public List<Map> ledger(String accountId, Integer startingOrderId) throws IOException {
-    return coinbaseEx.ledger(apiKey, digest, nonceFactory, passphrase, accountId, startingOrderId);
+    return gdax.ledger(apiKey, digest, nonceFactory, passphrase, accountId, startingOrderId);
   }
 
   /**
    * @return the report id
    */
   public String requestNewReport(GDAX.GDAXReportRequest reportRequest) throws IOException {
-    Map response = coinbaseEx.createReport(apiKey, digest, nonceFactory, passphrase, reportRequest);
+    Map response = gdax.createReport(apiKey, digest, nonceFactory, passphrase, reportRequest);
     return response.get("id").toString();
   }
 
   public List report(String reportId) throws IOException {
-    return coinbaseEx.getReport(apiKey, digest, nonceFactory, passphrase, reportId);
+    return gdax.getReport(apiKey, digest, nonceFactory, passphrase, reportId);
   }
 
   public GDAXCoinbaseAccount[] getCoinbaseAccounts() throws IOException {
-    return coinbaseEx.getCoinbaseAccounts(apiKey, digest, nonceFactory, passphrase);
+    return gdax.getGDAXAccounts(apiKey, digest, nonceFactory, passphrase);
   }
 
   public GDAXCoinbaseAccountAddress getCoinbaseAccountAddress(String accountId) throws IOException {
-    return coinbaseEx.getCoinbaseAccountAddress(apiKey, digest, nonceFactory, passphrase, accountId);
+    return gdax.getGDAXAccountAddress(apiKey, digest, nonceFactory, passphrase, accountId);
   }
 }

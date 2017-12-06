@@ -37,7 +37,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    return new AccountInfo(GDAXAdapters.adaptAccountInfo(getCoinbaseExAccountInfo()));
+    return new AccountInfo(GDAXAdapters.adaptAccountInfo(getGDAXAccountInfo()));
   }
 
   @Override
@@ -57,7 +57,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   }
 
   public String moveFunds(Currency currency, String address, BigDecimal amount) throws IOException {
-    GDAXAccount[] accounts = getCoinbaseExAccountInfo();
+    GDAXAccount[] accounts = getGDAXAccountInfo();
     String accountId = null;
     for (GDAXAccount account : accounts) {
       if (currency.getCurrencyCode().equals(account.getCurrency())) {
@@ -104,7 +104,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     List<FundingRecord> fundingHistory = new ArrayList<>();
 
-    for (GDAXAccount gdaxAccount : getCoinbaseExAccountInfo()) {
+    for (GDAXAccount gdaxAccount : getGDAXAccountInfo()) {
       String accountId = gdaxAccount.getId();
 
       Currency currency = Currency.getInstance(gdaxAccount.getCurrency());

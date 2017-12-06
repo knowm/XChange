@@ -151,14 +151,14 @@ public interface GDAX {
 
   @GET
   @Path("coinbase-accounts")
-  GDAXCoinbaseAccount[] getCoinbaseAccounts(@HeaderParam("CB-ACCESS-KEY") String apiKey,
+  GDAXCoinbaseAccount[] getGDAXAccounts(@HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws HttpStatusIOException;
 
   @POST
   @Path("coinbase-accounts/{account_id}/addresses")
-  GDAXCoinbaseAccountAddress getCoinbaseAccountAddress(@HeaderParam("CB-ACCESS-KEY") String apiKey,
+  GDAXCoinbaseAccountAddress getGDAXAccountAddress(@HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
