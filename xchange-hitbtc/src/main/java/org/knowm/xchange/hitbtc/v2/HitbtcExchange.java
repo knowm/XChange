@@ -9,9 +9,8 @@ import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.hitbtc.dto.meta.HitbtcMetaData;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcMetaData;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcAccountService;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataService;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
@@ -28,7 +27,7 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
 
   private HitbtcMetaData hitbtcMetaData;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(org.knowm.xchange.hitbtc.HitbtcExchange.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(org.knowm.xchange.hitbtc.v2.HitbtcExchange.class);
 
   static {
     setupPatchSupport();
@@ -88,10 +87,8 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
       // remove the "final" modifier
       modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
 
-           /* valid HTTP methods */
-      String[] methods = {
-          "GET", "POST", "HEAD", "OPTIONS", "PUT", "DELETE", "TRACE", "PATCH"
-      };
+      /* valid HTTP methods */
+      String[] methods = {"GET", "POST", "HEAD", "OPTIONS", "PUT", "DELETE", "TRACE", "PATCH"};
       // set the new methods - including patch
       methodsField.set(null, methods);
     } catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {

@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcCandle;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
-import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 
 public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 

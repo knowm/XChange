@@ -19,9 +19,9 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.hitbtc.v2.BaseAuthenticatedServiceTest;
+import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
-import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

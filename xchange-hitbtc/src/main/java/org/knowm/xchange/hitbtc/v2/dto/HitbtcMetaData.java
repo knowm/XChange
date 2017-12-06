@@ -1,4 +1,4 @@
-package org.knowm.xchange.hitbtc.dto.meta;
+package org.knowm.xchange.hitbtc.v2.dto;
 
 import java.util.Map;
 
