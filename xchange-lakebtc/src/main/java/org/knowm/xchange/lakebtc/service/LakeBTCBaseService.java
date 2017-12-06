@@ -42,7 +42,6 @@ public class LakeBTCBaseService extends BaseExchangeService implements BaseServi
 
   }
 
-
   public static <T extends LakeBTCResponse> T checkResult(T returnObject) {
 
     if (returnObject.getResult() == null) {

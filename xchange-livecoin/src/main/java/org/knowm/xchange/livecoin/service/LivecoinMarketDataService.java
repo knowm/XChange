@@ -1,5 +1,7 @@
 package org.knowm.xchange.livecoin.service;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -11,8 +13,6 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
 
 public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw implements MarketDataService {
 

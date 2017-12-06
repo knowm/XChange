@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BittrexOrderResponse {
 
-
   @JsonProperty("success")
   private Boolean success;
   @JsonProperty("message")

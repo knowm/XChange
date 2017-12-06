@@ -24,7 +24,7 @@ public class ParibuMarketDataService extends ParibuMarketDataServiceRaw implemen
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    return ParibuAdapters.adaptTicker(getParibuTicker(),currencyPair);
+    return ParibuAdapters.adaptTicker(getParibuTicker(), currencyPair);
   }
 
   @Override

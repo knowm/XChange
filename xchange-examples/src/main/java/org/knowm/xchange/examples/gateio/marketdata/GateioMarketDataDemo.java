@@ -7,29 +7,29 @@ import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.bter.BTERExchange;
-import org.knowm.xchange.bter.dto.marketdata.BTERDepth;
-import org.knowm.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfo;
-import org.knowm.xchange.bter.dto.marketdata.BTERTicker;
-import org.knowm.xchange.bter.dto.marketdata.BTERTradeHistory;
-import org.knowm.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
-import org.knowm.xchange.bter.service.BTERMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.gateio.GateioExchange;
+import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
+import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory.GateioPublicTrade;
+import org.knowm.xchange.gateio.service.GateioMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class GateioMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BTERExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     generic(marketDataService);
-    raw((BTERMarketDataServiceRaw) marketDataService);
+    raw((GateioMarketDataServiceRaw) marketDataService);
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
@@ -51,30 +51,30 @@ public class GateioMarketDataDemo {
     }
   }
 
-  private static void raw(BTERMarketDataServiceRaw marketDataService) throws IOException {
+  private static void raw(GateioMarketDataServiceRaw marketDataService) throws IOException {
 
-    Map<CurrencyPair, BTERMarketInfo> marketInfoMap = marketDataService.getBTERMarketInfo();
+    Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketDataService.getGateioMarketInfo();
     System.out.println(marketInfoMap);
 
     Collection<CurrencyPair> pairs = marketDataService.getExchangeSymbols();
     System.out.println(pairs);
 
-    Map<CurrencyPair, BTERTicker> tickers = marketDataService.getBTERTickers();
+    Map<CurrencyPair, GateioTicker> tickers = marketDataService.getGateioTickers();
     System.out.println(tickers);
 
-    BTERTicker ticker = marketDataService.getBTERTicker("BTC", "USDT");
+    GateioTicker ticker = marketDataService.getGateioTicker("BTC", "USDT");
     System.out.println(ticker);
 
-    BTERDepth depth = marketDataService.getBTEROrderBook("BTC", "USDT");
+    GateioDepth depth = marketDataService.getGateioOrderBook("BTC", "USDT");
     System.out.println(depth);
 
-    BTERTradeHistory tradeHistory = marketDataService.getBTERTradeHistory("BTC", "USDT");
+    GateioTradeHistory tradeHistory = marketDataService.getGateioTradeHistory("BTC", "USDT");
     System.out.println(tradeHistory);
 
-    List<BTERPublicTrade> trades = tradeHistory.getTrades();
+    List<GateioPublicTrade> trades = tradeHistory.getTrades();
     if (trades.size() > 1) {
-      BTERPublicTrade trade = trades.get(trades.size() - 2);
-      tradeHistory = marketDataService.getBTERTradeHistorySince("BTC", "USDT", trade.getTradeId());
+      GateioPublicTrade trade = trades.get(trades.size() - 2);
+      tradeHistory = marketDataService.getGateioTradeHistorySince("BTC", "USDT", trade.getTradeId());
       System.out.println(tradeHistory);
     }
   }

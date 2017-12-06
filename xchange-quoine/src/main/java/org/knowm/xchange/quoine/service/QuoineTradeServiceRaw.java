@@ -1,5 +1,9 @@
 package org.knowm.xchange.quoine.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -14,11 +18,8 @@ import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineTradesResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransactionsResponse;
-import si.mazi.rescu.HttpStatusIOException;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
+import si.mazi.rescu.HttpStatusIOException;
 
 /**
  * @author gnandiga

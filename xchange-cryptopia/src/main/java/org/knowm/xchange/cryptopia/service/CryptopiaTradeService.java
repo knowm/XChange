@@ -31,7 +31,7 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-      return new OpenOrders(getOpenOrders(null, null));
+    return new OpenOrders(getOpenOrders(null, null));
   }
 
   @Override
@@ -61,7 +61,7 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-        CancelOrderByIdParams params = (CancelOrderByIdParams) orderParams;
+      CancelOrderByIdParams params = (CancelOrderByIdParams) orderParams;
       return cancel(params.orderId);
     } else {
       throw new IllegalStateException("Dont understand " + orderParams);

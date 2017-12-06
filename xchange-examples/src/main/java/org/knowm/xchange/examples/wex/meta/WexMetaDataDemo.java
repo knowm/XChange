@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.wex.v3.WexExchange;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexExchangeInfo;
-import org.knowm.xchange.wex.v3.dto.meta.WexMetaData;
-import org.knowm.xchange.wex.v3.service.WexMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.examples.wex.WexExamplesUtils;
+import org.knowm.xchange.wex.v3.WexExchange;
+import org.knowm.xchange.wex.v3.dto.marketdata.WexExchangeInfo;
+import org.knowm.xchange.wex.v3.dto.meta.WexMetaData;
+import org.knowm.xchange.wex.v3.service.WexMarketDataService;
 
 /**
  * Demo requesting account info at BTC-E

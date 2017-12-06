@@ -14,49 +14,49 @@ import org.junit.Test;
 
 public class BitcoinAverageAuthenticationTest {
 
-    private static final String BITCOINAVERAGE_SECRET_KEY = "BITCOINAVERAGE_SECRET_KEY";
-    private static final String BITCOINAVERAGE_PUBLIC_KEY = "BITCOINAVERAGE_PUBLIC_KEY";
+  private static final String BITCOINAVERAGE_SECRET_KEY = "BITCOINAVERAGE_SECRET_KEY";
+  private static final String BITCOINAVERAGE_PUBLIC_KEY = "BITCOINAVERAGE_PUBLIC_KEY";
 
-    @Test
-    public void testTickerAdapter() throws Exception {
+  @Test
+  public void testTickerAdapter() throws Exception {
 
-        String secretKey = System.getenv(BITCOINAVERAGE_SECRET_KEY);
-        String publicKey = System.getenv(BITCOINAVERAGE_PUBLIC_KEY);
-        Assume.assumeTrue(secretKey != null && publicKey != null);
-        
-        String signature = getSignature(secretKey, publicKey);
+    String secretKey = System.getenv(BITCOINAVERAGE_SECRET_KEY);
+    String publicKey = System.getenv(BITCOINAVERAGE_PUBLIC_KEY);
+    Assume.assumeTrue(secretKey != null && publicKey != null);
 
-        String url = "https://apiv2.bitcoinaverage.com/indices/global/ticker/all";
-        URL urlObj = new URL(url);
-        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("X-Signature", signature);
+    String signature = getSignature(secretKey, publicKey);
 
-        // read all the lines of the response into response StringBuffer
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
+    String url = "https://apiv2.bitcoinaverage.com/indices/global/ticker/all";
+    URL urlObj = new URL(url);
+    HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
+    connection.setRequestMethod("GET");
+    connection.setRequestProperty("X-Signature", signature);
 
-        while ((inputLine = bufferedReader.readLine()) != null) {
-            response.append(inputLine);
-        }
-        bufferedReader.close();
+    // read all the lines of the response into response StringBuffer
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+    String inputLine;
+    StringBuffer response = new StringBuffer();
 
-        // if you don't want to use Gson, you can just print the plain response
-        System.out.println(response.toString());
+    while ((inputLine = bufferedReader.readLine()) != null) {
+      response.append(inputLine);
     }
+    bufferedReader.close();
 
-    private String getSignature(String secretKey, String publicKey) throws Exception {
+    // if you don't want to use Gson, you can just print the plain response
+    System.out.println(response.toString());
+  }
 
-        long timestamp = System.currentTimeMillis() / 1000L;
-        String payload = timestamp + "." + publicKey;
+  private String getSignature(String secretKey, String publicKey) throws Exception {
 
-        Mac sha256_Mac = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256");
-        sha256_Mac.init(secretKeySpec);
-        String hashHex = DatatypeConverter.printHexBinary(sha256_Mac.doFinal(payload.getBytes())).toLowerCase();
-        String signature = payload + "." + hashHex;
-        return signature;
-    }
+    long timestamp = System.currentTimeMillis() / 1000L;
+    String payload = timestamp + "." + publicKey;
+
+    Mac sha256_Mac = Mac.getInstance("HmacSHA256");
+    SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256");
+    sha256_Mac.init(secretKeySpec);
+    String hashHex = DatatypeConverter.printHexBinary(sha256_Mac.doFinal(payload.getBytes())).toLowerCase();
+    String signature = payload + "." + hashHex;
+    return signature;
+  }
 
 }

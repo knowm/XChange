@@ -9,9 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import org.junit.Test;
-import org.knowm.xchange.wex.v3.WexAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.wex.v3.WexAdapters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

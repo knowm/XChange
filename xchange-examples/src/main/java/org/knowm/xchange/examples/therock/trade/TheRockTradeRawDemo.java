@@ -45,12 +45,12 @@ public class TheRockTradeRawDemo {
     Thread.sleep(3000);
 
     //get execute orders, only page 1
-    TheRockOrders executedOrders = tradeService.getTheRockOrders(BTC_EUR,null,null,"executed",null,null,1);
+    TheRockOrders executedOrders = tradeService.getTheRockOrders(BTC_EUR, null, null, "executed", null, null, 1);
     print(executedOrders);
     Thread.sleep(3000);
 
     //get only executed sell order, starting on page 3
-    TheRockOrders execSellOrders = tradeService.getTheRockOrders(BTC_EUR,null,null,"executed",Side.sell,null,1);
+    TheRockOrders execSellOrders = tradeService.getTheRockOrders(BTC_EUR, null, null, "executed", Side.sell, null, 1);
     print(execSellOrders);
     Thread.sleep(3000);
 

@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairs.BTERCurrencyPairsDeserializer;
-import org.knowm.xchange.currency.CurrencyPair;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

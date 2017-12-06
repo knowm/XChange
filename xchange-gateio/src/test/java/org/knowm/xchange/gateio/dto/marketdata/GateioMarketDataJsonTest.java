@@ -11,9 +11,9 @@ import java.util.Map;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.knowm.xchange.gateio.dto.GateioOrderType;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.BTERMarketInfo;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gateio.dto.GateioOrderType;
+import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,11 +29,11 @@ public class GateioMarketDataJsonTest {
     ObjectMapper mapper = new ObjectMapper();
     GateioMarketInfoWrapper marketInfoWrapper = mapper.readValue(is, GateioMarketInfoWrapper.class);
 
-    Map<CurrencyPair, BTERMarketInfo> marketInfoMap = marketInfoWrapper.getMarketInfoMap();
+    Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketInfoWrapper.getMarketInfoMap();
     assertThat(marketInfoMap).hasSize(2);
 
     CurrencyPair pair = new CurrencyPair("LTC", "CNY");
-    BTERMarketInfo marketInfo = marketInfoMap.get(pair);
+    GateioMarketInfo marketInfo = marketInfoMap.get(pair);
     assertThat(marketInfo.getCurrencyPair()).isEqualTo(pair);
     assertThat(marketInfo.getDecimalPlaces()).isEqualTo(2);
     assertThat(marketInfo.getMinAmount()).isEqualTo(".5");
@@ -89,10 +89,10 @@ public class GateioMarketDataJsonTest {
     assertThat(tradeHistory.isResult()).isTrue();
     assertThat(tradeHistory.getElapsed()).isEqualTo("0.634ms");
 
-    List<GateioTradeHistory.BTERPublicTrade> trades = tradeHistory.getTrades();
+    List<GateioTradeHistory.GateioPublicTrade> trades = tradeHistory.getTrades();
     assertThat(trades).hasSize(2);
 
-    GateioTradeHistory.BTERPublicTrade trade = trades.get(0);
+    GateioTradeHistory.GateioPublicTrade trade = trades.get(0);
     assertThat(trade.getDate()).isEqualTo(1393908191);
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("3942"));
     assertThat(trade.getAmount()).isEqualTo(new BigDecimal("0.0129"));

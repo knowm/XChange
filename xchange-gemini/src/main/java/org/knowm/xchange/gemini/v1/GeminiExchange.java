@@ -1,5 +1,8 @@
 package org.knowm.xchange.gemini.v1;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -9,10 +12,8 @@ import org.knowm.xchange.gemini.v1.service.GeminiMarketDataService;
 import org.knowm.xchange.gemini.v1.service.GeminiMarketDataServiceRaw;
 import org.knowm.xchange.gemini.v1.service.GeminiTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-import java.util.List;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GeminiExchange extends BaseExchange {
 

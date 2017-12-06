@@ -1,5 +1,7 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
@@ -22,9 +24,6 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 
 /**
  * Test ignored in default build because it requires production authentication credentials. See {@link BaseAuthenticatedServiceTest}.
@@ -94,11 +93,10 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
       assertThat(hitbtcOrder).isNotNull();
 
       hitbtcOrder = service.updateMarketOrderRaw(hitbtcOrder.clientOrderId, new BigDecimal("0.02"), "", Optional.empty());
-    }
-    finally {
-       if (hitbtcOrder != null) {
-         service.cancelOrderRaw(hitbtcOrder.clientOrderId);
-       }
+    } finally {
+      if (hitbtcOrder != null) {
+        service.cancelOrderRaw(hitbtcOrder.clientOrderId);
+      }
     }
   }
 
@@ -119,15 +117,12 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
       Optional<BigDecimal> newPrice = Optional.of(new BigDecimal("0.051"));
 
       hitbtcOrder = service.updateMarketOrderRaw(hitbtcOrder.clientOrderId, new BigDecimal("0.02"), "", newPrice);
-    }
-    finally {
+    } finally {
       if (hitbtcOrder != null) {
         service.cancelOrderRaw(hitbtcOrder.clientOrderId);
       }
     }
   }
-
-
 
   @Test
   public void testCancelOrder_wrongOrder() throws IOException {

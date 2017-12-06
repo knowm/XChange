@@ -1,16 +1,16 @@
 package org.knowm.xchange.gdax.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gdax.GDAX;
+import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
-/**
- * Created by Yingzhe on 4/6/2015.
- */
 public class GDAXBaseService extends BaseExchangeService implements BaseService {
 
   protected final GDAX coinbaseEx;
@@ -28,4 +28,12 @@ public class GDAXBaseService extends BaseExchangeService implements BaseService 
     this.passphrase = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase");
   }
 
+  protected ExchangeException handleError(GDAXException exception) {
+
+    if (exception.getMessage().contains("Insufficient")) {
+      return new FundsExceededException(exception);
+    } else {
+      return new ExchangeException(exception);
+    }
+  }
 }

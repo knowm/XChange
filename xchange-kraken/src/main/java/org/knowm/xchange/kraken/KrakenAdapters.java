@@ -276,7 +276,7 @@ public class KrakenAdapters {
     for (String krakenAssetCode : krakenAssets.keySet()) {
       KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
       Currency currencyCode = KrakenAdapters.adaptCurrency(krakenAssetCode);
-      BigDecimal withdrawalFee = originalMetaData.getCurrencies().get(currencyCode) == null ? null : originalMetaData.getCurrencies().get(currencyCode).getWithdrawalFee();	
+      BigDecimal withdrawalFee = originalMetaData.getCurrencies().get(currencyCode) == null ? null : originalMetaData.getCurrencies().get(currencyCode).getWithdrawalFee();
       currencies.put(currencyCode, new CurrencyMetaData(krakenAsset.getScale(), withdrawalFee));
     }
 

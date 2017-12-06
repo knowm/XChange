@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.wex.v3.WexAdapters;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexDepthWrapper;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexTickerWrapper;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -15,6 +11,10 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.wex.v3.WexAdapters;
+import org.knowm.xchange.wex.v3.dto.marketdata.WexDepthWrapper;
+import org.knowm.xchange.wex.v3.dto.marketdata.WexTickerWrapper;
+import org.knowm.xchange.wex.v3.dto.marketdata.WexTrade;
 
 public class WexMarketDataService extends WexMarketDataServiceRaw implements MarketDataService {
 

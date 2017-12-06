@@ -6,12 +6,12 @@ import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.BTERMarketInfo;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
 import org.knowm.xchange.gateio.service.GateioAccountService;
 import org.knowm.xchange.gateio.service.GateioMarketDataService;
 import org.knowm.xchange.gateio.service.GateioMarketDataServiceRaw;
 import org.knowm.xchange.gateio.service.GateioTradeService;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -47,7 +47,7 @@ public class GateioExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException {
 
-    Map<CurrencyPair, BTERMarketInfo> currencyPair2BTERMarketInfoMap = ((GateioMarketDataServiceRaw) marketDataService).getBTERMarketInfo();
+    Map<CurrencyPair, GateioMarketInfo> currencyPair2BTERMarketInfoMap = ((GateioMarketDataServiceRaw) marketDataService).getGateioMarketInfo();
     exchangeMetaData = GateioAdapters.adaptToExchangeMetaData(currencyPair2BTERMarketInfoMap);
   }
 }
