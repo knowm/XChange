@@ -3,6 +3,7 @@ package org.knowm.xchange.gdax.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.exceptions.InternalServerException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.gdax.GDAX;
 import org.knowm.xchange.gdax.dto.GDAXException;
@@ -35,6 +36,8 @@ public class GDAXBaseService extends BaseExchangeService implements BaseService 
       return new FundsExceededException(exception);
     } else if (exception.getMessage().contains("Rate limit exceeded")) {
       return new RateLimitExceededException(exception);
+    } else if (exception.getMessage().contains("Internal server error")) {
+      return new InternalServerException(exception);
     } else {
       return new ExchangeException(exception);
     }
