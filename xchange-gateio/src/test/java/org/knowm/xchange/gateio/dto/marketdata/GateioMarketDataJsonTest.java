@@ -57,33 +57,6 @@ public class GateioMarketDataJsonTest {
   }
 
   @Test
-  public void testDeserializeTickers() throws IOException {
-
-    // Read in the JSON from the example resources
-    InputStream is = GateioMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-tickers-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    GateioTickers tickers = mapper.readValue(is, GateioTickers.class);
-
-    Map<CurrencyPair, GateioTicker> tickerMap = tickers.getTickerMap();
-
-    assertThat(tickerMap).hasSize(3);
-
-    GateioTicker ticker = tickerMap.get(CurrencyPair.BTC_CNY);
-    assertThat(ticker.getLast()).isEqualTo("3400.01");
-    assertThat(ticker.getHigh()).isEqualTo("3497.41");
-    assertThat(ticker.getLow()).isEqualTo("3400.01");
-    assertThat(ticker.getAvg()).isEqualTo("3456.54");
-    assertThat(ticker.getSell()).isEqualTo("3400.17");
-    assertThat(ticker.getBuy()).isEqualTo("3400.01");
-    assertThat(ticker.getVolume("BTC")).isEqualTo("347.2045");
-    assertThat(ticker.getVolume("CNY")).isEqualTo("1200127.03");
-
-    assertThat(ticker.isResult()).isTrue();
-  }
-
-  @Test
   public void testDeserializeDepth() throws IOException {
 
     // Read in the JSON from the example resources
