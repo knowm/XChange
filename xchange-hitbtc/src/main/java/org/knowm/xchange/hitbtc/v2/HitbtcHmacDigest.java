@@ -1,4 +1,4 @@
-package org.knowm.xchange.hitbtc.service;
+package org.knowm.xchange.hitbtc.v2;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

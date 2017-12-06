@@ -1,4 +1,4 @@
-package org.knowm.xchange.hitbtc.v2.internal;
+package org.knowm.xchange.hitbtc.v2;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

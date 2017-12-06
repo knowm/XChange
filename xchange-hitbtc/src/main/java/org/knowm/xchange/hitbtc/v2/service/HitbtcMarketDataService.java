@@ -10,9 +10,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
-import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implements MarketDataService {
