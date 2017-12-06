@@ -57,8 +57,11 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
         productId = toProductId(currencyPair);
       }
     }
-
-    return gdax.getFills(apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
+    try {
+      return gdax.getFills(apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
   public GDAXIdResponse placeGDAXLimitOrder(LimitOrder limitOrder) throws IOException {
