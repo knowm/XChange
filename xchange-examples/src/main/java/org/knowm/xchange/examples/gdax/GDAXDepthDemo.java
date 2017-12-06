@@ -45,7 +45,7 @@ public class GDAXDepthDemo {
   private static void raw(GDAXMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest order book data for BTC/CAD
-    GDAXProductBook orderBook = marketDataService.getCoinbaseExProductOrderBook(CurrencyPair.BTC_USD, 2);
+    GDAXProductBook orderBook = marketDataService.getGDAXProductOrderBook(CurrencyPair.BTC_USD, 2);
 
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().length + orderBook.getBids().length));
 

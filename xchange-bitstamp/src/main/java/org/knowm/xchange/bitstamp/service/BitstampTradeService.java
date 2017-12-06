@@ -75,6 +75,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
 
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, BitstampException {
+
     BitstampAuthenticatedV2.Side side = order.getType().equals(BID) ? BitstampAuthenticatedV2.Side.buy : BitstampAuthenticatedV2.Side.sell;
     BitstampOrder bitstampOrder = placeBitstampOrder(order.getCurrencyPair(), side, order.getOriginalAmount(), order.getLimitPrice());
     if (bitstampOrder.getErrorMessage() != null) {

@@ -45,7 +45,7 @@ public class GDAXExchange extends BaseExchange {
   @Override
   public void remoteInit() throws IOException {
 
-    GDAXProduct[] products = ((GDAXMarketDataServiceRaw) marketDataService).getCoinbaseExProducts();
+    GDAXProduct[] products = ((GDAXMarketDataServiceRaw) marketDataService).getGDAXProducts();
     exchangeMetaData = GDAXAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
   }
 }

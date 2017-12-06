@@ -31,7 +31,7 @@ public class GDAXTickerDemo {
 
   private static void raw(GDAXMarketDataServiceRaw marketDataService) throws IOException {
 
-    GDAXProductTicker gdaxTicker = marketDataService.getCoinbaseExProductTicker(CurrencyPair.BTC_USD);
+    GDAXProductTicker gdaxTicker = marketDataService.getGDAXProductTicker(CurrencyPair.BTC_USD);
 
     System.out.println(gdaxTicker.toString());
   }
