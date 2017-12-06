@@ -4,63 +4,97 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by David Henry on 2/19/14.
- */
 public class GateioOpenOrder {
 
-  private final String id;
-  private final String sellCurrency;
-  private final String buyCurrency;
-  private final BigDecimal sellAmount;
-  private final BigDecimal buyAmount;
+  private String timestamp;
+
+  private String total;
+
+  private BigDecimal amount;
+
+  private String id;
+
+  private BigDecimal rate;
+
+  private String status;
+
+  private String orderNumber;
+
+  private String type;
+
+  private String currencyPair;
 
   /**
    * Constructor
-   *
-   * @param id orderId
-   * @param sellAmount amount to sell
-   * @param buyAmount amount to buy
    */
-  private GateioOpenOrder(@JsonProperty("id") String id, @JsonProperty("sell_type") String sellCurrency, @JsonProperty("buy_type") String buyCurrency,
-      @JsonProperty("sell_amount") BigDecimal sellAmount, @JsonProperty("buy_amount") BigDecimal buyAmount) {
-
+  private GateioOpenOrder(@JsonProperty("timestamp") String timestamp,
+      @JsonProperty("total") String total,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("id") String id,
+      @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("status") String status,
+      @JsonProperty("orderNumber") String orderNumber,
+      @JsonProperty("type") String type,
+      @JsonProperty("currencyPair") String currencyPair
+      ) {
+    this.timestamp = timestamp;
+    this.total = total;
+    this.amount = amount;
     this.id = id;
-    this.sellCurrency = sellCurrency;
-    this.buyCurrency = buyCurrency;
-    this.sellAmount = sellAmount;
-    this.buyAmount = buyAmount;
+    this.rate = rate;
+    this.status = status;
+    this.orderNumber = orderNumber;
+    this.type = type;
+    this.currencyPair = currencyPair;
+  }
+  public String getTimestamp() {
+    return timestamp;
+  }
+
+  public String getTotal() {
+    return total;
+  }
+
+  public BigDecimal getAmount() {
+    return amount;
   }
 
   public String getId() {
-
     return id;
   }
 
-  public String getSellCurrency() {
-
-    return sellCurrency;
+  public BigDecimal getRate() {
+    return rate;
   }
 
-  public String getBuyCurrency() {
-
-    return buyCurrency;
+  public String getStatus() {
+    return status;
   }
 
-  public BigDecimal getSellAmount() {
-
-    return sellAmount;
+  public String getOrderNumber() {
+    return orderNumber;
   }
 
-  public BigDecimal getBuyAmount() {
+  public String getType() {
+    return type;
+  }
 
-    return buyAmount;
+  public String getCurrencyPair() {
+    return currencyPair;
   }
 
   @Override
   public String toString() {
-
-    return "GateioOpenOrder [id=" + id + ", sellCurrency=" + sellCurrency + ", buyCurrency=" + buyCurrency + ", sellAmount=" + sellAmount
-        + ", buyAmount=" + buyAmount + "]";
+    return "GateioOpenOrder{" +
+        "timestamp='" + timestamp + '\'' +
+        ", total='" + total + '\'' +
+        ", amount='" + amount + '\'' +
+        ", id='" + id + '\'' +
+        ", rate='" + rate + '\'' +
+        ", status='" + status + '\'' +
+        ", orderNumber='" + orderNumber + '\'' +
+        ", type='" + type + '\'' +
+        ", currencyPair='" + currencyPair + '\'' +
+        '}';
   }
 }
