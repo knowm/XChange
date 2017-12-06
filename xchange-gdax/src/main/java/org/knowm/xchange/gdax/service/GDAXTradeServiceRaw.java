@@ -7,6 +7,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
@@ -65,8 +66,12 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
     String side = side(limitOrder.getType());
     String productId = toProductId(limitOrder.getCurrencyPair());
 
-    return coinbaseEx.placeLimitOrder(new GDAXPlaceOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), side, productId, "limit", limitOrder.getOrderFlags()),
-        apiKey, digest, nonceFactory, passphrase);
+    try {
+      return coinbaseEx.placeLimitOrder(new GDAXPlaceOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), side, productId, "limit", limitOrder.getOrderFlags()),
+          apiKey, digest, nonceFactory, passphrase);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
   public GDAXIdResponse placeGDAXMarketOrder(MarketOrder marketOrder) throws IOException {
