@@ -10,40 +10,40 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GateioFunds extends GateioBaseResponse {
 
-  private final Map<String, BigDecimal> availableFunds;
-  private final Map<String, BigDecimal> lockedFunds;
+  private final Map<String, BigDecimal> available;
+  private final Map<String, BigDecimal> locked;
 
   /**
    * Constructor
    *
-   * @param theAvailableFunds
-   * @param theLockedFunds
+   * @param theAvailable
+   * @param theLocked
    */
-  public GateioFunds(@JsonProperty("available_funds") Map<String, BigDecimal> theAvailableFunds,
-      @JsonProperty("locked_funds") Map<String, BigDecimal> theLockedFunds, @JsonProperty("result") boolean result,
+  public GateioFunds(@JsonProperty("available") Map<String, BigDecimal> theAvailable,
+      @JsonProperty("locked") Map<String, BigDecimal> theLocked, @JsonProperty("result") boolean result,
       @JsonProperty("message") final String message) {
 
     super(result, message);
 
-    availableFunds = theAvailableFunds == null ? new HashMap<String, BigDecimal>() : theAvailableFunds;
-    lockedFunds = theLockedFunds == null ? new HashMap<String, BigDecimal>() : theLockedFunds;
+    available = theAvailable == null ? new HashMap<String, BigDecimal>() : theAvailable;
+    locked = theLocked == null ? new HashMap<String, BigDecimal>() : theLocked;
 
   }
 
   public Map<String, BigDecimal> getAvailableFunds() {
 
-    return availableFunds;
+    return available;
   }
 
   public Map<String, BigDecimal> getLockedFunds() {
 
-    return lockedFunds;
+    return locked;
   }
 
   @Override
   public String toString() {
 
-    return "BTERAccountInfoReturn [availableFunds=" + availableFunds + ", lockedFunds=" + lockedFunds + "]";
+    return "BTERAccountInfoReturn [availableFunds=" + available + ", lockedFunds=" + locked + "]";
   }
 
 }

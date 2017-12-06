@@ -2,16 +2,20 @@ package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTickers;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import org.knowm.xchange.currency.CurrencyPair;
 
 public class GateioMarketDataServiceRaw extends GateioBaseService {
 
@@ -25,42 +29,59 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     super(exchange);
   }
 
-  public Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> getGateioMarketInfo() throws IOException {
+  public Map<CurrencyPair, GateioMarketInfoWrapper.BTERMarketInfo> getBTERMarketInfo() throws IOException {
 
     GateioMarketInfoWrapper bterMarketInfo = bter.getMarketInfo();
 
     return bterMarketInfo.getMarketInfoMap();
   }
 
-  public Map<CurrencyPair, GateioTicker> getGateioTickers() throws IOException {
+  public Map<CurrencyPair, Ticker> getBTERTickers() throws IOException {
 
-    GateioTickers gateioTickers = bter.getTickers();
+    Map<String, GateioTicker> gateioTickers = bter.getTickers();
+    Map<CurrencyPair, Ticker> adaptedTickers = new HashMap<>(gateioTickers.size());
+    gateioTickers.forEach((currencyPairString, gateioTicker) -> {
+      String[] currencyPairStringSplit = currencyPairString.split("_");
+      CurrencyPair currencyPair = new CurrencyPair(new Currency(currencyPairStringSplit[0].toUpperCase()), new Currency(currencyPairStringSplit[1].toUpperCase()));
+      adaptedTickers.put(currencyPair, GateioAdapters.adaptTicker(currencyPair, gateioTicker));
+    });
 
-    return handleResponse(gateioTickers).getTickerMap();
+    return adaptedTickers;
   }
 
-  public GateioTicker getGateioTicker(String tradableIdentifier, String currency) throws IOException {
+  public Map<CurrencyPair, GateioDepth> getGateioDepths() throws IOException {
+    Map<String, GateioDepth> depths = bter.getDepths();
+    Map<CurrencyPair, GateioDepth> adaptedDepths = new HashMap<>(depths.size());
+    depths.forEach((currencyPairString, gateioDepth) -> {
+      String[] currencyPairStringSplit = currencyPairString.split("_");
+      CurrencyPair currencyPair = new CurrencyPair(new Currency(currencyPairStringSplit[0].toUpperCase()), new Currency(currencyPairStringSplit[1].toUpperCase()));
+      adaptedDepths.put(currencyPair, gateioDepth);
+    });
+    return adaptedDepths;
+  }
+
+  public GateioTicker getBTERTicker(String tradableIdentifier, String currency) throws IOException {
 
     GateioTicker gateioTicker = bter.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(gateioTicker);
   }
 
-  public GateioDepth getGateioOrderBook(String tradeableIdentifier, String currency) throws IOException {
+  public GateioDepth getBTEROrderBook(String tradeableIdentifier, String currency) throws IOException {
 
     GateioDepth gateioDepth = bter.getFullDepth(tradeableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(gateioDepth);
   }
 
-  public GateioTradeHistory getGateioTradeHistory(String tradeableIdentifier, String currency) throws IOException {
+  public GateioTradeHistory getBTERTradeHistory(String tradeableIdentifier, String currency) throws IOException {
 
     GateioTradeHistory tradeHistory = bter.getTradeHistory(tradeableIdentifier, currency);
 
     return handleResponse(tradeHistory);
   }
 
-  public GateioTradeHistory getGateioTradeHistorySince(String tradeableIdentifier, String currency, String tradeId) throws IOException {
+  public GateioTradeHistory getBTERTradeHistorySince(String tradeableIdentifier, String currency, String tradeId) throws IOException {
 
     GateioTradeHistory tradeHistory = bter.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
 
