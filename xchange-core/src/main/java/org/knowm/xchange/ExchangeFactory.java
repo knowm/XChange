@@ -28,7 +28,7 @@ public enum ExchangeFactory {
   }
 
   /**
-   * Create an Exchange object without default ExchangeSpecification
+   * Create an Exchange object with default ExchangeSpecification
    * <p>
    * The factory is parameterized with the name of the exchange implementation class. This must be a class extending
    * {@link org.knowm.xchange.Exchange}.
@@ -37,34 +37,9 @@ public enum ExchangeFactory {
    * @param exchangeClassName the fully-qualified class name of the exchange
    * @return a new exchange instance configured with the default {@link org.knowm.xchange.ExchangeSpecification}
    */
-  private Exchange createExchangeWithoutSpecification(String exchangeClassName) {
+  public Exchange createExchange(String exchangeClassName) {
 
-    Assert.notNull(exchangeClassName, "exchangeClassName cannot be null");
-
-    log.debug("Creating default exchange from class name");
-
-    // Attempt to create an instance of the exchange provider
-    try {
-
-      // Attempt to locate the exchange provider on the classpath
-      Class exchangeProviderClass = Class.forName(exchangeClassName);
-
-      // Test that the class implements Exchange
-      if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
-        // Instantiate through the default constructor and use the default exchange specification
-        return (Exchange) exchangeProviderClass.newInstance();
-      } else {
-        throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
-      }
-    } catch (ClassNotFoundException e) {
-      throw new ExchangeException("Problem creating Exchange (class not found)", e);
-    } catch (InstantiationException e) {
-      throw new ExchangeException("Problem creating Exchange (instantiation)", e);
-    } catch (IllegalAccessException e) {
-      throw new ExchangeException("Problem creating Exchange (illegal access)", e);
-    }
-
-    // Cannot be here due to exceptions
+    return createExchange(exchangeClassName, null, null);
   }
 
   /**
@@ -98,38 +73,6 @@ public enum ExchangeFactory {
   }
 
   /**
-   * Create an Exchange object with default ExchangeSpecification with API keys provided through parameters
-   * <p>
-   * The factory is parameterized with the name of the exchange implementation class. This must be a class extending
-   * {@link org.knowm.xchange.Exchange}.
-   * </p>
-   *
-   * @param exchangeClassName the fully-qualified class name of the exchange
-   * @param apiKey the public API key
-   * @param secretKey the secret API key
-   * @return a new exchange instance configured with the default {@link org.knowm.xchange.ExchangeSpecification}
-   */
-  public Exchange createExchangeWithApiKeys(String exchangeClassName, String apiKey, String secretKey) {
-
-    return createExchange(exchangeClassName, apiKey, secretKey);
-  }
-
-  /**
-   * Create an Exchange object with default ExchangeSpecification
-   * <p>
-   * The factory is parameterized with the name of the exchange implementation class. This must be a class extending
-   * {@link org.knowm.xchange.Exchange}.
-   * </p>
-   *
-   * @param exchangeClassName the fully-qualified class name of the exchange
-   * @return a new exchange instance configured with the default {@link org.knowm.xchange.ExchangeSpecification}
-   */
-  public Exchange createExchange(String exchangeClassName) {
-
-    return createExchange(exchangeClassName, null, null);
-  }
-
-  /**
    * Create an Exchange object default ExchangeSpecification
    *
    * @param exchangeSpecification the exchange specification
@@ -145,7 +88,46 @@ public enum ExchangeFactory {
     Exchange exchange = createExchangeWithoutSpecification(exchangeClassName);
     exchange.applySpecification(exchangeSpecification);
     return exchange;
+  }
 
+  /**
+   * Create an Exchange object without default ExchangeSpecification
+   * <p>
+   * The factory is parameterized with the name of the exchange implementation class. This must be a class extending
+   * {@link org.knowm.xchange.Exchange}.
+   * </p>
+   *
+   * @param exchangeClassName the fully-qualified class name of the exchange
+   * @return a new exchange instance configured with the default {@link org.knowm.xchange.ExchangeSpecification}
+   */
+  public Exchange createExchangeWithoutSpecification(String exchangeClassName) {
+
+    Assert.notNull(exchangeClassName, "exchangeClassName cannot be null");
+
+    log.debug("Creating default exchange from class name");
+
+    // Attempt to create an instance of the exchange provider
+    try {
+
+      // Attempt to locate the exchange provider on the classpath
+      Class exchangeProviderClass = Class.forName(exchangeClassName);
+
+      // Test that the class implements Exchange
+      if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
+        // Instantiate through the default constructor and use the default exchange specification
+        return (Exchange) exchangeProviderClass.newInstance();
+      } else {
+        throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
+      }
+    } catch (ClassNotFoundException e) {
+      throw new ExchangeException("Problem creating Exchange (class not found)", e);
+    } catch (InstantiationException e) {
+      throw new ExchangeException("Problem creating Exchange (instantiation)", e);
+    } catch (IllegalAccessException e) {
+      throw new ExchangeException("Problem creating Exchange (illegal access)", e);
+    }
+
+    // Cannot be here due to exceptions
   }
 
 }
