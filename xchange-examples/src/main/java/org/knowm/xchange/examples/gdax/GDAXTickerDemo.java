@@ -15,7 +15,7 @@ public class GDAXTickerDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GDAXExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GDAXExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     generic(marketDataService);
