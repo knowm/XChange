@@ -437,13 +437,13 @@ public class Currency implements Comparable<Currency>, Serializable {
     }
     Currency other = (Currency) obj;
 
-    return attributes == other.attributes;
+    return attributes.equals(other.attributes);
   }
 
   @Override
   public int compareTo(Currency o) {
 
-    if (attributes == o.attributes)
+    if (attributes.equals(o.attributes))
       return 0;
 
     int comparison = code.compareTo(o.code);
@@ -510,5 +510,28 @@ public class Currency implements Comparable<Currency>, Serializable {
         this.unicode = commonCode;
       }
     }
+
+    @Override
+    public int hashCode() {
+        return commonCode.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CurrencyAttributes other = (CurrencyAttributes) obj;
+        if (commonCode == null) {
+            if (other.commonCode != null)
+                return false;
+        } else if (!commonCode.equals(other.commonCode))
+            return false;
+        return true;
+    }
+
   }
 }
