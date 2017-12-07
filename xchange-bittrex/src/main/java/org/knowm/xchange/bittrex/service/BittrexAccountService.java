@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexAdapters;
+import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.currency.Currency;
@@ -43,14 +44,14 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    return withdraw(currency.getCurrencyCode(), amount, address, null);
+    return withdraw(BittrexUtils.toBittrexCurrency(currency), amount, address, null);
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams defaultParams = (RippleWithdrawFundsParams) params;
-      return withdraw(defaultParams.currency.getCurrencyCode(), defaultParams.amount, defaultParams.address, defaultParams.tag);
+      return withdraw(BittrexUtils.toBittrexCurrency(defaultParams.currency), defaultParams.amount, defaultParams.address, defaultParams.tag);
     }
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
@@ -84,7 +85,7 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
       res.add(new FundingRecord(
           depositHistory.getCryptoAddress(),
           depositHistory.getLastUpdated(),
-          Currency.getInstance(depositHistory.getCurrency()),
+          BittrexAdapters.adaptCurrency(depositHistory.getCurrency()),
           depositHistory.getAmount(),
           String.valueOf(depositHistory.getId()),
           depositHistory.getTxId(),
@@ -114,7 +115,7 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
       res.add(new FundingRecord(
           withdrawalHistory.getAddress(),
           withdrawalHistory.getOpened(),
-          Currency.getInstance(withdrawalHistory.getCurrency()),
+          BittrexAdapters.adaptCurrency(withdrawalHistory.getCurrency()),
           withdrawalHistory.getAmount(),
           withdrawalHistory.getPaymentUuid(),
           withdrawalHistory.getTxId(),
