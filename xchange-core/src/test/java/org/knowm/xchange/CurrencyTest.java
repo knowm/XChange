@@ -1,6 +1,7 @@
 package org.knowm.xchange;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
@@ -25,5 +26,11 @@ public class CurrencyTest {
     assertEquals(Currency.CNY, Currency.getInstanceNoCreate("CNY"));
     assertEquals(Currency.CNY, Currency.getInstanceNoCreate("cny"));
     assertEquals(new Currency("cny"), Currency.getInstanceNoCreate("CNY"));
+  }
+
+  @Test
+  public void testBCashVsBitConnect() throws Exception {
+    assertEquals(Currency.getInstance("BCC"), Currency.BCC);
+    assertNotEquals(Currency.BCC, Currency.BCH.getCodeCurrency("BCC"));
   }
 }

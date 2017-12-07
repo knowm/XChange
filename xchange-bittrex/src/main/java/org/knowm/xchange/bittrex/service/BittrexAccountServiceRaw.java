@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalanceResponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalancesResponse;
@@ -43,9 +44,8 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
   }
 
   public BittrexBalance getBittrexBalance(Currency currency) throws IOException {
-    BittrexBalanceResponse response = bittrexAuthenticated.getBalance(apiKey, signatureCreator, exchange.getNonceFactory(), currency == null ? null
-        : currency.getCurrencyCode());
-    System.out.println(currency.getCurrencyCode());
+    BittrexBalanceResponse response = bittrexAuthenticated.getBalance(apiKey, signatureCreator, exchange.getNonceFactory(),
+        BittrexUtils.toBittrexCurrency(currency));
     if (response.getSuccess()) {
       return response.getResult();
     } else {
@@ -75,7 +75,8 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
 
   public List<BittrexWithdrawalHistory> getWithdrawalsHistory(Currency currency) throws IOException {
 
-    BittrexWithdrawalsHistoryResponse response = bittrexAuthenticated.getwithdrawalhistory(apiKey, signatureCreator, exchange.getNonceFactory(), currency == null ? null : currency.getCurrencyCode());
+    BittrexWithdrawalsHistoryResponse response = bittrexAuthenticated.getwithdrawalhistory(apiKey, signatureCreator, exchange.getNonceFactory(),
+        BittrexUtils.toBittrexCurrency(currency));
     if (response.getSuccess()) {
       return response.getResult();
     } else {
@@ -85,7 +86,8 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
 
   public List<BittrexDepositHistory> getDepositsHistory(Currency currency) throws IOException {
 
-    BittrexDepositsHistoryResponse response = bittrexAuthenticated.getdeposithistory(apiKey, signatureCreator, exchange.getNonceFactory(), currency == null ? null : currency.getCurrencyCode());
+    BittrexDepositsHistoryResponse response = bittrexAuthenticated.getdeposithistory(apiKey, signatureCreator, exchange.getNonceFactory(),
+        BittrexUtils.toBittrexCurrency(currency));
     if (response.getSuccess()) {
       return response.getResult();
     } else {

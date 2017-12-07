@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -25,7 +26,17 @@ public final class BittrexUtils {
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
-    return currencyPair.counter.getCurrencyCode().toUpperCase() + "-" + currencyPair.base.getCurrencyCode().toUpperCase();
+    return toBittrexCurrency(currencyPair.counter) + "-" + toBittrexCurrency(currencyPair.base);
+  }
+
+  public static String toBittrexCurrency(Currency currency) {
+    if (currency == null) {
+      return null;
+    }
+    if (currency.equals(Currency.BCH)) {
+      return "BCC";
+    }
+    return currency.getCurrencyCode().toUpperCase();
   }
 
   public static Date toDate(String dateString) {
