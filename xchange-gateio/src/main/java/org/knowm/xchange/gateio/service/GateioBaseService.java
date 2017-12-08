@@ -13,7 +13,7 @@ import si.mazi.rescu.RestProxyFactory;
 public class GateioBaseService extends BaseExchangeService implements BaseService {
 
   protected final String apiKey;
-  protected final GateioAuthenticated bter;
+  protected final GateioAuthenticated gateio;
   protected final ParamsDigest signatureCreator;
 
   /**
@@ -25,7 +25,7 @@ public class GateioBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    this.bter = RestProxyFactory.createProxy(GateioAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.gateio = RestProxyFactory.createProxy(GateioAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = GateioHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

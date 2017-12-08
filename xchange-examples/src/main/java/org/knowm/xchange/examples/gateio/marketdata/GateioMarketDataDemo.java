@@ -53,28 +53,28 @@ public class GateioMarketDataDemo {
 
   private static void raw(GateioMarketDataServiceRaw marketDataService) throws IOException {
 
-    Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketDataService.getBTERMarketInfo();
+    Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketDataService.getGateioMarketInfo();
     System.out.println(marketInfoMap);
 
     Collection<CurrencyPair> pairs = marketDataService.getExchangeSymbols();
     System.out.println(pairs);
 
-    Map<CurrencyPair, Ticker> tickers = marketDataService.getBTERTickers();
+    Map<CurrencyPair, Ticker> tickers = marketDataService.getGateioTickers();
     System.out.println(tickers);
 
-    GateioTicker ticker = marketDataService.getBTERTicker("BTC", "USDT");
+    GateioTicker ticker = marketDataService.getGateioTicker("BTC", "USDT");
     System.out.println(ticker);
 
-    GateioDepth depth = marketDataService.getBTEROrderBook("BTC", "USDT");
+    GateioDepth depth = marketDataService.getGateioOrderBook("BTC", "USDT");
     System.out.println(depth);
 
-    GateioTradeHistory tradeHistory = marketDataService.getBTERTradeHistory("BTC", "USDT");
+    GateioTradeHistory tradeHistory = marketDataService.getGateioTradeHistory("BTC", "USDT");
     System.out.println(tradeHistory);
 
     List<GateioPublicTrade> trades = tradeHistory.getTrades();
     if (trades.size() > 1) {
       GateioPublicTrade trade = trades.get(trades.size() - 2);
-      tradeHistory = marketDataService.getBTERTradeHistorySince("BTC", "USDT", trade.getTradeId());
+      tradeHistory = marketDataService.getGateioTradeHistorySince("BTC", "USDT", trade.getTradeId());
       System.out.println(tradeHistory);
     }
   }
