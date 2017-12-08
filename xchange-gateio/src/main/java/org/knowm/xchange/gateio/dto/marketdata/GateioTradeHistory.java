@@ -34,7 +34,7 @@ public class GateioTradeHistory extends GateioBaseResponse {
   @Override
   public String toString() {
 
-    return "BTERPublicTrades [trades=" + trades + ", elapsed=" + elapsed + "]";
+    return "GateioPublicTrades [trades=" + trades + ", elapsed=" + elapsed + "]";
   }
 
   public static class GateioPublicTrade {
@@ -83,7 +83,7 @@ public class GateioTradeHistory extends GateioBaseResponse {
     @Override
     public String toString() {
 
-      return "BTERPublicTrade [date=" + date + ", price=" + price + ", amount=" + amount + ", tradeId=" + tradeId + ", type=" + type + "]";
+      return "GateioPublicTrade [date=" + date + ", price=" + price + ", amount=" + amount + ", tradeId=" + tradeId + ", type=" + type + "]";
     }
   }
 }

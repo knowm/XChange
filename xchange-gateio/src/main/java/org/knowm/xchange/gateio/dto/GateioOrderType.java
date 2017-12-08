@@ -2,7 +2,7 @@ package org.knowm.xchange.gateio.dto;
 
 import java.io.IOException;
 
-import org.knowm.xchange.gateio.dto.GateioOrderType.BTEROrderTypeDeserializer;
+import org.knowm.xchange.gateio.dto.GateioOrderType.GateioOrderTypeDeserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,12 +12,12 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(using = BTEROrderTypeDeserializer.class)
+@JsonDeserialize(using = GateioOrderTypeDeserializer.class)
 public enum GateioOrderType {
 
   BUY, SELL;
 
-  static class BTEROrderTypeDeserializer extends JsonDeserializer<GateioOrderType> {
+  static class GateioOrderTypeDeserializer extends JsonDeserializer<GateioOrderType> {
 
     @Override
     public GateioOrderType deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {

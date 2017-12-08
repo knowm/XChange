@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -29,16 +28,16 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     super(exchange);
   }
 
-  public Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> getBTERMarketInfo() throws IOException {
+  public Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> getGateioMarketInfo() throws IOException {
 
-    GateioMarketInfoWrapper bterMarketInfo = bter.getMarketInfo();
+    GateioMarketInfoWrapper gateioMarketInfo = gateio.getMarketInfo();
 
-    return bterMarketInfo.getMarketInfoMap();
+    return gateioMarketInfo.getMarketInfoMap();
   }
 
-  public Map<CurrencyPair, Ticker> getBTERTickers() throws IOException {
+  public Map<CurrencyPair, Ticker> getGateioTickers() throws IOException {
 
-    Map<String, GateioTicker> gateioTickers = bter.getTickers();
+    Map<String, GateioTicker> gateioTickers = gateio.getTickers();
     Map<CurrencyPair, Ticker> adaptedTickers = new HashMap<>(gateioTickers.size());
     gateioTickers.forEach((currencyPairString, gateioTicker) -> {
       String[] currencyPairStringSplit = currencyPairString.split("_");
@@ -50,7 +49,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
   }
 
   public Map<CurrencyPair, GateioDepth> getGateioDepths() throws IOException {
-    Map<String, GateioDepth> depths = bter.getDepths();
+    Map<String, GateioDepth> depths = gateio.getDepths();
     Map<CurrencyPair, GateioDepth> adaptedDepths = new HashMap<>(depths.size());
     depths.forEach((currencyPairString, gateioDepth) -> {
       String[] currencyPairStringSplit = currencyPairString.split("_");
@@ -60,37 +59,37 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     return adaptedDepths;
   }
 
-  public GateioTicker getBTERTicker(String tradableIdentifier, String currency) throws IOException {
+  public GateioTicker getGateioTicker(String tradableIdentifier, String currency) throws IOException {
 
-    GateioTicker gateioTicker = bter.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    GateioTicker gateioTicker = gateio.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(gateioTicker);
   }
 
-  public GateioDepth getBTEROrderBook(String tradeableIdentifier, String currency) throws IOException {
+  public GateioDepth getGateioOrderBook(String tradeableIdentifier, String currency) throws IOException {
 
-    GateioDepth gateioDepth = bter.getFullDepth(tradeableIdentifier.toLowerCase(), currency.toLowerCase());
+    GateioDepth gateioDepth = gateio.getFullDepth(tradeableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(gateioDepth);
   }
 
-  public GateioTradeHistory getBTERTradeHistory(String tradeableIdentifier, String currency) throws IOException {
+  public GateioTradeHistory getGateioTradeHistory(String tradeableIdentifier, String currency) throws IOException {
 
-    GateioTradeHistory tradeHistory = bter.getTradeHistory(tradeableIdentifier, currency);
+    GateioTradeHistory tradeHistory = gateio.getTradeHistory(tradeableIdentifier, currency);
 
     return handleResponse(tradeHistory);
   }
 
-  public GateioTradeHistory getBTERTradeHistorySince(String tradeableIdentifier, String currency, String tradeId) throws IOException {
+  public GateioTradeHistory getGateioTradeHistorySince(String tradeableIdentifier, String currency, String tradeId) throws IOException {
 
-    GateioTradeHistory tradeHistory = bter.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
+    GateioTradeHistory tradeHistory = gateio.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
 
     return handleResponse(tradeHistory);
   }
 
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    List<CurrencyPair> currencyPairs = new ArrayList<>(bter.getPairs().getPairs());
+    List<CurrencyPair> currencyPairs = new ArrayList<>(gateio.getPairs().getPairs());
     return currencyPairs;
   }
 }
