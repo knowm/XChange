@@ -1,7 +1,9 @@
 package org.knowm.xchange;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 
@@ -25,5 +27,16 @@ public class CurrencyTest {
     assertEquals(Currency.CNY, Currency.getInstanceNoCreate("CNY"));
     assertEquals(Currency.CNY, Currency.getInstanceNoCreate("cny"));
     assertEquals(new Currency("cny"), Currency.getInstanceNoCreate("CNY"));
+  }
+
+  @Test
+  public void testEquals() {
+    assertEquals(Currency.BTC, Currency.XBT);
+    assertNotEquals(Currency.LTC, Currency.XBT);
+    
+    Currency btc = SerializationUtils.deserialize(SerializationUtils.serialize(Currency.BTC));
+    assertEquals(Currency.BTC, btc);
+    assertEquals(Currency.XBT, btc);
+    assertNotEquals(Currency.LTC, btc);
   }
 }
