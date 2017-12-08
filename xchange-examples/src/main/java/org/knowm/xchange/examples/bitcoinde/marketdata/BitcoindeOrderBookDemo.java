@@ -20,7 +20,10 @@ public class BitcoindeOrderBookDemo {
     /* create a data service from the exchange */
     MarketDataService marketDataService = bitcoindeExchange.getMarketDataService();
 
-    generic(marketDataService);
+    for (int i = 0; i < 10; i++) {
+
+      generic(marketDataService);
+    }
 //    raw((BitcoindeMarketDataServiceRaw) marketDataService);
 
   }
