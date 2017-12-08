@@ -38,6 +38,12 @@ public interface GateioAuthenticated extends Gateio {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
+  @Path("private/cancelAllOrders")
+  GateioBaseResponse cancelAllOrders(@FormParam("type") String type, @FormParam("currencyPair") String currencyPair, @HeaderParam("KEY") String apiKey,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+  @POST
   @Path("private/buy")
   GateioPlaceOrderReturn buy(@FormParam("currencyPair") String currencyPair, @FormParam("rate") BigDecimal rate,
       @FormParam("amount") BigDecimal amount, @HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer,

@@ -82,6 +82,13 @@ public class GateioTradeServiceRaw extends GateioBaseService {
     return handleResponse(cancelOrderResult).isResult();
   }
 
+  public boolean cancelAllOrders(String type, String currencyPair) throws IOException {
+
+    GateioBaseResponse cancelOrderResult = bter.cancelAllOrders(type, currencyPair, apiKey, signatureCreator, exchange.getNonceFactory());
+
+    return handleResponse(cancelOrderResult).isResult();
+  }
+
   public GateioOpenOrders getGateioOpenOrders() throws IOException {
 
     GateioOpenOrders gateioOpenOrdersReturn = bter.getOpenOrders(apiKey, signatureCreator, exchange.getNonceFactory());
