@@ -24,8 +24,9 @@ public class BitcoindeErrorTest {
     BitcoindeException bitcoindeException = mapper.readValue(is, BitcoindeException.class);
     System.out.println(bitcoindeException);
 
-    assertThat(bitcoindeException.getMessage()).isEqualTo("Order not found");
+    assertThat(bitcoindeException.getMessage()).isEqualTo("Order not found (-3 credits)");
 
+    assertThat(bitcoindeException.getCredits()).isEqualTo(-3);
     assertThat(bitcoindeException.getErrors()).hasSize(2);
     assertThat(bitcoindeException.getErrors()[1].getField()).isNull();
   }
