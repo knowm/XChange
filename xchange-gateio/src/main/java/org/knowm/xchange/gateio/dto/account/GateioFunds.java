@@ -43,7 +43,7 @@ public class GateioFunds extends GateioBaseResponse {
   @Override
   public String toString() {
 
-    return "BTERAccountInfoReturn [availableFunds=" + available + ", lockedFunds=" + locked + "]";
+    return "GateioAccountInfoReturn [availableFunds=" + available + ", lockedFunds=" + locked + "]";
   }
 
 }

@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.BTERMarketInfoWrapperDeserializer;
+import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfoWrapperDeserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(using = BTERMarketInfoWrapperDeserializer.class)
+@JsonDeserialize(using = GateioMarketInfoWrapperDeserializer.class)
 public class GateioMarketInfoWrapper {
 
   private final Map<CurrencyPair, GateioMarketInfo> marketInfoMap;
@@ -79,12 +79,13 @@ public class GateioMarketInfoWrapper {
     @Override
     public String toString() {
 
-      return "BTERMarketInfo [currencyPair=" + currencyPair + ", decimalPlaces=" + decimalPlaces + ", minAmount=" + minAmount + ", fee=" + fee + "]";
+      return "GateioMarketInfo [currencyPair=" + currencyPair + ", decimalPlaces=" + decimalPlaces + ", minAmount=" + minAmount + ", fee=" + fee +
+          "]";
     }
 
   }
 
-  static class BTERMarketInfoWrapperDeserializer extends JsonDeserializer<GateioMarketInfoWrapper> {
+  static class GateioMarketInfoWrapperDeserializer extends JsonDeserializer<GateioMarketInfoWrapper> {
 
     @Override
     public GateioMarketInfoWrapper deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {

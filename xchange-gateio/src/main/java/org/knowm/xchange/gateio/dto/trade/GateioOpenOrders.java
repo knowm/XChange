@@ -34,7 +34,7 @@ public class GateioOpenOrders extends GateioBaseResponse {
   @Override
   public String toString() {
 
-    return "BTEROpenOrdersReturn [orders=" + orders + "]";
+    return "GateioOpenOrdersReturn [orders=" + orders + "]";
   }
 
 }

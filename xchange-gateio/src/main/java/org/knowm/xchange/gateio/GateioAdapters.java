@@ -40,7 +40,7 @@ import org.knowm.xchange.gateio.dto.trade.GateioTrade;
 import org.knowm.xchange.utils.DateUtils;
 
 /**
- * Various adapters for converting from Bter DTOs to XChange DTOs
+ * Various adapters for converting from Gateio DTOs to XChange DTOs
  */
 public final class GateioAdapters {
 
@@ -80,8 +80,8 @@ public final class GateioAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
-    for (GateioPublicOrder bterOrder : orders) {
-      limitOrders.add(adaptOrder(bterOrder, currencyPair, orderType));
+    for (GateioPublicOrder gateioOrder : orders) {
+      limitOrders.add(adaptOrder(gateioOrder, currencyPair, orderType));
     }
 
     return limitOrders;
@@ -146,17 +146,17 @@ public final class GateioAdapters {
     return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
-  public static Wallet adaptWallet(GateioFunds bterAccountInfo) {
+  public static Wallet adaptWallet(GateioFunds gateioAccountInfo) {
 
     List<Balance> balances = new ArrayList<>();
-    for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
+    for (Entry<String, BigDecimal> funds : gateioAccountInfo.getAvailableFunds().entrySet()) {
       Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
       BigDecimal amount = funds.getValue();
-      BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency.toString());
+      BigDecimal locked = gateioAccountInfo.getLockedFunds().get(currency.toString());
 
       balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
     }
-    for (Entry<String, BigDecimal> funds : bterAccountInfo.getLockedFunds().entrySet()) {
+    for (Entry<String, BigDecimal> funds : gateioAccountInfo.getLockedFunds().entrySet()) {
       Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
       if (balances.stream().noneMatch(balance -> balance.getCurrency().equals(currency))) {
         BigDecimal amount = funds.getValue();
@@ -187,17 +187,17 @@ public final class GateioAdapters {
         (Currency) null);
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(Map<CurrencyPair, GateioMarketInfo> currencyPair2BTERMarketInfoMap) {
+  public static ExchangeMetaData adaptToExchangeMetaData(Map<CurrencyPair, GateioMarketInfo> currencyPair2GateioMarketInfoMap) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
 
-    for (Entry<CurrencyPair, GateioMarketInfo> entry : currencyPair2BTERMarketInfoMap.entrySet()) {
+    for (Entry<CurrencyPair, GateioMarketInfo> entry : currencyPair2GateioMarketInfoMap.entrySet()) {
 
       CurrencyPair currencyPair = entry.getKey();
-      GateioMarketInfo btermarketInfo = entry.getValue();
+      GateioMarketInfo gateiomarketInfo = entry.getValue();
 
-      CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(btermarketInfo.getFee(), btermarketInfo.getMinAmount(), null,
-          btermarketInfo.getDecimalPlaces());
+      CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(gateiomarketInfo.getFee(), gateiomarketInfo.getMinAmount(), null,
+          gateiomarketInfo.getDecimalPlaces());
       currencyPairs.put(currencyPair, currencyPairMetaData);
     }
 

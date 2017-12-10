@@ -7,7 +7,7 @@ import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data object representing depth from Bter
+ * Data object representing depth from Gateio
  */
 public class GateioDepth extends GateioBaseResponse {
 
