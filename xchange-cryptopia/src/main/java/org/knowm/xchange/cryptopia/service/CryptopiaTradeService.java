@@ -62,7 +62,7 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
   public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       CancelOrderByIdParams params = (CancelOrderByIdParams) orderParams;
-      return cancel(params.orderId);
+      return cancel(params.getOrderId());
     } else {
       throw new IllegalStateException("Dont understand " + orderParams);
     }

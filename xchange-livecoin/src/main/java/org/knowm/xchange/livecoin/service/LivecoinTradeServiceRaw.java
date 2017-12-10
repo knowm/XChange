@@ -17,6 +17,7 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinExchange;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.utils.DateUtils;
@@ -94,9 +95,8 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
   }
 
   public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException,
-      IOException {
-    return cancelOrder(new CancelOrderByIdParams(orderId));
+      NotYetImplementedForExchangeException {
+    throw new ExchangeException("You need to provide the currency pair to cancel an order.");
   }
 
   public boolean cancelOrder(CurrencyPair currencyPair, String orderId) throws ExchangeException, NotAvailableFromExchangeException,
@@ -105,26 +105,38 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return cancelOrder(new LiveCoinCancelOrderParams(currencyPair, orderId));
   }
 
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    if (orderParams instanceof LiveCoinCancelOrderParams) {
-      LiveCoinCancelOrderParams params = (LiveCoinCancelOrderParams) orderParams;
-      Map response = service.cancelLimitOrder(apiKey, signatureCreator, params.currencyPair.toString(), Long.valueOf(params.getOrderId()));
-
-      if (response.containsKey("success") && !Boolean.valueOf(response.get("success").toString()))
-        throw new ExchangeException("Failed to cancel order " + response);
-
-      return Boolean.valueOf(response.get("cancelled").toString());
-    } else {
-      throw new IllegalStateException("Don't understand " + orderParams);
+  public boolean cancelOrder(CancelOrderParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (!(params instanceof CancelOrderByCurrencyPair) && !(params instanceof CancelOrderByIdParams)) {
+      throw new ExchangeException("You need to provide the currency pair and the order id to cancel an order.");
     }
+    CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
+    CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
+
+    Map response = service.cancelLimitOrder(apiKey, signatureCreator, paramCurrencyPair.getCurrencyPair().toString(), Long.valueOf(paramId.getOrderId()));
+
+    if (response.containsKey("success") && !Boolean.valueOf(response.get("success").toString()))
+      throw new ExchangeException("Failed to cancel order " + response);
+
+    return Boolean.valueOf(response.get("cancelled").toString());
   }
 
-  public static class LiveCoinCancelOrderParams extends CancelOrderByIdParams {
+  public static class LiveCoinCancelOrderParams implements CancelOrderByIdParams, CancelOrderByCurrencyPair {
     public final CurrencyPair currencyPair;
+    public final String orderId;
 
     public LiveCoinCancelOrderParams(CurrencyPair currencyPair, String orderId) {
-      super(orderId);
       this.currencyPair = currencyPair;
+      this.orderId = orderId;
+    }
+
+    @Override
+    public String getOrderId() {
+      return orderId;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
     }
   }
 }
