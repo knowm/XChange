@@ -77,12 +77,17 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
 
   public BaseYoBitResponse cancelOrder(CancelOrderByIdParams params) throws IOException {
 
+    return cancelOrderById(params.getOrderId());
+  }
+
+  protected BaseYoBitResponse cancelOrderById(String orderId) throws IOException {
+
     return service.cancelOrder(
         exchange.getExchangeSpecification().getApiKey(),
         signatureCreator,
         "CancelOrder",
         exchange.getNonceFactory(),
-        Long.valueOf(params.getOrderId())
+        Long.valueOf(orderId)
     );
   }
 
