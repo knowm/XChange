@@ -72,20 +72,16 @@ public class YoBitTradeService extends YoBitTradeServiceRaw {
 
   @Override
   public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return cancelOrder((CancelOrderParams) new CancelOrderByIdParams(orderId));
+    return cancelOrderById(orderId).success;
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      CancelOrderByIdParams params = (CancelOrderByIdParams) orderParams;
-
-      BaseYoBitResponse response = cancelOrder(params);
-
-      return response.success;
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-
-    throw new IllegalStateException("Need to specify order id");
   }
 
   @Override

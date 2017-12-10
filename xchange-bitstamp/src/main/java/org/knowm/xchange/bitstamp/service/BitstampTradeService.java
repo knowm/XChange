@@ -93,11 +93,10 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
-    } else if (orderParams instanceof CancelAllOrders) {
-      cancelAllBitstampOrders();
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**

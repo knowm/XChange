@@ -51,8 +51,8 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     CurrencyPair pair;
     if (params instanceof OpenOrdersParamCurrencyPair) {
       pair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
@@ -169,38 +169,40 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
   }
 
   @Override
-  public String placeLimitOrder(
-      LimitOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder order)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     CoinfloorOrder rawOrder = placeLimitOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount(), order.getLimitPrice());
     return Long.toString(rawOrder.getId());
   }
 
   @Override
-  public String placeMarketOrder(
-      MarketOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder order)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     placeMarketOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount());
     return ""; // coinfloor does not return an id for market orders
   }
 
   @Override
-  public boolean cancelOrder(
-      String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(String orderId)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // API requires currency pair but value seems to be ignored - only the order ID is used for lookup. 
     CurrencyPair currencyPairValueIsIgnored = CurrencyPair.BTC_GBP;
     return cancelOrder(currencyPairValueIsIgnored, Long.parseLong(orderId));
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
