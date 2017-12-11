@@ -84,10 +84,10 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      CancelOrderByIdParams params = (CancelOrderByIdParams) orderParams;
-      return cancelOrder(params.orderId, ripple.validateOrderRequests());
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
