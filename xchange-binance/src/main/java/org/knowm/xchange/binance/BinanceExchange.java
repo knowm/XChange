@@ -1,22 +1,23 @@
 package org.knowm.xchange.binance;
 
-import java.io.InputStream;
+import java.util.Map;
 
 import org.knowm.xchange.BaseExchange;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.binance.dto.meta.BinanceMetaData;
+import org.knowm.xchange.binance.dto.marketdata.BinanceSymbolPrice;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class BinanceExchange extends BaseExchange implements Exchange {
+public class BinanceExchange extends BaseExchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
-  private BinanceMetaData binanceMetaData;
 
   @Override
   protected void initServices() {
@@ -29,12 +30,6 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
-  }
-
-  @Override
-  protected void loadExchangeMetaData(InputStream is) {
-
-    binanceMetaData = loadMetaData(is, BinanceMetaData.class);
   }
 
   @Override
@@ -51,19 +46,15 @@ public class BinanceExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() {
     try {
+      // populate currency pair keys only, exchange does not provide any other metadata for download
+      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
       BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
-            /*
-             * binanceExchangeInfo = marketDataService.getBinanceInfo();
-             * exchangeMetaData =
-             * BinanceAdapters.toMetaData(binanceExchangeInfo, binanceMetaData);
-             */
+      for (BinanceSymbolPrice price : marketDataService.tickerAllPrices()) {
+        final CurrencyPair pair = CurrencyPairDeserializer.getCurrencyPairFromString(price.symbol);
+        currencyPairs.put(pair, null);
+      }
     } catch (Exception e) {
       logger.warn("An exception occurred while loading the metadata", e);
     }
   }
-
-  public BinanceMetaData getDsxMetaData() {
-    return binanceMetaData;
-  }
-
 }
