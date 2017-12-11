@@ -53,7 +53,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     BitsoOrder[] openOrders = getBitsoOpenOrders();
 
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -96,7 +96,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
@@ -131,7 +131,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

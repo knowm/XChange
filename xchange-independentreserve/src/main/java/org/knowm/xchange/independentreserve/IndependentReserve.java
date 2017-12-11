@@ -8,8 +8,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTicker;
 import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
+import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTicker;
 
 /**
  * Author: Kamil Zbikowski Date: 4/9/15
@@ -22,11 +22,11 @@ public interface IndependentReserve {
   @Path("/GetOrderBook")
   IndependentReserveOrderBook getOrderBook(@QueryParam("primaryCurrencyCode") String primaryCurrencyCode,
       @QueryParam("secondaryCurrencyCode") String secondaryCurrencyCode) throws IOException;
-  
+
   @GET
   @Path("/GetMarketSummary")
   IndependentReserveTicker getMarketSummary(@QueryParam("primaryCurrencyCode") String primaryCurrencyCode,
-      @QueryParam("secondaryCurrencyCode") String secondaryCurrencyCode) throws IOException;  
+      @QueryParam("secondaryCurrencyCode") String secondaryCurrencyCode) throws IOException;
 
   //    @GET
   //    @Path("ticker/")

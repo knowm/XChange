@@ -64,7 +64,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     CurrencyPair currencyPair = null;
 
     if (params instanceof OpenOrdersParamCurrencyPair) {
@@ -93,7 +93,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(
-      CancelOrderParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      CancelOrderParams params) throws IOException {
     if (!(params instanceof CancelOrderByIdParams)) {
       return false;
     }
@@ -120,7 +120,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
    */
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 

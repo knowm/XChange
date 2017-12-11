@@ -9,9 +9,6 @@ import org.knowm.xchange.bitso.BitsoExchange;
 import org.knowm.xchange.bitso.dto.BitsoException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.retries.IPredicate;
 import org.knowm.xchange.utils.retries.Retries;
@@ -42,7 +39,7 @@ public class RetriesDemo {
   }
 
   private static void getMarketDataTooFastWithoutRetries(MarketDataService service,
-      CurrencyPair cp) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      CurrencyPair cp) throws IOException {
 
     System.out.println("Polling for orderbooks too fast without using Retries:");
     for (int i = 0; i < 50; i++) {

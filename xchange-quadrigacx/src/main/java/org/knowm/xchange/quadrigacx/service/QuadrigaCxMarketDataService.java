@@ -7,9 +7,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -21,7 +18,7 @@ public class QuadrigaCxMarketDataService extends QuadrigaCxMarketDataServiceRaw 
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair,
-      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      Object... args) throws IOException {
     return QuadrigaCxAdapters.adaptTicker(getQuadrigaCxTicker(currencyPair), currencyPair);
   }
 
@@ -32,7 +29,7 @@ public class QuadrigaCxMarketDataService extends QuadrigaCxMarketDataServiceRaw 
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair,
-      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      Object... args) throws IOException {
     return QuadrigaCxAdapters.adaptTrades(getQuadrigaCxTransactions(currencyPair, args), currencyPair);
   }
 }

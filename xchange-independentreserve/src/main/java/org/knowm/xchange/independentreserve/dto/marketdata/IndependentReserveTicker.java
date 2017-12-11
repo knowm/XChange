@@ -1,113 +1,106 @@
 package org.knowm.xchange.independentreserve.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
 
 /**
  * @author Stuart Low
  */
 public final class IndependentReserveTicker {
-	private final BigDecimal last;
-	private final BigDecimal high;
-	private final BigDecimal low;
-	private final BigDecimal vwap;
-	private final BigDecimal volume;
-	private final BigDecimal bid;
-	private final BigDecimal ask;
-	private Date timestamp;
+  private final BigDecimal last;
+  private final BigDecimal high;
+  private final BigDecimal low;
+  private final BigDecimal vwap;
+  private final BigDecimal volume;
+  private final BigDecimal bid;
+  private final BigDecimal ask;
+  private Date timestamp;
 
-	/**
-	 * Constructor
-	 *
-	 * @param last
-	 * @param high
-	 * @param low
-	 * @param vwap
-	 * @param volume
-	 * @param bid
-	 * @param ask
-	 */
-	public IndependentReserveTicker(@JsonProperty("LastPrice") BigDecimal last,
-			@JsonProperty("DayHighestPrice") BigDecimal high, @JsonProperty("DayLowestPrice") BigDecimal low,
-			@JsonProperty("DayAvgPrice") BigDecimal vwap, @JsonProperty("DayVolumeXbt") BigDecimal volume,
-			@JsonProperty("CurrentHighestBidPrice") BigDecimal bid,
-			@JsonProperty("CurrentLowestOfferPrice") BigDecimal ask,
-			@JsonProperty("CreatedTimestampUtc") String timestamp) {
+  /**
+   * Constructor
+   *
+   * @param last
+   * @param high
+   * @param low
+   * @param vwap
+   * @param volume
+   * @param bid
+   * @param ask
+   */
+  public IndependentReserveTicker(@JsonProperty("LastPrice") BigDecimal last,
+      @JsonProperty("DayHighestPrice") BigDecimal high, @JsonProperty("DayLowestPrice") BigDecimal low,
+      @JsonProperty("DayAvgPrice") BigDecimal vwap, @JsonProperty("DayVolumeXbt") BigDecimal volume,
+      @JsonProperty("CurrentHighestBidPrice") BigDecimal bid,
+      @JsonProperty("CurrentLowestOfferPrice") BigDecimal ask,
+      @JsonProperty("CreatedTimestampUtc") String timestamp) {
 
-		// @JsonFormat(pattern="") @JsonDeserialize(using =
-		// TimestampDeserializer.class)
-		this.last = last;
-		this.high = high;
-		this.low = low;
-		this.vwap = vwap;
-		this.volume = volume;
-		this.bid = bid;
-		this.ask = ask;
-		
-		try {
-			SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSX");
-			this.timestamp = myFormatter.parse(timestamp);
-		} catch (ParseException e) {
-			System.out.println("Received parsing exception while attempting to process timestamp: " + e.getMessage());
-		}
-				
+    // @JsonFormat(pattern="") @JsonDeserialize(using =
+    // TimestampDeserializer.class)
+    this.last = last;
+    this.high = high;
+    this.low = low;
+    this.vwap = vwap;
+    this.volume = volume;
+    this.bid = bid;
+    this.ask = ask;
 
-	}
+    try {
+      SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSX");
+      this.timestamp = myFormatter.parse(timestamp);
+    } catch (ParseException e) {
+      System.out.println("Received parsing exception while attempting to process timestamp: " + e.getMessage());
+    }
 
-	public BigDecimal getLast() {
+  }
 
-		return last;
-	}
+  public BigDecimal getLast() {
 
-	public BigDecimal getHigh() {
+    return last;
+  }
 
-		return high;
-	}
+  public BigDecimal getHigh() {
 
-	public BigDecimal getLow() {
+    return high;
+  }
 
-		return low;
-	}
+  public BigDecimal getLow() {
 
-	public BigDecimal getVwap() {
+    return low;
+  }
 
-		return vwap;
-	}
+  public BigDecimal getVwap() {
 
-	public BigDecimal getVolume() {
+    return vwap;
+  }
 
-		return volume;
-	}
+  public BigDecimal getVolume() {
 
-	public BigDecimal getBid() {
+    return volume;
+  }
 
-		return bid;
-	}
+  public BigDecimal getBid() {
 
-	public BigDecimal getAsk() {
+    return bid;
+  }
 
-		return ask;
-	}
+  public BigDecimal getAsk() {
 
-	public Date getTimestamp() {
-		return timestamp;
-	}
+    return ask;
+  }
 
-	@Override
-	public String toString() {
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
-		return "IndependentReserveTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap
-				+ ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + timestamp + "]";
-	}
+  @Override
+  public String toString() {
+
+    return "IndependentReserveTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap
+        + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + timestamp + "]";
+  }
 
 }

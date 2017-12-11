@@ -12,9 +12,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.liqui.LiquiAdapters;
 import org.knowm.xchange.liqui.dto.LiquiException;
 import org.knowm.xchange.liqui.dto.trade.LiquiCancelOrder;
@@ -37,12 +35,12 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
     return LiquiAdapters.adaptActiveOrders(getActiveOrders());
   }
 
   @Override
-  public OpenOrders getOpenOrders(final OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(final OpenOrdersParams params) throws IOException {
     if (params instanceof OpenOrdersParamCurrencyPair) {
       return LiquiAdapters.adaptActiveOrders(getActiveOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair()));
     }
@@ -51,17 +49,17 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public String placeMarketOrder(final MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(final MarketOrder marketOrder) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(final LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(final LimitOrder limitOrder) throws IOException {
     return LiquiAdapters.adaptOrderId(placeLiquiLimitOrder(limitOrder));
   }
 
   @Override
-  public boolean cancelOrder(final String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(final String orderId) throws IOException {
     try {
       final LiquiCancelOrder liquiCancelOrder = cancelOrder(Long.parseLong(orderId));
       return true;
@@ -72,7 +70,7 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public boolean cancelOrder(final CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(final CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
@@ -105,7 +103,7 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public Collection<Order> getOrder(final String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(final String... orderIds) throws IOException {
     final List<Order> orders = new ArrayList<>();
 
     for (final String orderId : orderIds) {

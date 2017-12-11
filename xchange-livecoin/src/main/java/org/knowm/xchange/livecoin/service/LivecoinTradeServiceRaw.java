@@ -69,7 +69,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return resp;
   }
 
-  public String makeMarketOrder(MarketOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String makeMarketOrder(MarketOrder order) throws IOException {
     Map response;
     if (order.getType().equals(Order.OrderType.BID)) {
       response = service.buyWithMarketOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getOriginalAmount());
@@ -80,7 +80,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return response.get("orderId").toString();
   }
 
-  public String makeLimitOrder(LimitOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String makeLimitOrder(LimitOrder order) throws IOException {
     Map response;
     if (order.getType().equals(Order.OrderType.BID)) {
       response = service.buyWithLimitOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getLimitPrice(), order.getOriginalAmount());
@@ -105,7 +105,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return cancelOrder(new LiveCoinCancelOrderParams(currencyPair, orderId));
   }
 
-  public boolean cancelOrder(CancelOrderParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams params) throws IOException {
     if (!(params instanceof CancelOrderByCurrencyPair) && !(params instanceof CancelOrderByIdParams)) {
       throw new ExchangeException("You need to provide the currency pair and the order id to cancel an order.");
     }

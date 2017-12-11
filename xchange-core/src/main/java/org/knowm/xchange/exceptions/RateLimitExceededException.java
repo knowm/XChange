@@ -8,6 +8,7 @@ public class RateLimitExceededException extends ExchangeException {
   public RateLimitExceededException(String message) {
     super(message);
   }
+
   public RateLimitExceededException(Throwable e) {
     super(e);
   }
