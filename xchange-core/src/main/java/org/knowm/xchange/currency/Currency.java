@@ -70,6 +70,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency CVE = createCurrency("CVE", "Cape Verdean Escudo", null);
   public static final Currency CZK = createCurrency("CZK", "Czech Republic Koruna", null);
   public static final Currency DASH = createCurrency("DASH", "Dash", null);
+  public static final Currency DCR = createCurrency("DCR", "Decred", null);
   public static final Currency DGB = createCurrency("DGB", "DigiByte", null);
   public static final Currency DJF = createCurrency("DJF", "Djiboutian Franc", null);
   public static final Currency DKK = createCurrency("DKK", "Danish Krone", null);
@@ -190,6 +191,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency SAR = createCurrency("SAR", "Saudi Riyal", null);
   public static final Currency SBC = createCurrency("SBC", "Stablecoin", null);
   public static final Currency SBD = createCurrency("SBD", "Solomon Islands Dollar", null);
+  public static final Currency SC = createCurrency("SC", "Siacoin", null);
   public static final Currency SCR = createCurrency("SCR", "Seychellois Rupee", null);
   public static final Currency SDG = createCurrency("SDG", "Sudanese Pound", null);
   public static final Currency SEK = createCurrency("SEK", "Swedish Krona", null);
