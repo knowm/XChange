@@ -12,6 +12,8 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
 import org.knowm.xchange.independentreserve.IndependentReserveExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTicker;
+
 
 /**
  * Author: Kamil Zbikowski Date: 4/9/15
@@ -20,11 +22,12 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
   public IndependentReserveMarketDataService(IndependentReserveExchange independentReserveExchange) {
     super(independentReserveExchange);
   }
-
+  
   @Override
   public Ticker getTicker(CurrencyPair currencyPair,
       Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new UnsupportedOperationException();
+	    IndependentReserveTicker t = getIndependentReserveTicker(currencyPair.base.toString(), currencyPair.counter.toString());
+	    return IndependentReserveAdapters.adaptTicker(t, currencyPair);
   }
 
   @Override
