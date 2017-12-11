@@ -14,7 +14,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -37,27 +36,27 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     BitMarketOrdersResponse response = getBitMarketOpenOrders();
     return BitMarketAdapters.adaptOpenOrders(response.getData());
   }
 
   @Override
   public String placeMarketOrder(
-      MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      MarketOrder marketOrder) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String placeLimitOrder(
-      LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      LimitOrder limitOrder) throws IOException {
 
     BitMarketTradeResponse response = placeBitMarketOrder(limitOrder);
     return String.valueOf(response.getData().getId());
@@ -65,14 +64,14 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
 
   @Override
   public boolean cancelOrder(
-      String id) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String id) throws IOException {
 
     cancelBitMarketOrder(id);
     return true;
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
@@ -101,7 +100,7 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

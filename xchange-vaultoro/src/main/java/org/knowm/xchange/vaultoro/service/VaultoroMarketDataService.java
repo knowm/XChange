@@ -10,9 +10,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.vaultoro.VaultoroAdapters;
 import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroOrder;
@@ -47,7 +44,7 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(CurrencyPair arg0,
-      Object... arg1) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      Object... arg1) throws IOException {
 
     List<VaultoroOrderBook> vaultoroOrderBooks = super.getVaultoroOrderBook(arg0);
 
@@ -68,7 +65,7 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
 
   @Override
   public Ticker getTicker(CurrencyPair arg0,
-      Object... arg1) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      Object... arg1) throws IOException {
 
     BigDecimal latest = super.getLast(arg0);
     return VaultoroAdapters.adaptVaultoroLatest(latest);
@@ -76,7 +73,7 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(CurrencyPair arg0,
-      Object... arg1) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      Object... arg1) throws IOException {
 
     List<VaultoroTrade> vaultoroTrades = super.getVaultoroTrades(arg0);
     return VaultoroAdapters.adaptVaultoroTransactions(vaultoroTrades, arg0);

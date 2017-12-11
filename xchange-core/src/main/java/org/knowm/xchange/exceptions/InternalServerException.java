@@ -8,6 +8,7 @@ public class InternalServerException extends ExchangeException {
   public InternalServerException(String message) {
     super(message);
   }
+
   public InternalServerException(Throwable e) {
     super(e);
   }

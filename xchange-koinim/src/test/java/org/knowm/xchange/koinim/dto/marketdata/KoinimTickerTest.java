@@ -1,14 +1,14 @@
 package org.knowm.xchange.koinim.dto.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author ahmetoz

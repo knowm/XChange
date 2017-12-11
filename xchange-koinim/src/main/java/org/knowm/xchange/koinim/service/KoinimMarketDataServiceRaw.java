@@ -1,12 +1,12 @@
 package org.knowm.xchange.koinim.service;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.koinim.Koinim;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
 
 import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
 
 /**
  * @author ahmet.oz

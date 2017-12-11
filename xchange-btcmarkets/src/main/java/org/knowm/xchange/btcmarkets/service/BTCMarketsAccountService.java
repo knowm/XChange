@@ -9,7 +9,6 @@ import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -37,7 +36,7 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw implem
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
       return withdrawCrypto(defaultWithdrawFundsParams.address, defaultWithdrawFundsParams.amount, defaultWithdrawFundsParams.currency);
@@ -57,7 +56,7 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw implem
 
   @Override
   public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

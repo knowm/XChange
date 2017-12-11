@@ -1,17 +1,17 @@
 package org.knowm.xchange.koinim;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author ahmetoz

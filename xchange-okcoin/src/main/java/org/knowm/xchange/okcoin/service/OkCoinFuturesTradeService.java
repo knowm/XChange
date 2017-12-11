@@ -18,8 +18,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okcoin.FuturesContract;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.OkCoinUtils;
@@ -66,7 +64,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     // TODO use params for currency pair
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
@@ -168,7 +166,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
@@ -271,7 +269,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
     List<Order> openOrders = new ArrayList<>();
     List<OkCoinFuturesOrder> orderResults = new ArrayList<>(exchangeSymbols.size());

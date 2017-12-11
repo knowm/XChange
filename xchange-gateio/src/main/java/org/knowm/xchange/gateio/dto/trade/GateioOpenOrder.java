@@ -36,7 +36,7 @@ public class GateioOpenOrder {
       @JsonProperty("orderNumber") String orderNumber,
       @JsonProperty("type") String type,
       @JsonProperty("currencyPair") String currencyPair
-      ) {
+  ) {
     this.timestamp = timestamp;
     this.total = total;
     this.amount = amount;
@@ -47,6 +47,7 @@ public class GateioOpenOrder {
     this.type = type;
     this.currencyPair = currencyPair;
   }
+
   public String getTimestamp() {
     return timestamp;
   }

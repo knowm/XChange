@@ -9,8 +9,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.ripple.RippleAdapters;
 import org.knowm.xchange.ripple.RippleExchange;
@@ -46,19 +44,19 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
    * similarly if the counter currency is not XRP then {@link RippleExchange.DATA_COUNTER_COUNTERPARTY} will be populated.
    */
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     return RippleAdapters.adaptOpenOrders(getOpenAccountOrders(), ripple.getRoundingScale());
   }
 
   @Override
   public String placeMarketOrder(
-      final MarketOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      final MarketOrder order) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -67,7 +65,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
    */
   @Override
   public String placeLimitOrder(
-      final LimitOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      final LimitOrder order) throws IOException {
     if (order instanceof RippleLimitOrder) {
       return placeOrder((RippleLimitOrder) order, ripple.validateOrderRequests());
     } else {
@@ -77,12 +75,12 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(
-      final String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      final String orderId) throws IOException {
     return cancelOrder(orderId, ripple.validateOrderRequests());
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
@@ -136,7 +134,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

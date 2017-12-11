@@ -11,7 +11,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -35,7 +34,7 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
 
   @Override
   public boolean cancelOrder(
-      String arg0) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String arg0) throws IOException {
 
     try {
       VaultoroCancelOrderResponse response = super.cancelVaultoroOrder(arg0);
@@ -50,7 +49,7 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
@@ -70,13 +69,13 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     return VaultoroAdapters.adaptVaultoroOpenOrders(getVaultoroOrders());
   }
 
@@ -88,7 +87,7 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
 
   @Override
   public String placeLimitOrder(
-      LimitOrder arg0) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      LimitOrder arg0) throws IOException {
 
     VaultoroNewOrderResponse response = super.placeLimitOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount(), arg0.getLimitPrice());
     return response.getData().getOrderID();
@@ -97,7 +96,7 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
 
   @Override
   public String placeMarketOrder(
-      MarketOrder arg0) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      MarketOrder arg0) throws IOException {
 
     VaultoroNewOrderResponse response = super.placeMarketOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount());
     return response.getData().getOrderID();
@@ -106,7 +105,7 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(
-      String... arg0) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... arg0) throws IOException {
 
     throw new NotAvailableFromExchangeException();
 

@@ -1,13 +1,13 @@
 package org.knowm.xchange.koinim;
 
+import static org.knowm.xchange.currency.Currency.BTC;
+import static org.knowm.xchange.currency.Currency.TRY;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
-
-import static org.knowm.xchange.currency.Currency.BTC;
-import static org.knowm.xchange.currency.Currency.TRY;
 
 /**
  * @author ahmetoz
