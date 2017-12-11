@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 
 /**
- * @author Matija Mazi
+ * @author Stuart Low
  */
 public final class IndependentReserveTicker {
 	private final BigDecimal last;

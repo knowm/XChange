@@ -17,6 +17,7 @@ import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTic
 
 /**
  * Author: Kamil Zbikowski Date: 4/9/15
+ * @author Stuart Low <stuart@bizabank.com> 
  */
 public class IndependentReserveMarketDataService extends IndependentReserveMarketDataServiceRaw implements MarketDataService {
   public IndependentReserveMarketDataService(IndependentReserveExchange independentReserveExchange) {
