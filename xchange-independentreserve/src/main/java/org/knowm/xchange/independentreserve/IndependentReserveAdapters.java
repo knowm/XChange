@@ -3,10 +3,12 @@ package org.knowm.xchange.independentreserve;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.math.BigDecimal;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -23,6 +25,8 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrde
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTrade;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
+import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
+import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTicker;
 
 /**
  * Author: Kamil Zbikowski Date: 4/10/15
@@ -49,6 +53,31 @@ public class IndependentReserveAdapters {
 
     return new OrderBook(timestamp, asks, bids);
   }
+  
+  /**
+   * Adapts a IndependentReserveTicker to a Ticker Object
+   *
+   * @param independentReserveTicker The exchange specific ticker
+   * @param currencyPair (e.g. BTC/USD)
+   * @return The ticker
+   */
+  public static Ticker adaptTicker(IndependentReserveTicker independentReserveTicker, CurrencyPair currencyPair) {
+
+    BigDecimal last = independentReserveTicker.getLast();
+    BigDecimal bid = independentReserveTicker.getBid();
+    BigDecimal ask = independentReserveTicker.getAsk();
+    BigDecimal high = independentReserveTicker.getHigh();
+    BigDecimal low = independentReserveTicker.getLow();
+    BigDecimal vwap = independentReserveTicker.getVwap();
+    BigDecimal volume = independentReserveTicker.getVolume();
+    Date timestamp = independentReserveTicker.getTimestamp();
+
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
+        .timestamp(timestamp).build();
+
+  }
+
+
 
   private static List<LimitOrder> adaptOrders(List<OrderBookOrder> buyOrders, Order.OrderType type, CurrencyPair currencyPair) {
     final List<LimitOrder> orders = new ArrayList<>();
@@ -58,6 +87,8 @@ public class IndependentReserveAdapters {
     }
     return orders;
   }
+  
+
 
   public static Wallet adaptWallet(IndependentReserveBalance independentReserveBalance) {
     List<Balance> balances = new ArrayList<>();
