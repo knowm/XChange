@@ -24,6 +24,8 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
@@ -79,11 +81,13 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(CancelOrderParams params) throws IOException {
-    if (!(params instanceof BinanceCancelOrderParams)) {
+    if (!(params instanceof CancelOrderByCurrencyPair) && !(params instanceof CancelOrderByIdParams)) {
       throw new ExchangeException("You need to provide the currency pair and the order id to cancel an order.");
     }
-    BinanceCancelOrderParams p = (BinanceCancelOrderParams) params;
-    super.cancelOrder(BinanceAdapters.toSymbol(p.pair), BinanceAdapters.id(p.orderId), null, null, null, System.currentTimeMillis());
+    CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
+    CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
+    super.cancelOrder(BinanceAdapters.toSymbol(paramCurrencyPair.getCurrencyPair()), BinanceAdapters.id(paramId.getOrderId()), null, null,
+        null, System.currentTimeMillis());
     return true;
   }
 
