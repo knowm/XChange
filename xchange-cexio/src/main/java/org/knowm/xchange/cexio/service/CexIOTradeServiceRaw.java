@@ -201,7 +201,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
   public Map getOrderTransactions(String orderId) throws IOException {
     return cexIOAuthenticated.getOrderTransactions(
-        signatureCreator, new CexioSingleIdRequest(orderId));
+        signatureCreator, new CexioSingleOrderIdRequest(orderId));
   }
 
   public List<CexioPosition> getOpenPositions(CurrencyPair currencyPair) throws IOException {
