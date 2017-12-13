@@ -1,8 +1,5 @@
 package org.knowm.xchange.bitstamp.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
@@ -11,9 +8,11 @@ import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
-
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * @author gnandiga
@@ -40,6 +39,12 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   public BitstampOrder[] getBitstampOpenOrders(CurrencyPair pair) throws IOException {
     return bitstampAuthenticatedV2.getOpenOrders(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair));
+  }
+
+  public BitstampOrder placeBitstampMarketOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side,
+                                                BigDecimal originalAmount) throws IOException {
+    return bitstampAuthenticatedV2.placeMarketOrder(
+            apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), originalAmount);
   }
 
   public BitstampOrder placeBitstampOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal originalAmount,

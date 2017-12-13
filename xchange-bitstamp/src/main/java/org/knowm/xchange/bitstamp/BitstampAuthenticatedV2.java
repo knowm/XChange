@@ -30,6 +30,12 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("pair") BitstampV2.Pair pair) throws BitstampException, IOException;
 
   @POST
+  @Path("{side}/market/{pair}/")
+  BitstampOrder placeMarketOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("side") Side side, @PathParam("pair") BitstampV2.Pair pair,
+      @FormParam("amount") BigDecimal amount) throws BitstampException, IOException;
+
+  @POST
   @Path("{side}/{pair}/")
   BitstampOrder placeOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("side") Side side, @PathParam("pair") BitstampV2.Pair pair,

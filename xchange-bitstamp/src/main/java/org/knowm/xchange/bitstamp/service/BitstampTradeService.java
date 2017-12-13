@@ -1,13 +1,5 @@
 package org.knowm.xchange.bitstamp.service;
 
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
@@ -26,16 +18,17 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelAllOrders;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 /**
  * @author Matija Mazi
@@ -68,9 +61,13 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, BitstampException {
-
-    throw new NotAvailableFromExchangeException();
+  public String placeMarketOrder(MarketOrder order) throws IOException, BitstampException {
+    BitstampAuthenticatedV2.Side side = order.getType().equals(BID) ? BitstampAuthenticatedV2.Side.buy : BitstampAuthenticatedV2.Side.sell;
+    BitstampOrder bitstampOrder = placeBitstampMarketOrder(order.getCurrencyPair(), side, order.getOriginalAmount());
+    if (bitstampOrder.getErrorMessage() != null) {
+      throw new ExchangeException(bitstampOrder.getErrorMessage());
+    }
+    return Integer.toString(bitstampOrder.getId());
   }
 
   @Override
