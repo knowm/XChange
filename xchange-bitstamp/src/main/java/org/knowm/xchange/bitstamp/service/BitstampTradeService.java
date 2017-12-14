@@ -23,7 +23,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -67,9 +66,13 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, BitstampException {
-
-    throw new NotAvailableFromExchangeException();
+  public String placeMarketOrder(MarketOrder order) throws IOException, BitstampException {
+    BitstampAuthenticatedV2.Side side = order.getType().equals(BID) ? BitstampAuthenticatedV2.Side.buy : BitstampAuthenticatedV2.Side.sell;
+    BitstampOrder bitstampOrder = placeBitstampMarketOrder(order.getCurrencyPair(), side, order.getOriginalAmount());
+    if (bitstampOrder.getErrorMessage() != null) {
+      throw new ExchangeException(bitstampOrder.getErrorMessage());
+    }
+    return Integer.toString(bitstampOrder.getId());
   }
 
   @Override
