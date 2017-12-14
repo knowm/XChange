@@ -43,6 +43,12 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
     return bitstampAuthenticatedV2.getOpenOrders(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair));
   }
 
+  public BitstampOrder placeBitstampMarketOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side,
+                                                BigDecimal originalAmount) throws IOException {
+    return bitstampAuthenticatedV2.placeMarketOrder(
+            apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), originalAmount);
+  }
+
   public BitstampOrder placeBitstampOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal originalAmount,
       BigDecimal price) throws IOException {
     return bitstampAuthenticatedV2.placeOrder(apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), originalAmount, price);
