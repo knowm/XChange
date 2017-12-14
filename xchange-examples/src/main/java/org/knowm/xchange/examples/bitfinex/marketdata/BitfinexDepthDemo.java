@@ -19,10 +19,10 @@ public class BitfinexDepthDemo {
   public static void main(String[] args) throws Exception {
 
     // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    MarketDataService marketDataService = btce.getMarketDataService();
+    MarketDataService marketDataService = bitfinex.getMarketDataService();
 
     generic(marketDataService);
     raw((BitfinexMarketDataServiceRaw) marketDataService);
