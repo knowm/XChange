@@ -105,7 +105,9 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
 
     if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
       CurrencyPair currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
-      ccyPair = BittrexUtils.toPairString(currencyPair);
+      if(currencyPair != null) {
+        ccyPair = BittrexUtils.toPairString(currencyPair);
+      }
     }
 
     BittrexOpenOrdersResponse response = bittrexAuthenticated.openorders(apiKey, signatureCreator, exchange.getNonceFactory(), ccyPair);
