@@ -77,7 +77,7 @@ public class CoinbaseMarketDataJsonTest {
   public void testDeserializeSpotRateHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
+    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.txt");
     String spotPriceHistoryString;
     try (Scanner scanner = new Scanner(is)) {
       spotPriceHistoryString = scanner.useDelimiter("\\A").next();

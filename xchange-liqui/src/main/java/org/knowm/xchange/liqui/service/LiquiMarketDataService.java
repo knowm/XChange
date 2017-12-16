@@ -7,9 +7,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.liqui.LiquiAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -19,17 +16,17 @@ public class LiquiMarketDataService extends LiquiMarketDataServiceRaw implements
   }
 
   @Override
-  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args) throws IOException {
     return LiquiAdapters.adaptTicker(getTicker(currencyPair), currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args) throws IOException {
     return LiquiAdapters.adaptOrderBook(getDepth(currencyPair, 2000), currencyPair);
   }
 
   @Override
-  public Trades getTrades(final CurrencyPair currencyPair, final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(final CurrencyPair currencyPair, final Object... args) throws IOException {
     return LiquiAdapters.adaptTrades(getTrades(currencyPair, 2000), currencyPair);
   }
 }

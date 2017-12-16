@@ -9,9 +9,7 @@ import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinDigest;
 import org.knowm.xchange.livecoin.LivecoinExchange;
@@ -29,17 +27,17 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws IOException {
     return new AccountInfo(balances(null));
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     LivecoinWithdrawParams livecoinWithdrawParams;
 
     if (params instanceof LivecoinWithdrawParams) {
@@ -55,12 +53,12 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
     return walletAddress(currency);
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     Date start = new Date(0);
     Date end = new Date();
     if (params instanceof TradeHistoryParamsTimeSpan) {

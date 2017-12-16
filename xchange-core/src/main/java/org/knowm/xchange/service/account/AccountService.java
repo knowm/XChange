@@ -38,7 +38,7 @@ public interface AccountService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  AccountInfo getAccountInfo() throws IOException;
 
   /**
    * Convenience method, typically just delegates to withdrawFunds(WithdrawFundsParams params)
@@ -54,7 +54,7 @@ public interface AccountService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+      String address) throws IOException;
 
   /**
    * Withdraw funds from this account. Allows to withdraw digital currency funds from the exchange account to an external address
@@ -67,7 +67,7 @@ public interface AccountService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  String withdrawFunds(WithdrawFundsParams params) throws IOException;
 
   /**
    * Request a digital currency address to fund this account. Allows to fund the exchange account with digital currency from an external address
@@ -82,7 +82,7 @@ public interface AccountService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   String requestDepositAddress(Currency currency,
-      String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+      String... args) throws IOException;
 
   /**
    * Create {@link TradeHistoryParams} object specific to this exchange. Object created by this method may be used to discover supported and required
@@ -100,5 +100,5 @@ public interface AccountService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+      TradeHistoryParams params) throws IOException;
 }

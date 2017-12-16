@@ -16,9 +16,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -103,12 +101,12 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... objects) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... objects) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 

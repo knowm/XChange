@@ -18,7 +18,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAdapters;
 import org.knowm.xchange.quadrigacx.dto.QuadrigaCxException;
@@ -54,7 +53,7 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     Collection<CurrencyPair> currencyPairs;
     if (params instanceof OpenOrdersParamMultiCurrencyPair) {
       currencyPairs = ((OpenOrdersParamMultiCurrencyPair) params).getCurrencyPairs();
@@ -120,11 +119,12 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -183,7 +183,7 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

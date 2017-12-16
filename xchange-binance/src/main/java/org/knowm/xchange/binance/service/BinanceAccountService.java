@@ -17,9 +17,7 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -45,14 +43,14 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws IOException {
     withdraw0(currency.getCurrencyCode(), address, amount);
     return null;
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws IOException {
     if (!(params instanceof DefaultWithdrawFundsParams)) {
       throw new RuntimeException("DefaultWithdrawFundsParams must be provided.");
     }
@@ -69,7 +67,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public String requestDepositAddress(Currency currency, String... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -80,7 +78,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws IOException {
     if (params instanceof TradeHistoryParamCurrency) {
       throw new RuntimeException("You must provide the currency in order to get the funding history (TradeHistoryParamCurrency).");
     }

@@ -33,7 +33,7 @@ public class CurrencyTest {
   public void testEquals() {
     assertEquals(Currency.BTC, Currency.XBT);
     assertNotEquals(Currency.LTC, Currency.XBT);
-    
+
     Currency btc = SerializationUtils.deserialize(SerializationUtils.serialize(Currency.BTC));
     assertEquals(Currency.BTC, btc);
     assertEquals(Currency.XBT, btc);

@@ -26,7 +26,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelAllOrders;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
@@ -91,13 +90,12 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
-    } else if (orderParams instanceof CancelAllOrders) {
-      cancelAllBitstampOrders();
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -138,7 +136,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

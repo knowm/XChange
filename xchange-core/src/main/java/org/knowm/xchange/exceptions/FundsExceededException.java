@@ -8,6 +8,7 @@ public class FundsExceededException extends ExchangeException {
   public FundsExceededException(String message) {
     super(message);
   }
+
   public FundsExceededException(Throwable e) {
     super(e);
   }
