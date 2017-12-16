@@ -12,8 +12,6 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.yobit.YoBit;
@@ -27,7 +25,7 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit> imp
     super(YoBit.class, exchange);
   }
 
-  public AccountInfo getInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getInfo() throws IOException {
     BaseYoBitResponse response = service.getInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "getInfo", exchange.getNonceFactory());
 
     if (!response.success)

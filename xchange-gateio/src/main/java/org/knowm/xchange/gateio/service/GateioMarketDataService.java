@@ -2,7 +2,6 @@ package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
@@ -49,7 +48,7 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw implemen
     Map<CurrencyPair, GateioDepth> gateioDepths = super.getGateioDepths();
     Map<CurrencyPair, OrderBook> orderBooks = new HashMap<>(gateioDepths.size());
 
-    gateioDepths.forEach((currencyPair, gateioDepth)-> {
+    gateioDepths.forEach((currencyPair, gateioDepth) -> {
       OrderBook orderBook = GateioAdapters.adaptOrderBook(gateioDepth, currencyPair);
       orderBooks.put(currencyPair, orderBook);
     });

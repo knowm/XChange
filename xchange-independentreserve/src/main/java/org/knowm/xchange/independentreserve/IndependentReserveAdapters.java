@@ -1,5 +1,6 @@
 package org.knowm.xchange.independentreserve;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -18,6 +20,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveAccount;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
+import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTicker;
 import org.knowm.xchange.independentreserve.dto.marketdata.OrderBookOrder;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrder;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
@@ -48,6 +51,29 @@ public class IndependentReserveAdapters {
     Date timestamp = independentReserveOrderBook.getCreatedTimestamp();
 
     return new OrderBook(timestamp, asks, bids);
+  }
+
+  /**
+   * Adapts a IndependentReserveTicker to a Ticker Object
+   *
+   * @param independentReserveTicker The exchange specific ticker
+   * @param currencyPair (e.g. BTC/USD)
+   * @return The ticker
+   */
+  public static Ticker adaptTicker(IndependentReserveTicker independentReserveTicker, CurrencyPair currencyPair) {
+
+    BigDecimal last = independentReserveTicker.getLast();
+    BigDecimal bid = independentReserveTicker.getBid();
+    BigDecimal ask = independentReserveTicker.getAsk();
+    BigDecimal high = independentReserveTicker.getHigh();
+    BigDecimal low = independentReserveTicker.getLow();
+    BigDecimal vwap = independentReserveTicker.getVwap();
+    BigDecimal volume = independentReserveTicker.getVolume();
+    Date timestamp = independentReserveTicker.getTimestamp();
+
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
+        .timestamp(timestamp).build();
+
   }
 
   private static List<LimitOrder> adaptOrders(List<OrderBookOrder> buyOrders, Order.OrderType type, CurrencyPair currencyPair) {

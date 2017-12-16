@@ -513,24 +513,24 @@ public class Currency implements Comparable<Currency>, Serializable {
 
     @Override
     public int hashCode() {
-        return commonCode.hashCode();
+      return commonCode.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        CurrencyAttributes other = (CurrencyAttributes) obj;
-        if (commonCode == null) {
-            if (other.commonCode != null)
-                return false;
-        } else if (!commonCode.equals(other.commonCode))
-            return false;
+      if (this == obj)
         return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      CurrencyAttributes other = (CurrencyAttributes) obj;
+      if (commonCode == null) {
+        if (other.commonCode != null)
+          return false;
+      } else if (!commonCode.equals(other.commonCode))
+        return false;
+      return true;
     }
 
   }

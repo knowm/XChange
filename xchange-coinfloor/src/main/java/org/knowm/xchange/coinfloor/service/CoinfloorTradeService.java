@@ -16,8 +16,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -45,14 +43,14 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
     // no currency pairs have been supplied - search them all
     return getOpenOrders(NO_CURRENCY_PAIR, allConfiguredCurrencyPairs);
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params)
+      throws IOException {
     CurrencyPair pair;
     if (params instanceof OpenOrdersParamCurrencyPair) {
       pair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
@@ -169,38 +167,40 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
   }
 
   @Override
-  public String placeLimitOrder(
-      LimitOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder order)
+      throws IOException {
     CoinfloorOrder rawOrder = placeLimitOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount(), order.getLimitPrice());
     return Long.toString(rawOrder.getId());
   }
 
   @Override
-  public String placeMarketOrder(
-      MarketOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder order)
+      throws IOException {
     placeMarketOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount());
     return ""; // coinfloor does not return an id for market orders
   }
 
   @Override
-  public boolean cancelOrder(
-      String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(String orderId)
+      throws IOException {
     // API requires currency pair but value seems to be ignored - only the order ID is used for lookup. 
     CurrencyPair currencyPairValueIsIgnored = CurrencyPair.BTC_GBP;
     return cancelOrder(currencyPairValueIsIgnored, Long.parseLong(orderId));
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams)
+      throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds)
+      throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

@@ -85,7 +85,9 @@ public enum ExchangeFactory {
     exchange.applySpecification(defaultExchangeSpecification);
 
     return exchange;
-  }  /**
+  }
+
+  /**
    * Create an Exchange object with default ExchangeSpecification with authentication info and API keys provided through parameters
    * <p>
    * The factory is parameterized with the name of the exchange implementation class. This must be a class extending

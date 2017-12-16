@@ -12,7 +12,6 @@ import org.knowm.xchange.bitmarket.dto.account.BitMarketWithdrawResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -31,7 +30,7 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws IOException {
 
     BitMarketAccountInfo accountInfo = getBitMarketAccountInfo().getData();
     return new AccountInfo(exchange.getExchangeSpecification().getUserName(), BitMarketAdapters.adaptWallet(accountInfo.getBalance()));
@@ -39,14 +38,14 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String address) throws IOException {
 
     BitMarketWithdrawResponse response = withdrawFromBitMarket(currency.toString(), amount, address);
     return response.getData();
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
@@ -56,7 +55,7 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
 
   @Override
   public String requestDepositAddress(Currency currency,
-      String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... strings) throws IOException {
 
     BitMarketDepositResponse response = depositToBitMarket(currency.toString());
     return response.getData();
@@ -69,7 +68,7 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
 
   @Override
   public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

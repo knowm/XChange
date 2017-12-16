@@ -103,11 +103,12 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -182,7 +183,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     //we need to get the open orders
     // for what is not an open order, we need to query one by one.
     // but this returns fills by order, that we need need to calculate the remaining quantity, average fill price, and order type (in adapter).
