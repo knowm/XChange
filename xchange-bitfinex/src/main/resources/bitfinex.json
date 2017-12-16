@@ -99,28 +99,56 @@
   },
   "currencies": {
     "BTC": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.0005
     },
     "BCH": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.0005
     },
     "ETH": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.01
     },
-    "IOT": {
-      "scale": 8
+    "ETC": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
     },
     "LTC": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.001
     },
     "XRP": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.02
     },
     "USD": {
-      "scale": 2
+      "scale": 2,
+      "withdrawal_fee": 0
     },
     "XMR": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.04
+    },
+    "ZEC": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "DASH": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "EOS": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "IOT": {
+      "scale": 8,
+      "withdrawal_fee": 0.5
+    },
+    "USDT": {
+      "scale": 8,
+      "withdrawal_fee": 5.0
     }
   }
 }
