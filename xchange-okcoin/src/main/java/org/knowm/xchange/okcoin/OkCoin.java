@@ -22,6 +22,7 @@ import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinPositionResult;
+import org.knowm.xchange.okcoin.dto.trade.OkCoinPriceLimit;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 
 import si.mazi.rescu.ParamsDigest;
@@ -44,8 +45,7 @@ public interface OkCoin {
 
   @GET
   @Path("future_depth.do")
-  OkCoinDepth getFuturesDepth(@QueryParam("ok") String ok, @QueryParam("symbol") String symbol,
-      @QueryParam("contract_type") String contract) throws IOException;
+  OkCoinDepth getFuturesDepth(@QueryParam("ok") String ok, @QueryParam("symbol") String symbol, @QueryParam("contract_type") String contract) throws IOException;
 
   @GET
   @Path("trades.do")
@@ -53,8 +53,7 @@ public interface OkCoin {
 
   @GET
   @Path("future_trades.do")
-  OkCoinTrade[] getFuturesTrades(@QueryParam("ok") String ok, @QueryParam("symbol") String symbol,
-      @QueryParam("contract_type") String contract) throws IOException;
+  OkCoinTrade[] getFuturesTrades(@QueryParam("ok") String ok, @QueryParam("symbol") String symbol, @QueryParam("contract_type") String contract) throws IOException;
 
   @GET
   @Path("trades.do")
@@ -108,8 +107,11 @@ public interface OkCoin {
   @Path("future_order_info.do")
   OkCoinFuturesOrderResult getFuturesOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId,
       @FormParam("symbol") String symbol, @FormParam("status") String status, @FormParam("current_page") String currentPage,
-      @FormParam("page_length") String pageLength, @FormParam("contract_type") String contract,
-      @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("page_length") String pageLength, @FormParam("contract_type") String contract, @FormParam("sign") ParamsDigest sign) throws IOException;
+
+  @GET
+  @Path("future_price_limit.do")
+  OkCoinPriceLimit getFuturesPriceLimits(@QueryParam("symbol") String symbol, @QueryParam("contract_type") String contract) throws IOException;
 
   @POST
   @Path(value = "future_orders_info.do")
@@ -135,8 +137,7 @@ public interface OkCoin {
   @POST
   @Path("order_history.do")
   OkCoinOrderResult getOrderHistory(@FormParam("api_key") String apikey, @FormParam("symbol") String symbol, @FormParam("status") String status,
-      @FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength,
-      @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   @Path("withdraw.do")
@@ -147,6 +148,5 @@ public interface OkCoin {
   @POST
   @Path("account_records.do")
   OkCoinAccountRecords getAccountRecords(@FormParam("api_key") String apikey, @FormParam("symbol") String symbol, @FormParam("type") String type,
-      @FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength,
-      @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength, @FormParam("sign") ParamsDigest sign) throws IOException;
 }

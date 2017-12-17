@@ -3,18 +3,21 @@ package org.knowm.xchange.okcoin.service;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.okcoin.FuturesContract;
+import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinPositionResult;
+import org.knowm.xchange.okcoin.dto.trade.OkCoinPriceLimit;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 
 public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
 
   /**
    * Constructor
-   *
+   * 
    * @param exchange
    */
   protected OkCoinTradeServiceRaw(Exchange exchange) {
@@ -64,16 +67,20 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
     return returnOrThrow(tradeResult);
   }
 
-  public OkCoinFuturesOrderResult getFuturesOrder(long orderId, String symbol, String currentPage, String pageLength,
-      FuturesContract contract) throws IOException {
+  public OkCoinFuturesOrderResult getFuturesOrder(long orderId, String symbol, String currentPage, String pageLength, FuturesContract contract) throws IOException {
 
     OkCoinFuturesOrderResult futuresOrder = okCoin.getFuturesOrder(apikey, orderId, symbol, "1", currentPage, pageLength, contract.getName(),
         signatureCreator);
     return returnOrThrow(futuresOrder);
   }
 
-  public OkCoinFuturesOrderResult getFuturesFilledOrder(long orderId, String symbol, String currentPage, String pageLength,
-      FuturesContract contract) throws IOException {
+  public OkCoinPriceLimit getFuturesPriceLimits(CurrencyPair currencyPair, FuturesContract prompt) throws IOException {
+
+    return okCoin.getFuturesPriceLimits(OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName());
+
+  }
+
+  public OkCoinFuturesOrderResult getFuturesFilledOrder(long orderId, String symbol, String currentPage, String pageLength, FuturesContract contract) throws IOException {
 
     OkCoinFuturesOrderResult futuresOrder = okCoin.getFuturesOrder(apikey, orderId, symbol, "2", currentPage, pageLength, contract.getName(),
         signatureCreator);
