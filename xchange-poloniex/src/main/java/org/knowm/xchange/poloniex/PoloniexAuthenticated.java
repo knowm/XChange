@@ -17,11 +17,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.account.WithdrawalResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
+import org.knowm.xchange.poloniex.dto.trade.*;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -69,6 +65,11 @@ public interface PoloniexAuthenticated {
   PoloniexUserTrade[] returnTradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair, @FormParam("start") Long startTime,
       @FormParam("end") Long endTime) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
+  PoloniexMarginAccountResponse returnMarginAccountSummary(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+                                                           @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")

@@ -14,11 +14,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexOrderFlags;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
+import org.knowm.xchange.poloniex.dto.trade.*;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -58,6 +54,10 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
 
     String ignore = null; // only used so PoloniexAuthenticated.returnTradeHistory can be overloaded
     return poloniexAuthenticated.returnTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), "all", startTime, endTime, ignore);
+  }
+
+  public PoloniexMarginAccountResponse returnMarginAccountSummary() throws IOException {
+    return poloniexAuthenticated.returnMarginAccountSummary(apiKey,signatureCreator,exchange.getNonceFactory());
   }
 
   public PoloniexTradeResponse buy(LimitOrder limitOrder) throws IOException {
