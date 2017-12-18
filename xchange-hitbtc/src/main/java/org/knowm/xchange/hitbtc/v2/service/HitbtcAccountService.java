@@ -61,7 +61,25 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
-    List<HitbtcTransaction> transactions = getTransactions();
+    List<HitbtcTransaction> transactions;
+
+    if (params instanceof TradeHistoryParams) {
+      HitbtcTradeHistoryParams hitbtcTradeHistoryParams = (HitbtcTradeHistoryParams) params;
+
+      String currency =  hitbtcTradeHistoryParams.getCurrency() != null ?
+          hitbtcTradeHistoryParams.getCurrency().getCurrencyCode() :
+          null;
+
+      transactions = getTransactions(
+          currency,
+          hitbtcTradeHistoryParams.getLimit(),
+          hitbtcTradeHistoryParams.getOffset()
+      );
+    }
+
+    else {
+      transactions = getTransactions(null, null, null);
+    }
 
     List<FundingRecord> records = new ArrayList<>();
     for (HitbtcTransaction transaction : transactions) {

@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.QueryParam;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -66,8 +68,8 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     return hitbtcDepositAddress.getAddress();
   }
 
-  public List<HitbtcTransaction> getTransactions() throws HttpStatusIOException {
-    return hitbtc.transactions();
+  public List<HitbtcTransaction> getTransactions(String currency, Integer limit, Integer offset) throws HttpStatusIOException {
+    return hitbtc.transactions(currency, limit, offset);
   }
 
 }

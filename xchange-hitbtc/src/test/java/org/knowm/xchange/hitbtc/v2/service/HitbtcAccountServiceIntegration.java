@@ -1,6 +1,7 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
@@ -8,6 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.hitbtc.v2.BaseAuthenticatedServiceTest;
 
 /**
@@ -32,6 +34,28 @@ public class HitbtcAccountServiceIntegration extends BaseAuthenticatedServiceTes
     String address = service.requestDepositAddress(Currency.BTC);
 
     Assert.assertTrue(StringUtils.isNotEmpty(address));
+  }
+
+  @Test
+  public void testGetFundingHistory() throws IOException {
+
+    HitbtcTradeHistoryParams hitbtcTradeHistoryParams = HitbtcTradeHistoryParams.builder().build();
+
+    List<FundingRecord> records = service.getFundingHistory(hitbtcTradeHistoryParams);
+
+    Assert.assertTrue(!records.isEmpty());
+  }
+
+  @Test
+  public void testGetFundingHistory_withParams() throws IOException {
+
+    HitbtcTradeHistoryParams hitbtcTradeHistoryParams = HitbtcTradeHistoryParams.builder()
+        .limit(2)
+        .build();
+
+    List<FundingRecord> records = service.getFundingHistory(hitbtcTradeHistoryParams);
+
+    Assert.assertTrue(!records.isEmpty());
   }
 
 }

@@ -13,6 +13,7 @@ import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcAddress;
@@ -43,7 +44,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("account/transactions")
-  List<HitbtcTransaction> transactions() throws HttpStatusIOException;
+  List<HitbtcTransaction> transactions(@QueryParam("currency") String currency, @QueryParam("limit") Integer limit, @QueryParam("offset") Integer offset) throws HttpStatusIOException;
 
   @POST
   @Path("account/transfer")
