@@ -79,7 +79,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
       throws IOException {
-    if (params instanceof TradeHistoryParamCurrency) {
+    if (!(params instanceof TradeHistoryParamCurrency)) {
       throw new RuntimeException("You must provide the currency in order to get the funding history (TradeHistoryParamCurrency).");
     }
     TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
