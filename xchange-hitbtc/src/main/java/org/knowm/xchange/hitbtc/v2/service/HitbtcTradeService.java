@@ -99,32 +99,13 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new HitbtcTradeHistoryParams();
+    return HitbtcTradeHistoryParams.builder().build();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
 
     return null;
-  }
-
-  public static class HitbtcTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
-
-    private CurrencyPair pair;
-
-    public HitbtcTradeHistoryParams() {
-    }
-
-    @Override
-    public void setCurrencyPair(CurrencyPair pair) {
-
-      this.pair = pair;
-    }
-
-    @Override
-    public CurrencyPair getCurrencyPair() {
-      return pair;
-    }
   }
 
   @Override
