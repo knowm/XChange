@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.bitfinex.dto;
 
+import static java.math.BigDecimal.ZERO;
+
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 
@@ -12,7 +14,6 @@ import java.util.*;
 public class BitfinexOrderbook {
     private Map<BigDecimal, BitfinexOrderbookLevel> asks;
     private Map<BigDecimal, BitfinexOrderbookLevel> bids;
-    private BigDecimal zero = new BigDecimal(0);
 
     public BitfinexOrderbook(BitfinexOrderbookLevel[] levels) {
         createFromLevels(levels);
@@ -35,9 +36,8 @@ public class BitfinexOrderbook {
         this.asks = new HashMap<>(levels.length/2);
         this.bids = new HashMap<>(levels.length/2);
 
-        BigDecimal zero = new BigDecimal(0);
         for (BitfinexOrderbookLevel level : levels) {
-            if (level.getAmount().compareTo(zero) > 0) bids.put(level.getOrderId(), level);
+            if (level.getAmount().compareTo(ZERO) > 0) bids.put(level.getOrderId(), level);
             else asks.put(level.getOrderId(), level);
         }
     }
@@ -68,8 +68,8 @@ public class BitfinexOrderbook {
     }
 
     public void updateLevel(BitfinexOrderbookLevel level) {
-        Map<BigDecimal, BitfinexOrderbookLevel> side = level.getAmount().compareTo(zero) > 0 ? bids : asks;
-        boolean shouldDelete = level.getPrice().compareTo(zero) == 0;
+        Map<BigDecimal, BitfinexOrderbookLevel> side = level.getAmount().compareTo(ZERO) > 0 ? bids : asks;
+        boolean shouldDelete = level.getPrice().compareTo(ZERO) == 0;
 
         side.remove(level.orderId);
         if (!shouldDelete) {

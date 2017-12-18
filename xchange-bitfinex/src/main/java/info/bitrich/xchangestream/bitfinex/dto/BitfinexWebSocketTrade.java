@@ -42,8 +42,7 @@ public class BitfinexWebSocketTrade {
 
     public BitfinexTrade toBitfinexTrade() {
         String type;
-        BigDecimal zero = new BigDecimal(0);
-        if (amount.compareTo(zero) < 0) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
             type = "sell";
         } else {
             type = "buy";
