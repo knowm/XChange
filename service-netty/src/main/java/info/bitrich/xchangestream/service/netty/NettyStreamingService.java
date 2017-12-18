@@ -31,10 +31,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class NettyStreamingService<T> {
     private static final Logger LOG = LoggerFactory.getLogger(NettyStreamingService.class);
 
+    private class Subscription {
+        ObservableEmitter<T> emitter;
+        Object[] args;
+    }
+
     private final int maxFramePayloadLength;
     private final URI uri;
     private Channel webSocketChannel;
-    protected Map<String, ObservableEmitter<T>> channels = new ConcurrentHashMap<>();
+    protected Map<String, Subscription> channels = new ConcurrentHashMap<>();
 
     public NettyStreamingService(String apiUrl) {
         this(apiUrl, 65536);
@@ -178,7 +183,10 @@ public abstract class NettyStreamingService<T> {
             }
 
             if (!channels.containsKey(channelId)) {
-                channels.put(channelId, e);
+                Subscription newSubscription = new Subscription();
+                newSubscription.args = args;
+                newSubscription.emitter = e;
+                channels.put(channelId, newSubscription);
                 try {
                     sendMessage(getSubscribeMessage(channelName, args));
                 } catch (IOException throwable) {
@@ -191,6 +199,16 @@ public abstract class NettyStreamingService<T> {
                 channels.remove(channelId);
             }
         }).share();
+    }
+
+    public void resubscribeChannels() {
+        for (String channelName : channels.keySet()) {
+            try {
+                sendMessage(getSubscribeMessage(channelName, channels.get(channelName).args));
+            } catch (IOException e) {
+                LOG.error("Failed to reconnect channel: {}", channelName);
+            }
+        }
     }
 
     protected String getChannel(T message) {
@@ -216,7 +234,7 @@ public abstract class NettyStreamingService<T> {
 
 
     protected void handleChannelMessage(String channel, T message) {
-        ObservableEmitter<T> emitter = channels.get(channel);
+        ObservableEmitter<T> emitter = channels.get(channel).emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
             return;
@@ -226,7 +244,7 @@ public abstract class NettyStreamingService<T> {
     }
 
     protected void handleChannelError(String channel, Throwable t) {
-        ObservableEmitter<T> emitter = channels.get(channel);
+        ObservableEmitter<T> emitter = channels.get(channel).emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
             return;
