@@ -15,6 +15,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.poloniex.PoloniexExamplesUtils;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
 import org.knowm.xchange.poloniex.service.PoloniexTradeService;
 import org.knowm.xchange.poloniex.service.PoloniexTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
@@ -105,6 +106,11 @@ public class PoloniexTradeDemo {
     Thread.sleep(3000); // wait for cancellation to propagate
 
     System.out.println(PoloniexAdapters.adaptPoloniexOpenOrders(tradeService.returnOpenOrders()));
+
+    PoloniexMarginPostionResponse marginPosition = tradeService.returnMarginPosition(currencyPair);
+    System.out.println(marginPosition);
+    PoloniexMarginPostionResponse[] marginPositions = tradeService.returnAllMarginPositions();
+    System.out.println(marginPositions);
   }
 
   private static void printOpenOrders(TradeService tradeService) throws Exception {
