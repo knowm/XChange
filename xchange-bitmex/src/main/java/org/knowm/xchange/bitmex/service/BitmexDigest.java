@@ -1,11 +1,10 @@
 package org.knowm.xchange.bitmex.service;
 
-import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
-
 import si.mazi.rescu.RestInvocation;
+
+import javax.crypto.Mac;
 
 public class BitmexDigest extends BaseParamsDigest {
 
