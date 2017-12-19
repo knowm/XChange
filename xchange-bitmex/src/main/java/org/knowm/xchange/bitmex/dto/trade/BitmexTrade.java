@@ -1,18 +1,16 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -57,14 +55,18 @@ public final class BitmexTrade {
   private Map<String, Object> additionalProperties = new HashMap<>();
 
   @Getter
-  @AllArgsConstructor
   public enum TimeFrame {
     DAILY("daily"),
     WEEKLY("weekly"),
     MONTHLY("monthly"),
     QUARTERLY("quarterly"),
     BI_QUARTERLY("biquarterly");
+
     private String name;
+
+    TimeFrame(String name) {
+      this.name = name;
+    }
 
     @Override
     public String toString() {

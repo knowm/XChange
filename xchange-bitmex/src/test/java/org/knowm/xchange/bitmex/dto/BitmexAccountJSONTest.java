@@ -1,14 +1,11 @@
 package org.knowm.xchange.bitmex.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Test BitstampTicker JSON parsing
