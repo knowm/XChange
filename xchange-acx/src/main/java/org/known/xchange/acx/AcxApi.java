@@ -24,7 +24,7 @@ public interface AcxApi {
      *               an be found at /api/v2/markets.
      */
     @GET
-    @Path("tickers/{market}.json")
+    @Path("/tickers/{market}.json")
     AcxMarket getTicker(@PathParam("market") String market) throws IOException;
 
     /**

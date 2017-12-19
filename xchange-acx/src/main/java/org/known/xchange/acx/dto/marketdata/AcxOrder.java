@@ -21,6 +21,8 @@ public class AcxOrder {
      * - ‘cancel’ means the order has been cancelled.
      */
     public final String state;
+    /** the market the order belongs to, like ‘btcaud’ */
+    private final String marker;
     /** Order created time */
     public final Date createdAt;
     /** Volume to buy/sell */
@@ -38,6 +40,7 @@ public class AcxOrder {
             @JsonProperty("price") BigDecimal price,
             @JsonProperty("avg_price") BigDecimal avgPrice,
             @JsonProperty("state") String state,
+            @JsonProperty("market") String market,
             @JsonProperty("created_at") Date createdAt,
             @JsonProperty("volume") BigDecimal volume,
             @JsonProperty("remaining_volume") BigDecimal remainingVolume,
@@ -49,6 +52,7 @@ public class AcxOrder {
         this.price = price;
         this.avgPrice = avgPrice;
         this.state = state;
+        this.marker = market;
         this.createdAt = createdAt;
         this.volume = volume;
         this.remainingVolume = remainingVolume;

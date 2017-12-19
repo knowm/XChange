@@ -41,24 +41,4 @@ public class AcxExchange extends BaseExchange implements Exchange {
     public SynchronizedValueFactory<Long> getNonceFactory() {
         return nonceFactory;
     }
-
-    public static void main(String[] args) throws IOException {
-        Exchange exchange = createTestExchange();
-        Ticker ticker = exchange.getMarketDataService().getTicker(CurrencyPair.ETH_AUD);
-        System.out.println(ticker);
-
-        OrderBook book = exchange.getMarketDataService().getOrderBook(CurrencyPair.ETH_AUD);
-        System.out.println(book);
-
-        Trades trades = exchange.getMarketDataService().getTrades(CurrencyPair.ETH_AUD);
-        System.out.println(trades);
-    }
-
-    public static Exchange createTestExchange() {
-        Exchange btcMarketsExchange = ExchangeFactory.INSTANCE.createExchange(AcxExchange.class.getName());
-        ExchangeSpecification spec = btcMarketsExchange.getExchangeSpecification();
-
-        btcMarketsExchange.applySpecification(spec);
-        return btcMarketsExchange;
-    }
 }
