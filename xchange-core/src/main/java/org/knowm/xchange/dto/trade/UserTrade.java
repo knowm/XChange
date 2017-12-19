@@ -1,14 +1,15 @@
 package org.knowm.xchange.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * Data object representing a user trade
@@ -73,6 +74,22 @@ public class UserTrade extends Trade {
     return "UserTrade[type=" + type + ", originalAmount=" + originalAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", "
         + "timestamp=" + timestamp + ", id=" + id + ", orderId='" + orderId + '\'' + ", feeAmount=" + feeAmount + ", feeCurrency='" + feeCurrency
         + '\'' + "]";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+    UserTrade userTrade = (UserTrade) o;
+    return Objects.equals(orderId, userTrade.orderId) &&
+            Objects.equals(feeAmount, userTrade.feeAmount) &&
+            Objects.equals(feeCurrency, userTrade.feeCurrency);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), orderId, feeAmount, feeCurrency);
   }
 
   public static class Builder extends Trade.Builder {
