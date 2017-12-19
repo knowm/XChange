@@ -14,7 +14,13 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
-import org.knowm.xchange.poloniex.dto.trade.*;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginAccountResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexOrderFlags;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -58,6 +64,14 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
 
   public PoloniexMarginAccountResponse returnMarginAccountSummary() throws IOException {
     return poloniexAuthenticated.returnMarginAccountSummary(apiKey,signatureCreator,exchange.getNonceFactory());
+  }
+
+  public PoloniexMarginPostionResponse returnMarginPosition(CurrencyPair currencyPair) throws IOException {
+    return poloniexAuthenticated.getMarginPosition(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexUtils.toPairString(currencyPair));
+  }
+
+  public PoloniexMarginPostionResponse[] returnAllMarginPositions() throws IOException {
+    return poloniexAuthenticated.getMarginPositions(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexAuthenticated.AllPairs.all);
   }
 
   public PoloniexTradeResponse buy(LimitOrder limitOrder) throws IOException {
