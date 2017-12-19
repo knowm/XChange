@@ -155,8 +155,8 @@ public class LivecoinAdapters {
       type = OrderType.ASK;
     else if (typeName.equals("LIMIT_BUY"))
       type = OrderType.BID;
-    else if (typeName.equals("LIMIT_SELL"))
-      type = OrderType.ASK;
+    else if (typeName.equals("MARKET_BUY"))
+      type = OrderType.BID;
     else
       throw new IllegalStateException("Don't understand " + map);
 
