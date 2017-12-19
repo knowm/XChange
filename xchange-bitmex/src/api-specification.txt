@@ -1,0 +1,8 @@
+BitMex Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://www.bitmex.com/api/

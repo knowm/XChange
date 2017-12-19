@@ -96,6 +96,7 @@
         <module>xchange-bitcoinium</module>
         <module>xchange-bitcurex</module>
         <module>xchange-bitfinex</module>
+        <module>xchange-bitmex</module>
         <module>xchange-bitmarket</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
@@ -150,6 +151,7 @@
         <module>xchange-vircurex</module>
         <module>xchange-yobit</module>
         <module>xchange-wex</module>
+        <module>xchange-bitmex</module>
     </modules>
 
     <repositories>
