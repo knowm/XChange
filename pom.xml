@@ -87,6 +87,7 @@
 
     <modules>
         <module>xchange-anx</module>
+        <module>xchange-acx</module>
         <module>xchange-binance</module>
         <module>xchange-bitbay</module>
         <module>xchange-bitcoinaverage</module>
