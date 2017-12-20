@@ -16,6 +16,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
@@ -53,7 +55,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
 
@@ -78,6 +80,8 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
         response = withdrawEthFunds(defaultParams.amount, defaultParams.address);
       } else if (defaultParams.currency.equals(Currency.BTC)) {
         response = withdrawBtcFunds(defaultParams.amount, defaultParams.address);
+      } else if (defaultParams.currency.equals(Currency.BCH)) {
+          response = withdrawBchFunds(defaultParams.amount, defaultParams.address);
       } else {
         throw new IllegalStateException("Cannot withdraw " + defaultParams.currency);
       }
@@ -125,7 +129,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-      throws IOException {
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     Long limit = null;
     CurrencyPair currencyPair = null;
     Long offset = null;

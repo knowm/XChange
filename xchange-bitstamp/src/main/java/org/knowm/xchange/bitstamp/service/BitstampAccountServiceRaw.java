@@ -87,6 +87,11 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     return checkAndReturnWithdrawal(response);
   }
+  
+  public BitstampWithdrawal withdrawBchFunds(BigDecimal amount, String address) throws IOException {
+    BitstampWithdrawal response = bitstampAuthenticatedV2.bchWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+    return checkAndReturnWithdrawal(response);
+  }
 
   private BitstampWithdrawal checkAndReturnWithdrawal(BitstampWithdrawal response) {
     if (response.hasError()) {
