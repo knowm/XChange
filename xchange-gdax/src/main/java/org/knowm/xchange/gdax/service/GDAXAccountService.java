@@ -1,12 +1,5 @@
 package org.knowm.xchange.gdax.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -24,6 +17,13 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GDAXAccountService extends GDAXAccountServiceRaw implements AccountService {
 
@@ -132,12 +132,14 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
         Map details = (Map) map.get("details");
 
-        String transferType = details.get("transfer_type").toString();
-
         FundingRecord.Type type;
-        if (transferType.equals("deposit"))
+
+        Object source = details.get("source");
+        if(source != null && source.toString().equals("fork"))
           type = FundingRecord.Type.DEPOSIT;
-        else if (transferType.equals("withdraw"))
+        else if (details.get("transfer_type").toString().equals("deposit"))
+          type = FundingRecord.Type.DEPOSIT;
+        else if (details.get("transfer_type").toString().equals("withdraw"))
           type = FundingRecord.Type.WITHDRAWAL;
         else
           continue;
