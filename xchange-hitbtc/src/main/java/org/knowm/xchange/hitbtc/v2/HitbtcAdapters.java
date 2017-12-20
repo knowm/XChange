@@ -1,15 +1,5 @@
 package org.knowm.xchange.hitbtc.v2;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -39,20 +29,21 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class HitbtcAdapters {
 
-  public static final char DELIMITER = '_';
   /**
    * known counter currencies at HitBTC
    */
   private static final Set<String> counters = new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH"));
-
-  private static final Map<String, FundingRecord.Type> FUNDING_TYPES = new HashMap<String, FundingRecord.Type>() {{
-    put("exchangeToBank", null);//internal transfer
-    put("bankToExchange", null);//internal transfer
-    put("payin", FundingRecord.Type.DEPOSIT);
-    put("payout", FundingRecord.Type.WITHDRAWAL);
-  }};
 
   public static CurrencyPair adaptSymbol(String symbol) {
     String counter = counters.stream().filter(cnt -> symbol.endsWith(cnt)).findAny().orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
@@ -218,14 +209,15 @@ public class HitbtcAdapters {
     return type == OrderType.BID ? HitbtcSide.BUY : HitbtcSide.SELL;
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(List<HitbtcSymbol> symbols, Map<Currency, CurrencyMetaData> currencies) {
-
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+  public static ExchangeMetaData adaptToExchangeMetaData(List<HitbtcSymbol> symbols, Map<Currency, CurrencyMetaData> currencies, Map<CurrencyPair, CurrencyPairMetaData> currencyPairs) {
     if (symbols != null) {
       for (HitbtcSymbol symbol : symbols) {
         CurrencyPair pair = adaptSymbol(symbol);
-        //TODO double check
-        CurrencyPairMetaData meta = new CurrencyPairMetaData(symbol.getTakeLiquidityRate(), symbol.getTakeLiquidityRate(), null, null);
+        BigDecimal tickSize = symbol.getTickSize();
+        int priceScale = tickSize.scale();//not 100% sure this is correct
+        //also, we need to take into account the quantityIncrement
+
+        CurrencyPairMetaData meta = new CurrencyPairMetaData(symbol.getTakeLiquidityRate(), symbol.getTakeLiquidityRate(), null, priceScale);
 
         currencyPairs.put(pair, meta);
       }
@@ -282,7 +274,6 @@ public class HitbtcAdapters {
   }
 
   /**
-   * @param type
    * @return
    * @see https://api.hitbtc.com/api/2/explore/ Transaction Model
    * possible statusses: created, pending, failed, success
