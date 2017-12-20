@@ -1,0 +1,40 @@
+package org.knowm.xchange.bitflyer.service;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
+import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
+
+/**
+ * <p>
+ * Implementation of the market data service for Bitflyer
+ * </p>
+ * <ul>
+ * <li>Provides access to various market data values</li>
+ * </ul>
+ */
+public class BitflyerMarketDataServiceRaw extends BitflyerBaseService {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public BitflyerMarketDataServiceRaw(Exchange exchange) {
+    super(exchange);
+  }
+
+  public List<BitflyerMarket> getMarkets() throws IOException {
+    return bitflyer.getMarkets();
+  }
+
+  public BitflyerTicker getTicker() throws IOException {
+    return bitflyer.getTicker();
+  }
+
+  public BitflyerTicker getTicker(String productCode) throws IOException {
+    return bitflyer.getTicker(productCode);
+  }
+
+}
