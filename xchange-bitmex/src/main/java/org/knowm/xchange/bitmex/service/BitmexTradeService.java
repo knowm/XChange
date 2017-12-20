@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -28,51 +29,51 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    return false;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    return false;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 }

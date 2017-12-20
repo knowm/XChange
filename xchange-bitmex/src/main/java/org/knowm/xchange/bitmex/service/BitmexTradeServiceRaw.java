@@ -6,7 +6,6 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.dto.trade.BitmexTrade;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitmexTradeServiceRaw extends BitmexBaseService {
 
@@ -25,7 +24,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     try {
       return bitmex.getTrades(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitmexException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 
@@ -34,7 +33,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     try {
       return bitmex.getTrades(apiKey, exchange.getNonceFactory(), signatureCreator, symbol);
     } catch (BitmexException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 }
