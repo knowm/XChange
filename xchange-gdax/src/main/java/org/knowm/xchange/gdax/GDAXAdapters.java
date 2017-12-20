@@ -1,18 +1,7 @@
 package org.knowm.xchange.gdax;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -40,6 +29,16 @@ import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 public class GDAXAdapters {
 
@@ -118,11 +117,14 @@ public class GDAXAdapters {
 
   private static List<LimitOrder> toLimitOrderList(GDAXProductBookEntry[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
-    List<LimitOrder> allLevels = new ArrayList<>(levels.length);
-    for (int i = 0; i < levels.length; i++) {
-      GDAXProductBookEntry ask = levels[i];
+    List<LimitOrder> allLevels = new ArrayList<>();
 
-      allLevels.add(new LimitOrder(orderType, ask.getVolume(), currencyPair, "0", null, ask.getPrice()));
+    if(levels != null) {
+      for (int i = 0; i < levels.length; i++) {
+        GDAXProductBookEntry ask = levels[i];
+
+        allLevels.add(new LimitOrder(orderType, ask.getVolume(), currencyPair, "0", null, ask.getPrice()));
+      }
     }
 
     return allLevels;
@@ -154,7 +156,7 @@ public class GDAXAdapters {
       Date createdAt = parseDate(order.getCreatedAt());
 
       OrderStatus orderStatus = order.getFilledSize().compareTo(BigDecimal.ZERO) == 0 ?
-          Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
+          OrderStatus.NEW : OrderStatus.PARTIALLY_FILLED;
 
       LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
           order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
