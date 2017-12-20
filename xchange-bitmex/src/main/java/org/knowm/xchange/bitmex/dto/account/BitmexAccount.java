@@ -8,13 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-@Setter
-@Getter
-@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"id",
                        "ownerId",
@@ -63,4 +56,64 @@ public final class BitmexAccount {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<>();
 
+
+  public Integer getId() {
+    return id;
+  }
+
+  public Integer getOwnerId() {
+    return ownerId;
+  }
+
+  public String getFirstname() {
+    return firstname;
+  }
+
+  public String getLastname() {
+    return lastname;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public String getCreated() {
+    return created;
+  }
+
+  public String getLastUpdated() {
+    return lastUpdated;
+  }
+
+  public BitmexAccountPreferences getPreferences() {
+    return preferences;
+  }
+
+  public String gettFAEnabled() {
+    return tFAEnabled;
+  }
+
+  public String getAffiliateID() {
+    return affiliateID;
+  }
+
+  public String getPgpPubKey() {
+    return pgpPubKey;
+  }
+
+  public String getCountry() {
+    return country;
+  }
+
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
 }

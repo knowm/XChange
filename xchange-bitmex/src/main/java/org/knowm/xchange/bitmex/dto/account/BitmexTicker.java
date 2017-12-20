@@ -10,13 +10,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
-@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
                        "symbol",
@@ -312,4 +305,392 @@ public class BitmexTicker {
   private String timestamp;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<>();
+
+  public String getSymbol() {
+    return symbol;
+  }
+
+  public String getRootSymbol() {
+    return rootSymbol;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public String getTyp() {
+    return typ;
+  }
+
+  public String getListing() {
+    return listing;
+  }
+
+  public String getFront() {
+    return front;
+  }
+
+  public String getExpiry() {
+    return expiry;
+  }
+
+  public String getSettle() {
+    return settle;
+  }
+
+  public String getRelistInterval() {
+    return relistInterval;
+  }
+
+  public String getInverseLeg() {
+    return inverseLeg;
+  }
+
+  public String getSellLeg() {
+    return sellLeg;
+  }
+
+  public String getBuyLeg() {
+    return buyLeg;
+  }
+
+  public String getPositionCurrency() {
+    return positionCurrency;
+  }
+
+  public String getUnderlying() {
+    return underlying;
+  }
+
+  public String getQuoteCurrency() {
+    return quoteCurrency;
+  }
+
+  public String getUnderlyingSymbol() {
+    return underlyingSymbol;
+  }
+
+  public String getReference() {
+    return reference;
+  }
+
+  public String getReferenceSymbol() {
+    return referenceSymbol;
+  }
+
+  public String getCalcInterval() {
+    return calcInterval;
+  }
+
+  public String getPublishInterval() {
+    return publishInterval;
+  }
+
+  public String getPublishTime() {
+    return publishTime;
+  }
+
+  public BigDecimal getMaxOrderQty() {
+    return maxOrderQty;
+  }
+
+  public BigDecimal getMaxPrice() {
+    return maxPrice;
+  }
+
+  public BigDecimal getLotSize() {
+    return lotSize;
+  }
+
+  public BigDecimal getTickSize() {
+    return tickSize;
+  }
+
+  public BigDecimal getMultiplier() {
+    return multiplier;
+  }
+
+  public String getSettlCurrency() {
+    return settlCurrency;
+  }
+
+  public BigDecimal getUnderlyingToPositionMultiplier() {
+    return underlyingToPositionMultiplier;
+  }
+
+  public BigDecimal getUnderlyingToSettleMultiplier() {
+    return underlyingToSettleMultiplier;
+  }
+
+  public BigDecimal getQuoteToSettleMultiplier() {
+    return quoteToSettleMultiplier;
+  }
+
+  public Boolean getQuanto() {
+    return isQuanto;
+  }
+
+  public Boolean getInverse() {
+    return isInverse;
+  }
+
+  public BigDecimal getInitMargin() {
+    return initMargin;
+  }
+
+  public BigDecimal getMaintMargin() {
+    return maintMargin;
+  }
+
+  public BigInteger getRiskLimit() {
+    return riskLimit;
+  }
+
+  public BigInteger getRiskStep() {
+    return riskStep;
+  }
+
+  public BigDecimal getLimit() {
+    return limit;
+  }
+
+  public Boolean getCapped() {
+    return capped;
+  }
+
+  public Boolean getTaxed() {
+    return taxed;
+  }
+
+  public Boolean getDeleverage() {
+    return deleverage;
+  }
+
+  public BigDecimal getMakerFee() {
+    return makerFee;
+  }
+
+  public BigDecimal getTakerFee() {
+    return takerFee;
+  }
+
+  public BigDecimal getSettlementFee() {
+    return settlementFee;
+  }
+
+  public BigDecimal getInsuranceFee() {
+    return insuranceFee;
+  }
+
+  public String getFundingBaseSymbol() {
+    return fundingBaseSymbol;
+  }
+
+  public String getFundingQuoteSymbol() {
+    return fundingQuoteSymbol;
+  }
+
+  public String getFundingPremiumSymbol() {
+    return fundingPremiumSymbol;
+  }
+
+  public String getFundingTimestamp() {
+    return fundingTimestamp;
+  }
+
+  public String getFundingInterval() {
+    return fundingInterval;
+  }
+
+  public BigDecimal getFundingRate() {
+    return fundingRate;
+  }
+
+  public BigDecimal getIndicativeFundingRate() {
+    return indicativeFundingRate;
+  }
+
+  public String getRebalanceTimestamp() {
+    return rebalanceTimestamp;
+  }
+
+  public String getRebalanceInterval() {
+    return rebalanceInterval;
+  }
+
+  public String getOpeningTimestamp() {
+    return openingTimestamp;
+  }
+
+  public String getClosingTimestamp() {
+    return closingTimestamp;
+  }
+
+  public String getSessionInterval() {
+    return sessionInterval;
+  }
+
+  public BigDecimal getPrevClosePrice() {
+    return prevClosePrice;
+  }
+
+  public BigDecimal getLimitDownPrice() {
+    return limitDownPrice;
+  }
+
+  public BigDecimal getLimitUpPrice() {
+    return limitUpPrice;
+  }
+
+  public BigDecimal getBankruptLimitDownPrice() {
+    return bankruptLimitDownPrice;
+  }
+
+  public BigDecimal getBankruptLimitUpPrice() {
+    return bankruptLimitUpPrice;
+  }
+
+  public BigDecimal getPrevTotalVolume() {
+    return prevTotalVolume;
+  }
+
+  public BigDecimal getTotalVolume() {
+    return totalVolume;
+  }
+
+  public BigDecimal getVolume() {
+    return volume;
+  }
+
+  public BigDecimal getVolume24h() {
+    return volume24h;
+  }
+
+  public BigInteger getPrevTotalTurnover() {
+    return prevTotalTurnover;
+  }
+
+  public BigInteger getTotalTurnover() {
+    return totalTurnover;
+  }
+
+  public BigInteger getTurnover() {
+    return turnover;
+  }
+
+  public BigInteger getTurnover24h() {
+    return turnover24h;
+  }
+
+  public BigInteger getPrevPrice24h() {
+    return prevPrice24h;
+  }
+
+  public BigInteger getVwap() {
+    return vwap;
+  }
+
+  public BigDecimal getHighPrice() {
+    return highPrice;
+  }
+
+  public BigDecimal getLowPrice() {
+    return lowPrice;
+  }
+
+  public BigDecimal getLastPrice() {
+    return lastPrice;
+  }
+
+  public BigDecimal getLastPriceProtected() {
+    return lastPriceProtected;
+  }
+
+  public String getLastTickDirection() {
+    return lastTickDirection;
+  }
+
+  public BigDecimal getLastChangePcnt() {
+    return lastChangePcnt;
+  }
+
+  public BigDecimal getBidPrice() {
+    return bidPrice;
+  }
+
+  public BigDecimal getMidPrice() {
+    return midPrice;
+  }
+
+  public BigDecimal getAskPrice() {
+    return askPrice;
+  }
+
+  public BigDecimal getImpactBidPrice() {
+    return impactBidPrice;
+  }
+
+  public BigDecimal getImpactMidPrice() {
+    return impactMidPrice;
+  }
+
+  public BigDecimal getImpactAskPrice() {
+    return impactAskPrice;
+  }
+
+  public Boolean getHasLiquidity() {
+    return hasLiquidity;
+  }
+
+  public BigDecimal getOpenInterest() {
+    return openInterest;
+  }
+
+  public BigDecimal getOpenValue() {
+    return openValue;
+  }
+
+  public String getFairMethod() {
+    return fairMethod;
+  }
+
+  public BigDecimal getFairBasisRate() {
+    return fairBasisRate;
+  }
+
+  public BigDecimal getFairBasis() {
+    return fairBasis;
+  }
+
+  public BigDecimal getFairPrice() {
+    return fairPrice;
+  }
+
+  public String getMarkMethod() {
+    return markMethod;
+  }
+
+  public BigDecimal getMarkPrice() {
+    return markPrice;
+  }
+
+  public BigDecimal getIndicativeTaxRate() {
+    return indicativeTaxRate;
+  }
+
+  public BigDecimal getIndicativeSettlePrice() {
+    return indicativeSettlePrice;
+  }
+
+  public BigDecimal getSettledPrice() {
+    return settledPrice;
+  }
+
+  public String getTimestamp() {
+    return timestamp;
+  }
+
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
 }

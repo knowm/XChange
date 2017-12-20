@@ -1,20 +1,14 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-@Setter
-@Getter
-@ToString
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
                        "timestamp",
@@ -54,7 +48,50 @@ public final class BitmexTrade {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<>();
 
-  @Getter
+  public String getTimestamp() {
+    return timestamp;
+  }
+
+  public String getSymbol() {
+    return symbol;
+  }
+
+  public String getSide() {
+    return side;
+  }
+
+  public BigDecimal getSize() {
+    return size;
+  }
+
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public String getTickDirection() {
+    return tickDirection;
+  }
+
+  public String getTrdMatchID() {
+    return trdMatchID;
+  }
+
+  public BigDecimal getGrossValue() {
+    return grossValue;
+  }
+
+  public BigDecimal getHomeNotional() {
+    return homeNotional;
+  }
+
+  public BigDecimal getForeignNotional() {
+    return foreignNotional;
+  }
+
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
   public enum TimeFrame {
     DAILY("daily"),
     WEEKLY("weekly"),
@@ -70,6 +107,10 @@ public final class BitmexTrade {
 
     @Override
     public String toString() {
+      return name;
+    }
+
+    public String getName() {
       return name;
     }
   }

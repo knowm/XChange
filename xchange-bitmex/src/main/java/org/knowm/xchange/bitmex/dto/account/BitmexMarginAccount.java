@@ -9,13 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-@Setter
-@Getter
-@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
                        "account",
@@ -147,4 +140,171 @@ public final class BitmexMarginAccount {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<>();
 
+  public Integer getAccount() {
+    return account;
+  }
+
+  public String getCurrency() {
+    return currency;
+  }
+
+  public BigDecimal getRiskLimit() {
+    return riskLimit;
+  }
+
+  public String getPrevState() {
+    return prevState;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public String getAction() {
+    return action;
+  }
+
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public BigDecimal getPendingCredit() {
+    return pendingCredit;
+  }
+
+  public BigDecimal getPendingDebit() {
+    return pendingDebit;
+  }
+
+  public BigDecimal getConfirmedDebit() {
+    return confirmedDebit;
+  }
+
+  public BigDecimal getPrevRealisedPnl() {
+    return prevRealisedPnl;
+  }
+
+  public BigDecimal getPrevUnrealisedPnl() {
+    return prevUnrealisedPnl;
+  }
+
+  public BigDecimal getGrossComm() {
+    return grossComm;
+  }
+
+  public BigDecimal getGrossOpenCost() {
+    return grossOpenCost;
+  }
+
+  public BigDecimal getGrossOpenPremium() {
+    return grossOpenPremium;
+  }
+
+  public BigDecimal getGrossExecCost() {
+    return grossExecCost;
+  }
+
+  public BigDecimal getGrossMarkValue() {
+    return grossMarkValue;
+  }
+
+  public BigDecimal getRiskValue() {
+    return riskValue;
+  }
+
+  public BigDecimal getTaxableMargin() {
+    return taxableMargin;
+  }
+
+  public BigDecimal getInitMargin() {
+    return initMargin;
+  }
+
+  public BigDecimal getMaintMargin() {
+    return maintMargin;
+  }
+
+  public BigDecimal getSessionMargin() {
+    return sessionMargin;
+  }
+
+  public BigDecimal getTargetExcessMargin() {
+    return targetExcessMargin;
+  }
+
+  public BigDecimal getVarMargin() {
+    return varMargin;
+  }
+
+  public BigDecimal getRealisedPnl() {
+    return realisedPnl;
+  }
+
+  public BigDecimal getUnrealisedPnl() {
+    return unrealisedPnl;
+  }
+
+  public BigDecimal getIndicativeTax() {
+    return indicativeTax;
+  }
+
+  public BigDecimal getUnrealisedProfit() {
+    return unrealisedProfit;
+  }
+
+  public BigDecimal getSyntheticMargin() {
+    return syntheticMargin;
+  }
+
+  public BigDecimal getWalletBalance() {
+    return walletBalance;
+  }
+
+  public BigDecimal getMarginBalance() {
+    return marginBalance;
+  }
+
+  public BigDecimal getMarginBalancePcnt() {
+    return marginBalancePcnt;
+  }
+
+  public BigDecimal getMarginLeverage() {
+    return marginLeverage;
+  }
+
+  public BigDecimal getMarginUsedPcnt() {
+    return marginUsedPcnt;
+  }
+
+  public BigDecimal getExcessMargin() {
+    return excessMargin;
+  }
+
+  public BigDecimal getExcessMarginPcnt() {
+    return excessMarginPcnt;
+  }
+
+  public BigDecimal getAvailableMargin() {
+    return availableMargin;
+  }
+
+  public BigDecimal getWithdrawableMargin() {
+    return withdrawableMargin;
+  }
+
+  public String getTimestamp() {
+    return timestamp;
+  }
+
+  public BigDecimal getGrossLastValue() {
+    return grossLastValue;
+  }
+
+  public BigDecimal getCommission() {
+    return commission;
+  }
+
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
 }
