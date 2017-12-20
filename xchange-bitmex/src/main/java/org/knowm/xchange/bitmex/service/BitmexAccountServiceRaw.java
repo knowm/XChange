@@ -10,7 +10,6 @@ import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitmexAccountServiceRaw extends BitmexBaseService {
 
@@ -29,7 +28,7 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
     try {
       return bitmex.getAccount(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitmexException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 
@@ -38,7 +37,7 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
     try {
       return bitmex.getWallet(apiKey, exchange.getNonceFactory(), signatureCreator, ccy.getCurrencyCode());
     } catch (BitmexException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 
@@ -47,7 +46,7 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
     try {
       return bitmex.getWalletHistory(apiKey, exchange.getNonceFactory(), signatureCreator, ccy.getCurrencyCode());
     } catch (BitmexException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 
@@ -56,7 +55,7 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
     try {
       return bitmex.getWalletSummary(apiKey, exchange.getNonceFactory(), signatureCreator, ccy.getCurrencyCode());
     } catch (BitmexException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 
@@ -65,7 +64,7 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
     try {
       return bitmex.getMarginAccountStatus(apiKey, exchange.getNonceFactory(), signatureCreator, ccy.getCurrencyCode());
     } catch (BitmexException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 
@@ -74,7 +73,7 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
     try {
       return bitmex.getMarginAccountsStatus(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitmexException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 

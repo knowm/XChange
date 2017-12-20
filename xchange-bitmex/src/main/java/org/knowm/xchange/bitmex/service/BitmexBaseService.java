@@ -2,6 +2,11 @@ package org.knowm.xchange.bitmex.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.Bitmex;
+import org.knowm.xchange.bitmex.BitmexException;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.exceptions.InternalServerException;
+import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
@@ -29,4 +34,15 @@ public class BitmexBaseService extends BaseExchangeService implements BaseServic
         exchange.getExchangeSpecification().getApiKey());
   }
 
+  protected ExchangeException handleError(BitmexException exception) {
+    if (exception.getMessage().contains("Insufficient")) {
+      return new FundsExceededException(exception);
+    } else if (exception.getMessage().contains("Rate limit exceeded")) {
+      return new RateLimitExceededException(exception);
+    } else if (exception.getMessage().contains("Internal server error")) {
+      return new InternalServerException(exception);
+    } else {
+      return new ExchangeException(exception);
+    }
+  }
 }

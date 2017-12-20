@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 
 /**
@@ -27,14 +28,26 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexTicker> getAllTickers() throws IOException {
-    return bitmex.getTickers();
+    try {
+      return bitmex.getTickers();
+    } catch (BitmexException e) {
+      throw handleError(e);
+    }
   }
 
   public List<BitmexTicker> getTicker(String symbol) throws IOException {
-    return bitmex.getTicker(symbol);
+    try {
+      return bitmex.getTicker(symbol);
+    } catch (BitmexException e) {
+      throw handleError(e);
+    }
   }
 
   public List<BitmexTicker> getActiveTickers() throws IOException {
-    return bitmex.getActiveTickers();
+    try {
+      return bitmex.getActiveTickers();
+    } catch (BitmexException e) {
+      throw handleError(e);
+    }
   }
 }
