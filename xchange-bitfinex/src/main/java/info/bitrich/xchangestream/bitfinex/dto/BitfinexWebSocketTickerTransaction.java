@@ -8,8 +8,9 @@ import java.math.BigDecimal;
 /**
  * Created by Lukas Zaoralek on 8.11.17.
  */
-@JsonFormat(shape= JsonFormat.Shape.ARRAY)
+@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class BitfinexWebSocketTickerTransaction {
+
     public String channelId;
     public String[] tickerArr;
 
@@ -32,7 +33,8 @@ public class BitfinexWebSocketTickerTransaction {
         BigDecimal low = new BigDecimal(tickerArr[9]);
         BigDecimal high = new BigDecimal(tickerArr[8]);
         BigDecimal last = new BigDecimal(tickerArr[6]);
-        float timestamp = System.currentTimeMillis(); //float!?
+        // Xchange-bitfinex adapter expects the timestamp to be seconds since Epoch.
+        float timestamp = System.currentTimeMillis() / 1000;
         BigDecimal volume = new BigDecimal(tickerArr[7]);
 
         return new BitfinexTicker(mid, bid, ask, low, high, last, timestamp, volume);
