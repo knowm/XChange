@@ -111,6 +111,12 @@
             <artifactId>xchange-bitfinex</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- XChange Bitfmex support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-bitmex</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- XChange Bitcoinium support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
