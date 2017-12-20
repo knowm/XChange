@@ -9,11 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
                        "alertOnLiquidations",
@@ -99,4 +94,112 @@ public final class BitmexAccountPreferences {
   private String tradeLayout;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<>();
+
+  public Boolean getAlertOnLiquidations() {
+    return alertOnLiquidations;
+  }
+
+  public Boolean getAnimationsEnabled() {
+    return animationsEnabled;
+  }
+
+  public String getAnnouncementsLastSeen() {
+    return announcementsLastSeen;
+  }
+
+  public Integer getChatChannelID() {
+    return chatChannelID;
+  }
+
+  public String getColorTheme() {
+    return colorTheme;
+  }
+
+  public String getCurrency() {
+    return currency;
+  }
+
+  public Boolean getDebug() {
+    return debug;
+  }
+
+  public List<String> getDisableEmails() {
+    return disableEmails;
+  }
+
+  public List<String> getHideConfirmDialogs() {
+    return hideConfirmDialogs;
+  }
+
+  public Boolean getHideConnectionModal() {
+    return hideConnectionModal;
+  }
+
+  public Boolean getHideFromLeaderboard() {
+    return hideFromLeaderboard;
+  }
+
+  public Boolean getHideNameFromLeaderboard() {
+    return hideNameFromLeaderboard;
+  }
+
+  public List<String> getHideNotifications() {
+    return hideNotifications;
+  }
+
+  public String getLocale() {
+    return locale;
+  }
+
+  public List<String> getMsgsSeen() {
+    return msgsSeen;
+  }
+
+  public BitmexOrderBookBinning getOrderBookBinning() {
+    return orderBookBinning;
+  }
+
+  public String getOrderBookType() {
+    return orderBookType;
+  }
+
+  public Boolean getOrderClearImmediate() {
+    return orderClearImmediate;
+  }
+
+  public Boolean getOrderControlsPlusMinus() {
+    return orderControlsPlusMinus;
+  }
+
+  public Boolean getShowLocaleNumbers() {
+    return showLocaleNumbers;
+  }
+
+  public List<String> getSounds() {
+    return sounds;
+  }
+
+  public Boolean getStrictIPCheck() {
+    return strictIPCheck;
+  }
+
+  public Boolean getStrictTimeout() {
+    return strictTimeout;
+  }
+
+  public String getTickerGroup() {
+    return tickerGroup;
+  }
+
+  public Boolean getTickerPinned() {
+    return tickerPinned;
+  }
+
+  public String getTradeLayout() {
+    return tradeLayout;
+  }
+
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
 }

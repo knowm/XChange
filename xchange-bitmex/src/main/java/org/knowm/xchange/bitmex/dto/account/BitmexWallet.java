@@ -10,13 +10,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-@Setter
-@Getter
-@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
                        "account",
@@ -100,4 +93,107 @@ public final class BitmexWallet {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<>();
 
+  public Integer getAccount() {
+    return account;
+  }
+
+  public String getCurrency() {
+    return currency;
+  }
+
+  public BigDecimal getPrevDeposited() {
+    return prevDeposited;
+  }
+
+  public BigDecimal getPrevWithdrawn() {
+    return prevWithdrawn;
+  }
+
+  public BigDecimal getPrevTransferIn() {
+    return prevTransferIn;
+  }
+
+  public BigDecimal getPrevTransferOut() {
+    return prevTransferOut;
+  }
+
+  public BigDecimal getPrevAmount() {
+    return prevAmount;
+  }
+
+  public String getPrevTimestamp() {
+    return prevTimestamp;
+  }
+
+  public BigDecimal getDeltaDeposited() {
+    return deltaDeposited;
+  }
+
+  public BigDecimal getDeltaWithdrawn() {
+    return deltaWithdrawn;
+  }
+
+  public BigDecimal getDeltaTransferIn() {
+    return deltaTransferIn;
+  }
+
+  public BigDecimal getDeltaTransferOut() {
+    return deltaTransferOut;
+  }
+
+  public BigDecimal getDeltaAmount() {
+    return deltaAmount;
+  }
+
+  public BigDecimal getDeposited() {
+    return deposited;
+  }
+
+  public BigDecimal getWithdrawn() {
+    return withdrawn;
+  }
+
+  public BigDecimal getTransferIn() {
+    return transferIn;
+  }
+
+  public BigDecimal getTransferOut() {
+    return transferOut;
+  }
+
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public BigDecimal getPendingCredit() {
+    return pendingCredit;
+  }
+
+  public BigDecimal getPendingDebit() {
+    return pendingDebit;
+  }
+
+  public BigDecimal getConfirmedDebit() {
+    return confirmedDebit;
+  }
+
+  public String getTimestamp() {
+    return timestamp;
+  }
+
+  public String getAddr() {
+    return addr;
+  }
+
+  public String getScript() {
+    return script;
+  }
+
+  public List<String> getWithdrawalLock() {
+    return withdrawalLock;
+  }
+
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
 }
