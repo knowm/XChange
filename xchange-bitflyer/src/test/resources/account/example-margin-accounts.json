@@ -1,0 +1,10 @@
+[
+  {
+    "currency_code": "JPY",
+    "amount": 10000
+  },
+  {
+    "currency_code": "BTC",
+    "amount": 1.23
+  }
+]
