@@ -53,7 +53,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     }
     OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
     CurrencyPair pair = pairParams.getCurrencyPair();
-    List<BinanceOrder> binanceOpenOrders = super.openOrders(BinanceAdapters.toSymbol(pair), null, System.currentTimeMillis());
+    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    List<BinanceOrder> binanceOpenOrders = super.openOrders(BinanceAdapters.toSymbol(pair), recvWindow, System.currentTimeMillis());
     List<LimitOrder> openOrders = binanceOpenOrders.stream().map(o -> new LimitOrder(BinanceAdapters.convert(o.side), o.origQty
         , o.origQty.subtract(o.executedQty), pair, Long.toString(o.orderId), o.getTime(), o.price))
         .collect(Collectors.toList());
@@ -62,15 +63,17 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
+    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     BinanceNewOrder newOrder = super.newOrder(BinanceAdapters.toSymbol(mo.getCurrencyPair()), BinanceAdapters.convert(mo.getType())
-        , OrderType.MARKET, TimeInForce.GTC, mo.getOriginalAmount(), null, null, null, null, null, System.currentTimeMillis());
+        , OrderType.MARKET, TimeInForce.GTC, mo.getOriginalAmount(), null, null, null, null, recvWindow, System.currentTimeMillis());
     return Long.toString(newOrder.orderId);
   }
 
   @Override
   public String placeLimitOrder(LimitOrder lo) throws IOException {
+    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     BinanceNewOrder newOrder = super.newOrder(BinanceAdapters.toSymbol(lo.getCurrencyPair()), BinanceAdapters.convert(lo.getType())
-        , OrderType.LIMIT, TimeInForce.GTC, lo.getOriginalAmount(), lo.getLimitPrice(), null, null, null, null, System.currentTimeMillis());
+        , OrderType.LIMIT, TimeInForce.GTC, lo.getOriginalAmount(), lo.getLimitPrice(), null, null, null, recvWindow, System.currentTimeMillis());
     return Long.toString(newOrder.orderId);
   }
 
@@ -86,8 +89,9 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     }
     CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
     CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
+    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     super.cancelOrder(BinanceAdapters.toSymbol(paramCurrencyPair.getCurrencyPair()), BinanceAdapters.id(paramId.getOrderId()), null, null,
-        null, System.currentTimeMillis());
+        recvWindow, System.currentTimeMillis());
     return true;
   }
 
@@ -117,7 +121,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       }
     }
 
-    List<BinanceTrade> binanceTrades = super.myTrades(BinanceAdapters.toSymbol(pair), limit, fromId, null, System.currentTimeMillis());
+    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    List<BinanceTrade> binanceTrades = super.myTrades(BinanceAdapters.toSymbol(pair), limit, fromId, recvWindow, System.currentTimeMillis());
     List<UserTrade> trades = binanceTrades.stream()
         .map(t -> new UserTrade(BinanceAdapters.convertType(t.isBuyer), t.qty, pair, t.price, t.getTime()
             , Long.toString(t.id), Long.toString(t.orderId), t.commission, Currency.getInstance(t.commissionAsset)))
