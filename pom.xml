@@ -25,6 +25,7 @@
         <module>xchange-bitflyer</module>
         <module>xchange-gemini</module>
         <module>xchange-wex</module>
+        <module>xchange-binance</module>
     </modules>
 
     <name>xchange-stream</name>
