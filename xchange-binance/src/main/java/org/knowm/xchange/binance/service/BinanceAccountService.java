@@ -34,7 +34,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     BinanceAccountInformation acc = super.account(recvWindow, System.currentTimeMillis());
     List<Balance> balances = acc.balances.stream()
         .map(b -> new Balance(Currency.getInstance(b.asset), b.free.add(b.locked), b.free))
@@ -63,7 +63,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   private void withdraw0(String asset, String address, BigDecimal amount) throws IOException, BinanceException {
     // the name parameter seams to be mandatory
     String name = address.length() <= 10 ? address : address.substring(0, 10);
-    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     super.withdraw(asset, address, amount, name, recvWindow, System.currentTimeMillis());
   }
 
@@ -86,7 +86,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     }
     TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
     final String asset = cp.getCurrency().getCurrencyCode();
-    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
 
     boolean withdrawals = true;
     boolean deposits = true;
