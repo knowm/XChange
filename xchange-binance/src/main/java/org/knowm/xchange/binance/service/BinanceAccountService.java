@@ -34,7 +34,8 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    BinanceAccountInformation acc = super.account(null, System.currentTimeMillis());
+    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    BinanceAccountInformation acc = super.account(recvWindow, System.currentTimeMillis());
     List<Balance> balances = acc.balances.stream()
         .map(b -> new Balance(Currency.getInstance(b.asset), b.free.add(b.locked), b.free))
         .collect(Collectors.toList());
@@ -62,7 +63,8 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   private void withdraw0(String asset, String address, BigDecimal amount) throws IOException, BinanceException {
     // the name parameter seams to be mandatory
     String name = address.length() <= 10 ? address : address.substring(0, 10);
-    super.withdraw(asset, address, amount, name, null, System.currentTimeMillis());
+    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    super.withdraw(asset, address, amount, name, recvWindow, System.currentTimeMillis());
   }
 
   @Override
@@ -84,6 +86,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     }
     TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
     final String asset = cp.getCurrency().getCurrencyCode();
+    Long recvWindow = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
 
     boolean withdrawals = true;
     boolean deposits = true;
@@ -108,13 +111,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
     List<FundingRecord> result = new ArrayList<>();
     if (withdrawals) {
-      super.withdrawHistory(asset, startTime, endTime, null, System.currentTimeMillis()).forEach(w -> {
+      super.withdrawHistory(asset, startTime, endTime, recvWindow, System.currentTimeMillis()).forEach(w -> {
         result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, null, null, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
       });
     }
 
     if (deposits) {
-      super.depositHistory(asset, startTime, endTime, null, System.currentTimeMillis()).forEach(d -> {
+      super.depositHistory(asset, startTime, endTime, recvWindow, System.currentTimeMillis()).forEach(d -> {
         result.add(new FundingRecord(null, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, null, Type.DEPOSIT, depositStatus(d.status), null, null, null));
       });
     }
