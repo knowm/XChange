@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitflyer.dto.BitflyerException;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerExecution;
 
 public class BitflyerTradeServiceRaw extends BitflyerBaseService {
@@ -17,10 +18,18 @@ public class BitflyerTradeServiceRaw extends BitflyerBaseService {
   }
 
   public List<BitflyerExecution> getExecutions() throws IOException {
-    return bitflyer.getExecutions();
+    try {
+      return bitflyer.getExecutions();
+    } catch (BitflyerException e) {
+      throw handleError(e);
+    }
   }
 
   public List<BitflyerExecution> getExecutions(String productCode) throws IOException {
-    return bitflyer.getExecutions(productCode);
+    try {
+      return bitflyer.getExecutions(productCode);
+    } catch (BitflyerException e) {
+      throw handleError(e);
+    }
   }
 }

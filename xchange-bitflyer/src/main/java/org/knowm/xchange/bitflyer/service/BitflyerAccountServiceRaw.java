@@ -8,7 +8,6 @@ import org.knowm.xchange.bitflyer.dto.BitflyerException;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginAccount;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginStatus;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginTransaction;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitflyerAccountServiceRaw extends BitflyerBaseService {
 
@@ -27,7 +26,7 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
     try {
       return bitflyer.getMarginStatus(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitflyerException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 
@@ -36,7 +35,7 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
     try {
       return bitflyer.getMarginAccounts(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitflyerException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 
@@ -45,7 +44,7 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
     try {
       return bitflyer.getMarginHistory(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitflyerException e) {
-      throw new ExchangeException(e);
+      throw handleError(e);
     }
   }
 }
