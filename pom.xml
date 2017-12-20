@@ -98,6 +98,7 @@
         <module>xchange-bitcurex</module>
         <module>xchange-bitfinex</module>
         <module>xchange-bitmex</module>
+        <module>xchange-bitflyer</module>
         <module>xchange-bitmarket</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
