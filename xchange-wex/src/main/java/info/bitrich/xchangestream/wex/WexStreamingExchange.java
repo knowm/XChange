@@ -11,39 +11,39 @@ import org.knowm.xchange.btce.v3.BTCEExchange;
  * Created by Lukas Zaoralek on 16.11.17.
  */
 public class WexStreamingExchange extends BTCEExchange implements StreamingExchange {
-  private static final String API_KEY = "ee987526a24ba107824c";
-  private static final String APP_CLUSTER = "eu";
-  private final PusherStreamingService streamingService;
+    private static final String API_KEY = "ee987526a24ba107824c";
+    private static final String APP_CLUSTER = "eu";
+    private final PusherStreamingService streamingService;
 
-  private WexStreamingMarketDataService streamingMarketDataService;
+    private WexStreamingMarketDataService streamingMarketDataService;
 
-  public WexStreamingExchange() {
-    streamingService = new PusherStreamingService(API_KEY, APP_CLUSTER);
-  }
+    public WexStreamingExchange() {
+        streamingService = new PusherStreamingService(API_KEY, APP_CLUSTER);
+    }
 
-  @Override
-  protected void initServices() {
-    super.initServices();
-    streamingMarketDataService = new WexStreamingMarketDataService(streamingService, marketDataService);
-  }
+    @Override
+    protected void initServices() {
+        super.initServices();
+        streamingMarketDataService = new WexStreamingMarketDataService(streamingService, marketDataService);
+    }
 
-  @Override
-  public Completable connect(ProductSubscription... args) {
-    return streamingService.connect();
-  }
+    @Override
+    public Completable connect(ProductSubscription... args) {
+        return streamingService.connect();
+    }
 
-  @Override
-  public Completable disconnect() {
-    return streamingService.disconnect();
-  }
+    @Override
+    public Completable disconnect() {
+        return streamingService.disconnect();
+    }
 
-  @Override
-  public StreamingMarketDataService getStreamingMarketDataService() {
-    return streamingMarketDataService;
-  }
+    @Override
+    public StreamingMarketDataService getStreamingMarketDataService() {
+        return streamingMarketDataService;
+    }
 
-  @Override
-  public boolean isAlive() {
-	return this.streamingService.isSocketOpen();
-}
+    @Override
+    public boolean isAlive() {
+        return this.streamingService.isSocketOpen();
+    }
 }

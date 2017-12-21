@@ -12,33 +12,33 @@ import java.util.List;
  * Created by Lukas Zaoralek on 15.11.17.
  */
 public class BitflyerPubNubTradesTransaction {
-  private final JsonNode jsonTrades;
-  private final ObjectMapper mapper;
+    private final JsonNode jsonTrades;
+    private final ObjectMapper mapper;
 
-  public BitflyerPubNubTradesTransaction(JsonNode jsonTrades) {
-    this.jsonTrades = jsonTrades;
-    mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-  }
-
-  public JsonNode getJsonTrades() {
-    return jsonTrades;
-  }
-
-  public List<BitflyerTrade> toBitflyerTrades() {
-    List<BitflyerTrade> trades = new ArrayList<>(jsonTrades.size());
-    if (jsonTrades.isArray()) {
-      for (JsonNode jsonTrade : jsonTrades) {
-        BitflyerTrade trade = null;
-        try {
-          trade = mapper.readValue(jsonTrade.toString(), BitflyerTrade.class);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        trades.add(trade);
-      }
+    public BitflyerPubNubTradesTransaction(JsonNode jsonTrades) {
+        this.jsonTrades = jsonTrades;
+        mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    return trades;
-  }
+    public JsonNode getJsonTrades() {
+        return jsonTrades;
+    }
+
+    public List<BitflyerTrade> toBitflyerTrades() {
+        List<BitflyerTrade> trades = new ArrayList<>(jsonTrades.size());
+        if (jsonTrades.isArray()) {
+            for (JsonNode jsonTrade : jsonTrades) {
+                BitflyerTrade trade = null;
+                try {
+                    trade = mapper.readValue(jsonTrade.toString(), BitflyerTrade.class);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                trades.add(trade);
+            }
+        }
+
+        return trades;
+    }
 }

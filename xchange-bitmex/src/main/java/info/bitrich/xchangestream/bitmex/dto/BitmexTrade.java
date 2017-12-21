@@ -13,30 +13,30 @@ import java.math.BigDecimal;
  */
 public class BitmexTrade extends BitmexLimitOrder {
 
-  private String trdMatchID;
+    private String trdMatchID;
 
-  @JsonCreator
-  public BitmexTrade(@JsonProperty("symbol")String symbol,
-                     @JsonProperty("side")String side,
-                     @JsonProperty("price")BigDecimal price,
-                     @JsonProperty("size")BigDecimal size,
-                     @JsonProperty("trdMatchID")String trdMatchID,
-                     @JsonProperty("timestamp")String timestamp) {
-    super(symbol, "", side, price, size, timestamp);
-    this.trdMatchID = trdMatchID;
-  }
+    @JsonCreator
+    public BitmexTrade(@JsonProperty("symbol") String symbol,
+                       @JsonProperty("side") String side,
+                       @JsonProperty("price") BigDecimal price,
+                       @JsonProperty("size") BigDecimal size,
+                       @JsonProperty("trdMatchID") String trdMatchID,
+                       @JsonProperty("timestamp") String timestamp) {
+        super(symbol, "", side, price, size, timestamp);
+        this.trdMatchID = trdMatchID;
+    }
 
-  public String getTimestamp() {
-    return timestamp;
-  }
+    public String getTimestamp() {
+        return timestamp;
+    }
 
-  public String getTrdMatchID() {
-    return trdMatchID;
-  }
+    public String getTrdMatchID() {
+        return trdMatchID;
+    }
 
-  public Trade toTrade() {
-    CurrencyPair pair = getCurrencyPair();
-    Order.OrderType orderType = getOrderSide();
-    return new Trade(orderType, size, pair, price, getDate(), trdMatchID);
-  }
+    public Trade toTrade() {
+        CurrencyPair pair = getCurrencyPair();
+        Order.OrderType orderType = getOrderSide();
+        return new Trade(orderType, size, pair, price, getDate(), trdMatchID);
+    }
 }

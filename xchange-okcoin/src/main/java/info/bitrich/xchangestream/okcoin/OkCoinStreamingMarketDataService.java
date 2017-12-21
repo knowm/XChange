@@ -45,14 +45,14 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
                         orderbooks.put(currencyPair, okCoinOrderbook);
                     } else {
                         okCoinOrderbook = orderbooks.get(currencyPair);
-                        if(s.get("data").get("asks").size() > 0) {
+                        if (s.get("data").get("asks").size() > 0) {
                             BigDecimal[][] askLevels = mapper.treeToValue(s.get("data").get("asks"), BigDecimal[][].class);
                             okCoinOrderbook.updateLevels(askLevels, Order.OrderType.ASK);
                         }
 
-                        if(s.get("data").get("bids").size() > 0) {
-                          BigDecimal[][] bidLevels = mapper.treeToValue(s.get("data").get("bids"), BigDecimal[][].class);
-                          okCoinOrderbook.updateLevels(bidLevels, Order.OrderType.BID);
+                        if (s.get("data").get("bids").size() > 0) {
+                            BigDecimal[][] bidLevels = mapper.treeToValue(s.get("data").get("bids"), BigDecimal[][].class);
+                            okCoinOrderbook.updateLevels(bidLevels, Order.OrderType.BID);
                         }
                     }
 

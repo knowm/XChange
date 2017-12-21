@@ -13,18 +13,18 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public class GDAXWebSocketSubscriptionMessageTest {
 
-  @Test
-  public void testWebSocketMessageSerialization() throws JsonProcessingException {
+    @Test
+    public void testWebSocketMessageSerialization() throws JsonProcessingException {
 
-    ProductSubscription productSubscription = ProductSubscription.create().addOrderbook(CurrencyPair.BTC_USD)
-            .addTrades(CurrencyPair.BTC_USD).addTicker(CurrencyPair.BTC_USD).build();
-    GDAXWebSocketSubscriptionMessage message = new GDAXWebSocketSubscriptionMessage("subscribe", productSubscription);
+        ProductSubscription productSubscription = ProductSubscription.create().addOrderbook(CurrencyPair.BTC_USD)
+                .addTrades(CurrencyPair.BTC_USD).addTicker(CurrencyPair.BTC_USD).build();
+        GDAXWebSocketSubscriptionMessage message = new GDAXWebSocketSubscriptionMessage("subscribe", productSubscription);
 
-    final ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-    
-    String serialized = mapper.writeValueAsString(message);
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
 
-    Assert.assertEquals("{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2\",\"product_ids\":[\"BTC-USD\"]}]}", serialized);
-  }
+        String serialized = mapper.writeValueAsString(message);
+
+        Assert.assertEquals("{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2\",\"product_ids\":[\"BTC-USD\"]}]}", serialized);
+    }
 }

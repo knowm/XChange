@@ -9,11 +9,12 @@ import java.util.List;
 /**
  * Created by Lukas Zaoralek on 7.11.17.
  */
-@JsonFormat(shape= JsonFormat.Shape.ARRAY)
+@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class BitfinexWebSocketSnapshotTrades extends BitfinexWebSocketTradesTransaction {
     public BitfinexWebSocketTrade[] trades;
 
-    public BitfinexWebSocketSnapshotTrades() { }
+    public BitfinexWebSocketSnapshotTrades() {
+    }
 
     public BitfinexWebSocketSnapshotTrades(String channelId, BitfinexWebSocketTrade[] trades) {
         super(channelId);

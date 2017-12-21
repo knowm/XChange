@@ -12,57 +12,59 @@ import org.knowm.xchange.gdax.GDAXExchange;
  * GDAX Streaming Exchange. Connects to live WebSocket feed.
  */
 public class GDAXStreamingExchange extends GDAXExchange implements StreamingExchange {
-  private static final String API_URI = "wss://ws-feed.gdax.com";
-  
-  private final GDAXStreamingService streamingService;
-  private GDAXStreamingMarketDataService streamingMarketDataService;
+    private static final String API_URI = "wss://ws-feed.gdax.com";
 
-  public GDAXStreamingExchange() {
-    this.streamingService = new GDAXStreamingService(API_URI);
-  }
- 
-  @Override
-  protected void initServices() {
-    super.initServices();
-    streamingMarketDataService = new GDAXStreamingMarketDataService(streamingService);
-  }
+    private final GDAXStreamingService streamingService;
+    private GDAXStreamingMarketDataService streamingMarketDataService;
 
-  @Override
-  public Completable connect(ProductSubscription... args) {
-    if (args == null || args.length == 0) throw new UnsupportedOperationException("The ProductSubscription must be defined!");
-    streamingService.subscribeMultipleCurrencyPairs(args);
+    public GDAXStreamingExchange() {
+        this.streamingService = new GDAXStreamingService(API_URI);
+    }
 
-    return streamingService.connect();
-  }
+    @Override
+    protected void initServices() {
+        super.initServices();
+        streamingMarketDataService = new GDAXStreamingMarketDataService(streamingService);
+    }
 
-  @Override
-  public Completable disconnect() {
-    return streamingService.disconnect();
-  }
+    @Override
+    public Completable connect(ProductSubscription... args) {
+        if (args == null || args.length == 0)
+            throw new UnsupportedOperationException("The ProductSubscription must be defined!");
+        streamingService.subscribeMultipleCurrencyPairs(args);
 
-  @Override
-  public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification spec = super.getDefaultExchangeSpecification();
-    spec.setShouldLoadRemoteMetaData(false);
-    
-    return spec;
-  }
+        return streamingService.connect();
+    }
 
-  @Override
-  public StreamingMarketDataService getStreamingMarketDataService() {
-    return streamingMarketDataService;
-  }
+    @Override
+    public Completable disconnect() {
+        return streamingService.disconnect();
+    }
 
-  /**
-   * Enables the user to listen on channel inactive events and react appropriately.
-   * @param channelInactiveHandler a WebSocketMessageHandler instance.
-   */
-  public void setChannelInactiveHandler(WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
-    streamingService.setChannelInactiveHandler(channelInactiveHandler);
-  }
+    @Override
+    public ExchangeSpecification getDefaultExchangeSpecification() {
+        ExchangeSpecification spec = super.getDefaultExchangeSpecification();
+        spec.setShouldLoadRemoteMetaData(false);
 
-  @Override
-  public boolean isAlive() {
-	return streamingService.isSocketOpen();
-  }
+        return spec;
+    }
+
+    @Override
+    public StreamingMarketDataService getStreamingMarketDataService() {
+        return streamingMarketDataService;
+    }
+
+    /**
+     * Enables the user to listen on channel inactive events and react appropriately.
+     *
+     * @param channelInactiveHandler a WebSocketMessageHandler instance.
+     */
+    public void setChannelInactiveHandler(WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
+        streamingService.setChannelInactiveHandler(channelInactiveHandler);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return streamingService.isSocketOpen();
+    }
 }

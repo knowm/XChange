@@ -35,10 +35,10 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     public Completable disconnect() {
         return streamingService.disconnect();
     }
-    
-    @Override 
+
+    @Override
     public boolean isAlive() {
-    		return streamingService.isSocketOpen();
+        return streamingService.isSocketOpen();
     }
 
     @Override

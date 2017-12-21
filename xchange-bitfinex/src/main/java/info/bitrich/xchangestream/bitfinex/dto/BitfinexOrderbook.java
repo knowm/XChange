@@ -1,12 +1,12 @@
 package info.bitrich.xchangestream.bitfinex.dto;
 
-import static java.math.BigDecimal.ZERO;
-
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 
 import java.math.BigDecimal;
 import java.util.*;
+
+import static java.math.BigDecimal.ZERO;
 
 /**
  * Created by Lukas Zaoralek on 8.11.17.
@@ -33,8 +33,8 @@ public class BitfinexOrderbook {
     }
 
     private void createFromLevels(BitfinexOrderbookLevel[] levels) {
-        this.asks = new HashMap<>(levels.length/2);
-        this.bids = new HashMap<>(levels.length/2);
+        this.asks = new HashMap<>(levels.length / 2);
+        this.bids = new HashMap<>(levels.length / 2);
 
         for (BitfinexOrderbookLevel level : levels) {
             if (level.getAmount().compareTo(ZERO) > 0) bids.put(level.getOrderId(), level);

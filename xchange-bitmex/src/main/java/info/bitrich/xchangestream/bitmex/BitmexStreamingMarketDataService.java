@@ -22,67 +22,67 @@ import java.util.TreeMap;
  * Created by Lukas Zaoralek on 13.11.17.
  */
 public class BitmexStreamingMarketDataService implements StreamingMarketDataService {
-  private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingMarketDataService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingMarketDataService.class);
 
-  private final BitmexStreamingService streamingService;
+    private final BitmexStreamingService streamingService;
 
-  private final SortedMap<CurrencyPair, BitmexOrderbook> orderbooks = new TreeMap<>();
+    private final SortedMap<CurrencyPair, BitmexOrderbook> orderbooks = new TreeMap<>();
 
-  public BitmexStreamingMarketDataService(BitmexStreamingService streamingService) {
-    this.streamingService = streamingService;
-  }
+    public BitmexStreamingMarketDataService(BitmexStreamingService streamingService) {
+        this.streamingService = streamingService;
+    }
 
-  @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
-    String channelName = String.format("orderBookL2:%s", instrument);
+    @Override
+    public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
+        String channelName = String.format("orderBookL2:%s", instrument);
 
-    return streamingService.subscribeBitmexChannel(channelName).map(s -> {
-      BitmexOrderbook orderbook;
-      String action = s.getAction();
-      if (action.equals("partial")) {
-        orderbook = s.toBitmexOrderbook();
-        orderbooks.put(currencyPair, orderbook);
-      } else {
-        orderbook = orderbooks.get(currencyPair);
-        BitmexLimitOrder[] levels = s.toBitmexOrderbookLevels();
-        orderbook.updateLevels(levels, action);
-      }
+        return streamingService.subscribeBitmexChannel(channelName).map(s -> {
+            BitmexOrderbook orderbook;
+            String action = s.getAction();
+            if (action.equals("partial")) {
+                orderbook = s.toBitmexOrderbook();
+                orderbooks.put(currencyPair, orderbook);
+            } else {
+                orderbook = orderbooks.get(currencyPair);
+                BitmexLimitOrder[] levels = s.toBitmexOrderbookLevels();
+                orderbook.updateLevels(levels, action);
+            }
 
-      return orderbook.toOrderbook();
-    });
-  }
+            return orderbook.toOrderbook();
+        });
+    }
 
-  public Observable<BitmexTicker> getRawTicker(CurrencyPair currencyPair, Object... args) {
-    String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
-    String channelName = String.format("quote:%s", instrument);
+    public Observable<BitmexTicker> getRawTicker(CurrencyPair currencyPair, Object... args) {
+        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
+        String channelName = String.format("quote:%s", instrument);
 
-    return streamingService.subscribeBitmexChannel(channelName).map(s -> s.toBitmexTicker());
-  }
+        return streamingService.subscribeBitmexChannel(channelName).map(s -> s.toBitmexTicker());
+    }
 
-  @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
-    String channelName = String.format("quote:%s", instrument);
+    @Override
+    public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
+        String channelName = String.format("quote:%s", instrument);
 
-    return streamingService.subscribeBitmexChannel(channelName).map(s -> {
-      BitmexTicker bitmexTicker = s.toBitmexTicker();
-      return bitmexTicker.toTicker();
-    });
-  }
+        return streamingService.subscribeBitmexChannel(channelName).map(s -> {
+            BitmexTicker bitmexTicker = s.toBitmexTicker();
+            return bitmexTicker.toTicker();
+        });
+    }
 
-  @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
-    String channelName = String.format("trade:%s", instrument);
+    @Override
+    public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
+        String channelName = String.format("trade:%s", instrument);
 
-    return streamingService.subscribeBitmexChannel(channelName).flatMapIterable(s -> {
-      BitmexTrade[] bitmexTrades = s.toBitmexTrades();
-      List<Trade> trades =  new ArrayList<>(bitmexTrades.length);
-      for (BitmexTrade bitmexTrade : bitmexTrades) {
-        trades.add(bitmexTrade.toTrade());
-      }
-      return trades;
-    });
-  }
+        return streamingService.subscribeBitmexChannel(channelName).flatMapIterable(s -> {
+            BitmexTrade[] bitmexTrades = s.toBitmexTrades();
+            List<Trade> trades = new ArrayList<>(bitmexTrades.length);
+            for (BitmexTrade bitmexTrade : bitmexTrades) {
+                trades.add(bitmexTrade.toTrade());
+            }
+            return trades;
+        });
+    }
 }

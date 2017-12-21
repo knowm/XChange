@@ -38,8 +38,8 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
         return streamingMarketDataService;
     }
 
-	@Override
-	public boolean isAlive() {
-		return streamingService.isSocketOpen();
-	}
+    @Override
+    public boolean isAlive() {
+        return streamingService.isSocketOpen();
+    }
 }

@@ -12,63 +12,63 @@ import java.math.BigDecimal;
  * Created by Lukas Zaoralek on 13.11.17.
  */
 public class BitmexLimitOrder extends BitmexMarketDataEvent {
-  public static final String ASK_SIDE = "Sell";
-  public static final String BID_SIDE = "Buy";
+    public static final String ASK_SIDE = "Sell";
+    public static final String BID_SIDE = "Buy";
 
-  protected final String id;
-  protected final String side;
-  protected final BigDecimal price;
-  protected final BigDecimal size;
+    protected final String id;
+    protected final String side;
+    protected final BigDecimal price;
+    protected final BigDecimal size;
 
-  @JsonCreator
-  public BitmexLimitOrder(@JsonProperty("symbol") String symbol,
-                          @JsonProperty("id") String id,
-                          @JsonProperty("side") String side,
-                          @JsonProperty("price") BigDecimal price,
-                          @JsonProperty("size") BigDecimal size) {
-    super(symbol, null);
-    this.id = id;
-    this.side = side;
-    this.price = price;
-    this.size = size;
-  }
+    @JsonCreator
+    public BitmexLimitOrder(@JsonProperty("symbol") String symbol,
+                            @JsonProperty("id") String id,
+                            @JsonProperty("side") String side,
+                            @JsonProperty("price") BigDecimal price,
+                            @JsonProperty("size") BigDecimal size) {
+        super(symbol, null);
+        this.id = id;
+        this.side = side;
+        this.price = price;
+        this.size = size;
+    }
 
-  public BitmexLimitOrder(String symbol,
-                          String id,
-                          String side,
-                          BigDecimal price,
-                          BigDecimal size,
-                          String timestamp) {
-    super(symbol, timestamp);
-    this.id = id;
-    this.side = side;
-    this.price = price;
-    this.size = size;
-  }
+    public BitmexLimitOrder(String symbol,
+                            String id,
+                            String side,
+                            BigDecimal price,
+                            BigDecimal size,
+                            String timestamp) {
+        super(symbol, timestamp);
+        this.id = id;
+        this.side = side;
+        this.price = price;
+        this.size = size;
+    }
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public String getSide() {
-    return side;
-  }
+    public String getSide() {
+        return side;
+    }
 
-  public BigDecimal getPrice() {
-    return price;
-  }
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-  public BigDecimal getSize() {
-    return size;
-  }
+    public BigDecimal getSize() {
+        return size;
+    }
 
-  public Order.OrderType getOrderSide() {
-    return side.equals(ASK_SIDE) ? Order.OrderType.ASK : Order.OrderType.BID;
-  }
+    public Order.OrderType getOrderSide() {
+        return side.equals(ASK_SIDE) ? Order.OrderType.ASK : Order.OrderType.BID;
+    }
 
-  public LimitOrder toLimitOrder() {
-    CurrencyPair pair = getCurrencyPair();
-    Order.OrderType orderType = getOrderSide();
-    return new LimitOrder(orderType, size, pair, id, null, price);
-  }
+    public LimitOrder toLimitOrder() {
+        CurrencyPair pair = getCurrencyPair();
+        Order.OrderType orderType = getOrderSide();
+        return new LimitOrder(orderType, size, pair, id, null, price);
+    }
 }

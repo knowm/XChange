@@ -4,14 +4,13 @@ import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import rx.subjects.BehaviorSubject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rx.subjects.BehaviorSubject;
 import ws.wamp.jawampa.PubSubData;
 import ws.wamp.jawampa.WampClient;
-import ws.wamp.jawampa.WampClientBuilder;
 import ws.wamp.jawampa.WampClient.State;
+import ws.wamp.jawampa.WampClientBuilder;
 import ws.wamp.jawampa.connection.IWampConnectorProvider;
 import ws.wamp.jawampa.transport.netty.NettyWampClientConnectorProvider;
 
@@ -79,9 +78,9 @@ public class WampStreamingService {
 
         return RxJavaInterop.toV2Observable(client.makeSubscription(channel));
     }
-    
+
     public boolean isSocketOpen() {
-    		// WampClient was initiated with infinite reconnects attempts, so we can just always return 'true' 
-		return !((BehaviorSubject<State>) client.statusChanged()).hasCompleted();
+        // WampClient was initiated with infinite reconnects attempts, so we can just always return 'true'
+        return !((BehaviorSubject<State>) client.statusChanged()).hasCompleted();
     }
 }

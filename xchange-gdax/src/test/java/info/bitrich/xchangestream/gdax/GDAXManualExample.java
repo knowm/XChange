@@ -27,9 +27,9 @@ public class GDAXManualExample {
         }, throwable -> LOG.error("ERROR in getting ticker: ", throwable));
 
         exchange.getStreamingMarketDataService().getTrades(CurrencyPair.BTC_USD)
-          .subscribe(trade -> {
-            LOG.info("TRADE: {}", trade);
-        }, throwable -> LOG.error("ERROR in getting trades: ", throwable));
+                .subscribe(trade -> {
+                    LOG.info("TRADE: {}", trade);
+                }, throwable -> LOG.error("ERROR in getting trades: ", throwable));
 
         try {
             Thread.sleep(10000);

@@ -35,11 +35,11 @@ public class OkCoinStreamingExchange extends OkCoinExchange implements Streaming
     public Completable disconnect() {
         return streamingService.disconnect();
     }
-    
+
     @Override
-	public boolean isAlive() {
-		return streamingService.isSocketOpen();
-	}
+    public boolean isAlive() {
+        return streamingService.isSocketOpen();
+    }
 
     @Override
     public StreamingMarketDataService getStreamingMarketDataService() {
