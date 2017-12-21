@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitmex.dto;
+package org.knowm.xchange.bitmex.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
