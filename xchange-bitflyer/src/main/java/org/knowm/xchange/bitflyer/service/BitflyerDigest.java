@@ -31,19 +31,22 @@ public class BitflyerDigest extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
 
     String queryString = restInvocation.getQueryString();
-    System.out.println("queryString = " + queryString);
+//    System.out.println("queryString = " + queryString);
 
     String httpMethod = restInvocation.getHttpMethod();
 
-    String path = restInvocation.getPath();
-    System.out.println("path = " + path);
+    String uri = restInvocation.getPath();
+    if (queryString != null && queryString.length() > 0) {
+      uri += "?" + restInvocation.getQueryString();
+    }
+//    System.out.println("uri = " + uri);
 
     String requestBody = restInvocation.getRequestBody();
     String nonce = restInvocation.getHttpHeadersFromParams().get(Bitflyer.ACCESS_TIMESTAMP);
 
     //ACCESS-SIGN is the resulting HMAC-SHA256 signature done with the API secret path using the ACCESS-TIMESTAMP, HTTP method, request path, and
     //request body linked together as a character string.
-    String hmac_data = String.format("%s%s%s%s", nonce, httpMethod, path, requestBody);
+    String hmac_data = String.format("%s%s%s%s", nonce, httpMethod, uri, requestBody);
     Mac mac256 = getMac();
     mac256.update(hmac_data.getBytes());
 
