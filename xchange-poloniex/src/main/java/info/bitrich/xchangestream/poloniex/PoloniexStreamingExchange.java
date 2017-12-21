@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.poloniex;
 
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.wamp.WampStreamingService;
@@ -24,7 +25,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
     }
 
     @Override
-    public Completable connect() {
+    public Completable connect(ProductSubscription... args) {
         return streamingService.connect();
     }
 
@@ -36,5 +37,10 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
     @Override
     public StreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return streamingService.isSocketOpen();
     }
 }

@@ -5,7 +5,7 @@
     <groupId>info.bitrich.xchange-stream</groupId>
     <artifactId>xchange-stream-parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.3.0</version>
+    <version>4.3.1</version>
 
     <modules>
         <module>xchange-stream-core</module>
@@ -25,6 +25,7 @@
         <module>xchange-bitflyer</module>
         <module>xchange-gemini</module>
         <module>xchange-wex</module>
+        <module>xchange-binance</module>
     </modules>
 
     <name>xchange-stream</name>
@@ -53,7 +54,7 @@
         <connection>scm:git:git@github.com:bitrich-info/xchange-stream.git</connection>
         <developerConnection>scm:git:git@github.com:bitrich-info/xchange-stream.git</developerConnection>
         <url>git@github.com:bitrich-info/xchange-stream.git</url>
-        <tag>xchange-stream-parent-4.3.0</tag>
+        <tag>xchange-stream-parent-4.3.1</tag>
     </scm>
 
     <distributionManagement>
@@ -77,7 +78,7 @@
     </repositories>
 
     <properties>
-        <xchange.version>4.3.0</xchange.version>
+        <xchange.version>4.3.1</xchange.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>

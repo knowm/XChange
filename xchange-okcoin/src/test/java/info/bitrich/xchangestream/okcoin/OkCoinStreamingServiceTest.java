@@ -31,7 +31,7 @@ public class OkCoinStreamingServiceTest {
         String subscribeMessage = streamingService.getUnsubscribeMessage("orderbook");
         String expected = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("unsubscribe.json").toURI())));
         assertThat(subscribeMessage).isEqualTo(expected);
-}
+    }
 
     @Test
     public void testGetChannelFromMessage() throws Exception {

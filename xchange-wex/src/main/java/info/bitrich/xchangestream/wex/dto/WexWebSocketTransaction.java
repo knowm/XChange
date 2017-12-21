@@ -16,52 +16,52 @@ import java.util.List;
  * Created by Lukas Zaoralek on 16.11.17.
  */
 public class WexWebSocketTransaction {
-  private final JsonNode ask;
-  private final JsonNode bid;
+    private final JsonNode ask;
+    private final JsonNode bid;
 
-  public WexWebSocketTransaction(@JsonProperty("ask") JsonNode ask,
-                                 @JsonProperty("bid") JsonNode bid) {
-    this.ask = ask;
-    this.bid = bid;
-  }
-
-  public static LimitOrder[] toOrderbookLevels(JsonNode jsonSide, Order.OrderType side, CurrencyPair currencyPair) {
-    List<LimitOrder> levels = new ArrayList<>(jsonSide.size());
-    for (JsonNode level : jsonSide) {
-      BigDecimal price = new BigDecimal(level.get(0).asText());
-      BigDecimal volume = new BigDecimal(level.get(1).asText());
-      LimitOrder limitOrder = new LimitOrder(side, volume, currencyPair, null, null, price);
-      levels.add(limitOrder);
+    public WexWebSocketTransaction(@JsonProperty("ask") JsonNode ask,
+                                   @JsonProperty("bid") JsonNode bid) {
+        this.ask = ask;
+        this.bid = bid;
     }
 
-    return levels.toArray(new LimitOrder[levels.size()]);
-  }
+    public static LimitOrder[] toOrderbookLevels(JsonNode jsonSide, Order.OrderType side, CurrencyPair currencyPair) {
+        List<LimitOrder> levels = new ArrayList<>(jsonSide.size());
+        for (JsonNode level : jsonSide) {
+            BigDecimal price = new BigDecimal(level.get(0).asText());
+            BigDecimal volume = new BigDecimal(level.get(1).asText());
+            LimitOrder limitOrder = new LimitOrder(side, volume, currencyPair, null, null, price);
+            levels.add(limitOrder);
+        }
 
-  public static Trade[] toTrades(JsonNode jsonSide, CurrencyPair currencyPair) {
-    List<Trade> trades = new ArrayList<>(jsonSide.size());
-    for (JsonNode level : jsonSide) {
-      String side = level.get(0).asText();
-      BigDecimal price = new BigDecimal(level.get(1).asText());
-      BigDecimal volume = new BigDecimal(level.get(2).asText());
-      Order.OrderType takerSide = side.equals("sell") ? Order.OrderType.BID : Order.OrderType.ASK;
-      Trade trade = new Trade(takerSide, volume, currencyPair, price, null, null);
-      trades.add(trade);
+        return levels.toArray(new LimitOrder[levels.size()]);
     }
 
-    return trades.toArray(new Trade[trades.size()]);
-  }
+    public static Trade[] toTrades(JsonNode jsonSide, CurrencyPair currencyPair) {
+        List<Trade> trades = new ArrayList<>(jsonSide.size());
+        for (JsonNode level : jsonSide) {
+            String side = level.get(0).asText();
+            BigDecimal price = new BigDecimal(level.get(1).asText());
+            BigDecimal volume = new BigDecimal(level.get(2).asText());
+            Order.OrderType takerSide = side.equals("sell") ? Order.OrderType.BID : Order.OrderType.ASK;
+            Trade trade = new Trade(takerSide, volume, currencyPair, price, null, null);
+            trades.add(trade);
+        }
 
-  public LimitOrder[] toOrderbookUpdate(CurrencyPair currencyPair) {
-    List<LimitOrder> levels;
-    LimitOrder[] asks, bids;
+        return trades.toArray(new Trade[trades.size()]);
+    }
 
-    asks = toOrderbookLevels(ask, Order.OrderType.ASK, currencyPair);
-    bids = toOrderbookLevels(bid, Order.OrderType.BID, currencyPair);
+    public LimitOrder[] toOrderbookUpdate(CurrencyPair currencyPair) {
+        List<LimitOrder> levels;
+        LimitOrder[] asks, bids;
 
-    levels = new ArrayList<>(asks.length + bids.length);
-    levels.addAll(Arrays.asList(asks));
-    levels.addAll(Arrays.asList(bids));
+        asks = toOrderbookLevels(ask, Order.OrderType.ASK, currencyPair);
+        bids = toOrderbookLevels(bid, Order.OrderType.BID, currencyPair);
 
-    return levels.toArray(new LimitOrder[levels.size()]);
-  }
+        levels = new ArrayList<>(asks.length + bids.length);
+        levels.addAll(Arrays.asList(asks));
+        levels.addAll(Arrays.asList(bids));
+
+        return levels.toArray(new LimitOrder[levels.size()]);
+    }
 }

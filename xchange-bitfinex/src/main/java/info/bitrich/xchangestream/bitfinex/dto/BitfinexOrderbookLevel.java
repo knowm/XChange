@@ -8,13 +8,14 @@ import java.math.BigDecimal;
 /**
  * Created by Lukas Zaoralek on 8.11.17.
  */
-@JsonFormat(shape= JsonFormat.Shape.ARRAY)
+@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class BitfinexOrderbookLevel {
     public BigDecimal orderId;
     public BigDecimal price;
     public BigDecimal amount;
 
-    public BitfinexOrderbookLevel() { }
+    public BitfinexOrderbookLevel() {
+    }
 
     public BitfinexOrderbookLevel(BigDecimal price, BigDecimal amount, BigDecimal orderId) {
         this.price = price;
@@ -35,6 +36,7 @@ public class BitfinexOrderbookLevel {
     }
 
     public BitfinexLevel toBitfinexLevel() {
-        return new BitfinexLevel(price, amount, new BigDecimal(System.currentTimeMillis()));
+        // Xchange-bitfinex adapter expects the timestamp to be seconds since Epoch.
+        return new BitfinexLevel(price, amount, new BigDecimal(System.currentTimeMillis() / 1000));
     }
 }

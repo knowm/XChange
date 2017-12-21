@@ -13,29 +13,34 @@ import java.util.Map;
  * Created by Lukas Zaoralek on 15.11.17.
  */
 public class GeminiStreamingService {
-  private static final Logger LOG = LoggerFactory.getLogger(GeminiStreamingService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GeminiStreamingService.class);
 
-  private final String baseUri;
+    private final String baseUri;
 
-  private Map<CurrencyPair, GeminiProductStreamingService> productStreamingServices;
-  private Map<CurrencyPair, Observable<JsonNode>> productSubscriptions;
+    private Map<CurrencyPair, GeminiProductStreamingService> productStreamingServices;
+    private Map<CurrencyPair, Observable<JsonNode>> productSubscriptions;
 
-  public GeminiStreamingService(String baseUri) {
-    this.baseUri = baseUri;
-    productStreamingServices = new HashMap<>();
-    productSubscriptions = new HashMap<>();
-  }
-
-  public Observable<JsonNode> subscribeChannel(CurrencyPair currencyPair, Object... args) {
-    if (!productStreamingServices.containsKey(currencyPair)) {
-      String symbolUri = baseUri + currencyPair.base.toString() + currencyPair.counter.toString();
-      GeminiProductStreamingService productStreamingService = new GeminiProductStreamingService(symbolUri, currencyPair);
-      productStreamingService.connect().blockingAwait();
-      Observable<JsonNode> productSubscription = productStreamingService.subscribeChannel(currencyPair.toString(), args);
-      productStreamingServices.put(currencyPair, productStreamingService);
-      productSubscriptions.put(currencyPair, productSubscription);
+    public GeminiStreamingService(String baseUri) {
+        this.baseUri = baseUri;
+        productStreamingServices = new HashMap<>();
+        productSubscriptions = new HashMap<>();
     }
 
-    return productSubscriptions.get(currencyPair);
-  }
+    public Observable<JsonNode> subscribeChannel(CurrencyPair currencyPair, Object... args) {
+        if (!productStreamingServices.containsKey(currencyPair)) {
+            String symbolUri = baseUri + currencyPair.base.toString() + currencyPair.counter.toString();
+            GeminiProductStreamingService productStreamingService = new GeminiProductStreamingService(symbolUri, currencyPair);
+            productStreamingService.connect().blockingAwait();
+            Observable<JsonNode> productSubscription = productStreamingService.subscribeChannel(currencyPair.toString(), args);
+            productStreamingServices.put(currencyPair, productStreamingService);
+            productSubscriptions.put(currencyPair, productSubscription);
+        }
+
+        return productSubscriptions.get(currencyPair);
+    }
+
+    public boolean isAlive() {
+        return productStreamingServices.values().stream()
+                .allMatch(ps -> ps.isSocketOpen());
+    }
 }

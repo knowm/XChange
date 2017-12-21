@@ -15,47 +15,47 @@ import static org.knowm.xchange.gemini.v1.GeminiAdapters.adaptOrders;
  * Created by Lukas Zaoralek on 15.11.17.
  */
 public class GeminiOrderbook {
-  private final SortedMap<BigDecimal, GeminiLimitOrder> asks;
-  private final SortedMap<BigDecimal, GeminiLimitOrder> bids;
-  private final BigDecimal zero = new BigDecimal(0);
+    private final SortedMap<BigDecimal, GeminiLimitOrder> asks;
+    private final SortedMap<BigDecimal, GeminiLimitOrder> bids;
+    private final BigDecimal zero = new BigDecimal(0);
 
-  private final CurrencyPair currencyPair;
+    private final CurrencyPair currencyPair;
 
-  public GeminiOrderbook(CurrencyPair currencyPair) {
-    asks = new TreeMap<>();
-    bids = new TreeMap<>(java.util.Collections.reverseOrder());
-    this.currencyPair = currencyPair;
-  }
-
-  public void createFromLevels(GeminiLimitOrder[] levels) {
-    for (GeminiLimitOrder level : levels) {
-      SortedMap<BigDecimal, GeminiLimitOrder> orderBookSide = level.getSide() == Order.OrderType.ASK ? asks : bids;
-      orderBookSide.put(level.getPrice(), level);
+    public GeminiOrderbook(CurrencyPair currencyPair) {
+        asks = new TreeMap<>();
+        bids = new TreeMap<>(java.util.Collections.reverseOrder());
+        this.currencyPair = currencyPair;
     }
-  }
 
-  public void updateLevel(GeminiLimitOrder level) {
-    SortedMap<BigDecimal, GeminiLimitOrder> orderBookSide = level.getSide() == Order.OrderType.ASK ? asks : bids;
-    boolean shouldDelete = level.getAmount().compareTo(zero) == 0;
-    BigDecimal price = level.getPrice();
-    orderBookSide.remove(price);
-    if (!shouldDelete) {
-      orderBookSide.put(price, level);
+    public void createFromLevels(GeminiLimitOrder[] levels) {
+        for (GeminiLimitOrder level : levels) {
+            SortedMap<BigDecimal, GeminiLimitOrder> orderBookSide = level.getSide() == Order.OrderType.ASK ? asks : bids;
+            orderBookSide.put(level.getPrice(), level);
+        }
     }
-  }
 
-  public void updateLevels(GeminiLimitOrder[] levels) {
-    for (GeminiLimitOrder level : levels) {
-      updateLevel(level);
+    public void updateLevel(GeminiLimitOrder level) {
+        SortedMap<BigDecimal, GeminiLimitOrder> orderBookSide = level.getSide() == Order.OrderType.ASK ? asks : bids;
+        boolean shouldDelete = level.getAmount().compareTo(zero) == 0;
+        BigDecimal price = level.getPrice();
+        orderBookSide.remove(price);
+        if (!shouldDelete) {
+            orderBookSide.put(price, level);
+        }
     }
-  }
 
-  public OrderBook toOrderbook() {
-    GeminiLimitOrder[] askLevels = asks.values().toArray(new GeminiLimitOrder[asks.size()]);
-    GeminiLimitOrder[] bidLevels = bids.values().toArray(new GeminiLimitOrder[bids.size()]);
-    GeminiAdapters.OrdersContainer askOrdersContainer = adaptOrders(askLevels, currencyPair, Order.OrderType.ASK);
-    GeminiAdapters.OrdersContainer bidOrdersContainer = adaptOrders(bidLevels, currencyPair, Order.OrderType.BID);
+    public void updateLevels(GeminiLimitOrder[] levels) {
+        for (GeminiLimitOrder level : levels) {
+            updateLevel(level);
+        }
+    }
 
-    return new OrderBook(null, askOrdersContainer.getLimitOrders(), bidOrdersContainer.getLimitOrders());
-  }
+    public OrderBook toOrderbook() {
+        GeminiLimitOrder[] askLevels = asks.values().toArray(new GeminiLimitOrder[asks.size()]);
+        GeminiLimitOrder[] bidLevels = bids.values().toArray(new GeminiLimitOrder[bids.size()]);
+        GeminiAdapters.OrdersContainer askOrdersContainer = adaptOrders(askLevels, currencyPair, Order.OrderType.ASK);
+        GeminiAdapters.OrdersContainer bidOrdersContainer = adaptOrders(bidLevels, currencyPair, Order.OrderType.BID);
+
+        return new OrderBook(null, askOrdersContainer.getLimitOrders(), bidOrdersContainer.getLimitOrders());
+    }
 }

@@ -7,17 +7,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class PoloniexWebSocketSubscriptionMessage {
 
-  private static final String COMMAND = "command";
-  private static final String CHANNEL = "channel";
+    private static final String COMMAND = "command";
+    private static final String CHANNEL = "channel";
 
-  @JsonProperty(COMMAND)
-  private String command;
+    @JsonProperty(COMMAND)
+    private String command;
 
-  @JsonProperty(CHANNEL)
-  private String channel;
+    @JsonProperty(CHANNEL)
+    private String channel;
 
-  public PoloniexWebSocketSubscriptionMessage(String command, String channel) {
-    this.command = command;
-    this.channel = channel;
-  }
+    public PoloniexWebSocketSubscriptionMessage(String command, String channel) {
+        this.command = command;
+        this.channel = channel;
+    }
 }

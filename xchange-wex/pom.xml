@@ -3,7 +3,7 @@
     <parent>
         <artifactId>xchange-stream-parent</artifactId>
         <groupId>info.bitrich.xchange-stream</groupId>
-        <version>4.3.0</version>
+        <version>4.3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-btce</artifactId>
+            <artifactId>xchange-wex</artifactId>
             <version>${xchange.version}</version>
         </dependency>
     </dependencies>

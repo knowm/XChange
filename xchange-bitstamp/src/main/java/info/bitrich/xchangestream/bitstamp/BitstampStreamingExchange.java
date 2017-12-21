@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.bitstamp;
 
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
@@ -23,7 +24,7 @@ public class BitstampStreamingExchange extends BitstampExchange implements Strea
     }
 
     @Override
-    public Completable connect() {
+    public Completable connect(ProductSubscription... args) {
         return streamingService.connect();
     }
 
@@ -35,5 +36,10 @@ public class BitstampStreamingExchange extends BitstampExchange implements Strea
     @Override
     public StreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return this.streamingService.isSocketOpen();
     }
 }

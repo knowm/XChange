@@ -12,7 +12,7 @@ import java.util.TimeZone;
 
 public class OkCoinWebSocketTrade extends OkCoinTrade {
     public OkCoinWebSocketTrade(String[] items) throws ParseException {
-        super(getDate(items[3]).getTime()/1000, new BigDecimal(items[1]), new BigDecimal(items[2]), Long.valueOf(items[0]), items[4]);
+        super(getDate(items[3]).getTime() / 1000, new BigDecimal(items[1]), new BigDecimal(items[2]), Long.valueOf(items[0]), items[4]);
     }
 
     private static Date getDate(String exchangeTime) throws ParseException {

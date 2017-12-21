@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.bitfinex;
 
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
@@ -26,13 +27,18 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     }
 
     @Override
-    public Completable connect() {
+    public Completable connect(ProductSubscription... args) {
         return streamingService.connect();
     }
 
     @Override
     public Completable disconnect() {
         return streamingService.disconnect();
+    }
+
+    @Override
+    public boolean isAlive() {
+        return streamingService.isSocketOpen();
     }
 
     @Override

@@ -11,24 +11,24 @@ import java.math.BigDecimal;
  * Created by Lukas Zaoralek on 14.11.17.
  */
 public class BitflyerLimitOrder {
-  private final BigDecimal price;
-  private final BigDecimal size;
+    private final BigDecimal price;
+    private final BigDecimal size;
 
-  public BitflyerLimitOrder(@JsonProperty("price") BigDecimal price,
-                            @JsonProperty("size") BigDecimal size) {
-    this.price = price;
-    this.size = size;
-  }
+    public BitflyerLimitOrder(@JsonProperty("price") BigDecimal price,
+                              @JsonProperty("size") BigDecimal size) {
+        this.price = price;
+        this.size = size;
+    }
 
-  public BigDecimal getPrice() {
-    return price;
-  }
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-  public BigDecimal getSize() {
-    return size;
-  }
+    public BigDecimal getSize() {
+        return size;
+    }
 
-  public LimitOrder toLimitOrder(CurrencyPair pair, Order.OrderType side) {
-    return new LimitOrder(side, size, pair, "", null, price);
-  }
+    public LimitOrder toLimitOrder(CurrencyPair pair, Order.OrderType side) {
+        return new LimitOrder(side, size, pair, "", null, price);
+    }
 }

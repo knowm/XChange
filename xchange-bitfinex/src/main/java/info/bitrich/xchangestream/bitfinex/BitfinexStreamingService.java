@@ -26,6 +26,8 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     private static final String SUBSCRIBED = "subscribed";
     private static final String UNSUBSCRIBED = "unsubscribed";
 
+    private static final int SUBSCRIPTION_FAILED = 10300;
+
     private final Map<String, String> subscribedChannels = new HashMap<>();
 
     public BitfinexStreamingService(String apiUrl) {
@@ -85,6 +87,10 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
                 String channelId = message.get(CHANNEL_ID).asText();
                 subscribedChannels.remove(channelId);
             } else if (event.textValue().equals(ERROR)) {
+                if (message.get("code").asInt() == SUBSCRIPTION_FAILED) {
+                    LOG.error("Error with message: " + message.get("msg"));
+                    return;
+                }
                 super.handleError(message, new ExchangeException("Error code: " + message.get("code").asText()));
             }
         } else super.handleMessage(message);

@@ -8,14 +8,15 @@ import java.math.BigDecimal;
 /**
  * Created by Lukas Zaoralek on 7.11.17.
  */
-@JsonFormat(shape= JsonFormat.Shape.ARRAY)
+@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class BitfinexWebSocketTrade {
     public long tradeId;
     public long timestamp;
     public BigDecimal amount;
     public BigDecimal price;
 
-    public BitfinexWebSocketTrade() { }
+    public BitfinexWebSocketTrade() {
+    }
 
     public BitfinexWebSocketTrade(long tradeId, long timestamp, BigDecimal amount, BigDecimal price) {
         this.tradeId = tradeId;
@@ -42,13 +43,12 @@ public class BitfinexWebSocketTrade {
 
     public BitfinexTrade toBitfinexTrade() {
         String type;
-        BigDecimal zero = new BigDecimal(0);
-        if (amount.compareTo(zero) < 0) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
             type = "sell";
         } else {
             type = "buy";
         }
 
-        return new BitfinexTrade(price, amount, timestamp / 1000,"bitfinex", tradeId, type);
+        return new BitfinexTrade(price, amount, timestamp / 1000, "bitfinex", tradeId, type);
     }
 }

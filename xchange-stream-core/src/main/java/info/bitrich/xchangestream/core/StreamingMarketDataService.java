@@ -22,7 +22,7 @@ public interface StreamingMarketDataService {
      * Emits {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When not connected to the WebSocket API.
      *
      * @param currencyPair Currency pair of the ticker
-     * @return {@link Observable} that emits {@link OrderBook} when exchange sends the update.
+     * @return {@link Observable} that emits {@link Ticker} when exchange sends the update.
      */
     Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args);
 
@@ -31,7 +31,7 @@ public interface StreamingMarketDataService {
      * Emits {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When not connected to the WebSocket API.
      *
      * @param currencyPair Currency pair of the trades
-     * @return {@link Observable} that emits {@link OrderBook} when exchange sends the update.
+     * @return {@link Observable} that emits {@link Trade} when exchange sends the update.
      */
     Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args);
 }
