@@ -1,10 +1,11 @@
 package org.knowm.xchange.bitmex.service;
 
+import javax.crypto.Mac;
+
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
-import si.mazi.rescu.RestInvocation;
 
-import javax.crypto.Mac;
+import si.mazi.rescu.RestInvocation;
 
 public class BitmexDigest extends BaseParamsDigest {
 
@@ -33,15 +34,18 @@ public class BitmexDigest extends BaseParamsDigest {
 
     String httpMethod = restInvocation.getHttpMethod();
 
-    String path = restInvocation.getPath();
-    System.out.println("path = " + path);
+    String uri = restInvocation.getPath();
+    if (queryString != null && queryString.length() > 0) {
+      uri += "?" + restInvocation.getQueryString();
+    }
+    System.out.println("uri = " + uri);
 
     String requestBody = restInvocation.getRequestBody();
     String nonce = restInvocation.getHttpHeadersFromParams().get("API-NONCE");
 
     // verb + path + str(nonce) + data
     //ex: 'GET/api/v1/instrument?filter=%7B%22symbol%22%3A+%22XBTM15%22%7D1429631577690'
-    String hmac_data = String.format("%s%s%s%s", httpMethod, path, nonce, requestBody);
+    String hmac_data = String.format("%s%s%s%s", httpMethod, uri, nonce, requestBody);
     Mac mac256 = getMac();
     mac256.update(hmac_data.getBytes());
 

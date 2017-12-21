@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitmex.dto;
+package org.knowm.xchange.bitmex.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
