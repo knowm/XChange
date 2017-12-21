@@ -6,8 +6,8 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitflyer.dto.BitflyerException;
@@ -17,6 +17,7 @@ import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginTransaction;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerExecution;
+import org.knowm.xchange.bitflyer.dto.trade.BitflyerPosition;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -42,7 +43,7 @@ public interface Bitflyer {
 
   @GET
   @Path("getticker")
-  BitflyerTicker getTicker(@PathParam("product_code") String productCode) throws IOException, BitflyerException;
+  BitflyerTicker getTicker(@QueryParam("product_code") String productCode) throws IOException, BitflyerException;
 
   @GET
   @Path("getexecutions")
@@ -50,7 +51,14 @@ public interface Bitflyer {
 
   @GET
   @Path("getexecutions")
-  List<BitflyerExecution> getExecutions(@PathParam("product_code") String productCode) throws IOException, BitflyerException;
+  List<BitflyerExecution> getExecutions(@QueryParam("product_code") String productCode) throws IOException, BitflyerException;
+
+  @GET
+  @Path("me/getpositions")
+  List<BitflyerPosition> getPositions(@HeaderParam(ACCESS_KEY) String apiKey,
+      @HeaderParam(ACCESS_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(ACCESS_SIGN) ParamsDigest paramsDigest,
+      @QueryParam("product_code") String productCode) throws IOException, BitflyerException;
 
   @GET
   @Path("me/getcollateral")
