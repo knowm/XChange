@@ -29,6 +29,11 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     if (message.has("info") || message.has("success")) {
       return;
     }
+    if(message.has("error")) {
+      String error = message.get("error").asText();
+      LOG.error("Error with message: " + error);
+      return;
+    }
 
     super.handleMessage(message);
   }

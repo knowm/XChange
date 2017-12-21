@@ -55,7 +55,10 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
         }
       }
     }
-
+    if(message.has("error")) {
+      LOG.error("Error with message: " + message.get("error").asText());
+      return;
+    }
     super.handleMessage(message);
   }
 
