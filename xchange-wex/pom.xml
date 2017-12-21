@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-btce</artifactId>
+            <artifactId>xchange-wex</artifactId>
             <version>${xchange.version}</version>
         </dependency>
     </dependencies>
