@@ -91,6 +91,7 @@ Listening for live updates of
 
 Exchange | order books | trades | tickers
 -------- | ----------- | ------ | -------
+**Binance** | :heavy_check_mark: | :x: | :x:
 **Bitfinex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Bitflyer** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **BitMEX** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
@@ -102,7 +103,6 @@ Exchange | order books | trades | tickers
 **GDAX** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Gemini** | :heavy_check_mark: | :heavy_check_mark: | :x:
 **Wex** | :heavy_check_mark: | :heavy_check_mark: | :x:
-**Binance** | :heavy_check_mark: | :x: | :x:
 
 - :heavy_check_mark: - implemented
 - :construction: - missing but can be implemented
