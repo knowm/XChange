@@ -38,6 +38,7 @@ public abstract class NettyStreamingService<T> {
 
     private final int maxFramePayloadLength;
     private final URI uri;
+    private boolean isManualDisconnect = false;
     private Channel webSocketChannel;
     protected Map<String, Subscription> channels = new ConcurrentHashMap<>();
 
@@ -128,6 +129,7 @@ public abstract class NettyStreamingService<T> {
     }
 
     public Completable disconnect() {
+        isManualDisconnect = true;
         return Completable.create(completable -> {
             if (webSocketChannel.isOpen()) {
                 CloseWebSocketFrame closeFrame = new CloseWebSocketFrame();
@@ -261,7 +263,27 @@ public abstract class NettyStreamingService<T> {
 
     protected WebSocketClientHandler getWebSocketClientHandler(WebSocketClientHandshaker handshaker,
                                                                WebSocketClientHandler.WebSocketMessageHandler handler) {
-        return new WebSocketClientHandler(handshaker, handler);
+        return new NettyWebSocketClientHandler(handshaker, handler);
+    }
+
+
+    private class NettyWebSocketClientHandler extends  WebSocketClientHandler{
+        NettyWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+            super(handshaker, handler);
+        }
+
+        @Override
+        public void channelInactive(ChannelHandlerContext ctx) {
+            if (isManualDisconnect) {
+                isManualDisconnect = false;
+            } else {
+                super.channelInactive(ctx);
+                LOG.info("Reopening websocket because it was closed by the host");
+                connect().blockingAwait();
+                LOG.info("Resubscribing channels");
+                resubscribeChannels();
+            }
+        }
     }
 
     public boolean isSocketOpen() {
