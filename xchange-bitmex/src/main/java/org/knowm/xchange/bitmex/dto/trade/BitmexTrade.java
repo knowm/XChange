@@ -92,6 +92,22 @@ public final class BitmexTrade {
     return additionalProperties;
   }
 
+  @Override
+  public String toString() {
+    return "BitmexTrade{" +
+        "timestamp='" + timestamp + '\'' +
+        ", symbol='" + symbol + '\'' +
+        ", side='" + side + '\'' +
+        ", size=" + size +
+        ", price=" + price +
+        ", tickDirection='" + tickDirection + '\'' +
+        ", trdMatchID='" + trdMatchID + '\'' +
+        ", grossValue=" + grossValue +
+        ", homeNotional=" + homeNotional +
+        ", foreignNotional=" + foreignNotional +
+        '}';
+  }
+
   public enum TimeFrame {
     DAILY("daily"),
     WEEKLY("weekly"),

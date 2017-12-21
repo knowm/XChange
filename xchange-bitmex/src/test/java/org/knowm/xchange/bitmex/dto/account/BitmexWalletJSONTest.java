@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitmex.dto;
+package org.knowm.xchange.bitmex.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,15 +1,27 @@
 package org.knowm.xchange.bitmex;
 
-import org.knowm.xchange.bitmex.dto.account.*;
-import org.knowm.xchange.bitmex.dto.trade.BitmexTrade;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import javax.annotation.Nullable;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
+
+import javax.annotation.Nullable;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
+import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
+import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
+import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
+import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
+import org.knowm.xchange.bitmex.dto.trade.BitmexTrade;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("/api/v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -69,6 +81,20 @@ public interface Bitmex {
       @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
       @PathParam("symbol") String symbol) throws IOException;
+
+  @GET
+  @Path("position")
+  List<BitmexPosition> getPositions(@HeaderParam("API-KEY") String apiKey,
+      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
+
+  @GET
+  @Path("position")
+  List<BitmexPosition> getPositions(@HeaderParam("API-KEY") String apiKey,
+      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
+      @Nullable @QueryParam("symbol") String symbol,
+      @Nullable @QueryParam("filter") String filter) throws IOException;
 
   @GET
   @Path("instrument")
