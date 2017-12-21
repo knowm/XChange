@@ -1,9 +1,9 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.math.BigDecimal;
 
 public class PoloniexMarginAccountResponse {
 
@@ -71,4 +71,16 @@ public class PoloniexMarginAccountResponse {
     public void setCurrentMargin(BigDecimal currentMargin) {
         this.currentMargin = currentMargin;
     }
+
+  @Override
+  public String toString() {
+    return "PoloniexMarginAccountResponse{" +
+        "totalValue=" + totalValue +
+        ", pl=" + pl +
+        ", lendingFees=" + lendingFees +
+        ", netValue=" + netValue +
+        ", totalBorrowedValue=" + totalBorrowedValue +
+        ", currentMargin=" + currentMargin +
+        '}';
+  }
 }
