@@ -53,5 +53,10 @@ public class BitflyerStreamingExchange extends BaseExchange implements Streaming
   public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
   }
+
+  @Override
+  public boolean isAlive() {
+	return streamingService.isAlive();
+  }
 }
 

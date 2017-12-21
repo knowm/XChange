@@ -37,4 +37,9 @@ public class BitstampStreamingExchange extends BitstampExchange implements Strea
     public StreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
     }
+
+	@Override
+	public boolean isAlive() {
+		return this.streamingService.isSocketOpen();
+	}
 }

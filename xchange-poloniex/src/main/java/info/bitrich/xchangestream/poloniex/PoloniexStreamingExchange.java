@@ -38,4 +38,9 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
     public StreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
     }
+
+	@Override
+	public boolean isAlive() {
+		return streamingService.isSocketOpen();
+	}
 }

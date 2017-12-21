@@ -40,4 +40,9 @@ public class GeminiStreamingExchange extends GeminiExchange implements Streaming
   public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
   }
+
+  @Override
+  public boolean isAlive() {
+	return streamingService.isAlive();
+  }
 }

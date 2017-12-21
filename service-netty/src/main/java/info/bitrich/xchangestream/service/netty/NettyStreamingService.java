@@ -129,11 +129,13 @@ public abstract class NettyStreamingService<T> {
 
     public Completable disconnect() {
         return Completable.create(completable -> {
-            CloseWebSocketFrame closeFrame = new CloseWebSocketFrame();
-            webSocketChannel.writeAndFlush(closeFrame).addListener(future -> {
-                channels = new ConcurrentHashMap<>();
-                completable.onComplete();
-            });
+        		if (webSocketChannel.isOpen()) {
+	            CloseWebSocketFrame closeFrame = new CloseWebSocketFrame();
+	            webSocketChannel.writeAndFlush(closeFrame).addListener(future -> {
+	                channels = new ConcurrentHashMap<>();
+	                completable.onComplete();
+	            });
+        		}
         });
     }
 
@@ -260,5 +262,9 @@ public abstract class NettyStreamingService<T> {
     protected WebSocketClientHandler getWebSocketClientHandler(WebSocketClientHandshaker handshaker, 
                                                                WebSocketClientHandler.WebSocketMessageHandler handler){
         return new WebSocketClientHandler(handshaker, handler);
+    }
+    
+    public boolean isSocketOpen() {
+    		return webSocketChannel.isOpen();
     }
 }

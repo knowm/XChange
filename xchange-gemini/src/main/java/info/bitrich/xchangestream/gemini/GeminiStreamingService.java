@@ -38,4 +38,9 @@ public class GeminiStreamingService {
 
     return productSubscriptions.get(currencyPair);
   }
+  
+  public boolean isAlive() {
+	return productStreamingServices.values().stream()
+			.allMatch(ps -> ps.isSocketOpen());
+  }
 }

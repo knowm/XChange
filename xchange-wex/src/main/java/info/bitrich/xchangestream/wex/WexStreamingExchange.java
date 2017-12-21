@@ -41,4 +41,9 @@ public class WexStreamingExchange extends BTCEExchange implements StreamingExcha
   public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
   }
+
+  @Override
+  public boolean isAlive() {
+	return this.streamingService.isSocketOpen();
+}
 }

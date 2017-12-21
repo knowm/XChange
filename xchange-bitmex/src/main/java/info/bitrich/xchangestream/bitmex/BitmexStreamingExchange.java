@@ -52,4 +52,9 @@ public class BitmexStreamingExchange extends BaseExchange implements StreamingEx
   public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
   }
+
+  @Override
+  public boolean isAlive() {
+	  return streamingService.isSocketOpen();	
+  }
 }

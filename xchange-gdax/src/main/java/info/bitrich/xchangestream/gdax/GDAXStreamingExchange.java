@@ -60,4 +60,9 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
   public void setChannelInactiveHandler(WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler) {
     streamingService.setChannelInactiveHandler(channelInactiveHandler);
   }
+
+  @Override
+  public boolean isAlive() {
+	return streamingService.isSocketOpen();
+  }
 }

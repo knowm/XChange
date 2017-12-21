@@ -48,7 +48,7 @@ public class PubnubStreamingService {
           public void status(PubNub pubNub, PNStatus pnStatus) {
             pnStatusCategory = pnStatus.getCategory();
             LOG.debug("PubNub status: {} {}", pnStatusCategory.toString(), pnStatus.getStatusCode());
-            if (pnStatus.getCategory() == PNStatusCategory.PNConnectedCategory) {
+            if (pnStatusCategory == PNStatusCategory.PNConnectedCategory) {
 //              e.onComplete();
             } else if (pnStatus.isError()) {
 //              e.onError(pnStatus.getErrorData().getThrowable());
@@ -101,5 +101,9 @@ public class PubnubStreamingService {
       pubnub.disconnect();
       completable.onComplete();
     });
+  }
+  
+  public boolean isAlive() {
+	return (pnStatusCategory == PNStatusCategory.PNConnectedCategory);
   }
 }

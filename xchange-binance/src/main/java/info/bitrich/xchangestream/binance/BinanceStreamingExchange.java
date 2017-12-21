@@ -35,6 +35,11 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     }
 
     @Override
+    public boolean isAlive() {
+        throw new IllegalStateException("Not implemented.");
+    }
+
+    @Override
     public StreamingMarketDataService getStreamingMarketDataService() {
       return streamingMarketDataService;
     }

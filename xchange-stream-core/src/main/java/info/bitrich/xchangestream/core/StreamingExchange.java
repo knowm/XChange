@@ -20,6 +20,13 @@ public interface StreamingExchange extends Exchange {
     Completable disconnect();
 
     /**
+     * Checks whether connection to the exchange is alive.
+     *
+     * @return true if connection is open, otherwise false.
+     */
+    boolean isAlive();
+
+    /**
      * Returns service that can be used to access market data.
      */
     StreamingMarketDataService getStreamingMarketDataService();
