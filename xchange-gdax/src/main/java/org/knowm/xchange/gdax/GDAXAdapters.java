@@ -219,7 +219,7 @@ public class GDAXAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, GDAXProduct[] products) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (GDAXProduct product : products) {
 
