@@ -157,7 +157,7 @@ public class CoinmateAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static List<LimitOrder> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders, CurrencyPair currencyPair) throws CoinmateException {
+  public static List<LimitOrder> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders) throws CoinmateException {
 
     List<LimitOrder> ordersList = new ArrayList<>(coinmateOpenOrders.getData().size());
 
@@ -173,8 +173,8 @@ public class CoinmateAdapters {
         throw new CoinmateException("Unknown order type");
       }
 
-      LimitOrder limitOrder = new LimitOrder(orderType, entry.getAmount(), currencyPair, Long.toString(entry.getId()), new Date(entry.getTimestamp()),
-          entry.getPrice());
+      LimitOrder limitOrder = new LimitOrder(orderType, entry.getAmount(), CoinmateUtils.getPair(entry.getCurrencyPair()),
+          Long.toString(entry.getId()), new Date(entry.getTimestamp()), entry.getPrice());
 
       ordersList.add(limitOrder);
     }
