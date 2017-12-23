@@ -1,9 +1,13 @@
 package org.known.xchange.acx;
 
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -11,6 +15,8 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.known.xchange.acx.dto.AcxTrade;
+import org.known.xchange.acx.dto.account.AcxAccount;
+import org.known.xchange.acx.dto.account.AcxAccountInfo;
 import org.known.xchange.acx.dto.marketdata.AcxOrder;
 import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
 import org.known.xchange.acx.dto.marketdata.AcxTicker;
@@ -96,5 +102,22 @@ public class AcxMapper {
             return OrderType.BID;
         }
         return null;
+    }
+
+    public AccountInfo mapAccountInfo(AcxAccountInfo accountInfo) {
+        return new AccountInfo(accountInfo.name, new Wallet(
+                accountInfo.accounts.stream()
+                        .map(this::mapBalance)
+                        .collect(Collectors.toList())
+        ));
+    }
+
+    private Balance mapBalance(AcxAccount acc) {
+        return new Balance(
+                Currency.getInstance(acc.currency),
+                acc.balance.add(acc.locked),
+                acc.balance,
+                acc.locked
+        );
     }
 }
