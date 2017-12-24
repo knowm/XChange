@@ -1,8 +1,10 @@
 package org.known.xchange.acx;
 
 import org.known.xchange.acx.dto.AcxTrade;
+import org.known.xchange.acx.dto.account.AcxAccountInfo;
 import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
 import org.known.xchange.acx.dto.marketdata.AcxMarket;
+import si.mazi.rescu.ParamsDigest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -50,4 +52,17 @@ public interface AcxApi {
     @GET
     @Path("/trades.json?market={market}")
     List<AcxTrade> getTrades(@PathParam("market") String market) throws IOException;
+
+    /**
+     * Get your profile and accounts info.
+     *
+     * @param accessKey Access key.
+     * @param tonce     Tonce is an integer represents the milliseconds elapsed since Unix epoch.
+     * @param signature The signature of your request payload, generated using your secret key.
+     */
+    @GET
+    @Path("/members/me.json?access_key={access_key}&tonce={tonce}&signature={signature}")
+    AcxAccountInfo getAccountInfo(@PathParam("access_key") String accessKey,
+                                  @PathParam("tonce") long tonce,
+                                  @PathParam("signature") ParamsDigest signature) throws IOException;
 }
