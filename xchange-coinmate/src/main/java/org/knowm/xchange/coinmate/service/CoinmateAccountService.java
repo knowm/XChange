@@ -35,16 +35,19 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPagingSorted;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /**
  * @author Martin Stachon
  */
 public class CoinmateAccountService extends CoinmateAccountServiceRaw implements AccountService {
+
+  public static final int DEFAULT_RESULT_LIMIT = 100;
 
   public CoinmateAccountService(Exchange exchange) {
     super(exchange);
@@ -87,12 +90,15 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+    return new DefaultTradeHistoryParamPagingSorted(DEFAULT_RESULT_LIMIT, TradeHistoryParamsSorted.Order.asc);
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(
       TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+
+    DefaultTradeHistoryParamPagingSorted myParams = (DefaultTradeHistoryParamPagingSorted) params;
+    return CoinmateAdapters.adaptFundingHistory(
+            getCoinmateTransactionHistory(myParams.getPageNumber(), myParams.getPageLength(), CoinmateAdapters.adaptSortOrder(myParams.getOrder())));
   }
 }
