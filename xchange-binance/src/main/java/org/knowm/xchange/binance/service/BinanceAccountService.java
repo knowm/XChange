@@ -17,10 +17,13 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -44,27 +47,38 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws IOException {
-    withdraw0(currency.getCurrencyCode(), address, amount);
-    return null;
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return withdraw0(currency.getCurrencyCode(), address, amount);
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params)
-      throws IOException {
-    if (!(params instanceof DefaultWithdrawFundsParams)) {
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      if (!(params instanceof DefaultWithdrawFundsParams)) {
       throw new RuntimeException("DefaultWithdrawFundsParams must be provided.");
     }
-    DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-    withdraw0(p.currency.getCurrencyCode(), p.address, p.amount);
-    return null;
+    String id = null;
+    if (params instanceof RippleWithdrawFundsParams) {
+      RippleWithdrawFundsParams rippleParams = null;
+      rippleParams = (RippleWithdrawFundsParams)params;
+      id = withdraw0(rippleParams.currency.getCurrencyCode(), rippleParams.address, rippleParams.tag, rippleParams.amount);
+    } else {
+      DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
+      id = withdraw0(p.currency.getCurrencyCode(), p.address, p.amount);
+    }
+    return id;
   }
 
-  private void withdraw0(String asset, String address, BigDecimal amount) throws IOException, BinanceException {
+  private String withdraw0(String asset, String address, BigDecimal amount) throws IOException, BinanceException {
+    // the name parameter seams to be mandatory
+    String name = address.length() <= 10 ? address : address.substring(0, 10);
+    return super.withdraw(asset, address, amount, name, null, System.currentTimeMillis());
+  }
+  private String withdraw0(String asset, String address, String addressTag, BigDecimal amount) throws IOException, BinanceException {
     // the name parameter seams to be mandatory
     String name = address.length() <= 10 ? address : address.substring(0, 10);
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    super.withdraw(asset, address, amount, name, recvWindow, System.currentTimeMillis());
+    return super.withdraw(asset, address, addressTag, amount, name, recvWindow, System.currentTimeMillis());
   }
 
   @Override
