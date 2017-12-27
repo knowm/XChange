@@ -101,6 +101,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair XRP_BTC = new CurrencyPair(Currency.XRP, Currency.BTC);
   public static final CurrencyPair XRP_EUR = new CurrencyPair(Currency.XRP, Currency.EUR);
   public static final CurrencyPair XRP_USD = new CurrencyPair(Currency.XRP, Currency.USD);
+  public static final CurrencyPair XRP_USDT = new CurrencyPair(Currency.XRP, Currency.USDT);
   public static final CurrencyPair XRP_GBP = new CurrencyPair(Currency.XRP, Currency.GBP);
 
   public static final CurrencyPair LTC_AUD = new CurrencyPair(Currency.LTC, Currency.AUD);
