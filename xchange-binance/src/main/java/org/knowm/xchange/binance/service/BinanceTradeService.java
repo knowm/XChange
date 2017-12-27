@@ -43,20 +43,20 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public OpenOrders getOpenOrders() {
-    throw new ExchangeException("Youo need to provide the currency pair to get the list of open orders.");
+    throw new ExchangeException("You need to provide the currency pair to get the list of open orders.");
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     if (!(params instanceof OpenOrdersParamCurrencyPair)) {
-      throw new ExchangeException("Youo need to provide the currency pair to get the list of open orders.");
+      throw new ExchangeException("You need to provide the currency pair to get the list of open orders.");
     }
     OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
     CurrencyPair pair = pairParams.getCurrencyPair();
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     List<BinanceOrder> binanceOpenOrders = super.openOrders(BinanceAdapters.toSymbol(pair), recvWindow, System.currentTimeMillis());
     List<LimitOrder> openOrders = binanceOpenOrders.stream().map(o -> new LimitOrder(BinanceAdapters.convert(o.side), o.origQty
-        , o.origQty.subtract(o.executedQty), pair, Long.toString(o.orderId), o.getTime(), o.price))
+        , o.executedQty, pair, Long.toString(o.orderId), o.getTime(), o.price))
         .collect(Collectors.toList());
     return new OpenOrders(openOrders);
   }
