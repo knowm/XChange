@@ -16,9 +16,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -59,8 +57,6 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
 
     CoinMarketCapTicker cmcB = tickers.get(b.getCurrencyCode());
 
-    CoinMarketCapTicker BTC = tickers.get("BTC");
-
     CurrencyPair pair;
     BigDecimal price;
     BigDecimal volume;
@@ -87,46 +83,42 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
       volume = null;
     }
 
-    Ticker.Builder builder = new Ticker.Builder();
-    builder
-        .currencyPair(pair)
-        .timestamp(cmcB.getLastUpdated())
-        .last(price)
-        .bid(price)
-        .ask(price)
-        .high(price)
-        .low(price)
-        .vwap(price)
-        .volume(volume);
-
-    return builder.build();
+    return new Ticker.Builder()
+            .currencyPair(pair)
+            .timestamp(cmcB.getLastUpdated())
+            .last(price)
+            .bid(price)
+            .ask(price)
+            .high(price)
+            .low(price)
+            .vwap(price)
+            .volume(volume)
+            .build();
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... objects) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... objects) {
     throw new NotAvailableFromExchangeException();
   }
 
   public List<Currency> getCurrencies() {
-    List<Currency> currencies = new ArrayList<Currency>();
-    try {
-      List<CoinMarketCapCurrency> cmcCurrencies = getCoinMarketCapCurrencies();
-      for (CoinMarketCapCurrency cmcCurrency : cmcCurrencies) {
-        currencies.add(cmcCurrency.getCurrency());
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
+    List<Currency> currencies = new ArrayList<>();
+    List<CoinMarketCapCurrency> cmcCurrencies = getCoinMarketCapCurrencies();
+
+    for (CoinMarketCapCurrency cmcCurrency : cmcCurrencies) {
+      currencies.add(cmcCurrency.getCurrency());
     }
+
     return currencies;
   }
 
   @Override
-  public List<CoinMarketCapCurrency> getCoinMarketCapCurrencies() throws IOException {
+  public List<CoinMarketCapCurrency> getCoinMarketCapCurrencies() {
     Collection<CoinMarketCapTicker> tickers = this.tickers.values();
     List<CoinMarketCapCurrency> currencies = new ArrayList<>();
     for (CoinMarketCapTicker ticker : tickers)
