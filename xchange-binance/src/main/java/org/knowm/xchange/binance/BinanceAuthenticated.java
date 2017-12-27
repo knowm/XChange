@@ -239,6 +239,7 @@ public interface BinanceAuthenticated extends Binance {
    * Submit a withdraw request.
    * @param asset
    * @param address
+   * @param addressTag optional for Ripple
    * @param amount
    * @param name      optional, description of the address
    * @param recvWindow        optional
@@ -251,6 +252,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   WithdrawRequest withdraw(@FormParam("asset") String asset
       , @FormParam("address") String address
+      , @FormParam("addressTag") String addressTag
       , @FormParam("amount") BigDecimal amount
       , @FormParam("name") String name
       , @FormParam("recvWindow") Long recvWindow
