@@ -1,5 +1,7 @@
 package org.knowm.xchange.cexio.service;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
@@ -10,8 +12,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
 
 /**
  * Author: brox Since: 2/6/14

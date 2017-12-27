@@ -1,5 +1,7 @@
 package org.knowm.xchange.dto.marketdata;
 
+import static org.knowm.xchange.dto.marketdata.Trades.TradeSortType.SortByID;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +24,18 @@ public class Trades implements Serializable {
 
   /**
    * Constructor
+   * </p>
+   * Default sort is SortByID
+   *
+   * @param trades List of trades
+   */
+  public Trades(List<Trade> trades) {
+
+    this(trades, 0L, SortByID);
+  }
+
+  /**
+   * Constructor
    *
    * @param trades List of trades
    * @param tradeSortType Trade sort type
@@ -36,6 +50,7 @@ public class Trades implements Serializable {
    *
    * @param trades A list of trades
    * @param lastID Last Unique ID
+   * @param tradeSortType Trade sort type
    */
   public Trades(List<Trade> trades, long lastID, TradeSortType tradeSortType) {
 

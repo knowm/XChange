@@ -2,13 +2,9 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -141,23 +137,17 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
     return getKrakenLedgerInfo(null, null, null, null);
   }
 
-
   /**
    * Retrieves a fraction of the ledger entries (usually a "page" of 50 entries)
    * between the start date and the end date. The ledger records the activity
    * (trades, deposit, withdrawals) of the account for all assets.
    *
-   * @param assets
-   *          Set of assets to restrict output to (can be null, defaults to all)
-   * @param ledgerType
-   *          {@link LedgerType} to retrieve (can be null, defaults to all
-   *          types)
-   * @param start
-   *          Start Unix timestamp or ledger id of results (can be null)
-   * @param end
-   *          End Unix timestamp or ledger id of results (can be null)
-   * @param offset
-   *          Result offset (can be null)
+   * @param assets Set of assets to restrict output to (can be null, defaults to all)
+   * @param ledgerType {@link LedgerType} to retrieve (can be null, defaults to all
+   * types)
+   * @param start Start Unix timestamp or ledger id of results (can be null)
+   * @param end End Unix timestamp or ledger id of results (can be null)
+   * @param offset Result offset (can be null)
    * @return
    * @throws IOException
    */
@@ -175,17 +165,12 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * between the start date and the end date. The ledger records the activity
    * (trades, deposit, withdrawals) of the account for all assets.
    *
-   * @param assets
-   *          Set of assets to restrict output to (can be null, defaults to all)
-   * @param ledgerType
-   *          {@link LedgerType} to retrieve (can be null, defaults to all
-   *          types)
-   * @param start
-   *          Start unix timestamp or ledger id of results (can be null)
-   * @param end
-   *          End unix timestamp or ledger id of results (can be null)
-   * @param offset
-   *          Result offset (can be null)
+   * @param assets Set of assets to restrict output to (can be null, defaults to all)
+   * @param ledgerType {@link LedgerType} to retrieve (can be null, defaults to all
+   * types)
+   * @param start Start unix timestamp or ledger id of results (can be null)
+   * @param end End unix timestamp or ledger id of results (can be null)
+   * @param offset Result offset (can be null)
    * @return
    * @throws IOException
    */
@@ -202,7 +187,7 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
     if (end != null) {
       endTime = String.valueOf(DateUtils.toUnixTime(end));
     }
-    if(offset != null) {
+    if (offset != null) {
       longOffset = offset;
     }
 

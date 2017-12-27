@@ -35,11 +35,15 @@ import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
-import org.knowm.xchange.coinmate.dto.trade.*;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrdersEntry;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -130,19 +134,19 @@ public class CoinmateAdapters {
     for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
       Order.OrderType orderType;
       String transactionType = entry.getTransactionType();
-        switch (transactionType) {
-            case "BUY":
-            case "QUICK_BUY":
-                orderType = Order.OrderType.BID;
-                break;
-            case "SELL":
-            case "QUICK_SELL":
-                orderType = Order.OrderType.ASK;
-                break;
-            default:
-                // here we ignore the other types, such as withdrawal, voucher etc.
-                continue;
-        }
+      switch (transactionType) {
+        case "BUY":
+        case "QUICK_BUY":
+          orderType = Order.OrderType.BID;
+          break;
+        case "SELL":
+        case "QUICK_SELL":
+          orderType = Order.OrderType.ASK;
+          break;
+        default:
+          // here we ignore the other types, such as withdrawal, voucher etc.
+          continue;
+      }
 
       UserTrade trade = new UserTrade(orderType, entry.getAmount(), CoinmateUtils.getPair(entry.getAmountCurrency() + "_" + entry.getPriceCurrency()),
           entry.getPrice(), new Date(entry.getTimestamp()), Long.toString(entry.getTransactionId()), Long.toString(entry.getOrderId()),
@@ -154,7 +158,53 @@ public class CoinmateAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static List<LimitOrder> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders, CurrencyPair currencyPair) throws CoinmateException {
+  public static List<FundingRecord> adaptFundingHistory(CoinmateTransactionHistory coinmateTradeHistory) {
+    List<FundingRecord> fundings = new ArrayList<>();
+
+    for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
+      FundingRecord.Type type;
+      FundingRecord.Status status;
+
+      switch (entry.getTransactionType()) {
+        case "WITHDRAWAL":
+        case "CREATE_VOUCHER":
+          type = FundingRecord.Type.WITHDRAWAL;
+          break;
+        case "DEPOSIT":
+        case "USED_VOUCHER":
+        case "NEW_USER_REWARD":
+        case "REFERRAL":
+          type = FundingRecord.Type.DEPOSIT;
+          break;
+        default:
+          // here we ignore the other types which are trading
+          continue;
+      }
+
+      switch (entry.getStatus()) {
+        case "COMPLETED":
+          status = FundingRecord.Status.COMPLETE;
+          break;
+        case "PENDING":
+          status = FundingRecord.Status.PROCESSING;
+          break;
+        default:
+          status = FundingRecord.Status.FAILED;
+      }
+
+      String transactionId = Long.toString(entry.getTransactionId());
+
+      FundingRecord funding = new FundingRecord(null,
+          new Date(entry.getTimestamp()), Currency.getInstance(entry.getAmountCurrency()), entry.getAmount(),
+          transactionId, transactionId , type, status, null, entry.getFee(), entry.getDescription());
+
+      fundings.add(funding);
+    }
+
+    return fundings;
+  }
+
+  public static List<LimitOrder> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders) throws CoinmateException {
 
     List<LimitOrder> ordersList = new ArrayList<>(coinmateOpenOrders.getData().size());
 
@@ -170,8 +220,8 @@ public class CoinmateAdapters {
         throw new CoinmateException("Unknown order type");
       }
 
-      LimitOrder limitOrder = new LimitOrder(orderType, entry.getAmount(), currencyPair, Long.toString(entry.getId()), new Date(entry.getTimestamp()),
-          entry.getPrice());
+      LimitOrder limitOrder = new LimitOrder(orderType, entry.getAmount(), CoinmateUtils.getPair(entry.getCurrencyPair()),
+          Long.toString(entry.getId()), new Date(entry.getTimestamp()), entry.getPrice());
 
       ordersList.add(limitOrder);
     }

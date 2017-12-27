@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.knowm.xchange.Exchange;
@@ -15,6 +16,9 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.poloniex.PoloniexExamplesUtils;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexAccountBalance;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginAccountResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
 import org.knowm.xchange.poloniex.service.PoloniexTradeService;
 import org.knowm.xchange.poloniex.service.PoloniexTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
@@ -105,6 +109,18 @@ public class PoloniexTradeDemo {
     Thread.sleep(3000); // wait for cancellation to propagate
 
     System.out.println(PoloniexAdapters.adaptPoloniexOpenOrders(tradeService.returnOpenOrders()));
+
+    Map<String, PoloniexMarginPostionResponse> allMarginPositions = tradeService.returnAllMarginPositions();
+    System.out.println(allMarginPositions);
+
+    PoloniexMarginAccountResponse marginAccountSummary = tradeService.returnMarginAccountSummary();
+    System.out.println(marginAccountSummary);
+
+    PoloniexAccountBalance[] availableAccountBalances = tradeService.returnAllAvailableAccountBalances();
+    System.out.println(availableAccountBalances);
+
+    PoloniexAccountBalance accountBalances = tradeService.returnAvailableAccountBalances(PoloniexAccountBalance.ACCOUNT.LENDING.toString());
+    System.out.println(accountBalances);
   }
 
   private static void printOpenOrders(TradeService tradeService) throws Exception {

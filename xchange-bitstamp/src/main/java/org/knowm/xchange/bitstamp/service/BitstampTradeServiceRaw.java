@@ -27,6 +27,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
   private SynchronizedValueFactory<Long> nonceFactory;
 
   public BitstampTradeServiceRaw(Exchange exchange) {
+
     super(exchange);
     this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
         getClientConfig());
@@ -40,6 +41,12 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   public BitstampOrder[] getBitstampOpenOrders(CurrencyPair pair) throws IOException {
     return bitstampAuthenticatedV2.getOpenOrders(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair));
+  }
+
+  public BitstampOrder placeBitstampMarketOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side,
+                                                BigDecimal originalAmount) throws IOException {
+    return bitstampAuthenticatedV2.placeMarketOrder(
+            apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), originalAmount);
   }
 
   public BitstampOrder placeBitstampOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal originalAmount,

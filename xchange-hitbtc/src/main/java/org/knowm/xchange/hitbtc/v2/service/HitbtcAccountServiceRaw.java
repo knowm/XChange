@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.QueryParam;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -21,7 +23,6 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
   public HitbtcAccountServiceRaw(Exchange exchange) {
     super(exchange);
   }
-
 
   public String withdrawFundsRaw(Currency currency, BigDecimal amount, String address) throws HttpStatusIOException {
     Map response = hitbtc.payout(amount, currency.getCurrencyCode(), address);
@@ -56,6 +57,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
   public List<HitbtcBalance> getMainBalance() throws IOException {
     return hitbtc.getMainBalance();
   }
+
   public List<HitbtcBalance> getTradingBalance() throws IOException {
     return hitbtc.getTradingBalance();
   }
@@ -66,8 +68,8 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     return hitbtcDepositAddress.getAddress();
   }
 
-  public List<HitbtcTransaction> getTransactions() throws HttpStatusIOException {
-    return hitbtc.transactions();
+  public List<HitbtcTransaction> getTransactions(String currency, Integer limit, Integer offset) throws HttpStatusIOException {
+    return hitbtc.transactions(currency, limit, offset);
   }
 
 }

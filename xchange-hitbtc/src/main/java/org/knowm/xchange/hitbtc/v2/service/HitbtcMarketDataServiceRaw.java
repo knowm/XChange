@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcCandle;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
-import org.knowm.xchange.hitbtc.v2.internal.HitbtcAdapters;
 
 public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
@@ -29,7 +29,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   public Map<String, HitbtcTicker> getHitbtcTickers() throws IOException {
 
     return hitbtc.getHitbtcTickers().stream().collect(
-        Collectors.toMap(hitbtcTicker -> hitbtcTicker.getSymbol() , hitbtcTicker -> hitbtcTicker)
+        Collectors.toMap(hitbtcTicker -> hitbtcTicker.getSymbol(), hitbtcTicker -> hitbtcTicker)
     );
   }
 
@@ -50,7 +50,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
   //TODO add extra params in API
   public List<HitbtcTrade> getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrade.HitbtcTradesSortField sortBy,
-                                           HitbtcSort sortDirection, long startIndex, long maxResults) throws IOException {
+      HitbtcSort sortDirection, long startIndex, long maxResults) throws IOException {
 
     return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair));
   }

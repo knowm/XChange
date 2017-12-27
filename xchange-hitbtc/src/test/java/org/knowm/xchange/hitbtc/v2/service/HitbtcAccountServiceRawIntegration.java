@@ -80,7 +80,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
   @Test
   public void testGetTransactions() throws IOException {
 
-    List<HitbtcTransaction> transactions = service.getTransactions();
+    List<HitbtcTransaction> transactions = service.getTransactions(null, null, null);
 
     Assert.assertTrue(!transactions.isEmpty());
     Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));

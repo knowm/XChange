@@ -48,17 +48,32 @@
     "ETH/EUR": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 5
+      "min_amount": 0.15
     },
     "ETH/USD": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 5
+      "min_amount": 0.15
     },
     "ETH/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
-      "min_amount": 5
+      "min_amount": 0.15000000
+    },
+    "BCH/EUR": {
+      "price_scale": 2,
+      "trading_fee": 0.0025,
+      "min_amount": 0.15000000
+    },
+    "BCH/USD": {
+      "price_scale": 2,
+      "trading_fee": 0.0025,
+      "min_amount": 0.15000000
+    },
+    "BCH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.0025,
+      "min_amount": 0.15000000
     }
   },
   "currencies": {
@@ -83,6 +98,10 @@
       "withdrawal_fee": 0
     },
     "ETH": {
+      "scale": 8,
+      "withdrawal_fee": 0
+    },
+    "BCH": {
       "scale": 8,
       "withdrawal_fee": 0
     }

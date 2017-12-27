@@ -111,6 +111,7 @@ public class KrakenAdapters {
   public static Ticker adaptTicker(KrakenTicker krakenTicker, CurrencyPair currencyPair) {
 
     Ticker.Builder builder = new Ticker.Builder();
+    builder.open(krakenTicker.getOpen());
     builder.ask(krakenTicker.getAsk().getPrice());
     builder.bid(krakenTicker.getBid().getPrice());
     builder.last(krakenTicker.getClose().getPrice());
@@ -275,7 +276,7 @@ public class KrakenAdapters {
     for (String krakenAssetCode : krakenAssets.keySet()) {
       KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
       Currency currencyCode = KrakenAdapters.adaptCurrency(krakenAssetCode);
-      BigDecimal withdrawalFee = originalMetaData.getCurrencies().get(currencyCode) == null ? null : originalMetaData.getCurrencies().get(currencyCode).getWithdrawalFee();	
+      BigDecimal withdrawalFee = originalMetaData.getCurrencies().get(currencyCode) == null ? null : originalMetaData.getCurrencies().get(currencyCode).getWithdrawalFee();
       currencies.put(currencyCode, new CurrencyMetaData(krakenAsset.getScale(), withdrawalFee));
     }
 

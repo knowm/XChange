@@ -14,6 +14,9 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexAccountBalance;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginAccountResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOrderFlags;
@@ -58,6 +61,26 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
 
     String ignore = null; // only used so PoloniexAuthenticated.returnTradeHistory can be overloaded
     return poloniexAuthenticated.returnTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), "all", startTime, endTime, ignore);
+  }
+
+  public PoloniexMarginAccountResponse returnMarginAccountSummary() throws IOException {
+    return poloniexAuthenticated.returnMarginAccountSummary(apiKey, signatureCreator, exchange.getNonceFactory());
+  }
+
+  public PoloniexMarginPostionResponse returnMarginPosition(CurrencyPair currencyPair) throws IOException {
+    return poloniexAuthenticated.getMarginPosition(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexUtils.toPairString(currencyPair));
+  }
+
+  public Map<String, PoloniexMarginPostionResponse> returnAllMarginPositions() throws IOException {
+    return poloniexAuthenticated.getMarginPosition(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexAuthenticated.AllPairs.all);
+  }
+
+  public PoloniexAccountBalance returnAvailableAccountBalances(String account) throws IOException {
+    return poloniexAuthenticated.returnAvailableAccountBalances(apiKey, signatureCreator, exchange.getNonceFactory(), account);
+  }
+
+  public PoloniexAccountBalance[] returnAllAvailableAccountBalances() throws IOException {
+    return poloniexAuthenticated.returnAvailableAccountBalances(apiKey, signatureCreator, exchange.getNonceFactory());
   }
 
   public PoloniexTradeResponse buy(LimitOrder limitOrder) throws IOException {

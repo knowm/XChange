@@ -1,0 +1,8 @@
+Gate.io Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://gate.io/api2

@@ -22,8 +22,6 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.account.FundingRecord.Status;
-import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -196,8 +194,8 @@ public final class BitstampAdapters {
   }
 
   public static Map.Entry<String, BigDecimal> findNonzeroAmount(BitstampUserTransaction transaction) throws ExchangeException {
-    for(Map.Entry<String, BigDecimal> entry: transaction.getAmounts().entrySet()) {
-      if(entry.getValue().abs().compareTo(new BigDecimal(1e-6)) == 1) {
+    for (Map.Entry<String, BigDecimal> entry : transaction.getAmounts().entrySet()) {
+      if (entry.getValue().abs().compareTo(new BigDecimal(1e-6)) == 1) {
         return entry;
       }
     }

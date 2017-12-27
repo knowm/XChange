@@ -18,7 +18,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-public class CryptopiaTradeServiceRaw extends CryptopiaBaseService{
+public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
 
   private final CryptopiaExchange exchange;
 
@@ -28,7 +28,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService{
 
     this.exchange = exchange;
   }
-  
+
   public List<LimitOrder> getOpenOrders(CurrencyPair currencyPair, Integer count) throws IOException {
 
     CryptopiaBaseResponse<List<Map>> response = cryptopia.getOpenOrders(signatureCreator, new Cryptopia.GetOpenOrdersRequest(currencyPair == null ? null : currencyPair.toString(), count));
@@ -46,8 +46,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService{
 
       String id = map.get("OrderId").toString();
       Date timestamp = CryptopiaAdapters.convertTimestamp(map.get("TimeStamp").toString());
-      
-      
+
       // asd
       BigDecimal limitPrice = new BigDecimal(map.get("Rate").toString());
       BigDecimal averagePrice = null;
@@ -94,7 +93,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService{
 
     return !response.getData().isEmpty();
   }
-  
+
   public boolean cancelAll(CurrencyPair currencyPair) throws IOException {
     Long marketId = currencyPair == null ? null : exchange.tradePairId(currencyPair);
     CryptopiaBaseResponse<List> response = cryptopia.cancelTrade(signatureCreator, new Cryptopia.CancelTradeRequest("TradePair", null, marketId));

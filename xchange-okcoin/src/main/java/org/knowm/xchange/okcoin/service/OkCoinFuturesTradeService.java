@@ -18,14 +18,13 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okcoin.FuturesContract;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.OkCoinUtils;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesOrder;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
+import org.knowm.xchange.okcoin.dto.trade.OkCoinPriceLimit;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -39,7 +38,7 @@ import org.slf4j.LoggerFactory;
 
 public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements TradeService {
 
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
 
   private final int leverRate;
@@ -48,7 +47,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   /**
    * Constructor
-   *
+   * 
    * @param exchange
    */
   public OkCoinFuturesTradeService(Exchange exchange, FuturesContract futuresContract, int leverRate) {
@@ -65,8 +64,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     // TODO use params for currency pair
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
@@ -110,6 +108,17 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
         marketOrder.getType() == OrderType.BID || marketOrder.getType() == OrderType.EXIT_BID ? "3" : "4", "0",
         marketOrder.getOriginalAmount().toPlainString(), futuresContract, 1, leverRate).getOrderId();
     return String.valueOf(orderId);
+  }
+
+  /**
+   * Retrieves the max price from the okex imposed by the price limits
+   */
+  public OkCoinPriceLimit getPriceLimits(CurrencyPair currencyPair, Object... args) throws IOException {
+    if (args != null && args.length > 0)
+      return getFuturesPriceLimits(currencyPair, (FuturesContract) args[0]);
+    else
+      return getFuturesPriceLimits(currencyPair, futuresContract);
+
   }
 
   @Override
@@ -168,11 +177,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -220,8 +230,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     void setOrderId(String orderId);
   }
 
-  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamFuturesContract {
+  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair,
+      TradeHistoryParamFuturesContract {
     private CurrencyPair currencyPair;
     private FuturesContract futuresContract;
     private String orderId;
@@ -269,8 +279,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
     List<Order> openOrders = new ArrayList<>();
     List<OkCoinFuturesOrder> orderResults = new ArrayList<>(exchangeSymbols.size());

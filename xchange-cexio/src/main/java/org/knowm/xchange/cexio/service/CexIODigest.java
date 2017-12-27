@@ -1,13 +1,15 @@
 package org.knowm.xchange.cexio.service;
 
-import org.knowm.xchange.cexio.dto.CexIORequest;
-import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import javax.crypto.Mac;
 import java.math.BigInteger;
 import java.util.List;
+
+import javax.crypto.Mac;
+
+import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.RestInvocation;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CexIODigest extends BaseParamsDigest {
 
@@ -19,8 +21,8 @@ public class CexIODigest extends BaseParamsDigest {
    * Constructor
    *
    * @param secretKeyBase64
-   * @param clientId        Account user name
-   * @param apiKey          @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @param clientId Account user name
+   * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    * @param nonceFactory
    */
   private CexIODigest(String secretKeyBase64, String clientId, String apiKey, SynchronizedValueFactory<Long> nonceFactory) {

@@ -2,7 +2,6 @@ package org.knowm.xchange.gemini.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class GeminiException extends RuntimeException {
 
   @JsonProperty("message")

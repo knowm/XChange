@@ -1,5 +1,6 @@
 package org.knowm.xchange.okcoin;
 
+import static org.knowm.xchange.currency.Currency.BCH;
 import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.LTC;
 import static org.knowm.xchange.currency.Currency.USD;
@@ -146,11 +147,13 @@ public final class OkCoinAdapters {
     OkCoinFuturesInfoCross info = futureUserInfo.getInfo();
     OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
     OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
+    OkcoinFuturesFundsCross bchFunds = info.getBchFunds();
 
     Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
     Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
+    Balance bchBalance = new Balance(BCH, bchFunds.getAccountRights());
 
-    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance));
+    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance, bchBalance));
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {

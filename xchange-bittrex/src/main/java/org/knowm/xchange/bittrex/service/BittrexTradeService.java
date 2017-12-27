@@ -1,7 +1,5 @@
 package org.knowm.xchange.bittrex.service;
 
-import static org.knowm.xchange.service.trade.params.TradeHistoryParamsZero.PARAMS_ZERO;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,14 +16,13 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BittrexTradeService extends BittrexTradeServiceRaw implements TradeService {
@@ -63,7 +60,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     return new OpenOrders(BittrexAdapters.adaptOpenOrders(getBittrexOpenOrders(params)));
   }
 
@@ -74,11 +71,12 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   @Override
@@ -95,17 +93,17 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return PARAMS_ZERO;
+    return new DefaultTradeHistoryParamCurrencyPair();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     List<Order> orders = new ArrayList<>();
 
     for (String orderId : orderIds) {

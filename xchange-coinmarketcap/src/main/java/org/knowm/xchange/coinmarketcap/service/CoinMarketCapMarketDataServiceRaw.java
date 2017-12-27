@@ -51,4 +51,9 @@ class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements B
 
     return coinmarketcap.getTickers();
   }
+
+  public List<CoinMarketCapTicker> getCoinMarketCapTickers(int start, int limit) throws IOException {
+
+    return coinmarketcap.getTickers(start, limit);
+  }
 }

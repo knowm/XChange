@@ -27,10 +27,10 @@ public class BitfinexTradeDemo {
         .originalAmount(new BigDecimal("0.001")).build();
     tradeService.placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
     */
-	  
-	  BitfinexTradeServiceRaw tradeService = (BitfinexTradeServiceRaw) bfx.getTradeService();
-	  
-	  Date tenDaysAgo = Date.from(LocalDate.now().minusDays(10).atStartOfDay(ZoneId.systemDefault()).toInstant());	  
-	  BitfinexFundingTradeResponse[] fundingTradeResponses = tradeService.getBitfinexFundingHistory("USD", tenDaysAgo, 2000);
+
+    BitfinexTradeServiceRaw tradeService = (BitfinexTradeServiceRaw) bfx.getTradeService();
+
+    Date tenDaysAgo = Date.from(LocalDate.now().minusDays(10).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    BitfinexFundingTradeResponse[] fundingTradeResponses = tradeService.getBitfinexFundingHistory("USD", tenDaysAgo, 2000);
   }
 }

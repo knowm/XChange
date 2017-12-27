@@ -80,6 +80,8 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
         response = withdrawEthFunds(defaultParams.amount, defaultParams.address);
       } else if (defaultParams.currency.equals(Currency.BTC)) {
         response = withdrawBtcFunds(defaultParams.amount, defaultParams.address);
+      } else if (defaultParams.currency.equals(Currency.BCH)) {
+          response = withdrawBchFunds(defaultParams.amount, defaultParams.address);
       } else {
         throw new IllegalStateException("Cannot withdraw " + defaultParams.currency);
       }
@@ -105,15 +107,15 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
     BitstampDepositAddress response = null;
-    
+
     if (currency.equals(Currency.BTC)) {
-    		response = getBitstampBitcoinDepositAddress();
+      response = getBitstampBitcoinDepositAddress();
     } else if (currency.equals(Currency.LTC)) {
-		response = getBitstampLitecoinDepositAddress();
+      response = getBitstampLitecoinDepositAddress();
     } else if (currency.equals(Currency.ETH)) {
-    	  	response = getBitstampEthereumDepositAddress();
+      response = getBitstampEthereumDepositAddress();
     } else {
-    		throw new IllegalStateException("Unsupported currency " + currency);
+      throw new IllegalStateException("Unsupported currency " + currency);
     }
 
     return response.getDepositAddress();

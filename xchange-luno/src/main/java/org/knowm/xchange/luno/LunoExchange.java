@@ -19,7 +19,6 @@ public class LunoExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
 
-
     this.marketDataService = new LunoMarketDataService(this);
     this.tradeService = new LunoTradeService(this);
     this.accountService = new LunoAccountService(this);

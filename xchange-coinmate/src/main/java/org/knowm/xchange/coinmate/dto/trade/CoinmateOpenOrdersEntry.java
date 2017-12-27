@@ -35,15 +35,17 @@ public class CoinmateOpenOrdersEntry {
   private final long id;
   private final long timestamp;
   private final String type;
+  private final String currencyPair;
   private final BigDecimal price;
   private final BigDecimal amount;
 
   public CoinmateOpenOrdersEntry(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("type") String type,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
+      @JsonProperty("currencyPair") String currencyPair, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
 
     this.id = id;
     this.timestamp = timestamp;
     this.type = type;
+    this.currencyPair = currencyPair;
     this.price = price;
     this.amount = amount;
   }
@@ -67,6 +69,13 @@ public class CoinmateOpenOrdersEntry {
    */
   public String getType() {
     return type;
+  }
+
+  /**
+   * @return the currency pair
+   */
+  public String getCurrencyPair() {
+    return currencyPair;
   }
 
   /**

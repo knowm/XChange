@@ -24,7 +24,7 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw impl
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws IOException {
     final BitcoinCoreBalanceResponse balance = getBalance();
     final BitcoinCoreBalanceResponse unconfirmed = getUnconfirmedBalance();
     return BitcoinCoreAdapters.adaptAccountInfo(balance, unconfirmed);
@@ -37,7 +37,7 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw impl
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -54,7 +54,7 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw impl
 
   @Override
   public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

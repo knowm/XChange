@@ -166,7 +166,8 @@ public class CexIOArchivedOrder {
       String counter = map.get("symbol2");
       String base = map.get("symbol1");
 
-      BigDecimal price = filled.get(counter).divide(filled.get(base), 4, BigDecimal.ROUND_DOWN);
+      int scale = 8;//todo: check if this is correct for all
+      BigDecimal price = filled.get(counter).divide(filled.get(base), scale, BigDecimal.ROUND_HALF_UP);
 
       return new CexIOArchivedOrder(
           map.get("id"),

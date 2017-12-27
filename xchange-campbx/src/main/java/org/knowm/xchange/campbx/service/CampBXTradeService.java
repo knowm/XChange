@@ -55,7 +55,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
 
     MyOpenOrders myOpenOrders = getCampBXOpenOrders();
     logger.debug("myOpenOrders = {}", myOpenOrders);
@@ -129,11 +129,12 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   private String composeOrderId(String id, Order.OrderType orderType) {
@@ -166,7 +167,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

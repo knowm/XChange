@@ -70,6 +70,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency CVE = createCurrency("CVE", "Cape Verdean Escudo", null);
   public static final Currency CZK = createCurrency("CZK", "Czech Republic Koruna", null);
   public static final Currency DASH = createCurrency("DASH", "Dash", null);
+  public static final Currency DCR = createCurrency("DCR", "Decred", null);
   public static final Currency DGB = createCurrency("DGB", "DigiByte", null);
   public static final Currency DJF = createCurrency("DJF", "Djiboutian Franc", null);
   public static final Currency DKK = createCurrency("DKK", "Danish Krone", null);
@@ -190,6 +191,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency SAR = createCurrency("SAR", "Saudi Riyal", null);
   public static final Currency SBC = createCurrency("SBC", "Stablecoin", null);
   public static final Currency SBD = createCurrency("SBD", "Solomon Islands Dollar", null);
+  public static final Currency SC = createCurrency("SC", "Siacoin", null);
   public static final Currency SCR = createCurrency("SCR", "Seychellois Rupee", null);
   public static final Currency SDG = createCurrency("SDG", "Sudanese Pound", null);
   public static final Currency SEK = createCurrency("SEK", "Swedish Krona", null);
@@ -437,13 +439,13 @@ public class Currency implements Comparable<Currency>, Serializable {
     }
     Currency other = (Currency) obj;
 
-    return attributes == other.attributes;
+    return attributes.equals(other.attributes);
   }
 
   @Override
   public int compareTo(Currency o) {
 
-    if (attributes == o.attributes)
+    if (attributes.equals(o.attributes))
       return 0;
 
     int comparison = code.compareTo(o.code);
@@ -454,7 +456,7 @@ public class Currency implements Comparable<Currency>, Serializable {
     return comparison;
   }
 
-  private static class CurrencyAttributes implements Serializable{
+  private static class CurrencyAttributes implements Serializable {
 
     public final Set<String> codes;
     public final String isoCode;
@@ -510,5 +512,28 @@ public class Currency implements Comparable<Currency>, Serializable {
         this.unicode = commonCode;
       }
     }
+
+    @Override
+    public int hashCode() {
+      return commonCode.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      CurrencyAttributes other = (CurrencyAttributes) obj;
+      if (commonCode == null) {
+        if (other.commonCode != null)
+          return false;
+      } else if (!commonCode.equals(other.commonCode))
+        return false;
+      return true;
+    }
+
   }
 }

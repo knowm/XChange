@@ -8,7 +8,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -30,7 +29,7 @@ public class VaultoroAccountService extends VaultoroAccountServiceRaw implements
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws IOException {
 
     List<VaultoroBalance> vaultoroBalances = super.getVaultoroBalances();
     return VaultoroAdapters.adaptVaultoroBalances(vaultoroBalances);
@@ -38,20 +37,20 @@ public class VaultoroAccountService extends VaultoroAccountServiceRaw implements
 
   @Override
   public String requestDepositAddress(Currency arg0,
-      String... arg1) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... arg1) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String withdrawFunds(Currency arg0, BigDecimal arg1,
-      String arg2) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String arg2) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -62,7 +61,7 @@ public class VaultoroAccountService extends VaultoroAccountServiceRaw implements
 
   @Override
   public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

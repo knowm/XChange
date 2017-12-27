@@ -1,10 +1,10 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
@@ -21,45 +21,61 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     super(exchange);
   }
 
-  public GDAXProductTicker getCoinbaseExProductTicker(CurrencyPair currencyPair) throws IOException {
+  public GDAXProductTicker getGDAXProductTicker(CurrencyPair currencyPair) throws IOException {
 
     if (!this.checkProductExists(currencyPair)) {
       return null;
     }
-
-    GDAXProductTicker tickerReturn = this.coinbaseEx.getProductTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-    return tickerReturn;
+    try {
+      GDAXProductTicker tickerReturn = this.gdax.getProductTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+      return tickerReturn;
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
-  public GDAXProductStats getCoinbaseExProductStats(CurrencyPair currencyPair) throws IOException {
+  public GDAXProductStats getGDAXProductStats(CurrencyPair currencyPair) throws IOException {
 
     if (!this.checkProductExists(currencyPair)) {
       return null;
     }
-
-    GDAXProductStats statsReturn = this.coinbaseEx.getProductStats(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-    return statsReturn;
+    try {
+      GDAXProductStats statsReturn = this.gdax.getProductStats(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+      return statsReturn;
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
-  public GDAXProductBook getCoinbaseExProductOrderBook(CurrencyPair currencyPair) throws IOException {
+  public GDAXProductBook getGDAXProductOrderBook(CurrencyPair currencyPair) throws IOException {
 
     if (!this.checkProductExists(currencyPair)) {
       return null;
     }
 
-    GDAXProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "1");
+    GDAXProductBook book = this.gdax.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "1");
     return book;
   }
 
-  public GDAXProductBook getCoinbaseExProductOrderBook(CurrencyPair currencyPair, int level) throws IOException {
-    GDAXProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(),
-        String.valueOf(level));
-    return book;
+  public GDAXProductBook getGDAXProductOrderBook(CurrencyPair currencyPair, int level) throws IOException {
+
+    try {
+      GDAXProductBook book = this.gdax.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(),
+          String.valueOf(level));
+      return book;
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
-  public GDAXTrade[] getCoinbaseExTrades(CurrencyPair currencyPair) throws IOException {
+  public GDAXTrade[] getGDAXTrades(CurrencyPair currencyPair) throws IOException {
 
-    return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+    try {
+      return this.gdax.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
   public boolean checkProductExists(CurrencyPair currencyPair) {
@@ -76,8 +92,8 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     return currencyPairSupported;
   }
 
-  public List<GDAXProduct> getCoinbaseExProducts() throws IOException {
+  public GDAXProduct[] getGDAXProducts() throws IOException {
 
-    return coinbaseEx.getProducts();
+    return gdax.getProducts();
   }
 }

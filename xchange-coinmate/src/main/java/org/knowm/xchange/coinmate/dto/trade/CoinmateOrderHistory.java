@@ -1,14 +1,15 @@
 package org.knowm.xchange.coinmate.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 
-public class CoinmateOrderHistory extends CoinmateBaseResponse<CoinmateOrderHistoryData>  {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    public CoinmateOrderHistory(@JsonProperty("error") boolean error, @JsonProperty("errorMessage") String errorMessage,
-                                      @JsonProperty("data") CoinmateOrderHistoryData data) {
+public class CoinmateOrderHistory extends CoinmateBaseResponse<CoinmateOrderHistoryData> {
 
-        super(error, errorMessage, data);
-    }
+  public CoinmateOrderHistory(@JsonProperty("error") boolean error, @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("data") CoinmateOrderHistoryData data) {
+
+    super(error, errorMessage, data);
+  }
 
 }

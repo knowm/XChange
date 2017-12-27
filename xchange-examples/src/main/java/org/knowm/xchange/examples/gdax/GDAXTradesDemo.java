@@ -31,7 +31,7 @@ public class GDAXTradesDemo {
 
   public static void raw(GDAXMarketDataServiceRaw marketDataServiceRaw) throws IOException {
 
-    GDAXTrade[] trades = marketDataServiceRaw.getCoinbaseExTrades(CurrencyPair.BTC_USD);
+    GDAXTrade[] trades = marketDataServiceRaw.getGDAXTrades(CurrencyPair.BTC_USD);
     System.out.println(Arrays.toString(trades));
   }
 }

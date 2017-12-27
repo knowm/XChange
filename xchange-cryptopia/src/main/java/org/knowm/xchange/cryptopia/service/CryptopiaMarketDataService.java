@@ -8,9 +8,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw implements MarketDataService {
@@ -20,7 +17,7 @@ public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw im
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     if (args != null && args.length > 0) {
       long hours = (long) args[0];
 
@@ -31,7 +28,7 @@ public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw im
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     if (args != null && args.length > 0) {
       long orderCount = (long) args[0];
 
@@ -42,7 +39,7 @@ public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw im
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     if (args != null && args.length > 0) {
       long hours = (long) args[0];
 

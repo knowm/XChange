@@ -8,7 +8,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.ripple.RippleAdapters;
 import org.knowm.xchange.ripple.RippleExchange;
@@ -42,13 +41,13 @@ public class RippleMarketDataService extends RippleMarketDataServiceRaw implemen
 
   @Override
   public Ticker getTicker(final CurrencyPair currencyPair,
-      final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      final Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public Trades getTrades(final CurrencyPair currencyPair,
-      final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      final Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

@@ -1,9 +1,9 @@
 package org.knowm.xchange.cexio.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 /**
  * Author: veken0m

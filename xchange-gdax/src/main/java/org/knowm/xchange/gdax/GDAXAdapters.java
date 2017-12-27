@@ -1,18 +1,7 @@
 package org.knowm.xchange.gdax;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -40,6 +29,16 @@ import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 public class GDAXAdapters {
 
@@ -118,11 +117,14 @@ public class GDAXAdapters {
 
   private static List<LimitOrder> toLimitOrderList(GDAXProductBookEntry[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
-    List<LimitOrder> allLevels = new ArrayList<>(levels.length);
-    for (int i = 0; i < levels.length; i++) {
-      GDAXProductBookEntry ask = levels[i];
+    List<LimitOrder> allLevels = new ArrayList<>();
 
-      allLevels.add(new LimitOrder(orderType, ask.getVolume(), currencyPair, "0", null, ask.getPrice()));
+    if(levels != null) {
+      for (int i = 0; i < levels.length; i++) {
+        GDAXProductBookEntry ask = levels[i];
+
+        allLevels.add(new LimitOrder(orderType, ask.getVolume(), currencyPair, "0", null, ask.getPrice()));
+      }
     }
 
     return allLevels;
@@ -154,10 +156,10 @@ public class GDAXAdapters {
       Date createdAt = parseDate(order.getCreatedAt());
 
       OrderStatus orderStatus = order.getFilledSize().compareTo(BigDecimal.ZERO) == 0 ?
-          Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
+          OrderStatus.NEW : OrderStatus.PARTIALLY_FILLED;
 
       LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
-              order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
+          order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
 
       orders.add(limitOrder);
     }
@@ -175,6 +177,7 @@ public class GDAXAdapters {
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {
+
     List<UserTrade> trades = new ArrayList<>(coinbaseExFills.length);
 
     for (int i = 0; i < coinbaseExFills.length; i++) {
@@ -184,7 +187,7 @@ public class GDAXAdapters {
 
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
 
-      // ToDo add fee amount
+      // TODO add fee amount
       UserTrade t = new UserTrade(type, fill.getSize(), currencyPair, fill.getPrice(), parseDate(fill.getCreatedAt()),
           String.valueOf(fill.getTradeId()), fill.getOrderId(), fill.getFee(), (Currency) null);
       trades.add(t);
@@ -214,12 +217,14 @@ public class GDAXAdapters {
     return new CurrencyPair(product.getBaseCurrency(), product.getTargetCurrency());
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, List<GDAXProduct> products) {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, GDAXProduct[] products) {
+
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (GDAXProduct product : products) {
-      BigDecimal minSize = product.getBaseMinSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
-      BigDecimal maxSize = product.getBaseMaxSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
+
+      BigDecimal minSize = product.getBaseMinSize();
+      BigDecimal maxSize = product.getBaseMaxSize();
 
       CurrencyPair pair = adaptCurrencyPair(product);
 

@@ -94,6 +94,10 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
   public static final CurrencyPair XDC_BTC = new CurrencyPair(Currency.XDC, Currency.BTC);
 
+  public static final CurrencyPair SC_BTC = new CurrencyPair(Currency.SC, Currency.BTC);
+
+  public static final CurrencyPair DCR_BTC = new CurrencyPair(Currency.DCR, Currency.BTC);
+
   public static final CurrencyPair XRP_BTC = new CurrencyPair(Currency.XRP, Currency.BTC);
   public static final CurrencyPair XRP_EUR = new CurrencyPair(Currency.XRP, Currency.EUR);
   public static final CurrencyPair XRP_USD = new CurrencyPair(Currency.XRP, Currency.USD);
@@ -108,6 +112,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair LTC_EUR = new CurrencyPair(Currency.LTC, Currency.EUR);
   public static final CurrencyPair LTC_BTC = new CurrencyPair(Currency.LTC, Currency.BTC);
   public static final CurrencyPair LTC_XRP = new CurrencyPair(Currency.LTC, Currency.XRP);
+  public static final CurrencyPair LTC_TRY = new CurrencyPair(Currency.LTC, Currency.TRY);
 
   public static final CurrencyPair NMC_USD = new CurrencyPair(Currency.NMC, Currency.USD);
   public static final CurrencyPair NMC_CNY = new CurrencyPair(Currency.NMC, Currency.CNY);
@@ -132,6 +137,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair FTC_LTC = new CurrencyPair(Currency.FTC, Currency.LTC);
 
   public static final CurrencyPair XMR_BTC = new CurrencyPair(Currency.XMR, Currency.BTC);
+  public static final CurrencyPair XMR_ETH = new CurrencyPair(Currency.XMR, Currency.ETH);
   public static final CurrencyPair XMR_USD = new CurrencyPair(Currency.XMR, Currency.USD);
 
   public static final CurrencyPair XPM_USD = new CurrencyPair(Currency.XPM, Currency.USD);
@@ -161,6 +167,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair DOGE_NMC = new CurrencyPair(Currency.DOGE, Currency.NMC);
   public static final CurrencyPair DOGE_PPC = new CurrencyPair(Currency.DOGE, Currency.PPC);
   public static final CurrencyPair DOGE_USD = new CurrencyPair(Currency.DOGE, Currency.USD);
+  public static final CurrencyPair DOGE_TRY = new CurrencyPair(Currency.DOGE, Currency.TRY);
 
   public static final CurrencyPair XDC_HKD = new CurrencyPair(Currency.XDC, Currency.HKD);
   public static final CurrencyPair XDC_LTC = new CurrencyPair(Currency.XDC, Currency.LTC);
@@ -219,6 +226,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair DASH_USD = new CurrencyPair(Currency.DASH, Currency.USD);
   public static final CurrencyPair DASH_EUR = new CurrencyPair(Currency.DASH, Currency.EUR);
   public static final CurrencyPair DASH_BTC = new CurrencyPair(Currency.DASH, Currency.BTC);
+  public static final CurrencyPair DASH_TRY = new CurrencyPair(Currency.DASH, Currency.TRY);
 
   public static final CurrencyPair MLN_ETH = new CurrencyPair(Currency.MLN, Currency.ETH);
   public static final CurrencyPair MLN_BTC = new CurrencyPair(Currency.MLN, Currency.BTC);
@@ -235,6 +243,9 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
   public static final CurrencyPair BCC_USD = new CurrencyPair(Currency.BCC, Currency.USD);
   public static final CurrencyPair BCC_BTC = new CurrencyPair(Currency.BCC, Currency.BTC);
+
+  // Tether Pairs
+  public static final CurrencyPair BTC_USDT = new CurrencyPair(Currency.BTC, Currency.USDT);
 
   public final Currency base;
   public final Currency counter;

@@ -1,10 +1,11 @@
 package org.knowm.xchange.quoine.service;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quoine.dto.account.BitcoinAccount;
 import org.knowm.xchange.quoine.dto.account.FiatAccount;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountBalance;
@@ -12,10 +13,8 @@ import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransactionsResponse;
 import org.knowm.xchange.utils.Assert;
-import si.mazi.rescu.HttpStatusIOException;
 
-import java.io.IOException;
-import java.util.List;
+import si.mazi.rescu.HttpStatusIOException;
 
 public class QuoineAccountServiceRaw extends QuoineBaseService {
 
@@ -62,12 +61,12 @@ public class QuoineAccountServiceRaw extends QuoineBaseService {
     }
   }
 
-  public List<QuoineTransaction> depositHistory(Currency currency, Integer limit, Integer page) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<QuoineTransaction> depositHistory(Currency currency, Integer limit, Integer page) throws IOException {
     QuoineTransactionsResponse response = quoine.transactions(QUOINE_API_VERSION, signatureCreator, contentType, currency.getCurrencyCode(), "funding", limit, page);
     return response.models;
   }
 
-  public List<QuoineTransaction> withdrawalHistory(Currency currency, Integer limit, Integer page) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<QuoineTransaction> withdrawalHistory(Currency currency, Integer limit, Integer page) throws IOException {
     QuoineTransactionsResponse response = quoine.transactions(QUOINE_API_VERSION, signatureCreator, contentType, currency.getCurrencyCode(), "withdrawal", limit, page);
     return response.models;
   }
