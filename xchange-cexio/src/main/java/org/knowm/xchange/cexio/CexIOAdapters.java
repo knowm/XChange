@@ -1,13 +1,6 @@
 package org.knowm.xchange.cexio;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
@@ -32,7 +25,13 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 /**
  * Author: brox Since: 2/6/14
@@ -45,7 +44,7 @@ public class CexIOAdapters {
   /**
    * Adapts a CexIOTrade to a Trade Object
    *
-   * @param trade CexIO trade object
+   * @param trade        CexIO trade object
    * @param currencyPair trade currencies
    * @return The XChange Trade
    */
@@ -61,7 +60,7 @@ public class CexIOAdapters {
   /**
    * Adapts a CexIOTrade[] to a Trades Object
    *
-   * @param cexioTrades The CexIO trade data returned by API
+   * @param cexioTrades  The CexIO trade data returned by API
    * @param currencyPair trade currencies
    * @return The trades
    */
@@ -83,7 +82,7 @@ public class CexIOAdapters {
   /**
    * Adapts a CexIOTicker to a Ticker Object
    *
-   * @param ticker The exchange specific ticker
+   * @param ticker       The exchange specific ticker
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The ticker
    */
@@ -104,7 +103,7 @@ public class CexIOAdapters {
   /**
    * Adapts Cex.IO Depth to OrderBook Object
    *
-   * @param depth Cex.IO order book
+   * @param depth        Cex.IO order book
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
@@ -185,7 +184,7 @@ public class CexIOAdapters {
       Date timestamp = fromISODateString(cexIOArchivedOrder.time);
 
       OrderType orderType = cexIOArchivedOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
-      BigDecimal originalAmount = new BigDecimal(cexIOArchivedOrder.amount);
+      BigDecimal originalAmount = cexIOArchivedOrder.amount;
       CurrencyPair currencyPair = new CurrencyPair(cexIOArchivedOrder.symbol1, cexIOArchivedOrder.symbol2);
       BigDecimal price = cexIOArchivedOrder.price;
       String id = cexIOArchivedOrder.id;
