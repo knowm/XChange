@@ -70,6 +70,31 @@ import java.util.regex.Pattern;
   }
   Avg. Execution price: 2080.0000
 
+  Example for a market order
+  {
+    "id": "5241152072",
+    "type": "buy",
+    "time": "2017-12-20T17:15:18.169Z",
+    "lastTxTime": "2017-12-20T17:15:18.169Z",
+    "lastTx": "5241152082",
+    "pos": null,
+    "status": "d",
+    "symbol1": "BCH",
+    "symbol2": "BTC",
+    "amount": "0.00000000",
+    "amount2": "0.50000000",
+    "remains": "0.00000000",
+    "tfa:BTC": "0.00114737",
+    "tta:BTC": "0.49885262",
+    "a:BCH:cds": "2.15022778",
+    "a:BTC:cds": "0.50000000",
+    "f:BTC:cds": "0.00114737",
+    "tradingFeeTaker": "0.23",
+    "tradingFeeUserVolumeAmount": "1315189290",
+    "orderId": "5241152072"
+  },
+
+
   status - "d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
   ta:USD/tta:USD – total amount in current currency (Maker/Taker)
   fa:USD/tfa:USD – fee amount in current currency (Maker/Taker)
@@ -90,7 +115,7 @@ public class CexIOArchivedOrder {
   public final String status;
   public final String symbol1;
   public final String symbol2;
-  public final String amount;
+  public final BigDecimal amount;
   public final BigDecimal price;
   public final String remains;
   public final String tradingFeeMaker;
@@ -102,7 +127,7 @@ public class CexIOArchivedOrder {
 
   public CexIOArchivedOrder(String id, String type, String time, String lastTxTime,
                             String lastTx, String pos, String status, String symbol1,
-                            String symbol2, String amount, BigDecimal price, String remains,
+                            String symbol2, BigDecimal amount, BigDecimal price, String remains,
                             String tradingFeeMaker, String tradingFeeTaker, String tradingFeeUserVolumeAmount,
                             String orderId, BigDecimal feeValue, String feeCcy) {
     this.id = id;
@@ -169,6 +194,10 @@ public class CexIOArchivedOrder {
       int scale = 8;//todo: check if this is correct for all
       BigDecimal price = filled.get(counter).divide(filled.get(base), scale, BigDecimal.ROUND_HALF_UP);
 
+      BigDecimal amount = new BigDecimal(map.get("amount"));
+      if(amount.compareTo(BigDecimal.ZERO) == 0)
+        amount = new BigDecimal(map.get("amount2"));//madness - i think the 'amount' field changes name for market orders
+
       return new CexIOArchivedOrder(
           map.get("id"),
           map.get("type"),
@@ -179,7 +208,7 @@ public class CexIOArchivedOrder {
           map.get("status"),
           base,
           counter,
-          map.get("amount"),
+          amount,
           price,
           map.get("remains"),
           map.get("tradingFeeMaker"),
