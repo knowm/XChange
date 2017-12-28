@@ -1,0 +1,40 @@
+{
+    "data": {
+        "id": "xxxx-xxxx-xxxx-xxxx-xxxx",
+        "status": "created",
+        "payment_method": {
+            "id": "xxxx-xxxx-xxxx-xxxx-xxxx",
+            "resource": "payment_method",
+            "resource_path": "/v2/payment-methods/xxxx-xxxx-xxxx-xxxx-xxxx"
+        },
+        "transaction": null,
+        "user_reference": "GU3ZDLCY",
+        "created_at": "2017-12-06T16:06:20Z",
+        "updated_at": "2017-12-06T16:06:20Z",
+        "resource": "sell",
+        "resource_path": "/v2/accounts/xxxx-xxxx-xxxx-xxxx-xxxx/sells/xxxx-xxxx-xxxx-xxxx-xxxx",
+        "fee": {
+            "amount": "1.00",
+            "currency": "EUR"
+        },
+        "payment_method_fee": {
+            "amount": "0.00",
+            "currency": "EUR"
+        },
+        "amount": {
+            "amount": "0.00010000",
+            "currency": "BTC"
+        },
+        "total": {
+            "amount": "0.10",
+            "currency": "EUR"
+        },
+        "subtotal": {
+            "amount": "1.10",
+            "currency": "EUR"
+        },
+        "committed": false,
+        "payout_at": "2017-12-06T16:06:20Z",
+        "instant": true
+    }
+}
