@@ -8,7 +8,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
-import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -27,7 +26,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw implem
 
   @Override
   public OrderBook getOrderBook(CurrencyPair pair, Object... args) throws IOException {
-    BinanceOrderbook ob = getBinanceOrderbook(BinanceAdapters.toSymbol(pair), null);
+    BinanceOrderbook ob = getBinanceOrderbook(pair, null);
     List<LimitOrder> bids = ob.bids.entrySet().stream().map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey())).collect(Collectors.toList());
     List<LimitOrder> asks = ob.asks.entrySet().stream().map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey())).collect(Collectors.toList());
     return new OrderBook(null, asks, bids);
@@ -35,17 +34,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw implem
 
   @Override
   public Ticker getTicker(CurrencyPair pair, Object... args) throws IOException {
-    BinanceTicker24h ticker24h = binance.ticker24h(BinanceAdapters.toSymbol(pair));
-    return new Ticker.Builder()
-        .currencyPair(pair)
-        .ask(ticker24h.askPrice)
-        .bid(ticker24h.bidPrice)
-        .last(ticker24h.lastPrice)
-        .high(ticker24h.highPrice)
-        .low(ticker24h.lowPrice)
-        .volume(ticker24h.volume)
-        .vwap(ticker24h.weightedAvgPrice)
-        .build();
+    return ticker24h(pair).toTicker();
   }
 
   /**
