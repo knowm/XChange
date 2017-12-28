@@ -35,7 +35,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -119,7 +118,7 @@ public class GDAXAdapters {
 
     List<LimitOrder> allLevels = new ArrayList<>();
 
-    if(levels != null) {
+    if (levels != null) {
       for (int i = 0; i < levels.length; i++) {
         GDAXProductBookEntry ask = levels[i];
 
@@ -187,9 +186,17 @@ public class GDAXAdapters {
 
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
 
-      // TODO add fee amount
-      UserTrade t = new UserTrade(type, fill.getSize(), currencyPair, fill.getPrice(), parseDate(fill.getCreatedAt()),
-          String.valueOf(fill.getTradeId()), fill.getOrderId(), fill.getFee(), (Currency) null);
+      UserTrade t = new UserTrade(
+          type,
+          fill.getSize(),
+          currencyPair,
+          fill.getPrice(),
+          parseDate(fill.getCreatedAt()),
+          String.valueOf(fill.getTradeId()),
+          fill.getOrderId(),
+          fill.getFee(),
+          currencyPair.counter
+      );
       trades.add(t);
     }
 
