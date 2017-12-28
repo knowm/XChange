@@ -57,6 +57,12 @@
             <artifactId>xchange-wex</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- XChange Binance exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-binance</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- XChange Bitstamp exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
