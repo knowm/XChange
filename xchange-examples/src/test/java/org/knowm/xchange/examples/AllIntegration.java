@@ -121,6 +121,7 @@ public class AllIntegration {
       Callable<R> callMethod = new Callable<R>() {
 
         @Override
+        @SuppressWarnings("unchecked")
         public R call() throws Exception {
 
           try {

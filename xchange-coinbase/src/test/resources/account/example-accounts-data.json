@@ -1,0 +1,96 @@
+{
+    "pagination": {
+        "ending_before": null,
+        "starting_after": null,
+        "limit": 25,
+        "order": "desc",
+        "previous_uri": null,
+        "next_uri": null
+    },
+    "data": [
+        {
+            "id": "xxx-xxx-xxx-xxx-xxx",
+            "name": "EUR Wallet",
+            "primary": false,
+            "type": "fiat",
+            "currency": {
+                "code": "EUR",
+                "name": "Euro",
+                "color": "#0066cf",
+                "exponent": 2,
+                "type": "fiat"
+            },
+            "balance": {
+                "amount": "322.20",
+                "currency": "EUR"
+            },
+            "created_at": "2017-11-27T08:34:29Z",
+            "updated_at": "2017-12-04T21:25:29Z",
+            "resource": "account",
+            "resource_path": "/v2/accounts/xxx-xxx-xxx-xxx-xxx"
+        },
+        {
+            "id": "xxx-xxx-xxx-xxx-xxx",
+            "name": "LTC Wallet",
+            "primary": false,
+            "type": "wallet",
+            "currency": {
+                "code": "LTC",
+                "name": "Litecoin",
+                "color": "#B5B5B5",
+                "exponent": 8,
+                "type": "crypto"
+            },
+            "balance": {
+                "amount": "25.53326990",
+                "currency": "LTC"
+            },
+            "created_at": "2017-11-27T06:52:19Z",
+            "updated_at": "2017-11-30T02:17:38Z",
+            "resource": "account",
+            "resource_path": "/v2/accounts/xxx-xxx-xxx-xxx-xxx"
+        },
+        {
+            "id": "xxx-xxx-xxx-xxx-xxx",
+            "name": "ETH Wallet",
+            "primary": false,
+            "type": "wallet",
+            "currency": {
+                "code": "ETH",
+                "name": "Ethereum",
+                "color": "#6F7CBA",
+                "exponent": 8,
+                "type": "crypto"
+            },
+            "balance": {
+                "amount": "5.03311980",
+                "currency": "ETH"
+            },
+            "created_at": "2017-11-27T06:52:19Z",
+            "updated_at": "2017-12-04T21:25:28Z",
+            "resource": "account",
+            "resource_path": "/v2/accounts/xxx-xxx-xxx-xxx-xxx"
+        },
+        {
+            "id": "xxx-xxx-xxx-xxx-xxx",
+            "name": "BTC Wallet",
+            "primary": true,
+            "type": "wallet",
+            "currency": {
+                "code": "BTC",
+                "name": "Bitcoin",
+                "color": "#FFB119",
+                "exponent": 8,
+                "type": "crypto"
+            },
+            "balance": {
+                "amount": "0.12234387",
+                "currency": "BTC"
+            },
+            "created_at": "2017-11-27T06:52:18Z",
+            "updated_at": "2017-12-05T09:21:14Z",
+            "resource": "account",
+            "resource_path": "/v2/accounts/xxx-xxx-xxx-xxx-xxx"
+        }
+    ]
+}

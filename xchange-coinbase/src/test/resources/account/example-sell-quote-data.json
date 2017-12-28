@@ -1,0 +1,37 @@
+{
+    "data": {
+        "id": null,
+        "status": "quote",
+        "payment_method": {
+            "id": "xxxx-xxxx-xxxx-xxxx-xxxx",
+            "resource": "payment_method",
+            "resource_path": "/v2/payment-methods/xxxx-xxxx-xxxx-xxxx-xxxx"
+        },
+        "transaction": null,
+        "user_reference": null,
+        "created_at": null,
+        "updated_at": null,
+        "resource": "sell",
+        "resource_path": null,
+        "fee": {
+            "amount": "1.00",
+            "currency": "EUR"
+        },
+        "payment_method_fee": {
+            "amount": "0.00",
+            "currency": "EUR"
+        },
+        "amount": {
+            "amount": "0.00009000",
+            "currency": "BTC"
+        },
+        "total": {
+            "amount": "0.00",
+            "currency": "EUR"
+        },
+        "subtotal": {
+            "amount": "1.00",
+            "currency": "EUR"
+        }
+    }
+}
