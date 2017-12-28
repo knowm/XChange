@@ -14,18 +14,15 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.StreamUtils;
 
-public class AccountServiceIntegration {
+public class BinanceExchangeIntegration {
 
   static Exchange exchange;
-  static AccountService accountService;
   
   @BeforeClass
   public static void beforeClass() {
     exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName());
-    accountService = exchange.getAccountService();
   }
   
   @Before
@@ -34,7 +31,7 @@ public class AccountServiceIntegration {
   }
 
   @Test
-  public void testMetaData() throws Exception {
+  public void testExchangeMetaData() throws Exception {
     
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchange.getExchangeMetaData().getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchange.getExchangeMetaData().getCurrencies();

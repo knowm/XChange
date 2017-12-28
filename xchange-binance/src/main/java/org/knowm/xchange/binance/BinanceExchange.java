@@ -14,7 +14,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.utils.AuthUtils;
-import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -57,8 +56,8 @@ public class BinanceExchange extends BaseExchange {
 
       BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
       for (BinanceSymbolPrice price : marketDataService.tickerAllPrices()) {
-        CurrencyPair pair = CurrencyPairDeserializer.getCurrencyPairFromString(price.symbol);
-        currencyPairs.put(pair, new CurrencyPairMetaData(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 8));
+        CurrencyPair pair = price.getCurrencyPair();
+        currencyPairs.put(price.getCurrencyPair(), new CurrencyPairMetaData(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 8));
 
         currencies.put(pair.base, new CurrencyMetaData(8, BigDecimal.ZERO));
         currencies.put(pair.counter, new CurrencyMetaData(8, BigDecimal.ZERO));
