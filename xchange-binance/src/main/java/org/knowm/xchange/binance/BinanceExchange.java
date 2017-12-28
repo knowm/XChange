@@ -1,5 +1,8 @@
 package org.knowm.xchange.binance;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.marketdata.BinanceSymbolPrice;
@@ -10,13 +13,11 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.utils.AuthUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Map;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange {
 
@@ -43,6 +44,7 @@ public class BinanceExchange extends BaseExchange {
     spec.setPort(80);
     spec.setExchangeName("Binance");
     spec.setExchangeDescription("Binance Exchange.");
+    AuthUtils.setApiAndSecretKey(spec, "binance");
     return spec;
   }
 
