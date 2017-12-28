@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -14,7 +15,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.utils.AuthUtils;
 import org.knowm.xchange.utils.StreamUtils;
 
 public class AccountServiceIntegration {
@@ -25,14 +25,16 @@ public class AccountServiceIntegration {
   @BeforeClass
   public static void beforeClass() {
     exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName());
-    AuthUtils.setApiAndSecretKey(exchange.getExchangeSpecification(), "binance");
     accountService = exchange.getAccountService();
   }
   
+  @Before
+  public void before() {
+    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
+  }
+
   @Test
   public void testMetaData() throws Exception {
-    
-    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
     
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchange.getExchangeMetaData().getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchange.getExchangeMetaData().getCurrencies();
