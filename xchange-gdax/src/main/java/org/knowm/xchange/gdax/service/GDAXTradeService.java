@@ -1,7 +1,6 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.knowm.xchange.Exchange;
@@ -11,6 +10,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
