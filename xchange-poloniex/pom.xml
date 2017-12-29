@@ -22,19 +22,12 @@
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
-    <!-- Parent provides default configuration for dependencies -->
     <dependencies>
 
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
             <version>4.3.2-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.java-websocket</groupId>
-                    <artifactId>Java-WebSocket</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>
