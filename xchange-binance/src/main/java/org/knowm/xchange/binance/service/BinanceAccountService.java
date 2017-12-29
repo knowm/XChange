@@ -36,7 +36,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    BinanceAccountInformation acc = super.account(null, System.currentTimeMillis());
+    BinanceAccountInformation acc = super.account(10000000L, System.currentTimeMillis()); // recvWindow set because of https://github.com/ccxt/ccxt/issues/773
     List<Balance> balances = acc.balances.stream()
         .map(b -> new Balance(Currency.getInstance(b.asset), b.free.add(b.locked), b.free))
         .collect(Collectors.toList());
@@ -69,7 +69,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public String requestDepositAddress(Currency currency, String... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
     throw new NotAvailableFromExchangeException();
   }
 
