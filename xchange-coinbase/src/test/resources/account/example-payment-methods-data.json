@@ -1,0 +1,74 @@
+{
+    "pagination": {
+        "ending_before": null,
+        "starting_after": null,
+        "limit": 25,
+        "order": "desc",
+        "previous_uri": null,
+        "next_uri": null
+    },
+    "data": [
+        {
+            "id": "xxx-xxx-xxx-xxx-xxx",
+            "type": "secure3d_card",
+            "name": "Visa credit ********8035",
+            "currency": "EUR",
+            "primary_buy": false,
+            "primary_sell": false,
+            "allow_buy": false,
+            "allow_sell": false,
+            "allow_deposit": false,
+            "allow_withdraw": false,
+            "instant_buy": true,
+            "instant_sell": false,
+            "created_at": "2017-11-28T12:25:27Z",
+            "updated_at": "2017-11-28T12:25:27Z",
+            "resource": "payment_method",
+            "resource_path": "/v2/payment-methods/xxx-xxx-xxx-xxx-xxx",
+            "verified": true
+        },
+        {
+            "id": "xxx-xxx-xxx-xxx-xxx",
+            "type": "sepa_bank_account",
+            "name": "Ing-DiBa (DE28 xxx xxx xxx xxx 70)",
+            "currency": "EUR",
+            "primary_buy": false,
+            "primary_sell": false,
+            "allow_buy": false,
+            "allow_sell": false,
+            "allow_deposit": false,
+            "allow_withdraw": true,
+            "instant_buy": false,
+            "instant_sell": false,
+            "created_at": "2017-11-27T09:00:07Z",
+            "updated_at": "2017-11-28T15:38:57Z",
+            "resource": "payment_method",
+            "resource_path": "/v2/payment-methods/xxx-xxx-xxx-xxx-xxx",
+            "verified": true
+        },
+        {
+            "id": "xxx-xxx-xxx-xxx-xxx",
+            "type": "fiat_account",
+            "name": "EUR Wallet",
+            "currency": "EUR",
+            "primary_buy": true,
+            "primary_sell": true,
+            "allow_buy": true,
+            "allow_sell": true,
+            "allow_deposit": true,
+            "allow_withdraw": true,
+            "instant_buy": true,
+            "instant_sell": true,
+            "created_at": "2017-11-27T08:34:29Z",
+            "updated_at": "2017-11-27T08:34:29Z",
+            "resource": "payment_method",
+            "resource_path": "/v2/payment-methods/xxx-xxx-xxx-xxx-xxx",
+            "fiat_account": {
+                "id": "xxx-xxx-xxx-xxx-xxx",
+                "resource": "account",
+                "resource_path": "/v2/accounts/xxx-xxx-xxx-xxx-xxx"
+            },
+            "verified": true
+        }
+    ]
+}
