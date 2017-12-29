@@ -203,6 +203,7 @@
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
                 <version>${version.reflections}</version>
+                <scope>test</scope>
             </dependency>
 
             <!-- PowerMockito for unit tests -->
