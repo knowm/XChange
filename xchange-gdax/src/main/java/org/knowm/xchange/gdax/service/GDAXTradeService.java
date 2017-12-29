@@ -22,6 +22,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeService {
@@ -91,12 +92,6 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    Collection<Order> orders = new ArrayList<>(orderIds.length);
-
-    for (String orderId : orderIds) {
-      orders.add(GDAXAdapters.adaptOrder(orderId, super.getOrder(orderId)));
-    }
-
-    return orders;
+    throw new NotYetImplementedForExchangeException();
   }
 }
