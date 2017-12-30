@@ -22,6 +22,7 @@ import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
 import org.known.xchange.acx.dto.marketdata.AcxTicker;
 import org.known.xchange.acx.dto.marketdata.AcxMarket;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class AcxMapper {
         AcxTicker ticker = tickerData.ticker;
         return new Ticker.Builder()
                 .currencyPair(currencyPair)
-                .timestamp(tickerData.at)
+                .timestamp(new Date(tickerData.at * 1000))
                 .ask(ticker.sell)
                 .bid(ticker.buy)
                 .open(ticker.open)

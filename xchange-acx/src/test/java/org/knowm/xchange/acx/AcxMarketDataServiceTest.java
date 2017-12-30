@@ -18,6 +18,7 @@ import org.known.xchange.acx.service.marketdata.AcxMarketDataService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -46,13 +47,14 @@ public class AcxMarketDataServiceTest {
 
         Ticker ticker = service.getTicker(CurrencyPair.ETH_AUD);
 
-        assertEquals(ticker.getVolume(), new BigDecimal("576.3302"));
-        assertEquals(ticker.getBid(), new BigDecimal("1119.33"));
+        assertEquals(new BigDecimal("576.3302"), ticker.getVolume());
+        assertEquals(new BigDecimal("1119.33"), ticker.getBid());
+        assertEquals(new Date(1513687641000L), ticker.getTimestamp());
     }
 
     @Test
     public void testOrderBooks() throws IOException {
-        when(api.getOrderBook("ethaud"))
+        when(api.getOrderBook("ethaud", AcxMarketDataService.MAX_LIMIT, AcxMarketDataService.MAX_LIMIT))
                 .thenReturn(read("/marketdata/order_book.json", AcxOrderBook.class));
 
         OrderBook orderBook = service.getOrderBook(CurrencyPair.ETH_AUD);
@@ -61,6 +63,17 @@ public class AcxMarketDataServiceTest {
         assertFalse(orderBook.getBids().isEmpty());
         assertEquals(new BigDecimal("1144.94"), orderBook.getAsks().get(0).getLimitPrice());
         assertEquals(new BigDecimal("1128.88"), orderBook.getBids().get(0).getLimitPrice());
+    }
+
+    @Test
+    public void testOrderBooksArguments() throws IOException {
+        when(api.getOrderBook("ethaud", 5, 6))
+                .thenReturn(read("/marketdata/order_book.json", AcxOrderBook.class));
+
+        OrderBook orderBook = service.getOrderBook(CurrencyPair.ETH_AUD, 5, 6);
+
+        assertFalse(orderBook.getAsks().isEmpty());
+        assertFalse(orderBook.getBids().isEmpty());
     }
 
     @Test
