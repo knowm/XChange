@@ -39,7 +39,7 @@ public class BinanceExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
-    spec.setSslUri("https://www.binance.com");
+    spec.setSslUri("https://api.binance.com");
     spec.setHost("www.binance.com");
     spec.setPort(80);
     spec.setExchangeName("Binance");

@@ -260,7 +260,7 @@ public interface BinanceAuthenticated extends Binance {
       , @HeaderParam(X_MBX_APIKEY) String apiKey
       , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
 
-  @POST
+  @GET
   @Path("wapi/v3/depositHistory.html")
   /**
    * Fetch deposit history.
@@ -275,15 +275,15 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  DepositList depositHistory(@FormParam("asset") String asset
-      , @FormParam("startTime") Long startTime
-      , @FormParam("startTime") Long endTime
-      , @FormParam("recvWindow") Long recvWindow
-      , @FormParam("timestamp") long timestamp
+  DepositList depositHistory(@QueryParam("asset") String asset
+      , @QueryParam("startTime") Long startTime
+      , @QueryParam("endTime") Long endTime
+      , @QueryParam("recvWindow") Long recvWindow
+      , @QueryParam("timestamp") long timestamp
       , @HeaderParam(X_MBX_APIKEY) String apiKey
       , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
 
-  @POST
+  @GET
   @Path("wapi/v3/withdrawHistory.html")
   /**
    * Fetch withdraw history.
@@ -298,11 +298,11 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  WithdrawList withdrawHistory(@FormParam("asset") String asset
-      , @FormParam("startTime") Long startTime
-      , @FormParam("startTime") Long endTime
-      , @FormParam("recvWindow") Long recvWindow
-      , @FormParam("timestamp") long timestamp
+  WithdrawList withdrawHistory(@QueryParam("asset") String asset
+      , @QueryParam("startTime") Long startTime
+      , @QueryParam("endTime") Long endTime
+      , @QueryParam("recvWindow") Long recvWindow
+      , @QueryParam("timestamp") long timestamp
       , @HeaderParam(X_MBX_APIKEY) String apiKey
       , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
 
