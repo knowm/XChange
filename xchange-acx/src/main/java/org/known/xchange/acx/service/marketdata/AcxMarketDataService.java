@@ -10,11 +10,13 @@ import org.known.xchange.acx.AcxMapper;
 import org.known.xchange.acx.dto.AcxTrade;
 import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
 import org.known.xchange.acx.dto.marketdata.AcxMarket;
+import org.known.xchange.acx.utils.ArgUtils;
 
 import java.io.IOException;
 import java.util.List;
 
 public class AcxMarketDataService implements MarketDataService {
+    public static final int MAX_LIMIT = 200;
 
     private final AcxApi api;
     private final AcxMapper mapper;
@@ -32,7 +34,9 @@ public class AcxMarketDataService implements MarketDataService {
 
     @Override
     public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-        AcxOrderBook orderBook = api.getOrderBook(getAcxMarket(currencyPair));
+        Integer bidsLimit = ArgUtils.tryGet(args, 0, Integer.class, MAX_LIMIT);
+        Integer askLimit = ArgUtils.tryGet(args, 1, Integer.class, MAX_LIMIT);
+        AcxOrderBook orderBook = api.getOrderBook(getAcxMarket(currencyPair), bidsLimit, askLimit);
         return mapper.mapOrderBook(currencyPair, orderBook);
     }
 

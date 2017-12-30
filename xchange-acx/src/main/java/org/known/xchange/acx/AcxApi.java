@@ -32,14 +32,18 @@ public interface AcxApi {
     /**
      * Get the order book of specified market.
      *
-     * @param market Unique market id. It's always in the form of xxxyyy,
-     *               where xxx is the base currency code, yyy is the quote
-     *               currency code, e.g. 'btcaud'. All available markets c
-     *               an be found at /api/v2/markets.
+     * @param market    Unique market id. It's always in the form of xxxyyy,
+     *                  where xxx is the base currency code, yyy is the quote
+     *                  currency code, e.g. 'btcaud'. All available markets c
+     *                  an be found at /api/v2/markets.
+     * @param bidsLimit Limit the number of returned buy orders. Default to 20.
+     * @param asksLimit Limit the number of returned sell orders. Default to 20.
      */
     @GET
-    @Path("/order_book.json?market={market}")
-    AcxOrderBook getOrderBook(@PathParam("market") String market) throws IOException;
+    @Path("/order_book.json?market={market}&asks_limit={asks_limit}&bids_limit={bids_limit}")
+    AcxOrderBook getOrderBook(@PathParam("market") String market,
+                              @PathParam("bids_limit") long bidsLimit,
+                              @PathParam("asks_limit") long asksLimit) throws IOException;
 
     /**
      * Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
