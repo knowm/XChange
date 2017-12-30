@@ -110,17 +110,20 @@ public class PoloniexTradeDemo {
 
     System.out.println(PoloniexAdapters.adaptPoloniexOpenOrders(tradeService.returnOpenOrders()));
 
-    Map<String, PoloniexMarginPostionResponse> allMarginPositions = tradeService.returnAllMarginPositions();
-    System.out.println(allMarginPositions);
-
     PoloniexMarginAccountResponse marginAccountSummary = tradeService.returnMarginAccountSummary();
     System.out.println(marginAccountSummary);
+
+    PoloniexAccountBalance accountBalances = tradeService.returnAvailableAccountBalances(PoloniexAccountBalance.ACCOUNT.LENDING.toString());
+    System.out.println(accountBalances);
+
+    Map<String, PoloniexMarginPostionResponse> allMarginPositions = tradeService.returnAllMarginPositions();
+    System.out.println(allMarginPositions);
 
     PoloniexAccountBalance[] availableAccountBalances = tradeService.returnAllAvailableAccountBalances();
     System.out.println(availableAccountBalances);
 
-    PoloniexAccountBalance accountBalances = tradeService.returnAvailableAccountBalances(PoloniexAccountBalance.ACCOUNT.LENDING.toString());
-    System.out.println(accountBalances);
+    Map<String, Map<String, BigDecimal>> tradableBalances = tradeService.returnTradableBalances();
+    System.out.println(tradableBalances);
   }
 
   private static void printOpenOrders(TradeService tradeService) throws Exception {
