@@ -330,7 +330,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   @PUT
   @Path("/api/v1/userDataStream?listenKey={listenKey}")
-  Map keepAliveUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey) throws IOException, BinanceException;
+  Map<?, ?> keepAliveUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey) throws IOException, BinanceException;
 
   /**
    * Closes the websocket authenticated connection.
@@ -343,5 +343,5 @@ public interface BinanceAuthenticated extends Binance {
    */
   @DELETE
   @Path("/api/v1/userDataStream?listenKey={listenKey}")
-  Map closeUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey) throws IOException, BinanceException;
+  Map<?, ?> closeUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey) throws IOException, BinanceException;
 }
