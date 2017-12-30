@@ -31,7 +31,7 @@ public final class WithdrawList extends WapiResponse<List<BinanceWithdraw>> {
 
   public static final class BinanceWithdraw {
         /*
-{  
+{
          "amount":30.00000000,
          "address":"1JcxZvwsmmE2Dx3K4vSsCPWEJKo2ofsKXW",
          "successTime":1509295869000,
@@ -46,6 +46,7 @@ public final class WithdrawList extends WapiResponse<List<BinanceWithdraw>> {
     public final String address;
     public final long successTime;
     public final String txId;
+    public final String id;
     public final String asset;
     public final long applyTime;
     /**
@@ -54,7 +55,7 @@ public final class WithdrawList extends WapiResponse<List<BinanceWithdraw>> {
     public final int status;
 
     public BinanceWithdraw(@JsonProperty("amount") BigDecimal amount, @JsonProperty("address") String address
-        , @JsonProperty("successTime") long successTime, @JsonProperty("txId") String txId
+        , @JsonProperty("successTime") long successTime, @JsonProperty("txId") String txId, @JsonProperty("id") String id
         , @JsonProperty("asset") String asset, @JsonProperty("applyTime") long applyTime
         , @JsonProperty("status") int status) {
       super();
@@ -62,6 +63,7 @@ public final class WithdrawList extends WapiResponse<List<BinanceWithdraw>> {
       this.address = address;
       this.successTime = successTime;
       this.txId = txId;
+      this.id = id;
       this.asset = asset;
       this.applyTime = applyTime;
       this.status = status;
@@ -69,8 +71,9 @@ public final class WithdrawList extends WapiResponse<List<BinanceWithdraw>> {
 
     @Override
     public String toString() {
-      return "BinanceWithdraw [amount=" + amount + ", address=" + address + ", successTime=" + successTime + ", txId=" + txId
+      return "BinanceWithdraw [amount=" + amount + ", address=" + address + ", successTime=" + successTime + ", txId=" + txId + ", id=" + id
           + ", asset=" + asset + ", applyTime=" + applyTime + ", status=" + status + "]";
     }
+
   }
 }
