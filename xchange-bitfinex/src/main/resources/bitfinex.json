@@ -32,6 +32,10 @@
       "price_scale": 6,
       "min_amount": 0.0100000
     },
+    "IOT/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.0100000
+    },
     "ZEC/USD": {
       "price_scale": 4,
       "min_amount": 0.0100000
