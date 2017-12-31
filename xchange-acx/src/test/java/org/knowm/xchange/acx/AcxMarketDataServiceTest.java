@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -23,6 +24,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -62,7 +65,9 @@ public class AcxMarketDataServiceTest {
         assertFalse(orderBook.getAsks().isEmpty());
         assertFalse(orderBook.getBids().isEmpty());
         assertEquals(new BigDecimal("1144.94"), orderBook.getAsks().get(0).getLimitPrice());
+        assertEquals(ASK, orderBook.getAsks().get(0).getType());
         assertEquals(new BigDecimal("1128.88"), orderBook.getBids().get(0).getLimitPrice());
+        assertEquals(BID, orderBook.getBids().get(0).getType());
     }
 
     @Test
