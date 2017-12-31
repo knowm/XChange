@@ -249,6 +249,26 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ZRC = createCurrency("ZRC", "ziftrCOIN", null);
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
 
+  //Cryptos
+  public static final Currency BNB = createCurrency("BNB", "Binance Coin", null);
+  public static final Currency QSP = createCurrency("QSP", "Quantstamp", null);
+  public static final Currency IOTA = createCurrency("IOTA", "Iota", null);
+  public static final Currency YOYO = createCurrency("YOYO", "Yoyow", null);
+  public static final Currency BTS = createCurrency("BTS", "Bitshare", null);
+  public static final Currency ICX = createCurrency("ICX", "Icon", null);
+  public static final Currency MCO = createCurrency("MCO", "Monaco", null);
+  public static final Currency CND = createCurrency("CND", "Cindicator", null);
+  public static final Currency XVG = createCurrency("XVG", "Verge", null);
+  public static final Currency POE = createCurrency("POE", "Po.et", null);
+  public static final Currency TRX = createCurrency("TRX", "Tron", null);
+  public static final Currency ADA = createCurrency("ADA", "Cardano", null);
+  public static final Currency FUN = createCurrency("FUN", "FunFair", null);
+  public static final Currency HSR = createCurrency("HSR", "Hshare", null);
+  public static final Currency LEND = createCurrency("LEND", "ETHLend", null);
+  public static final Currency ELF = createCurrency("ELF", "aelf", null);
+  public static final Currency STORJ = createCurrency("STORJ", "Storj", null);
+  public static final Currency MOD = createCurrency("MOD", "Modum", null);
+
   /**
    * Gets the set of available currencies.
    */
