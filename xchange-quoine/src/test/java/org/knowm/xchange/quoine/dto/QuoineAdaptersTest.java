@@ -1,6 +1,6 @@
 package org.knowm.xchange.quoine.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +42,7 @@ public class QuoineAdaptersTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("227.09383"));
     assertThat(ticker.getBid()).isEqualTo(new BigDecimal("226.78383"));
-    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("227.38976"));
+    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("227.38586"));
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("0.16"));
     assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }

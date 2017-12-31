@@ -15,6 +15,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
@@ -25,7 +27,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.TheRockExchange;
-import org.knowm.xchange.therock.dto.TheRockCancelOrderParams;
+import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 
 /**
@@ -40,14 +42,14 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, ExchangeException {
-    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), null,
+    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getOriginalAmount(), null,
         TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.market);
     return placedOrder.getId().toString();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, ExchangeException {
-    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), order.getLimitPrice(),
+    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getOriginalAmount(), order.getLimitPrice(),
         TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.limit);
     return placedOrder.getId().toString();
   }
@@ -62,7 +64,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     CurrencyPair currencyPair = null;
 
     if (params instanceof OpenOrdersParamCurrencyPair) {
@@ -86,17 +88,31 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
       throw new ExchangeException("Provide TheRockCancelOrderParams with orderId and currencyPair");
     }
 
-    return cancelOrder(new TheRockCancelOrderParams(cp, Long.parseLong(orderId)));
+    return cancelOrder(cp, orderId);
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    if (orderParams instanceof TheRockCancelOrderParams) {
-      TheRockCancelOrderParams params = (TheRockCancelOrderParams) orderParams;
-      TheRockOrder cancelledOrder = cancelTheRockOrder(params.currencyPair, params.orderId);
-      return "deleted".equals(cancelledOrder.getStatus());
+  public boolean cancelOrder(
+      CancelOrderParams params) throws IOException {
+    if (!(params instanceof CancelOrderByIdParams)) {
+      return false;
     }
-    return false;
+    CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
+
+    CurrencyPair currencyPair;
+    if (params instanceof CancelOrderByCurrencyPair) {
+      CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
+      currencyPair = paramCurrencyPair.getCurrencyPair();
+    } else {
+      currencyPair = null;
+    }
+
+    return cancelOrder(currencyPair, paramId.getOrderId());
+  }
+
+  private boolean cancelOrder(CurrencyPair currencyPair, String orderId) throws TheRockException, NumberFormatException, IOException {
+    TheRockOrder cancelledOrder = cancelTheRockOrder(currencyPair, Long.parseLong(orderId));
+    return "deleted".equals(cancelledOrder.getStatus());
   }
 
   /**
@@ -104,7 +120,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
    */
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 

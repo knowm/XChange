@@ -1,6 +1,6 @@
 package org.knowm.xchange.coinbase;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,18 +55,18 @@ public class CoinbaseAdapterTest {
 
     AccountInfo accountInfo = CoinbaseAdapters.adaptAccountInfo(user);
     //// fest bug: map fields are compared by values() which is always false
-    //assertThat(wallet).isLenientEqualsToByIgnoringFields(expectedWallet, "balances");
+    //assertThat(wallet).isEqualToIgnoringGivenFields(expectedWallet, "balances");
     //assertThat(wallet.getBalance("BTC")).isEqualTo(expectedWallet.getBalance("BTC"));
-    assertThat(accountInfo).isEqualsToByComparingFields(expectedAccountInfo);
+    assertThat(accountInfo).isEqualToComparingFieldByField(expectedAccountInfo);
   }
 
   @Test
   public void testAdaptTrades() throws IOException {
 
-    BigDecimal tradableAmount = new BigDecimal("1.20000000");
-    BigDecimal price = new BigDecimal("905.10").divide(tradableAmount, RoundingMode.HALF_EVEN);
+    BigDecimal originalAmount = new BigDecimal("1.20000000");
+    BigDecimal price = new BigDecimal("905.10").divide(originalAmount, RoundingMode.HALF_EVEN);
 
-    UserTrade expectedTrade = new UserTrade(OrderType.BID, tradableAmount, CurrencyPair.BTC_USD, price,
+    UserTrade expectedTrade = new UserTrade(OrderType.BID, originalAmount, CurrencyPair.BTC_USD, price,
         DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"), "52f4411767c71baf9000003f", "52f4411667c71baf9000003c", new BigDecimal("9.05"),
         Currency.getInstance("USD"));
 
@@ -82,7 +82,7 @@ public class CoinbaseAdapterTest {
     assertThat(tradeList.size()).isEqualTo(1);
 
     UserTrade trade = tradeList.get(0);
-    assertThat(trade).isEqualsToByComparingFields(expectedTrade);
+    assertThat(trade).isEqualToComparingFieldByField(expectedTrade);
   }
 
   @Test
@@ -97,7 +97,7 @@ public class CoinbaseAdapterTest {
 
     CoinbaseMoney spotPrice = new CoinbaseMoney("USD", new BigDecimal("719.79"));
 
-    is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
+    is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.txt");
     String spotPriceHistoryString;
     try (Scanner scanner = new Scanner(is)) {
       spotPriceHistoryString = scanner.useDelimiter("\\A").next();
@@ -108,6 +108,6 @@ public class CoinbaseAdapterTest {
     Ticker ticker = CoinbaseAdapters.adaptTicker(CurrencyPair.BTC_USD, price, price, spotPrice, spotPriceHistory);
 
     // TOD  this seems broke. If you
-//    assertThat(ticker).isEqualsToByComparingFields(expectedTicker);
+//    assertThat(ticker).isEqualToComparingFieldByField(expectedTicker);
   }
 }

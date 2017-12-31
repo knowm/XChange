@@ -45,7 +45,7 @@ public interface TradeService extends BaseService {
    * @deprecated Use {@link #getOpenOrders(OpenOrdersParams)} instead. Will be removed in the future release.
    */
   @Deprecated
-  OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  OpenOrders getOpenOrders() throws IOException;
 
   /**
    * Gets the open orders
@@ -60,7 +60,7 @@ public interface TradeService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+      OpenOrdersParams params) throws IOException;
 
   /**
    * Place a market order
@@ -74,7 +74,7 @@ public interface TradeService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   String placeMarketOrder(
-      MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+      MarketOrder marketOrder) throws IOException;
 
   /**
    * Place a limit order
@@ -88,7 +88,7 @@ public interface TradeService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   String placeLimitOrder(
-      LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+      LimitOrder limitOrder) throws IOException;
 
   /**
    * cancels order with matching orderId (conveniance method, typical just delegate to cancelOrder(CancelOrderByIdParams))
@@ -101,7 +101,7 @@ public interface TradeService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  boolean cancelOrder(String orderId) throws IOException;
 
   /**
    * cancels order with matching orderParams
@@ -114,7 +114,7 @@ public interface TradeService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  boolean cancelOrder(CancelOrderParams orderParams) throws IOException;
 
   /**
    * Fetch the history of user trades.
@@ -184,6 +184,6 @@ public interface TradeService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+      String... orderIds) throws IOException;
 
 }

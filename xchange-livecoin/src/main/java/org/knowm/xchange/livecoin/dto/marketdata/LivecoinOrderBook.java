@@ -1,10 +1,11 @@
 package org.knowm.xchange.livecoin.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
+
+import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LivecoinOrderBook {
 

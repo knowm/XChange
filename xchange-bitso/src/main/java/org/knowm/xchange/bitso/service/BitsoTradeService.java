@@ -53,7 +53,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     BitsoOrder[] openOrders = getBitsoOpenOrders();
 
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -78,9 +78,9 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
 
     BitsoOrder bitsoOrder;
     if (limitOrder.getType() == BID) {
-      bitsoOrder = buyBitoOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      bitsoOrder = buyBitoOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     } else {
-      bitsoOrder = sellBitsoOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      bitsoOrder = sellBitsoOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     }
     if (bitsoOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitsoOrder.getErrorMessage());
@@ -96,11 +96,12 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -130,7 +131,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

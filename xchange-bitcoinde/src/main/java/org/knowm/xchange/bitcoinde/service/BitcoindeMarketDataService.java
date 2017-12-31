@@ -35,7 +35,7 @@ public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw im
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitcoindeAdapters.adaptOrderBook(getBitcoindeOrderBook(), currencyPair);
+    return BitcoindeAdapters.adaptOrderBook(getBitcoindeOrderBook(currencyPair), currencyPair);
   }
 
   @Override
@@ -51,6 +51,6 @@ public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw im
       }
     }
 
-    return BitcoindeAdapters.adaptTrades(getBitcoindeTrades(since), currencyPair);
+    return BitcoindeAdapters.adaptTrades(getBitcoindeTrades(currencyPair, since), currencyPair);
   }
 }

@@ -1,5 +1,17 @@
 package org.knowm.xchange.livecoin;
 
+import static org.knowm.xchange.currency.Currency.getInstance;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,17 +35,6 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
-import static org.knowm.xchange.currency.Currency.getInstance;
 
 public class LivecoinAdapters {
 
@@ -73,6 +74,18 @@ public class LivecoinAdapters {
 
   }
 
+  public static Map<CurrencyPair, LivecoinOrderBook> adaptToCurrencyPairKeysMap(Map<String, LivecoinOrderBook> orderBooksRaw) {
+
+    Set<Map.Entry<String, LivecoinOrderBook>> entries = orderBooksRaw.entrySet();
+    Map<CurrencyPair, LivecoinOrderBook> converted = new HashMap<>(entries.size());
+    for (Map.Entry<String, LivecoinOrderBook> entry : entries) {
+      String[] currencyPairSplit = entry.getKey().split("/");
+      CurrencyPair currencyPair = new CurrencyPair(currencyPairSplit[0], currencyPairSplit[1]);
+      converted.put(currencyPair, entry.getValue());
+    }
+    return converted;
+  }
+
   public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, List<LivecoinRestriction> products) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
@@ -101,12 +114,12 @@ public class LivecoinAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
 
-  public static Trades adaptTrades(LivecoinTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(LivecoinTrade[] nativeTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);
+    List<Trade> trades = new ArrayList<>(nativeTrades.length);
 
-    for (int i = 0; i < coinbaseExTrades.length; i++) {
-      LivecoinTrade trade = coinbaseExTrades[i];
+    for (int i = 0; i < nativeTrades.length; i++) {
+      LivecoinTrade trade = nativeTrades[i];
 
       OrderType type = trade.getType().equals("SELL") ? OrderType.BID : OrderType.ASK;
 
@@ -114,7 +127,7 @@ public class LivecoinAdapters {
       trades.add(t);
     }
 
-    return new Trades(trades, coinbaseExTrades[0].getId(), TradeSortType.SortByID);
+    return new Trades(trades, nativeTrades[0].getId(), TradeSortType.SortByID);
   }
 
   private static Date parseDate(Long rawDateLong) {
@@ -142,8 +155,8 @@ public class LivecoinAdapters {
       type = OrderType.ASK;
     else if (typeName.equals("LIMIT_BUY"))
       type = OrderType.BID;
-    else if (typeName.equals("LIMIT_SELL"))
-      type = OrderType.ASK;
+    else if (typeName.equals("MARKET_BUY"))
+      type = OrderType.BID;
     else
       throw new IllegalStateException("Don't understand " + map);
 

@@ -33,8 +33,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -55,37 +53,33 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     CurrencyPair currencyPair = null;
     if (params instanceof OpenOrdersParamCurrencyPair) {
       currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
     }
 
-    if (currencyPair == null) {
-      throw new ExchangeException("CurrencyPair parameter must not be null.");
-    }
-
     String currencyPairString = CoinmateUtils.getPair(currencyPair);
     CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPairString);
-    List<LimitOrder> orders = CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders, currencyPair);
+    List<LimitOrder> orders = CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
     return new OpenOrders(orders);
   }
 
   @Override
   public String placeMarketOrder(
-      MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      MarketOrder marketOrder) throws IOException {
     CoinmateTradeResponse response;
 
     if (marketOrder.getType().equals(Order.OrderType.ASK)) {
-      response = sellCoinmateInstant(marketOrder.getTradableAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
+      response = sellCoinmateInstant(marketOrder.getOriginalAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
     } else if (marketOrder.getType().equals(Order.OrderType.BID)) {
-      response = buyCoinmateInstant(marketOrder.getTradableAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
+      response = buyCoinmateInstant(marketOrder.getOriginalAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
     } else {
       throw new CoinmateException("Unknown order type");
     }
@@ -95,13 +89,13 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
 
   @Override
   public String placeLimitOrder(
-      LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      LimitOrder limitOrder) throws IOException {
     CoinmateTradeResponse response;
 
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {
-      response = sellCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
+      response = sellCoinmateLimit(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
     } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
-      response = buyCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
+      response = buyCoinmateLimit(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
     } else {
       throw new CoinmateException("Unknown order type");
     }
@@ -111,25 +105,28 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
 
   @Override
   public boolean cancelOrder(
-      String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String orderId) throws IOException {
     CoinmateCancelOrderResponse response = cancelCoinmateOrder(orderId);
 
     return response.getData();
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    // here we use the Transaction History call, which includes also withdrawals etc.
+    // there is also Order History call, but this returns orders rather than trades
     DefaultTradeHistoryParamPagingSorted myParams = (DefaultTradeHistoryParamPagingSorted) params;
-    return CoinmateAdapters.adaptTradeHistory(
-        getCoinmateTradeHistory(myParams.getPageNumber(), myParams.getPageLength(), CoinmateAdapters.adaptOrder(myParams.getOrder())));
+    return CoinmateAdapters.adaptTransactionHistory(
+        getCoinmateTradeHistory(myParams.getPageNumber(), myParams.getPageLength(), CoinmateAdapters.adaptSortOrder(myParams.getOrder())));
   }
 
   @Override
@@ -147,7 +144,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

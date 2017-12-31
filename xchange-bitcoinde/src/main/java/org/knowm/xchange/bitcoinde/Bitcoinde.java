@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.knowm.xchange.bitcoinde.dto.BitcoindeException;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTradesWrapper;
 
@@ -21,12 +22,14 @@ public interface Bitcoinde {
 
   @GET
   @Path("orders/compact")
-  BitcoindeOrderbookWrapper getOrderBook(@HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
+  BitcoindeOrderbookWrapper getOrderBook(@QueryParam("trading_pair") String trading_pair, @HeaderParam("X-API-KEY") String apiKey, @HeaderParam
+      ("X-API-NONCE")
+      SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException, IOException;
 
   @GET
   @Path("trades/history")
-  BitcoindeTradesWrapper getTrades(@QueryParam("since_tid") Integer since, @HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE")
+  BitcoindeTradesWrapper getTrades(@QueryParam("trading_pair") String trading_pair, @QueryParam("since_tid") Integer since, @HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE")
       SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException, IOException;
 }

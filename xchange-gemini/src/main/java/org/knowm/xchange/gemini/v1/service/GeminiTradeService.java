@@ -23,8 +23,8 @@ import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -47,7 +47,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     GeminiOrderStatusResponse[] activeOrders = getGeminiOpenOrders();
 
     if (activeOrders.length <= 0) {
@@ -85,11 +85,12 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -117,7 +118,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
       timestamp = 0;
     }
 
-    final int limit;
+    int limit;
     if (params instanceof TradeHistoryParamPaging) {
       TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
       Integer pageLength = pagingParams.getPageLength();
@@ -127,14 +128,17 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
       limit = 50;
     }
 
+    if (params instanceof TradeHistoryParamLimit) {
+      limit = ((TradeHistoryParamLimit) params).getLimit();
+    }
+
     final GeminiTradeResponse[] trades = getGeminiTradeHistory(symbol, timestamp, limit);
     return GeminiAdapters.adaptTradeHistory(trades, symbol);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-
-    return new GeminiTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
+    return new GeminiTradeHistoryParams(CurrencyPair.BTC_USD, 500, new Date(0));
   }
 
   @Override
@@ -142,62 +146,64 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     return null;
   }
 
-  public static class GeminiTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
+  @Override
+  public Collection<Order> getOrder(
+      String... orderIds) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    private int count;
-    private CurrencyPair pair;
-    private Integer pageNumber;
+  public static class GeminiTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsTimeSpan {
+    private CurrencyPair currencyPair;
+    private Integer limit;
+    private Date startTime;
 
-    public GeminiTradeHistoryParams(Date startTime, int count, CurrencyPair pair) {
+    public GeminiTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Date startTime) {
+      this.currencyPair = currencyPair;
+      this.limit = limit;
+      this.startTime = startTime;
+    }
 
-      super(startTime);
-
-      this.count = count;
-      this.pair = pair;
+    public GeminiTradeHistoryParams() {
     }
 
     @Override
-    public void setPageLength(Integer count) {
-
-      this.count = count;
-    }
-
-    @Override
-    public Integer getPageLength() {
-
-      return count;
-    }
-
-    @Override
-    public void setPageNumber(Integer pageNumber) {
-
-      this.pageNumber = pageNumber;
-    }
-
-    @Override
-    public Integer getPageNumber() {
-
-      return pageNumber;
+    public void setCurrencyPair(CurrencyPair currencyPair) {
+      this.currencyPair = currencyPair;
     }
 
     @Override
     public CurrencyPair getCurrencyPair() {
-
-      return pair;
+      return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
+    public void setLimit(Integer limit) {
+      this.limit = limit;
+    }
 
-      this.pair = pair;
+    @Override
+    public Integer getLimit() {
+      return limit;
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Date getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      //ignored
+    }
+
+    @Override
+    public Date getEndTime() {
+      return null;
     }
   }
-
-  @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
 }

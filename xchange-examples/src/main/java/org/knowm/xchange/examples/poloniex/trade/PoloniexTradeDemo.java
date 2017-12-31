@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.knowm.xchange.Exchange;
@@ -15,6 +16,9 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.poloniex.PoloniexExamplesUtils;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexAccountBalance;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginAccountResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
 import org.knowm.xchange.poloniex.service.PoloniexTradeService;
 import org.knowm.xchange.poloniex.service.PoloniexTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
@@ -63,7 +67,7 @@ public class PoloniexTradeDemo {
     params.setEndTime(endTime.getTime());
     System.out.println(tradeService.getTradeHistory(params));
 
-    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).tradableAmount(new BigDecimal(".1")).limitPrice(xmrBuyRate).build();
+    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).originalAmount(new BigDecimal(".1")).limitPrice(xmrBuyRate).build();
     String orderId = tradeService.placeLimitOrder(order);
     System.out.println("Placed order #" + orderId);
 
@@ -87,7 +91,7 @@ public class PoloniexTradeDemo {
     long endTime = new Date().getTime() / 1000;
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime)));
 
-    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).tradableAmount(new BigDecimal("1")).limitPrice(xmrBuyRate).build();
+    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).originalAmount(new BigDecimal("1")).limitPrice(xmrBuyRate).build();
     String orderId = tradeService.buy(order).getOrderNumber().toString();
     System.out.println("Placed order #" + orderId);
 
@@ -105,6 +109,21 @@ public class PoloniexTradeDemo {
     Thread.sleep(3000); // wait for cancellation to propagate
 
     System.out.println(PoloniexAdapters.adaptPoloniexOpenOrders(tradeService.returnOpenOrders()));
+
+    PoloniexMarginAccountResponse marginAccountSummary = tradeService.returnMarginAccountSummary();
+    System.out.println(marginAccountSummary);
+
+    PoloniexAccountBalance accountBalances = tradeService.returnAvailableAccountBalances(PoloniexAccountBalance.ACCOUNT.LENDING.toString());
+    System.out.println(accountBalances);
+
+    Map<String, PoloniexMarginPostionResponse> allMarginPositions = tradeService.returnAllMarginPositions();
+    System.out.println(allMarginPositions);
+
+    PoloniexAccountBalance[] availableAccountBalances = tradeService.returnAllAvailableAccountBalances();
+    System.out.println(availableAccountBalances);
+
+    Map<String, Map<String, BigDecimal>> tradableBalances = tradeService.returnTradableBalances();
+    System.out.println(tradableBalances);
   }
 
   private static void printOpenOrders(TradeService tradeService) throws Exception {

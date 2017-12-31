@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class GeminiAdaptersTest {
 
   private final static String MARKET = "Gemini";
-  private final static String EXCHANGE = "exchange";
   private final static String SYMBOL = "BTCUSD";
 
   @Test
@@ -62,7 +61,7 @@ public class GeminiAdaptersTest {
       LimitOrder order = container.getLimitOrders().get(i);
       long expectedTimestampMillis = levels[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
 
-      assertEquals(levels[i].getAmount(), order.getTradableAmount());
+      assertEquals(levels[i].getAmount(), order.getOriginalAmount());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
       assertEquals(levels[i].getPrice(), order.getLimitPrice());
     }
@@ -101,7 +100,9 @@ public class GeminiAdaptersTest {
       Order.OrderType expectedOrderType = responses[i].getSide().equalsIgnoreCase("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
 
       assertEquals(String.valueOf(responses[i].getId()), order.getId());
-      assertEquals(responses[i].getRemainingAmount(), order.getTradableAmount());
+      assertEquals(responses[i].getOriginalAmount(), order.getOriginalAmount());
+      assertEquals(responses[i].getRemainingAmount(), order.getRemainingAmount());
+      assertEquals(responses[i].getExecutedAmount(), order.getOriginalAmount().subtract(order.getRemainingAmount()));
       assertEquals(GeminiAdapters.adaptCurrencyPair(SYMBOL), order.getCurrencyPair());
       assertEquals(expectedOrderType, order.getType());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
@@ -151,7 +152,7 @@ public class GeminiAdaptersTest {
       Order.OrderType expectedOrderType = responses[i].getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
       assertEquals(responses[i].getPrice(), trade.getPrice());
-      assertEquals(responses[i].getAmount(), trade.getTradableAmount());
+      assertEquals(responses[i].getAmount(), trade.getOriginalAmount());
       assertEquals(GeminiAdapters.adaptCurrencyPair(SYMBOL), trade.getCurrencyPair());
       assertEquals(expectedTimestampMillis, trade.getTimestamp().getTime());
       assertEquals(expectedOrderType, trade.getType());
@@ -168,8 +169,8 @@ public class GeminiAdaptersTest {
   private GeminiTradeResponse[] initTradeResponses() {
 
     GeminiTradeResponse[] responses = new GeminiTradeResponse[60];
-    int tradeId = 2000;
-    int orderId = 1000;
+    long tradeId = 2000;
+    long orderId = 1000;
 
     for (int i = 0; i < responses.length; i++) {
       BigDecimal price = new BigDecimal(350L + i);

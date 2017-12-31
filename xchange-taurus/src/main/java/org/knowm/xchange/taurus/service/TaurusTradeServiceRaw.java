@@ -18,7 +18,8 @@ public class TaurusTradeServiceRaw extends TaurusBaseService {
 
   public TaurusTradeServiceRaw(Exchange exchange) {
     super(exchange);
-    this.taurusAuthenticated = RestProxyFactory.createProxy(TaurusAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.taurusAuthenticated = RestProxyFactory.createProxy(TaurusAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.signatureCreator = TaurusDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
@@ -27,13 +28,13 @@ public class TaurusTradeServiceRaw extends TaurusBaseService {
     return taurusAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
   }
 
-  public TaurusOrder sellTaurusOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
-    return taurusAuthenticated.sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
+  public TaurusOrder sellTaurusOrder(BigDecimal originalAmount, BigDecimal price) throws IOException {
+    return taurusAuthenticated.sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount,
         price);
   }
 
-  public TaurusOrder buyTaurusOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
-    return taurusAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
+  public TaurusOrder buyTaurusOrder(BigDecimal originalAmount, BigDecimal price) throws IOException {
+    return taurusAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount,
         price);
   }
 

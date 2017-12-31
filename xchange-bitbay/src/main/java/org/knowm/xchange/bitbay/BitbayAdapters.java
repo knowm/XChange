@@ -71,8 +71,10 @@ public class BitbayAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
-    for (BigDecimal[] order : orders) {
-      limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
+    if (orders != null) {
+      for (BigDecimal[] order : orders) {
+        limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
+      }
     }
 
     return limitOrders;
@@ -153,7 +155,7 @@ public class BitbayAdapters {
     CurrencyPair currencyPair = new CurrencyPair(bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
     OrderType type = "ask".equals(bitbayOrder.getType()) ? OrderType.ASK : OrderType.BID;
 
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD HH:mm:SS");
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Date date;
     try {
       date = formatter.parse(bitbayOrder.getDate());
@@ -169,7 +171,7 @@ public class BitbayAdapters {
     CurrencyPair currencyPair = new CurrencyPair(bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
     OrderType type = "ask".equals(bitbayOrder.getType()) ? OrderType.ASK : OrderType.BID;
 
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD HH:mm:SS");
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Date date;
     try {
       date = formatter.parse(bitbayOrder.getDate());
@@ -183,5 +185,53 @@ public class BitbayAdapters {
         bitbayOrder.getCurrentPrice().divide(bitbayOrder.getStartAmount()),
         date,
         String.valueOf(bitbayOrder.getId()), String.valueOf(bitbayOrder.getId()), null, null);
+  }
+
+  public static List<UserTrade> adaptTransactions(List<Map> response) {
+    List<UserTrade> trades = new ArrayList<>();
+
+    for (Map map : response) {
+      try {
+        OrderType orderType;
+        String type = map.get("type").toString();
+
+        if (type.equals("BID"))
+          orderType = OrderType.BID;
+        else if (type.equals("ASK"))
+          orderType = OrderType.ASK;
+        else
+          continue;
+
+        String market = map.get("market").toString();
+
+        String[] parts = market.split("-");
+        CurrencyPair pair = new CurrencyPair(Currency.getInstance(parts[0]), Currency.getInstance(parts[1]));
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = map.get("date").toString();
+        Date timestamp = formatter.parse(date);
+        BigDecimal amount = new BigDecimal(map.get("amount").toString());
+        BigDecimal price = new BigDecimal(map.get("rate").toString());
+        BigDecimal fee = new BigDecimal(map.get("price").toString());
+
+        //there's no id - create a synthetic one
+        String id = (type + "_" + date + "_" + market).replaceAll("\\s+", "");
+
+        trades.add(new UserTrade(
+            orderType,
+            amount,
+            pair,
+            price,
+            timestamp,
+            id,
+            null,
+            fee,
+            null
+        ));
+      } catch (ParseException e) {
+        throw new IllegalStateException("Cannot parse " + map);
+      }
+    }
+
+    return trades;
   }
 }

@@ -1,6 +1,6 @@
 package org.knowm.xchange.kraken.dto.trading;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;

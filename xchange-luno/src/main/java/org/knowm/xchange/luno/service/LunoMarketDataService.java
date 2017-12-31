@@ -18,7 +18,6 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.luno.LunoAPI;
 import org.knowm.xchange.luno.LunoUtil;
 import org.knowm.xchange.luno.dto.marketdata.LunoOrderBook;
 import org.knowm.xchange.luno.dto.marketdata.LunoTicker;
@@ -27,20 +26,20 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class LunoMarketDataService extends LunoBaseService implements MarketDataService {
 
-  public LunoMarketDataService(Exchange exchange, LunoAPI luno) {
-    super(exchange, luno);
+  public LunoMarketDataService(Exchange exchange) {
+    super(exchange);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    LunoTicker t = luno.ticker(LunoUtil.toLunoPair(currencyPair));
+    LunoTicker t = lunoAPI.ticker(LunoUtil.toLunoPair(currencyPair));
     return new Ticker.Builder().currencyPair(currencyPair).ask(t.ask).bid(t.bid).last(t.lastTrade).timestamp(t.getTimestamp())
         .volume(t.rolling24HourVolume).build();
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    LunoOrderBook ob = luno.orderbook(LunoUtil.toLunoPair(currencyPair));
+    LunoOrderBook ob = lunoAPI.orderbook(LunoUtil.toLunoPair(currencyPair));
     return new OrderBook(ob.getTimestamp(), convert(ob.getAsks(), currencyPair, OrderType.ASK), convert(ob.getBids(),
         currencyPair, OrderType.BID));
   }
@@ -67,7 +66,7 @@ public class LunoMarketDataService extends LunoBaseService implements MarketData
       }
     }
 
-    LunoTrades lunoTrades = luno.trades(LunoUtil.toLunoPair(currencyPair), since);
+    LunoTrades lunoTrades = lunoAPI.trades(LunoUtil.toLunoPair(currencyPair), since);
     List<Trade> list = new ArrayList<>();
     for (org.knowm.xchange.luno.dto.marketdata.LunoTrades.Trade lt : lunoTrades.getTrades()) {
       list.add(new Trade(lt.buy ? OrderType.BID : OrderType.ASK, lt.volume, currencyPair, lt.price, lt.getTimestamp(), null));

@@ -1,35 +1,69 @@
 {
   "currency_pairs": {
-    "BTC/EUR": {
-      "price_scale": 2
-    },
-    "BTC/PLN": {
-      "price_scale": 2
-    },
-    "BTC/USD": {
-      "price_scale": 2
-    },
-    "LTC/BTC": {
-      "price_scale": 8
-    },
-    "ETH/BTC": {
-      "price_scale": 8
-    },
-    "LTC/EUR": {
-      "price_scale": 2
-    },
-    "LTC/PLN": {
-      "price_scale": 2
-    },
-    "LTC/USD": {
-      "price_scale": 2
-    }
+
+    "BTC/EUR": {"price_scale": 2},
+    "BTC/PLN": {"price_scale": 2},
+    "BTC/USD": {"price_scale": 2},
+
+    "ETH/EUR": {"price_scale": 2},
+    "ETH/PLN": {"price_scale": 2},
+    "ETH/USD": {"price_scale": 2},
+    "ETH/BTC": {"price_scale": 8},
+
+    "LSK/EUR": {"price_scale": 2},
+    "LSK/PLN": {"price_scale": 2},
+    "LSK/USD": {"price_scale": 2},
+    "LSK/BTC": {"price_scale": 8},
+
+    "GAME/EUR": {"price_scale": 2},
+    "GAME/PLN": {"price_scale": 2},
+    "GAME/USD": {"price_scale": 2},
+    "GAME/BTC": {"price_scale": 8},
+
+    "BCC/EUR": {"price_scale": 2},
+    "BCC/PLN": {"price_scale": 2},
+    "BCC/USD": {"price_scale": 2},
+    "BCC/BTC": {"price_scale": 8},
+
+    "BTG/EUR": {"price_scale": 2},
+    "BTG/PLN": {"price_scale": 2},
+    "BTG/USD": {"price_scale": 2},
+    "BTG/BTC": {"price_scale": 8},
+
+    "LTC/EUR": {"price_scale": 2},
+    "LTC/PLN": {"price_scale": 2},
+    "LTC/USD": {"price_scale": 2},
+    "LTC/BTC": {"price_scale": 8},
+
+    "DASH/EUR": {"price_scale": 2},
+    "DASH/PLN": {"price_scale": 2},
+    "DASH/USD": {"price_scale": 2},
+    "DASH/BTC": {"price_scale": 8}
+
   },
   "currencies": {
     "BTC": {
       "scale": 8
     },
+    "ETH": {
+      "scale": 8
+    },
+    "LSK": {
+      "scale": 8
+    },
+    "GAME": {
+      "scale": 8
+    },
+    "BCC": {
+      "scale": 8
+    },
+    "BTG": {
+      "scale": 8
+    },
     "LTC": {
+      "scale": 8
+    },
+    "DASH": {
       "scale": 8
     },
     "EUR": {

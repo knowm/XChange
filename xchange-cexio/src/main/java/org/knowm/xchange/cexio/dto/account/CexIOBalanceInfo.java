@@ -16,11 +16,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class CexIOBalanceInfo {
 
   private final String error;
-  private final long timestamp;
+  private final Long timestamp;
   private final String username;
   private final Map<String, CexIOBalance> balances;
 
-  public CexIOBalanceInfo(String error, long timestamp, String username, Map<String, CexIOBalance> balances) {
+  public CexIOBalanceInfo(String error, Long timestamp, String username, Map<String, CexIOBalance> balances) {
     this.error = error;
     this.timestamp = timestamp;
     this.username = username;

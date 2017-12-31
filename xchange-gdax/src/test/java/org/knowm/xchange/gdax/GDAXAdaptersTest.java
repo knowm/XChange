@@ -1,6 +1,6 @@
 package org.knowm.xchange.gdax;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +30,7 @@ public class GDAXAdaptersTest {
 
   @Test
   public void parseDateTest() {
+
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03Z").getTime()).isEqualTo(1493737803000L);
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1Z").getTime()).isEqualTo(1493737803100L);
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12Z").getTime()).isEqualTo(1493737803120L);
@@ -73,6 +74,7 @@ public class GDAXAdaptersTest {
 
   @Test
   public void testTradeHistoryAdapter() throws IOException {
+
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
@@ -88,7 +90,7 @@ public class GDAXAdaptersTest {
     assertThat(trade.getId()).isEqualTo("470768");
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.ETH_BTC);
     assertThat(trade.getPrice()).isEqualTo("0.05915000");
-    assertThat(trade.getTradableAmount()).isEqualTo("0.01000000");
+    assertThat(trade.getOriginalAmount()).isEqualTo("0.01000000");
     assertThat(trade.getOrderId()).isEqualTo("b4b3bbb1-e0e3-4532-9413-23123448ce35");
     assertThat(trade.getTimestamp().getTime()).isEqualTo(1493623910243L);
     assertThat(trade.getFeeAmount()).isEqualTo("0.0000017745000000");

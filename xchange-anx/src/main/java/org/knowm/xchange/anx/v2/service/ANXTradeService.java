@@ -62,10 +62,10 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
 
     // Validation
     Assert.notNull(limitOrder.getLimitPrice(), "getLimitPrice() cannot be null");
-    Assert.notNull(limitOrder.getTradableAmount(), "getTradableAmount() cannot be null");
+    Assert.notNull(limitOrder.getOriginalAmount(), "getOriginalAmount() cannot be null");
 
-    if (limitOrder.getTradableAmount().scale() > 8) {
-      throw new IllegalArgumentException("tradableAmount scale exceeds max");
+    if (limitOrder.getOriginalAmount().scale() > 8) {
+      throw new IllegalArgumentException("originalAmount scale exceeds max");
     }
 
     if (limitOrder.getLimitPrice().scale() > ANXUtils.getMaxPriceScale(limitOrder.getCurrencyPair())) {
@@ -74,7 +74,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
 
     String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
 
-    BigDecimal amount = limitOrder.getTradableAmount();
+    BigDecimal amount = limitOrder.getOriginalAmount();
     BigDecimal price = limitOrder.getLimitPrice();
 
     return placeANXLimitOrder(limitOrder.getCurrencyPair(), type, amount, price).getDataString();
@@ -91,12 +91,14 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   private UserTrades getTradeHistory(Long from, Long to) throws IOException {
+
     ANXTradeResultWrapper rawTrades = getExecutedANXTrades(from, to);
     String error = rawTrades.getError();
 

@@ -20,7 +20,10 @@ public class BitcoindeOrderBookDemo {
     /* create a data service from the exchange */
     MarketDataService marketDataService = bitcoindeExchange.getMarketDataService();
 
-    generic(marketDataService);
+    for (int i = 0; i < 10; i++) {
+
+      generic(marketDataService);
+    }
 //    raw((BitcoindeMarketDataServiceRaw) marketDataService);
 
   }
@@ -28,10 +31,10 @@ public class BitcoindeOrderBookDemo {
   public static void generic(MarketDataService marketDataService) throws IOException {
 
     /* get OrderBook data */
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.ETH_EUR);
 //    System.out.println(orderBook.toString());
 
-    System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    System.out.println("Current Order Book size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
     System.out.println("Last Ask: " + orderBook.getAsks().get(orderBook.getAsks().size() - 1).toString());
@@ -44,7 +47,7 @@ public class BitcoindeOrderBookDemo {
   public static void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
 
     /* get BitcoindeOrderBook data */
-    BitcoindeOrderbookWrapper bitcoindeOrderBook = marketDataService.getBitcoindeOrderBook();
+    BitcoindeOrderbookWrapper bitcoindeOrderBook = marketDataService.getBitcoindeOrderBook(CurrencyPair.BTC_EUR);
     System.out.println(bitcoindeOrderBook.toString());
   }
 }

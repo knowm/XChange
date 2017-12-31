@@ -1,6 +1,6 @@
 package org.knowm.xchange.coinbase.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,17 +67,17 @@ public class CoinbaseMarketDataJsonTest {
     ObjectMapper mapper = new ObjectMapper();
     CoinbasePrice price = mapper.readValue(is, CoinbasePrice.class);
 
-    assertThat(price.getSubTotal()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("723.09")));
-    assertThat(price.getCoinbaseFee()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("7.23")));
-    assertThat(price.getBankFee()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("0.15")));
-    assertThat(price.getTotal()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("730.47")));
+    assertThat(price.getSubTotal()).isEqualToComparingFieldByField(new CoinbaseMoney("USD", new BigDecimal("723.09")));
+    assertThat(price.getCoinbaseFee()).isEqualToComparingFieldByField(new CoinbaseMoney("USD", new BigDecimal("7.23")));
+    assertThat(price.getBankFee()).isEqualToComparingFieldByField(new CoinbaseMoney("USD", new BigDecimal("0.15")));
+    assertThat(price.getTotal()).isEqualToComparingFieldByField(new CoinbaseMoney("USD", new BigDecimal("730.47")));
   }
 
   @Test
   public void testDeserializeSpotRateHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
+    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.txt");
     String spotPriceHistoryString;
     try (Scanner scanner = new Scanner(is)) {
       spotPriceHistoryString = scanner.useDelimiter("\\A").next();

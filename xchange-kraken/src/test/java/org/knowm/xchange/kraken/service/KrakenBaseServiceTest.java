@@ -1,6 +1,6 @@
 package org.knowm.xchange.kraken.service;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,6 +25,7 @@ public class KrakenBaseServiceTest {
   public void testDelimitSetOrderFlags() {
 
     ExchangeSpecification specification = new ExchangeSpecification(KrakenExchange.class);
+    specification.setShouldLoadRemoteMetaData(false);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
     KrakenBaseService service = new KrakenBaseService(exchange);
 

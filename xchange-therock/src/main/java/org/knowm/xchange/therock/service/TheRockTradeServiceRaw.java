@@ -26,7 +26,7 @@ public class TheRockTradeServiceRaw extends TheRockBaseService {
   public TheRockTradeServiceRaw(Exchange exchange) {
     super(exchange);
     final ExchangeSpecification spec = exchange.getExchangeSpecification();
-    this.theRockAuthenticated = RestProxyFactory.createProxy(TheRockAuthenticated.class, spec.getSslUri());
+    this.theRockAuthenticated = RestProxyFactory.createProxy(TheRockAuthenticated.class, spec.getSslUri(), getClientConfig());
     this.signatureCreator = new TheRockDigest(spec.getSecretKey());
   }
 
@@ -57,6 +57,19 @@ public class TheRockTradeServiceRaw extends TheRockBaseService {
     try {
       return theRockAuthenticated.orders(new TheRock.Pair(currencyPair), exchange.getExchangeSpecification().getApiKey(), signatureCreator,
           exchange.getNonceFactory());
+    } catch (TheRockException e) {
+      throw new ExchangeException(e);
+    }
+  }
+
+  public TheRockOrders getTheRockOrders(CurrencyPair currencyPair, Date after, Date before, String status, TheRockOrder.Side side,
+      Long positionId, int page) throws TheRockException, IOException {
+    try {
+      return theRockAuthenticated.orders(new TheRock.Pair(currencyPair),
+          exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+          exchange.getNonceFactory(),
+          after, before, status, side, positionId, page
+      );
     } catch (TheRockException e) {
       throw new ExchangeException(e);
     }

@@ -1,10 +1,14 @@
 package org.knowm.xchange.cryptopia;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+
+import javax.xml.bind.DatatypeConverter;
 
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
@@ -30,8 +34,15 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
  * Various adapters for converting from Cryptopia DTOs to XChange DTOs
  */
 public final class CryptopiaAdapters {
+  private static final String TIMEZONE = "UTC";
 
   private CryptopiaAdapters() {
+  }
+
+  public static Date convertTimestamp(String timestamp) {
+    Calendar cal = DatatypeConverter.parseDateTime(timestamp);
+    cal.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+    return cal.getTime();
   }
 
   /**
@@ -113,7 +124,7 @@ public final class CryptopiaAdapters {
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>();
 
     for (CryptopiaCurrency cryptopiaCurrency : cryptopiaCurrencies) {
-      currencyMetaDataMap.put(Currency.getInstance(cryptopiaCurrency.getSymbol()), new CurrencyMetaData(8));
+      currencyMetaDataMap.put(Currency.getInstance(cryptopiaCurrency.getSymbol()), new CurrencyMetaData(8, null));
     }
 
     for (CryptopiaTradePair cryptopiaTradePair : tradePairs) {

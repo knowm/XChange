@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.marketdata;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -11,7 +12,7 @@ import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 /**
  * DTO representing the exchange loan order book
  */
-public final class LoanOrderBook {
+public final class LoanOrderBook implements Serializable {
 
   private Date timestamp;
   private final List<FixedRateLoanOrder> fixedRateAsks;

@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.marketdata;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
@@ -12,7 +13,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 /**
  * DTO representing the exchange order book
  */
-public final class OrderBook {
+public final class OrderBook implements Serializable {
 
   /**
    * the timestamp of the orderbook according to the exchange's server, null if not provided

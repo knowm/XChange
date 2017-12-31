@@ -19,6 +19,7 @@ public class VircurexBaseService extends BaseExchangeService implements BaseServ
   public VircurexBaseService(Exchange exchange) {
 
     super(exchange);
-    this.vircurexAuthenticated = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.vircurexAuthenticated = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
   }
 }

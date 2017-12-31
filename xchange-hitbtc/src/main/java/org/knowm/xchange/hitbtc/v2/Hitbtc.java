@@ -6,7 +6,9 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcCandle;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
@@ -18,11 +20,13 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 @Path("/api/2/")
 public interface Hitbtc {
 
-  //Public API
-
   @GET
   @Path("public/symbol")
   List<HitbtcSymbol> getSymbols() throws IOException;
+
+  @GET
+  @Path("public/ticker")
+  List<HitbtcTicker> getTickers() throws IOException;
 
   @GET
   @Path("public/ticker/{symbol}")
@@ -39,5 +43,9 @@ public interface Hitbtc {
   @GET
   @Path("public/ticker")
   List<HitbtcTicker> getHitbtcTickers() throws IOException;
+
+  @GET
+  @Path("public/candles/{symbol}")
+  List<HitbtcCandle> getHitbtcOHLC(@PathParam("symbol") String symbol, @QueryParam("limit") int limit, @QueryParam("period") String period) throws IOException;
 
 }

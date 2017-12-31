@@ -1,5 +1,8 @@
 package org.knowm.xchange.exceptions;
 
+/**
+ * An exception indicating the request rate limit has been exceeded
+ */
 public class FrequencyLimitExceededException extends ExchangeException {
 
   public FrequencyLimitExceededException(String message) {

@@ -1,7 +1,7 @@
 {
   "result": "success",
   "serverTime": "2016-02-25T09:45:53.818Z",
-  "openorders": [
+  "openOrders": [
     {
       "receivedTime": "2016-02-25T09:45:53.601Z",
       "status": "partiallyFilled",

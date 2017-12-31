@@ -16,7 +16,6 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.luno.LunoAPI;
 import org.knowm.xchange.luno.LunoUtil;
 import org.knowm.xchange.luno.dto.account.LunoBalance;
 import org.knowm.xchange.luno.dto.account.LunoFundingAddress;
@@ -28,14 +27,14 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class LunoAccountService extends LunoBaseService implements AccountService {
 
-  public LunoAccountService(Exchange exchange, LunoAPI luno) {
-    super(exchange, luno);
+  public LunoAccountService(Exchange exchange) {
+    super(exchange);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    LunoBalance lunoBalance = luno.balance();
+    LunoBalance lunoBalance = lunoAPI.balance();
     List<Wallet> wallets = new ArrayList<>();
     for (org.knowm.xchange.luno.dto.account.LunoBalance.Balance lb : lunoBalance.getBalance()) {
       List<Balance> balances = new ArrayList<>();
@@ -51,16 +50,16 @@ public class LunoAccountService extends LunoBaseService implements AccountServic
     String lunoCurrency = LunoUtil.toLunoCurrency(currency);
     switch (lunoCurrency) {
       case "XBT":
-        luno.send(amount, lunoCurrency, address, null, null);
+        lunoAPI.send(amount, lunoCurrency, address, null, null);
         return null; // unfortunately luno does not provide any withdrawal id in case of XBT
       default:
-        Withdrawal requestWithdrawal = luno.requestWithdrawal(LunoUtil.requestType(lunoCurrency), amount, null);
+        Withdrawal requestWithdrawal = lunoAPI.requestWithdrawal(LunoUtil.requestType(lunoCurrency), amount, null);
         return requestWithdrawal.id;
     }
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
@@ -71,7 +70,7 @@ public class LunoAccountService extends LunoBaseService implements AccountServic
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     String lunoCurrency = LunoUtil.toLunoCurrency(currency);
-    LunoFundingAddress lfa = luno.createFundingAddress(lunoCurrency);
+    LunoFundingAddress lfa = lunoAPI.createFundingAddress(lunoCurrency);
     return lfa.address;
   }
 
@@ -86,7 +85,7 @@ public class LunoAccountService extends LunoBaseService implements AccountServic
     // currently no support for deposits!
 
     List<FundingRecord> result = new ArrayList<>();
-    for (Withdrawal w : luno.withdrawals().getWithdrawals()) {
+    for (Withdrawal w : lunoAPI.withdrawals().getWithdrawals()) {
       result.add(new FundingRecord(null, w.getCreatedAt(), LunoUtil.fromLunoCurrency(w.currency), w.amount, w.id, null, Type.WITHDRAWAL, convert(w.status), null, w.fee, null));
     }
     return result;
