@@ -6,6 +6,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
 import org.known.xchange.acx.service.account.AcxAccountService;
 import org.known.xchange.acx.service.marketdata.AcxMarketDataService;
+import org.known.xchange.acx.service.trade.AcxTradeService;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -21,6 +22,7 @@ public class AcxExchange extends BaseExchange implements Exchange {
         if (spec.getApiKey() != null && spec.getSecretKey() != null) {
             AcxSignatureCreator signatureCreator = new AcxSignatureCreator(spec.getSecretKey());
             this.accountService = new AcxAccountService(api, mapper, signatureCreator, spec.getApiKey());
+            this.tradeService = new AcxTradeService(api, mapper, signatureCreator, spec.getApiKey());
         }
     }
 
@@ -38,4 +40,6 @@ public class AcxExchange extends BaseExchange implements Exchange {
     public SynchronizedValueFactory<Long> getNonceFactory() {
         return nonceFactory;
     }
+
+
 }
