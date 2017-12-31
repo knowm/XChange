@@ -1,7 +1,6 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.knowm.xchange.Exchange;
@@ -10,8 +9,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
@@ -22,6 +20,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeService {
@@ -38,7 +37,7 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override
@@ -56,7 +55,7 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
 
     GDAXIdResponse response = placeGDAXLimitOrder(limitOrder);
     return response.getId();
@@ -69,11 +68,12 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   @Override
@@ -91,12 +91,6 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    Collection<Order> orders = new ArrayList<>(orderIds.length);
-
-    for (String orderId : orderIds) {
-      orders.add(GDAXAdapters.adaptOrder(orderId, super.getOrder(orderId)));
-    }
-
-    return orders;
+    throw new NotYetImplementedForExchangeException();
   }
 }

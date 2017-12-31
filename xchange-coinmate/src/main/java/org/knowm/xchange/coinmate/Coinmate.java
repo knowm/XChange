@@ -53,6 +53,8 @@ public interface Coinmate {
 
   @GET
   @Path("transactions")
-  CoinmateTransactions getTransactions(@QueryParam("minutesIntoHistory") int minutesIntoHistory) throws IOException;
+  CoinmateTransactions getTransactions(
+      @QueryParam("minutesIntoHistory") int minutesIntoHistory,
+      @QueryParam("currencyPair") String currencyPair) throws IOException;
 
 }

@@ -32,9 +32,9 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
   private HitbtcAccountServiceRaw service = (HitbtcAccountServiceRaw) exchange.getAccountService();
 
   @Test
-  public void testGetWalletRaw() throws IOException {
+  public void testGetMainBalance() throws IOException {
 
-    List<HitbtcBalance> balance = service.getWalletRaw();
+    List<HitbtcBalance> balance = service.getMainBalance();
 
     Map<Currency, HitbtcBalance> balanceMap = new HashMap<>();
     for (HitbtcBalance hitbtcBalance : balance) {
@@ -42,14 +42,29 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
     }
 
     Assert.assertNotNull(balance);
-    BigDecimal expected = new BigDecimal("0.05000000");
+    BigDecimal expected = new BigDecimal("0.00000000");
+    Assert.assertTrue(expected.equals(balanceMap.get(Currency.BTC).getAvailable()));
+  }
+
+  @Test
+  public void testGetTradingBalance() throws IOException {
+
+    List<HitbtcBalance> balance = service.getTradingBalance();
+
+    Map<Currency, HitbtcBalance> balanceMap = new HashMap<>();
+    for (HitbtcBalance hitbtcBalance : balance) {
+      balanceMap.put(Currency.getInstance(hitbtcBalance.getCurrency()), hitbtcBalance);
+    }
+
+    Assert.assertNotNull(balance);
+    BigDecimal expected = new BigDecimal("0.040000000");
     Assert.assertTrue(expected.equals(balanceMap.get(Currency.BTC).getAvailable()));
   }
 
   @Test
   public void testGetPaymentBalance() throws IOException {
 
-    List<HitbtcBalance> response = service.getPaymentBalance();
+    List<HitbtcBalance> response = service.getMainBalance();
 
     Assert.assertTrue(!response.isEmpty());
   }
@@ -65,7 +80,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
   @Test
   public void testGetTransactions() throws IOException {
 
-    List<HitbtcTransaction> transactions = service.getTransactions();
+    List<HitbtcTransaction> transactions = service.getTransactions(null, null, null);
 
     Assert.assertTrue(!transactions.isEmpty());
     Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));

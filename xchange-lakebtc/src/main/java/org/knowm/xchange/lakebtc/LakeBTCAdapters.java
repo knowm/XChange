@@ -31,11 +31,6 @@ import org.knowm.xchange.utils.DateUtils;
  */
 public class LakeBTCAdapters {
 
-  // TODO move to metadata
-  private static final String SIDE_BID = "";
-  private static final int PRICE_SCALE = 8;
-  private static final int PERCENT_DECIMAL_SHIFT = 2;
-
   /**
    * Singleton
    */
@@ -120,13 +115,13 @@ public class LakeBTCAdapters {
     long lastTradeId = 0;
     for (LakeBTCTradeResponse trade : transactions) {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;
-      BigDecimal tradableAmount = trade.getAmount();
+      BigDecimal originalAmount = trade.getAmount();
       BigDecimal price = trade.getTotal().abs();
       Date timestamp = DateUtils.fromMillisUtc(trade.getAt() * 1000L);
 
       final String tradeId = trade.getId();
       final CurrencyPair currencyPair = CurrencyPair.BTC_CNY;
-      UserTrade userTrade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, null, null,
+      UserTrade userTrade = new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, null, null,
           Currency.getInstance(currencyPair.counter.getCurrencyCode()));
       trades.add(userTrade);
     }

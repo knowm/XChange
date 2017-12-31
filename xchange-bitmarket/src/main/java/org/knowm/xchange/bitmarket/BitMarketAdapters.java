@@ -151,7 +151,7 @@ public class BitMarketAdapters {
   private static UserTrade createHistoryTrade(BitMarketHistoryTrade trade, BitMarketHistoryOperations operations) {
 
     //deduce commission currency
-    String commissionCurrency = BitMarketUtils.BitMarketOrderTypeToOrderType(trade.getType()) == OrderType.BID ? trade.getCurrencyCrypto()
+    String commissionCurrency = BitMarketUtils.bitMarketOrderTypeToOrderType(trade.getType()) == OrderType.BID ? trade.getCurrencyCrypto()
         : trade.getCurrencyFiat();
 
     //find in history operations - the operation which time match to time of given trade
@@ -163,7 +163,7 @@ public class BitMarketAdapters {
       }
     }
 
-    return new UserTrade(BitMarketUtils.BitMarketOrderTypeToOrderType(trade.getType()), trade.getAmountCrypto(),
+    return new UserTrade(BitMarketUtils.bitMarketOrderTypeToOrderType(trade.getType()), trade.getAmountCrypto(),
         new CurrencyPair(trade.getCurrencyCrypto(), trade.getCurrencyFiat()), trade.getRate(), trade.getTimestamp(), String.valueOf(trade.getId()),
         tradeOperation != null ? String.valueOf(tradeOperation.getId()) : null, tradeOperation != null ? tradeOperation.getCommission() : null,
         Currency.getInstance(commissionCurrency));

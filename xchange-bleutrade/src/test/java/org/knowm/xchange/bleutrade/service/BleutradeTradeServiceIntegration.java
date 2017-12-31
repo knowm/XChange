@@ -1,7 +1,7 @@
 package org.knowm.xchange.bleutrade.service;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.knowm.xchange.bleutrade.BleutradeAssert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
@@ -59,7 +59,7 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
 
   @Test
   public void constructor() {
-    assertThat(Whitebox.getInternalState(tradeService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertThat((String) Whitebox.getInternalState(tradeService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test

@@ -26,7 +26,7 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://api.bitcoinaverage.com");
+    exchangeSpecification.setSslUri("https://apiv2.bitcoinaverage.com");
     exchangeSpecification.setHost("bitcoinaverage.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin Average");
@@ -46,7 +46,7 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-    BitcoinAverageTickers tickers = ((BitcoinAverageMarketDataServiceRaw) marketDataService).getBitcoinAverageAllTickers();
+    BitcoinAverageTickers tickers = ((BitcoinAverageMarketDataServiceRaw) marketDataService).getBitcoinAverageShortTickers("BTC");
     exchangeMetaData = BitcoinAverageAdapters.adaptMetaData(tickers, exchangeMetaData);
     // String json = ObjectMapperHelper.toJSON(exchangeMetaData);
     // System.out.println("json: " + json);

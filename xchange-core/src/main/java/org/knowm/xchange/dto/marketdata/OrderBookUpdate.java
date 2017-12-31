@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.marketdata;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 /**
  * Immutable data object representing a Market Depth update.
  */
-public final class OrderBookUpdate {
+public final class OrderBookUpdate implements Serializable {
 
   private final LimitOrder limitOrder;
 

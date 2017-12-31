@@ -7,7 +7,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.gdax.GDAX;
+import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
@@ -18,19 +18,19 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
+public class GDAXTradeServiceRaw extends GDAXBaseService {
 
   private final SynchronizedValueFactory<Long> nonceFactory;
 
   public GDAXTradeServiceRaw(Exchange exchange) {
 
-    super(GDAX.class, exchange);
+    super(exchange);
     this.nonceFactory = exchange.getNonceFactory();
   }
 
   public GDAXOrder[] getGDAXOpenOrders() throws IOException {
 
-    return coinbaseEx.getListOrders(apiKey, digest, nonceFactory, passphrase, "open");
+    return gdax.getListOrders(apiKey, digest, nonceFactory, passphrase, "open");
   }
 
   public GDAXFill[] getGDAXFills(TradeHistoryParams tradeHistoryParams) throws IOException {
@@ -57,8 +57,11 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
         productId = toProductId(currencyPair);
       }
     }
-
-    return coinbaseEx.getFills(apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
+    try {
+      return gdax.getFills(apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
   public GDAXIdResponse placeGDAXLimitOrder(LimitOrder limitOrder) throws IOException {
@@ -66,8 +69,12 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
     String side = side(limitOrder.getType());
     String productId = toProductId(limitOrder.getCurrencyPair());
 
-    return coinbaseEx.placeLimitOrder(new GDAXPlaceOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), side, productId, "limit", limitOrder.getOrderFlags()),
-        apiKey, digest, nonceFactory, passphrase);
+    try {
+      return gdax.placeLimitOrder(new GDAXPlaceOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), side, productId, "limit", limitOrder.getOrderFlags()),
+          apiKey, digest, nonceFactory, passphrase);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
   public GDAXIdResponse placeGDAXMarketOrder(MarketOrder marketOrder) throws IOException {
@@ -75,18 +82,23 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
     String side = side(marketOrder.getType());
     String productId = toProductId(marketOrder.getCurrencyPair());
 
-    return coinbaseEx.placeMarketOrder(new GDAXPlaceOrder(marketOrder.getTradableAmount(), null, side, productId, "market", marketOrder.getOrderFlags()), apiKey, digest,
-        nonceFactory, passphrase);
+    try {
+      return gdax.placeMarketOrder(new GDAXPlaceOrder(marketOrder.getOriginalAmount(), null, side, productId, "market", marketOrder.getOrderFlags
+              ()), apiKey, digest,
+          nonceFactory, passphrase);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
   public boolean cancelGDAXOrder(String id) throws IOException {
 
-    coinbaseEx.cancelOrder(id, apiKey, digest, nonceFactory, passphrase);
+    gdax.cancelOrder(id, apiKey, digest, nonceFactory, passphrase);
     return true;
   }
 
   public GDAXOrder getOrder(String id) throws IOException {
-    return coinbaseEx.getOrder(id, apiKey, digest, nonceFactory, passphrase);
+    return gdax.getOrder(id, apiKey, digest, nonceFactory, passphrase);
   }
 
   private static String side(OrderType type) {

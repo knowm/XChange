@@ -32,6 +32,7 @@ import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import si.mazi.rescu.RestProxyFactory;
 
 /**
@@ -45,7 +46,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
   public CoinmateAccountServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
@@ -77,5 +79,15 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
 
     return addresses;
   }
+
+  public CoinmateTransactionHistory getCoinmateTransactionHistory(int offset, int limit, String sort) throws IOException {
+    CoinmateTransactionHistory tradeHistory = coinmateAuthenticated.getTransactionHistory(exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), offset, limit, sort);
+
+    throwExceptionIfError(tradeHistory);
+
+    return tradeHistory;
+  }
+
 
 }

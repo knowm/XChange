@@ -19,7 +19,8 @@ public class QuadrigaCxAccountServiceRaw extends QuadrigaCxBaseService {
   protected QuadrigaCxAccountServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.quadrigacxAuthenticated = RestProxyFactory.createProxy(QuadrigaCxAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.quadrigacxAuthenticated = RestProxyFactory.createProxy(QuadrigaCxAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.signatureCreator = QuadrigaCxDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }

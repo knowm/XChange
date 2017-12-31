@@ -29,21 +29,21 @@ public class BitcoinAverageMarketDataServiceRaw extends BitcoinAverageBaseServic
   public BitcoinAverageMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinAverage = RestProxyFactory.createProxy(BitcoinAverage.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitcoinAverage = RestProxyFactory.createProxy(BitcoinAverage.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
-  public BitcoinAverageTicker getBitcoinAverageTicker(String tradableIdentifier, String currency) throws IOException {
+  public BitcoinAverageTicker getBitcoinAverageTicker(String tradable, String currency) throws IOException {
 
     // Request data
-    BitcoinAverageTicker bitcoinAverageTicker = bitcoinAverage.getTicker(currency);
+    BitcoinAverageTicker bitcoinAverageTicker = bitcoinAverage.getTicker(tradable + currency);
 
     return bitcoinAverageTicker;
   }
 
-  public BitcoinAverageTickers getBitcoinAverageAllTickers() throws IOException {
+  public BitcoinAverageTickers getBitcoinAverageShortTickers(String crypto) throws IOException {
 
     // Request data
-    BitcoinAverageTickers bitcoinAverageTicker = bitcoinAverage.getAllTickers();
+    BitcoinAverageTickers bitcoinAverageTicker = bitcoinAverage.getShortTickers(crypto);
 
     return bitcoinAverageTicker;
   }

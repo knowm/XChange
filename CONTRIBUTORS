@@ -16,21 +16,26 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
+小田謙太郎
+=
 Achterhoeker
 Alejandro Reyero
 Aleksey Baryshnikov
 Alex Nugent
 Alexey Syrtsev
 Alexey Z
+Allen Day
 Andraž
 André Reiter
 Anthony Tsang
 Arthurm1
+Artur
 Baffo32
 Benedict Wong
 Benedikt Bünz
 Bilgin Ibryam
 Boris Aksenov
+Bruno Volpato
 Bryan
 Bryan Hernandez
 Carbo Kuo
@@ -41,11 +46,15 @@ Cray Imperative
 Cristian Lucaci
 Dave Seyb
 David FRANCOIS
+David Kreutzer
 Dolezal Zdenek
 Douggie
 DrawFun
 Eric Anderson
 Erland Lewin
+EzBar
+Ezer Bar-Aviv
+Fabien André
 Felipe Micaroni Lalli
 GENiALi
 Gary Rowe
@@ -62,6 +71,7 @@ Jan Vojt
 Janosch Gräf
 Jean-Pierre Froud
 Joe Zhou
+Johannes Zweng
 Jonathan Heusser
 Jonathan Tse
 Jonny Heggheim
@@ -74,17 +84,21 @@ Karol Pysniak
 Karsten Nilsen
 Ken Fehling
 Kenneth Jorgensen
+Kolozsy Gábor
 Konstantin Alexandrov
 Konstantin Indjov
 Krystian Nowak
 Krzysiek
+Leonid Shamis
 LifeIsGoodMF
+Luca Rosellini
 Lukas Zaoralek
 Lukáš Krejza
 Macarse
 Marius Hillenbrand
 MartianTech
 Martin Stachon
+Massimiliano Gerardi
 Matija Mazi
 Matt Read
 Matt Whitlock
@@ -92,6 +106,7 @@ Matthew Downey
 Maxim Fefilov
 Michael Lagace
 Michael Lagacé
+Mike Gerlyand
 Mikelle
 Mikhail Wall
 Miso Oprendek
@@ -101,6 +116,7 @@ Norbert Sándor
 ObsessiveOrange
 Oleg Khomenko
 Oscar Francia
+Pan, Xinyang
 Panchen
 Peter N. Steinmetz
 Piotr Ladyzynski
@@ -110,6 +126,9 @@ Rafał Krupiński
 Raphael Voellmy
 Richard Flint
 Robert Felker
+Roei Bar Aviv
+Roman Belkov
+Ronald Bultman
 Ryan Sundberg
 Sebastiaan van Erk
 Sergey Belyakov
@@ -117,13 +136,17 @@ Sergio Rodriguez
 Sikerdebaard
 Sumedha Saxena
 TM Lee
+Thomas Diesler
 Thomas Muhm
+Tillerino
 Tim Molter
+Tomas Cere
 U-TORA\cristian.lucaci
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
 Victor Mezrin
 Viktor.Zakalyuzhnyy
+Wojciech Langiewicz
 Wyatt Endres
 Yang Yang
 Ying Zhe Chong
@@ -152,14 +175,18 @@ ezhik97
 fenwulf
 glebreutov
 gmorpheme
+godoorsun
 gpwclark
+hardsky
 ivan.kosianenko
 jamespedwards42
 jclaruelle
+jcuypers
 johndemic
 karol.pysniak@turbineam.com
 kisapmata
 kpysniak
+kyr7
 lapoor
 lazy_p@163.com
 lazyp
@@ -177,14 +204,17 @@ nimrood
 npomfret
 nxtpool@gmail.com
 o
+paul
 piotr
 pnkwpk
 pozheg
 seanrobb
+semihunaldi
 senecaso
 sikerdebaard
 simonkeliuotis
 skipster
+sowhynot
 stachon
 stephane-coulomb
 swiesend
@@ -197,4 +227,3 @@ will
 wvr
 ww3456
 zholmes
-小田謙太郎

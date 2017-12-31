@@ -25,7 +25,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -62,11 +61,10 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws IOException {
 
     Map<Long, DSXOrder> orders = getDSXActiveOrders(null);
     return DSXAdapters.adaptOrders(orders);
-
   }
 
   @Override
@@ -84,7 +82,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     String pair = DSXAdapters.getPair(limitOrder.getCurrencyPair());
 
-    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), limitOrder.getTimestamp().getTime(),
+    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(),
         3, DSXOrder.OrderType.limit);
 
     DSXTradeResult result = tradeDSX(dsxOrder);
@@ -97,11 +95,12 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   public boolean cancelAllOrders() throws IOException {
@@ -136,8 +135,8 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan timeParams = (TradeHistoryParamsTimeSpan) params;
-      since = nullSafeUnixTime(timeParams.getStartTime());
-      end = nullSafeUnixTime(timeParams.getEndTime());
+      since = DateUtils.toMillisNullSafe(timeParams.getStartTime());
+      end = DateUtils.toMillisNullSafe(timeParams.getEndTime());
     }
 
     if (params instanceof TradeHistoryParamCurrencyPair) {
@@ -185,7 +184,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

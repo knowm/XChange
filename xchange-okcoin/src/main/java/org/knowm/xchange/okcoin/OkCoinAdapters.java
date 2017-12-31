@@ -1,5 +1,6 @@
 package org.knowm.xchange.okcoin;
 
+import static org.knowm.xchange.currency.Currency.BCH;
 import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.LTC;
 import static org.knowm.xchange.currency.Currency.USD;
@@ -146,11 +147,13 @@ public final class OkCoinAdapters {
     OkCoinFuturesInfoCross info = futureUserInfo.getInfo();
     OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
     OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
+    OkcoinFuturesFundsCross bchFunds = info.getBchFunds();
 
     Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
     Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
+    Balance bchBalance = new Balance(BCH, bchFunds.getAccountRights());
 
-    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance));
+    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance, bchBalance));
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
@@ -308,7 +311,7 @@ public final class OkCoinAdapters {
     for (OkCoinFuturesTradeHistoryResult okCoinFuturesTrade : okCoinFuturesTradeHistoryResult) {
       //  if (okCoinFuturesTrade.getType().equals(OkCoinFuturesTradeHistoryResult.TransactionType.)) { // skip account deposits and withdrawals.
       OrderType orderType = okCoinFuturesTrade.getType().equals(TransactionType.sell) ? OrderType.ASK : OrderType.BID;
-      BigDecimal tradableAmount = BigDecimal.valueOf(okCoinFuturesTrade.getAmount());
+      BigDecimal originalAmount = BigDecimal.valueOf(okCoinFuturesTrade.getAmount());
       BigDecimal price = okCoinFuturesTrade.getPrice();
       Date timestamp = new Date(okCoinFuturesTrade.getTimestamp());
       long transactionId = okCoinFuturesTrade.getId();
@@ -320,7 +323,7 @@ public final class OkCoinAdapters {
       final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
       BigDecimal feeAmont = BigDecimal.ZERO;
-      UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmont,
+      UserTrade trade = new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmont,
           Currency.getInstance(currencyPair.counter.getCurrencyCode()));
       trades.add(trade);
 

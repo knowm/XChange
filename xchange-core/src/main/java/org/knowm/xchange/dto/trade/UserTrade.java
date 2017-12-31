@@ -1,14 +1,15 @@
 package org.knowm.xchange.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * Data object representing a user trade
@@ -34,7 +35,7 @@ public class UserTrade extends Trade {
    * This constructor is called to construct user's trade objects (in {@link TradeService#getTradeHistory(TradeHistoryParams)} implementations).
    *
    * @param type The trade type (BID side or ASK side)
-   * @param tradableAmount The depth of this trade
+   * @param originalAmount The depth of this trade
    * @param currencyPair The exchange identifier (e.g. "BTC/USD")
    * @param price The price (either the bid or the ask)
    * @param timestamp The timestamp of the trade
@@ -43,10 +44,10 @@ public class UserTrade extends Trade {
    * @param feeAmount The fee that was charged by the exchange for this trade
    * @param feeCurrency The symbol of the currency in which the fee was charged
    */
-  public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId,
+  public UserTrade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId,
       BigDecimal feeAmount, Currency feeCurrency) {
 
-    super(type, tradableAmount, currencyPair, price, timestamp, id);
+    super(type, originalAmount, currencyPair, price, timestamp, id);
 
     this.orderId = orderId;
     this.feeAmount = feeAmount;
@@ -70,9 +71,25 @@ public class UserTrade extends Trade {
 
   @Override
   public String toString() {
-    return "UserTrade[type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", "
+    return "UserTrade[type=" + type + ", originalAmount=" + originalAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", "
         + "timestamp=" + timestamp + ", id=" + id + ", orderId='" + orderId + '\'' + ", feeAmount=" + feeAmount + ", feeCurrency='" + feeCurrency
         + '\'' + "]";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+    UserTrade userTrade = (UserTrade) o;
+    return Objects.equals(orderId, userTrade.orderId) &&
+            Objects.equals(feeAmount, userTrade.feeAmount) &&
+            Objects.equals(feeCurrency, userTrade.feeCurrency);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), orderId, feeAmount, feeCurrency);
   }
 
   public static class Builder extends Trade.Builder {
@@ -82,7 +99,7 @@ public class UserTrade extends Trade {
     protected Currency feeCurrency;
 
     public static Builder from(UserTrade trade) {
-      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair())
+      return new Builder().type(trade.getType()).originalAmount(trade.getOriginalAmount()).currencyPair(trade.getCurrencyPair())
           .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId()).orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount())
           .feeCurrency(trade.getFeeCurrency());
     }
@@ -93,8 +110,8 @@ public class UserTrade extends Trade {
     }
 
     @Override
-    public Builder tradableAmount(BigDecimal tradableAmount) {
-      return (Builder) super.tradableAmount(tradableAmount);
+    public Builder originalAmount(BigDecimal originalAmount) {
+      return (Builder) super.originalAmount(originalAmount);
     }
 
     @Override
@@ -134,7 +151,7 @@ public class UserTrade extends Trade {
 
     @Override
     public UserTrade build() {
-      return new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+      return new UserTrade(type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     }
   }
 }

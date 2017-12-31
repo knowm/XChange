@@ -80,4 +80,9 @@ public interface BitbayAuthenticated {
   @FormParam("method")
   List<Map> history(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("limit") int limit);
+
+  @POST
+  @FormParam("method")
+  List<Map> transactions(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("market") String market);
 }

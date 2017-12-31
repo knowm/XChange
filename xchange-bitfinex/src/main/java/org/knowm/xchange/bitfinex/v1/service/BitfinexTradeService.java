@@ -20,8 +20,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -49,7 +47,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     BitfinexOrderStatusResponse[] activeOrders = getBitfinexOpenOrders();
 
     if (activeOrders.length <= 0) {
@@ -102,11 +100,12 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -148,7 +147,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
       limit = tradeHistoryParamLimit.getLimit();
     }
 
-    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, startTime, endTime, limit);
+    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, startTime, endTime, limit, null);
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }
 
@@ -216,7 +215,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     List<Order> openOrders = new ArrayList<>();
 
     for (String orderId : orderIds) {

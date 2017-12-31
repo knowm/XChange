@@ -1,0 +1,14 @@
+The documentation for Paribu exchange platform
+================================
+
+Public API
+
+
+Documentation
+-------------
+No documentation
+
+
+Ticker
+------
+https://www.paribu.com/ticker

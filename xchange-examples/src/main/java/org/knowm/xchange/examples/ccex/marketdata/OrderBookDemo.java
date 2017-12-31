@@ -31,12 +31,12 @@ public class OrderBookDemo {
 
     for (LimitOrder limitOrder : orderBook.getBids()) {
       System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
-          + limitOrder.getTradableAmount());
+          + limitOrder.getOriginalAmount());
     }
 
     for (LimitOrder limitOrder : orderBook.getAsks()) {
       System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
-          + limitOrder.getTradableAmount());
+          + limitOrder.getOriginalAmount());
     }
   }
 

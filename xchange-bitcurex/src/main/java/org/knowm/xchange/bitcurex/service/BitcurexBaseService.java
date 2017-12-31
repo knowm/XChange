@@ -23,10 +23,11 @@ public class BitcurexBaseService extends BaseExchangeService implements BaseServ
   public BitcurexBaseService(Exchange exchange) {
 
     super(exchange);
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.signatureCreator = BitcurexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getApiKey());
-    this.bitcurexAuthenticated = RestProxyFactory.createProxy(BitcurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitcurexAuthenticated = RestProxyFactory.createProxy(BitcurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
 
   }
 }

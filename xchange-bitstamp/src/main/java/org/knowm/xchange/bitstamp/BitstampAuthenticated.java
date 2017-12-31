@@ -106,6 +106,28 @@ public interface BitstampAuthenticated {
       @FormParam("address") String address) throws BitstampException, IOException;
 
   @POST
+  @Path("v2/eth_address/")
+  BitstampDepositAddress getEthereumDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+
+  @POST
+  @Path("v2/eth_withdrawal/")
+  BitstampWithdrawal withdrawEthereum(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address) throws BitstampException, IOException;
+
+  @POST
+  @Path("v2/ltc_address/")
+  BitstampDepositAddress getLitecoinDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+
+  @POST
+  @Path("v2/ltc_withdrawal/")
+  BitstampWithdrawal withdrawLitecoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address) throws BitstampException, IOException;
+
+  @POST
   @Path("unconfirmed_btc/")
   DepositTransaction[] getUnconfirmedDeposits(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;

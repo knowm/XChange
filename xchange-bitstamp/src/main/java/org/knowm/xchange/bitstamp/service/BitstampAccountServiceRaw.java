@@ -44,8 +44,10 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     super(exchange);
 
-    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.bitstampAuthenticatedV2 = RestProxyFactory.createProxy(BitstampAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
+    this.bitstampAuthenticatedV2 = RestProxyFactory.createProxy(BitstampAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getUserName(), apiKey);
@@ -85,6 +87,11 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     return checkAndReturnWithdrawal(response);
   }
+  
+  public BitstampWithdrawal withdrawBchFunds(BigDecimal amount, String address) throws IOException {
+    BitstampWithdrawal response = bitstampAuthenticatedV2.bchWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+    return checkAndReturnWithdrawal(response);
+  }
 
   private BitstampWithdrawal checkAndReturnWithdrawal(BitstampWithdrawal response) {
     if (response.hasError()) {
@@ -97,6 +104,26 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   public BitstampDepositAddress getBitstampBitcoinDepositAddress() throws IOException {
 
     final BitstampDepositAddress response = bitstampAuthenticated.getBitcoinDepositAddress(exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator, exchange.getNonceFactory());
+    if (response.getError() != null) {
+      throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+    }
+    return response;
+  }
+
+  public BitstampDepositAddress getBitstampLitecoinDepositAddress() throws IOException {
+
+    final BitstampDepositAddress response = bitstampAuthenticated.getLitecoinDepositAddress(exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator, exchange.getNonceFactory());
+    if (response.getError() != null) {
+      throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+    }
+    return response;
+  }
+
+  public BitstampDepositAddress getBitstampEthereumDepositAddress() throws IOException {
+
+    final BitstampDepositAddress response = bitstampAuthenticated.getEthereumDepositAddress(exchange.getExchangeSpecification().getApiKey(),
         signatureCreator, exchange.getNonceFactory());
     if (response.getError() != null) {
       throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());

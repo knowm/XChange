@@ -18,7 +18,6 @@ import si.mazi.rescu.HttpStatusExceptionSupport;
  
  */
 
-@SuppressWarnings("serial")
 public class RippleException extends HttpStatusExceptionSupport {
 
   @JsonProperty("message")

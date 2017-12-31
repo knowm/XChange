@@ -1,0 +1,24 @@
+{
+  "eth_btc": {
+    "result": "true",
+    "last": 0.1,
+    "lowestAsk": 0.1,
+    "highestBid": "0.00000000",
+    "percentChange": 0,
+    "baseVolume": 0.001,
+    "quoteVolume": 0.01,
+    "high24hr": 0.1,
+    "low24hr": 0.1
+  },
+  "xrp_btc": {
+    "result": "true",
+    "last": "0.00004720",
+    "lowestAsk": "0.00005620",
+    "highestBid": "0.00004550",
+    "percentChange": -7.4510907045863,
+    "baseVolume": 0.5324,
+    "quoteVolume": 11417.333,
+    "high24hr": "0.00005580",
+    "low24hr": "0.00004560"
+  }
+}

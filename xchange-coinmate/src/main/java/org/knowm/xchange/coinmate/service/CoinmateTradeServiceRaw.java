@@ -31,6 +31,7 @@ import org.knowm.xchange.coinmate.CoinmateAuthenticated;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 
@@ -47,7 +48,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   public CoinmateTradeServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        getClientConfig());
     this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
@@ -59,6 +61,15 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     throwExceptionIfError(tradeHistory);
 
     return tradeHistory;
+  }
+
+  public CoinmateOrderHistory getCoinmateOrderHistory(String currencyPair, int limit) throws IOException {
+    CoinmateOrderHistory orderHistory = coinmateAuthenticated.getOrderHistory(exchange.getExchangeSpecification().getApiKey(),
+        exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), currencyPair, limit);
+
+    throwExceptionIfError(orderHistory);
+
+    return orderHistory;
   }
 
   public CoinmateOpenOrders getCoinmateOpenOrders(String currencyPair) throws IOException {

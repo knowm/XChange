@@ -1,6 +1,6 @@
 package org.knowm.xchange.examples;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -121,6 +121,7 @@ public class AllIntegration {
       Callable<R> callMethod = new Callable<R>() {
 
         @Override
+        @SuppressWarnings("unchecked")
         public R call() throws Exception {
 
           try {

@@ -9,12 +9,13 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcAddress;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcException;
@@ -35,7 +36,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("account/balance")
-  List<HitbtcBalance> getPaymentBalance() throws IOException, HitbtcException;
+  List<HitbtcBalance> getMainBalance() throws IOException, HitbtcException;
 
   @GET
   @Path("account/crypto/address/{currency}")
@@ -43,11 +44,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("account/transactions")
-  List<HitbtcTransaction> transactions() throws HttpStatusIOException;
-
-  @GET
-  @Path("account/balance")
-  List<HitbtcBalance> getNewBalance() throws IOException, HitbtcException;
+  List<HitbtcTransaction> transactions(@QueryParam("currency") String currency, @QueryParam("limit") Integer limit, @QueryParam("offset") Integer offset) throws HttpStatusIOException;
 
   @POST
   @Path("account/transfer")
@@ -65,14 +62,20 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @Path("order")
   List<HitbtcOrder> getHitbtcActiveOrders() throws IOException, HitbtcException;
 
-  //TODO remove usage of HitbtcExecutionReportResponse
   @POST
   @Path("order")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  HitbtcExecutionReportResponse postHitbtcNewOrder(
+  HitbtcOrder postHitbtcNewOrder(
       @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side,
       @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity,
       @FormParam("type") String type, @FormParam("timeInForce") String timeInForce) throws IOException, HitbtcException;
+
+  @PATCH
+  @Path("order/{clientOrderId}")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  HitbtcOrder updateHitbtcOrder(@PathParam("clientOrderId") String clientOrderId, @FormParam("quantity") BigDecimal quantity,
+      @FormParam("requestClientId") String requestClientId, @FormParam("price") BigDecimal price)
+      throws IOException, HitbtcException;
 
   @DELETE
   @Path("order")
@@ -81,11 +84,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @DELETE
   @Path("order/{clientOrderId}")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  HitbtcExecutionReportResponse cancelSingleOrder(@PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
-
-  //TODO Add replace or update order via PATCH with upgrade to JSR311
-  // PATCH /order/{clientOrderId}
+  HitbtcOrder cancelSingleOrder(@PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
 
   @GET
   @Path("trading/balance")

@@ -1,6 +1,6 @@
 package org.knowm.xchange.utils;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;

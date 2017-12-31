@@ -1,6 +1,6 @@
 package org.knowm.xchange.dsx;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -75,7 +75,7 @@ public class DSXAdapterTest {
 
     assertThat(trades.getTrades().get(0).getPrice().toString()).isEqualTo("1588.09000");
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(trades.getTrades().get(0).getTradableAmount().toString()).isEqualTo("0.03202392");
+    assertThat(trades.getTrades().get(0).getOriginalAmount().toString()).isEqualTo("0.03202392");
     assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2017-05-04 17:10:10 GMT");
   }
@@ -95,10 +95,11 @@ public class DSXAdapterTest {
     Ticker ticker = DSXAdapters.adaptTicker(dsxTickerWrapper.getTicker(DSXAdapters.getPair(CurrencyPair.BTC_USD)), CurrencyPair.BTC_USD);
 
     assertThat(ticker.getLast().toString()).isEqualTo("101.773");
-    assertThat(ticker.getLow().toString()).isEqualTo("100.51");
+    assertThat(ticker.getLow().toString()).isEqualTo("91.14");
     assertThat(ticker.getHigh().toString()).isEqualTo("109.88");
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("16541.51969"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("1632898.2249"));
     assertThat(DateUtils.toUTCString(ticker.getTimestamp())).isEqualTo("2013-06-09 22:18:28 GMT");
+
   }
 
   @Test

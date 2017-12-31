@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.account;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.Map;
  * Account information is anything particular associated with the user's login
  * </p>
  */
-public final class AccountInfo {
+public final class AccountInfo implements Serializable {
 
   /**
    * The name on the account

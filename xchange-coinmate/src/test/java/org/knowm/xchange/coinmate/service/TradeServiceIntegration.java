@@ -15,6 +15,8 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
  * Integration tests for TradeService. For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain valid api
@@ -40,7 +42,7 @@ public class TradeServiceIntegration {
   }
 
   @Test
-  public void openOrdersTest() throws Exception {
+  public void openOrdersTestNoPair() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
     if (exchange == null) {
       return; // forces pass if not configuration is available
@@ -48,7 +50,29 @@ public class TradeServiceIntegration {
     assertNotNull(exchange);
     TradeService service = exchange.getTradeService();
     assertNotNull(service);
-    OpenOrders orders = service.getOpenOrders(service.createOpenOrdersParams());
+    OpenOrdersParams params = service.createOpenOrdersParams();
+    assertNotNull(params);
+    OpenOrders orders = service.getOpenOrders(params);
+    assertNotNull(orders);
+    System.out.println("Got " + orders.getOpenOrders().size() + " orders.");
+    for (LimitOrder order : orders.getOpenOrders()) {
+      System.out.println(order.toString());
+    }
+  }
+
+  @Test
+  public void openOrdersTestBTC_CZK() throws Exception {
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
+    if (exchange == null) {
+      return; // forces pass if not configuration is available
+    }
+    assertNotNull(exchange);
+    TradeService service = exchange.getTradeService();
+    assertNotNull(service);
+    OpenOrdersParamCurrencyPair params = (OpenOrdersParamCurrencyPair) service.createOpenOrdersParams();
+    assertNotNull(params);
+    params.setCurrencyPair(CurrencyPair.BTC_CZK);
+    OpenOrders orders = service.getOpenOrders(params);
     assertNotNull(orders);
     System.out.println("Got " + orders.getOpenOrders().size() + " orders.");
     for (LimitOrder order : orders.getOpenOrders()) {

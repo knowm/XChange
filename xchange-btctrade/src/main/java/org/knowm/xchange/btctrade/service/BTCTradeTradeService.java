@@ -15,7 +15,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -46,7 +45,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      OpenOrdersParams params) throws IOException {
     return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"));
   }
 
@@ -61,9 +60,9 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
 
     final BTCTradePlaceOrderResult result;
     if (limitOrder.getType() == OrderType.BID) {
-      result = buy(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      result = buy(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     } else {
-      result = sell(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      result = sell(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     }
     return BTCTradeAdapters.adaptPlaceOrderResult(result);
   }
@@ -76,11 +75,12 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
@@ -118,7 +118,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

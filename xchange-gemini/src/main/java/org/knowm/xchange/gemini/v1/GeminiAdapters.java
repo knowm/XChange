@@ -1,5 +1,14 @@
 package org.knowm.xchange.gemini.v1;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -15,18 +24,23 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
+import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
-import org.knowm.xchange.gemini.v1.dto.marketdata.*;
+import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
+import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendLevel;
+import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
+import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTicker;
+import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.Map.Entry;
 
 public final class GeminiAdapters {
 
@@ -259,8 +273,8 @@ public final class GeminiAdapters {
         status = OrderStatus.FILLED;
       }
 
-      LimitOrder limitOrder = new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()),
-              timestamp, order.getPrice(), order.getAvgExecutionPrice(), order.getExecutedAmount(), status);
+      LimitOrder limitOrder = new LimitOrder(orderType, order.getOriginalAmount(), currencyPair,
+          String.valueOf(order.getId()), timestamp, order.getPrice(), order.getAvgExecutionPrice(), order.getExecutedAmount(), status);
 
       limitOrders.add(limitOrder);
     }

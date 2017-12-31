@@ -36,7 +36,7 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBaseService {
 
     super(exchange);
     this.mercadoBitcoinAuthenticated = RestProxyFactory.createProxy(MercadoBitcoinAuthenticated.class,
-        exchange.getExchangeSpecification().getSslUri());
+        exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getMercadoBitcoinUserOrders(@Nonnull String pair, @Nullable String type,

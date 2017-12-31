@@ -1,43 +1,99 @@
 package org.knowm.xchange.cexio.dto.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.knowm.xchange.currency.Currency;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /*
+  examples
   {
-    "id": "3914981594",
+    "id": "1",
     "type": "sell",
-    "time": "2017-06-20T15:52:34.756Z",
-    "lastTxTime": "2017-06-20T15:52:34.756Z",
-    "lastTx": "3914981600",
+    "time": "2017-06-19T12:13:28.883Z",
+    "lastTxTime": "2017-06-19T12:25:09.900Z",
+    "lastTx": "3912741373",
     "pos": null,
     "status": "d",
-    "symbol1": "ETH",
-    "symbol2": "BTC",
-    "amount": "0.69170800",
-    "price": "0.13845",
+    "symbol1": "BTC",
+    "symbol2": "GBP",
+    "amount": "0.01000000",
+    "price": "2059.7258",
+    "tfacf": "1",
+    "fa:GBP": "0.00",
+    "ta:GBP": "1.62",
     "remains": "0.00000000",
-    "tfa:BTC": "0.00019116",
-    "tta:BTC": "0.09576697",
-    "a:BTC:cds": "0.09576697",
-    "a:ETH:cds": "0.69170800",
-    "f:BTC:cds": "0.00019116",
+    "tfa:GBP": "0.04",
+    "tta:GBP": "18.97",
+    "a:BTC:cds": "0.01000000",
+    "a:GBP:cds": "20.59",
+    "f:GBP:cds": "0.04",
     "tradingFeeMaker": "0",
     "tradingFeeTaker": "0.20",
-    "tradingFeeUserVolumeAmount": "181982011",
-    "orderId": "3914981594"
+    "tradingFeeUserVolumeAmount": "75631402",
+    "orderId": "3912722201"
   }
+  Avg. Execution price: 2059.0000
+
+  {
+    "id": "2",
+    "type": "sell",
+    "time": "2017-06-19T10:19:44.750Z",
+    "lastTxTime": "2017-06-19T10:19:44.750Z",
+    "lastTx": "3912541687",
+    "pos": null,
+    "status": "d",
+    "symbol1": "BTC",
+    "symbol2": "GBP",
+    "amount": "0.22000000",
+    "price": "1976.0001",
+    "tfacf": "1",
+    "remains": "0.00000000",
+    "tfa:GBP": "0.92",
+    "tta:GBP": "457.60",
+    "a:BTC:cds": "0.22000000",
+    "a:GBP:cds": "457.60",
+    "f:GBP:cds": "0.92",
+    "tradingFeeMaker": "0",
+    "tradingFeeTaker": "0.20",
+    "tradingFeeUserVolumeAmount": "41281402",
+    "orderId": "3912541681"
+  }
+  Avg. Execution price: 2080.0000
+
+  Example for a market order
+  {
+    "id": "5241152072",
+    "type": "buy",
+    "time": "2017-12-20T17:15:18.169Z",
+    "lastTxTime": "2017-12-20T17:15:18.169Z",
+    "lastTx": "5241152082",
+    "pos": null,
+    "status": "d",
+    "symbol1": "BCH",
+    "symbol2": "BTC",
+    "amount": "0.00000000",
+    "amount2": "0.50000000",
+    "remains": "0.00000000",
+    "tfa:BTC": "0.00114737",
+    "tta:BTC": "0.49885262",
+    "a:BCH:cds": "2.15022778",
+    "a:BTC:cds": "0.50000000",
+    "f:BTC:cds": "0.00114737",
+    "tradingFeeTaker": "0.23",
+    "tradingFeeUserVolumeAmount": "1315189290",
+    "orderId": "5241152072"
+  },
+
 
   status - "d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
   ta:USD/tta:USD – total amount in current currency (Maker/Taker)
@@ -59,21 +115,21 @@ public class CexIOArchivedOrder {
   public final String status;
   public final String symbol1;
   public final String symbol2;
-  public final String amount;
-  public final String price;
+  public final BigDecimal amount;
+  public final BigDecimal price;
   public final String remains;
   public final String tradingFeeMaker;
   public final String tradingFeeTaker;
   public final String tradingFeeUserVolumeAmount;
   public final String orderId;
-  public final String feeValue;
+  public final BigDecimal feeValue;
   public final String feeCcy;
 
   public CexIOArchivedOrder(String id, String type, String time, String lastTxTime,
-      String lastTx, String pos, String status, String symbol1,
-      String symbol2, String amount, String price, String remains,
-      String tradingFeeMaker, String tradingFeeTaker, String tradingFeeUserVolumeAmount,
-      String orderId, String feeValue, String feeCcy) {
+                            String lastTx, String pos, String status, String symbol1,
+                            String symbol2, BigDecimal amount, BigDecimal price, String remains,
+                            String tradingFeeMaker, String tradingFeeTaker, String tradingFeeUserVolumeAmount,
+                            String orderId, BigDecimal feeValue, String feeCcy) {
     this.id = id;
     this.type = type;
     this.time = time;
@@ -107,14 +163,40 @@ public class CexIOArchivedOrder {
         map.put(entry.getKey(), entry.getValue().asText());
       }
 
-      String feeValue = null;
+      BigDecimal feeValue = null;
       String feeCcy = null;
+      Pattern pattern = Pattern.compile("([af])\\:(.*?)\\:cds");
+
+      Map<String, BigDecimal> filled = new HashMap<>();
+
       for (String key : map.keySet()) {
-        if (key.startsWith("tfa:") || key.startsWith("mfa:")) {
-          feeValue = map.get(key);
-          feeCcy = key.split(":")[1];
+        Matcher matcher = pattern.matcher(key);
+        if (matcher.matches()) {
+          String feeOrAmount = matcher.group(1);
+
+          String ccy = matcher.group(2);
+          BigDecimal value = new BigDecimal(map.get(key));
+
+          if (feeOrAmount.equals("a")) {
+            filled.put(ccy, value);
+          } else if (feeOrAmount.equals("f")) {
+            feeValue = value;
+            feeCcy = ccy;
+          } else {
+            throw new IllegalStateException("Cannot parse " + key);
+          }
         }
       }
+
+      String counter = map.get("symbol2");
+      String base = map.get("symbol1");
+
+      int scale = 8;//todo: check if this is correct for all
+      BigDecimal price = filled.get(counter).divide(filled.get(base), scale, BigDecimal.ROUND_HALF_UP);
+
+      BigDecimal amount = new BigDecimal(map.get("amount"));
+      if(amount.compareTo(BigDecimal.ZERO) == 0)
+        amount = new BigDecimal(map.get("amount2"));//madness - i think the 'amount' field changes name for market orders
 
       return new CexIOArchivedOrder(
           map.get("id"),
@@ -124,10 +206,10 @@ public class CexIOArchivedOrder {
           map.get("lastTx"),
           map.get("pos"),
           map.get("status"),
-          map.get("symbol1"),
-          map.get("symbol2"),
-          map.get("amount"),
-          map.get("price"),
+          base,
+          counter,
+          amount,
+          price,
           map.get("remains"),
           map.get("tradingFeeMaker"),
           map.get("tradingFeeTaker"),
@@ -136,16 +218,6 @@ public class CexIOArchivedOrder {
           feeValue,
           feeCcy
       );
-    }
-  }
-
-  public static class Fee {
-    public final Currency currency;
-    public final BigDecimal amount;
-
-    public Fee(Currency currency, BigDecimal amount) {
-      this.currency = currency;
-      this.amount = amount;
     }
   }
 

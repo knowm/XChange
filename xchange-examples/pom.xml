@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.2.3-SNAPSHOT</version>
+        <version>4.3.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-examples</artifactId>
@@ -50,10 +51,16 @@
             <artifactId>xchange-openexchangerates</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange BTC-E exchange support -->
+        <!-- XChange Wex exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-btce</artifactId>
+            <artifactId>xchange-wex</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- XChange Binance exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-binance</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- XChange Bitstamp exchange support -->
@@ -92,12 +99,6 @@
             <artifactId>xchange-bitcoinde</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange BTC China support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-btcchina</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange Blockchain support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -114,6 +115,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-bitfinex</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- XChange Bitfmex support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-bitmex</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- XChange Bitcoinium support -->
@@ -144,12 +151,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-cexio</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange Bter exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-bter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- XChange ANX exchange support -->
@@ -237,18 +238,6 @@
             <artifactId>xchange-bitso</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange BTC38 exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-btc38</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange Jubi exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-jubi</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- XChange Taurus exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -287,11 +276,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-huobi</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>xchange-bitmarket</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -308,11 +292,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-vircurex</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-chbtc</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -340,6 +319,46 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-cryptopia</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-btcturk</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-paribu</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-liqui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-koineks</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-gateio</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-koinim</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-acx</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-bitflyer</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
