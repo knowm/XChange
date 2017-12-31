@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitstamp.dto.BitstampException;
+import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
@@ -81,5 +82,11 @@ public interface BitstampAuthenticatedV2 {
   BitstampWithdrawal withdrawEther(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address) throws BitstampException, IOException;
+
+  @POST
+  @Path("transfer-to-main/")
+  BitstampTransferBalanceResponse transferSubAccountBalanceToMain(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("currency") String currency, @FormParam("subAccount") String subAccount) throws BitstampException, IOException;
 
 }

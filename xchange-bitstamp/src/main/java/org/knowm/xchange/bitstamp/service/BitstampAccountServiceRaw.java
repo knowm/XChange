@@ -9,6 +9,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
 import org.knowm.xchange.bitstamp.BitstampV2;
+import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import org.knowm.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
@@ -87,7 +88,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     return checkAndReturnWithdrawal(response);
   }
-  
+
   public BitstampWithdrawal withdrawBchFunds(BigDecimal amount, String address) throws IOException {
     BitstampWithdrawal response = bitstampAuthenticatedV2.bchWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
     return checkAndReturnWithdrawal(response);
@@ -165,5 +166,9 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
       String sort) throws IOException {
     return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions,
         offset, sort);
+  }
+
+  public BitstampTransferBalanceResponse transferSubAccountBalanceToMain(BigDecimal amount, String currency, String subAccount) throws IOException {
+    return bitstampAuthenticatedV2.transferSubAccountBalanceToMain(apiKey, signatureCreator, nonceFactory, amount, currency, subAccount);
   }
 }
