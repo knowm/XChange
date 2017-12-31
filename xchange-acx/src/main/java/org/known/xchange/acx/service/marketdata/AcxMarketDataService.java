@@ -8,12 +8,14 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.known.xchange.acx.AcxApi;
 import org.known.xchange.acx.AcxMapper;
 import org.known.xchange.acx.dto.AcxTrade;
-import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
 import org.known.xchange.acx.dto.marketdata.AcxMarket;
+import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
 import org.known.xchange.acx.utils.ArgUtils;
 
 import java.io.IOException;
 import java.util.List;
+
+import static org.known.xchange.acx.utils.AcxUtils.getAcxMarket;
 
 public class AcxMarketDataService implements MarketDataService {
     public static final int MAX_LIMIT = 200;
@@ -46,8 +48,4 @@ public class AcxMarketDataService implements MarketDataService {
         return mapper.mapTrades(currencyPair, trades);
     }
 
-    private static String getAcxMarket(CurrencyPair currencyPair) {
-        return currencyPair.base.getCurrencyCode().toLowerCase() +
-                currencyPair.counter.getCurrencyCode().toLowerCase();
-    }
 }
