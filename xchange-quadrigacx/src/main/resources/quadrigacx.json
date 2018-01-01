@@ -1,16 +1,20 @@
 {
   "currency_pairs": {
     "BTC/CAD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.00000001
     },
     "BTC/USD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.00500000
     },
     "ETH/BTC": {
-      "price_scale": 2
+      "price_scale": 8,
+      "min_amount": 0.00000100
     },
     "ETH/CAD": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.00000001
     }
   },
   "currencies": {
