@@ -42,9 +42,7 @@ public interface TradeService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
-   * @deprecated Use {@link #getOpenOrders(OpenOrdersParams)} instead. Will be removed in the future release.
    */
-  @Deprecated
   OpenOrders getOpenOrders() throws IOException;
 
   /**
