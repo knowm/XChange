@@ -239,6 +239,9 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair BCC_USD = new CurrencyPair(Currency.BCC, Currency.USD);
   public static final CurrencyPair BCC_BTC = new CurrencyPair(Currency.BCC, Currency.BTC);
 
+  public static final CurrencyPair BAT_USD = new CurrencyPair(Currency.BAT, Currency.USD);
+  public static final CurrencyPair BAT_BTC = new CurrencyPair(Currency.BAT, Currency.BTC);
+
   // Tether Pairs
   public static final CurrencyPair BTC_USDT = new CurrencyPair(Currency.BTC, Currency.USDT);
 
