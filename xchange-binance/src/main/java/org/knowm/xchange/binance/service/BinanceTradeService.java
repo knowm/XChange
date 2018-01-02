@@ -65,7 +65,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   public String placeMarketOrder(MarketOrder mo) throws IOException {
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     BinanceNewOrder newOrder = super.newOrder(BinanceAdapters.toSymbol(mo.getCurrencyPair()), BinanceAdapters.convert(mo.getType())
-        , OrderType.MARKET, TimeInForce.GTC, mo.getOriginalAmount(), null, null, null, null, recvWindow, getTimestamp());
+        , OrderType.MARKET, null, mo.getOriginalAmount(), null, null, null, null, recvWindow, getTimestamp());
     return Long.toString(newOrder.orderId);
   }
 

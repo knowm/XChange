@@ -21,6 +21,7 @@ import org.known.xchange.acx.dto.marketdata.AcxOrder;
 import org.known.xchange.acx.utils.ArgUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
@@ -59,12 +60,18 @@ public class AcxTradeService implements TradeService {
     }
 
     @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-        throw new NotYetImplementedForExchangeException();
+    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+        long tonce = System.currentTimeMillis();
+        String market = getAcxMarket(limitOrder.getCurrencyPair());
+        String side = mapper.getOrderType(limitOrder.getType());
+        String volume = limitOrder.getOriginalAmount().setScale(2, BigDecimal.ROUND_DOWN).toPlainString();
+        String price = limitOrder.getLimitPrice().setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
+        AcxOrder order = api.createOrder(accessKey, tonce, market, side, volume, price, "limit", signatureCreator);
+        return order.id;
     }
 
     @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    public String placeMarketOrder(MarketOrder marketOrder) {
         throw new NotYetImplementedForExchangeException();
     }
 
@@ -76,12 +83,12 @@ public class AcxTradeService implements TradeService {
     }
 
     @Override
-    public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    public boolean cancelOrder(CancelOrderParams orderParams) {
         throw new NotYetImplementedForExchangeException();
     }
 
     @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    public UserTrades getTradeHistory(TradeHistoryParams params) {
         throw new NotYetImplementedForExchangeException();
     }
 
