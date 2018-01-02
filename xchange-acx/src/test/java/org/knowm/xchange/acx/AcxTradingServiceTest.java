@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.mockito.Matchers.*;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -61,6 +62,21 @@ public class AcxTradingServiceTest {
         assertEquals(new BigDecimal("0.01"), openOrders.get(0).getOriginalAmount());
         assertEquals(new BigDecimal("0.00"), openOrders.get(0).getCumulativeAmount());
     }
+
+    @Test
+    public void testCreateOrder() throws IOException {
+        when(api.createOrder(eq(accessKey), anyLong(), eq("btcaud"), eq("buy"), any(), any(), any(), any()))
+                .thenReturn(read("/trade/create_order.json", AcxOrder.class));
+
+        LimitOrder order = new LimitOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_AUD)
+                .limitPrice(new BigDecimal(10.1234))
+                .originalAmount(new BigDecimal(0.1))
+                .build();
+        String id = service.placeLimitOrder(order);
+
+        assertEquals("199918493", id);
+    }
+
 
     @Test
     public void testCancelOrder() throws IOException {

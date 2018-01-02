@@ -38,7 +38,7 @@ ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecific
 exSpec.setUserName("34387");
 exSpec.setApiKey("a4SDmpl9s6xWJS5fkKRT6yn41vXuY0AM");
 exSpec.setSecretKey("sisJixU6Xd0d1yr6w02EHCb9UwYzTNuj");
-Exchange bitstamp ExchangeFactory.INSTANCE.createExchange(exSpec);
+Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(exSpec);
 
 // Get the account information
 AccountService accountService = bitstamp.getAccountService();
