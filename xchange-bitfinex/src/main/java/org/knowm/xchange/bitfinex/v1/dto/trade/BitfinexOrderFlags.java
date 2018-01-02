@@ -28,5 +28,11 @@ public enum BitfinexOrderFlags implements IOrderFlags {
   /**
    * This type of order a margin order that is leveraged in line with bitfinex current leverage rates.
    */
-  MARGIN
+  MARGIN,
+
+  /**
+   * Trailing stop order
+   */
+  TRAILING_STOP
+
 }
