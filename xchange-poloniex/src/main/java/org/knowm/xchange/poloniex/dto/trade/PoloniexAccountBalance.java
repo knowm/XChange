@@ -21,15 +21,15 @@ public class PoloniexAccountBalance {
   }
 
   public Map<String, BigDecimal> getExchangeBalance() {
-    return Collections.unmodifiableMap(exchange);
+    return exchange != null ? Collections.unmodifiableMap(exchange) : Collections.emptyMap();
   }
 
   public Map<String, BigDecimal> getMarginBalance() {
-    return Collections.unmodifiableMap(margin);
+    return margin != null ? Collections.unmodifiableMap(margin) : Collections.emptyMap();
   }
 
   public Map<String, BigDecimal> getLendingBalance() {
-    return Collections.unmodifiableMap(lending);
+    return lending != null ? Collections.unmodifiableMap(lending) : Collections.emptyMap();
   }
 
   @Override
