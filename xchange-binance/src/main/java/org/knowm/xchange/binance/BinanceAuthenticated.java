@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
 import org.knowm.xchange.binance.dto.account.DepositList;
 import org.knowm.xchange.binance.dto.account.WithdrawList;
 import org.knowm.xchange.binance.dto.account.WithdrawRequest;
@@ -302,6 +303,25 @@ public interface BinanceAuthenticated extends Binance {
   WithdrawList withdrawHistory(@QueryParam("asset") String asset
       , @QueryParam("startTime") Long startTime
       , @QueryParam("endTime") Long endTime
+      , @QueryParam("recvWindow") Long recvWindow
+      , @QueryParam("timestamp") long timestamp
+      , @HeaderParam(X_MBX_APIKEY) String apiKey
+      , @QueryParam(SIGNATURE) ParamsDigest signature) throws IOException, BinanceException;
+
+  @GET
+  @Path("wapi/v3/depositAddress.html")
+  /**
+   * Fetch deposit address.
+   * @param asset
+   * @param recvWindow
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  DepositAddress depositAddress(@QueryParam("asset") String asset
       , @QueryParam("recvWindow") Long recvWindow
       , @QueryParam("timestamp") long timestamp
       , @HeaderParam(X_MBX_APIKEY) String apiKey
