@@ -83,6 +83,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         type = "litecoin";
       } else if (currency.equalsIgnoreCase("ETH")) {
         type = "ethereum";
+      } else if (currency.equalsIgnoreCase("IOT")) {
+    	type = "iota";
       }
 
       BitfinexDepositAddressResponse requestDepositAddressResponse = bitfinex.requestDeposit(apiKey, payloadCreator, signatureCreator,
