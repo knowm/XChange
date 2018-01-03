@@ -12,6 +12,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -329,7 +330,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   @PUT
   @Path("/api/v1/userDataStream?listenKey={listenKey}")
-  Map keepAliveUserDataStream(@FormParam("listenKey") String listenKey, @HeaderParam(X_MBX_APIKEY) String apiKey) throws IOException, BinanceException;
+  Map<?, ?> keepAliveUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey) throws IOException, BinanceException;
 
   /**
    * Closes the websocket authenticated connection.
@@ -342,5 +343,5 @@ public interface BinanceAuthenticated extends Binance {
    */
   @DELETE
   @Path("/api/v1/userDataStream?listenKey={listenKey}")
-  Map closeUserDataStream(@FormParam("listenKey") String listenKey, @HeaderParam(X_MBX_APIKEY) String apiKey) throws IOException, BinanceException;
+  Map<?, ?> closeUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey) throws IOException, BinanceException;
 }
