@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -82,9 +84,10 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... args)
-      throws IOException {
-    throw new NotAvailableFromExchangeException();
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+	  Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+	  DepositAddress depositAddress = binance.depositAddress(BinanceAdapters.toSymbol(currency), recvWindow, System.currentTimeMillis(), apiKey, super.signatureCreator);
+	  return depositAddress.address;
   }
 
   @Override
