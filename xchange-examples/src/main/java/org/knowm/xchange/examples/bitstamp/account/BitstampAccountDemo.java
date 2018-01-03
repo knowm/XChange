@@ -68,7 +68,7 @@ public class BitstampAccountDemo {
       System.out.println(unconfirmedDeposit);
     }
 
-    final List<WithdrawalRequest> withdrawalRequests = accountService.getWithdrawalRequests();
+    final List<WithdrawalRequest> withdrawalRequests = accountService.getWithdrawalRequests(50000000l);
     System.out.println("Withdrawal requests:");
     for (WithdrawalRequest unconfirmedDeposit : withdrawalRequests) {
       System.out.println(unconfirmedDeposit);
