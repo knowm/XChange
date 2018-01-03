@@ -36,6 +36,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency AWG = createCurrency("AWG", "Aruban Florin", null);
   public static final Currency AZN = createCurrency("AZN", "Azerbaijani Manat", null);
   public static final Currency BAM = createCurrency("BAM", "Bosnia-Herzegovina Convertible Mark", null);
+  public static final Currency BAT = createCurrency("BAT", "Basic Attention Token", null);
   public static final Currency BBD = createCurrency("BBD", "Barbadian Dollar", null);
   public static final Currency BC = createCurrency("BC", "BlackCoin", null, "BLK");
   public static final Currency BCC = createCurrency("BCC", "BitConnect", null);
