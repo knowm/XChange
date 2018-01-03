@@ -15,10 +15,24 @@
     "ETH/CAD": {
       "price_scale": 2,
       "min_amount": 0.00000001
+    },
+    "BCH/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00000001
+    },
+    "BTG/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00000001
     }
   },
   "currencies": {
     "BTC": {
+      "scale": 8
+    },
+    "BCH": {
+      "scale": 8
+    },
+    "BTG": {
       "scale": 8
     },
     "ETH": {
