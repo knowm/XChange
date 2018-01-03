@@ -33,6 +33,10 @@ public enum BitfinexOrderFlags implements IOrderFlags {
   /**
    * Trailing stop order
    */
-  TRAILING_STOP
+  TRAILING_STOP,
 
+  /**
+   * Stop order
+   */
+  STOP
 }
