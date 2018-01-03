@@ -73,6 +73,9 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
       }
       else if (limitOrder.hasFlag(BitfinexOrderFlags.TRAILING_STOP)) {
         newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_TRAILING_STOP);
+      }
+      else if (limitOrder.hasFlag(BitfinexOrderFlags.STOP)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_STOP);
       } else {
         newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_LIMIT);
       }
@@ -82,6 +85,9 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
       }
       else if (limitOrder.hasFlag(BitfinexOrderFlags.TRAILING_STOP)) {
         newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.TRAILING_STOP);
+      }
+      else if (limitOrder.hasFlag(BitfinexOrderFlags.STOP)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.STOP);
       } else {
         newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
       }
