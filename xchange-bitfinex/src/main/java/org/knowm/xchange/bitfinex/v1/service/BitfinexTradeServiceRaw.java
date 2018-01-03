@@ -52,6 +52,17 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
     }
   }
 
+  public BitfinexOrderStatusResponse[] getBitfinexOrdersHistory(long limit) throws IOException {
+
+	  try {
+		BitfinexOrderStatusResponse[] orders = bitfinex.ordersHist(apiKey, payloadCreator, signatureCreator,
+				  new BitfinexOrdersHistoryRequest(String.valueOf(exchange.getNonceFactory().createValue()), limit));
+		  return orders;
+	  } catch (BitfinexException e) {
+		  throw new ExchangeException(e);
+	  }
+  }
+
   public BitfinexOfferStatusResponse[] getBitfinexOpenOffers() throws IOException {
 
     try {
