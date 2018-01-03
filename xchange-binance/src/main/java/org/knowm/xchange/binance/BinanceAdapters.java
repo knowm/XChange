@@ -1,6 +1,7 @@
 package org.knowm.xchange.binance;
 
 import org.knowm.xchange.binance.dto.trade.OrderSide;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 
@@ -10,7 +11,17 @@ public class BinanceAdapters {
   }
 
   public static String toSymbol(CurrencyPair pair) {
+	  if (pair.equals(CurrencyPair.IOTA_BTC)) {
+		  return "IOTABTC";
+	  }
     return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+  }
+
+  public static String toSymbol(Currency currency) {
+	  if (Currency.IOT.equals(currency)) {
+		  return "IOTA";
+	  }
+	  return currency.getSymbol();
   }
 
   public static OrderType convert(OrderSide side) {
