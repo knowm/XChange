@@ -8,6 +8,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Date;
 import java.util.Objects;
 
@@ -37,17 +38,18 @@ public class UserTrade extends Trade {
    * @param type The trade type (BID side or ASK side)
    * @param originalAmount The depth of this trade
    * @param currencyPair The exchange identifier (e.g. "BTC/USD")
-   * @param price The price (either the bid or the ask)
+   * @param originalAmountPrice The price (either the bid or the ask), which was paid for all original amount
    * @param timestamp The timestamp of the trade
    * @param id The id of the trade
    * @param orderId The id of the order responsible for execution of this trade
    * @param feeAmount The fee that was charged by the exchange for this trade
    * @param feeCurrency The symbol of the currency in which the fee was charged
    */
-  public UserTrade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId,
+  public UserTrade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal originalAmountPrice, Date timestamp, String id, String orderId,
       BigDecimal feeAmount, Currency feeCurrency) {
 
-    super(type, originalAmount, currencyPair, price, timestamp, id);
+    super(type, originalAmount, currencyPair,
+            originalAmountPrice.divide(originalAmount, MathContext.DECIMAL32), timestamp, id);
 
     this.orderId = orderId;
     this.feeAmount = feeAmount;
