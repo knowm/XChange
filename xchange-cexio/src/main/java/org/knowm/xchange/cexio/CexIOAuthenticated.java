@@ -14,10 +14,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
 import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.CexioCryptoAddressRequest;
 import org.knowm.xchange.cexio.dto.CexioSingleIdRequest;
 import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
 import org.knowm.xchange.cexio.dto.PlaceOrderRequest;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
+import org.knowm.xchange.cexio.dto.account.CexIOCryptoAddress;
 import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
 import org.knowm.xchange.cexio.dto.account.GHashIOWorkers;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
@@ -69,4 +71,7 @@ public interface CexIOAuthenticated extends CexIO {
   @Path("get_order_tx/")
   Map getOrderTransactions(@HeaderParam("signature") ParamsDigest signer, CexioSingleIdRequest request) throws IOException;
 
+  @POST
+  @Path("get_address")
+  CexIOCryptoAddress getCryptoAddress(@HeaderParam("signature") ParamsDigest signer, CexioCryptoAddressRequest request) throws IOException;
 }
