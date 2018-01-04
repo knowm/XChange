@@ -152,7 +152,8 @@
         <module>xchange-vircurex</module>
         <module>xchange-yobit</module>
         <module>xchange-wex</module>
-    </modules>
+    <module>xchange-bitz</module>
+  </modules>
 
     <repositories>
         <repository>
