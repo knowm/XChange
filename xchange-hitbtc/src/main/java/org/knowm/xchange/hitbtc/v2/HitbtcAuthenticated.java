@@ -104,7 +104,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @GET
   @Path("history/trades")
   List<HitbtcOwnTrade> getHitbtcTrades() throws IOException, HitbtcException;
-
+  
   //TODO add query params
 
   /**
@@ -117,6 +117,18 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @GET
   @Path("history/order")
   List<HitbtcOrder> getHitbtcRecentOrders() throws IOException, HitbtcException;
+
+  /**
+   * Get an old order. The returning collection contains, at most, 1 element.
+   *
+   * @return
+   * @throws IOException
+   * @throws HitbtcException
+   */
+  @GET
+  @Path("history/order")
+  List<HitbtcOrder> getHitbtcOrder(@PathParam("symbol") String symbol, 
+                                   @PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
 
   @GET
   @Path("/history/order/{id}/trades")
