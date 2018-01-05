@@ -1,6 +1,7 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -110,8 +111,19 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
+    if (orderIds == null || orderIds.length == 0){
+      return new ArrayList<>();
+    }
 
-    throw new NotYetImplementedForExchangeException();
+    Collection<Order> orders = new ArrayList<>();
+    for (String orderId : orderIds) {
+      HitbtcOrder rawOrder = getHitbtcOrder("BTCUSD", orderId);
+      
+      if (rawOrder != null)
+        orders.add(HitbtcAdapters.adaptOrder(rawOrder));
+    }
+    
+    return orders;
   }
 
   @Override
