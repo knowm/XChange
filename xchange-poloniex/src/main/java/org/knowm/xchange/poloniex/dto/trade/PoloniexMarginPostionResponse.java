@@ -9,13 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
-@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
                        "amount",
@@ -43,4 +36,49 @@ public class PoloniexMarginPostionResponse {
   private String type;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public BigDecimal getTotal() {
+    return total;
+  }
+
+  public BigDecimal getBasePrice() {
+    return basePrice;
+  }
+
+  public BigDecimal getLiquidationPrice() {
+    return liquidationPrice;
+  }
+
+  public BigDecimal getPl() {
+    return pl;
+  }
+
+  public BigDecimal getLendingFees() {
+    return lendingFees;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  @Override
+  public String toString() {
+    return "PoloniexMarginPostionResponse{" +
+        "amount=" + amount +
+        ", total=" + total +
+        ", basePrice=" + basePrice +
+        ", liquidationPrice=" + liquidationPrice +
+        ", pl=" + pl +
+        ", lendingFees=" + lendingFees +
+        ", type='" + type + '\'' +
+        '}';
+  }
 }

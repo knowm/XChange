@@ -2,7 +2,6 @@ package org.known.xchange.acx;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -22,6 +21,7 @@ import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
 import org.known.xchange.acx.dto.marketdata.AcxTicker;
 import org.known.xchange.acx.dto.marketdata.AcxMarket;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +30,7 @@ public class AcxMapper {
         AcxTicker ticker = tickerData.ticker;
         return new Ticker.Builder()
                 .currencyPair(currencyPair)
-                .timestamp(tickerData.at)
+                .timestamp(new Date(tickerData.at * 1000))
                 .ask(ticker.sell)
                 .bid(ticker.buy)
                 .open(ticker.open)
@@ -43,18 +43,19 @@ public class AcxMapper {
 
     public OrderBook mapOrderBook(CurrencyPair currencyPair, AcxOrderBook orderBook) {
         return new OrderBook(null,
-                mapLimitOrders(currencyPair, OrderType.ASK, orderBook.asks),
-                mapLimitOrders(currencyPair, OrderType.BID, orderBook.bids));
+                mapOrders(currencyPair, orderBook.asks),
+                mapOrders(currencyPair, orderBook.bids));
     }
 
-    private List<LimitOrder> mapLimitOrders(CurrencyPair currencyPair, OrderType orderType, List<AcxOrder> orders) {
+    public List<LimitOrder> mapOrders(CurrencyPair currencyPair, List<AcxOrder> orders) {
         return orders.stream()
-                .map(o -> mapOrder(orderType, currencyPair, o))
+                .map(o -> mapOrder(currencyPair, o))
                 .collect(Collectors.toList());
     }
 
-    private LimitOrder mapOrder(OrderType orderType, CurrencyPair currencyPair, AcxOrder order) {
-        return new LimitOrder.Builder(orderType, currencyPair)
+    private LimitOrder mapOrder(CurrencyPair currencyPair, AcxOrder order) {
+        OrderType type = mapOrderType(order);
+        return new LimitOrder.Builder(type, currencyPair)
                 .id(order.id)
                 .limitPrice(order.price)
                 .averagePrice(order.avgPrice)
@@ -64,6 +65,16 @@ public class AcxMapper {
                 .cumulativeAmount(order.executedVolume)
                 .orderStatus(mapOrderStatus(order.state))
                 .build();
+    }
+
+    private OrderType mapOrderType(AcxOrder order) {
+        switch (order.side) {
+            case "sell":
+                return OrderType.ASK;
+            case "buy":
+                return OrderType.BID;
+        }
+        return null;
     }
 
     private OrderStatus mapOrderStatus(String state) {
@@ -119,5 +130,15 @@ public class AcxMapper {
                 acc.balance,
                 acc.locked
         );
+    }
+
+    public String getOrderType(OrderType type) {
+        switch (type) {
+            case BID:
+                return "buy";
+            case ASK:
+                return "sell";
+        }
+        throw new IllegalArgumentException("Unknown order type: " + type);
     }
 }

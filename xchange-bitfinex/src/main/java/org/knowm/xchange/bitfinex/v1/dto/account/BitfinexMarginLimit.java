@@ -89,4 +89,13 @@ public class BitfinexMarginLimit {
     this.additionalProperties.put(name, value);
   }
 
+  @Override
+  public String toString() {
+    return "BitfinexMarginLimit{" +
+        "onPair='" + onPair + '\'' +
+        ", initialMargin=" + initialMargin +
+        ", marginRequirement=" + marginRequirement +
+        ", tradableBalance=" + tradableBalance +
+        '}';
+  }
 }

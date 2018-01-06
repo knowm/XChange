@@ -57,8 +57,6 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
 
     CoinMarketCapTicker cmcB = tickers.get(b.getCurrencyCode());
 
-    CoinMarketCapTicker BTC = tickers.get("BTC");
-
     CurrencyPair pair;
     BigDecimal price;
     BigDecimal volume;
@@ -85,19 +83,17 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
       volume = null;
     }
 
-    Ticker.Builder builder = new Ticker.Builder();
-    builder
-        .currencyPair(pair)
-        .timestamp(cmcB.getLastUpdated())
-        .last(price)
-        .bid(price)
-        .ask(price)
-        .high(price)
-        .low(price)
-        .vwap(price)
-        .volume(volume);
-
-    return builder.build();
+    return new Ticker.Builder()
+            .currencyPair(pair)
+            .timestamp(cmcB.getLastUpdated())
+            .last(price)
+            .bid(price)
+            .ask(price)
+            .high(price)
+            .low(price)
+            .vwap(price)
+            .volume(volume)
+            .build();
   }
 
   @Override
@@ -111,20 +107,18 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
   }
 
   public List<Currency> getCurrencies() {
-    List<Currency> currencies = new ArrayList<Currency>();
-    try {
-      List<CoinMarketCapCurrency> cmcCurrencies = getCoinMarketCapCurrencies();
-      for (CoinMarketCapCurrency cmcCurrency : cmcCurrencies) {
-        currencies.add(cmcCurrency.getCurrency());
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
+    List<Currency> currencies = new ArrayList<>();
+    List<CoinMarketCapCurrency> cmcCurrencies = getCoinMarketCapCurrencies();
+
+    for (CoinMarketCapCurrency cmcCurrency : cmcCurrencies) {
+      currencies.add(cmcCurrency.getCurrency());
     }
+
     return currencies;
   }
 
   @Override
-  public List<CoinMarketCapCurrency> getCoinMarketCapCurrencies() throws IOException {
+  public List<CoinMarketCapCurrency> getCoinMarketCapCurrencies() {
     Collection<CoinMarketCapTicker> tickers = this.tickers.values();
     List<CoinMarketCapCurrency> currencies = new ArrayList<>();
     for (CoinMarketCapTicker ticker : tickers)

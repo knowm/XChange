@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.Assert;
 import org.knowm.xchange.utils.DateUtils;
 
 /**
@@ -170,7 +171,7 @@ public final class Ticker implements Serializable {
     }
 
     public Builder currencyPair(CurrencyPair currencyPair) {
-
+      Assert.notNull(currencyPair, "Null currencyPair");
       this.currencyPair = currencyPair;
       return this;
     }
