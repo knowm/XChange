@@ -38,6 +38,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrdersHistoryRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastFundingTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
@@ -101,6 +102,11 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @Path("orders")
   BitfinexOrderStatusResponse[] activeOrders(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexNonceOnlyRequest nonceOnlyRequest) throws IOException, BitfinexException;
+
+  @POST
+  @Path("orders/hist")
+  BitfinexOrderStatusResponse[] ordersHist(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+		  @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexOrdersHistoryRequest ordersHistoryRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("offers")

@@ -58,10 +58,20 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
 
     return hitbtc.getHitbtcTrades();
   }
+  
+  public HitbtcOrder getHitbtcOrder(String symbol, String orderId) throws IOException{
+    List<HitbtcOrder> orders = hitbtc.getHitbtcOrder(symbol, orderId);
+    
+    if (orders == null || orders.size() == 0){
+      return null;
+    } else {
+      return orders.iterator().next();
+    }
+  }
+  
 
   public List<HitbtcBalance> getTradingBalance() throws IOException {
 
     return hitbtc.getTradingBalance();
   }
-
 }

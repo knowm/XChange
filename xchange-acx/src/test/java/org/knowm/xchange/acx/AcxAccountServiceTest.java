@@ -37,7 +37,7 @@ public class AcxAccountServiceTest {
     }
 
     @Test
-    public void test() throws IOException {
+    public void testGetAccountInfo() throws IOException {
         when(api.getAccountInfo(eq(accessKey), anyLong(), any()))
                 .thenReturn(read("/account/account_info.json", AcxAccountInfo.class));
 

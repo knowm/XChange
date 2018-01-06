@@ -1,8 +1,8 @@
 package org.knowm.xchange.bitfinex.v1.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 public class BitfinexNewOrderRequest {
 
@@ -36,7 +36,16 @@ public class BitfinexNewOrderRequest {
   @JsonProperty("is_postonly")
   protected boolean is_postonly = false;
 
-  public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type) {
+  @JsonProperty("ocoorder")
+  protected boolean ocoorder = false;
+
+  @JsonProperty("buy_price_oco")
+  protected String buy_price_oco;
+
+  @JsonProperty("sell_price_oco")
+  protected String sell_price_oco;
+
+  public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type, BigDecimal ocoAmount) {
 
     this.request = "/v1/order/new";
     this.nonce = nonce;
@@ -46,12 +55,21 @@ public class BitfinexNewOrderRequest {
     this.exchange = exchange;
     this.side = side;
     this.type = type;
+    if (ocoAmount != null) {
+      ocoorder = true;
+      if (side.equals("sell")) {
+        sell_price_oco = ocoAmount.toPlainString();
+      }
+      else {
+        buy_price_oco = ocoAmount.toPlainString();
+      }
+    }
   }
 
   public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type,
-      boolean isHidden, boolean isPostOnly) {
+                                 boolean isHidden, boolean isPostOnly, BigDecimal ocoAmount) {
 
-    this(nonce, symbol, amount, price, exchange, side, type);
+    this(nonce, symbol, amount, price, exchange, side, type, ocoAmount);
     this.is_hidden = isHidden;
     this.is_postonly = isPostOnly;
   }
@@ -100,5 +118,4 @@ public class BitfinexNewOrderRequest {
 
     return price.toPlainString();
   }
-
 }

@@ -15,6 +15,21 @@
       "max_amount": 1000000.00,
       "price_scale": 2
     },
+    "BCH/USD": {
+      "min_amount": 0.01,
+      "max_amount": 1000000.00,
+      "price_scale": 2
+    },
+    "BCH/EUR": {
+      "min_amount": 0.01,
+      "max_amount": 1000000.00,
+      "price_scale": 2
+    },
+    "BCH/BTC": {
+      "min_amount": 0.01000,
+      "max_amount": 1000000.00000,
+      "price_scale": 5
+    },
     "BTC/EUR": {
       "min_amount": 0.01,
       "max_amount": 10000.00,
@@ -57,6 +72,9 @@
       "scale": 2
     },
     "BTC": {
+      "scale": 8
+    },
+    "BCH": {
       "scale": 8
     },
     "ETH": {
