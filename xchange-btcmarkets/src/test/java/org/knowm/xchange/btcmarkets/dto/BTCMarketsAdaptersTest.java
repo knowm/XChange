@@ -70,9 +70,9 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
 
     final Ticker ticker = BTCMarketsAdapters.adaptTicker(CurrencyPair.BTC_AUD, response);
 
-    assertThat(ticker.getBid()).isEqualTo("137.00000000");
-    assertThat(ticker.getAsk()).isEqualTo("140.00000000");
-    assertThat(ticker.getLast()).isEqualTo("140.00000000");
+    assertThat(ticker.getBid()).isEqualTo("137.00");
+    assertThat(ticker.getAsk()).isEqualTo("140.00");
+    assertThat(ticker.getLast()).isEqualTo("140.00");
     assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
     assertThat(ticker.getTimestamp().getTime()).isEqualTo(1378878117000L);
   }
