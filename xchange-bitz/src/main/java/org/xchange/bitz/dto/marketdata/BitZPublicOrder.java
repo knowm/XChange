@@ -34,19 +34,19 @@ public class BitZPublicOrder {
 
   static class BitZOrderDeserializer extends JsonDeserializer<BitZPublicOrder> {
 
-	@Override
-	public BitZPublicOrder deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-		ObjectCodec oc = p.getCodec();
-		JsonNode node = oc.readTree(p);
-		
-		if (node.isArray()) {
-	        BigDecimal price = new BigDecimal(node.path(0).asText());
-	        BigDecimal volume = new BigDecimal(node.path(1).asText());
-
-	        return new BitZPublicOrder(price, volume);
-	    }
-	
-		return null;
-	}
+  	@Override
+  	public BitZPublicOrder deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  		ObjectCodec oc = p.getCodec();
+  		JsonNode node = oc.readTree(p);
+  		
+  		if (node.isArray()) {
+  	        BigDecimal price = new BigDecimal(node.path(0).asText());
+  	        BigDecimal volume = new BigDecimal(node.path(1).asText());
+  
+  	        return new BitZPublicOrder(price, volume);
+  	    }
+  	
+  		return null;
+  	}
   }
 }

@@ -10,5 +10,9 @@ public class BitZUtils {
 				currency.base.getCurrencyCode().toLowerCase(), 
 				currency.counter.getCurrencyCode().toLowerCase());
 	}
-
+	
+	// TODO: Add Test
+	public static String toNonceString(long value) {
+	  return String.format("%06d", Math.abs(value) % 100000);
+	}
 }
