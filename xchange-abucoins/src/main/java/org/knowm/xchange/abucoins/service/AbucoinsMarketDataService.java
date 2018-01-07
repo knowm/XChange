@@ -14,7 +14,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * Author: brox Since: 2/6/14
+ * Author: bryant_harris
  */
 public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw implements MarketDataService {
   /**
@@ -23,14 +23,17 @@ public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw impl
    * @param exchange
    */
   public AbucoinsMarketDataService(Exchange exchange) {
-
     super(exchange);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(currencyPair), currencyPair);
+    try {
+      return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(currencyPair), currencyPair);
+    }
+    catch (Exception e) {
+      throw new IOException("Unable to get ticker for " + currencyPair, e);
+    }
   }
 
   @Override
@@ -45,13 +48,13 @@ public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw impl
 
     return AbucoinsAdapters.adaptOrderBook(AbucoinsDepth, currencyPair);
     */
-	  return null;
+          return null;
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-	  return null;
-	  /*
+          return null;
+          /*
     AbucoinsTrade[] trades;
 
     if (args != null && args.length > 0) {
