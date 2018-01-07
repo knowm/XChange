@@ -33,11 +33,8 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
    */
   public CoinMarketCapMarketDataService(Exchange exchange) {
     super(exchange);
-    tickers = new HashMap<>();
     try {
-      List<CoinMarketCapTicker> tt = getCoinMarketCapTickers();
-      for (CoinMarketCapTicker t : tt)
-        tickers.put(t.getIsoCode(), t);
+      tickers = getNewTickers();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -96,13 +93,27 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
             .build();
   }
 
+  public Ticker getTickerFresh(CurrencyPair currencyPair, final Object... args) throws IOException {
+    tickers = getNewTickers();
+    return getTicker(currencyPair, args);
+  }
+
+  private Map<String, CoinMarketCapTicker> getNewTickers() throws IOException {
+    Map<String, CoinMarketCapTicker> freshTickers = new HashMap<>();
+    List<CoinMarketCapTicker> tt = getCoinMarketCapTickers();
+    for (CoinMarketCapTicker t : tt) {
+      freshTickers.put(t.getIsoCode(), t);
+    }
+    return freshTickers;
+  }
+
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... objects) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... objects) {
     throw new NotAvailableFromExchangeException();
   }
 
