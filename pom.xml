@@ -102,6 +102,7 @@
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
         <module>xchange-bittrex</module>
+        <module>xchange-bitz</module>
         <module>xchange-bleutrade</module>
         <module>xchange-blockchain</module>
         <module>xchange-btcc</module>
@@ -152,7 +153,7 @@
         <module>xchange-vircurex</module>
         <module>xchange-yobit</module>
         <module>xchange-wex</module>
-    </modules>
+  </modules>
 
     <repositories>
         <repository>
