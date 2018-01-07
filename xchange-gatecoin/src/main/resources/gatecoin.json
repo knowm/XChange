@@ -21,8 +21,17 @@
     "REP/BTC": {
       "price_scale": 8
     },
+    "BCH/BTC": {
+      "price_scale": 8
+    },
     "DGD/BTC": {
       "price_scale": 8
+    },
+    "LTC/EUR": {
+      "price_scale": 2
+    },
+    "LTC/USD": {
+      "price_scale": 2
     }
   },
   "currencies": {
