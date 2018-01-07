@@ -1,13 +1,6 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
@@ -19,6 +12,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -26,7 +20,14 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class BitfinexAdaptersTest {
 
@@ -42,13 +43,46 @@ public class BitfinexAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     BitfinexBalancesResponse[] response = mapper.readValue(is, BitfinexBalancesResponse[].class);
 
-    Wallet wallet = BitfinexAdapters.adaptWallet(response);
+    List<Wallet> wallets = BitfinexAdapters.adaptWallets(response);
 
-    assertEquals(2, wallet.getBalances().size());
-    assertEquals(new BigDecimal("105.5"), wallet.getBalance(Currency.USD).getTotal());
-    assertEquals(new BigDecimal("55.5"), wallet.getBalance(Currency.USD).getAvailable());
-    assertEquals(new BigDecimal("50"), wallet.getBalance(Currency.BTC).getTotal());
-    assertEquals(new BigDecimal("30"), wallet.getBalance(Currency.BTC).getAvailable());
+    Wallet exchangeWallet = wallets.stream().filter(wallet -> "exchange".equals(wallet.getId())).findFirst().orElse(null);
+    assertNotNull("Exchange wallet is missing", exchangeWallet);
+    Wallet tradingWallet = wallets.stream().filter(wallet -> "trading".equals(wallet.getId())).findFirst().orElse(null);
+    assertNotNull("Trading wallet is missing", tradingWallet);
+    Wallet depositWallet = wallets.stream().filter(wallet -> "deposit".equals(wallet.getId())).findFirst().orElse(null);
+    assertNotNull("Deposit wallet is missing", depositWallet);
+
+
+    Balance tradingUsdBalance = tradingWallet.getBalance(Currency.USD);
+    assertNotNull(tradingUsdBalance);
+    assertEquals(new BigDecimal("100"), tradingUsdBalance.getTotal());
+    assertEquals(new BigDecimal("50"), tradingUsdBalance.getAvailable());
+
+    Balance tradingBtcBalance = tradingWallet.getBalance(Currency.BTC);
+    assertNotNull(tradingBtcBalance);
+    assertEquals(BigDecimal.ZERO, tradingBtcBalance.getTotal());
+    assertEquals(BigDecimal.ZERO, tradingBtcBalance.getAvailable());
+
+    Balance exchangeUsdBalance = exchangeWallet.getBalance(Currency.USD);
+    assertNotNull(exchangeUsdBalance);
+    assertEquals(new BigDecimal("5.5"), exchangeUsdBalance.getTotal());
+    assertEquals(new BigDecimal("5.5"), exchangeUsdBalance.getAvailable());
+
+    Balance exchangeBtcBalance = exchangeWallet.getBalance(Currency.BTC);
+    assertNotNull(exchangeBtcBalance);
+    assertEquals(BigDecimal.ZERO, exchangeBtcBalance.getTotal());
+    assertEquals(BigDecimal.ZERO, exchangeBtcBalance.getAvailable());
+
+    Balance depositUsdBalance = depositWallet.getBalance(Currency.USD);
+    assertNotNull(depositUsdBalance);
+    assertEquals(new BigDecimal("69"), depositUsdBalance.getTotal());
+    assertEquals(new BigDecimal("42"), depositUsdBalance.getAvailable());
+
+
+    Balance depositBtcBalance = depositWallet.getBalance(Currency.BTC);
+    assertNotNull(depositBtcBalance);
+    assertEquals(new BigDecimal("50"), depositBtcBalance.getTotal());
+    assertEquals(new BigDecimal("30"), depositBtcBalance.getAvailable());
   }
 
   @Test
