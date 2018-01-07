@@ -17,53 +17,53 @@ import org.slf4j.LoggerFactory;
  */
 
 public class AbucoinsAdapters {
-	  private static Logger logger = LoggerFactory.getLogger(AbucoinsAdapters.class);
-	  
-	  protected static Date parseDate(final String rawDate) {
+  private static Logger logger = LoggerFactory.getLogger(AbucoinsAdapters.class);
+          
+  protected static Date parseDate(final String rawDate) {
 
-		    String modified;
-		    if (rawDate.length() > 23) {
-		      modified = rawDate.substring(0, 23);
-		    } else if (rawDate.endsWith("Z")) {
-		      switch (rawDate.length()) {
-		        case 20:
-		          modified = rawDate.substring(0, 19) + ".000";
-		          break;
-		        case 22:
-		          modified = rawDate.substring(0, 21) + "00";
-		          break;
-		        case 23:
-		          modified = rawDate.substring(0, 22) + "0";
-		          break;
-		        default:
-		          modified = rawDate;
-		          break;
-		      }
-		    } else {
-		      switch (rawDate.length()) {
-		        case 19:
-		          modified = rawDate + ".000";
-		          break;
-		        case 21:
-		          modified = rawDate + "00";
-		          break;
-		        case 22:
-		          modified = rawDate + "0";
-		          break;
-		        default:
-		          modified = rawDate;
-		          break;
-		      }
-		    }
-		    try {
-		      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-		      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-		      return dateFormat.parse(modified);
-		    } catch (ParseException e) {
-		      logger.warn("unable to parse rawDate={} modified={}", rawDate, modified, e);
-		      return null;
-		    }
-		  }
+    String modified;
+    if (rawDate.length() > 23) {
+      modified = rawDate.substring(0, 23);
+    } else if (rawDate.endsWith("Z")) {
+      switch (rawDate.length()) {
+      case 20:
+        modified = rawDate.substring(0, 19) + ".000";
+        break;
+      case 22:
+        modified = rawDate.substring(0, 21) + "00";
+        break;
+      case 23:
+        modified = rawDate.substring(0, 22) + "0";
+        break;
+      default:
+        modified = rawDate;
+        break;
+      }
+    } else {
+      switch (rawDate.length()) {
+      case 19:
+        modified = rawDate + ".000";
+        break;
+      case 21:
+        modified = rawDate + "00";
+        break;
+      case 22:
+        modified = rawDate + "0";
+        break;
+      default:
+        modified = rawDate;
+        break;
+      }
+    }
+    try {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+      return dateFormat.parse(modified);
+    } catch (ParseException e) {
+      logger.warn("unable to parse rawDate={} modified={}", rawDate, modified, e);
+      return null;
+    }
+  }
 
   /**
    * Adapts a AbucoinsTrade to a Trade Object
@@ -116,6 +116,8 @@ public class AbucoinsAdapters {
     BigDecimal bid = ticker.getBid();
     BigDecimal ask = ticker.getAsk();
     BigDecimal volume = ticker.getVolume();
+    if ( ticker.getTime() == null )
+                throw new RuntimeException("Null date for: " + ticker); 
     Date timestamp = parseDate(ticker.getTime());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp)
