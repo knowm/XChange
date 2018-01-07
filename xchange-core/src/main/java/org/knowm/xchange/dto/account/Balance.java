@@ -414,9 +414,10 @@ public final class Balance implements Comparable<Balance>, Serializable {
     public static Builder from(Balance balance) {
 
       return new Builder()
-          .currency(balance.getCurrency())
-          .available(balance.getAvailable())
-          .frozen(balance.getFrozen())
+    		  .currency(balance.getCurrency())
+    		  .total(balance.getTotal())
+    		  .available(balance.getAvailable())
+    		  .frozen(balance.getFrozen())
           .borrowed(balance.getBorrowed())
           .loaned(balance.getLoaned())
           .withdrawing(balance.getWithdrawing())
