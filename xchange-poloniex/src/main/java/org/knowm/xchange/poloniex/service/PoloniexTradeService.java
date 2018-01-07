@@ -201,7 +201,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     PoloniexUserTrade[] poloniexUserTrades = returnOrderTrades(orderId);
     if (poloniexUserTrades != null) {
       for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
-        poloniexUserTrade.setOrderNumber(orderId); // returnOrder doesn't fill in orderId
+        poloniexUserTrade.setOrderNumber(orderId); // returnOrderTrades doesn't fill in orderId
         trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
       }
     }
