@@ -244,6 +244,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency XDR = createCurrency("XDR", "Special Drawing Rights", null);
   public static final Currency XLM = createCurrency("XLM", "Stellar Lumen", null);
   public static final Currency XMR = createCurrency("XMR", "Monero", null);
+  public static final Currency XRB = createCurrency("XRB", "Rai Blocks", null);
   public static final Currency XOF = createCurrency("XOF", "CFA Franc BCEAO", null);
   public static final Currency XPF = createCurrency("XPF", "CFP Franc", null);
   public static final Currency XPM = createCurrency("XPM", "Primecoin", null);
