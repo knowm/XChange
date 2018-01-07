@@ -190,6 +190,25 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     throw new NotYetImplementedForExchangeException();
   }
 
+  public final UserTrades getOrderTrades(Order order) throws IOException {
+    return getOrderTrades(order.getId(), order.getCurrencyPair());
+  }
+
+  public UserTrades getOrderTrades(String orderId, CurrencyPair currencyPair) throws IOException {
+
+    List<UserTrade> trades = new ArrayList<>();
+
+    PoloniexUserTrade[] poloniexUserTrades = returnOrderTrades(orderId);
+    if (poloniexUserTrades != null) {
+      for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
+        poloniexUserTrade.setOrderNumber(orderId); // returnOrder doesn't fill in orderId
+        trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+      }
+    }
+
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+  }
+
   public static class PoloniexTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan {
 
     private final TradeHistoryParamsAll all = new TradeHistoryParamsAll();
