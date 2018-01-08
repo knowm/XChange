@@ -27,6 +27,9 @@
     "LTC/BTC": {
       "price_scale": 8
     },
+    "LTC/ETH": {
+      "price_scale": 8
+    },
     "DGD/BTC": {
       "price_scale": 8
     },
@@ -46,6 +49,24 @@
     },
     "USD": {
       "scale": 2
+    },
+    "HKD": {
+      "scale": 2
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "DGD": {
+      "scale": 8
+    },
+    "BCH": {
+      "scale": 8
+    },
+    "REP": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
     }
   }
 }
