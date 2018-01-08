@@ -403,6 +403,21 @@ By default, full agregated order book is returned. This is equivalent to a book 
 
 Aggregated levels return only one size for each active price.
 
+Example Response:
+{
+    "asks": [
+      [ price, size, num-orders ],
+      ["14160.13374000", "0.15994651", 1]
+      ...
+    ],
+    "bids": [
+       [ price, size, num-orders ],
+       ["14140.00000000", "0.19970339", 1]
+       ...
+    ],
+    "sequence": 1431
+}
+
 Levels:
 
 GET https://api.abucoins.com/products/<product-id>/book?level=2

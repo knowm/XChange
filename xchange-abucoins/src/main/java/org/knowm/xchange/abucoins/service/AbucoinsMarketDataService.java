@@ -4,13 +4,11 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.AbucoinsAdapters;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsDepth;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -29,7 +27,7 @@ public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     try {
-      return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(currencyPair), currencyPair);
+      return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(currencyPair.toString().replace('/','-')), currencyPair);
     }
     catch (Exception e) {
       throw new IOException("Unable to get ticker for " + currencyPair, e);
@@ -38,17 +36,9 @@ public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-/*
-    AbucoinsDepth AbucoinsDepth = getAbucoinsOrderBook(currencyPair);
+    AbucoinsOrderBook orderBook = getAbucoinsOrderBook(currencyPair.toString().replace('/','-'));
 
-    if (AbucoinsDepth.getError() != null) {
-      //eg: 'Rate limit exceeded'
-      throw new ExchangeException("Abucoins getOrderBook request for " + currencyPair + " failed with: " + AbucoinsDepth.getError());
-    }
-
-    return AbucoinsAdapters.adaptOrderBook(AbucoinsDepth, currencyPair);
-    */
-          return null;
+    return AbucoinsAdapters.adaptOrderBook(orderBook, currencyPair);
   }
 
   @Override

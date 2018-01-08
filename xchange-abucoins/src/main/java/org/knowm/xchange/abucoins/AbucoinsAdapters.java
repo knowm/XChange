@@ -3,12 +3,18 @@ package org.knowm.xchange.abucoins;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,13 +136,13 @@ public class AbucoinsAdapters {
    * @param depth        Cex.IO order book
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The XChange OrderBook
-   *
-  public static OrderBook adaptOrderBook(AbucoinsDepth depth, CurrencyPair currencyPair) {
+   */
+  public static OrderBook adaptOrderBook(AbucoinsOrderBook abucoinsOrderBook, CurrencyPair currencyPair) {
 
-    List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, depth.getAsks());
-    List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, depth.getBids());
-    Date date = new Date(depth.getTimestamp() * 1000);
-    return new OrderBook(date, asks, bids);
+    List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, abucoinsOrderBook.getAsks());
+    List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, abucoinsOrderBook.getBids());
+    
+    return new OrderBook(new Date(), asks, bids);
   }
 
   /**
@@ -161,25 +167,24 @@ public class AbucoinsAdapters {
     BigDecimal frozen = inOrders == null ? BigDecimal.ZERO : inOrders;
     return new Balance(currency, null, balance.getAvailable(), frozen);
   }
-
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
+*/
+  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, AbucoinsOrderBook.LimitOrder[] orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     if (orders == null)
       return limitOrders;
 
-    for (List<BigDecimal> o : orders) {
-      checkArgument(o.size() == 2, "Expected a pair (price, amount) but got {0} elements.", o.size());
+    for (AbucoinsOrderBook.LimitOrder o : orders) {
       limitOrders.add(createOrder(currencyPair, o, orderType));
     }
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
+  public static LimitOrder createOrder(CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
+    return new LimitOrder(orderType, priceAndAmount.getPrice(), currencyPair, "", null, priceAndAmount.getSize()); //??
   }
-
+/*
   public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
 
     if (!argument) {
