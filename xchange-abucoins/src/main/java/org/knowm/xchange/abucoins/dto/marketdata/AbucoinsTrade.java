@@ -2,78 +2,54 @@ package org.knowm.xchange.abucoins.dto.marketdata;
 
 import java.math.BigDecimal;
 
+import javax.ws.rs.HeaderParam;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Author: brox Since: 2/5/14
+ * Author: bryant_harris
  */
 public class AbucoinsTrade {
 
-  private final BigDecimal amount;
-  private final BigDecimal price;
-  private final long date;
-  private final long tid;
-  private final String type;
+  String time;
+  String tradeID;
+  BigDecimal price;
+  BigDecimal size;
+  String side;
 
-  /**
-   * Constructor
-   *
-   * @param amount
-   * @param price
-   * @param date
-   * @param tid
-   */
-  public AbucoinsTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price, @JsonProperty("date") long date,
-      @JsonProperty("tid") long tid, @JsonProperty("type") String type) {
+  public AbucoinsTrade(@JsonProperty("time") String time, @JsonProperty("trade_id") String tradeID, @JsonProperty("price") BigDecimal price,
+                       @JsonProperty("size") BigDecimal size, @JsonProperty("side") String side) {
 
+    this.time = time;
+    this.tradeID = tradeID;
     this.price = price;
-    this.amount = amount;
-    this.tid = tid;
-    this.date = date;
-    this.type = type;
+    this.size = size;
+    this.side = side;
   }
 
-  public BigDecimal getAmount() {
-
-    return amount;
+  public String getTime() {
+    return time;
   }
 
-  public long getDate() {
-
-    return date;
+  public String getTradeID() {
+    return tradeID;
   }
 
   public BigDecimal getPrice() {
-
     return price;
   }
 
-  public long getTid() {
-
-    return tid;
+  public BigDecimal getSize() {
+    return size;
   }
 
-  public String getType() {
-
-    return type;
+  public String getSide() {
+    return side;
   }
 
   @Override
   public String toString() {
-
-    StringBuilder builder = new StringBuilder();
-    builder.append("CexIOTrade [amount=");
-    builder.append(amount);
-    builder.append(", price=");
-    builder.append(price);
-    builder.append(", date=");
-    builder.append(date);
-    builder.append(", tid=");
-    builder.append(tid);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append("]");
-    return builder.toString();
+    return "AbucoinsTrade [time=" + time + ", tradeID=" + tradeID + ", price=" + price + ", size=" + size + ", side="
+        + side + "]";
   }
-
 }

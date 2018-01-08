@@ -10,10 +10,14 @@ import java.util.TimeZone;
 
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,14 +81,14 @@ public class AbucoinsAdapters {
    * @param trade        Abucoins trade object
    * @param currencyPair trade currencies
    * @return The XChange Trade
-   *
+   */
   public static Trade adaptTrade(AbucoinsTrade trade, CurrencyPair currencyPair) {
 
-    BigDecimal amount = trade.getAmount();
+    BigDecimal amount = trade.getSize();
     BigDecimal price = trade.getPrice();
-    Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
-    OrderType type = trade.getType().equals(ORDER_TYPE_BUY) ? OrderType.BID : OrderType.ASK;
-    return new Trade(type, amount, currencyPair, price, date, String.valueOf(trade.getTid()));
+    Date date = parseDate(trade.getTime());
+    OrderType type = trade.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
+    return new Trade(type, amount, currencyPair, price, date, trade.getTradeID());
   }
 
   /**
@@ -93,21 +97,16 @@ public class AbucoinsAdapters {
    * @param cexioTrades  The Abucoins trade data returned by API
    * @param currencyPair trade currencies
    * @return The trades
-   *
-  public static Trades adaptTrades(AbucoinsTrade[] cexioTrades, CurrencyPair currencyPair) {
+   */
+  public static Trades adaptTrades(AbucoinsTrade[] abucoinsTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
-    for (AbucoinsTrade trade : cexioTrades) {
-      long tradeId = trade.getTid();
-      if (tradeId > lastTradeId) {
-        lastTradeId = tradeId;
-      }
-      // Date is reversed order. Insert at index 0 instead of appending
-      tradesList.add(0, adaptTrade(trade, currencyPair));
-    }
-    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
-  }*/
+    for (AbucoinsTrade trade : abucoinsTrades )
+      tradesList.add( adaptTrade(trade, currencyPair));
+
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByTimestamp);
+  }
 
   /**
    * Adapts a AbucoinsTicker to a Ticker Object
@@ -123,7 +122,7 @@ public class AbucoinsAdapters {
     BigDecimal ask = ticker.getAsk();
     BigDecimal volume = ticker.getVolume();
     if ( ticker.getTime() == null )
-                throw new RuntimeException("Null date for: " + ticker); 
+      throw new RuntimeException("Null date for: " + ticker); 
     Date timestamp = parseDate(ticker.getTime());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp)
