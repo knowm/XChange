@@ -47,8 +47,8 @@ public class AbucoinsTicker {
 }
 
 
-  public String getTrade_id() {
-	return trade_id;
+public String getTrade_id() {
+  return trade_id;
 }
 
 
