@@ -28,7 +28,6 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
    * @param exchange
    */
   public AbucoinsAccountService(Exchange exchange) {
-
     super(exchange);
   }
 

@@ -1,6 +1,7 @@
 package org.knowm.xchange.abucoins.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.abucoins.Abucoins;
 import org.knowm.xchange.abucoins.AbucoinsAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
@@ -8,11 +9,11 @@ import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.RestProxyFactory;
 
 /**
- * @author timmolter
+ * @author bryant_harris
  */
 public class AbucoinsBaseService extends BaseExchangeService implements BaseService {
-
-  protected final AbucoinsAuthenticated cexIOAuthenticated;
+  protected final Abucoins abucoins;
+  protected final AbucoinsAuthenticated abucoinsAuthenticated;
   protected final AbucoinsDigest signatureCreator;
 
   /**
@@ -24,13 +25,12 @@ public class AbucoinsBaseService extends BaseExchangeService implements BaseServ
 
     super(exchange);
 
-    cexIOAuthenticated = RestProxyFactory.createProxy(AbucoinsAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    signatureCreator = AbucoinsDigest.createInstance(
-        exchange.getExchangeSpecification().getSecretKey(),
-        exchange.getExchangeSpecification().getUserName(),
-        exchange.getExchangeSpecification().getApiKey(),
-        exchange.getNonceFactory()
-    );
-
+    abucoins = RestProxyFactory.createProxy(Abucoins.class,
+                                            exchange.getExchangeSpecification().getSslUri(),
+                                            getClientConfig());
+    abucoinsAuthenticated = RestProxyFactory.createProxy(AbucoinsAuthenticated.class,
+                                                         exchange.getExchangeSpecification().getSslUri());
+    signatureCreator = AbucoinsDigest.createInstance(abucoins,
+                                                     exchange.getExchangeSpecification().getSecretKey());
   }
 }
