@@ -1,66 +1,58 @@
 package org.knowm.xchange.abucoins.service;
 
-import java.math.BigInteger;
-import java.util.List;
+import java.io.IOException;
+import java.util.Base64;
 
 import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
-import org.knowm.xchange.abucoins.dto.AbucoinsRequest;
+import org.knowm.xchange.abucoins.Abucoins;
+import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
 import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.SynchronizedValueFactory;
 
+/**
+ * @author kfonal
+ */
 public class AbucoinsDigest extends BaseParamsDigest {
-
-  private final String clientId;
-  private final String apiKey;
-  private final SynchronizedValueFactory<Long> nonceFactory;
-
-  /**
-   * Constructor
-   *
-   * @param secretBase64
-   * @param passphrase Account user name
-   * @param key @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
-   * @param nonceFactory
-   */
-  private AbucoinsDigest(String secretBase64, String passphrase, String key, SynchronizedValueFactory<Long> nonceFactory) {
-    super(secretBase64, HMAC_SHA_256);
-
-    this.clientId = passphrase;
-    this.apiKey = key;
-    this.nonceFactory = nonceFactory;
+  long timeDiffFromServer = 0;
+    
+  private AbucoinsDigest(Abucoins abucoins, String secretKeyBase64) throws IllegalArgumentException {
+    super(secretKeyBase64 == null ? null : Base64.getDecoder().decode(secretKeyBase64), HMAC_SHA_256);
+    
+    try {
+      AbucoinsServerTime serverTime = abucoins.getTime();
+                
+      long ourTime = System.currentTimeMillis()/1000L;
+      timeDiffFromServer = serverTime.getEpoch() - ourTime;
+    }
+    catch (IOException e) {
+      throw new RuntimeException("Unable to determine server time");
+    }
   }
 
-  public static AbucoinsDigest createInstance(String secretBase64, String passphrase, String key, SynchronizedValueFactory<Long> nonceFactory) {
-    return secretBase64 == null ? null : new AbucoinsDigest(secretBase64, passphrase, key, nonceFactory);
+  static AbucoinsDigest instance;
+  public static AbucoinsDigest createInstance(Abucoins abucoins, String secretKeyBase64) {
+    if ( instance == null )
+      instance = secretKeyBase64 == null ? null : new AbucoinsDigest(abucoins, secretKeyBase64); 
+    return instance;
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-
-    Mac mac256 = getMac();
-    String nonce = nonceFactory.createValue().toString();
-    mac256.update(nonce.getBytes());
-    mac256.update(clientId.getBytes());
-    mac256.update(apiKey.getBytes());
-
-    String signature = String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
-
-    List<Object> unannanotatedParams = restInvocation.getUnannanotatedParams();
-
-    for (Object unannanotatedParam : unannanotatedParams) {
-      //there *should* be only one
-      if (unannanotatedParam instanceof AbucoinsRequest) {
-    	  	AbucoinsRequest request = (AbucoinsRequest) unannanotatedParam;
-        request.signature = signature;
-        request.nonce = nonce;
-        request.key = apiKey;
-      }
-    }
-
-    return signature;
+    String timestamp = restInvocation.getHttpHeadersFromParams().get("AC-ACCESS-TIMESTAMP");
+    String method = restInvocation.getHttpMethod();
+    String path = restInvocation.getPath();
+    String queryParameters = restInvocation.getQueryString();
+          
+    String queryArgs = timestamp + method + path + queryParameters;
+    Mac shaMac = getMac();
+    final byte[] macData = shaMac.doFinal(queryArgs.getBytes());
+    return Base64.getEncoder().encodeToString(macData);
   }
-
+  
+  public String timestamp() {
+    return String.valueOf((System.currentTimeMillis()/1000) + timeDiffFromServer);
+  }
 }

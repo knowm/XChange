@@ -3,20 +3,17 @@ package org.knowm.xchange.abucoins.service;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.abucoins.Abucoins;
+import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
-
-import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author bryant_harris
  */
 public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
 
-  private final Abucoins abucoins;
 
   /**
    * Constructor
@@ -27,7 +24,10 @@ public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
 
     super(exchange);
 
-    this.abucoins = RestProxyFactory.createProxy(Abucoins.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+  }
+  
+  public AbucoinsServerTime getAbucoinsServerTime() throws IOException {
+    return abucoins.getTime();
   }
   
   public AbucoinsProduct[] getAbucoinsProducts() throws IOException {

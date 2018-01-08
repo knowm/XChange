@@ -8,6 +8,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
@@ -19,6 +20,10 @@ import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Abucoins {
+  @GET
+  @Path("time")
+  AbucoinsServerTime getTime() throws IOException;
+        
   @GET
   @Path("products")
   AbucoinsProduct[] getProducts() throws IOException;
