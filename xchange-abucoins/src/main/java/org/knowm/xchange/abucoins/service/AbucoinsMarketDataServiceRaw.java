@@ -8,12 +8,11 @@ import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
-import org.knowm.xchange.currency.CurrencyPair;
 
 import si.mazi.rescu.RestProxyFactory;
 
 /**
- * @author timmolter
+ * @author bryant_harris
  */
 public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
 
@@ -54,6 +53,10 @@ public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
     AbucoinsTicker abucoinsTicker = abucoins.getTicker(productID);
 
     return abucoinsTicker;
+  }
+  
+  public AbucoinsTrade[] getAbucoinsTrades(String productID) throws IOException {
+    return abucoins.getTrades(productID);
   }
 
 }

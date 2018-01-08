@@ -1,7 +1,6 @@
 package org.knowm.xchange.abucoins;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
 
 /**
  * @author bryant_harris
@@ -38,4 +38,17 @@ public interface Abucoins {
   @GET
   @Path("products/{product-id}/ticker")
   AbucoinsTicker getTicker(@PathParam("product-id") String product_id) throws IOException;
+  
+  @GET
+  @Path("products/{product-id}/trades")
+  AbucoinsTrade[] getTrades(@PathParam("product-id") String product_id) throws IOException;
+  
+  @GET
+  @Path("products/{product-id}/trades?after={after}&limit={limit}")
+  AbucoinsTrade[] getTradesAfter(@PathParam("product-id") String product_id, @PathParam("after") String after, @PathParam("limit") String limit) throws IOException;
+  
+  @GET
+  @Path("products/{product-id}/trades?before={before}&limit={limit}")
+  AbucoinsTrade[] getTradesBefore(@PathParam("product-id") String product_id, @PathParam("before") String before, @PathParam("limit") String limit) throws IOException;
+
 }

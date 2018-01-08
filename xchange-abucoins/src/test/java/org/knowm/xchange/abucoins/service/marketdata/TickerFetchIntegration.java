@@ -9,6 +9,7 @@ import org.knowm.xchange.abucoins.AbucoinsExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -27,6 +28,9 @@ public class TickerFetchIntegration {
     
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook.toString());
+    
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
+    System.out.println(trades.toString());
   }
 
 }

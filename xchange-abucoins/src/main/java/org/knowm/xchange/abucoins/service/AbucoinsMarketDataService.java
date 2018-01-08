@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.AbucoinsAdapters;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -43,23 +44,9 @@ public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-          return null;
-          /*
-    AbucoinsTrade[] trades;
-
-    if (args != null && args.length > 0) {
-      Object arg0 = args[0];
-      if (!(arg0 instanceof Number)) {
-        throw new ExchangeException("arg[0] must be a Number used to represent since trade id.");
-      } else {
-        trades = getAbucoinsTrades(currencyPair, ((Number) arg0).longValue());
-      }
-    } else { // default to full available trade history
-      trades = getAbucoinsTrades(currencyPair, null);
-    }
+    AbucoinsTrade[] trades = getAbucoinsTrades(currencyPair.toString().replace('/',  '-'));
 
     return AbucoinsAdapters.adaptTrades(trades, currencyPair);
-    */
   }
 
 }
