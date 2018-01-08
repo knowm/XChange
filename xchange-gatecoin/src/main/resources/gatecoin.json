@@ -24,6 +24,9 @@
     "BCH/BTC": {
       "price_scale": 8
     },
+    "LTC/BTC": {
+      "price_scale": 8
+    },
     "DGD/BTC": {
       "price_scale": 8
     },
