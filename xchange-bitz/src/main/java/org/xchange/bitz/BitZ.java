@@ -8,7 +8,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.xchange.bitz.dto.marketdata.result.BitZKlineResult;
 import org.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
+import org.xchange.bitz.dto.marketdata.result.BitZTickerAllResult;
 import org.xchange.bitz.dto.marketdata.result.BitZTradesResult;
 import org.xchange.bitz.dto.marketdata.result.BitZTickerResult;
 
@@ -16,6 +18,10 @@ import org.xchange.bitz.dto.marketdata.result.BitZTickerResult;
 @Produces(MediaType.APPLICATION_JSON)
 public interface BitZ {
 
+  @GET
+  @Path("tickerall")
+  BitZTickerAllResult getTickerAllResult() throws IOException;
+  
   @GET
   @Path("ticker?coin={symbol}")
   BitZTickerResult getTickerResult(@PathParam("symbol") String symbol) throws IOException;
@@ -28,4 +34,8 @@ public interface BitZ {
   @Path("orders?coin={symbol}")
   BitZTradesResult getTradesResult(@PathParam("symbol") String symbol) throws IOException;
 
+  @GET
+  @Path("kline?coin={symbol}&type={type}")
+  BitZKlineResult getKlineResult(@PathParam("symbol") String symbol, @PathParam("type") String type)  throws IOException;
+  
 }
