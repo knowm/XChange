@@ -10,6 +10,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.abucoins.AbucoinsExchange;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethod;
 import org.knowm.xchange.abucoins.service.AbucoinsAccountService;
 
 /**
@@ -30,6 +31,10 @@ public class AccountsFetchIntegration {
     AbucoinsAccount[] accountInfo = accountService.getAbucoinsAccounts();
     assertThat(accountInfo).isNotNull();
     System.out.println(Arrays.asList(accountInfo));
+    
+    AbucoinsPaymentMethod[] paymentMethods = accountService.getPaymentMethods();
+    assertThat(paymentMethods).isNotNull();
+    System.out.println(Arrays.asList(paymentMethods));
   }
 
 }
