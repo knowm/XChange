@@ -1,10 +1,5 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -19,11 +14,17 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeService {
 
@@ -73,39 +74,35 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    int count = 1000;
-    int offset = 0;
+    long limit = 1000;
+    long offset = 0;
 
-    if (params instanceof TradeHistoryParamPaging) {
-      TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
-      if (pagingParams.getPageLength() != null) {
-        count = pagingParams.getPageLength();
-      }
-
-      Integer pageNumber = pagingParams.getPageNumber();
-      offset = count * (pageNumber != null ? pageNumber : 0);
+    if (params instanceof TradeHistoryParamLimit) {
+      limit = ((TradeHistoryParamLimit) params).getLimit();
     }
 
-    String symbols = null;
+    if (params instanceof TradeHistoryParamOffset) {
+      TradeHistoryParamOffset tradeHistoryParamOffset = (TradeHistoryParamOffset) params;
+      offset = tradeHistoryParamOffset.getOffset();
+    }
+
+    String symbol = null;
     if (params instanceof TradeHistoryParamCurrencyPair) {
-      TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair = (TradeHistoryParamCurrencyPair) params;
-      CurrencyPair pair = tradeHistoryParamCurrencyPair.getCurrencyPair();
-      symbols = HitbtcAdapters.adaptCurrencyPair(pair);
+      CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      symbol = HitbtcAdapters.adaptCurrencyPair(pair);
     }
 
-    List<HitbtcOwnTrade> tradeHistoryRaw = getTradeHistoryRaw(offset, count, symbols);
+    List<HitbtcOwnTrade> tradeHistoryRaw = getTradeHistoryRaw(symbol, limit, offset);
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, exchange.getExchangeMetaData());
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-
-    return HitbtcTradeHistoryParams.builder().build();
+    return new HitbtcTradeHistoryParams(null, 100, 0L);
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-
     return null;
   }
 
