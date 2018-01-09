@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,9 +18,11 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
 import org.xchange.bitz.dto.marketdata.BitZOrders;
 import org.xchange.bitz.dto.marketdata.BitZTrades;
+import org.xchange.bitz.dto.marketdata.result.BitZTickerAllResult;
 import org.xchange.bitz.dto.marketdata.BitZPublicOrder;
 import org.xchange.bitz.dto.marketdata.BitZPublicTrade;
 import org.xchange.bitz.dto.marketdata.BitZTicker;
+import org.xchange.bitz.dto.marketdata.BitZTickerAll;
 
 public class BitZAdapters {
 
@@ -82,4 +85,20 @@ public class BitZAdapters {
                 .originalAmount(trade.getVolume())
                 .build();
 	}
+
+	public static List<Ticker> adapterTickers(BitZTickerAllResult bitZTickerAllResult) {
+	  
+	  List<Ticker> tickers = new ArrayList<Ticker>();
+	  
+	  for (Entry<String, BitZTicker>  ticker : bitZTickerAllResult.getData().getAllTickers().entrySet()) {
+	    CurrencyPair pair = BitZUtils.toCurrencyPair(ticker.getKey());
+	    
+	    if (pair != null) {
+	      tickers.add(adaptTicker(ticker.getValue(), pair));
+	    }
+	  }
+	
+	  return tickers;  
+	}
+
 }
