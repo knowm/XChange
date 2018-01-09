@@ -12,6 +12,7 @@ import org.knowm.xchange.abucoins.AbucoinsExchange;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethod;
 import org.knowm.xchange.abucoins.service.AbucoinsAccountService;
+import org.knowm.xchange.dto.account.AccountInfo;
 
 /**
  * @author timmolter
@@ -31,6 +32,9 @@ public class AccountsFetchIntegration {
     AbucoinsAccount[] accountInfo = accountService.getAbucoinsAccounts();
     assertThat(accountInfo).isNotNull();
     System.out.println(Arrays.asList(accountInfo));
+    
+    AccountInfo info = accountService.getAccountInfo();
+    System.out.println(info);
     
     AbucoinsPaymentMethod[] paymentMethods = accountService.getPaymentMethods();
     assertThat(paymentMethods).isNotNull();

@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.abucoins.AbucoinsAdapters;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -31,8 +33,8 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    //AbucoinsBalanceInfo AbucoinsAccountInfo = getAbucoinsAccountInfo();
-    return null;//new AccountInfo(exchange.getExchangeSpecification().getUserName(), null /*AbucoinsAdapters.adaptWallet(AbucoinsAccountInfo)*/);
+    AbucoinsAccount[] accounts = getAbucoinsAccounts();
+    return AbucoinsAdapters.adaptAccountInfo(accounts);
   }
 
   @Override
