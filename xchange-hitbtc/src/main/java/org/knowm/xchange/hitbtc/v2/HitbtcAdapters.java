@@ -227,7 +227,17 @@ public class HitbtcAdapters {
         int priceScale = tickSize.scale();//not 100% sure this is correct
         //also, we need to take into account the quantityIncrement
 
-        CurrencyPairMetaData meta = new CurrencyPairMetaData(symbol.getTakeLiquidityRate(), symbol.getTakeLiquidityRate(), null, priceScale);
+        BigDecimal tradingFee = symbol.getTakeLiquidityRate();
+        BigDecimal minimumAmount = null;
+        BigDecimal maximumAmount = null;
+
+        if(currencyPairs.containsKey(pair)) {
+          CurrencyPairMetaData existing = currencyPairs.get(pair);
+          minimumAmount = existing.getMinimumAmount();
+          maximumAmount = existing.getMaximumAmount();
+        }
+
+        CurrencyPairMetaData meta = new CurrencyPairMetaData(tradingFee, minimumAmount, maximumAmount, priceScale);
 
         currencyPairs.put(pair, meta);
       }
