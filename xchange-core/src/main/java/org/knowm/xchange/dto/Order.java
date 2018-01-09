@@ -280,7 +280,7 @@ public abstract class Order implements Serializable {
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", originalAmount=" + print(originalAmount) + ", cumulativeAmount=" + getCumulativeAmount() + ", averagePrice=" + print(averagePrice) + ", currencyPair=" + currencyPair
+    return "Order [type=" + type + ", originalAmount=" + print(originalAmount) + ", cumulativeAmount=" + print(cumulativeAmount) + ", averagePrice=" + print(averagePrice) + ", currencyPair=" + currencyPair
         + ", id=" + id + ", timestamp=" + timestamp + ", status=" + status + "]";
   }
 

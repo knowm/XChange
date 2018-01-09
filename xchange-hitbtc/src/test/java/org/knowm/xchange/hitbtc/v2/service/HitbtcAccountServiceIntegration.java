@@ -39,7 +39,7 @@ public class HitbtcAccountServiceIntegration extends BaseAuthenticatedServiceTes
   @Test
   public void testGetFundingHistory() throws IOException {
 
-    HitbtcTradeHistoryParams hitbtcTradeHistoryParams = HitbtcTradeHistoryParams.builder().build();
+    HitbtcFundingHistoryParams hitbtcTradeHistoryParams = HitbtcFundingHistoryParams.builder().build();
 
     List<FundingRecord> records = service.getFundingHistory(hitbtcTradeHistoryParams);
 
@@ -49,7 +49,7 @@ public class HitbtcAccountServiceIntegration extends BaseAuthenticatedServiceTes
   @Test
   public void testGetFundingHistory_withParams() throws IOException {
 
-    HitbtcTradeHistoryParams hitbtcTradeHistoryParams = HitbtcTradeHistoryParams.builder()
+    HitbtcFundingHistoryParams hitbtcTradeHistoryParams = HitbtcFundingHistoryParams.builder()
         .limit(2)
         .build();
 

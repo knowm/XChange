@@ -92,19 +92,12 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   /********************* Trading History APIs ******************************/
 
-  //TODO add query params
-
-  /**
-   * Get historical trades. There can be one to many trades per order.
-   *
-   * @return
-   * @throws IOException
-   * @throws HitbtcException
-   */
   @GET
   @Path("history/trades")
-  List<HitbtcOwnTrade> getHitbtcTrades() throws IOException, HitbtcException;
-  
+  List<HitbtcOwnTrade> getHitbtcTrades(@QueryParam("symbol") String symbol, @QueryParam("sort") String sort, @QueryParam("by") String sortBy,
+                                       @QueryParam("from") String from, @QueryParam("till") String till, @QueryParam("limit") long limit,
+                                       @QueryParam("offset") long offset) throws IOException, HitbtcException;
+
   //TODO add query params
 
   /**
