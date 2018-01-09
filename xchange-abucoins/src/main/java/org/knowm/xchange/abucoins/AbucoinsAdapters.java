@@ -4,15 +4,21 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -143,30 +149,28 @@ public class AbucoinsAdapters {
     
     return new OrderBook(new Date(), asks, bids);
   }
+  
+  public static AccountInfo adaptAccountInfo(AbucoinsAccount[] accounts) {
+    List<Wallet> wallets = new ArrayList<>();
+    for ( AbucoinsAccount account : accounts )
+      wallets.add( adaptWallet(account));
+          
+    return new AccountInfo("", wallets);
+  }
 
   /**
    * Adapts AbucoinsBalanceInfo to Wallet
    *
    * @param cexIOBalanceInfo AbucoinsBalanceInfo balance
    * @return The account info
-   *
-  public static Wallet adaptWallet(AbucoinsBalanceInfo cexIOBalanceInfo) {
+   */
+  public static Wallet adaptWallet(AbucoinsAccount account) {
+    Currency currency = Currency.getInstance( account.getCurrency());
+    List<Balance> balances = Arrays.asList(new Balance[] { new Balance(currency, account.getBalance(), account.getAvailable(), account.getHold()) });
 
-    List<Balance> balances = new ArrayList<>();
-    for (String ccyName : cexIOBalanceInfo.getBalances().keySet()) {
-      AbucoinsBalance cexIOBalance = cexIOBalanceInfo.getBalances().get(ccyName);
-      balances.add(adaptBalance(new Currency(ccyName), cexIOBalance));
-    }
-
-    return new Wallet(balances);
+    return new Wallet(account.getId(), String.valueOf(account.getProfileID()), balances);
   }
 
-  public static Balance adaptBalance(Currency currency, AbucoinsBalance balance) {
-    BigDecimal inOrders = balance.getOrders();
-    BigDecimal frozen = inOrders == null ? BigDecimal.ZERO : inOrders;
-    return new Balance(currency, null, balance.getAvailable(), frozen);
-  }
-*/
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, AbucoinsOrderBook.LimitOrder[] orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -183,58 +187,4 @@ public class AbucoinsAdapters {
 
     return new LimitOrder(orderType, priceAndAmount.getPrice(), currencyPair, "", null, priceAndAmount.getSize()); //??
   }
-/*
-  public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
-
-    if (!argument) {
-      throw new IllegalArgumentException(MessageFormat.format(msgPattern, msgArgs));
-    }
-  }
-
-  public static OpenOrders adaptOpenOrders(List<AbucoinsOrder> cexIOOrderList) {
-
-    List<LimitOrder> limitOrders = new ArrayList<>();
-
-    for (AbucoinsOrder cexIOOrder : cexIOOrderList) {
-      OrderType orderType = cexIOOrder.getType() == AbucoinsOrder.Type.buy ? OrderType.BID : OrderType.ASK;
-      String id = Long.toString(cexIOOrder.getId());
-      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getPending(),
-          new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id,
-          DateUtils.fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()));
-    }
-
-    return new OpenOrders(limitOrders);
-
-  }
-
-  public static UserTrade adaptArchivedOrder(AbucoinsArchivedOrder cexIOArchivedOrder) {
-    try {
-      Date timestamp = fromISODateString(cexIOArchivedOrder.time);
-
-      OrderType orderType = cexIOArchivedOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
-      BigDecimal originalAmount = cexIOArchivedOrder.amount;
-      CurrencyPair currencyPair = new CurrencyPair(cexIOArchivedOrder.symbol1, cexIOArchivedOrder.symbol2);
-      BigDecimal price = cexIOArchivedOrder.price;
-      String id = cexIOArchivedOrder.id;
-      String orderId = cexIOArchivedOrder.orderId;
-
-      Currency feeCcy = cexIOArchivedOrder.feeCcy == null ? null : Currency.getInstance(cexIOArchivedOrder.feeCcy);
-      BigDecimal fee = cexIOArchivedOrder.feeValue;
-
-      return new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, id, orderId, fee, feeCcy);
-    } catch (InvalidFormatException e) {
-      throw new IllegalStateException("Cannot format date " + cexIOArchivedOrder.time, e);
-    }
-  }
-
-  public static Order adaptOrder(AbucoinsOpenOrder cexIOOrder) {
-    OrderType orderType = cexIOOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
-    BigDecimal originalAmount = new BigDecimal(cexIOOrder.amount);
-    CurrencyPair currencyPair = new CurrencyPair(cexIOOrder.symbol1, cexIOOrder.symbol2);
-    Date timestamp = new Date(cexIOOrder.time);
-    BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
-
-    return new LimitOrder(orderType, originalAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice);
-  }
-  */
 }
