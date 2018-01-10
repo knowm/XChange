@@ -75,6 +75,14 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
     
     return retVal;
   }
+  
+  public AbucoinsOrder getAbucoinsOrder(String orderID) throws IOException {
+    return abucoinsAuthenticated.getOrder(exchange.getExchangeSpecification().getApiKey(),
+                                          signatureCreator,
+                                          exchange.getExchangeSpecification().getPassword(),
+                                          signatureCreator.timestamp(),
+                                          orderID);
+  }
 
   public AbucoinsOrder placeAbucoinsLimitOrder(LimitOrder limitOrder) throws IOException {
 
