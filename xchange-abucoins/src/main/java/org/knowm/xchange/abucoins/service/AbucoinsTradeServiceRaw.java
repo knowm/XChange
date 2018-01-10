@@ -83,6 +83,36 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
                                           signatureCreator.timestamp(),
                                           orderID);
   }
+  
+  public void deleteAbucoinsOrder(String orderID) throws IOException {
+    abucoinsAuthenticated.deleteOrder(exchange.getExchangeSpecification().getApiKey(),
+                                      signatureCreator,
+                                      exchange.getExchangeSpecification().getPassword(),
+                                      signatureCreator.timestamp(),
+                                      orderID);
+  }
+  
+  /**
+   * Deletes all orders for the user.  If <em>productIDs</em> are supplied it will delete all order for the
+   * supplied productIDs.
+   * @param productIDs
+   * @throws IOException
+   */
+  public void deleteAbucoinsOrder(String... productIDs) throws IOException {
+    if ( productIDs.length == 0 )
+      abucoinsAuthenticated.deleteAllOrders(exchange.getExchangeSpecification().getApiKey(),
+                                            signatureCreator,
+                                            exchange.getExchangeSpecification().getPassword(),
+                                            signatureCreator.timestamp());
+    else {
+      for ( String productID : productIDs )
+        abucoinsAuthenticated.deleteAllOrdersForProduct(exchange.getExchangeSpecification().getApiKey(),
+                                                        signatureCreator,
+                                                        exchange.getExchangeSpecification().getPassword(),
+                                                        signatureCreator.timestamp(),
+                                                        productID);
+    }
+  }
 
   public AbucoinsOrder placeAbucoinsLimitOrder(LimitOrder limitOrder) throws IOException {
 
