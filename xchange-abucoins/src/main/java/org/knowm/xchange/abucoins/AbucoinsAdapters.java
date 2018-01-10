@@ -16,6 +16,8 @@ import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -26,6 +28,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -199,6 +202,20 @@ public class AbucoinsAdapters {
     return retVal;
   }
   
+  public static Order adaptOrder(AbucoinsOrder order) {
+    switch ( order.getType() ) {
+    case limit:
+      return adaptLimitOrder(order);
+
+    case market:
+      return adaptMarketOrder(order);
+
+    default:
+      logger.warn("Unrecognized order type " + order.getType() + " returning null for Order");
+      return null;
+    }
+  }
+  
   public static LimitOrder adaptLimitOrder(AbucoinsOrder order) {
     return new LimitOrder( adaptOrderType(order.getSide()),
                            order.getSize(),
@@ -209,16 +226,48 @@ public class AbucoinsAdapters {
                            order.getPrice());
   }
   
+  public static MarketOrder adaptMarketOrder(AbucoinsOrder order) {
+    return new MarketOrder( adaptOrderType(order.getSide()),
+                            order.getSize(),
+                            adaptCurrencyPair( order.getProductID() ),
+                            order.getId(),
+                            parseDate( order.getCreatedAt() ),
+                            order.getPrice(),
+                            order.getFilledSize(),
+                            adaptOrderStatus(order.getStatus()));
+  }
+  
   public static OrderType adaptOrderType(AbucoinsOrder.Side side) {
     switch ( side ) {
     case buy:
-        return OrderType.BID;
+      return OrderType.BID;
                   
     case sell:
-        return OrderType.ASK;
+      return OrderType.ASK;
                   
     default:
-        return null;
+      logger.warn("Unrecognized Side " + side + " returning null for OrderType");
+      return null;
+    }
+  }
+  
+  public static OrderStatus adaptOrderStatus(AbucoinsOrder.Status status) {
+    switch ( status ) {
+    case pending:
+      return OrderStatus.PENDING_NEW;
+                  
+    case open:
+      return OrderStatus.NEW;
+                  
+    case done:
+      return OrderStatus.FILLED;
+                  
+    case rejected:
+      return OrderStatus.REJECTED;
+                  
+    default:
+      logger.warn("Unrecognized Status " + status + " returning null for OrderStatus");
+      return null;
     }
   }
   
