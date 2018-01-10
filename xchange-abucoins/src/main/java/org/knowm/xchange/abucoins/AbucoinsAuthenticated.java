@@ -47,4 +47,8 @@ public interface AbucoinsAuthenticated extends Abucoins {
   @GET
   @Path("orders?status={status}&product_id={product_id}")
   AbucoinsOrder[] getOrdersByStatusAndProductID(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("status") String status, @PathParam("product_id") String productID) throws IOException;
+  
+  @GET
+  @Path("orders/{order-id}")
+  AbucoinsOrder getOrder(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("order_id") String orderID) throws IOException;
 }
