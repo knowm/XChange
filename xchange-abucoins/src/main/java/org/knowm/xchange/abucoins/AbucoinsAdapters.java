@@ -13,6 +13,7 @@ import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
+import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -25,6 +26,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -186,5 +188,48 @@ public class AbucoinsAdapters {
   public static LimitOrder createOrder(CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(orderType, priceAndAmount.getPrice(), currencyPair, "", null, priceAndAmount.getSize()); //??
+  }
+  
+  public static OpenOrders adaptOpenOrders(AbucoinsOrder[] orders) {
+    List<LimitOrder> l = new ArrayList<>();
+    for ( AbucoinsOrder order : orders )
+      l.add( adaptLimitOrder( order ));
+    OpenOrders retVal = new OpenOrders(l);
+          
+    return retVal;
+  }
+  
+  public static LimitOrder adaptLimitOrder(AbucoinsOrder order) {
+    return new LimitOrder( adaptOrderType(order.getSide()),
+                           order.getSize(),
+                           order.getFilledSize(),
+                           adaptCurrencyPair( order.getProductID() ),
+                           order.getId(),
+                           parseDate( order.getCreatedAt() ),
+                           order.getPrice());
+  }
+  
+  public static OrderType adaptOrderType(AbucoinsOrder.Side side) {
+    switch ( side ) {
+    case buy:
+        return OrderType.BID;
+                  
+    case sell:
+        return OrderType.ASK;
+                  
+    default:
+        return null;
+    }
+  }
+  
+  public static String adaptCurrencyPairToProductID(CurrencyPair currencyPair) {
+    return currencyPair == null ? null : currencyPair.toString().replace('/','-');
+  }
+  
+  public static CurrencyPair adaptCurrencyPair(String abucoinsProductID) {
+    int indexOf = abucoinsProductID.indexOf('-');
+    String base = abucoinsProductID.substring(0, indexOf);
+    String counter = abucoinsProductID.substring(indexOf+1);
+    return new CurrencyPair(Currency.getInstanceNoCreate(base), Currency.getInstanceNoCreate(counter));
   }
 }
