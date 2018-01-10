@@ -112,7 +112,24 @@ public class AbucoinsOrder {
   }
 
   public enum TimeInForce {
-    GTC, GTT, IOC, FOK
+    GTC, GTT, IOC, FOK;
+    
+    public String toDescription() {
+      switch (this) {
+      case GTC:
+        return "Good Till Canceled";
+        
+      case GTT:
+        return "Good Till Time";
+                
+      case IOC:
+        return "Immediate or cancel";
+                
+      case FOK:
+        return "Fill or kill";
+      }
+      return ""; // dead code path
+    }
   }
   
   public enum Status {
