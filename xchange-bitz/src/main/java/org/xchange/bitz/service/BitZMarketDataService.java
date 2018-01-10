@@ -11,18 +11,16 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.xchange.bitz.BitZAdapters;
 import org.xchange.bitz.BitZUtils;
+import org.xchange.bitz.dto.marketdata.BitZKline;
 
 public class BitZMarketDataService extends BitZMarketDataServiceRaw implements MarketDataService {
 
 	public BitZMarketDataService(Exchange exchange) {
 		super(exchange);
 	}
-
-	public List<Ticker> getTickers(Object... args) throws IOException {
-    return BitZAdapters.adapterTickers(getBitZTickerAll());
-  }
-
 	
+	// X-Change Generic Services
+
 	@Override
 	public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 		return BitZAdapters.adaptTicker(getBitZTicker(BitZUtils.toPairString(currencyPair)), currencyPair);
@@ -37,9 +35,14 @@ public class BitZMarketDataService extends BitZMarketDataServiceRaw implements M
 	public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 		return BitZAdapters.adaptTrades(getBitZTrades(BitZUtils.toPairString(currencyPair)), currencyPair);
 	}
+
+	// Exchange Specific Services
 	
+	public List<Ticker> getTickers(Object... args) throws IOException {
+    return BitZAdapters.adaptTickers(getBitZTickerAll());
+  }
 	
-	
-	// TODO: Implement Exchange Specific Services
-	// Including: TickerAll, Kline (Historic Data)
+	public BitZKline getKline(CurrencyPair currencyPair, String timescale) throws IOException {
+	  return this.getBitZKline(BitZUtils.toPairString(currencyPair), timescale);
+	}
 }
