@@ -5,112 +5,117 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Author: brox Since: 2/5/14
+ * Author: bryant_harris
  */
 public class AbucoinsOrder {
-
-  private final long id;
-  private final long time;
-  private final Type type;
-  private final BigDecimal price;
-  private final BigDecimal amount;
-  private final BigDecimal pending;
-  private final String errorMessage;
-
-  /**
-   * non-JSON fields
-   */
-  private String tradableIdentifier;
-  private String transactionCurrency;
-
-  /**
-   * Constructor
-   *
-   * @param id
-   * @param time
-   * @param type
-   * @param price
-   * @param amount
-   * @param pending
-   */
-  public AbucoinsOrder(@JsonProperty("id") long id, @JsonProperty("time") long time, @JsonProperty("type") Type type,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("pending") BigDecimal pending,
-      @JsonProperty("error") String errorMessage) {
-
+  String id;
+  BigDecimal price;
+  BigDecimal size;
+  String productID;
+  Side side;
+  Type type;
+  TimeInForce timeInForce;
+  boolean postOnly;
+  String createdAt;
+  BigDecimal filledSize;
+  Status status;
+  boolean settled;
+        
+  public AbucoinsOrder(@JsonProperty("id") String id,
+                       @JsonProperty("price") BigDecimal price,
+                       @JsonProperty("size") BigDecimal size,
+                       @JsonProperty("product_id") String productID,
+                       @JsonProperty("side") Side side,
+                       @JsonProperty("type") Type type,
+                       @JsonProperty("time_in_force") TimeInForce timeInForce,
+                       @JsonProperty("post_only") boolean postOnly,
+                       @JsonProperty("created_at") String createdAt,
+                       @JsonProperty("filled_size") BigDecimal filledSize,
+                       @JsonProperty("status") Status status,
+                       @JsonProperty("settled") boolean settled) {
+    super();
     this.id = id;
-    this.time = time;
-    this.type = type;
     this.price = price;
-    this.amount = amount;
-    this.pending = pending;
-    this.errorMessage = errorMessage;
+    this.size = size;
+    this.productID = productID;
+    this.side = side;
+    this.type = type;
+    this.timeInForce = timeInForce;
+    this.postOnly = postOnly;
+    this.createdAt = createdAt;
+    this.filledSize = filledSize;
+    this.status = status;
+    this.settled = settled;
   }
-
-  public long getId() {
-
+  
+  public String getId() {
     return id;
   }
 
-  public long getTime() {
-
-    return time;
-  }
-
-  public Type getType() {
-
-    return type;
-  }
-
   public BigDecimal getPrice() {
-
     return price;
   }
 
-  public BigDecimal getAmount() {
-
-    return amount;
+  public BigDecimal getSize() {
+    return size;
   }
 
-  public BigDecimal getPending() {
-
-    return pending;
+  public String getProductID() {
+    return productID;
   }
 
-  public String getErrorMessage() {
-
-    return errorMessage;
+  public Side getSide() {
+    return side;
   }
 
-  public String getTradableIdentifier() {
-
-    return tradableIdentifier;
+  public Type getType() {
+    return type;
   }
 
-  public void setTradableIdentifier(String tradableIdentifier) {
-
-    this.tradableIdentifier = tradableIdentifier;
+  public TimeInForce getTimeInForce() {
+    return timeInForce;
   }
 
-  public String getTransactionCurrency() {
-
-    return transactionCurrency;
+  public boolean isPostOnly() {
+    return postOnly;
   }
 
-  public void setTransactionCurrency(String transactionCurrency) {
+  public String getCreatedAt() {
+    return createdAt;
+  }
 
-    this.transactionCurrency = transactionCurrency;
+  public BigDecimal getFilledSize() {
+    return filledSize;
+  }
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public boolean isSettled() {
+    return settled;
   }
 
   @Override
   public String toString() {
-
-    return errorMessage != null ? errorMessage
-        : String.format("Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}", id, time, type, price, amount, pending);
+    return "AbucoinsOrder [id=" + id + ", price=" + price + ", size=" + size + ", productID=" + productID + ", side="
+        + side + ", type=" + type + ", timeInForce=" + timeInForce + ", postOnly=" + postOnly + ", createdAt="
+        + createdAt + ", filledSize=" + filledSize + ", status=" + status + ", settled=" + settled + "]";
   }
 
-  public enum Type {
-
+  public enum Side {
     buy, sell
   }
+  
+  public enum Type {
+    limit, market;
+  }
 
+  public enum TimeInForce {
+    GTC, GTT, IOC, FOK
+  }
+  
+  public enum Status {
+    pending, open, done, rejected;
+  }
 }

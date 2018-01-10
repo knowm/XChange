@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethod;
+import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -30,4 +31,20 @@ public interface AbucoinsAuthenticated extends Abucoins {
   @GET
   @Path("payment-methods")
   AbucoinsPaymentMethod[] getPaymentMethods(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  
+  @GET
+  @Path("orders")
+  AbucoinsOrder[] getOrders(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  
+  @GET
+  @Path("orders?status={status}")
+  AbucoinsOrder[] getOrdersByStatus(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("status") String status) throws IOException;
+
+  @GET
+  @Path("orders?product_id={product_id}")
+  AbucoinsOrder[] getOrdersByProductID(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("product_id") String productID) throws IOException;
+  
+  @GET
+  @Path("orders?status={status}&product_id={product_id}")
+  AbucoinsOrder[] getOrdersByStatusAndProductID(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("status") String status, @PathParam("product_id") String productID) throws IOException;
 }

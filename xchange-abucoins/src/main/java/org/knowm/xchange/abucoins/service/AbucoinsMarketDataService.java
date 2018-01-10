@@ -28,7 +28,7 @@ public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     try {
-      return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(currencyPair.toString().replace('/','-')), currencyPair);
+      return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(AbucoinsAdapters.adaptCurrencyPairToProductID(currencyPair)), currencyPair);
     }
     catch (Exception e) {
       throw new IOException("Unable to get ticker for " + currencyPair, e);
@@ -37,14 +37,14 @@ public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    AbucoinsOrderBook orderBook = getAbucoinsOrderBook(currencyPair.toString().replace('/','-'));
+    AbucoinsOrderBook orderBook = getAbucoinsOrderBook(AbucoinsAdapters.adaptCurrencyPairToProductID(currencyPair));
 
     return AbucoinsAdapters.adaptOrderBook(orderBook, currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    AbucoinsTrade[] trades = getAbucoinsTrades(currencyPair.toString().replace('/',  '-'));
+    AbucoinsTrade[] trades = getAbucoinsTrades(AbucoinsAdapters.adaptCurrencyPairToProductID(currencyPair));
 
     return AbucoinsAdapters.adaptTrades(trades, currencyPair);
   }

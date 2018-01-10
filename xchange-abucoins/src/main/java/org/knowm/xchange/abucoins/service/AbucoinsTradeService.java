@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.abucoins.dto.trade.AbucoinsArchivedOrder;
-import org.knowm.xchange.abucoins.dto.trade.AbucoinsOpenOrder;
+import org.knowm.xchange.abucoins.AbucoinsAdapters;
+import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -21,11 +21,12 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
- * Author: brox Since: 2/6/14
+ * Author: bryant_harris
  */
 
 public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements TradeService {
@@ -48,14 +49,14 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
   @Override
   public OpenOrders getOpenOrders(
       OpenOrdersParams params) throws IOException {
-
-    List<AbucoinsOrder> abucoinsOrderList;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      abucoinsOrderList = getAbucoinsOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
-    } else {
-      abucoinsOrderList = getAbucoinsOpenOrders();
-    }
-
+      if ( params instanceof OpenOrdersParamCurrencyPair ) {
+        OpenOrdersParamCurrencyPair cpParams = (OpenOrdersParamCurrencyPair) params;
+        AbucoinsOrderRequest orderRequest = new AbucoinsOrderRequest(AbucoinsOrder.Status.open,
+                                                                     AbucoinsAdapters.adaptCurrencyPairToProductID(cpParams.getCurrencyPair()));
+        AbucoinsOrder[] openOrders = this.getAbucoinsOrders(orderRequest);
+        return AbucoinsAdapters.adaptOpenOrders(openOrders);
+      }
+    
     return null;// AbucoinsAdapters.adaptOpenOrders(abucoinsOrderList);
   }
 
@@ -70,7 +71,7 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
 
     AbucoinsOrder order = placeAbucoinsLimitOrder(limitOrder);
 
-    return Long.toString(order.getId());
+    return order.getId();
   }
 
   @Override
@@ -91,11 +92,11 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     List<UserTrade> trades = new ArrayList<>();
-    for (AbucoinsArchivedOrder AbucoinsArchivedOrder : archivedOrders(params)) {
-      if (AbucoinsArchivedOrder.status.equals("c"))//"d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
-        continue;
+    //for (AbucoinsArchivedOrder AbucoinsArchivedOrder : archivedOrders(params)) {
+      //if (AbucoinsArchivedOrder.status.equals("c"))//"d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
+        //continue;
       //trades.add(AbucoinsAdapters.adaptArchivedOrder(AbucoinsArchivedOrder));
-    }
+    //}
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
@@ -106,8 +107,7 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
-    // TODO: return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override
@@ -116,7 +116,7 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
 
     List<Order> orders = new ArrayList<>();
     for (String orderId : orderIds) {
-      AbucoinsOpenOrder AbucoinsOrder = getOrderDetail(orderId);
+      //AbucoinsOpenOrder AbucoinsOrder = getOrderDetail(orderId);
       //orders.add(AbucoinsAdapters.adaptOrder(AbucoinsOrder));
     }
     return orders;
