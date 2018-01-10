@@ -1,0 +1,8 @@
+BitcoinToYou Exchange API specification
+================================
+
+Documentation
+-------------
+https://broker.bitcointoyou.com/TradeAPI/Documentation
+
+https://www.bitcointoyou.com/API/orderbook.aspx
