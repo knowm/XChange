@@ -11,8 +11,8 @@ import javax.ws.rs.core.MediaType;
 import org.xchange.bitz.dto.marketdata.result.BitZKlineResult;
 import org.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
 import org.xchange.bitz.dto.marketdata.result.BitZTickerAllResult;
-import org.xchange.bitz.dto.marketdata.result.BitZTradesResult;
 import org.xchange.bitz.dto.marketdata.result.BitZTickerResult;
+import org.xchange.bitz.dto.marketdata.result.BitZTradesResult;
 
 @Path("api_v1")
 @Produces(MediaType.APPLICATION_JSON)
