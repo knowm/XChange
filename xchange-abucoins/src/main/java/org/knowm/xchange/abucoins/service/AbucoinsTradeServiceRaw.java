@@ -98,7 +98,7 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
    * @param productIDs
    * @throws IOException
    */
-  public void deleteAbucoinsOrder(String... productIDs) throws IOException {
+  public void deleteAllAbucoinsOrders(String... productIDs) throws IOException {
     if ( productIDs.length == 0 )
       abucoinsAuthenticated.deleteAllOrders(exchange.getExchangeSpecification().getApiKey(),
                                             signatureCreator,
@@ -131,109 +131,4 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
     return order;
   }
 
-  public boolean cancelAbucoinsOrder(String orderId) throws IOException {
-          return false;
-          /*
-    return AbucoinsAuthenticated
-        .cancelOrder(signatureCreator, new AbucoinsSingleOrderIdRequest(orderId))
-        .equals(true);
-        */
-  }
-
-  public Map getOrderTransactions(String orderId) throws IOException {
-    return null;//AbucoinsAuthenticated.getOrderTransactions(signatureCreator, new AbucoinsSingleIdRequest(orderId));
-  }
-
-  public static class AbucoinsTradeHistoryParams implements TradeHistoryParams, TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan, TradeHistoryParamLimit {
-
-    private CurrencyPair currencyPair;
-
-    /**
-     * limit the number of entries in response (1 to 100)
-     */
-    private Integer limit;
-
-    /**
-     * end date for open orders filtering (timestamp in seconds, 10 digits)
-     */
-    private Long dateTo;
-
-    /**
-     * start date for open order filtering (timestamp in seconds, 10 digits)
-     */
-    private Long dateFrom;
-
-    /**
-     * end date for last change orders filtering (timestamp in seconds, 10 digits)
-     */
-    private final Long lastTxDateTo;
-
-    /**
-     * start date for last change order filtering (timestamp in seconds, 10 digits)
-     */
-    private final Long lastTxDateFrom;
-
-    /**
-     * "d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
-     */
-    private final String status;//todo: this should be an enum
-
-    public AbucoinsTradeHistoryParams(CurrencyPair currencyPair) {
-      this(currencyPair, null, (Date) null, null, null, null, null);
-    }
-
-    public AbucoinsTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Date dateFrom, Date dateTo, Date lastTxDateFrom, Date lastTxDateTo, String status) {
-      this(currencyPair, limit, toUnixTimeNullSafe(dateFrom), toUnixTimeNullSafe(dateTo), toUnixTimeNullSafe(lastTxDateFrom), toUnixTimeNullSafe(lastTxDateTo), status);
-    }
-
-    public AbucoinsTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Long dateFrom, Long dateTo, Long lastTxDateFrom, Long lastTxDateTo, String status) {
-      this.currencyPair = currencyPair;
-      this.limit = limit;
-      this.dateTo = dateTo;
-      this.dateFrom = dateFrom;
-      this.lastTxDateTo = lastTxDateTo;
-      this.lastTxDateFrom = lastTxDateFrom;
-      this.status = status;
-    }
-
-    @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
-      this.currencyPair = currencyPair;
-    }
-
-    @Override
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
-    }
-
-    @Override
-    public void setStartTime(Date startTime) {
-      this.dateFrom = startTime.getTime();
-    }
-
-    @Override
-    public Date getStartTime() {
-      return this.dateFrom == null ? null : new Date(this.dateFrom);
-    }
-
-    @Override
-    public void setEndTime(Date endTime) {
-      this.dateTo = endTime.getTime();
-    }
-
-    @Override
-    public Date getEndTime() {
-      return this.dateTo == null ? null : new Date(this.dateTo);
-    }
-
-    @Override
-    public void setLimit(Integer limit) {
-      this.limit = limit;
-    }
-
-    @Override
-    public Integer getLimit() {
-      return limit;
-    }
-  }
 }

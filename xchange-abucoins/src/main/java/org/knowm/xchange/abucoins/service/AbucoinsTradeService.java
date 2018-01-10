@@ -18,6 +18,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -47,15 +48,14 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
-      if ( params instanceof OpenOrdersParamCurrencyPair ) {
-        OpenOrdersParamCurrencyPair cpParams = (OpenOrdersParamCurrencyPair) params;
-        AbucoinsOrderRequest orderRequest = new AbucoinsOrderRequest(AbucoinsOrder.Status.open,
-                                                                     AbucoinsAdapters.adaptCurrencyPairToProductID(cpParams.getCurrencyPair()));
-        AbucoinsOrder[] openOrders = this.getAbucoinsOrders(orderRequest);
-        return AbucoinsAdapters.adaptOpenOrders(openOrders);
-      }
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    if ( params instanceof OpenOrdersParamCurrencyPair ) {
+      OpenOrdersParamCurrencyPair cpParams = (OpenOrdersParamCurrencyPair) params;
+      AbucoinsOrderRequest orderRequest = new AbucoinsOrderRequest(AbucoinsOrder.Status.open,
+                                                                   AbucoinsAdapters.adaptCurrencyPairToProductID(cpParams.getCurrencyPair()));
+      AbucoinsOrder[] openOrders = this.getAbucoinsOrders(orderRequest);
+      return AbucoinsAdapters.adaptOpenOrders(openOrders);
+    }
     
     return null;// AbucoinsAdapters.adaptOpenOrders(abucoinsOrderList);
   }
@@ -77,13 +77,16 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return cancelAbucoinsOrder(orderId);
+    deleteAbucoinsOrder(orderId);
+    return true;
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByIdParams) {
-      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    if (orderParams instanceof CancelOrderByCurrencyPair) {
+      CancelOrderByCurrencyPair cob = (CancelOrderByCurrencyPair) orderParams;
+      deleteAllAbucoinsOrders(AbucoinsAdapters.adaptCurrencyPairToProductID(cob.getCurrencyPair()));
+      return true;
     } else {
       return false;
     }
@@ -111,13 +114,12 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
 
     List<Order> orders = new ArrayList<>();
     for (String orderId : orderIds) {
-      //AbucoinsOpenOrder AbucoinsOrder = getOrderDetail(orderId);
-      //orders.add(AbucoinsAdapters.adaptOrder(AbucoinsOrder));
+      AbucoinsOrder AbucoinsOrder = getAbucoinsOrder(orderId);
+      orders.add(AbucoinsAdapters.adaptOrder(AbucoinsOrder));
     }
     return orders;
   }
