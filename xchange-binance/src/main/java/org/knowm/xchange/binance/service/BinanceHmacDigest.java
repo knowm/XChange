@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
+import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
+
 public class BinanceHmacDigest extends BaseParamsDigest {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceHmacDigest.class);
@@ -60,7 +62,7 @@ public class BinanceHmacDigest extends BaseParamsDigest {
 
       Mac mac = getMac();
       mac.update(input.getBytes("UTF-8"));
-      String printBase64Binary = DatatypeConverter.printHexBinary(mac.doFinal());
+      String printBase64Binary = bytesToHex(mac.doFinal());
       LOG.debug("value to sign: {},  signature: {}", input, printBase64Binary);
 
       // https://github.com/mmazi/rescu/issues/62

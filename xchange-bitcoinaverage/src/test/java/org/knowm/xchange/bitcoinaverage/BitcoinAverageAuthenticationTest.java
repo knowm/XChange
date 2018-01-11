@@ -12,6 +12,8 @@ import javax.xml.bind.DatatypeConverter;
 import org.junit.Assume;
 import org.junit.Test;
 
+import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
+
 public class BitcoinAverageAuthenticationTest {
 
   private static final String BITCOINAVERAGE_SECRET_KEY = "BITCOINAVERAGE_SECRET_KEY";
@@ -54,7 +56,7 @@ public class BitcoinAverageAuthenticationTest {
     Mac sha256_Mac = Mac.getInstance("HmacSHA256");
     SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256");
     sha256_Mac.init(secretKeySpec);
-    String hashHex = DatatypeConverter.printHexBinary(sha256_Mac.doFinal(payload.getBytes())).toLowerCase();
+    String hashHex =  bytesToHex(sha256_Mac.doFinal(payload.getBytes())).toLowerCase();
     String signature = payload + "." + hashHex;
     return signature;
   }
