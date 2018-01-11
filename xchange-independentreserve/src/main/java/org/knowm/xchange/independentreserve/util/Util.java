@@ -1,11 +1,13 @@
 package org.knowm.xchange.independentreserve.util;
 
+import org.apache.commons.lang3.time.FastDateFormat;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import javax.xml.bind.DatatypeConverter;
 
 public class Util {
 
@@ -24,7 +26,7 @@ public class Util {
   /**
    * Format a date String for IR
    *
-   * @param date
+   * @param d a date
    * @return formatted date for Independent Reserve
    */
   public static String formatDate(Date d) {
@@ -33,10 +35,8 @@ public class Util {
     }
   }
 
-  public static Date toDate(String date) {
-    Calendar cal = DatatypeConverter.parseDateTime(date);
-    cal.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
-    return cal.getTime();
+  public static Date toDate(String date) throws ParseException {
+    return FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse(date);
   }
 
 }

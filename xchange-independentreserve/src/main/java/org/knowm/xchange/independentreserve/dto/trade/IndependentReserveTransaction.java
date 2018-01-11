@@ -1,11 +1,11 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Date;
 
-import javax.xml.bind.DatatypeConverter;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.time.FastDateFormat;
 
 public class IndependentReserveTransaction {
 
@@ -25,17 +25,17 @@ public class IndependentReserveTransaction {
       @JsonProperty("bitcoinTransactionOutputIndex") String bitcoinTransactionOutputIndex, @JsonProperty("Comment") String comment,
       @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc, @JsonProperty("Credit") BigDecimal credit,
       @JsonProperty("CurrencyCode") String currencyCode, @JsonProperty("Debit") BigDecimal debit,
-      @JsonProperty("SettleTimestampUtc") String settleTimestampUtc, @JsonProperty("Status") String status, @JsonProperty("Type") Type type) {
+      @JsonProperty("SettleTimestampUtc") String settleTimestampUtc, @JsonProperty("Status") String status, @JsonProperty("Type") Type type) throws ParseException {
     super();
     this.balance = balance;
     this.bitcoinTransactionId = bitcoinTransactionId;
     this.bitcoinTransactionOutputIndex = bitcoinTransactionOutputIndex;
     this.comment = comment;
-    this.createdTimestamp = createdTimestampUtc == null ? null : DatatypeConverter.parseDateTime(createdTimestampUtc).getTime();
+    this.createdTimestamp = createdTimestampUtc == null ? null : FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse(createdTimestampUtc) ;
     this.credit = credit;
     this.currencyCode = currencyCode;
     this.debit = debit;
-    this.settleTimestamp = settleTimestampUtc == null ? null : DatatypeConverter.parseDateTime(settleTimestampUtc).getTime();
+    this.settleTimestamp = settleTimestampUtc == null ? null : FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse(settleTimestampUtc) ;
     this.status = status;
     this.type = type;
   }

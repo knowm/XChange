@@ -1,5 +1,7 @@
 package org.knowm.xchange.cryptopia;
 
+import java.text.ParseException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,8 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
 
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaOrder;
@@ -39,10 +42,14 @@ public final class CryptopiaAdapters {
   private CryptopiaAdapters() {
   }
 
-  public static Date convertTimestamp(String timestamp) {
-    Calendar cal = DatatypeConverter.parseDateTime(timestamp);
-    cal.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
-    return cal.getTime();
+  public static Date convertTimestamp(String timestamp)   {
+
+
+    try {
+      return  FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse(timestamp);
+    } catch (ParseException e) {
+      throw new Error("parser code needs review here... "+timestamp);
+    }
   }
 
   /**
