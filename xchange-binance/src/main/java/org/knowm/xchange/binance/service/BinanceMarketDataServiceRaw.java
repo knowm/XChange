@@ -1,7 +1,6 @@
 package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +13,8 @@ import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.marketdata.BinanceSymbolPrice;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
-import org.knowm.xchange.binance.dto.meta.BinanceTime;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.StreamUtils;
 
 public class BinanceMarketDataServiceRaw extends BinanceBaseService {
 
@@ -25,11 +24,6 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
 
   public void ping() throws IOException {
     binance.ping();
-  }
-
-  public Date time() throws IOException {
-    BinanceTime time = binance.time();
-    return time.getServerTime();
   }
 
   public BinanceOrderbook getBinanceOrderbook(CurrencyPair pair, Integer limit) throws IOException {
@@ -49,6 +43,12 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
     BinanceTicker24h ticker24h = binance.ticker24h(BinanceAdapters.toSymbol(pair));
     ticker24h.setCurrencyPair(pair);
     return ticker24h;
+  }
+
+  public BinanceSymbolPrice tickerPrice(CurrencyPair pair) throws IOException {
+    return tickerAllPrices().stream()
+    .filter(p -> p.getCurrencyPair().equals(pair))
+    .collect(StreamUtils.singletonCollector());
   }
 
   public List<BinanceSymbolPrice> tickerAllPrices() throws IOException {
