@@ -7,29 +7,28 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 public class BitflyerOrderbook {
-    public final BigDecimal mid_price;
-    public final SortedMap<BigDecimal, BigDecimal> bids;
-    public final SortedMap<BigDecimal, BigDecimal> asks;
+    private final BigDecimal mid_price;
+    private final List<BitflyerOrderbookEntry> bids;
+    private final List<BitflyerOrderbookEntry> asks;
 
     public BitflyerOrderbook(@JsonProperty("mid_price") BigDecimal mid_price
-            , @JsonProperty("bids") List<Object[]> bidsJson
-            , @JsonProperty("asks") List<Object[]> asksJson) {
+            , @JsonProperty("bids") List<BitflyerOrderbookEntry> bidsJson
+            , @JsonProperty("asks") List<BitflyerOrderbookEntry> asksJson) {
 
         this.mid_price = mid_price;
+        this.bids = bidsJson;
+        this.asks = asksJson;
+    }
 
-        BiConsumer<Object[], Map<BigDecimal, BigDecimal>> entryProcessor = (obj, col) -> {
-            BigDecimal price = new BigDecimal(obj[0].toString());
-            BigDecimal qty = new BigDecimal(obj[1].toString());
-            col.put(price, qty);
-        };
+    public BigDecimal getMidPrice() {
+        return mid_price;
+    }
 
-        TreeMap<BigDecimal, BigDecimal> bids = new TreeMap<>((k1, k2) -> -k1.compareTo(k2));
-        TreeMap<BigDecimal, BigDecimal> asks = new TreeMap<>();
+    public List<BitflyerOrderbookEntry> getBids() {
+        return bids;
+    }
 
-        bidsJson.forEach(e -> entryProcessor.accept(e, bids));
-        asksJson.forEach(e -> entryProcessor.accept(e, asks));
-
-        this.bids = Collections.unmodifiableSortedMap(bids);
-        this.asks = Collections.unmodifiableSortedMap(asks);
+    public List<BitflyerOrderbookEntry> getAsks() {
+        return asks;
     }
 }
