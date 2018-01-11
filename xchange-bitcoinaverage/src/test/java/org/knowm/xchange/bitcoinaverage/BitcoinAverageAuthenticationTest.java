@@ -7,7 +7,6 @@ import java.net.URL;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 
 import org.junit.Assume;
 import org.junit.Test;

@@ -1,9 +1,10 @@
 package org.knowm.xchange.independentreserve.dto.marketdata;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.lang3.time.FastDateFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -22,9 +23,9 @@ public class IndependentReserveOrderBook {
   public IndependentReserveOrderBook(@JsonProperty("BuyOrders") List<OrderBookOrder> buyOrders,
       @JsonProperty("SellOrders") List<OrderBookOrder> sellOrders, @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
       @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode,
-      @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc) throws InvalidFormatException {
+      @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc) throws InvalidFormatException, ParseException {
     this.buyOrders = buyOrders;
-    this.createdTimestamp = DatatypeConverter.parseDateTime(createdTimestampUtc).getTime();
+    this.createdTimestamp = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse(createdTimestampUtc) ;
     this.sellOrders = sellOrders;
     this.primaryCurrencyCode = primaryCurrencyCode;
     this.secondaryCurrencyCode = secondaryCurrencyCode;

@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 
 import javax.crypto.Mac;
 import javax.ws.rs.QueryParam;
-import javax.xml.bind.DatatypeConverter;
 
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.service.BaseParamsDigest;
