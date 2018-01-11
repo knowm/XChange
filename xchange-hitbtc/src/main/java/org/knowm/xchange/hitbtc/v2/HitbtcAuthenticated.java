@@ -92,18 +92,11 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   /********************* Trading History APIs ******************************/
 
-  //TODO add query params
-
-  /**
-   * Get historical trades. There can be one to many trades per order.
-   *
-   * @return
-   * @throws IOException
-   * @throws HitbtcException
-   */
   @GET
   @Path("history/trades")
-  List<HitbtcOwnTrade> getHitbtcTrades() throws IOException, HitbtcException;
+  List<HitbtcOwnTrade> getHitbtcTrades(@QueryParam("symbol") String symbol, @QueryParam("sort") String sort, @QueryParam("by") String sortBy,
+                                       @QueryParam("from") String from, @QueryParam("till") String till, @QueryParam("limit") long limit,
+                                       @QueryParam("offset") long offset) throws IOException, HitbtcException;
 
   //TODO add query params
 
@@ -117,6 +110,18 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @GET
   @Path("history/order")
   List<HitbtcOrder> getHitbtcRecentOrders() throws IOException, HitbtcException;
+
+  /**
+   * Get an old order. The returning collection contains, at most, 1 element.
+   *
+   * @return
+   * @throws IOException
+   * @throws HitbtcException
+   */
+  @GET
+  @Path("history/order")
+  List<HitbtcOrder> getHitbtcOrder(@PathParam("symbol") String symbol, 
+                                   @PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
 
   @GET
   @Path("/history/order/{id}/trades")

@@ -171,6 +171,7 @@ public final class BinanceTicker24h {
     if (ticker == null) {
       ticker = new Ticker.Builder()
           .currencyPair(pair)
+          .open(openPrice)
           .ask(askPrice)
           .bid(bidPrice)
           .last(lastPrice)

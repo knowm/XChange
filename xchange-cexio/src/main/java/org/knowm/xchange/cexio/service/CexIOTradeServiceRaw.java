@@ -92,7 +92,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
         .equals(true);
   }
 
-  public List<CexIOArchivedOrder> archivedOrders(TradeHistoryParams tradeHistoryParams) throws HttpStatusIOException {
+  public List<CexIOArchivedOrder> archivedOrders(TradeHistoryParams tradeHistoryParams) throws IOException {
     String baseCcy = null;
     String counterCcy = null;
     Integer limit = null;

@@ -62,7 +62,7 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
 
     return response.getData().get("Address").toString();
   }
-
+  
   public List<FundingRecord> getTransactions(String type, Integer count) throws IOException {
     CryptopiaBaseResponse<List<Map>> response = cryptopia.getTransactions(signatureCreator, new Cryptopia.GetTransactionsRequest(type, count));
     if (!response.isSuccess())
@@ -76,14 +76,23 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
           ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL;
 
       FundingRecord.Status status;
-
       String rawStatus = map.get("Status").toString();
-      if (rawStatus.equals("Confirmed"))
-        status = FundingRecord.Status.COMPLETE;
-      else if (rawStatus.equals("Pending"))
-        status = FundingRecord.Status.PROCESSING;
-      else
-        status = FundingRecord.Status.FAILED;//is there a 4th state?
+      switch (rawStatus) {
+        case "UnConfirmed":
+        case "Pending":
+            status = FundingRecord.Status.PROCESSING;
+            break;
+        case "Confirmed":
+        case "Complete":
+            status = FundingRecord.Status.COMPLETE;
+            break;
+        default:
+            status = FundingRecord.Status.resolveStatus(rawStatus);
+            if (status == null) {
+                status = FundingRecord.Status.FAILED; 
+            }
+            break;
+      }
 
       String address = map.get("Address") == null ? null : map.get("Address").toString();
 
