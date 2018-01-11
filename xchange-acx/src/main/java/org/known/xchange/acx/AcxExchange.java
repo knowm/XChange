@@ -41,5 +41,4 @@ public class AcxExchange extends BaseExchange implements Exchange {
         return nonceFactory;
     }
 
-
 }

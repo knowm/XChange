@@ -1,21 +1,8 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendLevel;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.*;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import org.knowm.xchange.currency.Currency;
@@ -33,15 +20,14 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
-import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.Map.Entry;
 
 public final class BitfinexAdapters {
 
@@ -250,13 +236,20 @@ public final class BitfinexAdapters {
         .build();
   }
 
-  public static Wallet adaptWallet(BitfinexBalancesResponse[] response) {
+  public static List<Wallet> adaptWallets(BitfinexBalancesResponse[] response) {
 
-    Map<String, BigDecimal[]> balancesByCurrency = new HashMap<>(); // {total, available}
+    Map<String, Map<String, BigDecimal[]>> walletsBalancesMap = new HashMap<>();
 
     // for each currency we have multiple balances types: exchange, trading, deposit.
     // each of those may be partially frozen/available
     for (BitfinexBalancesResponse balance : response) {
+      String walletId = balance.getType();
+
+      if (!walletsBalancesMap.containsKey(walletId)) {
+        walletsBalancesMap.put(walletId, new HashMap<>());
+      }
+      Map<String, BigDecimal[]> balancesByCurrency = walletsBalancesMap.get(walletId); // {total, available}
+
       String currencyName = adaptBitfinexCurrency(balance.getCurrency());
       BigDecimal[] balanceDetail = balancesByCurrency.get(currencyName);
       if (balanceDetail == null) {
@@ -268,16 +261,22 @@ public final class BitfinexAdapters {
       balancesByCurrency.put(currencyName, balanceDetail);
     }
 
-    List<Balance> balances = new ArrayList<>(balancesByCurrency.size());
-    for (Entry<String, BigDecimal[]> entry : balancesByCurrency.entrySet()) {
-      String currencyName = entry.getKey();
-      BigDecimal[] balanceDetail = entry.getValue();
-      BigDecimal balanceTotal = balanceDetail[0];
-      BigDecimal balanceAvailable = balanceDetail[1];
-      balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
+    List<Wallet> wallets = new ArrayList<>();
+    for (Entry<String, Map<String, BigDecimal[]>> walletData : walletsBalancesMap.entrySet()) {
+      Map<String, BigDecimal[]> balancesByCurrency = walletData.getValue();
+
+      List<Balance> balances = new ArrayList<>(balancesByCurrency.size());
+      for (Entry<String, BigDecimal[]> entry : balancesByCurrency.entrySet()) {
+        String currencyName = entry.getKey();
+        BigDecimal[] balanceDetail = entry.getValue();
+        BigDecimal balanceTotal = balanceDetail[0];
+        BigDecimal balanceAvailable = balanceDetail[1];
+        balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
+      }
+      wallets.add(new Wallet(walletData.getKey(), balances));
     }
 
-    return new Wallet(balances);
+    return wallets;
   }
 
   public static OpenOrders adaptOrders(BitfinexOrderStatusResponse[] activeOrders) {

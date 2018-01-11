@@ -1,11 +1,10 @@
 package org.known.xchange.acx;
 
-import org.knowm.xchange.dto.Order;
 import org.known.xchange.acx.dto.AcxTrade;
 import org.known.xchange.acx.dto.account.AcxAccountInfo;
+import org.known.xchange.acx.dto.marketdata.AcxMarket;
 import org.known.xchange.acx.dto.marketdata.AcxOrder;
 import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
-import org.known.xchange.acx.dto.marketdata.AcxMarket;
 import si.mazi.rescu.ParamsDigest;
 
 import javax.ws.rs.*;
@@ -87,6 +86,35 @@ public interface AcxApi {
                              @PathParam("market") String market,
                              @PathParam("signature") ParamsDigest signature) throws IOException;
 
+    /**
+     * Create a Sell/Buy order.
+     *
+     * @param accessKey Access key.
+     * @param tonce     Tonce is an integer represents the milliseconds elapsed since Unix epoch.
+     * @param market    Unique market id. It's always in the form of xxxyyy,
+     *                  where xxx is the base currency code, yyy is the quote
+     *                  currency code, e.g. 'btcaud'. All available markets c
+     *                  an be found at /api/v2/markets.
+     * @param side      Either 'sell' or 'buy'.
+     * @param volume    The amount user want to sell/buy. An order could be partially executed,
+     *                  e.g. an order sell 5 btc can be matched with a buy 3 btc order, left 2
+     *                  btc to be sold; in this case the order's volume would be '5.0', its
+     *                  remaining_volume would be '2.0', its executed volume is '3.0'.
+     * @param price     Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 CNY,
+     *                  the price is '3000.0'
+     * @param ordType   no docs, perhaps limit or market
+     * @param signature The signature of your request payload, generated using your secret key.
+     */
+    @POST
+    @Path("/orders.json")
+    AcxOrder createOrder(@FormParam("access_key") String accessKey,
+                         @FormParam("tonce") long tonce,
+                         @FormParam("market") String market,
+                         @FormParam("side") String side,
+                         @FormParam("volume") String volume,
+                         @FormParam("price") String price,
+                         @FormParam("ord_type") String ordType,
+                         @FormParam("signature") ParamsDigest signature) throws IOException;
 
     /**
      * Cancel an order.
@@ -97,11 +125,11 @@ public interface AcxApi {
      * @param signature The signature of your request payload, generated using your secret key.
      */
     @POST
-    @Path("/order/delete.json?access_key={access_key}&tonce={tonce}&id={id}&signature={signature}")
-    AcxOrder cancelOrder(@PathParam("access_key") String accessKey,
-                         @PathParam("tonce") long tonce,
-                         @PathParam("id") String id,
-                         @PathParam("signature") ParamsDigest signature) throws IOException;
+    @Path("/order/delete.json")
+    AcxOrder cancelOrder(@FormParam("access_key") String accessKey,
+                         @FormParam("tonce") long tonce,
+                         @FormParam("id") String id,
+                         @FormParam("signature") ParamsDigest signature) throws IOException;
 
 
 }

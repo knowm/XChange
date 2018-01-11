@@ -32,6 +32,10 @@
     },
     "ARN/BTC": {
       "price_scale": 8
+    },
+    "XVG/BTC": {
+      "price_scale": 8,
+      "min_amount": 1000
     }
   },
   "currencies": {

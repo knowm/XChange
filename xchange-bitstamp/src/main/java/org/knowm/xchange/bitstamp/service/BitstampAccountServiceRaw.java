@@ -155,10 +155,10 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     return response;
   }
 
-  public List<WithdrawalRequest> getWithdrawalRequests() throws IOException {
+  public List<WithdrawalRequest> getWithdrawalRequests(Long timeDelta) throws IOException {
 
     final List<WithdrawalRequest> response = Arrays.asList(
-        bitstampAuthenticated.getWithdrawalRequests(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory()));
+        bitstampAuthenticatedV2.getWithdrawalRequests(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), timeDelta));
     return response;
   }
 
