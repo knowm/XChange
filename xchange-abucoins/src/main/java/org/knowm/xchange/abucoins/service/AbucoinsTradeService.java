@@ -7,19 +7,19 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.AbucoinsAdapters;
+import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
+import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
@@ -53,32 +53,36 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
       OpenOrdersParamCurrencyPair cpParams = (OpenOrdersParamCurrencyPair) params;
       AbucoinsOrderRequest orderRequest = new AbucoinsOrderRequest(AbucoinsOrder.Status.open,
                                                                    AbucoinsAdapters.adaptCurrencyPairToProductID(cpParams.getCurrencyPair()));
-      AbucoinsOrder[] openOrders = this.getAbucoinsOrders(orderRequest);
+      AbucoinsOrder[] openOrders = getAbucoinsOrders(orderRequest);
       return AbucoinsAdapters.adaptOpenOrders(openOrders);
     }
     
-    return null;// AbucoinsAdapters.adaptOpenOrders(abucoinsOrderList);
+    throw new NotYetImplementedForExchangeException("Only OpenOrdersParamCurrencyPair supported");
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    AbucoinsCreateMarketOrderRequest req = AbucoinsAdapters.adaptAbucoinsCreateMarketOrderRequest(marketOrder); 
+    AbucoinsCreateOrderResponse resp = createAbucoinsOrder(req);
+    if ( resp.getMessage() != null )
+      throw new IOException(resp.getMessage());
+    return resp.getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-
-    AbucoinsOrder order = placeAbucoinsLimitOrder(limitOrder);
-
-    return order.getId();
+    AbucoinsCreateLimitOrderRequest req = AbucoinsAdapters.adaptAbucoinsCreateLimitOrderRequest(limitOrder);
+    AbucoinsCreateOrderResponse resp = createAbucoinsOrder(req);
+    if ( resp.getMessage() != null )
+      throw new IOException(resp.getMessage());
+    return resp.getId();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    deleteAbucoinsOrder(orderId);
-    return true;
+    String id = deleteAbucoinsOrder(orderId);
+    return id.equals(orderId);
   }
 
   @Override
@@ -88,24 +92,18 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
       deleteAllAbucoinsOrders(AbucoinsAdapters.adaptCurrencyPairToProductID(cob.getCurrencyPair()));
       return true;
     } else {
-      return false;
+      throw new NotYetImplementedForExchangeException("Only CancelOrderByCurrencyPair supported");
     }
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    List<UserTrade> trades = new ArrayList<>();
-    //for (AbucoinsArchivedOrder AbucoinsArchivedOrder : archivedOrders(params)) {
-      //if (AbucoinsArchivedOrder.status.equals("c"))//"d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
-        //continue;
-      //trades.add(AbucoinsAdapters.adaptArchivedOrder(AbucoinsArchivedOrder));
-    //}
-    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

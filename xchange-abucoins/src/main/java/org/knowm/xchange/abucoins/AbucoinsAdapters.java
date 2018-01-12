@@ -7,8 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.TimeZone;
 
+import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
+import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
@@ -251,6 +255,20 @@ public class AbucoinsAdapters {
     }
   }
   
+  public static AbucoinsOrder.Side adaptAbucoinsSide(OrderType orderType) {
+    switch( orderType ) {
+    case BID:
+      return AbucoinsOrder.Side.buy;
+                  
+    case ASK:
+      return AbucoinsOrder.Side.sell;
+
+    default:
+      logger.warn("Unrecognized OrderType " + orderType + " returning null for Side");
+      return null;
+    }
+  }
+  
   public static OrderStatus adaptOrderStatus(AbucoinsOrder.Status status) {
     switch ( status ) {
     case pending:
@@ -280,5 +298,32 @@ public class AbucoinsAdapters {
     String base = abucoinsProductID.substring(0, indexOf);
     String counter = abucoinsProductID.substring(indexOf+1);
     return new CurrencyPair(Currency.getInstanceNoCreate(base), Currency.getInstanceNoCreate(counter));
+  }
+  
+  public static AbucoinsCreateMarketOrderRequest adaptAbucoinsCreateMarketOrderRequest(MarketOrder marketOrder) {
+    return new AbucoinsCreateMarketOrderRequest( adaptAbucoinsSide(marketOrder.getType()),
+                                                 adaptCurrencyPairToProductID(marketOrder.getCurrencyPair()),
+                                                 marketOrder.getOriginalAmount(),
+                                                 null);
+  }
+  
+ public static AbucoinsCreateLimitOrderRequest adaptAbucoinsCreateLimitOrderRequest(LimitOrder limitOrder) {
+   return new AbucoinsCreateLimitOrderRequest( adaptAbucoinsSide(limitOrder.getType()),
+                                               adaptCurrencyPairToProductID(limitOrder.getCurrencyPair()),
+                                               null,
+                                               null,
+                                               limitOrder.getLimitPrice(),
+                                               limitOrder.getOriginalAmount(),
+                                               AbucoinsOrder.TimeInForce.GTC,
+                                               null,
+                                               null);
+ }
+  
+  public static String[] adaptToSetOfIDs(String resp) {
+    StringTokenizer tok = new StringTokenizer(resp, "[], ");
+    List<String> res = new ArrayList<>();
+    while ( tok.hasMoreTokens() )
+      res.add( tok.nextToken());
+    return res.toArray(new String[ res.size()]);
   }
 }

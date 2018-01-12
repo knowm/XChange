@@ -13,7 +13,7 @@ import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 /**
- * @author kfonal
+ * @author bryant_harris
  */
 public class AbucoinsDigest extends BaseParamsDigest {
   long timeDiffFromServer = 0;
@@ -45,8 +45,10 @@ public class AbucoinsDigest extends BaseParamsDigest {
     String method = restInvocation.getHttpMethod();
     String path = restInvocation.getPath();
     String queryParameters = restInvocation.getQueryString();
+    String body = restInvocation.getRequestBody();
+    body = body == null ? "" : body;
           
-    String queryArgs = timestamp + method + path + queryParameters;
+    String queryArgs = timestamp + method + path + (queryParameters + body);
     Mac shaMac = getMac();
     final byte[] macData = shaMac.doFinal(queryArgs.getBytes());
     return Base64.getEncoder().encodeToString(macData);
