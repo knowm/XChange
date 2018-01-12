@@ -1,7 +1,7 @@
 {
-  "bestBid": 13700000000,
-  "bestAsk": 14000000000,
-  "lastPrice": 14000000000,
+  "bestBid": 137.00,
+  "bestAsk": 140.00,
+  "lastPrice": 140.00,
   "currency": "AUD",
   "instrument": "BTC",
   "timestamp": 1378878117
