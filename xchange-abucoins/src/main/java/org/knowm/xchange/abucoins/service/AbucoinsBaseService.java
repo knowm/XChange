@@ -1,12 +1,20 @@
 package org.knowm.xchange.abucoins.service;
 
+import java.math.BigDecimal;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.Abucoins;
 import org.knowm.xchange.abucoins.AbucoinsAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 
 /**
  * @author bryant_harris
@@ -32,5 +40,15 @@ public class AbucoinsBaseService extends BaseExchangeService implements BaseServ
                                                          exchange.getExchangeSpecification().getSslUri());
     signatureCreator = AbucoinsDigest.createInstance(abucoins,
                                                      exchange.getExchangeSpecification().getSecretKey());
+    
+    getClientConfig().setJacksonObjectMapperFactory(new DefaultJacksonObjectMapperFactory() {
+            @Override
+            public void configureObjectMapper(ObjectMapper objectMapper) {
+              super.configureObjectMapper(objectMapper);
+              SimpleModule module = new SimpleModule();
+              module.addSerializer(BigDecimal.class, new ToStringSerializer());
+              objectMapper.registerModule(module);
+            }
+        });
   }
 }
