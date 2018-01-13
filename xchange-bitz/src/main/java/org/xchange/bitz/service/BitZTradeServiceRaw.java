@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.xchange.bitz.BitZ;
 import org.xchange.bitz.BitZAuthenticated;
 import org.xchange.bitz.dto.marketdata.BitZPublicOrder;
@@ -29,7 +30,7 @@ public class BitZTradeServiceRaw extends BitZBaseService {
 		this.bitz = RestProxyFactory.createProxy(BitZ.class, exchange.getExchangeSpecification().getSslUri());
 		this.bitzAuthenticated = RestProxyFactory.createProxy(BitZAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
 	
-		// TODO: Implement Customization
+		// TODO: Implement Password
 		this.tradePwd = "";
 		
 		this.apiKey = exchange.getExchangeSpecification().getApiKey();
@@ -41,12 +42,12 @@ public class BitZTradeServiceRaw extends BitZBaseService {
 	
 	//TODO: Implement Method
 	public boolean cancelBitZTrade(int orderId) throws IOException {
-	  return false;
+	  throw new NotYetImplementedForExchangeException();
 	}
 	
 	//TODO: Implement Method
 	public BitZTradeAddResult placeBitZTrade(CurrencyPair currencyPair, BitZPublicOrder limitOrder, Date time, boolean sell) throws IOException {
-	  return null;
+	  throw new NotYetImplementedForExchangeException();
 	}
 	
 }
