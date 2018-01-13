@@ -13,6 +13,7 @@ import java.util.TimeZone;
 
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
+import org.knowm.xchange.abucoins.dto.AbucoinsCryptoWithdrawalRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
@@ -34,6 +35,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -307,17 +309,17 @@ public class AbucoinsAdapters {
                                                  null);
   }
   
- public static AbucoinsCreateLimitOrderRequest adaptAbucoinsCreateLimitOrderRequest(LimitOrder limitOrder) {
-   return new AbucoinsCreateLimitOrderRequest( adaptAbucoinsSide(limitOrder.getType()),
-                                               adaptCurrencyPairToProductID(limitOrder.getCurrencyPair()),
-                                               null,
-                                               null,
-                                               limitOrder.getLimitPrice(),
-                                               limitOrder.getOriginalAmount(),
-                                               AbucoinsOrder.TimeInForce.GTC,
-                                               null,
-                                               null);
- }
+  public static AbucoinsCreateLimitOrderRequest adaptAbucoinsCreateLimitOrderRequest(LimitOrder limitOrder) {
+    return new AbucoinsCreateLimitOrderRequest( adaptAbucoinsSide(limitOrder.getType()),
+                                                adaptCurrencyPairToProductID(limitOrder.getCurrencyPair()),
+                                                null,
+                                                null,
+                                                limitOrder.getLimitPrice(),
+                                                limitOrder.getOriginalAmount(),
+                                                AbucoinsOrder.TimeInForce.GTC,
+                                                null,
+                                                null);
+  }
   
   public static String[] adaptToSetOfIDs(String resp) {
     StringTokenizer tok = new StringTokenizer(resp, "[], ");
