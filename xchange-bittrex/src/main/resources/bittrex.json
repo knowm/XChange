@@ -4,6 +4,10 @@
       "price_scale": 8,
       "min_amount": 0.00050000
     },
+    "ARN/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
     "LTC/BTC": {
       "price_scale": 8,
       "min_amount": 0.00050000
@@ -35,10 +39,30 @@
     "XLM/BTC": {
       "price_scale": 8,
       "min_amount": 0.00050000
+    },
+    "XVG/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
     }
   },
   "currencies": {
     "BTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "BCC": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "IOC": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "NEO": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "XLM": {
       "scale": 8,
       "withdrawal_fee": 0.001
     },
@@ -61,10 +85,6 @@
     "XRP": {
       "scale": 8,
       "withdrawal_fee": 5.0
-    },
-    "PPC": {
-      "scale": 8,
-      "withdrawal_fee": 0.02
     },
     "VTC": {
       "scale": 8,
@@ -91,6 +111,10 @@
       "withdrawal_fee": 0.1
     },
     "LSK": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
+    "XVG": {
       "scale": 8,
       "withdrawal_fee": 0.1
     },

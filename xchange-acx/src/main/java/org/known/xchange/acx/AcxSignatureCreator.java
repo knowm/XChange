@@ -1,13 +1,20 @@
 package org.known.xchange.acx;
 
 import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
 import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AcxSignatureCreator extends BaseParamsDigest {
     private final Field invocationUrlField;
@@ -27,10 +34,14 @@ public class AcxSignatureCreator extends BaseParamsDigest {
     public String digestParams(RestInvocation restInvocation) {
         String method = restInvocation.getHttpMethod();
         String path = stripParams(restInvocation.getPath());
-        String query = restInvocation.getParamsMap().get(PathParam.class).asHttpHeaders().entrySet()
-                .stream()
+        String query = Stream.of(
+                restInvocation.getParamsMap().get(PathParam.class),
+                restInvocation.getParamsMap().get(FormParam.class))
+                .map(Params::asHttpHeaders)
+                .map(Map::entrySet)
+                .flatMap(Collection::stream)
                 .filter(e -> !"signature".equals(e.getKey()))
-                .sorted(Map.Entry.comparingByKey())
+                .sorted(Entry.comparingByKey())
                 .map(e -> e.getKey() + "=" + e.getValue())
                 .collect(Collectors.joining("&"));
         String toSign = String.format("%s|/api/v2/%s|%s", method, path, query);

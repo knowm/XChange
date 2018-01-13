@@ -41,10 +41,8 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     return poloniexAuthenticated.returnOpenOrders(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexAuthenticated.AllPairs.all);
   }
 
-  public Map<String, PoloniexOpenOrder[]> returnOrder(String orderId) throws IOException {
-
+  PoloniexUserTrade[] returnOrderTrades(String orderId) throws IOException {
     return poloniexAuthenticated.returnOrderTrades(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
-
   }
 
   public PoloniexOpenOrder[] returnOpenOrders(CurrencyPair currencyPair) throws IOException {

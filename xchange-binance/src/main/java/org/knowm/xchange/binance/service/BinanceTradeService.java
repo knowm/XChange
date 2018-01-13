@@ -23,7 +23,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -65,7 +64,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   public String placeMarketOrder(MarketOrder mo) throws IOException {
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     BinanceNewOrder newOrder = super.newOrder(BinanceAdapters.toSymbol(mo.getCurrencyPair()), BinanceAdapters.convert(mo.getType())
-        , OrderType.MARKET, TimeInForce.GTC, mo.getOriginalAmount(), null, null, null, null, recvWindow, getTimestamp());
+        , OrderType.MARKET, null, mo.getOriginalAmount(), null, null, null, null, recvWindow, getTimestamp());
     return Long.toString(newOrder.orderId);
   }
 

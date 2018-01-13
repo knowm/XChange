@@ -14,16 +14,16 @@ import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
 
 public class BTCMarketsTicker {
 
-  @JsonSerialize(using = BtcToSatoshi.class)
-  @JsonDeserialize(using = SatoshiToBtc.class)
+  //@JsonSerialize(using = BtcToSatoshi.class)
+  //@JsonDeserialize(using = SatoshiToBtc.class)
   private final BigDecimal bestBid;
 
-  @JsonSerialize(using = BtcToSatoshi.class)
-  @JsonDeserialize(using = SatoshiToBtc.class)
+  //@JsonSerialize(using = BtcToSatoshi.class)
+  //@JsonDeserialize(using = SatoshiToBtc.class)
   private final BigDecimal bestAsk;
 
-  @JsonSerialize(using = BtcToSatoshi.class)
-  @JsonDeserialize(using = SatoshiToBtc.class)
+  //@JsonSerialize(using = BtcToSatoshi.class)
+  //@JsonDeserialize(using = SatoshiToBtc.class)
   private final BigDecimal lastPrice;
 
   private final String currency;
