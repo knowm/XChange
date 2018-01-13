@@ -10,6 +10,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -23,32 +24,32 @@ public class BitZTradeService extends BitZTradeServiceRaw implements TradeServic
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return "";
+    throw new NotYetImplementedForExchangeException();
   }
 	
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
   
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    return false;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    return false;
+    throw new NotYetImplementedForExchangeException();
   }
   
   @Override
