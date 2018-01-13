@@ -6,6 +6,27 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * <p>POJO representing the output JSON for the Abucoins
+ * <code>GET /products/&lt;product-id&gt;/book</code> endpoint.</p>
+ *
+ * Example:
+ * <code><pre>
+ * {
+ *     "asks": [
+ *       [ price, size, num-orders ],
+ *       ["14160.13374000", "0.15994651", 1]
+ *       ...
+ *     ],
+ *     "bids": [
+ *        [ price, size, num-orders ],
+ *        ["14140.00000000", "0.19970339", 1]
+ *        ...
+ *     ],
+ *     "sequence": 1431
+}
+ * </pre></code>
+ */
 public class AbucoinsOrderBook {
   AbucoinsOrderBook.LimitOrder[] asks;
   AbucoinsOrderBook.LimitOrder[] bids;
@@ -13,8 +34,8 @@ public class AbucoinsOrderBook {
 
 
   public AbucoinsOrderBook(@JsonProperty("asks") AbucoinsOrderBook.LimitOrder[] asks,
-			   @JsonProperty("bids") AbucoinsOrderBook.LimitOrder[] bids,
-			   @JsonProperty("sequence") long sequence) {
+			               @JsonProperty("bids") AbucoinsOrderBook.LimitOrder[] bids,
+			               @JsonProperty("sequence") long sequence) {
     this.asks = asks;
     this.bids = bids;
     this.sequence = sequence;
@@ -24,11 +45,9 @@ public class AbucoinsOrderBook {
     return asks;
   }
 
-
   public AbucoinsOrderBook.LimitOrder[] getBids() {
     return bids;
   }
-
 
   public long getSequence() {
     return sequence;
