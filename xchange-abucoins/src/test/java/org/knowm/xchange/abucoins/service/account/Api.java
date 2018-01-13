@@ -12,6 +12,11 @@ import java.util.Base64;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * Sample more or less cut and pasted from Abucoins API documentation.  Useful for debugging raw calls.
+ * @author bryant_harris
+ *
+ */
 public class Api {
 
     private final String URL = "https://api.abucoins.com";
