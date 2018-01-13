@@ -4,13 +4,55 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * <p>POJO representing the output JSON for the Abucoins
+ * <code>GET /accounts</code> endpoint.</p>
+ *
+ * Example:
+ * <code><pre>
+ * [
+ *     {
+ *         "id": "3-BTC",
+ *         "currency": "BTC",
+ *         "balance": 13.38603805,
+ *         "available": 13.38589212,
+ *         "available_btc": 13.38589212,
+ *         "hold": 0.00014593,
+ *         "profile_id": 3
+ *     },
+ *     {
+ *         "id": "3-ETH",
+ *         "currency": "ETH",
+ *         "balance": 133.48685448,
+ *         "available": 133.48685448,
+ *         "available_btc": 9.38012126,
+ *         "hold": 0,
+ *         "profile_id": 3
+ *     }
+ * ]
+ * </pre></code>
+ * @author bryant_harris
+ */
 public class AbucoinsAccount {
+  /** account id */
   String id;
+  
+  /** the currency of the account */
   String currency;
+  
+  /** the funds in the account */
   BigDecimal balance;
+  
+  /** founds available to withdraw or trade */
   BigDecimal available;
+  
+  /** founds available to withdraw or trade for BTC */
   BigDecimal available_btc;
+  
+  /** funds on hold (not available for use) */
   BigDecimal hold;
+  
+  /** profile id */
   long profileID;
         
   public AbucoinsAccount(@JsonProperty("id") String id,
