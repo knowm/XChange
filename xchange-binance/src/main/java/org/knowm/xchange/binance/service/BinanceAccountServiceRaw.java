@@ -51,7 +51,7 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     return checkWapiResponse(result);
   }
 
-  private <T> T checkWapiResponse(WapiResponse<T> result) throws IOException {
+  private <T> T checkWapiResponse(WapiResponse<T> result){
     if (!result.success) {
       BinanceException exception;
       try {
