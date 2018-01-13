@@ -12,10 +12,11 @@ import org.knowm.xchange.abucoins.AbucoinsExchange;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethod;
 import org.knowm.xchange.abucoins.service.AbucoinsAccountService;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 
 /**
- * @author timmolter
+ * @author bryant_harris
  */
 public class AccountsFetchIntegration {
 
@@ -39,6 +40,18 @@ public class AccountsFetchIntegration {
     AbucoinsPaymentMethod[] paymentMethods = accountService.getPaymentMethods();
     assertThat(paymentMethods).isNotNull();
     System.out.println(Arrays.asList(paymentMethods));
+    
+    String address = accountService.requestDepositAddress(Currency.BTC);
+    assertThat(address).isNotNull();
+    System.out.println("BTC: Address " + address);
+    
+    address = accountService.requestDepositAddress(Currency.ETH);
+    assertThat(address).isNotNull();
+    System.out.println("ETH: Address " + address);
+    
+    address = accountService.requestDepositAddress(Currency.BCH);
+    assertThat(address).isNotNull();
+    System.out.println("BCH: Address " + address);
   }
 
 }

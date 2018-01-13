@@ -13,7 +13,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.abucoins.dto.AbucoinsBaseCreateOrderRequest;
+import org.knowm.xchange.abucoins.dto.AbucoinsCryptoDepositRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoDeposit;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethod;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
@@ -74,4 +76,10 @@ public interface AbucoinsAuthenticated extends Abucoins {
   @Path("orders?product_id={product_id}")
   @Produces(MediaType.TEXT_PLAIN)
   String deleteAllOrdersForProduct(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("product_id") String productID) throws IOException;
+  
+  @POST
+  @Path("deposits/crypto")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  AbucoinsCryptoDeposit cryptoDeposit(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, AbucoinsCryptoDepositRequest cryptoRequest) throws IOException;
 }
