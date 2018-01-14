@@ -142,8 +142,4 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     throw new NotAvailableFromExchangeException();
   }
 
-  private long getTimestamp() throws IOException {
-    BinanceMarketDataService marketDataService = (BinanceMarketDataService) exchange.getMarketDataService();
-    return marketDataService.time().getTime();
-  }
 }
