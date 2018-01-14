@@ -21,6 +21,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 import org.xchange.coinegg.dto.accounts.CoinEggBalance;
 import org.xchange.coinegg.dto.marketdata.CoinEggOrder;
@@ -28,6 +30,9 @@ import org.xchange.coinegg.dto.marketdata.CoinEggTicker;
 import org.xchange.coinegg.dto.marketdata.CoinEggTrades;
 import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
 import org.xchange.coinegg.dto.marketdata.CoinEggTrades.CoinEggTrade;
+import org.xchange.coinegg.dto.trade.CoinEggTradeAdd;
+import org.xchange.coinegg.dto.trade.CoinEggTradeCancel;
+import org.xchange.coinegg.dto.trade.CoinEggTradeView;
 
 public class CoinEggAdapters {
 
@@ -124,5 +129,31 @@ public class CoinEggAdapters {
     return new AccountInfo(userName, null, wallets);
   }
   
+  // TODO: Cleanup Code
+  // TODO: Make Use Of Adapt Trade
+  public static UserTrades adaptTradeHistory(CoinEggTradeView coinEggTradeView) {
+    List<UserTrade> trades = new ArrayList<UserTrade>();
+    Trade trade = new Trade.Builder()
+                          //.currencyPair(null)
+                          .id(String.valueOf(coinEggTradeView.getID()))
+                          .type(coinEggTradeView.getType() == Type.BUY ? OrderType.ASK : OrderType.BID)
+                          .price(coinEggTradeView.getPrice())
+                          .originalAmount(coinEggTradeView.getAmountOriginal())
+                          .timestamp(coinEggTradeView.getDateTime())
+                          .build();
+    
+    trades.add((UserTrade) UserTrade.Builder.from(trade).build());
+    
+    return new UserTrades(trades, null);
+  }
+
   
+  public static String adaptTradeAdd(CoinEggTradeAdd coinEggTradeAdd) {
+    return String.valueOf(coinEggTradeAdd.getID());
+  }
+
+  public static boolean adaptTradeCancel(CoinEggTradeCancel coinEggTradeCancel) {
+    return coinEggTradeCancel.getResult();
+  }
+   
 }
