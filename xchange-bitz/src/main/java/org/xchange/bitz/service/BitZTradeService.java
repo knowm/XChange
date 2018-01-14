@@ -9,9 +9,9 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -23,67 +23,52 @@ public class BitZTradeService extends BitZTradeServiceRaw implements TradeServic
 	}
 
   @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+	
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    throw new NotYetImplementedForExchangeException();
+  }
+  
+  @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    // TODO Auto-generated method stub
-    
-    // Call Some Adapter
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    // TODO Auto-generated method stub
-    return false;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    // TODO Auto-generated method stub
-    return false;
+    throw new NotYetImplementedForExchangeException();
   }
-
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
+  
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotAvailableFromExchangeException();
   }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
+  
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotAvailableFromExchangeException();
+  }
+  
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    throw new NotAvailableFromExchangeException();
+  }
+  
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    throw new NotAvailableFromExchangeException();
   }
 }
