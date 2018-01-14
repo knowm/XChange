@@ -1,6 +1,7 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.knowm.xchange.Exchange;
@@ -91,6 +92,12 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    Collection<Order> orders = new ArrayList<>(orderIds.length);
+
+    for (String orderId : orderIds) {
+      orders.add(GDAXAdapters.adaptOrder(super.getOrder(orderId)));
+    }
+
+    return orders;
   }
 }
