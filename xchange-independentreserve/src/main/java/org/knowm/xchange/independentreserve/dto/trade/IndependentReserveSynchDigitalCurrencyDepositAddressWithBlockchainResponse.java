@@ -25,7 +25,7 @@ public class IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainR
       @JsonProperty("DepositAddress") String depositAddress
       , @JsonProperty("LastCheckedTimestampUtc") String lastChecked
       , @JsonProperty("NextUpdateTimestampUtc") String nextUpdate
-  ) throws ParseException {
+  ) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     this.depositAddress = depositAddress;
     this.lastChecked = Util.toDate(lastChecked);
     this.nextUpdate = Util.toDate(nextUpdate);

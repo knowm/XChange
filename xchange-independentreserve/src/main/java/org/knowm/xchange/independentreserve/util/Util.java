@@ -1,10 +1,8 @@
 package org.knowm.xchange.independentreserve.util;
 
-import org.apache.commons.lang3.time.FastDateFormat;
 
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -35,8 +33,8 @@ public class Util {
     }
   }
 
-  public static Date toDate(String date) throws ParseException {
-    return FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse(date);
+  public static Date toDate(String date) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+    return org.knowm.xchange.utils.DateUtils.fromISO8601DateString(date);
   }
 
 }

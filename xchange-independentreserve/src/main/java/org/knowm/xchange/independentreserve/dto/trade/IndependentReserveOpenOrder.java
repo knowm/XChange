@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.apache.commons.lang3.time.FastDateFormat;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,9 +30,9 @@ public class IndependentReserveOpenOrder {
       @JsonProperty("FeePercent") BigDecimal feePercent, @JsonProperty("OrderGuid") String orderGuid, @JsonProperty("OrderType") String orderType,
       @JsonProperty("Outstanding") BigDecimal outstanding, @JsonProperty("Price") BigDecimal price,
       @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode, @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode,
-      @JsonProperty("Status") String status, @JsonProperty("Value") BigDecimal value, @JsonProperty("Volume") BigDecimal volume) throws ParseException {
+      @JsonProperty("Status") String status, @JsonProperty("Value") BigDecimal value, @JsonProperty("Volume") BigDecimal volume) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     this.avgPrice = avgPrice;
-    this.createdTimestamp = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse(createdTimestampUtc) ;
+    this.createdTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(createdTimestampUtc) ;
     this.feePercent = feePercent;
     this.orderGuid = orderGuid;
     this.orderType = orderType;

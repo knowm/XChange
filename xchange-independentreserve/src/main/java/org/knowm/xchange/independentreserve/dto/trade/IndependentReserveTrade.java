@@ -1,12 +1,10 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Date;
-
-import org.apache.commons.lang3.time.FastDateFormat;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 
 /**
@@ -27,12 +25,12 @@ public class IndependentReserveTrade {
       @JsonProperty("TradeTimestampUtc") String tradeTimestampUtc, @JsonProperty("OrderType") String orderType,
       @JsonProperty("OrderTimestampUtc") String orderTimestampUtc, @JsonProperty("VolumeTraded") BigDecimal volumeTraded,
       @JsonProperty("Price") BigDecimal price, @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
-      @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode) throws ParseException {
+      @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     this.orderGuid = orderGuid;
     this.tradeGuid = tradeGuid;
-    tradeTimestamp = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse (tradeTimestampUtc);
+    tradeTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(tradeTimestampUtc);
     this.orderType = orderType;
-    orderTimestamp = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse(orderTimestampUtc);
+    orderTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(orderTimestampUtc);
     this.volumeTraded = volumeTraded;
     this.price = price;
     this.primaryCurrencyCode = primaryCurrencyCode;
