@@ -108,17 +108,18 @@ public class CoinEggAdapters {
     return new Trades(trades);
   }
 
+  //TODO: Implement XAS Currency
   public static AccountInfo adaptAccountInfo(CoinEggBalance coinEggBalance, Exchange exchange) {
     
     String userName = exchange.getExchangeSpecification().getUserName();
     Wallet btcWallet = new Wallet(new Balance(Currency.BTC, coinEggBalance.getBTCBalance()));
     Wallet ethWallet = new Wallet(new Balance(Currency.ETH, coinEggBalance.getETHBalance()));
-    Wallet xasWallet = new Wallet(new Balance(Currency.XAS, coinEggBalance.getXASBalance()));
+    //Wallet xasWallet = new Wallet(new Balance(Currency.XAS, coinEggBalance.getXASBalance()));
     
     Set<Wallet> wallets = new HashSet<Wallet>();
     wallets.add(btcWallet);
     wallets.add(ethWallet);
-    wallets.add(xasWallet);
+    //wallets.add(xasWallet);
     
     return new AccountInfo(userName, null, wallets);
   }
