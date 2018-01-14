@@ -1,5 +1,6 @@
 package org.knowm.xchange.binance;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -17,12 +18,14 @@ import org.knowm.xchange.utils.AuthUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 
+import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
-
+  private Long deltaServerTime;
+  
   @Override
   protected void initServices() {
     this.marketDataService = new BinanceMarketDataService(this);
@@ -68,4 +71,11 @@ public class BinanceExchange extends BaseExchange {
     }
   }
 
+  public long deltaServerTime() throws IOException {
+    if (deltaServerTime == null) {
+      Binance binance = RestProxyFactory.createProxy(Binance.class, getExchangeSpecification().getSslUri());
+      deltaServerTime = binance.time().getServerTime().getTime() - System.currentTimeMillis();
+    }
+    return deltaServerTime;
+  }
 }
