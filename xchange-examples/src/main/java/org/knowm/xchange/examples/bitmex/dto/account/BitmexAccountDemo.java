@@ -31,6 +31,8 @@ public class BitmexAccountDemo {
     System.out.println("Margin infos response: " + bitmexAccountInfo.toString());
     BitmexMarginAccount xBt = accountServiceRaw.getBitmexMarginAccountStatus(new Currency("XBt"));
     System.out.println(xBt);
+    BitmexMarginAccount usd = accountServiceRaw.getBitmexMarginAccountStatus(new Currency("USD"));
+    System.out.println(usd);
     List<BitmexMarginAccount> bitmexMarginAccountsStatus = accountServiceRaw.getBitmexMarginAccountsStatus();
     System.out.println(bitmexMarginAccountsStatus);
   }

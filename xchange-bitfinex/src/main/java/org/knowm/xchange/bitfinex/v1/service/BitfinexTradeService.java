@@ -1,12 +1,5 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
@@ -21,16 +14,16 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements TradeService {
 
@@ -53,8 +46,22 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     if (activeOrders.length <= 0) {
       return noOpenOrders;
     } else {
-      return BitfinexAdapters.adaptOrders(activeOrders);
+      return filterOrders(BitfinexAdapters.adaptOrders(activeOrders), params);
     }
+  }
+
+  /**
+   * Bitfinex API does not provide filtering option. So we should filter orders ourselves
+   */
+  private OpenOrders filterOrders(OpenOrders rawOpenOrders,
+                                  OpenOrdersParams params) {
+    if (params == null) {
+      return rawOpenOrders;
+    }
+
+    List<LimitOrder> openOrdersList = rawOpenOrders.getOpenOrders();
+    openOrdersList.removeIf(openOrder -> !params.accept(openOrder));
+    return new OpenOrders(openOrdersList);
   }
 
   @Override
@@ -77,15 +84,25 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     if (limitOrder.hasFlag(BitfinexOrderFlags.MARGIN)) {
       if (limitOrder.hasFlag(BitfinexOrderFlags.FILL_OR_KILL)) {
         newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_FILL_OR_KILL);
+      }
+      else if (limitOrder.hasFlag(BitfinexOrderFlags.TRAILING_STOP)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_TRAILING_STOP);
+      }
+      else if (limitOrder.hasFlag(BitfinexOrderFlags.STOP)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_STOP);
       } else {
-
         newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_LIMIT);
       }
     } else {
       if (limitOrder.hasFlag(BitfinexOrderFlags.FILL_OR_KILL)) {
         newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.FILL_OR_KILL);
+      }
+      else if (limitOrder.hasFlag(BitfinexOrderFlags.TRAILING_STOP)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.TRAILING_STOP);
+      }
+      else if (limitOrder.hasFlag(BitfinexOrderFlags.STOP)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.STOP);
       } else {
-
         newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
       }
     }

@@ -60,7 +60,7 @@ public interface PoloniexAuthenticated {
 
   @POST
   @FormParam("command")
-  Map<String, PoloniexOpenOrder[]> returnOrderTrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+  PoloniexUserTrade[] returnOrderTrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderID) throws PoloniexException, IOException;
 
   @POST
@@ -156,6 +156,11 @@ public interface PoloniexAuthenticated {
   PoloniexAccountBalance returnAvailableAccountBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @Nullable @FormParam("account") String account) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
+  Map<String, Map<String, BigDecimal>> returnTradableBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
