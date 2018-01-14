@@ -12,7 +12,6 @@ import java.util.TimeZone;
 
 import java.util.Base64;
 
-import org.apache.commons.lang3.time.FastDateFormat;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaOrder;
@@ -46,9 +45,9 @@ public final class CryptopiaAdapters {
 
 
     try {
-      return  FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mmX").parse(timestamp);
-    } catch (ParseException e) {
-      throw new Error("parser code needs review here... "+timestamp);
+      return  org.knowm.xchange.utils.DateUtils.fromISO8601DateString(timestamp);
+    } catch (com.fasterxml.jackson.databind.exc.InvalidFormatException e) {
+     throw new Error("Date parse failure:"+timestamp);
     }
   }
 
