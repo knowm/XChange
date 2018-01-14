@@ -45,7 +45,7 @@ public class KrakenTradeRawSpecificDemo {
     Set<String> closedOrderIds = closedOrders.keySet();
     System.out.println(tradeService.queryKrakenOrders(closedOrderIds.toArray(new String[closedOrderIds.size()])));
 
-    Map<String, KrakenTrade> trades = tradeService.getKrakenTradeHistory();
+    Map<String, KrakenTrade> trades = tradeService.getKrakenTradeHistory().getTrades();
     System.out.println(trades);
 
     Set<String> tradeIds = trades.keySet();
