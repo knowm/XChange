@@ -113,6 +113,7 @@
         <module>xchange-ccex</module>
         <module>xchange-cexio</module>
         <module>xchange-coinbase</module>
+        <module>xchange-coinegg</module>
         <module>xchange-coinmarketcap</module>
         <module>xchange-coinfloor</module>
         <module>xchange-coinmate</module>
@@ -153,6 +154,7 @@
         <module>xchange-vircurex</module>
         <module>xchange-yobit</module>
         <module>xchange-wex</module>
+    <module>xchange-coinegg</module>
   </modules>
 
     <repositories>
