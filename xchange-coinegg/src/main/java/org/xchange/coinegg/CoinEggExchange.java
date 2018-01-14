@@ -7,6 +7,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.xchange.coinegg.service.CoinEggAccountService;
 import org.xchange.coinegg.service.CoinEggMarketDataService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -18,6 +19,7 @@ public class CoinEggExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
 		this.marketDataService = new CoinEggMarketDataService(this);
+		this.accountService = new CoinEggAccountService(this);
 	}
 	
   @Override
@@ -41,9 +43,5 @@ public class CoinEggExchange extends BaseExchange implements Exchange {
 	public TradeService getTradeService() {
 	  throw new NotAvailableFromExchangeException();
 	}
-	
-	@Override
-	public AccountService getAccountService() {
-	  throw new NotAvailableFromExchangeException();
-	}
+
 }

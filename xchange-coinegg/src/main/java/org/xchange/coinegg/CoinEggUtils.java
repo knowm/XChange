@@ -24,11 +24,11 @@ public class CoinEggUtils {
   }
   
   public static String toHexString(byte[] data) {
-    return DatatypeConverter.printHexBinary(data);
+    return DatatypeConverter.printHexBinary(data).toLowerCase();
   }
   
   public static String toMD5Hash(String data) {
-    return toHexString(md5Digest.digest(data.getBytes()));
+    return toHexString(md5Digest.digest(data.getBytes())).toLowerCase();
   }
 
 }

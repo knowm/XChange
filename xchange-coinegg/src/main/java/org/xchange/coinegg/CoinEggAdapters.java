@@ -3,18 +3,26 @@ package org.xchange.coinegg;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
+import org.xchange.coinegg.dto.accounts.CoinEggBalance;
 import org.xchange.coinegg.dto.marketdata.CoinEggOrder;
 import org.xchange.coinegg.dto.marketdata.CoinEggTicker;
 import org.xchange.coinegg.dto.marketdata.CoinEggTrades;
@@ -99,4 +107,21 @@ public class CoinEggAdapters {
     
     return new Trades(trades);
   }
+
+  public static AccountInfo adaptAccountInfo(CoinEggBalance coinEggBalance, Exchange exchange) {
+    
+    String userName = exchange.getExchangeSpecification().getUserName();
+    Wallet btcWallet = new Wallet(new Balance(Currency.BTC, coinEggBalance.getBTCBalance()));
+    Wallet ethWallet = new Wallet(new Balance(Currency.ETH, coinEggBalance.getETHBalance()));
+    Wallet xasWallet = new Wallet(new Balance(Currency.XAS, coinEggBalance.getXASBalance()));
+    
+    Set<Wallet> wallets = new HashSet<Wallet>();
+    wallets.add(btcWallet);
+    wallets.add(ethWallet);
+    wallets.add(xasWallet);
+    
+    return new AccountInfo(userName, null, wallets);
+  }
+  
+  
 }
