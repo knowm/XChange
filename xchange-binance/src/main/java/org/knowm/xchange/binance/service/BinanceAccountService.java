@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -82,9 +84,10 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... args)
-      throws IOException {
-    throw new NotAvailableFromExchangeException();
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+	  Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+	  DepositAddress depositAddress = binance.depositAddress(BinanceAdapters.toSymbol(currency), recvWindow, System.currentTimeMillis(), apiKey, super.signatureCreator);
+	  return depositAddress.address;
   }
 
   @Override
@@ -95,11 +98,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
       throws IOException {
-    if (!(params instanceof TradeHistoryParamCurrency)) {
-      throw new RuntimeException("You must provide the currency in order to get the funding history (TradeHistoryParamCurrency).");
+    String asset = null;
+    if (params instanceof TradeHistoryParamCurrency) {
+      TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
+      if (cp.getCurrency() != null) {
+        asset = cp.getCurrency().getCurrencyCode();
+      }
     }
-    TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
-    final String asset = cp.getCurrency().getCurrencyCode();
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
 
     boolean withdrawals = true;
@@ -119,20 +124,22 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
     if (params instanceof HistoryParamsFundingType) {
       HistoryParamsFundingType f = (HistoryParamsFundingType) params;
-      withdrawals = f.getType() != null && f.getType() == Type.WITHDRAWAL;
-      deposits = f.getType() != null && f.getType() == Type.DEPOSIT;
+      if (f.getType() != null) {
+        withdrawals = f.getType() == Type.WITHDRAWAL;
+        deposits = f.getType() == Type.DEPOSIT;
+      }
     }
 
     List<FundingRecord> result = new ArrayList<>();
     if (withdrawals) {
       super.withdrawHistory(asset, startTime, endTime, recvWindow, System.currentTimeMillis()).forEach(w -> {
-        result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, null, null, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
+        result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, w.id, w.txId, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
       });
     }
 
     if (deposits) {
       super.depositHistory(asset, startTime, endTime, recvWindow, System.currentTimeMillis()).forEach(d -> {
-        result.add(new FundingRecord(null, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, null, Type.DEPOSIT, depositStatus(d.status), null, null, null));
+        result.add(new FundingRecord(d.address, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, d.txId, Type.DEPOSIT, depositStatus(d.status), null, null, null));
       });
     }
 

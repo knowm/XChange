@@ -3,7 +3,6 @@ package org.knowm.xchange.binance.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -62,11 +61,11 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
     return binance.startUserDataStream(apiKey);
   }
 
-  public Map keepAliveDataStream(String listenKey) throws IOException {
-    return binance.keepAliveUserDataStream(apiKey, listenKey);
+  public void keepAliveDataStream(String listenKey) throws IOException {
+     binance.keepAliveUserDataStream(apiKey, listenKey);
   }
 
-  public Map closeDataStream(String listenKey) throws IOException {
-    return binance.closeUserDataStream(apiKey, listenKey);
+  public void closeDataStream(String listenKey) throws IOException {
+    binance.closeUserDataStream(apiKey, listenKey);
   }
 }
