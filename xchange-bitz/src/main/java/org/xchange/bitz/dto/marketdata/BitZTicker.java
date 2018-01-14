@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitZTicker {
 	
-    private final BigDecimal last;
+  private final BigDecimal last;
 	private final BigDecimal high;
 	private final BigDecimal low;
 	private final BigDecimal volume;
