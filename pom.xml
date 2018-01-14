@@ -154,7 +154,6 @@
         <module>xchange-vircurex</module>
         <module>xchange-yobit</module>
         <module>xchange-wex</module>
-    <module>xchange-coinegg</module>
   </modules>
 
     <repositories>
