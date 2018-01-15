@@ -43,7 +43,7 @@ public class GeminiOrderStatusResponse {
    */
   public GeminiOrderStatusResponse(@JsonProperty("order_id") long id, @JsonProperty("exchange") String exchange, @JsonProperty("symbol") String symbol,
       @JsonProperty("price") BigDecimal price, @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side,
-      @JsonProperty("type") String type, @JsonProperty("timestamp") String timestamp, @JsonProperty("timestampms") Long timestampms, @JsonProperty("is_live") boolean isLive,
+      @JsonProperty("type") String type, @JsonProperty("timestamp") String timestamp, @JsonProperty("timestampms") long timestampms, @JsonProperty("is_live") boolean isLive,
       @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("was_forced") boolean wasForced,
       @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount,
       @JsonProperty("executed_amount") BigDecimal executedAmount) {
