@@ -8,10 +8,21 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.AbucoinsAdapters;
 import org.knowm.xchange.abucoins.dto.AbucoinsBaseCreateOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsFill;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsFills;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrders;
 
+/**
+ * <p>Class providing a 1:1 proxy for the Abucoins market related
+ * REST requests.</p>
+ * 
+ * <ul>
+ * <li>{@link #getFills GET /fills}</li>
+ * <ol>
+ * @author bryant_harris
+ */
 public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
 
   public AbucoinsTradeServiceRaw(Exchange exchange) {
@@ -128,5 +139,21 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
       }
       return ids.toArray(new String[ids.size()]);
     }
+  }
+  
+  /**
+   * Corresponds to <code>GET /fills</code>
+   * @return
+   * @throws IOException
+   */
+  public AbucoinsFill[] getFills() throws IOException {
+    AbucoinsFills fills = abucoinsAuthenticated.getFills(exchange.getExchangeSpecification().getApiKey(),
+                                                         signatureCreator,
+                                                         exchange.getExchangeSpecification().getPassword(),
+                                                         timestamp());
+    if ( fills.getFills().length == 1 && fills.getFills()[0].getMessage() != null )
+      throw new IOException( fills.getFills()[0].getMessage() );
+          
+    return fills.getFills();
   }
 }
