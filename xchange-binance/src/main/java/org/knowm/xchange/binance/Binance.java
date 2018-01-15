@@ -17,6 +17,7 @@ import org.knowm.xchange.binance.dto.marketdata.BinanceSymbolPrice;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.binance.dto.meta.BinanceTime;
+import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,6 +40,15 @@ public interface Binance {
    * @throws IOException
    */
   BinanceTime time() throws IOException;
+
+  @GET
+  @Path("api/v1/exchangeInfo")
+  /**
+   * Current exchange trading rules and symbol information.
+   * @return
+   * @throws IOException
+   */
+  BinanceExchangeInfo exchangeInfo() throws IOException;
 
   @GET
   @Path("api/v1/depth")
