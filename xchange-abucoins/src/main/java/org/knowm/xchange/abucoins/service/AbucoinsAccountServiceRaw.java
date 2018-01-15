@@ -17,6 +17,14 @@ import org.slf4j.LoggerFactory;
 /**
  * <p>Class providing a 1:1 proxy for the Abucoins account related
  * REST requests.</p>
+ * 
+ * <ul>
+ * <li>{@link #getAbucoinsAccounts GET /accounts}</li>
+ * <li>{@link #getAbucoinsAccount(String) GET /accounts/&lt;account-id&gt;}</li>
+ * <li>{@link #getPaymentMethods() GET /payment-methods}</li>
+ * <li>{@link #abucoinsWithdraw POST withdrawals/crypto}</li>
+ * <li>{@link #abucoinsCryptoDeposit POST deposits/crypto}</li>
+ * <ol>
  * @author bryant_harris
  */
 public class AbucoinsAccountServiceRaw extends AbucoinsBaseService {
@@ -60,6 +68,11 @@ public class AbucoinsAccountServiceRaw extends AbucoinsBaseService {
     return account;
   }
   
+  /**
+   * Corresponds to <code>GET /payment-methods</code>
+   * @return
+   * @throws IOException
+   */
   public AbucoinsPaymentMethod[] getPaymentMethods() throws IOException {
     AbucoinsPaymentMethods paymentMethods = abucoinsAuthenticated.getPaymentMethods(exchange.getExchangeSpecification().getApiKey(),
                                                                                     signatureCreator,
@@ -71,22 +84,41 @@ public class AbucoinsAccountServiceRaw extends AbucoinsBaseService {
     return paymentMethods.getPaymentMethods();
   }
   
+  /**
+   * Corresponds to <code>POST withdrawals/crypto</code>
+   * @param withdrawRequest
+   * @return
+   * @throws IOException
+   */
   public AbucoinsCryptoWithdrawal abucoinsWithdraw(AbucoinsCryptoWithdrawalRequest withdrawRequest) throws IOException {
-    return abucoinsAuthenticated.cryptoWithdrawal(exchange.getExchangeSpecification().getApiKey(),
+    return abucoinsAuthenticated.cryptoWithdrawal(withdrawRequest,
+                                                  exchange.getExchangeSpecification().getApiKey(),
                                                   signatureCreator,
                                                   exchange.getExchangeSpecification().getPassword(),
-                                                  timestamp(),
-                                                  withdrawRequest);
+                                                  timestamp());
   }
 
-  public AbucoinsCryptoDeposit getAbucoinsCryptoDeposit(AbucoinsCryptoDepositRequest cryptoRequest) throws IOException {
-    return abucoinsAuthenticated.cryptoDeposit(exchange.getExchangeSpecification().getApiKey(),
+  /**
+   * Corresponds to <code>POST deposits/crypto</code>
+   * @param cryptoRequest
+   * @return
+   * @throws IOException
+   */
+  public AbucoinsCryptoDeposit abucoinsCryptoDeposit(AbucoinsCryptoDepositRequest cryptoRequest) throws IOException {
+    return abucoinsAuthenticated.cryptoDeposit(cryptoRequest,
+                                               exchange.getExchangeSpecification().getApiKey(),
                                                signatureCreator,
                                                exchange.getExchangeSpecification().getPassword(),
-                                               timestamp(),
-                                               cryptoRequest);
+                                               timestamp());
   }
   
+  /**
+   * Helper method that obtains the payment method for a given currency, based on the payment-method information
+   * returned from abucoins.
+   * @param currency
+   * @return The type (string) of the payment method.
+   * @throws IOException
+   */
   public String abucoinsPaymentMethodForCurrency(String currency) throws IOException {
     String method = null;
     AbucoinsPaymentMethod[] paymentMethods = getPaymentMethods();

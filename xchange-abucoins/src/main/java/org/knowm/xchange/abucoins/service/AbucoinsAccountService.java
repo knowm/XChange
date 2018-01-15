@@ -43,7 +43,7 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
     String method = abucoinsPaymentMethodForCurrency(currency.getCurrencyCode());
-    AbucoinsCryptoDeposit cryptoDeposit = getAbucoinsCryptoDeposit(new AbucoinsCryptoDepositRequest(currency.getCurrencyCode(), method));
+    AbucoinsCryptoDeposit cryptoDeposit = abucoinsCryptoDeposit(new AbucoinsCryptoDepositRequest(currency.getCurrencyCode(), method));
     if ( cryptoDeposit.getMessage() != null )
       throw new IOException(cryptoDeposit.getMessage());
           

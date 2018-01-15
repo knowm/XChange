@@ -85,11 +85,11 @@ public interface AbucoinsAuthenticated extends Abucoins {
   @Path("withdrawals/crypto")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  AbucoinsCryptoWithdrawal cryptoWithdrawal(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, AbucoinsCryptoWithdrawalRequest cryptoWithdrawalRequest) throws IOException;
+  AbucoinsCryptoWithdrawal cryptoWithdrawal(AbucoinsCryptoWithdrawalRequest cryptoWithdrawalRequest, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @POST
   @Path("deposits/crypto")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  AbucoinsCryptoDeposit cryptoDeposit(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, AbucoinsCryptoDepositRequest cryptoRequest) throws IOException;
+  AbucoinsCryptoDeposit cryptoDeposit(AbucoinsCryptoDepositRequest cryptoRequest, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
 }
