@@ -5,7 +5,43 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Author: bryant_harris
+ * <p>POJO representing the output JSON for the Abucoins
+ * <code>GET /orders</code> endpoint.</p>
+ *
+ * Example:
+ * <code><pre>
+ * [
+ *    {
+ *         "id": "7786713",
+ *         "price": "0.05367433",
+ *         "size": "0.10451686",
+ *         "product_id": "ZEC-BTC",
+ *         "side": "buy",
+ *         "type": "limit",
+ *         "time_in_force": "GTC",
+ *         "post_only": false,
+ *         "created_at": "2017-09-03T03:33:17Z",
+ *         "filled_size": "0.00000000",
+ *         "status": "closed",
+ *         "settled": false
+ *     },
+ *     {
+ *         "id": "7786713",
+ *         "price": "0.05367433",
+ *         "size": "0.10451686",
+ *         "product_id": "ZEC-BTC",
+ *         "side": "buy",
+ *         "type": "limit",
+ *         "time_in_force": "GTC",
+ *         "post_only": false,
+ *         "created_at": "2017-09-03T03:33:17Z",
+ *         "filled_size": "0.00000000",
+ *         "status": "closed",
+ *         "settled": false
+ *     }
+ * ]
+ * </pre></code>
+ * @author bryant_harris
  */
 public class AbucoinsOrder {
   String id;
@@ -20,6 +56,7 @@ public class AbucoinsOrder {
   BigDecimal filledSize;
   Status status;
   boolean settled;
+  String message;
         
   public AbucoinsOrder(@JsonProperty("id") String id,
                        @JsonProperty("price") BigDecimal price,
@@ -32,8 +69,8 @@ public class AbucoinsOrder {
                        @JsonProperty("created_at") String createdAt,
                        @JsonProperty("filled_size") BigDecimal filledSize,
                        @JsonProperty("status") Status status,
-                       @JsonProperty("settled") boolean settled) {
-    super();
+                       @JsonProperty("settled") boolean settled,
+                       @JsonProperty("message") String message) {
     this.id = id;
     this.price = price;
     this.size = size;
@@ -46,6 +83,7 @@ public class AbucoinsOrder {
     this.filledSize = filledSize;
     this.status = status;
     this.settled = settled;
+    this.message = message;
   }
   
   public String getId() {
@@ -95,14 +133,19 @@ public class AbucoinsOrder {
   public boolean isSettled() {
     return settled;
   }
+  
+  public String getMessage() {
+        return message;
+  }
 
   @Override
   public String toString() {
     return "AbucoinsOrder [id=" + id + ", price=" + price + ", size=" + size + ", productID=" + productID + ", side="
         + side + ", type=" + type + ", timeInForce=" + timeInForce + ", postOnly=" + postOnly + ", createdAt="
-        + createdAt + ", filledSize=" + filledSize + ", status=" + status + ", settled=" + settled + "]";
+        + createdAt + ", filledSize=" + filledSize + ", status=" + status + ", settled=" + settled + ", message="
+        + message + "]";
   }
-
+    
   public enum Side {
     buy, sell
   }

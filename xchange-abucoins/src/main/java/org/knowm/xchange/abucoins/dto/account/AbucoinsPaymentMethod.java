@@ -4,6 +4,30 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * <p>POJO representing and individual object from the output JSON for the Abucoins
+ * <code>GET /payment-methods</code> endpoint.</p>
+ *
+ * Example:
+ * <code><pre>
+ *     {
+ *         "id": "sepa_pln",
+ *         "type": "sepa_pln",
+ *         "name": "PLN",
+ *         "currency": "PLN",
+ *         "allow_buy": true,
+ *         "allow_sell": true,
+ *         "allow_deposit": true,
+ *         "allow_withdraw": true,
+ *         "limits": {
+ *             "buy": 10000,
+ *             "sell": 10000,
+ *             "deposit": 9223372036854775807,
+ *             "withdraw": 9223372036854775807
+ *         }
+ * </pre></code>
+ * @author bryant_harris
+ */
 public class AbucoinsPaymentMethod {
   String id;
   String type;
@@ -14,6 +38,7 @@ public class AbucoinsPaymentMethod {
   boolean allowDeposit;
   boolean allowWithdrawal;
   Limit limits;
+  String message;
         
   public AbucoinsPaymentMethod(@JsonProperty("id") String id,
                                @JsonProperty("type") String type,
@@ -23,7 +48,8 @@ public class AbucoinsPaymentMethod {
                                @JsonProperty("allow_sell") boolean allowSell,
                                @JsonProperty("allow_deposit") boolean allowDeposit,
                                @JsonProperty("allow_withdrawl") boolean allowWithdrawal,
-                               @JsonProperty("limits") Limit limits) {
+                               @JsonProperty("limits") Limit limits,
+                               @JsonProperty("message") String message) {
     this.id = id;
     this.type = type;
     this.name = name;
@@ -33,6 +59,7 @@ public class AbucoinsPaymentMethod {
     this.allowDeposit = allowDeposit;
     this.allowWithdrawal = allowWithdrawal;
     this.limits = limits;
+    this.message = message;
   }
         
   public String getId() {
@@ -70,14 +97,17 @@ public class AbucoinsPaymentMethod {
   public Limit getLimits() {
     return limits;
   }
+  
+  public String getMessage() {
+        return message;
+  }
 
   @Override
   public String toString() {
     return "AbucoinsPaymentMethod [id=" + id + ", type=" + type + ", name=" + name + ", currency=" + currency
         + ", allowBuy=" + allowBuy + ", allowSell=" + allowSell + ", allowDeposit=" + allowDeposit
-        + ", allowWithdrawal=" + allowWithdrawal + ", limits=" + limits + "]";
+        + ", allowWithdrawal=" + allowWithdrawal + ", limits=" + limits + ", message=" + message + "]";
   }
-
 
   public static class Limit {
     BigDecimal buy;
