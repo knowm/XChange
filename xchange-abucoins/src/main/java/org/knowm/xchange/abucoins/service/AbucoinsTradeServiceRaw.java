@@ -19,6 +19,10 @@ import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrders;
  * REST requests.</p>
  * 
  * <ul>
+ * <li>{@link #getAbucoinsOrders(AbucoinsOrderRequest) GET orders/&#123;order-id&#125;}</li>
+ * <li>{@link #createAbucoinsOrder POST orders}</li>
+ * <li>{@link #deleteAbucoinsOrder DELETE orders/&#123;order-id&#125;}</li>
+ * <li>{@link #deleteAllAbucoinsOrders DELETE /orders or DELETE orders?product_id=&#123;product-id&#125;}</li>
  * <li>{@link #getFills GET /fills}</li>
  * <ol>
  * @author bryant_harris
@@ -29,6 +33,12 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
     super(exchange);
   }
   
+  /**
+   * Corresponds to <code>GET orders/{order-id}</delete> or <code>GET orders?status={status}</code> or
+   * <code>orders?product_id={product-id}</code> or <code>orders?status={status}&product_id={product-id}</code>.
+   * @return
+   * @throws IOException
+   */
   public AbucoinsOrder[] getAbucoinsOrders(AbucoinsOrderRequest request) throws IOException {
     AbucoinsOrder.Status status = null;
     String productID = null;
@@ -86,22 +96,47 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
     return retVal.getOrders();
   }
   
+  /**
+   * Helper method that wraps {@link #getAbucoinsOrders(AbucoinsOrderRequest)} allowing you to get an order
+   * by order-id.
+   * @param orderID The OrderID of the order to retreive.
+   * @return
+   * @throws IOException
+   */
   public AbucoinsOrder getAbucoinsOrder(String orderID) throws IOException {
-    return abucoinsAuthenticated.getOrder(orderID,
-                                                                                 exchange.getExchangeSpecification().getApiKey(),
-                                          signatureCreator,
-                                          exchange.getExchangeSpecification().getPassword(),
-                                          timestamp());
+    AbucoinsOrder order = abucoinsAuthenticated.getOrder(orderID,
+                                                         exchange.getExchangeSpecification().getApiKey(),
+                                                         signatureCreator,
+                                                         exchange.getExchangeSpecification().getPassword(),
+                                                         timestamp());
+    if ( order.getMessage() != null )
+      throw new IOException( order.getMessage() );
+          
+    return order;
   }
   
+  /**
+   * Corresponds to <code>POST orders</delete>
+   * @return
+   * @throws IOException
+   */
   public AbucoinsCreateOrderResponse createAbucoinsOrder(AbucoinsBaseCreateOrderRequest req) throws IOException {
-    return abucoinsAuthenticated.createOrder(exchange.getExchangeSpecification().getApiKey(),
-                                             signatureCreator,
-                                             exchange.getExchangeSpecification().getPassword(),
-                                             timestamp(),
-                                             req);
+    AbucoinsCreateOrderResponse resp = abucoinsAuthenticated.createOrder(exchange.getExchangeSpecification().getApiKey(),
+                                                                         signatureCreator,
+                                                                         exchange.getExchangeSpecification().getPassword(),
+                                                                         timestamp(),
+                                                                         req);
+    if ( resp.getMessage() != null )
+      throw new IOException( resp.getMessage() );
+          
+    return resp;
   }
   
+  /**
+   * Corresponds to <code>DELETE orders/{order-id}</delete>
+   * @return
+   * @throws IOException
+   */
   public String deleteAbucoinsOrder(String orderID) throws IOException {
     String resp = abucoinsAuthenticated.deleteOrder(orderID,
                                                     exchange.getExchangeSpecification().getApiKey(),
@@ -113,9 +148,8 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
   }
   
   /**
-   * Deletes all orders for the user.  If <em>productIDs</em> are supplied it will delete all order for the
-   * supplied productIDs.
-   * @param productIDs
+   * Corresponds to <code>DELETE /orders</code> or <code>DELETE orders?product_id={product-id}</delete>
+   * @return
    * @throws IOException
    */
   public String[] deleteAllAbucoinsOrders(String... productIDs) throws IOException {
