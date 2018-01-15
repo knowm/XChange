@@ -1,5 +1,32 @@
 package org.knowm.xchange.itbit.v1;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.itbit.v1.dto.ItBitFunding;
+import org.knowm.xchange.itbit.v1.dto.account.ItBitAccountBalance;
+import org.knowm.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
+import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTicker;
+import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrade;
+import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrades;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
+import org.knowm.xchange.utils.DateUtils;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
@@ -14,32 +41,6 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.itbit.v1.dto.account.ItBitAccountBalance;
-import org.knowm.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
-import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTicker;
-import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrade;
-import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrades;
-import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
-import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
-import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
-import org.knowm.xchange.utils.DateUtils;
-
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 public final class ItBitAdapters {
 
@@ -95,7 +96,7 @@ public final class ItBitAdapters {
     return parse;
   }
 
-  public static Trades adaptTrades(ItBitTrades trades, CurrencyPair currencyPair) throws InvalidFormatException {
+  public static Trades adaptTrades(ItBitTrades trades, CurrencyPair currencyPair) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
     List<Trade> tradesList = new ArrayList<>(trades.getCount());
     long lastTradeId = 0;
@@ -109,7 +110,7 @@ public final class ItBitAdapters {
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) throws InvalidFormatException {
+  public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     String timestamp = trade.getTimestamp();
 
     //matcher instantiated each time for adaptTrade to be thread-safe
@@ -140,7 +141,7 @@ public final class ItBitAdapters {
   }
 
   private static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderId, OrderType orderType,
-      Date timestamp) {
+                                       Date timestamp) {
 
     return new LimitOrder(orderType, amount, currencyPair, orderId, timestamp, price);
   }
@@ -243,5 +244,39 @@ public final class ItBitAdapters {
       return currency.getIso4217Currency();
     }
     return currency;
+  }
+
+  public static FundingRecord adapt(ItBitFunding itBitFunding) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");//"2015-02-18T23:43:37.1230000"
+
+    try {
+      Date date = dateFormat.parse(itBitFunding.time);
+
+      FundingRecord.Type type = itBitFunding.transactionType.equalsIgnoreCase("Deposit") ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL;
+
+      FundingRecord.Status status = FundingRecord.Status.PROCESSING;
+      if (itBitFunding.status.equals("cancelled"))
+        status = FundingRecord.Status.CANCELLED;
+      if (itBitFunding.status.equals("completed"))
+        status = FundingRecord.Status.COMPLETE;
+
+      Currency currency = Currency.getInstance(itBitFunding.currency);
+
+      return new FundingRecord(
+          itBitFunding.destinationAddress,
+          date,
+          currency,
+          itBitFunding.amount,
+          itBitFunding.withdrawalId,
+          itBitFunding.txnHash,
+          type,
+          status,
+          null,
+          null,
+          null
+      );
+    } catch (ParseException e) {
+      throw new IllegalStateException("Cannot parse " + itBitFunding, e);
+    }
   }
 }

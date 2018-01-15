@@ -1,0 +1,47 @@
+Bit-Z Exchange API Specification
+================================
+
+Last Revision : 04/01/2018
+API Version : 1.0
+
+Authentication Type: API Key
+Response Type: JSON Object
+
+
+Overview
+------------
+
+Supports Market Data Service	: True
+Supports Account Service		: False
+Supports Trade Service			: True 
+
+
+Implementation Considerations
+-----------------------------
+API Endpoint Names Are Inconsistent With The XChange API
+ - The endpoint names will only be used at the path of the endpoint
+ - All implementing classes will use XChange API naming conventions
+ - See BitZ.java for endpoints
+
+
+Documentation
+-------------
+https://www.bit-z.com/api.html
+
+
+Method		Endpoint				Description
+-------------------------------------------------------------
+GET			/api_v1/ticker			Get the price data
+GET 		/api_v1/depth			Get depth data
+GET 		/api_v1/orders			Get the deal
+GET 		/api_v1/tickerall		Get the price of all coins
+GET 		/api_v1/kline			Get Kline data
+
+POST		/api_v1/tradeAdd		Get tradeAdd data
+POST		/api_v1/openOrders		Get my commission
+POST		/api_v1/tradeCancel		Revocation of entrustment
+
+
+REQUEST LIMITS
+--------------
+No defined request limits.

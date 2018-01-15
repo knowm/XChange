@@ -1,20 +1,23 @@
 package org.knowm.xchange.itbit.v1.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.itbit.v1.ItBitAdapters;
+import org.knowm.xchange.itbit.v1.dto.ItBitFunding;
+import org.knowm.xchange.itbit.v1.dto.ItBitFundingHistoryResponse;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItBitAccountService extends ItBitAccountServiceRaw implements AccountService {
 
@@ -61,8 +64,49 @@ public class ItBitAccountService extends ItBitAccountServiceRaw implements Accou
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+    int page = 1;
+    int perPage = 50;
+
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging tradeHistoryParamPaging = (TradeHistoryParamPaging) params;
+      perPage = tradeHistoryParamPaging.getPageLength();
+      page = tradeHistoryParamPaging.getPageNumber();
+    }
+
+    List<FundingRecord> fundingRecords = new ArrayList<>();
+
+    ItBitFundingHistoryResponse funding = getFunding(page, perPage);
+    for (ItBitFunding itBitFunding : funding.fundingHistory) {
+      FundingRecord fundingRecord = ItBitAdapters.adapt(itBitFunding);
+      fundingRecords.add(fundingRecord);
+    }
+    return fundingRecords;
+  }
+
+  public static class ItBitFundingParams implements TradeHistoryParamPaging {
+
+    private Integer pageLength = 50;
+    private Integer pageNumber = 1;
+
+    @Override
+    public void setPageLength(Integer pageLength) {
+      this.pageLength = pageLength;
+    }
+
+    @Override
+    public Integer getPageLength() {
+      return pageLength;
+    }
+
+    @Override
+    public void setPageNumber(Integer pageNumber) {
+      this.pageNumber = pageNumber;
+    }
+
+    @Override
+    public Integer getPageNumber() {
+      return pageNumber;
+    }
   }
 }
