@@ -1,9 +1,14 @@
 package org.knowm.xchange.abucoins.service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRate;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRates;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
@@ -21,6 +26,7 @@ import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
  * <li>{@link #getAbucoinsOrderBook(String, AbucoinsOrderBookLevel) GET /products/&#123;product-id&#125;/book?level=&#123;level&#125;}</li>
  * <li>{@link #getAbucoinsTicker GET /products/&#123;product-id&#125;/ticker}</li>
  * <li>{@link #getAbucoinsTrades(String) GET /products/&#123;product-id&#125;/trades}</li>
+ * <li>{@link #getAbucoinsHistoricRates GET /products/&#123;product-id&#125;/candles?granularity=[granularity]&start=[UTC time of start]&end=[UTC time of end]}</li>
  * <ol>
  * @author bryant_harris
  */
@@ -100,4 +106,31 @@ public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
     return abucoins.getTrades(productID);
   }
 
+  /**
+   * Corresponds to <code>GET /products/&lt;product-id&gt;/candles?granularity=[granularity]&start=[UTC time of start]&end=[UTC time of end]</code>
+   * @param productID
+   * @param granularitySeconds Desired timeslice in seconds
+   * @param start Start time
+   * @param end End time
+   * @return
+   * @throws IOException
+   */
+  public AbucoinsHistoricRate[] getAbucoinsHistoricRates(String productID, long granularitySeconds, Date start, Date end) throws IOException {
+    if ( start == null || end == null )
+      throw new IllegalArgumentException("Must provide begin and end dates");
+	  
+    String granularity = String.valueOf(granularitySeconds);
+	  
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+	  
+    String startDate = dateFormat.format(start);
+    String endDate = dateFormat.format(end);
+	  
+    AbucoinsHistoricRates rates = abucoins.getHistoricRates(productID, granularity, startDate, endDate);
+    if ( rates.getMessage() != null )
+      throw new IOException( rates.getMessage() );
+	  
+    return rates.getHistoricRates();
+  }
 }

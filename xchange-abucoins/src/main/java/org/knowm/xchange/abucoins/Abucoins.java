@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRates;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
@@ -56,4 +57,7 @@ public interface Abucoins {
   @Path("products/{product-id}/trades?before={before}&limit={limit}")
   AbucoinsTrade[] getTradesBefore(@PathParam("product-id") String product_id, @PathParam("before") String before, @PathParam("limit") String limit) throws IOException;
 
+  @GET
+  @Path("products/{product-id}/candles?granularity={granularity}&start={start}&end={end}")
+  AbucoinsHistoricRates getHistoricRates(@PathParam("product-id") String product_id, @PathParam("granularity") String granularity, @PathParam("start") String start, @PathParam("end") String end);
 }
