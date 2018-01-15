@@ -2,9 +2,11 @@ package org.knowm.xchange.abucoins.service;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
@@ -27,12 +29,19 @@ public abstract class AbucoinsArrayOrMessageDeserializer<T,C> extends JsonDeseri
   Class<T> classT;
   Class<?> TarrayClass;
   Class<C> classC;
-  public AbucoinsArrayOrMessageDeserializer(Class<T> classT, Class<C> classC) {
+  boolean useCollectionClassForMessage = false;
+  
+  public AbucoinsArrayOrMessageDeserializer(Class<T> classT, Class<C> classC, boolean collectionHasMessageFlag) {
     this.classT = classT;
     this.classC = classC;
-                
+    useCollectionClassForMessage = collectionHasMessageFlag;
+                        
     Object array = Array.newInstance(classT, 0); 
     TarrayClass = array.getClass();
+  }
+  
+  public AbucoinsArrayOrMessageDeserializer(Class<T> classT, Class<C> classC) {
+    this(classT, classC, false);
   }
         
   @Override
@@ -44,13 +53,33 @@ public abstract class AbucoinsArrayOrMessageDeserializer<T,C> extends JsonDeseri
         T[] array = (T[]) jsonParser.readValueAs(TarrayClass);
         return classC.getConstructor(new Class<?>[] { TarrayClass }).newInstance( new Object[] { array } );
       }
+             
+      if ( useCollectionClassForMessage ) {
+        JsonToken jsonToken = jsonParser.nextToken();
+
+        // Some hacky assumptions here that the container
+        // class has a public 'message' Field on it that we
+        // can set.
+        if(JsonToken.FIELD_NAME.equals(jsonToken)){
+          jsonToken = jsonParser.nextToken();
+          String message = jsonParser.getValueAsString();
+          C containerInstance = classC.newInstance();
+          Field f = classC.getField("message");
+          f.set(containerInstance, message);
                 
-      // occurs if there's an error
-      T singleInstance = jsonParser.readValueAs(classT);
-                
-      T[] array = (T[]) Array.newInstance(classT, 1);
-      array[0] = singleInstance;
-      return classC.getConstructor(new Class<?>[] { TarrayClass }).newInstance( new Object[] { array } );
+          return containerInstance;
+        }
+            
+        throw new IOException("Failed to parse");
+      }
+      else {
+        // occurs if there's an error
+        T singleInstance = jsonParser.readValueAs(classT);
+                        
+        T[] array = (T[]) Array.newInstance(classT, 1);
+        array[0] = singleInstance;
+        return classC.getConstructor(new Class<?>[] { TarrayClass }).newInstance( new Object[] { array } );
+      }
     }
     catch (IOException e) {
       throw e;
