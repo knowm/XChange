@@ -297,9 +297,12 @@ public final class WexAdapters {
 
   public static ExchangeMetaData toMetaData(
       WexExchangeInfo wexExchangeInfo, WexMetaData wexMetaData) {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
-    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
+	  // Initialize with the static meta-data
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>(wexMetaData.getCurrencyPairs());
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>(wexMetaData.getCurrencies());
+
+    // Override entries if relevant real-time exchange data is provided
     if (wexExchangeInfo != null) {
       for (Entry<String, WexPairInfo> e : wexExchangeInfo.getPairs().entrySet()) {
         CurrencyPair pair = adaptCurrencyPair(e.getKey());
