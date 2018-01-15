@@ -1,0 +1,21 @@
+{
+  "currency_pairs": {
+    "BTC/BRL": {
+      "price_scale": 8,
+      "trading_fee": 0.001
+    }
+  },
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    }
+  },
+  "private_rate_limits": [
+    {
+      "calls": 1,
+      "time_span": 10,
+      "time_unit": "SECONDS"
+    }
+  ],
+  "share_rate_limits": true
+}
