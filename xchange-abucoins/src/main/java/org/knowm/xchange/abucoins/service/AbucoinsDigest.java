@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Base64;
 
 import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import org.knowm.xchange.abucoins.Abucoins;
 import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;

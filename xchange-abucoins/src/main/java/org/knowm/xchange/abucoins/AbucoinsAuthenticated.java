@@ -16,11 +16,13 @@ import org.knowm.xchange.abucoins.dto.AbucoinsBaseCreateOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCryptoDepositRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCryptoWithdrawalRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsAccounts;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoDeposit;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoWithdrawal;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethod;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethods;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
+import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrders;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -30,44 +32,44 @@ import si.mazi.rescu.ParamsDigest;
 public interface AbucoinsAuthenticated extends Abucoins {
   @GET
   @Path("accounts")
-  AbucoinsAccount[] getAccounts(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  AbucoinsAccounts getAccounts(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @GET
-  @Path("accounts/{account_id}")
-  AbucoinsAccount getAccount(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("account_id") String accountID) throws IOException;
+  @Path("accounts/{account-id}")
+  AbucoinsAccount getAccount(@PathParam("account-id") String accountID, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @GET
   @Path("payment-methods")
-  AbucoinsPaymentMethod[] getPaymentMethods(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  AbucoinsPaymentMethods getPaymentMethods(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @GET
   @Path("orders")
-  AbucoinsOrder[] getOrders(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  AbucoinsOrders getOrders(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @GET
   @Path("orders?status={status}")
-  AbucoinsOrder[] getOrdersByStatus(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("status") String status) throws IOException;
+  AbucoinsOrders getOrdersByStatus(@PathParam("status") String status, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
 
   @GET
-  @Path("orders?product_id={product_id}")
-  AbucoinsOrder[] getOrdersByProductID(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("product_id") String productID) throws IOException;
+  @Path("orders?product_id={product-id}")
+  AbucoinsOrders getOrdersByProductID(@PathParam("product-id") String productID, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @GET
-  @Path("orders?status={status}&product_id={product_id}")
-  AbucoinsOrder[] getOrdersByStatusAndProductID(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("status") String status, @PathParam("product_id") String productID) throws IOException;
+  @Path("orders?status={status}&product_id={product-id}")
+  AbucoinsOrders getOrdersByStatusAndProductID(@PathParam("status") String status, @PathParam("product-id") String productID, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @GET
-  @Path("orders/{order_id}")
-  AbucoinsOrder getOrder(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("order_id") String orderID) throws IOException;
+  @Path("orders/{order-id}")
+  AbucoinsOrder getOrder(@PathParam("order-id") String orderID, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @POST
   @Path("orders")
   AbucoinsCreateOrderResponse createOrder(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, AbucoinsBaseCreateOrderRequest req) throws IOException;
   
   @DELETE
-  @Path("orders/{order_id}")
+  @Path("orders/{order-id}")
   @Produces(MediaType.TEXT_PLAIN)
-  String deleteOrder(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("order_id") String orderID) throws IOException;
+  String deleteOrder(@PathParam("order-id") String orderID, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @DELETE
   @Path("orders")
@@ -75,9 +77,9 @@ public interface AbucoinsAuthenticated extends Abucoins {
   String deleteAllOrders(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @DELETE
-  @Path("orders?product_id={product_id}")
+  @Path("orders?product_id={product-id}")
   @Produces(MediaType.TEXT_PLAIN)
-  String deleteAllOrdersForProduct(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, @PathParam("product_id") String productID) throws IOException;
+  String deleteAllOrdersForProduct(@PathParam("product-id") String productID, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @POST
   @Path("withdrawals/crypto")

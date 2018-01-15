@@ -10,6 +10,7 @@ import org.knowm.xchange.abucoins.dto.AbucoinsBaseCreateOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
+import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrders;
 
 public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
 
@@ -38,61 +39,64 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
       }
     }
           
-    AbucoinsOrder[] retVal = null;
+    AbucoinsOrders retVal = null;
     if ( status == null ) {
       if ( productID == null )
         retVal = abucoinsAuthenticated.getOrders(exchange.getExchangeSpecification().getApiKey(),
                                                  signatureCreator,
                                                  exchange.getExchangeSpecification().getPassword(),
-                                                 signatureCreator.timestamp());
+                                                 timestamp());
       else
-        retVal = abucoinsAuthenticated.getOrdersByProductID(exchange.getExchangeSpecification().getApiKey(),
+        retVal = abucoinsAuthenticated.getOrdersByProductID(productID,
+                                                            exchange.getExchangeSpecification().getApiKey(),
                                                             signatureCreator,
                                                             exchange.getExchangeSpecification().getPassword(),
-                                                            signatureCreator.timestamp(),
-                                                            productID);
+                                                            timestamp());
     }
     else {
       if ( productID == null )
-        retVal = abucoinsAuthenticated.getOrdersByStatus(exchange.getExchangeSpecification().getApiKey(),
+        retVal = abucoinsAuthenticated.getOrdersByStatus(status.name(),
+                                                         exchange.getExchangeSpecification().getApiKey(),
                                                          signatureCreator,
                                                          exchange.getExchangeSpecification().getPassword(),
-                                                         signatureCreator.timestamp(),
-                                                         status.name());
+                                                         timestamp());
       else
-        retVal = abucoinsAuthenticated.getOrdersByStatusAndProductID(exchange.getExchangeSpecification().getApiKey(),
+        retVal = abucoinsAuthenticated.getOrdersByStatusAndProductID(status.name(),
+                                                                     productID,
+                                                                     exchange.getExchangeSpecification().getApiKey(),
                                                                      signatureCreator,
                                                                      exchange.getExchangeSpecification().getPassword(),
-                                                                     signatureCreator.timestamp(),
-                                                                     status.name(),
-                                                                     productID);                  
+                                                                     timestamp());                  
     }
     
-    return retVal;
+    if ( retVal.getOrders().length == 1 && retVal.getOrders()[0].getMessage() != null )
+      throw new IOException( retVal.getOrders()[0].getMessage() );
+    
+    return retVal.getOrders();
   }
   
   public AbucoinsOrder getAbucoinsOrder(String orderID) throws IOException {
-    return abucoinsAuthenticated.getOrder(exchange.getExchangeSpecification().getApiKey(),
+    return abucoinsAuthenticated.getOrder(orderID,
+                                                                                 exchange.getExchangeSpecification().getApiKey(),
                                           signatureCreator,
                                           exchange.getExchangeSpecification().getPassword(),
-                                          signatureCreator.timestamp(),
-                                          orderID);
+                                          timestamp());
   }
   
   public AbucoinsCreateOrderResponse createAbucoinsOrder(AbucoinsBaseCreateOrderRequest req) throws IOException {
     return abucoinsAuthenticated.createOrder(exchange.getExchangeSpecification().getApiKey(),
                                              signatureCreator,
                                              exchange.getExchangeSpecification().getPassword(),
-                                             signatureCreator.timestamp(),
+                                             timestamp(),
                                              req);
   }
   
   public String deleteAbucoinsOrder(String orderID) throws IOException {
-    String resp = abucoinsAuthenticated.deleteOrder(exchange.getExchangeSpecification().getApiKey(),
+    String resp = abucoinsAuthenticated.deleteOrder(orderID,
+                                                    exchange.getExchangeSpecification().getApiKey(),
                                                     signatureCreator,
                                                     exchange.getExchangeSpecification().getPassword(),
-                                                    signatureCreator.timestamp(),
-                                                    orderID);
+                                                    timestamp());
     String[] ids = AbucoinsAdapters.adaptToSetOfIDs(resp);
     return ids[0];
   }
@@ -109,18 +113,18 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
       return AbucoinsAdapters.adaptToSetOfIDs(abucoinsAuthenticated.deleteAllOrders(exchange.getExchangeSpecification().getApiKey(),
                                                                                     signatureCreator,
                                                                                     exchange.getExchangeSpecification().getPassword(),
-                                                                                    signatureCreator.timestamp()));
+                                                                                    timestamp()));
     else {
       List<String> ids = new ArrayList<>();
       for ( String productID : productIDs ) {
-        res = abucoinsAuthenticated.deleteAllOrdersForProduct(exchange.getExchangeSpecification().getApiKey(),
+        res = abucoinsAuthenticated.deleteAllOrdersForProduct(productID,
+                                                              exchange.getExchangeSpecification().getApiKey(),
                                                               signatureCreator,
                                                               exchange.getExchangeSpecification().getPassword(),
-                                                              signatureCreator.timestamp(),
-                                                              productID);
+                                                              timestamp());
         String[] deletedIds = AbucoinsAdapters.adaptToSetOfIDs(res);
         for ( String id : deletedIds )
-            ids.add(id);
+          ids.add(id);
       }
       return ids.toArray(new String[ids.size()]);
     }

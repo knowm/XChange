@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
-import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 
@@ -50,5 +49,13 @@ public class AbucoinsBaseService extends BaseExchangeService implements BaseServ
               objectMapper.registerModule(module);
             }
         });
+  }
+  
+  /**
+   * Helper method that performs a null check.  SignatureCreator is null if no API key is provided.
+   * @return The timestamp as maintained by the signature creator.
+   */
+  protected String timestamp() {
+    return ( signatureCreator == null ) ? null : signatureCreator.timestamp();
   }
 }

@@ -6,11 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /accounts</code> endpoint.</p>
+ * <code>GET /accounts/&lt;account-id&gt;</code> endpoint.</p>
  *
  * Example:
  * <code><pre>
- * [
  *     {
  *         "id": "3-BTC",
  *         "currency": "BTC",
@@ -19,17 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *         "available_btc": 13.38589212,
  *         "hold": 0.00014593,
  *         "profile_id": 3
- *     },
- *     {
- *         "id": "3-ETH",
- *         "currency": "ETH",
- *         "balance": 133.48685448,
- *         "available": 133.48685448,
- *         "available_btc": 9.38012126,
- *         "hold": 0,
- *         "profile_id": 3
  *     }
- * ]
  * </pre></code>
  * @author bryant_harris
  */
@@ -54,6 +43,9 @@ public class AbucoinsAccount {
   
   /** profile id */
   long profileID;
+  
+  /** For error cases */
+  String message;
         
   public AbucoinsAccount(@JsonProperty("id") String id,
                          @JsonProperty("currency") String currency,
@@ -61,7 +53,8 @@ public class AbucoinsAccount {
                          @JsonProperty("available") BigDecimal available,
                          @JsonProperty("available_btc") BigDecimal available_btc,
                          @JsonProperty("hold") BigDecimal hold,
-                         @JsonProperty("profile_id") long profileID) {
+                         @JsonProperty("profile_id") long profileID,
+                         @JsonProperty("message") String message) {
     this.id = id;
     this.currency = currency;
     this.balance = balance;
@@ -69,6 +62,7 @@ public class AbucoinsAccount {
     this.available_btc = available_btc;
     this.hold = hold;
     this.profileID = profileID;
+    this.message = message;
   }
 
   public String getId() {
@@ -98,10 +92,15 @@ public class AbucoinsAccount {
   public long getProfileID() {
     return profileID;
   }
+  
+  public String getMessage() {
+    return message;
+  }
 
   @Override
   public String toString() {
     return "AbucoinsAccount [id=" + id + ", currency=" + currency + ", balance=" + balance + ", available="
-        + available + ", available_btc=" + available_btc + ", hold=" + hold + ", profileID=" + profileID + "]";
+        + available + ", available_btc=" + available_btc + ", hold=" + hold + ", profileID=" + profileID + 
+        ", message=" + message +"]";
   }
 }
