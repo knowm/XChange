@@ -1,0 +1,41 @@
+package org.knowm.xchange.kucoin;
+
+import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.kucoin.service.KucoinMarketDataService;
+import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
+
+public class KucoinExchange extends BaseExchange implements Exchange {
+
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
+
+  @Override
+  protected void initServices() {
+
+    this.marketDataService = new KucoinMarketDataService(this);
+//    this.accountService = new BittrexAccountService(this);
+//    this.tradeService = new BittrexTradeService(this);
+  }
+
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
+
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    exchangeSpecification.setSslUri("https://api.kucoin.com/");
+    exchangeSpecification.setHost("kucoin.com");
+    exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("Kucoin");
+    exchangeSpecification.setExchangeDescription("Kucoin is a bitcoin and altcoin exchange.");
+
+    return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
+}
