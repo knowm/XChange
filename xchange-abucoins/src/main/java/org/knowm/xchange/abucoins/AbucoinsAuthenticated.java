@@ -19,6 +19,7 @@ import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccounts;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoDeposit;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoWithdrawal;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsFills;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethods;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
@@ -80,6 +81,11 @@ public interface AbucoinsAuthenticated extends Abucoins {
   @Path("orders?product_id={product-id}")
   @Produces(MediaType.TEXT_PLAIN)
   String deleteAllOrdersForProduct(@PathParam("product-id") String productID, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  
+  @GET
+  @Path("fills")
+  @Produces(MediaType.APPLICATION_JSON)
+  AbucoinsFills getFills(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @POST
   @Path("withdrawals/crypto")
