@@ -60,7 +60,7 @@ public interface PoloniexAuthenticated {
 
   @POST
   @FormParam("command")
-  Map<String, PoloniexOpenOrder[]> returnOrderTrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+  PoloniexUserTrade[] returnOrderTrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderID) throws PoloniexException, IOException;
 
   @POST

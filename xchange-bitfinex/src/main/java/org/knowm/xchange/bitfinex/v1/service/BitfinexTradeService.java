@@ -46,8 +46,22 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     if (activeOrders.length <= 0) {
       return noOpenOrders;
     } else {
-      return BitfinexAdapters.adaptOrders(activeOrders);
+      return filterOrders(BitfinexAdapters.adaptOrders(activeOrders), params);
     }
+  }
+
+  /**
+   * Bitfinex API does not provide filtering option. So we should filter orders ourselves
+   */
+  private OpenOrders filterOrders(OpenOrders rawOpenOrders,
+                                  OpenOrdersParams params) {
+    if (params == null) {
+      return rawOpenOrders;
+    }
+
+    List<LimitOrder> openOrdersList = rawOpenOrders.getOpenOrders();
+    openOrdersList.removeIf(openOrder -> !params.accept(openOrder));
+    return new OpenOrders(openOrdersList);
   }
 
   @Override

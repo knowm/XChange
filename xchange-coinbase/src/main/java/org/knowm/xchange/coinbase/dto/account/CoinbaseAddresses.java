@@ -66,7 +66,7 @@ public class CoinbaseAddresses extends CoinbasePagedResult {
       return new CoinbaseAddresses(addresses, totalCount, numPages, currentPage);
     }
 
-    private CoinbaseAddress getAddressFromNode(JsonNode addressNode) throws InvalidFormatException {
+    private CoinbaseAddress getAddressFromNode(JsonNode addressNode) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
       final JsonNode nestedAddressNode = addressNode.path("address");
       final String address = nestedAddressNode.path("address").asText();
