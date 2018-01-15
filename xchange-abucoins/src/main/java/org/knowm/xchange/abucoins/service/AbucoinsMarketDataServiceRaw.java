@@ -11,6 +11,8 @@ import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRate;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRates;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProductStat;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProductStats;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
 
@@ -27,6 +29,7 @@ import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
  * <li>{@link #getAbucoinsTicker GET /products/&#123;product-id&#125;/ticker}</li>
  * <li>{@link #getAbucoinsTrades(String) GET /products/&#123;product-id&#125;/trades}</li>
  * <li>{@link #getAbucoinsHistoricRates GET /products/&#123;product-id&#125;/candles?granularity=[granularity]&start=[UTC time of start]&end=[UTC time of end]}</li>
+ * <li>{@link #getAbucoinsProductStats GET /products/stats</li>
  * <ol>
  * @author bryant_harris
  */
@@ -118,19 +121,33 @@ public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
   public AbucoinsHistoricRate[] getAbucoinsHistoricRates(String productID, long granularitySeconds, Date start, Date end) throws IOException {
     if ( start == null || end == null )
       throw new IllegalArgumentException("Must provide begin and end dates");
-	  
+          
     String granularity = String.valueOf(granularitySeconds);
-	  
+          
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
     dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-	  
+          
     String startDate = dateFormat.format(start);
     String endDate = dateFormat.format(end);
-	  
+          
     AbucoinsHistoricRates rates = abucoins.getHistoricRates(productID, granularity, startDate, endDate);
     if ( rates.getMessage() != null )
       throw new IOException( rates.getMessage() );
-	  
+          
     return rates.getHistoricRates();
+  }
+  
+  /**
+   * Corresponds to <code>GET /products/stats</code>
+   * @return
+   * @throws IOException
+   */
+  public AbucoinsProductStat[] getAbucoinsProductStats() throws IOException {
+    AbucoinsProductStats stats = abucoins.getProductStats();
+ 
+    if ( stats.getStats().length == 1 && stats.getStats()[0].getMessage() != null )
+      throw new IOException(stats.getStats()[0].getMessage() );
+          
+    return stats.getStats();
   }
 }
