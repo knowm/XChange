@@ -85,7 +85,6 @@
     </ciManagement>
 
     <modules>
-        <module>xchange-abucoins</module>
         <module>xchange-anx</module>
         <module>xchange-acx</module>
         <module>xchange-binance</module>
