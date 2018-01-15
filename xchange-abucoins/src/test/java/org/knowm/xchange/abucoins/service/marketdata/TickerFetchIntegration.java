@@ -11,6 +11,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.abucoins.AbucoinsExchange;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRate;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProductStat;
 import org.knowm.xchange.abucoins.service.AbucoinsMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -46,5 +47,8 @@ public class TickerFetchIntegration {
     AbucoinsMarketDataService abucoinsMarketData = (AbucoinsMarketDataService) marketDataService; 
     AbucoinsHistoricRate[] historicRates = abucoinsMarketData.getAbucoinsHistoricRates("BTC-USD", 60, start, end);
     System.out.println( Arrays.asList(historicRates));
+    
+    AbucoinsProductStat[] stats = abucoinsMarketData.getAbucoinsProductStats();
+    System.out.println( Arrays.asList(stats));
   }
 }

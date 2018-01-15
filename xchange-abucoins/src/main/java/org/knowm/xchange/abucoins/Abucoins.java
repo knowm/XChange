@@ -12,6 +12,7 @@ import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRates;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProductStats;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
 
@@ -60,4 +61,8 @@ public interface Abucoins {
   @GET
   @Path("products/{product-id}/candles?granularity={granularity}&start={start}&end={end}")
   AbucoinsHistoricRates getHistoricRates(@PathParam("product-id") String product_id, @PathParam("granularity") String granularity, @PathParam("start") String start, @PathParam("end") String end);
+  
+  @GET
+  @Path("products/stats")
+  AbucoinsProductStats getProductStats();
 }
