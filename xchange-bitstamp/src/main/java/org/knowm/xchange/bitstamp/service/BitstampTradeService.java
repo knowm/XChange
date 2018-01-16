@@ -140,7 +140,15 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public Collection<Order> getOrder(
       String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+
+    Collection<Order> orders = new ArrayList<>(orderIds.length);
+
+    for (String orderId : orderIds) {
+      orders.add(BitstampAdapters.adaptOrder(orderId,super.getBitstampOrder(Long.parseLong(orderId))));
+    }
+
+    return orders;
+
   }
 
 }

@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
