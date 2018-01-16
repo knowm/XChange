@@ -97,7 +97,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
       offset = null;
     }
 
-    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, startTime, endTime, offset));
+    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, startTime, endTime, offset).getTrades());
   }
 
   @Override
