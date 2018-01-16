@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAuthenticated;
-import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
@@ -25,10 +25,11 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
   }
 
   public long getTimestamp() throws IOException {
-    return binance.time().getServerTime().getTime();
-  }
-
+    return System.currentTimeMillis() + ((BinanceExchange) exchange).deltaServerTime();
+  } 
+  
   public BinanceExchangeInfo getExchangeInfo() throws IOException {
     return binance.exchangeInfo();
   }
+  
 }

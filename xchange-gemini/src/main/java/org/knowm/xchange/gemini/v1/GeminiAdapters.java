@@ -24,12 +24,8 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
-import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendLevel;
@@ -96,6 +92,67 @@ public final class GeminiAdapters {
 
     long maxTimestampInMillis = maxTimestamp.multiply(new BigDecimal(1000L)).longValue();
     return new OrdersContainer(maxTimestampInMillis, limitOrders);
+  }
+
+  public static Order adaptOrder(GeminiOrderStatusResponse geminiOrderStatusResponse) {
+
+    Long id = geminiOrderStatusResponse.getId();
+    CurrencyPair currencyPair = adaptCurrencyPair(geminiOrderStatusResponse.getSymbol());
+    BigDecimal averageExecutionPrice  = geminiOrderStatusResponse.getAvgExecutionPrice();
+    BigDecimal executedAmount = geminiOrderStatusResponse.getExecutedAmount();
+    BigDecimal originalAmount = geminiOrderStatusResponse.getOriginalAmount();
+    OrderType orderType = (geminiOrderStatusResponse.getSide().equals("buy")) ? OrderType.BID : OrderType.ASK;
+    OrderStatus orderStatus = adaptOrderstatus(geminiOrderStatusResponse);
+    Date timestamp = new Date(geminiOrderStatusResponse.getTimestampms()/1000);
+
+    if(geminiOrderStatusResponse.getType().contains("limit")) {
+
+      BigDecimal limitPrice = geminiOrderStatusResponse.getPrice();
+
+      return new LimitOrder(
+              orderType,
+              originalAmount,
+              currencyPair,
+              id.toString(),
+              timestamp,
+              limitPrice,
+              averageExecutionPrice,
+              executedAmount,
+              orderStatus
+      );
+
+    }  else if (geminiOrderStatusResponse.getType().contains("market")) {
+
+      return new MarketOrder(
+
+              orderType,
+              originalAmount,
+              currencyPair,
+              id.toString(),
+              timestamp,
+              averageExecutionPrice,
+              executedAmount,
+              orderStatus
+
+      );
+
+    }
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  private static OrderStatus adaptOrderstatus(GeminiOrderStatusResponse geminiOrderStatusResponse) {
+
+    if(geminiOrderStatusResponse.isCancelled())
+      return OrderStatus.CANCELED;
+
+    if(geminiOrderStatusResponse.getRemainingAmount().equals(new BigDecimal(0.0)))
+      return OrderStatus.FILLED;
+
+    if(geminiOrderStatusResponse.getRemainingAmount().compareTo(new BigDecimal(0.0)) > 0)
+      return OrderStatus.PARTIALLY_FILLED;
+
+    throw new NotYetImplementedForExchangeException();
   }
 
   public static class OrdersContainer {
@@ -261,7 +318,7 @@ public final class GeminiAdapters {
     for (GeminiOrderStatusResponse order : activeOrders) {
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
-      Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
+      Date timestamp = convertBigDecimalTimestampToDate(new BigDecimal(order.getTimestamp()));
 
       OrderStatus status = OrderStatus.NEW;
 

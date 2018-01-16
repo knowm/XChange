@@ -15,16 +15,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
@@ -37,6 +35,7 @@ import org.knowm.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.kraken.dto.trade.KrakenUserTrade;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
+import org.knowm.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
 
@@ -263,4 +262,31 @@ public class KrakenAdaptersTest {
     assertThat(fundingRecord.getFee().doubleValue()).isEqualTo(new BigDecimal("0.02").doubleValue());
     assertThat(fundingRecord.getBalance().doubleValue()).isEqualTo(BigDecimal.ZERO.doubleValue());
   }
+
+
+  @Test
+  public void testAdaptMarketOrder() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/order/example-market-ask-order.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    KrakenQueryOrderResult krakenQueryOrderResult = mapper.readValue(is, KrakenQueryOrderResult.class);
+
+    List<Order> orders = KrakenAdapters.adaptOrders(krakenQueryOrderResult.getResult());
+
+    assertThat(orders.size()).isEqualTo(1);
+
+    Order order = orders.get(0);
+
+    assertThat(order.getId()).isEqualTo("OHR2QC-2XDSQ-WHOFMW");
+    assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("260.23"));
+    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.84962599"));
+    assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_USD);
+    assertThat(MarketOrder.class.isAssignableFrom(order.getClass()));
+
+  }
+
+
 }
