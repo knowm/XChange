@@ -25,7 +25,7 @@ public class BitstampBaseService extends BaseExchangeService implements BaseServ
 
   protected ExchangeException handleError(BitstampException exception) {
 
-    if (exception.getMessage().contains("Insufficient")) {
+    if (exception.getMessage().contains("You can only buy")) {
       return new FundsExceededException(exception);
 
     } else if (exception.getMessage().contains("Invalid limit exceeded")) {
