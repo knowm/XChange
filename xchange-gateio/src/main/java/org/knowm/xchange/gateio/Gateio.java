@@ -40,7 +40,7 @@ public interface Gateio {
   GateioTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
-  @Path("depth/{ident}_{currency}")
+  @Path("orderBook/{ident}_{currency}")
   GateioDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
