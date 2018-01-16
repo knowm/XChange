@@ -18,7 +18,7 @@ import org.knowm.xchange.kuna.dto.KunaAskBid;
 import org.knowm.xchange.kuna.dto.KunaTimeTicker;
 import org.knowm.xchange.kuna.dto.KunaTrade;
 
-public class KunaMarketDataServiceRawTest extends BaseKunaTest {
+public class KunaMarketDataServiceRawTestIntegration extends BaseKunaTest {
 
   public static final long DEFAULT_OFFSET = 5l;
   private static KunaMarketDataServiceRaw marketDataServiceRaw;

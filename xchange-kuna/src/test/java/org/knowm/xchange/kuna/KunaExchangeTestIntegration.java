@@ -11,7 +11,7 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
 
-public class KunaExchangeTest extends BaseKunaTest {
+public class KunaExchangeTestIntegration extends BaseKunaTest {
 
   @Test
   public void test_exchange_specification() {
