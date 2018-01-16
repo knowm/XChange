@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -173,7 +174,7 @@ public class GDAXAdapters {
 
     OrderStatus orderStatus = adaptOrderStatus(order);
 
-    BigDecimal averagePrice = order.getExecutedvalue().divide(order.getFilledSize());
+    BigDecimal averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
 
     if(order.getType().equals("market")) {
       returnValue = new MarketOrder(
