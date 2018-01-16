@@ -29,6 +29,10 @@ public final class BittrexUtils {
   }
 
   public static Date toDate(String dateString) {
+
+    if(dateString == null)
+      return null;
+
     try {
       return dateParser().parse(dateString);
     } catch (ParseException e) {
