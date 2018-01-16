@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -26,10 +28,8 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
@@ -38,13 +38,7 @@ import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderStatus;
-import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
-import org.knowm.xchange.kraken.dto.trade.KrakenUserTrade;
+import org.knowm.xchange.kraken.dto.trade.*;
 
 public class KrakenAdapters {
 
@@ -98,6 +92,61 @@ public class KrakenAdapters {
 
       return limitOrders;
     }
+  }
+
+  public static List<Order> adaptOrders(Map<String,KrakenOrder> krakenOrdersMap) {
+
+    return krakenOrdersMap
+            .entrySet()
+            .stream()
+            .map(krakenOrderEntry -> adaptOrder(krakenOrderEntry.getKey(),krakenOrderEntry.getValue()))
+            .collect(Collectors.toList());
+
+  }
+
+  public static Order adaptOrder(String orderId, KrakenOrder krakenOrder) {
+
+    OrderType orderType = adaptOrderType(krakenOrder.getOrderDescription().getType());
+    CurrencyPair currencyPair = adaptCurrencyPair(krakenOrder.getOrderDescription().getAssetPair());
+
+    OrderStatus orderStatus = adaptOrderStatus(krakenOrder.getStatus());
+    BigDecimal filledAmount = krakenOrder.getVolumeExecuted();
+    BigDecimal originalAmount = krakenOrder.getVolume();
+
+    if (orderStatus == OrderStatus.NEW && filledAmount.compareTo(BigDecimal.ZERO) > 0
+            && filledAmount.compareTo(originalAmount) < 0) {
+      orderStatus = OrderStatus.PARTIALLY_FILLED;
+    }
+
+    if(krakenOrder.getOrderDescription().getOrderType().equals(KrakenOrderType.LIMIT))
+      return new LimitOrder(
+              orderType,
+              krakenOrder.getVolume(),
+              currencyPair,
+              orderId,
+              new Date(new Double(krakenOrder.getOpenTimestamp()).longValue()),
+              krakenOrder.getOrderDescription().getPrice(),
+              krakenOrder.getPrice(),
+              krakenOrder.getVolumeExecuted(),
+              adaptOrderStatus(krakenOrder.getStatus())
+      );
+
+    if(krakenOrder.getOrderDescription().getOrderType().equals(KrakenOrderType.MARKET))
+      return new MarketOrder(
+              orderType,
+              krakenOrder.getVolume(),
+              currencyPair,
+              orderId,
+              new Date(new Double(krakenOrder.getOpenTimestamp()).longValue()),
+              krakenOrder.getPrice(),
+              krakenOrder.getVolumeExecuted(),
+              orderStatus
+      );
+
+
+    throw new NotYetImplementedForExchangeException();
+
+
   }
 
   public static LimitOrder adaptOrder(KrakenPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {
@@ -187,33 +236,12 @@ public class KrakenAdapters {
         continue;
       }
 
-      limitOrders.add(adaptLimitOrder(krakenOrder, krakenOrderEntry.getKey()));
+      limitOrders.add((LimitOrder) adaptOrder(krakenOrderEntry.getKey(),  krakenOrder));
     }
     return new OpenOrders(limitOrders);
 
   }
 
-  public static LimitOrder adaptLimitOrder(KrakenOrder krakenOrder, String id) {
-
-    KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
-    OrderType type = adaptOrderType(orderDescription.getType());
-
-    BigDecimal originalAmount = krakenOrder.getVolume();
-    BigDecimal filledAmount = krakenOrder.getVolumeExecuted();
-    BigDecimal remainingAmount = originalAmount.min(filledAmount);
-    CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
-    Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
-
-    OrderStatus status = adaptOrderStatus(krakenOrder.getStatus());
-
-    if (status == OrderStatus.NEW && filledAmount.compareTo(BigDecimal.ZERO) > 0
-        && filledAmount.compareTo(originalAmount) < 0) {
-      status = OrderStatus.PARTIALLY_FILLED;
-    }
-
-    return new LimitOrder(type, originalAmount, pair, id, timestamp, orderDescription.getPrice(),
-        orderDescription.getPrice(), filledAmount, status);
-  }
 
   public static UserTrades adaptTradesHistory(Map<String, KrakenTrade> krakenTrades) {
 
