@@ -1,9 +1,7 @@
 package org.knowm.xchange.kuna.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,18 +76,19 @@ public class KunaMarketDataService extends KunaMarketDataServiceRaw implements M
   }
 
   protected LimitOrder mapKunaOrder2LimitOrder(KunaOrder kunaOrder, CurrencyPair currencyPair) {
-    LimitOrder.Builder builder = new LimitOrder.Builder;
+    Order.OrderType orderType = kunaOrder.getOrderType() == KunaOrderType.LIMIT ? Order.OrderType.ASK : Order.OrderType.BID;
+    LimitOrder.Builder builder = new LimitOrder.Builder(orderType, currencyPair);
     builder.id(String.valueOf(kunaOrder.getId()))
         .currencyPair(currencyPair)
         .timestamp(kunaOrder.getCreatedAt())
         .orderStatus(Order.OrderStatus.NEW)
-        .orderType(kunaOrder.getOrderType() == KunaOrderType.LIMIT ? Order.OrderType.ASK : Order.OrderType.BID)
+        .orderType(orderType)
         .averagePrice(kunaOrder.getAveragePrice())
         .limitPrice(kunaOrder.getPrice())
         .originalAmount(kunaOrder.getVolume())
         .remainingAmount(kunaOrder.getRemainingVolume())
         .cumulativeAmount(kunaOrder.getExecutedVolume());
-    return  builder.build();
+    return builder.build();
   }
 
   protected Trades mapKunaTrades2Trades(KunaTrade[] kunaTrades, CurrencyPair currencyPair) {
