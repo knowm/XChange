@@ -9,6 +9,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
 import org.knowm.xchange.bitstamp.BitstampV2;
+import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
@@ -57,79 +58,128 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
   public BitstampBalance getBitstampBalance() throws IOException {
 
-    BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory());
-    if (bitstampBalance.getError() != null) {
-      throw new ExchangeException("Error getting balance. " + bitstampBalance.getError());
+    try {
+      BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+              exchange.getNonceFactory());
+      if (bitstampBalance.getError() != null) {
+        throw new ExchangeException("Error getting balance. " + bitstampBalance.getError());
+      }
+
+      return bitstampBalance;
+
+    } catch (BitstampException e) {
+      throw handleError(e);
     }
-    return bitstampBalance;
   }
 
   public BitstampWithdrawal withdrawBtcFunds(BigDecimal amount, String address) throws IOException {
-    BitstampWithdrawal response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
 
-    return checkAndReturnWithdrawal(response);
+    try {
+      BitstampWithdrawal response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+
+      return checkAndReturnWithdrawal(response);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public BitstampWithdrawal withdrawLtcFunds(BigDecimal amount, String address) throws IOException {
-    BitstampWithdrawal response = bitstampAuthenticatedV2.withdrawLitecoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
 
-    return checkAndReturnWithdrawal(response);
+    try {
+      BitstampWithdrawal response = bitstampAuthenticatedV2.withdrawLitecoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+
+      return checkAndReturnWithdrawal(response);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public BitstampWithdrawal withdrawEthFunds(BigDecimal amount, String address) throws IOException {
-    BitstampWithdrawal response = bitstampAuthenticatedV2.withdrawEther(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
 
-    return checkAndReturnWithdrawal(response);
+    try {
+      BitstampWithdrawal response = bitstampAuthenticatedV2.withdrawEther(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+
+      return checkAndReturnWithdrawal(response);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public BitstampWithdrawal withdrawRippleFunds(BigDecimal amount, String address, String destinationTag) throws IOException {
-    BitstampWithdrawal response = bitstampAuthenticatedV2.xrpWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address, destinationTag);
 
-    return checkAndReturnWithdrawal(response);
+    try {
+      BitstampWithdrawal response = bitstampAuthenticatedV2.xrpWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address, destinationTag);
+
+      return checkAndReturnWithdrawal(response);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public BitstampWithdrawal withdrawBchFunds(BigDecimal amount, String address) throws IOException {
-    BitstampWithdrawal response = bitstampAuthenticatedV2.bchWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
-    return checkAndReturnWithdrawal(response);
+
+    try {
+      BitstampWithdrawal response = bitstampAuthenticatedV2.bchWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
+      return checkAndReturnWithdrawal(response);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   private BitstampWithdrawal checkAndReturnWithdrawal(BitstampWithdrawal response) {
-    if (response.hasError()) {
-      throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
-    }
 
-    return response;
+    try {
+      if (response.hasError()) {
+        throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
+      }
+
+      return response;
+
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public BitstampDepositAddress getBitstampBitcoinDepositAddress() throws IOException {
 
-    final BitstampDepositAddress response = bitstampAuthenticated.getBitcoinDepositAddress(exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
-    if (response.getError() != null) {
-      throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+    try {
+      final BitstampDepositAddress response = bitstampAuthenticated.getBitcoinDepositAddress(exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator, exchange.getNonceFactory());
+      if (response.getError() != null) {
+        throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
     }
-    return response;
   }
 
   public BitstampDepositAddress getBitstampLitecoinDepositAddress() throws IOException {
 
-    final BitstampDepositAddress response = bitstampAuthenticated.getLitecoinDepositAddress(exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
-    if (response.getError() != null) {
-      throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+    try {
+      final BitstampDepositAddress response = bitstampAuthenticated.getLitecoinDepositAddress(exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator, exchange.getNonceFactory());
+      if (response.getError() != null) {
+        throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
     }
-    return response;
   }
 
   public BitstampDepositAddress getBitstampEthereumDepositAddress() throws IOException {
 
-    final BitstampDepositAddress response = bitstampAuthenticated.getEthereumDepositAddress(exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
-    if (response.getError() != null) {
-      throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+    try {
+      final BitstampDepositAddress response = bitstampAuthenticated.getEthereumDepositAddress(exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator, exchange.getNonceFactory());
+      if (response.getError() != null) {
+        throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
     }
-    return response;
   }
 
   public BitstampRippleDepositAddress getRippleDepositAddress() throws IOException {
@@ -144,31 +194,52 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
    */
   public boolean withdrawToRipple(BigDecimal amount, Currency currency, String rippleAddress) throws IOException {
 
+    try {
     return bitstampAuthenticated.withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
         amount, currency.getCurrencyCode(), rippleAddress);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public List<DepositTransaction> getUnconfirmedDeposits() throws IOException {
 
-    final List<DepositTransaction> response = Arrays.asList(
-        bitstampAuthenticated.getUnconfirmedDeposits(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory()));
-    return response;
+    try {
+      final List<DepositTransaction> response = Arrays.asList(
+          bitstampAuthenticated.getUnconfirmedDeposits(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory()));
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public List<WithdrawalRequest> getWithdrawalRequests(Long timeDelta) throws IOException {
 
-    final List<WithdrawalRequest> response = Arrays.asList(
-        bitstampAuthenticatedV2.getWithdrawalRequests(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), timeDelta));
-    return response;
+    try {
+      final List<WithdrawalRequest> response = Arrays.asList(
+          bitstampAuthenticatedV2.getWithdrawalRequests(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), timeDelta));
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, CurrencyPair pair, Long offset,
       String sort) throws IOException {
-    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions,
-        offset, sort);
+
+    try {
+      return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions,
+          offset, sort);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public BitstampTransferBalanceResponse transferSubAccountBalanceToMain(BigDecimal amount, String currency, String subAccount) throws IOException {
-    return bitstampAuthenticatedV2.transferSubAccountBalanceToMain(apiKey, signatureCreator, nonceFactory, amount, currency, subAccount);
+    try {
+      return bitstampAuthenticatedV2.transferSubAccountBalanceToMain(apiKey, signatureCreator, nonceFactory, amount, currency, subAccount);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 }
