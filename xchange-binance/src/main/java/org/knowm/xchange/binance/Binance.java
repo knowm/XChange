@@ -12,10 +12,9 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
+import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
-import org.knowm.xchange.binance.dto.marketdata.BinanceSymbolPrice;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
-import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
 import org.knowm.xchange.binance.dto.meta.BinanceTime;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 
@@ -99,7 +98,7 @@ public interface Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  List<Object[]> klines(@QueryParam("symbol") String symbol, @QueryParam("interval") KlineInterval interval
+  List<Object[]> klines(@QueryParam("symbol") String symbol, @QueryParam("interval") String interval
       , @QueryParam("limit") Integer limit, @QueryParam("startTime") Long startTime
       , @QueryParam("endTime") Long endTime)
       throws IOException, BinanceException;
@@ -123,7 +122,7 @@ public interface Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  List<BinanceSymbolPrice> tickerAllPrices() throws IOException, BinanceException;
+  List<BinancePrice> tickerAllPrices() throws IOException, BinanceException;
 
   @GET
   @Path("api/v1/ticker/allBookTickers")
