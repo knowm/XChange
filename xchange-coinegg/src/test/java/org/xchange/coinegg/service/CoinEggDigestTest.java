@@ -25,7 +25,7 @@ public class CoinEggDigestTest {
   @Test
   public void paramDigestTest() throws Exception {
     RestInvocation invocation = testRestInvocation();
-    CoinEggDigest digest = new CoinEggDigest(privateKey);
+    CoinEggDigest digest = CoinEggDigest.createInstance(privateKey);
     
     assertThat(digest.digestParams(invocation)).isEqualTo(expectedSignature);
   }
