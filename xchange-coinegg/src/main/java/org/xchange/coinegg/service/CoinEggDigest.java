@@ -1,33 +1,29 @@
 package org.xchange.coinegg.service;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.FormParam;
 
 import org.apache.commons.codec.binary.Hex;
-import org.xchange.coinegg.CoinEggUtils;
+import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.Params;
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
-public class CoinEggDigest implements ParamsDigest {
+public final class CoinEggDigest extends BaseParamsDigest {
 
-  private final String privateKey;
-  
-  protected CoinEggDigest(String privateKey) {
-    this.privateKey = privateKey;
+  private static Charset UTF8;
+
+  private CoinEggDigest(String md5PrivateKey) {
+    super(md5PrivateKey, HMAC_SHA_256);
   }
   
   @Override
   public String digestParams(RestInvocation restInvocation) {
-    
+
+    // Create Query String From Form Parameters
     Params params = Params.of();
     restInvocation.getParamsMap()
                   .get(FormParam.class)
@@ -37,32 +33,29 @@ public class CoinEggDigest implements ParamsDigest {
                   .filter(e -> !e.getKey().equalsIgnoreCase("signature"))
                   .forEach(e -> params.add(e.getKey(), e.getValue()));
     
-   String queryString = params.asQueryString();
+    // Parse Query String
+    byte[] queryString = params.asQueryString()
+                               .trim()
+                               .getBytes(UTF8);
     
-   try {
-    return createSignature(privateKey, queryString);
-   } catch (InvalidKeyException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
-    e.printStackTrace();
-   }
-   
-   return null;
-  }
-   
-  private String createSignature(String key, String data) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
-    // Create MD5 Hash Of Private Key
-    MessageDigest md5Digest = MessageDigest.getInstance("MD5");
-    String md5Key = CoinEggUtils.toHexString(md5Digest.digest(key.getBytes("UTF-8")));
-    
-    // Create HMAC_SHA256 Instance
-    SecretKeySpec secretKey = new SecretKeySpec(md5Key.getBytes("UTF-8"), "HmacSHA256");
-    Mac sha256HMAC = Mac.getInstance("HmacSHA256");
-    sha256HMAC.init(secretKey);
-  
-    // Create Signature
-    return new String(Hex.encodeHex(sha256HMAC.doFinal(data.getBytes("UTF-8"))));
+    // Create And Return Signature
+    return hex(getMac().doFinal(queryString));
   }
   
   public static CoinEggDigest createInstance(String privateKey) {
-    return new CoinEggDigest(privateKey);
+    try {
+      CoinEggDigest.UTF8 = Charset.forName("UTF-8");
+      MessageDigest md5 = MessageDigest.getInstance("MD5");
+      
+      return new CoinEggDigest(hex(md5.digest(privateKey.getBytes(UTF8))));
+    } 
+    catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+    }
   }
+  
+  private static String hex(byte[] b) {
+    return String.valueOf(Hex.encodeHex(b));
+  }
+  
 }
