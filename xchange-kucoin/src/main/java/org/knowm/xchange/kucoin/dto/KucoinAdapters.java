@@ -1,9 +1,12 @@
 package org.knowm.xchange.kucoin.dto;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.kucoin.dto.account.KucoinUserInfoResponse;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
 
 public class KucoinAdapters {
@@ -23,5 +26,9 @@ public class KucoinAdapters {
         .quoteVolume(kcTick.getVolValue())
         .timestamp(new Date(kcTick.getDatetime()))
         .build();
+  }
+
+  public static AccountInfo adaptAccountInfo(KucoinUserInfoResponse kucoinInfo) {
+    return new AccountInfo(kucoinInfo.getUserInfo().getEmail(), Arrays.asList());
   }
 }

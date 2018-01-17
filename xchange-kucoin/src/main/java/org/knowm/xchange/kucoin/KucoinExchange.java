@@ -3,20 +3,21 @@ package org.knowm.xchange.kucoin;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.kucoin.service.KucoinAccountService;
 import org.knowm.xchange.kucoin.service.KucoinMarketDataService;
-import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KucoinExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
 
     this.marketDataService = new KucoinMarketDataService(this);
-//    this.accountService = new BittrexAccountService(this);
+    this.accountService = new KucoinAccountService(this);
 //    this.tradeService = new BittrexTradeService(this);
   }
 
