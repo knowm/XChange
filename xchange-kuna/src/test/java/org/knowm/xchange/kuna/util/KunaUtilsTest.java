@@ -21,7 +21,6 @@ public class KunaUtilsTest {
   public void test_to_date() {
     String dateString = "2018-01-16T14:19:24+02:00";
     Date actual = KunaUtils.toDate(dateString);
-    assertThat(actual).isEqualTo(dateString);
     assertThat(actual).isInSameYearAs(dateString);
     assertThat(actual).isInSameMonthAs(dateString);
     assertThat(actual).isInSameDayAs(dateString);
