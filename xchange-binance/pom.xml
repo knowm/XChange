@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-binance</artifactId>
-            <version>4.3.1</version>
+            <version>${xchange.version}</version>
         </dependency>
     </dependencies>
 </project>
