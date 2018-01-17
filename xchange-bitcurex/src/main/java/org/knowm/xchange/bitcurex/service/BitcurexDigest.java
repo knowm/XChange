@@ -1,11 +1,10 @@
 package org.knowm.xchange.bitcurex.service;
 
 import javax.crypto.Mac;
-import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
 
 import org.knowm.xchange.service.BaseParamsDigest;
 
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
 
 public class BitcurexDigest extends BaseParamsDigest {
@@ -18,7 +17,7 @@ public class BitcurexDigest extends BaseParamsDigest {
    */
   private BitcurexDigest(String secretKeyBase64, String apiKey) {
 
-    super(DatatypeConverter.parseBase64Binary(secretKeyBase64), HMAC_SHA_512);
+    super(Base64.getDecoder(). decode( secretKeyBase64), HMAC_SHA_512);
   }
 
   public static BitcurexDigest createInstance(String secretKeyBase64, String apiKey) {
@@ -37,7 +36,7 @@ public class BitcurexDigest extends BaseParamsDigest {
     sha512.update(restInvocation.getRequestBody().getBytes());
 
     signature = sha512.doFinal();
-    digest = Base64.encodeBytes(signature);
+    digest =  Base64.getEncoder().encodeToString(signature);
 
     return digest;
   }

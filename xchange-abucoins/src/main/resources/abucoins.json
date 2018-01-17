@@ -1,0 +1,91 @@
+{
+  "currency_pairs": {
+    "BTC/USD": {
+      "price_scale": 2,
+      "trading_fee": 0.002,
+      "min_amount": 0.010000000
+    },
+    "BTC/EUR": {
+      "price_scale": 2,
+      "trading_fee": 0.001,
+      "min_amount": 0.010000000
+    },
+    "BTC/GBP": {
+      "price_scale": 2,
+      "trading_fee": 0.01,
+      "min_amount": 0.010000000
+    },
+    "ETH/GBP": {
+      "price_scale": 4,
+      "trading_fee": 0.001,
+      "min_amount": 0.100000000
+    },
+    "ETH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.0000,
+      "min_amount": 0.500000000
+    },
+    "ETH/USD": {
+      "price_scale": 4,
+      "trading_fee": 0.002,
+      "min_amount": 0.500000000
+    },
+    "ETH/EUR": {
+      "price_scale": 4,
+      "trading_fee": 0.001,
+      "min_amount": 0.500000000
+    },
+    "BCH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.0000,
+      "min_amount": 0.100000000
+    },
+    "BCH/USD": {
+      "price_scale": 4,
+      "trading_fee": 0.002,
+      "min_amount": 0.0100000000
+    },
+    "BCH/EUR": {
+      "price_scale": 4,
+      "trading_fee": 0.001,
+      "min_amount": 0.0100000000
+    },
+    "BCH/GBP": {
+      "price_scale": 4,
+      "trading_fee": 0.002,
+      "min_amount": 0.010000000
+    }
+  },
+  "currencies": {
+    "BCH": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "BTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "ETH": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "GBP": {
+      "scale": 2,
+      "withdrawal_fee": 3.80
+    },
+    "EUR": {
+      "scale": 2,
+      "withdrawal_fee": 3.80
+    },
+    "USD": {
+      "scale": 2
+    }
+  },
+  "private_rate_limits": [
+    {
+      "calls": 60,
+      "time_unit": "minutes"
+    }
+  ],
+  "share_rate_limits": true
+}

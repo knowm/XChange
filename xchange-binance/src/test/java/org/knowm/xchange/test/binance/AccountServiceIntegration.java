@@ -1,6 +1,7 @@
 package org.knowm.xchange.test.binance;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Assert;
 import org.junit.Assume;
@@ -12,6 +13,8 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.service.account.AccountService;
@@ -46,5 +49,22 @@ public class AccountServiceIntegration {
     Currency cur = currencies.keySet().stream()
     .filter(c -> Currency.BTC == c).collect(StreamUtils.singletonCollector());
     Assert.assertNotNull(cur);
+  }
+  
+  @Test
+  public void testBalances() throws Exception {
+
+    Wallet wallet = accountService.getAccountInfo().getWallet();
+    Assert.assertNotNull(wallet);
+    
+    Map<Currency, Balance> balances = wallet.getBalances();
+    for (Entry<Currency, Balance> entry : balances.entrySet()) {
+      Currency curr = entry.getKey();
+      Balance bal = entry.getValue();
+      if (0 < bal.getAvailable().doubleValue()) {
+        Assert.assertSame(curr, bal.getCurrency());
+        Assert.assertSame(Currency.getInstance(curr.getCurrencyCode()), bal.getCurrency());
+      }
+    }
   }
 }
