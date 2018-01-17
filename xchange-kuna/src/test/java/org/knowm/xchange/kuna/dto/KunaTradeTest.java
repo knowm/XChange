@@ -73,7 +73,7 @@ public class KunaTradeTest {
     assertThat(KunaTrade.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt())
         .isEqualToIgnoringSeconds(new Date());
 
-    assertThat(trade.getCreatedAt()).isEqualTo("2018-01-16T14:19:24+02:00");
+    assertThat(trade.getCreatedAt()).isEqualTo("2018-01-16T14:19:24");
   }
 
   @Test
