@@ -2,10 +2,10 @@ package org.knowm.xchange.kuna.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * @author Dat Bui
@@ -27,8 +27,9 @@ public class KunaUtils {
   public static Date toDate(String dateString) {
     try {
       return dateParserNoMillis().parse(dateString);
-    } catch (ParseException e1) {
-      throw new ExchangeException("Illegal date/time format", e1);
+    } catch (ParseException e) {
+      OffsetDateTime offsetDateTime = OffsetDateTime.parse(dateString);
+      return new Date(offsetDateTime.toInstant().toEpochMilli());
     }
   }
 
