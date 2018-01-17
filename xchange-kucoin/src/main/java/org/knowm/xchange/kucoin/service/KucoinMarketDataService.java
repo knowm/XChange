@@ -33,14 +33,23 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return KucoinAdapters.adaptTicker(
-        getTicker(KucoinAdapters.adaptCurrencyPair(currencyPair)).getData(),
+        tick(currencyPair),
         currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+
+    Integer limit = null;
+    
+    if (args != null && args.length > 0) {
+      if (args[0] instanceof Integer && (Integer) args[0] > 0) {
+        limit = (Integer) args[0];
+      }
+    }
+    return KucoinAdapters.adaptOrderBook(
+        orders(currencyPair, limit),
+        currencyPair);
   }
 
   @Override

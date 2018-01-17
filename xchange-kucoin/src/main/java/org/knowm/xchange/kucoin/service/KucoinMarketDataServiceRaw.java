@@ -3,7 +3,11 @@ package org.knowm.xchange.kucoin.service;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinTickResponse;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.kucoin.dto.KucoinAdapters;
+import org.knowm.xchange.kucoin.dto.KucoinResponse;
+import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
+import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
 
 public class KucoinMarketDataServiceRaw extends KucoinBaseService {
 
@@ -11,7 +15,12 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     super(exchange);
   }
   
-  KucoinTickResponse getTicker(String market) throws IOException {
-    return kucoin.getTicker(market);
+  KucoinResponse<KucoinTicker> tick(CurrencyPair currencyPair) throws IOException {
+    return kucoin.tick(KucoinAdapters.adaptCurrencyPair(currencyPair));
+  }
+  
+  KucoinResponse<KucoinOrderBook> orders(CurrencyPair currencyPair, Integer limit) throws IOException {
+    // "group" param is set to null for now since I have no idea what it does
+    return kucoin.orders(KucoinAdapters.adaptCurrencyPair(currencyPair), null, limit);
   }
 }
