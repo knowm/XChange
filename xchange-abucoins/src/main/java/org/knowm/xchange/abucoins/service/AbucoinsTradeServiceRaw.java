@@ -13,6 +13,7 @@ import org.knowm.xchange.abucoins.dto.account.AbucoinsFills;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrders;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * <p>Class providing a 1:1 proxy for the Abucoins market related
@@ -91,7 +92,7 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
     }
     
     if ( retVal.getOrders().length == 1 && retVal.getOrders()[0].getMessage() != null )
-      throw new IOException( retVal.getOrders()[0].getMessage() );
+      throw new ExchangeException( retVal.getOrders()[0].getMessage() );
     
     return retVal.getOrders();
   }
@@ -110,7 +111,7 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
                                                          exchange.getExchangeSpecification().getPassword(),
                                                          timestamp());
     if ( order.getMessage() != null )
-      throw new IOException( order.getMessage() );
+      throw new ExchangeException( order.getMessage() );
           
     return order;
   }
@@ -127,7 +128,7 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
                                                                          timestamp(),
                                                                          req);
     if ( resp.getMessage() != null )
-      throw new IOException( resp.getMessage() );
+      throw new ExchangeException( resp.getMessage() );
           
     return resp;
   }
@@ -186,7 +187,7 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
                                                          exchange.getExchangeSpecification().getPassword(),
                                                          timestamp());
     if ( fills.getFills().length == 1 && fills.getFills()[0].getMessage() != null )
-      throw new IOException( fills.getFills()[0].getMessage() );
+      throw new ExchangeException( fills.getFills()[0].getMessage() );
           
     return fills.getFills();
   }

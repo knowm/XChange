@@ -15,6 +15,7 @@ import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProductStat;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProductStats;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * <p>Class providing a 1:1 proxy for the Abucoins market related
@@ -132,7 +133,7 @@ public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
           
     AbucoinsHistoricRates rates = abucoins.getHistoricRates(productID, granularity, startDate, endDate);
     if ( rates.getMessage() != null )
-      throw new IOException( rates.getMessage() );
+      throw new ExchangeException( rates.getMessage() );
           
     return rates.getHistoricRates();
   }
@@ -146,7 +147,7 @@ public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
     AbucoinsProductStats stats = abucoins.getProductStats();
  
     if ( stats.getStats().length == 1 && stats.getStats()[0].getMessage() != null )
-      throw new IOException(stats.getStats()[0].getMessage() );
+      throw new ExchangeException(stats.getStats()[0].getMessage() );
           
     return stats.getStats();
   }
