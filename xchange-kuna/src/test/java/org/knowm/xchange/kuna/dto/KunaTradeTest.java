@@ -70,12 +70,17 @@ public class KunaTradeTest {
 
   @Test
   public void test_createdAt() {
-    AbstractDateAssert.registerCustomDateFormat(KunaUtils.DATE_FORMAT_NO_MILLIS);
     assertThat(KunaTrade.builder().withCreatedAt(null).build().getCreatedAt()).isNull();
     assertThat(KunaTrade.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt())
         .isEqualToIgnoringSeconds(new Date());
 
-    assertThat(trade.getCreatedAt()).isEqualTo("2018-01-16T14:19:24+02:00");
+    String date = "2018-01-16T14:19:24+02:00";
+    assertThat(trade.getCreatedAt()).isInSameYearAs(date);
+    assertThat(trade.getCreatedAt()).isInSameMonthAs(date);
+    assertThat(trade.getCreatedAt()).isInSameDayAs(date);
+    assertThat(trade.getCreatedAt()).isInSameHourAs(date);
+    assertThat(trade.getCreatedAt()).isInSameMinuteAs(date);
+    assertThat(trade.getCreatedAt()).isInSameSecondAs(date);
   }
 
   @Test

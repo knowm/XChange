@@ -2,6 +2,8 @@ package org.knowm.xchange.kuna.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Date;
+
 import org.assertj.core.api.AbstractDateAssert;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,8 +19,16 @@ public class KunaUtilsTest {
 
   @Test
   public void test_to_date() {
-    AbstractDateAssert.registerCustomDateFormat(KunaUtils.DATE_FORMAT_NO_MILLIS);
-    assertThat(KunaUtils.toDate("2018-01-16T14:19:24+02:00")).isEqualTo("2018-01-16T14:19:24+02:00");
+    String dateString = "2018-01-16T14:19:24+02:00";
+    Date actual = KunaUtils.toDate(dateString);
+    assertThat(actual).isEqualTo(dateString);
+    assertThat(actual).isInSameYearAs(dateString);
+    assertThat(actual).isInSameMonthAs(dateString);
+    assertThat(actual).isInSameDayAs(dateString);
+    assertThat(actual).isInSameHourAs(dateString);
+    assertThat(actual).isInSameMinuteAs(dateString);
+    assertThat(actual).isInSameSecondAs(dateString);
+
     assertThat(KunaUtils.toDate("2018-01-16T09:28:05Z")).isEqualTo("2018-01-16T09:28:05Z");
   }
 }
