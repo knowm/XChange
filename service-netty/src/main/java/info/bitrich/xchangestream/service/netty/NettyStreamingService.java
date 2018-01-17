@@ -266,9 +266,8 @@ public abstract class NettyStreamingService<T> {
         return new NettyWebSocketClientHandler(handshaker, handler);
     }
 
-
-    private class NettyWebSocketClientHandler extends  WebSocketClientHandler{
-        NettyWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+    protected class NettyWebSocketClientHandler extends WebSocketClientHandler {
+        protected NettyWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
             super(handshaker, handler);
         }
 
