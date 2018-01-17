@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+import org.assertj.core.api.AbstractDateAssert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.kuna.util.KunaUtils;
@@ -69,11 +70,12 @@ public class KunaTradeTest {
 
   @Test
   public void test_createdAt() {
+    AbstractDateAssert.registerCustomDateFormat(KunaUtils.DATE_FORMAT_NO_MILLIS);
     assertThat(KunaTrade.builder().withCreatedAt(null).build().getCreatedAt()).isNull();
     assertThat(KunaTrade.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt())
         .isEqualToIgnoringSeconds(new Date());
 
-    assertThat(trade.getCreatedAt()).isEqualTo("2018-01-16T14:19:24");
+    assertThat(trade.getCreatedAt()).isEqualTo("2018-01-16T14:19:24+02:00");
   }
 
   @Test
