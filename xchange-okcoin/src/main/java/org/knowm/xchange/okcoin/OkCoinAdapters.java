@@ -239,12 +239,12 @@ public final class OkCoinAdapters {
 
     return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()),
         String.valueOf(order.getOrderId()), order.getCreateDate(), order.getPrice(), order.getAveragePrice(),
-        order.getDealAmount(), adaptOrderStatus(order.getStatus()));
+        order.getDealAmount(), null, adaptOrderStatus(order.getStatus()));
   }
 
   public static LimitOrder adaptOpenOrderFutures(OkCoinFuturesOrder order) {
     return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
-        order.getCreatedDate(), order.getPrice(), order.getAvgPrice(), order.getDealAmount(), adaptOrderStatus(order.getStatus()));
+        order.getCreatedDate(), order.getPrice(), order.getAvgPrice(), order.getDealAmount(), order.getFee(),adaptOrderStatus(order.getStatus()));
   }
 
   public static OrderType adaptOrderType(String type) {
