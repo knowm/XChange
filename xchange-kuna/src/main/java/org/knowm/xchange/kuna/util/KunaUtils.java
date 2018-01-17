@@ -12,7 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public class KunaUtils {
 
-  private static final String DATE_FORMAT_NO_MILLIS = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+  public static final String DATE_FORMAT_NO_MILLIS = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
   /**
    * Hide default constructor.
