@@ -30,7 +30,11 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
   public GDAXOrder[] getGDAXOpenOrders() throws IOException {
 
-    return gdax.getListOrders(apiKey, digest, nonceFactory, passphrase, "open");
+    try {
+      return gdax.getListOrders(apiKey, digest, nonceFactory, passphrase, "open");
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
   public GDAXFill[] getGDAXFills(TradeHistoryParams tradeHistoryParams) throws IOException {
@@ -93,12 +97,21 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
   public boolean cancelGDAXOrder(String id) throws IOException {
 
-    gdax.cancelOrder(id, apiKey, digest, nonceFactory, passphrase);
+    try {
+      gdax.cancelOrder(id, apiKey, digest, nonceFactory, passphrase);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
     return true;
   }
 
   public GDAXOrder getOrder(String id) throws IOException {
-    return gdax.getOrder(id, apiKey, digest, nonceFactory, passphrase);
+
+    try {
+      return gdax.getOrder(id, apiKey, digest, nonceFactory, passphrase);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
   }
 
   private static String side(OrderType type) {
