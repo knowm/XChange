@@ -11,6 +11,7 @@ import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoDeposit;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoWithdrawal;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethod;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethods;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +47,7 @@ public class AbucoinsAccountServiceRaw extends AbucoinsBaseService {
                                                                   timestamp());
     
     if ( accounts.getAccounts().length == 1 && accounts.getAccounts()[0].getMessage() != null )
-      throw new IOException( accounts.getAccounts()[0].getMessage() );
+      throw new ExchangeException( accounts.getAccounts()[0].getMessage() );
     return accounts.getAccounts();
   }
   
@@ -63,7 +64,7 @@ public class AbucoinsAccountServiceRaw extends AbucoinsBaseService {
                                                                exchange.getExchangeSpecification().getPassword(),
                                                                timestamp());
     if ( account.getMessage() != null )
-      throw new IOException( account.getMessage() );
+      throw new ExchangeException( account.getMessage() );
     
     return account;
   }
@@ -80,7 +81,7 @@ public class AbucoinsAccountServiceRaw extends AbucoinsBaseService {
                                                                                     timestamp());
     
     if ( paymentMethods.getPaymentMethods().length == 1 && paymentMethods.getPaymentMethods()[0].getMessage() != null )
-      throw new IOException(paymentMethods.getPaymentMethods()[0].getMessage());
+      throw new ExchangeException(paymentMethods.getPaymentMethods()[0].getMessage());
     return paymentMethods.getPaymentMethods();
   }
   
