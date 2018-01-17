@@ -13,6 +13,14 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public abstract class Order implements Serializable {
 
+  public BigDecimal getFee() {
+    return fee;
+  }
+
+  public void setFee(BigDecimal fee) {
+    this.fee = fee;
+  }
+
   public enum OrderType {
 
     /**
@@ -124,6 +132,9 @@ public abstract class Order implements Serializable {
    */
   private final Date timestamp;
 
+  /** The total of the fees incured for all transactions related to this order */
+  private BigDecimal fee;
+
   /**
    * Any applicable order flags
    */
@@ -159,7 +170,7 @@ public abstract class Order implements Serializable {
    * @param status the status of the order at the exchange
    */
   public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
-      BigDecimal cumulativeAmount, OrderStatus status) {
+      BigDecimal cumulativeAmount, BigDecimal fee, OrderStatus status) {
 
     this.type = type;
     this.originalAmount = originalAmount;
@@ -169,6 +180,7 @@ public abstract class Order implements Serializable {
     this.averagePrice = averagePrice;
     this.cumulativeAmount = cumulativeAmount;
     this.status = status;
+    this.fee = fee;
   }
 
   /**
@@ -340,6 +352,7 @@ public abstract class Order implements Serializable {
     protected Date timestamp;
     protected BigDecimal averagePrice;
     protected OrderStatus status;
+    protected BigDecimal fee;
 
     protected final Set<IOrderFlags> flags = new HashSet<>();
 
@@ -370,6 +383,12 @@ public abstract class Order implements Serializable {
     public Builder cumulativeAmount(BigDecimal cumulativeAmount) {
 
       this.cumulativeAmount = cumulativeAmount;
+      return this;
+    }
+
+    public Builder fee(BigDecimal fee) {
+
+      this.fee = fee;
       return this;
     }
 
