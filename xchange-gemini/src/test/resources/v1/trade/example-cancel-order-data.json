@@ -6,6 +6,7 @@
   "side": "sell",
   "type": "exchange limit",
   "timestamp": "1387061342.0",
+  "timestampms": 1387061342000,
   "is_live": false,
   "is_cancelled": true,
   "was_forced": false,

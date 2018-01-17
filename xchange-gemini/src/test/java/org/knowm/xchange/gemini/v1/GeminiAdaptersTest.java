@@ -1,10 +1,12 @@
 package org.knowm.xchange.gemini.v1;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
@@ -15,6 +17,7 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWalletJSONTest;
@@ -96,7 +99,7 @@ public class GeminiAdaptersTest {
 
     for (int i = 0; i < responses.length; i++) {
       LimitOrder order = orders.getOpenOrders().get(i);
-      long expectedTimestampMillis = responses[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
+      long expectedTimestampMillis = new BigDecimal(responses[i].getTimestamp()).multiply(new BigDecimal(1000L)).longValue();
       Order.OrderType expectedOrderType = responses[i].getSide().equalsIgnoreCase("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
 
       assertEquals(String.valueOf(responses[i].getId()), order.getId());
@@ -132,7 +135,7 @@ public class GeminiAdaptersTest {
       BigDecimal originalAmount = new BigDecimal("70");
       BigDecimal remainingAmount = originalAmount.subtract(new BigDecimal(i * 1));
       BigDecimal executedAmount = originalAmount.subtract(remainingAmount);
-      responses[i] = new GeminiOrderStatusResponse(i, SYMBOL, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
+      responses[i] = new GeminiOrderStatusResponse(i, "Gemini", SYMBOL, price, avgExecutionPrice, side, type, timestamp.toString(), timestamp.multiply(new BigDecimal(1000)).longValue(), isLive, isCancelled,
           wasForced, originalAmount, remainingAmount, executedAmount);
     }
 
@@ -186,4 +189,28 @@ public class GeminiAdaptersTest {
 
     return responses;
   }
+
+
+
+  @Test
+  public void testAdaptMarketOrder() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = GeminiAdaptersTest.class.getResourceAsStream("/v1/order/example-limit-order-status.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    GeminiOrderStatusResponse geminiOrderStatusResponse = mapper.readValue(is, GeminiOrderStatusResponse.class);
+
+    Order order = GeminiAdapters.adaptOrder(geminiOrderStatusResponse);
+
+    assertThat(order.getId()).isEqualTo("44375901");
+    assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("400.00"));
+    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("3"));
+    assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(LimitOrder.class.isAssignableFrom(order.getClass()));
+
+  }
+
+
 }

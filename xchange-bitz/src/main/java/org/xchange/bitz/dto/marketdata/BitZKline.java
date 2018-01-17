@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 // History Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BitZKline {
-	
+  
 	private final String contractUnit;
 	private final String moneyType;
 	private final String marketName;

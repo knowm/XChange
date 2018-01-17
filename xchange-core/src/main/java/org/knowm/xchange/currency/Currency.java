@@ -240,6 +240,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency WDC = createCurrency("WDC", "WorldCoin", null);
   public static final Currency WST = createCurrency("WST", "Samoan Tala", null);
   public static final Currency XAF = createCurrency("XAF", "CFA Franc BEAC", null);
+  public static final Currency XAS = createCurrency("XAS", "Asch", null);
   public static final Currency XAUR = createCurrency("XAUR", "Xaurum", null);
   public static final Currency XCD = createCurrency("XCD", "East Caribbean Dollar", null);
   public static final Currency XDR = createCurrency("XDR", "Special Drawing Rights", null);

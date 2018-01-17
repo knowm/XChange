@@ -207,7 +207,8 @@ public abstract class Order implements Serializable {
    * @return The remaining order amount
    */
   public BigDecimal getRemainingAmount() {
-    if (cumulativeAmount != null) {
+    if (cumulativeAmount != null
+            && originalAmount != null) {
       return originalAmount.subtract(cumulativeAmount);
     }
     return originalAmount;

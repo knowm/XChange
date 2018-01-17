@@ -134,6 +134,12 @@
             <artifactId>xchange-coinbase</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- XChange CoinEgg support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-coinegg</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- XChange GDAX support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
