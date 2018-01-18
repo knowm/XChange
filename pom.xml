@@ -136,6 +136,7 @@
         <module>xchange-koineks</module>
         <module>xchange-koinim</module>
         <module>xchange-kraken</module>
+        <module>xchange-kuna</module>
         <module>xchange-lakebtc</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
