@@ -251,6 +251,12 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   // Tether Pairs
   public static final CurrencyPair BTC_USDT = new CurrencyPair(Currency.BTC, Currency.USDT);
 
+  // UAH pairs
+  public static final CurrencyPair BTC_UAH = new CurrencyPair(Currency.BTC, Currency.UAH);
+  public static final CurrencyPair ETH_UAH = new CurrencyPair(Currency.ETH, Currency.UAH);
+  public static final CurrencyPair BCH_UAH = new CurrencyPair(Currency.BCH, Currency.UAH);
+
+
   public final Currency base;
   public final Currency counter;
 
