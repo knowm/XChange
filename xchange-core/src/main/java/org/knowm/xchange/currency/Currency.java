@@ -16,6 +16,7 @@ import java.util.TreeSet;
  * the proposed ISO 4217 code is "XBT"
  */
 public class Currency implements Comparable<Currency>, Serializable {
+  private static final long serialVersionUID = 9202420470911161475L;
 
   private static final Map<String, Currency> currencies = new HashMap<>();
 
@@ -490,6 +491,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   }
 
   private static class CurrencyAttributes implements Serializable {
+    private static final long serialVersionUID = -9010771808048500252L;
 
     public final Set<String> codes;
     public final String isoCode;
