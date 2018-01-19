@@ -185,7 +185,7 @@ public class GDAXAdapters {
               createdAt,
               averagePrice,
               order.getFilledSize(),
-              order.getFilledSize(),
+              order.getFillFees(),
               orderStatus
               );
     } else if(order.getType().equals("limit")) {
