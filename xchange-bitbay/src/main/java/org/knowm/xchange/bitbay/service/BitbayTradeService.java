@@ -93,7 +93,7 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new TradeHistoryParamsZero();
+    return new BitbayTradeHistoryParams();
   }
 
   @Override
