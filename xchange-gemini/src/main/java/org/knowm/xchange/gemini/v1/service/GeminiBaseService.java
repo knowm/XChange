@@ -1,7 +1,10 @@
 package org.knowm.xchange.gemini.v1.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gemini.v1.GeminiAuthenticated;
+import org.knowm.xchange.gemini.v1.dto.GeminiException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
@@ -28,6 +31,14 @@ public class GeminiBaseService extends BaseExchangeService implements BaseServic
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = GeminiHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.payloadCreator = new GeminiPayloadDigest();
+  }
+
+  protected ExchangeException handleException(GeminiException e) {
+    if(e.getMessage().contains("due to insufficient funds"))
+      return new FundsExceededException(e);
+
+
+    return new ExchangeException(e);
   }
 
 }
