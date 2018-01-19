@@ -79,7 +79,7 @@ public final class BittrexAdapters {
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
 
     return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantity(), pair, bittrexOpenOrder.getOrderUuid(),
-        BittrexUtils.toDate(bittrexOpenOrder.getOpened()), bittrexOpenOrder.getLimit(), bittrexOpenOrder.getQuantityRemaining(),
+        BittrexUtils.toDate(bittrexOpenOrder.getOpened()), bittrexOpenOrder.getLimit(), bittrexOpenOrder.getQuantityRemaining(), null,
         bittrexOpenOrder.getPricePerUnit());
   }
 
@@ -136,7 +136,7 @@ public final class BittrexAdapters {
     return new BittrexLimitOrder(
         type,
         order.getQuantity(), pair, order.getOrderUuid(),
-        order.getOpened(), order.getLimit(), order.getQuantityRemaining(), order.getPricePerUnit(), status);
+        order.getOpened(), order.getLimit(), order.getQuantityRemaining(), order.getPricePerUnit(), null, status);
   }
 
   public static Trade adaptTrade(BittrexTrade trade, CurrencyPair currencyPair) {

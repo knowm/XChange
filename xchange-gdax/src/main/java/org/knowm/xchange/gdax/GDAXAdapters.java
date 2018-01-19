@@ -156,7 +156,7 @@ public class GDAXAdapters {
       OrderStatus orderStatus = adaptOrderStatus(order);
 
       LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
-          order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
+          order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(),order.getFillFees(), orderStatus);
 
       orders.add(limitOrder);
     }
@@ -185,6 +185,7 @@ public class GDAXAdapters {
               createdAt,
               averagePrice,
               order.getFilledSize(),
+              order.getFilledSize(),
               orderStatus
               );
     } else if(order.getType().equals("limit")) {
@@ -197,6 +198,7 @@ public class GDAXAdapters {
               order.getPrice(),
               averagePrice,
               order.getFilledSize(),
+              order.getFillFees(),
               orderStatus);
     } else {
       return null;

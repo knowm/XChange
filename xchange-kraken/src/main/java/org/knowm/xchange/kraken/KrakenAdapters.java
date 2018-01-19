@@ -112,6 +112,7 @@ public class KrakenAdapters {
     OrderStatus orderStatus = adaptOrderStatus(krakenOrder.getStatus());
     BigDecimal filledAmount = krakenOrder.getVolumeExecuted();
     BigDecimal originalAmount = krakenOrder.getVolume();
+    BigDecimal fee = krakenOrder.getFee();
 
     if (orderStatus == OrderStatus.NEW && filledAmount.compareTo(BigDecimal.ZERO) > 0
             && filledAmount.compareTo(originalAmount) < 0) {
@@ -128,6 +129,7 @@ public class KrakenAdapters {
               krakenOrder.getOrderDescription().getPrice(),
               krakenOrder.getPrice(),
               krakenOrder.getVolumeExecuted(),
+              krakenOrder.getFee(),
               adaptOrderStatus(krakenOrder.getStatus())
       );
 
@@ -140,6 +142,7 @@ public class KrakenAdapters {
               new Date(new Double(krakenOrder.getOpenTimestamp()).longValue()),
               krakenOrder.getPrice(),
               krakenOrder.getVolumeExecuted(),
+              krakenOrder.getFee(),
               orderStatus
       );
 
@@ -316,9 +319,9 @@ public class KrakenAdapters {
   private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
     if (OriginalMeta != null) {
       return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), OriginalMeta.getMinimumAmount(),
-          OriginalMeta.getMaximumAmount(), krakenPair.getPairScale());
+          OriginalMeta.getMaximumAmount(), krakenPair.getVolumeLotScale());
     } else {
-      return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), null, null, krakenPair.getPairScale());
+      return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), null, null, krakenPair.getVolumeLotScale());
     }
   }
 

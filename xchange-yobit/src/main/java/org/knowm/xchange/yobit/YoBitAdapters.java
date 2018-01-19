@@ -197,6 +197,7 @@ public class YoBitAdapters {
         new BigDecimal(rate),
         null,
         null,
+        null,
         orderStatus
     );
   }
