@@ -1,15 +1,15 @@
 {
   "currency_pairs": {
     "BTC/EUR": {
-      "price_scale": 1,
+      "price_scale": 8,
       "min_amount": 0.002000000
     },
     "BTC/USD": {
-      "price_scale": 1,
+      "price_scale": 8,
       "min_amount": 0.002000000
     },
     "BTC/CAD": {
-      "price_scale": 1,
+      "price_scale": 8,
       "min_amount": 0.002000000
     },
     "BTC/JPY": {
