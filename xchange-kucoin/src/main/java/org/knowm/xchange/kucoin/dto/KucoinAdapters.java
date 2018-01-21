@@ -11,8 +11,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.kucoin.dto.account.KucoinUserInfoResponse;
+import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
 
@@ -51,6 +53,12 @@ public class KucoinAdapters {
     kcOrders.getBuy().stream()
         .forEach(s -> bids.add(adaptLimitOrder(currencyPair, OrderType.BID, s, timestamp)));
     return new OrderBook(timestamp, asks, bids);
+  }
+  
+  public static Trade adaptTrade(KucoinDealOrder kucoinTrade, CurrencyPair currencyPair) {
+    return new Trade(kucoinTrade.getOrderType().getOrderType(),
+        kucoinTrade.getAmount(), currencyPair, kucoinTrade.getPrice(),
+        new Date(kucoinTrade.getTimestamp()), null);
   }
   
   private static LimitOrder adaptLimitOrder(CurrencyPair currencyPair, OrderType orderType,

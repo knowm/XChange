@@ -8,6 +8,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.kucoin.KucoinExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -42,5 +43,28 @@ public class KucoinIntegrationTests {
     assertThat(orderBookLong).isNotNull();
     assertThat(orderBookLong.getAsks().size()).isEqualTo(10);
     assertThat(orderBookLong.getBids().size()).isEqualTo(10);
+  }
+
+  @Test
+  public void tradesFetchTest() throws Exception {
+
+    Trades tradesDefault = KUCOIN.getMarketDataService().getTrades(BTC_ETH);
+    System.out.println(tradesDefault.toString());
+    assertThat(tradesDefault.getTrades().size()).isEqualTo(10);
+    
+    Trades tradesLimit20 = KUCOIN.getMarketDataService().getTrades(BTC_ETH, 20);
+    System.out.println("LIMIT 20");
+    System.out.println(tradesLimit20.toString());
+    assertThat(tradesLimit20.getTrades().size()).isEqualTo(20);
+    
+    // couldnt get test case below to work, no idea how the since parameter works
+//    Date since = tradesLimit20.getTrades().stream()
+//        .sorted((t1, t2) -> t2.getTimestamp().compareTo(t1.getTimestamp()))
+//        .findFirst().get().getTimestamp();
+//    Trades tradesSinceLastCall = KUCOIN.getMarketDataService().getTrades(BTC_ETH, 20, since);
+//    System.out.println("WITH SINCE");
+//    System.out.println(since);
+//    System.out.println(tradesSinceLastCall.toString());
+//    assertThat(tradesSinceLastCall.getTrades().size()).isLessThan(20);
   }
 }
