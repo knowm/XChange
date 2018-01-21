@@ -3,12 +3,13 @@ package org.knowm.xchange.bitbay.service.account.params;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /**
  * Bitbay specifc params for withdrawing fiat currency
  * @author bryant_harris
  */
-public class BitbayWithdrawFundsSwiftParams {
+public class BitbayWithdrawFundsSwiftParams implements WithdrawFundsParams {
   public final Currency currency;
 
   public final BigDecimal amount;
