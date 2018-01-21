@@ -1,13 +1,20 @@
 package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
+import org.knowm.xchange.kucoin.dto.KucoinResponse;
+import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -54,7 +61,25 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+
+    Integer limit = null;
+    Long since = null;
+    
+    if (args != null && args.length > 0) {
+      if (args[0] instanceof Integer && (Integer) args[0] > 0) {
+        limit = (Integer) args[0];
+      }
+      if (args.length > 1) {
+        if (args[1] instanceof Date) {
+          since = ((Date) args[1]).getTime();
+        }
+      }
+    }
+
+    KucoinResponse<List<KucoinDealOrder>> response = dealOrders(currencyPair, limit, since);
+    List<Trade> trades = response.getData().stream()
+        .map(o -> KucoinAdapters.adaptTrade(o, currencyPair))
+        .collect(Collectors.toList());
+    return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 }
