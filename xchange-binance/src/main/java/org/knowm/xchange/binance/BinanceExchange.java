@@ -27,10 +27,10 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class BinanceExchange extends BaseExchange {
 
   private static final int DEFAULT_PRECISION = 8;
-	
+
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
   private Long deltaServerTime;
-  
+
   @Override
   protected void initServices() {
     this.marketDataService = new BinanceMarketDataService(this);
@@ -72,37 +72,37 @@ public class BinanceExchange extends BaseExchange {
         currencyPairs.put(price.getCurrencyPair(), new CurrencyPairMetaData(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 8));
 
         for (Symbol symbol : symbols) {
-			if (symbol.getSymbol().equals(pair.base.getCurrencyCode() + pair.counter.getCurrencyCode())) {
+          if (symbol.getSymbol().equals(pair.base.getCurrencyCode() + pair.counter.getCurrencyCode())) {
 
-				int basePrecision = DEFAULT_PRECISION;
-				int counterPrecision = DEFAULT_PRECISION;
+            int basePrecision = DEFAULT_PRECISION;
+            int counterPrecision = DEFAULT_PRECISION;
 
-				Filter[] filters = symbol.getFilters();
-				for (Filter filter : filters) {
-					if (filter.getFilterType().equals("PRICE_FILTER")) {
-						counterPrecision = numberOfDecimals(filter.getMinPrice());
-					} else if (filter.getFilterType().equals("LOT_SIZE")) {
-						basePrecision = numberOfDecimals(filter.getMinQty());
-					}
-				}
+            Filter[] filters = symbol.getFilters();
+            for (Filter filter : filters) {
+              if (filter.getFilterType().equals("PRICE_FILTER")) {
+                counterPrecision = numberOfDecimals(filter.getMinPrice());
+              } else if (filter.getFilterType().equals("LOT_SIZE")) {
+                basePrecision = numberOfDecimals(filter.getMinQty());
+              }
+            }
 
-				currencies.put(pair.base, new CurrencyMetaData(basePrecision, BigDecimal.ZERO));
-				currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, BigDecimal.ZERO));
-			}
+            currencies.put(pair.base, new CurrencyMetaData(basePrecision, BigDecimal.ZERO));
+            currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, BigDecimal.ZERO));
+          }
         }
       }
     } catch (Exception e) {
       logger.warn("An exception occurred while loading the metadata", e);
     }
   }
-    
+
   private int numberOfDecimals(String value) {
     try {
       double d = Double.parseDouble(value);
       String s = new DecimalFormat("#.############").format(d);
       return s.split("\\.")[1].length();
     } catch (ArrayIndexOutOfBoundsException e) {
-    	  return DEFAULT_PRECISION;
+      return DEFAULT_PRECISION;
     }
   }
 
