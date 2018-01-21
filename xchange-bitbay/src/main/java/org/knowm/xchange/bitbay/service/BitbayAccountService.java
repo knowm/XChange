@@ -6,13 +6,11 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.BitbayAdapters;
-import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 import org.knowm.xchange.bitbay.service.account.params.BitbayWithdrawFundsSwiftParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
