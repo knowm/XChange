@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayCancelResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
@@ -24,6 +25,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 /**
  * @author Z. Dolezal
  */
+@SuppressWarnings("rawtypes")
 @Path("/Trading/tradingApi.php")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
@@ -75,6 +77,16 @@ public interface BitbayAuthenticated {
   @FormParam("method")
   List<BitbayOrder> orders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("moment") SynchronizedValueFactory<Long> timestamp) throws IOException;
+
+  @POST
+  @FormParam("method")
+  BitbayBaseResponse transfer(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("quantity") String quantity, @FormParam("address") String address);
+
+  @POST
+  @FormParam("method")
+  BitbayBaseResponse withdraw(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("quantity") String quantity, @FormParam("account") String account, @FormParam("express") String express, @FormParam("bic") String bicOrSwift);
 
   @POST
   @FormParam("method")
