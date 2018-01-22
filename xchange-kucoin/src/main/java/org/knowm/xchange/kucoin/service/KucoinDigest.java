@@ -40,7 +40,7 @@ public class KucoinDigest extends BaseParamsDigest {
     String endpoint = "/" + restInvocation.getPath(); // needs leading slash
     String queryString = restInvocation.getParamsMap().get(QueryParam.class).asHttpHeaders().entrySet()
         .stream()
-        .sorted()
+        .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
         .map(e -> e.getKey() + "=" + e.getValue())
         .collect(Collectors.joining("&"));
     Long nonce = (Long) restInvocation.getParamValue(HeaderParam.class, KucoinAuthenticated.HEADER_NONCE);

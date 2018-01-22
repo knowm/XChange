@@ -3,6 +3,8 @@ package org.knowm.xchange.kucoin.dto.marketdata;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import org.knowm.xchange.kucoin.dto.KucoinOrderType;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;

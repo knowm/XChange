@@ -5,6 +5,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kucoin.service.KucoinAccountService;
 import org.knowm.xchange.kucoin.service.KucoinMarketDataService;
+import org.knowm.xchange.kucoin.service.KucoinTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -18,7 +19,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
     this.marketDataService = new KucoinMarketDataService(this);
     this.accountService = new KucoinAccountService(this);
-//    this.tradeService = new BittrexTradeService(this);
+    this.tradeService = new KucoinTradeService(this);
   }
 
   @Override
