@@ -2,6 +2,8 @@ package org.knowm.xchange.kucoin.dto.marketdata;
 
 import java.math.BigDecimal;
 
+import org.knowm.xchange.kucoin.dto.KucoinOrderType;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(using=KucoinDealOrderDeserializer.class)
