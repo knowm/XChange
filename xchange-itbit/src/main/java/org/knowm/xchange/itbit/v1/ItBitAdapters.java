@@ -102,15 +102,15 @@ public final class ItBitAdapters {
   public static Trades adaptTrades(ItBitTrades trades, CurrencyPair currencyPair) throws InvalidFormatException {
 
     List<Trade> tradesList = new ArrayList<>(trades.getCount());
-    long lastTradeId = 0;
+    long lastMatchNumber = 0;
     for (int i = 0; i < trades.getCount(); i++) {
       ItBitTrade trade = trades.getTrades()[i];
-      long tradeId = trade.getTid();
-      if (tradeId > lastTradeId)
-        lastTradeId = tradeId;
+      long matchNumber = trade.getMatchNumber();
+      if (matchNumber > lastMatchNumber)
+        lastMatchNumber = matchNumber;
       tradesList.add(adaptTrade(trade, currencyPair));
     }
-    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
+    return new Trades(tradesList, lastMatchNumber, TradeSortType.SortByID);
   }
 
   public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) throws InvalidFormatException {
@@ -123,9 +123,9 @@ public final class ItBitAdapters {
       timestamp = matcher.group(1) + "Z";
     }
     Date date = DateUtils.fromISODateString(timestamp);
-    final String tradeId = String.valueOf(trade.getTid());
+    final String matchNumber = String.valueOf(trade.getMatchNumber());
 
-    return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, tradeId);
+    return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, matchNumber);
   }
 
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> orders, CurrencyPair currencyPair, OrderType orderType) {
