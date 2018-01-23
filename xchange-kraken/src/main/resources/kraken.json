@@ -218,7 +218,7 @@
     },
     "LTC": {
       "scale": 5,
-      "withdrawal_fee": 0.00100
+      "withdrawal_fee": 0.02000
     },
     "XVN": {
       "scale": 5,
@@ -262,7 +262,7 @@
     },
     "GNO": {
       "scale": 5,
-      "withdrawal_fee": 0.00500
+      "withdrawal_fee": 0.01000
     },
     "EOS": {
       "scale": 5,
