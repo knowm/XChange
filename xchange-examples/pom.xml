@@ -110,7 +110,7 @@
             <artifactId>xchange-kraken</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange Kraken support -->
+        <!-- XChange Kucoin support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-kucoin</artifactId>
