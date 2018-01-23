@@ -32,7 +32,7 @@ public class HitbtcTradingDemo {
 
   private static void raw(HitbtcTradeServiceRaw tradeService) throws IOException {
 
-    List<HitbtcOwnTrade> trades = tradeService.getTradeHistoryRaw(0, 100, null);
+    List<HitbtcOwnTrade> trades = tradeService.getTradeHistoryRaw("TRXBTC", 100, 0L);
 
     System.out.println(Arrays.toString(trades.toArray()));
   }

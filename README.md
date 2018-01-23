@@ -1,5 +1,7 @@
 ## [![XChange](https://raw.githubusercontent.com/timmolter/XChange/develop/etc/XChange_64_64.png)](http://knowm.org/open-source/xchange) XChange
 
+[![Join the chat at https://gitter.im/Java-XChange/Lobby](https://badges.gitter.im/Java-XChange/Lobby.svg)](https://gitter.im/Java-XChange/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 XChange is a Java library providing a simple and consistent API for interacting with 60+ Bitcoin and other crypto currency exchanges providing a
 consistent interface for trading and accessing market data.
 
@@ -38,7 +40,7 @@ ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecific
 exSpec.setUserName("34387");
 exSpec.setApiKey("a4SDmpl9s6xWJS5fkKRT6yn41vXuY0AM");
 exSpec.setSecretKey("sisJixU6Xd0d1yr6w02EHCb9UwYzTNuj");
-Exchange bitstamp ExchangeFactory.INSTANCE.createExchange(exSpec);
+Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(exSpec);
 
 // Get the account information
 AccountService accountService = bitstamp.getAccountService();
@@ -100,17 +102,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>4.3.1</version>
+      <version>4.3.2</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>4.3.1</version>
+      <version>4.3.2</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
-      <version>4.3.1</version>
+      <version>4.3.2</version>
     </dependency>
 
 For snapshots, add the following repository to your pom.xml file.
@@ -123,7 +125,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.3.2-SNAPSHOT
+    4.3.3-SNAPSHOT
     
 ## Building with Maven
 
@@ -146,6 +148,4 @@ For more information such as a contributor list and a list of known projects dep
 
 ## Donations
 
-Donate with Bitcoin: [1JVyTP9v9z54dALuhDTZDQfS6FUjcKjPgZ](https://blockchain.info/address/1JVyTP9v9z54dALuhDTZDQfS6FUjcKjPgZ)
-
-All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/XChange/issues?state=open). Open bounties and bounties paid thus far can be found on knowm's [bounties](http://knowm.org/open-source/) page.
+All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/xchart/issues?state=open). Donation addresses, open bounties and bounties paid thus far can be found on Knowm's [bounties](http://knowm.org/open-source/) page.

@@ -1,64 +1,49 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 
-public class HitbtcTradeHistoryParams implements TradeHistoryParams {
+public class HitbtcTradeHistoryParams implements TradeHistoryParamLimit, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
 
-  private HitbtcTradeHistoryParams(Currency currency, Integer offset, Integer limit) {
-    this.currency = currency;
+  private CurrencyPair pair;
+  private Integer limit;
+  private Long offset;
+
+  public HitbtcTradeHistoryParams(CurrencyPair pair, Integer limit, Long offset) {
+    this.pair = pair;
+    this.limit = limit;
     this.offset = offset;
+  }
+
+  @Override
+  public void setCurrencyPair(CurrencyPair pair) {
+    this.pair = pair;
+  }
+
+  @Override
+  public CurrencyPair getCurrencyPair() {
+    return pair;
+  }
+
+  @Override
+  public void setLimit(Integer limit) {
     this.limit = limit;
   }
 
-  private Currency currency;
-
-  private Integer offset;
-
-  private Integer limit;
-
-  public Currency getCurrency() {
-    return currency;
-  }
-
-  public Integer getOffset() {
-    return offset;
-  }
-
+  @Override
   public Integer getLimit() {
     return limit;
   }
 
-  public static Builder builder(){
-    return new Builder();
+  @Override
+  public void setOffset(Long offset) {
+    this.offset = offset;
   }
 
-  public static class Builder {
-
-    private Currency currency;
-
-    private Integer offset;
-
-    private Integer limit;
-
-    public Builder currency(Currency currency) {
-      this.currency = currency;
-      return this;
-    }
-
-    public Builder offset(Integer offset) {
-      this.offset = offset;
-      return this;
-    }
-
-    public Builder limit(Integer limit) {
-      this.limit = limit;
-      return this;
-    }
-
-    public HitbtcTradeHistoryParams build() {
-      return new HitbtcTradeHistoryParams(currency, offset, limit);
-    }
+  @Override
+  public Long getOffset() {
+    return offset;
   }
-
 }

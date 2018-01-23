@@ -30,12 +30,14 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ANC = createCurrency("ANC", "Anoncoin", null);
   public static final Currency ANG = createCurrency("ANG", "Netherlands Antillean Guilder", null);
   public static final Currency AOA = createCurrency("AOA", "Angolan Kwanza", null);
+  public static final Currency ARN = createCurrency("ARN", "Aeron", null);
   public static final Currency ARS = createCurrency("ARS", "Argentine Peso", null);
   public static final Currency AUD = createCurrency("AUD", "Australian Dollar", null);
   public static final Currency AUR = createCurrency("AUR", "Auroracoin", null);
   public static final Currency AWG = createCurrency("AWG", "Aruban Florin", null);
   public static final Currency AZN = createCurrency("AZN", "Azerbaijani Manat", null);
   public static final Currency BAM = createCurrency("BAM", "Bosnia-Herzegovina Convertible Mark", null);
+  public static final Currency BAT = createCurrency("BAT", "Basic Attention Token", null);
   public static final Currency BBD = createCurrency("BBD", "Barbadian Dollar", null);
   public static final Currency BC = createCurrency("BC", "BlackCoin", null, "BLK");
   public static final Currency BCC = createCurrency("BCC", "BitConnect", null);
@@ -52,6 +54,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency BRL = createCurrency("BRL", "Brazilian Real", "R$");
   public static final Currency BSD = createCurrency("BSD", "Bahamian Dollar", null);
   public static final Currency BTC = createCurrency("BTC", "Bitcoin", null, "XBT");
+  public static final Currency BTG = createCurrency("BTG", "Bitcoin Gold", null);
   public static final Currency XBT = getInstance("XBT");
   public static final Currency BTN = createCurrency("BTN", "Bhutanese Ngultrum", null);
   public static final Currency BWP = createCurrency("BWP", "Botswanan Pula", null);
@@ -91,6 +94,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ETH = createCurrency("ETH", "Ether", null);
   public static final Currency EUR = createCurrency("EUR", "Euro", null);
   public static final Currency FJD = createCurrency("FJD", "Fijian Dollar", null);
+  public static final Currency _1ST = createCurrency("1ST", "First Blood", null);
   public static final Currency FKP = createCurrency("FKP", "Falkland Islands Pound", null);
   public static final Currency FTC = createCurrency("FTC", "Feathercoin", null);
   public static final Currency GBP = createCurrency("GBP", "British Pound Sterling", null);
@@ -101,9 +105,11 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency GMD = createCurrency("GMD", "Gambian Dalasi", null);
   public static final Currency GNF = createCurrency("GNF", "Guinean Franc", null);
   public static final Currency GNO = createCurrency("GNO", "Gnosis", null);
+  public static final Currency GNT = createCurrency("GNT", "Golem", null);
   public static final Currency GTQ = createCurrency("GTQ", "Guatemalan Quetzal", null);
   public static final Currency GYD = createCurrency("GYD", "Guyanaese Dollar", null);
   public static final Currency HKD = createCurrency("HKD", "Hong Kong Dollar", null);
+  public static final Currency HVN = createCurrency("HVN", "Hive", null);
   public static final Currency HNL = createCurrency("HNL", "Honduran Lempira", null);
   public static final Currency HRK = createCurrency("HRK", "Croatian Kuna", null);
   public static final Currency HTG = createCurrency("HTG", "Haitian Gourde", null);
@@ -125,6 +131,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency KES = createCurrency("KES", "Kenyan Shilling", null);
   public static final Currency KGS = createCurrency("KGS", "Kyrgystani Som", null);
   public static final Currency KHR = createCurrency("KHR", "Cambodian Riel", null);
+  public static final Currency KICK = createCurrency("KICK", "KickCoin", null);
   public static final Currency KMF = createCurrency("KMF", "Comorian Franc", null);
   public static final Currency KPW = createCurrency("KPW", "North Korean Won", null);
   public static final Currency KRW = createCurrency("KRW", "South Korean Won", null);
@@ -133,6 +140,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency KZT = createCurrency("KZT", "Kazakhstani Tenge", null);
   public static final Currency LAK = createCurrency("LAK", "Laotian Kip", null);
   public static final Currency LBP = createCurrency("LBP", "Lebanese Pound", null);
+  public static final Currency LSK = createCurrency("LSK", "Lisk", null);
   public static final Currency LKR = createCurrency("LKR", "Sri Lankan Rupee", null);
   public static final Currency LRD = createCurrency("LRD", "Liberian Dollar", null);
   public static final Currency LSL = createCurrency("LSL", "Lesotho Loti", null);
@@ -203,6 +211,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency START = createCurrency("START", "startcoin", null);
   public static final Currency STD = createCurrency("STD", "São Tomé and Príncipe Dobra", null);
   public static final Currency STR = createCurrency("STR", "Stellar", null);
+  public static final Currency STRAT = createCurrency("STRAT", "Stratis", null);
   public static final Currency SVC = createCurrency("SVC", "Salvadoran Colón", null);
   public static final Currency SYP = createCurrency("SYP", "Syrian Pound", null);
   public static final Currency SZL = createCurrency("SZL", "Swazi Lilangeni", null);
@@ -227,16 +236,20 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency VEF = createCurrency("VEF", "Venezuelan Bolívar", null);
   public static final Currency VEN = createCurrency("VEN", "Hub Culture's Ven", null, "XVN");
   public static final Currency XVN = getInstance("XVN");
+  public static final Currency VIB = createCurrency("VIB", "Viberate", null);
   public static final Currency VND = createCurrency("VND", "Vietnamese Dong", null);
   public static final Currency VUV = createCurrency("VUV", "Vanuatu Vatu", null);
   public static final Currency WDC = createCurrency("WDC", "WorldCoin", null);
   public static final Currency WST = createCurrency("WST", "Samoan Tala", null);
   public static final Currency XAF = createCurrency("XAF", "CFA Franc BEAC", null);
+  public static final Currency XAS = createCurrency("XAS", "Asch", null);
   public static final Currency XAUR = createCurrency("XAUR", "Xaurum", null);
   public static final Currency XCD = createCurrency("XCD", "East Caribbean Dollar", null);
   public static final Currency XDR = createCurrency("XDR", "Special Drawing Rights", null);
+  public static final Currency XEM = createCurrency("XEM", "NEM", null);
   public static final Currency XLM = createCurrency("XLM", "Stellar Lumen", null);
   public static final Currency XMR = createCurrency("XMR", "Monero", null);
+  public static final Currency XRB = createCurrency("XRB", "Rai Blocks", null);
   public static final Currency XOF = createCurrency("XOF", "CFA Franc BCEAO", null);
   public static final Currency XPF = createCurrency("XPF", "CFP Franc", null);
   public static final Currency XPM = createCurrency("XPM", "Primecoin", null);

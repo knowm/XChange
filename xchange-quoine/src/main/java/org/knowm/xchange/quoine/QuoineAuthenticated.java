@@ -70,7 +70,7 @@ public interface QuoineAuthenticated extends Quoine {
   @GET
   @Path("orders")
   QuoineOrdersList listOrders(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
-      @HeaderParam("Content-Type") String contentTyp) throws IOException;
+      @HeaderParam("Content-Type") String contentType, @QueryParam("status") String status) throws IOException;
 
   @GET
   @Path("executions/me")

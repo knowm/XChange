@@ -51,8 +51,8 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
         new LimitOrder(Order.OrderType.BID, new BigDecimal("30.00000000"), CurrencyPair.BTC_AUD, "2", null, new BigDecimal("40.00000000"))};
   }
 
-  protected static final Ticker EXPECTED_TICKER = new Ticker.Builder().bid(new BigDecimal("137.00000000")).ask(new BigDecimal("140.00000000"))
-      .last(new BigDecimal("140.00000000")).currencyPair(CurrencyPair.BTC_AUD).timestamp(new Date(1378878117000L)).build();
+  protected static final Ticker EXPECTED_TICKER = new Ticker.Builder().bid(new BigDecimal("137.00")).ask(new BigDecimal("140.00"))
+      .last(new BigDecimal("140.00")).currencyPair(CurrencyPair.BTC_AUD).timestamp(new Date(1378878117000L)).build();
 
   protected static UserTrade[] expectedUserTrades() {
     return new UserTrade[]{
@@ -68,8 +68,8 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
             "null", new BigDecimal("5"), Currency.AUD)};
   }
 
-  protected static final BTCMarketsTicker EXPECTED_BTC_MARKETS_TICKER = new BTCMarketsTicker(new BigDecimal("137.00000000"),
-      new BigDecimal("140.00000000"), new BigDecimal("140.00000000"), "AUD", "BTC", new Date(1378878117000L));
+  protected static final BTCMarketsTicker EXPECTED_BTC_MARKETS_TICKER = new BTCMarketsTicker(new BigDecimal("137.00"),
+      new BigDecimal("140.00"), new BigDecimal("140.00"), "AUD", "BTC", new Date(1378878117000L));
 
   protected static List<BTCMarketsUserTrade> expectedBtcMarketsUserTrades() {
     return Collections.unmodifiableList(Arrays.asList(

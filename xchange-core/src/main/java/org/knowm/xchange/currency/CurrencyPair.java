@@ -101,6 +101,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair XRP_BTC = new CurrencyPair(Currency.XRP, Currency.BTC);
   public static final CurrencyPair XRP_EUR = new CurrencyPair(Currency.XRP, Currency.EUR);
   public static final CurrencyPair XRP_USD = new CurrencyPair(Currency.XRP, Currency.USD);
+  public static final CurrencyPair XRP_USDT = new CurrencyPair(Currency.XRP, Currency.USDT);
   public static final CurrencyPair XRP_GBP = new CurrencyPair(Currency.XRP, Currency.GBP);
 
   public static final CurrencyPair LTC_AUD = new CurrencyPair(Currency.LTC, Currency.AUD);
@@ -244,8 +245,17 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair BCC_USD = new CurrencyPair(Currency.BCC, Currency.USD);
   public static final CurrencyPair BCC_BTC = new CurrencyPair(Currency.BCC, Currency.BTC);
 
+  public static final CurrencyPair BAT_USD = new CurrencyPair(Currency.BAT, Currency.USD);
+  public static final CurrencyPair BAT_BTC = new CurrencyPair(Currency.BAT, Currency.BTC);
+
   // Tether Pairs
   public static final CurrencyPair BTC_USDT = new CurrencyPair(Currency.BTC, Currency.USDT);
+
+  // UAH pairs
+  public static final CurrencyPair BTC_UAH = new CurrencyPair(Currency.BTC, Currency.UAH);
+  public static final CurrencyPair ETH_UAH = new CurrencyPair(Currency.ETH, Currency.UAH);
+  public static final CurrencyPair BCH_UAH = new CurrencyPair(Currency.BCH, Currency.UAH);
+
 
   public final Currency base;
   public final Currency counter;

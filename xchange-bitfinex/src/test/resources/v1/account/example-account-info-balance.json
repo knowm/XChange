@@ -16,5 +16,11 @@
     "currency": "btc",
     "amount": "50",
     "available": "30"
+  },
+  {
+    "type": "deposit",
+    "currency": "USD",
+    "amount": "69",
+    "available": "42"
   }
 ]

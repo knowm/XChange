@@ -6,6 +6,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.dto.BitflyerException;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
+import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerOrderbook;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 
 /**
@@ -20,7 +21,7 @@ public class BitflyerMarketDataServiceRaw extends BitflyerBaseService {
   /**
    * Constructor
    *
-   * @param exchange
+   * @param exchange baseExchange
    */
   public BitflyerMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
@@ -45,6 +46,22 @@ public class BitflyerMarketDataServiceRaw extends BitflyerBaseService {
   public BitflyerTicker getTicker(String productCode) throws IOException {
     try {
       return bitflyer.getTicker(productCode);
+    } catch (BitflyerException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitflyerOrderbook getOrderbook() throws IOException {
+    try {
+      return bitflyer.getBoard();
+    } catch (BitflyerException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitflyerOrderbook getOrderbook(String productCode) throws IOException {
+    try {
+      return bitflyer.getBoard(productCode);
     } catch (BitflyerException e) {
       throw handleError(e);
     }

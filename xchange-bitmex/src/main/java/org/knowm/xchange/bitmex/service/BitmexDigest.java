@@ -30,7 +30,6 @@ public class BitmexDigest extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
 
     String queryString = restInvocation.getQueryString();
-    System.out.println("queryString = " + queryString);
 
     String httpMethod = restInvocation.getHttpMethod();
 
@@ -38,7 +37,6 @@ public class BitmexDigest extends BaseParamsDigest {
     if (queryString != null && queryString.length() > 0) {
       uri += "?" + restInvocation.getQueryString();
     }
-    System.out.println("uri = " + uri);
 
     String requestBody = restInvocation.getRequestBody();
     String nonce = restInvocation.getHttpHeadersFromParams().get("API-NONCE");

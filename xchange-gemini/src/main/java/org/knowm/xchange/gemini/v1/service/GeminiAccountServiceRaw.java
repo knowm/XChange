@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.gemini.v1.GeminiExchange;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
@@ -38,27 +39,31 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
           request);
       return balances;
     } catch (GeminiException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
   public String withdraw(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    String ccy = convertToGeminiCcyName(currency.getCurrencyCode());
-    GeminiWithdrawalRequest request = new GeminiWithdrawalRequest(
-        String.valueOf(exchange.getNonceFactory().createValue()),
-        ccy,
-        amount,
-        address);
+    try {
+      String ccy = convertToGeminiCcyName(currency.getCurrencyCode());
+      GeminiWithdrawalRequest request = new GeminiWithdrawalRequest(
+              String.valueOf(exchange.getNonceFactory().createValue()),
+              ccy,
+              amount,
+              address);
 
-    GeminiWithdrawalResponse withdrawRepsonse = Gemini.withdraw(
-        apiKey,
-        payloadCreator,
-        signatureCreator,
-        ccy,
-        request);
+      GeminiWithdrawalResponse withdrawRepsonse = Gemini.withdraw(
+              apiKey,
+              payloadCreator,
+              signatureCreator,
+              ccy,
+              request);
 
-    return withdrawRepsonse.txHash;
+      return withdrawRepsonse.txHash;
+    } catch (GeminiException e) {
+      throw handleException(e);
+    }
   }
 
   public GeminiDepositAddressResponse requestDepositAddressRaw(Currency currency) throws IOException {
@@ -80,7 +85,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
         return null;
       }
     } catch (GeminiException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 }

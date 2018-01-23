@@ -154,6 +154,6 @@ public interface BitstampAuthenticated {
   @POST
   @Path("order_status/")
   public BitstampOrderStatusResponse getOrderStatus(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") int orderId) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") long orderId) throws BitstampException, IOException;
 
 }

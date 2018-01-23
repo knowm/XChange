@@ -116,4 +116,24 @@ public final class BitmexAccount {
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
   }
+
+  @Override
+  public String toString() {
+    return "BitmexAccount{" +
+        "id=" + id +
+        ", ownerId=" + ownerId +
+        ", firstname='" + firstname + '\'' +
+        ", lastname='" + lastname + '\'' +
+        ", username='" + username + '\'' +
+        ", email='" + email + '\'' +
+        ", phone='" + phone + '\'' +
+        ", created='" + created + '\'' +
+        ", lastUpdated='" + lastUpdated + '\'' +
+        ", preferences=" + preferences +
+        ", tFAEnabled='" + tFAEnabled + '\'' +
+        ", affiliateID='" + affiliateID + '\'' +
+        ", pgpPubKey='" + pgpPubKey + '\'' +
+        ", country='" + country + '\'' +
+        '}';
+  }
 }

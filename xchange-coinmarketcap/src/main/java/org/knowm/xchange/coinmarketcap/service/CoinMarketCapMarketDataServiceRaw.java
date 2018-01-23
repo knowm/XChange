@@ -27,7 +27,7 @@ class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements B
     this.coinmarketcap = RestProxyFactory.createProxy(CoinMarketCap.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
-  public CoinMarketCapTicker getCoinMarketCapTicker(CurrencyPair pair) throws IOException {
+  public CoinMarketCapTicker getCoinMarketCapTicker(CurrencyPair pair) {
 
     return coinmarketcap.getTicker(new CoinMarketCap.Pair(pair));
   }
@@ -40,16 +40,26 @@ class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements B
    */
   public List<CoinMarketCapCurrency> getCoinMarketCapCurrencies() throws IOException {
 
-    List<CoinMarketCapTicker> tickers = coinmarketcap.getTickers();
+    List<CoinMarketCapTicker> tickers = getCoinMarketCapTickers();
     List<CoinMarketCapCurrency> currencies = new ArrayList<>();
     for (CoinMarketCapTicker ticker : tickers)
       currencies.add(ticker.getBaseCurrency());
     return currencies;
   }
 
+  /**
+   * Retrieves all tickers from CoinMarketCap
+   */
   public List<CoinMarketCapTicker> getCoinMarketCapTickers() throws IOException {
+    return getCoinMarketCapTickers(0);
+  }
 
-    return coinmarketcap.getTickers();
+  /**
+   * Retrieves limited amount of tickers from CoinMarketCap
+   * @param limit count of tickers to be retrieved
+   */
+  public List<CoinMarketCapTicker> getCoinMarketCapTickers(final int limit) throws IOException {
+    return coinmarketcap.getTickers(limit);
   }
 
   public List<CoinMarketCapTicker> getCoinMarketCapTickers(int start, int limit) throws IOException {
