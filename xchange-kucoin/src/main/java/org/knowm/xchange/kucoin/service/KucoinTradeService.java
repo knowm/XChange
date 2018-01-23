@@ -9,8 +9,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -47,14 +51,22 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    // TODO Auto-generated method stub
-    return false;
+    throw new ExchangeException(
+        "You need to provide the currency pair, the order id and the order type to cancel an order.");
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    // TODO Auto-generated method stub
-    return false;
+    if (!(orderParams instanceof CancelOrderByCurrencyPair)
+        && !(orderParams instanceof CancelOrderByIdParams)
+        && !(orderParams instanceof CancelOrderByOrderTypeParams)) {
+      throw new ExchangeException(
+          "You need to provide the currency pair, the order id and the order type to cancel an order.");
+    }
+    return cancelKucoinOrder(
+        ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair(),
+        ((CancelOrderByIdParams) orderParams).getOrderId(),
+        ((CancelOrderByOrderTypeParams) orderParams).getOrderType()).getSuccess();
   }
 
   @Override
