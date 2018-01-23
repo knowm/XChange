@@ -2,6 +2,7 @@ package org.knowm.xchange.hitbtc.v2;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -136,28 +137,37 @@ public class HitbtcAdapters {
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
   }
+  
+  public static LimitOrder adaptOrder(HitbtcOrder hitbtcOrder){
+    OrderType type = adaptOrderType(hitbtcOrder.side);
 
-  public static OpenOrders adaptOpenOrders(List<HitbtcOrder> openOrdersRaw) {
+    LimitOrder order =
+      new LimitOrder(
+        type,
+        hitbtcOrder.quantity,
+        adaptSymbol(hitbtcOrder.symbol),
+        hitbtcOrder.clientOrderId,
+        hitbtcOrder.getCreatedAt(),
+        hitbtcOrder.price,
+        null, // exchange does not provide average price
+        hitbtcOrder.cumQuantity,
+        convertOrderStatus(hitbtcOrder.status));
 
+    return order;
+  }
+
+  public static List<LimitOrder> adaptOrders(List<HitbtcOrder> openOrdersRaw){
     List<LimitOrder> openOrders = new ArrayList<>(openOrdersRaw.size());
 
     for (HitbtcOrder hitbtcOrder : openOrdersRaw) {
-
-      OrderType type = adaptOrderType(hitbtcOrder.side);
-
-      LimitOrder order =
-          new LimitOrder(
-              type,
-              hitbtcOrder.quantity,
-              adaptSymbol(hitbtcOrder.symbol),
-              hitbtcOrder.clientOrderId,
-              hitbtcOrder.getCreatedAt(),
-              hitbtcOrder.price);
-
-      openOrders.add(order);
+      openOrders.add(adaptOrder(hitbtcOrder));
     }
 
-    return new OpenOrders(openOrders);
+    return openOrders;
+  }
+
+  public static OpenOrders adaptOpenOrders(List<HitbtcOrder> openOrdersRaw) {
+    return new OpenOrders(adaptOrders(openOrdersRaw));
   }
 
   public static OrderType adaptOrderType(String side) {
@@ -217,7 +227,17 @@ public class HitbtcAdapters {
         int priceScale = tickSize.scale();//not 100% sure this is correct
         //also, we need to take into account the quantityIncrement
 
-        CurrencyPairMetaData meta = new CurrencyPairMetaData(symbol.getTakeLiquidityRate(), symbol.getTakeLiquidityRate(), null, priceScale);
+        BigDecimal tradingFee = symbol.getTakeLiquidityRate();
+        BigDecimal minimumAmount = null;
+        BigDecimal maximumAmount = null;
+
+        if(currencyPairs.containsKey(pair)) {
+          CurrencyPairMetaData existing = currencyPairs.get(pair);
+          minimumAmount = existing.getMinimumAmount();
+          maximumAmount = existing.getMaximumAmount();
+        }
+
+        CurrencyPairMetaData meta = new CurrencyPairMetaData(tradingFee, minimumAmount, maximumAmount, priceScale);
 
         currencyPairs.put(pair, meta);
       }
@@ -287,6 +307,32 @@ public class HitbtcAdapters {
         return FundingRecord.Status.FAILED;
       case "success":
         return FundingRecord.Status.COMPLETE;
+      default:
+        throw new RuntimeException("Unknown HitBTC transaction status: " + status);
+    }
+  }
+
+  /**
+   * Decodes HitBTC Order status.
+   * 
+   * @return
+   * @see https://api.hitbtc.com/#order-model Order Model
+   * possible statuses: new, suspended, partiallyFilled, filled, canceled, expired
+   */
+  private static Order.OrderStatus convertOrderStatus(String status) {
+    switch (status) {
+      case "new":
+        return Order.OrderStatus.NEW;
+      case "suspended":
+        return Order.OrderStatus.STOPPED;
+      case "partiallyFilled":
+        return Order.OrderStatus.PARTIALLY_FILLED;
+      case "filled":
+        return Order.OrderStatus.FILLED;
+      case "canceled":
+        return Order.OrderStatus.CANCELED;
+      case "expired":
+        return Order.OrderStatus.EXPIRED;
       default:
         throw new RuntimeException("Unknown HitBTC transaction status: " + status);
     }

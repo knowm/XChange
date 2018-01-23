@@ -41,10 +41,8 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     return poloniexAuthenticated.returnOpenOrders(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexAuthenticated.AllPairs.all);
   }
 
-  public Map<String, PoloniexOpenOrder[]> returnOrder(String orderId) throws IOException {
-
+  PoloniexUserTrade[] returnOrderTrades(String orderId) throws IOException {
     return poloniexAuthenticated.returnOrderTrades(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
-
   }
 
   public PoloniexOpenOrder[] returnOpenOrders(CurrencyPair currencyPair) throws IOException {
@@ -77,6 +75,10 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
 
   public PoloniexAccountBalance returnAvailableAccountBalances(String account) throws IOException {
     return poloniexAuthenticated.returnAvailableAccountBalances(apiKey, signatureCreator, exchange.getNonceFactory(), account);
+  }
+
+  public Map<String, Map<String, BigDecimal>> returnTradableBalances() throws IOException {
+    return poloniexAuthenticated.returnTradableBalances(apiKey, signatureCreator, exchange.getNonceFactory());
   }
 
   public PoloniexAccountBalance[] returnAllAvailableAccountBalances() throws IOException {

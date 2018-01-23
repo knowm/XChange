@@ -176,4 +176,19 @@ public class BitfinexMarginInfosResponse {
     this.additionalProperties.put(name, value);
   }
 
+  @Override
+  public String toString() {
+    return "BitfinexMarginInfosResponse{" +
+        "marginBalance=" + marginBalance +
+        ", tradableBalance=" + tradableBalance +
+        ", unrealizedPl=" + unrealizedPl +
+        ", unrealizedSwap=" + unrealizedSwap +
+        ", netValue=" + netValue +
+        ", requiredMargin=" + requiredMargin +
+        ", leverage=" + leverage +
+        ", marginRequirement=" + marginRequirement +
+        ", marginLimits=" + marginLimits +
+        ", message='" + message + '\'' +
+        '}';
+  }
 }

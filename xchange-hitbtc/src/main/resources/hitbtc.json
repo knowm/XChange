@@ -29,9 +29,19 @@
     },
     "XRP/BTC": {
       "price_scale": 8
+    },
+    "ARN/BTC": {
+      "price_scale": 8
+    },
+    "XVG/BTC": {
+      "price_scale": 8,
+      "min_amount": 1000
     }
   },
   "currencies": {
+    "ARN": {
+      "scale": 8
+    },
     "BNC": {
       "scale": 8
     },
@@ -54,6 +64,12 @@
       "scale": 8
     },
     "USD": {
+      "scale": 2
+    },
+    "OMG": {
+      "scale": 8
+    },
+    "TRX": {
       "scale": 8
     },
     "XDN": {
@@ -63,6 +79,9 @@
       "scale": 8
     },
     "XRP": {
+      "scale": 8
+    },
+    "XVG": {
       "scale": 8
     }
   }

@@ -1,16 +1,10 @@
 package org.knowm.xchange.kraken.service;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Set;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.IOrderFlags;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
-import org.knowm.xchange.exceptions.NonceException;
+import org.knowm.xchange.exceptions.*;
 import org.knowm.xchange.kraken.KrakenAuthenticated;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.KrakenResult;
@@ -21,9 +15,12 @@ import org.knowm.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Set;
 
 public class KrakenBaseService extends BaseExchangeService implements BaseService {
 
@@ -65,10 +62,18 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
         throw new ExchangeException("Missing error message");
       }
       String error = errors[0];
+
       if ("EAPI:Invalid nonce".equals(error)) {
         throw new NonceException(error);
+
       } else if ("EGeneral:Temporary lockout".equals(error)) {
         throw new FrequencyLimitExceededException(error);
+
+      } else if ("EOrder:Insufficient funds".equals(error)) {
+        throw new FundsExceededException(error);
+      }
+      if("EAPI:Rate limit exceeded".equals(error)) {
+        throw new RateLimitExceededException(error);
       }
 
       throw new ExchangeException(Arrays.toString(errors));

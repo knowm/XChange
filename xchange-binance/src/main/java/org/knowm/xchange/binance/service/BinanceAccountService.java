@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -38,9 +40,9 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    BinanceAccountInformation acc = super.account(recvWindow, System.currentTimeMillis());
+    BinanceAccountInformation acc = super.account(recvWindow, getTimestamp());
     List<Balance> balances = acc.balances.stream()
-        .map(b -> new Balance(Currency.getInstance(b.asset), b.free.add(b.locked), b.free))
+        .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
         .collect(Collectors.toList());
     return new AccountInfo(new Wallet(balances));
   }
@@ -72,19 +74,20 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   private String withdraw0(String asset, String address, BigDecimal amount) throws IOException, BinanceException {
     // the name parameter seams to be mandatory
     String name = address.length() <= 10 ? address : address.substring(0, 10);
-    return super.withdraw(asset, address, amount, name, null, System.currentTimeMillis());
+    return super.withdraw(asset, address, amount, name, null, getTimestamp());
   }
   private String withdraw0(String asset, String address, String addressTag, BigDecimal amount) throws IOException, BinanceException {
     // the name parameter seams to be mandatory
     String name = address.length() <= 10 ? address : address.substring(0, 10);
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    return super.withdraw(asset, address, addressTag, amount, name, recvWindow, System.currentTimeMillis());
+    return super.withdraw(asset, address, addressTag, amount, name, recvWindow, getTimestamp());
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... args)
-      throws IOException {
-    throw new NotAvailableFromExchangeException();
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    DepositAddress depositAddress = binance.depositAddress(BinanceAdapters.toSymbol(currency), recvWindow, System.currentTimeMillis(), apiKey, super.signatureCreator);
+    return depositAddress.address;
   }
 
   @Override
@@ -95,11 +98,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
       throws IOException {
-    if (!(params instanceof TradeHistoryParamCurrency)) {
-      throw new RuntimeException("You must provide the currency in order to get the funding history (TradeHistoryParamCurrency).");
+    String asset = null;
+    if (params instanceof TradeHistoryParamCurrency) {
+      TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
+      if (cp.getCurrency() != null) {
+        asset = cp.getCurrency().getCurrencyCode();
+      }
     }
-    TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
-    final String asset = cp.getCurrency().getCurrencyCode();
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
 
     boolean withdrawals = true;
@@ -119,20 +124,22 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
     if (params instanceof HistoryParamsFundingType) {
       HistoryParamsFundingType f = (HistoryParamsFundingType) params;
-      withdrawals = f.getType() != null && f.getType() == Type.WITHDRAWAL;
-      deposits = f.getType() != null && f.getType() == Type.DEPOSIT;
+      if (f.getType() != null) {
+        withdrawals = f.getType() == Type.WITHDRAWAL;
+        deposits = f.getType() == Type.DEPOSIT;
+      }
     }
 
     List<FundingRecord> result = new ArrayList<>();
     if (withdrawals) {
-      super.withdrawHistory(asset, startTime, endTime, recvWindow, System.currentTimeMillis()).forEach(w -> {
-        result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, null, null, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
+      super.withdrawHistory(asset, startTime, endTime, recvWindow, getTimestamp()).forEach(w -> {
+        result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, w.id, w.txId, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
       });
     }
 
     if (deposits) {
-      super.depositHistory(asset, startTime, endTime, recvWindow, System.currentTimeMillis()).forEach(d -> {
-        result.add(new FundingRecord(null, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, null, Type.DEPOSIT, depositStatus(d.status), null, null, null));
+      super.depositHistory(asset, startTime, endTime, recvWindow, getTimestamp()).forEach(d -> {
+        result.add(new FundingRecord(d.address, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, d.txId, Type.DEPOSIT, depositStatus(d.status), null, null, null));
       });
     }
 

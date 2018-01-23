@@ -26,7 +26,13 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return HitbtcAdapters.adaptOrderBook(getHitbtcOrderBook(currencyPair), currencyPair);
+    if (args == null || args.length == 0) {
+      return HitbtcAdapters.adaptOrderBook(getHitbtcOrderBook(currencyPair), currencyPair);
+    }
+    else {
+      Integer limit = (Integer) args[0];
+      return HitbtcAdapters.adaptOrderBook(getHitbtcOrderBook(currencyPair, limit), currencyPair);
+    }
   }
 
   @Override

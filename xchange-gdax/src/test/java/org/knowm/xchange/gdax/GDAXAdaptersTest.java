@@ -5,13 +5,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
@@ -20,6 +25,7 @@ import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonObjectMapperFactory;
 
@@ -96,4 +102,56 @@ public class GDAXAdaptersTest {
     assertThat(trade.getFeeAmount()).isEqualTo("0.0000017745000000");
     assertThat(trade.getType()).isEqualTo(OrderType.BID);
   }
+
+  @Test
+  public void testOrderStatusMarketOrderFilled() throws IOException {
+
+    JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
+    ObjectMapper mapper = factory.createObjectMapper();
+
+    InputStream is = getClass().getResourceAsStream("/order/example-market-order-filled.json");
+    GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
+
+    Order order = GDAXAdapters.adaptOrder(gdaxOrder);
+
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
+    assertThat(order.getId()).isEqualTo(gdaxOrder.getId());
+    assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
+    assertThat(order.getOriginalAmount().equals(new BigDecimal("1.00000000"))).isTrue();
+    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.01291771"));
+    assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("1.0").subtract(new BigDecimal("0.01291771")));
+    assertThat(MarketOrder.class.isAssignableFrom(order.getClass())).isTrue();
+    assertThat(order.getType()).isEqualTo(OrderType.BID);
+    assertThat(order.getTimestamp()).isEqualTo(new Date(1481227745508L));
+    assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("9.9750556620000000").divide(new BigDecimal("0.01291771"), new MathContext(8)));
+  }
+
+
+  @Test
+  public void testOrderStatusLimitOrderFilled() throws IOException {
+
+    JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
+    ObjectMapper mapper = factory.createObjectMapper();
+
+    InputStream is = getClass().getResourceAsStream("/order/example-limit-order-filled.json");
+    GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
+
+
+    Order order = GDAXAdapters.adaptOrder(gdaxOrder);
+
+
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
+    assertThat(order.getId()).isEqualTo("b2cdd7fe-1f4a-495e-8b96-7a4be368f43c");
+    assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
+    assertThat(order.getOriginalAmount().equals(new BigDecimal("0.07060351"))).isTrue();
+    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.07060351"));
+    assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
+    assertThat(order.getType()).isEqualTo(OrderType.ASK);
+    assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
+    assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), new MathContext(8)));
+
+
+  }
+
 }

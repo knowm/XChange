@@ -207,7 +207,8 @@ public abstract class Order implements Serializable {
    * @return The remaining order amount
    */
   public BigDecimal getRemainingAmount() {
-    if (cumulativeAmount != null) {
+    if (cumulativeAmount != null
+            && originalAmount != null) {
       return originalAmount.subtract(cumulativeAmount);
     }
     return originalAmount;
@@ -280,8 +281,12 @@ public abstract class Order implements Serializable {
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", originalAmount=" + originalAmount + ", cumulativeAmount=" + getCumulativeAmount() + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
+    return "Order [type=" + type + ", originalAmount=" + print(originalAmount) + ", cumulativeAmount=" + print(cumulativeAmount) + ", averagePrice=" + print(averagePrice) + ", currencyPair=" + currencyPair
         + ", id=" + id + ", timestamp=" + timestamp + ", status=" + status + "]";
+  }
+
+  private static String print(BigDecimal value) {
+    return value == null ? null : value.toPlainString();
   }
 
   @Override
