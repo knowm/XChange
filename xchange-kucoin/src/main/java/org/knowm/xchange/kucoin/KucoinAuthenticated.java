@@ -50,4 +50,18 @@ public interface KucoinAuthenticated extends Kucoin {
       @QueryParam("amount") BigDecimal amount
   ) throws IOException;
 
+  /**
+   * Cancels an order.
+   */
+  @POST
+  @Path("cancel-order")
+  KucoinResponse<KucoinOrder> cancelOrder(
+      @HeaderParam(HEADER_APIKEY) String apiKey,
+      @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("orderOid") String orderOid,
+      @QueryParam("type") KucoinOrderType type
+  ) throws IOException;
+
 }

@@ -3,6 +3,8 @@ package org.knowm.xchange.kucoin.service;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
 import org.knowm.xchange.kucoin.dto.KucoinOrderType;
@@ -24,5 +26,14 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
         KucoinOrderType.fromOrderType(order.getType()),
         order.getLimitPrice(),
         order.getOriginalAmount());
+  }
+  
+  /**
+   * Cancels an order.
+   */
+  KucoinResponse<KucoinOrder> cancelKucoinOrder(CurrencyPair currencyPair, String orderOid,
+      OrderType orderType) throws IOException {
+    return kucoin.cancelOrder(apiKey, exchange.getNonceFactory(), signatureCreator,
+        KucoinAdapters.adaptCurrencyPair(currencyPair), orderOid, KucoinOrderType.fromOrderType(orderType));
   }
 }
