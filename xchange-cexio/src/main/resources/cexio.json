@@ -67,11 +67,11 @@
     },
     "XRP/USD": {
       "price_scale": 2,
-      "min_amount": 10
+      "min_amount": 40
     },
     "XRP/EUR": {
       "price_scale": 2,
-      "min_amount": 10
+      "min_amount": 40
     },
     "XRP/BTC": {
       "price_scale": 8,
