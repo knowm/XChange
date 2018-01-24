@@ -108,6 +108,10 @@
       "price_scale": 8,
       "min_amount": 0.10000000
     },
+    "OMG/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.1
+    },
     "BCH/USD": {
       "price_scale": 4,
       "min_amount": 0.10000000
