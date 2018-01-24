@@ -7,16 +7,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.kucoin.dto.account.KucoinUserInfoResponse;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
+import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrder;
+import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 
 public class KucoinAdapters {
   public static String adaptCurrencyPair(CurrencyPair pair) {
@@ -64,5 +68,24 @@ public class KucoinAdapters {
   private static LimitOrder adaptLimitOrder(CurrencyPair currencyPair, OrderType orderType,
       List<BigDecimal> kucoinLimitOrder, Date timestamp) {
     return new LimitOrder(orderType, kucoinLimitOrder.get(1), currencyPair, null, timestamp, kucoinLimitOrder.get(0));
+  }
+
+  public static OpenOrders adaptActiveOrders(CurrencyPair currencyPair, KucoinActiveOrders data) {
+    List<LimitOrder> openOrders = new LinkedList<>();
+    data.getBuy().stream().forEach(order -> openOrders.add(adaptActiveOrder(currencyPair, order)));
+    data.getSell().stream().forEach(order -> openOrders.add(adaptActiveOrder(currencyPair, order)));
+    return new OpenOrders(openOrders);
+  }
+
+  private static LimitOrder adaptActiveOrder(CurrencyPair currencyPair, KucoinActiveOrder order) {
+    return new LimitOrder.Builder(order.getOrderType().getOrderType(), currencyPair)
+        .timestamp(order.getTimestamp())
+        .id(order.getOrderOid())
+        .limitPrice(order.getPrice())
+        .originalAmount(order.getAmount()) // this might be the remaining amount, not sure
+        .cumulativeAmount(order.getDealAmount())
+        .orderStatus(order.getDealAmount().compareTo(BigDecimal.ZERO) == 0 ?
+            OrderStatus.NEW : OrderStatus.PARTIALLY_FILLED)
+        .build();
   }
 }
