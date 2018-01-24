@@ -1,6 +1,7 @@
 package org.knowm.xchange.dsx.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -82,8 +83,8 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     String pair = DSXAdapters.getPair(limitOrder.getCurrencyPair());
 
-    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(),
-        3, DSXOrder.OrderType.limit);
+    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(),
+        3, DSXOrder.OrderType.limit, null);
 
     DSXTradeResult result = tradeDSX(dsxOrder);
     return Long.toString(result.getOrderId());
