@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.account.KucoinUserInfoResponse;
+import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinOrder;
 
 import si.mazi.rescu.ParamsDigest;
@@ -33,6 +34,19 @@ public interface KucoinAuthenticated extends Kucoin {
       @HeaderParam(HEADER_APIKEY) String apiKey,
       @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature
+  ) throws IOException;
+
+  /**
+   * Lists all active orders for a currency pair.
+   */
+  @GET
+  @Path("order/active")
+  KucoinResponse<KucoinActiveOrders> orderActive(
+      @HeaderParam(HEADER_APIKEY) String apiKey,
+      @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("type") KucoinOrderType type
   ) throws IOException;
 
   /**

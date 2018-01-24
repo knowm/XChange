@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
 import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
+import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinOrder;
 
 public class KucoinTradeServiceRaw extends KucoinBaseService {
@@ -35,5 +36,16 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
       OrderType orderType) throws IOException {
     return kucoin.cancelOrder(apiKey, exchange.getNonceFactory(), signatureCreator,
         KucoinAdapters.adaptCurrencyPair(currencyPair), orderOid, KucoinOrderType.fromOrderType(orderType));
+  }
+  
+
+  /**
+   * Lists all active orders for a currency pair.
+   */
+  KucoinResponse<KucoinActiveOrders> activeOrders(CurrencyPair currencyPair, OrderType orderType)
+      throws IOException {
+    return kucoin.orderActive(apiKey, exchange.getNonceFactory(), signatureCreator,
+        KucoinAdapters.adaptCurrencyPair(currencyPair),
+        orderType == null ? null : KucoinOrderType.fromOrderType(orderType));
   }
 }
