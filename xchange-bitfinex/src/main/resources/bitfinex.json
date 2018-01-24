@@ -4,11 +4,19 @@
       "price_scale": 2,
       "min_amount": 0.01000000
     },
+    "BTC/EUR": {
+      "price_scale": 2,
+      "min_amount": 0.01000000
+    },
     "LTC/USD": {
       "price_scale": 4,
       "min_amount": 0.10000000
     },
     "LTC/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.10000000
+    },
+    "BTG/BTC": {
       "price_scale": 6,
       "min_amount": 0.10000000
     },
@@ -96,6 +104,10 @@
       "price_scale": 8,
       "min_amount": 0.10000000
     },
+    "OMG/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.10000000
+    },
     "BCH/USD": {
       "price_scale": 4,
       "min_amount": 0.10000000
@@ -127,6 +139,10 @@
       "withdrawal_fee": 0.02
     },
     "USD": {
+      "scale": 2,
+      "withdrawal_fee": 20.0
+    },
+    "EUR": {
       "scale": 2,
       "withdrawal_fee": 20.0
     },
