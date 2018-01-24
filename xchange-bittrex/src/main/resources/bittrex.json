@@ -32,6 +32,10 @@
       "price_scale": 8,
       "min_amount": 0.00050000
     },
+    "LTC/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
     "XRP/BTC": {
       "price_scale": 8,
       "min_amount": 0.00050000
