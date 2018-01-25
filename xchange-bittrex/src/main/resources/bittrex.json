@@ -213,6 +213,14 @@
     "ZEC": {
       "scale": 8,
       "withdrawal_fee": 0.005
+    },
+    "OMG": {
+      "scale": 8,
+      "withdrawal_fee": 0.005
+    },
+    "BTG": {
+      "scale": 8,
+      "withdrawal_fee": 0.005
     }
   }
 }
