@@ -13,11 +13,15 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
+import org.knowm.xchange.kucoin.dto.KucoinResponse;
+import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
@@ -77,14 +81,33 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+
+    if (!(params instanceof TradeHistoryParamPaging)) {
+      throw new ExchangeException("You need to provide paging information to get the trade history.");
+    }
+    
+    TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
+    CurrencyPair pair = null;
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      if (pagingParams.getPageLength() > 20) {
+        throw new ExchangeException("Page length > 20 not allowed with a currency pair.");
+      }
+      pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    } else {
+      if (pagingParams.getPageLength() > 100) {
+        throw new ExchangeException("Page length > 100 not allowed with a currency pair.");
+      }
+    }
+    KucoinResponse<KucoinDealtOrdersInfo> response = dealtOrders(pair, null,
+        pagingParams.getPageLength(), pagingParams.getPageNumber(), null, null);
+    return KucoinAdapters.adaptUserTrades(response.getData().getDealtOrders());
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    // TODO Auto-generated method stub
-    return null;
+
+    return new KucoinTradeHistoryParams();
   }
 
   @Override

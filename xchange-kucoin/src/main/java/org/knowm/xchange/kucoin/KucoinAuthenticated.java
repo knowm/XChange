@@ -15,6 +15,7 @@ import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.account.KucoinUserInfoResponse;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
+import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
 import org.knowm.xchange.kucoin.dto.trading.KucoinOrder;
 
 import si.mazi.rescu.ParamsDigest;
@@ -47,6 +48,23 @@ public interface KucoinAuthenticated extends Kucoin {
       @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
       @QueryParam("symbol") String symbol,
       @QueryParam("type") KucoinOrderType type
+  ) throws IOException;
+
+  /**
+   * Returns the trade history.
+   */
+  @GET
+  @Path("order/dealt")
+  KucoinResponse<KucoinDealtOrdersInfo> orderDealt(
+      @HeaderParam(HEADER_APIKEY) String apiKey,
+      @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("type") KucoinOrderType type,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("page") Integer page,
+      @QueryParam("since") Long since,
+      @QueryParam("before") Long before
   ) throws IOException;
 
   /**

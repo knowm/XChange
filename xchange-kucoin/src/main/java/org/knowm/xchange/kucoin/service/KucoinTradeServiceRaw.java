@@ -1,6 +1,7 @@
 package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -10,6 +11,7 @@ import org.knowm.xchange.kucoin.dto.KucoinAdapters;
 import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
+import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
 import org.knowm.xchange.kucoin.dto.trading.KucoinOrder;
 
 public class KucoinTradeServiceRaw extends KucoinBaseService {
@@ -47,5 +49,21 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
     return kucoin.orderActive(apiKey, exchange.getNonceFactory(), signatureCreator,
         KucoinAdapters.adaptCurrencyPair(currencyPair),
         orderType == null ? null : KucoinOrderType.fromOrderType(orderType));
+  }
+  
+
+  /**
+   * Returns the trade history.
+   */
+  KucoinResponse<KucoinDealtOrdersInfo> dealtOrders(CurrencyPair currencyPair, OrderType orderType,
+      Integer limit, Integer page, Date since, Date before)
+      throws IOException {
+    return kucoin.orderDealt(apiKey, exchange.getNonceFactory(), signatureCreator,
+        currencyPair == null ? null : KucoinAdapters.adaptCurrencyPair(currencyPair),
+        orderType == null ? null : KucoinOrderType.fromOrderType(orderType),
+        limit,
+        page,
+        since == null ? null : since.getTime(),
+        before == null ? null : before.getTime());
   }
 }
