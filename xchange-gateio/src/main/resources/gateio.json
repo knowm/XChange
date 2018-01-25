@@ -843,10 +843,56 @@
   },
   "currencies": {
     "BTC": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.002
     },
     "ETH": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.003
+    },
+    "USDT": {
+      "scale": 8,
+      "withdrawal_fee": 25.0
+    },
+    "LTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.002
+    },
+    "BCH": {
+      "scale": 8,
+      "withdrawal_fee": 0.0006
+    },
+    "BTG": {
+      "scale": 8,
+      "withdrawal_fee": 0.002
+    },
+    "ZEC": {
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "ETC": {
+      "scale": 8,
+      "withdrawal_fee": 0.010
+    },
+    "DASH": {
+      "scale": 8,
+      "withdrawal_fee": 0.002
+    },
+    "QTUM": {
+      "scale": 8,
+      "withdrawal_fee": 0.010
+    },
+    "DOGE": {
+      "scale": 8,
+      "withdrawal_fee": 10.0
+    },
+    "REP": {
+      "scale": 8,
+      "withdrawal_fee": 0.010
+    },
+    "BAT": {
+      "scale": 8,
+      "withdrawal_fee": 10.0
     }
   },
   "public_rate_limits": null,
