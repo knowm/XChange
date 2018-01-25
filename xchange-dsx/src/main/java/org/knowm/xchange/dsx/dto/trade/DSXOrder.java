@@ -1,9 +1,9 @@
 package org.knowm.xchange.dsx.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Mikhail Wall
@@ -14,20 +14,36 @@ public class DSXOrder {
   private final String pair;
   private final Type type;
   private final BigDecimal volume;
+  private final BigDecimal remainingVolume;
   private final BigDecimal rate;
   private final int status;
   private final OrderType orderType;
+  private final String timestampCreated;
 
-  public DSXOrder(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("rate") BigDecimal rate, @JsonProperty("status") int status,
-      @JsonProperty("orderType") OrderType orderType) {
+  public DSXOrder(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("volume") BigDecimal volume, @JsonProperty("remainingVolume") BigDecimal remainingVolume,
+                  @JsonProperty("rate") BigDecimal rate, @JsonProperty("status") int status,
+                  @JsonProperty("orderType") OrderType orderType, @JsonProperty("timestampCreated") String timestampCreated) {
 
     this.pair = pair;
     this.type = type;
     this.volume = volume;
+    this.remainingVolume = remainingVolume;
     this.rate = rate;
     this.status = status;
     this.orderType = orderType;
+    this.timestampCreated = timestampCreated;
+  }
+
+  public BigDecimal getVolume() {
+    return volume;
+  }
+
+  public BigDecimal getRemainingVolume() {
+    return remainingVolume;
+  }
+
+  public String getTimestampCreated() {
+    return timestampCreated;
   }
 
   public String getPair() {
@@ -54,10 +70,18 @@ public class DSXOrder {
     return orderType;
   }
 
+  @Override
   public String toString() {
-
-    return MessageFormat.format("DSXOrder[pair=''{0}'', type={1}, volume={2}, rate={3}, status={4}, orderType={5}",
-        pair, type, volume, rate, status, orderType);
+    return "DSXOrder{" +
+            "pair='" + pair + '\'' +
+            ", type=" + type +
+            ", volume=" + volume +
+            ", remainingVolume=" + remainingVolume +
+            ", rate=" + rate +
+            ", status=" + status +
+            ", orderType=" + orderType +
+            ", timestampCreated='" + timestampCreated + '\'' +
+            '}';
   }
 
   public enum Type {
