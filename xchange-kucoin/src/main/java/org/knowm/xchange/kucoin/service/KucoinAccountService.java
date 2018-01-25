@@ -8,8 +8,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -27,14 +29,16 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    if (!(params instanceof DefaultWithdrawFundsParams)) {
+      throw new ExchangeException("Need DefaultWithdrawFundsParams to apply for withdrawal!");
+    }
+    DefaultWithdrawFundsParams defParams = (DefaultWithdrawFundsParams) params;
+    return withdrawalApply(defParams.currency, defParams.amount, defParams.address).getCode();
   }
 
   @Override
