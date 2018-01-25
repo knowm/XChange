@@ -1,6 +1,8 @@
 package org.knowm.xchange.bitcoinde;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,9 +15,12 @@ import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrder;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTradesWrapper;
+import org.knowm.xchange.bitcoinde.trade.BitcoindeMyOpenOrdersWrapper;
+import org.knowm.xchange.bitcoinde.trade.BitcoindeMyOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -24,7 +29,11 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
+
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * @author matthewdowney & frank kaiser
@@ -149,4 +158,40 @@ public final class BitcoindeAdapters {
 		return new Trades(trades, lastTradeId, TradeSortType.SortByID);
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param bitcoindeOpenOrdersWrapper
+	 * @return
+	 */
+	public static OpenOrders adaptOpenOrders(BitcoindeMyOpenOrdersWrapper bitcoindeOpenOrdersWrapper) {
+		System.out.println(bitcoindeOpenOrdersWrapper);
+
+		List<BitcoindeMyOrder> bitcoindeMyOrders = bitcoindeOpenOrdersWrapper.getOrders();
+
+		List<LimitOrder> orders = new ArrayList<>(bitcoindeMyOrders.size());
+
+		for (BitcoindeMyOrder bitcoindeMyOrder : bitcoindeMyOrders) {
+			CurrencyPair tradingPair = CurrencyPairDeserializer
+					.getCurrencyPairFromString(bitcoindeMyOrder.getTradingPair());
+
+			Date timestamp = fromRfc3339DateStringQuietly(bitcoindeMyOrder.getCreatedAt());
+
+			OrderType otype = "buy".equals(bitcoindeMyOrder.getType()) ? OrderType.BID : OrderType.ASK;
+			LimitOrder limitOrder = new LimitOrder(otype, bitcoindeMyOrder.getMaxAmount(), tradingPair,
+					bitcoindeMyOrder.getOrderId(), timestamp, bitcoindeMyOrder.getPrice());
+			orders.add(limitOrder);
+		}
+
+		return new OpenOrders(orders);
+	}
+
+	private static Date fromRfc3339DateStringQuietly(String timestamp) {
+		try {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+			return simpleDateFormat.parse(timestamp);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
 }

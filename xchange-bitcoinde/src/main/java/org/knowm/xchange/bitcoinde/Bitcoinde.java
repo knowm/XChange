@@ -13,6 +13,7 @@ import org.knowm.xchange.bitcoinde.dto.BitcoindeException;
 import org.knowm.xchange.bitcoinde.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTradesWrapper;
+import org.knowm.xchange.bitcoinde.trade.BitcoindeMyOpenOrdersWrapper;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -39,6 +40,10 @@ public interface Bitcoinde {
   BitcoindeAccountWrapper getAccount(@HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE")
   SynchronizedValueFactory<Long> nonce,
   @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException, IOException;
-  
-  
+
+  @GET
+  @Path("orders/my_own")
+  BitcoindeMyOpenOrdersWrapper getOrders(@HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE")
+  SynchronizedValueFactory<Long> nonce,
+  @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException, IOException;
 }
