@@ -7,12 +7,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
+import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddressResponse;
 import org.knowm.xchange.kucoin.dto.account.KucoinUserInfoResponse;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
@@ -28,6 +30,15 @@ public interface KucoinAuthenticated extends Kucoin {
   static final String HEADER_APIKEY = "KC-API-KEY";
   static final String HEADER_NONCE = "KC-API-NONCE";
   static final String HEADER_SIGNATURE = "KC-API-SIGNATURE";
+
+  @GET
+  @Path("account/{coin}/wallet/address")
+  KucoinDepositAddressResponse walletAddress(
+      @HeaderParam(HEADER_APIKEY) String apiKey,
+      @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
+      @PathParam("coin") String coin
+  ) throws IOException;
 
   @GET
   @Path("user/info")
