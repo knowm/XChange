@@ -10,6 +10,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitcoinde.dto.BitcoindeException;
+import org.knowm.xchange.bitcoinde.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTradesWrapper;
 
@@ -32,4 +33,12 @@ public interface Bitcoinde {
   BitcoindeTradesWrapper getTrades(@QueryParam("trading_pair") String trading_pair, @QueryParam("since_tid") Integer since, @HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE")
       SynchronizedValueFactory<Long> nonce,
       @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException, IOException;
+
+  @GET
+  @Path("account")
+  BitcoindeAccountWrapper getAccount(@HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE")
+  SynchronizedValueFactory<Long> nonce,
+  @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException, IOException;
+  
+  
 }
