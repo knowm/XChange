@@ -30,11 +30,13 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeService {
 
   public KucoinTradeService(Exchange exchange) {
+
     super(exchange);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+
     throw new ExchangeException("You need to provide the currency pair to get open orders.");
   }
 
@@ -61,12 +63,14 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
+
     throw new ExchangeException(
         "You need to provide the currency pair, the order id and the order type to cancel an order.");
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+
     if (!(orderParams instanceof CancelOrderByCurrencyPair)
         && !(orderParams instanceof CancelOrderByIdParams)
         && !(orderParams instanceof CancelOrderByOrderTypeParams)) {
@@ -112,25 +116,15 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
+
     return new DefaultOpenOrdersParamCurrencyPair();
   }
 
-  @Override
-  public void verifyOrder(LimitOrder limitOrder) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  @Override
-  public void verifyOrder(MarketOrder marketOrder) {
-    // TODO Auto-generated method stub
-    
-  }
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+
+    throw new NotAvailableFromExchangeException();
   }
 
 }
