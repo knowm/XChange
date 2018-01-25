@@ -120,15 +120,15 @@
   "currencies": {
     "BTC": {
       "scale": 8,
-      "withdrawal_fee": 0.0008
+      "withdrawal_fee": 0.0005
     },
     "BCH": {
       "scale": 8,
-      "withdrawal_fee": 0.0001
+      "withdrawal_fee": 0.0005
     },
     "ETH": {
       "scale": 8,
-      "withdrawal_fee": 0.00405
+      "withdrawal_fee": 0.01
     },
     "ETC": {
       "scale": 8,
@@ -144,11 +144,11 @@
     },
     "USD": {
       "scale": 2,
-      "withdrawal_fee": 20.0
+      "withdrawal_fee": 0
     },
     "EUR": {
       "scale": 2,
-      "withdrawal_fee": 20.0
+      "withdrawal_fee": 0
     },
     "XMR": {
       "scale": 8,
@@ -159,6 +159,14 @@
       "withdrawal_fee": 0.001
     },
     "DASH": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "OMG": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "BTG": {
       "scale": 8,
       "withdrawal_fee": 0.01
     },
