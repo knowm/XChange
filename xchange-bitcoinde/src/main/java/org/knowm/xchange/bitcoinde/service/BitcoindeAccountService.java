@@ -16,7 +16,7 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BitcoindeAccountService extends BitcoindeAccountServiceRaw implements AccountService {
 
-	protected BitcoindeAccountService(Exchange exchange) {
+	public BitcoindeAccountService(Exchange exchange) {
 		super(exchange);
 	}
 
