@@ -83,6 +83,14 @@
     "BCH/USD": {
       "price_scale": 2,
       "min_amount": 0.01
+    },
+    "XRP/EUR": {
+      "price_scale": 2,
+      "min_amount": 1
+    },
+    "XRP/USD": {
+      "price_scale": 2,
+      "min_amount": 1
     }
   },
   "currencies": {
@@ -96,6 +104,9 @@
       "scale": 8
     },
     "ETH": {
+      "scale": 8
+    },
+    "XRP": {
       "scale": 8
     },
     "EUR": {
