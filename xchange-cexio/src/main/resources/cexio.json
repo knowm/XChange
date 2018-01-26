@@ -53,17 +53,17 @@
     "BCH/USD": {
       "price_scale": 2,
       "trading_fee": 0.002,
-      "min_amount": 0.010
+      "min_amount": 0.02
     },
     "BCH/EUR": {
       "price_scale": 2,
       "trading_fee": 0.001,
-      "min_amount": 0.010
+      "min_amount": 0.02
     },
     "BCH/GBP": {
       "price_scale": 2,
       "trading_fee": 0.002,
-      "min_amount": 0.01
+      "min_amount": 0.02
     },
     "XRP/USD": {
       "price_scale": 2,
