@@ -33,8 +33,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
 /**
  * @author matthewdowney & frank kaiser
  */

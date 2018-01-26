@@ -14,6 +14,11 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+/**
+ * 
+ * @author kaiserfr
+ *
+ */
 public class BitcoindeAccountService extends BitcoindeAccountServiceRaw implements AccountService {
 
 	public BitcoindeAccountService(Exchange exchange) {
