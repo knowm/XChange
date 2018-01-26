@@ -8,6 +8,11 @@ import org.knowm.xchange.bitcoinde.dto.account.BitcoindeAccountWrapper;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
+/**
+ * 
+ * @author kaiserfr
+ *
+ */
 public class BitcoindeAccountServiceRaw extends BitcoindeBaseService {
 	private final SynchronizedValueFactory<Long> nonceFactory;
 
