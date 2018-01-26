@@ -54,7 +54,6 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw implemen
       }
     }
     Object[] argsToPass = Arrays.copyOfRange(args, 1, args.length);
-    getBitmexDepth(BitmexAdapters.adaptCurrencyPair(currencyPair), prompt, argsToPass);
     return BitmexAdapters.adaptOrderBook(getBitmexDepth(BitmexAdapters.adaptCurrencyPair(currencyPair), prompt, argsToPass), currencyPair);
 
   }
