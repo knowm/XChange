@@ -151,7 +151,7 @@ public class BitmexAdapters {
     // Date timestamp = adaptTimestamp(bitmexPublicTrade.getTime());
     // new Date((long) (bitmexPublicTrade.getTime()));
 
-    return new Trade(type, originalAmount, currencyPair, bitmexPublicTrade.getPrice(), timestamp, bitmexPublicTrade.getTrdMatchID());
+    return new Trade(type, originalAmount, currencyPair, bitmexPublicTrade.getPrice(), timestamp, String.valueOf(timestamp.getTime()));
   }
 
   public static Wallet adaptWallet(Map<String, BigDecimal> bitmexWallet) {
