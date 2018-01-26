@@ -1,4 +1,106 @@
 {
   "currency_pairs": {
-  }
+    "BCH/BTC": {
+      "price_scale": 4,
+      "min_amount": 1.000000000
+    },
+    "ADA/BTC": {
+      "price_scale": 8,
+      "min_amount": 1.000000000
+    },
+    "XLM/BTC": {
+      "price_scale": 8,
+      "min_amount": 1.000000000
+    },
+    "XMR/BTC": {
+      "price_scale": 6,
+      "min_amount": 1.000000000
+    },
+    "DASH/BTC": {
+      "price_scale": 6,
+      "min_amount": 1.000000000
+    },
+    "XRP/BTC": {
+      "price_scale": 8,
+      "min_amount": 1.000000000
+    },
+    "ZEC/BTC": {
+      "price_scale": 6,
+      "min_amount": 1.000000000
+    },
+    "BTC/USD": {
+      "price_scale": 1,
+      "min_amount": 1.000000000
+    },
+    "ETH/BTC": {
+      "price_scale": 5,
+      "min_amount": 1.000000000
+    },
+    "ETC/BTC": {
+      "price_scale": 6,
+      "min_amount": 1.000000000
+    },
+    "LTC/BTC": {
+      "price_scale": 5,
+      "min_amount": 1.000000000
+    }
+  },
+  "currencies": {
+    "USD": {
+      "scale": 5,
+      "withdrawal_fee": 60.0
+    },
+    "JPY": {
+      "scale": 5,
+      "withdrawal_fee": 300.0
+    },
+    "BTC": {
+      "scale": 5,
+      "withdrawal_fee": 0.001
+    },
+    "XRP": {
+      "scale": 5,
+      "withdrawal_fee": 0.02000
+    },
+    "XLM": {
+      "scale": 5,
+      "withdrawal_fee": 0.00002
+    },
+    "LTC": {
+      "scale": 5,
+      "withdrawal_fee": 0.00100
+    },
+    "DASH": {
+      "scale": 5,
+      "withdrawal_fee": 0.00500
+    },
+    "ETH": {
+      "scale": 5,
+      "withdrawal_fee": 0.00500
+    },
+    "ETC": {
+      "scale": 5,
+      "withdrawal_fee": 0.00500
+    },
+    "ZEC": {
+      "scale": 5,
+      "withdrawal_fee": 0.00010
+    },
+    "XMR": {
+      "scale": 5,
+      "withdrawal_fee": 0.05000
+    },
+    "BCH": {
+      "scale": 5,
+      "withdrawal_fee": 0.00100
+    }
+  },
+  "public_rate_limits": [
+    {
+      "calls": 1,
+      "time_span": 6,
+      "time_unit": "seconds"
+    }
+  ],
+  "share_rate_limits": false
 }

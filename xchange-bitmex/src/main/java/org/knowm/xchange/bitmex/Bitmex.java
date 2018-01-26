@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -16,8 +17,10 @@ import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
-import org.knowm.xchange.bitmex.dto.trade.BitmexTrade;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -28,72 +31,53 @@ public interface Bitmex {
 
   @GET
   @Path("user")
-  BitmexAccount getAccount(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
+  BitmexAccount getAccount(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce, @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest)
+      throws IOException;
 
   @GET
   @Path("user/wallet")
-  BitmexWallet getWallet(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("currency") String currency) throws IOException;
+  BitmexWallet getWallet(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce, @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
+      @Nullable @PathParam("currency") String currency) throws IOException;
 
-  //Get a history of all of your wallet transactions (deposits, withdrawals, PNL)
+  // Get a history of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
   @Path("user/walletHistory")
-  List<BitmexWalletTransaction> getWalletHistory(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("currency") String currency) throws IOException;
+  List<BitmexWalletTransaction> getWalletHistory(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest, @Nullable @PathParam("currency") String currency) throws IOException;
 
-  //Get a summary of all of your wallet transactions (deposits, withdrawals, PNL)
+  // Get a summary of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
   @Path("user/walletSummary")
-  List<BitmexWalletTransaction> getWalletSummary(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("currency") String currency) throws IOException;
+  List<BitmexWalletTransaction> getWalletSummary(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest, @Nullable @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("user/margin")
-  BitmexMarginAccount getMarginAccountStatus(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("currency") String currency) throws IOException;
+  BitmexMarginAccount getMarginAccountStatus(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest, @Nullable @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("user/margin?currency=all")
-  List<BitmexMarginAccount> getMarginAccountsStatus(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
+  List<BitmexMarginAccount> getMarginAccountsStatus(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
 
   @GET
   @Path("trade")
-  List<BitmexTrade> getTrades(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
+  BitmexPublicTrade[] getTrades(@QueryParam("symbol") String currencyPair, @QueryParam("reverse") Boolean reverse) throws IOException;
 
   @GET
-  @Path("trade")
-  List<BitmexTrade> getTrades(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
-      @QueryParam("symbol") String symbol) throws IOException;
+  @Path("orderBook/L2")
+  BitmexPublicOrder[] getDepth(@QueryParam("symbol") String currencyPair, @QueryParam("depth") Double depth) throws IOException;
 
   @GET
   @Path("position")
-  List<BitmexPosition> getPositions(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
+  List<BitmexPosition> getPositions(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce, @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest)
+      throws IOException;
 
   @GET
   @Path("position")
-  List<BitmexPosition> getPositions(@HeaderParam("API-KEY") String apiKey,
-      @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("symbol") String symbol,
-      @Nullable @QueryParam("filter") String filter) throws IOException;
+  List<BitmexPosition> getPositions(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce, @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
+      @Nullable @QueryParam("symbol") String symbol, @Nullable @QueryParam("filter") String filter) throws IOException;
 
   @GET
   @Path("instrument")
@@ -101,9 +85,13 @@ public interface Bitmex {
 
   @GET
   @Path("instrument")
-  List<BitmexTicker> getTicker(@QueryParam("symbol") String symbol) throws IOException, BitmexException;
+  List<BitmexTicker> getTicker(@PathParam("symbol") String symbol) throws IOException, BitmexException;
 
   @GET
   @Path("instrument/active")
   List<BitmexTicker> getActiveTickers() throws IOException, BitmexException;
+
+  @GET
+  @Path("instrument/activeIntervals")
+  BitmexSymbolsAndPromptsResult getPromptsAndSymbols() throws IOException, BitmexException;
 }

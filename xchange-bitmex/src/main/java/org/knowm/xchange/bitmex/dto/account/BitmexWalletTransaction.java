@@ -105,22 +105,4 @@ public final class BitmexWalletTransaction {
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
   }
-
-  @Override
-  public String toString() {
-    return "BitmexWalletTransaction{" +
-        "transactID='" + transactID + '\'' +
-        ", account=" + account +
-        ", currency='" + currency + '\'' +
-        ", transactType='" + transactType + '\'' +
-        ", amount=" + amount +
-        ", fee=" + fee +
-        ", transactStatus='" + transactStatus + '\'' +
-        ", address='" + address + '\'' +
-        ", tx='" + tx + '\'' +
-        ", text='" + text + '\'' +
-        ", transactTime='" + transactTime + '\'' +
-        ", timestamp='" + timestamp + '\'' +
-        '}';
-  }
 }
