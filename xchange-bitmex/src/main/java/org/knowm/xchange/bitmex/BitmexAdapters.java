@@ -69,14 +69,15 @@ public class BitmexAdapters {
 
   public static OrdersContainer adaptOrders(List<BitmexPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
 
-    long maxTimestamp = -1 * Long.MAX_VALUE;
+    // bitmex does not provide timestamps on order book
+    long maxTimestamp = System.currentTimeMillis();
     List<LimitOrder> limitOrders = new ArrayList<>(orders.size());
 
     for (BitmexPublicOrder order : orders) {
 
       limitOrders.add(adaptOrder(order, orderType, currencyPair));
     }
-    return new OrdersContainer(maxTimestamp * 1000, limitOrders);
+    return new OrdersContainer(maxTimestamp, limitOrders);
 
   }
 
