@@ -30,12 +30,12 @@ public class BitmexTradesJSONTest {
     BitmexTrade bitmexTrade = bitmexTrades[0];
     assertThat(bitmexTrade.getSymbol()).isEqualTo(".XBTUSDPI");
     assertThat(bitmexTrade.getPrice()).isEqualTo(new BigDecimal("0.002924"));
-    assertThat(bitmexTrade.getSide()).isEqualTo("Buy");
+    assertThat(bitmexTrade.getSide()).isEqualTo(BitmexSide.BUY);
     assertThat(bitmexTrade.getSize()).isEqualTo(BigDecimal.ZERO);
     assertThat(bitmexTrade.getForeignNotional()).isNull();
     assertThat(bitmexTrade.getGrossValue()).isNull();
     assertThat(bitmexTrade.getHomeNotional()).isNull();
-    assertThat(bitmexTrade.getTickDirection()).isEqualTo("PlusTick");
+    assertThat(bitmexTrade.getTickDirection()).isEqualTo(BitmexTickDirection.PLUSTICK);
   }
 
 }
