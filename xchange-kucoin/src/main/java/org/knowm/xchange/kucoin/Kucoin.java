@@ -10,6 +10,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
+import org.knowm.xchange.kucoin.dto.marketdata.KucoinCoin;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
@@ -28,6 +29,16 @@ public interface Kucoin {
   @GET
   @Path("open/tick")
   KucoinResponse<KucoinTicker> tick(@QueryParam("symbol") String symbol) throws IOException;
+
+  /**
+   * Retrieves a list of all coins.
+   * 
+   * @return
+   * @throws IOException
+   */
+  @GET
+  @Path("market/open/coins")
+  KucoinResponse<List<KucoinCoin>> coins() throws IOException;
 
   /**
    * The call for order books
