@@ -22,6 +22,10 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     return kucoin.tick(KucoinAdapters.adaptCurrencyPair(currencyPair));
   }
   
+  KucoinResponse<List<KucoinTicker>> tick() throws IOException {
+    return kucoin.tick();
+  }
+  
   KucoinResponse<KucoinOrderBook> orders(CurrencyPair currencyPair, Integer limit) throws IOException {
     // "group" param is set to null for now since I have no idea what it does
     return kucoin.orders(KucoinAdapters.adaptCurrencyPair(currencyPair), null, limit);
