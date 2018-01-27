@@ -7,6 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
+import org.knowm.xchange.kucoin.dto.marketdata.KucoinCoin;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
@@ -29,5 +30,9 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
   KucoinResponse<List<KucoinDealOrder>> dealOrders(CurrencyPair currencyPair, Integer limit,
       Long since) throws IOException {
     return kucoin.dealOrders(KucoinAdapters.adaptCurrencyPair(currencyPair), limit, since);
+  }
+  
+  KucoinResponse<List<KucoinCoin>> coins() throws IOException {
+    return kucoin.coins();
   }
 }
