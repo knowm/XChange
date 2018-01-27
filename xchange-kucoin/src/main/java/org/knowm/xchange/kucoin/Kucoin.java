@@ -31,6 +31,16 @@ public interface Kucoin {
   KucoinResponse<KucoinTicker> tick(@QueryParam("symbol") String symbol) throws IOException;
 
   /**
+   * Retrieves all tickers.
+   * 
+   * @return
+   * @throws IOException
+   */
+  @GET
+  @Path("open/tick")
+  KucoinResponse<List<KucoinTicker>> tick() throws IOException;
+
+  /**
    * Retrieves a list of all coins.
    * 
    * @return

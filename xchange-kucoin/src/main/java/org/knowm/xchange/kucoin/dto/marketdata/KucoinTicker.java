@@ -17,9 +17,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "coinType",
     "trading",
+    "symbol",
     "lastDealPrice",
     "buy",
     "sell",
+    "change",
     "coinTypePair",
     "sort",
     "feeRate",
@@ -36,12 +38,16 @@ public class KucoinTicker {
     private String coinType;
     @JsonProperty("trading")
     private Boolean trading;
+    @JsonProperty("symbol")
+    private String symbol;
     @JsonProperty("lastDealPrice")
     private BigDecimal lastDealPrice;
     @JsonProperty("buy")
     private BigDecimal buy;
     @JsonProperty("sell")
     private BigDecimal sell;
+    @JsonProperty("change")
+    private BigDecimal change;
     @JsonProperty("coinTypePair")
     private String coinTypePair;
     @JsonProperty("sort")
@@ -74,9 +80,11 @@ public class KucoinTicker {
      * 
      * @param coinType
      * @param trading
+     * @param symbol
      * @param lastDealPrice
      * @param buy
      * @param sell
+     * @param change
      * @param coinTypePair
      * @param sort
      * @param feeRate
@@ -87,13 +95,15 @@ public class KucoinTicker {
      * @param low
      * @param changeRate
      */
-    public KucoinTicker(String coinType, Boolean trading, BigDecimal lastDealPrice, BigDecimal buy, BigDecimal sell, String coinTypePair, Integer sort, BigDecimal feeRate, BigDecimal volValue, BigDecimal high, Long datetime, BigDecimal vol, BigDecimal low, BigDecimal changeRate) {
+    public KucoinTicker(String coinType, Boolean trading, String symbol, BigDecimal lastDealPrice, BigDecimal buy, BigDecimal sell, BigDecimal change, String coinTypePair, Integer sort, BigDecimal feeRate, BigDecimal volValue, BigDecimal high, Long datetime, BigDecimal vol, BigDecimal low, BigDecimal changeRate) {
         super();
         this.coinType = coinType;
         this.trading = trading;
+        this.symbol = symbol;
         this.lastDealPrice = lastDealPrice;
         this.buy = buy;
         this.sell = sell;
+        this.change = change;
         this.coinTypePair = coinTypePair;
         this.sort = sort;
         this.feeRate = feeRate;
@@ -143,6 +153,26 @@ public class KucoinTicker {
     @JsonProperty("trading")
     public void setTrading(Boolean trading) {
         this.trading = trading;
+    }
+
+    /**
+     * 
+     * @return
+     *     The symbol
+     */
+    @JsonProperty("symbol")
+    public String getSymbol() {
+        return symbol;
+    }
+
+    /**
+     * 
+     * @param symbol
+     *     The symbol
+     */
+    @JsonProperty("symbol")
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     /**
@@ -203,6 +233,26 @@ public class KucoinTicker {
     @JsonProperty("sell")
     public void setSell(BigDecimal sell) {
         this.sell = sell;
+    }
+
+    /**
+     * 
+     * @return
+     *     The change
+     */
+    @JsonProperty("change")
+    public BigDecimal getChange() {
+        return change;
+    }
+
+    /**
+     * 
+     * @param change
+     *     The change
+     */
+    @JsonProperty("change")
+    public void setChange(BigDecimal change) {
+        this.change = change;
     }
 
     /**
