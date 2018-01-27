@@ -1,8 +1,11 @@
 package org.knowm.xchange.kucoin;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.service.KucoinAccountService;
 import org.knowm.xchange.kucoin.service.KucoinMarketDataService;
 import org.knowm.xchange.kucoin.service.KucoinTradeService;
@@ -39,5 +42,11 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+  
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {
+
+    exchangeMetaData = ((KucoinMarketDataService) marketDataService).getMetadata();
   }
 }

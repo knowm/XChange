@@ -12,6 +12,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
@@ -81,5 +82,10 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
         .map(o -> KucoinAdapters.adaptTrade(o, currencyPair))
         .collect(Collectors.toList());
     return new Trades(trades, TradeSortType.SortByTimestamp);
+  }
+  
+  public ExchangeMetaData getMetadata() throws IOException {
+
+    return KucoinAdapters.adaptExchangeMetadata(tick().getData(), coins().getData());
   }
 }
