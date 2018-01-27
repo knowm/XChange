@@ -29,7 +29,7 @@ import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrder;
 
 public class KucoinAdapters {
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return pair.counter.getCurrencyCode() + "-" + pair.base.getCurrencyCode();
+    return pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
   }
   
   public static Ticker adaptTicker(KucoinResponse<KucoinTicker> tickResponse, CurrencyPair pair) {
