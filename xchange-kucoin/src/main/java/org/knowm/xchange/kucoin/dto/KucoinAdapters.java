@@ -1,7 +1,6 @@
 package org.knowm.xchange.kucoin.dto;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +12,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -24,7 +25,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.kucoin.dto.account.KucoinUserInfoResponse;
+import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalance;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinCoin;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
@@ -54,11 +55,6 @@ public class KucoinAdapters {
         .quoteVolume(kcTick.getVolValue())
         .timestamp(new Date(kcTick.getDatetime()))
         .build();
-  }
-
-  public static AccountInfo adaptAccountInfo(KucoinUserInfoResponse kucoinInfo) {
-
-    return new AccountInfo(kucoinInfo.getUserInfo().getEmail(), Arrays.asList());
   }
 
   public static OrderBook adaptOrderBook(KucoinResponse<KucoinOrderBook> response,
@@ -164,5 +160,19 @@ public class KucoinAdapters {
 
     // trading scale is determined by the base currency's trade precision
     return new CurrencyPairMetaData(tick.getFeeRate(), null, null, coin.getTradePrecision());
+  }
+
+  public static AccountInfo adaptAccountInfo(
+  
+      List<KucoinCoinBalance> balances) {
+
+    return new AccountInfo(new Wallet(balances.stream()
+        .map(KucoinAdapters::adaptBalance)
+        .collect(Collectors.toList())));
+  }
+  
+  private static Balance adaptBalance(KucoinCoinBalance balance) {
+
+    return new Balance(new Currency(balance.getCoinType()), balance.getBalance());
   }
 }

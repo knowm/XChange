@@ -15,8 +15,8 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.KucoinSimpleResponse;
+import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
 import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddressResponse;
-import org.knowm.xchange.kucoin.dto.account.KucoinUserInfoResponse;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
 import org.knowm.xchange.kucoin.dto.trading.KucoinOrder;
@@ -31,6 +31,16 @@ public interface KucoinAuthenticated extends Kucoin {
   static final String HEADER_APIKEY = "KC-API-KEY";
   static final String HEADER_NONCE = "KC-API-NONCE";
   static final String HEADER_SIGNATURE = "KC-API-SIGNATURE";
+
+  @GET
+  @Path("account/balances")
+  KucoinSimpleResponse<KucoinCoinBalances> accountBalances(
+      @HeaderParam(HEADER_APIKEY) String apiKey,
+      @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
+      @QueryParam("limit") Integer limit, // default 12, max 20
+      @QueryParam("page") Integer page // default 1
+  ) throws IOException;
 
   @GET
   @Path("account/{coin}/wallet/address")
@@ -50,14 +60,6 @@ public interface KucoinAuthenticated extends Kucoin {
       @PathParam("coin") String coin,
       @QueryParam("amount") BigDecimal amount,
       @QueryParam("address") String address
-  ) throws IOException;
-
-  @GET
-  @Path("user/info")
-  KucoinUserInfoResponse userInfo(
-      @HeaderParam(HEADER_APIKEY) String apiKey,
-      @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
-      @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature
   ) throws IOException;
 
   /**
