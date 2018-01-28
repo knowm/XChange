@@ -8,9 +8,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.xchange.coinegg.dto.marketdata.CoinEggOrder;
+import org.xchange.coinegg.dto.marketdata.CoinEggTrade;
 import org.xchange.coinegg.dto.marketdata.CoinEggTicker;
-import org.xchange.coinegg.dto.marketdata.CoinEggTrades;
+import org.xchange.coinegg.dto.marketdata.CoinEggOrders;
 
 @Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,11 +21,11 @@ public interface CoinEgg {
   CoinEggTicker getTicker(@PathParam("symbol") String symbol) throws IOException;
   
   @GET
-  @Path("depth?coin={symbol}")
-  CoinEggTrades getTrades(@PathParam("symbol") String symbol) throws IOException;
+  @Path("orders?coin={symbol}")
+  CoinEggTrade[] getTrades(@PathParam("symbol") String symbol) throws IOException;
   
   @GET
-  @Path("orders?coin={symbol}")
-  CoinEggOrder[] getOrders(@PathParam("symbol") String symbol) throws IOException;
+  @Path("depth?coin={symbol}")
+  CoinEggOrders getOrders(@PathParam("symbol") String symbol) throws IOException;
   
 }
