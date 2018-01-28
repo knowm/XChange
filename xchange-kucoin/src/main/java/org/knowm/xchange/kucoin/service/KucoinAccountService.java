@@ -9,12 +9,18 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
+import org.knowm.xchange.kucoin.dto.KucoinSimpleResponse;
 import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalance;
 import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
+import org.knowm.xchange.kucoin.dto.account.KucoinWalletRecords;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -61,14 +67,30 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    // TODO Auto-generated method stub
-    return null;
+    
+    return new KucoinFundingHistoryParams();
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+
+    if (!(params instanceof TradeHistoryParamPaging) &&
+        !(params instanceof TradeHistoryParamCurrency)) {
+      throw new ExchangeException(
+          "You need to provide paging information and currency to get the trade history.");
+    }
+
+    TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
+    TradeHistoryParamCurrency curParams = (TradeHistoryParamCurrency) params;
+    
+    Type type = null;
+    if (params instanceof HistoryParamsFundingType) {
+      type = ((HistoryParamsFundingType) params).getType();
+    }
+    // Paging params are 0-based, Kucoin account balances pages are 1-based
+    KucoinSimpleResponse<KucoinWalletRecords> response = walletRecords(curParams.getCurrency(),
+        type, pagingParams.getPageLength(), pagingParams.getPageNumber() + 1);
+    return KucoinAdapters.adaptFundingHistory(response.getData().getRecords());
   }
 
 }

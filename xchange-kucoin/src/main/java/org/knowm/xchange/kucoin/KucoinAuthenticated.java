@@ -17,6 +17,7 @@ import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.KucoinSimpleResponse;
 import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
 import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddressResponse;
+import org.knowm.xchange.kucoin.dto.account.KucoinWalletRecords;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
 import org.knowm.xchange.kucoin.dto.trading.KucoinOrder;
@@ -40,6 +41,22 @@ public interface KucoinAuthenticated extends Kucoin {
       @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
       @QueryParam("limit") Integer limit, // default 12, max 20
       @QueryParam("page") Integer page // default 1
+  ) throws IOException;
+
+  /**
+   * Retrieve funding history (deposit and withdrawal history)
+   */
+  @GET
+  @Path("account/{coin}/wallet/records")
+  KucoinSimpleResponse<KucoinWalletRecords> walletRecords(
+      @HeaderParam(HEADER_APIKEY) String apiKey,
+      @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
+      @PathParam("coin") String coin,
+      @QueryParam("type") String type,
+      @QueryParam("status") String status,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("page") Integer page
   ) throws IOException;
 
   @GET
