@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -26,6 +27,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalance;
+import org.knowm.xchange.kucoin.dto.account.KucoinWalletRecord;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinCoin;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
@@ -174,5 +176,26 @@ public class KucoinAdapters {
   private static Balance adaptBalance(KucoinCoinBalance balance) {
 
     return new Balance(new Currency(balance.getCoinType()), balance.getBalance());
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(List<KucoinWalletRecord> records) {
+
+    return records.stream().map(KucoinAdapters::adaptFundingRecord).collect(Collectors.toList());
+  }
+  
+  private static FundingRecord adaptFundingRecord(KucoinWalletRecord record) {
+
+    return new FundingRecord.Builder()
+        .setAmount(record.getAmount())
+        .setAddress(record.getAddress())
+        .setCurrency(new Currency(record.getCoinType()))
+        .setDate(new Date(record.getCreatedAt()))
+        .setFee(record.getFee())
+        .setStatus(record.getStatus().getFundingRecordStatus())
+        .setExternalId(record.getOuterWalletTxid())
+        .setInternalId(record.getOid())
+        .setDescription(record.getRemark())
+        .setType(record.getType().getFundingRecordType())
+        .build();
   }
 }
