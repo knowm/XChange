@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CoinEggTrades {
+public class CoinEggOrders {
   
   @JsonFormat(shape = JsonFormat.Shape.ARRAY)
-  public static class CoinEggTrade {
+  public static class CoinEggOrder {
     
     @JsonProperty() private BigDecimal price;
     @JsonProperty() private BigDecimal quantity;
@@ -22,19 +22,19 @@ public class CoinEggTrades {
     }
   }
   
-  private final CoinEggTrade[] asks;
-  private final CoinEggTrade[] bids;
+  private final CoinEggOrder[] asks;
+  private final CoinEggOrder[] bids;
   
-  public CoinEggTrades(@JsonProperty("asks") CoinEggTrade[] asks, @JsonProperty("bids") CoinEggTrade[] bids) {
+  public CoinEggOrders(@JsonProperty("asks") CoinEggOrder[] asks, @JsonProperty("bids") CoinEggOrder[] bids) {
     this.asks = asks;
     this.bids = bids;
   }
 
-  public CoinEggTrade[] getAsks() {
+  public CoinEggOrder[] getAsks() {
     return asks;
   }
   
-  public CoinEggTrade[] getBids() {
+  public CoinEggOrder[] getBids() {
     return bids;
   }
 }
