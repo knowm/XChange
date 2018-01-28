@@ -2,6 +2,7 @@ package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -10,6 +11,8 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
+import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalance;
+import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -23,7 +26,17 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return KucoinAdapters.adaptAccountInfo(userInfo());
+
+    // Kucoins balances are available only in paged form
+    // We load the first page, then loop over the remaining pages
+    List<KucoinCoinBalance> balances = new LinkedList<>();
+    // 20 is the maximum page size
+    KucoinCoinBalances balancesInfo = accountBalances(20, 1).getData();
+    balances.addAll(balancesInfo.getBalances());
+    for (int page = 2; page < balancesInfo.getPageNos(); page++) {
+      balances.addAll(accountBalances(20, page).getData().getBalances());
+    }
+    return KucoinAdapters.adaptAccountInfo(balances);
   }
 
   @Override

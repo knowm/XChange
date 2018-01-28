@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.kucoin.dto.KucoinSimpleResponse;
+import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
 import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddressResponse;
-import org.knowm.xchange.kucoin.dto.account.KucoinUserInfoResponse;
 
 public class KucoinAccountServiceRaw extends KucoinBaseService {
 
@@ -15,8 +15,8 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
     super(exchange);
   }
   
-  KucoinUserInfoResponse userInfo() throws IOException {
-    return kucoin.userInfo(apiKey, exchange.getNonceFactory(), signatureCreator);
+  KucoinSimpleResponse<KucoinCoinBalances> accountBalances(Integer limit, Integer page) throws IOException {
+    return kucoin.accountBalances(apiKey, exchange.getNonceFactory(), signatureCreator, limit, page);
   }
   
   KucoinDepositAddressResponse walletAddress(Currency cur) throws IOException {
