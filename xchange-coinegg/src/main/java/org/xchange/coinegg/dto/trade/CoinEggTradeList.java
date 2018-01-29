@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.knowm.xchange.utils.DateUtils;
-import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
+import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
