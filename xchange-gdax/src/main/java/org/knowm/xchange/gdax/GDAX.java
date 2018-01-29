@@ -97,6 +97,13 @@ public interface GDAX {
   GDAXIdResponse placeMarketOrder(GDAXPlaceOrder placeOrder, @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
+  
+  @POST
+  @Path("orders")
+  @Consumes(MediaType.APPLICATION_JSON)
+  GDAXIdResponse placeStopOrder(GDAXPlaceOrder placeOrder, @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
 
   @DELETE
   @Path("orders/{id}")

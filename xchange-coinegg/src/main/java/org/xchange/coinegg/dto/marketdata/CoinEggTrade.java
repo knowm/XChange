@@ -2,10 +2,12 @@ package org.xchange.coinegg.dto.marketdata;
 
 import java.math.BigDecimal;
 
+import org.knowm.xchange.dto.Order.OrderType;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CoinEggOrder {
+public class CoinEggTrade {
 
   public enum Type {
     BUY, 
@@ -23,7 +25,7 @@ public class CoinEggOrder {
   private final long timestamp;
   private final int tid;
   
-  public CoinEggOrder(@JsonProperty("date") long timestamp, @JsonProperty("price") BigDecimal price,
+  public CoinEggTrade(@JsonProperty("date") long timestamp, @JsonProperty("price") BigDecimal price,
       @JsonProperty("amount") BigDecimal amount, @JsonProperty("tid") int tid, @JsonProperty("type") Type type) {
     
     this.timestamp = timestamp;
@@ -44,6 +46,10 @@ public class CoinEggOrder {
   
   public Type getType() {
     return type;
+  }
+  
+  public OrderType getOrderType() {
+    return type == Type.BUY ? OrderType.BID : OrderType.ASK;
   }
   
   public int getTransactionID() {
