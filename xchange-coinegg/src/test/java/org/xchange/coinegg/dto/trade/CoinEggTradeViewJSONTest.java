@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.xchange.coinegg.dto.CoinEggResult;
 import org.xchange.coinegg.dto.accounts.CoinEggBalance;
-import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
+import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
