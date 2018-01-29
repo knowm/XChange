@@ -21,7 +21,6 @@ public class CoinEggOrdersFetchIntegration {
     
     // Verify Not Null Values
     assertThat(orders).isNotNull();
-    
   }
 
 }
