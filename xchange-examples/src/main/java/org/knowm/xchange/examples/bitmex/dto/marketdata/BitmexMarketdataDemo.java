@@ -20,12 +20,13 @@ public class BitmexMarketdataDemo {
   }
 
   private static void ticker(MarketDataService service) throws IOException {
+
     // Get the ticker/markets information
     BitmexMarketDataServiceRaw serviceRaw = (BitmexMarketDataServiceRaw) service;
     List<BitmexTicker> tickers = serviceRaw.getActiveTickers();
     System.out.println(tickers);
 
-    tickers = serviceRaw.getAllTickers();
+    tickers = serviceRaw.getTicker("Xbt");
     System.out.println(tickers);
 
     List<BitmexTicker> ticker = serviceRaw.getTicker("XBt");
