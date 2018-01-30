@@ -18,10 +18,36 @@ public class GDAXExchange extends BaseExchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
 
   @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
+    super.applySpecification(exchangeSpecification);
+
+    concludeHostParams(exchangeSpecification);
+  }
+
+  @Override
   protected void initServices() {
+
+    concludeHostParams(exchangeSpecification);
+
     this.marketDataService = new GDAXMarketDataService(this);
     this.accountService = new GDAXAccountService(this);
     this.tradeService = new GDAXTradeService(this);
+  }
+
+  /**
+   * Adjust host parameters depending on exchange specific parameters
+   */
+  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+
+    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
+
+        exchangeSpecification.setSslUri("https://api-public.sandbox.gdax.com");
+        exchangeSpecification.setHost("api-public.sandbox.gdax.com");
+
+      }
+    }
   }
 
   @Override
@@ -33,6 +59,9 @@ public class GDAXExchange extends BaseExchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("GDAX");
     exchangeSpecification.setExchangeDescription("GDAX Exchange is a Bitcoin exchange recently launched in January 2015");
+
+    exchangeSpecification.setExchangeSpecificParametersItem("Use_Sandbox", false);
+
     return exchangeSpecification;
   }
 

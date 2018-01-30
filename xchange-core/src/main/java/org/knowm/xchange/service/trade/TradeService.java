@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -87,6 +84,20 @@ public interface TradeService extends BaseService {
    */
   String placeLimitOrder(
       LimitOrder limitOrder) throws IOException;
+
+  /**
+   * Place a stop order
+   *
+   * @param stopOrder
+   * @return the order ID
+   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
+   *                                               implemented
+   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
+   */
+  String placeStopOrder(
+          StopOrder stopOrder) throws IOException;
 
   /**
    * cancels order with matching orderId (conveniance method, typical just delegate to cancelOrder(CancelOrderByIdParams))
