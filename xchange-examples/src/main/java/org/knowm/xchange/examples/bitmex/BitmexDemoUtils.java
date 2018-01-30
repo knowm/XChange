@@ -14,8 +14,8 @@ public class BitmexDemoUtils {
 
     ExchangeSpecification bitmexSpec = bitmex.getDefaultExchangeSpecification();
 
-    bitmexSpec.setApiKey("");
-    bitmexSpec.setSecretKey("");
+    // bitmexSpec.setApiKey("");
+    // bitmexSpec.setSecretKey("");
 
     bitmex.applySpecification(bitmexSpec);
 

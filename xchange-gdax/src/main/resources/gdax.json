@@ -63,25 +63,32 @@
   },
   "currencies": {
     "EUR": {
-      "scale": 2
+      "scale": 2,
+      "withdrawal_fee": 0.0
     },
     "LTC": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.0
     },
     "USD": {
-      "scale": 2
+      "scale": 2,
+      "withdrawal_fee": 0.0
     },
     "BTC": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.0
     },
     "BCH": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.0
     },
     "ETH": {
-      "scale": 8
+      "scale": 8,
+      "withdrawal_fee": 0.0
     },
     "GBP": {
-      "scale": 2
+      "scale": 2,
+      "withdrawal_fee": 0.0
     }
   },
   "public_rate_limits": [
