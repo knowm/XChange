@@ -4,6 +4,10 @@
       "price_scale": 8,
       "min_amount": 0.00050000
     },
+    "BTG/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
     "ARN/BTC": {
       "price_scale": 8,
       "min_amount": 0.00050000
@@ -28,7 +32,15 @@
       "price_scale": 8,
       "min_amount": 0.00050000
     },
+    "LTC/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
     "XRP/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "XRP/ETH": {
       "price_scale": 8,
       "min_amount": 0.00050000
     },
@@ -41,6 +53,54 @@
       "min_amount": 0.00050000
     },
     "XVG/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "XMR/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "XMR/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "QTUM/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "QTUM/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "OMG/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "OMG/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "ADA/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "ADA/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "VIB/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "XLM/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "LSK/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00050000
+    },
+    "VIB/BTC": {
       "price_scale": 8,
       "min_amount": 0.00050000
     }
@@ -159,6 +219,14 @@
       "withdrawal_fee": 0.2
     },
     "ZEC": {
+      "scale": 8,
+      "withdrawal_fee": 0.005
+    },
+    "OMG": {
+      "scale": 8,
+      "withdrawal_fee": 0.005
+    },
+    "BTG": {
       "scale": 8,
       "withdrawal_fee": 0.005
     }
