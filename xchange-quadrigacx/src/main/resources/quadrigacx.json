@@ -23,10 +23,17 @@
     "BTG/BTC": {
       "price_scale": 8,
       "min_amount": 0.00000001
+    },
+    "LTC/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.00000001
     }
   },
   "currencies": {
     "BTC": {
+      "scale": 8
+    },
+    "LTC": {
       "scale": 8
     },
     "BCH": {
