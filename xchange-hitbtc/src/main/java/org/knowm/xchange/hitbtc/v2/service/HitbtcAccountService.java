@@ -32,7 +32,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    return withdrawFundsRaw(currency, amount, address);
+    return withdrawFundsRaw(currency, amount, address,null);
   }
 
   @Override
