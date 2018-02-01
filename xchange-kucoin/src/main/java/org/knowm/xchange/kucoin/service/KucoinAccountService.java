@@ -37,10 +37,10 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
     // We load the first page, then loop over the remaining pages
     List<KucoinCoinBalance> balances = new LinkedList<>();
     // 20 is the maximum page size
-    KucoinCoinBalances balancesInfo = accountBalances(20, 1).getData();
+    KucoinCoinBalances balancesInfo = getKucoinBalances(20, 1).getData();
     balances.addAll(balancesInfo.getBalances());
     for (int page = 2; page < balancesInfo.getPageNos(); page++) {
-      balances.addAll(accountBalances(20, page).getData().getBalances());
+      balances.addAll(getKucoinBalances(20, page).getData().getBalances());
     }
     return KucoinAdapters.adaptAccountInfo(balances);
   }
@@ -62,7 +62,7 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    return walletAddress(currency).getDepositAddress().getAddress();
+    return getKucoinDepositAddress(currency).getDepositAddress().getAddress();
   }
 
   @Override

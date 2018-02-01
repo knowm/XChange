@@ -46,7 +46,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       throw new ExchangeException("You need to provide the currency pair to get open orders.");
     }
     CurrencyPair currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
-    return KucoinAdapters.adaptActiveOrders(currencyPair, activeOrders(currencyPair, null).getData()); // order type null returns both bid and ask
+    return KucoinAdapters.adaptActiveOrders(currencyPair, getKucoinOpenOrders(currencyPair, null).getData()); // order type null returns both bid and ask
   }
 
   @Override
@@ -58,7 +58,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     
-    return order(limitOrder).getData().getOrderOid();
+    return placeKucoinLimitOrder(limitOrder).getData().getOrderOid();
   }
 
   @Override
@@ -103,7 +103,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
         throw new ExchangeException("Page length > 100 not allowed with a currency pair.");
       }
     }
-    KucoinResponse<KucoinDealtOrdersInfo> response = dealtOrders(pair, null,
+    KucoinResponse<KucoinDealtOrdersInfo> response = getKucoinTradeHistory(pair, null,
         pagingParams.getPageLength(), pagingParams.getPageNumber(), null, null);
     return KucoinAdapters.adaptUserTrades(response.getData().getDealtOrders());
   }

@@ -18,25 +18,25 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     super(exchange);
   }
   
-  KucoinResponse<KucoinTicker> tick(CurrencyPair currencyPair) throws IOException {
+  public KucoinResponse<KucoinTicker> getKucoinTicker(CurrencyPair currencyPair) throws IOException {
     return kucoin.tick(KucoinAdapters.adaptCurrencyPair(currencyPair));
   }
   
-  KucoinResponse<List<KucoinTicker>> tick() throws IOException {
+  public KucoinResponse<List<KucoinTicker>> getKucoinTickers() throws IOException {
     return kucoin.tick();
   }
   
-  KucoinResponse<KucoinOrderBook> orders(CurrencyPair currencyPair, Integer limit) throws IOException {
+  public KucoinResponse<KucoinOrderBook> getKucoinOrderBook(CurrencyPair currencyPair, Integer limit) throws IOException {
     // "group" param is set to null for now since I have no idea what it does
     return kucoin.orders(KucoinAdapters.adaptCurrencyPair(currencyPair), null, limit);
   }
   
-  KucoinResponse<List<KucoinDealOrder>> dealOrders(CurrencyPair currencyPair, Integer limit,
+  public KucoinResponse<List<KucoinDealOrder>> getKucoinTrades(CurrencyPair currencyPair, Integer limit,
       Long since) throws IOException {
     return kucoin.dealOrders(KucoinAdapters.adaptCurrencyPair(currencyPair), limit, since);
   }
   
-  KucoinResponse<List<KucoinCoin>> coins() throws IOException {
+  public KucoinResponse<List<KucoinCoin>> getKucoinCurrencies() throws IOException {
     return kucoin.coins();
   }
 }

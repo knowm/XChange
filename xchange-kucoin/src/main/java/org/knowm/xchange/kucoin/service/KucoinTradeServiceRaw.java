@@ -23,7 +23,7 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
   /**
    * Places a limit order.
    */
-  KucoinResponse<KucoinOrder> order(LimitOrder order) throws IOException {
+  public KucoinResponse<KucoinOrder> placeKucoinLimitOrder(LimitOrder order) throws IOException {
     return kucoin.order(apiKey, exchange.getNonceFactory(), signatureCreator,
         KucoinAdapters.adaptCurrencyPair(order.getCurrencyPair()),
         KucoinOrderType.fromOrderType(order.getType()),
@@ -34,7 +34,7 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
   /**
    * Cancels an order.
    */
-  KucoinResponse<KucoinOrder> cancelKucoinOrder(CurrencyPair currencyPair, String orderOid,
+  public KucoinResponse<KucoinOrder> cancelKucoinOrder(CurrencyPair currencyPair, String orderOid,
       OrderType orderType) throws IOException {
     return kucoin.cancelOrder(apiKey, exchange.getNonceFactory(), signatureCreator,
         KucoinAdapters.adaptCurrencyPair(currencyPair), orderOid, KucoinOrderType.fromOrderType(orderType));
@@ -44,7 +44,7 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
   /**
    * Lists all active orders for a currency pair.
    */
-  KucoinResponse<KucoinActiveOrders> activeOrders(CurrencyPair currencyPair, OrderType orderType)
+  public KucoinResponse<KucoinActiveOrders> getKucoinOpenOrders(CurrencyPair currencyPair, OrderType orderType)
       throws IOException {
     return kucoin.orderActive(apiKey, exchange.getNonceFactory(), signatureCreator,
         KucoinAdapters.adaptCurrencyPair(currencyPair),
@@ -55,7 +55,7 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
   /**
    * Returns the trade history.
    */
-  KucoinResponse<KucoinDealtOrdersInfo> dealtOrders(CurrencyPair currencyPair, OrderType orderType,
+  KucoinResponse<KucoinDealtOrdersInfo> getKucoinTradeHistory(CurrencyPair currencyPair, OrderType orderType,
       Integer limit, Integer page, Date since, Date before)
       throws IOException {
     return kucoin.orderDealt(apiKey, exchange.getNonceFactory(), signatureCreator,

@@ -41,7 +41,7 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return KucoinAdapters.adaptTicker(
-        tick(currencyPair),
+        getKucoinTicker(currencyPair),
         currencyPair);
   }
 
@@ -56,7 +56,7 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
       }
     }
     return KucoinAdapters.adaptOrderBook(
-        orders(currencyPair, limit),
+        getKucoinOrderBook(currencyPair, limit),
         currencyPair);
   }
 
@@ -77,7 +77,7 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
       }
     }
 
-    KucoinResponse<List<KucoinDealOrder>> response = dealOrders(currencyPair, limit, since);
+    KucoinResponse<List<KucoinDealOrder>> response = getKucoinTrades(currencyPair, limit, since);
     List<Trade> trades = response.getData().stream()
         .map(o -> KucoinAdapters.adaptTrade(o, currencyPair))
         .collect(Collectors.toList());
@@ -86,6 +86,6 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
   
   public ExchangeMetaData getMetadata() throws IOException {
 
-    return KucoinAdapters.adaptExchangeMetadata(tick().getData(), coins().getData());
+    return KucoinAdapters.adaptExchangeMetadata(getKucoinTickers().getData(), getKucoinCurrencies().getData());
   }
 }
