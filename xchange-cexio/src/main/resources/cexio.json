@@ -1,81 +1,81 @@
 {
   "currency_pairs": {
     "BTC/USD": {
-      "price_scale": 2,
+      "price_scale": 1,
       "trading_fee": 0.002,
-      "min_amount": 0.010000000
+      "min_amount": 0.01
     },
     "BTC/EUR": {
-      "price_scale": 2,
+      "price_scale": 1,
       "trading_fee": 0.001,
-      "min_amount": 0.010000000
+      "min_amount": 0.01
     },
     "BTC/GBP": {
-      "price_scale": 2,
+      "price_scale": 1,
       "trading_fee": 0.01,
-      "min_amount": 0.010000000
+      "min_amount": 0.01
     },
     "ETH/GBP": {
-      "price_scale": 4,
-      "trading_fee": 0.001,
-      "min_amount": 0.100000000
-    },
-    "GHS/BTC": {
-      "price_scale": 8,
-      "trading_fee": 0.0000,
-      "min_amount": 1.000000000
-    },
-    "ETH/BTC": {
-      "price_scale": 8,
-      "trading_fee": 0.0000,
-      "min_amount": 0.500000000
-    },
-    "ETH/USD": {
-      "price_scale": 4,
-      "trading_fee": 0.002,
-      "min_amount": 0.500000000
-    },
-    "ETH/EUR": {
-      "price_scale": 4,
-      "trading_fee": 0.001,
-      "min_amount": 0.500000000
-    },
-    "BTC/RUB": {
       "price_scale": 2,
       "trading_fee": 0.001,
-      "min_amount": 0.010000000
+      "min_amount": 0.10
+    },
+    "GHS/BTC": {
+      "price_scale": 6,
+      "trading_fee": 0.0000,
+      "min_amount": 1.00
+    },
+    "ETH/BTC": {
+      "price_scale": 6,
+      "trading_fee": 0.0000,
+      "min_amount": 0.50
+    },
+    "ETH/USD": {
+      "price_scale": 2,
+      "trading_fee": 0.002,
+      "min_amount": 0.50
+    },
+    "ETH/EUR": {
+      "price_scale": 2,
+      "trading_fee": 0.001,
+      "min_amount": 0.50
+    },
+    "BTC/RUB": {
+      "price_scale": 1,
+      "trading_fee": 0.001,
+      "min_amount": 0.01
     },
     "BCH/BTC": {
-      "price_scale": 8,
+      "price_scale": 6,
       "trading_fee": 0.0000,
-      "min_amount": 0.100000000
+      "min_amount": 0.10
     },
     "BCH/USD": {
-      "price_scale": 4,
+      "price_scale": 2,
       "trading_fee": 0.002,
-      "min_amount": 0.0100000000
+      "min_amount": 0.02
     },
     "BCH/EUR": {
-      "price_scale": 4,
+      "price_scale": 2,
       "trading_fee": 0.001,
-      "min_amount": 0.0100000000
+      "min_amount": 0.02
     },
     "BCH/GBP": {
-      "price_scale": 4,
+      "price_scale": 2,
       "trading_fee": 0.002,
-      "min_amount": 0.010000000
+      "min_amount": 0.02
     },
     "XRP/USD": {
-      "price_scale": 4,
-      "min_amount": 10.000000
+      "price_scale": 2,
+      "min_amount": 40
     },
     "XRP/EUR": {
-      "price_scale": 4,
-      "min_amount": 10.000000
+      "price_scale": 2,
+      "min_amount": 40
     },
     "XRP/BTC": {
       "price_scale": 8,
-      "min_amount": 40.000000
+      "min_amount": 40
     }
   },
   "currencies": {
