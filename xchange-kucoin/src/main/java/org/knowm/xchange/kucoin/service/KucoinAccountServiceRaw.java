@@ -18,12 +18,12 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
     super(exchange);
   }
   
-  KucoinSimpleResponse<KucoinCoinBalances> accountBalances(Integer limit, Integer page) throws IOException {
+  public KucoinSimpleResponse<KucoinCoinBalances> getKucoinBalances(Integer limit, Integer page) throws IOException {
     
     return kucoin.accountBalances(apiKey, exchange.getNonceFactory(), signatureCreator, limit, page);
   }
   
-  KucoinDepositAddressResponse walletAddress(Currency cur) throws IOException {
+  public KucoinDepositAddressResponse getKucoinDepositAddress(Currency cur) throws IOException {
     
     return kucoin.walletAddress(apiKey, exchange.getNonceFactory(), signatureCreator, cur.getCurrencyCode());
   }
