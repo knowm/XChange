@@ -38,6 +38,9 @@
     },
     "LTC/USD": {
       "price_scale": 2
+    },
+    "TRX/BTC": {
+      "price_scale": 8
     }
   },
   "currencies": {
@@ -66,6 +69,9 @@
       "scale": 8
     },
     "ETH": {
+      "scale": 8
+    },
+    "TRX": {
       "scale": 8
     }
   }
