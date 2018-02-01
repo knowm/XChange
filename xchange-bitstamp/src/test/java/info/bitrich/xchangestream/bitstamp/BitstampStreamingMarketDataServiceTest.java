@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -36,12 +37,11 @@ public class BitstampStreamingMarketDataServiceTest {
         marketDataService = new BitstampStreamingMarketDataService(streamingService);
     }
 
-    @Test
-    public void testGetOrderBook() throws Exception {
+    public void testOrderbookCommon(String channelName, Supplier<TestObserver<OrderBook>> updater) throws Exception {
         // Given order book in JSON
         String orderBook = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("order-book.json").toURI())));
 
-        when(streamingService.subscribeChannel(eq("order_book_btceur"), eq("data"))).thenReturn(Observable.just(orderBook));
+        when(streamingService.subscribeChannel(eq(channelName), eq("data"))).thenReturn(Observable.just(orderBook));
 
         List<LimitOrder> bids = new ArrayList<>();
         bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.922"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("819.9")));
@@ -53,7 +53,7 @@ public class BitstampStreamingMarketDataServiceTest {
         asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.035"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("821.6")));
 
         // Call get order book observable
-        TestObserver<OrderBook> test = marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test();
+        TestObserver<OrderBook> test = updater.get();
 
         // We get order book object in correct order
         test.assertValue(orderBook1 -> {
@@ -61,6 +61,16 @@ public class BitstampStreamingMarketDataServiceTest {
             assertThat(orderBook1.getBids()).as("Bids").isEqualTo(bids);
             return true;
         });
+    }
+
+    @Test
+    public void testGetDifferentialOrderBook() throws Exception {
+        testOrderbookCommon("diff_order_book_btceur", () -> marketDataService.getDifferentialOrderBook(CurrencyPair.BTC_EUR).test());
+    }
+
+    @Test
+    public void testGetOrderBook() throws Exception {
+        testOrderbookCommon("order_book_btceur", () -> marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test());
     }
 
     @Test
