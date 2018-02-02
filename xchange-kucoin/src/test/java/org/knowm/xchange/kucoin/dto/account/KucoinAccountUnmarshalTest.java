@@ -47,7 +47,7 @@ public class KucoinAccountUnmarshalTest {
     assertThat(balance.getFee()).isEqualTo(BigDecimal.valueOf(0.0));
     assertThat(balance.getOuterWalletTxid()).isEqualTo("9BBC27DB999B414212CB823C453F31C05488FD523625CAD5E06A24487DC7A62F");
     assertThat(balance.getOid()).isEqualTo("5a6901bc76088742e6dab974");
-    assertThat(balance.getType()).isEqualTo(Type.DEPOSIT);
+    assertThat(balance.getType()).isEqualTo(KucoinWalletOperation.DEPOSIT);
     assertThat(balance.getStatus()).isEqualTo(KucoinWalletOperationStatus.SUCCESS);
     assertThat(balance.getUpdatedAt()).isEqualTo(1516831164000L);
   }
