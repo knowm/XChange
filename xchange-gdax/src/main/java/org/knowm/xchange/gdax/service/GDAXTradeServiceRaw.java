@@ -94,7 +94,21 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
       throw handleError(e);
     }
   }
+  
+  public GDAXIdResponse placeGDAXStopOrder(MarketOrder stopOrder) throws IOException {
 
+    String side = side(stopOrder.getType());
+    String productId = toProductId(stopOrder.getCurrencyPair());
+
+    try {
+      return gdax.placeStopOrder(new GDAXPlaceOrder(stopOrder.getOriginalAmount(), stopOrder.getAveragePrice(), side, productId, "stop", stopOrder.getOrderFlags
+              ()), apiKey, digest,
+          nonceFactory, passphrase);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
+  }
+  
   public boolean cancelGDAXOrder(String id) throws IOException {
 
     try {
