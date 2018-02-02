@@ -48,8 +48,8 @@ public class KucoinAdapters {
     KucoinTicker kcTick = tickResponse.getData();
     return new Ticker.Builder()
         .currencyPair(pair)
-        .ask(kcTick.getBuy())
-        .bid(kcTick.getSell())
+        .bid(kcTick.getBuy())
+        .ask(kcTick.getSell())
         .high(kcTick.getHigh())
         .low(kcTick.getLow())
         .last(kcTick.getLastDealPrice())
