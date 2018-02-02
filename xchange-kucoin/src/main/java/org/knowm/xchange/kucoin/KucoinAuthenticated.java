@@ -16,7 +16,7 @@ import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.KucoinSimpleResponse;
 import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
-import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddressResponse;
+import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddress;
 import org.knowm.xchange.kucoin.dto.account.KucoinWalletRecords;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
@@ -35,20 +35,20 @@ public interface KucoinAuthenticated extends Kucoin {
 
   @GET
   @Path("account/balances")
-  KucoinSimpleResponse<KucoinCoinBalances> accountBalances(
+  KucoinResponse<KucoinCoinBalances> accountBalances(
       @HeaderParam(HEADER_APIKEY) String apiKey,
       @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
       @QueryParam("limit") Integer limit, // default 12, max 20
       @QueryParam("page") Integer page // default 1
-  ) throws IOException;
+  ) throws IOException, KucoinException;
 
   /**
    * Retrieve funding history (deposit and withdrawal history)
    */
   @GET
   @Path("account/{coin}/wallet/records")
-  KucoinSimpleResponse<KucoinWalletRecords> walletRecords(
+  KucoinResponse<KucoinWalletRecords> walletRecords(
       @HeaderParam(HEADER_APIKEY) String apiKey,
       @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
@@ -57,16 +57,16 @@ public interface KucoinAuthenticated extends Kucoin {
       @QueryParam("status") String status,
       @QueryParam("limit") Integer limit,
       @QueryParam("page") Integer page
-  ) throws IOException;
+  ) throws IOException, KucoinException;
 
   @GET
   @Path("account/{coin}/wallet/address")
-  KucoinDepositAddressResponse walletAddress(
+  KucoinResponse<KucoinDepositAddress> walletAddress(
       @HeaderParam(HEADER_APIKEY) String apiKey,
       @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
       @PathParam("coin") String coin
-  ) throws IOException;
+  ) throws IOException, KucoinException;
 
   @POST
   @Path("account/{coin}/withdraw/apply")
@@ -77,7 +77,7 @@ public interface KucoinAuthenticated extends Kucoin {
       @PathParam("coin") String coin,
       @QueryParam("amount") BigDecimal amount,
       @QueryParam("address") String address
-  ) throws IOException;
+  ) throws IOException, KucoinException;
 
   /**
    * Lists all active orders for a currency pair.
@@ -90,7 +90,7 @@ public interface KucoinAuthenticated extends Kucoin {
       @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
       @QueryParam("symbol") String symbol,
       @QueryParam("type") KucoinOrderType type
-  ) throws IOException;
+  ) throws IOException, KucoinException;
 
   /**
    * Returns the trade history.
@@ -107,7 +107,7 @@ public interface KucoinAuthenticated extends Kucoin {
       @QueryParam("page") Integer page,
       @QueryParam("since") Long since,
       @QueryParam("before") Long before
-  ) throws IOException;
+  ) throws IOException, KucoinException;
 
   /**
    * Places a limit order.
@@ -122,7 +122,7 @@ public interface KucoinAuthenticated extends Kucoin {
       @QueryParam("type") KucoinOrderType type,
       @QueryParam("price") BigDecimal price,
       @QueryParam("amount") BigDecimal amount
-  ) throws IOException;
+  ) throws IOException, KucoinException;
 
   /**
    * Cancels an order.
@@ -136,6 +136,6 @@ public interface KucoinAuthenticated extends Kucoin {
       @QueryParam("symbol") String symbol,
       @QueryParam("orderOid") String orderOid,
       @QueryParam("type") KucoinOrderType type
-  ) throws IOException;
+  ) throws IOException, KucoinException;
 
 }

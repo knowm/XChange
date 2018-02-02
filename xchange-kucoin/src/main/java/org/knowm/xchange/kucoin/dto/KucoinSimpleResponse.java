@@ -40,7 +40,7 @@ public class KucoinSimpleResponse<D> {
    *     The success
    */
   @JsonProperty("success")
-  public Boolean getSuccess() {
+  public Boolean isSuccess() {
       return success;
   }
 
