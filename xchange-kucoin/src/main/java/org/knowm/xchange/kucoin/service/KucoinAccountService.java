@@ -62,7 +62,7 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    return getKucoinDepositAddress(currency).getDepositAddress().getAddress();
+    return getKucoinDepositAddress(currency).getData().getAddress();
   }
 
   @Override

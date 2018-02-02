@@ -7,9 +7,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.examples.kucoin.KucoinExamplesUtils;
+import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.KucoinSimpleResponse;
 import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
-import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddressResponse;
+import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddress;
 import org.knowm.xchange.kucoin.service.KucoinAccountServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
 
@@ -43,7 +44,7 @@ public class KucoinAccountDemo {
     KucoinSimpleResponse<KucoinCoinBalances> responseBalances = accountService.getKucoinBalances(20, 1);
     System.out.println(responseBalances.getData());
 
-    KucoinDepositAddressResponse responseAddress = accountService.getKucoinDepositAddress(Currency.BTC);
-    System.out.println(responseAddress.getDepositAddress());
+    KucoinResponse<KucoinDepositAddress> responseAddress = accountService.getKucoinDepositAddress(Currency.BTC);
+    System.out.println(responseAddress.getData().getAddress());
   }
 }

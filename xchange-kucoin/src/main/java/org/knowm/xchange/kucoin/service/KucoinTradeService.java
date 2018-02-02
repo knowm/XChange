@@ -80,7 +80,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     return cancelKucoinOrder(
         ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair(),
         ((CancelOrderByIdParams) orderParams).getOrderId(),
-        ((CancelOrderByOrderTypeParams) orderParams).getOrderType()).getSuccess();
+        ((CancelOrderByOrderTypeParams) orderParams).getOrderType()).isSuccess();
   }
 
   @Override

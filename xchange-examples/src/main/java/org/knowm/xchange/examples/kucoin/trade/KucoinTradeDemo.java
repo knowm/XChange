@@ -86,7 +86,7 @@ public class KucoinTradeDemo {
       System.out.println("Attempting to cancel order " + orderId);
       KucoinResponse<KucoinOrder> cancelResponse = tradeService.cancelKucoinOrder(PAIR, orderId, ORDER_TYPE);
 
-      if (cancelResponse.getSuccess()) {
+      if (cancelResponse.isSuccess()) {
         System.out.println("Order successfully canceled.");
       } else {
         System.out.println("Order not successfully canceled.");

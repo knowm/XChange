@@ -28,7 +28,7 @@ public interface Kucoin {
    */
   @GET
   @Path("open/tick")
-  KucoinResponse<KucoinTicker> tick(@QueryParam("symbol") String symbol) throws IOException;
+  KucoinResponse<KucoinTicker> tick(@QueryParam("symbol") String symbol) throws IOException, KucoinException;
 
   /**
    * Retrieves all tickers.
@@ -38,7 +38,7 @@ public interface Kucoin {
    */
   @GET
   @Path("open/tick")
-  KucoinResponse<List<KucoinTicker>> tick() throws IOException;
+  KucoinResponse<List<KucoinTicker>> tick() throws IOException, KucoinException;
 
   /**
    * Retrieves a list of all coins.
@@ -48,7 +48,7 @@ public interface Kucoin {
    */
   @GET
   @Path("market/open/coins")
-  KucoinResponse<List<KucoinCoin>> coins() throws IOException;
+  KucoinResponse<List<KucoinCoin>> coins() throws IOException, KucoinException;
 
   /**
    * The call for order books
@@ -64,7 +64,7 @@ public interface Kucoin {
   KucoinResponse<KucoinOrderBook> orders(
       @QueryParam("symbol") String symbol,
       @QueryParam("group") Integer group,
-      @QueryParam("limit") Integer limit) throws IOException;
+      @QueryParam("limit") Integer limit) throws IOException, KucoinException;
 
   /**
    * This is the call for recent trades.
@@ -80,6 +80,6 @@ public interface Kucoin {
   KucoinResponse<List<KucoinDealOrder>> dealOrders(
       @QueryParam("symbol") String symbol,
       @QueryParam("limit") Integer limit,
-      @QueryParam("since") Long since) throws IOException;
+      @QueryParam("since") Long since) throws IOException, KucoinException;
 
 }
