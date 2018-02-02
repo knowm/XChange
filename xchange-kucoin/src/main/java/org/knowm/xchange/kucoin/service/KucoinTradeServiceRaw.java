@@ -59,9 +59,9 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
   public KucoinResponse<KucoinActiveOrders> getKucoinOpenOrders(CurrencyPair currencyPair, OrderType orderType)
       throws IOException {
     try {
+      // keep orderType null for now, since setting it changes the response format
       return checkSuccess(kucoin.orderActive(apiKey, exchange.getNonceFactory(), signatureCreator,
-          KucoinAdapters.adaptCurrencyPair(currencyPair),
-          orderType == null ? null : KucoinOrderType.fromOrderType(orderType)));
+          KucoinAdapters.adaptCurrencyPair(currencyPair), null /*orderType*/));
     } catch (KucoinException e) {
       throw new ExchangeException(e.getMessage());
     }
