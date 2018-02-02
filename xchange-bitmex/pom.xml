@@ -20,5 +20,10 @@
             <artifactId>service-netty</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-bitmex</artifactId>
+            <version>${xchange.version}</version>
+        </dependency>
     </dependencies>
 </project>

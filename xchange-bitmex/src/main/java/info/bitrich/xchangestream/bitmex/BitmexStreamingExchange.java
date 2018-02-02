@@ -4,14 +4,14 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
-import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bitmex.BitmexExchange;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Created by Lukas Zaoralek on 12.11.17.
  */
-public class BitmexStreamingExchange extends BaseExchange implements StreamingExchange {
+public class BitmexStreamingExchange extends BitmexExchange implements StreamingExchange {
     private static final String API_URI = "wss://www.bitmex.com/realtime";
 
     private final BitmexStreamingService streamingService;
@@ -43,7 +43,7 @@ public class BitmexStreamingExchange extends BaseExchange implements StreamingEx
 
     @Override
     public ExchangeSpecification getDefaultExchangeSpecification() {
-        ExchangeSpecification spec = new ExchangeSpecification("Bitmex");
+        ExchangeSpecification spec = super.getDefaultExchangeSpecification();
         spec.setShouldLoadRemoteMetaData(false);
         return spec;
     }
