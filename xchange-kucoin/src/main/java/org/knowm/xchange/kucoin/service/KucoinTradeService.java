@@ -103,8 +103,9 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
         throw new ExchangeException("Page length > 100 not allowed with a currency pair.");
       }
     }
+    // Kucoin has 1-based paging
     KucoinResponse<KucoinDealtOrdersInfo> response = getKucoinTradeHistory(pair, null,
-        pagingParams.getPageLength(), pagingParams.getPageNumber(), null, null);
+        pagingParams.getPageLength(), pagingParams.getPageNumber() + 1, null, null);
     return KucoinAdapters.adaptUserTrades(response.getData().getDealtOrders());
   }
 
