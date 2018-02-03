@@ -1,28 +1,149 @@
 {
   "currency_pairs": {
-    "ETH/BTC": {
-      "price_scale": 5
+    "BCH/BTC": {
+      "price_scale": 4,
+      "trading_fee": 0.002,
+      "min_amount": 0.00100000
     },
-    "ETH/EUR": {
-      "price_scale": 5
+    "BCH/DASH": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
     },
-    "LTC/BTC": {
-      "price_scale": 5
+    "BCH/ETH": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
     },
-    "PPC/BTC": {
-      "price_scale": 5
+    "BCH/LTC": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
     },
-    "LTC/EUR": {
-      "price_scale": 3
+    "BCH/USD": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.00100000
     },
-    "NMC/BTC": {
-      "price_scale": 5
+    "BCH/ZEC": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
     },
     "BTC/EUR": {
-      "price_scale": 5
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.00200000
     },
-    "EUR/USD": {
-      "price_scale": 5
+    "BTC/USD": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.00100000
+    },
+    "DASH/BTC": {
+      "price_scale": 5,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "DASH/ETH": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "DASH/LTC": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "DASH/USD": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "DASH/ZEC": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "ETH/BTC": {
+      "price_scale": 5,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "ETH/LTC": {
+      "price_scale": 4,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "ETH/USD": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "ETH/ZEC": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "LTC/BTC": {
+      "price_scale": 5,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "LTC/EUR": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "LTC/USD": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "NMC/BTC": {
+      "price_scale": 5,
+      "trading_fee": 0.002,
+      "min_amount": 0.10000000
+    },
+    "NMC/USD": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.10000000
+    },
+    "NVC/BTC": {
+      "price_scale": 5,
+      "trading_fee": 0.002,
+      "min_amount": 0.10000000
+    },
+    "NVC/USD": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.10000000
+    },
+    "PPC/BTC": {
+      "price_scale": 5,
+      "trading_fee": 0.002,
+      "min_amount": 0.10000000
+    },
+    "PPC/USD": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.10000000
+    },
+    "ZEC/BTC": {
+      "price_scale": 4,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "ZEC/LTC": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
+    },
+    "ZEC/USD": {
+      "price_scale": 3,
+      "trading_fee": 0.002,
+      "min_amount": 0.01000000
     }
   },
   "currencies": {
