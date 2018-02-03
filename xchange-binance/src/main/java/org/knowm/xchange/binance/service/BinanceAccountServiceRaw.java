@@ -5,13 +5,16 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
 import org.knowm.xchange.binance.dto.account.DepositList;
 import org.knowm.xchange.binance.dto.account.DepositList.BinanceDeposit;
 import org.knowm.xchange.binance.dto.account.WapiResponse;
 import org.knowm.xchange.binance.dto.account.WithdrawList;
 import org.knowm.xchange.binance.dto.account.WithdrawRequest;
+import org.knowm.xchange.currency.Currency;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,6 +55,11 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     WithdrawRequest result = binance.withdraw(asset, address, addressTag, amount, name, recvWindow, timestamp, super.apiKey, super.signatureCreator);
     checkWapiResponse(result);
     return result.getData();
+  }
+
+  public DepositAddress requestDepositAddress(Currency currency) throws IOException {
+    Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    return binance.depositAddress(BinanceAdapters.toSymbol(currency), recvWindow, System.currentTimeMillis(), apiKey, super.signatureCreator);
   }
 
   public List<BinanceDeposit> depositHistory(String asset, Long startTime, Long endTime, Long recvWindow,
