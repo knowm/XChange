@@ -185,7 +185,12 @@ public class GDAXAdapters {
 
     OrderStatus orderStatus = adaptOrderStatus(order);
 
-    BigDecimal averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
+    final BigDecimal averagePrice;
+    if (order.getFilledSize().compareTo(BigDecimal.ZERO) == 0) {
+      averagePrice = BigDecimal.ZERO;
+    } else {
+      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
+    }
 
     if(order.getType().equals("market")) {
       returnValue = new MarketOrder(
@@ -234,13 +239,19 @@ public class GDAXAdapters {
 
   /** The status from the GDAXOrder object converted to xchange status */
   public static OrderStatus adaptOrderStatus(GDAXOrder order) {
-    if(order.getStatus().equals("done")) {
+
+    if(order.getStatus().equals("pending")) {
+      return OrderStatus.PENDING_NEW;
+    }
+
+    if(order.getStatus().equals("done") || order.getStatus().equals("settled")) {
 
       if(order.getDoneReason().equals("filled"))
         return OrderStatus.FILLED;
 
-      return null;
-
+      return null; // FIXME could be STOPPED perhaps. GDAX documentation doesn't really cover the possible
+                   //       values of done_reason so will need to run some tests with different order types
+                   //       to determine which is which.  We can't return null!
     }
 
     if(order.getFilledSize().signum() == 0)
@@ -250,7 +261,7 @@ public class GDAXAdapters {
             && order.getSize().compareTo(order.getFilledSize()) < 0)
       return OrderStatus.PARTIALLY_FILLED;
 
-    return null;
+    return null; // FIXME probably need a better response than this.
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {

@@ -27,9 +27,9 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
       return null;
     }
     try {
-      GDAXProductTicker tickerReturn = this.gdax.getProductTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+      final GDAXProductTicker tickerReturn = this.gdax().getProductTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
       return tickerReturn;
-    } catch (GDAXException e) {
+    } catch (final GDAXException e) {
       throw handleError(e);
     }
   }
@@ -40,9 +40,9 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
       return null;
     }
     try {
-      GDAXProductStats statsReturn = this.gdax.getProductStats(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+      final GDAXProductStats statsReturn = this.gdax().getProductStats(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
       return statsReturn;
-    } catch (GDAXException e) {
+    } catch (final GDAXException e) {
       throw handleError(e);
     }
   }
@@ -54,9 +54,9 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     }
 
     try {
-      GDAXProductBook book = this.gdax.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "1");
+      final GDAXProductBook book = this.gdax().getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "1");
       return book;
-    } catch (GDAXException e) {
+    } catch (final GDAXException e) {
       throw handleError(e);
     }
   }
@@ -64,10 +64,10 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
   public GDAXProductBook getGDAXProductOrderBook(CurrencyPair currencyPair, int level) throws IOException {
 
     try {
-      GDAXProductBook book = this.gdax.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(),
+      final GDAXProductBook book = this.gdax().getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(),
           String.valueOf(level));
       return book;
-    } catch (GDAXException e) {
+    } catch (final GDAXException e) {
       throw handleError(e);
     }
   }
@@ -75,9 +75,9 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
   public GDAXTrade[] getGDAXTrades(CurrencyPair currencyPair) throws IOException {
 
     try {
-      return this.gdax.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+      return this.gdax().getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
-    } catch (GDAXException e) {
+    } catch (final GDAXException e) {
       throw handleError(e);
     }
   }
@@ -99,8 +99,8 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
   public GDAXProduct[] getGDAXProducts() throws IOException {
 
     try {
-      return gdax.getProducts();
-    } catch (GDAXException e){
+      return gdax().getProducts();
+    } catch (final GDAXException e){
       throw handleError(e);
     }
   }
