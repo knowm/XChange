@@ -78,6 +78,8 @@ public class DateUtils {
   public static Date fromISO8601DateString(String iso8601FormattedDate) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
     SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    // set UTC time zone 
+    iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
     try {
       return iso8601Format.parse(iso8601FormattedDate);
     } catch (ParseException e) {
@@ -99,6 +101,24 @@ public class DateUtils {
       return rfc1123DateFormat.parse(rfc1123FormattedDate);
     } catch (ParseException e) {
       throw new InvalidFormatException("Error parsing as date", rfc1123FormattedDate, Date.class);
+    }
+  }
+
+  /**
+   * Converts an RFC3339 formatted Date String to a Java Date RFC3339 format: yyyy-MM-dd HH:mm:ss
+   *
+   * @param rfc3339FormattedDate RFC3339 formatted Date
+   * @return an {@link Date} object
+   * @throws InvalidFormatException the RFC3339 formatted Date is invalid or cannot be parsed.
+   * @see <a href="https://tools.ietf.org/html/rfc3339">The Internet Society - RFC 3339</a>
+   */
+  public static Date fromRfc3339DateString(String rfc3339FormattedDate) throws InvalidFormatException {
+
+    SimpleDateFormat rfc3339DateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    try {
+      return rfc3339DateFormat.parse(rfc3339FormattedDate);
+    } catch (ParseException e) {
+      throw new InvalidFormatException("Error parsing as date", rfc3339FormattedDate, Date.class);
     }
   }
 

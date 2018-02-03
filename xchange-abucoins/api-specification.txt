@@ -1,0 +1,439 @@
+Cex.io Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://api.abucoins.com
+
+Time
+----
+HTTP Request
+
+GET https://api.abucoins.com/time
+
+Example response
+{
+  "iso":"2017-10-10T11:16:50Z",
+  "epoch":1507634210
+}
+
+Accounts
+--------
+HTTP Request
+
+GET https://api.abucoins.com/accounts
+
+[
+    {
+        "id": "3-BTC",
+        "currency": "BTC",
+        "balance": 13.38603805,
+        "available": 13.38589212,
+        "available_btc": 13.38589212,
+        "hold": 0.00014593,
+        "profile_id": 3
+    },
+    {
+        "id": "3-ETH",
+        "currency": "ETH",
+        "balance": 133.48685448,
+        "available": 133.48685448,
+        "available_btc": 9.38012126,
+        "hold": 0,
+        "profile_id": 3
+    }
+]
+
+GET https://api.abucoins.com/accounts/<account-id>
+
+retrieves an indiviual accounts info
+
+
+Payment Methods
+---------------
+GET https://api.abucoins.com/payment-methods
+
+Example response
+[
+    {
+        "id": "sepa_pln",
+        "type": "sepa_pln",
+        "name": "PLN",
+        "currency": "PLN",
+        "allow_buy": true,
+        "allow_sell": true,
+        "allow_deposit": true,
+        "allow_withdraw": true,
+        "limits": {
+            "buy": 10000,
+            "sell": 10000,
+            "deposit": 9223372036854775807,
+            "withdraw": 9223372036854775807
+        }
+    },
+    {
+        "id": "bitcoin",
+        "type": "bitcoin",
+        "name": "Bitcoin",
+        "currency": "BTC",
+        "allow_buy": true,
+        "allow_sell": true,
+        "allow_deposit": true,
+        "allow_withdraw": true,
+        "limits": {
+            "buy": 10000,
+            "sell": 10000,
+            "deposit": 5,
+            "withdraw": 0.5
+        }
+    }
+]
+
+
+Orders
+------
+HTTP Request
+
+GET https://api.abucoins.com/payment-methods/orders
+
+QUERY PARAMETERS
+
+Field	Default	Description
+status	[open, done]	Limit list of orders to these statuses
+product_id	ex. [ETH-BTC]	Get orders for the specified market
+
+Example response
+[
+    {
+        "id": "7786713",
+        "price": "0.05367433",
+        "size": "0.10451686",
+        "product_id": "ZEC-BTC",
+        "side": "buy",
+        "type": "limit",
+        "time_in_force": "GTC",
+        "post_only": false,
+        "created_at": "2017-09-03T03:33:17Z",
+        "filled_size": "0.00000000",
+        "status": "closed",
+        "settled": false
+    },
+    {
+        "id": "7786713",
+        "price": "0.05367433",
+        "size": "0.10451686",
+        "product_id": "ZEC-BTC",
+        "side": "buy",
+        "type": "limit",
+        "time_in_force": "GTC",
+        "post_only": false,
+        "created_at": "2017-09-03T03:33:17Z",
+        "filled_size": "0.00000000",
+        "status": "closed",
+        "settled": false
+    }
+]
+
+Get a single order by order id.
+
+HTTP Request
+
+GET https://api.abucoins.com/orders/<order-id>
+
+
+HTTP Request
+
+POST https://api.abucoins.com/orders
+
+Example request
+{
+  "side":"buy",
+  "hidden":false,
+  "time_in_force":"GTC",
+  "size":"0.05",
+  "price":"1001",
+  "product_id":"BTC-USD",
+  "type":"limit"
+}
+Example response
+{
+  "product_id":"BTC-USD",
+  "used":"0.05",
+  "size":"0.05",
+  "price":"1001",
+  "id":"4217215",
+  "side":"buy",
+  "type":"limit",
+  "time_in_force":"GTC",
+  "post_only":false,
+  "created_at":"2017-11-15T12:41:58Z",
+  "filled_size":"0.05",
+  "fill_fees":"0",
+  "executed_value":"50.05",
+  "status":"done",
+  "settled":true,
+  "hidden":false
+}
+Order fields
+
+Base parameters
+
+Field	Default	Description
+type	limit	[optional] limit or market
+side		buy or sell
+product_id		Product id (ex. ZEC-BTC)
+stp	default stp is off	[optional] Self-trade prevention flag (co)
+hidden	false	[optional]* Hide your offer
+* A hidden order is an order which does not appear in the order book. If you place a hidden order, you will always pay the taker fee. If you place a limit order that hits a hidden order, you will always pay the maker fee.
+
+Limit order parameters
+
+Field	Default	Description
+price		price per one asset
+size		amount of assets to buy or sell
+time_in_force	GTC	[optional] GTC, GTT, IOC or FOK
+cancel_after		[optional]* min, hour, day
+post_only		[optional]** create order only if maker - true, false
+* Requires only with GTT
+** Invalid when time_in_force is IOC or FOK
+
+Market order parameters
+
+Field	Default	Description
+size		[optional]* Desired amount in BTC
+funds		[optional]* Desired amount of quote currency to use
+* One of size or funds is required.
+
+Funds will limit how much of your quote currency account balance is used and size will limit the asset amount transacted.
+
+Response fields
+
+Field	Type	Description
+product_id	string	Product id ex. BTC-USD
+used	string	[deprecated] executed value of amount
+size	string	Order size
+price	string	Order price
+id	string	Offer id
+side	string	Offer side (buy or sell)
+type	string	Offer type (limit, market)
+time_in_force	string	Offer time in force param (GTC, GTT, IOC, FOK)
+post_only	bool	Post only param (true or false)
+created_at	string	Order time
+filled_size	string	Realized amount
+fill_fees	string	Charged fees
+executed_value	string	Sum of all executed values (amount * price)
+status	string	Order status (pending, open, done, rejected)
+reject_reason	string	[optional] Reason of order reject
+settled	bool	True if order is fully executed
+hidden	bool	True if your order is hide on the orderbook
+stp	string	Self trading prevention flag ('' or 'co')
+
+Example request
+{
+  "side":"buy",
+  "hidden":false,
+  "time_in_force":"GTC",
+  "size":"0.05",
+  "price":"1001",
+  "product_id":"BTC-USD",
+  "type":"limit"
+}
+Example response
+{
+  "product_id":"BTC-USD",
+  "used":"0.05",
+  "size":"0.05",
+  "price":"1001",
+  "id":"4217215",
+  "side":"buy",
+  "type":"limit",
+  "time_in_force":"GTC",
+  "post_only":false,
+  "created_at":"2017-11-15T12:41:58Z",
+  "filled_size":"0.05",
+  "fill_fees":"0",
+  "executed_value":"50.05",
+  "status":"done",
+  "settled":true,
+  "hidden":false
+}
+
+
+
+Delete an single order
+Delete a single order by order id.
+
+HTTP Request
+
+DELETE https://api.abucoins.com/orders/<order-id>
+
+
+Delete all orders
+Delete all orders
+
+HTTP Request
+
+DELETE https://api.abucoins.com/orders
+
+QUERY PARAMETERS
+
+Field	Default	Description
+product_id	ex. [ZEC-BTC]	Optional parameter with product id
+
+
+
+List Fills
+Example response
+[
+  {
+    "trade_id":"785705",
+    "product_id":"BTC-PLN",
+    "price":"14734.55000000",
+    "size":"100.00000000",
+    "order_id":"4196245",
+    "created_at":"2017-09-28T13:08:43Z",
+    "liquidity":"T",
+    "side":"sell"
+  },
+  {
+    "trade_id":"785704",
+    "product_id":"BTC-PLN",
+    "price":"14734.55000000",
+    "size":"0.01000000",
+    "order_id":"4196245",
+    "created_at":"2017-09-28T13:08:43Z",
+    "liquidity":"T",
+    "side":"sell"
+  }
+]
+Get a list of recent fills.
+
+HTTP Request
+
+GET https://api.abucoins.com/fills
+
+Example response
+[
+  {
+    "trade_id":"785705",
+    "product_id":"BTC-PLN",
+    "price":"14734.55000000",
+    "size":"100.00000000",
+    "order_id":"4196245",
+    "created_at":"2017-09-28T13:08:43Z",
+    "liquidity":"T",
+    "side":"sell"
+  },
+  {
+    "trade_id":"785704",
+    "product_id":"BTC-PLN",
+    "price":"14734.55000000",
+    "size":"0.01000000",
+    "order_id":"4196245",
+    "created_at":"2017-09-28T13:08:43Z",
+    "liquidity":"T",
+    "side":"sell"
+  }
+]
+
+
+Products
+--------
+List Products
+
+HTTP Request
+
+GET https://api.abucoins.com/products
+
+Example response
+[
+    {
+        "id": "ETH-BTC",
+        "base_currency": "ETH",
+        "quote_currency": "BTC",
+        "base_min_size": "0.0010",
+        "base_max_size": "100000.00000000",
+        "quote_increment": "0.00000001",
+        "display_name": "ETH/BTC"
+    },
+    {
+        "id": "LTC-BTC",
+        "base_currency": "LTC",
+        "quote_currency": "BTC",
+        "base_min_size": "0.0010",
+        "base_max_size": "100000.00000000",
+        "quote_increment": "0.00000001",
+        "display_name": "LTC/BTC"
+    },
+    {
+        "id": "ETC-BTC",
+        "base_currency": "ETC",
+        "quote_currency": "BTC",
+        "base_min_size": "0.0010",
+        "base_max_size": "100000.00000000",
+        "quote_increment": "0.00000001",
+        "display_name": "ETC/BTC"
+    }
+]
+Get a list of available currency pairs for trading.
+
+This endpoint is unauthenticated for retrieving market data.
+
+
+Get a specific market product.
+
+HTTP Request
+
+GET https://api.abucoins.com/products/<product-id>
+
+product-id is market pair like BTC-USD, ETH-BTC etc.
+
+
+Return product orderbook
+
+HTTP Request
+
+GET https://api.abucoins.com/products/<product-id>/book
+
+The request is NOT paginated. The entire book is returned in one response.
+This endpoint is unauthenticated for retrieving market data.
+By default, full agregated order book is returned. This is equivalent to a book depth of 0 level.
+
+Aggregated levels return only one size for each active price.
+
+Example Response:
+{
+    "asks": [
+      [ price, size, num-orders ],
+      ["14160.13374000", "0.15994651", 1]
+      ...
+    ],
+    "bids": [
+       [ price, size, num-orders ],
+       ["14140.00000000", "0.19970339", 1]
+       ...
+    ],
+    "sequence": 1431
+}
+
+Levels:
+
+GET https://api.abucoins.com/products/<product-id>/book?level=2
+
+Level	Description
+0	fully agregated order book
+1	best ask and bid
+2	top 50 asks and bids
+
+
+Get Product Ticker
+-----------------
+Snapshot information about the last trade (tick), best bid/ask and 24h volume.
+
+This endpoint is unauthenticated for retrieving market data.
+HTTP Request
+
+GET https://api.abucoins.com/products/<product-id>/ticker
+

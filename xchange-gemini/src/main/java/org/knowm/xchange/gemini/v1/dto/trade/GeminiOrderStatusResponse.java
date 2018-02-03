@@ -2,17 +2,21 @@ package org.knowm.xchange.gemini.v1.dto.trade;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GeminiOrderStatusResponse {
 
   private final long id;
+  private final String exchange;
   private final String symbol;
   private final BigDecimal price;
   private final BigDecimal avgExecutionPrice;
   private final String side;
   private final String type;
-  private final BigDecimal timestamp;
+  private final String timestamp;
+  private final long timestampms;
   private final boolean isLive;
   private final boolean isCancelled;
   private final boolean wasForced;
@@ -37,20 +41,22 @@ public class GeminiOrderStatusResponse {
    * @param remainingAmount
    * @param executedAmount
    */
-  public GeminiOrderStatusResponse(@JsonProperty("order_id") long id, @JsonProperty("symbol") String symbol,
+  public GeminiOrderStatusResponse(@JsonProperty("order_id") long id, @JsonProperty("exchange") String exchange, @JsonProperty("symbol") String symbol,
       @JsonProperty("price") BigDecimal price, @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side,
-      @JsonProperty("type") String type, @JsonProperty("timestamp") BigDecimal timestamp, @JsonProperty("is_live") boolean isLive,
+      @JsonProperty("type") String type, @JsonProperty("timestamp") String timestamp, @JsonProperty("timestampms") long timestampms, @JsonProperty("is_live") boolean isLive,
       @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("was_forced") boolean wasForced,
       @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount,
       @JsonProperty("executed_amount") BigDecimal executedAmount) {
 
     this.id = id;
+    this.exchange = exchange;
     this.symbol = symbol;
     this.price = price;
     this.avgExecutionPrice = avgExecutionPrice;
     this.side = side;
     this.type = type;
     this.timestamp = timestamp;
+    this.timestampms = timestampms;
     this.isLive = isLive;
     this.isCancelled = isCancelled;
     this.wasForced = wasForced;
@@ -104,7 +110,7 @@ public class GeminiOrderStatusResponse {
     return side;
   }
 
-  public BigDecimal getTimestamp() {
+  public String getTimestamp() {
 
     return timestamp;
   }
@@ -122,6 +128,11 @@ public class GeminiOrderStatusResponse {
   public BigDecimal getAvgExecutionPrice() {
 
     return avgExecutionPrice;
+  }
+
+
+  public Long getTimestampms() {
+    return timestampms;
   }
 
   @Override

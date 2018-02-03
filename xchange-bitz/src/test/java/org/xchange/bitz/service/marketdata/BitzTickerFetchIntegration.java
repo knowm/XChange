@@ -17,7 +17,7 @@ public class BitzTickerFetchIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("LTC", "BTC"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.LTC_BTC);
     
     // Verify Not Null Values
     assertThat(ticker).isNotNull();

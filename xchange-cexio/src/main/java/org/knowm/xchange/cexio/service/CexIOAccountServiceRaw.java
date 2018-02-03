@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.CexioCryptoAddressRequest;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
+import org.knowm.xchange.cexio.dto.account.CexIOCryptoAddress;
 import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
 import org.knowm.xchange.cexio.dto.account.GHashIOWorker;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -24,6 +26,14 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
     }
 
     return info;
+  }
+  
+  public CexIOCryptoAddress getCexIOCryptoAddress(String isoCode) throws IOException {
+    CexIOCryptoAddress cryptoAddress = cexIOAuthenticated.getCryptoAddress(signatureCreator, new CexioCryptoAddressRequest(isoCode));
+    if ( cryptoAddress.getOk().equals("ok"))
+      return cryptoAddress;
+
+    throw new ExchangeException(cryptoAddress.getE() + ": " + cryptoAddress.getError());
   }
 
   public GHashIOHashrate getHashrate() throws IOException {

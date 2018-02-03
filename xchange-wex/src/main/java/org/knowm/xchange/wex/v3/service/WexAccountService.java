@@ -3,6 +3,7 @@ package org.knowm.xchange.wex.v3.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +80,12 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
     for (Long key : map.keySet()) {
       WexTransHistoryResult result = map.get(key);
 
-      FundingRecord.Status status = FundingRecord.Status.COMPLETE;//todo
+      FundingRecord.Status status = FundingRecord.Status.COMPLETE;
+
+      if (result.getStatus().equals(WexTransHistoryResult.Status.entered))//looks like the enum has the wrong name maybe?
+        status = FundingRecord.Status.FAILED;
+      else if (result.getStatus().equals(WexTransHistoryResult.Status.waiting))
+        status = FundingRecord.Status.PROCESSING;
 
       FundingRecord.Type type;//todo
       if (result.getType().equals(WexTransHistoryResult.Type.BTC_deposit))
@@ -89,9 +95,10 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
       else
         continue;
 
+      Date date = DateUtils.fromUnixTime(result.getTimestamp());
       fundingRecords.add(new FundingRecord(
           null,
-          DateUtils.fromMillisUtc(result.getTimestamp()),
+          date,
           Currency.getInstance(result.getCurrency()),
           result.getAmount(),
           String.valueOf(key),

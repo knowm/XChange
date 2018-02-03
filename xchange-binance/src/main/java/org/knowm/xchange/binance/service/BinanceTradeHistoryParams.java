@@ -24,6 +24,13 @@ public class BinanceTradeHistoryParams implements TradeHistoryParamCurrencyPair,
    */
   private String endId;
 
+  public BinanceTradeHistoryParams(CurrencyPair currencyPair) {
+    this.currencyPair = currencyPair;
+  }
+
+  public BinanceTradeHistoryParams() {
+  }
+
   public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }

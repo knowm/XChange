@@ -44,7 +44,7 @@
     },
     "ETH": {
       "scale": 8,
-      "withdrawal_fee": 0.001
+      "withdrawal_fee": 0.003
     },
     "LTC": {
       "scale": 8,

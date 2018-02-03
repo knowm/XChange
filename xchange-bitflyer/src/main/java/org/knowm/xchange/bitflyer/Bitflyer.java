@@ -15,6 +15,7 @@ import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginAccount;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginStatus;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginTransaction;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
+import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerOrderbook;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerExecution;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerPosition;
@@ -44,6 +45,17 @@ public interface Bitflyer {
   @GET
   @Path("getticker")
   BitflyerTicker getTicker(@QueryParam("product_code") String productCode) throws IOException, BitflyerException;
+
+  /**
+   * return "BTC_JPY" or "BTC_USD" for U.S. accounts.
+   */
+  @GET
+  @Path("getboard")
+  BitflyerOrderbook getBoard() throws IOException, BitflyerException;
+
+  @GET
+  @Path("getboard")
+  BitflyerOrderbook getBoard(@QueryParam("product_code") String productCode) throws IOException, BitflyerException;
 
   @GET
   @Path("getexecutions")

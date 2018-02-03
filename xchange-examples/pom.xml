@@ -110,6 +110,12 @@
             <artifactId>xchange-kraken</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- XChange Kucoin support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-kucoin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- XChange Bitfinex support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -132,6 +138,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-coinbase</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- XChange CoinEgg support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-coinegg</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- XChange GDAX support -->

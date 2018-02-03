@@ -170,9 +170,10 @@ public class CexIOAdapters {
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
       OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       String id = Long.toString(cexIOOrder.getId());
-      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getPending(),
-          new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id,
-          DateUtils.fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()));
+      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(),
+          cexIOOrder.getAmount().subtract(cexIOOrder.getPending()), new CurrencyPair(cexIOOrder.getTradableIdentifier(),
+          cexIOOrder.getTransactionCurrency()), id, DateUtils.fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()
+      ));
     }
 
     return new OpenOrders(limitOrders);
@@ -205,7 +206,25 @@ public class CexIOAdapters {
     CurrencyPair currencyPair = new CurrencyPair(cexIOOrder.symbol1, cexIOOrder.symbol2);
     Date timestamp = new Date(cexIOOrder.time);
     BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
+    Order.OrderStatus status = adaptOrderStatus(cexIOOrder);
+    return new LimitOrder(orderType, originalAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice, null, null, status);
+  }
+  
+  private static Order.OrderStatus adaptOrderStatus(CexIOOpenOrder cexIOOrder){
+    
+    try {
+      BigDecimal remains = new BigDecimal(cexIOOrder.remains);
+      BigDecimal amount = new BigDecimal(cexIOOrder.amount);
 
-    return new LimitOrder(orderType, originalAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice);
+      if (remains.compareTo(BigDecimal.ZERO) > 0 && remains.compareTo(amount) < 0) {
+        return Order.OrderStatus.PARTIALLY_FILLED;
+      } else if (remains.compareTo(BigDecimal.ZERO) == 0) {
+        return Order.OrderStatus.FILLED;
+      } else {
+        return Order.OrderStatus.PENDING_NEW;
+      }
+    } catch (NumberFormatException ex){
+      return Order.OrderStatus.PENDING_NEW;
+    }
   }
 }

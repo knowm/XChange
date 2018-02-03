@@ -1,0 +1,8002 @@
+[
+  {
+    "date": 1515638961,
+    "amount": 0.08707618,
+    "price": 49300.00,
+    "tid": 801627,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515638961,
+    "amount": 0.00729581,
+    "price": 49302.00,
+    "tid": 801626,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515638904,
+    "amount": 0.02015419,
+    "price": 49302.00,
+    "tid": 801625,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515638112,
+    "amount": 0.02460259,
+    "price": 49399.70,
+    "tid": 801624,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515638112,
+    "amount": 0.00101620,
+    "price": 49399.00,
+    "tid": 801623,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515637901,
+    "amount": 0.00196380,
+    "price": 49399.00,
+    "tid": 801622,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515636909,
+    "amount": 0.00873202,
+    "price": 49300.04,
+    "tid": 801621,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515636909,
+    "amount": 0.02490000,
+    "price": 49367.23,
+    "tid": 801620,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515636909,
+    "amount": 0.00102659,
+    "price": 49367.24,
+    "tid": 801619,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515636858,
+    "amount": 0.01640259,
+    "price": 49399.82,
+    "tid": 801618,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515636858,
+    "amount": 0.00104425,
+    "price": 49399.79,
+    "tid": 801617,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515636858,
+    "amount": 0.00241356,
+    "price": 49399.78,
+    "tid": 801616,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515635750,
+    "amount": 0.00040486,
+    "price": 49399.93,
+    "tid": 801615,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515635145,
+    "amount": 0.01031844,
+    "price": 49399.93,
+    "tid": 801614,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515635144,
+    "amount": 0.03043062,
+    "price": 49399.90,
+    "tid": 801613,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634780,
+    "amount": 0.03745347,
+    "price": 49300.00,
+    "tid": 801612,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634598,
+    "amount": 0.01956767,
+    "price": 49300.00,
+    "tid": 801611,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634582,
+    "amount": 0.13072000,
+    "price": 49300.00,
+    "tid": 801610,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634548,
+    "amount": 0.00995030,
+    "price": 49300.01,
+    "tid": 801609,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634534,
+    "amount": 0.00040061,
+    "price": 49300.01,
+    "tid": 801608,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634534,
+    "amount": 0.03083123,
+    "price": 49300.01,
+    "tid": 801607,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634534,
+    "amount": 0.03088477,
+    "price": 49300.01,
+    "tid": 801606,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634534,
+    "amount": 0.03676623,
+    "price": 49300.01,
+    "tid": 801605,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634534,
+    "amount": 0.00040061,
+    "price": 49300.01,
+    "tid": 801604,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634534,
+    "amount": 0.03043062,
+    "price": 49300.01,
+    "tid": 801603,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634533,
+    "amount": 0.00005354,
+    "price": 49300.01,
+    "tid": 801602,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634533,
+    "amount": 0.04119126,
+    "price": 49300.02,
+    "tid": 801601,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634531,
+    "amount": 0.00099833,
+    "price": 49399.97,
+    "tid": 801600,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634531,
+    "amount": 0.00102596,
+    "price": 49399.96,
+    "tid": 801599,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634459,
+    "amount": 0.00024146,
+    "price": 49300.01,
+    "tid": 801598,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634287,
+    "amount": 0.00066682,
+    "price": 49300.00,
+    "tid": 801597,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634241,
+    "amount": 0.00039980,
+    "price": 49399.98,
+    "tid": 801596,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634163,
+    "amount": 0.01135946,
+    "price": 49247.56,
+    "tid": 801595,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634151,
+    "amount": 0.01714054,
+    "price": 49247.56,
+    "tid": 801594,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634077,
+    "amount": 0.01462713,
+    "price": 49400.00,
+    "tid": 801593,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634077,
+    "amount": 0.02470000,
+    "price": 49400.00,
+    "tid": 801592,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634039,
+    "amount": 0.01007080,
+    "price": 49247.55,
+    "tid": 801591,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634039,
+    "amount": 0.00786146,
+    "price": 49300.00,
+    "tid": 801590,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634039,
+    "amount": 0.00204178,
+    "price": 49300.01,
+    "tid": 801589,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515634039,
+    "amount": 0.00102596,
+    "price": 49300.01,
+    "tid": 801588,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515633207,
+    "amount": 0.00020243,
+    "price": 49400.00,
+    "tid": 801587,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515633090,
+    "amount": 0.03972470,
+    "price": 49400.00,
+    "tid": 801586,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515633090,
+    "amount": 0.03972471,
+    "price": 49395.00,
+    "tid": 801585,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515633090,
+    "amount": 0.39093936,
+    "price": 49395.00,
+    "tid": 801584,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515633090,
+    "amount": 0.00204011,
+    "price": 49349.96,
+    "tid": 801583,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632759,
+    "amount": 0.01993154,
+    "price": 49395.00,
+    "tid": 801582,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632759,
+    "amount": 0.01993156,
+    "price": 49350.00,
+    "tid": 801581,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632759,
+    "amount": 0.02160708,
+    "price": 49350.00,
+    "tid": 801580,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632759,
+    "amount": 0.02160709,
+    "price": 49349.99,
+    "tid": 801579,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632759,
+    "amount": 0.00102530,
+    "price": 49349.99,
+    "tid": 801578,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632759,
+    "amount": 0.00102531,
+    "price": 49349.98,
+    "tid": 801577,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632759,
+    "amount": 0.01710499,
+    "price": 49349.98,
+    "tid": 801576,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632721,
+    "amount": 0.00984414,
+    "price": 49247.45,
+    "tid": 801575,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632721,
+    "amount": 0.00163841,
+    "price": 49247.46,
+    "tid": 801574,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632721,
+    "amount": 0.00078872,
+    "price": 49247.46,
+    "tid": 801573,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632721,
+    "amount": 0.00242713,
+    "price": 49247.46,
+    "tid": 801572,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632700,
+    "amount": 0.00040170,
+    "price": 49247.46,
+    "tid": 801571,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632281,
+    "amount": 0.01068752,
+    "price": 49247.42,
+    "tid": 801570,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515632281,
+    "amount": 0.02054929,
+    "price": 49247.43,
+    "tid": 801569,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631916,
+    "amount": 0.01944111,
+    "price": 49000.02,
+    "tid": 801568,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631845,
+    "amount": 0.00102531,
+    "price": 49000.02,
+    "tid": 801567,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631845,
+    "amount": 0.07089121,
+    "price": 49247.40,
+    "tid": 801566,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631814,
+    "amount": 0.06920420,
+    "price": 49247.40,
+    "tid": 801565,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631814,
+    "amount": 0.00789714,
+    "price": 49200.00,
+    "tid": 801564,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631333,
+    "amount": 0.00203056,
+    "price": 49247.42,
+    "tid": 801563,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631315,
+    "amount": 0.00241960,
+    "price": 48968.25,
+    "tid": 801562,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631315,
+    "amount": 0.00791693,
+    "price": 49000.00,
+    "tid": 801561,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631315,
+    "amount": 0.01000347,
+    "price": 49000.01,
+    "tid": 801560,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631307,
+    "amount": 0.00242749,
+    "price": 49247.43,
+    "tid": 801559,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631307,
+    "amount": 0.00750230,
+    "price": 49247.43,
+    "tid": 801558,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631307,
+    "amount": 0.00102041,
+    "price": 49247.41,
+    "tid": 801557,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631306,
+    "amount": 0.00095651,
+    "price": 49247.41,
+    "tid": 801556,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515631306,
+    "amount": 0.00204041,
+    "price": 49247.40,
+    "tid": 801555,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515630668,
+    "amount": 0.02954521,
+    "price": 49247.44,
+    "tid": 801554,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515630668,
+    "amount": 0.04123529,
+    "price": 49247.44,
+    "tid": 801553,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515630668,
+    "amount": 0.00189300,
+    "price": 49247.42,
+    "tid": 801552,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515630667,
+    "amount": 0.01676100,
+    "price": 49247.42,
+    "tid": 801551,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515630188,
+    "amount": 0.00976900,
+    "price": 49247.60,
+    "tid": 801550,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515629458,
+    "amount": 0.00020264,
+    "price": 49349.16,
+    "tid": 801549,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515629068,
+    "amount": 0.00894621,
+    "price": 49349.37,
+    "tid": 801548,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515629042,
+    "amount": 0.00216835,
+    "price": 48968.22,
+    "tid": 801547,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515628124,
+    "amount": 0.00738583,
+    "price": 48968.22,
+    "tid": 801546,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515628123,
+    "amount": 0.00210299,
+    "price": 48968.23,
+    "tid": 801545,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515628123,
+    "amount": 0.00028800,
+    "price": 48968.23,
+    "tid": 801544,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627901,
+    "amount": 0.00028936,
+    "price": 49349.95,
+    "tid": 801543,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627834,
+    "amount": 0.00095708,
+    "price": 48968.20,
+    "tid": 801542,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627834,
+    "amount": 0.04126004,
+    "price": 48968.20,
+    "tid": 801541,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627833,
+    "amount": 0.07147496,
+    "price": 48968.20,
+    "tid": 801540,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627833,
+    "amount": 0.03706384,
+    "price": 48968.21,
+    "tid": 801539,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627833,
+    "amount": 0.02577700,
+    "price": 48968.22,
+    "tid": 801538,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627833,
+    "amount": 0.00249530,
+    "price": 48999.99,
+    "tid": 801537,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627833,
+    "amount": 0.00204082,
+    "price": 49000.00,
+    "tid": 801536,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627832,
+    "amount": 0.00102041,
+    "price": 49000.00,
+    "tid": 801535,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515627670,
+    "amount": 0.01791055,
+    "price": 49300.00,
+    "tid": 801534,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626739,
+    "amount": 0.01173536,
+    "price": 49350.00,
+    "tid": 801533,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626397,
+    "amount": 0.01013171,
+    "price": 49350.00,
+    "tid": 801532,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626363,
+    "amount": 0.00652584,
+    "price": 49350.00,
+    "tid": 801531,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626166,
+    "amount": 0.00605790,
+    "price": 49395.00,
+    "tid": 801530,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626075,
+    "amount": 0.41196817,
+    "price": 49395.00,
+    "tid": 801529,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626075,
+    "amount": 0.01000000,
+    "price": 49378.00,
+    "tid": 801528,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626075,
+    "amount": 0.03676239,
+    "price": 49369.89,
+    "tid": 801527,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626074,
+    "amount": 0.03256325,
+    "price": 49369.89,
+    "tid": 801526,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626074,
+    "amount": 0.00531261,
+    "price": 49369.89,
+    "tid": 801525,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515626010,
+    "amount": 0.00248289,
+    "price": 49369.90,
+    "tid": 801524,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515625347,
+    "amount": 0.01408975,
+    "price": 49379.93,
+    "tid": 801523,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515625347,
+    "amount": 0.02564300,
+    "price": 49379.92,
+    "tid": 801522,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624993,
+    "amount": 0.03256326,
+    "price": 48963.08,
+    "tid": 801521,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624992,
+    "amount": 0.03676239,
+    "price": 48963.08,
+    "tid": 801520,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624992,
+    "amount": 0.01940236,
+    "price": 48963.10,
+    "tid": 801519,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624992,
+    "amount": 0.01627199,
+    "price": 48963.11,
+    "tid": 801518,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624966,
+    "amount": 0.00504788,
+    "price": 49395.00,
+    "tid": 801517,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624923,
+    "amount": 0.02375949,
+    "price": 49395.00,
+    "tid": 801516,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624828,
+    "amount": 0.05229565,
+    "price": 49395.00,
+    "tid": 801515,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624828,
+    "amount": 0.05229566,
+    "price": 49394.99,
+    "tid": 801514,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624828,
+    "amount": 0.03636159,
+    "price": 49394.99,
+    "tid": 801513,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624828,
+    "amount": 0.03371300,
+    "price": 49394.98,
+    "tid": 801512,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624828,
+    "amount": 0.01666612,
+    "price": 49394.98,
+    "tid": 801511,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624683,
+    "amount": 0.01666612,
+    "price": 48962.99,
+    "tid": 801510,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515624593,
+    "amount": 0.00009878,
+    "price": 49199.99,
+    "tid": 801509,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623899,
+    "amount": 0.00040650,
+    "price": 49199.99,
+    "tid": 801508,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623771,
+    "amount": 0.00304427,
+    "price": 49249.98,
+    "tid": 801507,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623753,
+    "amount": 0.00121470,
+    "price": 49394.99,
+    "tid": 801506,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623710,
+    "amount": 0.00196975,
+    "price": 49249.99,
+    "tid": 801505,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623593,
+    "amount": 0.01622750,
+    "price": 49248.74,
+    "tid": 801504,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623592,
+    "amount": 0.01622751,
+    "price": 49200.00,
+    "tid": 801503,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623592,
+    "amount": 0.00004660,
+    "price": 49200.00,
+    "tid": 801502,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623592,
+    "amount": 0.00004660,
+    "price": 49199.99,
+    "tid": 801501,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623592,
+    "amount": 0.01713563,
+    "price": 49199.99,
+    "tid": 801500,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623492,
+    "amount": 0.02716646,
+    "price": 49199.99,
+    "tid": 801499,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623355,
+    "amount": 0.01587317,
+    "price": 49199.99,
+    "tid": 801498,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623188,
+    "amount": 0.05563911,
+    "price": 49199.99,
+    "tid": 801497,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623188,
+    "amount": 0.05563911,
+    "price": 49100.00,
+    "tid": 801496,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623188,
+    "amount": 0.00792076,
+    "price": 49100.00,
+    "tid": 801495,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623188,
+    "amount": 0.00792076,
+    "price": 49099.99,
+    "tid": 801494,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623187,
+    "amount": 0.02168700,
+    "price": 49099.99,
+    "tid": 801493,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623187,
+    "amount": 0.02168700,
+    "price": 49000.00,
+    "tid": 801492,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623187,
+    "amount": 0.01460174,
+    "price": 49000.00,
+    "tid": 801491,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515623039,
+    "amount": 0.00137490,
+    "price": 49000.00,
+    "tid": 801490,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622128,
+    "amount": 0.10818566,
+    "price": 48700.00,
+    "tid": 801489,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622128,
+    "amount": 0.05548193,
+    "price": 48700.00,
+    "tid": 801488,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622128,
+    "amount": 0.00004672,
+    "price": 48800.00,
+    "tid": 801487,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622127,
+    "amount": 0.06062272,
+    "price": 48850.00,
+    "tid": 801486,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622127,
+    "amount": 0.19566297,
+    "price": 48850.02,
+    "tid": 801485,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622117,
+    "amount": 0.00993018,
+    "price": 49399.89,
+    "tid": 801484,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622067,
+    "amount": 0.03169981,
+    "price": 48850.01,
+    "tid": 801483,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622035,
+    "amount": 0.01587863,
+    "price": 49000.00,
+    "tid": 801482,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622035,
+    "amount": 0.00794061,
+    "price": 49000.00,
+    "tid": 801481,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622006,
+    "amount": 0.00013805,
+    "price": 49000.08,
+    "tid": 801480,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515622006,
+    "amount": 0.08814237,
+    "price": 49000.08,
+    "tid": 801479,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515621910,
+    "amount": 0.00357000,
+    "price": 49000.08,
+    "tid": 801478,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515621851,
+    "amount": 0.00751400,
+    "price": 49000.08,
+    "tid": 801477,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515621851,
+    "amount": 0.02548600,
+    "price": 49000.09,
+    "tid": 801476,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515621759,
+    "amount": 0.00095084,
+    "price": 49429.91,
+    "tid": 801475,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515621695,
+    "amount": 0.00020085,
+    "price": 49000.07,
+    "tid": 801474,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515621690,
+    "amount": 0.00450189,
+    "price": 49429.95,
+    "tid": 801473,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515621690,
+    "amount": 0.01653799,
+    "price": 49429.95,
+    "tid": 801472,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515620649,
+    "amount": 0.00303398,
+    "price": 49440.00,
+    "tid": 801471,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515620097,
+    "amount": 0.38391482,
+    "price": 49449.98,
+    "tid": 801470,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515620011,
+    "amount": 0.00095128,
+    "price": 49480.62,
+    "tid": 801469,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619976,
+    "amount": 0.16042057,
+    "price": 49480.80,
+    "tid": 801468,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619975,
+    "amount": 0.16042058,
+    "price": 49480.63,
+    "tid": 801467,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619975,
+    "amount": 0.03576000,
+    "price": 49480.63,
+    "tid": 801466,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619975,
+    "amount": 0.03576001,
+    "price": 49480.62,
+    "tid": 801465,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619975,
+    "amount": 0.03592199,
+    "price": 49480.62,
+    "tid": 801464,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619975,
+    "amount": 0.03592200,
+    "price": 49480.62,
+    "tid": 801463,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619975,
+    "amount": 0.02552099,
+    "price": 49480.62,
+    "tid": 801462,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619975,
+    "amount": 0.02552100,
+    "price": 49480.62,
+    "tid": 801461,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619975,
+    "amount": 0.67079999,
+    "price": 49480.62,
+    "tid": 801460,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619975,
+    "amount": 0.06000000,
+    "price": 49480.60,
+    "tid": 801459,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619884,
+    "amount": 0.05639063,
+    "price": 48800.10,
+    "tid": 801458,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619884,
+    "amount": 0.01216437,
+    "price": 48953.82,
+    "tid": 801457,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619728,
+    "amount": 0.00505153,
+    "price": 49489.99,
+    "tid": 801456,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619614,
+    "amount": 0.00841032,
+    "price": 48953.82,
+    "tid": 801455,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619614,
+    "amount": 0.02510000,
+    "price": 48953.83,
+    "tid": 801454,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619614,
+    "amount": 0.04067800,
+    "price": 48953.84,
+    "tid": 801453,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619614,
+    "amount": 0.00251455,
+    "price": 48955.00,
+    "tid": 801452,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619614,
+    "amount": 0.00067519,
+    "price": 48955.01,
+    "tid": 801451,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619608,
+    "amount": 0.00110000,
+    "price": 48955.01,
+    "tid": 801450,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619317,
+    "amount": 0.00020081,
+    "price": 48955.01,
+    "tid": 801449,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619188,
+    "amount": 0.00040162,
+    "price": 48953.84,
+    "tid": 801448,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619172,
+    "amount": 0.00196186,
+    "price": 49498.89,
+    "tid": 801447,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515619055,
+    "amount": 0.02558000,
+    "price": 48960.02,
+    "tid": 801446,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618819,
+    "amount": 0.19140059,
+    "price": 49500.00,
+    "tid": 801445,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618819,
+    "amount": 0.19140060,
+    "price": 49499.75,
+    "tid": 801444,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618819,
+    "amount": 0.04257143,
+    "price": 49499.75,
+    "tid": 801443,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618819,
+    "amount": 0.04257144,
+    "price": 49499.75,
+    "tid": 801442,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618819,
+    "amount": 0.09822499,
+    "price": 49499.75,
+    "tid": 801441,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618819,
+    "amount": 0.09822500,
+    "price": 49398.88,
+    "tid": 801440,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618819,
+    "amount": 0.04085273,
+    "price": 49398.88,
+    "tid": 801439,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618819,
+    "amount": 0.04085274,
+    "price": 49398.87,
+    "tid": 801438,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618819,
+    "amount": 0.06229626,
+    "price": 49398.87,
+    "tid": 801437,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618818,
+    "amount": 0.06229627,
+    "price": 49397.46,
+    "tid": 801436,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618818,
+    "amount": 0.02044104,
+    "price": 49397.46,
+    "tid": 801435,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618818,
+    "amount": 0.02044104,
+    "price": 49390.00,
+    "tid": 801434,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618818,
+    "amount": 0.04000000,
+    "price": 49390.00,
+    "tid": 801433,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618818,
+    "amount": 0.04000000,
+    "price": 49389.99,
+    "tid": 801432,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618818,
+    "amount": 0.00006075,
+    "price": 49389.99,
+    "tid": 801431,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618745,
+    "amount": 0.00002025,
+    "price": 49389.99,
+    "tid": 801430,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618689,
+    "amount": 0.00008206,
+    "price": 48953.84,
+    "tid": 801429,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618522,
+    "amount": 0.00095309,
+    "price": 49397.46,
+    "tid": 801428,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618522,
+    "amount": 0.20472795,
+    "price": 49397.46,
+    "tid": 801427,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618522,
+    "amount": 0.00254414,
+    "price": 49300.00,
+    "tid": 801426,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618522,
+    "amount": 0.08514289,
+    "price": 49295.94,
+    "tid": 801425,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618522,
+    "amount": 0.00102466,
+    "price": 49295.94,
+    "tid": 801424,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618521,
+    "amount": 0.07232833,
+    "price": 49250.00,
+    "tid": 801423,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618521,
+    "amount": 0.00497578,
+    "price": 49250.00,
+    "tid": 801422,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618521,
+    "amount": 0.05500000,
+    "price": 49249.96,
+    "tid": 801421,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618521,
+    "amount": 0.02947000,
+    "price": 49249.95,
+    "tid": 801420,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618520,
+    "amount": 0.00792807,
+    "price": 49200.00,
+    "tid": 801419,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618520,
+    "amount": 0.02624900,
+    "price": 49199.99,
+    "tid": 801418,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618299,
+    "amount": 0.00036367,
+    "price": 48749.36,
+    "tid": 801417,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618270,
+    "amount": 0.00995813,
+    "price": 49198.76,
+    "tid": 801416,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618178,
+    "amount": 0.00479322,
+    "price": 49198.84,
+    "tid": 801415,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515618178,
+    "amount": 0.00427000,
+    "price": 49198.84,
+    "tid": 801414,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515617292,
+    "amount": 0.01218275,
+    "price": 49249.98,
+    "tid": 801413,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515617069,
+    "amount": 0.04848737,
+    "price": 48600.00,
+    "tid": 801412,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515617069,
+    "amount": 0.00794794,
+    "price": 48600.00,
+    "tid": 801411,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515617048,
+    "amount": 0.09971962,
+    "price": 49247.58,
+    "tid": 801410,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515616796,
+    "amount": 0.00306771,
+    "price": 49248.44,
+    "tid": 801409,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515616287,
+    "amount": 0.00098543,
+    "price": 48500.16,
+    "tid": 801408,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615957,
+    "amount": 0.09489295,
+    "price": 48500.05,
+    "tid": 801407,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615957,
+    "amount": 0.00128700,
+    "price": 48500.05,
+    "tid": 801406,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615936,
+    "amount": 0.00127249,
+    "price": 49249.96,
+    "tid": 801405,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615908,
+    "amount": 0.00637373,
+    "price": 48500.02,
+    "tid": 801404,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615908,
+    "amount": 0.02510000,
+    "price": 48587.09,
+    "tid": 801403,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615908,
+    "amount": 0.04109600,
+    "price": 48587.10,
+    "tid": 801402,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615907,
+    "amount": 0.02510000,
+    "price": 48873.63,
+    "tid": 801401,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615907,
+    "amount": 0.02510000,
+    "price": 48987.96,
+    "tid": 801400,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615907,
+    "amount": 0.02510000,
+    "price": 49102.95,
+    "tid": 801399,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615895,
+    "amount": 0.40193763,
+    "price": 49249.82,
+    "tid": 801398,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615895,
+    "amount": 0.40193764,
+    "price": 49249.50,
+    "tid": 801397,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615895,
+    "amount": 0.00814299,
+    "price": 49249.50,
+    "tid": 801396,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615895,
+    "amount": 0.00129600,
+    "price": 49249.49,
+    "tid": 801395,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615895,
+    "amount": 0.08665100,
+    "price": 49249.49,
+    "tid": 801394,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615809,
+    "amount": 0.00130000,
+    "price": 48500.00,
+    "tid": 801393,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615670,
+    "amount": 0.00006613,
+    "price": 47900.06,
+    "tid": 801392,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615626,
+    "amount": 0.00063178,
+    "price": 49295.77,
+    "tid": 801391,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615626,
+    "amount": 0.00063178,
+    "price": 49000.00,
+    "tid": 801390,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615626,
+    "amount": 0.00032379,
+    "price": 49000.00,
+    "tid": 801389,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615557,
+    "amount": 0.17421814,
+    "price": 49000.00,
+    "tid": 801388,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615557,
+    "amount": 0.17421815,
+    "price": 49000.00,
+    "tid": 801387,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615557,
+    "amount": 0.00937960,
+    "price": 49000.00,
+    "tid": 801386,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615557,
+    "amount": 0.00937961,
+    "price": 48999.99,
+    "tid": 801385,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615557,
+    "amount": 0.01920040,
+    "price": 48999.99,
+    "tid": 801384,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615557,
+    "amount": 0.01920041,
+    "price": 48999.82,
+    "tid": 801383,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615556,
+    "amount": 1.35369999,
+    "price": 48999.82,
+    "tid": 801382,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615556,
+    "amount": 1.35370000,
+    "price": 48900.00,
+    "tid": 801381,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615556,
+    "amount": 0.02273021,
+    "price": 48900.00,
+    "tid": 801380,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615556,
+    "amount": 0.02273022,
+    "price": 48750.00,
+    "tid": 801379,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615556,
+    "amount": 0.02499999,
+    "price": 48750.00,
+    "tid": 801378,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615556,
+    "amount": 0.02500000,
+    "price": 48749.99,
+    "tid": 801377,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615556,
+    "amount": 0.02101899,
+    "price": 48749.99,
+    "tid": 801376,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615556,
+    "amount": 0.02101900,
+    "price": 48600.00,
+    "tid": 801375,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615556,
+    "amount": 0.00307360,
+    "price": 48600.00,
+    "tid": 801374,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615555,
+    "amount": 0.00307361,
+    "price": 48500.00,
+    "tid": 801373,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615555,
+    "amount": 0.00249999,
+    "price": 48500.00,
+    "tid": 801372,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615555,
+    "amount": 0.00250000,
+    "price": 48499.99,
+    "tid": 801371,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615555,
+    "amount": 0.06224499,
+    "price": 48499.99,
+    "tid": 801370,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615555,
+    "amount": 0.06224500,
+    "price": 48302.99,
+    "tid": 801369,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615555,
+    "amount": 0.49999999,
+    "price": 48302.99,
+    "tid": 801368,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615555,
+    "amount": 0.50000000,
+    "price": 48302.00,
+    "tid": 801367,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615554,
+    "amount": 0.49999999,
+    "price": 48302.00,
+    "tid": 801366,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615554,
+    "amount": 0.50000000,
+    "price": 48301.00,
+    "tid": 801365,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615554,
+    "amount": 0.49999999,
+    "price": 48301.00,
+    "tid": 801364,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615554,
+    "amount": 0.50000000,
+    "price": 48300.00,
+    "tid": 801363,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615554,
+    "amount": 0.75152128,
+    "price": 48300.00,
+    "tid": 801362,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615554,
+    "amount": 0.75152129,
+    "price": 48299.99,
+    "tid": 801361,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615554,
+    "amount": 0.14603853,
+    "price": 48299.99,
+    "tid": 801360,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615554,
+    "amount": 0.14603854,
+    "price": 48299.96,
+    "tid": 801359,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615554,
+    "amount": 0.02654778,
+    "price": 48299.96,
+    "tid": 801358,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615467,
+    "amount": 0.06274562,
+    "price": 48299.96,
+    "tid": 801357,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615467,
+    "amount": 0.06274563,
+    "price": 48299.96,
+    "tid": 801356,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615467,
+    "amount": 0.00034199,
+    "price": 48299.96,
+    "tid": 801355,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615467,
+    "amount": 0.00034200,
+    "price": 48200.00,
+    "tid": 801354,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615466,
+    "amount": 0.00803401,
+    "price": 48200.00,
+    "tid": 801353,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615387,
+    "amount": 0.00034338,
+    "price": 47850.01,
+    "tid": 801352,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615252,
+    "amount": 0.01986413,
+    "price": 48299.97,
+    "tid": 801351,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615252,
+    "amount": 0.00705100,
+    "price": 48299.96,
+    "tid": 801350,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615217,
+    "amount": 0.00706914,
+    "price": 47850.01,
+    "tid": 801349,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615216,
+    "amount": 0.02510000,
+    "price": 47971.98,
+    "tid": 801348,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615216,
+    "amount": 0.00805416,
+    "price": 48000.00,
+    "tid": 801347,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615216,
+    "amount": 0.01965477,
+    "price": 48123.52,
+    "tid": 801346,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515615085,
+    "amount": 0.00789068,
+    "price": 48299.99,
+    "tid": 801345,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614995,
+    "amount": 0.00220414,
+    "price": 48299.99,
+    "tid": 801344,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614944,
+    "amount": 0.00414079,
+    "price": 48299.99,
+    "tid": 801343,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614928,
+    "amount": 0.02510000,
+    "price": 48299.99,
+    "tid": 801342,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614918,
+    "amount": 0.00340213,
+    "price": 48299.99,
+    "tid": 801341,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614918,
+    "amount": 0.02169787,
+    "price": 48200.00,
+    "tid": 801340,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614909,
+    "amount": 0.02510000,
+    "price": 48200.00,
+    "tid": 801339,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614897,
+    "amount": 0.02510000,
+    "price": 48200.00,
+    "tid": 801338,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614887,
+    "amount": 0.02510000,
+    "price": 48200.00,
+    "tid": 801337,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614876,
+    "amount": 0.01160675,
+    "price": 48200.00,
+    "tid": 801336,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614876,
+    "amount": 0.01349325,
+    "price": 48199.99,
+    "tid": 801335,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614867,
+    "amount": 0.02510000,
+    "price": 48199.99,
+    "tid": 801334,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614863,
+    "amount": 0.00544523,
+    "price": 48123.52,
+    "tid": 801333,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614830,
+    "amount": 0.00314075,
+    "price": 48199.99,
+    "tid": 801332,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614830,
+    "amount": 0.00154099,
+    "price": 48199.98,
+    "tid": 801331,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614722,
+    "amount": 0.01190840,
+    "price": 47800.00,
+    "tid": 801330,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614721,
+    "amount": 0.04184000,
+    "price": 47800.01,
+    "tid": 801329,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614629,
+    "amount": 0.01018112,
+    "price": 48200.00,
+    "tid": 801328,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614485,
+    "amount": 0.01556017,
+    "price": 48200.00,
+    "tid": 801327,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614459,
+    "amount": 0.00010207,
+    "price": 48200.00,
+    "tid": 801326,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614457,
+    "amount": 0.02873444,
+    "price": 48200.00,
+    "tid": 801325,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614339,
+    "amount": 0.00819672,
+    "price": 48200.00,
+    "tid": 801324,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614196,
+    "amount": 0.00325664,
+    "price": 48200.00,
+    "tid": 801323,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614135,
+    "amount": 0.09132807,
+    "price": 47800.00,
+    "tid": 801322,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614134,
+    "amount": 0.02500000,
+    "price": 47835.00,
+    "tid": 801321,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614134,
+    "amount": 0.02500000,
+    "price": 47900.23,
+    "tid": 801320,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614134,
+    "amount": 0.00414444,
+    "price": 47939.23,
+    "tid": 801319,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515614134,
+    "amount": 0.02452749,
+    "price": 48000.00,
+    "tid": 801318,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613913,
+    "amount": 0.00020747,
+    "price": 48200.00,
+    "tid": 801317,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613855,
+    "amount": 0.00599977,
+    "price": 47939.23,
+    "tid": 801316,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613816,
+    "amount": 0.01485579,
+    "price": 47939.23,
+    "tid": 801315,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613815,
+    "amount": 0.08985000,
+    "price": 48000.00,
+    "tid": 801314,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613815,
+    "amount": 0.02500000,
+    "price": 48001.51,
+    "tid": 801313,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613815,
+    "amount": 0.02500000,
+    "price": 48018.75,
+    "tid": 801312,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613815,
+    "amount": 0.02500000,
+    "price": 48053.98,
+    "tid": 801311,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613815,
+    "amount": 0.02500000,
+    "price": 48097.11,
+    "tid": 801310,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613783,
+    "amount": 0.00616835,
+    "price": 48200.00,
+    "tid": 801309,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613783,
+    "amount": 0.01883165,
+    "price": 48197.77,
+    "tid": 801308,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613773,
+    "amount": 0.02500000,
+    "price": 48197.77,
+    "tid": 801307,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613763,
+    "amount": 0.02500000,
+    "price": 48197.77,
+    "tid": 801306,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613753,
+    "amount": 0.02500000,
+    "price": 48197.77,
+    "tid": 801305,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613739,
+    "amount": 0.01199023,
+    "price": 48197.77,
+    "tid": 801304,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613739,
+    "amount": 0.00703123,
+    "price": 48197.73,
+    "tid": 801303,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613739,
+    "amount": 0.00597854,
+    "price": 48100.00,
+    "tid": 801302,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613597,
+    "amount": 0.00923000,
+    "price": 48000.00,
+    "tid": 801301,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613548,
+    "amount": 0.00207900,
+    "price": 48100.00,
+    "tid": 801300,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613448,
+    "amount": 0.00367320,
+    "price": 48197.73,
+    "tid": 801299,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613380,
+    "amount": 0.01037350,
+    "price": 48199.75,
+    "tid": 801298,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613355,
+    "amount": 0.00704885,
+    "price": 47300.00,
+    "tid": 801297,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613355,
+    "amount": 0.07205035,
+    "price": 47300.00,
+    "tid": 801296,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613355,
+    "amount": 0.05654294,
+    "price": 47300.00,
+    "tid": 801295,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613355,
+    "amount": 0.12859329,
+    "price": 47300.00,
+    "tid": 801294,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613255,
+    "amount": 0.02751497,
+    "price": 47300.00,
+    "tid": 801293,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613233,
+    "amount": 0.01767952,
+    "price": 48230.00,
+    "tid": 801292,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613233,
+    "amount": 0.01767953,
+    "price": 48200.00,
+    "tid": 801291,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613233,
+    "amount": 0.14999999,
+    "price": 48200.00,
+    "tid": 801290,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613233,
+    "amount": 0.15000000,
+    "price": 48100.00,
+    "tid": 801289,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613233,
+    "amount": 0.04001384,
+    "price": 48100.00,
+    "tid": 801288,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613118,
+    "amount": 0.00652178,
+    "price": 47300.00,
+    "tid": 801287,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613118,
+    "amount": 0.01924853,
+    "price": 47499.99,
+    "tid": 801286,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613067,
+    "amount": 0.06858360,
+    "price": 47500.00,
+    "tid": 801285,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613066,
+    "amount": 0.00456123,
+    "price": 47536.94,
+    "tid": 801284,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613066,
+    "amount": 0.01448051,
+    "price": 47536.94,
+    "tid": 801283,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515613066,
+    "amount": 0.00807773,
+    "price": 47600.00,
+    "tid": 801282,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612949,
+    "amount": 0.00211198,
+    "price": 48295.98,
+    "tid": 801281,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612842,
+    "amount": 0.01051949,
+    "price": 47536.94,
+    "tid": 801280,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612842,
+    "amount": 0.00940000,
+    "price": 47537.00,
+    "tid": 801279,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612842,
+    "amount": 0.02490000,
+    "price": 47695.17,
+    "tid": 801278,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612842,
+    "amount": 0.02490000,
+    "price": 47861.75,
+    "tid": 801277,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612842,
+    "amount": 0.02500000,
+    "price": 47875.16,
+    "tid": 801276,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612842,
+    "amount": 0.02490000,
+    "price": 47950.92,
+    "tid": 801275,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612841,
+    "amount": 0.02490000,
+    "price": 47955.44,
+    "tid": 801274,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612841,
+    "amount": 0.02500000,
+    "price": 47970.51,
+    "tid": 801273,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612841,
+    "amount": 0.00207520,
+    "price": 47999.99,
+    "tid": 801272,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612841,
+    "amount": 0.10664645,
+    "price": 48000.00,
+    "tid": 801271,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612841,
+    "amount": 0.01920370,
+    "price": 48072.82,
+    "tid": 801270,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612840,
+    "amount": 0.00876862,
+    "price": 48139.66,
+    "tid": 801269,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612780,
+    "amount": 0.01413006,
+    "price": 48139.66,
+    "tid": 801268,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612751,
+    "amount": 0.00200848,
+    "price": 48299.00,
+    "tid": 801267,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612693,
+    "amount": 0.02490000,
+    "price": 48299.99,
+    "tid": 801266,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612687,
+    "amount": 0.00200132,
+    "price": 48139.66,
+    "tid": 801265,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612684,
+    "amount": 0.02490000,
+    "price": 48299.99,
+    "tid": 801264,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612677,
+    "amount": 0.02490000,
+    "price": 48299.99,
+    "tid": 801263,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612633,
+    "amount": 0.00569630,
+    "price": 48072.82,
+    "tid": 801262,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612632,
+    "amount": 0.02490000,
+    "price": 48174.97,
+    "tid": 801261,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612503,
+    "amount": 0.03202025,
+    "price": 48100.00,
+    "tid": 801260,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612286,
+    "amount": 0.13914164,
+    "price": 48299.99,
+    "tid": 801259,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612256,
+    "amount": 0.01015383,
+    "price": 48299.99,
+    "tid": 801258,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612067,
+    "amount": 0.06093769,
+    "price": 48299.99,
+    "tid": 801257,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612022,
+    "amount": 0.02007248,
+    "price": 48299.99,
+    "tid": 801256,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612021,
+    "amount": 0.02007248,
+    "price": 48200.00,
+    "tid": 801255,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515612021,
+    "amount": 0.10436720,
+    "price": 48200.00,
+    "tid": 801254,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611987,
+    "amount": 0.02035477,
+    "price": 48200.00,
+    "tid": 801253,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611912,
+    "amount": 0.04542759,
+    "price": 48200.00,
+    "tid": 801252,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611879,
+    "amount": 0.09160643,
+    "price": 48200.00,
+    "tid": 801251,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611795,
+    "amount": 0.04072344,
+    "price": 48200.00,
+    "tid": 801250,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611781,
+    "amount": 0.00097531,
+    "price": 48200.00,
+    "tid": 801249,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611767,
+    "amount": 0.00207887,
+    "price": 48000.00,
+    "tid": 801248,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611664,
+    "amount": 0.00621807,
+    "price": 48299.99,
+    "tid": 801247,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611664,
+    "amount": 0.01000493,
+    "price": 48000.00,
+    "tid": 801246,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611664,
+    "amount": 0.00877700,
+    "price": 47999.99,
+    "tid": 801245,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611655,
+    "amount": 0.02500000,
+    "price": 47999.99,
+    "tid": 801244,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611641,
+    "amount": 0.02500000,
+    "price": 47999.99,
+    "tid": 801243,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611631,
+    "amount": 0.02500000,
+    "price": 47999.99,
+    "tid": 801242,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611545,
+    "amount": 0.00806408,
+    "price": 47800.00,
+    "tid": 801241,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611424,
+    "amount": 0.01000000,
+    "price": 47500.00,
+    "tid": 801240,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611283,
+    "amount": 0.06990200,
+    "price": 47500.00,
+    "tid": 801239,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611257,
+    "amount": 0.06143684,
+    "price": 47500.00,
+    "tid": 801238,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611221,
+    "amount": 0.05050526,
+    "price": 47500.00,
+    "tid": 801237,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515611193,
+    "amount": 0.10456295,
+    "price": 47500.00,
+    "tid": 801236,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610991,
+    "amount": 0.43000000,
+    "price": 47500.00,
+    "tid": 801235,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610908,
+    "amount": 0.02110295,
+    "price": 47500.00,
+    "tid": 801234,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610820,
+    "amount": 0.00413095,
+    "price": 47500.00,
+    "tid": 801233,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610570,
+    "amount": 0.02520000,
+    "price": 47500.00,
+    "tid": 801232,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610570,
+    "amount": 0.00500000,
+    "price": 47000.11,
+    "tid": 801231,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610567,
+    "amount": 0.00375644,
+    "price": 47000.11,
+    "tid": 801230,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610567,
+    "amount": 0.02520000,
+    "price": 47302.55,
+    "tid": 801229,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610567,
+    "amount": 0.00104356,
+    "price": 47395.14,
+    "tid": 801228,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610555,
+    "amount": 0.02520000,
+    "price": 47500.00,
+    "tid": 801227,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610547,
+    "amount": 0.02520000,
+    "price": 47500.00,
+    "tid": 801226,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610539,
+    "amount": 0.02520000,
+    "price": 47500.00,
+    "tid": 801225,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610527,
+    "amount": 0.02520000,
+    "price": 47500.00,
+    "tid": 801224,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610516,
+    "amount": 0.02520000,
+    "price": 47500.00,
+    "tid": 801223,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610513,
+    "amount": 0.00335644,
+    "price": 47395.14,
+    "tid": 801222,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610512,
+    "amount": 0.00147389,
+    "price": 47500.00,
+    "tid": 801221,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610502,
+    "amount": 0.02080000,
+    "price": 47395.14,
+    "tid": 801220,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610502,
+    "amount": 0.02520000,
+    "price": 47459.76,
+    "tid": 801219,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610489,
+    "amount": 0.02520000,
+    "price": 47500.00,
+    "tid": 801218,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610447,
+    "amount": 0.02520000,
+    "price": 47500.00,
+    "tid": 801217,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610418,
+    "amount": 0.00413137,
+    "price": 47500.00,
+    "tid": 801216,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610400,
+    "amount": 0.01310951,
+    "price": 47000.10,
+    "tid": 801215,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610400,
+    "amount": 0.03284268,
+    "price": 47000.11,
+    "tid": 801214,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610383,
+    "amount": 0.00305263,
+    "price": 47500.00,
+    "tid": 801213,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610362,
+    "amount": 0.00553274,
+    "price": 47500.00,
+    "tid": 801212,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610362,
+    "amount": 0.00553275,
+    "price": 47499.99,
+    "tid": 801211,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610362,
+    "amount": 0.10050032,
+    "price": 47499.99,
+    "tid": 801210,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610216,
+    "amount": 0.01032737,
+    "price": 47499.99,
+    "tid": 801209,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610214,
+    "amount": 0.02106779,
+    "price": 47499.99,
+    "tid": 801208,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610165,
+    "amount": 0.00210526,
+    "price": 47499.99,
+    "tid": 801207,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610069,
+    "amount": 0.00421053,
+    "price": 47499.99,
+    "tid": 801206,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515610004,
+    "amount": 0.00631579,
+    "price": 47499.99,
+    "tid": 801205,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609970,
+    "amount": 0.00722905,
+    "price": 47500.00,
+    "tid": 801204,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609916,
+    "amount": 0.00105263,
+    "price": 47500.00,
+    "tid": 801203,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609883,
+    "amount": 0.01715723,
+    "price": 47000.00,
+    "tid": 801202,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609882,
+    "amount": 0.00400000,
+    "price": 47000.00,
+    "tid": 801201,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609882,
+    "amount": 0.01003000,
+    "price": 47000.00,
+    "tid": 801200,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609882,
+    "amount": 0.00667978,
+    "price": 47000.00,
+    "tid": 801199,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609882,
+    "amount": 0.00420000,
+    "price": 47000.00,
+    "tid": 801198,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609882,
+    "amount": 0.00107900,
+    "price": 47000.01,
+    "tid": 801197,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609881,
+    "amount": 0.02297761,
+    "price": 47000.10,
+    "tid": 801196,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609881,
+    "amount": 0.03210050,
+    "price": 47011.10,
+    "tid": 801195,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609881,
+    "amount": 0.17452491,
+    "price": 47011.10,
+    "tid": 801194,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609866,
+    "amount": 0.03428674,
+    "price": 47500.00,
+    "tid": 801193,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609817,
+    "amount": 0.74074744,
+    "price": 47011.10,
+    "tid": 801192,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609816,
+    "amount": 0.14452707,
+    "price": 47050.01,
+    "tid": 801191,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609816,
+    "amount": 0.02520000,
+    "price": 47100.29,
+    "tid": 801190,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609816,
+    "amount": 0.02520000,
+    "price": 47221.49,
+    "tid": 801189,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609816,
+    "amount": 0.02520000,
+    "price": 47264.80,
+    "tid": 801188,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609816,
+    "amount": 0.02520000,
+    "price": 47466.40,
+    "tid": 801187,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609816,
+    "amount": 0.03408021,
+    "price": 47500.00,
+    "tid": 801186,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609815,
+    "amount": 0.01770000,
+    "price": 47500.00,
+    "tid": 801185,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609815,
+    "amount": 0.02520000,
+    "price": 47539.23,
+    "tid": 801184,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609815,
+    "amount": 0.04212765,
+    "price": 47550.00,
+    "tid": 801183,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609815,
+    "amount": 0.02520000,
+    "price": 47574.10,
+    "tid": 801182,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609814,
+    "amount": 0.02310879,
+    "price": 47600.50,
+    "tid": 801181,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609814,
+    "amount": 0.02510000,
+    "price": 47603.16,
+    "tid": 801180,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609814,
+    "amount": 0.02520000,
+    "price": 47616.80,
+    "tid": 801179,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609814,
+    "amount": 0.02810000,
+    "price": 47616.82,
+    "tid": 801178,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609814,
+    "amount": 0.08399000,
+    "price": 47616.83,
+    "tid": 801177,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609814,
+    "amount": 0.19918909,
+    "price": 47700.00,
+    "tid": 801176,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609813,
+    "amount": 0.00308132,
+    "price": 47710.00,
+    "tid": 801175,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609813,
+    "amount": 0.02510000,
+    "price": 47773.37,
+    "tid": 801174,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609813,
+    "amount": 0.10803624,
+    "price": 47790.00,
+    "tid": 801173,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609813,
+    "amount": 0.22358924,
+    "price": 47790.00,
+    "tid": 801172,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609812,
+    "amount": 0.02520000,
+    "price": 47894.24,
+    "tid": 801171,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609812,
+    "amount": 0.02510000,
+    "price": 47995.70,
+    "tid": 801170,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609812,
+    "amount": 0.00154375,
+    "price": 48000.00,
+    "tid": 801169,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609812,
+    "amount": 0.30000000,
+    "price": 48068.81,
+    "tid": 801168,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609812,
+    "amount": 0.06240300,
+    "price": 48068.82,
+    "tid": 801167,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609812,
+    "amount": 0.11128132,
+    "price": 48200.00,
+    "tid": 801166,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609811,
+    "amount": 0.06741896,
+    "price": 48200.00,
+    "tid": 801165,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609811,
+    "amount": 0.02520000,
+    "price": 48214.43,
+    "tid": 801164,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609811,
+    "amount": 0.24350000,
+    "price": 48260.12,
+    "tid": 801163,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609811,
+    "amount": 0.02520000,
+    "price": 48306.86,
+    "tid": 801162,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609810,
+    "amount": 0.02440000,
+    "price": 48306.87,
+    "tid": 801161,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609810,
+    "amount": 0.00469973,
+    "price": 48400.00,
+    "tid": 801160,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609810,
+    "amount": 0.01808746,
+    "price": 48400.00,
+    "tid": 801159,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609810,
+    "amount": 0.02278719,
+    "price": 48400.00,
+    "tid": 801158,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609810,
+    "amount": 0.02107300,
+    "price": 48400.01,
+    "tid": 801157,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609810,
+    "amount": 0.04131600,
+    "price": 48400.01,
+    "tid": 801156,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609741,
+    "amount": 0.00338456,
+    "price": 48400.00,
+    "tid": 801155,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609741,
+    "amount": 0.00302583,
+    "price": 48449.50,
+    "tid": 801154,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609691,
+    "amount": 0.02520000,
+    "price": 48711.39,
+    "tid": 801153,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609638,
+    "amount": 0.06243967,
+    "price": 48900.00,
+    "tid": 801152,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609552,
+    "amount": 0.00401268,
+    "price": 48900.00,
+    "tid": 801151,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609193,
+    "amount": 0.04981844,
+    "price": 48900.00,
+    "tid": 801150,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609193,
+    "amount": 0.04981844,
+    "price": 48890.00,
+    "tid": 801149,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609192,
+    "amount": 0.00937039,
+    "price": 48890.00,
+    "tid": 801148,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609177,
+    "amount": 0.00204541,
+    "price": 48890.00,
+    "tid": 801147,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609145,
+    "amount": 0.00701575,
+    "price": 48890.00,
+    "tid": 801146,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515609133,
+    "amount": 0.20067498,
+    "price": 48890.00,
+    "tid": 801145,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608994,
+    "amount": 0.03210517,
+    "price": 48900.00,
+    "tid": 801144,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608994,
+    "amount": 0.00803806,
+    "price": 48800.00,
+    "tid": 801143,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608862,
+    "amount": 0.00010275,
+    "price": 48900.00,
+    "tid": 801142,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608846,
+    "amount": 0.08316203,
+    "price": 48899.92,
+    "tid": 801141,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608846,
+    "amount": 0.01725300,
+    "price": 48899.92,
+    "tid": 801140,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608764,
+    "amount": 0.00117524,
+    "price": 48949.92,
+    "tid": 801139,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608764,
+    "amount": 0.00039800,
+    "price": 48949.92,
+    "tid": 801138,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608612,
+    "amount": 0.03269330,
+    "price": 48200.00,
+    "tid": 801137,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608535,
+    "amount": 0.00040000,
+    "price": 48147.43,
+    "tid": 801136,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608535,
+    "amount": 0.06460000,
+    "price": 48739.30,
+    "tid": 801135,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608206,
+    "amount": 0.02500286,
+    "price": 48999.99,
+    "tid": 801134,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608206,
+    "amount": 0.00300000,
+    "price": 48990.00,
+    "tid": 801133,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608180,
+    "amount": 0.01847693,
+    "price": 47600.01,
+    "tid": 801132,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608151,
+    "amount": 0.02002225,
+    "price": 48999.99,
+    "tid": 801131,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608142,
+    "amount": 0.00364000,
+    "price": 48999.99,
+    "tid": 801130,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608105,
+    "amount": 0.03750000,
+    "price": 49000.00,
+    "tid": 801129,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608104,
+    "amount": 0.02900000,
+    "price": 47600.01,
+    "tid": 801128,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515608054,
+    "amount": 0.00781633,
+    "price": 49000.00,
+    "tid": 801127,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607774,
+    "amount": 0.00245780,
+    "price": 49255.20,
+    "tid": 801126,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607769,
+    "amount": 0.00582141,
+    "price": 49255.20,
+    "tid": 801125,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607769,
+    "amount": 0.04085274,
+    "price": 49255.20,
+    "tid": 801124,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607739,
+    "amount": 0.02476355,
+    "price": 47430.91,
+    "tid": 801123,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607739,
+    "amount": 0.02510000,
+    "price": 47478.89,
+    "tid": 801122,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607739,
+    "amount": 0.02490000,
+    "price": 47512.94,
+    "tid": 801121,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607739,
+    "amount": 0.02510000,
+    "price": 47514.17,
+    "tid": 801120,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607738,
+    "amount": 0.83920000,
+    "price": 47557.75,
+    "tid": 801119,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607738,
+    "amount": 0.02510000,
+    "price": 47557.75,
+    "tid": 801118,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607738,
+    "amount": 0.02510000,
+    "price": 47646.34,
+    "tid": 801117,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607738,
+    "amount": 0.02510000,
+    "price": 47650.83,
+    "tid": 801116,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607738,
+    "amount": 0.02490000,
+    "price": 47655.78,
+    "tid": 801115,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607737,
+    "amount": 0.19137420,
+    "price": 47689.85,
+    "tid": 801114,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607737,
+    "amount": 0.02580000,
+    "price": 47689.85,
+    "tid": 801113,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607737,
+    "amount": 0.02510000,
+    "price": 47715.81,
+    "tid": 801112,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607737,
+    "amount": 0.02510000,
+    "price": 47774.45,
+    "tid": 801111,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607737,
+    "amount": 0.02510000,
+    "price": 47833.88,
+    "tid": 801110,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607737,
+    "amount": 0.02510000,
+    "price": 47868.97,
+    "tid": 801109,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607736,
+    "amount": 0.02000000,
+    "price": 48000.00,
+    "tid": 801108,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607736,
+    "amount": 0.03040649,
+    "price": 48000.00,
+    "tid": 801107,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607736,
+    "amount": 0.00220854,
+    "price": 48000.00,
+    "tid": 801106,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607736,
+    "amount": 0.00940312,
+    "price": 48000.00,
+    "tid": 801105,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607736,
+    "amount": 0.21965567,
+    "price": 48000.99,
+    "tid": 801104,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607735,
+    "amount": 0.02396730,
+    "price": 48025.00,
+    "tid": 801103,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607735,
+    "amount": 0.02490000,
+    "price": 48026.21,
+    "tid": 801102,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607735,
+    "amount": 0.02490000,
+    "price": 48082.62,
+    "tid": 801101,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607735,
+    "amount": 0.71900000,
+    "price": 48200.00,
+    "tid": 801100,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607735,
+    "amount": 0.10088838,
+    "price": 48200.00,
+    "tid": 801099,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607735,
+    "amount": 0.02490000,
+    "price": 48306.39,
+    "tid": 801098,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607734,
+    "amount": 0.46130000,
+    "price": 48366.97,
+    "tid": 801097,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607734,
+    "amount": 0.02510000,
+    "price": 48606.27,
+    "tid": 801096,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607734,
+    "amount": 0.00100000,
+    "price": 48670.23,
+    "tid": 801095,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607734,
+    "amount": 0.01400000,
+    "price": 48670.23,
+    "tid": 801094,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607734,
+    "amount": 0.02510000,
+    "price": 48764.94,
+    "tid": 801093,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607733,
+    "amount": 0.02490000,
+    "price": 48783.06,
+    "tid": 801092,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607733,
+    "amount": 0.35020000,
+    "price": 48831.34,
+    "tid": 801091,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607733,
+    "amount": 0.02490000,
+    "price": 48960.45,
+    "tid": 801090,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607733,
+    "amount": 0.00273367,
+    "price": 49000.00,
+    "tid": 801089,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607733,
+    "amount": 0.07948897,
+    "price": 49000.00,
+    "tid": 801088,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607733,
+    "amount": 0.02000000,
+    "price": 49000.00,
+    "tid": 801087,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607732,
+    "amount": 0.00498826,
+    "price": 49001.00,
+    "tid": 801086,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607732,
+    "amount": 0.02510000,
+    "price": 49013.31,
+    "tid": 801085,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607732,
+    "amount": 0.62100000,
+    "price": 49039.99,
+    "tid": 801084,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607732,
+    "amount": 0.24387688,
+    "price": 49039.99,
+    "tid": 801083,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607732,
+    "amount": 0.00211902,
+    "price": 49150.00,
+    "tid": 801082,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607731,
+    "amount": 0.06103400,
+    "price": 49150.01,
+    "tid": 801081,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607731,
+    "amount": 0.25100000,
+    "price": 49255.15,
+    "tid": 801080,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607731,
+    "amount": 0.01366760,
+    "price": 49255.17,
+    "tid": 801079,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607731,
+    "amount": 0.09822500,
+    "price": 49255.18,
+    "tid": 801078,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607731,
+    "amount": 0.02008153,
+    "price": 49255.19,
+    "tid": 801077,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607731,
+    "amount": 0.01841795,
+    "price": 49255.20,
+    "tid": 801076,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607731,
+    "amount": 0.00102466,
+    "price": 49255.20,
+    "tid": 801075,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607730,
+    "amount": 0.04561700,
+    "price": 49255.21,
+    "tid": 801074,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607730,
+    "amount": 0.00805821,
+    "price": 49300.00,
+    "tid": 801073,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607672,
+    "amount": 0.00296670,
+    "price": 49549.98,
+    "tid": 801072,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607601,
+    "amount": 0.00310953,
+    "price": 49648.79,
+    "tid": 801071,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607601,
+    "amount": 0.03546163,
+    "price": 49599.00,
+    "tid": 801070,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607601,
+    "amount": 0.09758164,
+    "price": 49579.98,
+    "tid": 801069,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607601,
+    "amount": 0.02000000,
+    "price": 49579.95,
+    "tid": 801068,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607601,
+    "amount": 0.00101797,
+    "price": 49579.94,
+    "tid": 801067,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607601,
+    "amount": 0.02091804,
+    "price": 49549.99,
+    "tid": 801066,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607462,
+    "amount": 0.04900000,
+    "price": 49255.15,
+    "tid": 801065,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607420,
+    "amount": 0.02556583,
+    "price": 49255.16,
+    "tid": 801064,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607420,
+    "amount": 0.00101797,
+    "price": 49529.37,
+    "tid": 801063,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607410,
+    "amount": 0.08187365,
+    "price": 49579.99,
+    "tid": 801062,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515607410,
+    "amount": 0.01963000,
+    "price": 49579.98,
+    "tid": 801061,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606962,
+    "amount": 0.01355935,
+    "price": 49648.92,
+    "tid": 801060,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606962,
+    "amount": 0.04052889,
+    "price": 49648.90,
+    "tid": 801059,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606961,
+    "amount": 0.02495500,
+    "price": 49648.89,
+    "tid": 801058,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606756,
+    "amount": 0.02091909,
+    "price": 49679.87,
+    "tid": 801057,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606756,
+    "amount": 0.00101515,
+    "price": 49679.86,
+    "tid": 801056,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606718,
+    "amount": 0.01299999,
+    "price": 49529.36,
+    "tid": 801055,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606557,
+    "amount": 0.78742681,
+    "price": 49036.15,
+    "tid": 801054,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606557,
+    "amount": 0.11216215,
+    "price": 49036.15,
+    "tid": 801053,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606557,
+    "amount": 0.00105704,
+    "price": 49100.00,
+    "tid": 801052,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606557,
+    "amount": 0.03000000,
+    "price": 49137.30,
+    "tid": 801051,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606557,
+    "amount": 0.02490000,
+    "price": 49161.05,
+    "tid": 801050,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606557,
+    "amount": 0.04065000,
+    "price": 49161.06,
+    "tid": 801049,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606556,
+    "amount": 0.02490000,
+    "price": 49285.88,
+    "tid": 801048,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606556,
+    "amount": 0.09758164,
+    "price": 49332.23,
+    "tid": 801047,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606556,
+    "amount": 0.02501900,
+    "price": 49332.24,
+    "tid": 801046,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606556,
+    "amount": 0.64020000,
+    "price": 49529.33,
+    "tid": 801045,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606556,
+    "amount": 0.07672217,
+    "price": 49529.36,
+    "tid": 801044,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606556,
+    "amount": 0.05505825,
+    "price": 49529.36,
+    "tid": 801043,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606555,
+    "amount": 0.04052889,
+    "price": 49529.36,
+    "tid": 801042,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606555,
+    "amount": 0.04379405,
+    "price": 49529.38,
+    "tid": 801041,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606496,
+    "amount": 0.01586723,
+    "price": 49529.35,
+    "tid": 801040,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606496,
+    "amount": 0.00101516,
+    "price": 49529.35,
+    "tid": 801039,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606275,
+    "amount": 0.01105695,
+    "price": 49690.00,
+    "tid": 801038,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515606069,
+    "amount": 0.00201248,
+    "price": 49690.00,
+    "tid": 801037,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605989,
+    "amount": 0.00040250,
+    "price": 49690.00,
+    "tid": 801036,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605978,
+    "amount": 0.00915677,
+    "price": 49690.00,
+    "tid": 801035,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605811,
+    "amount": 0.11610970,
+    "price": 49690.00,
+    "tid": 801034,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605810,
+    "amount": 0.15377524,
+    "price": 49681.44,
+    "tid": 801033,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605810,
+    "amount": 0.00101211,
+    "price": 49681.43,
+    "tid": 801032,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605810,
+    "amount": 0.00641016,
+    "price": 49647.87,
+    "tid": 801031,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605751,
+    "amount": 0.34287514,
+    "price": 49647.87,
+    "tid": 801030,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605730,
+    "amount": 0.27040000,
+    "price": 49647.87,
+    "tid": 801029,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605688,
+    "amount": 0.00289820,
+    "price": 49647.87,
+    "tid": 801028,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605662,
+    "amount": 0.27832871,
+    "price": 49647.87,
+    "tid": 801027,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605661,
+    "amount": 0.01719825,
+    "price": 49648.07,
+    "tid": 801026,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605661,
+    "amount": 0.03021688,
+    "price": 49648.08,
+    "tid": 801025,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605661,
+    "amount": 0.03645074,
+    "price": 49648.08,
+    "tid": 801024,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605661,
+    "amount": 0.01923780,
+    "price": 49648.08,
+    "tid": 801023,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605661,
+    "amount": 0.00202344,
+    "price": 49648.08,
+    "tid": 801022,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605661,
+    "amount": 0.00101212,
+    "price": 49648.08,
+    "tid": 801021,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605503,
+    "amount": 0.00401484,
+    "price": 49737.62,
+    "tid": 801020,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605503,
+    "amount": 0.00401485,
+    "price": 49734.01,
+    "tid": 801019,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605503,
+    "amount": 0.01864650,
+    "price": 49734.01,
+    "tid": 801018,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605503,
+    "amount": 0.00101072,
+    "price": 49732.56,
+    "tid": 801017,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605393,
+    "amount": 0.12326103,
+    "price": 49647.99,
+    "tid": 801016,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605387,
+    "amount": 0.01535479,
+    "price": 49734.01,
+    "tid": 801015,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605386,
+    "amount": 0.01535479,
+    "price": 49732.61,
+    "tid": 801014,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605386,
+    "amount": 0.02159096,
+    "price": 49732.61,
+    "tid": 801013,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605386,
+    "amount": 0.05208756,
+    "price": 49732.61,
+    "tid": 801012,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605386,
+    "amount": 0.03638882,
+    "price": 49732.60,
+    "tid": 801011,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605385,
+    "amount": 0.01152362,
+    "price": 49732.59,
+    "tid": 801010,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605350,
+    "amount": 0.00575861,
+    "price": 49700.02,
+    "tid": 801009,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605349,
+    "amount": 0.00768159,
+    "price": 49732.59,
+    "tid": 801008,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605349,
+    "amount": 0.00255998,
+    "price": 49732.59,
+    "tid": 801007,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605314,
+    "amount": 0.00202142,
+    "price": 49700.00,
+    "tid": 801006,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605314,
+    "amount": 0.00175845,
+    "price": 49700.00,
+    "tid": 801005,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605303,
+    "amount": 0.01254015,
+    "price": 49732.61,
+    "tid": 801004,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605303,
+    "amount": 0.01254016,
+    "price": 49700.00,
+    "tid": 801003,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605303,
+    "amount": 0.00817596,
+    "price": 49700.00,
+    "tid": 801002,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605297,
+    "amount": 0.00255999,
+    "price": 49647.96,
+    "tid": 801001,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605286,
+    "amount": 0.18453023,
+    "price": 49647.87,
+    "tid": 801000,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605286,
+    "amount": 0.03638882,
+    "price": 49647.93,
+    "tid": 800999,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605286,
+    "amount": 0.00101072,
+    "price": 49647.96,
+    "tid": 800998,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605286,
+    "amount": 0.00202142,
+    "price": 49647.96,
+    "tid": 800997,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605286,
+    "amount": 0.01920521,
+    "price": 49647.96,
+    "tid": 800996,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605285,
+    "amount": 0.00412475,
+    "price": 49700.00,
+    "tid": 800995,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605245,
+    "amount": 0.00804829,
+    "price": 49700.00,
+    "tid": 800994,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605114,
+    "amount": 0.03404326,
+    "price": 49647.87,
+    "tid": 800993,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605111,
+    "amount": 0.04695589,
+    "price": 49647.87,
+    "tid": 800992,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515605071,
+    "amount": 0.00105365,
+    "price": 49600.06,
+    "tid": 800991,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604991,
+    "amount": 0.03980412,
+    "price": 49600.00,
+    "tid": 800990,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604985,
+    "amount": 0.00059463,
+    "price": 49600.00,
+    "tid": 800989,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604985,
+    "amount": 0.01814516,
+    "price": 49600.00,
+    "tid": 800988,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604959,
+    "amount": 0.00076169,
+    "price": 49600.00,
+    "tid": 800987,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604956,
+    "amount": 0.05473656,
+    "price": 49520.54,
+    "tid": 800986,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604951,
+    "amount": 0.00397840,
+    "price": 49600.00,
+    "tid": 800985,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604951,
+    "amount": 0.02629000,
+    "price": 49550.07,
+    "tid": 800984,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604930,
+    "amount": 0.01884000,
+    "price": 49503.24,
+    "tid": 800983,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604930,
+    "amount": 0.02225356,
+    "price": 49503.16,
+    "tid": 800982,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604930,
+    "amount": 0.05067907,
+    "price": 49500.00,
+    "tid": 800981,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604930,
+    "amount": 0.01011111,
+    "price": 49480.00,
+    "tid": 800980,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604929,
+    "amount": 0.01011111,
+    "price": 49470.00,
+    "tid": 800979,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604929,
+    "amount": 0.03159592,
+    "price": 49460.63,
+    "tid": 800978,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604929,
+    "amount": 0.02583000,
+    "price": 49460.63,
+    "tid": 800977,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604929,
+    "amount": 0.00103852,
+    "price": 49388.94,
+    "tid": 800976,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604929,
+    "amount": 0.02620000,
+    "price": 49376.04,
+    "tid": 800975,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604928,
+    "amount": 0.06159814,
+    "price": 49376.03,
+    "tid": 800974,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604928,
+    "amount": 0.05696810,
+    "price": 49331.63,
+    "tid": 800973,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604928,
+    "amount": 0.01932845,
+    "price": 49331.57,
+    "tid": 800972,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604928,
+    "amount": 0.00203457,
+    "price": 49331.57,
+    "tid": 800971,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604927,
+    "amount": 0.07121013,
+    "price": 49331.56,
+    "tid": 800970,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604927,
+    "amount": 0.04069150,
+    "price": 49331.56,
+    "tid": 800969,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604927,
+    "amount": 0.03662235,
+    "price": 49331.56,
+    "tid": 800968,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604927,
+    "amount": 0.00101728,
+    "price": 49331.56,
+    "tid": 800967,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604729,
+    "amount": 0.03220935,
+    "price": 49150.31,
+    "tid": 800966,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604709,
+    "amount": 0.00012072,
+    "price": 49150.31,
+    "tid": 800965,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604676,
+    "amount": 0.06159814,
+    "price": 49150.01,
+    "tid": 800964,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604638,
+    "amount": 0.01158202,
+    "price": 49150.31,
+    "tid": 800963,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604637,
+    "amount": 0.04069150,
+    "price": 49150.31,
+    "tid": 800962,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604637,
+    "amount": 0.06706940,
+    "price": 49150.31,
+    "tid": 800961,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604636,
+    "amount": 0.03059020,
+    "price": 49150.31,
+    "tid": 800960,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604636,
+    "amount": 0.04069150,
+    "price": 49150.31,
+    "tid": 800959,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604636,
+    "amount": 0.02652105,
+    "price": 49150.31,
+    "tid": 800958,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604636,
+    "amount": 0.05696810,
+    "price": 49150.31,
+    "tid": 800957,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604636,
+    "amount": 0.03662235,
+    "price": 49150.31,
+    "tid": 800956,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604614,
+    "amount": 0.00414073,
+    "price": 49150.31,
+    "tid": 800955,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604614,
+    "amount": 0.01932845,
+    "price": 49150.31,
+    "tid": 800954,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604613,
+    "amount": 0.00101728,
+    "price": 49150.31,
+    "tid": 800953,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604613,
+    "amount": 0.00203457,
+    "price": 49150.31,
+    "tid": 800952,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604347,
+    "amount": 0.00314884,
+    "price": 49331.66,
+    "tid": 800951,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604347,
+    "amount": 0.01673900,
+    "price": 49331.65,
+    "tid": 800950,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604119,
+    "amount": 0.13605684,
+    "price": 49331.66,
+    "tid": 800949,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604108,
+    "amount": 0.00996378,
+    "price": 49331.66,
+    "tid": 800948,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604038,
+    "amount": 0.07905673,
+    "price": 49331.66,
+    "tid": 800947,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515604019,
+    "amount": 0.00206764,
+    "price": 49331.64,
+    "tid": 800946,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603997,
+    "amount": 0.13219447,
+    "price": 49331.64,
+    "tid": 800945,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603971,
+    "amount": 0.06263726,
+    "price": 49331.66,
+    "tid": 800944,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603961,
+    "amount": 0.01789906,
+    "price": 49331.63,
+    "tid": 800943,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603923,
+    "amount": 0.06134213,
+    "price": 49331.66,
+    "tid": 800942,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603923,
+    "amount": 0.06134213,
+    "price": 49331.64,
+    "tid": 800941,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603923,
+    "amount": 0.65140000,
+    "price": 49331.64,
+    "tid": 800940,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603923,
+    "amount": 0.65140000,
+    "price": 49298.87,
+    "tid": 800939,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603923,
+    "amount": 0.01736340,
+    "price": 49298.87,
+    "tid": 800938,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603923,
+    "amount": 0.01736340,
+    "price": 49293.93,
+    "tid": 800937,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603922,
+    "amount": 0.02583000,
+    "price": 49293.93,
+    "tid": 800936,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603922,
+    "amount": 0.02583000,
+    "price": 49200.39,
+    "tid": 800935,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603922,
+    "amount": 0.02620000,
+    "price": 49200.39,
+    "tid": 800934,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603922,
+    "amount": 0.02620000,
+    "price": 49200.00,
+    "tid": 800933,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603922,
+    "amount": 0.21483963,
+    "price": 49200.00,
+    "tid": 800932,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603922,
+    "amount": 0.21483963,
+    "price": 49157.13,
+    "tid": 800931,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603922,
+    "amount": 0.03761420,
+    "price": 49157.13,
+    "tid": 800930,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603922,
+    "amount": 0.03761420,
+    "price": 49157.13,
+    "tid": 800929,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603921,
+    "amount": 0.02583000,
+    "price": 49157.13,
+    "tid": 800928,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603921,
+    "amount": 0.02583000,
+    "price": 49080.00,
+    "tid": 800927,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603921,
+    "amount": 0.02351085,
+    "price": 49080.00,
+    "tid": 800926,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603921,
+    "amount": 0.02351085,
+    "price": 49050.00,
+    "tid": 800925,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603921,
+    "amount": 0.00007048,
+    "price": 49050.00,
+    "tid": 800924,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603921,
+    "amount": 0.00007048,
+    "price": 49000.00,
+    "tid": 800923,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603921,
+    "amount": 0.01314567,
+    "price": 49000.00,
+    "tid": 800922,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603903,
+    "amount": 0.00604128,
+    "price": 48989.98,
+    "tid": 800921,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603878,
+    "amount": 0.09706811,
+    "price": 48959.95,
+    "tid": 800920,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603871,
+    "amount": 0.09460851,
+    "price": 48959.97,
+    "tid": 800919,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603842,
+    "amount": 0.10364884,
+    "price": 48990.00,
+    "tid": 800918,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603842,
+    "amount": 0.00274279,
+    "price": 48960.00,
+    "tid": 800917,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603842,
+    "amount": 0.07522839,
+    "price": 48959.99,
+    "tid": 800916,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603842,
+    "amount": 0.00815276,
+    "price": 48850.00,
+    "tid": 800915,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603842,
+    "amount": 0.01082722,
+    "price": 48844.88,
+    "tid": 800914,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603817,
+    "amount": 0.00122838,
+    "price": 48844.88,
+    "tid": 800913,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603698,
+    "amount": 0.00188843,
+    "price": 48844.89,
+    "tid": 800912,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603689,
+    "amount": 0.09870531,
+    "price": 48699.71,
+    "tid": 800911,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603685,
+    "amount": 0.14495466,
+    "price": 48699.71,
+    "tid": 800910,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603680,
+    "amount": 0.04835447,
+    "price": 48844.89,
+    "tid": 800909,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603679,
+    "amount": 0.10000000,
+    "price": 48750.00,
+    "tid": 800908,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603679,
+    "amount": 0.05154947,
+    "price": 48749.25,
+    "tid": 800907,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603679,
+    "amount": 0.06185935,
+    "price": 48699.72,
+    "tid": 800906,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603642,
+    "amount": 0.23984050,
+    "price": 48699.73,
+    "tid": 800905,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603594,
+    "amount": 0.06325041,
+    "price": 48699.77,
+    "tid": 800904,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603594,
+    "amount": 0.00482600,
+    "price": 48699.77,
+    "tid": 800903,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603594,
+    "amount": 0.03020400,
+    "price": 48699.77,
+    "tid": 800902,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603451,
+    "amount": 0.30259423,
+    "price": 48500.00,
+    "tid": 800901,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603405,
+    "amount": 0.04030805,
+    "price": 48699.95,
+    "tid": 800900,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603367,
+    "amount": 0.35540573,
+    "price": 48000.00,
+    "tid": 800899,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603331,
+    "amount": 0.00208333,
+    "price": 48000.00,
+    "tid": 800898,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603298,
+    "amount": 0.21613645,
+    "price": 48000.00,
+    "tid": 800897,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603292,
+    "amount": 0.15718916,
+    "price": 48000.00,
+    "tid": 800896,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603258,
+    "amount": 0.04166667,
+    "price": 48000.00,
+    "tid": 800895,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603214,
+    "amount": 0.09392625,
+    "price": 48000.00,
+    "tid": 800894,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603171,
+    "amount": 0.01042792,
+    "price": 48000.00,
+    "tid": 800893,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603027,
+    "amount": 0.65834416,
+    "price": 48000.00,
+    "tid": 800892,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515603001,
+    "amount": 0.10000000,
+    "price": 47811.35,
+    "tid": 800891,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602961,
+    "amount": 0.00171959,
+    "price": 47811.35,
+    "tid": 800890,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602942,
+    "amount": 0.00395833,
+    "price": 48000.00,
+    "tid": 800889,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602886,
+    "amount": 0.18702208,
+    "price": 48000.00,
+    "tid": 800888,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602842,
+    "amount": 0.01021979,
+    "price": 48000.00,
+    "tid": 800887,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602808,
+    "amount": 0.79373670,
+    "price": 48000.00,
+    "tid": 800886,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602807,
+    "amount": 0.10626330,
+    "price": 47999.99,
+    "tid": 800885,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602658,
+    "amount": 0.00498250,
+    "price": 47999.99,
+    "tid": 800884,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602601,
+    "amount": 0.00838167,
+    "price": 47999.99,
+    "tid": 800883,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602597,
+    "amount": 0.00416667,
+    "price": 47999.99,
+    "tid": 800882,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602546,
+    "amount": 0.00208333,
+    "price": 47999.99,
+    "tid": 800881,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602487,
+    "amount": 0.08092752,
+    "price": 47999.99,
+    "tid": 800880,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602399,
+    "amount": 0.00416667,
+    "price": 47999.99,
+    "tid": 800879,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602309,
+    "amount": 0.27108174,
+    "price": 47011.10,
+    "tid": 800878,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602308,
+    "amount": 0.02610000,
+    "price": 47040.72,
+    "tid": 800877,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602308,
+    "amount": 0.96920000,
+    "price": 47102.84,
+    "tid": 800876,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602308,
+    "amount": 1.03594101,
+    "price": 47300.00,
+    "tid": 800875,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602308,
+    "amount": 0.04116000,
+    "price": 47499.99,
+    "tid": 800874,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602308,
+    "amount": 0.01011157,
+    "price": 47500.00,
+    "tid": 800873,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602308,
+    "amount": 0.00953107,
+    "price": 47500.00,
+    "tid": 800872,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602308,
+    "amount": 0.00001010,
+    "price": 47500.00,
+    "tid": 800871,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602307,
+    "amount": 0.00933151,
+    "price": 47750.00,
+    "tid": 800870,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602307,
+    "amount": 0.15057184,
+    "price": 47800.00,
+    "tid": 800869,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602307,
+    "amount": 0.00007837,
+    "price": 47800.00,
+    "tid": 800868,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602307,
+    "amount": 1.33394022,
+    "price": 47850.00,
+    "tid": 800867,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602307,
+    "amount": 0.14941901,
+    "price": 47901.40,
+    "tid": 800866,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602307,
+    "amount": 0.01693659,
+    "price": 47953.34,
+    "tid": 800865,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602307,
+    "amount": 0.00984833,
+    "price": 47999.99,
+    "tid": 800864,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602278,
+    "amount": 0.00775000,
+    "price": 48000.00,
+    "tid": 800863,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602274,
+    "amount": 0.00094688,
+    "price": 48000.00,
+    "tid": 800862,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602258,
+    "amount": 0.00020833,
+    "price": 48000.00,
+    "tid": 800861,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602252,
+    "amount": 0.02043958,
+    "price": 48000.00,
+    "tid": 800860,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602239,
+    "amount": 0.00595562,
+    "price": 48000.00,
+    "tid": 800859,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602228,
+    "amount": 0.02043958,
+    "price": 48000.00,
+    "tid": 800858,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602226,
+    "amount": 0.05423237,
+    "price": 48000.00,
+    "tid": 800857,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602225,
+    "amount": 0.06198332,
+    "price": 48000.00,
+    "tid": 800856,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602224,
+    "amount": 0.06250000,
+    "price": 48000.00,
+    "tid": 800855,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602224,
+    "amount": 0.10221833,
+    "price": 48000.00,
+    "tid": 800854,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602224,
+    "amount": 0.03280854,
+    "price": 48000.00,
+    "tid": 800853,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602224,
+    "amount": 0.02885177,
+    "price": 48000.00,
+    "tid": 800852,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602224,
+    "amount": 0.01274197,
+    "price": 48000.00,
+    "tid": 800851,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602224,
+    "amount": 0.00200000,
+    "price": 48000.00,
+    "tid": 800850,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602224,
+    "amount": 0.04033333,
+    "price": 48000.00,
+    "tid": 800849,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602223,
+    "amount": 0.01000000,
+    "price": 48000.00,
+    "tid": 800848,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602223,
+    "amount": 0.00224810,
+    "price": 48000.00,
+    "tid": 800847,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602223,
+    "amount": 0.03916919,
+    "price": 48000.00,
+    "tid": 800846,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602223,
+    "amount": 0.04141729,
+    "price": 48000.00,
+    "tid": 800845,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602223,
+    "amount": 0.19223240,
+    "price": 48001.02,
+    "tid": 800844,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602223,
+    "amount": 0.14795435,
+    "price": 48001.02,
+    "tid": 800843,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602223,
+    "amount": 0.01881016,
+    "price": 48058.92,
+    "tid": 800842,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602222,
+    "amount": 0.06242336,
+    "price": 48058.93,
+    "tid": 800841,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602222,
+    "amount": 0.02050000,
+    "price": 48100.00,
+    "tid": 800840,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602222,
+    "amount": 1.80551142,
+    "price": 48120.00,
+    "tid": 800839,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602222,
+    "amount": 0.01995016,
+    "price": 48164.61,
+    "tid": 800838,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602222,
+    "amount": 0.05200000,
+    "price": 48221.55,
+    "tid": 800837,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602222,
+    "amount": 0.00165016,
+    "price": 48253.07,
+    "tid": 800836,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602222,
+    "amount": 0.55810000,
+    "price": 48253.08,
+    "tid": 800835,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602221,
+    "amount": 0.00414057,
+    "price": 48300.00,
+    "tid": 800834,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602221,
+    "amount": 0.02000000,
+    "price": 48300.00,
+    "tid": 800833,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602221,
+    "amount": 0.01415217,
+    "price": 48304.10,
+    "tid": 800832,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602221,
+    "amount": 0.02540000,
+    "price": 48321.21,
+    "tid": 800831,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602221,
+    "amount": 0.01240000,
+    "price": 48349.02,
+    "tid": 800830,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602221,
+    "amount": 0.00712847,
+    "price": 48349.24,
+    "tid": 800829,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602221,
+    "amount": 0.03018993,
+    "price": 48349.50,
+    "tid": 800828,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602221,
+    "amount": 0.02530000,
+    "price": 48349.62,
+    "tid": 800827,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602220,
+    "amount": 0.02490000,
+    "price": 48349.73,
+    "tid": 800826,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602220,
+    "amount": 0.02490000,
+    "price": 48350.29,
+    "tid": 800825,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602220,
+    "amount": 0.00197929,
+    "price": 48350.41,
+    "tid": 800824,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602220,
+    "amount": 0.19293326,
+    "price": 48350.51,
+    "tid": 800823,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602219,
+    "amount": 0.00712847,
+    "price": 48351.15,
+    "tid": 800822,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602219,
+    "amount": 0.00268420,
+    "price": 48351.39,
+    "tid": 800821,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602219,
+    "amount": 0.00274966,
+    "price": 48355.00,
+    "tid": 800820,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602219,
+    "amount": 0.19062682,
+    "price": 48355.00,
+    "tid": 800819,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602219,
+    "amount": 0.00483999,
+    "price": 48355.01,
+    "tid": 800818,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602219,
+    "amount": 0.02305800,
+    "price": 48400.10,
+    "tid": 800817,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602219,
+    "amount": 0.05165278,
+    "price": 48400.11,
+    "tid": 800816,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602218,
+    "amount": 0.03110116,
+    "price": 48400.12,
+    "tid": 800815,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602212,
+    "amount": 0.00722401,
+    "price": 48400.11,
+    "tid": 800814,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515602010,
+    "amount": 0.00550000,
+    "price": 48355.02,
+    "tid": 800813,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601996,
+    "amount": 0.20546197,
+    "price": 48845.00,
+    "tid": 800812,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601926,
+    "amount": 0.16440667,
+    "price": 48845.00,
+    "tid": 800811,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601926,
+    "amount": 0.01036859,
+    "price": 48844.99,
+    "tid": 800810,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601926,
+    "amount": 0.02620000,
+    "price": 48629.86,
+    "tid": 800809,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601834,
+    "amount": 0.00036952,
+    "price": 48355.02,
+    "tid": 800808,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601733,
+    "amount": 0.03730720,
+    "price": 48845.00,
+    "tid": 800807,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601728,
+    "amount": 0.00001801,
+    "price": 48845.00,
+    "tid": 800806,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601707,
+    "amount": 0.05717172,
+    "price": 48845.00,
+    "tid": 800805,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601707,
+    "amount": 0.00480500,
+    "price": 48844.99,
+    "tid": 800804,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601707,
+    "amount": 0.02635167,
+    "price": 48844.98,
+    "tid": 800803,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601707,
+    "amount": 0.01403625,
+    "price": 48844.97,
+    "tid": 800802,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601679,
+    "amount": 0.01605075,
+    "price": 48844.97,
+    "tid": 800801,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601371,
+    "amount": 0.05818355,
+    "price": 48899.90,
+    "tid": 800800,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601343,
+    "amount": 0.75506882,
+    "price": 48899.90,
+    "tid": 800799,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601263,
+    "amount": 0.00061350,
+    "price": 48900.00,
+    "tid": 800798,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601254,
+    "amount": 0.00198384,
+    "price": 48900.00,
+    "tid": 800797,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601223,
+    "amount": 0.00310071,
+    "price": 48376.02,
+    "tid": 800796,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601187,
+    "amount": 0.00252832,
+    "price": 48376.02,
+    "tid": 800795,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601182,
+    "amount": 0.01010000,
+    "price": 48376.02,
+    "tid": 800794,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601120,
+    "amount": 0.01802711,
+    "price": 48376.02,
+    "tid": 800793,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601035,
+    "amount": 0.00444427,
+    "price": 48351.39,
+    "tid": 800792,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515601035,
+    "amount": 0.00123941,
+    "price": 48351.51,
+    "tid": 800791,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600978,
+    "amount": 0.00012547,
+    "price": 48376.02,
+    "tid": 800790,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600947,
+    "amount": 0.03103335,
+    "price": 48376.02,
+    "tid": 800789,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600945,
+    "amount": 0.43000000,
+    "price": 48376.02,
+    "tid": 800788,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600920,
+    "amount": 0.24286254,
+    "price": 48376.02,
+    "tid": 800787,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600916,
+    "amount": 0.04924800,
+    "price": 48376.02,
+    "tid": 800786,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600916,
+    "amount": 0.06467949,
+    "price": 48377.00,
+    "tid": 800785,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600916,
+    "amount": 0.09365233,
+    "price": 48380.00,
+    "tid": 800784,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600916,
+    "amount": 0.44910000,
+    "price": 48380.01,
+    "tid": 800783,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600844,
+    "amount": 0.00267000,
+    "price": 48376.01,
+    "tid": 800782,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600832,
+    "amount": 0.02410396,
+    "price": 48977.91,
+    "tid": 800781,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600832,
+    "amount": 0.01595900,
+    "price": 48977.91,
+    "tid": 800780,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600699,
+    "amount": 0.08526722,
+    "price": 48990.00,
+    "tid": 800779,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600699,
+    "amount": 0.03008700,
+    "price": 48989.99,
+    "tid": 800778,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600699,
+    "amount": 0.00480500,
+    "price": 48989.99,
+    "tid": 800777,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600695,
+    "amount": 0.01600000,
+    "price": 48399.91,
+    "tid": 800776,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600671,
+    "amount": 0.02203425,
+    "price": 48978.75,
+    "tid": 800775,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600542,
+    "amount": 0.01291276,
+    "price": 48351.51,
+    "tid": 800774,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600542,
+    "amount": 0.03684285,
+    "price": 48351.62,
+    "tid": 800773,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600542,
+    "amount": 0.00984833,
+    "price": 48351.67,
+    "tid": 800772,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600541,
+    "amount": 0.00711894,
+    "price": 48352.14,
+    "tid": 800771,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600541,
+    "amount": 0.02530000,
+    "price": 48352.49,
+    "tid": 800770,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600541,
+    "amount": 0.02000000,
+    "price": 48353.01,
+    "tid": 800769,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600541,
+    "amount": 0.02490000,
+    "price": 48354.07,
+    "tid": 800768,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600540,
+    "amount": 0.03018993,
+    "price": 48354.35,
+    "tid": 800767,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600540,
+    "amount": 0.02490000,
+    "price": 48354.76,
+    "tid": 800766,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600540,
+    "amount": 0.00103999,
+    "price": 48355.32,
+    "tid": 800765,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600540,
+    "amount": 0.01415217,
+    "price": 48357.16,
+    "tid": 800764,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600540,
+    "amount": 0.21679894,
+    "price": 48359.35,
+    "tid": 800763,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600539,
+    "amount": 0.19776787,
+    "price": 48360.19,
+    "tid": 800762,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600539,
+    "amount": 0.56168200,
+    "price": 48363.59,
+    "tid": 800761,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600539,
+    "amount": 0.77142470,
+    "price": 48364.00,
+    "tid": 800760,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600539,
+    "amount": 0.00481800,
+    "price": 48364.01,
+    "tid": 800759,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600539,
+    "amount": 0.01013952,
+    "price": 48380.00,
+    "tid": 800758,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600539,
+    "amount": 0.03016400,
+    "price": 48380.01,
+    "tid": 800757,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600537,
+    "amount": 0.00394700,
+    "price": 48990.00,
+    "tid": 800756,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600537,
+    "amount": 0.00394702,
+    "price": 48889.76,
+    "tid": 800755,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600537,
+    "amount": 0.02654998,
+    "price": 48889.76,
+    "tid": 800754,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600537,
+    "amount": 0.02655000,
+    "price": 48800.00,
+    "tid": 800753,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600537,
+    "amount": 0.03252191,
+    "price": 48800.00,
+    "tid": 800752,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600537,
+    "amount": 0.03252192,
+    "price": 48799.00,
+    "tid": 800751,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600532,
+    "amount": 0.04287797,
+    "price": 48799.00,
+    "tid": 800750,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600491,
+    "amount": 0.10052460,
+    "price": 48799.00,
+    "tid": 800749,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600491,
+    "amount": 0.09808294,
+    "price": 48799.00,
+    "tid": 800748,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600490,
+    "amount": 0.09808295,
+    "price": 48673.48,
+    "tid": 800747,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600490,
+    "amount": 0.02654999,
+    "price": 48673.48,
+    "tid": 800746,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600490,
+    "amount": 0.02655000,
+    "price": 48622.28,
+    "tid": 800745,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600490,
+    "amount": 0.02654999,
+    "price": 48622.28,
+    "tid": 800744,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600490,
+    "amount": 0.02655000,
+    "price": 48608.34,
+    "tid": 800743,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600489,
+    "amount": 0.25987603,
+    "price": 48608.34,
+    "tid": 800742,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600489,
+    "amount": 0.25987604,
+    "price": 48523.47,
+    "tid": 800741,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600489,
+    "amount": 0.02654999,
+    "price": 48523.47,
+    "tid": 800740,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600489,
+    "amount": 0.02655000,
+    "price": 48439.00,
+    "tid": 800739,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600489,
+    "amount": 0.02654999,
+    "price": 48439.00,
+    "tid": 800738,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600488,
+    "amount": 0.02655000,
+    "price": 48382.90,
+    "tid": 800737,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600488,
+    "amount": 0.04039734,
+    "price": 48382.90,
+    "tid": 800736,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600125,
+    "amount": 0.00413369,
+    "price": 48382.90,
+    "tid": 800735,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600068,
+    "amount": 0.04055565,
+    "price": 48382.90,
+    "tid": 800734,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600019,
+    "amount": 0.13384967,
+    "price": 48364.00,
+    "tid": 800733,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515600019,
+    "amount": 0.01856581,
+    "price": 48378.93,
+    "tid": 800732,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599937,
+    "amount": 0.01162412,
+    "price": 48378.93,
+    "tid": 800731,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599937,
+    "amount": 0.00712847,
+    "price": 48379.87,
+    "tid": 800730,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599937,
+    "amount": 0.00712847,
+    "price": 48380.39,
+    "tid": 800729,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599937,
+    "amount": 0.00711894,
+    "price": 48380.52,
+    "tid": 800728,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599733,
+    "amount": 0.01092847,
+    "price": 48382.90,
+    "tid": 800727,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599650,
+    "amount": 0.00164581,
+    "price": 48608.34,
+    "tid": 800726,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599636,
+    "amount": 0.00331013,
+    "price": 48608.34,
+    "tid": 800725,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599636,
+    "amount": 0.00020573,
+    "price": 48608.34,
+    "tid": 800724,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599611,
+    "amount": 0.00041145,
+    "price": 48608.34,
+    "tid": 800723,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599506,
+    "amount": 0.00102575,
+    "price": 48608.34,
+    "tid": 800722,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599474,
+    "amount": 0.01397154,
+    "price": 48382.90,
+    "tid": 800721,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599474,
+    "amount": 0.05000000,
+    "price": 48400.00,
+    "tid": 800720,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599474,
+    "amount": 0.02020000,
+    "price": 48400.00,
+    "tid": 800719,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599474,
+    "amount": 0.00712847,
+    "price": 48402.12,
+    "tid": 800718,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599473,
+    "amount": 0.15825698,
+    "price": 48447.13,
+    "tid": 800717,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599473,
+    "amount": 0.02440000,
+    "price": 48448.82,
+    "tid": 800716,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599473,
+    "amount": 0.00715600,
+    "price": 48450.35,
+    "tid": 800715,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599473,
+    "amount": 0.02530000,
+    "price": 48450.83,
+    "tid": 800714,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599472,
+    "amount": 0.01256168,
+    "price": 48453.07,
+    "tid": 800713,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599472,
+    "amount": 0.00711894,
+    "price": 48483.48,
+    "tid": 800712,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599472,
+    "amount": 0.02490000,
+    "price": 48483.90,
+    "tid": 800711,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599472,
+    "amount": 0.02490000,
+    "price": 48484.38,
+    "tid": 800710,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599472,
+    "amount": 0.03018993,
+    "price": 48484.64,
+    "tid": 800709,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599471,
+    "amount": 0.00711894,
+    "price": 48484.72,
+    "tid": 800708,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599471,
+    "amount": 0.00984833,
+    "price": 48485.11,
+    "tid": 800707,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599471,
+    "amount": 0.01415217,
+    "price": 48485.61,
+    "tid": 800706,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599471,
+    "amount": 0.02530000,
+    "price": 48486.51,
+    "tid": 800705,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599471,
+    "amount": 0.00197929,
+    "price": 48486.55,
+    "tid": 800704,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599471,
+    "amount": 0.03446173,
+    "price": 48487.29,
+    "tid": 800703,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599470,
+    "amount": 0.01415217,
+    "price": 48488.97,
+    "tid": 800702,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599470,
+    "amount": 0.00712847,
+    "price": 48489.20,
+    "tid": 800701,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599470,
+    "amount": 0.02977537,
+    "price": 48500.00,
+    "tid": 800700,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599470,
+    "amount": 0.02022464,
+    "price": 48500.00,
+    "tid": 800699,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599470,
+    "amount": 0.05000000,
+    "price": 48500.00,
+    "tid": 800698,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599436,
+    "amount": 0.00865407,
+    "price": 48500.00,
+    "tid": 800697,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599352,
+    "amount": 0.02655000,
+    "price": 48500.00,
+    "tid": 800696,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599344,
+    "amount": 0.02655000,
+    "price": 48500.00,
+    "tid": 800695,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599316,
+    "amount": 0.00020573,
+    "price": 48608.34,
+    "tid": 800694,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599280,
+    "amount": 0.08344995,
+    "price": 48500.00,
+    "tid": 800693,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599280,
+    "amount": 0.00200000,
+    "price": 48500.00,
+    "tid": 800692,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599279,
+    "amount": 0.04045773,
+    "price": 48500.00,
+    "tid": 800691,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599279,
+    "amount": 0.00403340,
+    "price": 48500.00,
+    "tid": 800690,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599279,
+    "amount": 0.01022647,
+    "price": 48500.00,
+    "tid": 800689,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599279,
+    "amount": 0.00077875,
+    "price": 48586.96,
+    "tid": 800688,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599279,
+    "amount": 0.00077875,
+    "price": 48589.41,
+    "tid": 800687,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599278,
+    "amount": 0.00077875,
+    "price": 48589.93,
+    "tid": 800686,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599278,
+    "amount": 0.00077875,
+    "price": 48591.04,
+    "tid": 800685,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599278,
+    "amount": 0.00077875,
+    "price": 48591.70,
+    "tid": 800684,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599278,
+    "amount": 0.00077875,
+    "price": 48592.55,
+    "tid": 800683,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599278,
+    "amount": 0.00835226,
+    "price": 48608.22,
+    "tid": 800682,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599278,
+    "amount": 0.01102282,
+    "price": 48608.33,
+    "tid": 800681,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599264,
+    "amount": 0.00020573,
+    "price": 48608.34,
+    "tid": 800680,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515599252,
+    "amount": 0.01954397,
+    "price": 48608.34,
+    "tid": 800679,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598825,
+    "amount": 0.00602327,
+    "price": 48999.99,
+    "tid": 800678,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598825,
+    "amount": 0.00214286,
+    "price": 48999.99,
+    "tid": 800677,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598824,
+    "amount": 0.01000000,
+    "price": 48999.99,
+    "tid": 800676,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598815,
+    "amount": 0.00164286,
+    "price": 48999.99,
+    "tid": 800675,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598815,
+    "amount": 0.00050000,
+    "price": 48999.99,
+    "tid": 800674,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598471,
+    "amount": 0.02970858,
+    "price": 49000.00,
+    "tid": 800673,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598471,
+    "amount": 0.02970859,
+    "price": 48999.99,
+    "tid": 800672,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598471,
+    "amount": 0.00032508,
+    "price": 48999.99,
+    "tid": 800671,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598428,
+    "amount": 0.00044592,
+    "price": 48999.99,
+    "tid": 800670,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598391,
+    "amount": 0.00077321,
+    "price": 48608.34,
+    "tid": 800669,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598391,
+    "amount": 0.02238289,
+    "price": 48609.00,
+    "tid": 800668,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598375,
+    "amount": 0.00521656,
+    "price": 49000.00,
+    "tid": 800667,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598375,
+    "amount": 0.01041163,
+    "price": 49000.00,
+    "tid": 800666,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598339,
+    "amount": 0.00204082,
+    "price": 49000.00,
+    "tid": 800665,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598219,
+    "amount": 0.00640714,
+    "price": 49000.00,
+    "tid": 800664,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598062,
+    "amount": 0.00572646,
+    "price": 49000.00,
+    "tid": 800663,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598062,
+    "amount": 0.00572646,
+    "price": 48999.99,
+    "tid": 800662,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598062,
+    "amount": 0.02986700,
+    "price": 48999.99,
+    "tid": 800661,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598062,
+    "amount": 0.02986700,
+    "price": 48709.00,
+    "tid": 800660,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598061,
+    "amount": 0.00347083,
+    "price": 48709.00,
+    "tid": 800659,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515598041,
+    "amount": 0.01005974,
+    "price": 48709.00,
+    "tid": 800658,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597925,
+    "amount": 0.00886243,
+    "price": 48709.00,
+    "tid": 800657,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597549,
+    "amount": 0.01377719,
+    "price": 48608.33,
+    "tid": 800656,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597549,
+    "amount": 0.01175625,
+    "price": 48608.56,
+    "tid": 800655,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597549,
+    "amount": 0.01256168,
+    "price": 48609.73,
+    "tid": 800654,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597549,
+    "amount": 0.02490000,
+    "price": 48646.92,
+    "tid": 800653,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597549,
+    "amount": 0.01175625,
+    "price": 48648.63,
+    "tid": 800652,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597549,
+    "amount": 0.19182354,
+    "price": 48649.95,
+    "tid": 800651,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597548,
+    "amount": 0.03768843,
+    "price": 48650.00,
+    "tid": 800650,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597548,
+    "amount": 0.00094500,
+    "price": 48650.01,
+    "tid": 800649,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597505,
+    "amount": 0.02900000,
+    "price": 48650.01,
+    "tid": 800648,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597370,
+    "amount": 0.00013319,
+    "price": 49050.00,
+    "tid": 800647,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597369,
+    "amount": 0.01000000,
+    "price": 49049.98,
+    "tid": 800646,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597369,
+    "amount": 0.00009291,
+    "price": 49049.98,
+    "tid": 800645,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597369,
+    "amount": 0.02977800,
+    "price": 49049.97,
+    "tid": 800644,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597349,
+    "amount": 0.06014368,
+    "price": 48650.00,
+    "tid": 800643,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597349,
+    "amount": 0.00020300,
+    "price": 48650.01,
+    "tid": 800642,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597294,
+    "amount": 0.00020387,
+    "price": 49049.99,
+    "tid": 800641,
+    "type": "buy",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597172,
+    "amount": 0.00381682,
+    "price": 48650.00,
+    "tid": 800640,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597172,
+    "amount": 0.07116384,
+    "price": 48650.90,
+    "tid": 800639,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597128,
+    "amount": 0.01479220,
+    "price": 48650.90,
+    "tid": 800638,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597128,
+    "amount": 0.00503340,
+    "price": 48650.93,
+    "tid": 800637,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597128,
+    "amount": 0.00005673,
+    "price": 48650.93,
+    "tid": 800636,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597128,
+    "amount": 0.00205052,
+    "price": 48650.94,
+    "tid": 800635,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597128,
+    "amount": 0.02985600,
+    "price": 48650.95,
+    "tid": 800634,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597128,
+    "amount": 0.00991765,
+    "price": 48700.00,
+    "tid": 800633,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597128,
+    "amount": 0.03017956,
+    "price": 48701.00,
+    "tid": 800632,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515597127,
+    "amount": 0.00811394,
+    "price": 48709.99,
+    "tid": 800631,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515596932,
+    "amount": 0.01982044,
+    "price": 48701.00,
+    "tid": 800630,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515596932,
+    "amount": 0.00633956,
+    "price": 48705.00,
+    "tid": 800629,
+    "type": "sell",
+    "currency": "BTC "
+  },
+  {
+    "date": 1515596928,
+    "amount": 0.01380416,
+    "price": 48705.00,
+    "tid": 800628,
+    "type": "sell",
+    "currency": "BTC "
+  }
+]

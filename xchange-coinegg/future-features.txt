@@ -1,0 +1,8 @@
+Bit-Z Exchange Future Features
+================================
+
+Last Revision : 04/01/2018
+
+- When Avaiable By Exchange
+	- Implement Full Trading Service
+	- Implement Full Account Service
