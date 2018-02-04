@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitmex.dto.BitmexInstrument;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataServiceRaw;
 import org.knowm.xchange.examples.bitmex.BitmexDemoUtils;
@@ -23,13 +24,13 @@ public class BitmexMarketdataDemo {
 
     // Get the ticker/markets information
     BitmexMarketDataServiceRaw serviceRaw = (BitmexMarketDataServiceRaw) service;
-    List<BitmexTicker> tickers = serviceRaw.getActiveTickers();
+    List<BitmexInstrument> tickers = serviceRaw.getActiveTickers();
     System.out.println(tickers);
 
     tickers = serviceRaw.getTicker("Xbt");
     System.out.println(tickers);
 
-    List<BitmexTicker> ticker = serviceRaw.getTicker("XBt");
+    List<BitmexInstrument> ticker = serviceRaw.getTicker("XBt");
     System.out.println(ticker);
   }
 }

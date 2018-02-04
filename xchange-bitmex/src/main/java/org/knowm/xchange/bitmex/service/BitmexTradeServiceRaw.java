@@ -1,41 +1,40 @@
 package org.knowm.xchange.bitmex.service;
 
+import org.knowm.xchange.Exchange;
+
 import java.io.IOException;
 import java.util.List;
 
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitmex.BitmexException;
-import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
-
 public class BitmexTradeServiceRaw extends BitmexBaseService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
-  String apiKey = null;
+    public static final PositionApi POSITION_API = new PositionApi();
+    /**
+     * Constructor
+     *
+     * @param exchange
+     */
+    String apiKey = null;
 
-  public BitmexTradeServiceRaw(Exchange exchange) {
+    public BitmexTradeServiceRaw(Exchange exchange) {
 
-    super(exchange);
-  }
-
-  public List<BitmexPosition> getBitmexPositions() throws IOException {
-
-    try {
-      return bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator);
-    } catch (BitmexException e) {
-      throw handleError(e);
+        super(exchange);
     }
-  }
 
-  public List<BitmexPosition> getBitmexPositions(String symbol) throws IOException {
+    public List<org.knowm.xchange.bitmex.dto.BitmexPosition> getBitmexPositions() throws IOException {
 
-    try {
-      return bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, null);
-    } catch (BitmexException e) {
-      throw handleError(e);
+        try {
+            return POSITION_API.positionGet(null, null, null);
+        } catch (Exception e) {
+            throw handleError(e);
+        }
     }
-  }
+
+    public List<org.knowm.xchange.bitmex.dto.BitmexPosition> getBitmexPositions(String symbol) throws IOException {
+
+        try {
+            return POSITION_API.positionGet(symbol, null, null);
+        } catch (Exception e) {
+            throw handleError(e);
+        }
+    }
 }
