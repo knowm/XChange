@@ -32,7 +32,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    return withdrawFundsRaw(currency, amount, address,null);
+    return withdrawFundsRaw(currency, amount, address, null);
   }
 
   @Override
@@ -48,8 +48,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-
-    return getDepositAddress(currency.toString());
+    return getDepositAddress(currency).getAddress();
   }
 
   @Override
@@ -66,15 +65,9 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
     if (params instanceof TradeHistoryParams) {
       HitbtcFundingHistoryParams hitbtcTradeHistoryParams = (HitbtcFundingHistoryParams) params;
 
-      String currency =  hitbtcTradeHistoryParams.getCurrency() != null ?
-          hitbtcTradeHistoryParams.getCurrency().getCurrencyCode() :
-          null;
+      String currency = hitbtcTradeHistoryParams.getCurrency() != null ? hitbtcTradeHistoryParams.getCurrency().getCurrencyCode() : null;
 
-      transactions = getTransactions(
-          currency,
-          hitbtcTradeHistoryParams.getLimit(),
-          hitbtcTradeHistoryParams.getOffset()
-      );
+      transactions = getTransactions(currency, hitbtcTradeHistoryParams.getLimit(), hitbtcTradeHistoryParams.getOffset());
     }
 
     else {

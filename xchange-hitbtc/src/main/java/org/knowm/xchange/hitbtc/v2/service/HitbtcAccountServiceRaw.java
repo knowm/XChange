@@ -66,10 +66,8 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     return hitbtc.getTradingBalance();
   }
 
-  public String getDepositAddress(String currency) throws IOException {
-
-    HitbtcAddress hitbtcDepositAddress = hitbtc.getHitbtcDepositAddress(currency);
-    return hitbtcDepositAddress.getAddress();
+  public HitbtcAddress getDepositAddress(Currency currency) throws IOException {
+    return hitbtc.getHitbtcDepositAddress(currency.toString());
   }
 
   public List<HitbtcTransaction> getTransactions(String currency, Integer limit, Integer offset) throws HttpStatusIOException {
