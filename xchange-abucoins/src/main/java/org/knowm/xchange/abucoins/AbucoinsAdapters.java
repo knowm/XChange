@@ -322,6 +322,6 @@ public class AbucoinsAdapters {
   }
   
   public static String[] adaptToSetOfIDs(String resp) {
-    return resp.replaceAll("\\[|]|\"| ", "").split(",");
+    return resp.replaceAll("[\\[\\\"\\] ]", "").split(",");
   }
 }
