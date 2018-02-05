@@ -67,6 +67,7 @@ public class GDAXAdaptersTest {
     Ticker ticker = GDAXAdapters.adaptTicker(coinbaseExTicker, coinbaseExStats, CurrencyPair.BTC_USD);
 
     assertThat(ticker.getLast().toString()).isEqualTo("246.28000000");
+    assertThat(ticker.getOpen().toString()).isEqualTo("254.04000000");
     assertThat(ticker.getBid().toString()).isEqualTo("637");
     assertThat(ticker.getAsk().toString()).isEqualTo("637.11");
     assertThat(ticker.getHigh().toString()).isEqualTo("255.47000000");

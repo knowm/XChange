@@ -202,36 +202,4 @@ public final class BitmexAccountPreferences {
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
   }
-
-  @Override
-  public String toString() {
-    return "BitmexAccountPreferences{" +
-        "alertOnLiquidations=" + alertOnLiquidations +
-        ", animationsEnabled=" + animationsEnabled +
-        ", announcementsLastSeen='" + announcementsLastSeen + '\'' +
-        ", chatChannelID=" + chatChannelID +
-        ", colorTheme='" + colorTheme + '\'' +
-        ", currency='" + currency + '\'' +
-        ", debug=" + debug +
-        ", disableEmails=" + disableEmails +
-        ", hideConfirmDialogs=" + hideConfirmDialogs +
-        ", hideConnectionModal=" + hideConnectionModal +
-        ", hideFromLeaderboard=" + hideFromLeaderboard +
-        ", hideNameFromLeaderboard=" + hideNameFromLeaderboard +
-        ", hideNotifications=" + hideNotifications +
-        ", locale='" + locale + '\'' +
-        ", msgsSeen=" + msgsSeen +
-        ", orderBookBinning=" + orderBookBinning +
-        ", orderBookType='" + orderBookType + '\'' +
-        ", orderClearImmediate=" + orderClearImmediate +
-        ", orderControlsPlusMinus=" + orderControlsPlusMinus +
-        ", showLocaleNumbers=" + showLocaleNumbers +
-        ", sounds=" + sounds +
-        ", strictIPCheck=" + strictIPCheck +
-        ", strictTimeout=" + strictTimeout +
-        ", tickerGroup='" + tickerGroup + '\'' +
-        ", tickerPinned=" + tickerPinned +
-        ", tradeLayout='" + tradeLayout + '\'' +
-        '}';
-  }
 }

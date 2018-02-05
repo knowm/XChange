@@ -2,7 +2,7 @@ package org.xchange.coinegg.dto.trade;
 
 import java.math.BigDecimal;
 
-import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
+import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
