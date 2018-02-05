@@ -196,7 +196,7 @@ public class AbucoinsAdapters {
 
   public static LimitOrder createOrder(CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.getPrice(), currencyPair, "", null, priceAndAmount.getSize()); //??
+    return new LimitOrder(orderType, priceAndAmount.getSize(), currencyPair, "", null, priceAndAmount.getPrice()); //??
   }
   
   public static OpenOrders adaptOpenOrders(AbucoinsOrder[] orders) {
