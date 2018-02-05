@@ -30,35 +30,35 @@ public interface Bitmex {
 
   @GET
   @Path("user")
-  BitmexAccount getAccount(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce, @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest)
+  BitmexAccount getAccount(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce, @HeaderParam("api-signature") ParamsDigest paramsDigest)
       throws IOException;
 
   @GET
   @Path("user/wallet")
-  BitmexWallet getWallet(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce, @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
+  BitmexWallet getWallet(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce, @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("currency") String currency) throws IOException;
 
   // Get a history of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
   @Path("user/walletHistory")
-  List<BitmexWalletTransaction> getWalletHistory(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest, @Nullable @QueryParam("currency") String currency) throws IOException;
+  List<BitmexWalletTransaction> getWalletHistory(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest, @Nullable @QueryParam("currency") String currency) throws IOException;
 
   // Get a summary of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
   @Path("user/walletSummary")
-  List<BitmexWalletTransaction> getWalletSummary(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest, @Nullable @QueryParam("currency") String currency) throws IOException;
+  List<BitmexWalletTransaction> getWalletSummary(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest, @Nullable @QueryParam("currency") String currency) throws IOException;
 
   @GET
   @Path("user/margin")
-  BitmexMarginAccount getMarginAccountStatus(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest, @Nullable @QueryParam("currency") String currency) throws IOException;
+  BitmexMarginAccount getMarginAccountStatus(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest, @Nullable @QueryParam("currency") String currency) throws IOException;
 
   @GET
   @Path("user/margin?currency=all")
-  List<BitmexMarginAccount> getMarginAccountsStatus(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest) throws IOException;
+  List<BitmexMarginAccount> getMarginAccountsStatus(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest) throws IOException;
 
   @GET
   @Path("trade")
@@ -70,12 +70,12 @@ public interface Bitmex {
 
   @GET
   @Path("position")
-  List<BitmexPosition> getPositions(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce, @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest)
+  List<BitmexPosition> getPositions(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce, @HeaderParam("api-signature") ParamsDigest paramsDigest)
       throws IOException;
 
   @GET
   @Path("position")
-  List<BitmexPosition> getPositions(@HeaderParam("API-KEY") String apiKey, @HeaderParam("API-NONCE") SynchronizedValueFactory<Long> nonce, @HeaderParam("API-SIGNATURE") ParamsDigest paramsDigest,
+  List<BitmexPosition> getPositions(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce, @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("symbol") String symbol, @Nullable @QueryParam("filter") String filter) throws IOException;
 
   @GET
