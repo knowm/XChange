@@ -35,6 +35,9 @@ public class CoinEggExchange extends BaseExchange implements Exchange {
 	  exchangeSpecification.setPort(80);
 	  exchangeSpecification.setExchangeName("CoinEgg");
 	  exchangeSpecification.setExchangeDescription("CoinEgg is a Bitcoin exchange based in the United Kingdom.");
+	  exchangeSpecification.setApiKey("");
+	  exchangeSpecification.setSecretKey("");
+	  exchangeSpecification.setPassword("");
 	  
 	  return exchangeSpecification;
   }
