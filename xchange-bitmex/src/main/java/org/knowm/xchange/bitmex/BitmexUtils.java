@@ -35,22 +35,19 @@ public class BitmexUtils {
 
   public static void setBitmexAssetPairs(List<BitmexTicker> tickers) {
 
-    if (assetPairMap.isEmpty() || assetsMap.isEmpty()) {
-      for (BitmexTicker ticker : tickers) {
-        String quote = ticker.getQuoteCurrency();
-        String base = ticker.getRootSymbol();
-        Currency baseCurrencyCode = Currency.getInstance(base);
-        Currency quoteCurrencyCode = Currency.getInstance(quote);
+    for (BitmexTicker ticker : tickers) {
+      String quote = ticker.getQuoteCurrency();
+      String base = ticker.getRootSymbol();
+      Currency baseCurrencyCode = Currency.getInstance(base);
+      Currency quoteCurrencyCode = Currency.getInstance(quote);
 
-        CurrencyPair pair = new CurrencyPair(base, quote);
-        if (!assetPairMap.containsKey(ticker.getSymbol()) && !assetPairMap.containsValue(pair))
-          assetPairMap.put(ticker.getSymbol(), pair);
-        if (!assetsMap.containsKey(quote) && !assetsMap.containsValue(quoteCurrencyCode))
-          assetsMap.put(quote, quoteCurrencyCode);
-        if (!assetsMap.containsKey(base) && !assetsMap.containsValue(baseCurrencyCode))
-          assetsMap.put(base, baseCurrencyCode);
-
-      }
+      CurrencyPair pair = new CurrencyPair(base, quote);
+      if (!assetPairMap.containsKey(ticker.getSymbol()) && !assetPairMap.containsValue(pair))
+        assetPairMap.put(ticker.getSymbol(), pair);
+      if (!assetsMap.containsKey(quote) && !assetsMap.containsValue(quoteCurrencyCode))
+        assetsMap.put(quote, quoteCurrencyCode);
+      if (!assetsMap.containsKey(base) && !assetsMap.containsValue(baseCurrencyCode))
+        assetsMap.put(base, baseCurrencyCode);
 
     }
 
