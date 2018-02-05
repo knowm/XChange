@@ -1,15 +1,14 @@
 package org.knowm.xchange.bitmex.service;
 
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 
 import org.knowm.xchange.service.BaseParamsDigest;
 
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
 
 public class BitmexDigest extends BaseParamsDigest {
@@ -30,11 +29,8 @@ public class BitmexDigest extends BaseParamsDigest {
 
   public static BitmexDigest createInstance(String secretKeyBase64) {
 
-    try {
-      if (secretKeyBase64 != null)
-        return new BitmexDigest(Base64.decode(secretKeyBase64.getBytes()));
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Could not decode Base 64 string", e);
+    if (secretKeyBase64 != null) {
+      return new BitmexDigest(Base64.getUrlDecoder().decode(secretKeyBase64.getBytes()));
     }
     return null;
   }
@@ -55,7 +51,7 @@ public class BitmexDigest extends BaseParamsDigest {
     mac512.update(("/" + restInvocation.getPath()).getBytes());
     mac512.update(sha256.digest());
 
-    return Base64.encodeBytes(mac512.doFinal()).trim();
+    return Base64.getUrlEncoder().encodeToString(mac512.doFinal()).trim();
 
   }
 
