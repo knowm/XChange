@@ -1,5 +1,8 @@
 package org.knowm.xchange.test.binance;
 
+import java.math.BigDecimal;
+
+import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -8,9 +11,12 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceAccountService;
+import org.knowm.xchange.binance.service.BinanceCancelOrderParams;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.StreamUtils;
@@ -49,5 +55,34 @@ public class TradeServiceIntegration {
     if (order != null) {
       System.out.println(order);
     }
+  }
+
+  @Test
+  public void stopLossLimit() throws Exception {
+
+    // Get EOS/ETH market price
+    CurrencyPair pair = CurrencyPair.EOS_ETH;
+    BigDecimal tickerPrice = marketService.tickerPrice(pair).getPrice();
+    LOG.info("TickerPrice {}", String.format("%.6f", tickerPrice));
+
+    // Set the StopLoss to 5% below the distro price
+    BigDecimal stopPrice = new BigDecimal(String.format("%.6f", tickerPrice.doubleValue() * 0.95));
+    LOG.info("StopLoss    {}", stopPrice);
+
+    // Get the available EOS amount
+    Balance balance = accountService.getAccountInfo().getWallet().getBalance(pair.base);
+    LOG.info("Balance    {} {}", String.format("%.6f", balance.getAvailable()), balance.getCurrency());
+
+    BigDecimal amount = new BigDecimal("10");
+    Assume.assumeTrue(amount.compareTo(balance.getAvailable()) <= 0);
+
+    // Place the StopLoss order
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.ASK, pair).originalAmount(amount).limitPrice(tickerPrice).stopPrice(stopPrice).build();
+
+    String orderId = tradeService.placeStopLimitOrder(limitOrder);
+    Assert.assertNotNull("New orderId", orderId);
+
+    BinanceCancelOrderParams params = new BinanceCancelOrderParams(pair, orderId);
+    Assert.assertTrue("Cancel order", tradeService.cancelOrder(params));
   }
 }

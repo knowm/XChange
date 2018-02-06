@@ -65,6 +65,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       .originalAmount(o.origQty)
       .cumulativeAmount(o.executedQty)
       .limitPrice(o.price)
+      .stopPrice(o.stopPrice)
       .timestamp(o.getTime())
       .build()
     ).collect(Collectors.toList());
@@ -79,6 +80,14 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Override
   public String placeLimitOrder(LimitOrder lo) throws IOException {
     return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, TimeInForce.GTC);
+  }
+
+  public String placeStopLimitOrder(LimitOrder lo) throws IOException {
+    return placeOrder(OrderType.STOP_LOSS_LIMIT, lo, lo.getLimitPrice(), lo.getStopPrice(), TimeInForce.GTC);
+  }
+
+  public String placeStopLossOrder(Order order, BigDecimal stopPrice) throws IOException {
+    return placeOrder(OrderType.STOP_LOSS, order, null, stopPrice, null);
   }
 
   private String placeOrder(OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif) throws IOException {
