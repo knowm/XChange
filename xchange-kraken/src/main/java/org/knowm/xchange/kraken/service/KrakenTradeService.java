@@ -8,10 +8,7 @@ import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
@@ -59,6 +56,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     return KrakenAdapters.adaptOrderId(super.placeKrakenLimitOrder(limitOrder));
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

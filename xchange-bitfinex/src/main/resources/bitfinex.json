@@ -4,11 +4,19 @@
       "price_scale": 2,
       "min_amount": 0.01000000
     },
+    "BTC/EUR": {
+      "price_scale": 2,
+      "min_amount": 0.01000000
+    },
     "LTC/USD": {
       "price_scale": 4,
       "min_amount": 0.10000000
     },
     "LTC/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.10000000
+    },
+    "BTG/BTC": {
       "price_scale": 6,
       "min_amount": 0.10000000
     },
@@ -96,6 +104,14 @@
       "price_scale": 8,
       "min_amount": 0.10000000
     },
+    "OMG/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.10000000
+    },
+    "OMG/ETH": {
+      "price_scale": 8,
+      "min_amount": 0.1
+    },
     "BCH/USD": {
       "price_scale": 4,
       "min_amount": 0.10000000
@@ -130,6 +146,10 @@
       "scale": 2,
       "withdrawal_fee": 0
     },
+    "EUR": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
     "XMR": {
       "scale": 8,
       "withdrawal_fee": 0.04
@@ -142,9 +162,17 @@
       "scale": 8,
       "withdrawal_fee": 0.01
     },
+    "OMG": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
+    "BTG": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
     "EOS": {
       "scale": 8,
-      "withdrawal_fee": 0.1
+      "withdrawal_fee":  0.31641
     },
     "IOT": {
       "scale": 8,
@@ -152,7 +180,7 @@
     },
     "USDT": {
       "scale": 8,
-      "withdrawal_fee": 5.0
+      "withdrawal_fee": 20.0
     }
   }
 }

@@ -15,10 +15,7 @@ import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -48,6 +45,11 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, BTCMarketsException {
     return placeOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount(), order.getLimitPrice(), BTCMarketsOrder.Type.Limit);
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   private String placeOrder(CurrencyPair currencyPair, Order.OrderType orderSide, BigDecimal amount, BigDecimal price,

@@ -1,0 +1,18 @@
+{
+   "coinType":"XRB",
+   "trading":true,
+   "symbol":"XRB-BTC",
+   "lastDealPrice":0.0015725,
+   "buy":0.00157239,
+   "sell":0.0015725,
+   "change":4.1663E-4,
+   "coinTypePair":"BTC",
+   "sort":0,
+   "feeRate":0.001,
+   "volValue":1403.39395495,
+   "high":0.001646,
+   "datetime":1517010896000,
+   "vol":1005560.929112,
+   "low":0.00114983,
+   "changeRate":0.3604
+}

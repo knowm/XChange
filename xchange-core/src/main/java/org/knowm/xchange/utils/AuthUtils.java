@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.Properties;
 
 import org.knowm.xchange.ExchangeSpecification;
@@ -60,7 +59,7 @@ public class AuthUtils {
     InputStream inStream = AuthUtils.class.getResourceAsStream("/" + resource);
     
     // Next try to find the keys in the user's home/.ssh dir
-    File keyfile = Paths.get(System.getProperty("user.home"), ".ssh", resource).toFile();
+    File keyfile = new File(System.getProperty("user.home") + "/" +".ssh", resource);
     if (inStream == null && keyfile.isFile()) {
       try {
         inStream = new FileInputStream(keyfile);

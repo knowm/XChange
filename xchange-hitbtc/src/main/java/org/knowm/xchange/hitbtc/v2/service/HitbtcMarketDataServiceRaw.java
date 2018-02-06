@@ -40,7 +40,12 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
   public HitbtcOrderBook getHitbtcOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    return hitbtc.getOrderBook(HitbtcAdapters.adaptCurrencyPair(currencyPair));
+    return hitbtc.getOrderBook(HitbtcAdapters.adaptCurrencyPair(currencyPair), null);
+  }
+  
+  public HitbtcOrderBook getHitbtcOrderBook(CurrencyPair currencyPair, Integer limit) throws IOException {
+
+    return hitbtc.getOrderBook(HitbtcAdapters.adaptCurrencyPair(currencyPair), limit);
   }
 
   public List<HitbtcTrade> getHitbtcTrades(CurrencyPair currencyPair) throws IOException {

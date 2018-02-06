@@ -7,6 +7,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
@@ -94,7 +95,21 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
       throw handleError(e);
     }
   }
+  
+  public GDAXIdResponse placeGDAXStopOrder(StopOrder stopOrder) throws IOException {
 
+    String side = side(stopOrder.getType());
+    String productId = toProductId(stopOrder.getCurrencyPair());
+
+    try {
+      return gdax.placeStopOrder(new GDAXPlaceOrder(stopOrder.getOriginalAmount(), stopOrder.getAveragePrice(), side, productId, "stop", stopOrder.getOrderFlags
+              ()), apiKey, digest,
+          nonceFactory, passphrase);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
+  }
+  
   public boolean cancelGDAXOrder(String id) throws IOException {
 
     try {
