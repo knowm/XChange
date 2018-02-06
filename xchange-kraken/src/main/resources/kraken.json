@@ -1,5 +1,9 @@
 {
   "currency_pairs": {
+    "BTC/GBP": {
+      "price_scale": 1,
+      "min_amount": 0.002000000
+    },
     "BTC/EUR": {
       "price_scale": 1,
       "min_amount": 0.002000000

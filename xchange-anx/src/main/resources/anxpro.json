@@ -55,6 +55,11 @@
       "max_amount": 100000.00000000,
       "price_scale": 5
     },
+    "ETH/USD": {
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
+    },
     "DOGE/BTC": {
       "min_amount": 10000.00000000,
       "max_amount": 10000000000.00000000,
