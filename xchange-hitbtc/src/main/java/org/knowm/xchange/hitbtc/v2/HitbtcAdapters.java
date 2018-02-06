@@ -151,6 +151,7 @@ public class HitbtcAdapters {
         hitbtcOrder.price,
         null, // exchange does not provide average price
         hitbtcOrder.cumQuantity,
+        null,
         convertOrderStatus(hitbtcOrder.status));
 
     return order;
