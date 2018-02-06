@@ -3,6 +3,7 @@ package org.knowm.xchange.bitmex.service;
 import java.util.Base64;
 
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.QueryParam;
 
 import org.apache.commons.codec.binary.Hex;
 import org.knowm.xchange.service.BaseParamsDigest;
@@ -35,10 +36,14 @@ public class BitmexDigest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
-      String nonce = restInvocation.getParamValue(HeaderParam.class, "api-nonce").toString();
-      String payload = restInvocation.getHttpMethod() + "/" + restInvocation.getPath() + nonce + restInvocation.getRequestBody();
+    String nonce = restInvocation.getParamValue(HeaderParam.class, "api-nonce").toString();
 
-      return new String(Hex.encodeHex(getMac().doFinal(payload.getBytes())));
+    String params = restInvocation.getParamsMap().get(QueryParam.class).toString();
+    String query = params.isEmpty() ? "" : "?" + params;
+
+    String payload = restInvocation.getHttpMethod() + "/" + restInvocation.getPath() + query + nonce + restInvocation.getRequestBody();
+
+    return new String(Hex.encodeHex(getMac().doFinal(payload.getBytes())));
   }
 
   private BitmexDigest(String secretKeyBase64, String apiKey) {
