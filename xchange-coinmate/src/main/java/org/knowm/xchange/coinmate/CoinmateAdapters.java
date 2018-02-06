@@ -194,9 +194,27 @@ public class CoinmateAdapters {
 
       String transactionId = Long.toString(entry.getTransactionId());
 
-      FundingRecord funding = new FundingRecord(null,
-          new Date(entry.getTimestamp()), Currency.getInstance(entry.getAmountCurrency()), entry.getAmount(),
-          transactionId, transactionId , type, status, null, entry.getFee(), entry.getDescription());
+      String description = entry.getDescription();
+
+      String feeCurrency = entry.getFeeCurrency();
+      String externalId = null;
+      if (entry.getTransactionType().equals("DEPOSIT") && description.startsWith(feeCurrency + ": ")) {
+        externalId = description.replace(feeCurrency + ": ", "");//the transaction hash is in the description
+      }
+
+      FundingRecord funding = new FundingRecord(
+          null,
+          new Date(entry.getTimestamp()),
+          Currency.getInstance(entry.getAmountCurrency()),
+          entry.getAmount(),
+          transactionId,
+          externalId,
+          type,
+          status,
+          null,
+          entry.getFee(),
+          description
+      );
 
       fundings.add(funding);
     }

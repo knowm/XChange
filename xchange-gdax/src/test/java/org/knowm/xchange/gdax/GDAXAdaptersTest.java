@@ -121,6 +121,7 @@ public class GDAXAdaptersTest {
     assertThat(order.getOriginalAmount().equals(new BigDecimal("1.00000000"))).isTrue();
     assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.01291771"));
     assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("1.0").subtract(new BigDecimal("0.01291771")));
+    assertThat(order.getFee()).isEqualTo(new BigDecimal("0.0249376391550000"));
     assertThat(MarketOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.BID);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1481227745508L));
@@ -147,6 +148,7 @@ public class GDAXAdaptersTest {
     assertThat(order.getOriginalAmount().equals(new BigDecimal("0.07060351"))).isTrue();
     assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.07060351"));
     assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(order.getFee()).isEqualTo(new BigDecimal("2.6256545174247500"));
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.ASK);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));

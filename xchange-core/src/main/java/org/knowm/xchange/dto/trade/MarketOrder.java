@@ -27,8 +27,8 @@ public class MarketOrder extends Order {
    * @param status the status of the order at the exchange or broker
    */
   public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
-      BigDecimal cumulativeAmount, OrderStatus status) {
-    super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
+      BigDecimal cumulativeAmount, BigDecimal fee, OrderStatus status) {
+    super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, fee, status);
   }
 
   /**
@@ -96,6 +96,19 @@ public class MarketOrder extends Order {
     }
 
     @Override
+    public Builder cumulativeAmount(BigDecimal cumulativeAmount) {
+
+      return (Builder) super.cumulativeAmount(cumulativeAmount);
+    }
+
+    @Override
+    public Builder fee(BigDecimal fee) {
+
+      return (Builder) super.cumulativeAmount(fee);
+    }
+
+
+    @Override
     public Builder originalAmount(BigDecimal originalAmount) {
 
       return (Builder) super.originalAmount(originalAmount);
@@ -133,7 +146,7 @@ public class MarketOrder extends Order {
 
     public MarketOrder build() {
 
-      MarketOrder order = new MarketOrder(orderType, originalAmount, currencyPair, id, timestamp, averagePrice, null, status);
+      MarketOrder order = new MarketOrder(orderType, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount,fee, status);
       order.setOrderFlags(flags);
       return order;
     }

@@ -7,6 +7,9 @@ import org.knowm.xchange.bitmex.dto.BitmexOrderBookL2;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
 import org.knowm.xchange.bitmex.dto.trade.*;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.bitmex.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -183,8 +186,8 @@ public class BitmexAdapters {
             status = OrderStatus.PARTIALLY_FILLED;
         }
 
-        return new LimitOrder(type, originalAmount, pair, id, timestamp,BigDecimal.valueOf(  bitmexOrder.getPrice()), BigDecimal.valueOf( bitmexOrder.getPrice()), filledAmount, status);
-    }
+    return new LimitOrder(type, originalAmount, pair, id, timestamp, orderDescription.getPrice(), orderDescription.getPrice(), filledAmount, bitmexOrder.getFee(), status);
+  }
 
     public static UserTrades adaptTradesHistory(Map<String, org.knowm.xchange.bitmex.dto.BitmexTrade> bitmexTrades) {
 
