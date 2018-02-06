@@ -49,7 +49,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   public StopOrder(OrderType type, BigDecimal originalAmount, BigDecimal cumulativeAmount, CurrencyPair currencyPair, String id, Date timestamp,
                    BigDecimal stopPrice) {
 
-    super(type, originalAmount, currencyPair, id, timestamp, BigDecimal.ZERO, cumulativeAmount, OrderStatus.PENDING_NEW);
+    super(type, originalAmount, currencyPair, id, timestamp, BigDecimal.ZERO, cumulativeAmount, BigDecimal.ZERO, OrderStatus.PENDING_NEW);
     this.stopPrice = stopPrice;
   }
 
@@ -67,7 +67,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   public StopOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal stopPrice,
                    BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
 
-    super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
+    super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, BigDecimal.ZERO, status);
     this.stopPrice = stopPrice;
   }
 
