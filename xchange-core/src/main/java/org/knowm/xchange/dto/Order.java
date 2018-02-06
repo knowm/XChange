@@ -167,6 +167,7 @@ public abstract class Order implements Serializable {
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    * @param averagePrice the averagePrice of fill belonging to the order
    * @param cumulativeAmount the amount that has been filled
+   * @param fee the fee associated with this order
    * @param status the status of the order at the exchange
    */
   public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
@@ -179,8 +180,8 @@ public abstract class Order implements Serializable {
     this.timestamp = timestamp;
     this.averagePrice = averagePrice;
     this.cumulativeAmount = cumulativeAmount;
-    this.status = status;
     this.fee = fee;
+    this.status = status;
   }
 
   /**
