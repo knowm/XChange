@@ -149,7 +149,8 @@ public class AbucoinsAdapters {
   /**
    * Adapts Cex.IO Depth to OrderBook Object
    *
-   * @param abucoinsOrderBook        Cex.IO order book
+   * @param abucoinsOrderBook        AbucoinsOrderBook order book
+
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
@@ -172,7 +173,7 @@ public class AbucoinsAdapters {
   /**
    * Adapts AbucoinsBalanceInfo to Wallet
    *
-   * @param account Abucoins account
+   * @param account AbucoinsAccount balance
    * @return The account info
    */
   public static Wallet adaptWallet(AbucoinsAccount account) {
@@ -240,6 +241,7 @@ public class AbucoinsAdapters {
                             parseDate( order.getCreatedAt() ),
                             order.getPrice(),
                             order.getFilledSize(),
+                            null,
                             adaptOrderStatus(order.getStatus()));
   }
   

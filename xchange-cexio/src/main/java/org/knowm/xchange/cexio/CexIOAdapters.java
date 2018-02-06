@@ -207,7 +207,7 @@ public class CexIOAdapters {
     Date timestamp = new Date(cexIOOrder.time);
     BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
     Order.OrderStatus status = adaptOrderStatus(cexIOOrder);
-    return new LimitOrder(orderType, originalAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice, null, null, status);
+    return new LimitOrder(orderType, originalAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice, null, null, null, status);
   }
   
   private static Order.OrderStatus adaptOrderStatus(CexIOOpenOrder cexIOOrder){

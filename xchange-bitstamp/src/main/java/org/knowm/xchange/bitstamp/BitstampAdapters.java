@@ -364,6 +364,10 @@ public final class BitstampAdapters {
             .map( t -> getBaseCurrencyAmountFromBitstampTransaction(t))
             .reduce((x,y) -> x.add(y)).get();
 
+    BigDecimal totalFee = Arrays.stream(bitstampTransactions)
+            .map( t -> t.getFee())
+            .reduce((x,y) -> x.add(y)).get();
+
     Order.OrderStatus orderStatus = adaptOrderStatus(bitstampOrderStatusResponse.getStatus());
 
     BitstampGenericOrder bitstampGenericOrder = new BitstampGenericOrder(
@@ -375,6 +379,7 @@ public final class BitstampAdapters {
             date,
             averagePrice,
             cumulativeAmount,
+            totalFee,
             orderStatus
 
     );

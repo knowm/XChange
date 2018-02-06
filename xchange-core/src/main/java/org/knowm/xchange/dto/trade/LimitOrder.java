@@ -50,7 +50,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
   public LimitOrder(OrderType type, BigDecimal originalAmount, BigDecimal cumulativeAmount, CurrencyPair currencyPair, String id, Date timestamp,
       BigDecimal limitPrice) {
 
-    super(type, originalAmount, currencyPair, id, timestamp, BigDecimal.ZERO, cumulativeAmount, OrderStatus.PENDING_NEW);
+    super(type, originalAmount, currencyPair, id, timestamp, BigDecimal.ZERO, cumulativeAmount, BigDecimal.ZERO, OrderStatus.PENDING_NEW);
     this.limitPrice = limitPrice;
   }
 
@@ -66,9 +66,9 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param status the status of the order at the exchange or broker
    */
   public LimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
-      BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
+      BigDecimal averagePrice, BigDecimal cumulativeAmount, BigDecimal fee, OrderStatus status) {
 
-    super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
+    super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount,fee, status);
     this.limitPrice = limitPrice;
   }
 
@@ -223,9 +223,9 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
       LimitOrder order;
       if (remainingAmount != null) {
-        order = new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice, averagePrice, originalAmount.subtract(remainingAmount), status);
+        order = new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice, averagePrice, originalAmount.subtract(remainingAmount), fee, status);
       } else {
-        order = new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice, averagePrice, cumulativeAmount, status);
+        order = new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice, averagePrice, cumulativeAmount, fee, status);
       }
       order.setOrderFlags(flags);
       return order;
