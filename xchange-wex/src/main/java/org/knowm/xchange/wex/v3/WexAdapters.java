@@ -233,7 +233,7 @@ public final class WexAdapters {
         break;
     }
 
-    return new LimitOrder(orderType, orderInfo.getStartAmount(), currencyPair, orderId, timestamp, price, price, orderInfo.getStartAmount().subtract(orderInfo.getAmount()), orderStatus);
+    return new LimitOrder(orderType, orderInfo.getStartAmount(), currencyPair, orderId, timestamp, price, price, orderInfo.getStartAmount().subtract(orderInfo.getAmount()), null, orderStatus);
   }
 
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {

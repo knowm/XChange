@@ -44,7 +44,8 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("account/transactions")
-  List<HitbtcTransaction> transactions(@QueryParam("currency") String currency, @QueryParam("limit") Integer limit, @QueryParam("offset") Integer offset) throws HttpStatusIOException;
+  List<HitbtcTransaction> transactions(@QueryParam("currency") String currency, @QueryParam("limit") Integer limit,
+      @QueryParam("offset") Integer offset) throws HttpStatusIOException;
 
   @POST
   @Path("account/transfer")
@@ -53,7 +54,8 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @POST
   @Path("account/crypto/withdraw")
-  Map payout(@FormParam("amount") BigDecimal amount, @FormParam("currency") String currency, @FormParam("address") String address) throws HttpStatusIOException;
+  Map payout(@FormParam("amount") BigDecimal amount, @FormParam("currency") String currency, @FormParam("address") String address,
+      @FormParam("paymentId") String paymentId) throws HttpStatusIOException;
 
   /************************ Tradding & Order APIs ************************/
 
@@ -65,17 +67,15 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @POST
   @Path("order")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  HitbtcOrder postHitbtcNewOrder(
-      @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side,
-      @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity,
-      @FormParam("type") String type, @FormParam("timeInForce") String timeInForce) throws IOException, HitbtcException;
+  HitbtcOrder postHitbtcNewOrder(@FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side,
+      @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity, @FormParam("type") String type,
+      @FormParam("timeInForce") String timeInForce) throws IOException, HitbtcException;
 
   @PATCH
   @Path("order/{clientOrderId}")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   HitbtcOrder updateHitbtcOrder(@PathParam("clientOrderId") String clientOrderId, @FormParam("quantity") BigDecimal quantity,
-      @FormParam("requestClientId") String requestClientId, @FormParam("price") BigDecimal price)
-      throws IOException, HitbtcException;
+      @FormParam("requestClientId") String requestClientId, @FormParam("price") BigDecimal price) throws IOException, HitbtcException;
 
   @DELETE
   @Path("order")
@@ -95,8 +95,8 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @GET
   @Path("history/trades")
   List<HitbtcOwnTrade> getHitbtcTrades(@QueryParam("symbol") String symbol, @QueryParam("sort") String sort, @QueryParam("by") String sortBy,
-                                       @QueryParam("from") String from, @QueryParam("till") String till, @QueryParam("limit") long limit,
-                                       @QueryParam("offset") long offset) throws IOException, HitbtcException;
+      @QueryParam("from") String from, @QueryParam("till") String till, @QueryParam("limit") long limit,
+      @QueryParam("offset") long offset) throws IOException, HitbtcException;
 
   //TODO add query params
 
@@ -120,8 +120,8 @@ public interface HitbtcAuthenticated extends Hitbtc {
    */
   @GET
   @Path("history/order")
-  List<HitbtcOrder> getHitbtcOrder(@PathParam("symbol") String symbol, 
-                                   @PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
+  List<HitbtcOrder> getHitbtcOrder(@PathParam("symbol") String symbol,
+      @PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
 
   @GET
   @Path("/history/order/{id}/trades")
