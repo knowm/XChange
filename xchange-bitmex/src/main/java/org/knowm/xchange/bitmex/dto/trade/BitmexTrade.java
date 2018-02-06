@@ -1,98 +1,98 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "timestamp", "symbol", "side", "size", "price", "tickDirection", "trdMatchID", "grossValue", "homeNotional", "foreignNotional" })
+@JsonPropertyOrder({"timestamp", "symbol", "side", "size", "price", "tickDirection", "trdMatchID", "grossValue", "homeNotional", "foreignNotional"})
 
 public final class BitmexTrade {
 
-  @JsonProperty("timestamp")
-  public Date timestamp;
-  @JsonProperty("symbol")
-  public String symbol;
-  @JsonProperty("side")
-  public BitmexSide side;
-  @JsonProperty("size")
-  public BigDecimal size;
-  @JsonProperty("price")
-  public BigDecimal price;
-  @JsonProperty("tickDirection")
-  public BitmexTickDirection tickDirection;
-  @JsonProperty("trdMatchID")
-  public String trdMatchID;
-  @JsonProperty("grossValue")
-  public BigDecimal grossValue;
-  @JsonProperty("homeNotional")
-  public BigDecimal homeNotional;
-  @JsonProperty("foreignNotional")
-  public BigDecimal foreignNotional;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<>();
+    @JsonProperty("timestamp")
+    public Date timestamp;
+    @JsonProperty("symbol")
+    public String symbol;
+    @JsonProperty("side")
+    public BitmexSide side;
+    @JsonProperty("size")
+    public BigDecimal size;
+    @JsonProperty("price")
+    public BigDecimal price;
+    @JsonProperty("tickDirection")
+    public BitmexTickDirection tickDirection;
+    @JsonProperty("trdMatchID")
+    public String trdMatchID;
+    @JsonProperty("grossValue")
+    public BigDecimal grossValue;
+    @JsonProperty("homeNotional")
+    public BigDecimal homeNotional;
+    @JsonProperty("foreignNotional")
+    public BigDecimal foreignNotional;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
-  public String getSymbol() {
+    public String getSymbol() {
 
-    return symbol;
-  }
+        return symbol;
+    }
 
-  public BitmexSide getSide() {
+    public BitmexSide getSide() {
 
-    return side;
-  }
+        return side;
+    }
 
-  public BigDecimal getSize() {
+    public BigDecimal getSize() {
 
-    return size;
-  }
+        return size;
+    }
 
-  public BigDecimal getPrice() {
+    public BigDecimal getPrice() {
 
-    return price;
-  }
+        return price;
+    }
 
-  public BitmexTickDirection getTickDirection() {
+    public BitmexTickDirection getTickDirection() {
 
-    return tickDirection;
-  }
+        return tickDirection;
+    }
 
-  public String getTrdMatchID() {
+    public String getTrdMatchID() {
 
-    return trdMatchID;
-  }
+        return trdMatchID;
+    }
 
-  public BigDecimal getGrossValue() {
+    public BigDecimal getGrossValue() {
 
-    return grossValue;
-  }
+        return grossValue;
+    }
 
-  public BigDecimal getHomeNotional() {
+    public BigDecimal getHomeNotional() {
 
-    return homeNotional;
-  }
+        return homeNotional;
+    }
 
-  public BigDecimal getForeignNotional() {
+    public BigDecimal getForeignNotional() {
 
-    return foreignNotional;
-  }
+        return foreignNotional;
+    }
 
-  public Map<String, Object> getAdditionalProperties() {
+    public Map<String, Object> getAdditionalProperties() {
 
-    return additionalProperties;
-  }
+        return additionalProperties;
+    }
 
-  @Override
-  public String toString() {
+    @Override
+    public String toString() {
 
-    return "BitmexTrade{" + "symbol='" + symbol + '\'' + ", side='" + side + '\'' + ", size=" + size + ", price=" + price + ", tickDirection='" + tickDirection + '\'' + ", trdMatchID='" + trdMatchID
-        + '\'' + ", grossValue=" + grossValue + ", homeNotional=" + homeNotional + ", foreignNotional=" + foreignNotional + '}';
-  }
+        return "BitmexTrade{" + "symbol='" + symbol + '\'' + ", side='" + side + '\'' + ", size=" + size + ", price=" + price + ", tickDirection='" + tickDirection + '\'' + ", trdMatchID='" + trdMatchID
+                + '\'' + ", grossValue=" + grossValue + ", homeNotional=" + homeNotional + ", foreignNotional=" + foreignNotional + '}';
+    }
 
 }

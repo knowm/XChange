@@ -1,17 +1,16 @@
 package org.knowm.xchange.examples.bitmex.dto.account;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
-import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
-import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
-import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
+import org.knowm.xchange.bitmex.dto.BitmexMargin;
+import org.knowm.xchange.bitmex.dto.BitmexTransaction;
+import org.knowm.xchange.bitmex.dto.BitmexUser;
 import org.knowm.xchange.bitmex.service.BitmexAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.examples.bitmex.BitmexDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
+
+import java.io.IOException;
+import java.util.List;
 
 public class BitmexAccountDemo {
 
@@ -27,24 +26,25 @@ public class BitmexAccountDemo {
   private static void marginInfo(AccountService accountService) throws IOException {
     // Get the margin information
     BitmexAccountServiceRaw accountServiceRaw = (BitmexAccountServiceRaw) accountService;
-    BitmexAccount bitmexAccountInfo = accountServiceRaw.getBitmexAccountInfo();
+    BitmexUser bitmexAccountInfo = accountServiceRaw.getBitmexAccountInfo();
     System.out.println("Margin infos response: " + bitmexAccountInfo.toString());
-    BitmexMarginAccount xBt = accountServiceRaw.getBitmexMarginAccountStatus(new Currency("XBt"));
+
+    BitmexMargin xBt = accountServiceRaw.getBitmexMarginAccountStatus(new Currency("XBt"));
     System.out.println(xBt);
-    BitmexMarginAccount usd = accountServiceRaw.getBitmexMarginAccountStatus(new Currency("USD"));
+    BitmexMargin usd = accountServiceRaw.getBitmexMarginAccountStatus(new Currency("USD"));
     System.out.println(usd);
-    List<BitmexMarginAccount> bitmexMarginAccountsStatus = accountServiceRaw.getBitmexMarginAccountsStatus();
+    BitmexMargin bitmexMarginAccountsStatus = accountServiceRaw.getBitmexMarginAccountStatus(Currency.BTC);
     System.out.println(bitmexMarginAccountsStatus);
   }
 
   private static void walletInfo(AccountService accountService) throws IOException {
     BitmexAccountServiceRaw accountServiceRaw = (BitmexAccountServiceRaw) accountService;
-    BitmexWallet xBt = accountServiceRaw.getBitmexWallet(new Currency("XBt"));
+    org.knowm.xchange.bitmex.dto.BitmexWallet xBt = accountServiceRaw.getBitmexWallet(new Currency("XBt"));
     System.out.println(xBt);
 
-    List<BitmexWalletTransaction> walletHistory = accountServiceRaw.getBitmexWalletHistory(new Currency("XBt"));
+    List<BitmexTransaction> walletHistory = accountServiceRaw.getBitmexWalletHistory(new Currency("XBt"));
     System.out.println(walletHistory);
-    List<BitmexWalletTransaction> bitmexWalletSummary = accountServiceRaw.getBitmexWalletSummary(new Currency("XBt"));
+    List<BitmexTransaction> bitmexWalletSummary = accountServiceRaw.getBitmexWalletSummary(new Currency("XBt"));
     System.out.println(bitmexWalletSummary);
 
   }

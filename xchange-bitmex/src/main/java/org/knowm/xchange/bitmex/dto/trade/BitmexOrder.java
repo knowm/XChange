@@ -1,183 +1,187 @@
+/*
 package org.knowm.xchange.bitmex.dto.trade;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class BitmexOrder {
 
-  private final String refId;
-  private final String userRefId;
-  private final BitmexOrderStatus status;
-  private final double openTimestamp;
-  private final double startTimestamp;
-  private final double expireTimestamp;
-  private final BitmexOrderDescription orderDescription;
-  private final BigDecimal volume;
-  private final BigDecimal volumeExecuted;
-  private final BigDecimal cost;
-  private final BigDecimal fee;
-  private final BigDecimal price;
-  private final BigDecimal stopPrice;
-  private final BigDecimal limitPrice;
-  private final String miscellaneous;
-  private final List<String> orderFlags;
-  private final List<String> tradeIds;
-  private final double closeTimestamp;
-  private final String closeReason;
+    private final String refId;
+    private final String userRefId;
+    private final BitmexOrderStatus status;
+    private final double openTimestamp;
+    private final double startTimestamp;
+    private final double expireTimestamp;
+    private final BitmexOrderDescription orderDescription;
+    private final BigDecimal volume;
+    private final BigDecimal volumeExecuted;
+    private final BigDecimal cost;
+    private final BigDecimal fee;
+    private final BigDecimal price;
+    private final BigDecimal stopPrice;
+    private final BigDecimal limitPrice;
+    private final String miscellaneous;
+    private final List<String> orderFlags;
+    private final List<String> tradeIds;
+    private final double closeTimestamp;
+    private final String closeReason;
 
-  /**
-   * Constructor
-   * 
-   * @param refId
-   * @param userRefId
-   * @param status
-   * @param openTimestamp
-   * @param startTimestamp
-   * @param expireTimestamp
-   * @param orderDescription
-   * @param volume
-   * @param volumeExecuted
-   * @param cost
-   * @param fee
-   * @param price
-   * @param stopPrice
-   * @param limitPrice
-   * @param misc
-   * @param orderFLags
-   * @param tradeIds
-   * @param closeTimestamp
-   * @param closeReason
-   */
-  public BitmexOrder(@JsonProperty("refid") String refId, @JsonProperty("userref") String userRefId, @JsonProperty("status") BitmexOrderStatus status, @JsonProperty("opentm") double openTimestamp,
-      @JsonProperty("starttm") double startTimestamp, @JsonProperty("expiretm") double expireTimestamp, @JsonProperty("descr") BitmexOrderDescription orderDescription,
-      @JsonProperty("vol") BigDecimal volume, @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("stopprice") BigDecimal stopPrice, @JsonProperty("limitprice") BigDecimal limitPrice, @JsonProperty("misc") String misc,
-      @JsonProperty("oflags") List<String> orderFLags, @JsonProperty("trades") List<String> tradeIds, @JsonProperty("closetm") double closeTimestamp, @JsonProperty("reason") String closeReason) {
+    */
+/**
+     * Constructor
+     *
+     * @param refId
+     * @param userRefId
+     * @param status
+     * @param openTimestamp
+     * @param startTimestamp
+     * @param expireTimestamp
+     * @param orderDescription
+     * @param volume
+     * @param volumeExecuted
+     * @param cost
+     * @param fee
+     * @param price
+     * @param stopPrice
+     * @param limitPrice
+     * @param misc
+     * @param orderFLags
+     * @param tradeIds
+     * @param closeTimestamp
+     * @param closeReason
+     *//*
 
-    this.refId = refId;
-    this.userRefId = userRefId;
-    this.status = status;
-    this.openTimestamp = openTimestamp;
-    this.startTimestamp = startTimestamp;
-    this.expireTimestamp = expireTimestamp;
-    this.orderDescription = orderDescription;
-    this.volume = volume;
-    this.volumeExecuted = volumeExecuted;
-    this.cost = cost;
-    this.fee = fee;
-    this.price = price;
-    this.stopPrice = stopPrice;
-    this.limitPrice = limitPrice;
-    this.miscellaneous = misc;
-    this.orderFlags = orderFLags;
-    this.tradeIds = tradeIds;
-    this.closeTimestamp = closeTimestamp;
-    this.closeReason = closeReason;
-  }
+    public BitmexOrder(@JsonProperty("refid") String refId, @JsonProperty("userref") String userRefId, @JsonProperty("status") BitmexOrderStatus status, @JsonProperty("opentm") double openTimestamp,
+                       @JsonProperty("starttm") double startTimestamp, @JsonProperty("expiretm") double expireTimestamp, @JsonProperty("descr") BitmexOrderDescription orderDescription,
+                       @JsonProperty("vol") BigDecimal volume, @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
+                       @JsonProperty("price") BigDecimal price, @JsonProperty("stopprice") BigDecimal stopPrice, @JsonProperty("limitprice") BigDecimal limitPrice, @JsonProperty("misc") String misc,
+                       @JsonProperty("oflags") List<String> orderFLags, @JsonProperty("trades") List<String> tradeIds, @JsonProperty("closetm") double closeTimestamp, @JsonProperty("reason") String closeReason) {
 
-  public BitmexOrderDescription getOrderDescription() {
+        this.refId = refId;
+        this.userRefId = userRefId;
+        this.status = status;
+        this.openTimestamp = openTimestamp;
+        this.startTimestamp = startTimestamp;
+        this.expireTimestamp = expireTimestamp;
+        this.orderDescription = orderDescription;
+        this.volume = volume;
+        this.volumeExecuted = volumeExecuted;
+        this.cost = cost;
+        this.fee = fee;
+        this.price = price;
+        this.stopPrice = stopPrice;
+        this.limitPrice = limitPrice;
+        this.miscellaneous = misc;
+        this.orderFlags = orderFLags;
+        this.tradeIds = tradeIds;
+        this.closeTimestamp = closeTimestamp;
+        this.closeReason = closeReason;
+    }
 
-    return orderDescription;
-  }
+    public BitmexOrderDescription getOrderDescription() {
 
-  public String getRefId() {
+        return orderDescription;
+    }
 
-    return refId;
-  }
+    public String getRefId() {
 
-  public String getUserRefId() {
+        return refId;
+    }
 
-    return userRefId;
-  }
+    public String getUserRefId() {
 
-  public BitmexOrderStatus getStatus() {
+        return userRefId;
+    }
 
-    return status;
-  }
+    public BitmexOrderStatus getStatus() {
 
-  public double getOpenTimestamp() {
+        return status;
+    }
 
-    return openTimestamp;
-  }
+    public double getOpenTimestamp() {
 
-  public double getStartTimestamp() {
+        return openTimestamp;
+    }
 
-    return startTimestamp;
-  }
+    public double getStartTimestamp() {
 
-  public double getExpireTimestamp() {
+        return startTimestamp;
+    }
 
-    return expireTimestamp;
-  }
+    public double getExpireTimestamp() {
 
-  public BigDecimal getVolume() {
+        return expireTimestamp;
+    }
 
-    return volume;
-  }
+    public BigDecimal getVolume() {
 
-  public BigDecimal getVolumeExecuted() {
+        return volume;
+    }
 
-    return volumeExecuted;
-  }
+    public BigDecimal getVolumeExecuted() {
 
-  public BigDecimal getCost() {
+        return volumeExecuted;
+    }
 
-    return cost;
-  }
+    public BigDecimal getCost() {
 
-  public BigDecimal getFee() {
+        return cost;
+    }
 
-    return fee;
-  }
+    public BigDecimal getFee() {
 
-  public BigDecimal getPrice() {
+        return fee;
+    }
 
-    return price;
-  }
+    public BigDecimal getPrice() {
 
-  public BigDecimal getStopPrice() {
+        return price;
+    }
 
-    return stopPrice;
-  }
+    public BigDecimal getStopPrice() {
 
-  public BigDecimal getLimitPrice() {
+        return stopPrice;
+    }
 
-    return limitPrice;
-  }
+    public BigDecimal getLimitPrice() {
 
-  public String getMiscellaneous() {
+        return limitPrice;
+    }
 
-    return miscellaneous;
-  }
+    public String getMiscellaneous() {
 
-  public List<String> getOrderFlags() {
+        return miscellaneous;
+    }
 
-    return orderFlags;
-  }
+    public List<String> getOrderFlags() {
 
-  public List<String> getTradeIds() {
+        return orderFlags;
+    }
 
-    return tradeIds;
-  }
+    public List<String> getTradeIds() {
 
-  public double getCloseTimestamp() {
+        return tradeIds;
+    }
 
-    return closeTimestamp;
-  }
+    public double getCloseTimestamp() {
 
-  public String getCloseReason() {
+        return closeTimestamp;
+    }
 
-    return closeReason;
-  }
+    public String getCloseReason() {
 
-  @Override
-  public String toString() {
+        return closeReason;
+    }
 
-    return "BitmexOrder [refId=" + refId + ", userRefId=" + userRefId + ", status=" + status + ", openTimestamp=" + openTimestamp + ", startTimestamp=" + startTimestamp + ", expireTimestamp="
-        + expireTimestamp + ", orderDescription=" + orderDescription + ", volume=" + volume + ", volumeExecuted=" + volumeExecuted + ", cost=" + cost + ", fee=" + fee + ", price=" + price
-        + ", stopPrice=" + stopPrice + ", limitPrice=" + limitPrice + ", miscellaneous=" + miscellaneous + ", orderFlags=" + orderFlags + ", tradeIds=" + tradeIds + ", closeTimestamp="
-        + closeTimestamp + ", closeReason=" + closeReason + "]";
-  }
+    @Override
+    public String toString() {
+
+        return "BitmexOrder [refId=" + refId + ", userRefId=" + userRefId + ", status=" + status + ", openTimestamp=" + openTimestamp + ", startTimestamp=" + startTimestamp + ", expireTimestamp="
+                + expireTimestamp + ", orderDescription=" + orderDescription + ", volume=" + volume + ", volumeExecuted=" + volumeExecuted + ", cost=" + cost + ", fee=" + fee + ", price=" + price
+                + ", stopPrice=" + stopPrice + ", limitPrice=" + limitPrice + ", miscellaneous=" + miscellaneous + ", orderFlags=" + orderFlags + ", tradeIds=" + tradeIds + ", closeTimestamp="
+                + closeTimestamp + ", closeReason=" + closeReason + "]";
+    }
 }
+*/

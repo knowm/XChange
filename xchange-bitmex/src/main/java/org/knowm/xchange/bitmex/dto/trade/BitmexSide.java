@@ -1,12 +1,5 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.knowm.xchange.bitmex.dto.trade.BitmexSide.BitmexTypeDeserializer;
-import org.knowm.xchange.dto.Order.OrderType;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -14,47 +7,53 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.bitmex.dto.trade.BitmexSide.BitmexTypeDeserializer;
+import org.knowm.xchange.dto.Order.OrderType;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonDeserialize(using = BitmexTypeDeserializer.class)
 public enum BitmexSide {
 
-  BUY, SELL;
+    BUY, SELL;
 
-  @Override
-  public String toString() {
+    private static final Map<String, BitmexSide> fromString = new HashMap<>();
 
-    return super.toString().toLowerCase();
-  }
+    static {
+        for (BitmexSide type : values())
+            fromString.put(type.toString(), type);
 
-  public static BitmexSide fromString(String typeString) {
+        fromString.put("buy", BUY);
+        fromString.put("sell", SELL);
+    }
 
-    return fromString.get(typeString.toLowerCase());
-  }
+    public static BitmexSide fromString(String typeString) {
 
-  public static BitmexSide fromOrderType(OrderType type) {
+        return fromString.get(typeString.toLowerCase());
+    }
 
-    return type == OrderType.ASK ? BitmexSide.SELL : BitmexSide.BUY;
-  }
+    public static BitmexSide fromOrderType(OrderType type) {
 
-  private static final Map<String, BitmexSide> fromString = new HashMap<>();
-
-  static {
-    for (BitmexSide type : values())
-      fromString.put(type.toString(), type);
-
-    fromString.put("buy", BUY);
-    fromString.put("sell", SELL);
-  }
-
-  static class BitmexTypeDeserializer extends JsonDeserializer<BitmexSide> {
+        return type == OrderType.ASK ? BitmexSide.SELL : BitmexSide.BUY;
+    }
 
     @Override
-    public BitmexSide deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public String toString() {
 
-      ObjectCodec oc = jsonParser.getCodec();
-      JsonNode node = oc.readTree(jsonParser);
-      String typeString = node.textValue();
-      return fromString(typeString);
+        return super.toString().toLowerCase();
     }
-  }
+
+    static class BitmexTypeDeserializer extends JsonDeserializer<BitmexSide> {
+
+        @Override
+        public BitmexSide deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+
+            ObjectCodec oc = jsonParser.getCodec();
+            JsonNode node = oc.readTree(jsonParser);
+            String typeString = node.textValue();
+            return fromString(typeString);
+        }
+    }
 }

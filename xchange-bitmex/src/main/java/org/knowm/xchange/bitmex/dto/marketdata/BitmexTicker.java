@@ -4,26 +4,26 @@ import java.util.Map;
 
 public class BitmexTicker {
 
-  private final Map<String, BitmexTicker> assetInfoMap;
+    private final Map<String, BitmexTicker> assetInfoMap;
 
-  /**
-   * Constructor
-   *
-   * @param assetInfoMap
-   */
-  public BitmexTicker(Map<String, BitmexTicker> assetInfoMap) {
+    /**
+     * Constructor
+     *
+     * @param assetInfoMap
+     */
+    public BitmexTicker(Map<String, BitmexTicker> assetInfoMap) {
 
-    this.assetInfoMap = assetInfoMap;
-  }
+        this.assetInfoMap = assetInfoMap;
+    }
 
-  public Map<String, BitmexTicker> getAssetPairMap() {
+    public Map<String, BitmexTicker> getAssetPairMap() {
 
-    return assetInfoMap;
-  }
+        return assetInfoMap;
+    }
 
-  @Override
-  public String toString() {
+    @Override
+    public String toString() {
 
-    return "BitmexTickers [assetInfoMap=" + assetInfoMap + "]";
-  }
+        return "BitmexTickers [assetInfoMap=" + assetInfoMap + "]";
+    }
 }

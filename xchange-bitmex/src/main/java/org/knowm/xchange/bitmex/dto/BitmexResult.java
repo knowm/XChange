@@ -7,15 +7,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  */
 public class BitmexResult<V> {
 
-  /**
-   * Constructor
-   *
-   * @param result
-   * @param error
-   */
-  @JsonCreator
-  public BitmexResult() {
+    /**
+     * Constructor
+     *
+     * @param result
+     * @param error
+     */
+    @JsonCreator
+    public BitmexResult() {
 
-  }
+    }
 
 }

@@ -1,82 +1,81 @@
 package org.knowm.xchange.bitmex.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.bitmex.dto.trade.BitmexTickDirection;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class BitmexPublicTrade {
 
-  private final BigDecimal price;
-  private final BigDecimal size;
-  private final Date timestamp;
-  private final BitmexSide side;
-  private final BitmexTickDirection tickDirection;
-  private final String symbol;
-  private final String trdMatchID;
-  private final BigDecimal grossValue;
-  private final BigDecimal homeNotional;
-  private final BigDecimal foreignNotional;
+    private final BigDecimal price;
+    private final BigDecimal size;
+    private final Date timestamp;
+    private final BitmexSide side;
+    private final BitmexTickDirection tickDirection;
+    private final String symbol;
+    private final String trdMatchID;
+    private final BigDecimal grossValue;
+    private final BigDecimal homeNotional;
+    private final BigDecimal foreignNotional;
 
-  public BitmexPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("timestamp") Date timestamp, @JsonProperty("side") BitmexSide side,
-      @JsonProperty("tickDirection") BitmexTickDirection tickDirection, @JsonProperty("symbol") String symbol, @JsonProperty("trdMatchID") String trdMatchID,
-      @JsonProperty("grossValue") BigDecimal grossValue, @JsonProperty("homeNotional") BigDecimal homeNotional, @JsonProperty("foreignNotional") BigDecimal foreignNotional) {
+    public BitmexPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("timestamp") Date timestamp, @JsonProperty("side") BitmexSide side,
+                             @JsonProperty("tickDirection") BitmexTickDirection tickDirection, @JsonProperty("symbol") String symbol, @JsonProperty("trdMatchID") String trdMatchID,
+                             @JsonProperty("grossValue") BigDecimal grossValue, @JsonProperty("homeNotional") BigDecimal homeNotional, @JsonProperty("foreignNotional") BigDecimal foreignNotional) {
 
-    this.price = price;
-    this.size = size;
-    this.timestamp = timestamp;
-    this.side = side;
-    this.tickDirection = tickDirection;
-    this.symbol = symbol;
-    this.trdMatchID = trdMatchID;
-    this.homeNotional = homeNotional;
-    this.foreignNotional = foreignNotional;
-    this.grossValue = grossValue;
+        this.price = price;
+        this.size = size;
+        this.timestamp = timestamp;
+        this.side = side;
+        this.tickDirection = tickDirection;
+        this.symbol = symbol;
+        this.trdMatchID = trdMatchID;
+        this.homeNotional = homeNotional;
+        this.foreignNotional = foreignNotional;
+        this.grossValue = grossValue;
 
-  }
+    }
 
-  public BigDecimal getPrice() {
+    public BigDecimal getPrice() {
 
-    return price;
-  }
+        return price;
+    }
 
-  public BigDecimal getSize() {
+    public BigDecimal getSize() {
 
-    return size;
-  }
+        return size;
+    }
 
-  public Date getTime() {
+    public Date getTime() {
 
-    return timestamp;
-  }
+        return timestamp;
+    }
 
-  public BitmexSide getSide() {
+    public BitmexSide getSide() {
 
-    return side;
-  }
+        return side;
+    }
 
-  public BitmexTickDirection getTickDirection() {
+    public BitmexTickDirection getTickDirection() {
 
-    return tickDirection;
-  }
+        return tickDirection;
+    }
 
-  public String getSymbol() {
+    public String getSymbol() {
 
-    return symbol;
-  }
+        return symbol;
+    }
 
-  public String getTrdMatchID() {
+    public String getTrdMatchID() {
 
-    return trdMatchID;
-  }
+        return trdMatchID;
+    }
 
-  @Override
-  public String toString() {
+    @Override
+    public String toString() {
 
-    return "BitmexPublicTrade [symbol=" + symbol + " price=" + price + ", size=" + size + ", time=" + timestamp + ", side=" + side + ", tickDirection=" + tickDirection + "]";
-  }
+        return "BitmexPublicTrade [symbol=" + symbol + " price=" + price + ", size=" + size + ", time=" + timestamp + ", side=" + side + ", tickDirection=" + tickDirection + "]";
+    }
 
 }
