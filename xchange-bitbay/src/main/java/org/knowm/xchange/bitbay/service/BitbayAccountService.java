@@ -6,12 +6,13 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.BitbayAdapters;
+import org.knowm.xchange.bitbay.service.account.params.BitbayWithdrawFundsSwiftParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -34,18 +35,29 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount,
       String address) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    if ( params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      transfer(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return "Success";
+    }
+    else if ( params instanceof BitbayWithdrawFundsSwiftParams ) {
+      BitbayWithdrawFundsSwiftParams bicParams = (BitbayWithdrawFundsSwiftParams) params;
+      withdraw(bicParams.getCurrency(), bicParams.getAmount(), bicParams.getAccount(), bicParams.isExpress(), bicParams.getBic());
+      return "Success";
+    }
+
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String requestDepositAddress(Currency currency,
       String... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override

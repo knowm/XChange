@@ -111,7 +111,7 @@ public class AbucoinsAdapters {
   /**
    * Adapts a AbucoinsTrade[] to a Trades Object
    *
-   * @param abucoinsTrades  The AbucoinsTrade data returned by API
+   * @param abucoinsTrades  The Abucoins trade data returned by API
    * @param currencyPair trade currencies
    * @return The trades
    */
@@ -150,6 +150,7 @@ public class AbucoinsAdapters {
    * Adapts Cex.IO Depth to OrderBook Object
    *
    * @param abucoinsOrderBook        AbucoinsOrderBook order book
+
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
@@ -196,7 +197,7 @@ public class AbucoinsAdapters {
 
   public static LimitOrder createOrder(CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.getPrice(), currencyPair, "", null, priceAndAmount.getSize()); //??
+    return new LimitOrder(orderType, priceAndAmount.getSize(), currencyPair, "", null, priceAndAmount.getPrice()); //??
   }
   
   public static OpenOrders adaptOpenOrders(AbucoinsOrder[] orders) {
@@ -323,10 +324,6 @@ public class AbucoinsAdapters {
   }
   
   public static String[] adaptToSetOfIDs(String resp) {
-    StringTokenizer tok = new StringTokenizer(resp, "[], ");
-    List<String> res = new ArrayList<>();
-    while ( tok.hasMoreTokens() )
-      res.add( tok.nextToken());
-    return res.toArray(new String[ res.size()]);
+    return resp.replaceAll("[\\[\\\"\\] ]", "").split(",");
   }
 }

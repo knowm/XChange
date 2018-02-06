@@ -34,7 +34,7 @@ public interface Hitbtc {
 
   @GET
   @Path("public/orderbook/{symbol}")
-  HitbtcOrderBook getOrderBook(@PathParam("symbol") String symbol) throws IOException;
+  HitbtcOrderBook getOrderBook(@PathParam("symbol") String symbol, @QueryParam("limit") Integer limit) throws IOException;
 
   @GET
   @Path("public/trades/{symbol}")

@@ -13,10 +13,7 @@ import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
@@ -76,6 +73,11 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
     if ( resp.getMessage() != null )
       throw new IOException(resp.getMessage());
     return resp.getId();
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

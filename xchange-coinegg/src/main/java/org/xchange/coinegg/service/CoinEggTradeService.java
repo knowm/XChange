@@ -7,10 +7,7 @@ import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -61,6 +58,11 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
     String coin = CoinEggUtils.toBaseCoin(limitOrder.getCurrencyPair());
     
     return CoinEggAdapters.adaptTradeAdd(getCoinEggTradeAdd(amount, price, type, coin));
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

@@ -11,8 +11,9 @@ import org.knowm.xchange.bitmex.service.BitmexAccountService;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataServiceRaw;
 import org.knowm.xchange.bitmex.service.BitmexTradeService;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+
+import com.google.common.collect.BiMap;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -22,6 +23,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
+
     this.marketDataService = new BitmexMarketDataService(this);
     this.accountService = new BitmexAccountService(this);
     this.tradeService = new BitmexTradeService(this);
@@ -35,8 +37,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("bitmex.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitmex");
-    exchangeSpecification.setExchangeDescription("Bitmex is a bitcoin exchange.");
-
+    exchangeSpecification.setExchangeDescription("Bitmex is a bitcoin exchang");
     return exchangeSpecification;
   }
 
@@ -45,10 +46,13 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
+
   @Override
-  public void remoteInit() throws IOException, ExchangeException {
-    BitmexMarketDataServiceRaw dataService = (BitmexMarketDataServiceRaw) this.marketDataService;
-    List<BitmexTicker> tickers = dataService.getActiveTickers();
-    exchangeMetaData = BitmexAdapters.adaptMetaData(tickers);
+  public void remoteInit() throws IOException {
+
+    List<BitmexTicker> tickers = ((BitmexMarketDataServiceRaw) marketDataService).getActiveTickers();
+    BiMap<BitmexPrompt, String> contracts = ((BitmexMarketDataServiceRaw) marketDataService).getActivePrompts(tickers);
+    exchangeMetaData = BitmexAdapters.adaptToExchangeMetaData(exchangeMetaData, tickers, contracts);
   }
+
 }
