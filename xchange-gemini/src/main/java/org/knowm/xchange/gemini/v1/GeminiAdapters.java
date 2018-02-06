@@ -118,6 +118,7 @@ public final class GeminiAdapters {
               limitPrice,
               averageExecutionPrice,
               executedAmount,
+              null,
               orderStatus
       );
 
@@ -132,6 +133,7 @@ public final class GeminiAdapters {
               timestamp,
               averageExecutionPrice,
               executedAmount,
+              null,
               orderStatus
 
       );
@@ -331,7 +333,7 @@ public final class GeminiAdapters {
       }
 
       LimitOrder limitOrder = new LimitOrder(orderType, order.getOriginalAmount(), currencyPair,
-          String.valueOf(order.getId()), timestamp, order.getPrice(), order.getAvgExecutionPrice(), order.getExecutedAmount(), status);
+          String.valueOf(order.getId()), timestamp, order.getPrice(), order.getAvgExecutionPrice(), order.getExecutedAmount(), null, status);
 
       limitOrders.add(limitOrder);
     }
