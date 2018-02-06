@@ -21,10 +21,7 @@ import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.dsx.service.trade.params.DSXTradeHistoryParams;
 import org.knowm.xchange.dsx.service.trade.params.DSXTransHistoryParams;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -88,6 +85,11 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     DSXTradeResult result = tradeDSX(dsxOrder);
     return Long.toString(result.getOrderId());
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

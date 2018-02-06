@@ -5,10 +5,7 @@ import java.util.Collection;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCCancelResponse;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCOrderResponse;
@@ -51,6 +48,11 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Trade
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     final LakeBTCOrderResponse response = placeLakeBTCLimitOrder(limitOrder);
     return response.getId();
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

@@ -6,10 +6,7 @@ import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.empoex.EmpoExAdapters;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -56,6 +53,11 @@ public class EmpoExTradeService extends EmpoExTradeServiceRaw implements TradeSe
     } else {
       return super.sell(limitOrder);
     }
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

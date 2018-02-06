@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -59,6 +60,11 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     
     return placeKucoinLimitOrder(limitOrder).getData().getOrderOid();
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
