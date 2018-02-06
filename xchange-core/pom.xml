@@ -44,10 +44,5 @@
             <artifactId>commons-lang3</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-    <groupId>com.google.guava</groupId>
-    <artifactId>guava-collections</artifactId>
-    <version>r03</version>
-</dependency>
     </dependencies>
 </project>
