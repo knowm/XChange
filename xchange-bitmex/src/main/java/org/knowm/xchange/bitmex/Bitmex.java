@@ -80,7 +80,9 @@ public interface Bitmex {
 
   @GET
   @Path("instrument")
-  List<BitmexTicker> getTickers() throws IOException, BitmexException;
+  List<BitmexTicker> getTickers(@Nullable @QueryParam("count") Integer count,
+                                @Nullable @QueryParam("start") Integer start,
+                                @Nullable @QueryParam("reverse") Boolean reverse) throws IOException, BitmexException;
 
   @GET
   @Path("instrument")
