@@ -97,7 +97,7 @@ public interface Bitmex {
   @GET
   @Path("instrument/activeIntervals")
   BitmexSymbolsAndPromptsResult getPromptsAndSymbols() throws IOException, BitmexException;
-`
+
   @GET
   @Path("order")
   List<BitmexPrivateOrder> getOrders(@HeaderParam("api-key") String apiKey,
