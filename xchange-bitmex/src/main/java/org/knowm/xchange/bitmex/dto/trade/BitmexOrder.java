@@ -1,3 +1,4 @@
+/*
 package org.knowm.xchange.bitmex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,7 +28,8 @@ public class BitmexOrder {
     private final double closeTimestamp;
     private final String closeReason;
 
-    /**
+    */
+/**
      * Constructor
      *
      * @param refId
@@ -49,7 +51,8 @@ public class BitmexOrder {
      * @param tradeIds
      * @param closeTimestamp
      * @param closeReason
-     */
+     *//*
+
     public BitmexOrder(@JsonProperty("refid") String refId, @JsonProperty("userref") String userRefId, @JsonProperty("status") BitmexOrderStatus status, @JsonProperty("opentm") double openTimestamp,
                        @JsonProperty("starttm") double startTimestamp, @JsonProperty("expiretm") double expireTimestamp, @JsonProperty("descr") BitmexOrderDescription orderDescription,
                        @JsonProperty("vol") BigDecimal volume, @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
@@ -181,3 +184,4 @@ public class BitmexOrder {
                 + closeTimestamp + ", closeReason=" + closeReason + "]";
     }
 }
+*/

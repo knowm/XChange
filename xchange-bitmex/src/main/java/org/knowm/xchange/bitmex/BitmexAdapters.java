@@ -24,6 +24,7 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 
@@ -78,7 +79,7 @@ public class BitmexAdapters {
             org.knowm.xchange.bitmex.dto.BitmexTrade trade = trades.get(i);
             tradeList.add(adaptTrade(trade, currencyPair));
         }
-        long lastTid = trades.size() > 0 ? (trades.get(0).getTimestamp().toEpochSecond() ) : 0;
+        long lastTid = trades.size() > 0 ? (trades.get(0).getTimestamp().toEpochSecond()) : 0;
         // long lastTid = 0L;
         return new Trades(tradeList, lastTid, Trades.TradeSortType.SortByTimestamp);
     }
@@ -111,7 +112,7 @@ public class BitmexAdapters {
         // Date timestamp = adaptTimestamp(bitmexPublicTrade.getTime());
         // new Date((long) (bitmexPublicTrade.getTime()));
 
-        return new Trade(type, originalAmount, currencyPair, bitmexPublicTrade.getPrice(), Date.from(  timestamp .toInstant()),   ""+timestamp  );
+        return new Trade(type, originalAmount, currencyPair, bitmexPublicTrade.getPrice(), Date.from(timestamp.toInstant()), "" + timestamp);
     }
 
     public static Wallet adaptWallet(Map<String, BigDecimal> bitmexWallet) {
@@ -178,7 +179,7 @@ public class BitmexAdapters {
         BigDecimal filledAmount = bitmexOrder.getOrderQty();
         BigDecimal remainingAmount = originalAmount.min(filledAmount);
         CurrencyPair pair = adaptCurrencyPair(bitmexOrder.getCurrency());
-        Date timestamp =Date.from( bitmexOrder.getTimestamp()  .toInstant());//todo: test, test, test
+        Date timestamp = Date.from(bitmexOrder.getTimestamp().toInstant());//todo: test, test, test
 
         OrderStatus status = adaptOrderStatus(bitmexOrder.getOrdStatus());
 
@@ -186,8 +187,9 @@ public class BitmexAdapters {
             status = OrderStatus.PARTIALLY_FILLED;
         }
 
-    return new LimitOrder(type, originalAmount, pair, id, timestamp, orderDescription.getPrice(), orderDescription.getPrice(), filledAmount, bitmexOrder.getFee(), status);
-  }
+        //todo: figure out fees from bitmex api
+        return new LimitOrder.Builder(type, pair).originalAmount(originalAmount).id(id).timestamp(timestamp).limitPrice(BigDecimal.valueOf(bitmexOrder.getPrice())).averagePrice(BigDecimal.valueOf(bitmexOrder.getAvgPx())).cumulativeAmount(filledAmount).orderStatus(status).build();
+    }
 
     public static UserTrades adaptTradesHistory(Map<String, org.knowm.xchange.bitmex.dto.BitmexTrade> bitmexTrades) {
 
@@ -265,13 +267,13 @@ public class BitmexAdapters {
 
         BigDecimal tickSize = BigDecimal.valueOf(ticker.getTickSize());
         if (OriginalMeta != null) {
-            return new CurrencyPairMetaData( BigDecimal.valueOf(ticker.getTakerFee()), OriginalMeta.getMinimumAmount(), OriginalMeta.getMaximumAmount(), Math.max(0, tickSize.stripTrailingZeros().scale()));
+            return new CurrencyPairMetaData(BigDecimal.valueOf(ticker.getTakerFee()), OriginalMeta.getMinimumAmount(), OriginalMeta.getMaximumAmount(), Math.max(0, tickSize.stripTrailingZeros().scale()));
         } else {
-            return new CurrencyPairMetaData( BigDecimal.valueOf(ticker.getTakerFee()), null, null, Math.max(0, tickSize.stripTrailingZeros().scale()));
+            return new CurrencyPairMetaData(BigDecimal.valueOf(ticker.getTakerFee()), null, null, Math.max(0, tickSize.stripTrailingZeros().scale()));
         }
     }
 
-    public static OrderStatus adaptOrderStatus(String  status) {
+    public static OrderStatus adaptOrderStatus(String status) {
 
         switch (status.toUpperCase()) {
             case "PENDING":
