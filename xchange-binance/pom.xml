@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.3-SNAPSHOT</version>
+        <version>4.3.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-binance</artifactId>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.3-SNAPSHOT</version>
+            <version>4.3.4-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

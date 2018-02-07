@@ -1,4 +1,6 @@
 Kucoin Exchange API specification
 ================================
 
-https://kucoinapidocs.docs.apiary.io/
+Documentation
+-------------
+https://kucoinapidocs.docs.apiary.io/#introduction/language-parameters
