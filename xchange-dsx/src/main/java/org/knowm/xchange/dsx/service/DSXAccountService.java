@@ -26,7 +26,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-import org.knowm.xchange.utils.DateUtils;
 
 /**
  * @author Mikhail Wall
@@ -153,7 +152,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
   }
 
   private static Long nullSafeUnixTime(Date time) {
-    return time != null ? DateUtils.toUnixTime(time) : null;
+    return time != null ? time.getTime(): null;
   }
 
   private static Long nullSafeToLong(String str) {
