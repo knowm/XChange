@@ -20,5 +20,10 @@
             <artifactId>service-pubnub</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-bitflyer</artifactId>
+            <version>${xchange.version}</version>
+        </dependency>
     </dependencies>
 </project>
