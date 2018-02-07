@@ -5,10 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.ripple.RippleAdapters;
 import org.knowm.xchange.ripple.RippleExchange;
@@ -71,6 +68,11 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
     } else {
       throw new IllegalArgumentException("order must be of type: " + RippleLimitOrder.class.getName());
     }
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

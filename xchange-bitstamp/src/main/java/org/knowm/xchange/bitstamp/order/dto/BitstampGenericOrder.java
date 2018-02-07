@@ -15,9 +15,10 @@ public class BitstampGenericOrder extends Order {
             String id, Date timestamp,
             BigDecimal averagePrice,
             BigDecimal cumulativeAmount,
+            BigDecimal fee,
             OrderStatus status) {
 
-        super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
+        super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount,fee, status);
     }
 
 }

@@ -72,7 +72,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
   @Test
   public void testGetDepositAddress() throws IOException {
 
-    String response = service.getDepositAddress("BTC");
+    String response = service.getDepositAddress(Currency.BTC).getAddress();
 
     Assert.assertTrue(StringUtils.isNotEmpty(response));
   }

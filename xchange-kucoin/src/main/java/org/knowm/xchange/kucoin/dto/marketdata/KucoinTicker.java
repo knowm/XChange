@@ -1,200 +1,447 @@
+
 package org.knowm.xchange.kucoin.dto.marketdata;
 
 import java.math.BigDecimal;
-
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-/**
- * @author Jan Akerman
- */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+    "coinType",
+    "trading",
+    "symbol",
+    "lastDealPrice",
+    "buy",
+    "sell",
+    "change",
+    "coinTypePair",
+    "sort",
+    "feeRate",
+    "volValue",
+    "high",
+    "datetime",
+    "vol",
+    "low",
+    "changeRate"
+})
 public class KucoinTicker {
 
-  private final Currency coinType;
-  private final Currency coinTypePair;
-  private final CurrencyPair symbol;
-  private final boolean trading;
-  private final BigDecimal lastDealPrice;
-  private final BigDecimal buy;
-  private final BigDecimal sell;
-  private final BigDecimal change;
-  private final BigDecimal sort;
-  private final BigDecimal feeRate;
-  private final BigDecimal volumeValue;
-  private final BigDecimal high;
-  private final Long datetime;
-  private final BigDecimal vol;
-  private final BigDecimal low;
-  private final BigDecimal changeRate;
+    @JsonProperty("coinType")
+    private String coinType;
+    @JsonProperty("trading")
+    private Boolean trading;
+    @JsonProperty("symbol")
+    private String symbol;
+    @JsonProperty("lastDealPrice")
+    private BigDecimal lastDealPrice;
+    @JsonProperty("buy")
+    private BigDecimal buy;
+    @JsonProperty("sell")
+    private BigDecimal sell;
+    @JsonProperty("change")
+    private BigDecimal change;
+    @JsonProperty("coinTypePair")
+    private String coinTypePair;
+    @JsonProperty("sort")
+    private Integer sort;
+    @JsonProperty("feeRate")
+    private BigDecimal feeRate;
+    @JsonProperty("volValue")
+    private BigDecimal volValue;
+    @JsonProperty("high")
+    private BigDecimal high;
+    @JsonProperty("datetime")
+    private Long datetime;
+    @JsonProperty("vol")
+    private BigDecimal vol;
+    @JsonProperty("low")
+    private BigDecimal low;
+    @JsonProperty("changeRate")
+    private BigDecimal changeRate;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  public KucoinTicker(
-      @JsonProperty("coinType") String coinType,
-      @JsonProperty("trading") boolean trading,
-      @JsonProperty("symbol") String symbol,
-      @JsonProperty("lastDealPrice") BigDecimal lastDealPrice,
-      @JsonProperty("buy") BigDecimal buy,
-      @JsonProperty("sell") BigDecimal sell,
-      @JsonProperty("change") BigDecimal change,
-      @JsonProperty("coinTypePair") String coinTypePair,
-      @JsonProperty("sort") BigDecimal sort,
-      @JsonProperty("feeRate") BigDecimal feeRate,
-      @JsonProperty("volValue") BigDecimal volumeValue,
-      @JsonProperty("high") BigDecimal high,
-      @JsonProperty("datetime") Long datetime,
-      @JsonProperty("vol") BigDecimal vol,
-      @JsonProperty("low") BigDecimal low,
-      @JsonProperty("changeRate") BigDecimal changeRate
-  ) {
-    this.coinType = Currency.getInstance(coinType);
-    this.coinTypePair = Currency.getInstance(coinTypePair);
-    this.symbol = new CurrencyPair(coinType, coinTypePair);
-    this.trading = trading;
-    this.lastDealPrice = lastDealPrice;
-    this.buy = buy;
-    this.sell = sell;
-    this.change = change;
-    this.sort = sort;
-    this.feeRate = feeRate;
-    this.volumeValue = volumeValue;
-    this.high = high;
-    this.datetime = datetime;
-    this.vol = vol;
-    this.low = low;
-    this.changeRate = changeRate;
-  }
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public KucoinTicker() {
+    }
 
-  public Currency getCoinType() {
-    return coinType;
-  }
+    /**
+     * 
+     * @param coinType
+     * @param trading
+     * @param symbol
+     * @param lastDealPrice
+     * @param buy
+     * @param sell
+     * @param change
+     * @param coinTypePair
+     * @param sort
+     * @param feeRate
+     * @param volValue
+     * @param high
+     * @param datetime
+     * @param vol
+     * @param low
+     * @param changeRate
+     */
+    public KucoinTicker(String coinType, Boolean trading, String symbol, BigDecimal lastDealPrice, BigDecimal buy, BigDecimal sell, BigDecimal change, String coinTypePair, Integer sort, BigDecimal feeRate, BigDecimal volValue, BigDecimal high, Long datetime, BigDecimal vol, BigDecimal low, BigDecimal changeRate) {
+        super();
+        this.coinType = coinType;
+        this.trading = trading;
+        this.symbol = symbol;
+        this.lastDealPrice = lastDealPrice;
+        this.buy = buy;
+        this.sell = sell;
+        this.change = change;
+        this.coinTypePair = coinTypePair;
+        this.sort = sort;
+        this.feeRate = feeRate;
+        this.volValue = volValue;
+        this.high = high;
+        this.datetime = datetime;
+        this.vol = vol;
+        this.low = low;
+        this.changeRate = changeRate;
+    }
 
-  public boolean isTrading() {
-    return trading;
-  }
+    /**
+     * 
+     * @return
+     *     The coinType
+     */
+    @JsonProperty("coinType")
+    public String getCoinType() {
+        return coinType;
+    }
 
-  public CurrencyPair getSymbol() {
-    return symbol;
-  }
+    /**
+     * 
+     * @param coinType
+     *     The coinType
+     */
+    @JsonProperty("coinType")
+    public void setCoinType(String coinType) {
+        this.coinType = coinType;
+    }
 
-  public BigDecimal getLastDealPrice() {
-    return lastDealPrice;
-  }
+    /**
+     * 
+     * @return
+     *     The trading
+     */
+    @JsonProperty("trading")
+    public Boolean getTrading() {
+        return trading;
+    }
 
-  public BigDecimal getBuy() {
-    return buy;
-  }
+    /**
+     * 
+     * @param trading
+     *     The trading
+     */
+    @JsonProperty("trading")
+    public void setTrading(Boolean trading) {
+        this.trading = trading;
+    }
 
-  public BigDecimal getSell() {
-    return sell;
-  }
+    /**
+     * 
+     * @return
+     *     The symbol
+     */
+    @JsonProperty("symbol")
+    public String getSymbol() {
+        return symbol;
+    }
 
-  public BigDecimal getChange() {
-    return change;
-  }
+    /**
+     * 
+     * @param symbol
+     *     The symbol
+     */
+    @JsonProperty("symbol")
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
 
-  public Currency getCoinTypePair() {
-    return coinTypePair;
-  }
+    /**
+     * 
+     * @return
+     *     The lastDealPrice
+     */
+    @JsonProperty("lastDealPrice")
+    public BigDecimal getLastDealPrice() {
+        return lastDealPrice;
+    }
 
-  public BigDecimal getSort() {
-    return sort;
-  }
+    /**
+     * 
+     * @param lastDealPrice
+     *     The lastDealPrice
+     */
+    @JsonProperty("lastDealPrice")
+    public void setLastDealPrice(BigDecimal lastDealPrice) {
+        this.lastDealPrice = lastDealPrice;
+    }
 
-  public BigDecimal getFeeRate() {
-    return feeRate;
-  }
+    /**
+     * 
+     * @return
+     *     The buy
+     */
+    @JsonProperty("buy")
+    public BigDecimal getBuy() {
+        return buy;
+    }
 
-  public BigDecimal getVolumeValue() {
-    return volumeValue;
-  }
+    /**
+     * 
+     * @param buy
+     *     The buy
+     */
+    @JsonProperty("buy")
+    public void setBuy(BigDecimal buy) {
+        this.buy = buy;
+    }
 
-  public BigDecimal getHigh() {
-    return high;
-  }
+    /**
+     * 
+     * @return
+     *     The sell
+     */
+    @JsonProperty("sell")
+    public BigDecimal getSell() {
+        return sell;
+    }
 
-  public Long getDatetime() {
-    return datetime;
-  }
+    /**
+     * 
+     * @param sell
+     *     The sell
+     */
+    @JsonProperty("sell")
+    public void setSell(BigDecimal sell) {
+        this.sell = sell;
+    }
 
-  public BigDecimal getVol() {
-    return vol;
-  }
+    /**
+     * 
+     * @return
+     *     The change
+     */
+    @JsonProperty("change")
+    public BigDecimal getChange() {
+        return change;
+    }
 
-  public BigDecimal getLow() {
-    return low;
-  }
+    /**
+     * 
+     * @param change
+     *     The change
+     */
+    @JsonProperty("change")
+    public void setChange(BigDecimal change) {
+        this.change = change;
+    }
 
-  public BigDecimal getChangeRate() {
-    return changeRate;
-  }
+    /**
+     * 
+     * @return
+     *     The coinTypePair
+     */
+    @JsonProperty("coinTypePair")
+    public String getCoinTypePair() {
+        return coinTypePair;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    /**
+     * 
+     * @param coinTypePair
+     *     The coinTypePair
+     */
+    @JsonProperty("coinTypePair")
+    public void setCoinTypePair(String coinTypePair) {
+        this.coinTypePair = coinTypePair;
+    }
 
-    KucoinTicker that = (KucoinTicker) o;
+    /**
+     * 
+     * @return
+     *     The sort
+     */
+    @JsonProperty("sort")
+    public Integer getSort() {
+        return sort;
+    }
 
-    if (trading != that.trading) return false;
-    if (coinType != null ? !coinType.equals(that.coinType) : that.coinType != null) return false;
-    if (coinTypePair != null ? !coinTypePair.equals(that.coinTypePair) : that.coinTypePair != null) return false;
-    if (symbol != null ? !symbol.equals(that.symbol) : that.symbol != null) return false;
-    if (lastDealPrice != null ? !lastDealPrice.equals(that.lastDealPrice) : that.lastDealPrice != null)
-      return false;
-    if (buy != null ? !buy.equals(that.buy) : that.buy != null) return false;
-    if (sell != null ? !sell.equals(that.sell) : that.sell != null) return false;
-    if (change != null ? !change.equals(that.change) : that.change != null) return false;
-    if (sort != null ? !sort.equals(that.sort) : that.sort != null) return false;
-    if (feeRate != null ? !feeRate.equals(that.feeRate) : that.feeRate != null) return false;
-    if (volumeValue != null ? !volumeValue.equals(that.volumeValue) : that.volumeValue != null) return false;
-    if (high != null ? !high.equals(that.high) : that.high != null) return false;
-    if (datetime != null ? !datetime.equals(that.datetime) : that.datetime != null) return false;
-    if (vol != null ? !vol.equals(that.vol) : that.vol != null) return false;
-    if (low != null ? !low.equals(that.low) : that.low != null) return false;
-    return changeRate != null ? changeRate.equals(that.changeRate) : that.changeRate == null;
-  }
+    /**
+     * 
+     * @param sort
+     *     The sort
+     */
+    @JsonProperty("sort")
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
-  @Override
-  public int hashCode() {
-    int result = coinType != null ? coinType.hashCode() : 0;
-    result = 31 * result + (coinTypePair != null ? coinTypePair.hashCode() : 0);
-    result = 31 * result + (symbol != null ? symbol.hashCode() : 0);
-    result = 31 * result + (trading ? 1 : 0);
-    result = 31 * result + (lastDealPrice != null ? lastDealPrice.hashCode() : 0);
-    result = 31 * result + (buy != null ? buy.hashCode() : 0);
-    result = 31 * result + (sell != null ? sell.hashCode() : 0);
-    result = 31 * result + (change != null ? change.hashCode() : 0);
-    result = 31 * result + (sort != null ? sort.hashCode() : 0);
-    result = 31 * result + (feeRate != null ? feeRate.hashCode() : 0);
-    result = 31 * result + (volumeValue != null ? volumeValue.hashCode() : 0);
-    result = 31 * result + (high != null ? high.hashCode() : 0);
-    result = 31 * result + (datetime != null ? datetime.hashCode() : 0);
-    result = 31 * result + (vol != null ? vol.hashCode() : 0);
-    result = 31 * result + (low != null ? low.hashCode() : 0);
-    result = 31 * result + (changeRate != null ? changeRate.hashCode() : 0);
-    return result;
-  }
+    /**
+     * 
+     * @return
+     *     The feeRate
+     */
+    @JsonProperty("feeRate")
+    public BigDecimal getFeeRate() {
+        return feeRate;
+    }
 
-  @Override
-  public String toString() {
-    return "KucoinTicker{" +
-        "coinType=" + coinType +
-        ", coinTypePair=" + coinTypePair +
-        ", symbol=" + symbol +
-        ", trading=" + trading +
-        ", lastDealPrice=" + lastDealPrice +
-        ", buy=" + buy +
-        ", sell=" + sell +
-        ", change=" + change +
-        ", sort=" + sort +
-        ", feeRate=" + feeRate +
-        ", volumeValue=" + volumeValue +
-        ", high=" + high +
-        ", datetime=" + datetime +
-        ", vol=" + vol +
-        ", low=" + low +
-        ", changeRate=" + changeRate +
-        '}';
-  }
+    /**
+     * 
+     * @param feeRate
+     *     The feeRate
+     */
+    @JsonProperty("feeRate")
+    public void setFeeRate(BigDecimal feeRate) {
+        this.feeRate = feeRate;
+    }
+
+    /**
+     * 
+     * @return
+     *     The volValue
+     */
+    @JsonProperty("volValue")
+    public BigDecimal getVolValue() {
+        return volValue;
+    }
+
+    /**
+     * 
+     * @param volValue
+     *     The volValue
+     */
+    @JsonProperty("volValue")
+    public void setVolValue(BigDecimal volValue) {
+        this.volValue = volValue;
+    }
+
+    /**
+     * 
+     * @return
+     *     The high
+     */
+    @JsonProperty("high")
+    public BigDecimal getHigh() {
+        return high;
+    }
+
+    /**
+     * 
+     * @param high
+     *     The high
+     */
+    @JsonProperty("high")
+    public void setHigh(BigDecimal high) {
+        this.high = high;
+    }
+
+    /**
+     * 
+     * @return
+     *     The datetime
+     */
+    @JsonProperty("datetime")
+    public Long getDatetime() {
+        return datetime;
+    }
+
+    /**
+     * 
+     * @param datetime
+     *     The datetime
+     */
+    @JsonProperty("datetime")
+    public void setDatetime(Long datetime) {
+        this.datetime = datetime;
+    }
+
+    /**
+     * 
+     * @return
+     *     The vol
+     */
+    @JsonProperty("vol")
+    public BigDecimal getVol() {
+        return vol;
+    }
+
+    /**
+     * 
+     * @param vol
+     *     The vol
+     */
+    @JsonProperty("vol")
+    public void setVol(BigDecimal vol) {
+        this.vol = vol;
+    }
+
+    /**
+     * 
+     * @return
+     *     The low
+     */
+    @JsonProperty("low")
+    public BigDecimal getLow() {
+        return low;
+    }
+
+    /**
+     * 
+     * @param low
+     *     The low
+     */
+    @JsonProperty("low")
+    public void setLow(BigDecimal low) {
+        this.low = low;
+    }
+
+    /**
+     * 
+     * @return
+     *     The changeRate
+     */
+    @JsonProperty("changeRate")
+    public BigDecimal getChangeRate() {
+        return changeRate;
+    }
+
+    /**
+     * 
+     * @param changeRate
+     *     The changeRate
+     */
+    @JsonProperty("changeRate")
+    public void setChangeRate(BigDecimal changeRate) {
+        this.changeRate = changeRate;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
 }

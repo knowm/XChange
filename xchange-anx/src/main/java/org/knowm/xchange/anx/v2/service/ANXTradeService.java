@@ -11,10 +11,7 @@ import org.knowm.xchange.anx.v2.ANXExchange;
 import org.knowm.xchange.anx.v2.dto.trade.ANXTradeResultWrapper;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -78,6 +75,11 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
     BigDecimal price = limitOrder.getLimitPrice();
 
     return placeANXLimitOrder(limitOrder.getCurrencyPair(), type, amount, price).getDataString();
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
