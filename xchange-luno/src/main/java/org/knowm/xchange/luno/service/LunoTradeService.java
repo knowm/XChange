@@ -13,11 +13,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -90,6 +86,11 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
     LunoPostOrder postLimitOrder = lunoAPI.postLimitOrder(LunoUtil.toLunoPair(limitOrder.getCurrencyPair()), convertForLimit(limitOrder.getType())
         , limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), null, null);
     return postLimitOrder.orderId;
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   private org.knowm.xchange.luno.dto.trade.OrderType convertForLimit(OrderType type) {

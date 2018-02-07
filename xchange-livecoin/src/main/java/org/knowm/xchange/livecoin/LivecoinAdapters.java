@@ -179,6 +179,7 @@ public class LivecoinAdapters {
         new BigDecimal(map.get("price").toString()),
         null,
         null,
+        null,
         status
     );
   }

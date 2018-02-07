@@ -44,7 +44,7 @@ public class HitbtcAdapters {
   /**
    * known counter currencies at HitBTC
    */
-  private static final Set<String> counters = new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH"));
+  private static final Set<String> counters = new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH", "USDT"));
 
   public static CurrencyPair adaptSymbol(String symbol) {
     String counter = counters.stream().filter(cnt -> symbol.endsWith(cnt)).findAny().orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
@@ -151,6 +151,7 @@ public class HitbtcAdapters {
         hitbtcOrder.price,
         null, // exchange does not provide average price
         hitbtcOrder.cumQuantity,
+        null,
         convertOrderStatus(hitbtcOrder.status));
 
     return order;

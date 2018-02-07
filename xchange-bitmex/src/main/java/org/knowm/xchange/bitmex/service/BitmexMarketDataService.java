@@ -1,17 +1,22 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexPrompt;
+import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -37,7 +42,25 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw implemen
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    List<BitmexTicker> bitmexTickers = getTicker(currencyPair.base.toString() + currencyPair.counter.toString());
+    BitmexTicker bitmexTicker = bitmexTickers.get(0);
+
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+    Ticker ticker = null;
+
+    try {
+      ticker = new Ticker.Builder().currencyPair(currencyPair).open(bitmexTicker.getOpenValue())
+              .last(bitmexTicker.getLastPrice()).bid(bitmexTicker.getBidPrice()).ask(bitmexTicker.getAskPrice())
+              .high(bitmexTicker.getHighPrice()).low(bitmexTicker.getLowPrice())
+              .vwap(new BigDecimal(bitmexTicker.getVwap())).volume(bitmexTicker.getVolume()).quoteVolume(null)
+              .timestamp(format.parse(bitmexTicker.getTimestamp())).build();
+    } catch (ParseException e) {
+
+      return null;
+    }
+
+    return ticker;
   }
 
   @Override

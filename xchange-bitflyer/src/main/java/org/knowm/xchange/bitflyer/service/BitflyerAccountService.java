@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitflyer.BitflyerAdapters;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -25,7 +26,7 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return new AccountInfo(BitflyerAdapters.adaptAccountInfo(getBitflyerBalances()));
   }
 
   @Override
