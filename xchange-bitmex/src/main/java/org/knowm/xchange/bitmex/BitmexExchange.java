@@ -37,7 +37,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("bitmex.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitmex");
-    exchangeSpecification.setExchangeDescription("Bitmex is a bitcoin exchang");
+    exchangeSpecification.setExchangeDescription("Bitmex is a bitcoin exchange");
     return exchangeSpecification;
   }
 
