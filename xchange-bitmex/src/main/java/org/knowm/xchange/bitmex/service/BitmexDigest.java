@@ -1,15 +1,13 @@
 package org.knowm.xchange.bitmex.service;
 
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
-import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.QueryParam;
 
+import org.apache.commons.codec.binary.Hex;
 import org.knowm.xchange.service.BaseParamsDigest;
 
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
 
 public class BitmexDigest extends BaseParamsDigest {
@@ -19,22 +17,18 @@ public class BitmexDigest extends BaseParamsDigest {
   /**
    * Constructor
    *
-   * @param secretKeyBase64
-   * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @param secretKeyBase64 the secret key to sign requests
    */
 
   private BitmexDigest(byte[] secretKeyBase64) {
 
-    super(secretKeyBase64, HMAC_SHA_512);
+    super(Base64.getUrlEncoder().withoutPadding().encodeToString(secretKeyBase64), HMAC_SHA_256);
   }
 
   public static BitmexDigest createInstance(String secretKeyBase64) {
 
-    try {
-      if (secretKeyBase64 != null)
-        return new BitmexDigest(Base64.decode(secretKeyBase64.getBytes()));
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Could not decode Base 64 string", e);
+    if (secretKeyBase64 != null) {
+      return new BitmexDigest(Base64.getUrlDecoder().decode(secretKeyBase64.getBytes()));
     }
     return null;
   }
@@ -42,21 +36,14 @@ public class BitmexDigest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
-    MessageDigest sha256;
-    try {
-      sha256 = MessageDigest.getInstance("SHA-256");
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-    }
-    sha256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
-    sha256.update(restInvocation.getRequestBody().getBytes());
+    String nonce = restInvocation.getParamValue(HeaderParam.class, "api-nonce").toString();
 
-    Mac mac512 = getMac();
-    mac512.update(("/" + restInvocation.getPath()).getBytes());
-    mac512.update(sha256.digest());
+    String params = restInvocation.getParamsMap().get(QueryParam.class).toString();
+    String query = params.isEmpty() ? "" : "?" + params;
 
-    return Base64.encodeBytes(mac512.doFinal()).trim();
+    String payload = restInvocation.getHttpMethod() + "/" + restInvocation.getPath() + query + nonce + restInvocation.getRequestBody();
 
+    return new String(Hex.encodeHex(getMac().doFinal(payload.getBytes())));
   }
 
   private BitmexDigest(String secretKeyBase64, String apiKey) {

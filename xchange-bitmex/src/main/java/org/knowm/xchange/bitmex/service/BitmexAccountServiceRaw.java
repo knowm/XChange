@@ -13,7 +13,7 @@ import org.knowm.xchange.currency.Currency;
 
 public class BitmexAccountServiceRaw extends BitmexBaseService {
 
-  String apiKey = null;
+  String apiKey = exchange.getExchangeSpecification().getApiKey();
 
   /**
    * Constructor
