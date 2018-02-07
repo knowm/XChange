@@ -13,6 +13,8 @@ import si.mazi.rescu.RestInvocation;
 
 public class GDAXDigest extends BaseParamsDigest {
 
+  private String signature = "";
+  
   private GDAXDigest(byte[] secretKey) {
 
     super(secretKey, HMAC_SHA_256);
@@ -42,6 +44,11 @@ public class GDAXDigest extends BaseParamsDigest {
       throw new ExchangeException("Digest encoding exception", e);
     }
 
-    return Base64.encodeBytes(mac256.doFinal());
+    signature = Base64.encodeBytes(mac256.doFinal());
+    return signature;
+  }
+  
+  public String getSignature() {
+    return signature;
   }
 }
