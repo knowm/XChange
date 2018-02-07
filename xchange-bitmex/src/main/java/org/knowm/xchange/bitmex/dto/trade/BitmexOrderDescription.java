@@ -1,3 +1,4 @@
+/*
 package org.knowm.xchange.bitmex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +17,8 @@ public class BitmexOrderDescription {
     private final String orderDescription;
     private final String closeDescription;
 
-    /**
+    */
+/**
      * Constructor
      *
      * @param assetPair
@@ -28,7 +30,8 @@ public class BitmexOrderDescription {
      * @param positionTxId
      * @param orderDescription
      * @param closeDescription
-     */
+     *//*
+
     public BitmexOrderDescription(@JsonProperty("pair") String assetPair, @JsonProperty("type") BitmexSide type, @JsonProperty("ordertype") BitmexOrderType orderType,
                                   @JsonProperty("price") BigDecimal price, @JsonProperty("price2") BigDecimal secondaryPrice, @JsonProperty("leverage") String leverage, @JsonProperty("position") String positionTxId,
                                   @JsonProperty("order") String orderDescription, @JsonProperty("close") String closeDescription) {
@@ -97,3 +100,4 @@ public class BitmexOrderDescription {
     }
 
 }
+*/

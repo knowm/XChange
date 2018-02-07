@@ -3,7 +3,6 @@ package org.knowm.xchange.bitmex.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexPrompt;
-import org.knowm.xchange.bitmex.util.ApiException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;

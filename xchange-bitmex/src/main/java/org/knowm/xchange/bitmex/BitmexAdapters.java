@@ -4,12 +4,13 @@ import com.google.common.collect.BiMap;
 import org.knowm.xchange.bitmex.dto.BitmexInstrument;
 import org.knowm.xchange.bitmex.dto.BitmexOrder;
 import org.knowm.xchange.bitmex.dto.BitmexOrderBookL2;
-import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+
+import org.knowm.xchange.bitmex.dto.BitmexTrade;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
-import org.knowm.xchange.bitmex.dto.trade.*;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
-import org.knowm.xchange.bitmex.dto.trade.*;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexTicker;
+import org.knowm.xchange.bitmex.dto.trade.BitmexOrderResponse;
+import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
+import org.knowm.xchange.bitmex.dto.trade.BitmexUserTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -24,7 +25,6 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 
@@ -89,22 +89,22 @@ public class BitmexAdapters {
         return new LimitOrder(orderType, order.getSize(), currencyPair, "", null, BigDecimal.valueOf(order.getPrice()));
     }
 
-    public static Ticker adaptTicker(BitmexTicker bitmexTicker, CurrencyPair currencyPair) {
+    public static Ticker adaptTicker(BitmexInstrument bitmexTicker, CurrencyPair currencyPair) {
 
         Ticker.Builder builder = new Ticker.Builder();
-        builder.open(bitmexTicker.getPrevClosePrice());
-        builder.ask(bitmexTicker.getAskPrice());
-        builder.bid(bitmexTicker.getBidPrice());
-        builder.last(bitmexTicker.getLastPrice());
-        builder.high(bitmexTicker.getHighPrice());
-        builder.low(bitmexTicker.getLowPrice());
+        builder.open(BigDecimal.valueOf(bitmexTicker.getPrevClosePrice()));
+        builder.ask(BigDecimal.valueOf(bitmexTicker.getAskPrice()));
+        builder.bid(BigDecimal.valueOf(bitmexTicker.getBidPrice()));
+        builder.last(BigDecimal.valueOf(bitmexTicker.getLastPrice()));
+        builder.high(BigDecimal.valueOf(bitmexTicker.getHighPrice()));
+        builder.low(BigDecimal.valueOf(bitmexTicker.getLowPrice()));
         builder.vwap(new BigDecimal(bitmexTicker.getVwap().longValue()));
         builder.volume(bitmexTicker.getVolume24h());
         builder.currencyPair(currencyPair);
         return builder.build();
     }
 
-    public static Trade adaptTrade(org.knowm.xchange.bitmex.dto.BitmexTrade bitmexPublicTrade, CurrencyPair currencyPair) {
+    public static Trade adaptTrade(BitmexTrade bitmexPublicTrade, CurrencyPair currencyPair) {
 
         OrderType type = adaptOrderType(bitmexPublicTrade.getSide());
         BigDecimal originalAmount = bitmexPublicTrade.getSize();

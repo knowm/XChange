@@ -18,6 +18,9 @@ import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.gsonfire.GsonFireBuilder;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.time.*;
 
 import java.io.IOException;
@@ -27,7 +30,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class JSON {
@@ -348,5 +353,15 @@ public class JSON {
             }
         }
     }
-
+    public static <T> List<T> streamToArray(InputStream s, Class<T[]> clazz) {
+        try (InputStreamReader inputStreamReader = new InputStreamReader(s)) {
+            return Arrays.asList(new JSON().getGson().fromJson(inputStreamReader, clazz));
+        } catch (IOException e) {
+            throw new Error(e);//only used in unit tests right now
+        }
+    }
+    public static <T> List<T> stringToArray(String s, Class<T[]> clazz) {
+        T[] arr = new JSON().getGson().fromJson(s, clazz);
+        return Arrays.asList(arr); //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
+    }
 }

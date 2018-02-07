@@ -1,3 +1,4 @@
+/*
 package org.knowm.xchange.bitmex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -95,4 +96,4 @@ public final class BitmexTrade {
                 + '\'' + ", grossValue=" + grossValue + ", homeNotional=" + homeNotional + ", foreignNotional=" + foreignNotional + '}';
     }
 
-}
+}*/

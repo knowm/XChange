@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import org.knowm.xchange.bitmex.dto.BitmexInstrument;
-import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;

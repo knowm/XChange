@@ -1,3 +1,4 @@
+/*
 package org.knowm.xchange.bitmex.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -196,4 +197,4 @@ public final class BitmexWallet {
     public Map<String, Object> getAdditionalProperties() {
         return additionalProperties;
     }
-}
+}*/

@@ -5,8 +5,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.BitmexInstrument;
-import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
-import org.knowm.xchange.currency.Currency;
+ import org.knowm.xchange.currency.Currency;
 
 import java.io.IOException;
 import java.util.List;

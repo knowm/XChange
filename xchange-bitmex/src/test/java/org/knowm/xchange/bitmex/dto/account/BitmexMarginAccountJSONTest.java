@@ -1,10 +1,13 @@
 package org.knowm.xchange.bitmex.dto.account;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.junit.Test;
+import org.knowm.xchange.bitmex.dto.BitmexMargin;
+import org.knowm.xchange.bitmex.util.JSON;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,25 +16,34 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Test BitstampTicker JSON parsing
  */
 public class BitmexMarginAccountJSONTest {
-
     @Test
     public void testUnmarshal() throws IOException {
 
-        // Read in the JSON from the example resources
-        InputStream is = BitmexMarginAccountJSONTest.class.getResourceAsStream("/account/example-margin-account.json");
 
-        ObjectMapper mapper = new ObjectMapper();
-        BitmexMarginAccount bitmexMarginAccount = mapper.readValue(is, BitmexMarginAccount.class);
+        BitmexMargin bitmexMarginAccount;
+        try (InputStream is = BitmexAccountJSONTest.class.getResourceAsStream("/account/example-margin-account.json");
+             InputStreamReader reader = new InputStreamReader(is);) {
+            Gson jsonReader = new JSON().getGson();
+            bitmexMarginAccount = jsonReader.fromJson(reader, BitmexMargin.class);
+        }
 
         // Verify that the example data was unmarshalled correctly
-        assertThat(bitmexMarginAccount.getAccount()).isEqualTo(0);
-        assertThat(bitmexMarginAccount.getCurrency()).isEqualTo("string");
-        assertThat(bitmexMarginAccount.getAmount()).isEqualTo(BigDecimal.ZERO);
-        assertThat(bitmexMarginAccount.getAvailableMargin()).isEqualTo(BigDecimal.ZERO);
-        assertThat(bitmexMarginAccount.getMaintMargin()).isEqualTo(BigDecimal.ZERO);
-        assertThat(bitmexMarginAccount.getMarginBalance()).isEqualTo(BigDecimal.ZERO);
-        assertThat(bitmexMarginAccount.getMarginLeverage()).isEqualTo(BigDecimal.ZERO);
-        assertThat(bitmexMarginAccount.getTaxableMargin()).isEqualTo(BigDecimal.ZERO);
+        BigDecimal account = bitmexMarginAccount.getAccount();
+        assertThat(account).isEqualTo(BigDecimal.ZERO);
+        String currency = bitmexMarginAccount.getCurrency();
+        assertThat(currency).isEqualTo("string");
+        BigDecimal amount = bitmexMarginAccount.getAmount();
+        assertThat(amount).isEqualTo(BigDecimal.ZERO);
+        BigDecimal availableMargin = bitmexMarginAccount.getAvailableMargin();
+        assertThat(availableMargin).isEqualTo(BigDecimal.ZERO);
+        BigDecimal maintMargin = bitmexMarginAccount.getMaintMargin();
+        assertThat(maintMargin).isEqualTo(BigDecimal.ZERO);
+        BigDecimal marginBalance = bitmexMarginAccount.getMarginBalance();
+        assertThat(marginBalance).isEqualTo(BigDecimal.ZERO);
+        Double marginLeverage = bitmexMarginAccount.getMarginLeverage();
+        assertThat(marginLeverage).isEqualTo(0);
+        BigDecimal taxableMargin = bitmexMarginAccount.getTaxableMargin();
+        assertThat(taxableMargin).isEqualTo(BigDecimal.ZERO);
     }
 
 }

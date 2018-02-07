@@ -1,3 +1,4 @@
+/*
 package org.knowm.xchange.bitmex.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -116,7 +117,7 @@ public class BitmexTicker {
     @JsonProperty("rootSymbol")
     private String rootSymbol;
     @JsonProperty("state")
-    private String state;
+    private String state;a
     @JsonProperty("typ")
     private String typ;
     @JsonProperty("listing")
@@ -693,4 +694,4 @@ public class BitmexTicker {
     public Map<String, Object> getAdditionalProperties() {
         return additionalProperties;
     }
-}
+}*/

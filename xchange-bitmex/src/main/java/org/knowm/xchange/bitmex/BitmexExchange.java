@@ -6,7 +6,7 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.dto.BitmexInstrument;
-import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+
 import org.knowm.xchange.bitmex.service.BitmexAccountService;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataServiceRaw;

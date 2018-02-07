@@ -3,14 +3,15 @@ package org.knowm.xchange.bitmex.service;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitmex.*;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.bitmex.BitmexContract;
+import org.knowm.xchange.bitmex.BitmexPrompt;
+import org.knowm.xchange.bitmex.BitmexUtils;
 import org.knowm.xchange.bitmex.dto.BitmexInstrument;
 import org.knowm.xchange.bitmex.dto.BitmexInstrumentInterval;
 import org.knowm.xchange.bitmex.dto.BitmexOrderBookL2;
 import org.knowm.xchange.bitmex.dto.BitmexTrade;
-import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
 import org.knowm.xchange.bitmex.util.ApiException;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -104,7 +105,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
 
         BiMap<BitmexPrompt, String> bitmexPromptsBiMap = HashBiMap.create();
         Map<String, BitmexPrompt> bitmexSymbolsToIntervalsMap = new HashMap<String, BitmexPrompt>();
-        BiMap<BitmexTicker, BitmexPrompt> bitmexTickersToIntervalsMap = HashBiMap.create();
+//        BiMap<BitmexInstrument, BitmexPrompt> bitmexTickersToIntervalsMap = HashBiMap.create();
         BiMap<BitmexPrompt, String> bitmexPromptsToSymbolsMap = HashBiMap.create();
 
         try {
