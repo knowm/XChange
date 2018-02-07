@@ -5,10 +5,7 @@ import java.util.Collection;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -26,7 +23,12 @@ public class BitZTradeService extends BitZTradeServiceRaw implements TradeServic
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-	
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     throw new NotYetImplementedForExchangeException();
