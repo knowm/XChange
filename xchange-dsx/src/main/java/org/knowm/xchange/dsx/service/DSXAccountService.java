@@ -94,8 +94,8 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
 
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
-      since = nullSafeUnixTime(timeSpan.getStartTime());
-      end = nullSafeUnixTime(timeSpan.getEndTime());
+      since = timeSpan.getStartTime() != null ? timeSpan.getStartTime().getTime(): null;
+      end = timeSpan.getEndTime() != null ? timeSpan.getEndTime().getTime(): null;
     }
     if (params instanceof TradeHistoryParamsIdSpan) {
       TradeHistoryParamsIdSpan idSpan = (TradeHistoryParamsIdSpan) params;
@@ -149,10 +149,6 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
       default:
         throw new RuntimeException("Unknown DSX transaction type: " + type);
     }
-  }
-
-  private static Long nullSafeUnixTime(Date time) {
-    return time != null ? time.getTime(): null;
   }
 
   private static Long nullSafeToLong(String str) {
