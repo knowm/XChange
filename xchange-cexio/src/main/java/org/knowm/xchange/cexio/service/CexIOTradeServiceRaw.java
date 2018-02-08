@@ -16,6 +16,7 @@ import org.knowm.xchange.cexio.dto.CexioSingleIdRequest;
 import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
 import org.knowm.xchange.cexio.dto.PlaceOrderRequest;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelAllOrdersResponse;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
@@ -27,8 +28,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-
-import si.mazi.rescu.HttpStatusIOException;
 
 public class CexIOTradeServiceRaw extends CexIOBaseService {
 
@@ -90,6 +89,15 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     return cexIOAuthenticated
         .cancelOrder(signatureCreator, new CexioSingleOrderIdRequest(orderId))
         .equals(true);
+  }
+
+  public CexIOCancelAllOrdersResponse cancelCexIOOrders(CurrencyPair currencyPair) throws IOException {
+    return cexIOAuthenticated
+        .cancelAllOrders(
+            signatureCreator,
+            currencyPair.base.getCurrencyCode(),
+            currencyPair.counter.getCurrencyCode(),
+            new CexIORequest());
   }
 
   public List<CexIOArchivedOrder> archivedOrders(TradeHistoryParams tradeHistoryParams) throws IOException {
