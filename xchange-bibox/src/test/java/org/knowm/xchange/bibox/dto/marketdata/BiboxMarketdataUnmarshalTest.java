@@ -4,14 +4,13 @@ package org.knowm.xchange.bibox.dto.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.knowm.xchange.bibox.BiboxTestUtils;
 import org.knowm.xchange.bibox.dto.BiboxResponse;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test Marketdata JSON parsing
@@ -20,15 +19,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class BiboxMarketdataUnmarshalTest {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-
   @Test
-  public void testCoinUnmarshal() throws IOException {
+  public void testTickerUnmarshal() throws IOException {
 
-    InputStream is = BiboxMarketdataUnmarshalTest.class.getResourceAsStream("/marketdata/example-ticker.json");
-    BiboxResponse<BiboxTicker> response = MAPPER.readValue(is, new TypeReference<BiboxResponse<BiboxTicker>>() {});
+    BiboxResponse<BiboxTicker> response = BiboxTestUtils.getResponse(
+        new TypeReference<BiboxResponse<BiboxTicker>>() {}, "/marketdata/example-ticker.json");
     assertThat(response.getCmd()).isEqualTo("ticker");
-    
+
     BiboxTicker ticker = response.getResult();
     assertThat(ticker.getBuy()).isEqualTo(new BigDecimal("0.00009284"));
     assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("0.00010000"));
