@@ -1,9 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -107,6 +105,21 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+
+    String filter = "{\"orderID\": [\"" + String.join("\",\"", orderIds) + "\"]}";
+
+    List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filter);
+
+    Set<Order> orders = new HashSet<>();
+
+    for (BitmexPrivateOrder privateOrder : privateOrders) {
+      Order.OrderType type = privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
+      CurrencyPair pair = new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
+
+      orders.add(new LimitOrder(type, privateOrder.getVolume(), pair, privateOrder.getId(), privateOrder.getTimestamp(),
+              privateOrder.getPrice()));
+    }
+
+    return orders;
   }
 }
