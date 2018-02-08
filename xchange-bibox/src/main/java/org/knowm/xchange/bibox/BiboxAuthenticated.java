@@ -26,10 +26,27 @@ public interface BiboxAuthenticated extends Bibox {
   static final String FORM_APIKEY = "apikey";
   static final String FORM_SIGNATURE = "sign";
 
+  /**
+   * Retrieve balances of the account
+   * 
+   * @return list of coins
+   */
   @POST
   @Path("transfer")
   BiboxSingleResponse<List<BiboxCoin>> coinList(
       @FormParam(FORM_CMDS) String cmds,
       @FormParam(FORM_APIKEY) String apiKey,
-      @FormParam(FORM_SIGNATURE) ParamsDigest signature); 
+      @FormParam(FORM_SIGNATURE) ParamsDigest signature);
+
+  /**
+   * Create an order (market/limit)
+   * 
+   * @return order id
+   */
+  @POST
+  @Path("orderpending")
+  BiboxSingleResponse<Integer> trade(
+      @FormParam(FORM_CMDS) String cmds,
+      @FormParam(FORM_APIKEY) String apiKey,
+      @FormParam(FORM_SIGNATURE) ParamsDigest signature);
 }
