@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bibox.dto.BiboxResponse;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
+import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 
 /**
  * @author odrotleff
@@ -18,14 +19,26 @@ import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bibox {
 
+  @GET
+  @Path("mdata")
+  BiboxResponse<BiboxTicker> mdata(
+      @QueryParam("cmd") String cmd,
+      @QueryParam("pair") String pair) throws IOException, BiboxException;
+
   /**
-   * Retrieves a ticker.
+   * Retrieves the order book for a currency pair.
    * 
-   * @param symbol the currency pair
+   * @param cmd always "depth"
+   * @param pair the currency pair
+   * @param size the max size of the order book (1-200)
    * @return
    * @throws IOException
+   * @throws BiboxException
    */
   @GET
   @Path("mdata")
-  BiboxResponse<BiboxTicker> mdata(@QueryParam("cmd") String cmd, @QueryParam("pair") String pair) throws IOException, BiboxException;
+  BiboxResponse<BiboxOrderBook> orderBook(
+      @QueryParam("cmd") String cmd,
+      @QueryParam("pair") String pair,
+      @QueryParam("size") Integer size) throws IOException, BiboxException;
 }
