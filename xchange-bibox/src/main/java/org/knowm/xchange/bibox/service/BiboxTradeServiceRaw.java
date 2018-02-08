@@ -1,9 +1,12 @@
 package org.knowm.xchange.bibox.service;
 
+import java.math.BigInteger;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.bibox.dto.BiboxCommands;
 import org.knowm.xchange.bibox.dto.trade.BiboxAccountType;
+import org.knowm.xchange.bibox.dto.trade.BiboxCancelTradeCommand;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderSide;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderType;
 import org.knowm.xchange.bibox.dto.trade.BiboxTradeCommand;
@@ -29,5 +32,10 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
         limitOrder.getOriginalAmount(),
         null);
     return bibox.trade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator).get().getResult();
+  }
+
+  public void cancelBiboxOrder(String orderId) {
+    BiboxCancelTradeCommand cmd = new BiboxCancelTradeCommand(new BigInteger(orderId));
+    bibox.cancelTrade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator);
   }
 }

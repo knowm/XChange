@@ -49,8 +49,8 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    // TODO Auto-generated method stub
-    return false;
+    cancelBiboxOrder(orderId);
+    return true;
   }
 
   @Override
@@ -80,7 +80,7 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
   @Override
   public void verifyOrder(MarketOrder marketOrder) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
@@ -98,6 +98,6 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
   @Override
   public void verifyOrder(LimitOrder limitOrder) {
     // TODO Auto-generated method stub
-    
+
   }
 }
