@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
+import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -37,8 +38,15 @@ public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    Integer depth = 16; // default on website
+
+    if (args != null && args.length > 0) {
+      if (args[0] instanceof Integer && (Integer) args[0] > 0) {
+        depth = (Integer) args[0];
+      }
+    }
+    BiboxOrderBook biboxOrderBook = getBiboxOrderBook(currencyPair, depth);
+    return BiboxAdapters.adaptOrderBook(biboxOrderBook, currencyPair);
   }
 
   @Override
