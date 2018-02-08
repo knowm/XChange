@@ -5,6 +5,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bibox.service.BiboxAccountService;
 import org.knowm.xchange.bibox.service.BiboxMarketDataService;
+import org.knowm.xchange.bibox.service.BiboxTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -18,7 +19,7 @@ public class BiboxExchange extends BaseExchange implements Exchange {
 
     this.marketDataService = new BiboxMarketDataService(this);
     this.accountService = new BiboxAccountService(this);
-    //    this.tradeService = new BiboxTradeService(this);
+    this.tradeService = new BiboxTradeService(this);
   }
 
   @Override

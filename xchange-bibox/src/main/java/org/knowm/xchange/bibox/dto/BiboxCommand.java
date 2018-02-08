@@ -1,5 +1,10 @@
 package org.knowm.xchange.bibox.dto;
 
+/**
+ * @param <B> type of body parameter
+ * 
+ * @author odrotleff
+ */
 public class BiboxCommand<B> {
 
   private String cmd;
