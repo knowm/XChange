@@ -54,7 +54,15 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    List<LimitOrder> limitOrders = new ArrayList<>();
+
+    for (LimitOrder order : getOpenOrders().getOpenOrders()) {
+      if (params.accept(order)) {
+        limitOrders.add(order);
+      }
+    }
+
+    return new OpenOrders(limitOrders);
   }
 
   @Override
