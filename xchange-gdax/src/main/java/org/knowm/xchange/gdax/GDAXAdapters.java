@@ -243,10 +243,10 @@ public class GDAXAdapters {
 
     }
 
-    if(order.getFilledSize().equals(0.0))
+    if(order.getFilledSize().signum() == 0)
       return OrderStatus.NEW;
 
-    if(order.getFilledSize().compareTo(new BigDecimal(0.0)) > 0
+    if(order.getFilledSize().compareTo(BigDecimal.ZERO) > 0
             && order.getSize().compareTo(order.getFilledSize()) < 0)
       return OrderStatus.PARTIALLY_FILLED;
 
