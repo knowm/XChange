@@ -41,15 +41,19 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     }
   }
 
-  public List<BitmexPrivateOrder> getBitmexOrders() throws IOException {
+  public List<BitmexPrivateOrder> getBitmexOrders(String symbol, String filter) throws IOException {
     ArrayList<BitmexPrivateOrder> orders = new ArrayList<>();
 
     for (int i = 0; orders.size() % 500 == 0; i++) {
       List<BitmexPrivateOrder> orderResponse = bitmex.getOrders(apiKey, exchange.getNonceFactory(), signatureCreator,
-              null, null, 500, i * 500, true, null, null);
+              symbol, filter, 500, i * 500, true, null, null);
       orders.addAll(orderResponse);
     }
 
     return orders;
+  }
+
+  public List<BitmexPrivateOrder> getBitmexOrders() throws IOException {
+    return getBitmexOrders(null, null);
   }
 }
