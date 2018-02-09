@@ -1,15 +1,12 @@
 package org.knowm.xchange.bitmex;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Nullable;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
@@ -110,4 +107,15 @@ public interface Bitmex {
                                      @Nullable @QueryParam("reverse") Boolean reverse,
                                      @Nullable @QueryParam("startTime") Date startTime,
                                      @Nullable @QueryParam("endTime") Date endTime);
+
+  @POST
+  @Path("order")
+  BitmexPrivateOrder placeOrder(@HeaderParam("api-key") String apiKey,
+                                @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+                                @HeaderParam("api-signature") ParamsDigest paramsDigest,
+                                @FormParam("symbol") String symbol,
+                                @FormParam("orderQty") int orderQuantity,
+                                @FormParam("price") BigDecimal price,
+                                @Nullable @FormParam("ordType") String orderType,
+                                @Nullable @FormParam("execInst") String executionInstructions);
 }

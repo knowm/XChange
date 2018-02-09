@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,5 +56,10 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
 
   public List<BitmexPrivateOrder> getBitmexOrders() throws IOException {
     return getBitmexOrders(null, null);
+  }
+
+  public BitmexPrivateOrder placeMarketOrder(String symbol, BigDecimal orderQuantity, String executionInstructions) {
+    return bitmex.placeOrder(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, orderQuantity.intValue(),
+            null, "Market", executionInstructions);
   }
 }
