@@ -86,7 +86,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return cancelBitmexOrder(orderId);
   }
 
   @Override

@@ -119,4 +119,11 @@ public interface Bitmex {
                                 @Nullable @FormParam("stopPx") BigDecimal stopPrice,
                                 @Nullable @FormParam("ordType") String orderType,
                                 @Nullable @FormParam("execInst") String executionInstructions);
+
+  @DELETE
+  @Path("order")
+  List<BitmexPrivateOrder> cancelOrder(@HeaderParam("api-key") String apiKey,
+                                       @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+                                       @HeaderParam("api-signature") ParamsDigest paramsDigest,
+                                       @FormParam("orderID") String orderID);
 }
