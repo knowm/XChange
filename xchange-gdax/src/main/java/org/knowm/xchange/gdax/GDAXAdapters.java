@@ -186,7 +186,7 @@ public class GDAXAdapters {
     OrderStatus orderStatus = adaptOrderStatus(order);
 
     final BigDecimal averagePrice;
-    if (order.getFilledSize().compareTo(BigDecimal.ZERO) == 0) {
+    if (order.getFilledSize().signum() == 0) {
       averagePrice = BigDecimal.ZERO;
     } else {
       averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));

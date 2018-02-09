@@ -32,8 +32,8 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
   public GDAXOrder[] getGDAXOpenOrders() throws IOException {
 
     try {
-      return gdax().getListOrders(apiKey, digest, nonceFactory, passphrase, "open");
-    } catch (final GDAXException e) {
+      return gdax.getListOrders(apiKey, digest, nonceFactory, passphrase, "open");
+    } catch (GDAXException e) {
       throw handleError(e);
     }
   }
@@ -63,8 +63,8 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
       }
     }
     try {
-      return gdax().getFills(apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
-    } catch (final GDAXException e) {
+      return gdax.getFills(apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
+    } catch (GDAXException e) {
       throw handleError(e);
     }
   }
@@ -75,9 +75,9 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
     String productId = toProductId(limitOrder.getCurrencyPair());
 
     try {
-      return gdax().placeLimitOrder(new GDAXPlaceOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), side, productId, "limit", limitOrder.getOrderFlags()),
+      return gdax.placeLimitOrder(new GDAXPlaceOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), side, productId, "limit", limitOrder.getOrderFlags()),
           apiKey, digest, nonceFactory, passphrase);
-    } catch (final GDAXException e) {
+    } catch (GDAXException e) {
       throw handleError(e);
     }
   }
@@ -88,38 +88,33 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
     String productId = toProductId(marketOrder.getCurrencyPair());
 
     try {
-      return gdax().placeMarketOrder(new GDAXPlaceOrder(marketOrder.getOriginalAmount(), null, side, productId, "market", marketOrder.getOrderFlags
+      return gdax.placeMarketOrder(new GDAXPlaceOrder(marketOrder.getOriginalAmount(), null, side, productId, "market", marketOrder.getOrderFlags
               ()), apiKey, digest,
           nonceFactory, passphrase);
-    } catch (final GDAXException e) {
+    } catch (GDAXException e) {
       throw handleError(e);
     }
   }
-<<<<<<< HEAD
   
   public GDAXIdResponse placeGDAXStopOrder(StopOrder stopOrder) throws IOException {
-=======
-
-  public GDAXIdResponse placeGDAXStopOrder(MarketOrder stopOrder) throws IOException {
->>>>>>> 6c9fc5236... Fixing some issues with getOrder on GDAX. Specifically:
 
     String side = side(stopOrder.getType());
     String productId = toProductId(stopOrder.getCurrencyPair());
 
     try {
-      return gdax().placeStopOrder(new GDAXPlaceOrder(stopOrder.getOriginalAmount(), stopOrder.getAveragePrice(), side, productId, "stop", stopOrder.getOrderFlags
+      return gdax.placeStopOrder(new GDAXPlaceOrder(stopOrder.getOriginalAmount(), stopOrder.getAveragePrice(), side, productId, "stop", stopOrder.getOrderFlags
               ()), apiKey, digest,
           nonceFactory, passphrase);
-    } catch (final GDAXException e) {
+    } catch (GDAXException e) {
       throw handleError(e);
     }
   }
-
+  
   public boolean cancelGDAXOrder(String id) throws IOException {
 
     try {
-      gdax().cancelOrder(id, apiKey, digest, nonceFactory, passphrase);
-    } catch (final GDAXException e) {
+      gdax.cancelOrder(id, apiKey, digest, nonceFactory, passphrase);
+    } catch (GDAXException e) {
       throw handleError(e);
     }
     return true;
@@ -128,8 +123,8 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
   public GDAXOrder getOrder(String id) throws IOException {
 
     try {
-      return gdax().getOrder(id, apiKey, digest, nonceFactory, passphrase);
-    } catch (final GDAXException e) {
+      return gdax.getOrder(id, apiKey, digest, nonceFactory, passphrase);
+    } catch (GDAXException e) {
       throw handleError(e);
     }
   }
