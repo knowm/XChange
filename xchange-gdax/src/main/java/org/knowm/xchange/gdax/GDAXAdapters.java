@@ -181,8 +181,6 @@ public class GDAXAdapters {
 
     Date createdAt = parseDate(order.getCreatedAt());
 
-    Order returnValue;
-
     OrderStatus orderStatus = adaptOrderStatus(order);
 
     final BigDecimal averagePrice;
@@ -193,7 +191,7 @@ public class GDAXAdapters {
     }
 
     if(order.getType().equals("market")) {
-      returnValue = new MarketOrder(
+      return new MarketOrder(
               type,
               order.getSize(),
               currencyPair,
@@ -205,7 +203,7 @@ public class GDAXAdapters {
               orderStatus
               );
     } else if(order.getType().equals("limit")) {
-      returnValue = new LimitOrder(
+      return new LimitOrder(
               type,
               order.getSize(),
               currencyPair,
@@ -216,11 +214,9 @@ public class GDAXAdapters {
               order.getFilledSize(),
               order.getFillFees(),
               orderStatus);
-    } else {
-      return null;
     }
 
-    return returnValue;
+    return null;
   }
 
 
@@ -246,12 +242,15 @@ public class GDAXAdapters {
 
     if(order.getStatus().equals("done") || order.getStatus().equals("settled")) {
 
-      if(order.getDoneReason().equals("filled"))
+      if(order.getDoneReason().equals("filled")) {
         return OrderStatus.FILLED;
+      }
 
-      return null; // FIXME could be STOPPED perhaps. GDAX documentation doesn't really cover the possible
-                   //       values of done_reason so will need to run some tests with different order types
-                   //       to determine which is which.  We can't return null!
+      // Could possibly be STOPPED, but this isn't covered by the GDAX API docs,
+      // and in any case, neither getOpenOrders not getOrder are currently
+      // returning stop orders so it's hard to tell. This will have to do for
+      // now.
+      return OrderStatus.UNKNOWN;
     }
 
     if(order.getFilledSize().signum() == 0)
@@ -261,7 +260,7 @@ public class GDAXAdapters {
             && order.getSize().compareTo(order.getFilledSize()) < 0)
       return OrderStatus.PARTIALLY_FILLED;
 
-    return null; // FIXME probably need a better response than this.
+    return OrderStatus.UNKNOWN;
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {
