@@ -72,7 +72,9 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    String symbol = limitOrder.getCurrencyPair().base.getCurrencyCode() + limitOrder.getCurrencyPair().counter.getCurrencyCode();
+    BitmexPrivateOrder order = placeLimitOrder(symbol, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), null);
+    return order.getId();
   }
 
   @Override
