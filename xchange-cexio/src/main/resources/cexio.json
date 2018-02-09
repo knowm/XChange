@@ -98,7 +98,7 @@
     "XRP/USD": {
       "price_scale": 4,
       "trading_fee": 0.0015,
-      "min_amount": 10
+      "min_amount": 40
     },
     "XRP/EUR": {
       "price_scale": 4,
