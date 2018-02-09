@@ -7,5 +7,15 @@
       "price_scale": 4
     }
   },
-  "currencies": {}
+  "currencies": {
+    "USD": {
+      "scale": 2
+    },
+    "GBP": {
+      "scale": 2
+    },
+    "EUR": {
+      "scale": 2
+    }
+  }
 }
