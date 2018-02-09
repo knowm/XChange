@@ -118,16 +118,10 @@ public class GDAXAdaptersTest {
     assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
     assertThat(order.getId()).isEqualTo(gdaxOrder.getId());
     assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
-<<<<<<< HEAD
-    assertThat(order.getOriginalAmount().equals(new BigDecimal("1.00000000"))).isTrue();
-    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.01291771"));
-    assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("1.0").subtract(new BigDecimal("0.01291771")));
-    assertThat(order.getFee()).isEqualTo(new BigDecimal("0.0249376391550000"));
-=======
     assertThat(order.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("1.00000000"));
     assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.01291771"));
     assertThat(order.getRemainingAmount()).isEqualByComparingTo(new BigDecimal("1.0").subtract(new BigDecimal("0.01291771")));
->>>>>>> 6c9fc5236... Fixing some issues with getOrder on GDAX. Specifically:
+    assertThat(order.getFee()).isEqualTo(new BigDecimal("0.0249376391550000"));
     assertThat(MarketOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.BID);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1481227745508L));
@@ -151,16 +145,10 @@ public class GDAXAdaptersTest {
     assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
     assertThat(order.getId()).isEqualTo("b2cdd7fe-1f4a-495e-8b96-7a4be368f43c");
     assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
-<<<<<<< HEAD
-    assertThat(order.getOriginalAmount().equals(new BigDecimal("0.07060351"))).isTrue();
-    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.07060351"));
-    assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("0.00000000"));
-    assertThat(order.getFee()).isEqualTo(new BigDecimal("2.6256545174247500"));
-=======
     assertThat(order.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
     assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
     assertThat(order.getRemainingAmount()).isEqualByComparingTo(new BigDecimal("0.00000000"));
->>>>>>> 6c9fc5236... Fixing some issues with getOrder on GDAX. Specifically:
+    assertThat(order.getFee()).isEqualTo(new BigDecimal("2.6256545174247500"));
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.ASK);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));

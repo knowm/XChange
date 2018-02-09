@@ -15,7 +15,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class GDAXBaseService extends BaseExchangeService implements BaseService {
 
-  private final GDAX gdax;
+  protected final GDAX gdax;
   protected final ParamsDigest digest;
 
   protected final String apiKey;
@@ -41,9 +41,5 @@ public class GDAXBaseService extends BaseExchangeService implements BaseService 
     } else {
       return new ExchangeException(exception);
     }
-  }
-
-  protected GDAX gdax() {
-    return gdax;
   }
 }

@@ -7,7 +7,6 @@ import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
@@ -20,8 +19,6 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeService {
 
@@ -101,21 +98,7 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
     Collection<Order> orders = new ArrayList<>(orderIds.length);
 
     for (String orderId : orderIds) {
-      try {
-        final GDAXOrder order = super.getOrder(orderId);
-        orders.add(GDAXAdapters.adaptOrder(order));
-      } catch (final ExchangeException e) {
-        // We get 404 for cancelled orders. This is a bit of a pain....
-        if ( e.getCause() instanceof HttpStatusExceptionSupport && ((HttpStatusExceptionSupport)e.getCause()).getHttpStatusCode() == 404) {
-          // We can't actually tell, if we get a 404, whether it was a market or limit order, or
-          // whether it was a bid or an ask and so on. This makes things very tricky.  Let's
-          // put a take in the ground and say you get get neither, and lots of nulls. At least
-          // the caller gets a consistent behaviour they can code to.
-          orders.add(new Order(null, null, null, orderId, null, null, null, Order.OrderStatus.CANCELED) { });
-        } else {
-          throw e;
-        }
-      }
+      orders.add(GDAXAdapters.adaptOrder(super.getOrder(orderId)));
     }
 
     return orders;
