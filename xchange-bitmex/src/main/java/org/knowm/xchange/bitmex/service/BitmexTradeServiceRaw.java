@@ -72,4 +72,9 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     return bitmex.placeOrder(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, orderQuantity.intValue(),
             null, stopPrice, "Stop", executionInstructions);
   }
+
+  public boolean cancelBitmexOrder(String orderID) {
+    List<BitmexPrivateOrder> orders = bitmex.cancelOrder(apiKey, exchange.getNonceFactory(), signatureCreator, orderID);
+    return orders.get(0).getId().equals(orderID);
+  }
 }
