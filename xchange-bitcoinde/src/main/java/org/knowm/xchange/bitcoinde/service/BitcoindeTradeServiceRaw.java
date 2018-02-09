@@ -6,6 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcoinde.dto.BitcoindeException;
 import org.knowm.xchange.bitcoinde.trade.BitcoindeIdResponse;
 import org.knowm.xchange.bitcoinde.trade.BitcoindeMyOpenOrdersWrapper;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
@@ -26,6 +27,16 @@ public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
   public BitcoindeMyOpenOrdersWrapper getBitcoindeOpenOrders() throws IOException {
 	 try {
 		return bitcoinde.getOrders(apiKey, nonceFactory, signatureCreator);
+	 } catch (BitcoindeException e) {
+		throw handleError(e);
+	 }
+  }
+
+  public BitcoindeIdResponse bitcoindeCancelOrders(String order_id,
+		CurrencyPair currencyPair) throws IOException {
+	 try {
+		String currPair = currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+		return bitcoinde.deleteOrder(apiKey, nonceFactory, signatureCreator, order_id, currPair);
 	 } catch (BitcoindeException e) {
 		throw handleError(e);
 	 }
