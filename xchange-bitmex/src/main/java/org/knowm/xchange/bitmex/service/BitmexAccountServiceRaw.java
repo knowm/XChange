@@ -81,4 +81,12 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
     }
   }
 
+  public String requestDepositAddress(String currency) throws IOException {
+    try {
+      return bitmex.getDepositAddress(apiKey, exchange.getNonceFactory(), signatureCreator, currency);
+    } catch (BitmexException e) {
+      throw handleError(e);
+    }
+  }
+
 }

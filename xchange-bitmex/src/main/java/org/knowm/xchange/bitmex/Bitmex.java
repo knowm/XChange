@@ -126,4 +126,11 @@ public interface Bitmex {
                                        @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
                                        @HeaderParam("api-signature") ParamsDigest paramsDigest,
                                        @FormParam("orderID") String orderID);
+
+  @GET
+  @Path("user/depositAddress")
+  String getDepositAddress(@HeaderParam("api-key") String apiKey,
+                           @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+                           @HeaderParam("api-signature") ParamsDigest paramsDigest,
+                           @QueryParam("currency") String currency);
 }

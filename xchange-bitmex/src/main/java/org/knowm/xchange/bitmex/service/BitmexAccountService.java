@@ -44,7 +44,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return requestDepositAddress(currency.getCurrencyCode());
   }
 
   @Override
