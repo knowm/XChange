@@ -103,6 +103,16 @@ public interface Binance {
       , @QueryParam("endTime") Long endTime)
       throws IOException, BinanceException;
 
+	@GET
+	@Path("api/v1/ticker/24hr")
+	/**
+   * 24 hour price change statistics for all symbols. - bee carreful this api call have a big weight,
+   * only about 4 call per minut can be without ban.
+   * @return
+   * @throws IOException
+   * @throws BinanceException    */
+	List<BinanceTicker24h> ticker24h() throws IOException, BinanceException;
+
   @GET
   @Path("api/v1/ticker/24hr")
   /**
