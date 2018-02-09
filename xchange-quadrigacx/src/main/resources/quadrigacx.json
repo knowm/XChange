@@ -18,7 +18,7 @@
     },
     "BCH/BTC": {
       "price_scale": 8,
-      "min_amount": 0.00000001
+      "min_amount": 0.01
     },
     "BTG/BTC": {
       "price_scale": 8,
