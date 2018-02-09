@@ -116,6 +116,7 @@ public interface Bitmex {
                                 @FormParam("symbol") String symbol,
                                 @FormParam("orderQty") int orderQuantity,
                                 @FormParam("price") BigDecimal price,
+                                @Nullable @FormParam("stopPx") BigDecimal stopPrice,
                                 @Nullable @FormParam("ordType") String orderType,
                                 @Nullable @FormParam("execInst") String executionInstructions);
 }
