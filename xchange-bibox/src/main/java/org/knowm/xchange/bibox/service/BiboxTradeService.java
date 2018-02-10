@@ -11,6 +11,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -32,14 +33,12 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
@@ -55,49 +54,41 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    // TODO Auto-generated method stub
-    return false;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public void verifyOrder(MarketOrder marketOrder) {
-    // TODO Auto-generated method stub
-
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public String placeStopOrder(StopOrder arg0) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public void verifyOrder(LimitOrder limitOrder) {
-    // TODO Auto-generated method stub
-
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 }
