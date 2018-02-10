@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -84,6 +85,15 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
   public String requestDepositAddress(String currency) throws IOException {
     try {
       return bitmex.getDepositAddress(apiKey, exchange.getNonceFactory(), signatureCreator, currency);
+    } catch (BitmexException e) {
+      throw handleError(e);
+    }
+  }
+
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+    try {
+      BitmexWalletTransaction transaction = bitmex.withdrawFunds(apiKey, exchange.getNonceFactory(), signatureCreator, currency, amount, address);
+      return transaction.getTransactID();
     } catch (BitmexException e) {
       throw handleError(e);
     }

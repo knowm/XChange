@@ -34,7 +34,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return withdrawFunds(currency.getCurrencyCode(), amount, address);
   }
 
   @Override
