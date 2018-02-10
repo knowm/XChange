@@ -1,11 +1,14 @@
 package org.knowm.xchange.bibox;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bibox.service.BiboxAccountService;
 import org.knowm.xchange.bibox.service.BiboxMarketDataService;
 import org.knowm.xchange.bibox.service.BiboxTradeService;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -16,7 +19,6 @@ public class BiboxExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-
     this.marketDataService = new BiboxMarketDataService(this);
     this.accountService = new BiboxAccountService(this);
     this.tradeService = new BiboxTradeService(this);
@@ -24,7 +26,6 @@ public class BiboxExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.bibox.com/");
     exchangeSpecification.setHost("bibox.com");
@@ -37,13 +38,11 @@ public class BiboxExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-
     return nonceFactory;
   }
 
-  //  @Override
-  //  public void remoteInit() throws IOException, ExchangeException {
-  //
-  //    exchangeMetaData = ((BiboxMarketDataService) marketDataService).getMetadata();
-  //  }
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {
+    exchangeMetaData = ((BiboxMarketDataService) marketDataService).getMetadata();
+  }
 }
