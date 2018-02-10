@@ -1,9 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -54,27 +52,41 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    List<LimitOrder> limitOrders = new ArrayList<>();
+
+    for (LimitOrder order : getOpenOrders().getOpenOrders()) {
+      if (params.accept(order)) {
+        limitOrders.add(order);
+      }
+    }
+
+    return new OpenOrders(limitOrders);
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    String symbol = marketOrder.getCurrencyPair().base.getCurrencyCode() + marketOrder.getCurrencyPair().counter.getCurrencyCode();
+    BitmexPrivateOrder order = placeMarketOrder(symbol, marketOrder.getOriginalAmount(), null);
+    return order.getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    String symbol = limitOrder.getCurrencyPair().base.getCurrencyCode() + limitOrder.getCurrencyPair().counter.getCurrencyCode();
+    BitmexPrivateOrder order = placeLimitOrder(symbol, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), null);
+    return order.getId();
   }
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    String symbol = stopOrder.getCurrencyPair().base.getCurrencyCode() + stopOrder.getCurrencyPair().counter.getCurrencyCode();
+    BitmexPrivateOrder order = placeStopOrder(symbol, stopOrder.getOriginalAmount(), stopOrder.getStopPrice(), null);
+    return order.getId();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return cancelBitmexOrder(orderId);
   }
 
   @Override
@@ -99,6 +111,21 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+
+    String filter = "{\"orderID\": [\"" + String.join("\",\"", orderIds) + "\"]}";
+
+    List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filter);
+
+    Set<Order> orders = new HashSet<>();
+
+    for (BitmexPrivateOrder privateOrder : privateOrders) {
+      Order.OrderType type = privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
+      CurrencyPair pair = new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
+
+      orders.add(new LimitOrder(type, privateOrder.getVolume(), pair, privateOrder.getId(), privateOrder.getTimestamp(),
+              privateOrder.getPrice()));
+    }
+
+    return orders;
   }
 }
