@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
+import org.knowm.xchange.bibox.dto.trade.BiboxOpenOrder;
+import org.knowm.xchange.bibox.dto.trade.BiboxOpenOrders;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBookEntry;
 import org.knowm.xchange.currency.Currency;
@@ -17,6 +19,7 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 
 /**
  * @author odrotleff
@@ -66,6 +69,25 @@ public class BiboxAdapters {
     return new LimitOrder.Builder(orderType, currencyPair)
         .limitPrice(entry.getPrice())
         .originalAmount(entry.getVolume())
+        .build();
+  }
+
+  public static OpenOrders adaptOpenOrders(BiboxOpenOrders biboxOpenOrders) {
+    return new OpenOrders(biboxOpenOrders.getItems().stream()
+        .map(BiboxAdapters::adaptLimitOpenOrder)
+        .collect(Collectors.toList()));
+  }
+  
+  private static LimitOrder adaptLimitOpenOrder(BiboxOpenOrder biboxOrder) {
+    CurrencyPair currencyPair = new CurrencyPair(biboxOrder.getCoinSymbol(), biboxOrder.getCurrencySymbol());
+    return new LimitOrder.Builder(biboxOrder.getOrderSide().getOrderType(), currencyPair)
+        .id(String.valueOf(biboxOrder.getId()))
+        .timestamp(new Date(biboxOrder.getCreatedAt()))
+        .limitPrice(biboxOrder.getPrice())
+        .originalAmount(biboxOrder.getAmount())
+        .cumulativeAmount(biboxOrder.getDealAmount())
+        .remainingAmount(biboxOrder.getUnexecuted())
+        .orderStatus(biboxOrder.getStatus().getOrderStatus())
         .build();
   }
 }

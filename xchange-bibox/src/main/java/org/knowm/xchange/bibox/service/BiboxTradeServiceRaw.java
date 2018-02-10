@@ -7,6 +7,9 @@ import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.bibox.dto.BiboxCommands;
 import org.knowm.xchange.bibox.dto.trade.BiboxAccountType;
 import org.knowm.xchange.bibox.dto.trade.BiboxCancelTradeCommand;
+import org.knowm.xchange.bibox.dto.trade.BiboxOpenOrders;
+import org.knowm.xchange.bibox.dto.trade.BiboxOrderPendingListCommand;
+import org.knowm.xchange.bibox.dto.trade.BiboxOrderPendingListCommandBody;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderSide;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderType;
 import org.knowm.xchange.bibox.dto.trade.BiboxTradeCommand;
@@ -37,5 +40,11 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
   public void cancelBiboxOrder(String orderId) {
     BiboxCancelTradeCommand cmd = new BiboxCancelTradeCommand(new BigInteger(orderId));
     bibox.cancelTrade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator);
+  }
+
+  public BiboxOpenOrders getBiboxOpenOrders() {
+    BiboxOrderPendingListCommandBody body = new BiboxOrderPendingListCommandBody(1, Integer.MAX_VALUE); // wonder if this actually works
+    BiboxOrderPendingListCommand cmd = new BiboxOrderPendingListCommand(body);
+    return bibox.orderPendingList(BiboxCommands.of(cmd).json(), apiKey, signatureCreator).get().getResult();
   }
 }

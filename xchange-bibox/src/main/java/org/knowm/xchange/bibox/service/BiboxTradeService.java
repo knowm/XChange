@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -26,8 +27,7 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    return BiboxAdapters.adaptOpenOrders(getBiboxOpenOrders());
   }
 
   @Override

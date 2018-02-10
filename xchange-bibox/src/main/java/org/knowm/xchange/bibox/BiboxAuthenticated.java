@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
+import org.knowm.xchange.bibox.dto.trade.BiboxOpenOrders;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -58,6 +59,18 @@ public interface BiboxAuthenticated extends Bibox {
   @POST
   @Path("orderpending")
   BiboxSingleResponse<String> cancelTrade(
+      @FormParam(FORM_CMDS) String cmds,
+      @FormParam(FORM_APIKEY) String apiKey,
+      @FormParam(FORM_SIGNATURE) ParamsDigest signature);
+
+  /**
+   * Obtain open order list
+   * 
+   * @return open orders
+   */
+  @POST
+  @Path("orderpending")
+  BiboxSingleResponse<BiboxOpenOrders> orderPendingList(
       @FormParam(FORM_CMDS) String cmds,
       @FormParam(FORM_APIKEY) String apiKey,
       @FormParam(FORM_SIGNATURE) ParamsDigest signature);
