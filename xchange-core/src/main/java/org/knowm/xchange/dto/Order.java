@@ -86,7 +86,12 @@ public abstract class Order implements Serializable {
     /**
      * Order has expired it's time to live or trading session and been removed from order book
      */
-    EXPIRED
+    EXPIRED,
+    /**
+     * The exchange returned a state which is not in the exchange's API documentation.
+     * The state of the order cannot be confirmed.
+     */
+    UNKNOWN
   }
 
   public interface IOrderFlags {

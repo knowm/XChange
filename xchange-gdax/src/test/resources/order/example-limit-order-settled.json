@@ -1,0 +1,19 @@
+{
+  "id": "b2cdd7fe-1f4a-495e-8b96-7a4be368f43c",
+  "price": "14839.76000000",
+  "size": "0.07060351",
+  "product_id": "BTC-USD",
+  "side": "sell",
+  "stp": "dc",
+  "type": "limit",
+  "time_in_force": "IOC",
+  "post_only": false,
+  "created_at": "2018-01-08T17:55:44.454112Z",
+  "done_at": "2018-01-08T17:55:44.492Z",
+  "done_reason": "filled",
+  "fill_fees": "2.6256545174247500",
+  "filled_size": "0.07060351",
+  "executed_value": "1050.2618069699000000",
+  "status": "settled",
+  "settled": true
+}

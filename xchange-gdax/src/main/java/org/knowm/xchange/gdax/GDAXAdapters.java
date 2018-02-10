@@ -181,14 +181,17 @@ public class GDAXAdapters {
 
     Date createdAt = parseDate(order.getCreatedAt());
 
-    Order returnValue;
-
     OrderStatus orderStatus = adaptOrderStatus(order);
 
-    BigDecimal averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
+    final BigDecimal averagePrice;
+    if (order.getFilledSize().signum() == 0) {
+      averagePrice = BigDecimal.ZERO;
+    } else {
+      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
+    }
 
     if(order.getType().equals("market")) {
-      returnValue = new MarketOrder(
+      return new MarketOrder(
               type,
               order.getSize(),
               currencyPair,
@@ -200,7 +203,7 @@ public class GDAXAdapters {
               orderStatus
               );
     } else if(order.getType().equals("limit")) {
-      returnValue = new LimitOrder(
+      return new LimitOrder(
               type,
               order.getSize(),
               currencyPair,
@@ -211,11 +214,9 @@ public class GDAXAdapters {
               order.getFilledSize(),
               order.getFillFees(),
               orderStatus);
-    } else {
-      return null;
     }
 
-    return returnValue;
+    return null;
   }
 
 
@@ -234,13 +235,22 @@ public class GDAXAdapters {
 
   /** The status from the GDAXOrder object converted to xchange status */
   public static OrderStatus adaptOrderStatus(GDAXOrder order) {
-    if(order.getStatus().equals("done")) {
 
-      if(order.getDoneReason().equals("filled"))
+    if(order.getStatus().equals("pending")) {
+      return OrderStatus.PENDING_NEW;
+    }
+
+    if(order.getStatus().equals("done") || order.getStatus().equals("settled")) {
+
+      if(order.getDoneReason().equals("filled")) {
         return OrderStatus.FILLED;
+      }
 
-      return null;
-
+      // Could possibly be STOPPED, but this isn't covered by the GDAX API docs,
+      // and in any case, neither getOpenOrders not getOrder are currently
+      // returning stop orders so it's hard to tell. This will have to do for
+      // now.
+      return OrderStatus.UNKNOWN;
     }
 
     if(order.getFilledSize().signum() == 0)
@@ -250,7 +260,7 @@ public class GDAXAdapters {
             && order.getSize().compareTo(order.getFilledSize()) < 0)
       return OrderStatus.PARTIALLY_FILLED;
 
-    return null;
+    return OrderStatus.UNKNOWN;
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {
