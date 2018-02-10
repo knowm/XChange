@@ -14,6 +14,9 @@ import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
+/**
+ * @author odrotleff
+ */
 public class BiboxMarketDataServiceRaw extends BiboxBaseService {
 
   private static final String TICKER_CMD = "ticker";
@@ -40,7 +43,7 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
     }
   }
 
-  public List<BiboxMarket> getAllBiboxTickers() throws IOException {
+  public List<BiboxMarket> getAllBiboxMarkets() throws IOException {
     try {
       return bibox.marketAll(ALL_TICKERS_CMD).getResult();
     } catch (BiboxException e) {

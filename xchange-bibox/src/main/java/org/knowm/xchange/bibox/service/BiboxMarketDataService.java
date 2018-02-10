@@ -1,14 +1,17 @@
 package org.knowm.xchange.bibox.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
+import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -18,6 +21,8 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
+ * 
+ * @author odrotleff
  */
 public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements MarketDataService {
 
@@ -53,5 +58,10 @@ public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  public ExchangeMetaData getMetadata() throws IOException {
+    List<BiboxMarket> markets = getAllBiboxMarkets();
+    return BiboxAdapters.adaptMetadata(markets);
   }
 }

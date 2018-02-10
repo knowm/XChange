@@ -1,10 +1,13 @@
 package org.knowm.xchange.bibox.dto;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
+import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
 import org.knowm.xchange.bibox.dto.trade.BiboxOpenOrder;
 import org.knowm.xchange.bibox.dto.trade.BiboxOpenOrders;
@@ -18,6 +21,8 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
@@ -77,7 +82,7 @@ public class BiboxAdapters {
         .map(BiboxAdapters::adaptLimitOpenOrder)
         .collect(Collectors.toList()));
   }
-  
+
   private static LimitOrder adaptLimitOpenOrder(BiboxOpenOrder biboxOrder) {
     CurrencyPair currencyPair = new CurrencyPair(biboxOrder.getCoinSymbol(), biboxOrder.getCurrencySymbol());
     return new LimitOrder.Builder(biboxOrder.getOrderSide().getOrderType(), currencyPair)
@@ -89,5 +94,13 @@ public class BiboxAdapters {
         .remainingAmount(biboxOrder.getUnexecuted())
         .orderStatus(biboxOrder.getStatus().getOrderStatus())
         .build();
+  }
+
+  public static ExchangeMetaData adaptMetadata(List<BiboxMarket> markets) {
+    Map<CurrencyPair, CurrencyPairMetaData> pairMeta = new HashMap<>();
+    for (BiboxMarket biboxMarket : markets) {
+      pairMeta.put(new CurrencyPair(biboxMarket.getCoinSymbol(), biboxMarket.getCurrencySymbol()), new CurrencyPairMetaData(null, null, null, null));
+    }
+    return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
 }
