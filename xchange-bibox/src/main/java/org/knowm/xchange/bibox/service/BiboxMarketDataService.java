@@ -12,6 +12,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -56,8 +57,7 @@ public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   public ExchangeMetaData getMetadata() throws IOException {

@@ -9,6 +9,7 @@ import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -30,31 +31,26 @@ public class BiboxAccountService extends BiboxAccountServiceRaw implements Accou
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 }
