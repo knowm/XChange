@@ -133,4 +133,13 @@ public interface Bitmex {
                            @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
                            @HeaderParam("api-signature") ParamsDigest paramsDigest,
                            @QueryParam("currency") String currency);
+
+  @POST
+  @Path("user/requestWithdrawal")
+  BitmexWalletTransaction withdrawFunds(@HeaderParam("api-key") String apiKey,
+                                        @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+                                        @HeaderParam("api-signature") ParamsDigest paramsDigest,
+                                        @FormParam("currency") String currency,
+                                        @FormParam("amount") BigDecimal amount,
+                                        @FormParam("address") String address);
 }
