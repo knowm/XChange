@@ -118,14 +118,14 @@ public class GDAXAdaptersTest {
     assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
     assertThat(order.getId()).isEqualTo(gdaxOrder.getId());
     assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
-    assertThat(order.getOriginalAmount().equals(new BigDecimal("1.00000000"))).isTrue();
-    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.01291771"));
-    assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("1.0").subtract(new BigDecimal("0.01291771")));
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("1.00000000"));
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.01291771"));
+    assertThat(order.getRemainingAmount()).isEqualByComparingTo(new BigDecimal("1.0").subtract(new BigDecimal("0.01291771")));
     assertThat(order.getFee()).isEqualTo(new BigDecimal("0.0249376391550000"));
     assertThat(MarketOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.BID);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1481227745508L));
-    assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("9.9750556620000000").divide(new BigDecimal("0.01291771"), new MathContext(8)));
+    assertThat(order.getAveragePrice()).isEqualByComparingTo(new BigDecimal("9.9750556620000000").divide(new BigDecimal("0.01291771"), new MathContext(8)));
   }
 
 
@@ -145,16 +145,83 @@ public class GDAXAdaptersTest {
     assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
     assertThat(order.getId()).isEqualTo("b2cdd7fe-1f4a-495e-8b96-7a4be368f43c");
     assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
-    assertThat(order.getOriginalAmount().equals(new BigDecimal("0.07060351"))).isTrue();
-    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.07060351"));
-    assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
+    assertThat(order.getRemainingAmount()).isEqualByComparingTo(new BigDecimal("0.00000000"));
     assertThat(order.getFee()).isEqualTo(new BigDecimal("2.6256545174247500"));
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.ASK);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
-    assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), new MathContext(8)));
+    assertThat(order.getAveragePrice()).isEqualByComparingTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), new MathContext(8)));
+  }
 
+  @Test
+  public void testOrderStatusLimitOrderSettled() throws IOException {
 
+    final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
+    final ObjectMapper mapper = factory.createObjectMapper();
+
+    final InputStream is = getClass().getResourceAsStream("/order/example-limit-order-settled.json");
+    final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
+
+    final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
+
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
+    assertThat(order.getId()).isEqualTo("b2cdd7fe-1f4a-495e-8b96-7a4be368f43c");
+    assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
+    assertThat(order.getRemainingAmount()).isEqualByComparingTo(BigDecimal.ZERO);
+    assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
+    assertThat(order.getType()).isEqualTo(OrderType.ASK);
+    assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
+    assertThat(order.getAveragePrice()).isEqualByComparingTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), new MathContext(8)));
+  }
+
+  @Test
+  public void testOrderStatusLimitOrderNew() throws IOException {
+
+    final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
+    final ObjectMapper mapper = factory.createObjectMapper();
+
+    final InputStream is = getClass().getResourceAsStream("/order/example-limit-order-new.json");
+    final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
+
+    final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
+
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.NEW);
+    assertThat(order.getId()).isEqualTo("b2cdd7fe-1f4a-495e-8b96-7a4be368f43c");
+    assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(BigDecimal.ZERO);
+    assertThat(order.getRemainingAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
+    assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
+    assertThat(order.getType()).isEqualTo(OrderType.ASK);
+    assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
+    assertThat(order.getAveragePrice()).isEqualByComparingTo(BigDecimal.ZERO);
+  }
+
+  @Test
+  public void testOrderStatusLimitOrderPending() throws IOException {
+
+    final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
+    final ObjectMapper mapper = factory.createObjectMapper();
+
+    final InputStream is = getClass().getResourceAsStream("/order/example-limit-order-pending.json");
+    final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
+
+    final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
+
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.PENDING_NEW);
+    assertThat(order.getId()).isEqualTo("b2cdd7fe-1f4a-495e-8b96-7a4be368f43c");
+    assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
+    assertThat(order.getCumulativeAmount()).isEqualByComparingTo(BigDecimal.ZERO);
+    assertThat(order.getRemainingAmount()).isEqualByComparingTo(new BigDecimal("0.07060351"));
+    assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
+    assertThat(order.getType()).isEqualTo(OrderType.ASK);
+    assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
+    assertThat(order.getAveragePrice()).isEqualByComparingTo(BigDecimal.ZERO);
   }
 
 }
