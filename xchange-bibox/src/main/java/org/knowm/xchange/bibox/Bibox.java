@@ -1,6 +1,7 @@
 package org.knowm.xchange.bibox;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,6 +10,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bibox.dto.BiboxResponse;
+import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 
@@ -41,4 +43,17 @@ public interface Bibox {
       @QueryParam("cmd") String cmd,
       @QueryParam("pair") String pair,
       @QueryParam("size") Integer size) throws IOException, BiboxException;
+
+  /**
+   * Retrieves all tickers.
+   * 
+   * @param cmd always "marketAll"
+   * @return
+   * @throws IOException
+   * @throws BiboxException
+   */
+  @GET
+  @Path("mdata")
+  BiboxResponse<List<BiboxMarket>> marketAll(@QueryParam("cmd") String cmd)
+      throws IOException, BiboxException;
 }
