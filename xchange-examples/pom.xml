@@ -56,6 +56,12 @@
             <artifactId>xchange-wex</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- XChange Bibox exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-bibox</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- XChange Binance exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
