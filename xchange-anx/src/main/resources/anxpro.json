@@ -99,7 +99,7 @@
       "price_scale": 8
     },
     "LTC/BTC": {
-      "min_amount": 1.00000000,
+      "min_amount": 0.10000000,
       "max_amount": 10000000.00000000,
       "price_scale": 5
     },
