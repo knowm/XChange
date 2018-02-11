@@ -35,7 +35,7 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    return getOpenOrders();
   }
 
   @Override
