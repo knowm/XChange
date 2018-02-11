@@ -15,6 +15,7 @@ import org.knowm.xchange.bibox.dto.trade.BiboxOrderSide;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderType;
 import org.knowm.xchange.bibox.dto.trade.BiboxTradeCommand;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 
 /**
  * @author odrotleff
@@ -34,6 +35,19 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
         true,
         limitOrder.getLimitPrice(),
         limitOrder.getOriginalAmount(),
+        null);
+    return bibox.trade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator).get().getResult();
+  }
+
+  public Integer placeBiboxMarketOrder(MarketOrder marketOrder) {
+    BiboxTradeCommand cmd = new BiboxTradeCommand(
+        BiboxAdapters.toBiboxPair(marketOrder.getCurrencyPair()),
+        BiboxAccountType.REGULAR.asInt(),
+        BiboxOrderType.MARKET_ORDER.asInt(),
+        BiboxOrderSide.fromOrderType(marketOrder.getType()).asInt(),
+        true,
+        null,
+        marketOrder.getOriginalAmount(),
         null);
     return bibox.trade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator).get().getResult();
   }
