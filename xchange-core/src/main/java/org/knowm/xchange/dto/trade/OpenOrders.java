@@ -17,7 +17,7 @@ import org.knowm.xchange.dto.Order;
 public final class OpenOrders implements Serializable {
 
   private final List<LimitOrder> openOrders;
-  private final List<Order> hiddenOrders;
+  private final List<? extends Order> hiddenOrders;
 
   /**
    * Constructor
@@ -50,7 +50,7 @@ public final class OpenOrders implements Serializable {
   /**
    * @return Orders which are not shown on the order book, such as untriggered stop orders.
    */
-  public List<Order> getHiddenOrders() {
+  public List<? extends Order> getHiddenOrders() {
     return hiddenOrders;
   }
 
