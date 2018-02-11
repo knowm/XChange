@@ -21,15 +21,15 @@ public class BiboxTradeUnmarshalTest {
   @Test
   public void testOpenOrdersUnmarshal() throws IOException {
 
-    BiboxSingleResponse<BiboxOpenOrders> response =
-        BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<BiboxOpenOrders>>() {},
+    BiboxSingleResponse<BiboxOrders> response =
+        BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
             "/trade/example-open-orders.json");
     assertThat(response.get().getCmd()).isEqualTo("orderpending/orderPendingList");
 
-    BiboxOpenOrders orders = response.get().getResult();
+    BiboxOrders orders = response.get().getResult();
     assertThat(orders.getItems()).hasSize(2);
 
-    BiboxOpenOrder first = orders.getItems().get(0);
+    BiboxOrder first = orders.getItems().get(0);
     assertThat(first.getId()).isEqualTo(242640813L);
     assertThat(first.getCreatedAt()).isEqualTo(1518218031000L);
     assertThat(first.getAccountType()).isEqualTo(BiboxAccountType.REGULAR);
@@ -44,7 +44,7 @@ public class BiboxTradeUnmarshalTest {
     assertThat(first.getUnexecuted()).isEqualTo(new BigDecimal("0.0400"));
     assertThat(first.getStatus()).isEqualTo(BiboxOrderStatus.PENDING);
 
-    BiboxOpenOrder second = orders.getItems().get(1);
+    BiboxOrder second = orders.getItems().get(1);
     assertThat(second.getId()).isEqualTo(242640017L);
     assertThat(second.getCreatedAt()).isEqualTo(1518218019000L);
     assertThat(second.getAccountType()).isEqualTo(BiboxAccountType.REGULAR);
@@ -58,5 +58,45 @@ public class BiboxTradeUnmarshalTest {
     assertThat(second.getDealAmount()).isEqualTo(new BigDecimal("0.0000"));
     assertThat(second.getUnexecuted()).isEqualTo(new BigDecimal("0.1000"));
     assertThat(second.getStatus()).isEqualTo(BiboxOrderStatus.PENDING);
+  }
+
+  @Test
+  public void testTradeHistoryUnmarshal() throws IOException {
+
+    BiboxSingleResponse<BiboxOrders> response =
+        BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
+            "/trade/example-trade-history.json");
+    assertThat(response.get().getCmd()).isEqualTo("orderpending/orderHistoryList");
+
+    BiboxOrders orders = response.get().getResult();
+    assertThat(orders.getItems()).hasSize(2);
+
+    BiboxOrder first = orders.getItems().get(0);
+    assertThat(first.getId()).isEqualTo(255925252L);
+    assertThat(first.getCreatedAt()).isEqualTo(1518127133000L);
+    assertThat(first.getAccountType()).isEqualTo(BiboxAccountType.REGULAR);
+    assertThat(first.getCoinSymbol()).isEqualTo("ETC");
+    assertThat(first.getCurrencySymbol()).isEqualTo("ETH");
+    assertThat(first.getOrderSide()).isEqualTo(BiboxOrderSide.ASK);
+    assertThat(first.getOrderType()).isEqualTo(BiboxOrderType.LIMIT_ORDER);
+    assertThat(first.getPrice()).isEqualTo(new BigDecimal("0.02641939"));
+    assertThat(first.getAmount()).isEqualTo(new BigDecimal("0.0474"));
+    assertThat(first.getMoney()).isEqualTo(new BigDecimal("0.00125227"));
+    assertThat(first.getFee()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(first.getFeeSymbol()).isEqualTo("BIX");
+
+    BiboxOrder second = orders.getItems().get(1);
+    assertThat(second.getId()).isEqualTo(255924172L);
+    assertThat(second.getCreatedAt()).isEqualTo(1518127118000L);
+    assertThat(second.getAccountType()).isEqualTo(BiboxAccountType.REGULAR);
+    assertThat(second.getCoinSymbol()).isEqualTo("ETC");
+    assertThat(second.getCurrencySymbol()).isEqualTo("ETH");
+    assertThat(second.getOrderSide()).isEqualTo(BiboxOrderSide.ASK);
+    assertThat(second.getOrderType()).isEqualTo(BiboxOrderType.LIMIT_ORDER);
+    assertThat(second.getPrice()).isEqualTo(new BigDecimal("0.02691475"));
+    assertThat(second.getAmount()).isEqualTo(new BigDecimal("0.0542"));
+    assertThat(second.getMoney()).isEqualTo(new BigDecimal("0.00145877"));
+    assertThat(second.getFee()).isEqualTo(new BigDecimal("0.00000146"));
+    assertThat(second.getFeeSymbol()).isEqualTo("ETH");
   }
 }

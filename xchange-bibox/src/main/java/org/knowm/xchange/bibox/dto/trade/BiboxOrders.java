@@ -22,14 +22,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "page",
     "items"
 })
-public class BiboxOpenOrders {
+public class BiboxOrders {
 
     @JsonProperty("count")
     private Integer count;
     @JsonProperty("page")
     private Integer page;
     @JsonProperty("items")
-    private List<BiboxOpenOrder> items = new ArrayList<BiboxOpenOrder>();
+    private List<BiboxOrder> items = new ArrayList<BiboxOrder>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -79,7 +79,7 @@ public class BiboxOpenOrders {
      *     The items
      */
     @JsonProperty("items")
-    public List<BiboxOpenOrder> getItems() {
+    public List<BiboxOrder> getItems() {
         return items;
     }
 
@@ -89,7 +89,7 @@ public class BiboxOpenOrders {
      *     The items
      */
     @JsonProperty("items")
-    public void setItems(List<BiboxOpenOrder> items) {
+    public void setItems(List<BiboxOrder> items) {
         this.items = items;
     }
 
