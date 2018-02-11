@@ -41,7 +41,7 @@ public class BiboxAccountService extends BiboxAccountServiceRaw implements Accou
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    return requestBiboxDepositAddress(currency);
   }
 
   @Override

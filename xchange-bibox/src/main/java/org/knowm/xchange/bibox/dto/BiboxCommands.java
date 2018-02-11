@@ -3,6 +3,8 @@ package org.knowm.xchange.bibox.dto;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.knowm.xchange.bibox.dto.account.BiboxDepositAddressCommandBody;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -17,6 +19,11 @@ public class BiboxCommands extends ArrayList<BiboxCommand<?>> {
 
   public static final BiboxCommands COIN_LIST_CMD =
       BiboxCommands.of(new BiboxCommand<BiboxEmptyBody>("transfer/coinList", new BiboxEmptyBody()));
+  
+  public static BiboxCommands depositAddressCommand(String coinSymbol) {
+    return BiboxCommands.of(new BiboxCommand<BiboxDepositAddressCommandBody>("transfer/transferIn",
+        new BiboxDepositAddressCommandBody(coinSymbol)));
+  }
 
   private static final long serialVersionUID = 1L;
 
