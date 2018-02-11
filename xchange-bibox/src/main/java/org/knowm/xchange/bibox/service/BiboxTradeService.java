@@ -40,7 +40,7 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    return placeBiboxMarketOrder(marketOrder).toString();
   }
 
   @Override
