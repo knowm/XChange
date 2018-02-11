@@ -65,7 +65,7 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    return BiboxAdapters.adaptUserTrades(getBiboxOrderHistory());
   }
 
   @Override

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"id", "createdAt", "account_type", "coin_symbol", "currency_symbol", "order_side", "order_type", "price", "amount", "money",
     "deal_amount", "deal_percent", "status", "unexecuted"})
-public class BiboxOpenOrder {
+public class BiboxOrder {
 
   @JsonProperty("id")
   private long id;
@@ -48,6 +48,14 @@ public class BiboxOpenOrder {
   private BiboxOrderStatus status;
   @JsonProperty("unexecuted")
   private BigDecimal unexecuted;
+  /**
+   * only for order history
+   */
+  @JsonProperty("fee")
+  private BigDecimal fee;
+  @JsonProperty("fee_symbol")
+  private String feeSymbol;
+
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -273,6 +281,22 @@ public class BiboxOpenOrder {
   @JsonProperty("unexecuted")
   public void setUnexecuted(BigDecimal unexecuted) {
     this.unexecuted = unexecuted;
+  }
+
+  public BigDecimal getFee() {
+    return fee;
+  }
+
+  public void setFee(BigDecimal fee) {
+    this.fee = fee;
+  }
+
+  public String getFeeSymbol() {
+    return feeSymbol;
+  }
+
+  public void setFeeSymbol(String feeSymbol) {
+    this.feeSymbol = feeSymbol;
   }
 
   @JsonAnyGetter

@@ -7,7 +7,8 @@ import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.bibox.dto.BiboxCommands;
 import org.knowm.xchange.bibox.dto.trade.BiboxAccountType;
 import org.knowm.xchange.bibox.dto.trade.BiboxCancelTradeCommand;
-import org.knowm.xchange.bibox.dto.trade.BiboxOpenOrders;
+import org.knowm.xchange.bibox.dto.trade.BiboxOrderHistoryCommand;
+import org.knowm.xchange.bibox.dto.trade.BiboxOrders;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderPendingListCommand;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderPendingListCommandBody;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderSide;
@@ -42,9 +43,15 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
     bibox.cancelTrade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator);
   }
 
-  public BiboxOpenOrders getBiboxOpenOrders() {
+  public BiboxOrders getBiboxOpenOrders() {
     BiboxOrderPendingListCommandBody body = new BiboxOrderPendingListCommandBody(1, Integer.MAX_VALUE); // wonder if this actually works
     BiboxOrderPendingListCommand cmd = new BiboxOrderPendingListCommand(body);
+    return bibox.orderPendingList(BiboxCommands.of(cmd).json(), apiKey, signatureCreator).get().getResult();
+  }
+
+  public BiboxOrders getBiboxOrderHistory() {
+    BiboxOrderPendingListCommandBody body = new BiboxOrderPendingListCommandBody(1, Integer.MAX_VALUE); // wonder if this actually works
+    BiboxOrderHistoryCommand cmd = new BiboxOrderHistoryCommand(body);
     return bibox.orderPendingList(BiboxCommands.of(cmd).json(), apiKey, signatureCreator).get().getResult();
   }
 }
