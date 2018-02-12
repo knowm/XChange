@@ -34,8 +34,8 @@ public interface Bitmex {
 
   @GET
   @Path("user/wallet")
-  BitmexWallet getWallet(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce, @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("currency") String currency) throws IOException;
+  BitmexWallet getWallet(@HeaderParam("api-key") String apiKey, @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce, @HeaderParam("api-signature") ParamsDigest paramsDigest/*,
+           @Nullable @QueryParam("currency") String currency*/) throws IOException;
 
   // Get a history of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
