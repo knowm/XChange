@@ -1,5 +1,9 @@
 {
   "currency_pairs": {
+    "BCH/BTC": {
+      "min_amount": 0.0001,
+      "price_scale": 8
+    },
     "STEEM/BTC": {
       "min_amount": 0.00000001,
       "trading_fee": 0.0025,
@@ -116,7 +120,7 @@
       "price_scale": 8
     },
     "LSK/BTC": {
-      "min_amount": 0.00000001,
+      "min_amount": 0.0001,
       "trading_fee": 0.0025,
       "price_scale": 8
     },
@@ -341,7 +345,7 @@
       "price_scale": 8
     },
     "LSK/ETH": {
-      "min_amount": 0.00000001,
+      "min_amount": 0.0001,
       "trading_fee": 0.0025,
       "price_scale": 8
     },
@@ -371,7 +375,7 @@
       "price_scale": 8
     },
     "XMR/BTC": {
-      "min_amount": 0.00000001,
+      "min_amount": 0.0001,
       "trading_fee": 0.0025,
       "price_scale": 8
     },

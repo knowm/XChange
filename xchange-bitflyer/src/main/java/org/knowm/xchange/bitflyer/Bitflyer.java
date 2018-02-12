@@ -11,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitflyer.dto.BitflyerException;
+import org.knowm.xchange.bitflyer.dto.account.BitflyerBalance;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginAccount;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginStatus;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginTransaction;
@@ -75,6 +76,12 @@ public interface Bitflyer {
   @GET
   @Path("me/getcollateral")
   BitflyerMarginStatus getMarginStatus(@HeaderParam(ACCESS_KEY) String apiKey,
+      @HeaderParam(ACCESS_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(ACCESS_SIGN) ParamsDigest paramsDigest) throws IOException, BitflyerException;
+
+  @GET
+  @Path("/me/getbalance")
+  List<BitflyerBalance> getBalances(@HeaderParam(ACCESS_KEY) String apiKey,
       @HeaderParam(ACCESS_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(ACCESS_SIGN) ParamsDigest paramsDigest) throws IOException, BitflyerException;
 

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -26,14 +27,14 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
-    AccountInfo accountInfo = getAccountInfo();
-    return new AccountInfo(accountInfo.getUsername());
+  public AccountInfo getAccountInfo() throws IOException {
+    BitmexAccount account = super.getBitmexAccountInfo();
+    return new AccountInfo(account.getUsername());
   }
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return withdrawFunds(currency.getCurrencyCode(), amount, address);
   }
 
   @Override
@@ -43,7 +44,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return requestDepositAddress(currency.getCurrencyCode());
   }
 
   @Override

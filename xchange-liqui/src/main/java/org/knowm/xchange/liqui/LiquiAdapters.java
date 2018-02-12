@@ -128,7 +128,7 @@ public class LiquiAdapters {
     final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
 
     return new LimitOrder(type, originalAmount, pair, String.valueOf(id), timestamp, orderInfo.getRate(),
-        orderInfo.getRate(), filledAmount, status);
+        orderInfo.getRate(), filledAmount, null, status);
   }
 
   public static Order.OrderStatus adaptOrderStatus(final String status) {

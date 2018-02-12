@@ -1,0 +1,14 @@
+{  
+   "coinType":"XRB",
+   "createdAt":1516831164000,
+   "amount":0.9,
+   "address":"xrb_1wgznwiqs5nthtr4qgrx4q1qchnj4nqi3cw8t6jgoh5cicx8qcc4fhebw63y",
+   "fee":0.0,
+   "outerWalletTxid":"9BBC27DB999B414212CB823C453F31C05488FD523625CAD5E06A24487DC7A62F",
+   "remark":null,
+   "oid":"5a6901bc76088742e6dab974",
+   "confirmation":1,
+   "type":"DEPOSIT",
+   "status":"SUCCESS",
+   "updatedAt":1516831164000
+}

@@ -11,10 +11,7 @@ import org.knowm.xchange.btctrade.dto.trade.BTCTradeOrder;
 import org.knowm.xchange.btctrade.dto.trade.BTCTradePlaceOrderResult;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -65,6 +62,11 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
       result = sell(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
     }
     return BTCTradeAdapters.adaptPlaceOrderResult(result);
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
