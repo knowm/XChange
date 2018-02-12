@@ -13,6 +13,14 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public abstract class Order implements Serializable {
 
+  public BigDecimal getFee() {
+    return fee;
+  }
+
+  public void setFee(BigDecimal fee) {
+    this.fee = fee;
+  }
+
   public enum OrderType {
 
     /**
@@ -56,6 +64,10 @@ public abstract class Order implements Serializable {
      */
     PENDING_CANCEL,
     /**
+     * Order was partially canceled at exchange
+     */
+    PARTIALLY_CANCELED,
+    /**
      * Removed from order book at exchange
      */
     CANCELED,
@@ -78,7 +90,12 @@ public abstract class Order implements Serializable {
     /**
      * Order has expired it's time to live or trading session and been removed from order book
      */
-    EXPIRED
+    EXPIRED,
+    /**
+     * The exchange returned a state which is not in the exchange's API documentation.
+     * The state of the order cannot be confirmed.
+     */
+    UNKNOWN
   }
 
   public interface IOrderFlags {
@@ -124,6 +141,9 @@ public abstract class Order implements Serializable {
    */
   private final Date timestamp;
 
+  /** The total of the fees incured for all transactions related to this order */
+  private BigDecimal fee;
+
   /**
    * Any applicable order flags
    */
@@ -156,10 +176,11 @@ public abstract class Order implements Serializable {
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    * @param averagePrice the averagePrice of fill belonging to the order
    * @param cumulativeAmount the amount that has been filled
+   * @param fee the fee associated with this order
    * @param status the status of the order at the exchange
    */
   public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
-      BigDecimal cumulativeAmount, OrderStatus status) {
+      BigDecimal cumulativeAmount, BigDecimal fee, OrderStatus status) {
 
     this.type = type;
     this.originalAmount = originalAmount;
@@ -168,6 +189,7 @@ public abstract class Order implements Serializable {
     this.timestamp = timestamp;
     this.averagePrice = averagePrice;
     this.cumulativeAmount = cumulativeAmount;
+    this.fee = fee;
     this.status = status;
   }
 
@@ -340,6 +362,7 @@ public abstract class Order implements Serializable {
     protected Date timestamp;
     protected BigDecimal averagePrice;
     protected OrderStatus status;
+    protected BigDecimal fee;
 
     protected final Set<IOrderFlags> flags = new HashSet<>();
 
@@ -370,6 +393,12 @@ public abstract class Order implements Serializable {
     public Builder cumulativeAmount(BigDecimal cumulativeAmount) {
 
       this.cumulativeAmount = cumulativeAmount;
+      return this;
+    }
+
+    public Builder fee(BigDecimal fee) {
+
+      this.fee = fee;
       return this;
     }
 

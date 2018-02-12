@@ -63,6 +63,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
           limitPrice,
           averagePrice,
           cumulativeAmount,
+          null,
           status
       ));
     }

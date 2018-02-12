@@ -2,10 +2,7 @@ package org.known.xchange.acx.service.trade;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -68,6 +65,11 @@ public class AcxTradeService implements TradeService {
         String price = limitOrder.getLimitPrice().setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
         AcxOrder order = api.createOrder(accessKey, tonce, market, side, volume, price, "limit", signatureCreator);
         return order.id;
+    }
+
+    @Override
+    public String placeStopOrder(StopOrder stopOrder) throws IOException {
+        throw new NotYetImplementedForExchangeException();
     }
 
     @Override

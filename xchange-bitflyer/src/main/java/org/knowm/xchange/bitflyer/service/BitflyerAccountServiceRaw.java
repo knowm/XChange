@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.dto.BitflyerException;
+import org.knowm.xchange.bitflyer.dto.account.BitflyerBalance;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginAccount;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginStatus;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginTransaction;
@@ -25,6 +26,14 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
 
     try {
       return bitflyer.getMarginStatus(apiKey, exchange.getNonceFactory(), signatureCreator);
+    } catch (BitflyerException e) {
+      throw handleError(e);
+    }
+  }
+
+  public List<BitflyerBalance> getBitflyerBalances() throws IOException {
+    try {
+      return bitflyer.getBalances(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitflyerException e) {
       throw handleError(e);
     }

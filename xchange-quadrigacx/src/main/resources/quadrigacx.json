@@ -6,11 +6,11 @@
     },
     "BTC/USD": {
       "price_scale": 2,
-      "min_amount": 0.00500000
+      "min_amount": 0.005
     },
     "ETH/BTC": {
       "price_scale": 8,
-      "min_amount": 0.00000100
+      "min_amount": 0.000001
     },
     "ETH/CAD": {
       "price_scale": 2,
@@ -18,15 +18,22 @@
     },
     "BCH/BTC": {
       "price_scale": 8,
-      "min_amount": 0.00000001
+      "min_amount": 0.01
     },
     "BTG/BTC": {
       "price_scale": 8,
       "min_amount": 0.00000001
+    },
+    "LTC/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.01
     }
   },
   "currencies": {
     "BTC": {
+      "scale": 8
+    },
+    "LTC": {
       "scale": 8
     },
     "BCH": {

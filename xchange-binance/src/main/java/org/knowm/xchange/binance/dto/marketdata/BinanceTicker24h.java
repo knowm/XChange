@@ -30,6 +30,7 @@ public final class BinanceTicker24h {
   private final long firstId;
   private final long lastId;
   private final long count;
+  private final String symbol;
   
   // The curency pair that is unfortunately not returned in the response
   private CurrencyPair pair;
@@ -56,7 +57,8 @@ public final class BinanceTicker24h {
       , @JsonProperty("closeTime") long closeTime
       , @JsonProperty("firstId") long firstId
       , @JsonProperty("lastId") long lastId
-      , @JsonProperty("count") long count) {
+      , @JsonProperty("count") long count
+      , @JsonProperty("symbol") String symbol) {
     this.priceChange = priceChange;
     this.priceChangePercent = priceChangePercent;
     this.weightedAvgPrice = weightedAvgPrice;
@@ -77,6 +79,11 @@ public final class BinanceTicker24h {
     this.firstId = firstId;
     this.lastId = lastId;
     this.count = count;
+    this.symbol = symbol;
+  }
+
+  public String getSymbol() {
+    return symbol;
   }
 
   public CurrencyPair getCurrencyPair() {

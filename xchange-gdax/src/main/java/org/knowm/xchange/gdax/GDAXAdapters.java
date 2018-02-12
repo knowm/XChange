@@ -95,6 +95,7 @@ public class GDAXAdapters {
   public static Ticker adaptTicker(GDAXProductTicker ticker, GDAXProductStats stats, CurrencyPair currencyPair) {
 
     BigDecimal last = ticker.getPrice();
+    BigDecimal open = stats.getOpen();
     BigDecimal high = stats.getHigh();
     BigDecimal low = stats.getLow();
     BigDecimal buy = ticker.getBid();
@@ -102,7 +103,17 @@ public class GDAXAdapters {
     BigDecimal volume = ticker.getVolume();
     Date date = parseDate(ticker.getTime());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(buy).ask(sell).volume(volume).timestamp(date).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .open(open)
+        .high(high)
+        .low(low)
+        .bid(buy)
+        .ask(sell)
+        .volume(volume)
+        .timestamp(date)
+        .build();
   }
 
   public static OrderBook adaptOrderBook(GDAXProductBook book, CurrencyPair currencyPair) {
@@ -156,7 +167,7 @@ public class GDAXAdapters {
       OrderStatus orderStatus = adaptOrderStatus(order);
 
       LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
-          order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(), orderStatus);
+          order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(),order.getFillFees(), orderStatus);
 
       orders.add(limitOrder);
     }
@@ -170,14 +181,17 @@ public class GDAXAdapters {
 
     Date createdAt = parseDate(order.getCreatedAt());
 
-    Order returnValue;
-
     OrderStatus orderStatus = adaptOrderStatus(order);
 
-    BigDecimal averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
+    final BigDecimal averagePrice;
+    if (order.getFilledSize().signum() == 0) {
+      averagePrice = BigDecimal.ZERO;
+    } else {
+      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
+    }
 
     if(order.getType().equals("market")) {
-      returnValue = new MarketOrder(
+      return new MarketOrder(
               type,
               order.getSize(),
               currencyPair,
@@ -185,10 +199,11 @@ public class GDAXAdapters {
               createdAt,
               averagePrice,
               order.getFilledSize(),
+              order.getFillFees(),
               orderStatus
               );
     } else if(order.getType().equals("limit")) {
-      returnValue = new LimitOrder(
+      return new LimitOrder(
               type,
               order.getSize(),
               currencyPair,
@@ -197,12 +212,11 @@ public class GDAXAdapters {
               order.getPrice(),
               averagePrice,
               order.getFilledSize(),
+              order.getFillFees(),
               orderStatus);
-    } else {
-      return null;
     }
 
-    return returnValue;
+    return null;
   }
 
 
@@ -221,23 +235,32 @@ public class GDAXAdapters {
 
   /** The status from the GDAXOrder object converted to xchange status */
   public static OrderStatus adaptOrderStatus(GDAXOrder order) {
-    if(order.getStatus().equals("done")) {
 
-      if(order.getDoneReason().equals("filled"))
-        return OrderStatus.FILLED;
-
-      return null;
-
+    if(order.getStatus().equals("pending")) {
+      return OrderStatus.PENDING_NEW;
     }
 
-    if(order.getFilledSize().equals(0.0))
+    if(order.getStatus().equals("done") || order.getStatus().equals("settled")) {
+
+      if(order.getDoneReason().equals("filled")) {
+        return OrderStatus.FILLED;
+      }
+
+      // Could possibly be STOPPED, but this isn't covered by the GDAX API docs,
+      // and in any case, neither getOpenOrders not getOrder are currently
+      // returning stop orders so it's hard to tell. This will have to do for
+      // now.
+      return OrderStatus.UNKNOWN;
+    }
+
+    if(order.getFilledSize().signum() == 0)
       return OrderStatus.NEW;
 
-    if(order.getFilledSize().compareTo(new BigDecimal(0.0)) > 0
+    if(order.getFilledSize().compareTo(BigDecimal.ZERO) > 0
             && order.getSize().compareTo(order.getFilledSize()) < 0)
       return OrderStatus.PARTIALLY_FILLED;
 
-    return null;
+    return OrderStatus.UNKNOWN;
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {

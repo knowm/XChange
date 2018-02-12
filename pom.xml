@@ -5,7 +5,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.3.3-SNAPSHOT</version>
+    <version>4.3.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -88,6 +88,7 @@
         <module>xchange-abucoins</module>
         <module>xchange-anx</module>
         <module>xchange-acx</module>
+        <module>xchange-bibox</module>
         <module>xchange-binance</module>
         <module>xchange-bitbay</module>
         <module>xchange-bitcoinaverage</module>
