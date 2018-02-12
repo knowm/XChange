@@ -32,7 +32,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
   public GDAXOrder[] getGDAXOpenOrders() throws IOException {
 
     try {
-      return gdax.getListOrders(apiKey, digest, nonceFactory, passphrase, "open");
+      return gdax.getListOrders(apiKey, digest, nonceFactory, passphrase);
     } catch (GDAXException e) {
       throw handleError(e);
     }
