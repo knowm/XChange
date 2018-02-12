@@ -146,4 +146,13 @@ public class LakeBTCAdapters {
 
     return new AccountInfo(profile.getId(), new Wallet(usdBalance, btcBalance, cnyWBalance));
   }
+  
+  /**
+   * Adapts a currency pair to the keys returned by the tickers map.
+   * @param currencyPair The currency pair to convert to LakeBTCs ticker keys
+   * @return A string suitable for looking up ticker information.
+   */
+  public static String adaptCurrencyPair(CurrencyPair currencyPair) {
+	return currencyPair.base.getCurrencyCode().toLowerCase() + currencyPair.counter.getCurrencyCode().toLowerCase(); 
+  }
 }
