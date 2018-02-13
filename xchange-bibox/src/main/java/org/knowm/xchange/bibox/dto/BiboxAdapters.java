@@ -47,7 +47,6 @@ public class BiboxAdapters {
 
   public static AccountInfo adaptAccountInfo(List<BiboxCoin> coins) {
     Wallet wallet = adaptWallet(coins);
-    System.out.println(wallet);
     return new AccountInfo(wallet);
   }
 
