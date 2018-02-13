@@ -1,11 +1,12 @@
 package org.knowm.xchange.cexio.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.cexio.dto.CexIOApiResponse;
 import org.knowm.xchange.currency.Currency;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author ujjwal on 13/02/18.
@@ -13,7 +14,7 @@ import java.util.List;
 public class CexIOCurrencyLimits extends CexIOApiResponse {
 
   public CexIOCurrencyLimits(@JsonProperty("e") final String e, @JsonProperty("data") final Data data,
-                             @JsonProperty("ok") final String ok, @JsonProperty("error") final String error) {
+      @JsonProperty("ok") final String ok, @JsonProperty("error") final String error) {
     super(e, data, ok, error);
   }
 
@@ -43,10 +44,10 @@ public class CexIOCurrencyLimits extends CexIOApiResponse {
     private final BigDecimal maxPrice;
 
     public Pair(@JsonProperty("symbol1") Currency symbol1, @JsonProperty("symbol2") Currency symbol2,
-                @JsonProperty("minLotSize") BigDecimal minLotSize,
-                @JsonProperty("minLotSizeS2") BigDecimal minLotSizeS2,
-                @JsonProperty("maxLotSize") BigDecimal maxLotSize,
-                @JsonProperty("minPrice") BigDecimal minPrice, @JsonProperty("maxPrice") BigDecimal maxPrice) {
+        @JsonProperty("minLotSize") BigDecimal minLotSize,
+        @JsonProperty("minLotSizeS2") BigDecimal minLotSizeS2,
+        @JsonProperty("maxLotSize") BigDecimal maxLotSize,
+        @JsonProperty("minPrice") BigDecimal minPrice, @JsonProperty("maxPrice") BigDecimal maxPrice) {
       this.symbol1 = symbol1;
       this.symbol2 = symbol2;
       this.minLotSize = minLotSize;
@@ -86,16 +87,14 @@ public class CexIOCurrencyLimits extends CexIOApiResponse {
 
     @Override
     public String toString() {
-      final StringBuilder sb = new StringBuilder("Pair{");
-      sb.append("symbol1=").append(symbol1);
-      sb.append(", symbol2=").append(symbol2);
-      sb.append(", minLotSize=").append(minLotSize);
-      sb.append(", minLotSizeS2=").append(minLotSizeS2);
-      sb.append(", maxLotSize=").append(maxLotSize);
-      sb.append(", minPrice=").append(minPrice);
-      sb.append(", maxPrice=").append(maxPrice);
-      sb.append('}');
-      return sb.toString();
+      return "Pair{" + "symbol1=" + symbol1 +
+          ", symbol2=" + symbol2 +
+          ", minLotSize=" + minLotSize +
+          ", minLotSizeS2=" + minLotSizeS2 +
+          ", maxLotSize=" + maxLotSize +
+          ", minPrice=" + minPrice +
+          ", maxPrice=" + maxPrice +
+          '}';
     }
   }
 }
