@@ -1,4 +1,4 @@
-package org.knowm.xchange.cexio.service.marketdata;
+package org.knowm.xchange.cexio.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,16 +6,15 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-import org.knowm.xchange.cexio.dto.marketdata.CexIOCurrencyLimits;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author ujjwal on 13/02/18.
  */
-public class RemoteInitTest {
+public class CexIOCurrencyLimitsTest {
   @Test
-  public void unitJsonMapperTest() throws IOException {
+  public void jsonMapperTest() throws IOException {
     InputStream is = getClass().getResourceAsStream("/marketdata/sample_currency_limits.json");
     ObjectMapper mapper = new ObjectMapper();
     final CexIOCurrencyLimits cexIOCurrencyLimits = mapper.readValue(is, CexIOCurrencyLimits.class);

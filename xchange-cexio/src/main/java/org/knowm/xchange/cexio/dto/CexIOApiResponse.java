@@ -3,13 +3,13 @@ package org.knowm.xchange.cexio.dto;
 /**
  * @author ujjwal on 13/02/18.
  */
-public abstract class CexIOApiResponse {
+public abstract class CexIOApiResponse<T> {
   private final String e;
-  private final Object data;
+  private final T data;
   private final String ok;
   private final String error;
 
-  protected CexIOApiResponse(String e, Object data, String ok, String error) {
+  protected CexIOApiResponse(String e, T data, String ok, String error) {
     this.e = e;
     this.data = data;
     this.ok = ok;
@@ -20,7 +20,7 @@ public abstract class CexIOApiResponse {
     return e;
   }
 
-  public Object getData() {
+  public T getData() {
     return data;
   }
 

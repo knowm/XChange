@@ -20,6 +20,7 @@ import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
 import org.knowm.xchange.cexio.dto.PlaceOrderRequest;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.account.CexIOCryptoAddress;
+import org.knowm.xchange.cexio.dto.account.CexIOFeeInfo;
 import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
 import org.knowm.xchange.cexio.dto.account.GHashIOWorkers;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
@@ -34,6 +35,10 @@ import si.mazi.rescu.ParamsDigest;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface CexIOAuthenticated extends CexIO {
+
+  @POST
+  @Path("get_myfee")
+  CexIOFeeInfo getMyFee(@HeaderParam("signature") ParamsDigest signer, CexIORequest cexIORequest) throws IOException;
 
   @POST
   @Path("balance/")

@@ -11,15 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author ujjwal on 13/02/18.
  */
-public class CexIOCurrencyLimits extends CexIOApiResponse {
+public class CexIOCurrencyLimits extends CexIOApiResponse<CexIOCurrencyLimits.Data> {
 
   public CexIOCurrencyLimits(@JsonProperty("e") final String e, @JsonProperty("data") final Data data,
       @JsonProperty("ok") final String ok, @JsonProperty("error") final String error) {
     super(e, data, ok, error);
-  }
-
-  public Data getData() {
-    return (Data) super.getData();
   }
 
   public static class Data {
