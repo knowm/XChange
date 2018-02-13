@@ -47,6 +47,11 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
     return raw.stream().map(obj -> new BinanceKline(pair, interval, obj)).collect(Collectors.toList());
   }
 
+  public List<BinanceTicker24h> ticker24h() throws IOException {
+    List<BinanceTicker24h> binanceTicker24hList = binance.ticker24h();
+    return binanceTicker24hList;
+  }
+
   public BinanceTicker24h ticker24h(CurrencyPair pair) throws IOException {
     BinanceTicker24h ticker24h = binance.ticker24h(BinanceAdapters.toSymbol(pair));
     ticker24h.setCurrencyPair(pair);

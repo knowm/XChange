@@ -64,6 +64,10 @@ public abstract class Order implements Serializable {
      */
     PENDING_CANCEL,
     /**
+     * Order was partially canceled at exchange
+     */
+    PARTIALLY_CANCELED,
+    /**
      * Removed from order book at exchange
      */
     CANCELED,
@@ -86,7 +90,12 @@ public abstract class Order implements Serializable {
     /**
      * Order has expired it's time to live or trading session and been removed from order book
      */
-    EXPIRED
+    EXPIRED,
+    /**
+     * The exchange returned a state which is not in the exchange's API documentation.
+     * The state of the order cannot be confirmed.
+     */
+    UNKNOWN
   }
 
   public interface IOrderFlags {

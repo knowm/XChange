@@ -33,10 +33,13 @@ import java.math.MathContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GDAXAdapters {
 
@@ -153,26 +156,13 @@ public class GDAXAdapters {
     return new Wallet(gdaxAccounts[0].getProfile_id(), balances);
   }
 
+  @SuppressWarnings("unchecked")
   public static OpenOrders adaptOpenOrders(GDAXOrder[] coinbaseExOpenOrders) {
-    List<LimitOrder> orders = new ArrayList<>(coinbaseExOpenOrders.length);
-
-    for (int i = 0; i < coinbaseExOpenOrders.length; i++) {
-      GDAXOrder order = coinbaseExOpenOrders[i];
-
-      OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-      CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
-
-      Date createdAt = parseDate(order.getCreatedAt());
-
-      OrderStatus orderStatus = adaptOrderStatus(order);
-
-      LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
-          order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(),order.getFillFees(), orderStatus);
-
-      orders.add(limitOrder);
-    }
-
-    return new OpenOrders(orders);
+    Stream<Order> orders = Arrays.asList(coinbaseExOpenOrders).stream().map(GDAXAdapters::adaptOrder);
+    Map<Boolean, List<Order>> twoTypes = orders.collect(Collectors.partitioningBy(t -> t instanceof LimitOrder));
+    @SuppressWarnings("rawtypes")
+    List limitOrders = twoTypes.get(true);
+    return new OpenOrders(limitOrders, twoTypes.get(false));
   }
 
   public static Order adaptOrder(GDAXOrder order) {
@@ -181,14 +171,17 @@ public class GDAXAdapters {
 
     Date createdAt = parseDate(order.getCreatedAt());
 
-    Order returnValue;
-
     OrderStatus orderStatus = adaptOrderStatus(order);
 
-    BigDecimal averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
+    final BigDecimal averagePrice;
+    if (order.getFilledSize().signum() == 0) {
+      averagePrice = BigDecimal.ZERO;
+    } else {
+      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
+    }
 
     if(order.getType().equals("market")) {
-      returnValue = new MarketOrder(
+      return new MarketOrder(
               type,
               order.getSize(),
               currencyPair,
@@ -200,22 +193,33 @@ public class GDAXAdapters {
               orderStatus
               );
     } else if(order.getType().equals("limit")) {
-      returnValue = new LimitOrder(
-              type,
-              order.getSize(),
-              currencyPair,
-              order.getId(),
-              createdAt,
-              order.getPrice(),
-              averagePrice,
-              order.getFilledSize(),
-              order.getFillFees(),
-              orderStatus);
-    } else {
-      return null;
+      if (order.getStop() == null) {
+        return new LimitOrder(
+                type,
+                order.getSize(),
+                currencyPair,
+                order.getId(),
+                createdAt,
+                order.getPrice(),
+                averagePrice,
+                order.getFilledSize(),
+                order.getFillFees(),
+                orderStatus);
+      } else {
+        return new StopOrder(
+            type,
+            order.getSize(),
+            currencyPair,
+            order.getId(),
+            createdAt,
+            order.getStopPrice(),
+            averagePrice,
+            order.getFilledSize(),
+            orderStatus);
+      }
     }
 
-    return returnValue;
+    return null;
   }
 
 
@@ -234,23 +238,42 @@ public class GDAXAdapters {
 
   /** The status from the GDAXOrder object converted to xchange status */
   public static OrderStatus adaptOrderStatus(GDAXOrder order) {
-    if(order.getStatus().equals("done")) {
 
-      if(order.getDoneReason().equals("filled"))
+    if(order.getStatus().equals("pending")) {
+      return OrderStatus.PENDING_NEW;
+    }
+
+    if(order.getStatus().equals("done") || order.getStatus().equals("settled")) {
+
+      if(order.getDoneReason().equals("filled")) {
         return OrderStatus.FILLED;
+      }
 
-      return null;
+      return OrderStatus.UNKNOWN;
+    }
+
+
+
+    if(order.getFilledSize().signum() == 0) {
+
+      if(order.getStatus().equals("open") && order.getStop() != null) {
+        // This is a massive edge case of a stop triggering but not immediately
+        // fulfilling.  STOPPED status is only currently used by the HitBTC and
+        // YoBit implementations and in both cases it looks like a
+        // misunderstanding and those should return CANCELLED.  Should we just
+        // remove this status?
+        return OrderStatus.STOPPED;
+      }
+
+      return OrderStatus.NEW;
 
     }
 
-    if(order.getFilledSize().equals(0.0))
-      return OrderStatus.NEW;
-
-    if(order.getFilledSize().compareTo(new BigDecimal(0.0)) > 0
+    if(order.getFilledSize().compareTo(BigDecimal.ZERO) > 0
             && order.getSize().compareTo(order.getFilledSize()) < 0)
       return OrderStatus.PARTIALLY_FILLED;
 
-    return null;
+    return OrderStatus.UNKNOWN;
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {

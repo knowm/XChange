@@ -22,7 +22,8 @@
       "price_scale": 8
     },
     "BCH/BTC": {
-      "price_scale": 8
+      "price_scale": 5,
+      "min_amount": 0.001
     },
     "LTC/BTC": {
       "price_scale": 8
