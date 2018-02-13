@@ -9,10 +9,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.knowm.xchange.bitflyer.dto.account.BitflyerBalance;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -39,6 +42,25 @@ public class BitflyerAdapters {
       currencies.add(matcher.group());
     }
     return currencies.size() >= 2 ? new CurrencyPair(currencies.get(0), currencies.get(1)) : null;
+  }
+
+    /**
+     * Adapts a list of BitflyerBalance objects to Wallet.
+     *
+     * @param balances Some BitflyerBalances from the API
+     * @return A Wallet with balances in it
+     */
+  public static Wallet adaptAccountInfo(List<BitflyerBalance> balances) {
+    List<Balance> adaptedBalances = new ArrayList<>(balances.size());
+
+    for (BitflyerBalance balance : balances) {
+        adaptedBalances.add(new Balance(
+              Currency.getInstance(balance.getCurrencyCode()),
+              balance.getAmount(),
+              balance.getAvailable()));
+    }
+
+    return new Wallet(adaptedBalances);
   }
 
   /**

@@ -2,6 +2,7 @@ package org.knowm.xchange.wex.v3.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
@@ -51,11 +52,13 @@ public class WexAccountServiceRaw extends WexBaseService {
     return String.valueOf(info.getReturnValue().gettId());
   }
 
-  public Map<Long, WexTransHistoryResult> transferHistory() throws IOException {
-    WexTransHistoryReturn info = btce.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), null, null, null, null, null, null, null);
+  public Map<Long, WexTransHistoryResult> transferHistory(Long from) throws IOException {
+    WexTransHistoryReturn info = btce.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), from, null, null, null, null, null, null);
 
     checkResult(info);
 
-    return info.getReturnValue();
+    Map<Long, WexTransHistoryResult> map = info.getReturnValue();
+
+    return map == null ? Collections.emptyMap() : map;
   }
 }
