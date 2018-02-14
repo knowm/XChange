@@ -123,12 +123,14 @@ public class BinanceExchange extends BaseExchange {
         CurrencyMetaData baseMetaData = currencies.get(pair.base);
         if (baseMetaData == null) {
           Integer basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
-          currencies.put(pair.base, new CurrencyMetaData(basePrecision, BigDecimal.ZERO));
+          currencies.put(pair.base, new CurrencyMetaData(basePrecision, currencies.containsKey(pair.base) ? 
+          		currencies.get(pair.base).getWithdrawalFee() : BigDecimal.ZERO));
         }
         CurrencyMetaData counterMetaData = currencies.get(pair.base);
         if (counterMetaData == null) {
           Integer counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
-          currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, BigDecimal.ZERO));
+          currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, currencies.containsKey(pair.counter) ? 
+          		currencies.get(pair.counter).getWithdrawalFee() :BigDecimal.ZERO));
         }
       }
     } catch (Exception e) {
