@@ -33,10 +33,13 @@ import java.math.MathContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GDAXAdapters {
 
@@ -153,26 +156,13 @@ public class GDAXAdapters {
     return new Wallet(gdaxAccounts[0].getProfile_id(), balances);
   }
 
+  @SuppressWarnings("unchecked")
   public static OpenOrders adaptOpenOrders(GDAXOrder[] coinbaseExOpenOrders) {
-    List<LimitOrder> orders = new ArrayList<>(coinbaseExOpenOrders.length);
-
-    for (int i = 0; i < coinbaseExOpenOrders.length; i++) {
-      GDAXOrder order = coinbaseExOpenOrders[i];
-
-      OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-      CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
-
-      Date createdAt = parseDate(order.getCreatedAt());
-
-      OrderStatus orderStatus = adaptOrderStatus(order);
-
-      LimitOrder limitOrder = new LimitOrder(type, order.getSize(), currencyPair,
-          order.getId(), createdAt, order.getPrice(), order.getPrice(), order.getFilledSize(),order.getFillFees(), orderStatus);
-
-      orders.add(limitOrder);
-    }
-
-    return new OpenOrders(orders);
+    Stream<Order> orders = Arrays.asList(coinbaseExOpenOrders).stream().map(GDAXAdapters::adaptOrder);
+    Map<Boolean, List<Order>> twoTypes = orders.collect(Collectors.partitioningBy(t -> t instanceof LimitOrder));
+    @SuppressWarnings("rawtypes")
+    List limitOrders = twoTypes.get(true);
+    return new OpenOrders(limitOrders, twoTypes.get(false));
   }
 
   public static Order adaptOrder(GDAXOrder order) {
@@ -203,17 +193,30 @@ public class GDAXAdapters {
               orderStatus
               );
     } else if(order.getType().equals("limit")) {
-      return new LimitOrder(
-              type,
-              order.getSize(),
-              currencyPair,
-              order.getId(),
-              createdAt,
-              order.getPrice(),
-              averagePrice,
-              order.getFilledSize(),
-              order.getFillFees(),
-              orderStatus);
+      if (order.getStop() == null) {
+        return new LimitOrder(
+                type,
+                order.getSize(),
+                currencyPair,
+                order.getId(),
+                createdAt,
+                order.getPrice(),
+                averagePrice,
+                order.getFilledSize(),
+                order.getFillFees(),
+                orderStatus);
+      } else {
+        return new StopOrder(
+            type,
+            order.getSize(),
+            currencyPair,
+            order.getId(),
+            createdAt,
+            order.getStopPrice(),
+            averagePrice,
+            order.getFilledSize(),
+            orderStatus);
+      }
     }
 
     return null;
@@ -246,15 +249,25 @@ public class GDAXAdapters {
         return OrderStatus.FILLED;
       }
 
-      // Could possibly be STOPPED, but this isn't covered by the GDAX API docs,
-      // and in any case, neither getOpenOrders not getOrder are currently
-      // returning stop orders so it's hard to tell. This will have to do for
-      // now.
       return OrderStatus.UNKNOWN;
     }
 
-    if(order.getFilledSize().signum() == 0)
+
+
+    if(order.getFilledSize().signum() == 0) {
+
+      if(order.getStatus().equals("open") && order.getStop() != null) {
+        // This is a massive edge case of a stop triggering but not immediately
+        // fulfilling.  STOPPED status is only currently used by the HitBTC and
+        // YoBit implementations and in both cases it looks like a
+        // misunderstanding and those should return CANCELLED.  Should we just
+        // remove this status?
+        return OrderStatus.STOPPED;
+      }
+
       return OrderStatus.NEW;
+
+    }
 
     if(order.getFilledSize().compareTo(BigDecimal.ZERO) > 0
             && order.getSize().compareTo(order.getFilledSize()) < 0)
