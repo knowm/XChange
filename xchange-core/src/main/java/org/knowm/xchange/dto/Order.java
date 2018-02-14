@@ -64,6 +64,10 @@ public abstract class Order implements Serializable {
      */
     PENDING_CANCEL,
     /**
+     * Order was partially canceled at exchange
+     */
+    PARTIALLY_CANCELED,
+    /**
      * Removed from order book at exchange
      */
     CANCELED,
