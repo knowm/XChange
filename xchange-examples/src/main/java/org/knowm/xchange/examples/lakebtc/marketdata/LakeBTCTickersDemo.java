@@ -1,13 +1,15 @@
 package org.knowm.xchange.examples.lakebtc.marketdata;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
-import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
+import org.knowm.xchange.lakebtc.LakeBTCAdapters;
+import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import org.knowm.xchange.lakebtc.service.LakeBTCMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -29,38 +31,40 @@ public class LakeBTCTickersDemo {
 
     System.out.println("Ticker: " + ticker.toString());
     System.out.println("Currency: " + Currency.USD);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
+    System.out.println("Last: " + ticker.getLast());
+    System.out.println("Volume: " + ticker.getVolume());
+    System.out.println("High: " + ticker.getHigh());
+    System.out.println("Low: " + ticker.getLow());
 
-    ticker = marketDataService.getTicker(CurrencyPair.BTC_CNY);
+    ticker = marketDataService.getTicker(CurrencyPair.BTC_HKD);
     System.out.println("Ticker: " + ticker.toString());
-    System.out.println("Currency: " + Currency.CNY);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
+    System.out.println("Currency: " + Currency.HKD);
+    System.out.println("Last: " + ticker.getLast());
+    System.out.println("Volume: " + ticker.getVolume());
+    System.out.println("High: " + ticker.getHigh());
+    System.out.println("Low: " + ticker.getLow());
 
   }
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {
     LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getMarketDataService();
-    LakeBTCTickers tickers = marketDataService.getLakeBTCTickers();
+    Map<String,LakeBTCTicker> tickers = marketDataService.getLakeBTCTickers();
 
-    System.out.println("Ticker: " + tickers.getCny().toString());
-    System.out.println("Currency: " + Currency.CNY);
-    System.out.println("Last: " + tickers.getCny().getLast().toString());
-    System.out.println("Volume: " + tickers.getCny().getVolume().toString());
-    System.out.println("High: " + tickers.getCny().getHigh().toString());
-    System.out.println("Low: " + tickers.getCny().getLow().toString());
+    LakeBTCTicker hkd = tickers.get( LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
+    System.out.println("Ticker: " + hkd);
+    System.out.println("Currency: " + Currency.HKD);
+    System.out.println("Last: " + hkd.getLast());
+    System.out.println("Volume: " + hkd.getVolume());
+    System.out.println("High: " + hkd.getHigh());
+    System.out.println("Low: " + hkd.getLow());
 
-    System.out.println("Ticker: " + tickers.getUsd().toString());
+    LakeBTCTicker usd = tickers.get( LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD));
+    System.out.println("Ticker: " + usd);
     System.out.println("Currency: " + Currency.USD);
-    System.out.println("Last: " + tickers.getUsd().getLast().toString());
-    System.out.println("Volume: " + tickers.getUsd().getVolume().toString());
-    System.out.println("High: " + tickers.getUsd().getHigh().toString());
-    System.out.println("Low: " + tickers.getUsd().getLow().toString());
+    System.out.println("Last: " + usd.getLast());
+    System.out.println("Volume: " + usd.getVolume());
+    System.out.println("High: " + usd.getHigh());
+    System.out.println("Low: " + usd.getLow());
 
   }
 }
