@@ -60,7 +60,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static Currency adaptCurrency(String code) {
-    return new Currency(code);
+    return Currency.getInstance(code);
   }
 
   public static AccountInfo adaptAccount(CryptoFacilitiesAccount cryptoFacilitiesAccount, String username) {
