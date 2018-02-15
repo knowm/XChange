@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
@@ -163,24 +165,36 @@ public class AbucoinsAdapters {
   }
   
   public static AccountInfo adaptAccountInfo(AbucoinsAccount[] accounts) {
+    // group account balances by profileID
+    Map<Long,List<Balance>> mapByProfileID = new HashMap<>();
+    for ( AbucoinsAccount account : accounts ) {
+      List<Balance> balances = mapByProfileID.get(account.getProfileID());
+      if ( balances == null ) {
+        balances = new ArrayList<>();
+        mapByProfileID.put(account.getProfileID(), balances);
+      }
+      balances.add( adaptBalance(account));
+    }
+    
+    // create a wallet for each profileID
     List<Wallet> wallets = new ArrayList<>();
-    for ( AbucoinsAccount account : accounts )
-      wallets.add( adaptWallet(account));
+    for ( Long profileID : mapByProfileID.keySet()) {
+      List<Balance> balances = mapByProfileID.get(profileID);
+      wallets.add( new Wallet(String.valueOf(profileID), balances));
+    }
           
     return new AccountInfo("", wallets);
   }
 
   /**
-   * Adapts AbucoinsBalanceInfo to Wallet
+   * Adapts AbucoinsAccount to a Balance
    *
    * @param account AbucoinsAccount balance
    * @return The account info
    */
-  public static Wallet adaptWallet(AbucoinsAccount account) {
+  public static Balance adaptBalance(AbucoinsAccount account) {
     Currency currency = Currency.getInstance( account.getCurrency());
-    List<Balance> balances = Arrays.asList(new Balance[] { new Balance(currency, account.getBalance(), account.getAvailable(), account.getHold()) });
-
-    return new Wallet(account.getId(), String.valueOf(account.getProfileID()), balances);
+    return new Balance(currency, account.getBalance(), account.getAvailable(), account.getHold());
   }
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, AbucoinsOrderBook.LimitOrder[] orders) {
