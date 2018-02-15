@@ -10,11 +10,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.knowm.xchange.bitflyer.dto.account.BitflyerBalance;
+import org.knowm.xchange.bitflyer.dto.account.BitflyerCoinHistory;
+import org.knowm.xchange.bitflyer.dto.account.BitflyerDepositOrWithdrawal;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -79,6 +82,67 @@ public class BitflyerAdapters {
 
     return new Ticker.Builder().currencyPair(currencyPair).bid(bid).ask(ask).volume(volume).timestamp(timestamp).build();
 
+  }
+  
+  public static List<FundingRecord> adaptFundingRecordsFromCoinHistory(List<BitflyerCoinHistory> coinHistory, FundingRecord.Type type) {
+    List<FundingRecord> retVal = new ArrayList<>();
+    for ( BitflyerCoinHistory history : coinHistory )
+      retVal.add( adaptFundingRecord(history, type));
+          
+    return retVal;
+  }
+  
+  public static List<FundingRecord> adaptFundingRecordsFromDepositHistory(List<BitflyerDepositOrWithdrawal> depositWithdrawls, FundingRecord.Type type) {
+    List<FundingRecord> retVal = new ArrayList<>();
+    for ( BitflyerDepositOrWithdrawal history : depositWithdrawls )
+      retVal.add( adaptFundingRecord(history, type));
+    
+    return retVal;        
+  }
+  
+  public static FundingRecord adaptFundingRecord(BitflyerCoinHistory history, FundingRecord.Type type) {
+    return new FundingRecord.Builder()
+        .setDate(BitflyerUtils.parseDate( history.getEventDate()))
+        .setCurrency(new Currency(history.getCurrencyCode()))
+        .setAmount(history.getAmount())
+        .setAddress(history.getAddress())
+        .setInternalId(history.getID())
+        .setExternalId(history.getOrderID())
+        .setType(type)
+        .setStatus(adaptStatus(history.getStatus()))
+        .setBalance(history.getAmount())
+        .setFee(add(history.getFee(),history.getAdditionalFee()))
+        .build();
+  }
+  
+  public static FundingRecord adaptFundingRecord(BitflyerDepositOrWithdrawal history, FundingRecord.Type type) {
+    return new FundingRecord.Builder()
+        .setDate(BitflyerUtils.parseDate( history.getEventDate()))
+        .setCurrency(new Currency(history.getCurrencyCode()))
+        .setAmount(history.getAmount())
+        .setInternalId(history.getID())
+        .setExternalId(history.getOrderID())
+        .setType(type)
+        .setStatus(adaptStatus(history.getStatus()))
+        .setBalance(history.getAmount())
+        .build();         
+  }
+  
+  private static FundingRecord.Status adaptStatus(String status) {
+    if ( status.equals("COMPLETED"))
+      return FundingRecord.Status.COMPLETE;
+    if ( status.equals("PENDING"))
+      return FundingRecord.Status.PROCESSING;
+          
+    // ??
+    return FundingRecord.Status.FAILED;
+  }
+    
+  private static BigDecimal add(BigDecimal a, BigDecimal b) {
+    BigDecimal a1 = a == null ? BigDecimal.ZERO : a;
+    BigDecimal b1 = b == null ? BigDecimal.ZERO : b;
+          
+    return a1.add(b1);
   }
 
   public static void main(String[] args) {
