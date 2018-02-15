@@ -61,7 +61,9 @@ public interface Bitmex {
 
   @GET
   @Path("trade")
-  BitmexPublicTrade[] getTrades(@QueryParam("symbol") String currencyPair, @QueryParam("reverse") Boolean reverse) throws IOException;
+  BitmexPublicTrade[] getTrades(@QueryParam("symbol") String currencyPair, @QueryParam("reverse") Boolean reverse,
+                                @Nullable @QueryParam("count") Integer count,
+                                @Nullable @QueryParam("start") Integer start) throws IOException;
 
   @GET
   @Path("orderBook/L2")
