@@ -125,7 +125,7 @@ public class KucoinAdapters {
                 .type(order.getDirection().getOrderType())
                 .feeAmount(order.getFee())
                 .feeCurrency(order.getDirection().equals(KucoinOrderType.BUY)
-                        ? new Currency(order.getCoinType()) : new Currency(order.getCoinTypePair()))
+                        ? Currency.getInstance(order.getCoinType()) : Currency.getInstance(order.getCoinTypePair()))
                 .build();
     }
 
@@ -140,7 +140,7 @@ public class KucoinAdapters {
     private static Map<Currency, CurrencyMetaData> adaptCurrencyMap(List<KucoinCoin> coins) {
 
         return coins.stream().collect(Collectors.toMap(
-                c -> new Currency(c.getCoin()),
+                c -> Currency.getInstance(c.getCoin()),
                 c -> adaptCurrencyMetadata(c)));
     }
 
@@ -178,7 +178,7 @@ public class KucoinAdapters {
         BigDecimal avail = balance.getBalance();
         BigDecimal freezeBalance = balance.getFreezeBalance();
         BigDecimal total = BigDecimal.ZERO.add(avail).add(freezeBalance);
-        return new Balance(new Currency(balance.getCoinType()), total, avail, freezeBalance);
+        return new Balance(Currency.getInstance(balance.getCoinType()), total, avail, freezeBalance);
     }
 
     public static List<FundingRecord> adaptFundingHistory(List<KucoinWalletRecord> records) {
@@ -191,7 +191,7 @@ public class KucoinAdapters {
         return new FundingRecord.Builder()
                 .setAmount(record.getAmount())
                 .setAddress(record.getAddress())
-                .setCurrency(new Currency(record.getCoinType()))
+                .setCurrency(Currency.getInstance(record.getCoinType()))
                 .setDate(new Date(record.getCreatedAt()))
                 .setFee(record.getFee())
                 .setStatus(record.getStatus().getFundingRecordStatus())
