@@ -29,7 +29,8 @@ public final class BitfinexUtils {
   }
 
   /**
-   * can be one of the following ['bitcoin', 'litecoin', 'ethereum', 'ethereumc', 'mastercoin', 'zcash', 'monero', 'wire', 'dash']
+   * From the reference documentation for field withdraw_type (2018-02-14);
+   * can be one of the following ['bitcoin', 'litecoin', 'ethereum', 'ethereumc', 'mastercoin', 'zcash', 'monero', 'wire', 'dash', 'ripple', 'eos', 'neo', 'aventus', 'qtum', 'eidoo']
    *
    * @param currency
    * @return
@@ -52,8 +53,18 @@ public final class BitfinexUtils {
         return "mastercoin";
       case "DASH":
         return "dash";
-      case "TETHER":
-        return "tether";
+      case "XRP":
+        return "ripple";
+      case "EOS":
+        return "eos";
+      case "NEO":
+        return "neo";
+      case "AVT":
+        return "aventus";
+      case "QTUM":
+        return "qtum";
+      case "EDO":
+        return "eidoo";
       default:
         throw new BitfinexException("Cannot determine withdrawal type.");
     }
