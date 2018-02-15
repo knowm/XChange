@@ -82,7 +82,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
     GDAXCoinbaseAccount depositAccount = null;
 
     for (GDAXCoinbaseAccount account : coinbaseAccounts) {
-      Currency accountCurrency = new Currency(account.getCurrency());
+      Currency accountCurrency = Currency.getInstance(account.getCurrency());
       if (account.isActive() && account.getType().equals("wallet") && accountCurrency.equals(currency)) {
         depositAccount = account;
         break;
