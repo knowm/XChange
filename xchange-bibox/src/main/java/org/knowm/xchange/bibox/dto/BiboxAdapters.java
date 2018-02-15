@@ -121,7 +121,7 @@ public class BiboxAdapters {
         .originalAmount(order.getAmount())
         .timestamp(new Date(order.getCreatedAt()))
         .type(order.getOrderSide().getOrderType())
-        .feeCurrency(new Currency(order.getFeeSymbol()))
+        .feeCurrency(Currency.getInstance(order.getFeeSymbol()))
         .feeAmount(order.getFee())
         .build();
   }
