@@ -57,6 +57,17 @@ public class BinanceAdapters {
         throw new RuntimeException("Not supported order type: " + type);
     }
   }
+  
+  public static CurrencyPair convert(String symbol) {
+    // Iterate by base currency priority at binance. 
+    for (Currency base: Arrays.asList(Currency.BTC, Currency.ETH, Currency.BNB, Currency.USDT)) {
+    	  if (symbol.contains(base.toString())) {
+    	    String counter = symbol.replace(base.toString(), "");
+    	    return new CurrencyPair(base, new Currency(counter));
+    	  }
+    }
+    	throw new IllegalArgumentException("Could not parse currency pair from '" + symbol + "'");
+  }
 
   public static long id(String id) {
     try {
