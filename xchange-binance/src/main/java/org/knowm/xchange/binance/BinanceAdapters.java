@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import java.util.Arrays;
+
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.binance.service.BinanceTradeService.BinanceOrderFlags;
