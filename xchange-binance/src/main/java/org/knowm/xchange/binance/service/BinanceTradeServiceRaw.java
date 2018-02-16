@@ -36,6 +36,10 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         super.apiKey,
         super.signatureCreator);
   }
+  
+  public List<BinanceOrder> openOrders(Long recvWindow, long timestamp) throws BinanceException, IOException {
+	return binance.openOrders(recvWindow, timestamp, super.apiKey, super.signatureCreator);
+  }
 
   public BinanceNewOrder newOrder(
       CurrencyPair pair,
