@@ -24,15 +24,15 @@ import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeService {
 
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
+  private static final String ORDER_STATUS_FILLED = "1";
 
-  private final Logger log = LoggerFactory.getLogger(OkCoinTradeService.class);
+  private static final OpenOrders NO_OPEN_ORDERS = new OpenOrders(Collections.<LimitOrder> emptyList());
 
   /**
    * Constructor
@@ -50,26 +50,30 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
-    // TODO use params to specify currency pair
-    List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    List<OkCoinOrderResult> orderResults = new ArrayList<>();
 
-    List<OkCoinOrderResult> orderResults = new ArrayList<>(exchangeSymbols.size());
-
-    for (int i = 0; i < exchangeSymbols.size(); i++) {
-      CurrencyPair symbol = exchangeSymbols.get(i);
-      log.debug("Getting order: {}", symbol);
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      CurrencyPair symbol = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
       OkCoinOrderResult orderResult = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
       if (orderResult.getOrders().length > 0) {
         orderResults.add(orderResult);
       }
+
+    } else {
+      List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
+      for (int i = 0; i < exchangeSymbols.size(); i++) {
+        CurrencyPair symbol = exchangeSymbols.get(i);
+        OkCoinOrderResult orderResult = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
+        if (orderResult.getOrders().length > 0) {
+          orderResults.add(orderResult);
+        }
+      }
     }
 
     if (orderResults.size() <= 0) {
-      return noOpenOrders;
+      return NO_OPEN_ORDERS;
     }
-
     return OkCoinAdapters.adaptOpenOrders(orderResults);
   }
 
@@ -143,30 +147,39 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   }
 
   /**
-   * Required parameters {@link TradeHistoryParamPaging} Supported parameters {@link TradeHistoryParamCurrencyPair}
+   * OKEX does not support trade history in the usual way, it only provides a aggregated view on a per order basis of how much the order has been
+   * filled and the average price. Individual trade details are not available. As a consequence of this, the trades supplied by this method will use
+   * the order ID as their trade ID, and will be subject to being amended if a partially filled order if further filled.
+   * <p>
+   * Supported parameters are {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamPaging}, if not supplied then the query will default to
+   * BTC/USD or BTC/CNY (depending on session configuration) and the last 200 trades.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    Integer pageLength = null, pageNumber = null;
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
+      pageLength = paging.getPageLength();
+      pageNumber = paging.getPageNumber();
+    }
+    if (pageNumber == null) {
+      pageNumber = 1; // pages start from 1
+    }
+    if (pageLength == null) {
+      pageLength = 200; // 200 is the maximum number
+    }
 
-    TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
-    Integer pageLength = paging.getPageLength();
-    Integer pageNumber = paging.getPageNumber();
-
-    // pages supposedly start from 1
-    ++pageNumber;
-
-    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    CurrencyPair pair = null;
+    if(params instanceof TradeHistoryParamCurrencyPair) {
+      pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();  
+    }
     if (pair == null) {
       pair = useIntl ? CurrencyPair.BTC_USD : CurrencyPair.BTC_CNY;
     }
 
-    OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(pair), "1", toString(pageNumber), toString(pageLength));
+    OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(pair), ORDER_STATUS_FILLED, pageNumber.toString(),
+        pageLength.toString());
     return OkCoinAdapters.adaptTrades(orderHistory);
-  }
-
-  private static String toString(Object o) {
-
-    return o == null ? null : o.toString();
   }
 
   @Override
@@ -177,7 +190,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   public static class OkCoinTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
@@ -207,8 +220,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
