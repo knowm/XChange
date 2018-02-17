@@ -78,7 +78,7 @@
     </repositories>
 
     <properties>
-        <xchange.version>4.3.2</xchange.version>
+        <xchange.version>4.3.3</xchange.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
