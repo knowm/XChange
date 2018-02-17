@@ -25,6 +25,7 @@ public class BitflyerStreamingExchange extends BitflyerExchange implements Strea
     @Override
     protected void initServices() {
         streamingMarketDataService = new BitflyerStreamingMarketDataService(streamingService);
+        super.initServices();
     }
 
     @Override
