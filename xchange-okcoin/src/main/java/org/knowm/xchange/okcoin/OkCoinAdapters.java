@@ -56,15 +56,6 @@ public final class OkCoinAdapters {
 
   }
 
-  private static BigDecimal getOrZero(String key, Map<String, BigDecimal> map) {
-
-    if (map != null && map.containsKey(key)) {
-      return map.get(key);
-    } else {
-      return BigDecimal.ZERO;
-    }
-  }
-
   public static String adaptSymbol(CurrencyPair currencyPair) {
 
     return currencyPair.base.getCurrencyCode().toLowerCase() + "_" + currencyPair.counter.getCurrencyCode().toLowerCase();
@@ -134,7 +125,7 @@ public final class OkCoinAdapters {
       builders.put(borrowed.getKey(), builder.borrowed(borrowed.getValue()));
     }
 
-    List<Balance> wallet = new ArrayList(builders.size());
+    List<Balance> wallet = new ArrayList<>(builders.size());
 
     for (Balance.Builder builder : builders.values()) {
       wallet.add(builder.build());
@@ -293,9 +284,12 @@ public final class OkCoinAdapters {
   }
 
   private static UserTrade adaptTrade(OkCoinOrder order) {
-
-    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getPrice(),
-        order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, (Currency) null);
+    
+    // Order fill status is being adapted to a trade, there is no dedicated tradeId, so user orderId instead. 
+    String tradeId, orderId;
+    tradeId = orderId = String.valueOf(order.getOrderId());
+    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAveragePrice(),
+        order.getCreateDate(), tradeId, orderId, null, null);
   }
 
   private static UserTrade adaptTradeFutures(OkCoinFuturesOrder order) {
