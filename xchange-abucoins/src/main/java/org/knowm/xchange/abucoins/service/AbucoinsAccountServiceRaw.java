@@ -9,8 +9,10 @@ import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccounts;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoDeposit;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoWithdrawal;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositsHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethod;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethods;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalsHistory;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +25,10 @@ import org.slf4j.LoggerFactory;
  * <li>{@link #getAbucoinsAccounts GET /accounts}</li>
  * <li>{@link #getAbucoinsAccount(String) GET /accounts/&lt;account-id&gt;}</li>
  * <li>{@link #getPaymentMethods() GET /payment-methods}</li>
- * <li>{@link #abucoinsWithdraw POST withdrawals/crypto}</li>
- * <li>{@link #abucoinsCryptoDeposit POST deposits/crypto}</li>
+ * <li>{@link #abucoinsWithdrawalsMake POST withdrawals/make}</li>
+ * <li>{@link #abucoinsWithdrawalsHistory POST withdrawals/history}</li>
+ * <li>{@link #abucoinsDepositMake POST deposits/make}</li>
+ * <li>{@link #abucoinsDepositHistory POST deposits/history}</li>
  * <ol>
  * @author bryant_harris
  */
@@ -91,26 +95,62 @@ public class AbucoinsAccountServiceRaw extends AbucoinsBaseService {
    * @return
    * @throws IOException
    */
-  public AbucoinsCryptoWithdrawal abucoinsWithdraw(AbucoinsCryptoWithdrawalRequest withdrawRequest) throws IOException {
-    return abucoinsAuthenticated.cryptoWithdrawal(withdrawRequest,
+  public AbucoinsCryptoWithdrawal abucoinsWithdrawalsMake(AbucoinsCryptoWithdrawalRequest withdrawRequest) throws IOException {
+    return abucoinsAuthenticated.withdrawalsMake(withdrawRequest,
                                                   exchange.getExchangeSpecification().getApiKey(),
                                                   signatureCreator,
                                                   exchange.getExchangeSpecification().getPassword(),
                                                   timestamp());
   }
-
+  
   /**
-   * Corresponds to <code>POST deposits/crypto</code>
+   * Corresponds to <code>GET withdrawals/history</code>
    * @param cryptoRequest
    * @return
    * @throws IOException
    */
-  public AbucoinsCryptoDeposit abucoinsCryptoDeposit(AbucoinsCryptoDepositRequest cryptoRequest) throws IOException {
-    return abucoinsAuthenticated.cryptoDeposit(cryptoRequest,
-                                               exchange.getExchangeSpecification().getApiKey(),
-                                               signatureCreator,
-                                               exchange.getExchangeSpecification().getPassword(),
-                                               timestamp());
+  public AbucoinsWithdrawalsHistory abucoinsWithdrawalsHistory() throws IOException {
+    AbucoinsWithdrawalsHistory history =  abucoinsAuthenticated.withdrawalsHistory(
+                                                                                   exchange.getExchangeSpecification().getApiKey(),
+                                                                                   signatureCreator,
+                                                                                   exchange.getExchangeSpecification().getPassword(),
+                                                                                   timestamp());
+    if ( history.getHistory().length > 0 && history.getHistory()[0].getMessage() != null )
+      throw new ExchangeException(history.getHistory()[0].getMessage());
+          
+    return history;
+  }
+
+  /**
+   * Corresponds to <code>POST deposits/make</code>
+   * @param cryptoRequest
+   * @return
+   * @throws IOException
+   */
+  public AbucoinsCryptoDeposit abucoinsDepositMake(AbucoinsCryptoDepositRequest cryptoRequest) throws IOException {
+    return abucoinsAuthenticated.depositsMake(cryptoRequest,
+                                              exchange.getExchangeSpecification().getApiKey(),
+                                              signatureCreator,
+                                              exchange.getExchangeSpecification().getPassword(),
+                                              timestamp());
+  }
+  
+  /**
+   * Corresponds to <code>GET deposits/history</code>
+   * @param cryptoRequest
+   * @return
+   * @throws IOException
+   */
+  public AbucoinsDepositsHistory abucoinsDepositHistory() throws IOException {
+    AbucoinsDepositsHistory history =  abucoinsAuthenticated.depositsHistory(
+                                                                             exchange.getExchangeSpecification().getApiKey(),
+                                                                             signatureCreator,
+                                                                             exchange.getExchangeSpecification().getPassword(),
+                                                                             timestamp());
+    if ( history.getHistory().length > 0 && history.getHistory()[0].getMessage() != null )
+      throw new ExchangeException(history.getHistory()[0].getMessage());
+          
+    return history;
   }
   
   /**
