@@ -210,7 +210,7 @@ public class AbucoinsOrder {
   }
   
   public enum Status {
-    pending, open, done, rejected,
+    pending, open, done, closed, rejected,
     
     unknown; // added by us to avoid a string parsing error occurs.
           
