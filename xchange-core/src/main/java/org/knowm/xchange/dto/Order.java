@@ -157,15 +157,7 @@ public abstract class Order implements Serializable {
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    */
   public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp) {
-
-    this.type = type;
-    this.originalAmount = originalAmount;
-    this.currencyPair = currencyPair;
-    this.id = id;
-    this.timestamp = timestamp;
-    this.averagePrice = BigDecimal.ZERO;
-    this.status = OrderStatus.PENDING_NEW;
-    this.cumulativeAmount = BigDecimal.ZERO;
+    this(type, originalAmount, currencyPair, id, timestamp, null, null, null, null);
   }
 
   /**
