@@ -298,6 +298,11 @@ public class AbucoinsAdapters {
                   
     case done:
       return OrderStatus.FILLED;
+      
+    case closed:
+    		// from chatting with Abucoins when describing closed
+    	    // "it’s mean that your order can be partially fulfilled but it’s closed"
+        return OrderStatus.PARTIALLY_FILLED;
                   
     case rejected:
       return OrderStatus.REJECTED;
