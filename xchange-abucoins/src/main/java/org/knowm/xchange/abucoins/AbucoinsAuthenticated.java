@@ -19,8 +19,10 @@ import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccounts;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoDeposit;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoWithdrawal;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositsHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsFills;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethods;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalsHistory;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrders;
@@ -29,7 +31,6 @@ import si.mazi.rescu.ParamsDigest;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public interface AbucoinsAuthenticated extends Abucoins {
   @GET
   @Path("accounts")
@@ -65,6 +66,7 @@ public interface AbucoinsAuthenticated extends Abucoins {
   
   @POST
   @Path("orders")
+  @Consumes(MediaType.APPLICATION_JSON)
   AbucoinsCreateOrderResponse createOrder(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp, AbucoinsBaseCreateOrderRequest req) throws IOException;
   
   @DELETE
@@ -84,18 +86,23 @@ public interface AbucoinsAuthenticated extends Abucoins {
   
   @GET
   @Path("fills")
-  @Produces(MediaType.APPLICATION_JSON)
   AbucoinsFills getFills(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @POST
-  @Path("withdrawals/crypto")
-  @Produces(MediaType.APPLICATION_JSON)
+  @Path("withdrawals/make")
   @Consumes(MediaType.APPLICATION_JSON)
-  AbucoinsCryptoWithdrawal cryptoWithdrawal(AbucoinsCryptoWithdrawalRequest cryptoWithdrawalRequest, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  AbucoinsCryptoWithdrawal withdrawalsMake(AbucoinsCryptoWithdrawalRequest cryptoWithdrawalRequest, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  
+  @GET
+  @Path("withdrawals/history")
+  AbucoinsWithdrawalsHistory withdrawalsHistory(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
   
   @POST
-  @Path("deposits/crypto")
-  @Produces(MediaType.APPLICATION_JSON)
+  @Path("deposits/make")
   @Consumes(MediaType.APPLICATION_JSON)
-  AbucoinsCryptoDeposit cryptoDeposit(AbucoinsCryptoDepositRequest cryptoRequest, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  AbucoinsCryptoDeposit depositsMake(AbucoinsCryptoDepositRequest cryptoRequest, @HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
+  
+  @GET
+  @Path("deposits/history")
+  AbucoinsDepositsHistory depositsHistory(@HeaderParam("AC-ACCESS-KEY") String accessKey, @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign, @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase, @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp) throws IOException;
 }

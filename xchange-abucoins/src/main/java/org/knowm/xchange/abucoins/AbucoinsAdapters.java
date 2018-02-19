@@ -4,19 +4,20 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
-import org.knowm.xchange.abucoins.dto.AbucoinsCryptoWithdrawalRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositHistory;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositsHistory;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsHistory;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalHistory;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalsHistory;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
@@ -28,6 +29,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -37,7 +39,6 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -335,6 +336,62 @@ public class AbucoinsAdapters {
                                                 AbucoinsOrder.TimeInForce.GTC,
                                                 null,
                                                 null);
+  }
+  
+  public static List<FundingRecord> adaptFundingRecordsFromDepositsHistory(AbucoinsDepositsHistory history) {
+    List<FundingRecord> retVal = new ArrayList<>();
+    for ( AbucoinsDepositHistory h : history.getHistory() )
+      retVal.add( adaptFundingRecord(h));
+    return retVal;
+  }
+  
+  public static List<FundingRecord> adaptFundingRecords(AbucoinsWithdrawalsHistory history) {
+    List<FundingRecord> retVal = new ArrayList<>();
+    for ( AbucoinsWithdrawalHistory h : history.getHistory() )
+      retVal.add( adaptFundingRecord(h));
+    return retVal;
+  }
+  
+  public static FundingRecord adaptFundingRecord(AbucoinsDepositHistory history) {
+    return fundingRecordBuilder(history)
+        .setExternalId(history.getDepositID())
+        .setInternalId(history.getDepositID())
+        .setType(FundingRecord.Type.DEPOSIT)
+        .build();
+  }
+    
+  public static FundingRecord adaptFundingRecord(AbucoinsWithdrawalHistory history) {
+    return fundingRecordBuilder(history)
+        .setExternalId(history.getWithdrawID())
+        .setInternalId(history.getWithdrawID())
+        .setType(FundingRecord.Type.WITHDRAWAL)
+        .build();
+  }
+  
+  static FundingRecord.Builder fundingRecordBuilder(AbucoinsHistory history) {
+    return new FundingRecord.Builder()
+        .setDescription(history.getUrl())
+        .setAmount(history.getAmount())
+        .setCurrency(Currency.getInstance(history.getCurrency()))
+        .setDate( parseDate(history.getDate()))
+        .setFee(history.getFee())
+        .setStatus(adaptFundingStatus(history.getStatus()));      
+  }
+  
+  public static FundingRecord.Status adaptFundingStatus(AbucoinsHistory.Status abucoinsStatus) {
+    switch ( abucoinsStatus ) {
+    case unknown: // reminder unknown is our own placeholder for cases where we cannot parse the status
+        
+    default:
+    case awaitingEmailConfirmation: 
+    case pending:
+      return FundingRecord.Status.PROCESSING;
+                  
+    case sent:
+    case complete:
+    case completed:
+      return FundingRecord.Status.COMPLETE;
+    }
   }
   
   public static String[] adaptToSetOfIDs(String resp) {

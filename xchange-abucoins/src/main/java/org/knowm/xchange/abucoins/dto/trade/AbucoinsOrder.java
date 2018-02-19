@@ -50,11 +50,11 @@ public class AbucoinsOrder {
   String productID;
   Side side;
   Type type;
-  TimeInForce timeInForce;
+  String timeInForce;
   boolean postOnly;
   String createdAt;
   BigDecimal filledSize;
-  Status status;
+  String status;
   boolean settled;
   String message;
         
@@ -64,11 +64,11 @@ public class AbucoinsOrder {
                        @JsonProperty("product_id") String productID,
                        @JsonProperty("side") Side side,
                        @JsonProperty("type") Type type,
-                       @JsonProperty("time_in_force") TimeInForce timeInForce,
+                       @JsonProperty("time_in_force") String timeInForce,
                        @JsonProperty("post_only") boolean postOnly,
                        @JsonProperty("created_at") String createdAt,
                        @JsonProperty("filled_size") BigDecimal filledSize,
-                       @JsonProperty("status") Status status,
+                       @JsonProperty("status") String status,
                        @JsonProperty("settled") boolean settled,
                        @JsonProperty("message") String message) {
     this.id = id;
@@ -109,9 +109,19 @@ public class AbucoinsOrder {
   public Type getType() {
     return type;
   }
+  
+  /**
+   * Returns the raw time in force string, we obtain the time in force as a string in case new
+   * status are added.  We don't want the new string causing the json to fail to
+   * parse.
+   * @return the raw time in force string
+   */
+  public String getTimeInForceRaw() {
+    return timeInForce;
+  }
 
   public TimeInForce getTimeInForce() {
-    return timeInForce;
+    return TimeInForce.fromString(timeInForce);
   }
 
   public boolean isPostOnly() {
@@ -125,9 +135,19 @@ public class AbucoinsOrder {
   public BigDecimal getFilledSize() {
     return filledSize;
   }
+  
+  /**
+   * Returns the raw status string, we obtain the status as a string in case new
+   * status are added.  We don't want the new string causing the json to fail to
+   * parse.
+   * @return the raw status string
+   */
+  public String getStatusRaw() {
+    return status;
+  }
 
   public Status getStatus() {
-    return status;
+    return Status.fromString(status);
   }
 
   public boolean isSettled() {
@@ -155,7 +175,18 @@ public class AbucoinsOrder {
   }
 
   public enum TimeInForce {
-    GTC, GTT, IOC, FOK;
+    GTC, GTT, IOC, FOK,
+    
+    Unknown; // added by us to avoid a string parsing error occurs.
+          
+    public static TimeInForce fromString(String s) {
+      try {
+        return TimeInForce.valueOf(s);
+      }
+      catch (Exception e) {
+        return Unknown;
+      }
+    }
     
     public String toDescription() {
       switch (this) {
@@ -170,12 +201,26 @@ public class AbucoinsOrder {
                 
       case FOK:
         return "Fill or kill";
+        
+      case Unknown:
+                return "An unrecognized time in force value was returned";
       }
       return ""; // dead code path
     }
   }
   
   public enum Status {
-    pending, open, done, rejected;
+    pending, open, done, rejected,
+    
+    unknown; // added by us to avoid a string parsing error occurs.
+          
+    public static Status fromString(String s) {
+      try {
+        return Status.valueOf(s);
+      }
+      catch (Exception e) {
+        return unknown;
+      }
+    }
   }
 }
