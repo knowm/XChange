@@ -6,22 +6,19 @@ import java.util.List;
  * Result of batched calls (all POST requests)
  * 
  * @author odrotleff
+ * @param <R>
  */
-public class BiboxMultipleResponses {
+public class BiboxMultipleResponses<R> {
 
-  private List<BiboxResponse<?>> result;
-  
-  public BiboxResponse<?> getFirst() {
-    return result.get(0);
-  }
+  private List<BiboxResponse<R>> result;
 
   public BiboxMultipleResponses() {}
 
-  public List<BiboxResponse<?>> getResult() {
+  public List<BiboxResponse<R>> getResult() {
     return result;
   }
 
-  public void setResult(List<BiboxResponse<?>> result) {
+  public void setResult(List<BiboxResponse<R>> result) {
     this.result = result;
   }
 }
