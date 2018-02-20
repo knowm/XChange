@@ -65,6 +65,8 @@ public final class BitfinexUtils {
         return "qtum";
       case "EDO":
         return "eidoo";
+        case "BTG":
+            return "bgold";
       default:
         throw new BitfinexException("Cannot determine withdrawal type.");
     }
