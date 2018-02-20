@@ -10,6 +10,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -27,12 +28,7 @@ public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw impl
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    try {
-      return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(AbucoinsAdapters.adaptCurrencyPairToProductID(currencyPair)), currencyPair);
-    }
-    catch (Exception e) {
-      throw new IOException("Unable to get ticker for " + currencyPair, e);
-    }
+    return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(AbucoinsAdapters.adaptCurrencyPairToProductID(currencyPair)), currencyPair);
   }
 
   @Override
