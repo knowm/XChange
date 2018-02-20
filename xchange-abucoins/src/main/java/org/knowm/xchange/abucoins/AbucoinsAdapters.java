@@ -211,8 +211,13 @@ public class AbucoinsAdapters {
   }
 
   public static LimitOrder createOrder(CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
-
-    return new LimitOrder(orderType, priceAndAmount.getSize(), currencyPair, "", null, priceAndAmount.getPrice()); //??
+    return new LimitOrder.Builder(orderType, currencyPair)
+    		.averagePrice(priceAndAmount.getPrice())
+    		.cumulativeAmount( priceAndAmount.getSize())
+    		.limitPrice(priceAndAmount.getPrice())
+    		.orderStatus(OrderStatus.NEW)
+    		.originalAmount(priceAndAmount.getSize())
+    		.build();
   }
   
   public static OpenOrders adaptOpenOrders(AbucoinsOrder[] orders) {
@@ -239,25 +244,28 @@ public class AbucoinsAdapters {
   }
   
   public static LimitOrder adaptLimitOrder(AbucoinsOrder order) {
-    return new LimitOrder( adaptOrderType(order.getSide()),
-                           order.getSize(),
-                           order.getFilledSize(),
-                           adaptCurrencyPair( order.getProductID() ),
-                           order.getId(),
-                           parseDate( order.getCreatedAt() ),
-                           order.getPrice());
+    return new LimitOrder.Builder(adaptOrderType(order.getSide()), adaptCurrencyPair( order.getProductID() ))
+            .averagePrice(order.getPrice())
+            .cumulativeAmount(order.getFilledSize())
+            .id(order.getId())
+            .limitPrice(order.getPrice())
+            .orderStatus(adaptOrderStatus(order.getStatus()))
+            .originalAmount(order.getSize())
+            .remainingAmount(order.getFilledSize().subtract(order.getSize()))
+            .timestamp(parseDate(order.getCreatedAt()))
+            .build();
   }
   
   public static MarketOrder adaptMarketOrder(AbucoinsOrder order) {
-    return new MarketOrder( adaptOrderType(order.getSide()),
-                            order.getSize(),
-                            adaptCurrencyPair( order.getProductID() ),
-                            order.getId(),
-                            parseDate( order.getCreatedAt() ),
-                            order.getPrice(),
-                            order.getFilledSize(),
-                            null,
-                            adaptOrderStatus(order.getStatus()));
+    return new MarketOrder.Builder(adaptOrderType(order.getSide()), adaptCurrencyPair( order.getProductID() ))
+            .averagePrice(order.getPrice())
+            .cumulativeAmount(order.getFilledSize())
+            .id(order.getId())
+            .orderStatus(adaptOrderStatus(order.getStatus()))
+            .originalAmount(order.getSize())
+            .remainingAmount(order.getFilledSize().subtract(order.getSize()))
+            .timestamp(parseDate(order.getCreatedAt()))
+            .build();
   }
   
   public static OrderType adaptOrderType(AbucoinsOrder.Side side) {
