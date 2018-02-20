@@ -69,9 +69,12 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address, String paymentId) throws IOException {
 
-    BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator, new BitfinexWithdrawalRequest(
+    BitfinexWithdrawalResponse[] withdrawResponse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator, new BitfinexWithdrawalRequest(
         String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address, paymentId));
-    return withdrawRepsonse[0].getWithdrawalId();
+    if ("error".equalsIgnoreCase(withdrawResponse[0].getStatus())) {
+      throw new ExchangeException(withdrawResponse[0].getMessage());
+    }
+    return withdrawResponse[0].getWithdrawalId();
   }
 
   public BitfinexDepositAddressResponse requestDepositAddressRaw(String currency) throws IOException {
@@ -84,9 +87,11 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
       } else if (currency.equalsIgnoreCase("ETH")) {
         type = "ethereum";
       } else if (currency.equalsIgnoreCase("IOT")) {
-    	  type = "iota";
+        type = "iota";
       } else if (currency.equalsIgnoreCase("BCH")) {
         type = "bcash";
+      } else if (currency.equalsIgnoreCase("BTG")) {
+        type = "bgold";
       }
 
       BitfinexDepositAddressResponse requestDepositAddressResponse = bitfinex.requestDeposit(apiKey, payloadCreator, signatureCreator,
