@@ -18,6 +18,7 @@ import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositsHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalsHistory;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsFullTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
@@ -148,6 +149,16 @@ public class AbucoinsAdapters {
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp)
         .build();
   }
+  
+  /**
+   * Adapts a AbucoinsFullTicker to a Ticker Object
+   *
+   * @param ticker       The exchange specific ticker
+   * @return The ticker
+   */
+  public static Ticker adaptTicker(AbucoinsFullTicker ticker) {
+    return adaptTicker(ticker, adaptCurrencyPair(ticker.getProductID()));
+  }
 
   /**
    * Adapts Cex.IO Depth to OrderBook Object
@@ -212,12 +223,12 @@ public class AbucoinsAdapters {
 
   public static LimitOrder createOrder(CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
     return new LimitOrder.Builder(orderType, currencyPair)
-    		.averagePrice(priceAndAmount.getPrice())
-    		.cumulativeAmount( priceAndAmount.getSize())
-    		.limitPrice(priceAndAmount.getPrice())
-    		.orderStatus(OrderStatus.NEW)
-    		.originalAmount(priceAndAmount.getSize())
-    		.build();
+                .averagePrice(priceAndAmount.getPrice())
+                .cumulativeAmount( priceAndAmount.getSize())
+                .limitPrice(priceAndAmount.getPrice())
+                .orderStatus(OrderStatus.NEW)
+                .originalAmount(priceAndAmount.getSize())
+                .build();
   }
   
   public static OpenOrders adaptOpenOrders(AbucoinsOrder[] orders) {
@@ -257,14 +268,14 @@ public class AbucoinsAdapters {
   }
   
   public static MarketOrder adaptMarketOrder(AbucoinsOrder order) {
-    return new MarketOrder.Builder(adaptOrderType(order.getSide()), adaptCurrencyPair( order.getProductID() ))
+    return ((MarketOrder.Builder) new MarketOrder.Builder(adaptOrderType(order.getSide()), adaptCurrencyPair( order.getProductID() ))
             .averagePrice(order.getPrice())
             .cumulativeAmount(order.getFilledSize())
             .id(order.getId())
             .orderStatus(adaptOrderStatus(order.getStatus()))
             .originalAmount(order.getSize())
             .remainingAmount(order.getFilledSize().subtract(order.getSize()))
-            .timestamp(parseDate(order.getCreatedAt()))
+            .timestamp(parseDate(order.getCreatedAt())))
             .build();
   }
   
@@ -308,8 +319,8 @@ public class AbucoinsAdapters {
       return OrderStatus.FILLED;
       
     case closed:
-    		// from chatting with Abucoins when describing closed
-    	    // "it’s mean that your order can be partially fulfilled but it’s closed"
+                // from chatting with Abucoins when describing closed
+            // "it’s mean that your order can be partially fulfilled but it’s closed"
         return OrderStatus.PARTIALLY_FILLED;
                   
     case rejected:
