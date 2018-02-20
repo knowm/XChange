@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsFullTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRates;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
@@ -41,6 +42,10 @@ public interface Abucoins {
   @GET
   @Path("products/{product-id}/book?level={level}")
   AbucoinsOrderBook getBook(@PathParam("product-id") String product_id, @PathParam("level") String level) throws IOException;
+  
+  @GET
+  @Path("products/ticker")
+  AbucoinsFullTicker[] getTicker() throws IOException;
 
   @GET
   @Path("products/{product-id}/ticker")
