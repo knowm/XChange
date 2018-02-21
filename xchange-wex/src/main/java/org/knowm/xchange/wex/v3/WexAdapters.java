@@ -15,6 +15,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -39,6 +40,7 @@ import org.knowm.xchange.wex.v3.dto.meta.WexMetaData;
 import org.knowm.xchange.wex.v3.dto.trade.WexOrder;
 import org.knowm.xchange.wex.v3.dto.trade.WexOrderInfoResult;
 import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryResult;
+import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -321,5 +323,44 @@ public final class WexAdapters {
     WexPairInfo wexPairInfo = wexExchangeInfo.getPairs().get(getPair(marketOrder.getCurrencyPair()));
     BigDecimal limitPrice = marketOrder.getType() == OrderType.BID ? wexPairInfo.getMaxPrice() : wexPairInfo.getMinPrice();
     return LimitOrder.Builder.from(marketOrder).limitPrice(limitPrice).build();
+  }
+
+  public static List<FundingRecord> adaptFundingRecords(Map<Long, WexTransHistoryResult> map) {
+    List<FundingRecord> fundingRecords = new ArrayList<>();
+
+    for (Long key : map.keySet()) {
+      WexTransHistoryResult result = map.get(key);
+
+      FundingRecord.Status status = FundingRecord.Status.COMPLETE;
+
+      if (result.getStatus().equals(WexTransHistoryResult.Status.entered))//looks like the enum has the wrong name maybe?
+        status = FundingRecord.Status.FAILED;
+      else if (result.getStatus().equals(WexTransHistoryResult.Status.waiting))
+        status = FundingRecord.Status.PROCESSING;
+
+      FundingRecord.Type type;//todo
+      if (result.getType().equals(WexTransHistoryResult.Type.BTC_deposit))
+        type = FundingRecord.Type.DEPOSIT;
+      else if (result.getType().equals(WexTransHistoryResult.Type.BTC_withdrawal))
+        type = FundingRecord.Type.WITHDRAWAL;
+      else
+        continue;
+
+      Date date = DateUtils.fromUnixTime(result.getTimestamp());
+      fundingRecords.add(new FundingRecord(
+          null,
+          date,
+          Currency.getInstance(result.getCurrency()),
+          result.getAmount(),
+          String.valueOf(key),
+          null,
+          type,
+          status,
+          null,
+          null,
+          result.getDescription()
+      ));
+    }
+    return fundingRecords;
   }
 }

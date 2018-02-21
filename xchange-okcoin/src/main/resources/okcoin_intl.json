@@ -11,6 +11,10 @@
     "ETH/USD": {
       "min_amount": 0.01,
       "price_scale": 2
+    },
+    "ETH/BTC": {
+      "min_amount": 0.01,
+      "price_scale": 8
     }
   },
   "currencies": {},

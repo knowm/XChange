@@ -67,14 +67,14 @@ public class BitmexAdapters {
 
   }
 
-  public static Trades adaptTrades(BitmexPublicTrade[] trades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<BitmexPublicTrade> trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradeList = new ArrayList<>(trades.length);
-    for (int i = 0; i < trades.length; i++) {
-      BitmexPublicTrade trade = trades[i];
+    List<Trade> tradeList = new ArrayList<>(trades.size());
+    for (int i = 0; i < trades.size(); i++) {
+      BitmexPublicTrade trade = trades.get(i);
       tradeList.add(adaptTrade(trade, currencyPair));
     }
-    long lastTid = trades.length > 0 ? (trades[0].getTime().getTime()) : 0;
+    long lastTid = trades.size() > 0 ? (trades.get(0).getTime().getTime()) : 0;
     // long lastTid = 0L;
     return new Trades(tradeList, lastTid, TradeSortType.SortByTimestamp);
   }

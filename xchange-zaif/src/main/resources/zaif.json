@@ -1,0 +1,14 @@
+{
+  "currency_pairs": {
+    "ETH/JPY": { },
+    "BCH/JPY": { },
+    "ETH/BTC": { },
+    "XCP/BTC": { },
+    "XEM/JPY": { },
+    "XCP/JPY": { },
+    "XEM/BTC": { },
+    "BCH/BTC": { },
+    "BTC/JPY": { }
+  },
+  "share_rate_limits": false
+}

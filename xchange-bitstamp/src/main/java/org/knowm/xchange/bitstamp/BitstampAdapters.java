@@ -60,7 +60,7 @@ public final class BitstampAdapters {
     // Adapt to XChange DTOs
     List<Balance> balances = new ArrayList<>();
     for (org.knowm.xchange.bitstamp.dto.account.BitstampBalance.Balance b : bitstampBalance.getBalances()) {
-      Balance xchangeBalance = new Balance(new Currency(b.getCurrency().toUpperCase()), b.getBalance(), b.getAvailable(),
+      Balance xchangeBalance = new Balance(Currency.getInstance(b.getCurrency().toUpperCase()), b.getBalance(), b.getAvailable(),
           b.getReserved(), ZERO, ZERO, b.getBalance().subtract(b.getAvailable()).subtract(b.getReserved()), ZERO);
       balances.add(xchangeBalance);
     }
@@ -190,7 +190,7 @@ public final class BitstampAdapters {
       }
       final CurrencyPair pair = new CurrencyPair(t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
       UserTrade trade = new UserTrade(orderType, t.getBaseAmount().abs(), pair, t.getPrice().abs(), t.getDatetime()
-          , Long.toString(tradeId), Long.toString(t.getOrderId()), t.getFee(), new Currency(t.getFeeCurrency().toUpperCase()));
+          , Long.toString(tradeId), Long.toString(t.getOrderId()), t.getFee(), Currency.getInstance(t.getFeeCurrency().toUpperCase()));
       trades.add(trade);
     }
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);

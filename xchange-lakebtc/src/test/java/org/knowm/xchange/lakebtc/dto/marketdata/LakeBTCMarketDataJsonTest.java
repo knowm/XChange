@@ -5,8 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.lakebtc.LakeBTCAdapters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,23 +24,23 @@ public class LakeBTCMarketDataJsonTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    LakeBTCTickers tickers = mapper.readValue(is, LakeBTCTickers.class);
+    Map<String,LakeBTCTicker> tickers = mapper.readValue(is, mapper.getTypeFactory().constructMapType(Map.class, String.class, LakeBTCTicker.class));
 
-    LakeBTCTicker cnyTicker = tickers.getCny();
-    assertThat(cnyTicker.getAsk()).isEqualTo("3524.07");
-    assertThat(cnyTicker.getBid()).isEqualTo("3517.13");
-    assertThat(cnyTicker.getLast()).isEqualTo("3524.07");
-    assertThat(cnyTicker.getHigh()).isEqualTo("3584.97");
-    assertThat(cnyTicker.getLow()).isEqualTo("3480.07");
-    assertThat(cnyTicker.getVolume()).isEqualTo("5964.7677");
+    LakeBTCTicker hkdTicker = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
+    assertThat(hkdTicker.getAsk()).isEqualTo("73039.54");
+    assertThat(hkdTicker.getBid()).isEqualTo("73039.54");
+    assertThat(hkdTicker.getLast()).isEqualTo("71230.0");
+    assertThat(hkdTicker.getHigh()).isEqualTo("71864.81");
+    assertThat(hkdTicker.getLow()).isEqualTo("69830.0");
+    assertThat(hkdTicker.getVolume()).isEqualTo("1.41627");
 
-    LakeBTCTicker usdTicker = tickers.getUsd();
-    assertThat(usdTicker.getAsk()).isEqualTo("564.63");
-    assertThat(usdTicker.getBid()).isEqualTo("564.63");
-    assertThat(usdTicker.getLast()).isEqualTo("564.4");
-    assertThat(usdTicker.getHigh()).isEqualTo("573.83");
-    assertThat(usdTicker.getLow()).isEqualTo("557.7");
-    assertThat(usdTicker.getVolume()).isEqualTo("3521.2782");
+    LakeBTCTicker usdTicker = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD));
+    assertThat(usdTicker.getAsk()).isEqualTo("9336.87");
+    assertThat(usdTicker.getBid()).isEqualTo("9334.66");
+    assertThat(usdTicker.getLast()).isEqualTo("9347.43");
+    assertThat(usdTicker.getHigh()).isEqualTo("9477.63");
+    assertThat(usdTicker.getLow()).isEqualTo("8653.83");
+    assertThat(usdTicker.getVolume()).isEqualTo("2133.491461");
 
   }
 

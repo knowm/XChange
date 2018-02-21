@@ -319,7 +319,7 @@ public final class ANXAdapters {
     Date date = DateUtils.fromMillisUtc(rawDate + eightHours);
 
     ANXValue value = entry.getValue();
-    Currency currency = new Currency(value.getCurrency());
+    Currency currency = Currency.getInstance(value.getCurrency());
     ANXValue balance = entry.getBalance();
 
     return new FundingRecord(
