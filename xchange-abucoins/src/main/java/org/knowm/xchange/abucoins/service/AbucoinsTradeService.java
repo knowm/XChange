@@ -14,6 +14,7 @@ import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
@@ -62,7 +63,7 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
     AbucoinsCreateMarketOrderRequest req = AbucoinsAdapters.adaptAbucoinsCreateMarketOrderRequest(marketOrder); 
     AbucoinsCreateOrderResponse resp = createAbucoinsOrder(req);
     if ( resp.getMessage() != null )
-      throw new IOException(resp.getMessage());
+      throw new ExchangeException(resp.getMessage());
     return resp.getId();
   }
 
@@ -71,7 +72,7 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
     AbucoinsCreateLimitOrderRequest req = AbucoinsAdapters.adaptAbucoinsCreateLimitOrderRequest(limitOrder);
     AbucoinsCreateOrderResponse resp = createAbucoinsOrder(req);
     if ( resp.getMessage() != null )
-      throw new IOException(resp.getMessage());
+      throw new ExchangeException(resp.getMessage());
     return resp.getId();
   }
 

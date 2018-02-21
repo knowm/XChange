@@ -21,7 +21,7 @@ public class BleutradeTestData {
   protected static Balance[] expectedAccountBalances() {
     return new Balance[]{new Balance(Currency.AUD, new BigDecimal("40.00000000"), new BigDecimal("10.00000000"), new BigDecimal("30.00000000")),
         new Balance(Currency.BTC, new BigDecimal("100.00000000"), new BigDecimal("40.00000000"), new BigDecimal("60.00000000")),
-        new Balance(new Currency("BLEU"), new BigDecimal("160.00000000"), new BigDecimal("70.00000000"), new BigDecimal("90.00000000")),};
+        new Balance(Currency.getInstance("BLEU"), new BigDecimal("160.00000000"), new BigDecimal("70.00000000"), new BigDecimal("90.00000000")),};
   }
 
   protected static Balance[] expectedBalances() {

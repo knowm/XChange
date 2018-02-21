@@ -1,6 +1,7 @@
 package org.knowm.xchange.lakebtc;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.ws.rs.GET;
@@ -11,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
-import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
+import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 /**
@@ -53,7 +54,7 @@ public interface LakeBTC {
    */
   @GET
   @Path("ticker")
-  LakeBTCTickers getLakeBTCTickers() throws IOException;
+  Map<String,LakeBTCTicker> getLakeBTCTickers() throws IOException;
 
   @GET
   @Path("bcorderbook?symbol={pair}")

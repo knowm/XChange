@@ -34,6 +34,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ARS = createCurrency("ARS", "Argentine Peso", null);
   public static final Currency AUD = createCurrency("AUD", "Australian Dollar", null);
   public static final Currency AUR = createCurrency("AUR", "Auroracoin", null);
+  public static final Currency AVT = createCurrency("AVT", "Aventus", null);
   public static final Currency AWG = createCurrency("AWG", "Aruban Florin", null);
   public static final Currency AZN = createCurrency("AZN", "Azerbaijani Manat", null);
   public static final Currency BAM = createCurrency("BAM", "Bosnia-Herzegovina Convertible Mark", null);
@@ -85,6 +86,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency DVC = createCurrency("DVC", "Devcoin", null);
   public static final Currency DRK = createCurrency("DRK", "Darkcoin", null);
   public static final Currency DZD = createCurrency("DZD", "Algerian Dinar", null);
+  public static final Currency EDO = createCurrency("EDO", "Eidoo", null);
   public static final Currency EEK = createCurrency("EEK", "Estonian Kroon", null);
   public static final Currency EGD = createCurrency("EGD", "egoldcoin", null);
   public static final Currency EGP = createCurrency("EGP", "Egyptian Pound", null);

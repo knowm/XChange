@@ -1,9 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexAdapters;
@@ -60,17 +58,24 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
 
   public Trades getBitmexTrades(CurrencyPair pair, BitmexPrompt prompt, Object... args) throws IOException {
 
+    List<BitmexPublicTrade> trades = new ArrayList<>();
+
     BitmexContract contract = new BitmexContract(pair, prompt);
     String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
-    BitmexPublicTrade[] result = bitmex.getTrades(bitmexSymbol, true);
 
-    if (pair != null && prompt != null)
-      return BitmexAdapters.adaptTrades(result, pair);
+    Integer limit = (Integer) args[0];
 
-    // return result;
+    for (int i = 0; trades.size() + 500 <= limit; i++) {
+      BitmexPublicTrade[] result = bitmex.getTrades(bitmexSymbol, true, 500, i * 500);
+      trades.addAll(Arrays.asList(result));
+    }
+
+    if (pair != null && prompt != null) {
+      List<BitmexPublicTrade> trimmed = trades.subList(0, Math.min(limit, trades.size()));
+      return BitmexAdapters.adaptTrades(trimmed, pair);
+    }
+
     return null;
-
-    // return checkResult(result);
   }
 
   public List<BitmexTicker> getTicker(String symbol) throws IOException {
