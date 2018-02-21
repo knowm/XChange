@@ -85,23 +85,25 @@
     </ciManagement>
 
     <modules>
+        <module>xchange-core</module>
         <module>xchange-abucoins</module>
-        <module>xchange-anx</module>
         <module>xchange-acx</module>
+        <module>xchange-anx</module>
         <module>xchange-bibox</module>
         <module>xchange-binance</module>
         <module>xchange-bitbay</module>
         <module>xchange-bitcoinaverage</module>
         <module>xchange-bitcoincharts</module>
+        <module>xchange-bitcoincoid</module>
         <module>xchange-bitcoincore</module>
         <module>xchange-bitcoinde</module>
         <module>xchange-bitcoinium</module>
         <module>xchange-bitcointoyou</module>
         <module>xchange-bitcurex</module>
         <module>xchange-bitfinex</module>
-        <module>xchange-bitmex</module>
         <module>xchange-bitflyer</module>
         <module>xchange-bitmarket</module>
+        <module>xchange-bitmex</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
         <module>xchange-bittrex</module>
@@ -117,13 +119,12 @@
         <module>xchange-cexio</module>
         <module>xchange-coinbase</module>
         <module>xchange-coinegg</module>
-        <module>xchange-coinmarketcap</module>
         <module>xchange-coinfloor</module>
+        <module>xchange-coinmarketcap</module>
         <module>xchange-coinmate</module>
-        <module>xchange-core</module>
         <module>xchange-cryptofacilities</module>
-        <module>xchange-cryptopia</module>
         <module>xchange-cryptonit</module>
+        <module>xchange-cryptopia</module>
         <module>xchange-dsx</module>
         <module>xchange-empoex</module>
         <module>xchange-examples</module>
@@ -132,13 +133,14 @@
         <module>xchange-gdax</module>
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
-        <module>xchange-itbit</module>
+        <module>xchange-idex</module>
         <module>xchange-independentreserve</module>
+        <module>xchange-itbit</module>
         <module>xchange-koineks</module>
         <module>xchange-koinim</module>
         <module>xchange-kraken</module>
-        <module>xchange-kuna</module>
         <module>xchange-kucoin</module>
+        <module>xchange-kuna</module>
         <module>xchange-lakebtc</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
@@ -149,16 +151,17 @@
         <module>xchange-paribu</module>
         <module>xchange-paymium</module>
         <module>xchange-poloniex</module>
-        <module>xchange-quoine</module>
         <module>xchange-quadrigacx</module>
+        <module>xchange-quoine</module>
         <module>xchange-ripple</module>
+        <module>xchange-stocksexchange</module>
         <module>xchange-taurus</module>
         <module>xchange-therock</module>
         <module>xchange-truefx</module>
         <module>xchange-vaultoro</module>
         <module>xchange-vircurex</module>
-        <module>xchange-yobit</module>
         <module>xchange-wex</module>
+        <module>xchange-yobit</module>
         <module>xchange-zaif</module>
   </modules>
 

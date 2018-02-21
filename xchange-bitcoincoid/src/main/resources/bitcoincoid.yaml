@@ -1,0 +1,1019 @@
+swagger: '2.0'
+basePath: /tapi/
+schemes:
+  - https
+host: vip.bitcoin.co.id
+
+info:
+  version: '1.0'
+  title: bitcoincoid
+tags:
+  - name: view #getInfo, transHistory, tradeHistory, openOrders, orderHistory, getOrder
+  - name: trade #trade, cancelOrder
+  - name: withdraw #withdrawCoin
+externalDocs:
+  description: bitcoin.co.id
+  url: https://vip.bitcoin.co.id/downloads/BITCOINCOID-API-DOCUMENTATION.pdf
+#security:
+
+#
+#  crypto exchanges do not follow swagger conventions, must be overrides - these cause conflicts
+#  :-(
+#
+
+
+#  - Key: []
+#  - Sign: []
+#securityDefinitions:
+#    Key:
+#      in: header
+#      name: Key
+#      type: apiKey
+#      description: API key. Example  14B0C9D6-UG71XOID-SH4IB5VQ-A9LK3YVZ-4HFR8X2T
+#    Sign:
+#      name: Sign
+#      in: header
+#      description:  POST data (?param=val&param1=val1) encrypted with method HMAC-SHA512 using secret key
+#         \ For each request you need to include these variable to make the call valid  nonce and method.
+#    nonce:
+#      name: nonce
+#      in: query
+#      type: integer
+#      description: An increment integer. For example if the last request's nonce is 1000, the next request
+#         \ should be 1001 or a larger number. To learn more about nonce
+#         \ http://en.wikipedia.org/wiki/Cryptographic_nonce
+#    method:
+#      in: formData
+#      name: method
+#      description:  Specify the method you want to call.
+#         \ To get the better picture on how to pass the authentication, you can check PHP function on the last
+#         \ page of this documentation.
+#         \ Responses
+#      type: string
+definitions:
+ Response:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    return:
+      $id: /properties/return
+      type: object
+ Error:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 0
+    error:
+      $id: /properties/error
+      type: string
+      title: The Error Schema
+      default: ''
+      examples:
+      - some error message
+ apiInfoResponse:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    return:
+      $id: /properties/return
+      type: object
+      properties:
+        balance:
+          $id: /properties/return/properties/balance
+          type: object
+          additionalProperties:
+              $id: /properties/return/properties/balance/properties/btc
+              type: number
+              default: 0
+              examples:
+              - 0
+        balance_hold:
+          $id: /properties/return/properties/balance_hold
+          type: object
+          additionalProperties:
+              $id: /properties/return/properties/balance_hold/properties/idr
+              type: number
+              title: The Idr Schema
+              default: 0
+              examples:
+              - 0
+        address:
+          $id: /properties/return/properties/address
+          type: object
+          additionalProperties:
+              $id: /properties/return/properties/address/properties/doge
+              type: string
+              title: The Doge Schema
+              default: ''
+              examples:
+              - DGzSTNAbiZE8XKVupz2uUUr8AzTeZ5Zm7D
+        user_id:
+          $id: /properties/return/properties/user_id
+          type: integer
+          title: The User_id Schema
+          default: 0
+          examples:
+          - 234242
+        profile_picture:
+          $id: /properties/return/properties/profile_picture
+          type: string
+          title: The Profile_picture Schema
+          default: ''
+          examples:
+          - ''
+        name:
+          $id: /properties/return/properties/name
+          type: string
+          title: The Name Schema
+          default: ''
+          examples:
+          - asdasdasad
+        server_time:
+          $id: /properties/return/properties/server_time
+          type: integer
+          title: The Server_time Schema
+          description: seconds since epoch
+          default: 0
+          examples:
+          - 1519176422
+        email:
+          $id: /properties/return/properties/email
+          type: string
+          title: The Email Schema
+          default: ''
+          examples:
+          - asdf@gmail.com
+ assetTx:
+            $id: /properties/return/properties/withdraw
+            type: object
+            additionalProperties:
+                $id: /properties/return/properties/withdraw/properties/idr
+                type: array
+                items:
+                  $id: /properties/return/properties/withdraw/properties/idr/items
+                  type: object
+                  properties:
+                    status:
+                      $id: /properties/return/properties/withdraw/properties/idr/items/properties/status
+                      type: string
+                      title: The Status Schema
+                      default: ''
+                      examples:
+                      - wait
+                    type:
+                      $id: /properties/return/properties/withdraw/properties/idr/items/properties/type
+                      type: string
+                      title: The Type Schema
+                      default: ''
+                      examples:
+                      - coupon
+                    rp:
+                      $id: /properties/return/properties/withdraw/properties/idr/items/properties/rp
+                      type: number
+                      title: The Rp Schema
+                      default: ''
+                      examples:
+                      - '100000'
+                    fee:
+                      $id: /properties/return/properties/withdraw/properties/idr/items/properties/fee
+                      type: number
+                      title: The Fee Schema
+                      default: ''
+                      examples:
+                      - '0'
+                    amount:
+                      $id: /properties/return/properties/withdraw/properties/idr/items/properties/amount
+                      type: number
+                      title: The Amount Schema
+                      default: ''
+                      examples:
+                      - '100000'
+                    submit_time:
+                      $id: /properties/return/properties/withdraw/properties/idr/items/properties/submit_time
+                      type: number
+                      title: The Submit_time Schema
+                      default: ''
+                      examples:
+                      - '1392135074'
+                    success_time:
+                      $id: /properties/return/properties/withdraw/properties/idr/items/properties/success_time
+                      type: number
+                      title: The Success_time Schema
+                      default: ''
+                      examples:
+                      - '0'
+ transHistoryResponse:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    return:
+      $id: /properties/return
+      type: object
+      properties:
+        withdraw:
+          $ref: '#/definitions/assetTx'
+        deposit:
+          $ref: '#/definitions/assetTx'
+ tradeResponse:
+   $id: http://example.com/example.json
+   type: object
+   definitions: {}
+   $schema: http://json-schema.org/draft-07/schema#
+   properties:
+     error:
+       type: string
+       description: present when success is 0
+     success:
+       $id: /properties/success
+       type: integer
+       title: The Success Schema
+       default: 0
+       examples:
+       - 1
+     return:
+       $id: /properties/return
+       type: object
+       properties:
+         receive_btc:
+           $id: /properties/return/properties/receive_btc
+           type: integer
+           title: The Receive_btc Schema
+           default: 0
+           examples:
+           - 0
+         remain_rp:
+           $id: /properties/return/properties/remain_rp
+           type: integer
+           title: The Remain_rp Schema
+           default: 0
+           examples:
+           - 1000000
+         order_id:
+           $id: /properties/return/properties/order_id
+           type: integer
+           title: The Order_id Schema
+           default: 0
+           examples:
+           - 11560
+         balance:
+           $id: /properties/return/properties/balance
+           type: object
+           additionalProperties:
+               $id: /properties/return/properties/balance/properties/idr
+               type: number
+               default: ''
+               examples:
+               - '8000000'
+ tradeHistoryResult:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    return:
+      $id: /properties/return
+      type: object
+      properties:
+        trades:
+          $id: /properties/return/properties/trades
+          type: array
+          items:
+            $id: /properties/return/properties/trades/items
+            type: object
+            properties:
+              trade_id:
+                $id: /properties/return/properties/trades/items/properties/trade_id
+                type: number
+                title: The Trade_id Schema
+                default: ''
+                examples:
+                - '2929'
+              order_id:
+                $id: /properties/return/properties/trades/items/properties/order_id
+                type: string
+                title: The Order_id Schema
+                default: ''
+                examples:
+                - '8123'
+              type:
+                $id: /properties/return/properties/trades/items/properties/type
+                type: string
+                title: The Type Schema
+                default: ''
+                examples:
+                - buy
+              btc:
+                $id: /properties/return/properties/trades/items/properties/btc
+                type: number
+                title: The Btc Schema
+                default: 0.0
+                examples:
+                - 0.013000000268220901
+              price:
+                $id: /properties/return/properties/trades/items/properties/price
+                type: number
+                title: The Price Schema
+                default: 0
+                examples:
+                - 8068585
+              fee:
+                $id: /properties/return/properties/trades/items/properties/fee
+                type: number
+                title: The Fee Schema
+                default: 0
+                examples:
+                - 1049
+              trade_time:
+                $id: /properties/return/properties/trades/items/properties/trade_time
+                type: number
+                title: The Trade_time Schema
+                default: 0
+                examples:
+                - 1392226454
+ openOrderPairResult:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    return:
+      $id: /properties/return
+      type: object
+      properties:
+        orders:
+          $id: /properties/return/properties/orders
+          type: array
+          items:
+            $id: /properties/return/properties/orders/items
+            type: object
+            properties:
+              order_id:
+                $id: /properties/return/properties/orders/items/properties/order_id
+                type: string
+                title: The Order_id Schema
+                default: ''
+                examples:
+                - '11567'
+              submit_time:
+                $id: /properties/return/properties/orders/items/properties/submit_time
+                type: string
+                title: The Submit_time Schema
+                default: ''
+                examples:
+                - '1392227908'
+              price:
+                $id: /properties/return/properties/orders/items/properties/price
+                type: number
+                title: The Price Schema
+                default: ''
+                examples:
+                - '10000000'
+              type:
+                $id: /properties/return/properties/orders/items/properties/type
+                type: string
+                title: The Type Schema
+                default: ''
+                examples:
+                - buy
+              order_idr:
+                $id: /properties/return/properties/orders/items/properties/order_idr
+                type: string
+                title: The Order_idr Schema
+                default: ''
+                examples:
+                - '1000000'
+              remain_idr:
+                $id: /properties/return/properties/orders/items/properties/remain_idr
+                type: number
+                title: The Remain_idr Schema
+                default: ''
+                examples:
+                - '1000000'
+ openOrderListResult:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    return:
+      $id: /properties/return
+      type: object
+      properties:
+        orders:
+          $id: /properties/return/properties/orders
+          type: object
+          additionalProperties:
+
+              $id: /properties/return/properties/orders/properties/btc_idr
+              type: array
+              items:
+                $id: /properties/return/properties/orders/properties/btc_idr/items
+                type: object
+                properties:
+                  order_id:
+                    $id: /properties/return/properties/orders/properties/btc_idr/items/properties/order_id
+                    type: string
+                    title: The Order_id Schema
+                    default: ''
+                    examples:
+                    - '11567'
+                  submit_time:
+                    $id: /properties/return/properties/orders/properties/btc_idr/items/properties/submit_time
+                    type: string
+                    title: The Submit_time Schema
+                    default: ''
+                    examples:
+                    - '1392227908'
+                  price:
+                    $id: /properties/return/properties/orders/properties/btc_idr/items/properties/price
+                    type: number
+                    title: The Price Schema
+                    default: ''
+                    examples:
+                    - '10000000'
+                  type:
+                    $id: /properties/return/properties/orders/properties/btc_idr/items/properties/type
+                    type: string
+                    title: The Type Schema
+                    default: ''
+                    examples:
+                    - buy
+                  order_idr:
+                    $id: /properties/return/properties/orders/properties/btc_idr/items/properties/order_idr
+                    type: number
+                    title: The Order_idr Schema
+                    default: ''
+                    examples:
+                    - '1000000'
+                  remain_idr:
+                    $id: /properties/return/properties/orders/properties/btc_idr/items/properties/remain_idr
+                    type: number
+                    title: The Remain_idr Schema
+                    default: ''
+                    examples:
+                    - '1000000'
+ orderHistoryResult:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    return:
+      $id: /properties/return
+      type: object
+      properties:
+        orders:
+          $id: /properties/return/properties/orders
+          type: array
+          items:
+            $id: /properties/return/properties/orders/items
+            type: object
+            properties:
+              order_id:
+                $id: /properties/return/properties/orders/items/properties/order_id
+                type: string
+                title: The Order_id Schema
+                default: ''
+                examples:
+                - '11512'
+              type:
+                $id: /properties/return/properties/orders/items/properties/type
+                type: string
+                title: The Type Schema
+                default: ''
+                examples:
+                - sell
+              price:
+                $id: /properties/return/properties/orders/items/properties/price
+                type: number
+                title: The Price Schema
+                default: ''
+                examples:
+                - '5000000'
+              submit_time:
+                $id: /properties/return/properties/orders/items/properties/submit_time
+                type: number
+                title: The Submit_time Schema
+                default: ''
+                examples:
+                - '1392227908'
+              finish_time:
+                $id: /properties/return/properties/orders/items/properties/finish_time
+                type: number
+                title: The Finish_time Schema
+                default: ''
+                examples:
+                - '1392227978'
+              status:
+                $id: /properties/return/properties/orders/items/properties/status
+                type: string
+                title: The Status Schema
+                default: ''
+                examples:
+                - filled
+              order_btc:
+                $id: /properties/return/properties/orders/items/properties/order_btc
+                type: number
+                title: The Order_btc Schema
+                default: ''
+                examples:
+                - '0.00100000'
+              remain_btc:
+                $id: /properties/return/properties/orders/items/properties/remain_btc
+                type: number
+                title: The Remain_btc Schema
+                default: ''
+                examples:
+                - '0.00000000'
+ orderResult:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    return:
+      $id: /properties/return
+      type: object
+      properties:
+        order:
+          $id: /properties/return/properties/order
+          type: object
+          properties:
+            order_id:
+              $id: /properties/return/properties/order/properties/order_id
+              type: string
+              title: The Order_id Schema
+              default: ''
+              examples:
+              - '94425'
+            price:
+              $id: /properties/return/properties/order/properties/price
+              type: number
+              title: The Price Schema
+              default: ''
+              examples:
+              - '0.00810000'
+            type:
+              $id: /properties/return/properties/order/properties/type
+              type: string
+              title: The Type Schema
+              default: ''
+              examples:
+              - sell
+            order_ltc:
+              $id: /properties/return/properties/order/properties/order_ltc
+              type: number
+              title: The Order_ltc Schema
+              default: ''
+              examples:
+              - '1.00000000'
+            remain_ltc:
+              $id: /properties/return/properties/order/properties/remain_ltc
+              type: number
+              title: The Remain_ltc Schema
+              default: ''
+              examples:
+              - '0.53000000'
+            submit_time:
+              $id: /properties/return/properties/order/properties/submit_time
+              type: string
+              title: The Submit_time Schema
+              default: ''
+              examples:
+              - '1497657065'
+            finish_time:
+              $id: /properties/return/properties/order/properties/finish_time
+              type: string
+              title: The Finish_time Schema
+              default: ''
+              examples:
+              - '0'
+            status:
+              $id: /properties/return/properties/order/properties/status
+              type: string
+              title: The Status Schema
+              default: ''
+              examples:
+              - open
+ cancelResult:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    return:
+      $id: /properties/return
+      type: object
+      properties:
+        order_id:
+          $id: /properties/return/properties/order_id
+          type: integer
+          title: The Order_id Schema
+          default: 0
+          examples:
+          - 11574
+        type:
+          $id: /properties/return/properties/type
+          type: string
+          title: The Type Schema
+          default: ''
+          examples:
+          - buy
+        balance:
+          $id: /properties/return/properties/balance
+          type: object
+          additionalProperties:
+
+              $id: /properties/return/properties/balance/properties/idr
+              type: number
+              title: The Idr Schema
+              default: ''
+              examples:
+              - '5000000'
+ withdrawCoinResult:
+  $id: http://example.com/example.json
+  type: object
+  definitions: {}
+  $schema: http://json-schema.org/draft-07/schema#
+  properties:
+    error:
+      type: string
+      description: present when success is 0
+    success:
+      $id: /properties/success
+      type: integer
+      title: The Success Schema
+      default: 0
+      examples:
+      - 1
+    status:
+      $id: /properties/status
+      type: string
+      title: The Status Schema
+      default: ''
+      examples:
+      - approved
+    withdraw_currency:
+      $id: /properties/withdraw_currency
+      type: string
+      title: The Withdraw_currency Schema
+      default: ''
+      examples:
+      - xrp
+    withdraw_address:
+      $id: /properties/withdraw_address
+      type: string
+      title: The Withdraw_address Schema
+      default: ''
+      examples:
+      - rwWr7KUZ3ZFwzgaDGjKBysADByzxvohQ3C
+    withdraw_amount:
+      $id: /properties/withdraw_amount
+      type: number
+      title: The Withdraw_amount Schema
+      default: ''
+      examples:
+      - '10000.00000000'
+    fee:
+      $id: /properties/fee
+      type: number
+      title: The Fee Schema
+      default: ''
+      examples:
+      - '2.00000000'
+    amount_after_fee:
+      $id: /properties/amount_after_fee
+      type: number
+      title: The Amount_after_fee Schema
+      default: ''
+      examples:
+      - '9998.00000000'
+    submit_time:
+      $id: /properties/submit_time
+      type: string
+      title: The Submit_time Schema
+      default: ''
+      examples:
+      - '1509469200'
+    withdraw_id:
+      $id: /properties/withdraw_id
+      type: string
+      title: The Withdraw_id Schema
+      default: ''
+      examples:
+      - xrp-12345
+    txid:
+      $id: /properties/txid
+      type: string
+      title: The Txid Schema
+      default: ''
+      examples:
+      - ''
+    withdraw_memo:
+      $id: /properties/withdraw_memo
+      type: string
+      title: The Withdraw_memo Schema
+      default: ''
+      examples:
+      - '123123'
+
+paths:
+  trade:
+    post:
+      summary: This method is for opening a new order.
+      tags:
+        - trade
+
+      parameters:
+        - name: pair
+          type: number
+          required: Yes #Pair to get the information from btc_idr, ltc_btc, doge_btc, etc btc_idr
+        - name: type
+          type: string
+          required: Yes #transaction type (buy or sell) buy / sell -
+        - name: price
+          type: number
+          required: Yes #order price numerical -
+        - name: idr
+          type: number
+          description:   on buying btc amount of rupiah to buy btc numerical -
+          required: true
+        - name: btc
+          type: number
+          description: on selling btc amount of btc to sell numerical -
+          required: true
+      responses:
+        200:
+          description:
+          schema:
+            $ref: '#/definitions/tradeResponse'
+
+  tradeHistory:
+    post:
+      tags:
+        - view
+
+      summary: This method gives information about transaction in buying and selling history.
+      parameters:
+        - name: count
+          description: req?No number of transaction which will be displayed numerical 1000
+          type: number
+        - name: from_id
+          type: number
+          description: req?No first ID numerical 0
+        - name: end_id
+          type: number
+          description: req?No end ID numerical ∞
+        - name: order
+          type: string
+          description: req?No sort by asc / desc desc
+        - name: since
+          type: integer
+          description: req?No start time UNIX time
+        - name: end
+          type: integer
+          description: req?No end time UNIX time
+        - name: pair
+          required: true
+          description: req?Yes Pair to get the information from btc_idr, ltc_btc, doge_btc, etc btc_idr
+      responses:
+  openOrders:
+    post:
+      tags:
+        - view
+
+      summary: This method gives the list of current open orders (buy and sell).
+      parameters:
+        - name: pair
+          type: string
+      responses:
+        200:
+         description:
+         schema:
+          $ref: '#/definitions/Response'
+  orderHistory:
+    post:
+      summary: This method gives the list of order history (buy and sell).
+      tags:
+        - view
+
+
+      parameters:
+
+        - name: pair
+          type: string
+          default: "btc_idr"
+        - name: count
+          type: integer
+        - name: from
+          type: integer
+      responses:
+        200:
+          description:
+          schema:
+            $ref: '#/definitions/orderHistoryResult'
+  getOrder:
+    post:
+      summary: Use getOrder to get specific order details.
+      tags:
+        - view
+      parameters:
+        - name: pair
+          required: true
+          default: btc_idr
+        - name: order_id
+          required: true
+          type: integer
+      responses:
+        200:
+          description:
+          schema:
+            $ref: '#/definitions/orderResult'
+
+  cancelOrder:
+    post:
+      summary: This method is for canceling an existing open order.
+      tags:
+        - trade
+      parameters:
+        - name: pair
+          required: true
+          type: string
+        - name: order_id
+          required: true
+          type: number
+        - name: type
+          required: true
+          type: string
+
+      responses:
+        200:
+          description:
+          schema:
+            $ref: '#/definitions/cancelResult'
+  withdrawCoin:
+    post:
+      summary: This method is for withdrawing assets (except IDR)
+      tags:
+        - withdraw
+      description: To be able to use this method you need to enable withdraw permission when you generate the API
+        \ Key. Otherwise you will get “No permission” error.
+        \ You also need to prepare a Callback URL. Callback URL is a URL that our system will call to
+        \ verify your withdrawal requests. Various parameters will be sent to Callback URL, make sure to
+        \ check this information on your server side. If all the data is correct, print out a string “ok” (without
+        \ quotes). We will continue the request if only we receive “ok” (without quotes) response, otherwise
+        \ the request will be failed.
+        \ Callback call will be sent through a POST request, with 5 seconds connection timeout.
+
+      parameters:
+        - name: currency
+          required: Yes
+          description: Currency to withdraw btc, ltc, doge, eth, etc -
+        - name: withdraw_address
+          required: Yes
+          description: Receiver address a valid address -
+        - name: withdraw_amount
+          required: Yes
+          description: Amount to send numerical -
+        - name: withdraw_memo
+          required: No
+          description: Memo to be sent to the receiver, if supported by the asset platform. Exchanges use this memo for accepting deposits for certain assets. Example  Destination Tag (for Ripple) Message (for NXT) Memo (for BitShares) a valid memo/message/destin ation tag -
+        - name: request_id
+          required: Yes
+          description: Custom string you need to provide to identify each withdrawal request. request_id will be passed to callback call so your system can identify the request. alphanumeric, max length 255
+      responses:
+        200:
+          description:
+          schema:
+            $ref: '#/definitions/withdrawCoinResult'
+
+  getInfo:
+
+    post:
+      tags:
+        - view
+      summary: This method gives user balances and server's timestamp.
+      responses:
+        200:
+          description:
+          schema:
+            $ref: '#/definitions/apiInfoResponse'
+
+  transHistory:
+    post:
+      summary: This method gives list of deposits and withdrawals of all currencies.
+      tags:
+        - view
+      responses:
+        200:
+          description:
+          schema:
+            $ref: '#/definitions/transHistoryResponse'
+
