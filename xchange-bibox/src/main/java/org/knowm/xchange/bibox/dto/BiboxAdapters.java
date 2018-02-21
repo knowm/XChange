@@ -47,7 +47,6 @@ public class BiboxAdapters {
 
   public static AccountInfo adaptAccountInfo(List<BiboxCoin> coins) {
     Wallet wallet = adaptWallet(coins);
-    System.out.println(wallet);
     return new AccountInfo(wallet);
   }
 
@@ -122,7 +121,7 @@ public class BiboxAdapters {
         .originalAmount(order.getAmount())
         .timestamp(new Date(order.getCreatedAt()))
         .type(order.getOrderSide().getOrderType())
-        .feeCurrency(new Currency(order.getFeeSymbol()))
+        .feeCurrency(Currency.getInstance(order.getFeeSymbol()))
         .feeAmount(order.getFee())
         .build();
   }

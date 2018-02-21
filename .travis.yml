@@ -1,14 +1,13 @@
 language: java
 sudo: false
 
-before_install: "git clone -b travis `git config --get remote.origin.url` target/travis"
 install: true
 script: "
 if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
 then 
-    mvn clean deploy --batch-mode --settings target/travis/settings.xml; 
+    mvn clean deploy --batch-mode --settings etc/settings.xml;
 else 
-    mvn clean verify --batch-mode --settings target/travis/settings.xml;
+    mvn clean verify --batch-mode --settings etc/settings.xml;
 fi"
 
 jdk:

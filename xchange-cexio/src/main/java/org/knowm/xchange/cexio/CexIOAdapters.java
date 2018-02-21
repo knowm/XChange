@@ -126,7 +126,7 @@ public class CexIOAdapters {
     List<Balance> balances = new ArrayList<>();
     for (String ccyName : cexIOBalanceInfo.getBalances().keySet()) {
       CexIOBalance cexIOBalance = cexIOBalanceInfo.getBalances().get(ccyName);
-      balances.add(adaptBalance(new Currency(ccyName), cexIOBalance));
+      balances.add(adaptBalance(Currency.getInstance(ccyName), cexIOBalance));
     }
 
     return new Wallet(balances);

@@ -7,6 +7,7 @@ import java.util.TimeZone;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
+import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsFullTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRate;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRates;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
@@ -27,6 +28,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
  * <li>{@link #getAbucoinsProduct() GET /products/&#123;product-id&#125;}</li>
  * <li>{@link #getAbucoinsOrderBook GET /products/&#123;product-id&#125;/book}</li>
  * <li>{@link #getAbucoinsOrderBook(String, AbucoinsOrderBookLevel) GET /products/&#123;product-id&#125;/book?level=&#123;level&#125;}</li>
+ * <li>{@link #getAbucoinsTickers GET /products/ticker}</li>
  * <li>{@link #getAbucoinsTicker GET /products/&#123;product-id&#125;/ticker}</li>
  * <li>{@link #getAbucoinsTrades(String) GET /products/&#123;product-id&#125;/trades}</li>
  * <li>{@link #getAbucoinsHistoricRates GET /products/&#123;product-id&#125;/candles?granularity=[granularity]&start=[UTC time of start]&end=[UTC time of end]}</li>
@@ -87,6 +89,18 @@ public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
    */
   public AbucoinsOrderBook getAbucoinsOrderBook(String productID, AbucoinsOrderBookLevel level) throws IOException {
     return abucoins.getBook(productID, level.name());
+  }
+  
+  /**
+   * Corresponds to <code>GET /products/ticker</code>
+   * @return
+   * @throws IOException
+   */
+  public AbucoinsFullTicker[] getAbucoinsTickers() throws IOException {
+
+    AbucoinsFullTicker[] abucoinsTickers = abucoins.getTicker();
+
+    return abucoinsTickers;
   }
 
   /**

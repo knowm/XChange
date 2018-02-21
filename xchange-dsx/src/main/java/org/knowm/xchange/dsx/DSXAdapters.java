@@ -175,7 +175,7 @@ public class DSXAdapters {
   }
 
   public static Currency adaptCurrency(String dsxCurrency) {
-    return new Currency(dsxCurrency.toUpperCase());
+    return Currency.getInstance(dsxCurrency.toUpperCase());
   }
 
   public static List<CurrencyPair> adaptCurrencyPair(Iterable<String> dsxPairs) {
