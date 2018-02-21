@@ -8,7 +8,7 @@ import org.knowm.xchange.currency.*
 import org.knowm.xchange.dto.account.*
 import org.knowm.xchange.service.account.*
 import org.knowm.xchange.service.trade.params.*
-import org.knowm.xchange.stocksexchange.api.*
+import org.knowm.xchange.stocksexchange.service.*
 import org.knowm.xchange.stocksexchange.util.*
 import org.knowm.xchange.utils.nonce.*
 import java.io.*

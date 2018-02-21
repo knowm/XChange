@@ -4,7 +4,7 @@ import com.squareup.okhttp.*
 import okio.*
 import org.apache.commons.codec.digest.*
 import org.knowm.xchange.*
-import org.knowm.xchange.bitcoincoid.api.*
+ import org.knowm.xchange.bitcoincoid.service.*
 import org.knowm.xchange.bitcoincoid.util.*
 import org.knowm.xchange.currency.*
 import org.knowm.xchange.dto.account.*
