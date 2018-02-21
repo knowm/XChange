@@ -207,7 +207,7 @@ public final class ItBitAdapters {
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
 
       trades.add(new UserTrade(orderType, itBitTrade.getCurrency1Amount(), currencyPair, itBitTrade.getRate(), itBitTrade.getTimestamp(), null,
-          itBitTrade.getOrderId(), itBitTrade.getCommissionPaid(), new Currency(itBitTrade.getCommissionCurrency())));
+          itBitTrade.getOrderId(), itBitTrade.getCommissionPaid(), Currency.getInstance(itBitTrade.getCommissionCurrency())));
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
