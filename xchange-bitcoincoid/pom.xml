@@ -54,8 +54,8 @@
                                     <inputSpec>${project.basedir}/src/main/resources/${exchangeName}.yaml</inputSpec>
                                     <!--&lt;!&ndash;<configHelp>true</configHelp>&ndash;&gt;-->
                                     <configOptions>
-                                        <apiPackage>${gen-package}.${exchangeName}.api</apiPackage>
-                                        <modelPackage>${gen-package}.${exchangeName}.model</modelPackage>
+                                        <apiPackage>${gen-package}.${exchangeName}.service</apiPackage>
+                                        <modelPackage>${gen-package}.${exchangeName}.dto</modelPackage>
                                         <invokerPackage>${gen-package}.${exchangeName}.util
                                         </invokerPackage>
                                         <useGzipFeature>false</useGzipFeature>
