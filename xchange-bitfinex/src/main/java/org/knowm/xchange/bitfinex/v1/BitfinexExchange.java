@@ -6,6 +6,9 @@ import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexAccountService;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataService;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
@@ -53,6 +56,17 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
     List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
     exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
 
+    final List<BitfinexSymbolDetail> symbolDetails = dataService.getSymbolDetails();
+    exchangeMetaData = BitfinexAdapters.adaptMetaData(exchangeMetaData, symbolDetails);
+
+    BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
+    final BitfinexAccountFeesResponse accountFees = accountService.getAccountFees();
+    exchangeMetaData = BitfinexAdapters.adaptMetaData(accountFees, exchangeMetaData);
+
+    BitfinexTradeService tradeService = (BitfinexTradeService) this.tradeService;
+    final BitfinexAccountInfosResponse[] bitfinexAccountInfos = tradeService.getBitfinexAccountInfos();
+
+    exchangeMetaData = BitfinexAdapters.adaptMetaData(bitfinexAccountInfos, exchangeMetaData);
   }
 
 }
