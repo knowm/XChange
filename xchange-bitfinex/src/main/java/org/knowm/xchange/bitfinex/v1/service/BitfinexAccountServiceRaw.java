@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressRequest;
@@ -16,6 +17,7 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexAccountServiceRaw extends BitfinexBaseService {
@@ -106,4 +108,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     }
   }
 
+  public BitfinexAccountFeesResponse getAccountFees() throws IOException {
+    return bitfinex.accountFees(apiKey, payloadCreator, signatureCreator,
+        new BitfinexNonceOnlyRequest("/v1/account_fees", String.valueOf(exchange.getNonceFactory().createValue())));
+  }
 }
