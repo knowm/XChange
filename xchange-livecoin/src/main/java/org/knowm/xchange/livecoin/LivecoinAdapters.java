@@ -175,7 +175,7 @@ public class LivecoinAdapters {
         remainingQuantity,
         new CurrencyPair(ccyA, ccyB),
         map.get("id").toString(),
-        DateUtils.fromUnixTime(Long.valueOf(map.get("issueTime").toString())),
+        DateUtils.fromUnixTime(Double.valueOf(map.get("issueTime").toString()).longValue()),
         new BigDecimal(map.get("price").toString()),
         null,
         null,
