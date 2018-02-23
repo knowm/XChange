@@ -51,8 +51,7 @@
                                 </goals>
                                 <configuration>
                                     <language>java</language>
-                                    <inputSpec>${project.basedir}/src/main/resources/${exchangeName}.yaml</inputSpec>
-                                    <!--&lt;!&ndash;<configHelp>true</configHelp>&ndash;&gt;-->
+                                    <inputSpec>${project.basedir}/src/main/swagger/${exchangeName}.yaml</inputSpec>                                    <!--&lt;!&ndash;<configHelp>true</configHelp>&ndash;&gt;-->
                                     <configOptions>
                                         <apiPackage>${gen-package}.${exchangeName}.service</apiPackage>
                                         <modelPackage>${gen-package}.${exchangeName}.dto</modelPackage>

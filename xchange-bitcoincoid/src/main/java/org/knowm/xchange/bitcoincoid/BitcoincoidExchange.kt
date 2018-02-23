@@ -46,39 +46,33 @@ class BitcoincoidExchange : Exchange, BaseExchange() {
                                       authNames: Array<out String>?,
                                       progressRequestListener: ProgressRequestBody.ProgressRequestListener?): Request {
                 if (debugMe)
-                    httpClient.interceptors().add(
+                    httpClient.interceptors().add(Interceptor { chain ->
+                                val request = chain.request()
 
+                                val t1 = System.nanoTime()
+                                Logger.getAnonymousLogger().info(
+                                        String.format("--> Sending request %s on %s%n%s",
+                                                      request.url(),
+                                                      chain.connection(), request.headers()))
 
-                            object : Interceptor {
-                                @Throws(IOException::class)
-                                override fun intercept(chain: Interceptor.Chain): Response {
-                                    val request = chain.request()
+                                val requestBuffer = Buffer()
+                                request.body().writeTo(requestBuffer)
+                                Logger.getAnonymousLogger().info(requestBuffer.readUtf8())
 
-                                    val t1 = System.nanoTime()
-                                    Logger.getAnonymousLogger().info(
-                                            String.format("--> Sending request %s on %s%n%s",
-                                                          request.url(),
-                                                          chain.connection(), request.headers()))
+                                val response = chain.proceed(request)
 
-                                    val requestBuffer = Buffer()
-                                    request.body().writeTo(requestBuffer)
-                                    Logger.getAnonymousLogger().info(requestBuffer.readUtf8())
+                                val t2 = System.nanoTime()
+                                Logger.getAnonymousLogger().info(
+                                        String.format("<-- Received response for %s in %.1fms%n%s",
+                                                      response.request().url(), (t2 - t1) / 1e6,
+                                                      response.headers()))
 
-                                    val response = chain.proceed(request)
+                                val contentType = response.body().contentType()
+                                val content = response.body().string()
+                                Logger.getAnonymousLogger().info(content)
 
-                                    val t2 = System.nanoTime()
-                                    Logger.getAnonymousLogger().info(
-                                            String.format("<-- Received response for %s in %.1fms%n%s",
-                                                          response.request().url(), (t2 - t1) / 1e6,
-                                                          response.headers()))
-
-                                    val contentType = response.body().contentType()
-                                    val content = response.body().string()
-                                    Logger.getAnonymousLogger().info(content)
-
-                                    val wrappedBody = ResponseBody.create(contentType, content)
-                                    return response.newBuilder().body(wrappedBody).build()
-                                }
+                                val wrappedBody = ResponseBody.create(contentType, content)
+                                response.newBuilder().body(wrappedBody).build()
                             })
                 debugMe = false;
                 val frmFlds = linkedMapOf<String, Any>()

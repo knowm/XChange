@@ -2,9 +2,6 @@ package org.knowm.xchange.idex
 
 import org.knowm.xchange.currency.*
 import org.knowm.xchange.dto.account.*
-import org.knowm.xchange.idex.dto.*
-import org.knowm.xchange.idex.service.*
-import org.knowm.xchange.idex.util.*
 import org.knowm.xchange.service.account.*
 import org.knowm.xchange.service.trade.params.*
 import java.math.*
@@ -12,7 +9,6 @@ import java.math.*
 class IdexAccountService(private val idexExchange: IdexExchange) :
         AccountService {
     override fun getAccountInfo(): AccountInfo {
-
         val apiKey = idexExchange.exchangeSpecification.apiKey
         val s = apiKey.slice(0.rangeTo(6)) + "…"
         val returnBalancesPost =  IdexRawService .returnCompleteBalances(apiKey)
@@ -50,10 +46,4 @@ class IdexAccountService(private val idexExchange: IdexExchange) :
     }
 
 
-    private fun returnTickerRequestedWithNull() = let {
-        val returnTickerPost = DefaultApi().returnTickerPost(null)
-        val gson = JSON().gson
-        val toJson = gson.toJson(returnTickerPost)
-        gson.fromJson(toJson, ReturnTickerRequestedWithNull::class.java)
-    }
 }

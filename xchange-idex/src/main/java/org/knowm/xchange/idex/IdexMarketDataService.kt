@@ -7,76 +7,68 @@ import org.knowm.xchange.dto.trade.*
 import org.knowm.xchange.idex.dto.*
 import org.knowm.xchange.idex.service.*
 import org.knowm.xchange.service.marketdata.*
+import org.knowm.xchange.utils.*
+import java.math.BigDecimal.*
 import java.util.*
 
-class IdexMarketDataService(private val idexExchange: IdexExchange) :
-        MarketDataService {
-    override fun getTicker(currencyPair: CurrencyPair  , vararg args: Any?): Ticker {
-
-        val returnTickerPost = DefaultApi().returnTickerPost(
-                "${currencyPair .base.symbol}_${currencyPair.counter.symbol}")
-        val x: ReturnTickerResponse = idexExchange.gson.fromJson<ReturnTickerResponse>(
-                idexExchange.gson.toJson(returnTickerPost),
-                ReturnTickerResponse::class.java)
-        return Ticker.Builder()
-                .currencyPair(currencyPair)
-                .ask(x.lowestAsk)
-                .bid(x.highestBid)
-                .last(x.last)
-                .high(x.high)
-                .low(x.low)
-                .volume(x.baseVolume)
-                .quoteVolume(x.quoteVolume)
-                .build()
-        /* else {
-            val x = DefaultApi().returnTickerPost(null)
-            val str = idexExchange.gson.toJson(x)
-            System.err.println(str)
-            val fromJson = idexExchange.gson.fromJson<ReturnTickerRequestedWithNull>(str,
-                                                                                     ReturnTickerRequestedWithNull::class.java)
-            TODO( "find the right call for "+fromJson )
-        }*/
-
+class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketDataService, MarketApi() {
+    override fun getTicker(currencyPair: CurrencyPair, vararg args: Any?): Ticker {
+        return tickerByCurrencyPair(currencyPair.market)[currencyPair]
     }
 
-    override fun getOrderBook(currencyPair: CurrencyPair?, vararg args: Any?): OrderBook {
-        val returnOrderBookPost = DefaultApi().returnOrderBookPost(
-                if (currencyPair != null)
-                    currencyPair.let { currencyPair.base.symbol + "_" + currencyPair.counter.symbol }
-                else null)
-        when {
-            null == currencyPair -> {
-                TODO("this method only supports paraterized calls")
-            }
-            else -> {
+    override fun getOrderBook(currencyPair: CurrencyPair, vararg args: Any?) =
+            returnOrderBookPost(currencyPair.orderbook)
+                    .run {
+                        OrderBook(Date(),
+                                  asks.map {
+                                      LimitOrder(Order.OrderType.ASK, it.amount.toBigDecimal(), currencyPair,
+                                                 it.orderHash,
+                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal())
+                                  },
+                                  bids.map {
+                                      LimitOrder(Order.OrderType.BID, it.amount.toBigDecimal(), currencyPair,
+                                                 it.orderHash,
+                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal())
+                                  })
+                    }
 
-                val x = idexExchange.gson.fromJson<ReturnOrderBookResponse>(
-                        idexExchange.gson.toJson(returnOrderBookPost),
-                        ReturnOrderBookResponse::class.java)
-
-                return OrderBook(Date(),
-                                 x.asks.map
-                                 {
-                                     LimitOrder(
-                                             Order.OrderType.ASK,
-                                             it.amount, currencyPair, it.orderHash,
-                                             Date(
-                                                     it.params.expires.toLong()),
-                                             it.price)
-                                 },
-                                 x.bids.map {
-                                     LimitOrder(
-                                             Order.OrderType.BID,
-                                             it.amount, currencyPair, it.orderHash,
-                                             Date(
-                                                     it.params.expires.toLong()),
-                                             it.price)
-                                 })
-            }
-        }
+    override fun getTrades(currencyPair: CurrencyPair, vararg args: Any?): Trades {
+        return Trades(returnTradeHistoryPost(
+                currencyPair.tradeReq).map { tradeHistoryItem -> tradeHistoryItem[currencyPair] })
     }
 
-    override fun getTrades(currencyPair: CurrencyPair?, vararg args: Any?): Trades {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }
+
+
+val CurrencyPair.tradeReq inline get() = TradeReq().apply { market = "${base.symbol}_${counter.symbol}" }
+val CurrencyPair.market inline get() = Market().apply { market = "${base.symbol}_${counter.symbol}" }
+val CurrencyPair.orderbook inline get() = Market1().apply { market = "${base.symbol}_${counter.symbol}" }
+
+/**
+ * returns XChange Trade
+ *
+ */
+operator fun TradeHistoryItem.get(currencyPair: CurrencyPair) = Trade.Builder()
+        .currencyPair(currencyPair)
+        .id(orderHash)
+        .originalAmount(amount.toBigDecimalOrNull() ?: ZERO)
+        .price(price.toBigDecimalOrNull() ?: ZERO)
+        .timestamp(DateUtils.fromISO8601DateString(date))
+        .type(Order.OrderType.valueOf(type.toUpperCase()))
+        .build()
+
+/**
+ * returns XChange Ticker
+ */
+operator fun ReturnTickerResponse.get(currencyPair: CurrencyPair) = Ticker.Builder()
+        .currencyPair(currencyPair)
+        .timestamp(Date())
+        .open(last.toBigDecimalOrNull())
+        .ask(lowestAsk.toBigDecimalOrNull() ?: ZERO)
+        .bid(highestBid.toBigDecimalOrNull() ?: ZERO)
+        .last(last.toBigDecimalOrNull() ?: ZERO)
+        .high(high.toBigDecimalOrNull() ?: ZERO)
+        .low(low.toBigDecimalOrNull() ?: ZERO)
+        .volume(baseVolume.toBigDecimalOrNull() ?: ZERO)
+        .quoteVolume(quoteVolume.toBigDecimalOrNull() ?: ZERO)
+        .build()

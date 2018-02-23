@@ -51,14 +51,14 @@
                                 </goals>
                                 <configuration>
                                     <language>java</language>
-                                    <inputSpec>${project.basedir}/src/main/resources/${exchangeName}.yaml</inputSpec>
+                                    <inputSpec>${project.basedir}/src/main/swagger/${exchangeName}.yaml</inputSpec>
                                     <!--&lt;!&ndash;<configHelp>true</configHelp>&ndash;&gt;-->
                                     <configOptions>
                                         <apiPackage>${gen-package}.${exchangeName}.service</apiPackage>
                                         <modelPackage>${gen-package}.${exchangeName}.dto</modelPackage>
                                         <invokerPackage>${gen-package}.${exchangeName}.util
                                         </invokerPackage>
-                                        <useGzipFeature>true</useGzipFeature>
+                                        <!--<useGzipFeature>true</useGzipFeature>-->
                                         <dateLibrary>java8</dateLibrary>
                                         <fullJavaUtil>true</fullJavaUtil>
                                         <hideGenerationTimestamp>true</hideGenerationTimestamp>

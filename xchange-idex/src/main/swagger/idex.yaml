@@ -7,30 +7,37 @@ info:
   version: "1.0"
   title: idex
 tags:
-  - name: trade
+  - market
+  - account
+  - trade
 consumes:
   - application/json
 produces:
   - application/json
-
 paths:
-
-
   /returnTicker:
     post:
-      description: 'Designed to behave similar to the API call of the same name provided by the Poloniex HTTP API, with the addition of highs and lows. Returns necessary 24 hr data.'
+      tags:
+        - market
+      operationId: TickerByCurrencyPair
       parameters:
         - name: market
-          in: formData
-          type: string
-          description: the base market followed by an underscore, followed by the trade market
+          in: body
+          description: a JSON object the base market followed by an underscore, followed by the trade market
+          schema:
+            type: object
+            properties:
+              market:
+                type: string
+
       responses:
         '200':
           schema:
-            type: object
-
+            $ref: '#/definitions/returnTickerResponse'
   /return24Volume:
     post:
+      tags:
+        - market
       summary: 'Returns the 24-hour volume for all markets, plus totals for primary currencies. Sample JSON\'
 
       responses:
@@ -38,21 +45,26 @@ paths:
           description: 'This function takes no JSON arguments{ ETH_REP: { ETH: ''1.3429046745'', REP: ''105.29046745'' },ETH_DVIP: { ETH: ''4'', DVIP: ''4'' },totalETH: ''5.3429046745'' }'
   /returnOrderBook:
     post:
+      tags:
+        - market
       summary: 'Returns the orderbook for a given market, or returns an object of the entire orderbook keyed by\ market if the market parameter is omitted.'
       parameters:
         - name: market
-          type: string
-          in: formData
-          description: (string) - Market to query (omit for entire orderbook)
+          in: body
+          description: a JSON object the base market followed by an underscore, followed by the trade market
+          schema:
+            type: object
+            properties:
+              market:
+                type: string
       responses:
         '200':
           schema:
-            description: if null, this is a map of orderbooks, otherwise, this is a single orderbook.  must crack with gson manually.
-            type: object
-#          typ
-#          description: 'Each market returned will have an asks and bids property containing all the sell orders and buyorders sorted by best price. Order objects will contain a price amount total and orderHashproperty but also a params property which will contain additional data about the order usefulfor filling or verifying it. See trade API call below.Sample output without market parameter: { ETH_DVIP:{ asks:[ { price: ''2'',amount: ''1'',total: ''2'',orderHash: ''0x6aee6591def621a435dd86eafa32dfc534d4baa38d715988d6f23f3e2f20a29a'',params:{ tokenBuy: ''0x0000000000000000000000000000000000000000'',buySymbol: ''ETH'',buyPrecision: 18,amountBuy: ''2000000000000000000'',tokenSell: ''0xf59fad2879fb8380ffa6049a48abf9c9959b3b5c'',sellSymbol: ''DVIP'',sellPrecision: 8,amountSell: ''100000000'',expires: 190000,nonce: 164,user: ''0xca82b7b95604f70b3ff5c6ede797a28b11b47d63'' } } ],bids:[ { price: ''1'',amount: ''2'',total: ''2'',orderHash: ''0x9ba97cfc6d8e0f9a72e9d26c377be6632f79eaf4d87ac52a2b3d715003b6536e'',params:{ tokenBuy: ''0xf59fad2879fb8380ffa6049a48abf9c9959b3b5c'',buySymbol: ''DVIP'',buyPrecision: 8,amountBuy: ''200000000'',tokenSell: ''0x0000000000000000000000000000000000000000'',sellSymbol: ''ETH'',sellPrecision: 18,amountSell: ''2000000000000000000'',expires: 190000,nonce: 151,user: ''0xca82b7b95604f70b3ff5c6ede797a28b11b47d63'' } } ] } }'
+            $ref: '#/definitions/returnOrderBookResponse'
   /returnOpenOrders:
     post:
+      tags:
+        - market
       summary: Returns the open orders for a given market and address
       parameters:
         - name: address
@@ -67,29 +79,35 @@ paths:
             $ref: '#/definitions/returnOpenOrdersResponse'
   /returnTradeHistory:
     post:
-#      summary: null
-
+      summary: trade history
+      tags:
+        - market
       parameters:
-        - name: market
-          in: formData
-          type: string
-          description: '(string) - If specified, will return an array of trade objects for the market, if omitted, will return an object of arrays of trade objects keyed by each market'
-        - name: address
-          in: formData
-          type: string
-          description: '(address string) - If specified, return value will only include trades that involve the address as the maker or taker. Note: if specified the type property of the trade objects will refer to the action on the market taken relative to the user, not relative to the market. This behavior is designed to mimic the My Trades section of the IDEX appication, also to mimic the behavior of the private returnTradeHistory API call on Poloniex'
-        - name: start
-          in: formData
-          type: integer
-          description: '(number) - The inclusive UNIX timestamp (seconds since epoch, not ms) marking the earliest trade that will be returned in the response, if omitted will default to 0'
-        - name: end
-          in: formData
-          type: integer
-          description: (number) - The inclusive UNIX timestamp marking the latest trade that will be returned in the response. If omitted will default to the current timestamp
+        - name: TradeReq
+          in: body
+          description: a JSON object the base market followed by an underscore, followed by the trade market
+          schema:
+            type: object
+            properties:
+              market:
+                type: string
+                description: '(string) - If specified, will return an array of trade objects for the market, if omitted, will return an object of arrays of trade objects keyed by each market'
+              address:
+                type: string
+                description: '(address string) - If specified, return value will only include trades that involve the address as the maker or taker. Note: if specified the type property of the trade objects will refer to the action on the market taken relative to the user, not relative to the market. This behavior is designed to mimic the My Trades section of the IDEX appication, also to mimic the behavior of the private returnTradeHistory API call on Poloniex'
+              start:
+                type: string
+                description: '(number) - The inclusive UNIX timestamp (seconds since epoch, not ms) marking the earliest trade that will be returned in the response, if omitted will default to 0'
+              end:
+                type: string
+                description: '(number) - The inclusive UNIX timestamp marking the latest trade that will be returned in the response. If omitted will default to the current timestamp'
       responses:
         '200':
           schema:
-            $ref: '#/definitions/returnTradeHistoryResponse'
+            type: array
+            items:
+              $ref: '#/definitions/TradeHistoryItem'
+
   /returnBalances:
     post:
       parameters:
@@ -271,56 +289,56 @@ definitions:
     properties:
       last:
         $id: /properties/last
-        type: number
+        type: string
         title: The Last Schema
         default: ''
         examples:
           - '0.000981'
       high:
         $id: /properties/high
-        type: number
+        type: string
         title: The High Schema
         default: ''
         examples:
           - '0.0010763'
       low:
         $id: /properties/low
-        type: number
+        type: string
         title: The Low Schema
         default: ''
         examples:
           - '0.0009777'
       lowestAsk:
         $id: /properties/lowestAsk
-        type: number
+        type: string
         title: The Lowestask Schema
         default: ''
         examples:
           - '0.00098151'
       highestBid:
         $id: /properties/highestBid
-        type: number
+        type: string
         title: The Highestbid Schema
         default: ''
         examples:
           - '0.0007853'
       percentChange:
         $id: /properties/percentChange
-        type: number
+        type: string
         title: The Percentchange Schema
         default: ''
         examples:
           - '-1.83619353'
       baseVolume:
         $id: /properties/baseVolume
-        type: number
+        type: string
         title: The Basevolume Schema
         default: ''
         examples:
           - '7.3922603247161'
       quoteVolume:
         $id: /properties/quoteVolume
-        type: number
+        type: string
         title: The Quotevolume Schema
         default: ''
         examples:
@@ -337,21 +355,21 @@ definitions:
              properties:
                price:
                  $id: /properties/asks/items/properties/price
-                 type: number
+                 type: string
                  title: The Price Schema
                  default: ''
                  examples:
                    - '2'
                amount:
                  $id: /properties/asks/items/properties/amount
-                 type: number
+                 type: string
                  title: The Amount Schema
                  default: ''
                  examples:
                    - '1'
                total:
                  $id: /properties/asks/items/properties/total
-                 type: number
+                 type: string
                  title: The Total Schema
                  default: ''
                  examples:
@@ -390,7 +408,7 @@ definitions:
                        - 18
                    amountBuy:
                      $id: /properties/asks/items/properties/params/properties/amountBuy
-                     type: number
+                     type: string
                      title: The Amountbuy Schema
                      default: ''
                      examples:
@@ -418,21 +436,21 @@ definitions:
                        - 8
                    amountSell:
                      $id: /properties/asks/items/properties/params/properties/amountSell
-                     type: number
+                     type: string
                      title: The Amountsell Schema
                      default: ''
                      examples:
                        - '100000000'
                    expires:
                      $id: /properties/asks/items/properties/params/properties/expires
-                     type: number
+                     type: string
                      title: The Expires Schema
                      default: 0
                      examples:
                        - 190000
                    nonce:
                      $id: /properties/asks/items/properties/params/properties/nonce
-                     type: number
+                     type: string
                      title: The Nonce Schema
                      default: 0
                      examples:
@@ -445,23 +463,16 @@ definitions:
                      examples:
                        - '0xca82b7b95604f70b3ff5c6ede797a28b11b47d63'
   returnOrderBookResponse:
-    $id: 'http://example.com/example.json'
-    type: object
-    definitions: {}
-    $schema: 'http://json-schema.org/draft-07/schema#'
-    properties:
-      asks:
-        $id: /properties/asks
-        type: array
-        items:
-          $ref: '#/definitions/ask'
-      bids:
-        type: array
-        items:
-          $ref: '#/definitions/ask'
-
-
-
+      type: object
+      properties:
+       asks:
+         type: array
+         items:
+           $ref: '#/definitions/ask'
+       bids:
+         type: array
+         items:
+           $ref: '#/definitions/ask'
   returnOrderBookResponseWithEmptyParam:
     type: object
     additionalProperties:
@@ -598,17 +609,8 @@ definitions:
               default: ''
               examples:
                 - '0xca82b7b95604f70b3ff5c6ede797a28b11b47d63'
-  returnTradeHistoryResponse:
-    $id: 'http://example.com/example.json'
-    type: object
-    definitions: {}
-    $schema: 'http://json-schema.org/draft-07/schema#'
-    properties:
-      ETH_REP:
-        $id: /properties/ETH_REP
-        type: array
-        items:
-          $id: /properties/ETH_REP/items
+
+  TradeHistoryItem:
           type: object
           properties:
             date:
@@ -667,11 +669,12 @@ definitions:
               default: ''
               examples:
                 - '0x28b945b586a5929c69337929533e04794d488c2d6e1122b7b915705d0dff8bb6'
+
+
+
+
   returnCurrenciesResponse:
-    $id: 'http://example.com/example.json'
     type: object
-    definitions: {}
-    $schema: 'http://json-schema.org/draft-07/schema#'
     additionalProperties:
       $id: /properties/ETH
       type: object
