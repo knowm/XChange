@@ -19,7 +19,7 @@ paths:
     post:
       tags:
         - market
-      operationId: TickerByCurrencyPair
+      operationId: Ticker
       parameters:
         - name: market
           in: body
@@ -36,20 +36,21 @@ paths:
             $ref: '#/definitions/returnTickerResponse'
   /return24Volume:
     post:
+      operationId:  Volume24
       tags:
         - market
       summary: 'Returns the 24-hour volume for all markets, plus totals for primary currencies. Sample JSON\'
-
       responses:
         '200':
           description: 'This function takes no JSON arguments{ ETH_REP: { ETH: ''1.3429046745'', REP: ''105.29046745'' },ETH_DVIP: { ETH: ''4'', DVIP: ''4'' },totalETH: ''5.3429046745'' }'
   /returnOrderBook:
     post:
+      operationId: OrderBook
       tags:
         - market
       summary: 'Returns the orderbook for a given market, or returns an object of the entire orderbook keyed by\ market if the market parameter is omitted.'
       parameters:
-        - name: market
+        - name: OrderBookReq
           in: body
           description: a JSON object the base market followed by an underscore, followed by the trade market
           schema:
@@ -63,29 +64,36 @@ paths:
             $ref: '#/definitions/returnOrderBookResponse'
   /returnOpenOrders:
     post:
+      operationId: OpenOrders
       tags:
         - market
       summary: Returns the open orders for a given market and address
       parameters:
-        - name: address
-          in: formData
-          description: (address string) - Address to return open orders associated with
-        - name: market
-          in: formData
-          description: '(string) - String representing the market to query (example: ''ETH_DVIP'')'
+        - in: body
+          name: OpenOrdersReq
+          description: a JSON object the base market followed by an underscore, followed by the trade market
+          schema:
+            type: object
+            properties:
+              address:
+                type: string
+                description: (address string) - Address to return open orders associated with
+              market:
+                type: string
+                description: '(string) - String representing the market to query (example: ''ETH_DVIP'')'
       responses:
         '200':
           schema:
             $ref: '#/definitions/returnOpenOrdersResponse'
   /returnTradeHistory:
     post:
+      operationId: TradeHistory
       summary: trade history
       tags:
-        - market
+        - trade
       parameters:
-        - name: TradeReq
+        - name: TradeHistoryReq
           in: body
-          description: a JSON object the base market followed by an underscore, followed by the trade market
           schema:
             type: object
             properties:
@@ -110,12 +118,20 @@ paths:
 
   /returnBalances:
     post:
+      operationId: Balances
+      tags:
+        - account
       parameters:
-        - name: address
-          type: string
-          required: true
-          in: formData
-          description: (address string) - Address to query balances of
+        - name: BalancesReq
+          in: body
+          description: a JSON object the base market followed by an underscore, followed by the trade market
+          schema:
+            type: object
+            properties:
+              address:
+                type: string
+                required: true
+                description: (address string) - Address to query balances of
       description: Returns your available balances (total deposited minus amount in open orders) indexed by token symbol.
       responses:
         '200':
@@ -123,14 +139,21 @@ paths:
             $ref: '#/definitions/returnBalancesResponse'
   /returnCompleteBalances:
     post:
+      tags:
+        - account
+
       summary: Returns your available balances along with the amount you have in open orders for each token, indexed by token symbol.
-      operationId: returnCompleteBalances
+      operationId: CompleteBalances
       parameters:
-        - name: address
-          type: string
-          required: true
-          in: formData
-          description: (address string) - Address to query balances of
+        - name: CompleteBalancesReq
+          in: body
+          schema:
+            type: object
+            properties:
+              address:
+                type: string
+                required: true
+                description: (address string) - Address to query balances of
       responses:
         200:
           schema:
@@ -138,30 +161,43 @@ paths:
           examples: "{ REP: { available: '25.55306545', onOrders: '0' },  DVIP: { available: '200000000.31012358', onOrders: '0' } }"
   /returnDepositsWithdrawals:
     post:
+      tags:
+        - account
       summary: 'Returns your deposit and withdrawal history within a range, specified by the "start" and "end" properties of the JSON input, both of which must be UNIX timestamps. Withdrawals can be marked as "PENDING" if they are queued for dispatch, "PROCESSING" if the transaction has been dispatched, and "COMPLETE" if the transaction has been mined.'
-
       parameters:
-        - name: address
-          in: formData
-          description: (address string) - Address to query deposit/withdrawal history for
-        - name: start
-          in: formData
-          description: '(number) - Inclusive starting UNIX timestamp of returned results, defaults to 0'
-        - name: end
-          in: formData
-          description: '(number) - Inclusive ending UNIX timestamp of returned results, defaults to current timestamp'
+        - name: DepositsWithdrawalsReq
+          in: body
+          schema:
+            type: object
+            properties:
+              address:
+                type: string
+                description: (address string) - Address to query deposit/withdrawal history for
+              start:
+                type: string
+                description: '(number) - Inclusive starting UNIX timestamp of returned results, defaults to 0'
+              end:
+                type: string
+                description: '(number) - Inclusive ending UNIX timestamp of returned results, defaults to current timestamp'
       responses:
         '200':
           schema:
             $ref: '#/definitions/returnDepositsWithdrawalsResponse'
   /returnOrderTrades:
     post:
+      operationId: OrderTrades
+      tags:
+        - trade
       summary: 'Returns all trades involving a given order hash, specified by the orderHash property of the JSON input.'
-
       parameters:
-        - name: orderHash
-          in: formData
-          description: (256-bit hex string) - The order hash to query for associated trades
+        - name: OrderTradesReq
+          in: body
+          schema:
+            type: object
+            properties:
+              orderHash:
+                type: string
+                description: (256-bit hex string) - The order hash to query for associated trades
       responses:
         '200':
           schema:
@@ -169,49 +205,36 @@ paths:
           description: 'Sample output: [ { date: ''2017-10-11 21:41:15'',amount: ''0.3'',type: ''buy'',total: ''1'',price: ''0.3'',uuid: ''e8719a10-aecc-11e7-9535-3b8451fd4699'',transactionHash: ''0x28b945b586a5929c69337929533e04794d488c2d6e1122b7b915705d0dff8bb6'' } ]'
   /returnNextNonce:
     post:
+      operationId: NextNonce
+      tags:
+        - trade
       summary: Returns the lowest nonce that you can use from the given address in one of the trade functions (see below)
-
       parameters:
-        - name: address
-          in: formData
-          description: (address string) - The address to query for the next nonce to use
+        - name: NextNonceReq
+          in: body
+          schema:
+            type: object
+            properties:
+              address:
+                type: string
+                description: (address string) - The address to query for the next nonce to use
       responses:
         '200':
           schema:
             $ref: '#/definitions/returnNextNonceResponse'
           description: 'Sample output: { nonce: 2650 }'
   /trade:
+
     post:
+      operationId: Trade
+      tags:
+        - trade
       summary: 'Making a trade on IDEX actually involves signing a message for each order you wish to fill across and passing in an array of trades. For trades that fill a single order, the usual array with 1 object, or the object alone. The benefit of passing in multiple objects to fill across is that your action is atomic. All trades either succeed or none succeed.'
       parameters:
-        - name: orderHash
-          in: formData
-          type: string
-          description: '- This is the unsalted hash of the order you are filling. See raw in the example code given with in the section that describes the order API call. The orderHash property of an order can be retrieved from the API calls which return orders, but for higher security we recommend you derive the hash yourself from the order parameters.'
-        - name: amount
-          in: formData
-          type: number
-          description: '- This is the amount of the order you are filling, the raw value not adjusted for precision IMPORTANT: THIS PROPERTY IS IN TERMS OF THE ORDER''S amountBuy PROPERTY. This is NOT the amount of tokenSell you are receiving, but the amount of tokenBuy you are filling the order with. Do not trade unless you fully understand this idea. The amount of the token you will receive as a result of the trade is proportional to the ratio between amountSell and amountBuy'
-        - name: nonce
-          in: formData
-          type: number
-          description: '- One time numeric value associated with the trade. Note: if filling multiple orders in one trade, every nonce in the list of trades must be greater than the one in the previous item'
-        - name: address
-          in: formData
-          type: string
-          description: '- The address you are transacting from'
-        - name: v
-          in: formData
-          type: string
-          description: '- ...'
-        - name: r
-          in: formData
-          type: string
-          description: '- ...'
-        - name: s
-          in: formData
-          type: string
-          description: '- v, r, and s refer to the values produced by signing the message'
+        - name: TradeReq
+          in: body
+          schema:
+            $ref: '#/definitions/TradeReq'
       responses:
         '200':
           schema:
@@ -219,33 +242,36 @@ paths:
           description: 'Properties of each trade object in the trade you submit:To derive the hash you must sign for each order you are filling across, you must hash the following values in this orderorderHashamountaddressnonceApply the salt and hash the result as usual, then sign your salted hash.NOTE: Currently, all orders being filled in a trade must be for the same tokenBuy/tokenSell pair, and must all be signed from the same addressSample output:[ { amount: â€˜0.07â€™,date: â€˜2017-10-13 16:25:36â€™,total: â€˜0.01â€™,market: â€˜ETH_DVIPâ€™,type: â€˜buyâ€™,price: â€˜7â€™,orderHash: â€˜0xcfe4018c59e50e0e1964c979e6213ce5eb8c751cbc98a44251eb48a0985adc52â€™,uuid: â€˜250d51a0-b033-11e7-9984-a9ab79bb8f35â€™ } ]'
   /cancel:
     post:
+      tags:
+        - trade
+      operationId: Cancel
       summary: Cancels an order associated with the address. JSON input must include the following properties
 
       parameters:
-        - name: orderHash
-          type: string
-          in: formData
-          description: (256-bit hex string) - The raw hash of the order you are cancelling
-        - name: nonce
-          type: string
-          in: formData
-          description: (uint256) - One time number associated with the address
-        - name: address
-          type: string
-          in: formData
-          description: '(address string) - The address you are sending the cancel from, must own the order'
-        - name: v
-          type: string
-          in: formData
-          description: '- ...'
-        - name: r
-          type: string
-          in: formData
-          description: '- ...'
-        - name: s
-          type: string
-          in: formData
-          description: '- v, r, and s refer to the values produced by signing the message'
+        - name: CancelReq
+          in: body
+          schema:
+            type: object
+            properties:
+              orderHash:
+                type: string
+                in: body
+                description: (256-bit hex string) - The raw hash of the order you are cancelling
+              nonce:
+                type: string
+                description: (uint256) - One time number associated with the address
+              address:
+                type: string
+                description: '(address string) - The address you are sending the cancel from, must own the order'
+              v:
+                type: string
+                description: '- ...'
+              r:
+                type: string
+                description: '- ...'
+              s:
+                type: string
+                description: '- v, r, and s refer to the values produced by signing the message'
       responses:
         '200':
           schema:
@@ -253,34 +279,48 @@ paths:
           description: 'To derive the signature for this API call, hash the following parameters in this orderorderHashnonceSalt and sign the hash as usual to prepare your payloadSample output:{ success: 1 }'
   /withdraw:
     post:
+      operationId: Withdraw
+      tags:
+        - account
       summary: Withdraws funds associated with the address. You cannot withdraw funds that are tied up in open orders. JSON payload must include the following properties
       parameters:
-        - name: address
-          type: string
-          in: formData
-          description: (address string) - The address you are transacting from
-        - name: amount
-          type: string
-          in: formData
-          description: '(uint256) - The raw amount you are withdrawing, not adjusted for token precision'
-        - name: token
-          type: string
-          in: formData
-          description: '(address string) - The address of the token you are withdrawing from, see earlier notes for ETH'
-        - name: nonce
-          type: string
-          in: formData
-          description: (uint256) - One time numeric value associated with your address
+        - name: WithdrawReq
+          in: body
+          schema:
+            type: object
+            properties:
+              address:
+                required: true
+                type: string
+                description: (address string) - The address you are transacting from
+              amount:
+                required: true
+                type: string
+                description: '(uint256) - The raw amount you are withdrawing, not adjusted for token precision'
+              token:
+                required: true
+                type: string
+                description: '(address string) - The address of the token you are withdrawing from, see earlier notes for ETH'
+              nonce:
+                required: true
+                type: string
+                description: (uint256) - One time numeric value associated with your address
+              s:
+                required: true
+                type: string
+              v:
+                required: true
+                type: string
+              r:
+                required: true
+                type: string
       responses:
         '200':
           schema:
             $ref: '#/definitions/withdrawResponse'
           description: 'To derive the signature for this API call, hash the following parameters in this order contract addresstokenamountaddressnonceSalt the hash as described earlier and sign it to produce your signature triplet.Useful response upon withdrawal success is in the works, for now simply test that there is no error propertyin the result object to confirm your withdrawal has succeeded.'
 definitions:
-  damnTicker:
-    allOf:
-      - $ref: '#/definitions/returnTickerRequestedWithNull'
-      - $ref: '#/definitions/returnTickerResponse'
+
   returnTickerResponse:
     $id: 'http://example.com/example.json'
     type: object
@@ -288,56 +328,56 @@ definitions:
     $schema: 'http://json-schema.org/draft-07/schema#'
     properties:
       last:
-        $id: /properties/last
+        #
         type: string
         title: The Last Schema
         default: ''
         examples:
           - '0.000981'
       high:
-        $id: /properties/high
+        #
         type: string
         title: The High Schema
         default: ''
         examples:
           - '0.0010763'
       low:
-        $id: /properties/low
+        #
         type: string
         title: The Low Schema
         default: ''
         examples:
           - '0.0009777'
       lowestAsk:
-        $id: /properties/lowestAsk
+        #
         type: string
         title: The Lowestask Schema
         default: ''
         examples:
           - '0.00098151'
       highestBid:
-        $id: /properties/highestBid
+        #
         type: string
         title: The Highestbid Schema
         default: ''
         examples:
           - '0.0007853'
       percentChange:
-        $id: /properties/percentChange
+        #
         type: string
         title: The Percentchange Schema
         default: ''
         examples:
           - '-1.83619353'
       baseVolume:
-        $id: /properties/baseVolume
+        #
         type: string
         title: The Basevolume Schema
         default: ''
         examples:
           - '7.3922603247161'
       quoteVolume:
-        $id: /properties/quoteVolume
+        #
         type: string
         title: The Quotevolume Schema
         default: ''
@@ -350,113 +390,113 @@ definitions:
   return24VolumeResponse:
     type: object
   ask:
-             $id: /properties/asks/items
+             #
              type: object
              properties:
                price:
-                 $id: /properties/asks/items/properties/price
+                 #
                  type: string
                  title: The Price Schema
                  default: ''
                  examples:
                    - '2'
                amount:
-                 $id: /properties/asks/items/properties/amount
+                 #
                  type: string
                  title: The Amount Schema
                  default: ''
                  examples:
                    - '1'
                total:
-                 $id: /properties/asks/items/properties/total
+                 #
                  type: string
                  title: The Total Schema
                  default: ''
                  examples:
                    - '2'
                orderHash:
-                 $id: /properties/asks/items/properties/orderHash
+                 #
                  type: string
                  title: The Orderhash Schema
                  default: ''
                  examples:
                    - '0x6aee6591def621a435dd86eafa32dfc534d4baa38d715988d6f23f3e2f20a29a'
                params:
-                 $id: /properties/asks/items/properties/params
+                 #
                  type: object
                  properties:
                    tokenBuy:
-                     $id: /properties/asks/items/properties/params/properties/tokenBuy
+                     #
                      type: string
                      title: The Tokenbuy Schema
                      default: ''
                      examples:
                        - '0x0000000000000000000000000000000000000000'
                    buySymbol:
-                     $id: /properties/asks/items/properties/params/properties/buySymbol
+                     #
                      type: string
                      title: The Buysymbol Schema
                      default: ''
                      examples:
                        - ETH
                    buyPrecision:
-                     $id: /properties/asks/items/properties/params/properties/buyPrecision
+                     #
                      type: integer
                      title: The Buyprecision Schema
                      default: 0
                      examples:
                        - 18
                    amountBuy:
-                     $id: /properties/asks/items/properties/params/properties/amountBuy
+                     #
                      type: string
                      title: The Amountbuy Schema
                      default: ''
                      examples:
                        - '2000000000000000000'
                    tokenSell:
-                     $id: /properties/asks/items/properties/params/properties/tokenSell
+                     #
                      type: string
                      title: The Tokensell Schema
                      default: ''
                      examples:
                        - '0xf59fad2879fb8380ffa6049a48abf9c9959b3b5c'
                    sellSymbol:
-                     $id: /properties/asks/items/properties/params/properties/sellSymbol
+                     #
                      type: string
                      title: The Sellsymbol Schema
                      default: ''
                      examples:
                        - DVIP
                    sellPrecision:
-                     $id: /properties/asks/items/properties/params/properties/sellPrecision
+                     #
                      type: integer
                      title: The Sellprecision Schema
                      default: 0
                      examples:
                        - 8
                    amountSell:
-                     $id: /properties/asks/items/properties/params/properties/amountSell
+                     #
                      type: string
                      title: The Amountsell Schema
                      default: ''
                      examples:
                        - '100000000'
                    expires:
-                     $id: /properties/asks/items/properties/params/properties/expires
+                     #
                      type: string
                      title: The Expires Schema
                      default: 0
                      examples:
                        - 190000
                    nonce:
-                     $id: /properties/asks/items/properties/params/properties/nonce
+                     #
                      type: string
                      title: The Nonce Schema
                      default: 0
                      examples:
                        - 164
                    user:
-                     $id: /properties/asks/items/properties/params/properties/user
+                     #
                      type: string
                      title: The User Schema
                      default: ''
@@ -614,56 +654,56 @@ definitions:
           type: object
           properties:
             date:
-              $id: /properties/ETH_REP/items/properties/date
+              #
               type: string
               title: The Date Schema
               default: ''
               examples:
                 - '2017-10-11 21:41:15'
             amount:
-              $id: /properties/ETH_REP/items/properties/amount
+              #
               type: string
               title: The Amount Schema
               default: ''
               examples:
                 - '0.3'
             type:
-              $id: /properties/ETH_REP/items/properties/type
+              #
               type: string
               title: The Type Schema
               default: ''
               examples:
                 - buy
             total:
-              $id: /properties/ETH_REP/items/properties/total
+              #
               type: string
               title: The Total Schema
               default: ''
               examples:
                 - '1'
             price:
-              $id: /properties/ETH_REP/items/properties/price
+              #
               type: string
               title: The Price Schema
               default: ''
               examples:
                 - '0.3'
             orderHash:
-              $id: /properties/ETH_REP/items/properties/orderHash
+              #
               type: string
               title: The Orderhash Schema
               default: ''
               examples:
                 - '0x600c405c44d30086771ac0bd9b455de08813127ff0c56017202c95df190169ae'
             uuid:
-              $id: /properties/ETH_REP/items/properties/uuid
+              #
               type: string
               title: The Uuid Schema
               default: ''
               examples:
                 - e8719a10-aecc-11e7-9535-3b8451fd4699
             transactionHash:
-              $id: /properties/ETH_REP/items/properties/transactionHash
+              #
               type: string
               title: The Transactionhash Schema
               default: ''
@@ -676,25 +716,25 @@ definitions:
   returnCurrenciesResponse:
     type: object
     additionalProperties:
-      $id: /properties/ETH
+      #
       type: object
       properties:
         decimals:
-          $id: /properties/ETH/properties/decimals
+          #
           type: integer
           title: The Decimals Schema
           default: 0
           examples:
             - 18
         address:
-          $id: /properties/ETH/properties/address
+          #
           type: string
           title: The Address Schema
           default: ''
           examples:
             - '0x0000000000000000000000000000000000000000'
         name:
-          $id: /properties/ETH/properties/name
+          #
           type: string
           title: The Name Schema
           default: ''
@@ -725,91 +765,91 @@ definitions:
     $schema: 'http://json-schema.org/draft-07/schema#'
     properties:
       deposits:
-        $id: /properties/deposits
+        #
         type: array
         items:
-          $id: /properties/deposits/items
+          #
           type: object
           properties:
             depositNumber:
-              $id: /properties/deposits/items/properties/depositNumber
+              #
               type: integer
               title: The Depositnumber Schema
               default: 0
               examples:
                 - 265
             currency:
-              $id: /properties/deposits/items/properties/currency
+              #
               type: string
               title: The Currency Schema
               default: ''
               examples:
                 - ETH
             amount:
-              $id: /properties/deposits/items/properties/amount
+              #
               type: string
               title: The Amount Schema
               default: ''
               examples:
                 - '4.5'
             timestamp:
-              $id: /properties/deposits/items/properties/timestamp
+              #
               type: integer
               title: The Timestamp Schema
               default: 0
               examples:
                 - 1506550595
             transactionHash:
-              $id: /properties/deposits/items/properties/transactionHash
+              #
               type: string
               title: The Transactionhash Schema
               default: ''
               examples:
                 - '0x52897291dba0a7b255ee7a27a8ca44a9e8d6919ca14f917616444bf974c48897'
       withdrawalsResponse:
-        $id: /properties/withdrawals
+        #
         type: array
         items:
-          $id: /properties/withdrawals/items
+          #
           type: object
           properties:
             withdrawalNumber:
-              $id: /properties/withdrawals/items/properties/withdrawalNumber
+              #
               type: integer
               title: The Withdrawalnumber Schema
               default: 0
               examples:
                 - 174
             currency:
-              $id: /properties/withdrawals/items/properties/currency
+              #
               type: string
               title: The Currency Schema
               default: ''
               examples:
                 - ETH
             amount:
-              $id: /properties/withdrawals/items/properties/amount
+              #
               type: string
               title: The Amount Schema
               default: ''
               examples:
                 - '4.5'
             timestamp:
-              $id: /properties/withdrawals/items/properties/timestamp
+              #
               type: integer
               title: The Timestamp Schema
               default: 0
               examples:
                 - 1506552152
             transactionHash:
-              $id: /properties/withdrawals/items/properties/transactionHash
+              #
               type: string
               title: The Transactionhash Schema
               default: ''
               examples:
                 - '0xe52e9c569fe659556d1e56d8cca2084db0b452cd889f55ec3b4e2f3af61faa57'
             status:
-              $id: /properties/withdrawals/items/properties/status
+              #
               type: string
               title: The Status Schema
               default: ''
@@ -880,8 +920,8 @@ definitions:
     $schema: 'http://json-schema.org/draft-07/schema#'
     properties:
       nonce:
-        $id: /properties/nonce
-        type: integer
+        #
+        type: string
         title: The Nonce Schema
         default: 0
         examples:
@@ -893,7 +933,7 @@ definitions:
     $schema: 'http://json-schema.org/draft-07/schema#'
     properties:
       address:
-        $id: /properties/nonce
+        #
         type: string
         title: The Nonce Schema
         default: 0
@@ -906,109 +946,109 @@ definitions:
     $schema: 'http://json-schema.org/draft-07/schema#'
     properties:
       orderNumber:
-        $id: /properties/orderNumber
+        #
         type: integer
         title: The Ordernumber Schema
         default: 0
         examples:
           - 2101
       orderHash:
-        $id: /properties/orderHash
+        #
         type: string
         title: The Orderhash Schema
         default: ''
         examples:
           - '0x3fe808be7b5df3747e5534056e9ff45ead5b1fcace430d7b4092e5fcd7161e21'
       price:
-        $id: /properties/price
+        #
         type: string
         title: The Price Schema
         default: ''
         examples:
           - '0.000129032258064516'
       amount:
-        $id: /properties/amount
+        #
         type: string
         title: The Amount Schema
         default: ''
         examples:
           - '3100'
       total:
-        $id: /properties/total
+        #
         type: string
         title: The Total Schema
         default: ''
         examples:
           - '0.4'
       type:
-        $id: /properties/type
+        #
         type: string
         title: The Type Schema
         default: ''
         examples:
           - buy
       params:
-        $id: /properties/params
+        #
         type: object
         properties:
           tokenBuy:
-            $id: /properties/params/properties/tokenBuy
+            #
             type: string
             title: The Tokenbuy Schema
             default: ''
             examples:
               - '0x7c5a0ce9267ed19b22f8cae653f198e3e8daf098'
           buyPrecision:
-            $id: /properties/params/properties/buyPrecision
+            #
             type: integer
             title: The Buyprecision Schema
             default: 0
             examples:
               - 18
           amountBuy:
-            $id: /properties/params/properties/amountBuy
+            #
             type: string
             title: The Amountbuy Schema
             default: ''
             examples:
               - '3100000000000000000000'
           tokenSell:
-            $id: /properties/params/properties/tokenSell
+            #
             type: string
             title: The Tokensell Schema
             default: ''
             examples:
               - '0x0000000000000000000000000000000000000000'
           sellPrecision:
-            $id: /properties/params/properties/sellPrecision
+            #
             type: integer
             title: The Sellprecision Schema
             default: 0
             examples:
               - 18
           amountSell:
-            $id: /properties/params/properties/amountSell
+            #
             type: string
             title: The Amountsell Schema
             default: ''
             examples:
               - '400000000000000000'
           expires:
-            $id: /properties/params/properties/expires
+            #
             type: integer
             title: The Expires Schema
             default: 0
             examples:
               - 100000
           nonce:
-            $id: /properties/params/properties/nonce
+            #
             type: integer
             title: The Nonce Schema
             default: 0
             examples:
               - 1
           user:
-            $id: /properties/params/properties/user
+            #
             type: string
             title: The User Schema
             default: ''
@@ -1093,133 +1133,157 @@ definitions:
     $schema: 'http://json-schema.org/draft-07/schema#'
     properties:
       topic:
-        $id: /properties/topic
+        #
         type: string
         title: The Topic Schema
         default: ''
         examples:
           - ETH_DVIP
       message:
-        $id: /properties/message
+        #
         type: object
         properties:
           type:
-            $id: /properties/message/properties/type
+            #
             type: string
             title: The Type Schema
             default: ''
             examples:
               - orderBookAdd
           data:
-            $id: /properties/message/properties/data
+            #
             type: object
             properties:
               orderNumber:
-                $id: /properties/message/properties/data/properties/orderNumber
+                #
                 type: integer
                 title: The Ordernumber Schema
                 default: 0
                 examples:
                   - 2067
               orderHash:
-                $id: /properties/message/properties/data/properties/orderHash
+                #
                 type: string
                 title: The Orderhash Schema
                 default: ''
                 examples:
                   - '0xd9a438e69fbefaf63c327fb8a4dcafd9b1f0faaba428e16013a15328f08c02b2'
               price:
-                $id: /properties/message/properties/data/properties/price
+                #
                 type: string
                 title: The Price Schema
                 default: ''
                 examples:
                   - '10'
               amount:
-                $id: /properties/message/properties/data/properties/amount
+                #
                 type: string
                 title: The Amount Schema
                 default: ''
                 examples:
                   - '1'
               total:
-                $id: /properties/message/properties/data/properties/total
+                #
                 type: string
                 title: The Total Schema
                 default: ''
                 examples:
                   - '10'
               type:
-                $id: /properties/message/properties/data/properties/type
+                #
                 type: string
                 title: The Type Schema
                 default: ''
                 examples:
                   - sell
               params:
-                $id: /properties/message/properties/data/properties/params
+                #
                 type: object
                 properties:
                   tokenBuy:
-                    $id: /properties/message/properties/data/properties/params/properties/tokenBuy
+                    #
                     type: string
                     title: The Tokenbuy Schema
                     default: ''
                     examples:
                       - '0x0000000000000000000000000000000000000000'
                   buyPrecision:
-                    $id: /properties/message/properties/data/properties/params/properties/buyPrecision
+                    #
                     type: integer
                     title: The Buyprecision Schema
                     default: 0
                     examples:
                       - 18
                   amountBuy:
-                    $id: /properties/message/properties/data/properties/params/properties/amountBuy
+                    #
                     type: string
                     title: The Amountbuy Schema
                     default: ''
                     examples:
                       - '10000000000000000000'
                   tokenSell:
-                    $id: /properties/message/properties/data/properties/params/properties/tokenSell
+                    #
                     type: string
                     title: The Tokensell Schema
                     default: ''
                     examples:
                       - '0xadc46ff5434910bd17b24ffb429e585223287d7f'
                   sellPrecision:
-                    $id: /properties/message/properties/data/properties/params/properties/sellPrecision
+                    #
                     type: integer
                     title: The Sellprecision Schema
                     default: 0
                     examples:
                       - 2
                   amountSell:
-                    $id: /properties/message/properties/data/properties/params/properties/amountSell
+                    #
                     type: string
                     title: The Amountsell Schema
                     default: ''
                     examples:
                       - '100'
                   expires:
-                    $id: /properties/message/properties/data/properties/params/properties/expires
+                    #
                     type: integer
                     title: The Expires Schema
                     default: 0
                     examples:
                       - 190000
                   nonce:
-                    $id: /properties/message/properties/data/properties/params/properties/nonce
+                    #
                     type: integer
                     title: The Nonce Schema
                     default: 0
                     examples:
                       - 2831
                   user:
-                    $id: /properties/message/properties/data/properties/params/properties/user
+                    #
                     type: string
                     title: The User Schema
                     default: ''
                     examples:
                       - '0x034767f3c519f361c5ecf46ebfc08981c629d381'
+  TradeReq:
+      type: object
+      properties:
+        orderHash:
+          type: string
+          description: '- This is the unsalted hash of the order you are filling. See raw in the example code given with in the section that describes the order API call. The orderHash property of an order can be retrieved from the API calls which return orders, but for higher security we recommend you derive the hash yourself from the order parameters.'
+        amount:
+          type: string
+          description: '- This is the amount of the order you are filling, the raw value not adjusted for precision IMPORTANT: THIS PROPERTY IS IN TERMS OF THE ORDER''S amountBuy PROPERTY. This is NOT the amount of tokenSell you are receiving, but the amount of tokenBuy you are filling the order with. Do not trade unless you fully understand this idea. The amount of the token you will receive as a result of the trade is proportional to the ratio between amountSell and amountBuy'
+        nonce:
+          type: string
+          description: '- One time numeric value associated with the trade. Note: if filling multiple orders in one trade, every nonce in the list of trades must be greater than the one in the previous item'
+        address:
+          type: string
+          description: '- The address you are transacting from'
+        v:
+          type: string
+          description: '- ...'
+        r:
+          type: string
+          description: '- ...'
+        s:
+          type: string
+          description: '- v, r, and s refer to the values produced by signing the message'

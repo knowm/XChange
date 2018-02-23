@@ -10,7 +10,7 @@ import org.knowm.xchange.utils.nonce.*
 
 class IdexExchange : Exchange, BaseExchange() {
     val gson = JSON().gson
-    private val idexTradeService = IdexTradeService()
+    private val idexTradeService = IdexTradeService(this)
     private val idexMarketDataService = IdexMarketDataService(this)
     private val idexAccountService = IdexAccountService(this)
     override fun getExchangeSpecification(): ExchangeSpecification = this.exchangeSpecification

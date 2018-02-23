@@ -1,14 +1,24 @@
 package org.knowm.xchange.idex
 
+import org.knowm.xchange.currency.*
 import org.knowm.xchange.dto.*
+import org.knowm.xchange.dto.marketdata.*
 import org.knowm.xchange.dto.trade.*
+import org.knowm.xchange.idex.dto.*
+import org.knowm.xchange.idex.service.*
+import org.knowm.xchange.idex.util.*
 import org.knowm.xchange.service.trade.*
 import org.knowm.xchange.service.trade.params.*
 import org.knowm.xchange.service.trade.params.orders.*
+import org.knowm.xchange.utils.*
+import org.web3j.protocol.*
+import org.web3j.protocol.core.methods.response.*
+import java.math.BigDecimal.*
+import java.util.*
 
-class IdexTradeService : TradeService {
-    override fun placeLimitOrder(limitOrder: LimitOrder?): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi() {
+    override fun placeLimitOrder(limitOrder: LimitOrder): String {
+        TODO()
     }
 
     override fun createOpenOrdersParams(): OpenOrdersParams {
@@ -35,8 +45,29 @@ class IdexTradeService : TradeService {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTradeHistory(params: TradeHistoryParams?): UserTrades {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    class IdexTradeHistoryReq(val sort: Trades.TradeSortType? = Trades.TradeSortType.SortByTimestamp,
+                              val lastId: Long? = null) : TradeHistoryParams, TradeHistoryReq()
+
+    override fun getTradeHistory(params: TradeHistoryParams): UserTrades {
+        if (params !is IdexTradeHistoryReq) {
+            throw  ApiException("tradehistory requires " + IdexTradeHistoryReq::class.java.canonicalName)
+        }
+
+        val m = params.market.split("_")
+        val currencyPair = CurrencyPair(m[0], m[1])
+        val tradeHistory = tradeHistory(params)
+        val map = tradeHistory.map {
+            UserTrade(enumValueOf(it.type),
+                      it.amount.toBigDecimalOrNull() ?: ZERO,
+                      currencyPair,
+                      it.price.toBigDecimalOrNull() ?: ZERO,
+                      DateUtils.fromISO8601DateString(it.date),
+                      it.uuid, it.orderHash, ZERO, currencyPair.base)
+        }
+        var ret: UserTrades? = null
+        if (params.lastId != null)
+            params.lastId.let { ret = UserTrades(map, it, params.sort) }
+        return ret ?: UserTrades(map, params.sort)
     }
 
     override fun verifyOrder(limitOrder: LimitOrder?) {
@@ -44,8 +75,7 @@ class IdexTradeService : TradeService {
     }
 
     override fun verifyOrder(marketOrder: MarketOrder?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+     }
 
     override fun getOpenOrders(): OpenOrders {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -59,3 +89,8 @@ class IdexTradeService : TradeService {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
+
+private val TradeHistoryParams.orderTrades: OrderTradesReq
+    get() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }

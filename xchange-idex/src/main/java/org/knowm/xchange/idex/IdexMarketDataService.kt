@@ -13,36 +13,33 @@ import java.util.*
 
 class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketDataService, MarketApi() {
     override fun getTicker(currencyPair: CurrencyPair, vararg args: Any?): Ticker {
-        return tickerByCurrencyPair(currencyPair.market)[currencyPair]
+        return ticker(currencyPair.market)[currencyPair]
     }
 
     override fun getOrderBook(currencyPair: CurrencyPair, vararg args: Any?) =
-            returnOrderBookPost(currencyPair.orderbook)
+            orderBook(currencyPair.orderbook)
                     .run {
                         OrderBook(Date(),
                                   asks.map {
-                                      LimitOrder(Order.OrderType.ASK, it.amount.toBigDecimal(), currencyPair,
+                                      LimitOrder(Order.OrderType.ASK, it.amount.toBigDecimal()?:ZERO, currencyPair,
                                                  it.orderHash,
-                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal())
+                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal()?:ZERO)
                                   },
                                   bids.map {
-                                      LimitOrder(Order.OrderType.BID, it.amount.toBigDecimal(), currencyPair,
+                                      LimitOrder(Order.OrderType.BID, it.amount.toBigDecimalOrNull()?:ZERO, currencyPair,
                                                  it.orderHash,
-                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal())
+                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal()?:ZERO)
                                   })
                     }
 
-    override fun getTrades(currencyPair: CurrencyPair, vararg args: Any?): Trades {
-        return Trades(returnTradeHistoryPost(
-                currencyPair.tradeReq).map { tradeHistoryItem -> tradeHistoryItem[currencyPair] })
-    }
+    override fun getTrades(currencyPair: CurrencyPair, vararg args: Any?) = Trades(
+            tradeHistory(currencyPair.tradeReq).map { it[currencyPair] })
 
 }
-
-
-val CurrencyPair.tradeReq inline get() = TradeReq().apply { market = "${base.symbol}_${counter.symbol}" }
-val CurrencyPair.market inline get() = Market().apply { market = "${base.symbol}_${counter.symbol}" }
-val CurrencyPair.orderbook inline get() = Market1().apply { market = "${base.symbol}_${counter.symbol}" }
+val CurrencyPair.idexMkt get() =    "${base.symbol}_${counter.symbol}"
+val CurrencyPair.tradeReq inline get() = TradeHistoryReq().market(idexMkt)
+val CurrencyPair.market inline get() = Market().market(idexMkt)
+val CurrencyPair.orderbook inline get() = OrderBookReq().market(idexMkt)
 
 /**
  * returns XChange Trade

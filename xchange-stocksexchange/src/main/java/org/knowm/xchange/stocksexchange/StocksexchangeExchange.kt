@@ -101,6 +101,7 @@ class StocksexchangeExchange : Exchange, BaseExchange() {
         h["Key"] = exchangeSpecification.apiKey
         h["Sign"] = HmacUtils(HmacAlgorithms.HMAC_SHA_512,
         exchangeSpecification.secretKey).hmacHex(s)
+            HmacUtils.hmacSha512Hex(exchangeSpecification.secretKey,s)
 
         val request = Request.Builder()
                 .url(buildUrl("", queryParams, collectionQueryParams))
