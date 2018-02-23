@@ -3,7 +3,10 @@ package org.knowm.xchange.bibox.service;
 import static org.knowm.xchange.bibox.dto.BiboxAdapters.toBiboxPair;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
@@ -55,18 +58,20 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
       throw new ExchangeException(e.getMessage());
     }
   }
-  
-  public List<BiboxOrderBook> getAllBiboxOrderBooks(Integer depth) {
+
+  public List<BiboxOrderBook> getBiboxOrderBooks(Integer depth, Collection<CurrencyPair> currencyPairs) {
     try {
-      List<BiboxCommand<?>> allCommands = exchange.getExchangeSymbols().stream()
+      List<BiboxCommand<?>> allCommands = new HashSet<>(currencyPairs).stream()
+          .filter(Objects::nonNull)
           .map(BiboxAdapters::toBiboxPair)
           .map(pair -> new BiboxOrderBookCommand(pair, depth))
           .collect(Collectors.toList());
-      return bibox.allOrderBooks(BiboxCommands.of(allCommands).json()).getResult().stream()
+      return bibox.orderBooks(BiboxCommands.of(allCommands).json()).getResult().stream()
           .map(BiboxResponse::getResult)
           .collect(Collectors.toList());
     } catch (BiboxException e) {
       throw new ExchangeException(e.getMessage());
     }
   }
+
 }
