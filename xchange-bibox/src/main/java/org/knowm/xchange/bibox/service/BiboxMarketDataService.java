@@ -55,6 +55,15 @@ public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements
     return BiboxAdapters.adaptOrderBook(biboxOrderBook, currencyPair);
   }
 
+  public List<OrderBook> getAllOrderBooks(Integer depth) throws IOException {
+
+    if (depth == null) {
+      depth = 200;
+    }
+    List<BiboxOrderBook> biboxOrderBooks = getAllBiboxOrderBooks(depth);
+    return BiboxAdapters.adaptAllOrderBooks(biboxOrderBooks);
+  }
+
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
