@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.v1;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.GET;
@@ -14,6 +15,7 @@ import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 
@@ -51,5 +53,9 @@ public interface Bitfinex {
   @GET
   @Path("symbols")
   Set<String> getSymbols() throws IOException, BitfinexException;
+
+  @GET
+  @Path("symbols_details")
+  List<BitfinexSymbolDetail> getSymbolsDetails() throws IOException, BitfinexException;
 
 }
