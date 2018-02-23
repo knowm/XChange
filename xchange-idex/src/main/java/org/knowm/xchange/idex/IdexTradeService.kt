@@ -75,7 +75,8 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
     }
 
     override fun verifyOrder(marketOrder: MarketOrder?) {
-     }
+//        Web3jService()
+    }
 
     override fun getOpenOrders(): OpenOrders {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

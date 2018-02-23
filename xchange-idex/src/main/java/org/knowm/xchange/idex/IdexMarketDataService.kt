@@ -21,22 +21,23 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
                     .run {
                         OrderBook(Date(),
                                   asks.map {
-                                      LimitOrder(Order.OrderType.ASK, it.amount.toBigDecimal()?:ZERO, currencyPair,
+                                      LimitOrder(Order.OrderType.ASK, it.amount.toBigDecimal() ?: ZERO, currencyPair,
                                                  it.orderHash,
-                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal()?:ZERO)
+                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal() ?: ZERO)
                                   },
                                   bids.map {
-                                      LimitOrder(Order.OrderType.BID, it.amount.toBigDecimalOrNull()?:ZERO, currencyPair,
+                                      LimitOrder(Order.OrderType.BID, it.amount.toBigDecimalOrNull() ?: ZERO,
+                                                 currencyPair,
                                                  it.orderHash,
-                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal()?:ZERO)
+                                                 Date(it.params.expires.toLong()), it.price.toBigDecimal() ?: ZERO)
                                   })
                     }
 
     override fun getTrades(currencyPair: CurrencyPair, vararg args: Any?) = Trades(
-            tradeHistory(currencyPair.tradeReq).map { it[currencyPair] })
-
+            TODO())
 }
-val CurrencyPair.idexMkt get() =    "${base.symbol}_${counter.symbol}"
+
+val CurrencyPair.idexMkt get() = "${base.symbol}_${counter.symbol}"
 val CurrencyPair.tradeReq inline get() = TradeHistoryReq().market(idexMkt)
 val CurrencyPair.market inline get() = Market().market(idexMkt)
 val CurrencyPair.orderbook inline get() = OrderBookReq().market(idexMkt)
