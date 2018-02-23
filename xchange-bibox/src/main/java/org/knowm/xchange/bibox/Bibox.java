@@ -65,11 +65,12 @@ public interface Bibox {
       throws IOException, BiboxException;
 
   /**
-   * Retrieve all order books.
-   * 
+   * Retrieve order books.
+   *
+   * @param cmds contains information about the list of order books to fetch.
    * @return list of order books
    */
   @POST
   @Path("mdata")
-  BiboxMultipleResponses<BiboxOrderBook> allOrderBooks(@FormParam(FORM_CMDS) String cmds);
+  BiboxMultipleResponses<BiboxOrderBook> orderBooks(@FormParam(FORM_CMDS) String cmds);
 }
