@@ -23,10 +23,6 @@ import si.mazi.rescu.ParamsDigest;
 @Produces(MediaType.APPLICATION_JSON)
 public interface BiboxAuthenticated extends Bibox {
 
-  static final String FORM_CMDS = "cmds";
-  static final String FORM_APIKEY = "apikey";
-  static final String FORM_SIGNATURE = "sign";
-
   /**
    * Retrieve balances of the account
    * 
