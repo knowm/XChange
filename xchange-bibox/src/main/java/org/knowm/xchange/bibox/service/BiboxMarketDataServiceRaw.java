@@ -61,7 +61,8 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
 
   public List<BiboxOrderBook> getBiboxOrderBooks(Integer depth, Collection<CurrencyPair> currencyPairs) {
     try {
-      List<BiboxCommand<?>> allCommands = new HashSet<>(currencyPairs).stream()
+      List<BiboxCommand<?>> allCommands = currencyPairs.stream()
+          .distinct()
           .filter(Objects::nonNull)
           .map(BiboxAdapters::toBiboxPair)
           .map(pair -> new BiboxOrderBookCommand(pair, depth))
