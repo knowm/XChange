@@ -8,17 +8,5 @@ import java.util.List;
  * @author odrotleff
  * @param <R>
  */
-public class BiboxMultipleResponses<R> {
-
-  private List<BiboxResponse<R>> result;
-
-  public BiboxMultipleResponses() {}
-
-  public List<BiboxResponse<R>> getResult() {
-    return result;
-  }
-
-  public void setResult(List<BiboxResponse<R>> result) {
-    this.result = result;
-  }
+public class BiboxMultipleResponses<T> extends BiboxResponse<List<BiboxResponse<T>>> {
 }
