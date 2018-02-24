@@ -1,7 +1,7 @@
 package org.knowm.xchange.idex
 
 import org.knowm.xchange.currency.*
-import org.knowm.xchange.dto.*
+import org.knowm.xchange.dto.Order.*
 import org.knowm.xchange.dto.marketdata.*
 import org.knowm.xchange.dto.trade.*
 import org.knowm.xchange.idex.dto.*
@@ -10,6 +10,7 @@ import org.knowm.xchange.service.marketdata.*
 import org.knowm.xchange.utils.*
 import java.math.BigDecimal.*
 import java.util.*
+
 
 class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketDataService, MarketApi() {
     override fun getTicker(currencyPair: CurrencyPair, vararg args: Any?): Ticker {
@@ -21,20 +22,39 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
                     .run {
                         OrderBook(Date(),
                                   asks.map {
-                                      LimitOrder(Order.OrderType.ASK, it.amount.toBigDecimal() ?: ZERO, currencyPair,
+                                      LimitOrder(OrderType.ASK, it.amount.toBigDecimal() ?: ZERO, currencyPair,
                                                  it.orderHash,
                                                  Date(it.params.expires.toLong()), it.price.toBigDecimal() ?: ZERO)
                                   },
                                   bids.map {
-                                      LimitOrder(Order.OrderType.BID, it.amount.toBigDecimalOrNull() ?: ZERO,
+                                      LimitOrder(OrderType.BID, it.amount.toBigDecimalOrNull() ?: ZERO,
                                                  currencyPair,
                                                  it.orderHash,
                                                  Date(it.params.expires.toLong()), it.price.toBigDecimal() ?: ZERO)
                                   })
                     }
 
-    override fun getTrades(currencyPair: CurrencyPair, vararg args: Any?) = Trades(
-            TODO())
+    override fun getTrades(currencyPair: CurrencyPair, vararg args: Any?) = Trades(MarketApi().tradeHistory(
+            TradeHistoryReq().market(currencyPair.idexMkt)).map { tradeHistoryItem ->
+
+
+        Trade(OrderType.ASK[tradeHistoryItem.type], tradeHistoryItem.amount.toBigDecimalOrNull() ?: ZERO, currencyPair,
+              tradeHistoryItem.price.toBigDecimalOrNull() ?: ZERO, DateUtils.fromISO8601DateString(
+                tradeHistoryItem.date.replace(" ", "T") + "Z")
+                      .also {
+                          if (debugMe && 0 == (debugDateCounter++)) System.err.println(
+                                  tradeHistoryItem.date + " = " + it)
+                      }, tradeHistoryItem.transactionHash)
+    })
+}
+
+
+operator fun OrderType.get(type: String): OrderType {
+    return when (type) {
+        "buy" -> OrderType.BID
+        "sell" -> OrderType.ASK
+        else -> TODO("need to parse for ordertype" + type)
+    }
 }
 
 val CurrencyPair.idexMkt get() = "${base.symbol}_${counter.symbol}"
@@ -52,7 +72,7 @@ operator fun TradeHistoryItem.get(currencyPair: CurrencyPair) = Trade.Builder()
         .originalAmount(amount.toBigDecimalOrNull() ?: ZERO)
         .price(price.toBigDecimalOrNull() ?: ZERO)
         .timestamp(DateUtils.fromISO8601DateString(date))
-        .type(Order.OrderType.valueOf(type.toUpperCase()))
+        .type(OrderType.valueOf(type.toUpperCase()))
         .build()
 
 /**
@@ -70,3 +90,6 @@ operator fun ReturnTickerResponse.get(currencyPair: CurrencyPair) = Ticker.Build
         .volume(baseVolume.toBigDecimalOrNull() ?: ZERO)
         .quoteVolume(quoteVolume.toBigDecimalOrNull() ?: ZERO)
         .build()
+
+var debugMe = "true" == System.getProperty("XChangeDebug", "false")
+var debugDateCounter = 0;

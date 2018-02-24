@@ -22,7 +22,6 @@
                 <artifactId>xchange-core</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
     <modelVersion>4.0.0</modelVersion>
@@ -85,8 +84,7 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <delete
-                                                dir="${toxic.test.include}"
+                                        <delete dir="${toxic.test.include}"
                                                 includeemptydirs="true"/>
                                     </target>
                                 </configuration>

@@ -55,7 +55,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
 
         val m = params.market.split("_")
         val currencyPair = CurrencyPair(m[0], m[1])
-        val tradeHistory = tradeHistory(params)
+        val tradeHistory = MarketApi().tradeHistory(params)
         val map = tradeHistory.map {
             UserTrade(enumValueOf(it.type),
                       it.amount.toBigDecimalOrNull() ?: ZERO,

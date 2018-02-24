@@ -90,7 +90,7 @@ paths:
       operationId: TradeHistory
       summary: trade history
       tags:
-        - trade
+        - market
       parameters:
         - name: TradeHistoryReq
           in: body
