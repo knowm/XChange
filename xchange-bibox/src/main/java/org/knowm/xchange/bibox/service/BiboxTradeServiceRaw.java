@@ -1,9 +1,12 @@
 package org.knowm.xchange.bibox.service;
 
 import java.math.BigInteger;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
+import org.knowm.xchange.bibox.dto.BiboxCommand;
 import org.knowm.xchange.bibox.dto.BiboxCommands;
 import org.knowm.xchange.bibox.dto.trade.BiboxAccountType;
 import org.knowm.xchange.bibox.dto.trade.BiboxCancelTradeCommand;
@@ -67,5 +70,13 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
     BiboxOrderPendingListCommandBody body = new BiboxOrderPendingListCommandBody(1, Integer.MAX_VALUE); // wonder if this actually works
     BiboxOrderHistoryCommand cmd = new BiboxOrderHistoryCommand(body);
     return bibox.orderPendingList(BiboxCommands.of(cmd).json(), apiKey, signatureCreator).get().getResult();
+  }
+
+  public void cancelBiboxOrders(List<String> orderIds) {
+    List<BiboxCommand<?>> cmds = orderIds.stream()
+        .map(BigInteger::new)
+        .map(BiboxCancelTradeCommand::new)
+        .collect(Collectors.toList());
+    bibox.cancelTrades(BiboxCommands.of(cmds).json(), apiKey, signatureCreator);
   }
 }
