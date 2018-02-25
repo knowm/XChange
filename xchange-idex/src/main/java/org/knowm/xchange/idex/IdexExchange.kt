@@ -20,7 +20,16 @@ class IdexExchange : Exchange, BaseExchange() {
         exchangeName = "idex"
     }
 
-    override fun remoteInit() {  }
+    override fun remoteInit() {
+
+        val idexMarketDataService = marketDataService as IdexMarketDataService
+        val IdexMarketDataMap = idexMarketDataService.getAllIdexTickers()
+
+//        val IdexCurrencyInfoMap :Map<String,CurrencyMetaData>= idexMarketDataService.getIdexCurrencyInfo()
+//
+//        exchangeMetaData = IdexAdapters.adaptToExchangeMetaData(IdexCurrencyInfoMap, IdexMarketDataMap,
+//                                                                    exchangeMetaData)
+    }
     override fun getAccountService(): AccountService = IdexAccountService(this)
     override fun getTradeService(): TradeService = IdexTradeService(this)
     override fun getMarketDataService(): MarketDataService = IdexMarketDataService(this)

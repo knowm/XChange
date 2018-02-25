@@ -39,10 +39,8 @@ class IdexAccountService(private val idexExchange: IdexExchange) : AccountApi(),
                 "Idex withdraw requires " + IdexWithdraw::class.java.canonicalName)
     }
 
-    override fun requestDepositAddress(currency: Currency?, vararg args: String?): String {
-        //the safe option
-        return idexExchange.exchangeSpecification.apiKey
-    }
+    override fun requestDepositAddress(currency: Currency?, vararg args: String?): String =//the safe option
+            idexExchange.exchangeSpecification.apiKey
     override fun getFundingHistory(params: TradeHistoryParams): MutableList<FundingRecord> {
         TODO("not supported by exchange")
     }

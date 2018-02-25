@@ -1,7 +1,10 @@
 package org.knowm.xchange.idex
 
+import com.squareup.okhttp.*
+import okio.*
 import org.knowm.xchange.currency.*
 import org.knowm.xchange.dto.Order.*
+import org.knowm.xchange.dto.Order.OrderType.*
 import org.knowm.xchange.dto.marketdata.*
 import org.knowm.xchange.dto.trade.*
 import org.knowm.xchange.idex.dto.*
@@ -10,24 +13,24 @@ import org.knowm.xchange.service.marketdata.*
 import org.knowm.xchange.utils.*
 import java.math.BigDecimal.*
 import java.util.*
+import java.util.logging.*
 
 
 class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketDataService, MarketApi() {
-    override fun getTicker(currencyPair: CurrencyPair, vararg args: Any?): Ticker {
-        return ticker(currencyPair.market)[currencyPair]
-    }
+    override fun getTicker(currencyPair: CurrencyPair, vararg args: Any?): Ticker =
+            ticker(currencyPair.market)[currencyPair]
 
     override fun getOrderBook(currencyPair: CurrencyPair, vararg args: Any?) =
             orderBook(currencyPair.orderbook)
                     .run {
                         OrderBook(Date(),
                                   asks.map {
-                                      LimitOrder(OrderType.ASK, it.amount.toBigDecimal() ?: ZERO, currencyPair,
+                                      LimitOrder(ASK, it.amount.toBigDecimal() ?: ZERO, currencyPair,
                                                  it.orderHash,
                                                  Date(it.params.expires.toLong()), it.price.toBigDecimal() ?: ZERO)
                                   },
                                   bids.map {
-                                      LimitOrder(OrderType.BID, it.amount.toBigDecimalOrNull() ?: ZERO,
+                                      LimitOrder(BID, it.amount.toBigDecimalOrNull() ?: ZERO,
                                                  currencyPair,
                                                  it.orderHash,
                                                  Date(it.params.expires.toLong()), it.price.toBigDecimal() ?: ZERO)
@@ -38,7 +41,7 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
             TradeHistoryReq().market(currencyPair.idexMkt)).map { tradeHistoryItem ->
 
 
-        Trade(OrderType.ASK[tradeHistoryItem.type], tradeHistoryItem.amount.toBigDecimalOrNull() ?: ZERO, currencyPair,
+        Trade(ASK[tradeHistoryItem.type], tradeHistoryItem.amount.toBigDecimalOrNull() ?: ZERO, currencyPair,
               tradeHistoryItem.price.toBigDecimalOrNull() ?: ZERO, DateUtils.fromISO8601DateString(
                 tradeHistoryItem.date.replace(" ", "T") + "Z")
                       .also {
@@ -46,13 +49,62 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
                                   tradeHistoryItem.date + " = " + it)
                       }, tradeHistoryItem.transactionHash)
     })
+
+    fun getIdexCurrencyInfo(): Any {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun getAllIdexTickers(): Any {
+//        val volume24 = MarketApi().volume24(Volume24Req().market("ETH_REP"))
+        TODO()
+    }
 }
 
+fun main(args: Array<String>) {
+    testVol24()
+}
+
+private fun testVol24() {
+//this method is dead on arrival
+//    jim@mp$ curl -XPOST https://api.idex.market/return24Volume -d"{}"
+//    {"error":"Cannot read property '0' of null"}
+    val marketApi = MarketApi()
+    marketApi.apiClient.httpClient.interceptors().add(Interceptor { chain ->
+        val request = chain.request()
+
+        val t1 = System.nanoTime()
+        Logger.getAnonymousLogger().info(
+                String.format("--> Sending request %s on %s%n%s",
+                              request.url(),
+                              chain.connection(), request.headers()))
+
+        val requestBuffer = Buffer()
+        if (request.method() == "POST") {
+            request.body().writeTo(requestBuffer)
+            Logger.getAnonymousLogger().info(requestBuffer.readUtf8())
+        }
+        val response = chain.proceed(request)
+
+        val t2 = System.nanoTime()
+        Logger.getAnonymousLogger().info(
+                String.format("<-- Received response for %s in %.1fms%n%s",
+                              response.request().url(), (t2 - t1) / 1e6,
+                              response.headers()))
+
+        val contentType = response.body().contentType()
+        val content = response.body().string()
+        Logger.getAnonymousLogger().info(content)
+
+        val wrappedBody = ResponseBody.create(contentType, content)
+        response.newBuilder().body(wrappedBody).build()
+    })
+
+}
 
 operator fun OrderType.get(type: String): OrderType {
     return when (type) {
-        "buy" -> OrderType.BID
-        "sell" -> OrderType.ASK
+        "buy" -> BID
+        "sell" -> ASK
         else -> TODO("need to parse for ordertype" + type)
     }
 }
@@ -72,7 +124,7 @@ operator fun TradeHistoryItem.get(currencyPair: CurrencyPair) = Trade.Builder()
         .originalAmount(amount.toBigDecimalOrNull() ?: ZERO)
         .price(price.toBigDecimalOrNull() ?: ZERO)
         .timestamp(DateUtils.fromISO8601DateString(date))
-        .type(OrderType.valueOf(type.toUpperCase()))
+        .type(ASK[type])
         .build()
 
 /**
