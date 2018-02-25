@@ -1148,6 +1148,9 @@ definitions:
     properties:
       success:
         type: integer
+      error:
+        type: string
+        description: wishful thinking
   withdrawResponse:
     type: object
   examplePushMethodResponse:

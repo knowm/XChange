@@ -25,8 +25,9 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         }
     }
 
-    override fun cancelOrder(orderParams: CancelOrderParams?): Boolean {
-        TODO("not an Idex option")
+    override fun cancelOrder(orderParams: CancelOrderParams): Boolean = when (orderParams) {
+        is IdexCancelOrderParams -> cancel(orderParams).success!! == 1
+        else -> throw ApiException("cancel order requires " + IdexCancelOrderParams::class.java.canonicalName)
     }
 
     val apiKey get() = idexExchange.exchangeSpecification.apiKey
