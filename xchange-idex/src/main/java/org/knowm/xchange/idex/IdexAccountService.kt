@@ -47,40 +47,40 @@ class IdexAccountService(private val idexExchange: IdexExchange) : AccountApi(),
     override fun getFundingHistory(params: TradeHistoryParams): MutableList<FundingRecord> {
         when {
             params is IdexTradeHistoryParams -> {
-            val returnDepositsWithdrawalsPost = fundingHistory(params  as DepositsWithdrawalsReq)
-            return listOf(
-                    returnDepositsWithdrawalsPost.deposits.map {
-                        FundingRecord(
-                                apiKey,
-                                Date(it.timestamp.toLong() * 1000),
-                                Currency(it.currency),
-                                it.amount.toBigDecimalOrNull() ?: BigDecimal.ZERO,
-                                it.transactionHash,
-                                it.depositNumber,
-                                FundingRecord.Type.DEPOSIT,
-                                FundingRecord.Status.resolveStatus(it.status),
-                                BigDecimal.ZERO,
-                                BigDecimal.ZERO,
-                                ""
-                        )
-                    },
-                    returnDepositsWithdrawalsPost.withdrawals.map {
-                        FundingRecord(
-                                apiKey,
-                                Date(it.timestamp.toLong() * 1000),
-                                Currency(it.currency),
-                                it.amount.toBigDecimalOrNull() ?: BigDecimal.ZERO,
-                                it.transactionHash,
-                                it.depositNumber,
-                                FundingRecord.Type.WITHDRAWAL,
-                                FundingRecord.Status.resolveStatus(it.status),
-                                BigDecimal.ZERO,
-                                BigDecimal.ZERO,
-                                ""
-                        )
-                    }
-            ).flatten().sortedBy { it.date }.toMutableList()
-        }
+                val returnDepositsWithdrawalsPost = fundingHistory(params as DepositsWithdrawalsReq)
+                return listOf(
+                        returnDepositsWithdrawalsPost.deposits.map {
+                            FundingRecord(
+                                    apiKey,
+                                    Date(it.timestamp.toLong() * 1000),
+                                    Currency(it.currency),
+                                    it.amount.toBigDecimalOrNull() ?: BigDecimal.ZERO,
+                                    it.transactionHash,
+                                    it.depositNumber,
+                                    FundingRecord.Type.DEPOSIT,
+                                    FundingRecord.Status.resolveStatus(it.status),
+                                    BigDecimal.ZERO,
+                                    BigDecimal.ZERO,
+                                    ""
+                            )
+                        },
+                        returnDepositsWithdrawalsPost.withdrawals.map {
+                            FundingRecord(
+                                    apiKey,
+                                    Date(it.timestamp.toLong() * 1000),
+                                    Currency(it.currency),
+                                    it.amount.toBigDecimalOrNull() ?: BigDecimal.ZERO,
+                                    it.transactionHash,
+                                    it.depositNumber,
+                                    FundingRecord.Type.WITHDRAWAL,
+                                    FundingRecord.Status.resolveStatus(it.status),
+                                    BigDecimal.ZERO,
+                                    BigDecimal.ZERO,
+                                    ""
+                            )
+                        }
+                ).flatten().sortedBy { it.date }.toMutableList()
+            }
 
             else -> throw  ApiException(
                     "getFundingHistory requires " + IdexTradeHistoryParams::class.java.canonicalName)
@@ -107,7 +107,13 @@ class IdexAccountService(private val idexExchange: IdexExchange) : AccountApi(),
     }
 
 
-    override fun withdrawFunds(currency: Currency?, amount: BigDecimal?, address: String?): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun withdrawFunds(currency: Currency, amount: BigDecimal, address: String): String = withdrawFunds(
+            IdexWithdraw(apiKey,
+                         amount.toString(),
+                         currency!!.symbol,
+                         idexExchange.tradeService.idexServerNonce,
+                         s = TODO("provide threadlocals? for S"),
+                         v = TODO("provide threadlocals? for V"),
+                         r = TODO("provide threadlocals? for R"))
+    )
 }

@@ -31,7 +31,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
     }
 
     val apiKey get() = idexExchange.exchangeSpecification.apiKey
-    private val idexServerNonce get() = nextNonce(NextNonceReq().address(apiKey)).nonce
+    val idexServerNonce get() = nextNonce(NextNonceReq().address(apiKey)).nonce
     override fun placeLimitOrder(limitOrder1: LimitOrder): String {
         when (limitOrder1) {
             is IdexLimitOrder -> {
