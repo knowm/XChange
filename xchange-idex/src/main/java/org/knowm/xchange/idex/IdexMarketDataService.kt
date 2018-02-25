@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.marketdata.*
 import org.knowm.xchange.dto.trade.*
 import org.knowm.xchange.idex.dto.*
 import org.knowm.xchange.idex.service.*
+import org.knowm.xchange.idex.util.*
 import org.knowm.xchange.service.marketdata.*
 import org.knowm.xchange.utils.*
 import java.math.BigDecimal.*
@@ -17,10 +18,18 @@ import java.util.logging.*
 
 
 class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketDataService, MarketApi() {
+    init {
+
+        if (IdexExchange.debugMe) {
+            apiClient = ApiClient()
+            IdexExchange.setupDebug(apiClient)
+        }
+    }
+
     override fun getTicker(currencyPair: CurrencyPair, vararg args: Any?): Ticker =
             ticker(currencyPair.market)[currencyPair]
 
-    override fun getOrderBook(currencyPair: CurrencyPair, vararg args: Any?) =
+    override fun getOrderBook(currencyPair: CurrencyPair, vararg args: Any?): OrderBook =
             orderBook(currencyPair.orderbook)
                     .run {
                         OrderBook(Date(),
@@ -58,10 +67,6 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
 //        val volume24 = MarketApi().volume24(Volume24Req().market("ETH_REP"))
         TODO()
     }
-}
-
-fun main(args: Array<String>) {
-    testVol24()
 }
 
 private fun testVol24() {

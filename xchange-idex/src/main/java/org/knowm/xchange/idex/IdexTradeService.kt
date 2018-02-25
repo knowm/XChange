@@ -17,9 +17,18 @@ import java.math.BigDecimal.*
 import java.util.*
 
 class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi() {
+    init {
+
+        if (IdexExchange.debugMe) {
+            apiClient = ApiClient()
+            IdexExchange.setupDebug(apiClient)
+        }
+    }
+
     override fun cancelOrder(orderParams: CancelOrderParams?): Boolean {
         TODO("not an Idex option")
     }
+
     val apiKey get() = idexExchange.exchangeSpecification.apiKey
     private val idexServerNonce get() = nextNonce(NextNonceReq().address(apiKey)).nonce
     override fun placeLimitOrder(limitOrder1: LimitOrder): String {
