@@ -1,6 +1,7 @@
 package org.knowm.xchange.bibox.service;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -55,17 +56,21 @@ public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements
     return BiboxAdapters.adaptOrderBook(biboxOrderBook, currencyPair);
   }
 
-  public List<OrderBook> getAllOrderBooks(Integer depth) throws IOException {
+  public List<OrderBook> getAllOrderBooks(Integer depth) {
+    return getOrderBooks(depth, exchange.getExchangeSymbols());
+  }
+
+  public List<OrderBook> getOrderBooks(Integer depth, Collection<CurrencyPair> currencyPairs) {
 
     if (depth == null) {
       depth = 200;
     }
-    List<BiboxOrderBook> biboxOrderBooks = getAllBiboxOrderBooks(depth);
+    List<BiboxOrderBook> biboxOrderBooks = getBiboxOrderBooks(depth, currencyPairs);
     return BiboxAdapters.adaptAllOrderBooks(biboxOrderBooks);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
   }
 

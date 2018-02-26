@@ -2,6 +2,7 @@ package org.knowm.xchange.anx.v2;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -90,8 +91,16 @@ public interface ANXV2 {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXWithdrawalResponseWrapper withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("currency") String currency, @FormParam("address") String address,
-      @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant,
+      @FormParam("amount_int") BigInteger amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant,
       @FormParam("green") boolean green) throws ANXException, IOException;
+
+  @POST
+  @Path("money/{currency}/send_simple")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  ANXWithdrawalResponseWrapper withdrawXrp(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("currency") String currency, @FormParam("address") String address,
+      @FormParam("amount_int") BigInteger amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant,
+      @FormParam("green") boolean green, @FormParam("destinationTag") String destinationTag) throws ANXException, IOException;
 
   // Trade API
   @POST
