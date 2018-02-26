@@ -61,23 +61,19 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
                       }, tradeHistoryItem.transactionHash)
     })
 
-    override fun allTickers(): ReturnTickerRequestedWithNull {
-        return allTickersStatic()
-    }
 
-    /**same as  curl -XPOST https://api.idex.market/returnTicker
-     */
 
     companion object {
         public val allTickers by lazy { IdexMarketDataService.allTickersStatic() };
-        public val allCurrencies by lazy {
+        public val allBase by lazy {
             allTickers.keys.map { it.split('_')[0] }.distinct().sorted().map(::Currency)
         }
         public val allInstrument by lazy {
             allTickers.keys.map { it.split('_')[1] }.distinct().sorted().map(::Currency)
         }
-
-
+         public val allCurrencies by lazy{ allCurrenciesStatic()}
+        /**same as  curl -XPOST https://api.idex.market/returnTicker
+         */
         public fun allTickersStatic(): ReturnTickerRequestedWithNull {
             val c: javax.net.ssl.HttpsURLConnection = URL(
                     "https://api.idex.market/returnTicker").openConnection() as HttpsURLConnection
@@ -87,6 +83,17 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
             val inputStream = c.inputStream
             return IdexExchange.gson.fromJson(InputStreamReader(GZIPInputStream(inputStream)),
                                               ReturnTickerRequestedWithNull::class.java).also { inputStream.close() }
+
+        }
+        public fun allCurrenciesStatic(): ReturnCurrenciesResponse  {
+            val c: javax.net.ssl.HttpsURLConnection = URL(
+                    "https://api.idex.market/returnCurrencies").openConnection() as HttpsURLConnection
+            c.requestMethod = "POST"
+            c.setRequestProperty("Accept-Encoding", "gzip");
+            c.setRequestProperty("User-Agent", "irrelevant")
+            val inputStream = c.inputStream
+            return IdexExchange.gson.fromJson(InputStreamReader(GZIPInputStream(inputStream)),
+                                              ReturnCurrenciesResponse::class.java).also { inputStream.close() }
 
         }
     }

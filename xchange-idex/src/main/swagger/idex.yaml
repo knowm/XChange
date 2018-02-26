@@ -33,19 +33,6 @@ paths:
         '200':
           schema:
             $ref: '#/definitions/returnTickerResponse'
-  /returnAllTicker:
-    post:
-      summary: FAKE METHOD! swagger has its limits.  java type erasures has its limits.  override this at runtime.
-      tags:
-        - market
-      consumes:
-        - 'application/x-www-form-urlencoded'
-
-      operationId: AllTickers
-      responses:
-        '200':
-          schema:
-            $ref: '#/definitions/returnTickerRequestedWithNull'
   /return24Volume:
     post:
       summary: 'Returns the 24-hour volume for all markets, plus totals for primary currencies. '
@@ -375,6 +362,17 @@ paths:
                     default: ''
                     examples:
                       - '0x57b080554ebafc8b17f4a6fd090c18fc8c9188a0'
+
+  /returnCurrencies:
+    post:
+      operationId: Currencies
+      tags:
+        - market
+      responses:
+        200:
+          description:
+          schema:
+            $ref: '#/definitions/returnCurrenciesResponse'
   /trade:
     post:
       operationId: Trade
@@ -801,29 +799,6 @@ definitions:
         default: ''
         examples:
           - '0x28b945b586a5929c69337929533e04794d488c2d6e1122b7b915705d0dff8bb6'
-  returnCurrenciesResponse:
-    type: object
-    additionalProperties:
-      type: object
-      properties:
-        decimals:
-          type: integer
-          title: The Decimals Schema
-          default: 0
-          examples:
-            - 18
-        address:
-          type: string
-          title: The Address Schema
-          default: ''
-          examples:
-            - '0x0000000000000000000000000000000000000000'
-        name:
-          type: string
-          title: The Name Schema
-          default: ''
-          examples:
-            - Ether
   returnBalancesResponse:
     type: object
     additionalProperties:
@@ -1310,3 +1285,31 @@ definitions:
     type: object
     additionalProperties:
       type: number
+  returnCurrenciesResponse:
+            type: object
+            additionalProperties:
+              $ref: '#/definitions/IdexCurrMeta'
+  IdexCurrMeta:
+                    type: object
+                    properties:
+                      decimals:
+                        $id: /properties/ETH/properties/decimals
+                        type: integer
+                        title: The Decimals Schema
+                        default: 0
+                        examples:
+                        - 18
+                      address:
+                        $id: /properties/ETH/properties/address
+                        type: string
+                        title: The Address Schema
+                        default: ''
+                        examples:
+                        - '0x0000000000000000000000000000000000000000'
+                      name:
+                        $id: /properties/ETH/properties/name
+                        type: string
+                        title: The Name Schema
+                        default: ''
+                        examples:
+                        - Ether

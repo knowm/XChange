@@ -32,7 +32,7 @@ fun main(args: Array<String>) {
     System.err.println(idex.accountService.getFundingHistory(c))
     System.err.println("All currencies (lazy)")
     var t = System.currentTimeMillis()
-    val allCurrencies = IdexMarketDataService.allCurrencies
+    val allCurrencies = IdexMarketDataService.allBase
     System.err.println("fetched/sorted in " + (System.currentTimeMillis() - t) + "(ms)")
     System.err.println(allCurrencies)
     System.err.println("All intruments (lazy)")
@@ -40,4 +40,6 @@ fun main(args: Array<String>) {
     val allInstrument = IdexMarketDataService.allInstrument
     System.err.println("sorted in ${System.currentTimeMillis() - t}(ms)")
     System.err.println(allInstrument)
+    val currencies = IdexMarketDataService(idex).currencies()
+    System.err.println(currencies)
 }

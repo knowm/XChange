@@ -4,14 +4,16 @@ import com.squareup.okhttp.*
 import com.squareup.okhttp.Interceptor
 import okio.*
 import org.knowm.xchange.*
+import org.knowm.xchange.currency.*
 import org.knowm.xchange.dto.meta.*
 import org.knowm.xchange.idex.dto.*
 import org.knowm.xchange.idex.util.*
 import si.mazi.rescu.*
+import java.math.*
 import java.util.logging.*
 
 class IdexExchange : Exchange, BaseExchange() {
-    private val idexAccountService by lazy { -> IdexAccountService(this) }
+    private val idexAccountService by lazy { IdexAccountService(this) }
     private val idexTradeService by lazy { IdexTradeService(this) }
     private val idexMarketDataService by lazy { IdexMarketDataService(this) }
 
@@ -28,12 +30,19 @@ class IdexExchange : Exchange, BaseExchange() {
     }
 
     override fun initServices() = Unit
+    val unavailableCPMeta = CurrencyPairMetaData(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0)
+
     override fun getExchangeMetaData(): ExchangeMetaData = ExchangeMetaData(
-            emptyMap(),
-            emptyMap(),
-            emptyArray(),
-            emptyArray(),
-            false)
+            /*emptyMap<CurrencyPair?, CurrencyPairMetaData?>()*/IdexMarketDataService.allTickers.map {
+        it.key.split("_").toTypedArray()
+    }.associate { c -> CurrencyPair(c[0], c[1]) to unavailableCPMeta },
+                                                                /*emptyMap<Currency?, CurrencyMetaData?>()*/IdexMarketDataService.allCurrenciesStatic()!!.entries
+                                                                        .associate{
+        Currency(it.key) to IdexCurrencyMeta(0, BigDecimal.ZERO,it.value.address,it.value.name,it.value.decimals)
+    },
+                                                                emptyArray<RateLimit?>(),
+                                                                emptyArray<RateLimit?>(),
+                                                                false)
 
     override fun applySpecification(exchangeSpecification: ExchangeSpecification?) {
         this.exchangeSpecification = exchangeSpecification
@@ -104,6 +113,11 @@ class IdexExchange : Exchange, BaseExchange() {
             }
         }
     }
+}
+
+class IdexCurrencyMeta(scale: Int, withdrawalFee: BigDecimal?, val meta: String,
+                       val name: String, val decimals: Int) : CurrencyMetaData(scale, withdrawalFee) {
+
 }
 
 
