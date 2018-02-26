@@ -91,9 +91,6 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                         "Idex Market Orders require " + IdexMarketOrder::class.java.canonicalName)
             }
 
-    class IdexTradeHistoryReq(val sort: Trades.TradeSortType? = Trades.TradeSortType.SortByTimestamp,
-                              val lastId: Long? = null) : TradeHistoryParams, TradeHistoryReq()
-
     override fun getTradeHistory(params: TradeHistoryParams): UserTrades {
         if (params !is IdexTradeHistoryReq) {
             throw  ApiException("tradehistory requires " + IdexTradeHistoryReq::class.java.canonicalName)
@@ -137,40 +134,50 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
     override fun getOrder(vararg orderIds: String?): MutableCollection<Order> =
             getOpenOrders { it.id in orderIds }.openOrders.toMutableList()
 
+    companion object {
+
+
+        class IdexMarketOrder(val r: String, val s: String, val v: String, type: OrderType?,
+                              originalAmount: BigDecimal?,
+                              currencyPair: CurrencyPair?, id: String?, timestamp: Date?, averagePrice: BigDecimal?,
+                              cumulativeAmount: BigDecimal?, fee: BigDecimal?, status: OrderStatus?) :
+                MarketOrder(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, fee,
+                            status)
+
+        /**
+        v - ...
+        r - ...
+        s - (v r and s are the values produced by your private key signature, see above for details)
+         */
+        public class IdexLimitOrder(type: OrderType?, originalAmount: BigDecimal?,
+                                    currencyPair: CurrencyPair?, id: String?,
+                                    timestamp: Date?, limitPrice: BigDecimal?,
+                                    val r: String,
+                                    val s: String,
+                                    val v: String,
+                                    val orderHash: String,
+                                    /**amountBuy (uint256) - The amount of the token you will receive when the order is fully filled
+                                     */
+                                    val amountBuy: String,
+                                    /**amountSell (uint256) - The amount of the token you will give up when the order is fully filled
+                                     */
+                                    val amountSell: String,
+                                    /**tokenBuy (address string) - The address of the token you will receive as a result of the trade
+                                     */
+                                    val tokenBuy: String,
+                                    /**tokenSell (address string) - The address of the token you will lose as a result of the trade
+                                     */
+                                    val tokenSell: String,
+                                    /**expires (uint256) - DEPRECATED this property has no effect on your limit order but is still REQUIRED to submit a limit order as it is one of the parameters that is hashed. It must be a numeric type
+                                     */
+                                    val expires: Long = Random().nextLong()
+
+        ) :
+                LimitOrder(type, originalAmount, currencyPair, id, timestamp, limitPrice)
+
+        class IdexTradeHistoryReq(val sort: Trades.TradeSortType? = Trades.TradeSortType.SortByTimestamp,
+                                  val lastId: Long? = null) : TradeHistoryParams, TradeHistoryReq()
+
+
+    }
 }
-
-class IdexMarketOrder(val r: String, val s: String, val v: String, type: OrderType?, originalAmount: BigDecimal?,
-                      currencyPair: CurrencyPair?, id: String?, timestamp: Date?, averagePrice: BigDecimal?,
-                      cumulativeAmount: BigDecimal?, fee: BigDecimal?, status: OrderStatus?) :
-        MarketOrder(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, fee, status)
-
-/**
-v - ...
-r - ...
-s - (v r and s are the values produced by your private key signature, see above for details)
- */
-public class IdexLimitOrder(type: OrderType?, originalAmount: BigDecimal?,
-                            currencyPair: CurrencyPair?, id: String?,
-                            timestamp: Date?, limitPrice: BigDecimal?,
-                            val r: String,
-                            val s: String,
-                            val v: String,
-                            val orderHash: String,
-                            /**amountBuy (uint256) - The amount of the token you will receive when the order is fully filled
-                             */
-                            val amountBuy: String,
-                            /**amountSell (uint256) - The amount of the token you will give up when the order is fully filled
-                             */
-                            val amountSell: String,
-                            /**tokenBuy (address string) - The address of the token you will receive as a result of the trade
-                             */
-                            val tokenBuy: String,
-                            /**tokenSell (address string) - The address of the token you will lose as a result of the trade
-                             */
-                            val tokenSell: String,
-                            /**expires (uint256) - DEPRECATED this property has no effect on your limit order but is still REQUIRED to submit a limit order as it is one of the parameters that is hashed. It must be a numeric type
-                             */
-                            val expires: Long = Random().nextLong()
-
-) :
-        LimitOrder(type, originalAmount, currencyPair, id, timestamp, limitPrice)

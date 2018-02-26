@@ -96,50 +96,42 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
                                               ReturnCurrenciesResponse::class.java).also { inputStream.close() }
 
         }
+
+        val CurrencyPair.idexMkt get() = "${base.symbol}_${counter.symbol}"
+        val CurrencyPair.tradeReq inline get() = TradeHistoryReq().market(idexMkt)
+        val CurrencyPair.market inline get() = Market().market(idexMkt)
+        val CurrencyPair.orderbook inline get() = OrderBookReq().market(idexMkt)
+
+        /**
+         * returns XChange Trade
+         *
+         */
+        operator fun TradeHistoryItem.get(currencyPair: CurrencyPair) = Trade.Builder()
+                .currencyPair(currencyPair)
+                .id(orderHash)
+                .originalAmount(amount.toBigDecimalOrNull() ?: ZERO)
+                .price(price.toBigDecimalOrNull() ?: ZERO)
+                .timestamp(DateUtils.fromISO8601DateString(date))
+                .type(ASK[type])
+                .build()
+
+        /**
+         * returns XChange Ticker
+         */
+        operator fun ReturnTickerResponse.get(currencyPair: CurrencyPair) = Ticker.Builder()
+                .currencyPair(currencyPair)
+                .timestamp(Date())
+                .open(last.toBigDecimalOrNull())
+                .ask(lowestAsk.toBigDecimalOrNull() ?: ZERO)
+                .bid(highestBid.toBigDecimalOrNull() ?: ZERO)
+                .last(last.toBigDecimalOrNull() ?: ZERO)
+                .high(high.toBigDecimalOrNull() ?: ZERO)
+                .low(low.toBigDecimalOrNull() ?: ZERO)
+                .volume(baseVolume.toBigDecimalOrNull() ?: ZERO)
+                .quoteVolume(quoteVolume.toBigDecimalOrNull() ?: ZERO)
+                .build()
+
+        var debugMe = "true" == System.getProperty("XChangeDebug", "false")
+        var debugDateCounter = 0;
     }
 }
-
-operator fun OrderType.get(type: String): OrderType {
-    return when (type) {
-        "buy" -> BID
-        "sell" -> ASK
-        else -> TODO("need to parse for ordertype" + type)
-    }
-}
-
-val CurrencyPair.idexMkt get() = "${base.symbol}_${counter.symbol}"
-val CurrencyPair.tradeReq inline get() = TradeHistoryReq().market(idexMkt)
-val CurrencyPair.market inline get() = Market().market(idexMkt)
-val CurrencyPair.orderbook inline get() = OrderBookReq().market(idexMkt)
-
-/**
- * returns XChange Trade
- *
- */
-operator fun TradeHistoryItem.get(currencyPair: CurrencyPair) = Trade.Builder()
-        .currencyPair(currencyPair)
-        .id(orderHash)
-        .originalAmount(amount.toBigDecimalOrNull() ?: ZERO)
-        .price(price.toBigDecimalOrNull() ?: ZERO)
-        .timestamp(DateUtils.fromISO8601DateString(date))
-        .type(ASK[type])
-        .build()
-
-/**
- * returns XChange Ticker
- */
-operator fun ReturnTickerResponse.get(currencyPair: CurrencyPair) = Ticker.Builder()
-        .currencyPair(currencyPair)
-        .timestamp(Date())
-        .open(last.toBigDecimalOrNull())
-        .ask(lowestAsk.toBigDecimalOrNull() ?: ZERO)
-        .bid(highestBid.toBigDecimalOrNull() ?: ZERO)
-        .last(last.toBigDecimalOrNull() ?: ZERO)
-        .high(high.toBigDecimalOrNull() ?: ZERO)
-        .low(low.toBigDecimalOrNull() ?: ZERO)
-        .volume(baseVolume.toBigDecimalOrNull() ?: ZERO)
-        .quoteVolume(quoteVolume.toBigDecimalOrNull() ?: ZERO)
-        .build()
-
-var debugMe = "true" == System.getProperty("XChangeDebug", "false")
-var debugDateCounter = 0;
