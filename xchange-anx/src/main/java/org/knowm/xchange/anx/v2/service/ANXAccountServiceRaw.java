@@ -66,7 +66,7 @@ public class ANXAccountServiceRaw extends ANXBaseService {
     try {
       ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper = anxV2.withdrawBtc(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
           exchange.getNonceFactory(), currency, address,
-          amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2)).intValue(), 1, false, false);
+          amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2)).toBigIntegerExact(), 1, false, false);
       return anxWithdrawalResponseWrapper;
     } catch (ANXException e) {
       throw handleError(e);
@@ -75,6 +75,19 @@ public class ANXAccountServiceRaw extends ANXBaseService {
     }
   }
 
+  public ANXWithdrawalResponseWrapper anxWithdrawFunds(String currency, BigDecimal amount, String address, String destinationTag)
+      throws IOException {
+    try {
+      ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper = anxV2.withdrawXrp(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+          exchange.getNonceFactory(), currency, address,
+          amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2)).toBigIntegerExact(), 1, false, false, destinationTag);
+      return anxWithdrawalResponseWrapper;
+    } catch (ANXException e) {
+      throw handleError(e);
+    } catch (HttpStatusIOException e) {
+      throw handleHttpError(e);
+    }
+  }
   public ANXBitcoinDepositAddress anxRequestDepositAddress(String currency) throws IOException {
 
     try {

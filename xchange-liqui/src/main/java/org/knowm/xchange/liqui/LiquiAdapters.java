@@ -158,7 +158,7 @@ public class LiquiAdapters {
     final OrderType orderType = adaptOrderType(liquiTrade.getType());
     final BigDecimal originalAmount = liquiTrade.getAmount();
     final CurrencyPair pair = liquiTrade.getPair();
-    final Date timestamp = new Date((long) (liquiTrade.getTimestamp() * 1000L));
+    final Date timestamp = new Date(liquiTrade.getTimestamp() * 1000L);
     final BigDecimal price = liquiTrade.getRate();
 
     return new UserTrade(orderType, originalAmount, pair, price, timestamp, String.valueOf(tradeId),
@@ -168,10 +168,10 @@ public class LiquiAdapters {
   public static Order adaptOrderInfo(final LiquiOrderInfo info) {
     final OrderType orderType = adaptOrderType(info.getType());
     final CurrencyPair pair = info.getPair();
-    final BigDecimal amount = info.getAmount();
+    final BigDecimal amount = info.getStartAmount().subtract(info.getAmount());
     final BigDecimal startAmount = info.getStartAmount();
     final BigDecimal rate = info.getRate();
-    final Date timestamp = new Date((long) (info.getTimestampCreated() * 1000L));
+    final Date timestamp = new Date(info.getTimestampCreated() * 1000L);
 
     return new LimitOrder(orderType, startAmount, amount, pair, "", timestamp, rate);
   }
