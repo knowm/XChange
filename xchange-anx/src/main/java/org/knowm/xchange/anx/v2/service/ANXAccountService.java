@@ -18,6 +18,7 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -56,10 +57,32 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
 
     if (address == null) {
-      throw new IllegalArgumentException("Amount cannot be null");
+      throw new IllegalArgumentException("Address cannot be null");
     }
 
     ANXWithdrawalResponseWrapper wrapper = anxWithdrawFunds(currency.toString(), amount, address);
+    return handleWithdrawalResponse(wrapper);
+  }
+
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address, String tag) throws IOException {
+
+    if (amount.scale() > ANXUtils.VOLUME_AND_AMOUNT_MAX_SCALE) {
+      throw new IllegalArgumentException("Amount scale exceed " + ANXUtils.VOLUME_AND_AMOUNT_MAX_SCALE);
+    }
+
+    if (address == null) {
+      throw new IllegalArgumentException("Address cannot be null");
+    }
+
+    if (tag == null) {
+      throw new IllegalArgumentException("destinationTag cannot be null");
+    }
+
+    ANXWithdrawalResponseWrapper wrapper = anxWithdrawFunds(currency.toString(), amount, address, tag);
+    return handleWithdrawalResponse(wrapper);
+  }
+
+  private String handleWithdrawalResponse(ANXWithdrawalResponseWrapper wrapper) {
     ANXWithdrawalResponse response = wrapper.getAnxWithdrawalResponse();
 
     //eg: {  "result": "error",  "data": {    "message": "min size, params, or available funds problem."  }}
@@ -75,6 +98,11 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
 
+    if (params instanceof RippleWithdrawFundsParams) {
+      RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
+      return withdrawFunds(rippleWithdrawFundsParams.currency, rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address,
+          rippleWithdrawFundsParams.tag);
+    }
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);

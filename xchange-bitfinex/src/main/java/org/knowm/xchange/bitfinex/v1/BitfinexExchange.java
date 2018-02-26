@@ -59,14 +59,17 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
     final List<BitfinexSymbolDetail> symbolDetails = dataService.getSymbolDetails();
     exchangeMetaData = BitfinexAdapters.adaptMetaData(exchangeMetaData, symbolDetails);
 
-    BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
-    final BitfinexAccountFeesResponse accountFees = accountService.getAccountFees();
-    exchangeMetaData = BitfinexAdapters.adaptMetaData(accountFees, exchangeMetaData);
+    if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null) {
+      // Additional remoteInit configuration for authenticated instances
+      BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
+      final BitfinexAccountFeesResponse accountFees = accountService.getAccountFees();
+      exchangeMetaData = BitfinexAdapters.adaptMetaData(accountFees, exchangeMetaData);
 
-    BitfinexTradeService tradeService = (BitfinexTradeService) this.tradeService;
-    final BitfinexAccountInfosResponse[] bitfinexAccountInfos = tradeService.getBitfinexAccountInfos();
+      BitfinexTradeService tradeService = (BitfinexTradeService) this.tradeService;
+      final BitfinexAccountInfosResponse[] bitfinexAccountInfos = tradeService.getBitfinexAccountInfos();
 
-    exchangeMetaData = BitfinexAdapters.adaptMetaData(bitfinexAccountInfos, exchangeMetaData);
+      exchangeMetaData = BitfinexAdapters.adaptMetaData(bitfinexAccountInfos, exchangeMetaData);
+    }
   }
 
 }
