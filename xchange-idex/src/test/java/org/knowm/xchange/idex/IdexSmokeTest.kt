@@ -9,7 +9,8 @@ fun main(args: Array<String>) {
     System.err.println("AccountInfo.... using arg[0] as account")
     val apiZekret = if (args.size > 1) args[1] else ""
 
-    val idex = ExchangeFactory.INSTANCE.createExchange(IdexExchange::class.java, apiKey, apiZekret);
+    val idex: IdexExchange = ExchangeFactory.INSTANCE.createExchange(IdexExchange::class.java, apiKey,
+                                                                     apiZekret) as IdexExchange;
     val accountInfo = idex.accountService.accountInfo
 
     System.err.println(accountInfo.toString())
@@ -28,7 +29,15 @@ fun main(args: Array<String>) {
     System.err.println("Funding History... using arg[0]")
     val c: IdexTradeHistoryParams = idex.accountService.createFundingHistoryParams() as IdexTradeHistoryParams
     c.address(apiKey)
-
-
     System.err.println(idex.accountService.getFundingHistory(c))
+    System.err.println("All currencies (lazy)")
+    var t = System.currentTimeMillis()
+    val allCurrencies = IdexMarketDataService.allCurrencies
+    System.err.println("fetched/sorted in " + (System.currentTimeMillis() - t) + "(ms)")
+    System.err.println(allCurrencies)
+    System.err.println("All intruments (lazy)")
+    t = System.currentTimeMillis()
+    val allInstrument = IdexMarketDataService.allInstrument
+    System.err.println("sorted in ${System.currentTimeMillis() - t}(ms)")
+    System.err.println(allInstrument)
 }

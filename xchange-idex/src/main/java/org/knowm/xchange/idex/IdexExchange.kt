@@ -7,7 +7,6 @@ import org.knowm.xchange.*
 import org.knowm.xchange.dto.meta.*
 import org.knowm.xchange.idex.dto.*
 import org.knowm.xchange.idex.util.*
-import org.knowm.xchange.utils.nonce.*
 import si.mazi.rescu.*
 import java.util.logging.*
 
@@ -23,8 +22,10 @@ class IdexExchange : Exchange, BaseExchange() {
     override fun getExchangeSpecification(): ExchangeSpecification = this.exchangeSpecification
 
     /*was AtomicLongIncrementalTime2014NonceFactory()*/
-    override fun getNonceFactory() =  SynchronizedValueFactory<Long>{idexTradeService.nextNonce(
-            NextNonceReq()).nonce.toLong()}
+    override fun getNonceFactory() = SynchronizedValueFactory<Long> {
+        idexTradeService.nextNonce(
+                NextNonceReq()).nonce.toLong()
+    }
 
     override fun initServices() = Unit
     override fun getExchangeMetaData(): ExchangeMetaData = ExchangeMetaData(
@@ -32,7 +33,7 @@ class IdexExchange : Exchange, BaseExchange() {
             emptyMap(),
             emptyArray(),
             emptyArray(),
-            true)
+            false)
 
     override fun applySpecification(exchangeSpecification: ExchangeSpecification?) {
         this.exchangeSpecification = exchangeSpecification
@@ -48,7 +49,9 @@ class IdexExchange : Exchange, BaseExchange() {
     }
 
     companion object {
-        val gson by lazy { JSON().gson }
+
+
+        public val gson by lazy { JSON().gson }
 
         /**
          * if you need to debug the REST api calls use -DXChangeDebug=true

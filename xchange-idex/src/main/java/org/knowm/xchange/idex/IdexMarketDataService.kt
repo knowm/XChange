@@ -1,8 +1,7 @@
 package org.knowm.xchange.idex
 
-import com.squareup.okhttp.*
-import okio.*
 import org.knowm.xchange.currency.*
+import org.knowm.xchange.currency.Currency
 import org.knowm.xchange.dto.Order.*
 import org.knowm.xchange.dto.Order.OrderType.*
 import org.knowm.xchange.dto.marketdata.*
@@ -12,9 +11,12 @@ import org.knowm.xchange.idex.service.*
 import org.knowm.xchange.idex.util.*
 import org.knowm.xchange.service.marketdata.*
 import org.knowm.xchange.utils.*
+import java.io.*
 import java.math.BigDecimal.*
+import java.net.*
 import java.util.*
-import java.util.logging.*
+import java.util.zip.*
+import javax.net.ssl.*
 
 
 class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketDataService, MarketApi() {
@@ -59,51 +61,35 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
                       }, tradeHistoryItem.transactionHash)
     })
 
-    fun getIdexCurrencyInfo(): Any {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun allTickers(): ReturnTickerRequestedWithNull {
+        return allTickersStatic()
     }
 
-    fun getAllIdexTickers(): Any {
-//        val volume24 = MarketApi().volume24(Volume24Req().market("ETH_REP"))
-        TODO()
-    }
-}
+    /**same as  curl -XPOST https://api.idex.market/returnTicker
+     */
 
-private fun testVol24() {
-//this method is dead on arrival
-//    jim@mp$ curl -XPOST https://api.idex.market/return24Volume -d"{}"
-//    {"error":"Cannot read property '0' of null"}
-    val marketApi = MarketApi()
-    marketApi.apiClient.httpClient.interceptors().add(Interceptor { chain ->
-        val request = chain.request()
-
-        val t1 = System.nanoTime()
-        Logger.getAnonymousLogger().info(
-                String.format("--> Sending request %s on %s%n%s",
-                              request.url(),
-                              chain.connection(), request.headers()))
-
-        val requestBuffer = Buffer()
-        if (request.method() == "POST") {
-            request.body().writeTo(requestBuffer)
-            Logger.getAnonymousLogger().info(requestBuffer.readUtf8())
+    companion object {
+        public val allTickers by lazy { IdexMarketDataService.allTickersStatic() };
+        public val allCurrencies by lazy {
+            allTickers.keys.map { it.split('_')[0] }.distinct().sorted().map(::Currency)
         }
-        val response = chain.proceed(request)
+        public val allInstrument by lazy {
+            allTickers.keys.map { it.split('_')[1] }.distinct().sorted().map(::Currency)
+        }
 
-        val t2 = System.nanoTime()
-        Logger.getAnonymousLogger().info(
-                String.format("<-- Received response for %s in %.1fms%n%s",
-                              response.request().url(), (t2 - t1) / 1e6,
-                              response.headers()))
 
-        val contentType = response.body().contentType()
-        val content = response.body().string()
-        Logger.getAnonymousLogger().info(content)
+        public fun allTickersStatic(): ReturnTickerRequestedWithNull {
+            val c: javax.net.ssl.HttpsURLConnection = URL(
+                    "https://api.idex.market/returnTicker").openConnection() as HttpsURLConnection
+            c.requestMethod = "POST"
+            c.setRequestProperty("Accept-Encoding", "gzip");
+            c.setRequestProperty("User-Agent", "irrelevant")
+            val inputStream = c.inputStream
+            return IdexExchange.gson.fromJson(InputStreamReader(GZIPInputStream(inputStream)),
+                                              ReturnTickerRequestedWithNull::class.java).also { inputStream.close() }
 
-        val wrappedBody = ResponseBody.create(contentType, content)
-        response.newBuilder().body(wrappedBody).build()
-    })
-
+        }
+    }
 }
 
 operator fun OrderType.get(type: String): OrderType {

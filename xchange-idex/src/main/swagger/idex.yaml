@@ -38,6 +38,9 @@ paths:
       summary: FAKE METHOD! swagger has its limits.  java type erasures has its limits.  override this at runtime.
       tags:
         - market
+      consumes:
+        - 'application/x-www-form-urlencoded'
+
       operationId: AllTickers
       responses:
         '200':
