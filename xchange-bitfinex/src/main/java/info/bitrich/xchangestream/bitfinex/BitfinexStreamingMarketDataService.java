@@ -41,7 +41,7 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         Observable<BitfinexWebSocketOrderbookTransaction> subscribedChannel = service.subscribeChannel(channelName,
-                new Object[]{pair, "R0", depth})
+                new Object[]{pair, "P0", depth})
                 .map(s -> {
                     if (s.get(1).get(0).isArray()) return mapper.readValue(s.toString(),
                             BitfinexWebSocketSnapshotOrderbook.class);

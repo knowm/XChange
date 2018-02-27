@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.bitfinex.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Created by Lukas Zaoralek on 8.11.17.
