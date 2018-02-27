@@ -82,8 +82,11 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   @Override
   public String toString() {
+    return "LimitOrder [limitPrice=" + printLimitPrice() + ", " + super.toString() + "]";
+  }
 
-    return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
+  private String printLimitPrice() {
+    return limitPrice == null ? null : limitPrice.toPlainString();
   }
 
   @Override
