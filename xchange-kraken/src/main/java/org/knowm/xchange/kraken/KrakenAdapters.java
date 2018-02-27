@@ -119,13 +119,16 @@ public class KrakenAdapters {
       orderStatus = OrderStatus.PARTIALLY_FILLED;
     }
 
+    Double time = krakenOrder.getOpenTimestamp() * 1000;//eg: "opentm":1519731205.9987
+    Date timestamp = new Date(time.longValue());
+
     if(krakenOrder.getOrderDescription().getOrderType().equals(KrakenOrderType.LIMIT))
       return new LimitOrder(
               orderType,
               krakenOrder.getVolume(),
               currencyPair,
               orderId,
-              new Date(new Double(krakenOrder.getOpenTimestamp()).longValue()),
+              timestamp,
               krakenOrder.getOrderDescription().getPrice(),
               krakenOrder.getPrice(),
               krakenOrder.getVolumeExecuted(),
@@ -139,7 +142,7 @@ public class KrakenAdapters {
               krakenOrder.getVolume(),
               currencyPair,
               orderId,
-              new Date(new Double(krakenOrder.getOpenTimestamp()).longValue()),
+              timestamp,
               krakenOrder.getPrice(),
               krakenOrder.getVolumeExecuted(),
               krakenOrder.getFee(),
