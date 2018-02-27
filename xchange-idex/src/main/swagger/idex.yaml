@@ -223,6 +223,19 @@ paths:
           schema:
             $ref: '#/definitions/returnNextNonceResponse'
           description: 'Sample output: { nonce: 2650 }'
+  /returnContractAddress:
+    post:
+      tags:
+        - trade
+      summary:    Returns the contract address used for depositing, withdrawing, and posting orders
+
+      operationId: ContractAddress
+      responses:
+        200:
+          examples: '{ "address":  "0x2a0c0dbecc7e4d658f48e01e3fa353f44050c208" }'
+          schema:
+            $ref: '#/definitions/returnContractAddressResponse'
+
   /order:
     post:
       tags:
@@ -966,10 +979,6 @@ definitions:
     properties:
       address:
         type: string
-        title: The Nonce Schema
-        default: 0
-        examples:
-          - 2650
   orderResponse:
     type: object
     definitions: {}

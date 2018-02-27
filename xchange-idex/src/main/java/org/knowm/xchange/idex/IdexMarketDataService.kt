@@ -65,13 +65,13 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
 
     companion object {
         public val allTickers by lazy { IdexMarketDataService.allTickersStatic() };
-        public val allBase by lazy {
+        public val allCounter by lazy {
             allTickers.keys.map { it.split('_')[0] }.distinct().sorted().map(::Currency)
         }
-        public val allInstrument by lazy {
+        public val allBase by lazy {
             allTickers.keys.map { it.split('_')[1] }.distinct().sorted().map(::Currency)
         }
-         public val allCurrencies by lazy{ allCurrenciesStatic()}
+        public val allCurrencies by lazy{ allCurrenciesStatic()}
         /**same as  curl -XPOST https://api.idex.market/returnTicker
          */
         public fun allTickersStatic(): ReturnTickerRequestedWithNull {
@@ -94,10 +94,9 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
             val inputStream = c.inputStream
             return IdexExchange.gson.fromJson(InputStreamReader(GZIPInputStream(inputStream)),
                                               ReturnCurrenciesResponse::class.java).also { inputStream.close() }
-
         }
 
-        val CurrencyPair.idexMkt get() = "${base.symbol}_${counter.symbol}"
+        val CurrencyPair.idexMkt get() = "${counter.symbol}_${base.symbol}"
         val CurrencyPair.tradeReq inline get() = TradeHistoryReq().market(idexMkt)
         val CurrencyPair.market inline get() = Market().market(idexMkt)
         val CurrencyPair.orderbook inline get() = OrderBookReq().market(idexMkt)

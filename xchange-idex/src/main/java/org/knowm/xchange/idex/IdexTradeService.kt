@@ -1,6 +1,7 @@
 package org.knowm.xchange.idex
 
 import org.knowm.xchange.currency.*
+import org.knowm.xchange.currency.Currency
 import org.knowm.xchange.dto.*
 import org.knowm.xchange.dto.Order.OrderType.*
 import org.knowm.xchange.dto.marketdata.*
@@ -31,15 +32,18 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
     }
 
     val apiKey get() = idexExchange.exchangeSpecification.apiKey
+
     val idexServerNonce get() = nextNonce(NextNonceReq().address(apiKey)).nonce
-    override fun placeLimitOrder(limitOrder1: LimitOrder): String {
-        when (limitOrder1) {
+
+
+    override fun placeLimitOrder(placeOrder: LimitOrder): String {
+        when (placeOrder) {
             is IdexLimitOrder -> {
-                val limitOrder: IdexLimitOrder = limitOrder1
+                val limitOrder: IdexLimitOrder = placeOrder
                 val apiKey = idexExchange.exchangeSpecification.apiKey
                 order(OrderReq()
                               .address(apiKey)
-                              .nonce(nextNonce(NextNonceReq().address(apiKey)).nonce)
+                              .nonce(idexServerNonce)
                               .amountBuy(limitOrder.amountBuy)
                               .amountSell(limitOrder.amountSell)
                               .tokenBuy(limitOrder.tokenBuy)
@@ -49,8 +53,56 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                               .v(limitOrder.v)
                 ).orderNumber
             }
+            else -> {
+
+                val type = placeOrder.type
+                val baseCurrency = placeOrder.currencyPair.base
+                val counterCurrency = placeOrder.currencyPair.counter
+                val originalAmount = placeOrder.originalAmount
+                val limitPrice = placeOrder.limitPrice
+
+
+                val orderReq = createNormalizedOrderReq(baseCurrency, counterCurrency, type, limitPrice, originalAmount)
+                order(orderReq
+
+                ).orderNumber
+            }
         }
         TODO("This method requires " + IdexLimitOrder::class.java.canonicalName);
+    }
+
+    public fun createNormalizedOrderReq(baseCurrency: Currency?,
+                                        counterCurrency: Currency?,
+                                        type: Order.OrderType?, limitPrice: BigDecimal,
+                                        originalAmount: BigDecimal): OrderReq {
+        idexExchange.exchangeMetaData.currencies[baseCurrency]
+        idexExchange.exchangeMetaData.currencies[counterCurrency]
+
+
+        var c = listOf(baseCurrency,//OMG
+                       counterCurrency//ETH
+        )
+        if (type == ASK) c = c.reversed();
+
+        val metaAccumulo = idexExchange.exchangeMetaData.currencies[c[0]] as IdexCurrencyMeta
+        val metaReducto = idexExchange.exchangeMetaData.currencies[c[1]] as IdexCurrencyMeta
+
+
+        var acquire = (originalAmount / limitPrice).multiply(
+                "1e+${metaAccumulo.decimals.toBigDecimal()}".toBigDecimal()).toBigInteger()
+        var reduce = (originalAmount).multiply(
+                "1e+${metaReducto.decimals.toBigDecimal()}".toBigDecimal()).toBigInteger()
+
+        val orderReq = OrderReq()
+                .address(apiKey)
+                .nonce(idexServerNonce)
+                .tokenBuy(metaAccumulo.address)
+                .amountBuy(acquire.toString())
+                .tokenSell(metaReducto.address)
+                .amountSell(reduce.toString())
+                .expires(Random().nextInt())
+
+        return orderReq
     }
 
 
@@ -135,8 +187,6 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
             getOpenOrders { it.id in orderIds }.openOrders.toMutableList()
 
     companion object {
-
-
         class IdexMarketOrder(val r: String, val s: String, val v: String, type: OrderType?,
                               originalAmount: BigDecimal?,
                               currencyPair: CurrencyPair?, id: String?, timestamp: Date?, averagePrice: BigDecimal?,

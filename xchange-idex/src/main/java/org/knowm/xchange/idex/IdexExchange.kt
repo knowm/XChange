@@ -32,17 +32,31 @@ class IdexExchange : Exchange, BaseExchange() {
     override fun initServices() = Unit
     val unavailableCPMeta = CurrencyPairMetaData(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0)
 
-    override fun getExchangeMetaData(): ExchangeMetaData = ExchangeMetaData(
-            /*emptyMap<CurrencyPair?, CurrencyPairMetaData?>()*/IdexMarketDataService.allTickers.map {
-        it.key.split("_").toTypedArray()
-    }.associate { c -> CurrencyPair(c[0], c[1]) to unavailableCPMeta },
-                                                                /*emptyMap<Currency?, CurrencyMetaData?>()*/IdexMarketDataService.allCurrenciesStatic()!!.entries
-                                                                        .associate{
-        Currency(it.key) to IdexCurrencyMeta(0, BigDecimal.ZERO,it.value.address,it.value.name,it.value.decimals)
-    },
-                                                                emptyArray<RateLimit?>(),
-                                                                emptyArray<RateLimit?>(),
-                                                                false)
+    override fun getExchangeMetaData(): ExchangeMetaData {
+        val allCurrenciesStatic = IdexMarketDataService.allCurrenciesStatic()
+        return ExchangeMetaData(
+                IdexMarketDataService.allTickers.map {
+                    it.key.split("_").toTypedArray()
+                }.associate { c -> CurrencyPair(c[0], c[1]) to unavailableCPMeta },
+
+
+                allCurrenciesStatic!!.entries.associate {
+                    val cmeta: IdexCurrMeta = it.value
+                    assert(null != cmeta.decimals,
+                           {
+                               "meta-init: ${cmeta.name} has null decimals --  " + JSON().gson.toJson(
+                                       cmeta)
+                           })
+                    Currency(it.key) to IdexCurrencyMeta(scale = 0,
+                                                         withdrawalFee = BigDecimal.ZERO,
+                                                         address = cmeta.address,
+                                                         name = cmeta.name,
+                                                         decimals = cmeta.decimals ?: 0)
+                },
+                emptyArray<RateLimit?>(),
+                emptyArray<RateLimit?>(),
+                false)
+    }
 
     override fun applySpecification(exchangeSpecification: ExchangeSpecification?) {
         this.exchangeSpecification = exchangeSpecification
