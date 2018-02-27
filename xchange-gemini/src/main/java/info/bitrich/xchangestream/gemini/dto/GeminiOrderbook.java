@@ -37,7 +37,7 @@ public class GeminiOrderbook {
     public void updateLevel(GeminiLimitOrder level) {
         SortedMap<BigDecimal, GeminiLimitOrder> orderBookSide = level.getSide() == Order.OrderType.ASK ? asks : bids;
         boolean shouldDelete = level.getAmount().compareTo(zero) == 0;
-        BigDecimal price = level.getPrice();
+        BigDecimal price = new BigDecimal(level.getPrice().toString()); // copy of the price is required for thread safety (BigDecimal is not thread safe, and the hashcode can be affected by outside accesses of the value)
         orderBookSide.remove(price);
         if (!shouldDelete) {
             orderBookSide.put(price, level);
