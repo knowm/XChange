@@ -2,6 +2,8 @@ package org.knowm.xchange.abucoins.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -11,11 +13,12 @@ import org.knowm.xchange.abucoins.dto.AbucoinsCryptoWithdrawalRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoDeposit;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoWithdrawal;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositsHistory;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalsHistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -43,9 +46,9 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
     String method = abucoinsPaymentMethodForCurrency(currency.getCurrencyCode());
-    AbucoinsCryptoDeposit cryptoDeposit = abucoinsCryptoDeposit(new AbucoinsCryptoDepositRequest(currency.getCurrencyCode(), method));
+    AbucoinsCryptoDeposit cryptoDeposit = abucoinsDepositMake(new AbucoinsCryptoDepositRequest(currency.getCurrencyCode(), method));
     if ( cryptoDeposit.getMessage() != null )
-      throw new IOException(cryptoDeposit.getMessage());
+      throw new ExchangeException(cryptoDeposit.getMessage());
           
     return cryptoDeposit.getAddress();
   }
@@ -56,7 +59,7 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
       DefaultWithdrawFundsParams defParams = (DefaultWithdrawFundsParams) params;
                  
       String method = abucoinsPaymentMethodForCurrency(defParams.currency.getCurrencyCode());
-      AbucoinsCryptoWithdrawal withdrawal = abucoinsWithdraw( new AbucoinsCryptoWithdrawalRequest(defParams.amount,
+      AbucoinsCryptoWithdrawal withdrawal = abucoinsWithdrawalsMake( new AbucoinsCryptoWithdrawalRequest(defParams.amount,
                                                                                                   defParams.currency.getCurrencyCode(),
                                                                                                   method,
                                                                                                   defParams.address,
@@ -67,21 +70,37 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
     if ( params == null )
       throw new IllegalArgumentException("Requires a DefaultWithdrawFundsParams object to describe the withdrawal");
          
-    throw new IOException("Abucoins only understands DefaultWithdrawFundsParams not " + params.getClass().getName());
+    throw new IllegalArgumentException("Abucoins only understands DefaultWithdrawFundsParams not " + params.getClass().getName());
   }
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
-
+  
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+    return new AbucoinsTradeHistoryParams();
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams param) throws IOException {
+    AbucoinsDepositsHistory depositHistory = abucoinsDepositHistory();
+    AbucoinsWithdrawalsHistory withdrawHistory = abucoinsWithdrawalsHistory();
+    
+    List<FundingRecord> retVal = new ArrayList<>();
+    List<FundingRecord> some;
+    some = AbucoinsAdapters.adaptFundingRecordsFromDepositsHistory(depositHistory);
+    retVal.addAll(some);
+    
+    some = AbucoinsAdapters.adaptFundingRecords(withdrawHistory);
+    retVal.addAll(some);
+    
+    // interleave the records based on time, newest first
+    Collections.sort(retVal, (FundingRecord r1, FundingRecord r2)-> {
+      return r2.getDate().compareTo(r1.getDate());
+    });
+    
+    return retVal;
   }
 }

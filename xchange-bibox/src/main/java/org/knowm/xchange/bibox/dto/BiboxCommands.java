@@ -2,6 +2,7 @@ package org.knowm.xchange.bibox.dto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.knowm.xchange.bibox.dto.account.BiboxDepositAddressCommandBody;
 
@@ -29,6 +30,12 @@ public class BiboxCommands extends ArrayList<BiboxCommand<?>> {
 
   private BiboxCommands() {
     super();
+  }
+  
+  public static BiboxCommands of(List<BiboxCommand<?>> commands) {
+    BiboxCommands cmds = new BiboxCommands();
+    cmds.addAll(commands);
+    return cmds;
   }
 
   public static BiboxCommands of(BiboxCommand<?>... commands) {

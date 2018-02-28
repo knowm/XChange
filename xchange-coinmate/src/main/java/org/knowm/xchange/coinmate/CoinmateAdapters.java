@@ -23,11 +23,6 @@
  */
 package org.knowm.xchange.coinmate;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
@@ -53,6 +48,11 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Martin Stachon
@@ -181,10 +181,14 @@ public class CoinmateAdapters {
           continue;
       }
 
-      switch (entry.getStatus()) {
+      switch (entry.getStatus().toUpperCase()) {
+        case "OK":
         case "COMPLETED":
           status = FundingRecord.Status.COMPLETE;
           break;
+        case "SENT":
+        case "CREATED":
+        case "WAITING":
         case "PENDING":
           status = FundingRecord.Status.PROCESSING;
           break;

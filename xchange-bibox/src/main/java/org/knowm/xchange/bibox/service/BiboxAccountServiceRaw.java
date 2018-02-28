@@ -7,6 +7,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.BiboxException;
 import org.knowm.xchange.bibox.dto.BiboxCommands;
+import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -22,7 +23,9 @@ public class BiboxAccountServiceRaw extends BiboxBaseService {
 
   public List<BiboxCoin> getBiboxAccountInfo() {
     try {
-      return bibox.coinList(COIN_LIST_CMD.json(), apiKey, signatureCreator).get().getResult();
+      BiboxSingleResponse<List<BiboxCoin>> response = bibox.coinList(COIN_LIST_CMD.json(), apiKey, signatureCreator);
+      throwErrors(response);
+      return response.get().getResult();
     } catch (BiboxException e) {
       throw new ExchangeException(e.getMessage());
     }
@@ -30,8 +33,9 @@ public class BiboxAccountServiceRaw extends BiboxBaseService {
 
   public String requestBiboxDepositAddress(Currency currency) {
     try {
-      return bibox.depositAddress(BiboxCommands.depositAddressCommand(currency.getCurrencyCode()).json(),
-          apiKey, signatureCreator).get().getResult();
+      BiboxSingleResponse<String> response = bibox.depositAddress(BiboxCommands.depositAddressCommand(currency.getCurrencyCode()).json(), apiKey, signatureCreator);
+      throwErrors(response);
+      return response.get().getResult();
     } catch (BiboxException e) {
       throw new ExchangeException(e.getMessage());
     }
