@@ -9,15 +9,15 @@ public class ItBitTrade {
   private final BigDecimal amount;
   private final String timestamp;
   private final BigDecimal price;
-  private final long tid;
+  private final long matchNumber;
 
   public ItBitTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") String timestamp, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("tid") long tid) {
+      @JsonProperty("matchNumber") long matchNumber) {
 
     this.amount = amount;
     this.timestamp = timestamp;
     this.price = price;
-    this.tid = tid;
+    this.matchNumber = matchNumber;
   }
 
   public BigDecimal getAmount() {
@@ -35,9 +35,9 @@ public class ItBitTrade {
     return price;
   }
 
-  public long getTid() {
+  public long getMatchNumber() {
 
-    return tid;
+    return matchNumber;
   }
 
   @Override
@@ -50,8 +50,8 @@ public class ItBitTrade {
     builder.append(timestamp);
     builder.append(", price=");
     builder.append(price);
-    builder.append(", tid=");
-    builder.append(tid);
+    builder.append(", matchNumber=");
+    builder.append(matchNumber);
     builder.append("]");
     return builder.toString();
   }
