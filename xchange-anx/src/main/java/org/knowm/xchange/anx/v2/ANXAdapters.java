@@ -251,7 +251,7 @@ public final class ANXAdapters {
     OrderType type = adaptSide(aNXTradeResult.getSide());
     // for fees, getWalletHistory should be used.
     return new UserTrade(type, tradedCurrencyFillAmount, currencyPair, price, aNXTradeResult.getTimestamp(), aNXTradeResult.getTradeId(),
-        aNXTradeResult.getOrderId(), null, (Currency) null);
+        aNXTradeResult.getOrderId(), null, null);
   }
 
   private static CurrencyPair adaptCurrencyPair(String currencyPairRaw) {
@@ -287,7 +287,7 @@ public final class ANXAdapters {
     }
   }
 
-  public static FundingRecord adaptFundingRecord(ANXWalletHistoryEntry entry) {
+  public static FundingRecord adaptFundingRecord(ANXWalletHistoryEntry entry, ANXWalletHistoryEntry feeEntry) {
       /*
       type can be can be any of:
 
@@ -312,6 +312,15 @@ public final class ANXAdapters {
     else
       throw new IllegalStateException("should not get here");
 
+    BigDecimal fee = null;
+    if (feeEntry != null) {
+      if (!feeEntry.getType().equalsIgnoreCase("fee")) {
+        throw new IllegalStateException("feeEntry not null and not of type fee " + feeEntry);
+      } else {
+        fee = feeEntry.getValue().getValue();
+      }
+    }
+
     Long rawDate = Long.valueOf(entry.getDate());
     //this date is not in utc, it's in HK time (I think) - for example: 1495759124000 should translate to 2017-05-26 09:38:44
 
@@ -332,7 +341,7 @@ public final class ANXAdapters {
         type,
         FundingRecord.Status.COMPLETE,
         balance == null ? null : balance.getValue(),
-        null,
+        fee,
         null
     );
   }
