@@ -5,10 +5,10 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assume.assumeThat;
 import static org.knowm.xchange.utils.nonce.LongConstNonceFactory.NONCE_FACTORY;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -47,7 +47,7 @@ import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPa
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
