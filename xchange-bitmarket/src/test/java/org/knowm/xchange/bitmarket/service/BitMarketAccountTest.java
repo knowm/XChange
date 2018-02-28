@@ -31,7 +31,7 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
