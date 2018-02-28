@@ -21,6 +21,7 @@ import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawFundsRequest;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXCandle;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
@@ -70,6 +71,14 @@ public interface GDAX {
   GDAXTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency)
       throws GDAXException, IOException;
 
+  @GET
+  @Path("products/{baseCurrency}-{targetCurrency}/candles?start={start}&end={end}&granularity={granularity}")
+  GDAXCandle[] getHistoricalCandles(
+      @PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency, 
+      @PathParam("start") String start, @PathParam("end") String end, 
+      @PathParam("granularity") String granularity) 
+      throws GDAXException, IOException;
+  
   /**
    * Authenticated calls
    */
