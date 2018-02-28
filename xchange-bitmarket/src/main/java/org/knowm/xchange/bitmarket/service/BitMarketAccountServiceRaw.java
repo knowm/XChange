@@ -14,13 +14,15 @@ import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * @author kfonal
  */
 public class BitMarketAccountServiceRaw extends BitMarketBaseService {
 
-  public BitMarketAccountServiceRaw(Exchange exchange) {
-    super(exchange);
+  public BitMarketAccountServiceRaw(Exchange exchange, IRestProxyFactory restProxyFactory) {
+    super(exchange, restProxyFactory);
   }
 
   public BitMarketAccountInfoResponse getBitMarketAccountInfo() throws IOException, ExchangeException {
