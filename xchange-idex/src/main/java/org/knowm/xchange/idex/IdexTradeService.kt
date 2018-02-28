@@ -1,5 +1,6 @@
 package org.knowm.xchange.idex
 
+import org.apache.commons.codec.binary.*
 import org.knowm.xchange.currency.*
 import org.knowm.xchange.currency.Currency
 import org.knowm.xchange.dto.*
@@ -13,11 +14,15 @@ import org.knowm.xchange.service.trade.*
 import org.knowm.xchange.service.trade.params.*
 import org.knowm.xchange.service.trade.params.orders.*
 import org.knowm.xchange.utils.*
+import org.web3j.crypto.*
+import org.web3j.crypto.Hash.*
 import java.math.*
 import java.math.BigDecimal.*
 import java.util.*
+import kotlin.text.Charsets.UTF_8
 
 class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi() {
+
     init {
 
         if (IdexExchange.debugMe) {
@@ -31,7 +36,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         else -> throw ApiException("cancel order requires " + IdexCancelOrderParams::class.java.canonicalName)
     }
 
-    val apiKey get() = idexExchange.exchangeSpecification.apiKey
+    val apiKey inline get() = idexExchange.exchangeSpecification.apiKey
 
     val idexServerNonce get() = nextNonce(NextNonceReq().address(apiKey)).nonce
 
@@ -63,9 +68,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
 
 
                 val orderReq = createNormalizedOrderReq(baseCurrency, counterCurrency, type, limitPrice, originalAmount)
-                order(orderReq
-
-                ).orderNumber
+                order(orderReq).orderNumber
             }
         }
         TODO("This method requires " + IdexLimitOrder::class.java.canonicalName);
@@ -222,12 +225,40 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                                      */
                                     val expires: Long = Random().nextLong()
 
-        ) :
-                LimitOrder(type, originalAmount, currencyPair, id, timestamp, limitPrice)
+        ) : LimitOrder(type, originalAmount, currencyPair, id, timestamp, limitPrice)
 
         class IdexTradeHistoryReq(val sort: Trades.TradeSortType? = Trades.TradeSortType.SortByTimestamp,
                                   val lastId: Long? = null) : TradeHistoryParams, TradeHistoryReq()
 
+        /**Generate v, r, s values from payload*/
+        fun generateSignature(
+                apiSecret: String,
+                data: Iterable<List<String>>
+        ): Sign.SignatureData? {
+            // pack parameters based on type
+            var sig_str = ""
+            data.forEach { d ->
 
+                var payload = d[1]
+                if (d[2] == "address")
+                // remove 0x prefix and convert to bytes
+                    payload = payload.toLowerCase().split("0x").last()
+                else if (d[2] == "uint256")
+                // encode, pad and convert to bytes
+                    payload = Hex.encodeHexString(d[1].toBigInteger().toByteArray()).toLowerCase()
+                sig_str += payload
+            }
+            // hash the packed string
+            val rawhash = sha3String(sig_str)
+
+            // salt the hashed packed string
+            val salted = sha3String("\u0019Ethereum Signed Message:\n32$rawhash")
+
+            apiSecret.split("0x").last()
+
+            val payloadBytesCrypted = salted.toByteArray(UTF_8)
+            val apiSecretBytes = apiSecret.toLowerCase().split("0x").last().toByteArray(UTF_8)
+            return Sign.signMessage(payloadBytesCrypted, ECKeyPair.create(apiSecretBytes))
+        }
     }
 }
