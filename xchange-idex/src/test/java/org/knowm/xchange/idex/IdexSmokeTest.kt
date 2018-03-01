@@ -32,11 +32,14 @@ fun main (args: Array<String>) {
     val c: IdexTradeHistoryParams = idex.accountService.createFundingHistoryParams() as IdexTradeHistoryParams
     c.address(apiKey)
     System.err.println(idex.accountService.getFundingHistory(c))
+
     System.err.println("All currencies (lazy)")
     var t = System.currentTimeMillis()
     val allCurrencies = IdexMarketDataService.allBase
     System.err.println("fetched/sorted in " + (System.currentTimeMillis() - t) + "(ms)")
+
     System.err.println(allCurrencies)
+
     System.err.println("All counter (lazy)")
     t = System.currentTimeMillis()
     val allInstrument = IdexMarketDataService.allCounter
@@ -44,5 +47,4 @@ fun main (args: Array<String>) {
     System.err.println(allInstrument)
     val currencies = IdexMarketDataService(idex).currencies()
     System.err.println(currencies)
-
 }

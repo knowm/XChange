@@ -67,17 +67,21 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                 val limitPrice = placeOrder.limitPrice
 
 
-                val orderReq = createNormalizedOrderReq(baseCurrency, counterCurrency, type, limitPrice, originalAmount)
+                val orderReq = createNormalizedOrderReq(baseCurrency, counterCurrency, type, limitPrice, originalAmount,
+                                                        contractAddress.address.toString())
                 order(orderReq).orderNumber
             }
         }
         TODO("This method requires " + IdexLimitOrder::class.java.canonicalName);
     }
 
-    public fun createNormalizedOrderReq(baseCurrency: Currency?,
-                                        counterCurrency: Currency?,
-                                        type: Order.OrderType?, limitPrice: BigDecimal,
-                                        originalAmount: BigDecimal): OrderReq {
+    val IdexContractAddress by lazy { contractAddress().address }
+
+    public fun createNormalizedOrderReq(baseCurrency: Currency,
+                                        counterCurrency: Currency,
+                                        type: Order.OrderType, limitPrice: BigDecimal,
+                                        originalAmount: BigDecimal,
+                                        contractAddress: String = contractAddress().address): OrderReq {
         idexExchange.exchangeMetaData.currencies[baseCurrency]
         idexExchange.exchangeMetaData.currencies[counterCurrency]
 
@@ -87,23 +91,39 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         )
         if (type == ASK) c = c.reversed();
 
-        val metaAccumulo = idexExchange.exchangeMetaData.currencies[c[0]] as IdexCurrencyMeta
-        val metaReducto = idexExchange.exchangeMetaData.currencies[c[1]] as IdexCurrencyMeta
+        val buy_currency = idexExchange.exchangeMetaData.currencies[c[0]] as IdexCurrencyMeta
+        val sell_currency = idexExchange.exchangeMetaData.currencies[c[1]] as IdexCurrencyMeta
 
 
-        var acquire = (originalAmount / limitPrice).multiply(
-                "1e+${metaAccumulo.decimals.toBigDecimal()}".toBigDecimal()).toBigInteger()
-        var reduce = (originalAmount).multiply(
-                "1e+${metaReducto.decimals.toBigDecimal()}".toBigDecimal()).toBigInteger()
+        var amount_buy = (originalAmount / limitPrice).multiply(
+                "1e+${buy_currency.decimals.toBigDecimal()}".toBigDecimal()).toBigInteger()
+        var amount_sell = (originalAmount).multiply(
+                "1e+${sell_currency.decimals.toBigDecimal()}".toBigDecimal()).toBigInteger()
 
+        val nextInt = Random().nextInt()
+
+        val hash_data = listOf(
+                listOf("contractAddress", contractAddress, "address"),
+                listOf("tokenBuy", buy_currency.address, "address"),
+                listOf("amountBuy", amount_buy.toString(), "uint256"),
+                listOf("tokenSell", sell_currency.address, "address"),
+                listOf("amountSell", amount_sell.toString(), "uint256"),
+                listOf("expires", nextInt.toString(), "uint256"),
+                listOf("nonce", idexServerNonce, "uint256"),
+                listOf("address", apiKey, "address")
+        )
+
+        val sig = generateSignature(idexExchange.exchangeSpecification.secretKey, hash_data)!!
         val orderReq = OrderReq()
                 .address(apiKey)
                 .nonce(idexServerNonce)
-                .tokenBuy(metaAccumulo.address)
-                .amountBuy(acquire.toString())
-                .tokenSell(metaReducto.address)
-                .amountSell(reduce.toString())
-                .expires(Random().nextInt())
+                .tokenBuy(buy_currency.address)
+                .amountBuy(amount_buy.toString())
+                .tokenSell(sell_currency.address)
+                .amountSell(amount_sell.toString())
+                .expires(nextInt)
+                .s(sig.s.toString())
+
 
         return orderReq
     }
@@ -189,7 +209,11 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
     override fun getOrder(vararg orderIds: String?): MutableCollection<Order> =
             getOpenOrders { it.id in orderIds }.openOrders.toMutableList()
 
+    val contractAddress by lazy { contractAddress() }
+
     companion object {
+
+
         class IdexMarketOrder(val r: String, val s: String, val v: String, type: OrderType?,
                               originalAmount: BigDecimal?,
                               currencyPair: CurrencyPair?, id: String?, timestamp: Date?, averagePrice: BigDecimal?,
@@ -233,20 +257,21 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         /**Generate v, r, s values from payload*/
         fun generateSignature(
                 apiSecret: String,
-                data: Iterable<List<String>>
+                data: List<List<String>>
         ): Sign.SignatureData? {
             // pack parameters based on type
             var sig_str = ""
             data.forEach { d ->
 
-                var payload = d[1]
-                if (d[2] == "address")
-                // remove 0x prefix and convert to bytes
-                    payload = payload.toLowerCase().split("0x").last()
-                else if (d[2] == "uint256")
-                // encode, pad and convert to bytes
-                    payload = Hex.encodeHexString(d[1].toBigInteger().toByteArray()).toLowerCase()
-                sig_str += payload
+                sig_str += when (d[2]) {
+                    "address"
+                        // remove 0x prefix and convert to bytes
+                    -> d[1].toLowerCase().split("0x").last() as String
+                    "uint256"
+                        // encode, pad and convert to bytes
+                    -> Hex.encodeHexString(d[1].toBigInteger().toByteArray()).toLowerCase() as String
+                    else ->/*never*/ d[1]
+                }
             }
             // hash the packed string
             val rawhash = sha3String(sig_str)

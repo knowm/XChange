@@ -6,7 +6,7 @@ import org.knowm.xchange.dto.*
 
 
  fun main(args: Array<String>) {
-//    System.setProperty("XChangeDebug", "true")
+    System.setProperty("XChangeDebug", "true")
     val apiKey = args[0]
     System.err.println("AccountInfo.... using arg[0] as account")
     val apiZekret = if (args.size > 1) args[1] else ""
@@ -28,6 +28,7 @@ import org.knowm.xchange.dto.*
                                                                         counterCurrency = currencyPair.counter,
                                                                         type = Order.OrderType.BID,
                                                                         limitPrice = last,
-                                                                        originalAmount = 2.toBigDecimal())
+                                                                        originalAmount = 2.toBigDecimal(),
+                                                                        contractAddress = "0x2a0c0dbecc7e4d658f48e01e3fa353f44050c208" )
     System.err.println(normalizedOrderReq)
 }
