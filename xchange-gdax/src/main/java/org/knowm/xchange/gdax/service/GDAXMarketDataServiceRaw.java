@@ -1,15 +1,18 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gdax.dto.GDAXException;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXCandle;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
+import org.knowm.xchange.utils.DateUtils;
 
 /**
  * Created by Yingzhe on 4/6/2015.
@@ -77,6 +80,15 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     try {
       return this.gdax.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
+  }
+
+  public GDAXCandle[] getGDAXHistoricalCandles(CurrencyPair currencyPair, String start, String end, String granularity) throws IOException {
+
+    try {
+      return this.gdax.getHistoricalCandles(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), start, end, granularity);
     } catch (GDAXException e) {
       throw handleError(e);
     }
