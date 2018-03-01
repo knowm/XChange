@@ -270,7 +270,7 @@ paths:
                 type: integer
                 description: (uint256) - DEPRECATED this property has no effect on your limit order but is still REQUIRED to submit a limit order as it is one of the parameters that is hashed. It must be a numeric type
               v:
-                type: string
+                type: integer
               r:
                 type: string
               s:
@@ -425,7 +425,7 @@ paths:
                 type: string
                 description: '(address string) - The address you are sending the cancel from, must own the order'
               v:
-                type: string
+                type: integer
                 description: '- ...'
               r:
                 type: string
@@ -471,7 +471,7 @@ paths:
                 type: string
               v:
                 required: true
-                type: string
+                type: integer
               r:
                 required: true
                 type: string
@@ -1271,11 +1271,11 @@ definitions:
         type: string
         description: '- The address you are transacting from'
       v:
-        type: string
+        type: integer
         description: '- ...'
       r:
         type: string
-        description: '- ...'
+        description: '- 0x'
       s:
         type: string
         description: '- v, r, and s refer to the values produced by signing the message'

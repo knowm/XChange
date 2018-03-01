@@ -21,14 +21,19 @@ import org.knowm.xchange.dto.*
             "ETH"
     ));
     val last = ticker.last
-    System.err.println("normalized order for 2 ETH_OMG at " + last + "ETH price using 2.0 originalAmoun")
     val currencyPair = CurrencyPair("OMG/ETH")
+    System.err.println("normalized order for 1 "+currencyPair+" at " + last + "ETH  ")
 
-    val normalizedOrderReq = idex.tradeService.createNormalizedOrderReq(baseCurrency = currencyPair.base,
-                                                                        counterCurrency = currencyPair.counter,
-                                                                        type = Order.OrderType.BID,
-                                                                        limitPrice = last,
-                                                                        originalAmount = 2.toBigDecimal(),
-                                                                        contractAddress = "0x2a0c0dbecc7e4d658f48e01e3fa353f44050c208" )
-    System.err.println(normalizedOrderReq)
+    val ethCur = currencyPair.counter
+    val omgCur = currencyPair.base
+    val normalizedLimitOrderReq = idex.tradeService.createNormalizedLimitOrderReq(baseCurrency = omgCur,
+                                                                                  counterCurrency = ethCur,
+                                                                                  type = Order.OrderType.BID,
+                                                                                  limitPrice = last,
+                                                                                  originalAmount = last,
+                                                                                  contractAddress = "0x2a0c0dbecc7e4d658f48e01e3fa353f44050c208",
+                                                                                  nonce = "1000")
+    System.err.println(normalizedLimitOrderReq)
+    System.err.println("recv:"+normalizedLimitOrderReq.amountBuy.toBigDecimal()*"1e-${ (idex.exchangeMetaData.currencies[omgCur] as IdexCurrencyMeta).decimals}".toBigDecimal())
+    System.err.println("spend"+normalizedLimitOrderReq.amountSell.toBigDecimal()*"1e-${ (idex.exchangeMetaData.currencies[ethCur ] as IdexCurrencyMeta).decimals}".toBigDecimal())
 }

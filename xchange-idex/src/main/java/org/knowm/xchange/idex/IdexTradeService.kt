@@ -7,6 +7,7 @@ import org.knowm.xchange.dto.*
 import org.knowm.xchange.dto.Order.OrderType.*
 import org.knowm.xchange.dto.marketdata.*
 import org.knowm.xchange.dto.trade.*
+import org.knowm.xchange.exceptions.*
 import org.knowm.xchange.idex.dto.*
 import org.knowm.xchange.idex.service.*
 import org.knowm.xchange.idex.util.*
@@ -22,6 +23,10 @@ import java.util.*
 import kotlin.text.Charsets.UTF_8
 
 class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi() {
+    val IdexContractAddress by lazy { contractAddress().address }
+    val apiKey inline get() = idexExchange.exchangeSpecification.apiKey
+    val idexServerNonce get() = nextNonce(NextNonceReq().address(apiKey)).nonce
+
 
     init {
 
@@ -31,57 +36,32 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         }
     }
 
+
     override fun cancelOrder(orderParams: CancelOrderParams): Boolean = when (orderParams) {
         is IdexCancelOrderParams -> cancel(orderParams).success!! == 1
         else -> throw ApiException("cancel order requires " + IdexCancelOrderParams::class.java.canonicalName)
     }
 
-    val apiKey inline get() = idexExchange.exchangeSpecification.apiKey
-
-    val idexServerNonce get() = nextNonce(NextNonceReq().address(apiKey)).nonce
-
-
+    /**returns OrderHash so you can fetch it and cancel it...  but there is a OrderNumber that you can intercept if you need to.
+     */
     override fun placeLimitOrder(placeOrder: LimitOrder): String {
-        when (placeOrder) {
-            is IdexLimitOrder -> {
-                val limitOrder: IdexLimitOrder = placeOrder
-                val apiKey = idexExchange.exchangeSpecification.apiKey
-                order(OrderReq()
-                              .address(apiKey)
-                              .nonce(idexServerNonce)
-                              .amountBuy(limitOrder.amountBuy)
-                              .amountSell(limitOrder.amountSell)
-                              .tokenBuy(limitOrder.tokenBuy)
-                              .tokenSell(limitOrder.tokenSell)
-                              .r(limitOrder.r)
-                              .s(limitOrder.s)
-                              .v(limitOrder.v)
-                ).orderNumber
-            }
-            else -> {
+        val type = placeOrder.type
+        val baseCurrency = placeOrder.currencyPair.base
+        val counterCurrency = placeOrder.currencyPair.counter
+        val originalAmount = placeOrder.originalAmount
+        val limitPrice = placeOrder.limitPrice
+        val orderReq = createNormalizedLimitOrderReq(baseCurrency, counterCurrency, type, limitPrice, originalAmount)
 
-                val type = placeOrder.type
-                val baseCurrency = placeOrder.currencyPair.base
-                val counterCurrency = placeOrder.currencyPair.counter
-                val originalAmount = placeOrder.originalAmount
-                val limitPrice = placeOrder.limitPrice
-
-
-                val orderReq = createNormalizedOrderReq(baseCurrency, counterCurrency, type, limitPrice, originalAmount,
-                                                        contractAddress.address.toString())
-                order(orderReq).orderNumber
-            }
-        }
-        TODO("This method requires " + IdexLimitOrder::class.java.canonicalName);
+        return order(orderReq).orderHash
     }
 
-    val IdexContractAddress by lazy { contractAddress().address }
 
-    public fun createNormalizedOrderReq(baseCurrency: Currency,
-                                        counterCurrency: Currency,
-                                        type: Order.OrderType, limitPrice: BigDecimal,
-                                        originalAmount: BigDecimal,
-                                        contractAddress: String = contractAddress().address): OrderReq {
+    fun createNormalizedLimitOrderReq(baseCurrency: Currency,
+                                      counterCurrency: Currency,
+                                      type: Order.OrderType, limitPrice: BigDecimal,
+                                      originalAmount: BigDecimal,
+                                      contractAddress: String = contractAddress().address,
+                                      nonce: String = idexServerNonce): OrderReq {
         idexExchange.exchangeMetaData.currencies[baseCurrency]
         idexExchange.exchangeMetaData.currencies[counterCurrency]
 
@@ -89,7 +69,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         var c = listOf(baseCurrency,//OMG
                        counterCurrency//ETH
         )
-        if (type == ASK) c = c.reversed();
+        if (type == ASK) c = c.reversed()
 
         val buy_currency = idexExchange.exchangeMetaData.currencies[c[0]] as IdexCurrencyMeta
         val sell_currency = idexExchange.exchangeMetaData.currencies[c[1]] as IdexCurrencyMeta
@@ -109,20 +89,25 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                 listOf("tokenSell", sell_currency.address, "address"),
                 listOf("amountSell", amount_sell.toString(), "uint256"),
                 listOf("expires", nextInt.toString(), "uint256"),
-                listOf("nonce", idexServerNonce, "uint256"),
+                listOf("nonce", nonce, "uint256"),
                 listOf("address", apiKey, "address")
         )
 
         val sig = generateSignature(idexExchange.exchangeSpecification.secretKey, hash_data)!!
+        val v = sig.v
+        val r = sig.r
+        val s = sig.s
         val orderReq = OrderReq()
                 .address(apiKey)
-                .nonce(idexServerNonce)
+                .nonce(nonce)
                 .tokenBuy(buy_currency.address)
                 .amountBuy(amount_buy.toString())
                 .tokenSell(sell_currency.address)
                 .amountSell(amount_sell.toString())
                 .expires(nextInt)
-                .s(sig.s.toString())
+                .r("0x" + Hex.encodeHexString(r))
+                .s("0x" + Hex.encodeHexString(s))
+                .v((v).toInt())
 
 
         return orderReq
@@ -138,33 +123,34 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
             throw org.knowm.xchange.exceptions.NotAvailableFromExchangeException()
 
 
-    override fun cancelOrder(orderId: String) =
-            cancel(CancelReq().run { orderHash(orderId).address(apiKey).nonce(idexServerNonce) }).success == 1
+    override fun cancelOrder(orderHash: String): Boolean {
+
+        val idexServerNonce1 = idexServerNonce
+
+        val hash_data = listOf(
+                listOf("orderHash", orderHash, "address"),
+                listOf("nonce", idexServerNonce1, "uint256")
+        )
+
+        val sig = generateSignature(idexExchange.exchangeSpecification.secretKey, hash_data)!!
+        val cancelReq = CancelReq().orderHash(orderHash).nonce(idexServerNonce1).address(apiKey)
+                .v(sig.v.toInt())
+                .r("0x" + Hex.encodeHex(sig.r))
+                .s("0x" + Hex.encodeHex(sig.s))
+
+        val cancel = cancel(cancelReq)
+        return (cancel.success == 1).also {
+            cancel.error?.also { System.err.println("cancel error: " + it) }
+        }
+    }
 
 
-    override fun placeMarketOrder(marketOrder: MarketOrder): String =
-            when (marketOrder) {
-                is IdexMarketOrder -> {
-                    val trade = trade(TradeReq().apply {
-                        val m: IdexMarketOrder = marketOrder;
-                        orderHash(m.id)
-                                .amount(m.originalAmount.toPlainString())
-                                .address(apiKey)
-                                .nonce(idexServerNonce)
-                                .r(m.r)
-                                .s(m.s)
-                                .v(m.v)
-                    }
-                    )
-                    if (trade.isEmpty()) throw ApiException(
-                            "Idex orders are done as all-or-nothing bulk arrays.  this trade " +
-                                    "did not return any confirmations, all failed.")
-                    trade.first().orderHash
-
-                }
-                else -> throw ApiException(
-                        "Idex Market Orders require " + IdexMarketOrder::class.java.canonicalName)
-            }
+    /**
+     * all orders are limit orders -- we cannot guarantee a market result from the API
+     */
+    override fun placeMarketOrder(m: MarketOrder): String {
+        throw NotAvailableFromExchangeException()
+    }
 
     override fun getTradeHistory(params: TradeHistoryParams): UserTrades {
         if (params !is IdexTradeHistoryReq) {
@@ -191,12 +177,10 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
     override fun verifyOrder(
             limitOrder: LimitOrder?) = throw org.knowm.xchange.exceptions.NotAvailableFromExchangeException()
 
-
     override fun verifyOrder(
             marketOrder: MarketOrder?) = throw org.knowm.xchange.exceptions.NotAvailableFromExchangeException()
 
     override fun getOpenOrders(): OpenOrders = OpenOrders(openOrders(OpenOrdersReq().address(apiKey)).map {
-
         val c2 = it.params.run { listOf(buySymbol, sellSymbol) }
         LimitOrder(BID[it.type], it.amount.toBigDecimalOrNull() ?: ZERO,
                    CurrencyPair(c2[0], c2[1]), it.orderHash.toString(), Date(),
@@ -204,50 +188,35 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
     })
 
     override fun getOpenOrders(params: OpenOrdersParams): OpenOrders = OpenOrders(
-            getOpenOrders().openOrders.filter(params::accept))
+            openOrders.openOrders.filter(params::accept))
 
     override fun getOrder(vararg orderIds: String?): MutableCollection<Order> =
             getOpenOrders { it.id in orderIds }.openOrders.toMutableList()
 
-    val contractAddress by lazy { contractAddress() }
 
     companion object {
-
-
-        class IdexMarketOrder(val r: String, val s: String, val v: String, type: OrderType?,
-                              originalAmount: BigDecimal?,
-                              currencyPair: CurrencyPair?, id: String?, timestamp: Date?, averagePrice: BigDecimal?,
-                              cumulativeAmount: BigDecimal?, fee: BigDecimal?, status: OrderStatus?) :
-                MarketOrder(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, fee,
-                            status)
-
-        /**
-        v - ...
-        r - ...
-        s - (v r and s are the values produced by your private key signature, see above for details)
-         */
-        public class IdexLimitOrder(type: OrderType?, originalAmount: BigDecimal?,
-                                    currencyPair: CurrencyPair?, id: String?,
-                                    timestamp: Date?, limitPrice: BigDecimal?,
-                                    val r: String,
-                                    val s: String,
-                                    val v: String,
-                                    val orderHash: String,
-                                    /**amountBuy (uint256) - The amount of the token you will receive when the order is fully filled
-                                     */
-                                    val amountBuy: String,
-                                    /**amountSell (uint256) - The amount of the token you will give up when the order is fully filled
-                                     */
-                                    val amountSell: String,
-                                    /**tokenBuy (address string) - The address of the token you will receive as a result of the trade
-                                     */
-                                    val tokenBuy: String,
-                                    /**tokenSell (address string) - The address of the token you will lose as a result of the trade
-                                     */
-                                    val tokenSell: String,
-                                    /**expires (uint256) - DEPRECATED this property has no effect on your limit order but is still REQUIRED to submit a limit order as it is one of the parameters that is hashed. It must be a numeric type
-                                     */
-                                    val expires: Long = Random().nextLong()
+        class IdexLimitOrder(type: OrderType?, originalAmount: BigDecimal?,
+                             currencyPair: CurrencyPair?, id: String?,
+                             timestamp: Date?, limitPrice: BigDecimal?,
+                             val r: String,
+                             val s: String,
+                             val v: Int,
+                             val orderHash: String,
+                             /**amountBuy (uint256) - The amount of the token you will receive when the order is fully filled
+                              */
+                             val amountBuy: String,
+                             /**amountSell (uint256) - The amount of the token you will give up when the order is fully filled
+                              */
+                             val amountSell: String,
+                             /**tokenBuy (address string) - The address of the token you will receive as a result of the trade
+                              */
+                             val tokenBuy: String,
+                             /**tokenSell (address string) - The address of the token you will lose as a result of the trade
+                              */
+                             val tokenSell: String,
+                             /**expires (uint256) - DEPRECATED this property has no effect on your limit order but is still REQUIRED to submit a limit order as it is one of the parameters that is hashed. It must be a numeric type
+                              */
+                             val expires: Long = Random().nextLong()
 
         ) : LimitOrder(type, originalAmount, currencyPair, id, timestamp, limitPrice)
 
@@ -266,10 +235,10 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                 sig_str += when (d[2]) {
                     "address"
                         // remove 0x prefix and convert to bytes
-                    -> d[1].toLowerCase().split("0x").last() as String
+                    -> d[1].toLowerCase().split("0x").last()
                     "uint256"
                         // encode, pad and convert to bytes
-                    -> Hex.encodeHexString(d[1].toBigInteger().toByteArray()).toLowerCase() as String
+                    -> Hex.encodeHexString(d[1].toBigInteger().toByteArray()).toLowerCase()
                     else ->/*never*/ d[1]
                 }
             }
@@ -282,8 +251,10 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
             apiSecret.split("0x").last()
 
             val payloadBytesCrypted = salted.toByteArray(UTF_8)
-            val apiSecretBytes = apiSecret.toLowerCase().split("0x").last().toByteArray(UTF_8)
-            return Sign.signMessage(payloadBytesCrypted, ECKeyPair.create(apiSecretBytes))
+//            val apiSecretBytes = apiSecret.toLowerCase().split("0x").last().toByteArray(UTF_8)
+            val toBigInteger = apiSecret.split("0x").last().toBigInteger(16)
+            val ecKeyPair = ECKeyPair.create(toBigInteger)
+            return Sign.signMessage(payloadBytesCrypted, ecKeyPair)
         }
     }
 }
