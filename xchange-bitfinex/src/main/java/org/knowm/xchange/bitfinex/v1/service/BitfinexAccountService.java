@@ -1,5 +1,10 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
@@ -9,12 +14,14 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.*;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BitfinexAccountService extends BitfinexAccountServiceRaw implements AccountService {
 
@@ -56,8 +63,35 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     return withdraw(type, walletSelected, amount, address);
   }
 
+  /**
+   * Used for XRP withdrawals
+   *
+   * @param currency
+   * @param amount
+   * @param address
+   * @param tag
+   * @return
+   * @throws IOException
+   */
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address, String tag) throws IOException {
+    //determine withdrawal type
+    String type = BitfinexUtils.convertToBitfinexWithdrawalType(currency.toString());
+    //Bitfinex withdeawal can be from different type of wallets    *
+    // we have to use one of these for now: Exchange -
+    //to be able to withdraw instantly after trading for example
+    //The wallet to withdraw from, can be “trading”, “exchange”, or “deposit”.
+    String walletSelected = "exchange";
+    //We have to convert XChange currencies to Bitfinex currencies: can be “bitcoin”, “litecoin” or “ether” or “tether” or “wire”.
+    return withdraw(type, walletSelected, amount, address, tag);
+  }
+
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+    if (params instanceof RippleWithdrawFundsParams) {
+      RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
+      return withdrawFunds(rippleWithdrawFundsParams.currency, rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address,
+          rippleWithdrawFundsParams.tag);
+    }
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
@@ -116,23 +150,23 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     }
 
     @Override
-    public void setCurrency(Currency currency) {
-      this.currency = currency;
-    }
-
-    @Override
     public Currency getCurrency() {
       return this.currency;
     }
 
     @Override
-    public void setLimit(Integer limit) {
-      this.limit = limit;
+    public void setCurrency(Currency currency) {
+      this.currency = currency;
     }
 
     @Override
     public Integer getLimit() {
       return this.limit;
+    }
+
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
     }
   }
 }

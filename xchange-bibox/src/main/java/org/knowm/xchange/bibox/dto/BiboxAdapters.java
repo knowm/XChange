@@ -38,6 +38,11 @@ public class BiboxAdapters {
 
     return pair.base.getCurrencyCode() + "_" + pair.counter.getCurrencyCode();
   }
+  
+  private static CurrencyPair adaptCurrencyPair(String biboxPair) {
+    String[] split = biboxPair.split("_");
+    return new CurrencyPair(split[0], split[1]);
+  }
 
   public static Ticker adaptTicker(BiboxTicker ticker, CurrencyPair currencyPair) {
     return new Ticker.Builder().currencyPair(currencyPair).ask(ticker.getSell())
@@ -124,5 +129,11 @@ public class BiboxAdapters {
         .feeCurrency(Currency.getInstance(order.getFeeSymbol()))
         .feeAmount(order.getFee())
         .build();
+  }
+
+  public static List<OrderBook> adaptAllOrderBooks(List<BiboxOrderBook> biboxOrderBooks) {
+    return biboxOrderBooks.stream()
+        .map(ob -> BiboxAdapters.adaptOrderBook(ob, adaptCurrencyPair(ob.getPair())))
+        .collect(Collectors.toList());
   }
 }

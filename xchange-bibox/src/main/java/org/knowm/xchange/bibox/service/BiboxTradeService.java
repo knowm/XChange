@@ -2,6 +2,7 @@ package org.knowm.xchange.bibox.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
@@ -51,6 +52,11 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
     cancelBiboxOrder(orderId);
+    return true;
+  }
+
+  public boolean cancelOrders(List<String> orderIds) throws IOException {
+    cancelBiboxOrders(orderIds);
     return true;
   }
 
