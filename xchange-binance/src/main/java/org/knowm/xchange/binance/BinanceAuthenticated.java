@@ -160,7 +160,7 @@ public interface BinanceAuthenticated extends Binance {
   @Path("api/v3/openOrders")
   /**
    * Get all open orders on a symbol.
-   * @param symbol
+   * @param symbol            optional
    * @param recvWindow        optional
    * @param timestamp
    * @return

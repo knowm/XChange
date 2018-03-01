@@ -120,7 +120,6 @@ public class BinanceAdapters {
               orderStatus
       );
     } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)) {
-      if (order.stopPrice.signum() == 0) {
         return new LimitOrder(
                 type,
                 order.origQty,
@@ -144,7 +143,5 @@ public class BinanceAdapters {
                 order.executedQty,
                 orderStatus);
       }
-    }
-    return null;
   }
 }
