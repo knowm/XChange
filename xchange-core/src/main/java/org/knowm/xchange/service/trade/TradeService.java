@@ -56,7 +56,7 @@ public interface TradeService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   OpenOrders getOpenOrders(
-          OpenOrdersParams params) throws IOException;
+      OpenOrdersParams params) throws IOException;
 
   /**
    * Place a market order
@@ -70,7 +70,7 @@ public interface TradeService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   String placeMarketOrder(
-          MarketOrder marketOrder) throws IOException;
+      MarketOrder marketOrder) throws IOException;
 
   /**
    * Place a limit order
@@ -84,7 +84,7 @@ public interface TradeService extends BaseService {
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
   String placeLimitOrder(
-          LimitOrder limitOrder) throws IOException;
+      LimitOrder limitOrder) throws IOException;
 
   /**
    * Place a stop order
