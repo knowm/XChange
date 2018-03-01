@@ -2,12 +2,15 @@ package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
@@ -19,6 +22,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeService {
 
@@ -102,5 +106,11 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
     }
 
     return orders;
+  }
+
+  @Override
+  public Collection<Order> getOrder(
+    OrderQueryParams... orderQueryParams) throws IOException {
+    return getOrder(Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new));
   }
 }
