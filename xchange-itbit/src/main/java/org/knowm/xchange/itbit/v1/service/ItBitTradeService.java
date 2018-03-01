@@ -97,14 +97,35 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    Integer page = ((TradeHistoryParamPaging) params).getPageNumber();
-    if (page != null) {
-      ++page;
+    Integer page = 0;
+    Integer pageLength = 50;
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging paramPaging = (TradeHistoryParamPaging) params;
+      page = paramPaging.getPageNumber();
+      pageLength = paramPaging.getPageLength();
     }
 
-    ItBitTradeHistory userTradeHistory = getUserTradeHistory(((TradeHistoryParamTransactionId) params).getTransactionId(), page,
-        ((TradeHistoryParamPaging) params).getPageLength(), ((TradeHistoryParamsTimeSpan) params).getStartTime(),
-        ((TradeHistoryParamsTimeSpan) params).getEndTime());
+    String transactionId = null;
+    if (params instanceof TradeHistoryParamTransactionId) {
+      transactionId = ((TradeHistoryParamTransactionId) params).getTransactionId();
+    }
+
+    Date startTime = null;
+    Date endTime = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) params;
+      startTime = tradeHistoryParamsTimeSpan.getStartTime();
+      endTime = tradeHistoryParamsTimeSpan.getEndTime();
+    }
+
+    ItBitTradeHistory userTradeHistory = getUserTradeHistory(
+        transactionId,
+        page,
+        pageLength,
+        startTime,
+        endTime
+    );
+
     return ItBitAdapters.adaptTradeHistory(userTradeHistory);
   }
 

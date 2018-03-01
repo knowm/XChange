@@ -132,7 +132,7 @@ public class QuoineAdapters {
         // Timestamp
         Date timestamp = new Date(model.getCreatedAt().longValue() * 1000L);
 
-        LimitOrder limitOrder = new LimitOrder(orderType, model.getQuantity(), currencyPair, model.getId(), timestamp, model.getPrice());
+        LimitOrder limitOrder = new LimitOrder(orderType, model.getQuantity(), model.getFilledQuantity(), currencyPair, model.getId(), timestamp, model.getPrice());
 
         openOrders.add(limitOrder);
       }

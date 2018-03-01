@@ -1,9 +1,17 @@
 package org.knowm.xchange.binance;
 
+import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
+import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
+
+import java.math.BigDecimal;
 
 public class BinanceAdapters {
 
@@ -54,7 +62,89 @@ public class BinanceAdapters {
     }
   }
 
+  public static Order.OrderStatus adaptOrderStatus(OrderStatus orderStatus){
+    switch (orderStatus){
+      case NEW:
+        return Order.OrderStatus.NEW;
+      case FILLED:
+        return Order.OrderStatus.FILLED;
+      case EXPIRED:
+        return Order.OrderStatus.EXPIRED;
+      case CANCELED:
+        return Order.OrderStatus.CANCELED;
+      case REJECTED:
+        return Order.OrderStatus.REJECTED;
+      case PENDING_CANCEL:
+        return Order.OrderStatus.PENDING_CANCEL;
+      case PARTIALLY_FILLED:
+        return Order.OrderStatus.PARTIALLY_FILLED;
+      default:
+        return Order.OrderStatus.UNKNOWN;
+    }
+  }
+
   public static OrderType convertType(boolean isBuyer) {
     return isBuyer ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static Order adaptOrder(BinanceOrder order) {
+    OrderType type = convert(order.side);
+    String currency = order.symbol;
+    int pairLength = currency.length();
+    CurrencyPair currencyPair;
+
+    Order.OrderStatus orderStatus = adaptOrderStatus(order.status);
+    final BigDecimal averagePrice;
+    if (order.executedQty.signum() == 0 || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
+      averagePrice = BigDecimal.ZERO;
+    } else {
+      averagePrice = order.price;
+    }
+
+    if (currency.endsWith("USDT")) {
+      currencyPair = new CurrencyPair(currency.substring(0, pairLength - 4), "USDT");
+    } else {
+      currencyPair = new CurrencyPair(currency.substring(0, pairLength - 3), currency.substring(pairLength - 3));
+    }
+
+    if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
+      return new MarketOrder(
+              type,
+              order.origQty,
+              currencyPair,
+              Long.toString(order.orderId),
+              order.getTime(),
+              averagePrice,
+              order.executedQty,
+              BigDecimal.ZERO,
+              orderStatus
+      );
+    } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)) {
+      if (order.stopPrice.signum() == 0) {
+        return new LimitOrder(
+                type,
+                order.origQty,
+                currencyPair,
+                Long.toString(order.orderId),
+                order.getTime(),
+                order.price,
+                averagePrice,
+                order.executedQty,
+                BigDecimal.ZERO,
+                orderStatus);
+      } else {
+        return new StopOrder(
+                type,
+                order.origQty,
+                currencyPair,
+                Long.toString(order.orderId),
+                order.getTime(),
+                order.stopPrice,
+                averagePrice,
+                order.executedQty,
+                orderStatus);
+      }
+    }
+    return null;
   }
 }
