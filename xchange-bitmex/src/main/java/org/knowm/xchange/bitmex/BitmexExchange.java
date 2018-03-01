@@ -22,11 +22,34 @@ public class BitmexExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+	  
+    super.applySpecification(exchangeSpecification);
+    
+    concludeHostParams(exchangeSpecification);
+  }
+  
+  @Override
   protected void initServices() {
+	  
+	concludeHostParams(exchangeSpecification);
 
     this.marketDataService = new BitmexMarketDataService(this);
     this.accountService = new BitmexAccountService(this);
     this.tradeService = new BitmexTradeService(this);
+  }
+  
+  /**
+   * Adjust host parameters depending on exchange specific parameters
+   */
+  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+
+    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
+    	  	exchangeSpecification.setSslUri("https://testnet.bitmex.com/");
+    	  	exchangeSpecification.setHost("testnet.bitmex.com");
+      }
+    }
   }
 
   @Override
