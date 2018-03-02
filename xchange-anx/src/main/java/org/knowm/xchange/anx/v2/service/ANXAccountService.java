@@ -5,8 +5,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
-import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXAdapters;
 import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistoryEntry;
@@ -15,7 +16,6 @@ import org.knowm.xchange.anx.v2.dto.account.ANXWithdrawalResponseWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
@@ -38,9 +38,9 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   /**
    * Constructor
    */
-  public ANXAccountService(BaseExchange baseExchange) {
+  public ANXAccountService(Exchange exchange) {
 
-    super(baseExchange);
+    super(exchange);
   }
 
   @Override
@@ -118,7 +118,7 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+    return new AnxFundingHistoryParams();
   }
 
   @Override
@@ -132,7 +132,28 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
       if (!entry.getType().equalsIgnoreCase("deposit") && !entry.getType().equalsIgnoreCase("withdraw"))
         continue;
 
-      results.add(ANXAdapters.adaptFundingRecord(entry));
+      // ANX returns the fee in a separate WalletHistoryEntry, but with the same transaction id. merging the two into
+      // a single FundingRecord
+      ANXWalletHistoryEntry feeEntry = walletHistory.parallelStream()
+          .filter(anxWalletHistoryEntry ->
+              "fee".equalsIgnoreCase(anxWalletHistoryEntry.getType())
+                  &&
+                  (
+                      (
+                          entry.getTransactionId() != null
+                              && Objects.equals(anxWalletHistoryEntry.getTransactionId(), entry.getTransactionId())
+                      )
+                          ||
+                          (
+                              entry.getInfo() != null
+                                  && Objects.equals(anxWalletHistoryEntry.getInfo(), entry.getInfo())
+                          )
+                  )
+          )
+          .findFirst()
+          .orElse(null);
+
+      results.add(ANXAdapters.adaptFundingRecord(entry, feeEntry));
     }
     return results;
   }
@@ -145,7 +166,7 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     private Date startTime;
     private Date endTime;
 
-    public AnxFundingHistoryParams() {
+    AnxFundingHistoryParams() {
     }
 
     public AnxFundingHistoryParams(Currency currency, Date startTime, Date endTime) {
@@ -155,13 +176,18 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
 
     @Override
+    public Currency getCurrency() {
+      return currency;
+    }
+
+    @Override
     public void setCurrency(Currency currency) {
       this.currency = currency;
     }
 
     @Override
-    public Currency getCurrency() {
-      return currency;
+    public Integer getPageLength() {
+      return pageLength;
     }
 
     @Override
@@ -170,8 +196,8 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
 
     @Override
-    public Integer getPageLength() {
-      return pageLength;
+    public Integer getPageNumber() {
+      return pageNumber;
     }
 
     @Override
@@ -182,8 +208,8 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
 
     @Override
-    public Integer getPageNumber() {
-      return pageNumber;
+    public Date getStartTime() {
+      return startTime;
     }
 
     @Override
@@ -192,18 +218,13 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
 
     @Override
-    public Date getStartTime() {
-      return startTime;
+    public Date getEndTime() {
+      return endTime;
     }
 
     @Override
     public void setEndTime(Date endTime) {
       this.endTime = endTime;
-    }
-
-    @Override
-    public Date getEndTime() {
-      return endTime;
     }
   }
 }
