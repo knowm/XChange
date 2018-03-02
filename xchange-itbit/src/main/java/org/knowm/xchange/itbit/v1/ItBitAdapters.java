@@ -263,7 +263,9 @@ public final class ItBitAdapters {
     Date timestamp = itBitTicker.getTimestamp() != null ? parseDate(itBitTicker.getTimestamp()) : null;
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-                               .build();
+        .bidSize(itBitTicker.getBidAmt())
+        .askSize(itBitTicker.getAskAmt())
+        .build();
   }
 
   public static String formatFiatAmount(BigDecimal amount) {
