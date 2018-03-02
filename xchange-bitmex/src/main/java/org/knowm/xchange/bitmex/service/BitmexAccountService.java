@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitmex.BitmexUtils;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.currency.Currency;
@@ -55,7 +56,15 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
     @Override
     public String requestDepositAddress(Currency currency, String... args) throws IOException {
-        return requestDepositAddress(currency.getCurrencyCode());
+    		String currencyCode = currency.getCurrencyCode();
+    		
+    		// bitmex seems to use a lowercase 't' in XBT
+    		// can test this here - https://testnet.bitmex.com/api/explorer/#!/User/User_getDepositAddress
+    		// uppercase 'T' will return 'Unknown currency code'
+    		if (currencyCode.equals("XBT")) {
+    			currencyCode = "XBt";
+    		}
+        return requestDepositAddress(currencyCode);
     }
 
     @Override
