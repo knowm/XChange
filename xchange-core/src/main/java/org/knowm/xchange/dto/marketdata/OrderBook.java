@@ -2,9 +2,12 @@ package org.knowm.xchange.dto.marketdata;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -42,6 +45,20 @@ public final class OrderBook implements Serializable {
     this.timeStamp = timeStamp;
     this.asks = asks;
     this.bids = bids;
+  }
+
+  /**
+   * Constructor
+   *
+   * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if not provided
+   * @param asks The ASK orders
+   * @param bids The BID orders
+   */
+  public OrderBook(Date timeStamp, Stream<LimitOrder> asks, Stream<LimitOrder> bids) {
+
+    this.timeStamp = timeStamp;
+    this.asks = asks.collect(Collectors.toList());
+    this.bids = bids.collect(Collectors.toList());
   }
 
   public Date getTimeStamp() {

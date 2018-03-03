@@ -7,11 +7,13 @@ import static org.knowm.xchange.currency.Currency.USD;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -80,11 +82,8 @@ public final class OkCoinAdapters {
   }
 
   public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {
-
-    List<LimitOrder> asks = adaptLimitOrders(OrderType.ASK, depth.getAsks(), currencyPair);
-    Collections.reverse(asks);
-
-    List<LimitOrder> bids = adaptLimitOrders(OrderType.BID, depth.getBids(), currencyPair);
+    Stream<LimitOrder> asks = adaptLimitOrders(OrderType.ASK, depth.getAsks(), depth.getTimestamp(), currencyPair).sorted();
+    Stream<LimitOrder> bids = adaptLimitOrders(OrderType.BID, depth.getBids(), depth.getTimestamp(), currencyPair).sorted();
     return new OrderBook(depth.getTimestamp(), asks, bids);
   }
 
@@ -200,13 +199,9 @@ public final class OkCoinAdapters {
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  private static List<LimitOrder> adaptLimitOrders(OrderType type, BigDecimal[][] list, CurrencyPair currencyPair) {
-
-    List<LimitOrder> limitOrders = new ArrayList<>(list.length);
-    for (BigDecimal[] data : list) {
-      limitOrders.add(adaptLimitOrder(type, data, currencyPair, null, null));
-    }
-    return limitOrders;
+  private static Stream<LimitOrder> adaptLimitOrders(OrderType type, BigDecimal[][] list, Date timestamp, CurrencyPair currencyPair) {
+    return Arrays.stream(list)
+        .map(data -> adaptLimitOrder(type, data, currencyPair, null, timestamp));
   }
 
   private static LimitOrder adaptLimitOrder(OrderType type, BigDecimal[] data, CurrencyPair currencyPair, String id, Date timestamp) {
