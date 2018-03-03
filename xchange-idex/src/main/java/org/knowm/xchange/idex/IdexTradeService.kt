@@ -50,7 +50,8 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         val counterCurrency = placeOrder.currencyPair.counter
         val originalAmount = placeOrder.originalAmount
         val limitPrice = placeOrder.limitPrice
-        val orderReq = createNormalizedLimitOrderReq(baseCurrency, counterCurrency, type, limitPrice, originalAmount)
+        val orderReq = createNormalizedLimitOrderReq(baseCurrency, counterCurrency, type, limitPrice, originalAmount,
+                                                     expires = 100000)
 
         return order(orderReq).orderHash
     }
@@ -61,7 +62,8 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                                       type: Order.OrderType, limitPrice: BigDecimal,
                                       originalAmount: BigDecimal,
                                       contractAddress: String = contractAddress().address,
-                                      nonce: String = idexServerNonce): OrderReq {
+                                      nonce: String = idexServerNonce,
+                                      expires: Int = 100000): OrderReq {
         idexExchange.exchangeMetaData.currencies[baseCurrency]
         idexExchange.exchangeMetaData.currencies[counterCurrency]
 
@@ -75,20 +77,23 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         val sell_currency = idexExchange.exchangeMetaData.currencies[c[1]] as IdexCurrencyMeta
 
 
-        var amount_buy = (originalAmount / limitPrice).multiply(
-                "1e+${buy_currency.decimals.toBigDecimal()}".toBigDecimal()).toBigInteger()
-        var amount_sell = (originalAmount).multiply(
-                "1e+${sell_currency.decimals.toBigDecimal()}".toBigDecimal()).toBigInteger()
+        val divide = originalAmount.divide(limitPrice,
+                                           MathContext.DECIMAL128)
+        var amount_buy = divide.multiply("1e${buy_currency.decimals.toBigDecimal()}".toBigDecimal(),
+                                         MathContext.DECIMAL128).toBigInteger()
+        var amount_sell = originalAmount.multiply("1e${sell_currency.decimals.toBigDecimal()}".toBigDecimal(),
+                                                  MathContext.DECIMAL128).toBigInteger()
 
-        val nextInt = Random().nextInt()
 
+        val buyc = buy_currency.address
+        val sellc = sell_currency.address
         val hash_data = listOf(
                 listOf("contractAddress", contractAddress, "address"),
-                listOf("tokenBuy", buy_currency.address, "address"),
+                listOf("tokenBuy", buyc, "address"),
                 listOf("amountBuy", amount_buy.toString(), "uint256"),
-                listOf("tokenSell", sell_currency.address, "address"),
+                listOf("tokenSell", sellc, "address"),
                 listOf("amountSell", amount_sell.toString(), "uint256"),
-                listOf("expires", nextInt.toString(), "uint256"),
+                listOf("expires", "" + expires.toBigInteger(), "uint256"),
                 listOf("nonce", nonce, "uint256"),
                 listOf("address", apiKey, "address")
         )
@@ -100,11 +105,11 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         val orderReq = OrderReq()
                 .address(apiKey)
                 .nonce(nonce)
-                .tokenBuy(buy_currency.address)
+                .tokenBuy(buyc)
                 .amountBuy(amount_buy.toString())
-                .tokenSell(sell_currency.address)
+                .tokenSell(sellc)
                 .amountSell(amount_sell.toString())
-                .expires(nextInt)
+                .expires(expires)
                 .r("0x" + Hex.encodeHexString(r))
                 .s("0x" + Hex.encodeHexString(s))
                 .v((v).toInt())

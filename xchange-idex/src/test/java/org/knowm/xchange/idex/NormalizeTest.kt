@@ -32,7 +32,8 @@ import org.knowm.xchange.dto.*
                                                                                   limitPrice = last,
                                                                                   originalAmount = last,
                                                                                   contractAddress = "0x2a0c0dbecc7e4d658f48e01e3fa353f44050c208",
-                                                                                  nonce = "1000")
+                                                                                  nonce = "1000",
+                                                                                  expires = 100000)
     System.err.println(normalizedLimitOrderReq)
     System.err.println("recv:"+normalizedLimitOrderReq.amountBuy.toBigDecimal()*"1e-${ (idex.exchangeMetaData.currencies[omgCur] as IdexCurrencyMeta).decimals}".toBigDecimal())
     System.err.println("spend"+normalizedLimitOrderReq.amountSell.toBigDecimal()*"1e-${ (idex.exchangeMetaData.currencies[ethCur ] as IdexCurrencyMeta).decimals}".toBigDecimal())
