@@ -26,13 +26,14 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeService {
 
   private static final String ORDER_STATUS_FILLED = "1";
 
-  private static final OpenOrders NO_OPEN_ORDERS = new OpenOrders(Collections.<LimitOrder> emptyList());
+  private static final OpenOrders NO_OPEN_ORDERS = new OpenOrders(Collections.<LimitOrder>emptyList());
 
   /**
    * Constructor
@@ -53,21 +54,23 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     List<OkCoinOrderResult> orderResults = new ArrayList<>();
 
+    List<CurrencyPair> exchangeSymbols;
     if (params instanceof OpenOrdersParamCurrencyPair) {
       CurrencyPair symbol = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
-      OkCoinOrderResult orderResult = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
-      if (orderResult.getOrders().length > 0) {
-        orderResults.add(orderResult);
-      }
-
+      exchangeSymbols = Collections.singletonList(symbol);
+    } else if (params instanceof OpenOrdersParamMultiCurrencyPair) {
+      exchangeSymbols = new ArrayList<>(((OpenOrdersParamMultiCurrencyPair) params).getCurrencyPairs());
     } else {
-      List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
-      for (int i = 0; i < exchangeSymbols.size(); i++) {
-        CurrencyPair symbol = exchangeSymbols.get(i);
+      exchangeSymbols = exchange.getExchangeSymbols();
+    }
+    for (CurrencyPair symbol : exchangeSymbols) {
+      try {
         OkCoinOrderResult orderResult = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
         if (orderResult.getOrders().length > 0) {
           orderResults.add(orderResult);
         }
+      } catch (Exception e) {
+        // Market not present.
       }
     }
 
@@ -118,6 +121,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     long id = Long.valueOf(orderId);
 
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
+    // TODO careful: this is wrong and needs to be fixed because it can (and it does) cause HTTP 429
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
       try {
@@ -170,8 +174,8 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     }
 
     CurrencyPair pair = null;
-    if(params instanceof TradeHistoryParamCurrencyPair) {
-      pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();  
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
     }
     if (pair == null) {
       pair = useIntl ? CurrencyPair.BTC_USD : CurrencyPair.BTC_CNY;
