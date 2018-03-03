@@ -2,14 +2,17 @@ package org.knowm.xchange.okcoin.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -70,6 +73,9 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
           orderResults.add(orderResult);
         }
       } catch (Exception e) {
+        if (exchangeSymbols.indexOf(symbol) == exchangeSymbols.size() - 1) {
+          waitBecauseOfRateLimit();
+        }
         // Market not present.
       }
     }
@@ -119,9 +125,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
     boolean ret = false;
     long id = Long.valueOf(orderId);
-
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
-    // TODO careful: this is wrong and needs to be fixed because it can (and it does) cause HTTP 429
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
       try {
@@ -133,12 +137,30 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
         break;
       } catch (ExchangeException e) {
         if (e.getMessage().equals(OkCoinUtils.getErrorMessage(1009))) {
+          if (i != exchangeSymbols.size() - 1) {
+            waitBecauseOfRateLimit();
+          }
           // order not found.
           continue;
         }
       }
     }
     return ret;
+  }
+
+  /**
+   * Needs to be used in case multiple API calls need to be made. Use that carefully (only if there is absolutely no other way) as it is not
+   * advised to make multiple calls since XChange calls need to be as atomical as possible.
+   */
+  private synchronized void waitBecauseOfRateLimit() {
+    try {
+      Optional<RateLimit> rateLimitOptional = Arrays.stream(exchange.getExchangeMetaData().getPublicRateLimits()).findAny();
+      if (rateLimitOptional.isPresent()) {
+        Thread.sleep(rateLimitOptional.get().getPollDelayMillis());
+      }
+    } catch (InterruptedException e1) {
+      e1.printStackTrace();
+    }
   }
 
   @Override
