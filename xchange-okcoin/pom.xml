@@ -8,7 +8,7 @@
         <version>4.3.4-SNAPSHOT</version>
     </parent>
 
-    <artifactId>xchange-okcoin</artifactId>
+    <artifactId>xchange-okcoin_custom</artifactId>
 
     <name>XChange OKCoin</name>
     <description>XChange implementation for OKCoin</description>
