@@ -1700,5 +1700,11 @@
       "time_unit": "seconds"
     }
   ],
+  "public_rate_limits": [
+    {
+      "calls": 10,
+      "time_unit": "seconds"
+    }
+  ],
   "share_rate_limits": true
 }
