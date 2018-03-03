@@ -11,7 +11,6 @@ import org.knowm.xchange.dto.account.*
 import org.knowm.xchange.service.account.*
 import org.knowm.xchange.service.trade.params.*
 import org.knowm.xchange.utils.nonce.*
-import java.io.*
 import java.math.*
 import java.util.logging.*
 

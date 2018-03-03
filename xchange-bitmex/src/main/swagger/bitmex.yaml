@@ -1,4 +1,8 @@
 swagger: '2.0'
+basePath: /api/v1
+host: www.bitmex.com
+schemes:
+  - https
 info:
   title: BitMEX API
   description: |
@@ -59,7 +63,6 @@ info:
   contact:
     email: support@bitmex.com
   version: 1.2.0
-basePath: /api/v1
 paths:
   /announcement:
     get:
@@ -3181,7 +3184,7 @@ tags:
   - name: User
     description: Account Operations
 consumes:
-  - application/json
+#  - application/json
   - application/x-www-form-urlencoded
 produces:
   - application/json

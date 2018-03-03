@@ -22,6 +22,60 @@ import java.util.*
 import java.util.logging.*
 
 class BitmexExchange : Exchange, BaseExchange() {
+
+    val xwfc = "application/x-www-form-urlencoded"
+
+
+    val bitmexClient = object : ApiClient() {
+        var debugMe = System.getProperty("XChangeDebug", "false") != "false"
+        private val CONTENT_TYPE = MediaType.parse(xwfc)
+
+        init {
+            httpClient.interceptors().add(
+
+
+                    Interceptor {
+                        val request = it.request()
+                        val hdr = request.headers().toMultimap()
+                        val requestBuffer = Buffer()
+                        request.body()?.writeTo(requestBuffer)
+                        val body: String = requestBuffer.readUtf8()
+                        val verb = request.method()
+                        val encodedPath = request.httpUrl().encodedPath()
+
+                        val apiSecret = exchangeSpecification.secretKey
+
+                        hdr["api-key"] = listOf(exchangeSpecification.apiKey)
+
+                        val expires = "" + (System.currentTimeMillis() + 5_000) / 1000
+                        hdr["api-expires"] = listOf(expires)
+                        val path1 = pathRegex.replace(request.url().toExternalForm(), "$1")
+                        hdr["api-signature"] = listOf(HmacUtils.hmacSha256Hex(apiSecret, verb + path1 + expires + body))
+
+                        val doppleganger = request.newBuilder().headers(Headers.of(hdr.entries.associate { it.key to it.value.first() }))
+                        val build = doppleganger.build()
+                        val response = it.proceed(build)
+                        Logger.getAnonymousLogger().info(
+                                String.format("<-- Received response " +response.code()+
+                                                      " for " +
+                                                      response.request().url() + "--\n" +
+                                                      response.headers())
+                        )
+
+                        val contentType = response.body().contentType()
+                        val content = response.body().string()
+                        Logger.getAnonymousLogger().info(content)
+
+                        val wrappedBody = ResponseBody.create(contentType, content)
+                        response.newBuilder().body(wrappedBody).build()
+
+                    })
+        }
+
+
+        val pathRegex = Regex(pattern = ".*://[^/]*(/[^?#]+.*)")
+    }
+
     override fun getMarketDataService(): MarketDataService =
             object : MarketDataService {
                 val orderBookApi = OrderBookApi(bitmexClient)
@@ -113,84 +167,6 @@ class BitmexExchange : Exchange, BaseExchange() {
 
     }
 
-    private val xwfc = "application/x-www-form-urlencoded"
-
-    private val bitmexClient = object : ApiClient() {
-        var debugMe = System.getProperty("XChangeDebug", "false") != "false"
-
-        private val CONTENT_TYPE = MediaType.parse(xwfc)
-        override fun buildRequest(path: String?, method: String?, queryParams: MutableList<Pair>?,
-                                  collectionQueryParams: MutableList<Pair>?, body: Any?,
-                                  headerParams: MutableMap<String, String>?, formParams: MutableMap<String, Any>?,
-                                  authNames: Array<out String>?,
-                                  progressRequestListener: ProgressRequestBody.ProgressRequestListener?): Request? {
-            if (debugMe)
-                httpClient.interceptors().add(Interceptor { chain ->
-                    val request = chain.request()
-
-                    val t1 = System.nanoTime()
-                    Logger.getAnonymousLogger().info(
-                            String.format("--> Sending request %s on %s%n%s",
-                                          request.url(),
-                                          chain.connection(), request.headers()))
-
-                    val requestBuffer = Buffer()
-                    request.body().writeTo(requestBuffer)
-                    Logger.getAnonymousLogger().info(requestBuffer.readUtf8())
-
-                    val response = chain.proceed(request)
-
-                    val t2 = System.nanoTime()
-                    Logger.getAnonymousLogger().info(
-                            String.format("<-- Received response for %s in %.1fms%n%s",
-                                          response.request().url(), (t2 - t1) / 1e6,
-                                          response.headers()))
-
-                    val contentType = response.body().contentType()
-                    val content = response.body().string()
-                    Logger.getAnonymousLogger().info(content)
-
-                    val wrappedBody = ResponseBody.create(contentType, content)
-                    response.newBuilder().body(wrappedBody).build()
-                })
-            debugMe = false;
-            val frmFlds = linkedMapOf<String, Any>()
-            formParams?.let(frmFlds::putAll)
-//            frmFlds["method"] = path!!
-            val hdr = linkedMapOf<String, String>()
-            headerParams?.let(hdr::putAll)
-
-//            authentications["apiKey"] = ApiKeyAuth("header", "api-key")
-//            authentications["apiNonce"] = ApiKeyAuth("header", "api-nonce")
-//            authentications["apiSignature"] = ApiKeyAuth("header", "api-signature")
-
-
-            val payload = frmFlds.map {
-                listOf(it.key, it.value.toString()).joinToString("=")
-            }.joinToString("&")
-
-            val reqbody = RequestBody.create(CONTENT_TYPE, payload)
-            val apiSecret = exchangeSpecification.secretKey
-
-            hdr["apiKey"] = exchangeSpecification.apiKey
-            hdr["apiSignature"] = HmacUtils.hmacSha256Hex(apiSecret, payload)
-/*           Our reference market maker bot features a working implementation of our API key authentication.
-
-
-           Note: Previous versions of this document descripted an api-nonce value, which is a value that should increase between the bounds of 0 and 253. This scheme, while still supported, has significant problems with multithreaded clients and should not be used. Do not use it for new applications.
-*/
-            val expires = "" + System.currentTimeMillis() + 30_000
-            hdr["apiExpires"] = expires
-            val verb = "POST"
-            HmacUtils.hmacSha256Hex(apiSecret, verb + path + expires + payload)
-            val request = Request.Builder()
-                    .url(buildUrl("", queryParams, collectionQueryParams))
-                    .headers(Headers.of(hdr))
-                    .post(reqbody)
-                    .build()
-            return request
-        }
-    }
 }
 
 operator fun Order.OrderType.get(side: String): Order.OrderType {
@@ -208,4 +184,19 @@ operator fun Order.OrderType.get(side: String): Order.OrderType {
  */
 enum class BitmexPrompt {
     perpetual, weekly, monthly, quarterly, biquarterly
+}
+
+fun main(args: Array<String>) {
+    val apiKey = "LAqUlngMIQkIUjXMUreyu3qn"
+    val apiSecret = "chNOOS4KvNXR_Xq4k4c9qsfoKWvnDecLATCRlcBwyKDYnWgO"
+
+    var verb = "GET"
+//    # Note url-encoding on querystring - this is '/api/v1/instrument?filter={"symbol": "XBTM15"}'
+    var path = "/api/v1/instrument"
+    var expires = 1518064236 //# 2018-02-08T04:30:36Z
+    var data = ""
+    val hmacSha256Hex = HmacUtils.hmacSha256Hex(apiSecret, verb + path + expires + data)
+    System.err.println(hmacSha256Hex)
+
+
 }
