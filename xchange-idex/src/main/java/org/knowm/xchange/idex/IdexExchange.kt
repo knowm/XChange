@@ -42,11 +42,11 @@ class IdexExchange : Exchange, BaseExchange() {
 
                 allCurrenciesStatic!!.entries.associate {
                     val cmeta: IdexCurrMeta = it.value
-                    assert(null != cmeta.decimals,
+      /*              assert(null != cmeta.decimals,
                            {
                                "meta-init: ${cmeta.name} has null decimals --  " + JSON().gson.toJson(
                                        cmeta)
-                           })
+                           })*/
                     Currency(it.key) to IdexCurrencyMeta(scale = 0,
                                                          withdrawalFee = BigDecimal.ZERO,
                                                          address = cmeta.address,
