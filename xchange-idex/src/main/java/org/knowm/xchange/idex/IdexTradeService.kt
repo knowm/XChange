@@ -17,10 +17,10 @@ import org.knowm.xchange.service.trade.params.orders.*
 import org.knowm.xchange.utils.*
 import org.web3j.crypto.*
 import org.web3j.crypto.Hash.*
+import org.web3j.crypto.Sign.*
 import java.math.*
 import java.math.BigDecimal.*
 import java.util.*
-import kotlin.text.Charsets.UTF_8
 
 class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi() {
     val IdexContractAddress by lazy { contractAddress().address }
@@ -38,7 +38,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
 
 
     override fun cancelOrder(orderParams: CancelOrderParams): Boolean = when (orderParams) {
-        is IdexCancelOrderParams -> cancel(orderParams).success!! == 1
+        is IdexCancelOrderParams -> cancel(orderParams).success!!.toInt() == 1
         else -> throw ApiException("cancel order requires " + IdexCancelOrderParams::class.java.canonicalName)
     }
 
@@ -51,7 +51,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         val originalAmount = placeOrder.originalAmount
         val limitPrice = placeOrder.limitPrice
         val orderReq = createNormalizedLimitOrderReq(baseCurrency, counterCurrency, type, limitPrice, originalAmount,
-                                                     expires = 100000)
+                                                     expires = 100000.toBigInteger())
 
         return order(orderReq).orderHash
     }
@@ -62,8 +62,8 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                                       type: Order.OrderType, limitPrice: BigDecimal,
                                       originalAmount: BigDecimal,
                                       contractAddress: String = contractAddress().address,
-                                      nonce: String = idexServerNonce,
-                                      expires: Int = 100000): OrderReq {
+                                      nonce: BigInteger = idexServerNonce,
+                                      expires: BigInteger = 100000.toBigInteger()): OrderReq {
         idexExchange.exchangeMetaData.currencies[baseCurrency]
         idexExchange.exchangeMetaData.currencies[counterCurrency]
 
@@ -87,24 +87,24 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
 
         val buyc = buy_currency.address
         val sellc = sell_currency.address
-        val hash_data = listOf(
+        val hash_data: List<List<String>> = listOf(
                 listOf("contractAddress", contractAddress, "address"),
                 listOf("tokenBuy", buyc, "address"),
                 listOf("amountBuy", amount_buy.toString(), "uint256"),
                 listOf("tokenSell", sellc, "address"),
                 listOf("amountSell", amount_sell.toString(), "uint256"),
-                listOf("expires", "" + expires.toBigInteger(), "uint256"),
-                listOf("nonce", nonce, "uint256"),
+                listOf("expires", "" + expires, "uint256"),
+                listOf("nonce", ""+nonce, "uint256"),
                 listOf("address", apiKey, "address")
         )
 
         val sig = generateSignature(idexExchange.exchangeSpecification.secretKey, hash_data)!!
-        val v = sig.v
+        val v = sig.v.toByte()
         val r = sig.r
         val s = sig.s
         val orderReq = OrderReq()
                 .address(apiKey)
-                .nonce(nonce)
+                .nonce( nonce)
                 .tokenBuy(buyc)
                 .amountBuy(amount_buy.toString())
                 .tokenSell(sellc)
@@ -112,7 +112,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                 .expires(expires)
                 .r("0x" + Hex.encodeHexString(r))
                 .s("0x" + Hex.encodeHexString(s))
-                .v((v).toInt())
+                .v(v.toInt().toBigInteger())
 
 
         return orderReq
@@ -132,19 +132,19 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
 
         val idexServerNonce1 = idexServerNonce
 
-        val hash_data = listOf(
+        val hash_data: List<List<String>> = listOf(
                 listOf("orderHash", orderHash, "address"),
-                listOf("nonce", idexServerNonce1, "uint256")
+                listOf("nonce", ""+idexServerNonce1, "uint256")
         )
 
         val sig = generateSignature(idexExchange.exchangeSpecification.secretKey, hash_data)!!
         val cancelReq = CancelReq().orderHash(orderHash).nonce(idexServerNonce1).address(apiKey)
-                .v(sig.v.toInt())
+                .v(sig.v .toInt().toBigInteger())
                 .r("0x" + Hex.encodeHex(sig.r))
                 .s("0x" + Hex.encodeHex(sig.s))
 
         val cancel = cancel(cancelReq)
-        return (cancel.success == 1).also {
+        return (cancel.success == BigInteger.ONE).also {
             cancel.error?.also { System.err.println("cancel error: " + it) }
         }
     }
@@ -234,32 +234,54 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                 data: List<List<String>>
         ): Sign.SignatureData? {
             // pack parameters based on type
-            var sig_str = ""
-            data.forEach { d ->
+//            var sig_str = ""
+            var sig_arr= byteArrayOf()
+            if(IdexMarketDataService.debugMe){
+                System.err.println(data.toString())
+            }
+            data.forEach {
+                d: List<String> ->
+                val data: String = d[1]
+                sig_arr += when (d[2]) {
+                    "address" /* remove 0x prefix and convert to bytes*/ -> {
+                        val padded = ByteArray(20) { 0 }
+                        val r: ByteArray = data.toLowerCase().split("0x").last().toBigInteger(16).toByteArray()
 
-                sig_str += when (d[2]) {
-                    "address"
-                        // remove 0x prefix and convert to bytes
-                    -> d[1].toLowerCase().split("0x").last()
-                    "uint256"
-                        // encode, pad and convert to bytes
-                    -> Hex.encodeHexString(d[1].toBigInteger().toByteArray()).toLowerCase()
-                    else ->/*never*/ d[1]
+                        val slice: ByteArray = padded.slice(0..(padded.size - r.size)).toByteArray()
+                        val bytes: ByteArray = slice  + r
+                        assert(bytes.size==20)
+                        bytes
+                    }
+                    "uint256" /* encode, pad and convert to bytes*/ -> {
+                        val padded = ByteArray(32) { 0 }
+                        val r: ByteArray = data.toBigInteger().toByteArray()
+
+                        val slice: ByteArray = padded.slice(0..(padded.size - r.size)).toByteArray()
+                        val bytes: ByteArray = slice+ r
+                        assert(bytes.size==32)
+                        bytes
+                    }
+                    else -> /*never*/ TODO("review signature target with bad type key here")
                 }
             }
             // hash the packed string
-            val rawhash = sha3String(sig_str)
+            val rawhash: ByteArray = sha3(sig_arr)
 
             // salt the hashed packed string
-            val salted = sha3String("\u0019Ethereum Signed Message:\n32$rawhash")
+            val saltBytes: ByteArray = "\u0019Ethereum Signed Message:\n32".toByteArray()
+            assert(Hex.encodeHexString(saltBytes).toLowerCase()=="19457468657265756d205369676e6564204d6573736167653a0a3332" )
+            val bytes: ByteArray = saltBytes + rawhash
+            val salted: ByteArray = sha3(bytes)
 
             apiSecret.split("0x").last()
 
-            val payloadBytesCrypted = salted.toByteArray(UTF_8)
-//            val apiSecretBytes = apiSecret.toLowerCase().split("0x").last().toByteArray(UTF_8)
-            val toBigInteger = apiSecret.split("0x").last().toBigInteger(16)
-            val ecKeyPair = ECKeyPair.create(toBigInteger)
-            return Sign.signMessage(payloadBytesCrypted, ecKeyPair)
+            val payloadBytesCrypted: ByteArray = salted
+            val toBigInteger: BigInteger = apiSecret.split("0x").last().toBigInteger(16)
+            val ecKeyPair: ECKeyPair = ECKeyPair.create(toBigInteger)
+            return signMessage(
+                   /* message = */payloadBytesCrypted,
+                   /* keyPair=  */ ecKeyPair
+            )
         }
     }
 }

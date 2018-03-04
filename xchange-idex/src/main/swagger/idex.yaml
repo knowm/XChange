@@ -264,7 +264,7 @@ paths:
                 type: string
                 description: (address string) - The address you are posting the order from
               nonce:
-                type: string
+                type: integer
                 description: (uint256) - One time number associated with the limit order
               expires:
                 type: integer
@@ -364,7 +364,7 @@ paths:
                     examples:
                       - 100000
                   nonce:
-                    type: string
+                    type: integer
                     title: The Nonce Schema
                     default: 0
                     examples:
@@ -419,7 +419,7 @@ paths:
                 in: body
                 description: (256-bit hex string) - The raw hash of the order you are cancelling
               nonce:
-                type: string
+                type: integer
                 description: (uint256) - One time number associated with the address
               address:
                 type: string
@@ -464,7 +464,7 @@ paths:
                 description: '(address string) - The address of the token you are withdrawing from, see earlier notes for ETH'
               nonce:
                 required: true
-                type: string
+                type: integer
                 description: (uint256) - One time numeric value associated with your address
               s:
                 required: true
@@ -624,7 +624,7 @@ definitions:
             examples:
               - 190000
           nonce:
-            type: string
+            type: integer
             title: The Nonce Schema
             default: 0
             examples:
@@ -968,7 +968,7 @@ definitions:
     definitions: {}
     properties:
       nonce:
-        type: string
+        type: integer
         title: The Nonce Schema
         default: 0
         examples:

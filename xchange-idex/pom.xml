@@ -68,6 +68,7 @@
                                         <artifactVersion>${project.parent.version}</artifactVersion>
                                         <artifactDescription>${exchangeName}</artifactDescription>
                                     </configOptions>
+                                    <typeMappings><typeMapping>integer=java.math.BigInteger</typeMapping></typeMappings>
                                 </configuration>
                             </execution>
                         </executions>

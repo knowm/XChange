@@ -10,6 +10,7 @@ import org.knowm.xchange.idex.dto.*
 import org.knowm.xchange.idex.util.*
 import si.mazi.rescu.*
 import java.math.*
+import java.math.BigInteger.*
 import java.util.logging.*
 
 class IdexExchange : Exchange, BaseExchange() {
@@ -51,7 +52,7 @@ class IdexExchange : Exchange, BaseExchange() {
                                                          withdrawalFee = BigDecimal.ZERO,
                                                          address = cmeta.address,
                                                          name = cmeta.name,
-                                                         decimals = cmeta.decimals ?: 0)
+                                                         decimals = cmeta.decimals ?: ZERO)
                 },
                 emptyArray<RateLimit?>(),
                 emptyArray<RateLimit?>(),
