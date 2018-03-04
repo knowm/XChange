@@ -8,6 +8,7 @@ import org.knowm.xchange.dto.Order.OrderType.*
 import org.knowm.xchange.dto.marketdata.*
 import org.knowm.xchange.dto.trade.*
 import org.knowm.xchange.exceptions.*
+import org.knowm.xchange.idex.IdexMarketDataService.Companion.debugMe
 import org.knowm.xchange.idex.dto.*
 import org.knowm.xchange.idex.service.*
 import org.knowm.xchange.idex.util.*
@@ -242,26 +243,33 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
             data.forEach {
                 d: List<String> ->
                 val data: String = d[1]
-                sig_arr += when (d[2]) {
+                val segment = when (d[2]) {
                     "address" /* remove 0x prefix and convert to bytes*/ -> {
                         val padded = ByteArray(20) { 0 }
                         val r: ByteArray = data.toLowerCase().split("0x").last().toBigInteger(16).toByteArray()
 
-                        val slice: ByteArray = padded.slice(0..(padded.size - r.size)).toByteArray()
-                        val bytes: ByteArray = slice  + r
-                        assert(bytes.size==20)
+                        val slice: ByteArray = padded.slice(0..(padded.size - r.size-1)).toByteArray()
+                        val bytes: ByteArray = slice + r
+                        assert(bytes.size == 20)
                         bytes
                     }
                     "uint256" /* encode, pad and convert to bytes*/ -> {
                         val padded = ByteArray(32) { 0 }
                         val r: ByteArray = data.toBigInteger().toByteArray()
 
-                        val slice: ByteArray = padded.slice(0..(padded.size - r.size)).toByteArray()
-                        val bytes: ByteArray = slice+ r
-                        assert(bytes.size==32)
+                        val slice: ByteArray = padded.slice(0..(padded.size - r.size-1)).toByteArray()
+                        val bytes: ByteArray = slice + r
+                        assert(bytes.size == 32)
                         bytes
                     }
                     else -> /*never*/ TODO("review signature target with bad type key here")
+                }
+                sig_arr += segment
+                if(debugMe){
+                    System.err.println("\n===\nsignature: for "+d)
+                    System.err.println("signature: results: "+Hex.encodeHexString( segment ))
+                    System.err.println("signature: accumulated: "+Hex.encodeHexString( sig_arr))
+
                 }
             }
             // hash the packed string
