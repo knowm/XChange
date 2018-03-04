@@ -53,7 +53,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
@@ -130,7 +130,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    throw new UnsupportedOperationException("Cancelling an order requires id and market name information.");
+    throw new NotAvailableFromExchangeException();
   }
 
   /**
