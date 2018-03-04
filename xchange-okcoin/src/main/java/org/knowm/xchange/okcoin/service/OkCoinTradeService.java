@@ -15,9 +15,11 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.OkCoinUtils;
+import org.knowm.xchange.okcoin.dto.trade.OkCoinOrder;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
@@ -28,6 +30,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -50,40 +53,32 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return getOpenOrders(createOpenOrdersParams());
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    List<OkCoinOrderResult> orderResults = new ArrayList<>();
-
-    List<CurrencyPair> exchangeSymbols;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      CurrencyPair symbol = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
-      exchangeSymbols = Collections.singletonList(symbol);
-    } else if (params instanceof OpenOrdersParamMultiCurrencyPair) {
-      exchangeSymbols = new ArrayList<>(((OpenOrdersParamMultiCurrencyPair) params).getCurrencyPairs());
-    } else {
-      exchangeSymbols = exchange.getExchangeSymbols();
-    }
-    for (CurrencyPair symbol : exchangeSymbols) {
-      try {
-        OkCoinOrderResult orderResult = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
-        if (orderResult.getOrders().length > 0) {
-          orderResults.add(orderResult);
-        }
-      } catch (Exception e) {
-        if (exchangeSymbols.indexOf(symbol) == exchangeSymbols.size() - 1) {
-          waitBecauseOfRateLimit();
-        }
-        // Market not present.
-      }
+  public OpenOrders getOpenOrders(OpenOrdersParams params) {
+    OpenOrdersParamCurrencyPair parameters;
+    try {
+      parameters = (OpenOrdersParamCurrencyPair) params;
+    } catch (ClassCastException e) {
+      throw new UnsupportedOperationException("Getting open orders is only available available for a single market.");
     }
 
-    if (orderResults.size() <= 0) {
+    CurrencyPair symbol = parameters.getCurrencyPair();
+    OkCoinOrderResult orderResults;
+    try {
+      // orderId = -1 returns all of the orders on this market
+      orderResults = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
+    } catch (Exception e) {
+      return NO_OPEN_ORDERS;
+      // Market not present.
+    }
+
+    if (orderResults.getOrders() == null || orderResults.getOrders().length == 0) {
       return NO_OPEN_ORDERS;
     }
-    return OkCoinAdapters.adaptOpenOrders(orderResults);
+    return OkCoinAdapters.adaptOpenOrders(Collections.singletonList(orderResults));
   }
 
   @Override
@@ -121,55 +116,21 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws IOException {
-
-    boolean ret = false;
-    long id = Long.valueOf(orderId);
-    List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
-    for (int i = 0; i < exchangeSymbols.size(); i++) {
-      CurrencyPair symbol = exchangeSymbols.get(i);
-      try {
-        OkCoinTradeResult cancelResult = cancelOrder(id, OkCoinAdapters.adaptSymbol(symbol));
-
-        if (id == cancelResult.getOrderId()) {
-          ret = true;
-        }
-        break;
-      } catch (ExchangeException e) {
-        if (e.getMessage().equals(OkCoinUtils.getErrorMessage(1009))) {
-          if (i != exchangeSymbols.size() - 1) {
-            waitBecauseOfRateLimit();
-          }
-          // order not found.
-          continue;
-        }
-      }
-    }
-    return ret;
-  }
-
-  /**
-   * Needs to be used in case multiple API calls need to be made. Use that carefully (only if there is absolutely no other way) as it is not
-   * advised to make multiple calls since XChange calls need to be as atomical as possible.
-   */
-  private synchronized void waitBecauseOfRateLimit() {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    OkCoinCancelOrderParam parameters;
     try {
-      Optional<RateLimit> rateLimitOptional = Arrays.stream(exchange.getExchangeMetaData().getPublicRateLimits()).findAny();
-      if (rateLimitOptional.isPresent()) {
-        Thread.sleep(rateLimitOptional.get().getPollDelayMillis());
-      }
-    } catch (InterruptedException e1) {
-      e1.printStackTrace();
+      parameters = (OkCoinCancelOrderParam) orderParams;
+    } catch (ClassCastException e) {
+      throw new UnsupportedOperationException("Cancelling an order is only available for a single market and a single id.");
     }
+    long id = Long.valueOf(parameters.getId());
+    OkCoinTradeResult cancelResult = cancelOrder(id, OkCoinAdapters.adaptSymbol(parameters.getCurrencyPair()));
+    return id == cancelResult.getOrderId();
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByIdParams) {
-      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
-    } else {
-      return false;
-    }
+  public boolean cancelOrder(String orderId) throws IOException {
+    throw new UnsupportedOperationException("Cancelling an order requires id and market name information.");
   }
 
   /**
@@ -248,6 +209,24 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
+  }
+
+  public static class OkCoinCancelOrderParam implements CancelOrderParams {
+    private final CurrencyPair currencyPair;
+    private final String id;
+
+    public OkCoinCancelOrderParam(CurrencyPair currencyPair, String id) {
+      this.currencyPair = currencyPair;
+      this.id = id;
+    }
+
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
+
+    public String getId() {
+      return id;
+    }
   }
 
 }
