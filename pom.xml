@@ -22,7 +22,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
         <version.assertj>3.8.0</version.assertj>
         <version.commons.io>2.6</version.commons.io>
         <version.commons.lang3>3.7</version.commons.lang3>
@@ -34,7 +33,6 @@
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
         <version.slf4j>1.7.25</version.slf4j>
-
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
 
@@ -133,6 +131,7 @@
         <module>xchange-gdax</module>
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
+        <module>xchange-huobipro</module>
         <module>xchange-idex</module>
         <module>xchange-independentreserve</module>
         <module>xchange-itbit</module>
