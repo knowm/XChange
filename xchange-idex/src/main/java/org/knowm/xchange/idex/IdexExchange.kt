@@ -40,7 +40,7 @@ class IdexExchange : Exchange, BaseExchange() {
                 }.associate { c -> CurrencyPair(c[0], c[1]) to unavailableCPMeta },
 
 
-                allCurrenciesStatic!!.entries.associate {
+                allCurrenciesStatic.entries.associate {
                     val cmeta: IdexCurrMeta = it.value
       /*              assert(null != cmeta.decimals,
                            {
@@ -74,7 +74,7 @@ class IdexExchange : Exchange, BaseExchange() {
     companion object {
 
 
-        public val gson by lazy { JSON().gson }
+        val gson by lazy { JSON().gson }
 
         /**
          * if you need to debug the REST api calls use -DXChangeDebug=true
@@ -84,7 +84,7 @@ class IdexExchange : Exchange, BaseExchange() {
 
         fun setupDebug(apiClient: ApiClient) {
             val element = debugInterceptor
-            apiClient!!.httpClient.interceptors().add(debugInterceptor)
+            apiClient.httpClient.interceptors().add(debugInterceptor)
         }
 
         val debugInterceptor by lazy {

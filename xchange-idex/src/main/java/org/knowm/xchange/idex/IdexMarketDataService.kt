@@ -64,17 +64,17 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
 
 
     companion object {
-        public val allTickers by lazy { IdexMarketDataService.allTickersStatic() };
-        public val allCounter by lazy {
+        val allTickers by lazy { IdexMarketDataService.allTickersStatic() };
+        val allCounter by lazy {
             allTickers.keys.map { it.split('_')[0] }.distinct().sorted().map(::Currency)
         }
-        public val allBase by lazy {
+        val allBase by lazy {
             allTickers.keys.map { it.split('_')[1] }.distinct().sorted().map(::Currency)
         }
-        public val allCurrencies by lazy{ allCurrenciesStatic()}
+        val allCurrencies by lazy{ allCurrenciesStatic()}
         /**same as  curl -XPOST https://api.idex.market/returnTicker
          */
-        public fun allTickersStatic(): ReturnTickerRequestedWithNull {
+        fun allTickersStatic(): ReturnTickerRequestedWithNull {
             val c: javax.net.ssl.HttpsURLConnection = URL(
                     "https://api.idex.market/returnTicker").openConnection() as HttpsURLConnection
             c.requestMethod = "POST"
@@ -85,7 +85,8 @@ class IdexMarketDataService(private val idexExchange: IdexExchange) : MarketData
                                               ReturnTickerRequestedWithNull::class.java).also { inputStream.close() }
 
         }
-        public fun allCurrenciesStatic(): ReturnCurrenciesResponse  {
+
+        fun allCurrenciesStatic(): ReturnCurrenciesResponse  {
             val c: javax.net.ssl.HttpsURLConnection = URL(
                     "https://api.idex.market/returnCurrencies").openConnection() as HttpsURLConnection
             c.requestMethod = "POST"
