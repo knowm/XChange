@@ -52,11 +52,12 @@ class BitmexExchange : Exchange, BaseExchange() {
                         val path1 = pathRegex.replace(request.url().toExternalForm(), "$1")
                         hdr["api-signature"] = listOf(HmacUtils.hmacSha256Hex(apiSecret, verb + path1 + expires + body))
 
-                        val doppleganger = request.newBuilder().headers(Headers.of(hdr.entries.associate { it.key to it.value.first() }))
+                        val doppleganger = request.newBuilder().headers(
+                                Headers.of(hdr.entries.associate { it.key to it.value.first() }))
                         val build = doppleganger.build()
                         val response = it.proceed(build)
-                        Logger.getAnonymousLogger().info(
-                                String.format("<-- Received response " +response.code()+
+                        if (debugMe) Logger.getAnonymousLogger().info(
+                                String.format("<-- Received response " + response.code() +
                                                       " for " +
                                                       response.request().url() + "--\n" +
                                                       response.headers())
@@ -64,7 +65,7 @@ class BitmexExchange : Exchange, BaseExchange() {
 
                         val contentType = response.body().contentType()
                         val content = response.body().string()
-                        Logger.getAnonymousLogger().info(content)
+                        if (debugMe) Logger.getAnonymousLogger().info(content)
 
                         val wrappedBody = ResponseBody.create(contentType, content)
                         response.newBuilder().body(wrappedBody).build()
