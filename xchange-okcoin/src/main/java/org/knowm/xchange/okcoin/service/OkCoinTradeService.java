@@ -58,14 +58,10 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) {
-    OpenOrdersParamCurrencyPair parameters;
-    try {
-      parameters = (OpenOrdersParamCurrencyPair) params;
-    } catch (ClassCastException e) {
-      throw new UnsupportedOperationException("Getting open orders is only available available for a single market.");
+    if (!(params instanceof OpenOrdersParamCurrencyPair)) {
+      throw new UnsupportedOperationException("Getting open orders is only available for a single market.");
     }
-
-    CurrencyPair symbol = parameters.getCurrencyPair();
+    CurrencyPair symbol = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
     OkCoinOrderResult orderResults;
     try {
       // orderId = -1 returns all of the orders on this market
@@ -117,14 +113,11 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    OkCoinCancelOrderParam parameters;
-    try {
-      parameters = (OkCoinCancelOrderParam) orderParams;
-    } catch (ClassCastException e) {
+    if (!(orderParams instanceof OkCoinCancelOrderParam)) {
       throw new UnsupportedOperationException("Cancelling an order is only available for a single market and a single id.");
     }
-    long id = Long.valueOf(parameters.getId());
-    OkCoinTradeResult cancelResult = cancelOrder(id, OkCoinAdapters.adaptSymbol(parameters.getCurrencyPair()));
+    long id = Long.valueOf(((OkCoinCancelOrderParam) orderParams).getId());
+    OkCoinTradeResult cancelResult = cancelOrder(id, OkCoinAdapters.adaptSymbol(((OkCoinCancelOrderParam) orderParams).getCurrencyPair()));
     return id == cancelResult.getOrderId();
   }
 
