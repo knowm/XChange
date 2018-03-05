@@ -15,6 +15,7 @@ import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositsHistory;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsFill;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalsHistory;
@@ -40,6 +41,8 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -360,6 +363,25 @@ public class AbucoinsAdapters {
                                                 AbucoinsOrder.TimeInForce.GTC,
                                                 null,
                                                 null);
+  }
+  
+  public static UserTrades adaptUserTrades(AbucoinsFill[] fills) {
+    List<UserTrade> userTrades = new ArrayList<>();
+    for ( AbucoinsFill fill : fills )
+      userTrades.add( adaptUserTrade(fill));
+  
+    return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
+  }
+  
+  public static UserTrade adaptUserTrade(AbucoinsFill fill) {
+    return new UserTrade.Builder()
+        .currencyPair(adaptCurrencyPair(fill.getProductID()))
+        .id( fill.getTradeID() )
+        .orderId( fill.getOrderID())
+        .price( fill.getPrice())
+        .timestamp( parseDate( fill.getCreatedAt() ))
+        .type( adaptOrderType(fill.getSide()))
+        .build();
   }
   
   public static List<FundingRecord> adaptFundingRecordsFromDepositsHistory(AbucoinsDepositsHistory history) {
