@@ -224,7 +224,6 @@ public class AbucoinsAdapters {
   public static LimitOrder createOrder(CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
     return new LimitOrder.Builder(orderType, currencyPair)
                 .averagePrice(priceAndAmount.getPrice())
-                .cumulativeAmount( priceAndAmount.getSize())
                 .limitPrice(priceAndAmount.getPrice())
                 .orderStatus(OrderStatus.NEW)
                 .originalAmount(priceAndAmount.getSize())
