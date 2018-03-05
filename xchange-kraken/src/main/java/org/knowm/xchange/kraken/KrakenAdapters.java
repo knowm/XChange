@@ -144,7 +144,7 @@ public class KrakenAdapters {
           krakenOrder.getPrice(),
           krakenOrder.getVolumeExecuted(),
           krakenOrder.getFee(),
-          orderStatus
+          adaptOrderStatus(krakenOrder.getStatus())
       );
 
     if (krakenOrder.getOrderDescription().getOrderType().equals(KrakenOrderType.MARKET))
