@@ -266,7 +266,7 @@ public class HitbtcAdapters {
         .setDescription(description)
         .setStatus(convertStatus(transaction.getStatus()))
         .setInternalId(transaction.getId())
-        .setExternalId(transaction.getHash())
+        .setBlockchainTransactionHash(transaction.getHash())
         .setDate(transaction.getCreatedAt())
         .build();
   }

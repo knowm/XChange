@@ -195,7 +195,7 @@ public class KucoinAdapters {
                 .setDate(new Date(record.getCreatedAt()))
                 .setFee(record.getFee())
                 .setStatus(record.getStatus().getFundingRecordStatus())
-                .setExternalId(record.getOuterWalletTxid())
+                .setBlockchainTransactionHash(record.getOuterWalletTxid())
                 .setInternalId(record.getOid())
                 .setDescription(record.getRemark())
                 .setType(record.getType().getFundingRecordType())

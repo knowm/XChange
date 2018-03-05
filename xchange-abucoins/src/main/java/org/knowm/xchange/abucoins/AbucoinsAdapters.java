@@ -378,7 +378,6 @@ public class AbucoinsAdapters {
   
   public static FundingRecord adaptFundingRecord(AbucoinsDepositHistory history) {
     return fundingRecordBuilder(history)
-        .setExternalId(history.getDepositID())
         .setInternalId(history.getDepositID())
         .setType(FundingRecord.Type.DEPOSIT)
         .build();
@@ -386,7 +385,6 @@ public class AbucoinsAdapters {
     
   public static FundingRecord adaptFundingRecord(AbucoinsWithdrawalHistory history) {
     return fundingRecordBuilder(history)
-        .setExternalId(history.getWithdrawID())
         .setInternalId(history.getWithdrawID())
         .setType(FundingRecord.Type.WITHDRAWAL)
         .build();
