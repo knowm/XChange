@@ -87,11 +87,18 @@ public class BinanceAdapters {
     return isBuyer ? OrderType.BID : OrderType.ASK;
   }
 
+  public static CurrencyPair adaptSymbol(String symbol){
+    int pairLength = symbol.length();
+    if (symbol.endsWith("USDT")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDT");
+    } else {
+      return new CurrencyPair(symbol.substring(0, pairLength - 3), symbol.substring(pairLength - 3));
+    }
+  }
+
   public static Order adaptOrder(BinanceOrder order) {
     OrderType type = convert(order.side);
-    String currency = order.symbol;
-    int pairLength = currency.length();
-    CurrencyPair currencyPair;
+    CurrencyPair currencyPair = adaptSymbol(order.symbol);
 
     Order.OrderStatus orderStatus = adaptOrderStatus(order.status);
     final BigDecimal averagePrice;
@@ -99,12 +106,6 @@ public class BinanceAdapters {
       averagePrice = BigDecimal.ZERO;
     } else {
       averagePrice = order.price;
-    }
-
-    if (currency.endsWith("USDT")) {
-      currencyPair = new CurrencyPair(currency.substring(0, pairLength - 4), "USDT");
-    } else {
-      currencyPair = new CurrencyPair(currency.substring(0, pairLength - 3), currency.substring(pairLength - 3));
     }
 
     if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
@@ -120,7 +121,6 @@ public class BinanceAdapters {
               orderStatus
       );
     } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)) {
-      if (order.stopPrice.signum() == 0) {
         return new LimitOrder(
                 type,
                 order.origQty,
@@ -144,7 +144,5 @@ public class BinanceAdapters {
                 order.executedQty,
                 orderStatus);
       }
-    }
-    return null;
   }
 }
