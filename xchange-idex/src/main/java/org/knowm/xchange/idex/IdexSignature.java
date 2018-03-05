@@ -36,23 +36,24 @@ public class IdexSignature {
                     /* remove 0x prefix and convert to bytes*/
                     if (debugMe) System.err.println("\n===\nsignature  for (len: " + d.get(1).length() + " ):" + d);
                     byte[] segment = new byte[0];
-                    byte[] r;
+                    byte[] r = new byte[0];
                     String last = new LinkedList<>(asList(data1.toLowerCase().split("0x"))).getLast();
                     switch (d.get(2)) {
                         case "address": {
                             segment = new byte[20];
+                            r = new BigInteger(last, 16).toByteArray();
 
                             break;
                         }
 
                         case "uint256": {
                             segment = new byte[32];
+                            r = new BigInteger(last, 10).toByteArray();
 
                             break;
                         }
 
                     }
-                    r = new BigInteger(last, 16).toByteArray();
                     int segLen = segment.length;
                     int rlen = min(max(segLen, r.length), r.length);
                     int oversize = r.length - segLen;
