@@ -253,9 +253,6 @@ public class HitbtcAdapters {
     if (transaction.getIndex() != null) {
       description += ", index: " + transaction.getIndex();
     }
-    if (transaction.getHash() != null) {
-      description += ", hash: " + transaction.getHash();
-    }
     if (transaction.getPaymentId() != null) {
       description += ", paymentId: " + transaction.getPaymentId();
     }
@@ -269,6 +266,7 @@ public class HitbtcAdapters {
         .setDescription(description)
         .setStatus(convertStatus(transaction.getStatus()))
         .setInternalId(transaction.getId())
+        .setExternalId(transaction.getHash())
         .setDate(transaction.getCreatedAt())
         .build();
   }
