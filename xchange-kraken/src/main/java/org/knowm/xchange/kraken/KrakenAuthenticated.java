@@ -72,8 +72,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("price") String price, @FormParam("price2") String secondaryPrice, @FormParam("volume") String volume,
       @FormParam("leverage") String leverage, @FormParam("position") String positionTxId, @FormParam("oflags") String orderFlags,
       @FormParam("starttm") String startTime, @FormParam("expiretm") String expireTime, @FormParam("userref") String userRefId,
-      @FormParam("close[ordertype]") String closeOrderType, @FormParam("close[price]") String closePrice,
-      @FormParam("close[price2]") String closePrice2, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer,
+      @FormParam("close") Map<String, String> closeOrder, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
@@ -83,9 +82,8 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("price") String price, @FormParam("price2") String secondaryPrice, @FormParam("volume") String volume,
       @FormParam("leverage") String leverage, @FormParam("position") String positionTxId, @FormParam("oflags") String orderFlags,
       @FormParam("starttm") String startTime, @FormParam("expiretm") String expireTime, @FormParam("userref") String userRefId,
-      @FormParam("validate") boolean validateOnly, @FormParam("close[ordertype]") String closeOrderType, @FormParam("close[price]") String closePrice,
-      @FormParam("close[price2]") String closePrice2, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+      @FormParam("validate") boolean validateOnly, @FormParam("close") Map<String, String> closeOrder, @HeaderParam("API-Key") String apiKey,
+      @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("private/CancelOrder")
