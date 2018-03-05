@@ -240,14 +240,14 @@ public class BitfinexAdaptersTest {
         assertThat(record.getStatus()).isEqualTo(FundingRecord.Status.PROCESSING);
         assertEquals(new BigDecimal("0.01"), record.getAmount());
         assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());
-        assertEquals(null, record.getExternalId());
+        assertEquals(null, record.getBlockchainTransactionHash());
         assertEquals(Currency.BTC, record.getCurrency());
       } else {
         assertThat(record.getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
         assertEquals(new BigDecimal("0.07"), record.getAmount());
         assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ", record.getAddress());
         assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer", record.getDescription());
-        assertEquals("offchain transfer", record.getExternalId());
+        assertEquals("offchain transfer", record.getBlockchainTransactionHash());
         assertEquals(Currency.BTC, record.getCurrency());
       }
     }
