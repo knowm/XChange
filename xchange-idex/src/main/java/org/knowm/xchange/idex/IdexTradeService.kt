@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.marketdata.*
 import org.knowm.xchange.dto.trade.*
 import org.knowm.xchange.exceptions.*
 import org.knowm.xchange.idex.IdexMarketDataService.Companion.debugMe
+import org.knowm.xchange.idex.IdexSignature.*
 import org.knowm.xchange.idex.dto.*
 import org.knowm.xchange.idex.service.*
 import org.knowm.xchange.idex.util.*
@@ -95,7 +96,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
                 listOf("tokenSell", sellc, "address"),
                 listOf("amountSell", amount_sell.toString(), "uint256"),
                 listOf("expires", "" + expires, "uint256"),
-                listOf("nonce", ""+nonce, "uint256"),
+                listOf("nonce", "" + nonce, "uint256"),
                 listOf("address", apiKey, "address")
         )
 
@@ -105,7 +106,7 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         val s = sig.s
         val orderReq = OrderReq()
                 .address(apiKey)
-                .nonce( nonce)
+                .nonce(nonce)
                 .tokenBuy(buyc)
                 .amountBuy(amount_buy.toString())
                 .tokenSell(sellc)
@@ -135,12 +136,12 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
 
         val hash_data: List<List<String>> = listOf(
                 listOf("orderHash", orderHash, "address"),
-                listOf("nonce", ""+idexServerNonce1, "uint256")
+                listOf("nonce", "" + idexServerNonce1, "uint256")
         )
 
         val sig = generateSignature(idexExchange.exchangeSpecification.secretKey, hash_data)!!
         val cancelReq = CancelReq().orderHash(orderHash).nonce(idexServerNonce1).address(apiKey)
-                .v(sig.v .toInt().toBigInteger())
+                .v(sig.v.toInt().toBigInteger())
                 .r("0x" + Hex.encodeHex(sig.r))
                 .s("0x" + Hex.encodeHex(sig.s))
 
@@ -229,67 +230,75 @@ class IdexTradeService(val idexExchange: IdexExchange) : TradeService, TradeApi(
         class IdexTradeHistoryReq(val sort: Trades.TradeSortType? = Trades.TradeSortType.SortByTimestamp,
                                   val lastId: Long? = null) : TradeHistoryParams, TradeHistoryReq()
 
-        /**Generate v, r, s values from payload*/
-        fun generateSignature(
-                apiSecret: String,
-                data: List<List<String>>
-        ): Sign.SignatureData? {
-            // pack parameters based on type
-//            var sig_str = ""
-            var sig_arr= byteArrayOf()
-            if(IdexMarketDataService.debugMe){
-                System.err.println(data.toString())
-            }
-            data.forEach {
-                d: List<String> ->
-                val data: String = d[1]
-                val segment = when (d[2]) {
-                    "address" /* remove 0x prefix and convert to bytes*/ -> {
-                        val padded = ByteArray(20) { 0 }
-                        val r: ByteArray = data.toLowerCase().split("0x").last().toBigInteger(16).toByteArray()
-
-                        val slice: ByteArray = padded.slice(0..(padded.size - r.size-1)).toByteArray()
-                        val bytes: ByteArray = slice + r
-                        assert(bytes.size == 20)
-                        bytes
-                    }
-                    "uint256" /* encode, pad and convert to bytes*/ -> {
-                        val padded = ByteArray(32) { 0 }
-                        val r: ByteArray = data.toBigInteger().toByteArray()
-
-                        val slice: ByteArray = padded.slice(0..(padded.size - r.size-1)).toByteArray()
-                        val bytes: ByteArray = slice + r
-                        assert(bytes.size == 32)
-                        bytes
-                    }
-                    else -> /*never*/ TODO("review signature target with bad type key here")
-                }
-                sig_arr += segment
-                if(debugMe){
-                    System.err.println("\n===\nsignature: for "+d)
-                    System.err.println("signature: results: "+Hex.encodeHexString( segment ))
-                    System.err.println("signature: accumulated: "+Hex.encodeHexString( sig_arr))
-
-                }
-            }
-            // hash the packed string
-            val rawhash: ByteArray = sha3(sig_arr)
-
-            // salt the hashed packed string
-            val saltBytes: ByteArray = "\u0019Ethereum Signed Message:\n32".toByteArray()
-            assert(Hex.encodeHexString(saltBytes).toLowerCase()=="19457468657265756d205369676e6564204d6573736167653a0a3332" )
-            val bytes: ByteArray = saltBytes + rawhash
-            val salted: ByteArray = sha3(bytes)
-
-            apiSecret.split("0x").last()
-
-            val payloadBytesCrypted: ByteArray = salted
-            val toBigInteger: BigInteger = apiSecret.split("0x").last().toBigInteger(16)
-            val ecKeyPair: ECKeyPair = ECKeyPair.create(toBigInteger)
-            return signMessage(
-                   /* message = */payloadBytesCrypted,
-                   /* keyPair=  */ ecKeyPair
-            )
-        }
+//        /**Generate v, r, s values from payload*/
+//        fun generateSignature(
+//                apiSecret: String,
+//                data: List<List<String>>
+//        ): Sign.SignatureData? {
+//            // pack parameters based on type
+////            var sig_str = ""
+//            var sig_arr = byteArrayOf()
+//            if (IdexMarketDataService.debugMe) {
+//                System.err.println(data.toString())
+//            }
+//            data.forEach { d: List<String> ->
+//                var r: ByteArray
+//                val data1 = d[1]
+//                var reversed: List<Byte>/*never*//* encode, pad and convert to bytes*/
+//                /* remove 0x prefix and convert to bytes*/
+//                if (debugMe) System.err.println("\n===\nsignature  for (len" + d[1].length + " ):" + d)
+//
+//                val segment: ByteArray = when (d[2]) {
+//                    "address" /* remove 0x prefix and convert to bytes*/ -> {
+//                        r = data1.toLowerCase().split("0x").last().toBigInteger(16).toByteArray()
+//                        reversed = r.reversed()
+//                        (r.size..19).forEach {
+//                            reversed += 0.toByte()
+//                        }
+//                        reversed.toByteArray().reversedArray()
+//
+//                    }
+//                    "uint256" /* encode, pad and convert to bytes*/ -> {
+//                        r = data1.toBigInteger().toByteArray()
+//                        reversed = r.reversed()
+//                        (r.size..31).forEach { reversed += 0.toByte() }
+//                        reversed.toByteArray().reversedArray()
+//                    }
+//                    else -> /*never*/ TODO("review signature target with bad type key here")
+//                }
+//                sig_arr += segment
+//                if (debugMe) {
+//
+//                    System.err.println(
+//                            "signature: results: (len: " + segment.size + ") " + Hex.encodeHexString(segment))
+//                    System.err.println("signature: accumulated: " + Hex.encodeHexString(sig_arr))
+//
+//                }
+//            }
+//            // hash the packed string
+//            val rawhash: ByteArray = sha3(sig_arr)
+//            // salt the hashed packed string
+//            val saltBytes: ByteArray = "\u0019Ethereum Signed Message:\n32".toByteArray()
+//            assert(Hex.encodeHexString(
+//                    saltBytes).toLowerCase() == "19457468657265756d205369676e6564204d6573736167653a0a3332")
+//
+//            val bytes: ByteArray = saltBytes + rawhash
+//            val salted: ByteArray = sha3(bytes)
+//            if (debugMe) {
+//                System.err.println("\n== unsalted:\t" + Hex.encodeHexString(rawhash))
+//                System.err.println("== salt raw :\t" + Hex.encodeHexString(saltBytes))
+//                System.err.println("== salted raw :\t" + Hex.encodeHexString(bytes))
+//                System.err.println("== salted hash:\t" + Hex.encodeHexString(salted))
+//            }
+//            apiSecret.split("0x").last()
+//
+//            val payloadBytesCrypted: ByteArray = salted
+//            val toBigInteger: BigInteger = apiSecret.split("0x").last().toBigInteger(16)
+//            val ecKeyPair: ECKeyPair = ECKeyPair.create(toBigInteger)
+//            return signMessage(
+//                    /* message = */payloadBytesCrypted,
+//                    /* keyPair=  */ ecKeyPair
+//            )
+//        }
     }
 }

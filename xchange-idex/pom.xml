@@ -185,7 +185,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <experimentalCoroutines>enable</experimentalCoroutines>
+                    <experimentalCoroutines>error</experimentalCoroutines>
                     <jvmTarget>1.8</jvmTarget>
                 </configuration>
             </plugin>
