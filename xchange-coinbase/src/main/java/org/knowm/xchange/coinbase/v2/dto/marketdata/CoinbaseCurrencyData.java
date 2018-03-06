@@ -16,12 +16,12 @@ public class CoinbaseCurrencyData {
 
   private List<CoinbaseCurrency> data;
 
-  public void setData(List<CoinbaseCurrency> data) {
-    this.data = data;
-  }
-
   public List<CoinbaseCurrency> getData() {
     return Collections.unmodifiableList(data);
+  }
+
+  public void setData(List<CoinbaseCurrency> data) {
+    this.data = data;
   }
 
   @JsonDeserialize(using = CoinbaseCurrencyDeserializer.class)
@@ -49,9 +49,12 @@ public class CoinbaseCurrencyData {
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj) return true;
-      if (obj == null) return false;
-      if (getClass() != obj.getClass()) return false;
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
       CoinbaseCurrency other = (CoinbaseCurrency) obj;
       return id.equals(other.id);
     }
@@ -61,7 +64,7 @@ public class CoinbaseCurrencyData {
       return id + " (" + name + ")";
     }
   }
-  
+
   // [TODO] can we not do this with @JsonCreator
   static class CoinbaseCurrencyDeserializer extends JsonDeserializer<CoinbaseCurrency> {
 

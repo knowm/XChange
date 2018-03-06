@@ -1,5 +1,8 @@
 package org.knowm.xchange.cexio;
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -11,10 +14,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-import java.util.Map;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CexIOExchange extends BaseExchange implements Exchange {
 
@@ -49,18 +50,12 @@ public class CexIOExchange extends BaseExchange implements Exchange {
 
     for (CexIOCurrencyLimits.Pair pair : currencyLimits.getData().getPairs()) {
       CurrencyPair currencyPair = new CurrencyPair(pair.getSymbol1(), pair.getSymbol2());
-      CurrencyPairMetaData metaData = new CurrencyPairMetaData(null, pair.getMinLotSize(),
-              pair.getMaxLotSize(), null);
-      currencyPairs.merge(currencyPair, metaData, (oldMetaData, newMetaData) ->
-              new CurrencyPairMetaData(
-                      // trading fee is not present in this response. using the previous values.
-                      oldMetaData.getTradingFee(),
-                      newMetaData.getMinimumAmount(),
-                      // some maximumAmount's in the currency_limits api response are null - using the json values
-                      newMetaData.getMaximumAmount() != null ? newMetaData.getMaximumAmount() : oldMetaData.getMaximumAmount(),
-                      oldMetaData.getPriceScale()
-              )
-      );
+      CurrencyPairMetaData metaData = new CurrencyPairMetaData(null, pair.getMinLotSize(), pair.getMaxLotSize(), null);
+      currencyPairs.merge(currencyPair, metaData, (oldMetaData, newMetaData) -> new CurrencyPairMetaData(
+          // trading fee is not present in this response. using the previous values.
+          oldMetaData.getTradingFee(), newMetaData.getMinimumAmount(),
+          // some maximumAmount's in the currency_limits api response are null - using the json values
+          newMetaData.getMaximumAmount() != null ? newMetaData.getMaximumAmount() : oldMetaData.getMaximumAmount(), oldMetaData.getPriceScale()));
     }
     logger.info("remoteInit successful for {}", getExchangeSpecification().getExchangeName());
   }

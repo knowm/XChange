@@ -27,8 +27,7 @@ public class CCEXAccountService extends CCEXAccountServiceRaw implements Account
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -48,8 +47,7 @@ public class CCEXAccountService extends CCEXAccountServiceRaw implements Account
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

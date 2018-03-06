@@ -27,8 +27,8 @@ public class UserOrdersJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> apiResult = mapper.readValue(is,
-        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> apiResult = mapper
+        .readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
         });
 
     MercadoBitcoinUserOrders userOrders = apiResult.getTheReturn();

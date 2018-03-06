@@ -13,10 +13,8 @@ public class LiquiTradeHistoryResult extends LiquiResult<LiquiTradeHistory> {
   private final boolean success;
   private final LiquiStat stat;
 
-  public LiquiTradeHistoryResult(@JsonProperty("success") final boolean success,
-      @JsonProperty("return") final LiquiTradeHistory result,
-      @JsonProperty("stat") final LiquiStat stat,
-      @JsonProperty("error") final String error) {
+  public LiquiTradeHistoryResult(@JsonProperty("success") final boolean success, @JsonProperty("return") final LiquiTradeHistory result,
+      @JsonProperty("stat") final LiquiStat stat, @JsonProperty("error") final String error) {
     super(result, error);
     this.success = success;
     this.stat = stat;
@@ -32,9 +30,6 @@ public class LiquiTradeHistoryResult extends LiquiResult<LiquiTradeHistory> {
 
   @Override
   public String toString() {
-    return "LiquiTradeResult{" +
-        "success=" + success +
-        ", stat=" + stat +
-        '}';
+    return "LiquiTradeResult{" + "success=" + success + ", stat=" + stat + '}';
   }
 }

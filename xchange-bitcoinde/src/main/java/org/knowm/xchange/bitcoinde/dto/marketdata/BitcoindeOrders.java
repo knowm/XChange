@@ -24,9 +24,6 @@ public class BitcoindeOrders {
 
   @Override
   public String toString() {
-    return "BitcoindeOrders{" +
-        "bids=" + Arrays.toString(bids) +
-        ", asks=" + Arrays.toString(asks) +
-        '}';
+    return "BitcoindeOrders{" + "bids=" + Arrays.toString(bids) + ", asks=" + Arrays.toString(asks) + '}';
   }
 }

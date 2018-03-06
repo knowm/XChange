@@ -9,7 +9,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.zaif.dto.ZaifException;
 import org.knowm.xchange.zaif.dto.marketdata.ZaifFullBook;
 import org.knowm.xchange.zaif.dto.marketdata.ZaifMarket;
@@ -20,8 +19,8 @@ public interface Zaif {
 
   @GET
   @Path("api/1/depth/{baseCurrency}_{targetCurrency}")
-  ZaifFullBook getDepth(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws ZaifException,
-      IOException;
+  ZaifFullBook getDepth(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency)
+      throws ZaifException, IOException;
 
   @GET
   @Path("api/1/currency_pairs/all")

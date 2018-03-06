@@ -48,17 +48,15 @@ public interface LunoAuthenticated extends Luno {
    *
    * @param auth
    * @param currency required - The currency code for the account you want to create e.g. XBT, IDR, MYR, ZAR
-   * @param name required - The label to use for this account e.g. "Trading ACC".
+   * @param name     required - The label to use for this account e.g. "Trading ACC".
    * @return
    * @throws IOException
    * @throws LunoException
    */
   @POST
   @Path("accounts")
-  LunoAccount createAccount(@HeaderParam("Authorization") ParamsDigest auth
-      , @QueryParam("currency") String currency
-      , @QueryParam("name") String name
-  ) throws IOException, LunoException;
+  LunoAccount createAccount(@HeaderParam("Authorization") ParamsDigest auth, @QueryParam("currency") String currency, @QueryParam("name") String name)
+      throws IOException, LunoException;
 
   /**
    * Return the list of all accounts and their respective balances.
@@ -80,7 +78,7 @@ public interface LunoAuthenticated extends Luno {
    * rows, use min_row=-100 and max_row=0.
    *
    * @param auth
-   * @param id required - Account ID
+   * @param id     required - Account ID
    * @param minRow required - Minimum of the row range to return (inclusive)
    * @param maxRow required - Maximum of the row range to return (exclusive)
    * @return
@@ -89,11 +87,8 @@ public interface LunoAuthenticated extends Luno {
    */
   @GET
   @Path("accounts/{id}/transactions")
-  LunoAccountTransactions transactions(@HeaderParam("Authorization") ParamsDigest auth
-      , @PathParam("id") String id
-      , @QueryParam("min_row") int minRow
-      , @QueryParam("max_row") int maxRow
-  ) throws IOException, LunoException;
+  LunoAccountTransactions transactions(@HeaderParam("Authorization") ParamsDigest auth, @PathParam("id") String id, @QueryParam("min_row") int minRow,
+      @QueryParam("max_row") int maxRow) throws IOException, LunoException;
 
   /**
    * Return a list of all pending transactions related to the account.<br>
@@ -107,9 +102,8 @@ public interface LunoAuthenticated extends Luno {
    */
   @GET
   @Path("accounts/{id}/pending")
-  LunoPendingTransactions pendingTransactions(@HeaderParam("Authorization") ParamsDigest auth
-      , @PathParam("id") String id
-  ) throws IOException, LunoException;
+  LunoPendingTransactions pendingTransactions(@HeaderParam("Authorization") ParamsDigest auth, @PathParam("id") String id)
+      throws IOException, LunoException;
 
   /**
    * Returns a list of the most recently placed orders. You can specify an optional state=PENDING parameter to restrict the
@@ -118,17 +112,15 @@ public interface LunoAuthenticated extends Luno {
    *
    * @param auth
    * @param state optional - Filter to only orders of this state e.g. PENDING
-   * @param pair optional - Filter to only orders of this currency pair e.g. XBTZAR
+   * @param pair  optional - Filter to only orders of this currency pair e.g. XBTZAR
    * @return
    * @throws IOException
    * @throws LunoException
    */
   @GET
   @Path("listorders")
-  LunoOrders listOrders(@HeaderParam("Authorization") ParamsDigest auth
-      , @QueryParam("state") State state
-      , @QueryParam("pair") String pair
-  ) throws IOException, LunoException;
+  LunoOrders listOrders(@HeaderParam("Authorization") ParamsDigest auth, @QueryParam("state") State state, @QueryParam("pair") String pair)
+      throws IOException, LunoException;
 
   /**
    * Create a new trade order.<br>
@@ -138,11 +130,11 @@ public interface LunoAuthenticated extends Luno {
    * used. You can find your account IDs by calling the Balances API https://www.luno.com/en/api#accounts-balances.
    *
    * @param auth
-   * @param pair required - The currency pair to trade e.g. XBTZAR
-   * @param type required - "BID" for a bid (buy) limit order or "ASK" for an ask (sell) limit order.
-   * @param volume required - Amount of Bitcoin to buy or sell as a decimal string in units of BTC e.g. "1.423".
-   * @param price required - Limit price as a decimal string in units of ZAR/BTC e.g. "1200".
-   * @param baseAccountId optional - The base currency account to use in the trade.
+   * @param pair             required - The currency pair to trade e.g. XBTZAR
+   * @param type             required - "BID" for a bid (buy) limit order or "ASK" for an ask (sell) limit order.
+   * @param volume           required - Amount of Bitcoin to buy or sell as a decimal string in units of BTC e.g. "1.423".
+   * @param price            required - Limit price as a decimal string in units of ZAR/BTC e.g. "1200".
+   * @param baseAccountId    optional - The base currency account to use in the trade.
    * @param counterAccountId optional - The counter currency account to use in the trade.
    * @return
    * @throws IOException
@@ -150,14 +142,9 @@ public interface LunoAuthenticated extends Luno {
    */
   @POST
   @Path("postorder")
-  LunoPostOrder postLimitOrder(@HeaderParam("Authorization") ParamsDigest auth
-      , @FormParam("pair") String pair
-      , @FormParam("type") OrderType type
-      , @FormParam("volume") BigDecimal volume
-      , @FormParam("price") BigDecimal price
-      , @FormParam("base_account_id") String baseAccountId
-      , @FormParam("counter_account_id") String counterAccountId
-  ) throws IOException, LunoException;
+  LunoPostOrder postLimitOrder(@HeaderParam("Authorization") ParamsDigest auth, @FormParam("pair") String pair, @FormParam("type") OrderType type,
+      @FormParam("volume") BigDecimal volume, @FormParam("price") BigDecimal price, @FormParam("base_account_id") String baseAccountId,
+      @FormParam("counter_account_id") String counterAccountId) throws IOException, LunoException;
 
   /**
    * Create a new market order.<br>
@@ -169,11 +156,11 @@ public interface LunoAuthenticated extends Luno {
    * or sells a set amount of bitcoin for as much fiat as possible.
    *
    * @param auth
-   * @param pair required - The currency pair to trade e.g. XBTZAR
-   * @param type required - "BUY" to buy bitcoin, or "SELL" to sell bitcoin.
-   * @param counterVolume required, if type is "BUY"  - For a "BUY" order: amount of local currency (e.g. ZAR, MYR) to spend as a decimal string in units of the local currency e.g. "100.50".
-   * @param baseVolume required, if type is "SELL" - For a "SELL" order: amount of Bitcoin to sell as a decimal string in units of BTC e.g. "1.423".
-   * @param baseAccountId optional - The base currency account to use in the trade.
+   * @param pair             required - The currency pair to trade e.g. XBTZAR
+   * @param type             required - "BUY" to buy bitcoin, or "SELL" to sell bitcoin.
+   * @param counterVolume    required, if type is "BUY"  - For a "BUY" order: amount of local currency (e.g. ZAR, MYR) to spend as a decimal string in units of the local currency e.g. "100.50".
+   * @param baseVolume       required, if type is "SELL" - For a "SELL" order: amount of Bitcoin to sell as a decimal string in units of BTC e.g. "1.423".
+   * @param baseAccountId    optional - The base currency account to use in the trade.
    * @param counterAccountId optional - The counter currency account to use in the trade.
    * @return
    * @throws IOException
@@ -181,14 +168,9 @@ public interface LunoAuthenticated extends Luno {
    */
   @POST
   @Path("marketorder")
-  LunoPostOrder postMarketOrder(@HeaderParam("Authorization") ParamsDigest auth
-      , @FormParam("pair") String pair
-      , @FormParam("type") OrderType type
-      , @FormParam("counter_volume") BigDecimal counterVolume
-      , @FormParam("base_volume") BigDecimal baseVolume
-      , @FormParam("base_account_id") String baseAccountId
-      , @FormParam("counter_account_id") String counterAccountId
-  ) throws IOException, LunoException;
+  LunoPostOrder postMarketOrder(@HeaderParam("Authorization") ParamsDigest auth, @FormParam("pair") String pair, @FormParam("type") OrderType type,
+      @FormParam("counter_volume") BigDecimal counterVolume, @FormParam("base_volume") BigDecimal baseVolume,
+      @FormParam("base_account_id") String baseAccountId, @FormParam("counter_account_id") String counterAccountId) throws IOException, LunoException;
 
   /**
    * Request to stop an order.
@@ -201,9 +183,7 @@ public interface LunoAuthenticated extends Luno {
    */
   @POST
   @Path("stoporder")
-  LunoBoolean stopOrder(@HeaderParam("Authorization") ParamsDigest auth
-      , @FormParam("order_id") String orderId
-  ) throws IOException, LunoException;
+  LunoBoolean stopOrder(@HeaderParam("Authorization") ParamsDigest auth, @FormParam("order_id") String orderId) throws IOException, LunoException;
 
   /**
    * Get an order by its id.
@@ -216,9 +196,7 @@ public interface LunoAuthenticated extends Luno {
    */
   @GET
   @Path("orders/{id}")
-  Order getOrder(@HeaderParam("Authorization") ParamsDigest auth
-      , @PathParam("id") String orderId
-  ) throws IOException, LunoException;
+  Order getOrder(@HeaderParam("Authorization") ParamsDigest auth, @PathParam("id") String orderId) throws IOException, LunoException;
 
   /**
    * Returns a list of your recent trades for a given pair, sorted by oldest first.<br>
@@ -226,7 +204,7 @@ public interface LunoAuthenticated extends Luno {
    * If is_buy in the response is true, then the order which completed the trade (market taker) was a bid order.
    *
    * @param auth
-   * @param pair required - Filter to trades of this currency pair e.g. XBTZAR
+   * @param pair  required - Filter to trades of this currency pair e.g. XBTZAR
    * @param since optional - Filter to trades on or after this timestamp, e.g. 1470810728478
    * @param limit optional - Limit to this number of trades (min 1, max 100, default 100)
    * @return
@@ -235,11 +213,8 @@ public interface LunoAuthenticated extends Luno {
    */
   @GET
   @Path("listtrades")
-  LunoUserTrades listTrades(@HeaderParam("Authorization") ParamsDigest auth
-      , @QueryParam("pair") String pair
-      , @QueryParam("since") Long since
-      , @QueryParam("limit") Integer limit
-  ) throws IOException, LunoException;
+  LunoUserTrades listTrades(@HeaderParam("Authorization") ParamsDigest auth, @QueryParam("pair") String pair, @QueryParam("since") Long since,
+      @QueryParam("limit") Integer limit) throws IOException, LunoException;
 
   /**
    * Returns your fees and 30 day trading volume (as of midnight) for a given pair.
@@ -252,9 +227,7 @@ public interface LunoAuthenticated extends Luno {
    */
   @GET
   @Path("fee_info")
-  LunoFeeInfo feeInfo(@HeaderParam("Authorization") ParamsDigest auth
-      , @QueryParam("pair") String pair
-  ) throws IOException, LunoException;
+  LunoFeeInfo feeInfo(@HeaderParam("Authorization") ParamsDigest auth, @QueryParam("pair") String pair) throws IOException, LunoException;
 
   /**
    * Returns the default receive address associated with your account and the amount received via the address. You can specify an
@@ -263,7 +236,7 @@ public interface LunoAuthenticated extends Luno {
    * receive transactions.
    *
    * @param auth
-   * @param asset required - Currency code of the asset e.g. XBT
+   * @param asset   required - Currency code of the asset e.g. XBT
    * @param address optional - Specific Bitcoin address to retrieve. If not provided, the default address will be used.
    * @return
    * @throws IOException
@@ -271,10 +244,8 @@ public interface LunoAuthenticated extends Luno {
    */
   @GET
   @Path("funding_address")
-  LunoFundingAddress getFundingAddress(@HeaderParam("Authorization") ParamsDigest auth
-      , @QueryParam("asset") String asset
-      , @QueryParam("address") String address
-  ) throws IOException, LunoException;
+  LunoFundingAddress getFundingAddress(@HeaderParam("Authorization") ParamsDigest auth, @QueryParam("asset") String asset,
+      @QueryParam("address") String address) throws IOException, LunoException;
 
   /**
    * Allocates a new receive address to your account. There is a rate limit of 1 address per hour, but bursts of up to 10
@@ -287,9 +258,8 @@ public interface LunoAuthenticated extends Luno {
    */
   @POST
   @Path("funding_address")
-  LunoFundingAddress createFundingAddress(@HeaderParam("Authorization") ParamsDigest auth
-      , @FormParam("asset") String asset
-  ) throws IOException, LunoException;
+  LunoFundingAddress createFundingAddress(@HeaderParam("Authorization") ParamsDigest auth, @FormParam("asset") String asset)
+      throws IOException, LunoException;
 
   /**
    * Returns a list of withdrawal requests.
@@ -307,22 +277,19 @@ public interface LunoAuthenticated extends Luno {
    * Creates a new withdrawal request.
    *
    * @param auth
-   * @param type required - Withdrawal types e.g. ZAR_EFT, NAD_EFT, KES_MPESA, MYR_IBG, IDR_LLG
-   * @param amount required - Amount to withdraw. The currency depends on the type.
+   * @param type          required - Withdrawal types e.g. ZAR_EFT, NAD_EFT, KES_MPESA, MYR_IBG, IDR_LLG
+   * @param amount        required - Amount to withdraw. The currency depends on the type.
    * @param beneficiaryId optional - The beneficiary ID of the bank account the withdrawal will be paid out to. This parameter is
-   * required if you have multiple bank accounts. Your bank account beneficiary ID can be found by clicking on the beneficiary
-   * name on the Beneficiaries page [https://www.luno.com/wallet/beneficiaries].
+   *                      required if you have multiple bank accounts. Your bank account beneficiary ID can be found by clicking on the beneficiary
+   *                      name on the Beneficiaries page [https://www.luno.com/wallet/beneficiaries].
    * @return
    * @throws IOException
    * @throws LunoException
    */
   @POST
   @Path("withdrawals")
-  Withdrawal requestWithdrawal(@HeaderParam("Authorization") ParamsDigest auth
-      , @FormParam("type") String type
-      , @FormParam("amount") BigDecimal amount
-      , @FormParam("beneficiary_id") String beneficiaryId
-  ) throws IOException, LunoException;
+  Withdrawal requestWithdrawal(@HeaderParam("Authorization") ParamsDigest auth, @FormParam("type") String type,
+      @FormParam("amount") BigDecimal amount, @FormParam("beneficiary_id") String beneficiaryId) throws IOException, LunoException;
 
   /**
    * Returns the status of a particular withdrawal request.
@@ -335,9 +302,7 @@ public interface LunoAuthenticated extends Luno {
    */
   @GET
   @Path("withdrawals/{id}")
-  Withdrawal getWithdrawal(@HeaderParam("Authorization") ParamsDigest auth
-      , @PathParam("id") String withdrawalId
-  ) throws IOException, LunoException;
+  Withdrawal getWithdrawal(@HeaderParam("Authorization") ParamsDigest auth, @PathParam("id") String withdrawalId) throws IOException, LunoException;
 
   /**
    * Cancel a withdrawal request. This can only be done if the request is still in state PENDING.
@@ -350,9 +315,8 @@ public interface LunoAuthenticated extends Luno {
    */
   @DELETE
   @Path("withdrawals/{id}")
-  Withdrawal cancelWithdrawal(@HeaderParam("Authorization") ParamsDigest auth
-      , @PathParam("id") String withdrawalId
-  ) throws IOException, LunoException;
+  Withdrawal cancelWithdrawal(@HeaderParam("Authorization") ParamsDigest auth, @PathParam("id") String withdrawalId)
+      throws IOException, LunoException;
 
   /**
    * Send Bitcoin from your account to a Bitcoin address or email address.<br>
@@ -361,24 +325,20 @@ public interface LunoAuthenticated extends Luno {
    * Warning! Bitcoin transactions are irreversible. Please ensure your program has been thoroughly tested before using this call.
    *
    * @param auth
-   * @param amount required - Amount to send as a decimal string.
-   * @param currency required - Currency to send e.g. XBT
-   * @param address required - Destination Bitcoin address or email address to send to.
+   * @param amount      required - Amount to send as a decimal string.
+   * @param currency    required - Currency to send e.g. XBT
+   * @param address     required - Destination Bitcoin address or email address to send to.
    * @param description optional - Description for the transaction to record on the account statement.
-   * @param message optional - Message to send to the recipient. This is only relevant when sending to an email address.
+   * @param message     optional - Message to send to the recipient. This is only relevant when sending to an email address.
    * @return
    * @throws IOException
    * @throws LunoException
    */
   @POST
   @Path("send")
-  LunoBoolean send(@HeaderParam("Authorization") ParamsDigest auth
-      , @FormParam("amount") BigDecimal amount
-      , @FormParam("currency") String currency
-      , @FormParam("address") String address
-      , @FormParam("description") String description
-      , @FormParam("message") String message
-  ) throws IOException, LunoException;
+  LunoBoolean send(@HeaderParam("Authorization") ParamsDigest auth, @FormParam("amount") BigDecimal amount, @FormParam("currency") String currency,
+      @FormParam("address") String address, @FormParam("description") String description, @FormParam("message") String message)
+      throws IOException, LunoException;
 
   /**
    * Creates a new quote to buy or sell a particular amount.<br>
@@ -390,21 +350,18 @@ public interface LunoAuthenticated extends Luno {
    * balance to ever exercise the quote.
    *
    * @param auth
-   * @param type required - Possible types: BUY, SELL
+   * @param type       required - Possible types: BUY, SELL
    * @param baseAmount required - Amount to buy or sell in the pair base currency.
-   * @param pair required - Currency pair to trade e.g. XBTZAR, XBTMYR. The pair can also be flipped if you want to buy or sell
-   * the counter currency (e.g. ZARXBT).
+   * @param pair       required - Currency pair to trade e.g. XBTZAR, XBTMYR. The pair can also be flipped if you want to buy or sell
+   *                   the counter currency (e.g. ZARXBT).
    * @return
    * @throws IOException
    * @throws LunoException
    */
   @POST
   @Path("quotes")
-  LunoQuote createQuote(@HeaderParam("Authorization") ParamsDigest auth
-      , @FormParam("type") OrderType type
-      , @FormParam("base_amount") BigDecimal baseAmount
-      , @FormParam("pair") String pair
-  ) throws IOException, LunoException;
+  LunoQuote createQuote(@HeaderParam("Authorization") ParamsDigest auth, @FormParam("type") OrderType type,
+      @FormParam("base_amount") BigDecimal baseAmount, @FormParam("pair") String pair) throws IOException, LunoException;
 
   /**
    * Get the latest status of a quote.
@@ -417,9 +374,7 @@ public interface LunoAuthenticated extends Luno {
    */
   @GET
   @Path("quotes/{id}")
-  LunoQuote getQuote(@HeaderParam("Authorization") ParamsDigest auth
-      , @PathParam("id") String quoteId
-  ) throws IOException, LunoException;
+  LunoQuote getQuote(@HeaderParam("Authorization") ParamsDigest auth, @PathParam("id") String quoteId) throws IOException, LunoException;
 
   /**
    * Exercise a quote to perform the trade. If there is sufficient balance available in your account, it will be debited and the
@@ -434,9 +389,7 @@ public interface LunoAuthenticated extends Luno {
    */
   @PUT
   @Path("quotes/{id}")
-  LunoQuote exerciseQuote(@HeaderParam("Authorization") ParamsDigest auth
-      , @PathParam("id") String quoteId
-  ) throws IOException, LunoException;
+  LunoQuote exerciseQuote(@HeaderParam("Authorization") ParamsDigest auth, @PathParam("id") String quoteId) throws IOException, LunoException;
 
   /**
    * Discard a quote. Once a quote has been discarded, it cannot be exercised even if it has not expired yet.
@@ -449,8 +402,6 @@ public interface LunoAuthenticated extends Luno {
    */
   @DELETE
   @Path("quotes/{id}")
-  LunoQuote discardQuote(@HeaderParam("Authorization") ParamsDigest auth
-      , @PathParam("id") String quoteId
-  ) throws IOException, LunoException;
+  LunoQuote discardQuote(@HeaderParam("Authorization") ParamsDigest auth, @PathParam("id") String quoteId) throws IOException, LunoException;
 
 }

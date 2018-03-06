@@ -42,42 +42,50 @@ public interface YoBit {
 
   @POST
   @Path("/tapi")
-  BaseYoBitResponse getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  BaseYoBitResponse getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("/tapi")
-  BaseYoBitResponse withdrawCoinsToAddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("coinName") String coinName, @FormParam("amount") BigDecimal amount, @FormParam("address") String address) throws IOException;
+  BaseYoBitResponse withdrawCoinsToAddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator,
+      @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("coinName") String coinName,
+      @FormParam("amount") BigDecimal amount, @FormParam("address") String address) throws IOException;
 
   @POST
   @Path("/tapi")
-  BaseYoBitResponse getDepositAddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("coinName") String coinName, @FormParam("need_new") Boolean needNew) throws IOException;
+  BaseYoBitResponse getDepositAddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator,
+      @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("coinName") String coinName,
+      @FormParam("need_new") Boolean needNew) throws IOException;
 
   @POST
   @Path("/tapi")
-  BaseYoBitResponse tradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("form") Long offset, @FormParam("count") Integer count, @FormParam("from_id") Long fromTransactionId, @FormParam("end_id") Long endTransactionId,
-      @FormParam("order") String order, @FormParam("since") Long sinceTime, @FormParam("end") Long endTime, @FormParam("pair") String currencyPair
-  ) throws IOException;
+  BaseYoBitResponse tradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator,
+      @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("form") Long offset,
+      @FormParam("count") Integer count, @FormParam("from_id") Long fromTransactionId, @FormParam("end_id") Long endTransactionId,
+      @FormParam("order") String order, @FormParam("since") Long sinceTime, @FormParam("end") Long endTime, @FormParam("pair") String currencyPair)
+      throws IOException;
 
   @POST
   @Path("/tapi")
-  BaseYoBitResponse activeOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("pair") String market) throws IOException;
+  BaseYoBitResponse activeOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator,
+      @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String market)
+      throws IOException;
 
   @POST
   @Path("/tapi")
-  BaseYoBitResponse orderInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("order_id") Long orderId) throws IOException;
+  BaseYoBitResponse orderInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator,
+      @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("order_id") Long orderId)
+      throws IOException;
 
   @POST
   @Path("/tapi")
-  BaseYoBitResponse cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("order_id") Long orderId) throws IOException;
+  BaseYoBitResponse cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator,
+      @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("order_id") Long orderId)
+      throws IOException;
 
   @POST
   @Path("/tapi")
-  BaseYoBitResponse trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("pair") String market, @FormParam("type") String type, @FormParam("rate") BigDecimal price, @FormParam("amount") BigDecimal amount) throws IOException;
+  BaseYoBitResponse trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") YoBitDigest signatureCreator, @FormParam("method") String method,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String market, @FormParam("type") String type,
+      @FormParam("rate") BigDecimal price, @FormParam("amount") BigDecimal amount) throws IOException;
 }

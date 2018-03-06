@@ -15,7 +15,11 @@ import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -52,8 +56,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     throw new NotYetImplementedForExchangeException();
   }
 
-  private String placeOrder(CurrencyPair currencyPair, Order.OrderType orderSide, BigDecimal amount, BigDecimal price,
-      BTCMarketsOrder.Type orderType) throws IOException {
+  private String placeOrder(CurrencyPair currencyPair, Order.OrderType orderSide, BigDecimal amount, BigDecimal price, BTCMarketsOrder.Type orderType)
+      throws IOException {
     BTCMarketsOrder.Side side = orderSide == BID ? BTCMarketsOrder.Side.Bid : BTCMarketsOrder.Side.Ask;
     final BTCMarketsPlaceOrderResponse orderResponse = placeBTCMarketsOrder(currencyPair, amount, price, side, orderType);
     return Long.toString(orderResponse.getId());
@@ -65,8 +69,7 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     BTCMarketsOrders openOrders = getBTCMarketsOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair(), 50, null);
 
     return BTCMarketsAdapters.adaptOpenOrders(openOrders);
@@ -121,6 +124,11 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     return new DefaultOpenOrdersParamCurrencyPair(null);
   }
 
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
   public static class HistoryParams implements TradeHistoryParamPaging, TradeHistoryParamCurrencyPair, TradeHistoryParamsIdSpan {
     private Integer limit = 200;
     private CurrencyPair currencyPair;
@@ -147,23 +155,23 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     }
 
     @Override
-    public void setStartId(String startId) {
-      this.startId = startId;
-    }
-
-    @Override
     public String getStartId() {
       return startId;
     }
 
     @Override
-    public void setEndId(String endId) {
-
+    public void setStartId(String startId) {
+      this.startId = startId;
     }
 
     @Override
     public String getEndId() {
       return null;
+    }
+
+    @Override
+    public void setEndId(String endId) {
+
     }
 
     @Override
@@ -175,11 +183,5 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     public void setCurrencyPair(CurrencyPair currencyPair) {
       this.currencyPair = currencyPair;
     }
-  }
-
-  @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 }

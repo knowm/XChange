@@ -103,8 +103,9 @@ public class TheRockOrder {
 
   @Override
   public String toString() {
-    return String.format("TheRockOrder{id=%d, side=%s, type=%s, amount=%s, amountUnfilled=%s, price=%s, fundId=%s, status='%s'}", id, side, type,
-        amount, amountUnfilled, price, fundId, status);
+    return String
+        .format("TheRockOrder{id=%d, side=%s, type=%s, amount=%s, amountUnfilled=%s, price=%s, fundId=%s, status='%s'}", id, side, type, amount,
+            amountUnfilled, price, fundId, status);
   }
 
   public enum Side {

@@ -15,23 +15,18 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  */
 public class BiboxCommands extends ArrayList<BiboxCommand<?>> {
 
-  private static final ObjectMapper MAPPER =
-      new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-
-  public static final BiboxCommands COIN_LIST_CMD =
-      BiboxCommands.of(new BiboxCommand<BiboxEmptyBody>("transfer/coinList", new BiboxEmptyBody()));
-  
-  public static BiboxCommands depositAddressCommand(String coinSymbol) {
-    return BiboxCommands.of(new BiboxCommand<BiboxDepositAddressCommandBody>("transfer/transferIn",
-        new BiboxDepositAddressCommandBody(coinSymbol)));
-  }
-
+  public static final BiboxCommands COIN_LIST_CMD = BiboxCommands.of(new BiboxCommand<BiboxEmptyBody>("transfer/coinList", new BiboxEmptyBody()));
+  private static final ObjectMapper MAPPER = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
   private static final long serialVersionUID = 1L;
 
   private BiboxCommands() {
     super();
   }
-  
+
+  public static BiboxCommands depositAddressCommand(String coinSymbol) {
+    return BiboxCommands.of(new BiboxCommand<BiboxDepositAddressCommandBody>("transfer/transferIn", new BiboxDepositAddressCommandBody(coinSymbol)));
+  }
+
   public static BiboxCommands of(List<BiboxCommand<?>> commands) {
     BiboxCommands cmds = new BiboxCommands();
     cmds.addAll(commands);

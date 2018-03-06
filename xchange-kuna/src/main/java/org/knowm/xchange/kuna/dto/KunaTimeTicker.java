@@ -25,6 +25,15 @@ public class KunaTimeTicker {
   }
 
   /**
+   * Creates new builder.
+   *
+   * @return builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
    * Returns server time.
    *
    * @return server time
@@ -42,21 +51,9 @@ public class KunaTimeTicker {
     return ticker;
   }
 
-  /**
-   * Creates new builder.
-   *
-   * @return builder
-   */
-  public static Builder builder() {
-    return new Builder();
-  }
-
   @Override
   public String toString() {
-    return "KunaTimeTicker{" +
-        "timestamp=" + timestamp +
-        ", ticker=" + ticker +
-        '}';
+    return "KunaTimeTicker{" + "timestamp=" + timestamp + ", ticker=" + ticker + '}';
   }
 
   public static class Builder {

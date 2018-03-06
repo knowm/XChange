@@ -13,56 +13,20 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class OkCoinExchange extends BaseExchange {
 
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
-    if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false)
-        && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
-      throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true.");
-    }
-
-    concludeHostParams(exchangeSpecification);
-  }
-
-  @Override
-  protected void initServices() {
-
-    concludeHostParams(exchangeSpecification);
-
-    if (exchangeSpecification.getExchangeSpecificParameters() != null
-        && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
-      FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
-
-      this.marketDataService = new OkCoinFuturesMarketDataService(this, contract);
-      if (exchangeSpecification.getApiKey() != null) {
-        this.accountService = new OkCoinFuturesAccountService(this);
-        this.tradeService = new OkCoinFuturesTradeService(this, contract, futuresLeverageOfConfig(exchangeSpecification));
-      }
-    } else {
-      this.marketDataService = new OkCoinMarketDataService(this);
-      if (exchangeSpecification.getApiKey() != null) {
-        this.accountService = new OkCoinAccountService(this);
-        this.tradeService = new OkCoinTradeService(this);
-      }
-    }
-  }
-
   /**
    * Adjust host parameters depending on exchange specific parameters
    */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)
-          && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(false)) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) && exchangeSpecification
+          .getExchangeSpecificParametersItem("Use_Futures").equals(false)) {
 
         exchangeSpecification.setSslUri("https://www.okex.com/api");
         exchangeSpecification.setHost("www.okex.com");
 
-      } else if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)
-          && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+      } else if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true) && exchangeSpecification
+          .getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
 
         exchangeSpecification.setSslUri("https://www.okex.com/api");
         exchangeSpecification.setHost("www.okex.com");
@@ -94,8 +58,8 @@ public class OkCoinExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
       contract = (FuturesContract) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract");
     } else if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract_String")) {
-      contract = FuturesContract.valueOfIgnoreCase(FuturesContract.class,
-          (String) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract_String"));
+      contract = FuturesContract
+          .valueOfIgnoreCase(FuturesContract.class, (String) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract_String"));
     } else {
       throw new RuntimeException("`Futures_Contract` or `Futures_Contract_String` not defined in exchange specific parameters.");
     }
@@ -104,11 +68,47 @@ public class OkCoinExchange extends BaseExchange {
   }
 
   @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
+    super.applySpecification(exchangeSpecification);
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false) && exchangeSpecification
+        .getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+      throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true.");
+    }
+
+    concludeHostParams(exchangeSpecification);
+  }
+
+  @Override
+  protected void initServices() {
+
+    concludeHostParams(exchangeSpecification);
+
+    if (exchangeSpecification.getExchangeSpecificParameters() != null && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures")
+                                                                                              .equals(true)) {
+      FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
+
+      this.marketDataService = new OkCoinFuturesMarketDataService(this, contract);
+      if (exchangeSpecification.getApiKey() != null) {
+        this.accountService = new OkCoinFuturesAccountService(this);
+        this.tradeService = new OkCoinFuturesTradeService(this, contract, futuresLeverageOfConfig(exchangeSpecification));
+      }
+    } else {
+      this.marketDataService = new OkCoinMarketDataService(this);
+      if (exchangeSpecification.getApiKey() != null) {
+        this.accountService = new OkCoinAccountService(this);
+        this.tradeService = new OkCoinTradeService(this);
+      }
+    }
+  }
+
+  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-	exchangeSpecification.setSslUri("https://www.okex.com/api");
-	exchangeSpecification.setHost("www.okex.com");
+    exchangeSpecification.setSslUri("https://www.okex.com/api");
+    exchangeSpecification.setHost("www.okex.com");
     exchangeSpecification.setExchangeName("OKCoin");
     exchangeSpecification.setExchangeDescription("OKCoin is a globally oriented crypto-currency trading platform.");
 

@@ -64,8 +64,9 @@ public class WexTransHistoryResult {
 
   @Override
   public String toString() {
-    return MessageFormat.format("BTCETransHistory[type={0}, amount={1}, currency=''{2}'', description=''{3}'', status={4}, timestamp={5}]", type,
-        amount, currency, description, status, timestamp);
+    return MessageFormat
+        .format("BTCETransHistory[type={0}, amount={1}, currency=''{2}'', description=''{3}'', status={4}, timestamp={5}]", type, amount, currency,
+            description, status, timestamp);
   }
 
   /**

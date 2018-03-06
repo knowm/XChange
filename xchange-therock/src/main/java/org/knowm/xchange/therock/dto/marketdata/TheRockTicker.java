@@ -69,8 +69,8 @@ public class TheRockTicker {
 
   @Override
   public String toString() {
-    return String.format(
-        "TheRockTicker{currencyPair=%s, date=%s, bid=%s, ask=%s, last=%s, volume=%s, volumeTraed=%s, open=%s, high=%s, low=%s, close=%s}", fundId,
-        date, bid, ask, last, volume, volumeTraded, open, high, low, close);
+    return String
+        .format("TheRockTicker{currencyPair=%s, date=%s, bid=%s, ask=%s, last=%s, volume=%s, volumeTraed=%s, open=%s, high=%s, low=%s, close=%s}",
+            fundId, date, bid, ask, last, volume, volumeTraded, open, high, low, close);
   }
 }

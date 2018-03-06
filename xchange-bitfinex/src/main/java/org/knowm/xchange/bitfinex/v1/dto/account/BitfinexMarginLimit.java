@@ -91,11 +91,7 @@ public class BitfinexMarginLimit {
 
   @Override
   public String toString() {
-    return "BitfinexMarginLimit{" +
-        "onPair='" + onPair + '\'' +
-        ", initialMargin=" + initialMargin +
-        ", marginRequirement=" + marginRequirement +
-        ", tradableBalance=" + tradableBalance +
-        '}';
+    return "BitfinexMarginLimit{" + "onPair='" + onPair + '\'' + ", initialMargin=" + initialMargin + ", marginRequirement=" + marginRequirement
+        + ", tradableBalance=" + tradableBalance + '}';
   }
 }

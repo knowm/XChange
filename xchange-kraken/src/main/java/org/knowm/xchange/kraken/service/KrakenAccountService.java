@@ -120,23 +120,23 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     }
 
     @Override
-    public void setOffset(final Long offset) {
-      this.offset = offset;
-    }
-
-    @Override
     public Long getOffset() {
       return offset;
     }
 
     @Override
-    public void setCurrencies(Currency[] currencies) {
-      this.currencies = currencies;
+    public void setOffset(final Long offset) {
+      this.offset = offset;
     }
 
     @Override
     public Currency[] getCurrencies() {
       return this.currencies;
+    }
+
+    @Override
+    public void setCurrencies(Currency[] currencies) {
+      this.currencies = currencies;
     }
 
     @Override

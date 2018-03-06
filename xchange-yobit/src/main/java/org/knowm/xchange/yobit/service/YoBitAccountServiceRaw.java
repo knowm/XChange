@@ -26,7 +26,8 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit> imp
   }
 
   public AccountInfo getInfo() throws IOException {
-    BaseYoBitResponse response = service.getInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "getInfo", exchange.getNonceFactory());
+    BaseYoBitResponse response = service
+        .getInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "getInfo", exchange.getNonceFactory());
 
     if (!response.success)
       throw new ExchangeException("failed to get account info");
@@ -49,16 +50,8 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit> imp
       BigDecimal amountAvailable = new BigDecimal(funds.get(key).toString());
       BigDecimal amountIncludingOrders = new BigDecimal(fundsIncludingOrders.get(key).toString());
 
-      Balance balance = new Balance(
-          currency,
-          amountIncludingOrders,
-          amountAvailable,
-          BigDecimal.ZERO,
-          BigDecimal.ZERO,
-          BigDecimal.ZERO,
-          BigDecimal.ZERO,
-          BigDecimal.ZERO
-      );
+      Balance balance = new Balance(currency, amountIncludingOrders, amountAvailable, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+          BigDecimal.ZERO, BigDecimal.ZERO);
 
       wallets.add(new Wallet(currency.getCurrencyCode(), balance));
     }
@@ -69,15 +62,10 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit> imp
   public BaseYoBitResponse withdrawCoinsToAddress(DefaultWithdrawFundsParams params) throws IOException {
     DefaultWithdrawFundsParams defaultWithdrawFundsParams = params;
 
-    BaseYoBitResponse response = service.withdrawCoinsToAddress(
-        exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator,
-        "WithdrawCoinsToAddress",
-        exchange.getNonceFactory(),
-        defaultWithdrawFundsParams.currency.getCurrencyCode(),
-        defaultWithdrawFundsParams.amount,
-        defaultWithdrawFundsParams.address
-    );
+    BaseYoBitResponse response = service
+        .withdrawCoinsToAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "WithdrawCoinsToAddress",
+            exchange.getNonceFactory(), defaultWithdrawFundsParams.currency.getCurrencyCode(), defaultWithdrawFundsParams.amount,
+            defaultWithdrawFundsParams.address);
 
     if (!response.success)
       throw new ExchangeException("failed to withdraw funds");
@@ -87,13 +75,8 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit> imp
   public BaseYoBitResponse getDepositAddress(Currency currency) throws IOException {
     boolean needNew = false;//todo: implement this option
 
-    return service.getDepositAddress(
-        exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator,
-        "GetDepositAddress",
-        exchange.getNonceFactory(),
-        currency.getCurrencyCode(),
-        needNew
-    );
+    return service
+        .getDepositAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "GetDepositAddress", exchange.getNonceFactory(),
+            currency.getCurrencyCode(), needNew);
   }
 }

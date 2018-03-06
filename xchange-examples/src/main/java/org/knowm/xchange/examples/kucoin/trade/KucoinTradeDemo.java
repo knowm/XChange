@@ -34,8 +34,7 @@ public class KucoinTradeDemo {
 
   private static void generic(TradeService tradeService) throws IOException {
 
-    LimitOrder limitOrder = new LimitOrder.Builder(ORDER_TYPE, PAIR).limitPrice(new BigDecimal("100.0")).originalAmount(new BigDecimal("1"))
-        .build();
+    LimitOrder limitOrder = new LimitOrder.Builder(ORDER_TYPE, PAIR).limitPrice(new BigDecimal("100.0")).originalAmount(new BigDecimal("1")).build();
 
     try {
       String uuid = tradeService.placeLimitOrder(limitOrder);
@@ -70,8 +69,7 @@ public class KucoinTradeDemo {
 
   private static void raw(KucoinTradeServiceRaw tradeService) throws IOException {
 
-    LimitOrder limitOrder = new LimitOrder.Builder(ORDER_TYPE, PAIR).limitPrice(new BigDecimal("100")).originalAmount(new BigDecimal("1"))
-        .build();
+    LimitOrder limitOrder = new LimitOrder.Builder(ORDER_TYPE, PAIR).limitPrice(new BigDecimal("100")).originalAmount(new BigDecimal("1")).build();
 
     try {
       KucoinResponse<KucoinOrder> limitOrderResponse = tradeService.placeKucoinLimitOrder(limitOrder);

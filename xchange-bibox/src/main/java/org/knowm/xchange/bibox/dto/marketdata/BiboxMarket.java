@@ -3,6 +3,7 @@ package org.knowm.xchange.bibox.dto.marketdata;
 import java.math.BigDecimal;
 
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -12,24 +13,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "id",
-    "coin_symbol",
-    "currency_symbol",
-    "last",
-    "high",
-    "low",
-    "change",
-    "percent",
-    "vol24H",
-    "amount",
-    "last_cny",
-    "high_cny",
-    "low_cny",
-    "last_usd",
-    "high_usd",
-    "low_usd"
-})
+@JsonPropertyOrder({"id", "coin_symbol", "currency_symbol", "last", "high", "low", "change", "percent", "vol24H", "amount", "last_cny", "high_cny",
+    "low_cny", "last_usd", "high_usd", "low_usd"})
 public class BiboxMarket {
 
   @JsonProperty("id")

@@ -35,23 +35,11 @@ public final class Balance implements Comparable<Balance>, Serializable {
   private final BigDecimal depositing;
 
   /**
-   * Returns a zero balance.
-   *
-   * @param currency the balance currency.
-   * @return a zero balance.
-   */
-  public static Balance zero(Currency currency) {
-
-    return new Balance(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
-        BigDecimal.ZERO);
-  }
-
-  /**
    * Constructs a balance, the {@link #available} will be the same as the <code>total</code>, and the {@link #frozen} is zero. The
    * <code>borrowed</code> and <code>loaned</code> will be zero.
    *
    * @param currency The underlying currency
-   * @param total The total
+   * @param total    The total
    */
   public Balance(Currency currency, BigDecimal total) {
 
@@ -62,8 +50,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
    * Constructs a balance, the {@link #frozen} will be assigned as <code>total</code> - <code>available</code>. The <code>borrowed</code> and
    * <code>loaned</code> will be zero.
    *
-   * @param currency the underlying currency of this balance.
-   * @param total the total amount of the <code>currency</code> in this balance.
+   * @param currency  the underlying currency of this balance.
+   * @param total     the total amount of the <code>currency</code> in this balance.
    * @param available the amount of the <code>currency</code> in this balance that is available to trade.
    */
   public Balance(Currency currency, BigDecimal total, BigDecimal available) {
@@ -74,10 +62,10 @@ public final class Balance implements Comparable<Balance>, Serializable {
   /**
    * Constructs a balance. The <code>borrowed</code> and <code>loaned</code> will be zero.
    *
-   * @param currency the underlying currency of this balance.
-   * @param total the total amount of the <code>currency</code> in this balance, including the <code>available</code> and <code>frozen</code>.
+   * @param currency  the underlying currency of this balance.
+   * @param total     the total amount of the <code>currency</code> in this balance, including the <code>available</code> and <code>frozen</code>.
    * @param available the amount of the <code>currency</code> in this balance that is available to trade.
-   * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in trading.
+   * @param frozen    the frozen amount of the <code>currency</code> in this balance that is locked in trading.
    */
   public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen) {
 
@@ -87,14 +75,14 @@ public final class Balance implements Comparable<Balance>, Serializable {
   /**
    * Constructs a balance.
    *
-   * @param currency the underlying currency of this balance.
-   * @param total the total amount of the <code>currency</code> in this balance, equal to <code>available + frozen - borrowed + loaned</code>.
-   * @param available the amount of the <code>currency</code> in this balance that is available to trade, including the <code>borrowed</code>.
-   * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in trading.
-   * @param borrowed the borrowed amount of the available <code>currency</code> in this balance that must be repaid.
-   * @param loaned the loaned amount of the total <code>currency</code> in this balance that will be returned.
+   * @param currency    the underlying currency of this balance.
+   * @param total       the total amount of the <code>currency</code> in this balance, equal to <code>available + frozen - borrowed + loaned</code>.
+   * @param available   the amount of the <code>currency</code> in this balance that is available to trade, including the <code>borrowed</code>.
+   * @param frozen      the frozen amount of the <code>currency</code> in this balance that is locked in trading.
+   * @param borrowed    the borrowed amount of the available <code>currency</code> in this balance that must be repaid.
+   * @param loaned      the loaned amount of the total <code>currency</code> in this balance that will be returned.
    * @param withdrawing the amount of the <code>currency</code> in this balance that is scheduled for withdrawal.
-   * @param depositing the amount of the <code>currency</code> in this balance that is being deposited but not available yet.
+   * @param depositing  the amount of the <code>currency</code> in this balance that is being deposited but not available yet.
    */
   public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen, BigDecimal borrowed, BigDecimal loaned,
       BigDecimal withdrawing, BigDecimal depositing) {
@@ -113,6 +101,18 @@ public final class Balance implements Comparable<Balance>, Serializable {
     this.loaned = loaned;
     this.withdrawing = withdrawing;
     this.depositing = depositing;
+  }
+
+  /**
+   * Returns a zero balance.
+   *
+   * @param currency the balance currency.
+   * @return a zero balance.
+   */
+  public static Balance zero(Currency currency) {
+
+    return new Balance(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+        BigDecimal.ZERO);
   }
 
   public Currency getCurrency() {
@@ -348,7 +348,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
     public static Builder from(Balance balance) {
 
       return new Builder().currency(balance.getCurrency()).available(balance.getAvailable()).frozen(balance.getFrozen())
-          .borrowed(balance.getBorrowed()).loaned(balance.getLoaned()).withdrawing(balance.getWithdrawing()).depositing(balance.getDepositing());
+                          .borrowed(balance.getBorrowed()).loaned(balance.getLoaned()).withdrawing(balance.getWithdrawing())
+                          .depositing(balance.getDepositing());
     }
 
     public Builder currency(Currency currency) {

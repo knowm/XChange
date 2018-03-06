@@ -16,12 +16,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 public class CexIOFeeInfo extends CexIOApiResponse<Map<CurrencyPair, CexIOFeeInfo.FeeDetails>> {
 
-  public CexIOFeeInfo(@JsonProperty("e") String e, @JsonProperty("data") @JsonDeserialize(keyUsing = CurrencyPairKeyDeserializer.class)
-      Map<CurrencyPair,
-          FeeDetails> data,
-      @JsonProperty("ok")
-          String ok,
-      @JsonProperty("error") String error) {
+  public CexIOFeeInfo(@JsonProperty("e") String e,
+      @JsonProperty("data") @JsonDeserialize(keyUsing = CurrencyPairKeyDeserializer.class) Map<CurrencyPair, FeeDetails> data,
+      @JsonProperty("ok") String ok, @JsonProperty("error") String error) {
     super(e, data, ok, error);
   }
 

@@ -33,7 +33,8 @@ public abstract class BaseKoineksTicker {
 
   private final String timestamp;
 
-  public BaseKoineksTicker(Currency shortCode, String name, Currency currency, BigDecimal current, String changeAmount, BigDecimal changePercentage, BigDecimal high, BigDecimal low, BigDecimal volume, BigDecimal ask, BigDecimal bid, String timestamp) {
+  public BaseKoineksTicker(Currency shortCode, String name, Currency currency, BigDecimal current, String changeAmount, BigDecimal changePercentage,
+      BigDecimal high, BigDecimal low, BigDecimal volume, BigDecimal ask, BigDecimal bid, String timestamp) {
     this.shortCode = shortCode;
     this.name = name;
     this.currency = currency;
@@ -98,19 +99,8 @@ public abstract class BaseKoineksTicker {
 
   @Override
   public String toString() {
-    return this.getClass().getSimpleName() + " {" +
-        "shortCode=" + shortCode +
-        ", name='" + name + '\'' +
-        ", currency=" + currency +
-        ", current=" + current +
-        ", changeAmount='" + changeAmount + '\'' +
-        ", changePercentage=" + changePercentage +
-        ", high=" + high +
-        ", low=" + low +
-        ", volume=" + volume +
-        ", ask=" + ask +
-        ", bid=" + bid +
-        ", timestamp=" + timestamp +
-        '}' + "\n\n";
+    return this.getClass().getSimpleName() + " {" + "shortCode=" + shortCode + ", name='" + name + '\'' + ", currency=" + currency + ", current="
+        + current + ", changeAmount='" + changeAmount + '\'' + ", changePercentage=" + changePercentage + ", high=" + high + ", low=" + low
+        + ", volume=" + volume + ", ask=" + ask + ", bid=" + bid + ", timestamp=" + timestamp + '}' + "\n\n";
   }
 }

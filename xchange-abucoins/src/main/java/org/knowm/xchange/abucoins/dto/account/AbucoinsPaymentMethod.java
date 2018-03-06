@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * <p>POJO representing and individual object from the output JSON for the Abucoins
  * <code>GET /payment-methods</code> endpoint.</p>
- *
  * Example:
  * <code><pre>
  *     {
@@ -26,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *             "withdraw": 9223372036854775807
  *         }
  * </pre></code>
+ *
  * @author bryant_harris
  */
 public class AbucoinsPaymentMethod {
@@ -39,17 +39,11 @@ public class AbucoinsPaymentMethod {
   boolean allowWithdrawal;
   Limit limits;
   String message;
-        
-  public AbucoinsPaymentMethod(@JsonProperty("id") String id,
-                               @JsonProperty("type") String type,
-                               @JsonProperty("name") String name,
-                               @JsonProperty("currency") String currency,
-                               @JsonProperty("allow_buy") boolean allowBuy,
-                               @JsonProperty("allow_sell") boolean allowSell,
-                               @JsonProperty("allow_deposit") boolean allowDeposit,
-                               @JsonProperty("allow_withdrawl") boolean allowWithdrawal,
-                               @JsonProperty("limits") Limit limits,
-                               @JsonProperty("message") String message) {
+
+  public AbucoinsPaymentMethod(@JsonProperty("id") String id, @JsonProperty("type") String type, @JsonProperty("name") String name,
+      @JsonProperty("currency") String currency, @JsonProperty("allow_buy") boolean allowBuy, @JsonProperty("allow_sell") boolean allowSell,
+      @JsonProperty("allow_deposit") boolean allowDeposit, @JsonProperty("allow_withdrawl") boolean allowWithdrawal,
+      @JsonProperty("limits") Limit limits, @JsonProperty("message") String message) {
     this.id = id;
     this.type = type;
     this.name = name;
@@ -61,7 +55,7 @@ public class AbucoinsPaymentMethod {
     this.limits = limits;
     this.message = message;
   }
-        
+
   public String getId() {
     return id;
   }
@@ -97,16 +91,16 @@ public class AbucoinsPaymentMethod {
   public Limit getLimits() {
     return limits;
   }
-  
+
   public String getMessage() {
-        return message;
+    return message;
   }
 
   @Override
   public String toString() {
-    return "AbucoinsPaymentMethod [id=" + id + ", type=" + type + ", name=" + name + ", currency=" + currency
-        + ", allowBuy=" + allowBuy + ", allowSell=" + allowSell + ", allowDeposit=" + allowDeposit
-        + ", allowWithdrawal=" + allowWithdrawal + ", limits=" + limits + ", message=" + message + "]";
+    return "AbucoinsPaymentMethod [id=" + id + ", type=" + type + ", name=" + name + ", currency=" + currency + ", allowBuy=" + allowBuy
+        + ", allowSell=" + allowSell + ", allowDeposit=" + allowDeposit + ", allowWithdrawal=" + allowWithdrawal + ", limits=" + limits + ", message="
+        + message + "]";
   }
 
   public static class Limit {
@@ -114,17 +108,15 @@ public class AbucoinsPaymentMethod {
     BigDecimal sell;
     BigDecimal deposit;
     BigDecimal withdraw;
-                
-    public Limit (@JsonProperty("buy") BigDecimal buy,
-                  @JsonProperty("sell") BigDecimal sell,
-                  @JsonProperty("deposity") BigDecimal deposit,
-                  @JsonProperty("withdraw") BigDecimal withdraw) {
+
+    public Limit(@JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell, @JsonProperty("deposity") BigDecimal deposit,
+        @JsonProperty("withdraw") BigDecimal withdraw) {
       this.buy = buy;
       this.sell = sell;
       this.deposit = deposit;
       this.withdraw = withdraw;
     }
-      
+
     public BigDecimal getBuy() {
       return buy;
     }

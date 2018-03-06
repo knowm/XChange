@@ -21,8 +21,8 @@ public class BitcurexAccountServiceRaw extends BitcurexBaseService {
 
   public BitcurexFunds getFunds() throws IOException, ExchangeException {
 
-    BitcurexFunds bitcurexFunds = bitcurexAuthenticated.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory());
+    BitcurexFunds bitcurexFunds = bitcurexAuthenticated
+        .getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     if (bitcurexFunds.getError() != null) {
       throw new ExchangeException("Error getting balance. " + bitcurexFunds.getError());
     }

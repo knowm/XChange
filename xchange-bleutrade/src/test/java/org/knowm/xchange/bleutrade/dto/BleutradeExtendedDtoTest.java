@@ -21,17 +21,17 @@ import org.knowm.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
 
 public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
 
-  protected static final String BALANCE_RETURN_STR = "BleutradeBalanceReturn [success=true, message=, "
-      + "result=BleutradeBalance [Currency=BTC, Balance=15.49843675, Available=13.98901996, "
-      + "Pending=0E-8, CryptoAddress=1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9, IsActive=true, " + "additionalProperties={foo=1}], "
-      + "additionalProperties={ext=extended value}]";
+  protected static final String BALANCE_RETURN_STR =
+      "BleutradeBalanceReturn [success=true, message=, " + "result=BleutradeBalance [Currency=BTC, Balance=15.49843675, Available=13.98901996, "
+          + "Pending=0E-8, CryptoAddress=1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9, IsActive=true, " + "additionalProperties={foo=1}], "
+          + "additionalProperties={ext=extended value}]";
 
-  protected static final String BALANCES_RETURN_STR = "BleutradeBalancesReturn [success=true, message=, result=["
-      + "BleutradeBalance [Currency=DOGE, Balance=0E-8, Available=0E-8, Pending=0E-8, "
-      + "CryptoAddress=DBSwFELQiVrwxFtyHpVHbgVrNJXwb3hoXL, IsActive=true, additionalProperties={foo=1}], "
-      + "BleutradeBalance [Currency=BTC, Balance=15.49843675, Available=13.98901996, Pending=0E-8, "
-      + "CryptoAddress=1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9, IsActive=true, additionalProperties={bar=true}]], "
-      + "additionalProperties={ext=extended value}]";
+  protected static final String BALANCES_RETURN_STR =
+      "BleutradeBalancesReturn [success=true, message=, result=[" + "BleutradeBalance [Currency=DOGE, Balance=0E-8, Available=0E-8, Pending=0E-8, "
+          + "CryptoAddress=DBSwFELQiVrwxFtyHpVHbgVrNJXwb3hoXL, IsActive=true, additionalProperties={foo=1}], "
+          + "BleutradeBalance [Currency=BTC, Balance=15.49843675, Available=13.98901996, Pending=0E-8, "
+          + "CryptoAddress=1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9, IsActive=true, additionalProperties={bar=true}]], "
+          + "additionalProperties={ext=extended value}]";
 
   protected static final String CANCEL_ORDER_RETURN_STR = "BleutradeCancelOrderReturn [success=true, message=, result=[12345], additionalProperties={ext=extended value}]";
 
@@ -65,17 +65,19 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
       + "QuantityBaseTraded=0.04349400, Price=5.5E-7, Status=OPEN, Created=2014-07-29 18:45:17, "
       + "Comments=Function #123 Connect #456, additionalProperties={bar=true}]], " + "additionalProperties={ext=extended value}]";
 
-  protected static final String ORDER_BOOK_RETURN_STR = "BleutradeOrderBookReturn [success=true, message=, result=BleutradeOrderBookResult "
-      + "[buy=[" + "BleutradeLevel [Quantity=4.99400000, Rate=3.00650900, additionalProperties={ext=1}], "
-      + "BleutradeLevel [Quantity=50.00000000, Rate=3.50000000, additionalProperties={ext=2}]" + "], " + "sell=["
-      + "BleutradeLevel [Quantity=12.44147454, Rate=5.13540000, additionalProperties={ext=3}], "
-      + "BleutradeLevel [Quantity=100.00000000, Rate=6.25500000, additionalProperties={ext=4}], "
-      + "BleutradeLevel [Quantity=30.00000000, Rate=6.75500001, additionalProperties={ext=5}], "
-      + "BleutradeLevel [Quantity=13.49989999, Rate=6.76260099, additionalProperties={ext=6}]], " + "additionalProperties={foo=1}], "
-      + "additionalProperties={ext=extended value}]";
+  protected static final String ORDER_BOOK_RETURN_STR =
+      "BleutradeOrderBookReturn [success=true, message=, result=BleutradeOrderBookResult " + "[buy=["
+          + "BleutradeLevel [Quantity=4.99400000, Rate=3.00650900, additionalProperties={ext=1}], "
+          + "BleutradeLevel [Quantity=50.00000000, Rate=3.50000000, additionalProperties={ext=2}]" + "], " + "sell=["
+          + "BleutradeLevel [Quantity=12.44147454, Rate=5.13540000, additionalProperties={ext=3}], "
+          + "BleutradeLevel [Quantity=100.00000000, Rate=6.25500000, additionalProperties={ext=4}], "
+          + "BleutradeLevel [Quantity=30.00000000, Rate=6.75500001, additionalProperties={ext=5}], "
+          + "BleutradeLevel [Quantity=13.49989999, Rate=6.76260099, additionalProperties={ext=6}]], " + "additionalProperties={foo=1}], "
+          + "additionalProperties={ext=extended value}]";
 
-  protected static final String PLACE_ORDER_RETURN_STR = "BleutradePlaceOrderReturn [success=true, message=, "
-      + "result=BleutradeOrderId [orderid=65498, additionalProperties={foo=1}], " + "additionalProperties={ext=extended value}]";
+  protected static final String PLACE_ORDER_RETURN_STR =
+      "BleutradePlaceOrderReturn [success=true, message=, " + "result=BleutradeOrderId [orderid=65498, additionalProperties={foo=1}], "
+          + "additionalProperties={ext=extended value}]";
 
   protected static final String TICKER_RETURN_STR = "BleutradeTickerReturn [success=true, message=, result=["
       + "BleutradeTicker [MarketName=BLEU_BTC, PrevDay=0.00095000, High=0.00105000, Low=0.00086000, "

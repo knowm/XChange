@@ -4,7 +4,7 @@ public class DefaultCancelOrderParamId implements CancelOrderByIdParams {
 
   private String orderId;
 
-  public DefaultCancelOrderParamId(String orderId){
+  public DefaultCancelOrderParamId(String orderId) {
     this.orderId = orderId;
   }
 

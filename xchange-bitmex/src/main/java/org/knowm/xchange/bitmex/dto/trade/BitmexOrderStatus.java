@@ -19,10 +19,11 @@ public enum BitmexOrderStatus {
 
   PENDING, OPEN, CLOSED, CANCELED, EXPIRED;
 
-  @Override
-  public String toString() {
+  private static final Map<String, BitmexOrderStatus> fromString = new HashMap<>();
 
-    return super.toString().toLowerCase();
+  static {
+    for (BitmexOrderStatus orderStatus : values())
+      fromString.put(orderStatus.toString(), orderStatus);
   }
 
   public static BitmexOrderStatus fromString(String orderStatusString) {
@@ -30,11 +31,10 @@ public enum BitmexOrderStatus {
     return fromString.get(orderStatusString.toLowerCase());
   }
 
-  private static final Map<String, BitmexOrderStatus> fromString = new HashMap<>();
+  @Override
+  public String toString() {
 
-  static {
-    for (BitmexOrderStatus orderStatus : values())
-      fromString.put(orderStatus.toString(), orderStatus);
+    return super.toString().toLowerCase();
   }
 
   static class BitmexOrderStatusDeserializer extends JsonDeserializer<BitmexOrderStatus> {

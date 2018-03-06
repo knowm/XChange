@@ -1,5 +1,14 @@
 package org.knowm.xchange.hitbtc.v2;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -30,15 +39,6 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 public class HitbtcAdapters {
 
   /**
@@ -47,7 +47,8 @@ public class HitbtcAdapters {
   private static final Set<String> counters = new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH", "USDT"));
 
   public static CurrencyPair adaptSymbol(String symbol) {
-    String counter = counters.stream().filter(cnt -> symbol.endsWith(cnt)).findAny().orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
+    String counter = counters.stream().filter(cnt -> symbol.endsWith(cnt)).findAny()
+                             .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
     String base = symbol.substring(0, symbol.length() - counter.length());
     return new CurrencyPair(base, counter);
   }
@@ -68,7 +69,7 @@ public class HitbtcAdapters {
     Date timestamp = hitbtcTicker.getTimestamp();
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-        .build();
+                               .build();
   }
 
   public static List<Ticker> adaptTickers(Map<String, HitbtcTicker> hitbtcTickers) {
@@ -137,27 +138,18 @@ public class HitbtcAdapters {
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
   }
-  
-  public static LimitOrder adaptOrder(HitbtcOrder hitbtcOrder){
+
+  public static LimitOrder adaptOrder(HitbtcOrder hitbtcOrder) {
     OrderType type = adaptOrderType(hitbtcOrder.side);
 
-    LimitOrder order =
-      new LimitOrder(
-        type,
-        hitbtcOrder.quantity,
-        adaptSymbol(hitbtcOrder.symbol),
-        hitbtcOrder.clientOrderId,
-        hitbtcOrder.getCreatedAt(),
-        hitbtcOrder.price,
-        null, // exchange does not provide average price
-        hitbtcOrder.cumQuantity,
-        null,
-        convertOrderStatus(hitbtcOrder.status));
+    LimitOrder order = new LimitOrder(type, hitbtcOrder.quantity, adaptSymbol(hitbtcOrder.symbol), hitbtcOrder.clientOrderId,
+        hitbtcOrder.getCreatedAt(), hitbtcOrder.price, null, // exchange does not provide average price
+        hitbtcOrder.cumQuantity, null, convertOrderStatus(hitbtcOrder.status));
 
     return order;
   }
 
-  public static List<LimitOrder> adaptOrders(List<HitbtcOrder> openOrdersRaw){
+  public static List<LimitOrder> adaptOrders(List<HitbtcOrder> openOrdersRaw) {
     List<LimitOrder> openOrders = new ArrayList<>(openOrdersRaw.size());
 
     for (HitbtcOrder hitbtcOrder : openOrdersRaw) {
@@ -189,8 +181,8 @@ public class HitbtcAdapters {
 
       String id = Long.toString(hitbtcOwnTrade.getId());
 
-      UserTrade trade = new UserTrade(type, originalAmount, pair, hitbtcOwnTrade.getPrice(), timestamp, id, hitbtcOwnTrade.getClientOrderId(), hitbtcOwnTrade.getFee(),
-          Currency.getInstance(pair.counter.getCurrencyCode()));
+      UserTrade trade = new UserTrade(type, originalAmount, pair, hitbtcOwnTrade.getPrice(), timestamp, id, hitbtcOwnTrade.getClientOrderId(),
+          hitbtcOwnTrade.getFee(), Currency.getInstance(pair.counter.getCurrencyCode()));
 
       trades.add(trade);
     }
@@ -220,7 +212,8 @@ public class HitbtcAdapters {
     return type == OrderType.BID ? HitbtcSide.BUY : HitbtcSide.SELL;
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(List<HitbtcSymbol> symbols, Map<Currency, CurrencyMetaData> currencies, Map<CurrencyPair, CurrencyPairMetaData> currencyPairs) {
+  public static ExchangeMetaData adaptToExchangeMetaData(List<HitbtcSymbol> symbols, Map<Currency, CurrencyMetaData> currencies,
+      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs) {
     if (symbols != null) {
       for (HitbtcSymbol symbol : symbols) {
         CurrencyPair pair = adaptSymbol(symbol);
@@ -232,7 +225,7 @@ public class HitbtcAdapters {
         BigDecimal minimumAmount = null;
         BigDecimal maximumAmount = null;
 
-        if(currencyPairs.containsKey(pair)) {
+        if (currencyPairs.containsKey(pair)) {
           CurrencyPairMetaData existing = currencyPairs.get(pair);
           minimumAmount = existing.getMinimumAmount();
           maximumAmount = existing.getMaximumAmount();
@@ -257,18 +250,11 @@ public class HitbtcAdapters {
       description += ", paymentId: " + transaction.getPaymentId();
     }
 
-    return new FundingRecord.Builder()
-        .setAddress(transaction.getAddress())
-        .setCurrency(Currency.getInstance(transaction.getCurrency()))
-        .setAmount(transaction.getAmount())
-        .setType(convertType(transaction.getType()))
-        .setFee(transaction.getFee())
-        .setDescription(description)
-        .setStatus(convertStatus(transaction.getStatus()))
-        .setInternalId(transaction.getId())
-        .setBlockchainTransactionHash(transaction.getHash())
-        .setDate(transaction.getCreatedAt())
-        .build();
+    return new FundingRecord.Builder().setAddress(transaction.getAddress()).setCurrency(Currency.getInstance(transaction.getCurrency()))
+                                      .setAmount(transaction.getAmount()).setType(convertType(transaction.getType())).setFee(transaction.getFee())
+                                      .setDescription(description).setStatus(convertStatus(transaction.getStatus()))
+                                      .setInternalId(transaction.getId()).setBlockchainTransactionHash(transaction.getHash())
+                                      .setDate(transaction.getCreatedAt()).build();
   }
 
   /**
@@ -313,7 +299,7 @@ public class HitbtcAdapters {
 
   /**
    * Decodes HitBTC Order status.
-   * 
+   *
    * @return
    * @see https://api.hitbtc.com/#order-model Order Model
    * possible statuses: new, suspended, partiallyFilled, filled, canceled, expired

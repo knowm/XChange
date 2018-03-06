@@ -48,11 +48,11 @@ public class Trade implements Serializable {
    * {@link MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)} implementations) since it's missing the orderId and fee
    * parameters.
    *
-   * @param type The trade type (BID side or ASK side)
+   * @param type           The trade type (BID side or ASK side)
    * @param originalAmount The depth of this trade
-   * @param price The price (either the bid or the ask)
-   * @param timestamp The timestamp of the trade according to the exchange's server, null if not provided
-   * @param id The id of the trade
+   * @param price          The price (either the bid or the ask)
+   * @param timestamp      The timestamp of the trade according to the exchange's server, null if not provided
+   * @param id             The id of the trade
    */
   public Trade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
 
@@ -130,7 +130,7 @@ public class Trade implements Serializable {
 
     public static Builder from(Trade trade) {
       return new Builder().type(trade.getType()).originalAmount(trade.getOriginalAmount()).currencyPair(trade.getCurrencyPair())
-          .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId());
+                          .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId());
     }
 
     public Builder type(OrderType type) {

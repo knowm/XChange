@@ -17,7 +17,8 @@ public class ZaifBaseService extends BaseExchangeService implements BaseService 
    * @param exchange
    */
   protected ZaifBaseService(Exchange exchange) {
-    super(exchange);    this.zaif = RestProxyFactory.createProxy(Zaif.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    super(exchange);
+    this.zaif = RestProxyFactory.createProxy(Zaif.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
 
   }
 }

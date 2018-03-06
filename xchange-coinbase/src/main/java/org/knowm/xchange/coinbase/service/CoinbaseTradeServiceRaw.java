@@ -34,8 +34,8 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
    */
   public CoinbaseTransfer buy(BigDecimal quantity) throws IOException {
 
-    final CoinbaseTransfer buyTransfer = coinbase.buy(quantity.toPlainString(), false, exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    final CoinbaseTransfer buyTransfer = coinbase
+        .buy(quantity.toPlainString(), false, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return handleResponse(buyTransfer);
   }
 
@@ -51,8 +51,8 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
    */
   public CoinbaseTransfer buyAndAgreeBTCAmountVaries(BigDecimal quantity) throws IOException {
 
-    final CoinbaseTransfer buyTransfer = coinbase.buy(quantity.toPlainString(), true, exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    final CoinbaseTransfer buyTransfer = coinbase
+        .buy(quantity.toPlainString(), true, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return handleResponse(buyTransfer);
   }
 
@@ -67,8 +67,8 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
    */
   public CoinbaseTransfer sell(BigDecimal quantity) throws IOException {
 
-    final CoinbaseTransfer sellTransfer = coinbase.sell(quantity.toPlainString(), exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory());
+    final CoinbaseTransfer sellTransfer = coinbase
+        .sell(quantity.toPlainString(), exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return handleResponse(sellTransfer);
   }
 
@@ -88,7 +88,7 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
   /**
    * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in descending order by creation date.
    *
-   * @param page Optional parameter to request a desired page of results. Will return page 1 if the supplied page is null or less than 1.
+   * @param page  Optional parameter to request a desired page of results. Will return page 1 if the supplied page is null or less than 1.
    * @param limit Optional parameter to limit the maximum number of results to return. Will return up to 25 results by default if null or less than 1.
    * @return
    * @throws IOException
@@ -96,8 +96,8 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
    */
   public CoinbaseTransfers getCoinbaseTransfers(Integer page, final Integer limit) throws IOException {
 
-    final CoinbaseTransfers transfers = coinbase.getTransfers(page, limit, exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory());
+    final CoinbaseTransfers transfers = coinbase
+        .getTransfers(page, limit, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return transfers;
   }
 }

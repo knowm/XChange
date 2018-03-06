@@ -57,7 +57,7 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService {
   }
 
   /**
-   * Unauthenticated resource that tells you the current price of one unit. 
+   * Unauthenticated resource that tells you the current price of one unit.
    * This is usually somewhere in between the buy and sell price, current to within a few minutes.
    *
    * @param pair The currency pair.
@@ -71,7 +71,7 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService {
   }
 
   /**
-   * Unauthenticated resource that tells you the current price of one unit. 
+   * Unauthenticated resource that tells you the current price of one unit.
    * This is usually somewhere in between the buy and sell price, current to within a few minutes.
    *
    * @param pair The currency pair.

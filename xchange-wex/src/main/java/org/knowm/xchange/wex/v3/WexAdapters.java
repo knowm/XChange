@@ -97,7 +97,7 @@ public final class WexAdapters {
   /**
    * Adapts a BTCETradeV3 to a Trade Object
    *
-   * @param bTCETrade Wex trade object v.3
+   * @param bTCETrade    Wex trade object v.3
    * @param currencyPair the currency pair
    * @return The XChange Trade
    */
@@ -115,7 +115,7 @@ public final class WexAdapters {
   /**
    * Adapts a BTCETradeV3[] to a Trades Object
    *
-   * @param bTCETrades The Wex trade data returned by API v.3
+   * @param bTCETrades   The Wex trade data returned by API v.3
    * @param currencyPair the currency pair
    * @return The trades
    */
@@ -152,7 +152,7 @@ public final class WexAdapters {
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume)
-        .timestamp(timestamp).build();
+                               .timestamp(timestamp).build();
   }
 
   public static Wallet adaptWallet(WexAccountInfo wexAccountInfo) {
@@ -207,7 +207,7 @@ public final class WexAdapters {
   /**
    * Adapts a WexOrderInfoResult to a LimitOrder
    *
-   * @param orderId Order original id
+   * @param orderId   Order original id
    * @param orderInfo
    * @return
    */
@@ -235,7 +235,8 @@ public final class WexAdapters {
         break;
     }
 
-    return new LimitOrder(orderType, orderInfo.getStartAmount(), currencyPair, orderId, timestamp, price, price, orderInfo.getStartAmount().subtract(orderInfo.getAmount()), null, orderStatus);
+    return new LimitOrder(orderType, orderInfo.getStartAmount(), currencyPair, orderId, timestamp, price, price,
+        orderInfo.getStartAmount().subtract(orderInfo.getAmount()), null, orderStatus);
   }
 
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
@@ -347,19 +348,9 @@ public final class WexAdapters {
         continue;
 
       Date date = DateUtils.fromUnixTime(result.getTimestamp());
-      fundingRecords.add(new FundingRecord(
-          null,
-          date,
-          Currency.getInstance(result.getCurrency()),
-          result.getAmount(),
-          String.valueOf(key),
-          null,
-          type,
-          status,
-          null,
-          null,
-          result.getDescription()
-      ));
+      fundingRecords.add(
+          new FundingRecord(null, date, Currency.getInstance(result.getCurrency()), result.getAmount(), String.valueOf(key), null, type, status, null,
+              null, result.getDescription()));
     }
     return fundingRecords;
   }

@@ -13,9 +13,9 @@ import org.xchange.coinegg.CoinEggUtils;
 
 public class CoinEggMarketDataService extends CoinEggMarketDataServiceRaw implements MarketDataService {
 
-	public CoinEggMarketDataService(Exchange exchange) {
-		super(exchange);
-	}
+  public CoinEggMarketDataService(Exchange exchange) {
+    super(exchange);
+  }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -31,5 +31,5 @@ public class CoinEggMarketDataService extends CoinEggMarketDataServiceRaw implem
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinEggAdapters.adaptTrades(getCoinEggTrades(CoinEggUtils.toBaseCoin(currencyPair)), currencyPair);
   }
-	
+
 }

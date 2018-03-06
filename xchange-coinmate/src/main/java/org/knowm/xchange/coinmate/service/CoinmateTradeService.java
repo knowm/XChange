@@ -30,7 +30,11 @@ import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -57,8 +61,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     CurrencyPair currencyPair = null;
     if (params instanceof OpenOrdersParamCurrencyPair) {
       currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
@@ -71,8 +74,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeMarketOrder(
-      MarketOrder marketOrder) throws IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     CoinmateTradeResponse response;
 
     if (marketOrder.getType().equals(Order.OrderType.ASK)) {
@@ -87,8 +89,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeLimitOrder(
-      LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     CoinmateTradeResponse response;
 
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {
@@ -108,8 +109,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   @Override
-  public boolean cancelOrder(
-      String orderId) throws IOException {
+  public boolean cancelOrder(String orderId) throws IOException {
     CoinmateCancelOrderResponse response = cancelCoinmateOrder(orderId);
 
     return response.getData();
@@ -157,8 +157,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -179,23 +178,23 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     }
 
     @Override
-    public void setLimit(Integer limit) {
-      this.limit = limit;
-    }
-
-    @Override
     public Integer getLimit() {
       return limit;
     }
 
     @Override
-    public void setOffset(Long offset) {
-      this.offset = offset;
+    public void setLimit(Integer limit) {
+      this.limit = limit;
     }
 
     @Override
     public Long getOffset() {
       return offset;
+    }
+
+    @Override
+    public void setOffset(Long offset) {
+      this.offset = offset;
     }
 
     @Override

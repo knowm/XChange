@@ -16,18 +16,13 @@ public class DSXTransactionHistoryParams implements TradeHistoryParamsTimeSpan, 
   private Date endTime = null;
 
   @Override
-  public void setCurrency(Currency currency) {
-    this.currency = currency;
-  }
-
-  @Override
   public Currency getCurrency() {
     return currency;
   }
 
   @Override
-  public void setStartId(String startId) {
-    this.startId = startId;
+  public void setCurrency(Currency currency) {
+    this.currency = currency;
   }
 
   @Override
@@ -36,8 +31,8 @@ public class DSXTransactionHistoryParams implements TradeHistoryParamsTimeSpan, 
   }
 
   @Override
-  public void setEndId(String endId) {
-    this.endId = endId;
+  public void setStartId(String startId) {
+    this.startId = startId;
   }
 
   @Override
@@ -46,8 +41,8 @@ public class DSXTransactionHistoryParams implements TradeHistoryParamsTimeSpan, 
   }
 
   @Override
-  public void setStartTime(Date startTime) {
-    this.startTime = startTime;
+  public void setEndId(String endId) {
+    this.endId = endId;
   }
 
   @Override
@@ -56,12 +51,17 @@ public class DSXTransactionHistoryParams implements TradeHistoryParamsTimeSpan, 
   }
 
   @Override
-  public void setEndTime(Date endTime) {
-    this.endTime = endTime;
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
   }
 
   @Override
   public Date getEndTime() {
     return endTime;
+  }
+
+  @Override
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
   }
 }

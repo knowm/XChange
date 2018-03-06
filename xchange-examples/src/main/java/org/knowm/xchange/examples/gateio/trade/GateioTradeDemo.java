@@ -63,8 +63,8 @@ public class GateioTradeDemo {
 
   private static void raw(GateioTradeServiceRaw tradeService) throws IOException, InterruptedException {
 
-    String placedOrderId = tradeService.placeGateioLimitOrder(CurrencyPair.LTC_BTC, GateioOrderType.SELL, new BigDecimal("0.0265"),
-        new BigDecimal("0.384"));
+    String placedOrderId = tradeService
+        .placeGateioLimitOrder(CurrencyPair.LTC_BTC, GateioOrderType.SELL, new BigDecimal("0.0265"), new BigDecimal("0.384"));
     System.out.println(placedOrderId);
 
     Thread.sleep(2000); // wait for Gateio's back-end to propagate the order

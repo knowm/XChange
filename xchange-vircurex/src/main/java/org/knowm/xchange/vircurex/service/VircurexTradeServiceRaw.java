@@ -33,9 +33,10 @@ public class VircurexTradeServiceRaw extends VircurexBaseService {
         limitOrder.getCurrencyPair().counter.getCurrencyCode().toLowerCase(), limitOrder.getLimitPrice().floatValue() + "",
         limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase());
 
-    VircurexPlaceOrderReturn ret = vircurexAuthenticated.trade(exchange.getExchangeSpecification().getApiKey(), nonce, digest.toString(), timestamp,
-        type, limitOrder.getOriginalAmount().floatValue() + "", limitOrder.getCurrencyPair().counter.getCurrencyCode().toLowerCase(),
-        limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase());
+    VircurexPlaceOrderReturn ret = vircurexAuthenticated
+        .trade(exchange.getExchangeSpecification().getApiKey(), nonce, digest.toString(), timestamp, type,
+            limitOrder.getOriginalAmount().floatValue() + "", limitOrder.getCurrencyPair().counter.getCurrencyCode().toLowerCase(),
+            limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase());
 
     timestamp = VircurexUtils.getUtcTimestamp();
     nonce = exchange.getNonceFactory().createValue();
@@ -53,8 +54,8 @@ public class VircurexTradeServiceRaw extends VircurexBaseService {
     long nonce = exchange.getNonceFactory().createValue();
     VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(),
         exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "read_orders");
-    VircurexOpenOrdersReturn openOrdersReturn = vircurexAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getUserName(), nonce,
-        digest.toString(), timestamp, VircurexUtils.RELEASED_ORDER);
+    VircurexOpenOrdersReturn openOrdersReturn = vircurexAuthenticated
+        .getOpenOrders(exchange.getExchangeSpecification().getUserName(), nonce, digest.toString(), timestamp, VircurexUtils.RELEASED_ORDER);
 
     return new OpenOrders(VircurexAdapters.adaptOpenOrders(openOrdersReturn.getOpenOrders()));
   }

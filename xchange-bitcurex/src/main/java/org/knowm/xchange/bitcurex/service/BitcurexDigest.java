@@ -1,7 +1,8 @@
 package org.knowm.xchange.bitcurex.service;
 
-import javax.crypto.Mac;
 import java.util.Base64;
+
+import javax.crypto.Mac;
 
 import org.knowm.xchange.service.BaseParamsDigest;
 
@@ -13,11 +14,11 @@ public class BitcurexDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param secretKeyBase64
-   * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @param apiKey          @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private BitcurexDigest(String secretKeyBase64, String apiKey) {
 
-    super(Base64.getDecoder(). decode( secretKeyBase64), HMAC_SHA_512);
+    super(Base64.getDecoder().decode(secretKeyBase64), HMAC_SHA_512);
   }
 
   public static BitcurexDigest createInstance(String secretKeyBase64, String apiKey) {
@@ -36,7 +37,7 @@ public class BitcurexDigest extends BaseParamsDigest {
     sha512.update(restInvocation.getRequestBody().getBytes());
 
     signature = sha512.doFinal();
-    digest =  Base64.getEncoder().encodeToString(signature);
+    digest = Base64.getEncoder().encodeToString(signature);
 
     return digest;
   }

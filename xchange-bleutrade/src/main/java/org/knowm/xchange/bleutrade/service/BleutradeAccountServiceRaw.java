@@ -23,7 +23,8 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
   }
 
   public String withdraw(Currency currency, BigDecimal amount, String address) throws IOException {
-    BleutradeWithdrawReturn response = bleutrade.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address);
+    BleutradeWithdrawReturn response = bleutrade
+        .withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address);
 
     if (!response.success) {
       throw new ExchangeException("Withdraw funds failed: " + response.toString());

@@ -32,7 +32,7 @@ public class OkCoinUtils {
       case (1007):
         return "No trading market information";
       case (1008):
-        return "No latest market information"; 
+        return "No latest market information";
       case (1009):
         return "No order";
       case (1010):

@@ -50,7 +50,7 @@ class BitcointoyouMarketDataServiceRaw extends BitcointoyouBasePollingService {
     return new BitcointoyouTicker(data, currencyPair);
 
   }
-  
+
   BitcointoyouOrderBook getBitcointoyouOrderBook() throws IOException {
 
     try {
@@ -79,9 +79,9 @@ class BitcointoyouMarketDataServiceRaw extends BitcointoyouBasePollingService {
   /**
    * List all public trades made at Bitcointoyou Exchange.
    *
-   * @param currencyPair the trade currency pair
+   * @param currencyPair   the trade currency pair
    * @param tradeTimestamp the trade timestamp
-   * @param minTradeId the minimum trade ID
+   * @param minTradeId     the minimum trade ID
    * @return an array of {@link BitcointoyouPublicTrade}
    * @throws IOException
    */

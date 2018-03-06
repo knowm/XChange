@@ -12,7 +12,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdapters;
@@ -51,8 +55,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     // TODO use currency pair param
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersBitcoinResult = getMercadoBitcoinUserOrders("btc_brl", null, "active", null,
         null, null, null);
@@ -68,8 +71,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -140,7 +142,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
 
   /**
    * @param params Required parameter types: {@link TradeHistoryParamCurrencyPair}. Supported types: {@link TradeHistoryParamsIdSpan},
-   * {@link TradeHistoryParamsTimeSpan}.
+   *               {@link TradeHistoryParamsTimeSpan}.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -191,18 +193,13 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     }
 
     @Override
-    public void setStartId(String startId) {
-      this.startId = startId;
-    }
-
-    @Override
     public String getStartId() {
       return startId;
     }
 
     @Override
-    public void setEndId(String endId) {
-      this.endId = endId;
+    public void setStartId(String startId) {
+      this.startId = startId;
     }
 
     @Override
@@ -211,8 +208,8 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     }
 
     @Override
-    public void setStartTime(Date startTime) {
-      this.startTime = startTime;
+    public void setEndId(String endId) {
+      this.endId = endId;
     }
 
     @Override
@@ -221,13 +218,18 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     }
 
     @Override
-    public void setEndTime(Date endTime) {
-      this.endTime = endTime;
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
     }
 
     @Override
     public Date getEndTime() {
       return endTime;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      this.endTime = endTime;
     }
   }
 

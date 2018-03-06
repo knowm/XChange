@@ -52,7 +52,7 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
    * Get recent trades from exchange
    *
    * @param pairs String of currency pairs to retrieve (e.g. "btcusd-btceur")
-   * @param size Integer value from 1 -> get corresponding number of items
+   * @param size  Integer value from 1 -> get corresponding number of items
    * @return DSXTradesWrapper
    * @throws IOException
    */

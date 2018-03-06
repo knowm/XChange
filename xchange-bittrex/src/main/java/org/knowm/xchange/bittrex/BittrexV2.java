@@ -21,5 +21,6 @@ public interface BittrexV2 {
   @GET
   @Path("pub/market/GetLatestTick")
     //Probably _ is a timestamp. tickInterval must be in [“oneMin”, “fiveMin”, “thirtyMin”, “hour”, “day”].
-  BittrexChartDataResponse getLatestTick(@QueryParam("marketName") String market, @QueryParam("tickInterval") String tickInterval, @QueryParam("_") Long timeStamp);
+  BittrexChartDataResponse getLatestTick(@QueryParam("marketName") String market, @QueryParam("tickInterval") String tickInterval,
+      @QueryParam("_") Long timeStamp);
 }

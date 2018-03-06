@@ -30,6 +30,8 @@ import org.knowm.xchange.dto.trade.UserTrades;
  */
 public final class CoinbaseAdapters {
 
+  private static final int TWENTY_FOUR_HOURS_IN_MILLIS = 1000 * 60 * 60 * 24;
+
   private CoinbaseAdapters() {
 
   }
@@ -84,13 +86,11 @@ public final class CoinbaseAdapters {
     return null;
   }
 
-  private static final int TWENTY_FOUR_HOURS_IN_MILLIS = 1000 * 60 * 60 * 24;
-
   public static Ticker adaptTicker(CurrencyPair currencyPair, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice,
       final CoinbaseMoney spotRate, final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
 
     final Ticker.Builder tickerBuilder = new Ticker.Builder().currencyPair(currencyPair).ask(buyPrice.getSubTotal().getAmount())
-        .bid(sellPrice.getSubTotal().getAmount()).last(spotRate.getAmount());
+                                                             .bid(sellPrice.getSubTotal().getAmount()).last(spotRate.getAmount());
 
     // Get the 24 hour high and low spot price if the history is provided.
     if (coinbaseSpotPriceHistory != null) {

@@ -55,8 +55,8 @@ public class OkCoinTradesDemo {
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
 
-    OkCoinPositionResult futuresPosition = tradeService.getFuturesPosition(OkCoinAdapters.adaptSymbol(CurrencyPair.BTC_USD),
-        FuturesContract.ThisWeek);
+    OkCoinPositionResult futuresPosition = tradeService
+        .getFuturesPosition(OkCoinAdapters.adaptSymbol(CurrencyPair.BTC_USD), FuturesContract.ThisWeek);
     OkCoinPosition[] positions = futuresPosition.getPositions();
 
     for (int i = 0; i < positions.length; i++) {

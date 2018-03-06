@@ -50,11 +50,10 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw implemen
     Ticker ticker = null;
 
     try {
-      ticker = new Ticker.Builder().currencyPair(currencyPair).open(bitmexTicker.getOpenValue())
-              .last(bitmexTicker.getLastPrice()).bid(bitmexTicker.getBidPrice()).ask(bitmexTicker.getAskPrice())
-              .high(bitmexTicker.getHighPrice()).low(bitmexTicker.getLowPrice())
-              .vwap(new BigDecimal(bitmexTicker.getVwap())).volume(bitmexTicker.getVolume()).quoteVolume(null)
-              .timestamp(format.parse(bitmexTicker.getTimestamp())).build();
+      ticker = new Ticker.Builder().currencyPair(currencyPair).open(bitmexTicker.getOpenValue()).last(bitmexTicker.getLastPrice())
+                                   .bid(bitmexTicker.getBidPrice()).ask(bitmexTicker.getAskPrice()).high(bitmexTicker.getHighPrice())
+                                   .low(bitmexTicker.getLowPrice()).vwap(new BigDecimal(bitmexTicker.getVwap())).volume(bitmexTicker.getVolume())
+                                   .quoteVolume(null).timestamp(format.parse(bitmexTicker.getTimestamp())).build();
     } catch (ParseException e) {
 
       return null;
@@ -71,8 +70,7 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw implemen
       Object arg0 = args[0];
       if (arg0 instanceof BitmexPrompt) {
         prompt = (BitmexPrompt) arg0;
-      }
-      else {
+      } else {
         throw new ExchangeException("args[0] must be of type BitmexPrompt!");
       }
     }
@@ -90,8 +88,7 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw implemen
       Object arg0 = args[0];
       if (arg0 instanceof BitmexPrompt) {
         prompt = (BitmexPrompt) arg0;
-      }
-      else {
+      } else {
         throw new ExchangeException("args[0] must be of type BitmexPrompt!");
       }
     }

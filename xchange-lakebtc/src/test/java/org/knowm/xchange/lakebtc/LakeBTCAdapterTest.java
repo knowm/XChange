@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LakeBTCAdapterTest {
 
-@Test
+  @Test
   public void testAdaptTicker() throws IOException {
 
     // Read in the JSON from the example resources
@@ -29,7 +29,7 @@ public class LakeBTCAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    Map<String,LakeBTCTicker> tickers = mapper.readValue(is, mapper.getTypeFactory().constructMapType(Map.class, String.class, LakeBTCTicker.class));
+    Map<String, LakeBTCTicker> tickers = mapper.readValue(is, mapper.getTypeFactory().constructMapType(Map.class, String.class, LakeBTCTicker.class));
 
     LakeBTCTicker hkdTicker = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
     Ticker adaptedTicker = LakeBTCAdapters.adaptTicker(hkdTicker, CurrencyPair.BTC_HKD);

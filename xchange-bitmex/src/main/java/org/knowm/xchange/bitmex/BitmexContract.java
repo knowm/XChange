@@ -62,24 +62,21 @@ public class BitmexContract implements Comparable<BitmexContract>, Serializable 
       if (other.pair.base != null) {
         return false;
       }
-    }
-    else if (!pair.base.equals(other.pair.base)) {
+    } else if (!pair.base.equals(other.pair.base)) {
       return false;
     }
     if (pair.counter == null) {
       if (other.pair.counter != null) {
         return false;
       }
-    }
-    else if (!pair.counter.equals(other.pair.counter)) {
+    } else if (!pair.counter.equals(other.pair.counter)) {
       return false;
     }
     if (prompt == null) {
       if (other.prompt != null) {
         return false;
       }
-    }
-    else if (!prompt.equals(other.prompt)) {
+    } else if (!prompt.equals(other.prompt)) {
       return false;
     }
     return true;

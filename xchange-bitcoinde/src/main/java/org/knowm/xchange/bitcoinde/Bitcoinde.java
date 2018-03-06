@@ -29,62 +29,39 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public interface Bitcoinde {
 
   // formatter:off
-  
+
   @DELETE
   @Path("orders/{order_id}/{trading_pair}")
-  // https://api.bitcoin.de/v2/orders/:order_id/:trading_pair
-  BitcoindeIdResponse deleteOrder(@HeaderParam("X-API-KEY") String apiKey,
-		@HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
-		@HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
-		@PathParam("order_id") String order_id,
-		@PathParam("trading_pair") String trading_pair) throws BitcoindeException,
-		IOException;
-
+    // https://api.bitcoin.de/v2/orders/:order_id/:trading_pair
+  BitcoindeIdResponse deleteOrder(@HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest, @PathParam("order_id") String order_id,
+      @PathParam("trading_pair") String trading_pair) throws BitcoindeException, IOException;
 
   @POST
   @Path("orders")
-  BitcoindeIdResponse createOrder(
-		@HeaderParam("X-API-KEY") String apiKey,
-		@HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
-		@HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
-		@FormParam("max_amount") BigDecimal max_amount,
-		@FormParam("price") BigDecimal price,
-		@FormParam("trading_pair") String trading_pair,
-		@FormParam("type") String type) throws BitcoindeException,
-		IOException;
+  BitcoindeIdResponse createOrder(@HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest, @FormParam("max_amount") BigDecimal max_amount, @FormParam("price") BigDecimal price,
+      @FormParam("trading_pair") String trading_pair, @FormParam("type") String type) throws BitcoindeException, IOException;
 
   @GET
   @Path("orders/compact")
-  BitcoindeOrderbookWrapper getOrderBook(
-		@QueryParam("trading_pair") String trading_pair,
-		@HeaderParam("X-API-KEY") String apiKey,
-		@HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
-		@HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException,
-		IOException;
+  BitcoindeOrderbookWrapper getOrderBook(@QueryParam("trading_pair") String trading_pair, @HeaderParam("X-API-KEY") String apiKey,
+      @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce, @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest)
+      throws BitcoindeException, IOException;
 
   @GET
   @Path("trades/history")
-  BitcoindeTradesWrapper getTrades(
-		@QueryParam("trading_pair") String trading_pair,
-		@QueryParam("since_tid") Integer since,
-		@HeaderParam("X-API-KEY") String apiKey,
-		@HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
-		@HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException,
-		IOException;
+  BitcoindeTradesWrapper getTrades(@QueryParam("trading_pair") String trading_pair, @QueryParam("since_tid") Integer since,
+      @HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException, IOException;
 
   @GET
   @Path("account")
-  BitcoindeAccountWrapper getAccount(
-		@HeaderParam("X-API-KEY") String apiKey,
-		@HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
-		@HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException,
-		IOException;
+  BitcoindeAccountWrapper getAccount(@HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException, IOException;
 
   @GET
   @Path("orders/my_own")
-  BitcoindeMyOpenOrdersWrapper getOrders(
-		@HeaderParam("X-API-KEY") String apiKey,
-		@HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
-		@HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException,
-		IOException;
+  BitcoindeMyOpenOrdersWrapper getOrders(@HeaderParam("X-API-KEY") String apiKey, @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest) throws BitcoindeException, IOException;
 }

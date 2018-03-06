@@ -84,8 +84,9 @@ public class WexTradeHistoryResult {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]", pair,
-        type, amount, rate, timestamp, orderId, isYourOrder);
+    return MessageFormat
+        .format("BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]", pair, type, amount,
+            rate, timestamp, orderId, isYourOrder);
   }
 
   public enum Type {

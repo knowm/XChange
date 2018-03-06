@@ -14,7 +14,11 @@ import org.knowm.xchange.campbx.dto.CampBXResponse;
 import org.knowm.xchange.campbx.dto.trade.MyOpenOrders;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -31,9 +35,8 @@ import org.slf4j.LoggerFactory;
  */
 public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeService {
 
-  private final Logger logger = LoggerFactory.getLogger(CampBXTradeService.class);
-
   private static final MessageFormat ID_FORMAT = new MessageFormat("{0}-{1}");
+  private final Logger logger = LoggerFactory.getLogger(CampBXTradeService.class);
 
   /**
    * Constructor
@@ -51,8 +54,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
 
     MyOpenOrders myOpenOrders = getCampBXOpenOrders();
     logger.debug("myOpenOrders = {}", myOpenOrders);
@@ -168,8 +170,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

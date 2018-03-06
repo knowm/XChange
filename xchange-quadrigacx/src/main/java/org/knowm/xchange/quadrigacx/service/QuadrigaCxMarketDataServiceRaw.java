@@ -42,11 +42,11 @@ public class QuadrigaCxMarketDataServiceRaw extends QuadrigaCxBaseService {
     return transactions;
   }
 
-  public enum QuadrigaCxTime {
-    HOUR, MINUTE
-  }
-
   public QuadrigaCxTicker getQuadrigaCxTicker(CurrencyPair currencyPair) throws IOException {
     return quadrigacx.getTicker(currencyPair.base.getCurrencyCode().toLowerCase(), currencyPair.counter.getCurrencyCode().toLowerCase());
+  }
+
+  public enum QuadrigaCxTime {
+    HOUR, MINUTE
   }
 }

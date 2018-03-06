@@ -9,10 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "product_code",
-                       "alias"
-                   })
+@JsonPropertyOrder({"product_code", "alias"})
 public class BitflyerMarket {
   @JsonProperty("product_code")
   private String productCode;
@@ -47,10 +44,7 @@ public class BitflyerMarket {
 
   @Override
   public String toString() {
-    return "BitflyerMarket{" +
-        "productCode='" + productCode + '\'' +
-        ", alias='" + alias + '\'' +
-        ", additionalProperties=" + additionalProperties +
-        '}';
+    return "BitflyerMarket{" + "productCode='" + productCode + '\'' + ", alias='" + alias + '\'' + ", additionalProperties=" + additionalProperties
+        + '}';
   }
 }

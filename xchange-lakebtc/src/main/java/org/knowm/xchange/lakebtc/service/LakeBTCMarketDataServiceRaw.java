@@ -23,7 +23,7 @@ public class LakeBTCMarketDataServiceRaw extends LakeBTCBaseService {
 
   }
 
-  public Map<String,LakeBTCTicker> getLakeBTCTickers() throws IOException {
+  public Map<String, LakeBTCTicker> getLakeBTCTickers() throws IOException {
 
     return lakeBTC.getLakeBTCTickers();
   }

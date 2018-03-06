@@ -19,12 +19,12 @@ public class GeminiLimitOrder extends LimitOrder {
     super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
   }
 
-  public void setResponse(GeminiOrderStatusResponse value) {
-    response = value;
-  }
-
   public GeminiOrderStatusResponse getResponse() {
     return response;
+  }
+
+  public void setResponse(GeminiOrderStatusResponse value) {
+    response = value;
   }
 
   public static class Builder extends LimitOrder.Builder {

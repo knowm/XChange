@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
 
-import org.assertj.core.api.AbstractDateAssert;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 

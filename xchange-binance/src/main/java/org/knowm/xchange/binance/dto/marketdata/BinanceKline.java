@@ -92,7 +92,7 @@ public final class BinanceKline {
   public BigDecimal getTakerBuyQuoteAssetVolume() {
     return takerBuyQuoteAssetVolume;
   }
-  
+
   public String toString() {
     String tstamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(openTime);
     return String.format("[%s] %s %s O:%.6f A:%.6f C:%.6f", pair, tstamp, interval, open, getAveragePrice(), close);

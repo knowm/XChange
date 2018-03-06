@@ -31,12 +31,12 @@ import org.knowm.xchart.style.markers.SeriesMarkers;
  */
 public class BitcoiniumRealtimeOrderbookDemo {
 
+  public static final String BIDS_SERIES_NAME = "bids";
+  public static final String ASKS_SERIES_NAME = "asks";
   XYChart chart;
   BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
-  public static final String BIDS_SERIES_NAME = "bids";
   List<Float> xAxisBidData;
   List<Float> yAxisBidData;
-  public static final String ASKS_SERIES_NAME = "asks";
   List<Float> xAxisAskData;
   List<Float> yAxisAskData;
 
@@ -44,6 +44,24 @@ public class BitcoiniumRealtimeOrderbookDemo {
 
     final BitcoiniumRealtimeOrderbookDemo bitcoiniumRealtimeTickerDemo = new BitcoiniumRealtimeOrderbookDemo();
     bitcoiniumRealtimeTickerDemo.go();
+  }
+
+  private static List<Float> getPriceData(CondensedOrder[] condensedOrders) {
+
+    List<Float> priceData = new ArrayList<>();
+    for (int i = 0; i < condensedOrders.length; i++) {
+      priceData.add(condensedOrders[i].getPrice().floatValue());
+    }
+    return priceData;
+  }
+
+  private static List<Float> getVolumeData(CondensedOrder[] condensedOrders) {
+
+    List<Float> volumeData = new ArrayList<>();
+    for (int i = 0; i < condensedOrders.length; i++) {
+      volumeData.add(condensedOrders[i].getVolume().floatValue());
+    }
+    return volumeData;
   }
 
   private void go() throws IOException {
@@ -110,7 +128,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
 
     // create chart
     chart = new XYChartBuilder().width(800).height(400).title("Real-time Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC")
-        .yAxisTitle("USD").build();
+                                .yAxisTitle("USD").build();
 
     // Customize Chart
     chart.getStyler().setLegendPosition(LegendPosition.InsideNE);
@@ -149,23 +167,5 @@ public class BitcoiniumRealtimeOrderbookDemo {
     yAxisAskData = getVolumeData(bitcoiniumOrderbook.getAsks());
 
     // /////////////////////////////////
-  }
-
-  private static List<Float> getPriceData(CondensedOrder[] condensedOrders) {
-
-    List<Float> priceData = new ArrayList<>();
-    for (int i = 0; i < condensedOrders.length; i++) {
-      priceData.add(condensedOrders[i].getPrice().floatValue());
-    }
-    return priceData;
-  }
-
-  private static List<Float> getVolumeData(CondensedOrder[] condensedOrders) {
-
-    List<Float> volumeData = new ArrayList<>();
-    for (int i = 0; i < condensedOrders.length; i++) {
-      volumeData.add(condensedOrders[i].getVolume().floatValue());
-    }
-    return volumeData;
   }
 }

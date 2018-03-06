@@ -24,12 +24,23 @@ public class BitmexDigest extends BaseParamsDigest {
     super(Base64.getUrlEncoder().withoutPadding().encodeToString(secretKeyBase64), HMAC_SHA_256);
   }
 
+  private BitmexDigest(String secretKeyBase64, String apiKey) {
+
+    super(secretKeyBase64, HMAC_SHA_256);
+    this.apiKey = apiKey;
+  }
+
   public static BitmexDigest createInstance(String secretKeyBase64) {
 
     if (secretKeyBase64 != null) {
       return new BitmexDigest(Base64.getUrlDecoder().decode(secretKeyBase64.getBytes()));
     }
     return null;
+  }
+
+  public static BitmexDigest createInstance(String secretKeyBase64, String apiKey) {
+
+    return secretKeyBase64 == null ? null : new BitmexDigest(secretKeyBase64, apiKey);
   }
 
   @Override
@@ -40,17 +51,6 @@ public class BitmexDigest extends BaseParamsDigest {
     String payload = restInvocation.getHttpMethod() + "/" + path + nonce + restInvocation.getRequestBody();
 
     return new String(Hex.encodeHex(getMac().doFinal(payload.getBytes())));
-  }
-
-  private BitmexDigest(String secretKeyBase64, String apiKey) {
-
-    super(secretKeyBase64, HMAC_SHA_256);
-    this.apiKey = apiKey;
-  }
-
-  public static BitmexDigest createInstance(String secretKeyBase64, String apiKey) {
-
-    return secretKeyBase64 == null ? null : new BitmexDigest(secretKeyBase64, apiKey);
   }
 
 }

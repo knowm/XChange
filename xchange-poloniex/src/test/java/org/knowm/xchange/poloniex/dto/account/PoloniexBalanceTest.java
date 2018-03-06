@@ -21,8 +21,8 @@ public class PoloniexBalanceTest {
 
     InvocationResult invocationResult = new InvocationResult("{\"error\":\"Invalid API key\\/secret pair.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("returnCompleteBalances", String.class, ParamsDigest.class,
-        SynchronizedValueFactory.class, String.class);
+    Method apiMethod = PoloniexAuthenticated.class
+        .getDeclaredMethod("returnCompleteBalances", String.class, ParamsDigest.class, SynchronizedValueFactory.class, String.class);
     RestMethodMetadata balances = RestMethodMetadata.create(apiMethod, "", "");
 
     try {

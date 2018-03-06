@@ -80,17 +80,8 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
       volume = null;
     }
 
-    return new Ticker.Builder()
-            .currencyPair(pair)
-            .timestamp(cmcB.getLastUpdated())
-            .last(price)
-            .bid(price)
-            .ask(price)
-            .high(price)
-            .low(price)
-            .vwap(price)
-            .volume(volume)
-            .build();
+    return new Ticker.Builder().currencyPair(pair).timestamp(cmcB.getLastUpdated()).last(price).bid(price).ask(price).high(price).low(price)
+                               .vwap(price).volume(volume).build();
   }
 
   public Ticker getTickerFresh(CurrencyPair currencyPair, final Object... args) throws IOException {

@@ -33,19 +33,17 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    if ( params instanceof DefaultWithdrawFundsParams) {
+    if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       transfer(defaultParams.currency, defaultParams.amount, defaultParams.address);
       return "Success";
-    }
-    else if ( params instanceof BitbayWithdrawFundsSwiftParams ) {
+    } else if (params instanceof BitbayWithdrawFundsSwiftParams) {
       BitbayWithdrawFundsSwiftParams bicParams = (BitbayWithdrawFundsSwiftParams) params;
       withdraw(bicParams.getCurrency(), bicParams.getAmount(), bicParams.getAccount(), bicParams.isExpress(), bicParams.getBic());
       return "Success";
@@ -55,8 +53,7 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
   }
 
   @Override
-  public String requestDepositAddress(Currency currency,
-      String... args) throws IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -95,23 +92,23 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
     }
 
     @Override
-    public void setCurrency(Currency currency) {
-      this.currency = currency;
-    }
-
-    @Override
     public Currency getCurrency() {
       return currency;
     }
 
     @Override
-    public void setLimit(Integer limit) {
-      this.limit = limit;
+    public void setCurrency(Currency currency) {
+      this.currency = currency;
     }
 
     @Override
     public Integer getLimit() {
       return limit;
+    }
+
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
     }
   }
 }

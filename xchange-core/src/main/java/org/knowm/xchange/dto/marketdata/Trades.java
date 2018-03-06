@@ -37,7 +37,7 @@ public class Trades implements Serializable {
   /**
    * Constructor
    *
-   * @param trades List of trades
+   * @param trades        List of trades
    * @param tradeSortType Trade sort type
    */
   public Trades(List<Trade> trades, TradeSortType tradeSortType) {
@@ -48,8 +48,8 @@ public class Trades implements Serializable {
   /**
    * Constructor
    *
-   * @param trades A list of trades
-   * @param lastID Last Unique ID
+   * @param trades        A list of trades
+   * @param lastID        Last Unique ID
    * @param tradeSortType Trade sort type
    */
   public Trades(List<Trade> trades, long lastID, TradeSortType tradeSortType) {
@@ -96,14 +96,10 @@ public class Trades implements Serializable {
   public String toString() {
 
     StringBuilder sb = new StringBuilder("Trades\n");
-    sb.append("lastID= ")
-        .append(lastID)
-        .append("\n");
+    sb.append("lastID= ").append(lastID).append("\n");
 
     for (Trade trade : getTrades()) {
-      sb.append("[trade=")
-          .append(trade.toString())
-          .append("]\n");
+      sb.append("[trade=").append(trade.toString()).append("]\n");
     }
     return sb.toString();
   }

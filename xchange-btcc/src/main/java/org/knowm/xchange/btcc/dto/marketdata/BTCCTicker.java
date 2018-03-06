@@ -151,20 +151,8 @@ public class BTCCTicker {
 
   @Override
   public String toString() {
-    return "BTCCTicker{" +
-        "bidPrice=" + bidPrice +
-        ", askPrice=" + askPrice +
-        ", open=" + open +
-        ", high=" + high +
-        ", low=" + low +
-        ", last=" + last +
-        ", lastQuantity=" + lastQuantity +
-        ", prevClose=" + prevClose +
-        ", volume=" + volume +
-        ", volume24H=" + volume24H +
-        ", timestamp=" + timestamp +
-        ", executionLimitDown=" + executionLimitDown +
-        ", executionLimitUp=" + executionLimitUp +
-        '}';
+    return "BTCCTicker{" + "bidPrice=" + bidPrice + ", askPrice=" + askPrice + ", open=" + open + ", high=" + high + ", low=" + low + ", last=" + last
+        + ", lastQuantity=" + lastQuantity + ", prevClose=" + prevClose + ", volume=" + volume + ", volume24H=" + volume24H + ", timestamp="
+        + timestamp + ", executionLimitDown=" + executionLimitDown + ", executionLimitUp=" + executionLimitUp + '}';
   }
 }

@@ -9,7 +9,11 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -50,14 +54,26 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
     super(exchange);
   }
 
+  private static Long nullSafeToLong(String str) {
+
+    try {
+      return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
+    } catch (NumberFormatException e) {
+      return null;
+    }
+  }
+
+  private static Long nullSafeUnixTime(Date time) {
+    return time != null ? DateUtils.toUnixTime(time) : null;
+  }
+
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     // todo: use the currency pair from params
     Map<Long, WexOrder> orders = getBTCEActiveOrders(null);
     return WexAdapters.adaptOrders(orders);
@@ -165,19 +181,6 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
 
     Map<Long, WexTradeHistoryResult> resultMap = getBTCETradeHistory(offset, count, startId, endId, sort, startTime, endTime, btcrPair);
     return WexAdapters.adaptTradeHistory(resultMap);
-  }
-
-  private static Long nullSafeToLong(String str) {
-
-    try {
-      return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
-    } catch (NumberFormatException e) {
-      return null;
-    }
-  }
-
-  private static Long nullSafeUnixTime(Date time) {
-    return time != null ? DateUtils.toUnixTime(time) : null;
   }
 
   @Override

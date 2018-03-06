@@ -2,28 +2,26 @@ package org.knowm.xchange.bitflyer.dto.account;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Object representing body of request <code>POST /v1/me/withdraw</code>
- *  
  * <p>Example</p>
  * {
- *   "currency_code": "JPY",
- *   "bank_account_id": 1234,
- *   "amount": 12000
+ * "currency_code": "JPY",
+ * "bank_account_id": 1234,
+ * "amount": 12000
  * }
+ *
  * @author bryant_harris
  */
 public class BitflyerWithdrawRequest {
   @JsonProperty("currency_code")
   private String currencyCode;
-  
+
   @JsonProperty("bank_account_id")
   private String bankAccountID;
-  
+
   @JsonProperty("amount")
   private BigDecimal amount;
 
@@ -60,7 +58,6 @@ public class BitflyerWithdrawRequest {
 
   @Override
   public String toString() {
-    return "BitflyerWithdrawRequest [currencyCode=" + currencyCode + ", bankAccountID=" + bankAccountID + ", amount="
-        + amount + "]";
-  }  
+    return "BitflyerWithdrawRequest [currencyCode=" + currencyCode + ", bankAccountID=" + bankAccountID + ", amount=" + amount + "]";
+  }
 }

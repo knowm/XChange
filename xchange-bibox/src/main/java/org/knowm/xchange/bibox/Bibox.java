@@ -30,14 +30,12 @@ public interface Bibox {
 
   @GET
   @Path("mdata")
-  BiboxResponse<BiboxTicker> mdata(
-      @QueryParam("cmd") String cmd,
-      @QueryParam("pair") String pair) throws IOException, BiboxException;
+  BiboxResponse<BiboxTicker> mdata(@QueryParam("cmd") String cmd, @QueryParam("pair") String pair) throws IOException, BiboxException;
 
   /**
    * Retrieves the order book for a currency pair.
-   * 
-   * @param cmd always "depth"
+   *
+   * @param cmd  always "depth"
    * @param pair the currency pair
    * @param size the max size of the order book (1-200)
    * @return
@@ -46,14 +44,12 @@ public interface Bibox {
    */
   @GET
   @Path("mdata")
-  BiboxResponse<BiboxOrderBook> orderBook(
-      @QueryParam("cmd") String cmd,
-      @QueryParam("pair") String pair,
-      @QueryParam("size") Integer size) throws IOException, BiboxException;
+  BiboxResponse<BiboxOrderBook> orderBook(@QueryParam("cmd") String cmd, @QueryParam("pair") String pair, @QueryParam("size") Integer size)
+      throws IOException, BiboxException;
 
   /**
    * Retrieves all tickers.
-   * 
+   *
    * @param cmd always "marketAll"
    * @return
    * @throws IOException
@@ -61,8 +57,7 @@ public interface Bibox {
    */
   @GET
   @Path("mdata")
-  BiboxResponse<List<BiboxMarket>> marketAll(@QueryParam("cmd") String cmd)
-      throws IOException, BiboxException;
+  BiboxResponse<List<BiboxMarket>> marketAll(@QueryParam("cmd") String cmd) throws IOException, BiboxException;
 
   /**
    * Retrieve order books.

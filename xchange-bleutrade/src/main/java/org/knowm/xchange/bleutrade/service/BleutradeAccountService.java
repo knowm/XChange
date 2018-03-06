@@ -85,35 +85,15 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
           fee = new BigDecimal(parts[2]);
         }
 
-        fundingRecords.add(new FundingRecord(
-            address,
-            dateFormat.parse(record.timestamp),
-            Currency.getInstance(record.coin),
-            amount,
-            record.id,
-            record.transactionId,
-            FundingRecord.Type.WITHDRAWAL,
-            FundingRecord.Status.COMPLETE,
-            null,
-            fee,
-            label
-        ));
+        fundingRecords.add(
+            new FundingRecord(address, dateFormat.parse(record.timestamp), Currency.getInstance(record.coin), amount, record.id, record.transactionId,
+                FundingRecord.Type.WITHDRAWAL, FundingRecord.Status.COMPLETE, null, fee, label));
       }
 
       for (DepositRecord record : depositHistory()) {
-        fundingRecords.add(new FundingRecord(
-            null,
-            dateFormat.parse(record.timestamp),
-            Currency.getInstance(record.coin),
-            record.amount,
-            record.id,
-            null,
-            FundingRecord.Type.DEPOSIT,
-            FundingRecord.Status.COMPLETE,
-            null,
-            null,
-            record.label
-        ));
+        fundingRecords.add(
+            new FundingRecord(null, dateFormat.parse(record.timestamp), Currency.getInstance(record.coin), record.amount, record.id, null,
+                FundingRecord.Type.DEPOSIT, FundingRecord.Status.COMPLETE, null, null, record.label));
       }
     } catch (ParseException e) {
       throw new IllegalStateException("Should not happen", e);

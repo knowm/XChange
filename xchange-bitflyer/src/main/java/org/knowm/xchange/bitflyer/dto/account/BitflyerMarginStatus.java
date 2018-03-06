@@ -10,12 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "collateral",
-                       "open_position_pnl",
-                       "require_collateral",
-                       "keep_rate"
-                   })
+@JsonPropertyOrder({"collateral", "open_position_pnl", "require_collateral", "keep_rate"})
 public class BitflyerMarginStatus {
   @JsonProperty("collateral")
   private BigDecimal collateral;
@@ -70,12 +65,7 @@ public class BitflyerMarginStatus {
 
   @Override
   public String toString() {
-    return "BitflyerMarginStatus{" +
-        "collateral=" + collateral +
-        ", openPositionPnl=" + openPositionPnl +
-        ", requireCollateral=" + requireCollateral +
-        ", keepRate=" + keepRate +
-        ", additionalProperties=" + additionalProperties +
-        '}';
+    return "BitflyerMarginStatus{" + "collateral=" + collateral + ", openPositionPnl=" + openPositionPnl + ", requireCollateral=" + requireCollateral
+        + ", keepRate=" + keepRate + ", additionalProperties=" + additionalProperties + '}';
   }
 }

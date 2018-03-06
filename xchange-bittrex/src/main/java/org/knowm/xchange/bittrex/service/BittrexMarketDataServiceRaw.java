@@ -130,7 +130,8 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     }
   }
 
-  public ArrayList<BittrexChartData> getBittrexLatestTick(CurrencyPair currencyPair, BittrexChartDataPeriodType periodType, Long timeStamp) throws IOException {
+  public ArrayList<BittrexChartData> getBittrexLatestTick(CurrencyPair currencyPair, BittrexChartDataPeriodType periodType, Long timeStamp)
+      throws IOException {
     BittrexChartDataResponse response = bittrexV2.getLatestTick(BittrexUtils.toPairString(currencyPair), periodType.getPeriod(), timeStamp);
     if (response.getSuccess()) {
       return response.getChartData();

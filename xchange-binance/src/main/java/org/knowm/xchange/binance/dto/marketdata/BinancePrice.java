@@ -27,17 +27,18 @@ public final class BinancePrice implements Comparable<BinancePrice> {
   public CurrencyPair getCurrencyPair() {
     return pair;
   }
-  
+
   public BigDecimal getPrice() {
     return price;
   }
-  
+
   @Override
   public int compareTo(BinancePrice o) {
-    if (pair.compareTo(o.pair) == 0) return price.compareTo(o.price);
+    if (pair.compareTo(o.pair) == 0)
+      return price.compareTo(o.price);
     return pair.compareTo(o.pair);
   }
-  
+
   @Override
   public int hashCode() {
     int result = 1;
@@ -48,13 +49,15 @@ public final class BinancePrice implements Comparable<BinancePrice> {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (!(obj instanceof BinancePrice)) return false;
+    if (this == obj)
+      return true;
+    if (!(obj instanceof BinancePrice))
+      return false;
     BinancePrice other = (BinancePrice) obj;
     return pair.equals(other.pair) && price.equals(other.price);
   }
 
   public String toString() {
-    return  "[" + pair + "] => " + price;
+    return "[" + pair + "] => " + price;
   }
 }

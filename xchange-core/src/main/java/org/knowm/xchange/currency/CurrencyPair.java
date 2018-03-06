@@ -256,7 +256,6 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair ETH_UAH = new CurrencyPair(Currency.ETH, Currency.UAH);
   public static final CurrencyPair BCH_UAH = new CurrencyPair(Currency.BCH, Currency.UAH);
 
-
   public final Currency base;
   public final Currency counter;
 
@@ -267,7 +266,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
    * In general the CurrencyPair.base is what you're wanting to buy/sell. The CurrencyPair.counter is what currency you want to use to pay/receive for
    * your purchase/sale.
    *
-   * @param base The base currency is what you're wanting to buy/sell
+   * @param base    The base currency is what you're wanting to buy/sell
    * @param counter The counter currency is what currency you want to use to pay/receive for your purchase/sale.
    */
   public CurrencyPair(Currency base, Currency counter) {
@@ -283,7 +282,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
    * In general the CurrencyPair.base is what you're wanting to buy/sell. The CurrencyPair.counter is what currency you want to use to pay/receive for
    * your purchase/sale.
    *
-   * @param baseSymbol The base symbol is what you're wanting to buy/sell
+   * @param baseSymbol    The base symbol is what you're wanting to buy/sell
    * @param counterSymbol The counter symbol is what currency you want to use to pay/receive for your purchase/sale.
    */
   public CurrencyPair(String baseSymbol, String counterSymbol) {

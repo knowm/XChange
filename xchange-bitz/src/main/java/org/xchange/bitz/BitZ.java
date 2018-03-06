@@ -21,21 +21,21 @@ public interface BitZ {
   @GET
   @Path("tickerall")
   BitZTickerAllResult getTickerAllResult() throws IOException;
-  
+
   @GET
   @Path("ticker?coin={symbol}")
   BitZTickerResult getTickerResult(@PathParam("symbol") String symbol) throws IOException;
-  
+
   @GET
   @Path("depth?coin={symbol}")
   BitZOrdersResult getOrdersResult(@PathParam("symbol") String symbol) throws IOException;
-  
+
   @GET
   @Path("orders?coin={symbol}")
   BitZTradesResult getTradesResult(@PathParam("symbol") String symbol) throws IOException;
 
   @GET
   @Path("kline?coin={symbol}&type={type}")
-  BitZKlineResult getKlineResult(@PathParam("symbol") String symbol, @PathParam("type") String type)  throws IOException;
-  
+  BitZKlineResult getKlineResult(@PathParam("symbol") String symbol, @PathParam("type") String type) throws IOException;
+
 }

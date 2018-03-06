@@ -18,9 +18,8 @@ public class LiquiOrderInfo {
   private final String status;
 
   public LiquiOrderInfo(@JsonProperty("start_amount") final String startAmount, @JsonProperty("status") final String status,
-      @JsonProperty("pair") final String pair, @JsonProperty("type") final LiquiTradeType type,
-      @JsonProperty("amount") final String amount, @JsonProperty("rate") final String rate,
-      @JsonProperty("timestamp_created") final long timestampCreated) {
+      @JsonProperty("pair") final String pair, @JsonProperty("type") final LiquiTradeType type, @JsonProperty("amount") final String amount,
+      @JsonProperty("rate") final String rate, @JsonProperty("timestamp_created") final long timestampCreated) {
     this.status = status;
     final String[] split = pair.split("_");
     this.pair = new CurrencyPair(split[0], split[1]);
@@ -61,14 +60,7 @@ public class LiquiOrderInfo {
 
   @Override
   public String toString() {
-    return "LiquiOrderInfo{" +
-        "pair=" + pair +
-        ", type=" + type +
-        ", amount=" + amount +
-        ", rate=" + rate +
-        ", timestampCreated=" + timestampCreated +
-        ", startAmount='" + startAmount + '\'' +
-        ", status='" + status + '\'' +
-        '}';
+    return "LiquiOrderInfo{" + "pair=" + pair + ", type=" + type + ", amount=" + amount + ", rate=" + rate + ", timestampCreated=" + timestampCreated
+        + ", startAmount='" + startAmount + '\'' + ", status='" + status + '\'' + '}';
   }
 }

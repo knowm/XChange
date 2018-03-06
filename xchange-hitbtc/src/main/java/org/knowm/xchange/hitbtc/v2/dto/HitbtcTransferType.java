@@ -2,8 +2,7 @@ package org.knowm.xchange.hitbtc.v2.dto;
 
 public enum HitbtcTransferType {
 
-  BANK_TO_EXCHANGE("bankToExchange"),
-  EXCHANGE_TO_BANK("exchangeToBank");
+  BANK_TO_EXCHANGE("bankToExchange"), EXCHANGE_TO_BANK("exchangeToBank");
 
   private final String type;
 
@@ -18,8 +17,6 @@ public enum HitbtcTransferType {
 
   @Override
   public String toString() {
-    return "HitbtcTransferType{" +
-        "type='" + type + '\'' +
-        '}';
+    return "HitbtcTransferType{" + "type='" + type + '\'' + '}';
   }
 }

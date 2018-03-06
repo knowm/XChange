@@ -32,23 +32,23 @@ public class TickerFetchIntegration {
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
-    
+
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook.toString());
-    
+
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println(trades.toString());
-    
+
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.DAY_OF_MONTH, -60);
     Date start = cal.getTime();
     cal.add(Calendar.DAY_OF_MONTH, 15);
     Date end = cal.getTime();
-    AbucoinsMarketDataService abucoinsMarketData = (AbucoinsMarketDataService) marketDataService; 
+    AbucoinsMarketDataService abucoinsMarketData = (AbucoinsMarketDataService) marketDataService;
     AbucoinsHistoricRate[] historicRates = abucoinsMarketData.getAbucoinsHistoricRates("BTC-USD", 60, start, end);
-    System.out.println( Arrays.asList(historicRates));
-    
+    System.out.println(Arrays.asList(historicRates));
+
     AbucoinsProductStat[] stats = abucoinsMarketData.getAbucoinsProductStats();
-    System.out.println( Arrays.asList(stats));
+    System.out.println(Arrays.asList(stats));
   }
 }

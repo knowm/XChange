@@ -10,20 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "transactID",
-                       "account",
-                       "currency",
-                       "transactType",
-                       "amount",
-                       "fee",
-                       "transactStatus",
-                       "address",
-                       "tx",
-                       "text",
-                       "transactTime",
-                       "timestamp"
-                   })
+@JsonPropertyOrder({"transactID", "account", "currency", "transactType", "amount", "fee", "transactStatus", "address", "tx", "text", "transactTime",
+    "timestamp"})
 public final class BitmexWalletTransaction {
 
   @JsonProperty("transactID")
@@ -52,7 +40,6 @@ public final class BitmexWalletTransaction {
   private String timestamp;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<>();
-
 
   public String getTransactID() {
     return transactID;

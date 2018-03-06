@@ -8,7 +8,8 @@ public class BleutradeWithdrawReturn {
   public final String message;
   public final String[] result;
 
-  public BleutradeWithdrawReturn(@JsonProperty("success") Boolean success, @JsonProperty("message") String message, @JsonProperty("result") String[] result) {
+  public BleutradeWithdrawReturn(@JsonProperty("success") Boolean success, @JsonProperty("message") String message,
+      @JsonProperty("result") String[] result) {
     this.success = success;
     this.message = message;
     this.result = result;
@@ -31,10 +32,6 @@ public class BleutradeWithdrawReturn {
 
   @Override
   public String toString() {
-    return "BleutradeWithdrawReturn{" +
-        "success=" + success +
-        ", message='" + message + '\'' +
-        ", result='" + result + '\'' +
-        '}';
+    return "BleutradeWithdrawReturn{" + "success=" + success + ", message='" + message + '\'' + ", result='" + result + '\'' + '}';
   }
 }

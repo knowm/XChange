@@ -34,7 +34,7 @@ public class CoinfloorAdapters {
 
   public static Ticker adaptTicker(CoinfloorTicker rawTicker, CurrencyPair pair) {
     return new Ticker.Builder().currencyPair(pair).last(rawTicker.getLast()).bid(rawTicker.getBid()).ask(rawTicker.getAsk()).high(rawTicker.getHigh())
-        .low(rawTicker.getLow()).vwap(rawTicker.getVwap()).volume(rawTicker.getVolume()).build();
+                               .low(rawTicker.getLow()).vwap(rawTicker.getVwap()).volume(rawTicker.getVolume()).build();
   }
 
   public static OrderBook adaptOrderBook(CoinfloorOrderBook rawOrderBook, CurrencyPair pair) {

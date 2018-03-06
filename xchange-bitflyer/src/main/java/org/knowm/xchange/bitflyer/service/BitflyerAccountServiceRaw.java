@@ -28,15 +28,15 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
 
     super(exchange);
   }
-  
+
   public List<String> getPermissions() throws IOException {
     try {
       return bitflyer.getPermissions(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitflyerException e) {
       throw handleError(e);
-    }     
+    }
   }
-  
+
   public List<BitflyerAddress> getAddresses() throws IOException {
     try {
       return bitflyer.getAddresses(apiKey, exchange.getNonceFactory(), signatureCreator);
@@ -44,7 +44,7 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
       throw handleError(e);
     }
   }
-  
+
   public List<BitflyerCoinHistory> getCoinIns() throws IOException {
     try {
       return bitflyer.getCoinIns(apiKey, exchange.getNonceFactory(), signatureCreator);
@@ -58,15 +58,15 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
       return bitflyer.getCoinOuts(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitflyerException e) {
       throw handleError(e);
-    }  
+    }
   }
-  
+
   public List<BitflyerBankAccount> getBankAccounts() throws IOException {
     try {
       return bitflyer.getBankAccounts(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitflyerException e) {
       throw handleError(e);
-    }     
+    }
   }
 
   public List<BitflyerDepositOrWithdrawal> getCashDeposits() throws IOException {
@@ -74,17 +74,18 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
       return bitflyer.getCashDeposits(apiKey, exchange.getNonceFactory(), signatureCreator);
     } catch (BitflyerException e) {
       throw handleError(e);
-    }     
+    }
   }
-  
+
   public BitflyerWithdrawResponse withdrawFunds(String currencyCode, String bankAccountID, BigDecimal amount) throws IOException {
     try {
-      return bitflyer.withdrawFunds(apiKey, exchange.getNonceFactory(), signatureCreator, new BitflyerWithdrawRequest(currencyCode, bankAccountID, amount));
+      return bitflyer
+          .withdrawFunds(apiKey, exchange.getNonceFactory(), signatureCreator, new BitflyerWithdrawRequest(currencyCode, bankAccountID, amount));
     } catch (BitflyerException e) {
       throw handleError(e);
-    }     
+    }
   }
-  
+
   public List<BitflyerDepositOrWithdrawal> getWithdrawals() throws IOException {
     try {
       return bitflyer.getWithdrawals(apiKey, exchange.getNonceFactory(), signatureCreator);
@@ -93,7 +94,6 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
     }
   }
 
- 
   public BitflyerMarginStatus getBitflyerMarginStatus() throws IOException {
 
     try {
@@ -102,7 +102,7 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
       throw handleError(e);
     }
   }
-  
+
   public List<BitflyerMarginAccount> getBitflyerMarginAccounts() throws IOException {
 
     try {
@@ -111,7 +111,7 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
       throw handleError(e);
     }
   }
-    
+
   public List<BitflyerBalance> getBitflyerBalances() throws IOException {
     try {
       return bitflyer.getBalances(apiKey, exchange.getNonceFactory(), signatureCreator);
@@ -119,7 +119,7 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
       throw handleError(e);
     }
   }
-  
+
   public List<BitflyerMarginTransaction> getBitflyerMarginHistory() throws IOException {
 
     try {

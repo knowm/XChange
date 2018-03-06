@@ -25,6 +25,15 @@ public class TheRockDtoTest {
 
   private static ObjectMapper mapper = new ObjectMapper();
 
+  private static <T> T parse(Class<T> theClass) throws IOException {
+    return parse(theClass.getSimpleName() + ".json", theClass);
+  }
+
+  private static <E> E parse(String filename, Class<E> type) throws java.io.IOException {
+    InputStream is = TheRockDtoTest.class.getResourceAsStream("/" + filename);
+    return mapper.readValue(is, type);
+  }
+
   @Test
   public void testTicker() throws Exception {
     final TheRockTicker json = parse(TheRockTicker.class);
@@ -94,14 +103,5 @@ public class TheRockDtoTest {
 
   private Date getDate(String dateStr) throws ParseException {
     return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(dateStr);
-  }
-
-  private static <T> T parse(Class<T> theClass) throws IOException {
-    return parse(theClass.getSimpleName() + ".json", theClass);
-  }
-
-  private static <E> E parse(String filename, Class<E> type) throws java.io.IOException {
-    InputStream is = TheRockDtoTest.class.getResourceAsStream("/" + filename);
-    return mapper.readValue(is, type);
   }
 }

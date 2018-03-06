@@ -37,9 +37,10 @@ abstract class CoinbaseWalletResponseData<T extends CoinbaseWalletResponseData.C
     private CoinbasePrice fee;
     private CoinbasePrice total;
     private CoinbasePrice subtotal;
-    
+
     @JsonCreator
-    CoinbaseWalletResponse(@JsonProperty("id") String id, @JsonProperty("status") String status, @JsonProperty("transaction") String transaction, @JsonProperty("commited") boolean committed) {
+    CoinbaseWalletResponse(@JsonProperty("id") String id, @JsonProperty("status") String status, @JsonProperty("transaction") String transaction,
+        @JsonProperty("commited") boolean committed) {
       this.id = id;
       this.status = status;
       this.transaction = transaction;

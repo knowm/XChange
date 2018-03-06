@@ -29,6 +29,15 @@ public class KunaTrade {
   private KunaTrade() {
   }
 
+  /**
+   * Creates new builder.
+   *
+   * @return builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
   public int getId() {
     return id;
   }
@@ -56,15 +65,6 @@ public class KunaTrade {
 
   public KunaSide getSide() {
     return side;
-  }
-
-  /**
-   * Creates new builder.
-   *
-   * @return builder
-   */
-  public static Builder builder() {
-    return new Builder();
   }
 
   public static class Builder {

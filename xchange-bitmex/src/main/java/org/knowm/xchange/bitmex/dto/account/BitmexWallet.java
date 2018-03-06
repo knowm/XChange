@@ -11,33 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "account",
-                       "currency",
-                       "prevDeposited",
-                       "prevWithdrawn",
-                       "prevTransferIn",
-                       "prevTransferOut",
-                       "prevAmount",
-                       "prevTimestamp",
-                       "deltaDeposited",
-                       "deltaWithdrawn",
-                       "deltaTransferIn",
-                       "deltaTransferOut",
-                       "deltaAmount",
-                       "deposited",
-                       "withdrawn",
-                       "transferIn",
-                       "transferOut",
-                       "amount",
-                       "pendingCredit",
-                       "pendingDebit",
-                       "confirmedDebit",
-                       "timestamp",
-                       "addr",
-                       "script",
-                       "withdrawalLock"
-                   })
+@JsonPropertyOrder({"account", "currency", "prevDeposited", "prevWithdrawn", "prevTransferIn", "prevTransferOut", "prevAmount", "prevTimestamp",
+    "deltaDeposited", "deltaWithdrawn", "deltaTransferIn", "deltaTransferOut", "deltaAmount", "deposited", "withdrawn", "transferIn", "transferOut",
+    "amount", "pendingCredit", "pendingDebit", "confirmedDebit", "timestamp", "addr", "script", "withdrawalLock"})
 public final class BitmexWallet {
 
   @JsonProperty("account")

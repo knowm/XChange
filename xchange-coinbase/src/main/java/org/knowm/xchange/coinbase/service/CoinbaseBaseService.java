@@ -66,7 +66,7 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
   /**
    * Unauthenticated resource that creates a user with an email and password.
    *
-   * @param user New Coinbase User information.
+   * @param user          New Coinbase User information.
    * @param oAuthClientId Optional client id that corresponds to your OAuth2 application.
    * @return Information for the newly created user, including information to perform future OAuth requests for the user.
    * @throws IOException

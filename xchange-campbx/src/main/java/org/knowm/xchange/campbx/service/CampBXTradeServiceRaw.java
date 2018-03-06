@@ -31,8 +31,8 @@ public class CampBXTradeServiceRaw extends CampBXBaseService {
 
   public MyOpenOrders getCampBXOpenOrders() throws IOException {
 
-    MyOpenOrders myOpenOrders = campBX.getOpenOrders(exchange.getExchangeSpecification().getUserName(),
-        exchange.getExchangeSpecification().getPassword());
+    MyOpenOrders myOpenOrders = campBX
+        .getOpenOrders(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getPassword());
 
     return myOpenOrders;
   }
@@ -40,8 +40,9 @@ public class CampBXTradeServiceRaw extends CampBXBaseService {
   public CampBXResponse placeCampBXMarketOrder(MarketOrder marketOrder) throws IOException {
 
     CampBX.AdvTradeMode mode = marketOrder.getType() == Order.OrderType.ASK ? CampBX.AdvTradeMode.AdvancedSell : CampBX.AdvTradeMode.AdvancedBuy;
-    CampBXResponse campBXResponse = campBX.tradeAdvancedMarketEnter(exchange.getExchangeSpecification().getUserName(),
-        exchange.getExchangeSpecification().getPassword(), mode, marketOrder.getOriginalAmount(), CampBX.MarketPrice.Market, null, null, null);
+    CampBXResponse campBXResponse = campBX
+        .tradeAdvancedMarketEnter(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getPassword(), mode,
+            marketOrder.getOriginalAmount(), CampBX.MarketPrice.Market, null, null, null);
 
     return campBXResponse;
   }
@@ -49,8 +50,9 @@ public class CampBXTradeServiceRaw extends CampBXBaseService {
   public CampBXResponse placeCampBXLimitOrder(LimitOrder limitOrder) throws IOException {
 
     CampBX.TradeMode mode = limitOrder.getType() == Order.OrderType.ASK ? CampBX.TradeMode.QuickSell : CampBX.TradeMode.QuickBuy;
-    CampBXResponse campBXResponse = campBX.tradeEnter(exchange.getExchangeSpecification().getUserName(),
-        exchange.getExchangeSpecification().getPassword(), mode, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
+    CampBXResponse campBXResponse = campBX
+        .tradeEnter(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getPassword(), mode,
+            limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
 
     return campBXResponse;
   }
@@ -58,8 +60,9 @@ public class CampBXTradeServiceRaw extends CampBXBaseService {
   public CampBXResponse cancelCampBXOrder(String orderId) throws IOException {
 
     ParsedId parsedId = parseOrderId(orderId);
-    CampBXResponse campBXResponse = campBX.tradeCancel(exchange.getExchangeSpecification().getUserName(),
-        exchange.getExchangeSpecification().getPassword(), parsedId.type, Long.parseLong(parsedId.id));
+    CampBXResponse campBXResponse = campBX
+        .tradeCancel(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getPassword(), parsedId.type,
+            Long.parseLong(parsedId.id));
 
     return campBXResponse;
   }

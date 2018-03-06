@@ -56,16 +56,16 @@ public class RateLimit implements Serializable {
     return timeUnit.toMillis(timeSpan) / calls;
   }
 
+  @Override
+  public String toString() {
+    return "RateLimit [calls=" + calls + ", timeSpan=" + timeSpan + ", timeUnit=" + timeUnit + "]";
+  }
+
   public static class TimeUnitDeserializer extends JsonDeserializer<TimeUnit> {
     @Override
     public TimeUnit deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       return TimeUnit.valueOf(jp.getValueAsString().toUpperCase());
     }
-  }
-
-  @Override
-  public String toString() {
-    return "RateLimit [calls=" + calls + ", timeSpan=" + timeSpan + ", timeUnit=" + timeUnit + "]";
   }
 
 }

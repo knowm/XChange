@@ -23,10 +23,6 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
   protected final CoinbaseAuthenticated coinbase;
   protected final ParamsDigest signatureCreator;
 
-  public enum HttpMethod {
-    GET, POST
-  }
-  
   protected CoinbaseBaseService(Exchange exchange) {
 
     super(exchange);
@@ -46,7 +42,7 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
   }
 
   /**
-   * Unauthenticated resource that tells you the server time. 
+   * Unauthenticated resource that tells you the server time.
    *
    * @return The current server time.
    * @see <a href="https://developers.coinbase.com/api/v2#get-current-time">developers.coinbase.com/api/v2#get-current-time</a>
@@ -71,12 +67,19 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
   }
 
   protected void showCurl(HttpMethod method, String apiKey, BigDecimal timestamp, String signature, String path, String json) {
-    String headers = String.format("-H 'CB-VERSION: 2017-11-26' -H 'CB-ACCESS-KEY: %s' -H 'CB-ACCESS-SIGN: %s' -H 'CB-ACCESS-TIMESTAMP: %s'", apiKey, signature, timestamp);
+    String headers = String
+        .format("-H 'CB-VERSION: 2017-11-26' -H 'CB-ACCESS-KEY: %s' -H 'CB-ACCESS-SIGN: %s' -H 'CB-ACCESS-TIMESTAMP: %s'", apiKey, signature,
+            timestamp);
     if (method == HttpMethod.GET) {
       Coinbase.LOG.debug(String.format("curl %s https://api.coinbase.com%s", headers, path));
     } else if (method == HttpMethod.POST) {
       String payload = "-d '" + json + "'";
-      Coinbase.LOG.debug(String.format("curl -X %s -H 'Content-Type: %s' %s %s https://api.coinbase.com%s", method, MediaType.APPLICATION_JSON, headers, payload, path));
+      Coinbase.LOG.debug(String
+          .format("curl -X %s -H 'Content-Type: %s' %s %s https://api.coinbase.com%s", method, MediaType.APPLICATION_JSON, headers, payload, path));
     }
+  }
+
+  public enum HttpMethod {
+    GET, POST
   }
 }

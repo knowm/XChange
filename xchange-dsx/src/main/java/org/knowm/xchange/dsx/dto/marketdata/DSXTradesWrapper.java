@@ -35,8 +35,6 @@ public class DSXTradesWrapper {
   @Override
   public String toString() {
 
-    return "DSXTradesWrapper{" +
-        "tradesMap=" + tradesMap +
-        '}';
+    return "DSXTradesWrapper{" + "tradesMap=" + tradesMap + '}';
   }
 }

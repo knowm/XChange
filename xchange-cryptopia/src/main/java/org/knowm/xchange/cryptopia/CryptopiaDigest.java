@@ -43,19 +43,9 @@ public class CryptopiaDigest extends BaseParamsDigest {
       String body = restInvocation.getRequestBody();
       String md5 = Base64.encodeBytes(MessageDigest.getInstance("MD5").digest(body.getBytes("UTF-8")));
 
-      String reqSignature =
-          apiKey
-              + "POST"
-              + URLEncoder.encode(urlMethod, StandardCharsets.UTF_8.toString()).toLowerCase()
-              + nonce
-              + md5;
+      String reqSignature = apiKey + "POST" + URLEncoder.encode(urlMethod, StandardCharsets.UTF_8.toString()).toLowerCase() + nonce + md5;
 
-      return "amx "
-          + apiKey
-          + ":"
-          + Base64.encodeBytes(getMac().doFinal(reqSignature.getBytes("UTF-8")))
-          + ":"
-          + nonce;
+      return "amx " + apiKey + ":" + Base64.encodeBytes(getMac().doFinal(reqSignature.getBytes("UTF-8"))) + ":" + nonce;
     } catch (Exception e) {
       throw new IllegalStateException("Faile to sign request", e);
     }

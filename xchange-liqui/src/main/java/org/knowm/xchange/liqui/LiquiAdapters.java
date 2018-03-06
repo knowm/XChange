@@ -127,8 +127,8 @@ public class LiquiAdapters {
 
     final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
 
-    return new LimitOrder(type, originalAmount, pair, String.valueOf(id), timestamp, orderInfo.getRate(),
-        orderInfo.getRate(), filledAmount, null, status);
+    return new LimitOrder(type, originalAmount, pair, String.valueOf(id), timestamp, orderInfo.getRate(), orderInfo.getRate(), filledAmount, null,
+        status);
   }
 
   public static Order.OrderStatus adaptOrderStatus(final String status) {
@@ -161,8 +161,8 @@ public class LiquiAdapters {
     final Date timestamp = new Date(liquiTrade.getTimestamp() * 1000L);
     final BigDecimal price = liquiTrade.getRate();
 
-    return new UserTrade(orderType, originalAmount, pair, price, timestamp, String.valueOf(tradeId),
-        String.valueOf(tradeId), new BigDecimal("0"), null);
+    return new UserTrade(orderType, originalAmount, pair, price, timestamp, String.valueOf(tradeId), String.valueOf(tradeId), new BigDecimal("0"),
+        null);
   }
 
   public static Order adaptOrderInfo(final LiquiOrderInfo info) {
@@ -206,8 +206,7 @@ public class LiquiAdapters {
 
   public static AccountInfo adaptAccountInfo(final LiquiAccountInfo info) {
     final Map<Currency, BigDecimal> funds = info.getFunds().getFunds();
-    final List<Balance> balances = funds.entrySet().stream()
-        .map(entry -> new Balance(entry.getKey(), entry.getValue())).collect(Collectors.toList());
+    final List<Balance> balances = funds.entrySet().stream().map(entry -> new Balance(entry.getKey(), entry.getValue())).collect(Collectors.toList());
 
     final Wallet wallet = new Wallet("Liqui wallet", balances);
 

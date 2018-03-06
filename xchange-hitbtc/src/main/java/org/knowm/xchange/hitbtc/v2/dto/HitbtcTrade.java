@@ -44,19 +44,12 @@ public class HitbtcTrade {
 
   @Override
   public String toString() {
-    return "HitbtcTrade{" +
-        "id='" + id + '\'' +
-        ", price=" + price +
-        ", quantity=" + quantity +
-        ", side=" + side +
-        ", timestamp=" + timestamp +
-        '}';
+    return "HitbtcTrade{" + "id='" + id + '\'' + ", price=" + price + ", quantity=" + quantity + ", side=" + side + ", timestamp=" + timestamp + '}';
   }
 
   public enum HitbtcTradesSortField {
 
-    SORT_BY_TRADE_ID("trade_id"),
-    SORT_BY_TIMESTAMP("ts");
+    SORT_BY_TRADE_ID("trade_id"), SORT_BY_TIMESTAMP("ts");
 
     private final String hitbtcTradesSortField;
 

@@ -32,7 +32,7 @@ public class CoinbasePaymentMethodsData {
     private final String name;
     private final String type;
     private final String currency;
-    
+
     private boolean primaryBuy;
     private boolean primarySell;
     private boolean allowBuy;
@@ -44,7 +44,8 @@ public class CoinbasePaymentMethodsData {
     private boolean verified;
 
     @JsonCreator
-    CoinbasePaymentMethod(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("type") String type, @JsonProperty("currency") String currency) {
+    CoinbasePaymentMethod(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("type") String type,
+        @JsonProperty("currency") String currency) {
       this.id = id;
       this.name = name;
       this.type = type;

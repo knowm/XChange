@@ -554,98 +554,30 @@ public class BitmexPosition {
 
   @Override
   public String toString() {
-    return "BitmexPosition{" +
-        "account=" + account +
-        ", symbol='" + symbol + '\'' +
-        ", currency='" + currency + '\'' +
-        ", underlying='" + underlying + '\'' +
-        ", quoteCurrency='" + quoteCurrency + '\'' +
-        ", commission=" + commission +
-        ", initMarginReq=" + initMarginReq +
-        ", maintMarginReq=" + maintMarginReq +
-        ", riskLimit=" + riskLimit +
-        ", leverage=" + leverage +
-        ", crossMargin=" + crossMargin +
-        ", deleveragePercentile=" + deleveragePercentile +
-        ", rebalancedPnl=" + rebalancedPnl +
-        ", prevRealisedPnl=" + prevRealisedPnl +
-        ", prevUnrealisedPnl=" + prevUnrealisedPnl +
-        ", prevClosePrice=" + prevClosePrice +
-        ", openingTimestamp='" + openingTimestamp + '\'' +
-        ", openingQty=" + openingQty +
-        ", openingCost=" + openingCost +
-        ", openingComm=" + openingComm +
-        ", openOrderBuyQty=" + openOrderBuyQty +
-        ", openOrderBuyCost=" + openOrderBuyCost +
-        ", openOrderBuyPremium=" + openOrderBuyPremium +
-        ", openOrderSellQty=" + openOrderSellQty +
-        ", openOrderSellCost=" + openOrderSellCost +
-        ", openOrderSellPremium=" + openOrderSellPremium +
-        ", execBuyQty=" + execBuyQty +
-        ", execBuyCost=" + execBuyCost +
-        ", execSellQty=" + execSellQty +
-        ", execSellCost=" + execSellCost +
-        ", execQty=" + execQty +
-        ", execCost=" + execCost +
-        ", execComm=" + execComm +
-        ", currentTimestamp='" + currentTimestamp + '\'' +
-        ", currentQty=" + currentQty +
-        ", currentCost=" + currentCost +
-        ", currentComm=" + currentComm +
-        ", realisedCost=" + realisedCost +
-        ", unrealisedCost=" + unrealisedCost +
-        ", grossOpenCost=" + grossOpenCost +
-        ", grossOpenPremium=" + grossOpenPremium +
-        ", grossExecCost=" + grossExecCost +
-        ", isOpen=" + isOpen +
-        ", markPrice=" + markPrice +
-        ", markValue=" + markValue +
-        ", riskValue=" + riskValue +
-        ", homeNotional=" + homeNotional +
-        ", foreignNotional=" + foreignNotional +
-        ", posState='" + posState + '\'' +
-        ", posCost=" + posCost +
-        ", posCost2=" + posCost2 +
-        ", posCross=" + posCross +
-        ", posInit=" + posInit +
-        ", posComm=" + posComm +
-        ", posLoss=" + posLoss +
-        ", posMargin=" + posMargin +
-        ", posMaint=" + posMaint +
-        ", posAllowance=" + posAllowance +
-        ", taxableMargin=" + taxableMargin +
-        ", initMargin=" + initMargin +
-        ", maintMargin=" + maintMargin +
-        ", sessionMargin=" + sessionMargin +
-        ", targetExcessMargin=" + targetExcessMargin +
-        ", varMargin=" + varMargin +
-        ", realisedGrossPnl=" + realisedGrossPnl +
-        ", realisedTax=" + realisedTax +
-        ", realisedPnl=" + realisedPnl +
-        ", unrealisedGrossPnl=" + unrealisedGrossPnl +
-        ", longBankrupt=" + longBankrupt +
-        ", shortBankrupt=" + shortBankrupt +
-        ", taxBase=" + taxBase +
-        ", indicativeTaxRate=" + indicativeTaxRate +
-        ", indicativeTax=" + indicativeTax +
-        ", unrealisedTax=" + unrealisedTax +
-        ", unrealisedPnl=" + unrealisedPnl +
-        ", unrealisedPnlPcnt=" + unrealisedPnlPcnt +
-        ", unrealisedRoePcnt=" + unrealisedRoePcnt +
-        ", simpleQty=" + simpleQty +
-        ", simpleCost=" + simpleCost +
-        ", simpleValue=" + simpleValue +
-        ", simplePnl=" + simplePnl +
-        ", simplePnlPcnt=" + simplePnlPcnt +
-        ", avgCostPrice=" + avgCostPrice +
-        ", avgEntryPrice=" + avgEntryPrice +
-        ", breakEvenPrice=" + breakEvenPrice +
-        ", marginCallPrice=" + marginCallPrice +
-        ", liquidationPrice=" + liquidationPrice +
-        ", bankruptPrice=" + bankruptPrice +
-        ", timestamp='" + timestamp + '\'' +
-        ", lastPrice=" + lastPrice +
-        ", lastValue=" + lastValue +
-        '}';
+    return "BitmexPosition{" + "account=" + account + ", symbol='" + symbol + '\'' + ", currency='" + currency + '\'' + ", underlying='" + underlying
+        + '\'' + ", quoteCurrency='" + quoteCurrency + '\'' + ", commission=" + commission + ", initMarginReq=" + initMarginReq + ", maintMarginReq="
+        + maintMarginReq + ", riskLimit=" + riskLimit + ", leverage=" + leverage + ", crossMargin=" + crossMargin + ", deleveragePercentile="
+        + deleveragePercentile + ", rebalancedPnl=" + rebalancedPnl + ", prevRealisedPnl=" + prevRealisedPnl + ", prevUnrealisedPnl="
+        + prevUnrealisedPnl + ", prevClosePrice=" + prevClosePrice + ", openingTimestamp='" + openingTimestamp + '\'' + ", openingQty=" + openingQty
+        + ", openingCost=" + openingCost + ", openingComm=" + openingComm + ", openOrderBuyQty=" + openOrderBuyQty + ", openOrderBuyCost="
+        + openOrderBuyCost + ", openOrderBuyPremium=" + openOrderBuyPremium + ", openOrderSellQty=" + openOrderSellQty + ", openOrderSellCost="
+        + openOrderSellCost + ", openOrderSellPremium=" + openOrderSellPremium + ", execBuyQty=" + execBuyQty + ", execBuyCost=" + execBuyCost
+        + ", execSellQty=" + execSellQty + ", execSellCost=" + execSellCost + ", execQty=" + execQty + ", execCost=" + execCost + ", execComm="
+        + execComm + ", currentTimestamp='" + currentTimestamp + '\'' + ", currentQty=" + currentQty + ", currentCost=" + currentCost
+        + ", currentComm=" + currentComm + ", realisedCost=" + realisedCost + ", unrealisedCost=" + unrealisedCost + ", grossOpenCost="
+        + grossOpenCost + ", grossOpenPremium=" + grossOpenPremium + ", grossExecCost=" + grossExecCost + ", isOpen=" + isOpen + ", markPrice="
+        + markPrice + ", markValue=" + markValue + ", riskValue=" + riskValue + ", homeNotional=" + homeNotional + ", foreignNotional="
+        + foreignNotional + ", posState='" + posState + '\'' + ", posCost=" + posCost + ", posCost2=" + posCost2 + ", posCross=" + posCross
+        + ", posInit=" + posInit + ", posComm=" + posComm + ", posLoss=" + posLoss + ", posMargin=" + posMargin + ", posMaint=" + posMaint
+        + ", posAllowance=" + posAllowance + ", taxableMargin=" + taxableMargin + ", initMargin=" + initMargin + ", maintMargin=" + maintMargin
+        + ", sessionMargin=" + sessionMargin + ", targetExcessMargin=" + targetExcessMargin + ", varMargin=" + varMargin + ", realisedGrossPnl="
+        + realisedGrossPnl + ", realisedTax=" + realisedTax + ", realisedPnl=" + realisedPnl + ", unrealisedGrossPnl=" + unrealisedGrossPnl
+        + ", longBankrupt=" + longBankrupt + ", shortBankrupt=" + shortBankrupt + ", taxBase=" + taxBase + ", indicativeTaxRate=" + indicativeTaxRate
+        + ", indicativeTax=" + indicativeTax + ", unrealisedTax=" + unrealisedTax + ", unrealisedPnl=" + unrealisedPnl + ", unrealisedPnlPcnt="
+        + unrealisedPnlPcnt + ", unrealisedRoePcnt=" + unrealisedRoePcnt + ", simpleQty=" + simpleQty + ", simpleCost=" + simpleCost
+        + ", simpleValue=" + simpleValue + ", simplePnl=" + simplePnl + ", simplePnlPcnt=" + simplePnlPcnt + ", avgCostPrice=" + avgCostPrice
+        + ", avgEntryPrice=" + avgEntryPrice + ", breakEvenPrice=" + breakEvenPrice + ", marginCallPrice=" + marginCallPrice + ", liquidationPrice="
+        + liquidationPrice + ", bankruptPrice=" + bankruptPrice + ", timestamp='" + timestamp + '\'' + ", lastPrice=" + lastPrice + ", lastValue="
+        + lastValue + '}';
   }
 }

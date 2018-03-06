@@ -10,8 +10,7 @@ public class BittrexTicker {
   private BigDecimal ask;
   private BigDecimal last;
 
-  public BittrexTicker(@JsonProperty("Bid") BigDecimal bid, @JsonProperty("Ask") BigDecimal ask,
-      @JsonProperty("Last") BigDecimal last) {
+  public BittrexTicker(@JsonProperty("Bid") BigDecimal bid, @JsonProperty("Ask") BigDecimal ask, @JsonProperty("Last") BigDecimal last) {
 
     this.bid = bid;
     this.ask = ask;

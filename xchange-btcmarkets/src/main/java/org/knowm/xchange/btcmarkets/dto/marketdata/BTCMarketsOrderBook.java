@@ -49,7 +49,8 @@ public class BTCMarketsOrderBook {
 
   @Override
   public String toString() {
-    return String.format("BTCMarketsOrderBook{currency='%s', instrument='%s', timestamp=%s, bids=%d, asks=%d}", currency, instrument, timestamp,
-        bids.size(), asks.size());
+    return String
+        .format("BTCMarketsOrderBook{currency='%s', instrument='%s', timestamp=%s, bids=%d, asks=%d}", currency, instrument, timestamp, bids.size(),
+            asks.size());
   }
 }

@@ -87,9 +87,7 @@ public class OkCoinRecords {
   }
 
   public enum RechargeStatus {
-    FAILURE(-1, "Failure"),
-    WAIT_CONFIRMATION(0, "Wait Confirmation"),
-    COMPLETE(1, "Complete"),;
+    FAILURE(-1, "Failure"), WAIT_CONFIRMATION(0, "Wait Confirmation"), COMPLETE(1, "Complete"),;
 
     private static final Map<Integer, RechargeStatus> fromInt = new HashMap<Integer, RechargeStatus>();
 
@@ -106,25 +104,18 @@ public class OkCoinRecords {
       this.status = status;
     }
 
-    public String getStatus() {
-      return status;
-    }
-
     public static RechargeStatus fromInt(int statusInt) {
       return fromInt.get(statusInt);
+    }
+
+    public String getStatus() {
+      return status;
     }
   }
 
   public enum WithdrawalStatus {
-    REVOKED(-3, "Revoked"),
-    CANCELLED(-2, "Cancelled"),
-    FAILURE(-1, "Failure"),
-    PENDING_0(0, "Pending"),
-    PENDING_1(1, "Pending"),
-    COMPLETE(2, "Complete"),
-    EMAIL_CONFIRMATION(3, "Email Confirmation"),
-    VERIFYING(4, "Verifying"),
-    WAIT_CONFIRMATION(5, "Wait Confirmation"),;
+    REVOKED(-3, "Revoked"), CANCELLED(-2, "Cancelled"), FAILURE(-1, "Failure"), PENDING_0(0, "Pending"), PENDING_1(1, "Pending"), COMPLETE(2,
+        "Complete"), EMAIL_CONFIRMATION(3, "Email Confirmation"), VERIFYING(4, "Verifying"), WAIT_CONFIRMATION(5, "Wait Confirmation"),;
 
     private static final Map<Integer, WithdrawalStatus> fromInt = new HashMap<Integer, WithdrawalStatus>();
 
@@ -141,12 +132,12 @@ public class OkCoinRecords {
       this.status = status;
     }
 
-    public String getStatus() {
-      return status;
-    }
-
     public static WithdrawalStatus fromInt(int statusInt) {
       return fromInt.get(statusInt);
+    }
+
+    public String getStatus() {
+      return status;
     }
   }
 }

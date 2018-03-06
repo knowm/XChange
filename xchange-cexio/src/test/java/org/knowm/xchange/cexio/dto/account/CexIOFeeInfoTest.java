@@ -27,8 +27,7 @@ public class CexIOFeeInfoTest {
     assertThat(cexIOFeeInfo).isNotNull();
     assertThat(cexIOFeeInfo.getE()).isEqualToIgnoringCase("get_myfee");
     assertThat(cexIOFeeInfo.getOk()).isEqualToIgnoringCase("ok");
-    assertThat(cexIOFeeInfo.getData()).isNotEmpty()
-        .containsKeys(ETH_USD, BCH_GBP, ZEC_BTC, new CurrencyPair(ZEC, GBP));
+    assertThat(cexIOFeeInfo.getData()).isNotEmpty().containsKeys(ETH_USD, BCH_GBP, ZEC_BTC, new CurrencyPair(ZEC, GBP));
     final CexIOFeeInfo.FeeDetails feeDetails = cexIOFeeInfo.getData().get(ETH_USD);
     assertThat(feeDetails).isNotNull();
     assertThat(feeDetails.getBuy()).isNotNull();

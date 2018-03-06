@@ -85,14 +85,16 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   /**
    * Cancels all orders.
    * See https://gate.io/api2.
-   * @param type order type(0:sell,1:buy,-1:all)
+   *
+   * @param type         order type(0:sell,1:buy,-1:all)
    * @param currencyPair currency pair
    * @return
    * @throws IOException
    */
   public boolean cancelAllOrders(String type, CurrencyPair currencyPair) throws IOException {
 
-    GateioBaseResponse cancelAllOrdersResult = bter.cancelAllOrders(type, formatCurrencyPair(currencyPair), apiKey, signatureCreator, exchange.getNonceFactory());
+    GateioBaseResponse cancelAllOrdersResult = bter
+        .cancelAllOrders(type, formatCurrencyPair(currencyPair), apiKey, signatureCreator, exchange.getNonceFactory());
 
     return handleResponse(cancelAllOrdersResult).isResult();
   }
@@ -113,8 +115,8 @@ public class GateioTradeServiceRaw extends GateioBaseService {
 
   public GateioTradeHistoryReturn getGateioTradeHistory(CurrencyPair currencyPair) throws IOException {
 
-    GateioTradeHistoryReturn gateioTradeHistoryReturn = bter.getUserTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(),
-        GateioUtils.toPairString(currencyPair));
+    GateioTradeHistoryReturn gateioTradeHistoryReturn = bter
+        .getUserTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), GateioUtils.toPairString(currencyPair));
 
     return handleResponse(gateioTradeHistoryReturn);
   }

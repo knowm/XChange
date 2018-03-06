@@ -1,16 +1,16 @@
 package org.knowm.xchange.dto.trade;
 
-import org.junit.Test;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
 
 public class UserTradeTest {
 
@@ -27,7 +27,7 @@ public class UserTradeTest {
     final Currency feeCurrency = Currency.BTC;
 
     final UserTrade copy = new UserTrade.Builder().type(type).originalAmount(originalAmount).currencyPair(currencyPair).price(price)
-        .timestamp(timestamp).id(id).orderId(orderId).feeAmount(feeAmount).feeCurrency(feeCurrency).build();
+                                                  .timestamp(timestamp).id(id).orderId(orderId).feeAmount(feeAmount).feeCurrency(feeCurrency).build();
 
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
@@ -86,22 +86,22 @@ public class UserTradeTest {
 
   @Test
   public void returnsEqualsCorrectlyWithUnequalUserTradesOfUserTradeAttributes() {
-    final UserTrade original = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD,
-            new BigDecimal("250.34"), new Date(),"id","FooOrderId", new BigDecimal("0"), Currency.BTC);
+    final UserTrade original = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD, new BigDecimal("250.34"), new Date(),
+        "id", "FooOrderId", new BigDecimal("0"), Currency.BTC);
 
-    final UserTrade copy = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD,
-            new BigDecimal("250.34"), new Date(),"id","BarOrderId", new BigDecimal("0.15"), Currency.USD);
+    final UserTrade copy = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD, new BigDecimal("250.34"), new Date(), "id",
+        "BarOrderId", new BigDecimal("0.15"), Currency.USD);
 
     assertFalse(original.equals(copy));
   }
 
   @Test
   public void returnsEqualsCorrectlyWithUnequalUserTradesOfTradeAttributes() {
-    final UserTrade original = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD,
-            new BigDecimal("250.34"), new Date(),"FooTradeId","OrderId", new BigDecimal("0"), Currency.BTC);
+    final UserTrade original = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD, new BigDecimal("250.34"), new Date(),
+        "FooTradeId", "OrderId", new BigDecimal("0"), Currency.BTC);
 
-    final UserTrade copy = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD,
-            new BigDecimal("250.34"), new Date(),"BarTradeId","OrderId", new BigDecimal("0"), Currency.BTC);
+    final UserTrade copy = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD, new BigDecimal("250.34"), new Date(),
+        "BarTradeId", "OrderId", new BigDecimal("0"), Currency.BTC);
 
     assertFalse(original.equals(copy));
   }

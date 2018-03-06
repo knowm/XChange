@@ -36,12 +36,8 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
       return null;
     }
 
-    return service.getOrderBook(
-        currencyPair.base.getCurrencyCode().toUpperCase(),
-        currencyPair.counter.getCurrencyCode().toUpperCase(),
-        depth,
-        groupByPrice.toString()
-    );
+    return service.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase(), depth,
+        groupByPrice.toString());
   }
 
   public Map<CurrencyPair, LivecoinOrderBook> getAllOrderBooksRaw(int depth, Boolean groupByPrice) throws IOException {
@@ -52,8 +48,8 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
   public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-          && cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode()) && cp.counter.getCurrencyCode().equalsIgnoreCase(
+          currencyPair.counter.getCurrencyCode())) {
         currencyPairSupported = true;
         break;
       }

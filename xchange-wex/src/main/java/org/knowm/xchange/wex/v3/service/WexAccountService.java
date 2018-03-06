@@ -67,7 +67,7 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
   }
 
   @Override
-    public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     Long offset = null;
     if (params instanceof TradeHistoryParamOffset) {
       offset = ((TradeHistoryParamOffset) params).getOffset();

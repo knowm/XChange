@@ -21,10 +21,10 @@ import com.google.common.collect.HashBiMap;
  */
 public class BitmexUtils {
 
+  protected static final HashBiMap<String, Currency> assetsMap = HashBiMap.create();
   protected static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
   protected static BiMap<String, BitmexContract> bitmexContracts = HashBiMap.create();
   protected static BiMap<Currency, String> bitmexCurrencies = HashBiMap.create();
-  protected static final HashBiMap<String, Currency> assetsMap = HashBiMap.create();
 
   /**
    * Private Constructor
@@ -58,16 +58,6 @@ public class BitmexUtils {
     return bitmexContracts.inverse().get(contract);
   }
 
-  public class CustomBitmexContractSerializer extends JsonSerializer<BitmexContract> {
-
-    @Override
-    public void serialize(BitmexContract contract, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-
-      jsonGenerator.writeString(contract.toString());
-
-    }
-  }
-
   public static CurrencyPair translateBitmexCurrencyPair(String currencyPairIn) {
 
     CurrencyPair pair = assetPairMap.get(currencyPairIn);
@@ -83,8 +73,7 @@ public class BitmexUtils {
           counter = counter.getCommonlyUsedCurrency();
         }
         pair = new CurrencyPair(base, counter);
-      }
-      else if (currencyPairIn.length() == 7) {
+      } else if (currencyPairIn.length() == 7) {
         Currency base = Currency.getInstance(currencyPairIn.substring(0, 4));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
@@ -148,5 +137,15 @@ public class BitmexUtils {
       throw new ExchangeException("Bitmex does not support the currency code " + currencyIn);
     }
     return currencyOut.getCommonlyUsedCurrency();
+  }
+
+  public class CustomBitmexContractSerializer extends JsonSerializer<BitmexContract> {
+
+    @Override
+    public void serialize(BitmexContract contract, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+
+      jsonGenerator.writeString(contract.toString());
+
+    }
   }
 }

@@ -18,8 +18,8 @@ public class CexIOBalance {
    * Constructor
    *
    * @param available Available balance
-   * @param orders Balance in pending orders
-   * @param bonus Referral program bonus
+   * @param orders    Balance in pending orders
+   * @param bonus     Referral program bonus
    */
   public CexIOBalance(@JsonProperty("available") BigDecimal available, @JsonProperty("orders") BigDecimal orders,
       @JsonProperty("bonus") BigDecimal bonus) {

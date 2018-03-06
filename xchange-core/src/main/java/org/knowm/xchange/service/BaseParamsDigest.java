@@ -80,16 +80,16 @@ public abstract class BaseParamsDigest implements ParamsDigest {
     };
   }
 
-  protected Mac getMac() {
-
-    return threadLocalMac.get();
-  }
-
   protected static byte[] decodeBase64(String secretKey) {
     try {
       return Base64.decode(secretKey);
     } catch (IOException e) {
       throw new RuntimeException("Can't decode secret key as Base 64", e);
     }
+  }
+
+  protected Mac getMac() {
+
+    return threadLocalMac.get();
   }
 }

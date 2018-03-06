@@ -15,8 +15,8 @@ import org.knowm.xchange.utils.DigestUtils;
 public class VircurexSha2Digest {
 
   private static final String SHA_256 = "SHA-256";
-  private MessageDigest digest;
   private final String secretWord;
+  private MessageDigest digest;
 
   /**
    * Constructor

@@ -34,7 +34,7 @@ public final class QuadrigaCxAdapters {
   public static Ticker adaptTicker(QuadrigaCxTicker t, CurrencyPair currencyPair) {
 
     return new Ticker.Builder().currencyPair(currencyPair).last(t.getLast()).bid(t.getBid()).ask(t.getAsk()).high(t.getHigh()).low(t.getLow())
-        .vwap(t.getVwap()).volume(t.getVolume()).timestamp(t.getTimestamp()).build();
+                               .vwap(t.getVwap()).volume(t.getVolume()).timestamp(t.getTimestamp()).build();
   }
 
   public static Wallet adaptWallet(QuadrigaCxBalance quadrigacxBalance) {
@@ -140,7 +140,6 @@ public final class QuadrigaCxAdapters {
     final BigDecimal feeAmount = quadrigacxUserTransaction.getFee();
 
     String feeCurrency = sell ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode();
-    return new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-        Currency.getInstance(feeCurrency));
+    return new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount, Currency.getInstance(feeCurrency));
   }
 }

@@ -41,8 +41,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
   }
 
@@ -80,7 +79,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
 
   /**
    * @param params Can optionally implement {@link TradeHistoryParamOffset} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types
-   * will be ignored.
+   *               will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
@@ -117,25 +116,25 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
     return null;
   }
 
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+
+    return KrakenAdapters.adaptOrders(super.getOrders(orderIds));
+  }
+
   public static class KrakenTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamOffset {
 
     private Long offset;
 
     @Override
-    public void setOffset(Long offset) {
-      this.offset = offset;
-    }
-
-    @Override
     public Long getOffset() {
       return offset;
     }
-  }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-
-    return KrakenAdapters.adaptOrders(super.getOrders(orderIds));
+    @Override
+    public void setOffset(Long offset) {
+      this.offset = offset;
+    }
   }
 
 }

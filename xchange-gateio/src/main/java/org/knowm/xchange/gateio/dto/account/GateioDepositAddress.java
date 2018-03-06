@@ -1,6 +1,7 @@
 package org.knowm.xchange.gateio.dto.account;
 
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GateioDepositAddress extends GateioBaseResponse {
@@ -15,8 +16,8 @@ public class GateioDepositAddress extends GateioBaseResponse {
    * @param theAvailable
    * @param theLocked
    */
-  public GateioDepositAddress(@JsonProperty("addr") String addr,
-      @JsonProperty("result") boolean result, @JsonProperty("message") final String message) {
+  public GateioDepositAddress(@JsonProperty("addr") String addr, @JsonProperty("result") boolean result,
+      @JsonProperty("message") final String message) {
 
     super(result, message);
 
@@ -40,8 +41,7 @@ public class GateioDepositAddress extends GateioBaseResponse {
   @Override
   public String toString() {
 
-    return "BTERDepositAddressReturn [baseAddress=" + baseAddress + ", addressTag=" + addressTag
-        + "]";
+    return "BTERDepositAddressReturn [baseAddress=" + baseAddress + ", addressTag=" + addressTag + "]";
   }
 
 }

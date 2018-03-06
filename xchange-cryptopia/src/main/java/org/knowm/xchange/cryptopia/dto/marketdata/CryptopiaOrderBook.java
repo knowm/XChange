@@ -24,9 +24,6 @@ public class CryptopiaOrderBook {
 
   @Override
   public String toString() {
-    return "CryptopiaOrderBook{" +
-        "bids=" + bids +
-        ", asks=" + asks +
-        '}';
+    return "CryptopiaOrderBook{" + "bids=" + bids + ", asks=" + asks + '}';
   }
 }

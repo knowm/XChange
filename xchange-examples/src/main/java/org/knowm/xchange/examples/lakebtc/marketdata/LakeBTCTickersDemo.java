@@ -48,9 +48,9 @@ public class LakeBTCTickersDemo {
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {
     LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getMarketDataService();
-    Map<String,LakeBTCTicker> tickers = marketDataService.getLakeBTCTickers();
+    Map<String, LakeBTCTicker> tickers = marketDataService.getLakeBTCTickers();
 
-    LakeBTCTicker hkd = tickers.get( LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
+    LakeBTCTicker hkd = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
     System.out.println("Ticker: " + hkd);
     System.out.println("Currency: " + Currency.HKD);
     System.out.println("Last: " + hkd.getLast());
@@ -58,7 +58,7 @@ public class LakeBTCTickersDemo {
     System.out.println("High: " + hkd.getHigh());
     System.out.println("Low: " + hkd.getLow());
 
-    LakeBTCTicker usd = tickers.get( LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD));
+    LakeBTCTicker usd = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD));
     System.out.println("Ticker: " + usd);
     System.out.println("Currency: " + Currency.USD);
     System.out.println("Last: " + usd.getLast());

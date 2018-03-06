@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * <p>POJO representing the output JSON for the Abucoins
  * <code>GET /products/&lt;product-id&gt;/book</code> endpoint.</p>
- *
  * Example:
  * <code><pre>
  * {
@@ -24,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *        ...
  *     ],
  *     "sequence": 1431
-}
+ * }
  * </pre></code>
  */
 public class AbucoinsOrderBook {
@@ -32,10 +31,8 @@ public class AbucoinsOrderBook {
   AbucoinsOrderBook.LimitOrder[] bids;
   long sequence;
 
-
-  public AbucoinsOrderBook(@JsonProperty("asks") AbucoinsOrderBook.LimitOrder[] asks,
-			               @JsonProperty("bids") AbucoinsOrderBook.LimitOrder[] bids,
-			               @JsonProperty("sequence") long sequence) {
+  public AbucoinsOrderBook(@JsonProperty("asks") AbucoinsOrderBook.LimitOrder[] asks, @JsonProperty("bids") AbucoinsOrderBook.LimitOrder[] bids,
+      @JsonProperty("sequence") long sequence) {
     this.asks = asks;
     this.bids = bids;
     this.sequence = sequence;
@@ -55,25 +52,27 @@ public class AbucoinsOrderBook {
 
   @Override
   public String toString() {
-    return "AbucoinsOrderBook [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + ", sequence="
-	+ sequence + "]";
+    return "AbucoinsOrderBook [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + ", sequence=" + sequence + "]";
   }
 
-
-  @JsonFormat(shape=JsonFormat.Shape.ARRAY)
+  @JsonFormat(shape = JsonFormat.Shape.ARRAY)
   public static class LimitOrder {
     BigDecimal price;
     BigDecimal size;
     long numOrders;
+
     public BigDecimal getPrice() {
       return price;
     }
+
     public BigDecimal getSize() {
       return size;
     }
+
     public long getNumOrders() {
       return numOrders;
     }
+
     @Override
     public String toString() {
       return "Book [price=" + price + ", size=" + size + ", numOrders=" + numOrders + "]";

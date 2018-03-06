@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * <p>POJO representing the output JSON for the Abucoins
  * <code>GET /fills</code> endpoint.</p>
- *
  * Example:
  * <code><pre>
  * [
@@ -36,44 +35,55 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *   }
  * ]
  * </pre></code>
+ *
  * @author bryant_harris
  */
 public class AbucoinsFill {
-  /** identifier of the last trade */
+  /**
+   * identifier of the last trade
+   */
   String tradeID;
-        
-  /**   product identifier */
+
+  /**
+   * product identifier
+   */
   String productID;
-        
-  /**   trade price */
+
+  /**
+   * trade price
+   */
   BigDecimal price;
-        
-  /**   trade size */
+
+  /**
+   * trade size
+   */
   BigDecimal size;
-                
-  /**   Identifier of order */
+
+  /**
+   * Identifier of order
+   */
   String orderID;
-        
-  /** time in UTC */
+
+  /**
+   * time in UTC
+   */
   String createdAt;
-        
-  /**   indicates if the fill was the result of a liquidity provider or liquidity taker. M indicates Maker and T indicates Taker */
+
+  /**
+   * indicates if the fill was the result of a liquidity provider or liquidity taker. M indicates Maker and T indicates Taker
+   */
   Liquidity liquidity;
-        
-  /**   user side(buy or sell) */
+
+  /**
+   * user side(buy or sell)
+   */
   AbucoinsOrder.Side side;
-        
+
   String message;
-        
-  public AbucoinsFill(@JsonProperty("trade_id") String tradeID, 
-                      @JsonProperty("product_id") String productID,
-                      @JsonProperty("price") BigDecimal price,
-                      @JsonProperty("size") BigDecimal size, 
-                      @JsonProperty("order_id") String orderID,
-                      @JsonProperty("created_at") String createdAt,
-                      @JsonProperty("liquidity") Liquidity liquidity,
-                      @JsonProperty("side") Side side,
-                      @JsonProperty("message") String message) {
+
+  public AbucoinsFill(@JsonProperty("trade_id") String tradeID, @JsonProperty("product_id") String productID, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("size") BigDecimal size, @JsonProperty("order_id") String orderID, @JsonProperty("created_at") String createdAt,
+      @JsonProperty("liquidity") Liquidity liquidity, @JsonProperty("side") Side side, @JsonProperty("message") String message) {
     this.tradeID = tradeID;
     this.productID = productID;
     this.price = price;
@@ -120,27 +130,25 @@ public class AbucoinsFill {
   public String getMessage() {
     return message;
   }
-        
+
   @Override
   public String toString() {
-    return "AbucoinsFill [tradeID=" + tradeID + ", productID=" + productID + ", price=" + price + ", size=" + size
-        + ", orderID=" + orderID + ", createdAt=" + createdAt + ", liquidity=" + liquidity + ", side=" + side
-        + ", message=" + message + "]";
+    return "AbucoinsFill [tradeID=" + tradeID + ", productID=" + productID + ", price=" + price + ", size=" + size + ", orderID=" + orderID
+        + ", createdAt=" + createdAt + ", liquidity=" + liquidity + ", side=" + side + ", message=" + message + "]";
   }
 
   public enum Liquidity {
-    T,
-    M;
-                
+    T, M;
+
     public String toDescription() {
       switch (this) {
-      case T:
-        return "indicates that this fill was the result of a liquidity taker (Taker).";
-      case M:
-        return "indicates that this fill was the result of a liquidity provider (Maker).";
-                                
-      default:
-        return "";
+        case T:
+          return "indicates that this fill was the result of a liquidity taker (Taker).";
+        case M:
+          return "indicates that this fill was the result of a liquidity provider (Maker).";
+
+        default:
+          return "";
       }
     }
   }

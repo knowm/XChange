@@ -205,6 +205,6 @@ public class CCEXAdapters {
     Date timestamp = new Date(cCEXTicker.getUpdated());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-        .build();
+                               .build();
   }
 }

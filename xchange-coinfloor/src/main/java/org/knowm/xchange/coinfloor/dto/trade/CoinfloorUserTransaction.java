@@ -220,11 +220,12 @@ public class CoinfloorUserTransaction {
   @Override
   public String toString() {
     if (isTrade()) {
-      return String.format("CoinfloorUserTransaction{datetime=%s, id=%d, orderId=%d, type=%s, currencyPair=%s side=%s amount=%s price=%s fee=%s}",
-          datetime, id, orderId, type, getCurrencyPair(), getSide(), getAmount(), getPrice(), fee);
+      return String
+          .format("CoinfloorUserTransaction{datetime=%s, id=%d, orderId=%d, type=%s, currencyPair=%s side=%s amount=%s price=%s fee=%s}", datetime,
+              id, orderId, type, getCurrencyPair(), getSide(), getAmount(), getPrice(), fee);
     } else {
-      return String.format("CoinfloorUserTransaction{datetime=%s, id=%d, type=%s, currency=%s amount=%s }", datetime, id, type, getCurrency(),
-          getAmount());
+      return String
+          .format("CoinfloorUserTransaction{datetime=%s, id=%d, type=%s, currency=%s amount=%s }", datetime, id, type, getCurrency(), getAmount());
     }
   }
 

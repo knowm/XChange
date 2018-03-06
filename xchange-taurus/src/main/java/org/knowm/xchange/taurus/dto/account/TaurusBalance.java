@@ -70,7 +70,8 @@ public final class TaurusBalance extends TaurusBaseResponse {
 
   @Override
   public String toString() {
-    return String.format("Balance{cadBalance=%s, btcBalance=%s, cadReserved=%s, btcReserved=%s, cadAvailable=%s, btcAvailable=%s, fee=%s}",
-        cadBalance, btcBalance, cadReserved, btcReserved, cadAvailable, btcAvailable, fee);
+    return String
+        .format("Balance{cadBalance=%s, btcBalance=%s, cadReserved=%s, btcReserved=%s, cadAvailable=%s, btcAvailable=%s, fee=%s}", cadBalance,
+            btcBalance, cadReserved, btcReserved, cadAvailable, btcAvailable, fee);
   }
 }

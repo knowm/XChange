@@ -30,13 +30,18 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     super(exchange);
   }
 
+  private static String toMarket(CurrencyPair currencyPair) {
+    return currencyPair.base + "_" + currencyPair.counter;
+  }
+
   public String buyLimit(LimitOrder limitOrder) throws IOException {
 
     try {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
-      BleutradePlaceOrderReturn response = bleutrade.buyLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString,
-          limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      BleutradePlaceOrderReturn response = bleutrade
+          .buyLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString, limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -53,8 +58,9 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     try {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
-      BleutradePlaceOrderReturn response = bleutrade.sellLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString,
-          limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      BleutradePlaceOrderReturn response = bleutrade
+          .sellLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString, limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -126,11 +132,8 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     }
 
     try {
-      BluetradeExecutedTradesWrapper response = bleutrade.getTrades(apiKey, signatureCreator, exchange.getNonceFactory(),
-          market,
-          orderStatus,
-          orderType
-      );
+      BluetradeExecutedTradesWrapper response = bleutrade
+          .getTrades(apiKey, signatureCreator, exchange.getNonceFactory(), market, orderStatus, orderType);
 
       if (!response.success) {
         throw new ExchangeException(response.message);
@@ -140,10 +143,6 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     } catch (BleutradeException e) {
       throw new ExchangeException(e);
     }
-  }
-
-  private static String toMarket(CurrencyPair currencyPair) {
-    return currencyPair.base + "_" + currencyPair.counter;
   }
 
   public static class BleutradeTradeHistoryParams implements TradeHistoryParams {

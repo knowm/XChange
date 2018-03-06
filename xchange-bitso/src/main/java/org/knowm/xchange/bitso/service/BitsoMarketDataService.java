@@ -20,8 +20,7 @@ public class BitsoMarketDataService extends BitsoMarketDataServiceRaw implements
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair,
-      Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return BitsoAdapters.adaptTicker(getBitsoTicker(currencyPair), currencyPair);
   }
 
@@ -31,8 +30,7 @@ public class BitsoMarketDataService extends BitsoMarketDataServiceRaw implements
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair,
-      Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     return BitsoAdapters.adaptTrades(getBitsoTransactions(args), currencyPair);
   }
 }

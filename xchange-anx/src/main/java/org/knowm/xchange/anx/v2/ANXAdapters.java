@@ -71,8 +71,8 @@ public final class ANXAdapters {
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal originalAmount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString,
-      String id, Date timestamp) {
+  public static LimitOrder adaptOrder(BigDecimal originalAmount, BigDecimal price, String tradedCurrency, String transactionCurrency,
+      String orderTypeString, String id, Date timestamp) {
 
     // place a limit order
     OrderType orderType = adaptSide(orderTypeString);
@@ -108,8 +108,9 @@ public final class ANXAdapters {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (ANXOpenOrder anxOpenOrder : anxOpenOrders) {
-      limitOrders.add(adaptOrder(anxOpenOrder.getAmount().getValue(), anxOpenOrder.getPrice().getValue(), anxOpenOrder.getItem(),
-          anxOpenOrder.getCurrency(), anxOpenOrder.getType(), anxOpenOrder.getOid(), new Date(anxOpenOrder.getDate())));
+      limitOrders.add(
+          adaptOrder(anxOpenOrder.getAmount().getValue(), anxOpenOrder.getPrice().getValue(), anxOpenOrder.getItem(), anxOpenOrder.getCurrency(),
+              anxOpenOrder.getType(), anxOpenOrder.getOid(), new Date(anxOpenOrder.getDate())));
     }
 
     return limitOrders;
@@ -222,7 +223,7 @@ public final class ANXAdapters {
     CurrencyPair currencyPair = adaptCurrencyPair(anxTicker.getVol().getCurrency(), anxTicker.getAvg().getCurrency());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-        .build();
+                               .build();
 
   }
 
@@ -331,18 +332,7 @@ public final class ANXAdapters {
     Currency currency = Currency.getInstance(value.getCurrency());
     ANXValue balance = entry.getBalance();
 
-    return new FundingRecord(
-        entry.getInfo(),
-        date,
-        currency,
-        value.getValue(),
-        entry.getTransactionId(),
-        null,
-        type,
-        FundingRecord.Status.COMPLETE,
-        balance == null ? null : balance.getValue(),
-        fee,
-        null
-    );
+    return new FundingRecord(entry.getInfo(), date, currency, value.getValue(), entry.getTransactionId(), null, type, FundingRecord.Status.COMPLETE,
+        balance == null ? null : balance.getValue(), fee, null);
   }
 }

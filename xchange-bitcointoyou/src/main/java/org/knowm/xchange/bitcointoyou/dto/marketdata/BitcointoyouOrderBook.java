@@ -27,12 +27,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"asks", "bids"})
 public class BitcointoyouOrderBook {
 
-  private final List<List<BigDecimal>> asks ;
+  private final List<List<BigDecimal>> asks;
   private final List<List<BigDecimal>> bids;
   @JsonIgnore
   private final Map<String, Object> additionalProperties = new HashMap<>();
 
-  public BitcointoyouOrderBook(@JsonProperty("asks") List<List<BigDecimal>> asks, @JsonProperty("bids")List<List<BigDecimal>> bids) {
+  public BitcointoyouOrderBook(@JsonProperty("asks") List<List<BigDecimal>> asks, @JsonProperty("bids") List<List<BigDecimal>> bids) {
     this.asks = asks;
     this.bids = bids;
   }

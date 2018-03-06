@@ -20,7 +20,7 @@ public class GatecoinTransaction {
    *
    * @param transactionTime
    * @param transactionId
-   * @param price BTC price
+   * @param price           BTC price
    * @param quantity
    * @param currencyPair
    */

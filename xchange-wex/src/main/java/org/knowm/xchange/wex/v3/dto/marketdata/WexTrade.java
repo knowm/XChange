@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Author: okhomenko
- * <p>
  * Data object representing single Trade from Wex API v.3
  */
 public class WexTrade {

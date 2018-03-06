@@ -21,19 +21,11 @@ public final class BinanceOrder {
   public final BigDecimal icebergQty;
   public final long time;
 
-  public BinanceOrder(@JsonProperty("symbol") String symbol
-      , @JsonProperty("orderId") long orderId
-      , @JsonProperty("clientOrderId") String clientOrderId
-      , @JsonProperty("price") BigDecimal price
-      , @JsonProperty("origQty") BigDecimal origQty
-      , @JsonProperty("executedQty") BigDecimal executedQty
-      , @JsonProperty("status") OrderStatus status
-      , @JsonProperty("timeInForce") TimeInForce timeInForce
-      , @JsonProperty("type") OrderType type
-      , @JsonProperty("side") OrderSide side
-      , @JsonProperty("stopPrice") BigDecimal stopPrice
-      , @JsonProperty("icebergQty") BigDecimal icebergQty
-      , @JsonProperty("time") long time) {
+  public BinanceOrder(@JsonProperty("symbol") String symbol, @JsonProperty("orderId") long orderId,
+      @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("price") BigDecimal price, @JsonProperty("origQty") BigDecimal origQty,
+      @JsonProperty("executedQty") BigDecimal executedQty, @JsonProperty("status") OrderStatus status,
+      @JsonProperty("timeInForce") TimeInForce timeInForce, @JsonProperty("type") OrderType type, @JsonProperty("side") OrderSide side,
+      @JsonProperty("stopPrice") BigDecimal stopPrice, @JsonProperty("icebergQty") BigDecimal icebergQty, @JsonProperty("time") long time) {
     this.symbol = symbol;
     this.orderId = orderId;
     this.clientOrderId = clientOrderId;

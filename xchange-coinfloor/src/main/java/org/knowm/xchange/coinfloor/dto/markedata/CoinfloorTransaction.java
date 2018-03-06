@@ -11,9 +11,9 @@ public class CoinfloorTransaction {
   private final BigDecimal amount;
 
   /**
-   * @param date Seconds since epoch
-   * @param tid Transaction id
-   * @param price price
+   * @param date   Seconds since epoch
+   * @param tid    Transaction id
+   * @param price  price
    * @param amount amount
    */
   public CoinfloorTransaction(@JsonProperty("date") long date, @JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price,

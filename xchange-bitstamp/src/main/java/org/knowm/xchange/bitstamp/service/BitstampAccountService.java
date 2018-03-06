@@ -55,11 +55,13 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(WithdrawFundsParams params)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
 
-      BitstampWithdrawal response = withdrawRippleFunds(rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address, rippleWithdrawFundsParams.tag);
+      BitstampWithdrawal response = withdrawRippleFunds(rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address,
+          rippleWithdrawFundsParams.tag);
 
       if (response.error != null) {
         throw new ExchangeException("Failed to withdraw: " + response.error);
@@ -81,7 +83,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
       } else if (defaultParams.currency.equals(Currency.BTC)) {
         response = withdrawBtcFunds(defaultParams.amount, defaultParams.address);
       } else if (defaultParams.currency.equals(Currency.BCH)) {
-          response = withdrawBchFunds(defaultParams.amount, defaultParams.address);
+        response = withdrawBchFunds(defaultParams.amount, defaultParams.address);
       } else {
         throw new IllegalStateException("Cannot withdraw " + defaultParams.currency);
       }

@@ -13,14 +13,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class QuadrigaCxBalance {
 
+  private final BigDecimal fee;
+  private final String error;
   private Map<Currency, BigDecimal> currencyReserved = new HashMap<>();
   private Map<Currency, BigDecimal> currencyAvailable = new HashMap<>();
   private Map<Currency, BigDecimal> currencyBalance = new HashMap<>();
   private List<Currency> currencies = new ArrayList<>();
-
-  private final BigDecimal fee;
-
-  private final String error;
 
   public QuadrigaCxBalance(@JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error, @JsonProperty("fees") Object fees) {
 

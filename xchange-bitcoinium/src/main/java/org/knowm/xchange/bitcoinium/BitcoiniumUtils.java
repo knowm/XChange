@@ -8,24 +8,23 @@ import java.util.List;
  */
 public final class BitcoiniumUtils {
 
+  public static final List<String> PRICE_WINDOW = Arrays.asList(
+
+      "TWO_PERCENT", "FIVE_PERCENT", "TEN_PERCENT", "TWENTY_PERCENT", "FIFTY_PERCENT", "ONE_HUNDRED_PERCENT"
+
+  );
+  public static final List<String> TIME_WINDOW = Arrays.asList(
+
+      "ONE_HOUR", "THREE_HOURS", "TWELVE_HOURS", "TWENTY_FOUR_HOURS", "THREE_DAYS", "SEVEN_DAYS", "THIRTY_DAYS", "TWO_MONTHS"
+
+  );
+
   /**
    * private Constructor
    */
   private BitcoiniumUtils() {
 
   }
-
-  public static final List<String> PRICE_WINDOW = Arrays.asList(
-
-      "TWO_PERCENT", "FIVE_PERCENT", "TEN_PERCENT", "TWENTY_PERCENT", "FIFTY_PERCENT", "ONE_HUNDRED_PERCENT"
-
-  );
-
-  public static final List<String> TIME_WINDOW = Arrays.asList(
-
-      "ONE_HOUR", "THREE_HOURS", "TWELVE_HOURS", "TWENTY_FOUR_HOURS", "THREE_DAYS", "SEVEN_DAYS", "THIRTY_DAYS", "TWO_MONTHS"
-
-  );
 
   /**
    * Creates a valid currency pair for Bitcoinium.com

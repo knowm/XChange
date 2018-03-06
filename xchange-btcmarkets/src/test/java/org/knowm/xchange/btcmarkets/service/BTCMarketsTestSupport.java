@@ -31,6 +31,11 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
   protected static final String SPECIFICATION_SECRET_KEY = "secretKey";
 
   protected static final Balance EXPECTED_BALANCE = new Balance(Currency.BTC, new BigDecimal("3.0E-7"), new BigDecimal("2.0E-7"));
+  protected static final Ticker EXPECTED_TICKER = new Ticker.Builder().bid(new BigDecimal("137.00")).ask(new BigDecimal("140.00"))
+                                                                      .last(new BigDecimal("140.00")).currencyPair(CurrencyPair.BTC_AUD)
+                                                                      .timestamp(new Date(1378878117000L)).build();
+  protected static final BTCMarketsTicker EXPECTED_BTC_MARKETS_TICKER = new BTCMarketsTicker(new BigDecimal("137.00"), new BigDecimal("140.00"),
+      new BigDecimal("140.00"), "AUD", "BTC", new Date(1378878117000L));
 
   protected static LimitOrder[] expectedAsks() {
     return new LimitOrder[]{
@@ -51,9 +56,6 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
         new LimitOrder(Order.OrderType.BID, new BigDecimal("30.00000000"), CurrencyPair.BTC_AUD, "2", null, new BigDecimal("40.00000000"))};
   }
 
-  protected static final Ticker EXPECTED_TICKER = new Ticker.Builder().bid(new BigDecimal("137.00")).ask(new BigDecimal("140.00"))
-      .last(new BigDecimal("140.00")).currencyPair(CurrencyPair.BTC_AUD).timestamp(new Date(1378878117000L)).build();
-
   protected static UserTrade[] expectedUserTrades() {
     return new UserTrade[]{
         new UserTrade(Order.OrderType.ASK, new BigDecimal("20.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("10.00000000"), new Date(111111111L),
@@ -67,9 +69,6 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
         new UserTrade(Order.OrderType.BID, new BigDecimal("0"), CurrencyPair.BTC_AUD, new BigDecimal("90.00000000"), new Date(555555555L), "5",
             "null", new BigDecimal("5"), Currency.AUD)};
   }
-
-  protected static final BTCMarketsTicker EXPECTED_BTC_MARKETS_TICKER = new BTCMarketsTicker(new BigDecimal("137.00"),
-      new BigDecimal("140.00"), new BigDecimal("140.00"), "AUD", "BTC", new Date(1378878117000L));
 
   protected static List<BTCMarketsUserTrade> expectedBtcMarketsUserTrades() {
     return Collections.unmodifiableList(Arrays.asList(
@@ -104,14 +103,15 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
   }
 
   protected static BTCMarketsOrder[] expectedParsedBtcMarketsOrders() {
-    return new BTCMarketsOrder[]{createBTCMarketsOrder(1003245675L, new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC",
-        BTCMarketsOrder.Side.Bid, BTCMarketsOrder.Type.Limit, null, new Date(1378862733366L), "Placed", null, new BigDecimal("0.10000000"),
-        new ArrayList<BTCMarketsUserTrade>()),
+    return new BTCMarketsOrder[]{
+        createBTCMarketsOrder(1003245675L, new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Bid,
+            BTCMarketsOrder.Type.Limit, null, new Date(1378862733366L), "Placed", null, new BigDecimal("0.10000000"),
+            new ArrayList<BTCMarketsUserTrade>()),
 
         createBTCMarketsOrder(4345675L, new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Ask,
-            BTCMarketsOrder.Type.Limit, null, new Date(1378636912705L), "Fully Matched", null, new BigDecimal("0E-8"),
-            Arrays.asList(createBTCMarketsUserTrade(5345677L, null, new BigDecimal("130.00000000"), new BigDecimal("0.10000000"),
-                new BigDecimal("0.00100000"), new Date(1378636913151L), null))),};
+            BTCMarketsOrder.Type.Limit, null, new Date(1378636912705L), "Fully Matched", null, new BigDecimal("0E-8"), Arrays.asList(
+                createBTCMarketsUserTrade(5345677L, null, new BigDecimal("130.00000000"), new BigDecimal("0.10000000"), new BigDecimal("0.00100000"),
+                    new Date(1378636913151L), null))),};
   }
 
   protected static BTCMarketsBalance[] expectedBtcMarketsBalances() {

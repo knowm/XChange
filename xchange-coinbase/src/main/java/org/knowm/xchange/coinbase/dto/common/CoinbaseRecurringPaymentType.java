@@ -30,8 +30,8 @@ public enum CoinbaseRecurringPaymentType {
         CoinbaseRecurringPaymentType.class);
 
     @Override
-    public CoinbaseRecurringPaymentType deserialize(JsonParser jsonParser,
-        final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseRecurringPaymentType deserialize(JsonParser jsonParser, final DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);

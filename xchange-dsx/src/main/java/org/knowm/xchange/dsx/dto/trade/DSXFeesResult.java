@@ -21,8 +21,6 @@ public class DSXFeesResult {
 
   @Override
   public String toString() {
-    return "DSXCancelAllOrdersResult{" +
-        "progressiveCommissions=" + progressiveCommissions +
-        '}';
+    return "DSXCancelAllOrdersResult{" + "progressiveCommissions=" + progressiveCommissions + '}';
   }
 }

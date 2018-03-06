@@ -32,13 +32,10 @@ import org.slf4j.LoggerFactory;
 public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(HitbtcTradeServiceRawIntegration.class);
-
-  private HitbtcTradeServiceRaw service = (HitbtcTradeServiceRaw) exchange.getTradeService();
-
-  private SecureRandom secureRandom = new SecureRandom();
-
   @Rule
   public final ExpectedException exception = ExpectedException.none();
+  private HitbtcTradeServiceRaw service = (HitbtcTradeServiceRaw) exchange.getTradeService();
+  private SecureRandom secureRandom = new SecureRandom();
 
   @Test
   public void testListOrders() throws IOException {

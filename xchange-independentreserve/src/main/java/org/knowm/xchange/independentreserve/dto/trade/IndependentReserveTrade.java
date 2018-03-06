@@ -1,11 +1,9 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Author: Kamil Zbikowski Date: 4/16/15

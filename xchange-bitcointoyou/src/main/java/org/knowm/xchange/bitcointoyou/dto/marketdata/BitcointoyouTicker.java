@@ -3,7 +3,6 @@ package org.knowm.xchange.bitcointoyou.dto.marketdata;
 import org.knowm.xchange.currency.CurrencyPair;
 
 /**
- *
  * @author Jonathas Carrijo
  * @author Danilo Guimaraes
  */

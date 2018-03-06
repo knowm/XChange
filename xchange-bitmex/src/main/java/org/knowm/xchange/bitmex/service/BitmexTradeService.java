@@ -1,14 +1,22 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -42,8 +50,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
       Order.OrderType type = order.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
       CurrencyPair pair = new CurrencyPair(order.getCurrency(), order.getSettleCurrency());
 
-      LimitOrder limitOrder = new LimitOrder(type, order.getVolume(), pair, order.getId(), order.getTimestamp(),
-              order.getPrice());
+      LimitOrder limitOrder = new LimitOrder(type, order.getVolume(), pair, order.getId(), order.getTimestamp(), order.getPrice());
       limitOrders.add(limitOrder);
     }
 
@@ -122,8 +129,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
       Order.OrderType type = privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
       CurrencyPair pair = new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
 
-      orders.add(new LimitOrder(type, privateOrder.getVolume(), pair, privateOrder.getId(), privateOrder.getTimestamp(),
-              privateOrder.getPrice()));
+      orders.add(new LimitOrder(type, privateOrder.getVolume(), pair, privateOrder.getId(), privateOrder.getTimestamp(), privateOrder.getPrice()));
     }
 
     return orders;

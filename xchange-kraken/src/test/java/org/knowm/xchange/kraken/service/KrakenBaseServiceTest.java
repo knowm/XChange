@@ -17,10 +17,6 @@ import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags;
 
 public class KrakenBaseServiceTest {
 
-  private enum OtherExchangeFlags implements IOrderFlags {
-    OTHER
-  }
-
   @Test
   public void testDelimitSetOrderFlags() {
 
@@ -50,6 +46,10 @@ public class KrakenBaseServiceTest {
     for (IOrderFlags flag : flags) {
       assertThat(flagsAsStrings).contains(flag.toString());
     }
+  }
+
+  private enum OtherExchangeFlags implements IOrderFlags {
+    OTHER
   }
 
 }

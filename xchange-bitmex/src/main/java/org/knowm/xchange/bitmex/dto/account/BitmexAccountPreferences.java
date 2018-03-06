@@ -10,34 +10,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "alertOnLiquidations",
-                       "animationsEnabled",
-                       "announcementsLastSeen",
-                       "chatChannelID",
-                       "colorTheme",
-                       "currency",
-                       "debug",
-                       "disableEmails",
-                       "hideConfirmDialogs",
-                       "hideConnectionModal",
-                       "hideFromLeaderboard",
-                       "hideNameFromLeaderboard",
-                       "hideNotifications",
-                       "locale",
-                       "msgsSeen",
-                       "orderBookBinning",
-                       "orderBookType",
-                       "orderClearImmediate",
-                       "orderControlsPlusMinus",
-                       "showLocaleNumbers",
-                       "sounds",
-                       "strictIPCheck",
-                       "strictTimeout",
-                       "tickerGroup",
-                       "tickerPinned",
-                       "tradeLayout"
-                   })
+@JsonPropertyOrder({"alertOnLiquidations", "animationsEnabled", "announcementsLastSeen", "chatChannelID", "colorTheme", "currency", "debug",
+    "disableEmails", "hideConfirmDialogs", "hideConnectionModal", "hideFromLeaderboard", "hideNameFromLeaderboard", "hideNotifications", "locale",
+    "msgsSeen", "orderBookBinning", "orderBookType", "orderClearImmediate", "orderControlsPlusMinus", "showLocaleNumbers", "sounds", "strictIPCheck",
+    "strictTimeout", "tickerGroup", "tickerPinned", "tradeLayout"})
 public final class BitmexAccountPreferences {
 
   @JsonProperty("alertOnLiquidations")

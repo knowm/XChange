@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Test Trade JSON parsing
- * 
+ *
  * @author odrotleff
  */
 public class BiboxTradeUnmarshalTest {
@@ -21,9 +21,8 @@ public class BiboxTradeUnmarshalTest {
   @Test
   public void testOpenOrdersUnmarshal() throws IOException {
 
-    BiboxSingleResponse<BiboxOrders> response =
-        BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
-            "/trade/example-open-orders.json");
+    BiboxSingleResponse<BiboxOrders> response = BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<BiboxOrders>>() {
+    }, "/trade/example-open-orders.json");
     assertThat(response.get().getCmd()).isEqualTo("orderpending/orderPendingList");
 
     BiboxOrders orders = response.get().getResult();
@@ -63,9 +62,8 @@ public class BiboxTradeUnmarshalTest {
   @Test
   public void testTradeHistoryUnmarshal() throws IOException {
 
-    BiboxSingleResponse<BiboxOrders> response =
-        BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
-            "/trade/example-trade-history.json");
+    BiboxSingleResponse<BiboxOrders> response = BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<BiboxOrders>>() {
+    }, "/trade/example-trade-history.json");
     assertThat(response.get().getCmd()).isEqualTo("orderpending/orderHistoryList");
 
     BiboxOrders orders = response.get().getResult();

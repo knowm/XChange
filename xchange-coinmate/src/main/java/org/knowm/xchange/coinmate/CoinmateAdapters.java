@@ -23,6 +23,11 @@
  */
 package org.knowm.xchange.coinmate;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
@@ -49,11 +54,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 /**
  * @author Martin Stachon
  */
@@ -63,7 +63,7 @@ public class CoinmateAdapters {
    * Adapts a CoinmateTicker to a Ticker Object
    *
    * @param coinmateTicker The exchange specific ticker
-   * @param currencyPair (e.g. BTC/USD)
+   * @param currencyPair   (e.g. BTC/USD)
    * @return The ticker
    */
   public static Ticker adaptTicker(CoinmateTicker coinmateTicker, CurrencyPair currencyPair) {
@@ -76,7 +76,8 @@ public class CoinmateAdapters {
     BigDecimal volume = coinmateTicker.getData().getAmount();
     Date timestamp = new Date(coinmateTicker.getData().getTimestamp() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+                               .build();
 
   }
 
@@ -207,19 +208,8 @@ public class CoinmateAdapters {
         externalId = description.replace(feeCurrency + ": ", "");//the transaction hash is in the description
       }
 
-      FundingRecord funding = new FundingRecord(
-          null,
-          new Date(entry.getTimestamp()),
-          Currency.getInstance(entry.getAmountCurrency()),
-          entry.getAmount(),
-          transactionId,
-          externalId,
-          type,
-          status,
-          null,
-          entry.getFee(),
-          description
-      );
+      FundingRecord funding = new FundingRecord(null, new Date(entry.getTimestamp()), Currency.getInstance(entry.getAmountCurrency()),
+          entry.getAmount(), transactionId, externalId, type, status, null, entry.getFee(), description);
 
       fundings.add(funding);
     }

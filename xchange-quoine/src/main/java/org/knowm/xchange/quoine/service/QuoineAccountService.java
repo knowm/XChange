@@ -129,18 +129,13 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
     }
 
     @Override
-    public void setCurrency(Currency currency) {
-      this.currency = currency;
-    }
-
-    @Override
     public Currency getCurrency() {
       return currency;
     }
 
     @Override
-    public void setPageLength(Integer pageLength) {
-      this.pageLength = pageLength;
+    public void setCurrency(Currency currency) {
+      this.currency = currency;
     }
 
     @Override
@@ -149,13 +144,18 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
     }
 
     @Override
-    public void setPageNumber(Integer pageNumber) {
-      this.pageNumber = pageNumber;
+    public void setPageLength(Integer pageLength) {
+      this.pageLength = pageLength;
     }
 
     @Override
     public Integer getPageNumber() {
       return pageNumber;
+    }
+
+    @Override
+    public void setPageNumber(Integer pageNumber) {
+      this.pageNumber = pageNumber;
     }
   }
 }

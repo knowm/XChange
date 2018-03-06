@@ -10,15 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "amount",
-                       "total",
-                       "basePrice",
-                       "liquidationPrice",
-                       "pl",
-                       "lendingFees",
-                       "type"
-                   })
+@JsonPropertyOrder({"amount", "total", "basePrice", "liquidationPrice", "pl", "lendingFees", "type"})
 public class PoloniexMarginPostionResponse {
   @JsonProperty("amount")
   private BigDecimal amount;
@@ -71,14 +63,7 @@ public class PoloniexMarginPostionResponse {
 
   @Override
   public String toString() {
-    return "PoloniexMarginPostionResponse{" +
-        "amount=" + amount +
-        ", total=" + total +
-        ", basePrice=" + basePrice +
-        ", liquidationPrice=" + liquidationPrice +
-        ", pl=" + pl +
-        ", lendingFees=" + lendingFees +
-        ", type='" + type + '\'' +
-        '}';
+    return "PoloniexMarginPostionResponse{" + "amount=" + amount + ", total=" + total + ", basePrice=" + basePrice + ", liquidationPrice="
+        + liquidationPrice + ", pl=" + pl + ", lendingFees=" + lendingFees + ", type='" + type + '\'' + '}';
   }
 }

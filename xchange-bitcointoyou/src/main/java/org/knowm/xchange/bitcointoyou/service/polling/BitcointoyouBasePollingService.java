@@ -15,11 +15,10 @@ import si.mazi.rescu.RestProxyFactory;
  */
 public class BitcointoyouBasePollingService extends BaseExchangeService implements BaseService {
 
+  protected final Bitcointoyou bitcointoyou;
   final String apiKey;
   final BitcointoyouAuthenticated bitcointoyouAuthenticated;
   final ParamsDigest signatureCreator;
-
-  protected final Bitcointoyou bitcointoyou;
 
   /**
    * Constructor

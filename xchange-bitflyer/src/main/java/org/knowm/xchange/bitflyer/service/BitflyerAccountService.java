@@ -49,11 +49,11 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     List<BitflyerAddress> addresses = getAddresses();
-    for ( BitflyerAddress address : addresses ) {
-      if ( address.getCurrencyCode().equals(currency.getCurrencyCode()))
+    for (BitflyerAddress address : addresses) {
+      if (address.getCurrencyCode().equals(currency.getCurrencyCode()))
         return address.getAddress();
     }
-    
+
     throw new NotAvailableFromExchangeException();
   }
 
@@ -64,54 +64,56 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams param) throws IOException {
-    BitflyerTradeHistoryParams historyParms = (BitflyerTradeHistoryParams) (param instanceof BitflyerTradeHistoryParams ? createFundingHistoryParams() : param);
+    BitflyerTradeHistoryParams historyParms = (BitflyerTradeHistoryParams) (param instanceof BitflyerTradeHistoryParams ?
+        createFundingHistoryParams() :
+        param);
     List<BitflyerCoinHistory> coinsIn = getCoinIns();
     List<BitflyerCoinHistory> coinsOut = getCoinOuts();
     List<BitflyerDepositOrWithdrawal> cashDeposits = getCashDeposits();
     List<BitflyerDepositOrWithdrawal> withdrawals = getWithdrawals();
-    
+
     List<FundingRecord> retVal = new ArrayList<>();
     List<FundingRecord> some;
     some = BitflyerAdapters.adaptFundingRecordsFromCoinHistory(coinsIn, FundingRecord.Type.DEPOSIT);
     cullNotWanted(some, historyParms);
     retVal.addAll(some);
-    
+
     some = BitflyerAdapters.adaptFundingRecordsFromCoinHistory(coinsOut, FundingRecord.Type.WITHDRAWAL);
     cullNotWanted(some, historyParms);
     retVal.addAll(some);
-    
+
     some = BitflyerAdapters.adaptFundingRecordsFromDepositHistory(cashDeposits, FundingRecord.Type.DEPOSIT);
     cullNotWanted(some, historyParms);
     retVal.addAll(some);
-    
+
     some = BitflyerAdapters.adaptFundingRecordsFromDepositHistory(withdrawals, FundingRecord.Type.WITHDRAWAL);
     cullNotWanted(some, historyParms);
     retVal.addAll(some);
-    
+
     // interleave the records based on time, newest first
-    Collections.sort(retVal, (FundingRecord r1, FundingRecord r2)-> {
+    Collections.sort(retVal, (FundingRecord r1, FundingRecord r2) -> {
       return r2.getDate().compareTo(r1.getDate());
     });
-    
+
     return retVal;
   }
-  
+
   private void cullNotWanted(List<FundingRecord> some, BitflyerTradeHistoryParams param) {
-    if ( param != null && param.getCurrencies() != null ) {
+    if (param != null && param.getCurrencies() != null) {
       Iterator<FundingRecord> iter = some.iterator();
-      while ( iter.hasNext() ) {
+      while (iter.hasNext()) {
         FundingRecord record = iter.next();
-        if ( !isIn(record.getCurrency(), param.getCurrencies()))
+        if (!isIn(record.getCurrency(), param.getCurrencies()))
           iter.remove();
       }
     }
   }
-  
+
   private boolean isIn(Currency currency, Currency[] currencies) {
-    for ( Currency cur : currencies )
-      if ( cur.equals(currency))
+    for (Currency cur : currencies)
+      if (cur.equals(currency))
         return true;
-          
+
     return false;
   }
 }

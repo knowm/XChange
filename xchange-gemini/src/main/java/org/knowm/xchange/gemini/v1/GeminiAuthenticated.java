@@ -67,12 +67,12 @@ public interface GeminiAuthenticated extends Gemini {
   @POST
   @Path("withdraw/{currency}")
   GeminiWithdrawalResponse withdraw(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
-      @PathParam("currency") String currency, GeminiWithdrawalRequest withdrawalRequest) throws IOException, GeminiException;
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, @PathParam("currency") String currency, GeminiWithdrawalRequest withdrawalRequest)
+      throws IOException, GeminiException;
 
   @POST
   @Path("deposit/{currency}/newAddress")
   GeminiDepositAddressResponse requestNewAddress(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
-      @PathParam("currency") String currency, GeminiDepositAddressRequest depositRequest) throws IOException, GeminiException;
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, @PathParam("currency") String currency, GeminiDepositAddressRequest depositRequest)
+      throws IOException, GeminiException;
 }

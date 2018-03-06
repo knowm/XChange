@@ -13,16 +13,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
 
-  @Override
-  public CurrencyPair deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException {
-
-    final ObjectCodec oc = jsonParser.getCodec();
-    final JsonNode node = oc.readTree(jsonParser);
-    final String currencyPairString = node.asText();
-
-    return getCurrencyPairFromString(currencyPairString);
-  }
-
   public static CurrencyPair getCurrencyPairFromString(String currencyPairString) {
 
     if (currencyPairString == null || currencyPairString.isEmpty()) {
@@ -77,5 +67,15 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     final String tradeCurrency = currencyPairString.substring(0, bestGuess);
     final String priceCurrency = currencyPairString.substring(bestGuess);
     return new CurrencyPair(tradeCurrency, priceCurrency);
+  }
+
+  @Override
+  public CurrencyPair deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException {
+
+    final ObjectCodec oc = jsonParser.getCodec();
+    final JsonNode node = oc.readTree(jsonParser);
+    final String currencyPairString = node.asText();
+
+    return getCurrencyPairFromString(currencyPairString);
   }
 }

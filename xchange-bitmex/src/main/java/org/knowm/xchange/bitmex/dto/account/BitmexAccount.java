@@ -9,20 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"id",
-                       "ownerId",
-                       "firstname",
-                       "lastname",
-                       "username",
-                       "email",
-                       "phone",
-                       "created",
-                       "lastUpdated",
-                       "preferences",
-                       "TFAEnabled",
-                       "affiliateID",
-                       "pgpPubKey",
-                       "country"})
+@JsonPropertyOrder({"id", "ownerId", "firstname", "lastname", "username", "email", "phone", "created", "lastUpdated", "preferences", "TFAEnabled",
+    "affiliateID", "pgpPubKey", "country"})
 public final class BitmexAccount {
 
   @JsonProperty("id")
@@ -55,7 +43,6 @@ public final class BitmexAccount {
   private String country;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<>();
-
 
   public Integer getId() {
     return id;

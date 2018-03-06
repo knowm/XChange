@@ -34,24 +34,59 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     super(exchange);
   }
 
+  /**
+   * (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed)
+   */
+  private static FundingRecord.Status withdrawStatus(int status) {
+    switch (status) {
+      case 0:
+      case 2:
+      case 4:
+        return Status.PROCESSING;
+      case 1:
+        return Status.CANCELLED;
+      case 3:
+      case 5:
+        return Status.FAILED;
+      case 6:
+        return Status.COMPLETE;
+      default:
+        throw new RuntimeException("Unknown binance withdraw status: " + status);
+    }
+  }
+
+  /**
+   * (0:pending,1:success)
+   */
+  private static FundingRecord.Status depositStatus(int status) {
+    switch (status) {
+      case 0:
+        return Status.PROCESSING;
+      case 1:
+        return Status.COMPLETE;
+      default:
+        throw new RuntimeException("Unknown binance deposit status: " + status);
+    }
+  }
+
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     BinanceAccountInformation acc = super.account(recvWindow, getTimestamp());
     List<Balance> balances = acc.balances.stream().map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
-        .collect(Collectors.toList());
+                                         .collect(Collectors.toList());
     return new AccountInfo(new Wallet(balances));
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return super.withdraw(currency.getCurrencyCode(), address, amount);
   }
 
   @Override
-  public String withdrawFunds(
-      WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(WithdrawFundsParams params)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (!(params instanceof DefaultWithdrawFundsParams)) {
       throw new RuntimeException("DefaultWithdrawFundsParams must be provided.");
     }
@@ -127,41 +162,6 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     }
 
     return result;
-  }
-
-  /**
-   * (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed)
-   */
-  private static FundingRecord.Status withdrawStatus(int status) {
-    switch (status) {
-      case 0:
-      case 2:
-      case 4:
-        return Status.PROCESSING;
-      case 1:
-        return Status.CANCELLED;
-      case 3:
-      case 5:
-        return Status.FAILED;
-      case 6:
-        return Status.COMPLETE;
-      default:
-        throw new RuntimeException("Unknown binance withdraw status: " + status);
-    }
-  }
-
-  /**
-   * (0:pending,1:success)
-   */
-  private static FundingRecord.Status depositStatus(int status) {
-    switch (status) {
-      case 0:
-        return Status.PROCESSING;
-      case 1:
-        return Status.COMPLETE;
-      default:
-        throw new RuntimeException("Unknown binance deposit status: " + status);
-    }
   }
 
 }

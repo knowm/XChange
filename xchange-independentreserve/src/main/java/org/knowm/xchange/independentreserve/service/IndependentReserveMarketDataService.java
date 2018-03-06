@@ -22,22 +22,19 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair,
-      Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     IndependentReserveTicker t = getIndependentReserveTicker(currencyPair.base.toString(), currencyPair.counter.toString());
     return IndependentReserveAdapters.adaptTicker(t, currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair,
-      Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return IndependentReserveAdapters
         .adaptOrderBook(getIndependentReserveOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()));
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair,
-      Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     throw new UnsupportedOperationException();
   }
 }

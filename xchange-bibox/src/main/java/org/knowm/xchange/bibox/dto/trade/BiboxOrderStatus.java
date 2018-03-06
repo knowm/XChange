@@ -8,12 +8,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * @author odrotleff
  */
 public enum BiboxOrderStatus {
-  PENDING(1, OrderStatus.NEW),
-  PART_COMPLETED(2, OrderStatus.PARTIALLY_FILLED),
-  COMPLETED(3, OrderStatus.FILLED),
-  PART_CANCELED(4, OrderStatus.PARTIALLY_CANCELED),
-  CANCELLED(5, OrderStatus.CANCELED),
-  CANCELLING(6, OrderStatus.PENDING_CANCEL);
+  PENDING(1, OrderStatus.NEW), PART_COMPLETED(2, OrderStatus.PARTIALLY_FILLED), COMPLETED(3, OrderStatus.FILLED), PART_CANCELED(4,
+      OrderStatus.PARTIALLY_CANCELED), CANCELLED(5, OrderStatus.CANCELED), CANCELLING(6, OrderStatus.PENDING_CANCEL);
 
   private int orderStatus;
   private OrderStatus xchangeStatus;
@@ -21,14 +17,6 @@ public enum BiboxOrderStatus {
   private BiboxOrderStatus(int orderStatus, OrderStatus xchangeStatus) {
     this.orderStatus = orderStatus;
     this.xchangeStatus = xchangeStatus;
-  }
-
-  public int asInt() {
-    return orderStatus;
-  }
-
-  public OrderStatus getOrderStatus() {
-    return xchangeStatus;
   }
 
   @JsonCreator
@@ -49,5 +37,13 @@ public enum BiboxOrderStatus {
       default:
         throw new RuntimeException("Unexpected Bibox order status!");
     }
+  }
+
+  public int asInt() {
+    return orderStatus;
+  }
+
+  public OrderStatus getOrderStatus() {
+    return xchangeStatus;
   }
 }

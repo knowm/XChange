@@ -28,10 +28,6 @@ public class HitbtcError {
 
   @Override
   public String toString() {
-    return "HitbtcError{" +
-        "code='" + code + '\'' +
-        ", message='" + message + '\'' +
-        ", description='" + description + '\'' +
-        '}';
+    return "HitbtcError{" + "code='" + code + '\'' + ", message='" + message + '\'' + ", description='" + description + '\'' + '}';
   }
 }

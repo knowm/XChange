@@ -37,6 +37,17 @@ public class LivecoinOrderBook {
     }
   }
 
+  private static LivecoinAsksBidsData convertToOrderBookEntry(Object[] dataObject) {
+    if (dataObject != null && dataObject.length == 2) {
+      BigDecimal volume = new BigDecimal((String) dataObject[0]);
+      BigDecimal price = new BigDecimal((String) dataObject[1]);
+
+      return new LivecoinAsksBidsData(price, volume);
+
+    }
+    return null;
+  }
+
   public Long getTimestamp() {
     return timestamp;
   }
@@ -47,17 +58,6 @@ public class LivecoinOrderBook {
 
   public LivecoinAsksBidsData[] getBids() {
     return bids;
-  }
-
-  private static LivecoinAsksBidsData convertToOrderBookEntry(Object[] dataObject) {
-    if (dataObject != null && dataObject.length == 2) {
-      BigDecimal volume = new BigDecimal((String) dataObject[0]);
-      BigDecimal price = new BigDecimal((String) dataObject[1]);
-
-      return new LivecoinAsksBidsData(price, volume);
-
-    }
-    return null;
   }
 
   @Override
