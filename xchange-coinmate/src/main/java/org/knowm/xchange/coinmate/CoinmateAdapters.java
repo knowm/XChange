@@ -186,6 +186,7 @@ public class CoinmateAdapters {
         case "COMPLETED":
           status = FundingRecord.Status.COMPLETE;
           break;
+        case "NEW":
         case "SENT":
         case "CREATED":
         case "WAITING":
