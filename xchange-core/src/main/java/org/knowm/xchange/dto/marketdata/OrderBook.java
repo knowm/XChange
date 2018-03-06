@@ -33,6 +33,7 @@ public final class OrderBook implements Serializable {
    */
   private final List<LimitOrder> bids;
 
+
   /**
    * Constructor
    *
@@ -42,9 +43,30 @@ public final class OrderBook implements Serializable {
    */
   public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids) {
 
+    this(timeStamp, asks, bids, false);
+  }
+
+  /**
+   * Constructor
+   *
+   * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if not provided
+   * @param asks The ASK orders
+   * @param bids The BID orders
+   * @param sort True if the asks and bids need to be sorted
+   */
+  public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids, boolean sort) {
+
     this.timeStamp = timeStamp;
-    this.asks = asks;
-    this.bids = bids;
+    if (sort) {
+      this.asks = new ArrayList<>(asks);
+      this.bids = new ArrayList<>(bids);
+      Collections.sort(this.asks);
+      Collections.sort(this.bids);
+    }
+    else {
+      this.asks = asks;
+      this.bids = bids;
+    }
   }
 
   /**
@@ -56,9 +78,27 @@ public final class OrderBook implements Serializable {
    */
   public OrderBook(Date timeStamp, Stream<LimitOrder> asks, Stream<LimitOrder> bids) {
 
+    this(timeStamp, asks, bids, false);
+  }
+
+  /**
+   * Constructor
+   *
+   * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if not provided
+   * @param asks The ASK orders
+   * @param bids The BID orders
+   * @param sort True if the asks and bids need to be sorted
+   */
+  public OrderBook(Date timeStamp, Stream<LimitOrder> asks, Stream<LimitOrder> bids, boolean sort) {
+
     this.timeStamp = timeStamp;
-    this.asks = asks.collect(Collectors.toList());
-    this.bids = bids.collect(Collectors.toList());
+    if (sort) {
+      this.asks = asks.sorted().collect(Collectors.toList());
+      this.bids = bids.sorted().collect(Collectors.toList());
+    } else {
+      this.asks = asks.collect(Collectors.toList());
+      this.bids = bids.collect(Collectors.toList());
+    }
   }
 
   public Date getTimeStamp() {
