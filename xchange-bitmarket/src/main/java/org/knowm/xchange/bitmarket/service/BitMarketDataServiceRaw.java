@@ -8,6 +8,8 @@ import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * @author kpysniak
  */
@@ -18,8 +20,8 @@ public class BitMarketDataServiceRaw extends BitMarketBaseService {
    *
    * @param exchange
    */
-  protected BitMarketDataServiceRaw(Exchange exchange) {
-    super(exchange);
+  protected BitMarketDataServiceRaw(Exchange exchange, IRestProxyFactory restProxyFactory) {
+    super(exchange, restProxyFactory);
   }
 
   public BitMarketTicker getBitMarketTicker(CurrencyPair currencyPair) throws IOException {

@@ -20,6 +20,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * Created by krzysztoffonal on 25/05/15.
  */
@@ -29,8 +31,8 @@ public class BitMarketTradeServiceRaw extends BitMarketBaseService {
    *
    * @param exchange
    */
-  protected BitMarketTradeServiceRaw(Exchange exchange) {
-    super(exchange);
+  protected BitMarketTradeServiceRaw(Exchange exchange, IRestProxyFactory restProxyFactory) {
+    super(exchange, restProxyFactory);
   }
 
   public BitMarketOrdersResponse getBitMarketOpenOrders() throws IOException, ExchangeException {
