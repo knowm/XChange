@@ -13,12 +13,14 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.knowm.xchange.gemini.v1.GeminiAdapters.adaptTrades;
 
@@ -55,29 +57,41 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+
         Observable<GeminiOrderbook> subscribedOrderbookSnapshot = service.subscribeChannel(currencyPair, args)
-                .filter(s -> filterEventsByReason(s, "change", "initial"))
-                .map((JsonNode s) -> {
-                    GeminiWebSocketTransaction transaction = mapper.readValue(s.toString(), GeminiWebSocketTransaction.class);
-                    GeminiOrderbook orderbook = transaction.toGeminiOrderbook(currencyPair);
-                    orderbooks.put(currencyPair, orderbook);
-                    return orderbook;
-                });
-
-        Observable<GeminiOrderbook> subscribedOrderbookUpdate = service.subscribeChannel(currencyPair, args)
-                .filter(s -> orderbooks.containsKey(currencyPair) &&
-                        (filterEventsByReason(s, "change", "place") ||
+                .filter(
+                        s -> filterEventsByReason(s, "change", "initial") ||
+                                filterEventsByReason(s, "change", "place") ||
                                 filterEventsByReason(s, "change", "cancel") ||
-                                filterEventsByReason(s, "change", "trade")))
+                                filterEventsByReason(s, "change", "trade")
+                )
                 .map((JsonNode s) -> {
-                    GeminiWebSocketTransaction transaction = mapper.readValue(s.toString(), GeminiWebSocketTransaction.class);
-                    GeminiLimitOrder[] levels = transaction.toGeminiLimitOrdersUpdate();
-                    GeminiOrderbook orderbook = orderbooks.get(currencyPair);
-                    orderbook.updateLevels(levels);
-                    return orderbook;
+
+                    if(filterEventsByReason(s, "change", "initial")) {
+                        GeminiWebSocketTransaction transaction = mapper.readValue(s.toString(), GeminiWebSocketTransaction.class);
+                        GeminiOrderbook orderbook = transaction.toGeminiOrderbook(currencyPair);
+                        orderbooks.put(currencyPair, orderbook);
+                        return orderbook;
+
+                    }
+
+                    if(filterEventsByReason(s, "change", "place") ||
+                            filterEventsByReason(s, "change", "cancel") ||
+                            filterEventsByReason(s, "change", "trade")) {
+
+                        GeminiWebSocketTransaction transaction = mapper.readValue(s.toString(), GeminiWebSocketTransaction.class);
+                        GeminiLimitOrder[] levels = transaction.toGeminiLimitOrdersUpdate();
+                        GeminiOrderbook orderbook = orderbooks.get(currencyPair);
+                        orderbook.updateLevels(levels);
+                        return orderbook;
+
+                    }
+
+                    throw new NotYetImplementedForExchangeException(" Unknown message type, even after filtering: " + s.toString());
+
                 });
 
-        return subscribedOrderbookUpdate.mergeWith(subscribedOrderbookSnapshot).map(GeminiOrderbook::toOrderbook);
+        return subscribedOrderbookSnapshot.map(GeminiOrderbook::toOrderbook);
     }
 
     @Override
