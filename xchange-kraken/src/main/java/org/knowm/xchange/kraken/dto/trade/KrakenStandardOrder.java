@@ -298,7 +298,7 @@ public class KrakenStandardOrder {
     public KrakenStandardOrder buildOrder() {
 
       return new KrakenStandardOrder(currencyPair, type, orderType, price, secondaryPrice, volume, leverage, positionTxId, orderFlags, startTime,
-          expireTime, userRefId, validateOnly, closeOrder);
+          expireTime, userRefId, validateOnly, closeOrder == null? new HashMap<>(): closeOrder);
     }
 
     @Override
