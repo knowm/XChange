@@ -10,6 +10,7 @@ import org.knowm.xchange.abucoins.AbucoinsAdapters;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsFill;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.dto.Order;
@@ -102,7 +103,8 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotAvailableFromExchangeException();
+    AbucoinsFill[] fills = getAbucoinsFills();
+    return AbucoinsAdapters.adaptUserTrades(fills);
   }
 
   @Override
