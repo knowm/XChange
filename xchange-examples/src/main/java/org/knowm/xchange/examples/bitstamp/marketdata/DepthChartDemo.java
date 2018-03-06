@@ -55,7 +55,7 @@ public class DepthChartDemo {
     List<Number> yData = new ArrayList<>();
     BigDecimal accumulatedBidUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getBids()) {
-      if (limitOrder.getLimitPrice().doubleValue() > 100) {
+      if (limitOrder.getLimitPrice().doubleValue() > 5000) {
         xData.add(limitOrder.getLimitPrice());
         accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedBidUnits);
@@ -73,7 +73,7 @@ public class DepthChartDemo {
     yData = new ArrayList<>();
     BigDecimal accumulatedAskUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getAsks()) {
-      if (limitOrder.getLimitPrice().doubleValue() < 12000) {
+      if (limitOrder.getLimitPrice().doubleValue() < 20000) {
         xData.add(limitOrder.getLimitPrice());
         accumulatedAskUnits = accumulatedAskUnits.add(limitOrder.getOriginalAmount());
         yData.add(accumulatedAskUnits);
