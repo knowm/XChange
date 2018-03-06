@@ -43,6 +43,10 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw implemen
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     List<BitmexTicker> bitmexTickers = getTicker(currencyPair.base.toString() + currencyPair.counter.toString());
+    if (bitmexTickers.isEmpty()) {
+    	return null;
+    }
+
     BitmexTicker bitmexTicker = bitmexTickers.get(0);
 
     DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
