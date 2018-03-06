@@ -1,6 +1,7 @@
 package org.knowm.xchange.okcoin;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -65,6 +66,10 @@ public interface OkCoin {
   @Path("future_trades.do")
   OkCoinTrade[] getFuturesTrades(@QueryParam("ok") String ok, @QueryParam("symbol") String symbol, @QueryParam("contract_type") String contract,
       @QueryParam("since") long since) throws IOException;
+
+  @GET
+  @Path("kline.do")
+  List<Object[]> getKlines(@QueryParam("symbol") String symbol, @QueryParam("type") String type) throws IOException;
 
   @POST
   @Path("userinfo.do")
