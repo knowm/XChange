@@ -20,10 +20,14 @@ public enum KrakenType {
 
   BUY, SELL;
 
-  @Override
-  public String toString() {
+  private static final Map<String, KrakenType> fromString = new HashMap<>();
 
-    return super.toString().toLowerCase();
+  static {
+    for (KrakenType type : values())
+      fromString.put(type.toString(), type);
+
+    fromString.put("b", BUY);
+    fromString.put("s", SELL);
   }
 
   public static KrakenType fromString(String typeString) {
@@ -36,14 +40,10 @@ public enum KrakenType {
     return type == OrderType.ASK ? KrakenType.SELL : KrakenType.BUY;
   }
 
-  private static final Map<String, KrakenType> fromString = new HashMap<>();
+  @Override
+  public String toString() {
 
-  static {
-    for (KrakenType type : values())
-      fromString.put(type.toString(), type);
-
-    fromString.put("b", BUY);
-    fromString.put("s", SELL);
+    return super.toString().toLowerCase();
   }
 
   static class KrakenTypeDeserializer extends JsonDeserializer<KrakenType> {

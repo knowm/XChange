@@ -55,8 +55,8 @@ public final class GatecoinAdapters {
     for (GatecoinBalance balance : gatecoinBalances) {
       Currency ccy = Currency.getInstance(balance.getCurrency());
       balances.add(new Balance.Builder().currency(ccy).total(balance.getBalance()).available(balance.getAvailableBalance())
-          .frozen(balance.getOpenOrder().negate()).withdrawing(balance.getPendingOutgoing().negate())
-          .depositing(balance.getPendingIncoming().negate()).build());
+                                        .frozen(balance.getOpenOrder().negate()).withdrawing(balance.getPendingOutgoing().negate())
+                                        .depositing(balance.getPendingIncoming().negate()).build());
     }
     return new Wallet(balances);
   }
@@ -65,8 +65,8 @@ public final class GatecoinAdapters {
    * Adapts a org.knowm.xchange.gatecoin.api.model.OrderBook to a OrderBook Object
    *
    * @param gatecoinDepthResult
-   * @param currencyPair (e.g. BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
+   * @param currencyPair        (e.g. BTC/USD)
+   * @param timeScale           polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(GatecoinDepthResult gatecoinDepthResult, CurrencyPair currencyPair, int timeScale) {
@@ -130,7 +130,7 @@ public final class GatecoinAdapters {
         Date timestamp = new Date(ticker.getTimestamp() * 1000L);
 
         return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
-            .timestamp(timestamp).build();
+                                   .timestamp(timestamp).build();
       }
     }
     return null;

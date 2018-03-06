@@ -124,15 +124,8 @@ public class PoloniexOpenOrder {
 
   @Override
   public String toString() {
-    return "PoloniexOpenOrder{" +
-        "orderNumber='" + orderNumber + '\'' +
-        ", type='" + type + '\'' +
-        ", rate=" + rate +
-        ", startingAmount=" + startingAmount +
-        ", amount=" + amount +
-        ", total=" + total +
-        ", date='" + date + '\'' +
-        ", additionalProperties=" + additionalProperties +
-        '}';
+    return "PoloniexOpenOrder{" + "orderNumber='" + orderNumber + '\'' + ", type='" + type + '\'' + ", rate=" + rate + ", startingAmount="
+        + startingAmount + ", amount=" + amount + ", total=" + total + ", date='" + date + '\'' + ", additionalProperties=" + additionalProperties
+        + '}';
   }
 }

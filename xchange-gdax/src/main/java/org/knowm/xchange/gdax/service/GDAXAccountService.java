@@ -1,5 +1,12 @@
 package org.knowm.xchange.gdax.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -17,13 +24,6 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GDAXAccountService extends GDAXAccountServiceRaw implements AccountService {
 
@@ -147,19 +147,9 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
           Object transferId = details.get("transfer_id");
 
-          fundingHistory.add(new FundingRecord(
-              null,
-              DateUtils.fromISO8601DateString(map.get("created_at").toString()),
-              currency,
-              new BigDecimal(map.get("amount").toString()),
-              transferId == null ? null : transferId.toString(),
-              null,
-              type,
-              FundingRecord.Status.COMPLETE,
-              new BigDecimal(map.get("balance").toString()),
-              null,
-              null
-          ));
+          fundingHistory.add(new FundingRecord(null, DateUtils.fromISO8601DateString(map.get("created_at").toString()), currency,
+              new BigDecimal(map.get("amount").toString()), transferId == null ? null : transferId.toString(), null, type,
+              FundingRecord.Status.COMPLETE, new BigDecimal(map.get("balance").toString()), null, null));
         } catch (Exception e) {
           throw new IllegalStateException("Failed to parse: " + map, e);
         }

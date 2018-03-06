@@ -28,6 +28,15 @@ public class KunaTicker {
   }
 
   /**
+   * Creates new builder.
+   *
+   * @return builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
    * Returns cryptocurrency price for buy.
    *
    * @return buy price
@@ -90,26 +99,10 @@ public class KunaTicker {
     return price;
   }
 
-  /**
-   * Creates new builder.
-   *
-   * @return builder
-   */
-  public static Builder builder() {
-    return new Builder();
-  }
-
   @Override
   public String toString() {
-    return "KunaTicker{" +
-        "buy=" + buy +
-        ", sell=" + sell +
-        ", low=" + low +
-        ", high=" + high +
-        ", last=" + last +
-        ", vol=" + vol +
-        ", price=" + price +
-        '}';
+    return "KunaTicker{" + "buy=" + buy + ", sell=" + sell + ", low=" + low + ", high=" + high + ", last=" + last + ", vol=" + vol + ", price="
+        + price + '}';
   }
 
   public static class Builder {

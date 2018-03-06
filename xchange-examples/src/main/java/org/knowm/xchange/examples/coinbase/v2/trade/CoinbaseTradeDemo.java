@@ -21,7 +21,7 @@ public class CoinbaseTradeDemo {
     TradeService tradeService = exchange.getTradeService();
 
     // [TODO] generic(tradeService);
-    
+
     raw(exchange, (CoinbaseTradeService) tradeService);
   }
 
@@ -41,7 +41,7 @@ public class CoinbaseTradeDemo {
 
     CoinbaseAccountService accountService = (CoinbaseAccountService) exchange.getAccountService();
     String accountId = accountService.getCoinbaseAccount(Currency.BTC).getId();
-    
+
     BigDecimal amount = new BigDecimal("0.0001");
     CoinbaseSell res = tradeService.sell(accountId, amount, Currency.BTC, false);
     System.out.println(res);

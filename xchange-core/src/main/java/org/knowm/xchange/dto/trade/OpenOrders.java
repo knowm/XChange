@@ -33,7 +33,7 @@ public final class OpenOrders implements Serializable {
   /**
    * Constructor
    *
-   * @param openOrders The list of open orders
+   * @param openOrders   The list of open orders
    * @param hiddenOrders The list of orders which are active but hidden from the order book.
    */
   public OpenOrders(List<LimitOrder> openOrders, List<Order> hiddenOrders) {

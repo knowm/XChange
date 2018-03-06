@@ -39,7 +39,7 @@ public class RippleLimitOrder extends LimitOrder {
     public static Builder from(final Order order) {
       final Builder builder = new Builder(order.getType(), order.getCurrencyPair());
       builder.id(order.getId()).orderType(order.getType()).originalAmount(order.getOriginalAmount()).currencyPair(order.getCurrencyPair())
-          .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags());
+             .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags());
 
       if (order instanceof LimitOrder) {
         final LimitOrder limitOrder = (LimitOrder) order;

@@ -33,7 +33,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String signature = getSignature(timestamp, path);
     showCurl(apiKey, timestamp, signature, path);
-    
+
     return coinbase.getAccounts(Coinbase.CB_VERSION_VALUE, apiKey, signature, timestamp).getData();
   }
 
@@ -49,7 +49,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String signature = getSignature(timestamp, path);
     showCurl(apiKey, timestamp, signature, path);
-    
+
     return coinbase.getAccount(Coinbase.CB_VERSION_VALUE, apiKey, signature, timestamp, currency.getCurrencyCode()).getData();
   }
 
@@ -63,11 +63,12 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     class Payload {
       @JsonProperty
       String name;
+
       Payload(String name) {
         this.name = name;
       }
     }
-    
+
     Payload payload = new Payload(name);
 
     String path = "/v2/accounts";
@@ -76,7 +77,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     String body = new ObjectMapper().writeValueAsString(payload);
     String signature = getSignature(timestamp, HttpMethod.POST, path, body);
     showCurl(HttpMethod.POST, apiKey, timestamp, signature, path, body);
-    
+
     return coinbase.createAccount(MediaType.APPLICATION_JSON, Coinbase.CB_VERSION_VALUE, apiKey, signature, timestamp, payload).getData();
   }
 

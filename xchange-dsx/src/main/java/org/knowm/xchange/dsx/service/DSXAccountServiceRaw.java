@@ -46,9 +46,9 @@ public class DSXAccountServiceRaw extends DSXBaseService {
   }
 
   /**
-   * @param currency Currency to withdraw
-   * @param address Withdrawall address
-   * @param amount Amount of withdrawal
+   * @param currency   Currency to withdraw
+   * @param address    Withdrawall address
+   * @param amount     Amount of withdrawal
    * @param commission Amount of commission
    * @return Transaction ID
    * @throws IOException
@@ -78,7 +78,7 @@ public class DSXAccountServiceRaw extends DSXBaseService {
   }
 
   /**
-   * @param currency Currency for getting address
+   * @param currency   Currency for getting address
    * @param newAddress 0 - get old address, 1 - generate new address
    * @return address
    * @throws IOException
@@ -101,10 +101,10 @@ public class DSXAccountServiceRaw extends DSXBaseService {
    * @return
    * @throws IOException
    */
-  public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Integer count, Long fromId, Long toId, DSXAuthenticatedV2.SortOrder sortOrder, Long since, Long end,
-      DSXTransHistoryResult.Type type, DSXTransHistoryResult.Status status, String currency) throws IOException {
-    DSXTransHistoryReturn dsxTransHistory = dsx.transHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, toId, sortOrder, since,
-        end, type, status, currency);
+  public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Integer count, Long fromId, Long toId, DSXAuthenticatedV2.SortOrder sortOrder,
+      Long since, Long end, DSXTransHistoryResult.Type type, DSXTransHistoryResult.Status status, String currency) throws IOException {
+    DSXTransHistoryReturn dsxTransHistory = dsx
+        .transHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, toId, sortOrder, since, end, type, status, currency);
     checkResult(dsxTransHistory);
     return dsxTransHistory.getReturnValue();
   }

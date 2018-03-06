@@ -1,4 +1,3 @@
-
 package org.knowm.xchange.bibox.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +14,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Test Account JSON parsing
- * 
+ *
  * @author odrotleff
  */
 public class BiboxAccountUnmarshalTest {
@@ -23,14 +22,13 @@ public class BiboxAccountUnmarshalTest {
   @Test
   public void testTickerUnmarshal() throws IOException {
 
-    BiboxSingleResponse<List<BiboxCoin>> response =
-        BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<List<BiboxCoin>>>() {},
-            "/account/example-coin-list.json");
+    BiboxSingleResponse<List<BiboxCoin>> response = BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<List<BiboxCoin>>>() {
+    }, "/account/example-coin-list.json");
     assertThat(response.get().getCmd()).isEqualTo("transfer/coinList");
 
     List<BiboxCoin> coinList = response.get().getResult();
     assertThat(coinList).hasSize(3);
-    
+
     BiboxCoin etc = coinList.get(2);
     assertThat(etc.getSymbol()).isEqualTo("ETC");
     assertThat(etc.getId()).isEqualTo(45);

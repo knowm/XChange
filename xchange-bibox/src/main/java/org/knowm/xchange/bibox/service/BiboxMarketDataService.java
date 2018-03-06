@@ -23,7 +23,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
- * 
+ *
  * @author odrotleff
  */
 public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements MarketDataService {

@@ -46,6 +46,15 @@ public class KunaOrder {
   }
 
   /**
+   * Creates new builder.
+   *
+   * @return builder
+   */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
    * Returns order id.
    *
    * @return order id
@@ -152,15 +161,6 @@ public class KunaOrder {
   @JsonProperty(TRADES_COUNT)
   public int getTradesCount() {
     return tradesCount;
-  }
-
-  /**
-   * Creates new builder.
-   *
-   * @return builder
-   */
-  public static Builder builder() {
-    return new Builder();
   }
 
   public static class Builder {

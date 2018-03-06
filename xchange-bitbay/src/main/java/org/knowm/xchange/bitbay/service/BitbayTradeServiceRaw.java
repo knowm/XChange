@@ -27,7 +27,8 @@ public class BitbayTradeServiceRaw extends BitbayBaseService {
   }
 
   public List<Map> getBitbayTransactions(CurrencyPair currencyPair) throws IOException, ExchangeException {
-    return bitbayAuthenticated.transactions(apiKey, sign, exchange.getNonceFactory(), currencyPair == null ? null : currencyPair.base.toString()+"-"+currencyPair.counter.toString());
+    return bitbayAuthenticated.transactions(apiKey, sign, exchange.getNonceFactory(),
+        currencyPair == null ? null : currencyPair.base.toString() + "-" + currencyPair.counter.toString());
   }
 
   public BitbayTradeResponse placeBitbayOrder(LimitOrder order) throws IOException {
@@ -35,8 +36,8 @@ public class BitbayTradeServiceRaw extends BitbayBaseService {
     String paymentCurrency = order.getCurrencyPair().counter.toString();
     String type = order.getType() == Order.OrderType.ASK ? "ask" : "bid";
 
-    BitbayTradeResponse response = bitbayAuthenticated.trade(apiKey, sign, exchange.getNonceFactory(), type, currency, order.getOriginalAmount(),
-        paymentCurrency, order.getLimitPrice());
+    BitbayTradeResponse response = bitbayAuthenticated
+        .trade(apiKey, sign, exchange.getNonceFactory(), type, currency, order.getOriginalAmount(), paymentCurrency, order.getLimitPrice());
 
     checkError(response);
 

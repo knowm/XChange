@@ -22,9 +22,9 @@ public class DSXTransactionStatus {
   private final String txId;
 
   public DSXTransactionStatus(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("type") Type type,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency, @JsonProperty("confirmationsCount") long confirmationsCount,
-      @JsonProperty("address") String address, @JsonProperty("status") Status status, @JsonProperty("commission") BigDecimal commission,
-      @JsonProperty("txid") String txId) {
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency,
+      @JsonProperty("confirmationsCount") long confirmationsCount, @JsonProperty("address") String address, @JsonProperty("status") Status status,
+      @JsonProperty("commission") BigDecimal commission, @JsonProperty("txid") String txId) {
 
     this.id = id;
     this.timestamp = timestamp;
@@ -90,18 +90,9 @@ public class DSXTransactionStatus {
 
   @Override
   public String toString() {
-    return "DSXTransactionStatus{" +
-        "id=" + id +
-        ", timestamp=" + timestamp +
-        ", type=" + type +
-        ", amount=" + amount +
-        ", currency='" + currency + '\'' +
-        ", confirmationsCount=" + confirmationsCount +
-        ", address='" + address + '\'' +
-        ", status=" + status +
-        ", commission=" + commission +
-        ", txid=" + txId +
-        '}';
+    return "DSXTransactionStatus{" + "id=" + id + ", timestamp=" + timestamp + ", type=" + type + ", amount=" + amount + ", currency='" + currency
+        + '\'' + ", confirmationsCount=" + confirmationsCount + ", address='" + address + '\'' + ", status=" + status + ", commission=" + commission
+        + ", txid=" + txId + '}';
   }
 
   public enum Type {

@@ -24,8 +24,8 @@ public class CryptoFacilitiesAccountServiceRaw extends CryptoFacilitiesBaseServi
 
   public CryptoFacilitiesAccounts getCryptoFacilitiesAccounts() throws IOException {
 
-    CryptoFacilitiesAccounts cryptoFacilitiesAccounts = cryptoFacilities.accounts(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory());
+    CryptoFacilitiesAccounts cryptoFacilitiesAccounts = cryptoFacilities
+        .accounts(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
 
     if (cryptoFacilitiesAccounts.isSuccess()) {
       return cryptoFacilitiesAccounts;

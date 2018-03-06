@@ -27,7 +27,7 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 /**
  * Author: bryant_harris
  */
-public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements AccountService {        
+public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements AccountService {
   /**
    * Constructor
    *
@@ -47,29 +47,26 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
     String method = abucoinsPaymentMethodForCurrency(currency.getCurrencyCode());
     AbucoinsCryptoDeposit cryptoDeposit = abucoinsDepositMake(new AbucoinsCryptoDepositRequest(currency.getCurrencyCode(), method));
-    if ( cryptoDeposit.getMessage() != null )
+    if (cryptoDeposit.getMessage() != null)
       throw new ExchangeException(cryptoDeposit.getMessage());
-          
+
     return cryptoDeposit.getAddress();
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    if ( params instanceof DefaultWithdrawFundsParams ) {
+    if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defParams = (DefaultWithdrawFundsParams) params;
-                 
+
       String method = abucoinsPaymentMethodForCurrency(defParams.currency.getCurrencyCode());
-      AbucoinsCryptoWithdrawal withdrawal = abucoinsWithdrawalsMake( new AbucoinsCryptoWithdrawalRequest(defParams.amount,
-                                                                                                  defParams.currency.getCurrencyCode(),
-                                                                                                  method,
-                                                                                                  defParams.address,
-                                                                                                  null));
+      AbucoinsCryptoWithdrawal withdrawal = abucoinsWithdrawalsMake(
+          new AbucoinsCryptoWithdrawalRequest(defParams.amount, defParams.currency.getCurrencyCode(), method, defParams.address, null));
       return withdrawal.getPayoutId();
     }
-         
-    if ( params == null )
+
+    if (params == null)
       throw new IllegalArgumentException("Requires a DefaultWithdrawFundsParams object to describe the withdrawal");
-         
+
     throw new IllegalArgumentException("Abucoins only understands DefaultWithdrawFundsParams not " + params.getClass().getName());
   }
 
@@ -77,7 +74,7 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
-  
+
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
     return new AbucoinsTradeHistoryParams();
@@ -87,20 +84,20 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
   public List<FundingRecord> getFundingHistory(TradeHistoryParams param) throws IOException {
     AbucoinsDepositsHistory depositHistory = abucoinsDepositHistory();
     AbucoinsWithdrawalsHistory withdrawHistory = abucoinsWithdrawalsHistory();
-    
+
     List<FundingRecord> retVal = new ArrayList<>();
     List<FundingRecord> some;
     some = AbucoinsAdapters.adaptFundingRecordsFromDepositsHistory(depositHistory);
     retVal.addAll(some);
-    
+
     some = AbucoinsAdapters.adaptFundingRecords(withdrawHistory);
     retVal.addAll(some);
-    
+
     // interleave the records based on time, newest first
-    Collections.sort(retVal, (FundingRecord r1, FundingRecord r2)-> {
+    Collections.sort(retVal, (FundingRecord r1, FundingRecord r2) -> {
       return r2.getDate().compareTo(r1.getDate());
     });
-    
+
     return retVal;
   }
 }

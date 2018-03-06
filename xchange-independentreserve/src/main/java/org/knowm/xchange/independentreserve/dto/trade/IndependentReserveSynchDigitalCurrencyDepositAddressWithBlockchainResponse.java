@@ -1,6 +1,5 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import org.knowm.xchange.independentreserve.util.Util;
@@ -21,11 +20,9 @@ public class IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainR
    */
   private final Date nextUpdate;
 
-  public IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse(
-      @JsonProperty("DepositAddress") String depositAddress
-      , @JsonProperty("LastCheckedTimestampUtc") String lastChecked
-      , @JsonProperty("NextUpdateTimestampUtc") String nextUpdate
-  ) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse(@JsonProperty("DepositAddress") String depositAddress,
+      @JsonProperty("LastCheckedTimestampUtc") String lastChecked, @JsonProperty("NextUpdateTimestampUtc") String nextUpdate)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     this.depositAddress = depositAddress;
     this.lastChecked = Util.toDate(lastChecked);
     this.nextUpdate = Util.toDate(nextUpdate);

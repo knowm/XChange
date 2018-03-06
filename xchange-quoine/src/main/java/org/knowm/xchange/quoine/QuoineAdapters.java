@@ -132,7 +132,8 @@ public class QuoineAdapters {
         // Timestamp
         Date timestamp = new Date(model.getCreatedAt().longValue() * 1000L);
 
-        LimitOrder limitOrder = new LimitOrder(orderType, model.getQuantity(), model.getFilledQuantity(), currencyPair, model.getId(), timestamp, model.getPrice());
+        LimitOrder limitOrder = new LimitOrder(orderType, model.getQuantity(), model.getFilledQuantity(), currencyPair, model.getId(), timestamp,
+            model.getPrice());
 
         openOrders.add(limitOrder);
       }
@@ -162,17 +163,8 @@ public class QuoineAdapters {
   public static List<UserTrade> adapt(List<QuoineExecution> executions, CurrencyPair currencyPair) {
     List<UserTrade> res = new ArrayList<>();
     for (QuoineExecution execution : executions) {
-      res.add(new UserTrade(
-          execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID,
-          execution.quantity,
-          currencyPair,
-          execution.price,
-          DateUtils.fromUnixTime(execution.createdAt),
-          execution.id,
-          execution.orderId,
-          null,
-          null
-      ));
+      res.add(new UserTrade(execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID, execution.quantity, currencyPair, execution.price,
+          DateUtils.fromUnixTime(execution.createdAt), execution.id, execution.orderId, null, null));
     }
     return res;
   }
@@ -190,18 +182,7 @@ public class QuoineAdapters {
       fee = fee == null ? transaction.network_fee : fee.add(transaction.network_fee);
     }
 
-    return new FundingRecord(
-        null,
-        DateUtils.fromUnixTime(transaction.createdAt),
-        currency,
-        transaction.gross_amount,
-        transaction.id,
-        transaction.transaction_hash,
-        deposit,
-        FundingRecord.Status.COMPLETE,
-        null,
-        fee,
-        transaction.notes
-    );
+    return new FundingRecord(null, DateUtils.fromUnixTime(transaction.createdAt), currency, transaction.gross_amount, transaction.id,
+        transaction.transaction_hash, deposit, FundingRecord.Status.COMPLETE, null, fee, transaction.notes);
   }
 }

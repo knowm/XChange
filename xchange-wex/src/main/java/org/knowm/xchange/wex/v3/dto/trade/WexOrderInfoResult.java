@@ -83,8 +83,9 @@ public class WexOrderInfoResult {
   @Override
   public String toString() {
 
-    return MessageFormat.format("WexOrderInfoResult[pair=''{0}'', type={1}, startAmount={2}, amount={3}, rate={4}, timestampCreated={5}, status={6}]", pair, type, startAmount,
-        amount, rate, timestampCreated, status);
+    return MessageFormat
+        .format("WexOrderInfoResult[pair=''{0}'', type={1}, startAmount={2}, amount={3}, rate={4}, timestampCreated={5}, status={6}]", pair, type,
+            startAmount, amount, rate, timestampCreated, status);
   }
 
   public enum Type {

@@ -39,7 +39,7 @@ public class ExchangeMetaData implements Serializable {
    * Constructor
    *
    * @param currencyPairs Map of {@link CurrencyPair} -> {@link CurrencyPairMetaData}
-   * @param currency Map of currency -> {@link CurrencyMetaData}
+   * @param currency      Map of currency -> {@link CurrencyMetaData}
    */
   public ExchangeMetaData(@JsonProperty("currency_pairs") Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
       @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currency, @JsonProperty("public_rate_limits") RateLimit[] publicRateLimits,
@@ -52,6 +52,23 @@ public class ExchangeMetaData implements Serializable {
     this.privateRateLimits = privateRateLimits;
 
     this.shareRateLimits = shareRateLimits != null ? shareRateLimits : false;
+  }
+
+  /**
+   * @return minimum number of milliseconds required between any two remote calls, assuming the client makes consecutive calls without any bursts or
+   * breaks for an infinite period of time. Returns null if the rateLimits collection is null or empty
+   */
+  @JsonIgnore
+  public static Long getPollDelayMillis(RateLimit[] rateLimits) {
+    if (rateLimits == null || rateLimits.length == 0) {
+      return null;
+    }
+    long result = 0;
+    for (RateLimit rateLimit : rateLimits) {
+      // this is the delay between calls, we want max, any smaller number is for burst calls
+      result = Math.max(result, rateLimit.getPollDelayMillis());
+    }
+    return result;
   }
 
   public Map<CurrencyPair, CurrencyPairMetaData> getCurrencyPairs() {
@@ -74,23 +91,6 @@ public class ExchangeMetaData implements Serializable {
     return shareRateLimits;
   }
 
-  /**
-   * @return minimum number of milliseconds required between any two remote calls, assuming the client makes consecutive calls without any bursts or
-   * breaks for an infinite period of time. Returns null if the rateLimits collection is null or empty
-   */
-  @JsonIgnore
-  public static Long getPollDelayMillis(RateLimit[] rateLimits) {
-    if (rateLimits == null || rateLimits.length == 0) {
-      return null;
-    }
-    long result = 0;
-    for (RateLimit rateLimit : rateLimits) {
-      // this is the delay between calls, we want max, any smaller number is for burst calls
-      result = Math.max(result, rateLimit.getPollDelayMillis());
-    }
-    return result;
-  }
-
   @JsonIgnore
   public String toJSONString() {
     return ObjectMapperHelper.toJSON(this);
@@ -98,9 +98,8 @@ public class ExchangeMetaData implements Serializable {
 
   @Override
   public String toString() {
-    return "ExchangeMetaData [currencyPairs=" + currencyPairs + ", currencies=" + currencies + ", publicRateLimits="
-        + Arrays.toString(publicRateLimits) + ", privateRateLimits=" + Arrays.toString(privateRateLimits) + ", shareRateLimits=" + shareRateLimits
-        + "]";
+    return "ExchangeMetaData [currencyPairs=" + currencyPairs + ", currencies=" + currencies + ", publicRateLimits=" + Arrays
+        .toString(publicRateLimits) + ", privateRateLimits=" + Arrays.toString(privateRateLimits) + ", shareRateLimits=" + shareRateLimits + "]";
   }
 
 }

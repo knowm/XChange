@@ -26,9 +26,6 @@ public class LiquiPublicAsk {
 
   @Override
   public String toString() {
-    return "LiquiPublicAsk{" +
-        "price=" + price +
-        ", volume=" + volume +
-        '}';
+    return "LiquiPublicAsk{" + "price=" + price + ", volume=" + volume + '}';
   }
 }

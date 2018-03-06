@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "timestamp", "symbol", "side", "size", "price", "tickDirection", "trdMatchID", "grossValue", "homeNotional", "foreignNotional" })
+@JsonPropertyOrder({"timestamp", "symbol", "side", "size", "price", "tickDirection", "trdMatchID", "grossValue", "homeNotional", "foreignNotional"})
 
 public final class BitmexTrade {
 
@@ -91,8 +91,9 @@ public final class BitmexTrade {
   @Override
   public String toString() {
 
-    return "BitmexTrade{" + "symbol='" + symbol + '\'' + ", side='" + side + '\'' + ", size=" + size + ", price=" + price + ", tickDirection='" + tickDirection + '\'' + ", trdMatchID='" + trdMatchID
-        + '\'' + ", grossValue=" + grossValue + ", homeNotional=" + homeNotional + ", foreignNotional=" + foreignNotional + '}';
+    return "BitmexTrade{" + "symbol='" + symbol + '\'' + ", side='" + side + '\'' + ", size=" + size + ", price=" + price + ", tickDirection='"
+        + tickDirection + '\'' + ", trdMatchID='" + trdMatchID + '\'' + ", grossValue=" + grossValue + ", homeNotional=" + homeNotional
+        + ", foreignNotional=" + foreignNotional + '}';
   }
 
 }

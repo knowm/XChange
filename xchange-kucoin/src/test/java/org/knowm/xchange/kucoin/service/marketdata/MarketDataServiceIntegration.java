@@ -29,7 +29,7 @@ public class MarketDataServiceIntegration {
 
   @Test
   public void testGetOrderBook() throws Exception {
-    
+
     OrderBook orderBookDefault = KUCOIN.getMarketDataService().getOrderBook(XRB_BTC);
     assertThat(orderBookDefault).isNotNull();
     assertThat(orderBookDefault.getAsks().size()).isEqualTo(6);
@@ -52,7 +52,7 @@ public class MarketDataServiceIntegration {
     Trades tradesDefault = KUCOIN.getMarketDataService().getTrades(XRB_BTC);
     assertThat(tradesDefault.getTrades().size()).isEqualTo(10);
     tradesDefault.getTrades().forEach(t -> assertThat(t.getCurrencyPair()).isEqualTo(XRB_BTC));
-    
+
     Trades tradesLimit20 = KUCOIN.getMarketDataService().getTrades(XRB_BTC, 20);
     assertThat(tradesLimit20.getTrades().size()).isEqualTo(20);
     tradesLimit20.getTrades().forEach(t -> assertThat(t.getCurrencyPair()).isEqualTo(XRB_BTC));

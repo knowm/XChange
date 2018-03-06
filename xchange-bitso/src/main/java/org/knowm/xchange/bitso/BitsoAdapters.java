@@ -34,7 +34,7 @@ public final class BitsoAdapters {
   public static Ticker adaptTicker(BitsoTicker t, CurrencyPair currencyPair) {
 
     return new Ticker.Builder().currencyPair(currencyPair).last(t.getLast()).bid(t.getBid()).ask(t.getAsk()).high(t.getHigh()).low(t.getLow())
-        .vwap(t.getVwap()).volume(t.getVolume()).timestamp(t.getTimestamp()).build();
+                               .vwap(t.getVwap()).volume(t.getVolume()).timestamp(t.getTimestamp()).build();
   }
 
   public static Wallet adaptWallet(BitsoBalance bitsoBalance) {

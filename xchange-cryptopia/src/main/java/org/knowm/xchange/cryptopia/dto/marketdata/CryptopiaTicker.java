@@ -113,23 +113,9 @@ public final class CryptopiaTicker {
 
   @Override
   public String toString() {
-    return "CryptopiaTicker{" +
-        "tradePairId=" + tradePairId +
-        ", label='" + label + '\'' +
-        ", ask=" + ask +
-        ", bid=" + bid +
-        ", low=" + low +
-        ", high=" + high +
-        ", volume=" + volume +
-        ", last=" + last +
-        ", buyVolume=" + buyVolume +
-        ", sellVolume=" + sellVolume +
-        ", change=" + change +
-        ", open=" + open +
-        ", close=" + close +
-        ", baseVolume=" + baseVolume +
-        ", buyBaseVolume=" + buyBaseVolume +
-        ", sellBaseVolume=" + sellBaseVolume +
-        '}';
+    return "CryptopiaTicker{" + "tradePairId=" + tradePairId + ", label='" + label + '\'' + ", ask=" + ask + ", bid=" + bid + ", low=" + low
+        + ", high=" + high + ", volume=" + volume + ", last=" + last + ", buyVolume=" + buyVolume + ", sellVolume=" + sellVolume + ", change="
+        + change + ", open=" + open + ", close=" + close + ", baseVolume=" + baseVolume + ", buyBaseVolume=" + buyBaseVolume + ", sellBaseVolume="
+        + sellBaseVolume + '}';
   }
 }

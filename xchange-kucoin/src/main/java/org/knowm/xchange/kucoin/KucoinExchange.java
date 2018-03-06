@@ -43,7 +43,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
-  
+
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 

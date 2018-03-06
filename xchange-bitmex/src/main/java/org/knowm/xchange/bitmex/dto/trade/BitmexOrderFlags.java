@@ -23,10 +23,11 @@ public enum BitmexOrderFlags implements IOrderFlags {
   POST, // for market maker orders
   VIQC; // volume in quote currency
 
-  @Override
-  public String toString() {
+  private static final Map<String, BitmexOrderFlags> fromString = new HashMap<>();
 
-    return super.toString().toLowerCase();
+  static {
+    for (BitmexOrderFlags orderFlag : values())
+      fromString.put(orderFlag.toString(), orderFlag);
   }
 
   public static BitmexOrderFlags fromString(String orderTypeString) {
@@ -34,11 +35,10 @@ public enum BitmexOrderFlags implements IOrderFlags {
     return fromString.get(orderTypeString.toLowerCase());
   }
 
-  private static final Map<String, BitmexOrderFlags> fromString = new HashMap<>();
+  @Override
+  public String toString() {
 
-  static {
-    for (BitmexOrderFlags orderFlag : values())
-      fromString.put(orderFlag.toString(), orderFlag);
+    return super.toString().toLowerCase();
   }
 
   static class BitmexOrderFlagsDeserializer extends JsonDeserializer<Set<BitmexOrderFlags>> {

@@ -56,14 +56,7 @@ public final class CryptopiaMarketHistory {
 
   @Override
   public String toString() {
-    return "CryptopiaMarketHistory{" +
-        "tradePairId=" + tradePairId +
-        ", label='" + label + '\'' +
-        ", type='" + type + '\'' +
-        ", price=" + price +
-        ", amount=" + amount +
-        ", total=" + total +
-        ", timestamp=" + timestamp +
-        '}';
+    return "CryptopiaMarketHistory{" + "tradePairId=" + tradePairId + ", label='" + label + '\'' + ", type='" + type + '\'' + ", price=" + price
+        + ", amount=" + amount + ", total=" + total + ", timestamp=" + timestamp + '}';
   }
 }

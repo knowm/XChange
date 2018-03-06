@@ -24,10 +24,11 @@ public class BitsoTradeServiceRaw extends BitsoBaseService {
   public BitsoTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitsoAuthenticated = RestProxyFactory.createProxy(BitsoAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
-    this.signatureCreator = BitsoDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
-        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.bitsoAuthenticated = RestProxyFactory
+        .createProxy(BitsoAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.signatureCreator = BitsoDigest
+        .createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getUserName(),
+            exchange.getExchangeSpecification().getApiKey());
   }
 
   public BitsoOrder[] getBitsoOpenOrders() throws IOException {
@@ -37,14 +38,14 @@ public class BitsoTradeServiceRaw extends BitsoBaseService {
 
   public BitsoOrder sellBitsoOrder(BigDecimal originalAmount, BigDecimal price) throws IOException {
 
-    return bitsoAuthenticated.sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount,
-        price);
+    return bitsoAuthenticated
+        .sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount, price);
   }
 
   public BitsoOrder buyBitoOrder(BigDecimal originalAmount, BigDecimal price) throws IOException {
 
-    return bitsoAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount,
-        price);
+    return bitsoAuthenticated
+        .buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount, price);
   }
 
   public boolean cancelBitsoOrder(String orderId) throws IOException {
@@ -54,14 +55,15 @@ public class BitsoTradeServiceRaw extends BitsoBaseService {
 
   public BitsoUserTransaction[] getBitsoUserTransactions(Long numberOfTransactions) throws IOException {
 
-    return bitsoAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-        numberOfTransactions);
+    return bitsoAuthenticated
+        .getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), numberOfTransactions);
   }
 
   public BitsoUserTransaction[] getBitsoUserTransactions(Long numberOfTransactions, Long offset, String sort) throws IOException {
 
-    return bitsoAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-        numberOfTransactions, offset, sort);
+    return bitsoAuthenticated
+        .getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), numberOfTransactions,
+            offset, sort);
   }
 
 }

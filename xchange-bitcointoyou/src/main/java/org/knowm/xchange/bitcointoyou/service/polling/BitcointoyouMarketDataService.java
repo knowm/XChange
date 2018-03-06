@@ -54,14 +54,14 @@ public class BitcointoyouMarketDataService extends BitcointoyouMarketDataService
 
     if (args != null) {
       switch (args.length) {
-      case 2:
-        if (args[1] != null && args[1] instanceof Long) {
-          minTradeId = (Long) args[1];
-        }
-      case 1:
-        if (args[0] != null && args[0] instanceof Long) {
-          tradeTimeStamp = (Long) args[0];
-        }
+        case 2:
+          if (args[1] != null && args[1] instanceof Long) {
+            minTradeId = (Long) args[1];
+          }
+        case 1:
+          if (args[0] != null && args[0] instanceof Long) {
+            tradeTimeStamp = (Long) args[0];
+          }
       }
     }
     BitcointoyouPublicTrade[] bitcointoyouPublicTrades;

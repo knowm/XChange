@@ -222,7 +222,7 @@ public final class BitfinexAdapters {
     Date timestamp = DateUtils.fromMillisUtc((long) (bitfinexTicker.getTimestamp() * 1000L));
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-        .build();
+                               .build();
   }
 
   public static List<Wallet> adaptWallets(BitfinexBalancesResponse[] response) {
@@ -295,8 +295,9 @@ public final class BitfinexAdapters {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
       final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount().negate();
-      pastTrades.add(new UserTrade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId(),
-          fee, Currency.getInstance(trade.getFeeCurrency())));
+      pastTrades.add(
+          new UserTrade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId(), fee,
+              Currency.getInstance(trade.getFeeCurrency())));
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
@@ -336,21 +337,19 @@ public final class BitfinexAdapters {
    */
   public static ExchangeMetaData adaptMetaData(ExchangeMetaData exchangeMetaData, List<BitfinexSymbolDetail> symbolDetails) {
     final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
-    symbolDetails.parallelStream()
-        .forEach(bitfinexSymbolDetail -> {
-              final CurrencyPair currencyPair = adaptCurrencyPair(bitfinexSymbolDetail.getPair());
-              if (currencyPairs.get(currencyPair) == null) {
-                CurrencyPairMetaData newMetaData = new CurrencyPairMetaData(null, bitfinexSymbolDetail.getMinimum_order_size(),
-                    bitfinexSymbolDetail.getMaximum_order_size(), bitfinexSymbolDetail.getPrice_precision());
-                currencyPairs.put(currencyPair, newMetaData);
-              } else {
-                CurrencyPairMetaData oldMetaData = currencyPairs.get(currencyPair);
-                CurrencyPairMetaData newMetaData = new CurrencyPairMetaData(oldMetaData.getTradingFee(), bitfinexSymbolDetail.getMinimum_order_size(),
-                    bitfinexSymbolDetail.getMaximum_order_size(), bitfinexSymbolDetail.getPrice_precision());
-                currencyPairs.put(currencyPair, newMetaData);
-              }
-            }
-        );
+    symbolDetails.parallelStream().forEach(bitfinexSymbolDetail -> {
+      final CurrencyPair currencyPair = adaptCurrencyPair(bitfinexSymbolDetail.getPair());
+      if (currencyPairs.get(currencyPair) == null) {
+        CurrencyPairMetaData newMetaData = new CurrencyPairMetaData(null, bitfinexSymbolDetail.getMinimum_order_size(),
+            bitfinexSymbolDetail.getMaximum_order_size(), bitfinexSymbolDetail.getPrice_precision());
+        currencyPairs.put(currencyPair, newMetaData);
+      } else {
+        CurrencyPairMetaData oldMetaData = currencyPairs.get(currencyPair);
+        CurrencyPairMetaData newMetaData = new CurrencyPairMetaData(oldMetaData.getTradingFee(), bitfinexSymbolDetail.getMinimum_order_size(),
+            bitfinexSymbolDetail.getMaximum_order_size(), bitfinexSymbolDetail.getPrice_precision());
+        currencyPairs.put(currencyPair, newMetaData);
+      }
+    });
     return exchangeMetaData;
   }
 
@@ -376,11 +375,9 @@ public final class BitfinexAdapters {
     // lets go with the assumption that the trading fees are common across all trading pairs for now.
     // also setting the taker_fee as the trading_fee for now.
     final CurrencyPairMetaData metaData = new CurrencyPairMetaData(bitfinexAccountInfos[0].getTakerFees(), null, null, null);
-    currencyPairs.keySet().parallelStream()
-        .forEach(currencyPair -> currencyPairs.merge(currencyPair, metaData,
-            (oldMetaData, newMetaData) -> new CurrencyPairMetaData(newMetaData.getTradingFee(), oldMetaData.getMinimumAmount(), oldMetaData.getMaximumAmount(),
-                oldMetaData.getPriceScale()))
-        );
+    currencyPairs.keySet().parallelStream().forEach(currencyPair -> currencyPairs.merge(currencyPair, metaData,
+        (oldMetaData, newMetaData) -> new CurrencyPairMetaData(newMetaData.getTradingFee(), oldMetaData.getMinimumAmount(),
+            oldMetaData.getMaximumAmount(), oldMetaData.getPriceScale())));
 
     return exchangeMetaData;
   }

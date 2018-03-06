@@ -38,8 +38,8 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBaseService {
   public CryptonitOrders getCryptonitAsks(CurrencyPair currencyPair, int limit) throws IOException {
 
     // Request data
-    CryptonitOrders cryptonitDepth = cryptonit.getOrders(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "placed",
-        String.valueOf(limit));
+    CryptonitOrders cryptonitDepth = cryptonit
+        .getOrders(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "placed", String.valueOf(limit));
 
     return cryptonitDepth;
   }
@@ -47,8 +47,8 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBaseService {
   public CryptonitOrders getCryptonitBids(CurrencyPair currencyPair, int limit) throws IOException {
 
     // Request data
-    CryptonitOrders cryptonitDepth = cryptonit.getOrders(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), "placed",
-        String.valueOf(limit));
+    CryptonitOrders cryptonitDepth = cryptonit
+        .getOrders(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), "placed", String.valueOf(limit));
 
     return cryptonitDepth;
   }
@@ -56,8 +56,8 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBaseService {
   public CryptonitOrders getCryptonitTrades(CurrencyPair currencyPair, int limit) throws IOException {
 
     // Request data
-    CryptonitOrders cryptonitTrades = cryptonit.getOrders(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "filled",
-        String.valueOf(limit));
+    CryptonitOrders cryptonitTrades = cryptonit
+        .getOrders(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "filled", String.valueOf(limit));
 
     return cryptonitTrades;
   }

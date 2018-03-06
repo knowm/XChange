@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * Author: Kamil Zbikowski Date: 4/9/15
@@ -20,10 +19,10 @@ public class IndependentReserveOrderBook {
 
   public IndependentReserveOrderBook(@JsonProperty("BuyOrders") List<OrderBookOrder> buyOrders,
       @JsonProperty("SellOrders") List<OrderBookOrder> sellOrders, @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
-      @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode,
-      @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc) throws com.fasterxml.jackson.databind.exc.InvalidFormatException, ParseException {
+      @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode, @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException, ParseException {
     this.buyOrders = buyOrders;
-    this.createdTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(createdTimestampUtc) ;
+    this.createdTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(createdTimestampUtc);
     this.sellOrders = sellOrders;
     this.primaryCurrencyCode = primaryCurrencyCode;
     this.secondaryCurrencyCode = secondaryCurrencyCode;

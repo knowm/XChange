@@ -8,15 +8,14 @@ public class OkCoinPriceLimit {
 
   private final BigDecimal high;
   private final BigDecimal low;
- 
+
   /**
    * Constructor
    *
    * @param high
    * @param low
-
    */
-  public OkCoinPriceLimit(@JsonProperty("high") final BigDecimal high,@JsonProperty("low") final BigDecimal low) {
+  public OkCoinPriceLimit(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low) {
 
     this.high = high;
     this.low = low;

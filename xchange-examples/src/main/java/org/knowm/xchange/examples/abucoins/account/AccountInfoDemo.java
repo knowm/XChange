@@ -23,7 +23,7 @@ public class AccountInfoDemo {
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
-    
+
     List<FundingRecord> funding = accountService.getFundingHistory(accountService.createFundingHistoryParams());
     System.out.println("Funding " + funding);
   }

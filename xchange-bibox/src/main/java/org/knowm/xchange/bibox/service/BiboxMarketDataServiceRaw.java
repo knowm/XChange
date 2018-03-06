@@ -34,7 +34,7 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
   protected BiboxMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
   }
-  
+
   public BiboxTicker getBiboxTicker(CurrencyPair currencyPair) throws IOException {
     try {
       BiboxResponse<BiboxTicker> response = bibox.mdata(TICKER_CMD, toBiboxPair(currencyPair));
@@ -44,7 +44,7 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
       throw new ExchangeException(e.getMessage());
     }
   }
-  
+
   public BiboxOrderBook getBiboxOrderBook(CurrencyPair currencyPair, Integer depth) throws IOException {
     try {
       BiboxResponse<BiboxOrderBook> response = bibox.orderBook(DEPTH_CMD, BiboxAdapters.toBiboxPair(currencyPair), depth);
@@ -67,17 +67,11 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
 
   public List<BiboxOrderBook> getBiboxOrderBooks(Integer depth, Collection<CurrencyPair> currencyPairs) {
     try {
-      List<BiboxCommand<?>> allCommands = currencyPairs.stream()
-          .distinct()
-          .filter(Objects::nonNull)
-          .map(BiboxAdapters::toBiboxPair)
-          .map(pair -> new BiboxOrderBookCommand(pair, depth))
-          .collect(Collectors.toList());
+      List<BiboxCommand<?>> allCommands = currencyPairs.stream().distinct().filter(Objects::nonNull).map(BiboxAdapters::toBiboxPair)
+                                                       .map(pair -> new BiboxOrderBookCommand(pair, depth)).collect(Collectors.toList());
       BiboxMultipleResponses<BiboxOrderBook> response = bibox.orderBooks(BiboxCommands.of(allCommands).json());
       throwErrors(response);
-      return response.getResult().stream()
-          .map(BiboxResponse::getResult)
-          .collect(Collectors.toList());
+      return response.getResult().stream().map(BiboxResponse::getResult).collect(Collectors.toList());
     } catch (BiboxException e) {
       throw new ExchangeException(e.getMessage());
     }

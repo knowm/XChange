@@ -89,7 +89,7 @@ public class CoinbaseAdapterTest {
   public void testAdaptTicker() throws IOException {
 
     Ticker expectedTicker = new Ticker.Builder().currencyPair(CurrencyPair.BTC_USD).ask(new BigDecimal("723.09")).bid(new BigDecimal("723.09"))
-        .last(new BigDecimal("719.79")).low(new BigDecimal("718.2")).high(new BigDecimal("723.11")).build();
+                                                .last(new BigDecimal("719.79")).low(new BigDecimal("718.2")).high(new BigDecimal("723.11")).build();
 
     InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-price-data.json");
     ObjectMapper mapper = new ObjectMapper();
@@ -108,6 +108,6 @@ public class CoinbaseAdapterTest {
     Ticker ticker = CoinbaseAdapters.adaptTicker(CurrencyPair.BTC_USD, price, price, spotPrice, spotPriceHistory);
 
     // TOD  this seems broke. If you
-//    assertThat(ticker).isEqualToComparingFieldByField(expectedTicker);
+    //    assertThat(ticker).isEqualToComparingFieldByField(expectedTicker);
   }
 }

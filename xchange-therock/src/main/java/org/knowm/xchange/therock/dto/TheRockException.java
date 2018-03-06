@@ -11,10 +11,6 @@ public class TheRockException extends HttpStatusExceptionSupport {
 
   private List<Error> errors;
 
-  public List<Error> getErrors() {
-    return errors;
-  }
-
   protected TheRockException() {
   }
 
@@ -25,6 +21,10 @@ public class TheRockException extends HttpStatusExceptionSupport {
 
   private static String getFirstMessage(List<Error> errors) {
     return errors == null || errors.isEmpty() ? null : errors.get(0).getMessage();
+  }
+
+  public List<Error> getErrors() {
+    return errors;
   }
 
   public static class Error {

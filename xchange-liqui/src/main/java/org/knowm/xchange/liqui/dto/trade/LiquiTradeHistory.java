@@ -19,8 +19,6 @@ public class LiquiTradeHistory {
 
   @Override
   public String toString() {
-    return "LiquiTradeHistory{" +
-        "history=" + history +
-        '}';
+    return "LiquiTradeHistory{" + "history=" + history + '}';
   }
 }

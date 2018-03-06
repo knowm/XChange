@@ -134,24 +134,10 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
 
       // ANX returns the fee in a separate WalletHistoryEntry, but with the same transaction id. merging the two into
       // a single FundingRecord
-      ANXWalletHistoryEntry feeEntry = walletHistory.parallelStream()
-          .filter(anxWalletHistoryEntry ->
-              "fee".equalsIgnoreCase(anxWalletHistoryEntry.getType())
-                  &&
-                  (
-                      (
-                          entry.getTransactionId() != null
-                              && Objects.equals(anxWalletHistoryEntry.getTransactionId(), entry.getTransactionId())
-                      )
-                          ||
-                          (
-                              entry.getInfo() != null
-                                  && Objects.equals(anxWalletHistoryEntry.getInfo(), entry.getInfo())
-                          )
-                  )
-          )
-          .findFirst()
-          .orElse(null);
+      ANXWalletHistoryEntry feeEntry = walletHistory.parallelStream().filter(
+          anxWalletHistoryEntry -> "fee".equalsIgnoreCase(anxWalletHistoryEntry.getType()) && (
+              (entry.getTransactionId() != null && Objects.equals(anxWalletHistoryEntry.getTransactionId(), entry.getTransactionId())) || (
+                  entry.getInfo() != null && Objects.equals(anxWalletHistoryEntry.getInfo(), entry.getInfo())))).findFirst().orElse(null);
 
       results.add(ANXAdapters.adaptFundingRecord(entry, feeEntry));
     }

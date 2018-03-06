@@ -41,11 +41,12 @@ import org.powermock.reflect.Whitebox;
 @RunWith(PowerMockRunner.class)
 public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestSupport {
 
-  private BleutradeMarketDataService marketDataService;
-
   private static final Ticker TICKER = new Ticker.Builder().currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977"))
-      .bid(new BigDecimal("0.00100000")).ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
-      .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L)).build();
+                                                           .bid(new BigDecimal("0.00100000")).ask(new BigDecimal("0.00101977"))
+                                                           .high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
+                                                           .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015"))
+                                                           .timestamp(new Date(1406632770000L)).build();
+  private BleutradeMarketDataService marketDataService;
 
   @Before
   public void setUp() {

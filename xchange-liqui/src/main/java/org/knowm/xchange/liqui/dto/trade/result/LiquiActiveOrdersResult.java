@@ -15,10 +15,8 @@ public class LiquiActiveOrdersResult extends LiquiResult<Map<Long, LiquiOrderInf
   private final boolean success;
   private final LiquiStat stat;
 
-  public LiquiActiveOrdersResult(@JsonProperty("success") final boolean success,
-      @JsonProperty("return") final Map<Long, LiquiOrderInfo> result,
-      @JsonProperty("stat") final LiquiStat stat,
-      @JsonProperty("error") final String error) {
+  public LiquiActiveOrdersResult(@JsonProperty("success") final boolean success, @JsonProperty("return") final Map<Long, LiquiOrderInfo> result,
+      @JsonProperty("stat") final LiquiStat stat, @JsonProperty("error") final String error) {
     super(result, error);
     this.success = success;
     this.stat = stat;
@@ -34,9 +32,6 @@ public class LiquiActiveOrdersResult extends LiquiResult<Map<Long, LiquiOrderInf
 
   @Override
   public String toString() {
-    return "LiquiActiveOrdersResult{" +
-        "success=" + success +
-        ", stat=" + stat +
-        '}';
+    return "LiquiActiveOrdersResult{" + "success=" + success + ", stat=" + stat + '}';
   }
 }

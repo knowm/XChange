@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * <p>POJO representing the output JSON for the Abucoins
  * <code>GET /deposits/historycrypto</code> endpoint.</p>
- * 
  * Example: <p/>
  * <table>
  * <thead>
@@ -23,24 +22,25 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * <tr><td>url</td><td>blockchain explorer url (null if not available)</td></tr>
  * </tbody>
  * </table>
- * @author bryant_harris
  *
+ * @author bryant_harris
  */
 @JsonDeserialize(using = AbucoinsDepositsHistory.AbucoinsDepositsHistoryDeserializer.class)
 public class AbucoinsDepositsHistory {
   AbucoinsDepositHistory[] history;
-        
+
   public AbucoinsDepositsHistory(AbucoinsDepositHistory[] history) {
     this.history = history;
   }
-        
+
   public AbucoinsDepositHistory[] getHistory() {
     return history;
   }
-        
+
   /**
    * Deserializer handles the success case (array json) as well as the error case
    * (json object with <em>message</em> field).
+   *
    * @author bryant_harris
    */
   static class AbucoinsDepositsHistoryDeserializer extends AbucoinsArrayOrMessageDeserializer<AbucoinsDepositHistory, AbucoinsDepositsHistory> {

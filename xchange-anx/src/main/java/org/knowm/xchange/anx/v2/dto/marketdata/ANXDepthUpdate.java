@@ -3,11 +3,8 @@ package org.knowm.xchange.anx.v2.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * <p>
- * Data object representing a Market Depth Change from ANX
- * <p>
+ * * Data object representing a Market Depth Change from ANX
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
- * <p>
  * Note: deprecated fields are not included in this value object
  */
 public final class ANXDepthUpdate {

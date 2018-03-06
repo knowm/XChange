@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "date", "price", "amount", "tid", "type", "currency" })
+@JsonPropertyOrder({"date", "price", "amount", "tid", "type", "currency"})
 public class BitcointoyouPublicTrade {
 
   private final Integer date;
@@ -91,8 +91,7 @@ public class BitcointoyouPublicTrade {
   @Override
   public String toString() {
 
-    return new ToStringBuilder(this).append("date", date).append("price", price).append("amount", amount)
-        .append("tid", tid).append("type", type).append("currency", currency).append("additionalProperties",
-            additionalProperties).toString();
+    return new ToStringBuilder(this).append("date", date).append("price", price).append("amount", amount).append("tid", tid).append("type", type)
+                                    .append("currency", currency).append("additionalProperties", additionalProperties).toString();
   }
 }

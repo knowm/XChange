@@ -34,15 +34,15 @@ public interface QuadrigaCx {
    */
   @GET
   @Path("transactions?book={base}_{counter}")
-  QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base,
-      @PathParam("counter") String counter) throws QuadrigaCxException, IOException;
+  QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter)
+      throws QuadrigaCxException, IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions?book={base}_{counter}")
-  QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter,
-      @QueryParam("time") String time) throws QuadrigaCxException, IOException;
+  QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter, @QueryParam("time") String time)
+      throws QuadrigaCxException, IOException;
 
 }

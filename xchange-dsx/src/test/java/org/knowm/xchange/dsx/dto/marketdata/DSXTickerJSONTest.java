@@ -37,8 +37,7 @@ public class DSXTickerJSONTest {
 
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String dateString = f
-        .format(DateUtils.fromMillisUtc(dsxTickerWrapper.getTicker(DSXAdapters.getPair(CurrencyPair.BTC_USD)).getUpdated() * 1000L));
+    String dateString = f.format(DateUtils.fromMillisUtc(dsxTickerWrapper.getTicker(DSXAdapters.getPair(CurrencyPair.BTC_USD)).getUpdated() * 1000L));
     assertThat(dateString).isEqualTo("2013-06-09 22:18:28");
   }
 }

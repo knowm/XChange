@@ -20,9 +20,8 @@ public class LunoOrderBook {
   });
   private final TreeMap<BigDecimal, BigDecimal> asks = new TreeMap<BigDecimal, BigDecimal>();
 
-  public LunoOrderBook(@JsonProperty(value = "timestamp", required = true) long timestamp
-      , @JsonProperty(value = "asks") Order[] asks
-      , @JsonProperty(value = "bids") Order[] bids) {
+  public LunoOrderBook(@JsonProperty(value = "timestamp", required = true) long timestamp, @JsonProperty(value = "asks") Order[] asks,
+      @JsonProperty(value = "bids") Order[] bids) {
     this.timestamp = timestamp;
     // we merge the orders with the same price together bei adding the volumes
 
@@ -64,7 +63,8 @@ public class LunoOrderBook {
     public final BigDecimal price;
     public final BigDecimal volume;
 
-    public Order(@JsonProperty(value = "price", required = true) BigDecimal price, @JsonProperty(value = "volume", required = true) BigDecimal volume) {
+    public Order(@JsonProperty(value = "price", required = true) BigDecimal price,
+        @JsonProperty(value = "volume", required = true) BigDecimal volume) {
       this.price = price;
       this.volume = volume;
     }

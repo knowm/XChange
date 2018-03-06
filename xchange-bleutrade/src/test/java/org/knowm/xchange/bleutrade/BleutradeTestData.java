@@ -30,9 +30,8 @@ public class BleutradeTestData {
   }
 
   protected static Trade[] expectedTrades() {
-    return new Trade[]{
-        new Trade(Order.OrderType.BID, new BigDecimal("654971.69417461"), CurrencyPair.BTC_AUD, new BigDecimal("0.00000055"),
-            new Date(1406657280000L), null),
+    return new Trade[]{new Trade(Order.OrderType.BID, new BigDecimal("654971.69417461"), CurrencyPair.BTC_AUD, new BigDecimal("0.00000055"),
+        new Date(1406657280000L), null),
         new Trade(Order.OrderType.ASK, new BigDecimal("120.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("0.00006600"), new Date(1406657555000L),
             null),};
   }
@@ -44,12 +43,10 @@ public class BleutradeTestData {
 
   protected static LimitOrder[] expectedOrders() {
     return new LimitOrder[]{
-        new LimitOrder(Order.OrderType.BID, new BigDecimal("20.00000000"), new BigDecimal("15.00000000"), CurrencyPair.LTC_BTC, "65489", toDate
-            ("2014-08-03 13:55:20"), new BigDecimal("0.01268311")),
-        new LimitOrder(Order.OrderType.ASK, new BigDecimal("150491.98700000"), (new BigDecimal("150491.98700000")).subtract(new BigDecimal
-            ("795.00000000")), CurrencyPair.DOGE_BTC, "65724",
-            toDate("2014-07-29 18:45:17"), new BigDecimal("0.00000055")),
-    };
+        new LimitOrder(Order.OrderType.BID, new BigDecimal("20.00000000"), new BigDecimal("15.00000000"), CurrencyPair.LTC_BTC, "65489",
+            toDate("2014-08-03 13:55:20"), new BigDecimal("0.01268311")), new LimitOrder(Order.OrderType.ASK, new BigDecimal("150491.98700000"),
+        (new BigDecimal("150491.98700000")).subtract(new BigDecimal("795.00000000")), CurrencyPair.DOGE_BTC, "65724", toDate("2014-07-29 18:45:17"),
+        new BigDecimal("0.00000055")),};
   }
 
   protected static LimitOrder[] expectedBids() {
@@ -68,8 +65,9 @@ public class BleutradeTestData {
 
   protected static Ticker expectedTicker() {
     return new Ticker.Builder().currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977")).bid(new BigDecimal("0.00100000"))
-        .ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000")).vwap(new BigDecimal("0.00103455"))
-        .volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L)).build();
+                               .ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
+                               .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L))
+                               .build();
   }
 
   protected static CurrencyPairMetaData[] expectedMetaDataList() {

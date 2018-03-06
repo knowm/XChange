@@ -12,9 +12,8 @@ public final class DepositList extends WapiResponse<List<BinanceDeposit>> {
 
   private final BinanceDeposit[] depositList;
 
-  public DepositList(@JsonProperty("depositList") BinanceDeposit[] depositList
-      , @JsonProperty("success") boolean success
-      , @JsonProperty("msg") String msg) {
+  public DepositList(@JsonProperty("depositList") BinanceDeposit[] depositList, @JsonProperty("success") boolean success,
+      @JsonProperty("msg") String msg) {
     super(success, msg);
     this.depositList = depositList;
   }
@@ -50,12 +49,8 @@ public final class DepositList extends WapiResponse<List<BinanceDeposit>> {
      */
     public final int status;
 
-    public BinanceDeposit(@JsonProperty("insertTime") long insertTime
-        , @JsonProperty("amount") BigDecimal amount
-        , @JsonProperty("asset") String asset
-        , @JsonProperty("txId") String txId
-        , @JsonProperty("address") String address
-        , @JsonProperty("status") int status) {
+    public BinanceDeposit(@JsonProperty("insertTime") long insertTime, @JsonProperty("amount") BigDecimal amount, @JsonProperty("asset") String asset,
+        @JsonProperty("txId") String txId, @JsonProperty("address") String address, @JsonProperty("status") int status) {
       super();
       this.insertTime = insertTime;
       this.amount = amount;

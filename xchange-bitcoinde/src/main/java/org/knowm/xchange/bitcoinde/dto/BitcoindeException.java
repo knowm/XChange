@@ -24,10 +24,7 @@ public class BitcoindeException extends RuntimeException {
 
   @Override
   public String toString() {
-    return "BitcoindeException{" +
-        "errors=" + Arrays.toString(errors) +
-        ", credits=" + credits +
-        "}";
+    return "BitcoindeException{" + "errors=" + Arrays.toString(errors) + ", credits=" + credits + "}";
   }
 
   @Override

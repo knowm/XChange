@@ -20,7 +20,7 @@ public class BitflyerUtils {
 
   public static Date parseDate(final String date) {
     try {
-    	  SimpleDateFormat threadSafeClone = (SimpleDateFormat) DATE_FORMAT.clone();
+      SimpleDateFormat threadSafeClone = (SimpleDateFormat) DATE_FORMAT.clone();
       return threadSafeClone.parse(date);
     } catch (final ParseException e) {
       throw new ExchangeException("Illegal date/time format: " + date, e);

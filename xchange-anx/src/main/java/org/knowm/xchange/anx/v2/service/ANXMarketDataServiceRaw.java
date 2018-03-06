@@ -73,8 +73,8 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
         ticker.put(pathCurrencyPair.base.getCurrencyCode() + pathCurrencyPair.counter.getCurrencyCode(), anxTicker);
         return ticker;
       }
-      ANXTickersWrapper anxTickerWrapper = anxV2.getTickers(pathCurrencyPair.base.getCurrencyCode(), pathCurrencyPair.counter.getCurrencyCode(),
-          extraCurrencyPairs.toString());
+      ANXTickersWrapper anxTickerWrapper = anxV2
+          .getTickers(pathCurrencyPair.base.getCurrencyCode(), pathCurrencyPair.counter.getCurrencyCode(), extraCurrencyPairs.toString());
       return anxTickerWrapper.getAnxTickers();
     } catch (ANXException e) {
       throw handleError(e);
@@ -117,8 +117,8 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
         book.put(pathCurrencyPair.base.getCurrencyCode() + pathCurrencyPair.counter.getCurrencyCode(), anxDepthWrapper.getAnxDepth());
         return book;
       }
-      ANXDepthsWrapper anxDepthWrapper = anxV2.getFullDepths(pathCurrencyPair.base.getCurrencyCode(), pathCurrencyPair.counter.getCurrencyCode(),
-          extraCurrencyPairs.toString());
+      ANXDepthsWrapper anxDepthWrapper = anxV2
+          .getFullDepths(pathCurrencyPair.base.getCurrencyCode(), pathCurrencyPair.counter.getCurrencyCode(), extraCurrencyPairs.toString());
       return anxDepthWrapper.getAnxDepths();
     } catch (ANXException e) {
       throw handleError(e);

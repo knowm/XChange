@@ -26,8 +26,8 @@ public class CryptoFacilitiesBaseService extends BaseExchangeService implements 
 
     super(exchange);
 
-    cryptoFacilities = RestProxyFactory.createProxy(CryptoFacilitiesAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
+    cryptoFacilities = RestProxyFactory
+        .createProxy(CryptoFacilitiesAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     signatureCreator = CryptoFacilitiesDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 

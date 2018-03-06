@@ -12,8 +12,7 @@ public class PoloniexAccountBalance {
   private final Map<String, BigDecimal> margin;
   private final Map<String, BigDecimal> lending;
 
-  public PoloniexAccountBalance(@JsonProperty("exchange") Map<String, BigDecimal> exchange,
-      @JsonProperty("margin") Map<String, BigDecimal> margin,
+  public PoloniexAccountBalance(@JsonProperty("exchange") Map<String, BigDecimal> exchange, @JsonProperty("margin") Map<String, BigDecimal> margin,
       @JsonProperty("lending") Map<String, BigDecimal> lending) {
     this.exchange = exchange;
     this.margin = margin;
@@ -34,17 +33,11 @@ public class PoloniexAccountBalance {
 
   @Override
   public String toString() {
-    return "PoloniexAvailableAccountBalance{" +
-        "exchange=" + exchange +
-        ", margin=" + margin +
-        ", lending=" + lending +
-        '}';
+    return "PoloniexAvailableAccountBalance{" + "exchange=" + exchange + ", margin=" + margin + ", lending=" + lending + '}';
   }
 
   public enum ACCOUNT {
-    EXCHANGE("exchange"),
-    MARGIN("margin"),
-    LENDING("lending");
+    EXCHANGE("exchange"), MARGIN("margin"), LENDING("lending");
 
     private String name;
 

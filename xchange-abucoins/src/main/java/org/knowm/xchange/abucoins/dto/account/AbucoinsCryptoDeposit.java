@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AbucoinsCryptoDeposit {
   String address;
-        
+
   String tag;
-        
-  /** Error codes */
+
+  /**
+   * Error codes
+   */
   String message;
 
   public AbucoinsCryptoDeposit(@JsonProperty("address") String address, @JsonProperty("tag") String tag, @JsonProperty("message") String message) {
@@ -15,7 +17,7 @@ public class AbucoinsCryptoDeposit {
     this.tag = tag;
     this.message = message;
   }
-        
+
   public String getAddress() {
     return address;
   }

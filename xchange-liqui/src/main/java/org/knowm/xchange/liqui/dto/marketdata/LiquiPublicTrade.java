@@ -15,8 +15,7 @@ public class LiquiPublicTrade {
   private final long timestamp;
 
   public LiquiPublicTrade(@JsonProperty("type") final LiquiTradeType type, @JsonProperty("price") final String price,
-      @JsonProperty("amount") final String amount, @JsonProperty("tid") final long tradeId,
-      @JsonProperty("timestamp") final long timestamp) {
+      @JsonProperty("amount") final String amount, @JsonProperty("tid") final long tradeId, @JsonProperty("timestamp") final long timestamp) {
     this.type = type;
     this.price = new BigDecimal(price);
     this.amount = new BigDecimal(amount);
@@ -46,12 +45,7 @@ public class LiquiPublicTrade {
 
   @Override
   public String toString() {
-    return "LiquiPublicTrade{" +
-        "type=" + type +
-        ", price=" + price +
-        ", amount=" + amount +
-        ", tradeId=" + tradeId +
-        ", timestamp=" + timestamp +
-        '}';
+    return "LiquiPublicTrade{" + "type=" + type + ", price=" + price + ", amount=" + amount + ", tradeId=" + tradeId + ", timestamp=" + timestamp
+        + '}';
   }
 }

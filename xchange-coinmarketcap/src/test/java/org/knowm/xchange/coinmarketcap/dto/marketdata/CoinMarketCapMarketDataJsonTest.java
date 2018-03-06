@@ -40,12 +40,12 @@ public class CoinMarketCapMarketDataJsonTest {
     assert (eth.getPriceUSD().doubleValue() == 298.777);
     assert (eth.getPriceBTC().doubleValue() == 0.067607);
 
-//    Map<String, BigDecimal> exchangeRates = mapper.readValue(is, mapType);
-//
-//    assertThat(exchangeRates.size()).isEqualTo(632);
-//
-//    BigDecimal exchangeRate = exchangeRates.get("scr_to_btc");
-//    assertThat(exchangeRate).isEqualByComparingTo("0.000115");
+    //    Map<String, BigDecimal> exchangeRates = mapper.readValue(is, mapType);
+    //
+    //    assertThat(exchangeRates.size()).isEqualTo(632);
+    //
+    //    BigDecimal exchangeRate = exchangeRates.get("scr_to_btc");
+    //    assertThat(exchangeRate).isEqualByComparingTo("0.000115");
 
   }
 /*

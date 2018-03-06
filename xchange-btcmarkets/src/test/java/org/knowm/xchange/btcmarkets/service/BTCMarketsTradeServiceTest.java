@@ -34,7 +34,8 @@ import org.powermock.reflect.Whitebox;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({BTCMarketsAuthenticated.class, BTCMarketsOpenOrdersAndTradeHistoryRequest.class, BTCMarketsCancelOrderRequest.class, BTCMarketsOrder.class})
+@PrepareForTest({BTCMarketsAuthenticated.class, BTCMarketsOpenOrdersAndTradeHistoryRequest.class, BTCMarketsCancelOrderRequest.class,
+    BTCMarketsOrder.class})
 @PowerMockIgnore("javax.crypto.*")
 public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
@@ -64,8 +65,9 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345);
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.when(btcm.placeOrder(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
-        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(btcMarketsOrder, "clientRequestId"))).thenReturn(orderResponse);
+    PowerMockito.when(
+        btcm.placeOrder(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class), Mockito.any(BTCMarketsDigest.class),
+            Mockito.refEq(btcMarketsOrder, "clientRequestId"))).thenReturn(orderResponse);
 
     Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
 
@@ -88,8 +90,9 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345);
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.when(btcm.placeOrder(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
-        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(btcMarketsOrder, "clientRequestId"))).thenReturn(orderResponse);
+    PowerMockito.when(
+        btcm.placeOrder(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class), Mockito.any(BTCMarketsDigest.class),
+            Mockito.refEq(btcMarketsOrder, "clientRequestId"))).thenReturn(orderResponse);
 
     Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
 
@@ -109,8 +112,9 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
         Arrays.asList(new BTCMarketsException(true, null, 0, "12345", 111L, null)));
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.when(btcm.cancelOrder(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
-        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(cancelOrderRequest))).thenReturn(orderResponse);
+    PowerMockito.when(
+        btcm.cancelOrder(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class), Mockito.any(BTCMarketsDigest.class),
+            Mockito.refEq(cancelOrderRequest))).thenReturn(orderResponse);
     Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
 
     // when

@@ -25,6 +25,14 @@ public class BitcointoyouMarketDataTest {
     marketData = loadBitcointoyouTickerFromExampleData();
   }
 
+  private static BitcointoyouMarketData loadBitcointoyouTickerFromExampleData() throws IOException {
+
+    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(is, BitcointoyouMarketData.class);
+  }
+
   @Test
   public void testMarketData() throws Exception {
 
@@ -40,14 +48,5 @@ public class BitcointoyouMarketDataTest {
 
     softly.assertAll();
   }
-
-  private static BitcointoyouMarketData loadBitcointoyouTickerFromExampleData() throws IOException {
-
-    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
-
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.readValue(is, BitcointoyouMarketData.class);
-  }
-
 
 }

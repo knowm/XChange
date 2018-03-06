@@ -17,14 +17,14 @@ public class BTCTradeDigest extends BaseParamsDigest {
   private static final String ENCODING = "UTF-8";
   private static final Charset CHARSET = Charset.forName(ENCODING);
 
-  public static BTCTradeDigest createInstance(String secret) {
-
-    return new BTCTradeDigest(secret.getBytes(CHARSET));
-  }
-
   private BTCTradeDigest(byte[] secretKeyBase64) {
 
     super(secretKeyBase64, HMAC_SHA_256);
+  }
+
+  public static BTCTradeDigest createInstance(String secret) {
+
+    return new BTCTradeDigest(secret.getBytes(CHARSET));
   }
 
   /**

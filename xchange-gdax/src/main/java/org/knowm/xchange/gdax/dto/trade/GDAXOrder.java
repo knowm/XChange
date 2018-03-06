@@ -22,13 +22,12 @@ public class GDAXOrder {
   private final String stop;
   private final BigDecimal stopPrice;
 
-
   public GDAXOrder(@JsonProperty("id") String id, @JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size,
       @JsonProperty("product_id") String productId, @JsonProperty("side") String side, @JsonProperty("created_at") String createdAt,
       @JsonProperty("done_at") String doneAt, @JsonProperty("filled_size") BigDecimal filledSize, @JsonProperty("fill_fees") BigDecimal fillFees,
       @JsonProperty("status") String status, @JsonProperty("settled") boolean settled, @JsonProperty("type") String type,
-                   @JsonProperty("done_reason") String doneReason, @JsonProperty("executed_value") BigDecimal executedValue,
-                   @JsonProperty("stop") String stop, @JsonProperty("stop_price") BigDecimal stopPrice) {
+      @JsonProperty("done_reason") String doneReason, @JsonProperty("executed_value") BigDecimal executedValue, @JsonProperty("stop") String stop,
+      @JsonProperty("stop_price") BigDecimal stopPrice) {
     this.id = id;
     this.price = price;
     this.size = size;

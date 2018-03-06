@@ -1,7 +1,6 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,7 +11,6 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
-import org.knowm.xchange.utils.DateUtils;
 
 /**
  * Created by Yingzhe on 4/6/2015.
@@ -67,8 +65,8 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
   public GDAXProductBook getGDAXProductOrderBook(CurrencyPair currencyPair, int level) throws IOException {
 
     try {
-      GDAXProductBook book = this.gdax.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(),
-          String.valueOf(level));
+      GDAXProductBook book = this.gdax
+          .getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), String.valueOf(level));
       return book;
     } catch (GDAXException e) {
       throw handleError(e);
@@ -98,8 +96,8 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
 
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-          && cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode()) && cp.counter.getCurrencyCode().equalsIgnoreCase(
+          currencyPair.counter.getCurrencyCode())) {
         currencyPairSupported = true;
         break;
       }
@@ -112,7 +110,7 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
 
     try {
       return gdax.getProducts();
-    } catch (GDAXException e){
+    } catch (GDAXException e) {
       throw handleError(e);
     }
   }

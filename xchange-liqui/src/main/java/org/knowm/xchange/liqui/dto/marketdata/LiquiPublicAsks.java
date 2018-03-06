@@ -19,8 +19,6 @@ public class LiquiPublicAsks {
 
   @Override
   public String toString() {
-    return "LiquiPublicAsks{" +
-        "asks=" + asks +
-        '}';
+    return "LiquiPublicAsks{" + "asks=" + asks + '}';
   }
 }

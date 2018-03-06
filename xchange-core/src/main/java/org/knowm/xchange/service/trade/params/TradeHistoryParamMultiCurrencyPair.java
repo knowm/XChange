@@ -6,7 +6,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 
 public interface TradeHistoryParamMultiCurrencyPair extends TradeHistoryParams {
 
-  void setCurrencyPairs(Collection<CurrencyPair> pairs);
-
   Collection<CurrencyPair> getCurrencyPairs();
+
+  void setCurrencyPairs(Collection<CurrencyPair> pairs);
 }

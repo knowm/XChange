@@ -16,13 +16,11 @@ import si.mazi.rescu.RestProxyFactory;
 public class QuoineBaseService extends BaseExchangeService implements BaseService {
 
   protected static final int QUOINE_API_VERSION = 2;
-
-  protected QuoineAuthenticated quoine;
-
   protected final QuoineSignatureDigest signatureCreator;
   protected final String contentType = "application/json";
   protected final String tokenID;
   protected final String secret;
+  protected QuoineAuthenticated quoine;
 
   /**
    * Constructor

@@ -36,10 +36,6 @@ public class DSXVolumeResult {
 
   @Override
   public String toString() {
-    return "DSXVolumeResult{" +
-        "tradingVolume=" + tradingVolume +
-        ", tradesCount=" + tradesCount +
-        ", currency='" + currency + '\'' +
-        '}';
+    return "DSXVolumeResult{" + "tradingVolume=" + tradingVolume + ", tradesCount=" + tradesCount + ", currency='" + currency + '\'' + '}';
   }
 }

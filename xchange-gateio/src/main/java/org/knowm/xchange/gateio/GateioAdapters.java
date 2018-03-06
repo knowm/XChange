@@ -67,7 +67,8 @@ public final class GateioAdapters {
     BigDecimal baseVolume = gateioTicker.getQuoteVolume();
     BigDecimal quoteVolume = gateioTicker.getBaseVolume();
 
-    return new Ticker.Builder().currencyPair(currencyPair).ask(ask).bid(bid).last(last).low(low).high(high).volume(baseVolume).quoteVolume(quoteVolume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).ask(ask).bid(bid).last(last).low(low).high(high).volume(baseVolume)
+                               .quoteVolume(quoteVolume).build();
   }
 
   public static LimitOrder adaptOrder(GateioPublicOrder order, CurrencyPair currencyPair, OrderType orderType) {

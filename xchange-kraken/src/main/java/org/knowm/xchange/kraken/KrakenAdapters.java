@@ -77,41 +77,10 @@ public class KrakenAdapters {
 
   }
 
-  public static class OrdersContainer {
-
-    private final long timestamp;
-    private final List<LimitOrder> limitOrders;
-
-    /**
-     * Constructor
-     *
-     * @param timestamp
-     * @param limitOrders
-     */
-    public OrdersContainer(long timestamp, List<LimitOrder> limitOrders) {
-
-      this.timestamp = timestamp;
-      this.limitOrders = limitOrders;
-    }
-
-    public long getTimestamp() {
-
-      return timestamp;
-    }
-
-    public List<LimitOrder> getLimitOrders() {
-
-      return limitOrders;
-    }
-  }
-
   public static List<Order> adaptOrders(Map<String, KrakenOrder> krakenOrdersMap) {
 
-    return krakenOrdersMap
-        .entrySet()
-        .stream()
-        .map(krakenOrderEntry -> adaptOrder(krakenOrderEntry.getKey(), krakenOrderEntry.getValue()))
-        .collect(Collectors.toList());
+    return krakenOrdersMap.entrySet().stream().map(krakenOrderEntry -> adaptOrder(krakenOrderEntry.getKey(), krakenOrderEntry.getValue()))
+                          .collect(Collectors.toList());
 
   }
 
@@ -125,8 +94,7 @@ public class KrakenAdapters {
     BigDecimal originalAmount = krakenOrder.getVolume();
     BigDecimal fee = krakenOrder.getFee();
 
-    if (orderStatus == OrderStatus.NEW && filledAmount.compareTo(BigDecimal.ZERO) > 0
-        && filledAmount.compareTo(originalAmount) < 0) {
+    if (orderStatus == OrderStatus.NEW && filledAmount.compareTo(BigDecimal.ZERO) > 0 && filledAmount.compareTo(originalAmount) < 0) {
       orderStatus = OrderStatus.PARTIALLY_FILLED;
     }
 
@@ -134,31 +102,12 @@ public class KrakenAdapters {
     Date timestamp = new Date(time.longValue());
 
     if (krakenOrder.getOrderDescription().getOrderType().equals(KrakenOrderType.LIMIT))
-      return new LimitOrder(
-          orderType,
-          krakenOrder.getVolume(),
-          currencyPair,
-          orderId,
-          timestamp,
-          krakenOrder.getOrderDescription().getPrice(),
-          krakenOrder.getPrice(),
-          krakenOrder.getVolumeExecuted(),
-          krakenOrder.getFee(),
-          adaptOrderStatus(krakenOrder.getStatus())
-      );
+      return new LimitOrder(orderType, krakenOrder.getVolume(), currencyPair, orderId, timestamp, krakenOrder.getOrderDescription().getPrice(),
+          krakenOrder.getPrice(), krakenOrder.getVolumeExecuted(), krakenOrder.getFee(), adaptOrderStatus(krakenOrder.getStatus()));
 
     if (krakenOrder.getOrderDescription().getOrderType().equals(KrakenOrderType.MARKET))
-      return new MarketOrder(
-          orderType,
-          krakenOrder.getVolume(),
-          currencyPair,
-          orderId,
-          timestamp,
-          krakenOrder.getPrice(),
-          krakenOrder.getVolumeExecuted(),
-          krakenOrder.getFee(),
-          orderStatus
-      );
+      return new MarketOrder(orderType, krakenOrder.getVolume(), currencyPair, orderId, timestamp, krakenOrder.getPrice(),
+          krakenOrder.getVolumeExecuted(), krakenOrder.getFee(), orderStatus);
 
     throw new NotYetImplementedForExchangeException();
 
@@ -203,8 +152,8 @@ public class KrakenAdapters {
     BigDecimal originalAmount = krakenPublicTrade.getVolume();
     Date timestamp = new Date((long) (krakenPublicTrade.getTime() * 1000L));
 
-    return new Trade(type, originalAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, String.valueOf((long) (krakenPublicTrade.getTime() *
-        10000L)));
+    return new Trade(type, originalAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp,
+        String.valueOf((long) (krakenPublicTrade.getTime() * 10000L)));
   }
 
   public static Wallet adaptWallet(Map<String, BigDecimal> krakenWallet) {
@@ -277,8 +226,8 @@ public class KrakenAdapters {
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigDecimal price = (averagePrice == null) ? krakenTrade.getPrice() : averagePrice;
 
-    return new KrakenUserTrade(orderType, originalAmount, pair, price, timestamp, tradeId,
-        krakenTrade.getOrderTxId(), krakenTrade.getFee(), pair.counter, krakenTrade.getCost());
+    return new KrakenUserTrade(orderType, originalAmount, pair, price, timestamp, tradeId, krakenTrade.getOrderTxId(), krakenTrade.getFee(),
+        pair.counter, krakenTrade.getCost());
   }
 
   public static OrderType adaptOrderType(KrakenType krakenType) {
@@ -318,7 +267,8 @@ public class KrakenAdapters {
     for (String krakenAssetCode : krakenAssets.keySet()) {
       KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
       Currency currencyCode = KrakenAdapters.adaptCurrency(krakenAssetCode);
-      BigDecimal withdrawalFee = originalMetaData.getCurrencies().get(currencyCode) == null ? null : originalMetaData.getCurrencies().get(currencyCode).getWithdrawalFee();
+      BigDecimal withdrawalFee =
+          originalMetaData.getCurrencies().get(currencyCode) == null ? null : originalMetaData.getCurrencies().get(currencyCode).getWithdrawalFee();
       currencies.put(currencyCode, new CurrencyMetaData(krakenAsset.getScale(), withdrawalFee));
     }
 
@@ -348,10 +298,9 @@ public class KrakenAdapters {
           final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
           if (type != null) {
             final String internalId = krakenLedger.getRefId(); // or ledgerEntry.getKey()?
-            FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
-                currency, krakenLedger.getTransactionAmount(), internalId, null,
-                FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
-                FundingRecord.Status.COMPLETE, krakenLedger.getBalance(), krakenLedger.getFee(), null);
+            FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp, currency, krakenLedger.getTransactionAmount(), internalId, null,
+                FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()), FundingRecord.Status.COMPLETE, krakenLedger.getBalance(),
+                krakenLedger.getFee(), null);
             fundingRecords.add(fundingRecordEntry);
           }
         }
@@ -374,6 +323,34 @@ public class KrakenAdapters {
         return OrderStatus.EXPIRED;
       default:
         return null;
+    }
+  }
+
+  public static class OrdersContainer {
+
+    private final long timestamp;
+    private final List<LimitOrder> limitOrders;
+
+    /**
+     * Constructor
+     *
+     * @param timestamp
+     * @param limitOrders
+     */
+    public OrdersContainer(long timestamp, List<LimitOrder> limitOrders) {
+
+      this.timestamp = timestamp;
+      this.limitOrders = limitOrders;
+    }
+
+    public long getTimestamp() {
+
+      return timestamp;
+    }
+
+    public List<LimitOrder> getLimitOrders() {
+
+      return limitOrders;
     }
   }
 }

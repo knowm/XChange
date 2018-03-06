@@ -58,7 +58,6 @@ public interface DSXAuthenticatedV2 extends DSX {
 
   /**
    * This method provides information about active user orders.
-   *
    * All parameters are obligatory (ie. none may be null)
    *
    * @param pair the pair to display the orders eg. btcusd
@@ -73,18 +72,17 @@ public interface DSXAuthenticatedV2 extends DSX {
 
   /**
    * This method provides information about user transactions history.
-   *
    * All parameters are nullable
    *
-   * @param count Number of transactions to display. Default value is 1000
-   * @param fromId ID of the first transaction of the selection
-   * @param endId ID of the last transaction of the selection
-   * @param order Order in which transactions are displayed. Possible values: "asc" — from first to last, "desc" — from last to first. Default
-   * value is "desc"
-   * @param since Time from which start selecting transaction by transaction time(UNIX time). If this value is not null order will become "ASK"
-   * @param end Time to which start selecting transaction by transaction time(UNIX time). If this value is not null order will become "ASK"
-   * @param type Type of transaction. Possible values: "Withdraw" — withdraw "Incoming" — deposit. Default value is all types.
-   * @param status Transaction status. Default value is all statuses. Possible values: 1 - Failed, 2 - Completed, 3 - Processing, 4 - Rejected
+   * @param count    Number of transactions to display. Default value is 1000
+   * @param fromId   ID of the first transaction of the selection
+   * @param endId    ID of the last transaction of the selection
+   * @param order    Order in which transactions are displayed. Possible values: "asc" — from first to last, "desc" — from last to first. Default
+   *                 value is "desc"
+   * @param since    Time from which start selecting transaction by transaction time(UNIX time). If this value is not null order will become "ASK"
+   * @param end      Time to which start selecting transaction by transaction time(UNIX time). If this value is not null order will become "ASK"
+   * @param type     Type of transaction. Possible values: "Withdraw" — withdraw "Incoming" — deposit. Default value is all types.
+   * @param status   Transaction status. Default value is all statuses. Possible values: 1 - Failed, 2 - Completed, 3 - Processing, 4 - Rejected
    * @param currency Transactions currency. Default value is all currencies
    * @return {"success": 1,"return": {"1": {"id": 1,"timestamp": 11,"type": "Withdraw","amount": 1,"currency": "btc","confirmationsCount": 6,
    * "address": "address","status": 2,"commission": 0.0001}}}
@@ -93,24 +91,23 @@ public interface DSXAuthenticatedV2 extends DSX {
   @POST
   @Path("tapi/v2/history/transactions")
   DSXTransHistoryReturn transHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("count") Integer count,
-      @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end, @FormParam("type") DSXTransHistoryResult.Type type, @FormParam("status") DSXTransHistoryResult.Status status,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("count") Integer count, @FormParam("fromId") Long fromId,
+      @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since, @FormParam("end") Long end,
+      @FormParam("type") DSXTransHistoryResult.Type type, @FormParam("status") DSXTransHistoryResult.Status status,
       @FormParam("currency") String currency) throws IOException;
 
   /**
    * This method provides information about user trades history.
-   *
    * All parameters are nullable
    *
-   * @param count Number of trades to display
+   * @param count  Number of trades to display
    * @param fromId ID of the first trade of the selection
-   * @param endId ID of the last trade of the selection
-   * @param order Order in which trades are displayed. Possible values: "asc" — from first to last, "desc" — from last to first. Default
-   * value is "desc"
-   * @param since Time from which start selecting trades by trade time(UNIX time). If this value is not null order will become "asc"
-   * @param end Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become "asc"
-   * @param pair Currency pair
+   * @param endId  ID of the last trade of the selection
+   * @param order  Order in which trades are displayed. Possible values: "asc" — from first to last, "desc" — from last to first. Default
+   *               value is "desc"
+   * @param since  Time from which start selecting trades by trade time(UNIX time). If this value is not null order will become "asc"
+   * @param end    Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become "asc"
+   * @param pair   Currency pair
    * @return {"success": 1,"return": {"0": {"pair": "btcusd","type": "buy","amount": 1,"rate": 1000.000,"orderId": 1,"timestamp": 1496671,
    * "commission": 0.001,"commissionCurrency": "btc"}}}
    * @throws IOException
@@ -124,16 +121,15 @@ public interface DSXAuthenticatedV2 extends DSX {
 
   /**
    * This method provides information about user orders history.
-   *
    * All parameters are nullable
    *
-   * @param count Number of orders to display
+   * @param count  Number of orders to display
    * @param fromId ID of the first order of the selection
-   * @param endId ID of the last order of the selection
-   * @param order Order in which orders shown. Possible values: "asc" — from first to last, "desc" — from last to first. Default value is "desc"
-   * @param since Time from which start selecting orders by trade time(UNIX time). If this value is not null order will become "asc".
-   * @param end Time to which start selecting orders by trade time(UNIX time). If this value is not null order will become "asc".
-   * @param pair Currency pair.
+   * @param endId  ID of the last order of the selection
+   * @param order  Order in which orders shown. Possible values: "asc" — from first to last, "desc" — from last to first. Default value is "desc"
+   * @param since  Time from which start selecting orders by trade time(UNIX time). If this value is not null order will become "asc".
+   * @param end    Time to which start selecting orders by trade time(UNIX time). If this value is not null order will become "asc".
+   * @param pair   Currency pair.
    * @return {"success": 1,"return": {"0": {"pair": "btcusd","type": "buy","remainingVolume": 10,"volume": 10,"rate": 1000.000,
    * "timestampCreated": 1496670,"status": 0,"orderType": "limit"}}}
    * @throws IOException
@@ -148,13 +144,12 @@ public interface DSXAuthenticatedV2 extends DSX {
   /**
    * This method provides trade operation. User can place limit, market, fill-or-kill orders. If you place fill-or-kill or market order, send any
    * random number for rate param
-   *
    * All parameters, except rate param, are obligatory (ie. none may be null)
    *
-   * @param type The transaction type (buy or sell)
-   * @param rate The price to buy/sell
-   * @param volume The amount which is necessary to buy/sell
-   * @param pair pair, eg. btcusd
+   * @param type      The transaction type (buy or sell)
+   * @param rate      The price to buy/sell
+   * @param volume    The amount which is necessary to buy/sell
+   * @param pair      pair, eg. btcusd
    * @param orderType The order type: limit, market, or fill-or-kill
    * @return {"success": 1,"return": {"received": 0,"remains": 10,"funds": {"BTC": {"total": 100,"available": 95},"USD": {"total": 10000,"available": 9995},
    * "EUR": {"total": 1000,"available": 995},"LTC": {"total": 1000,"available": 995}},"orderId": 0}}
@@ -162,13 +157,13 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/order/new")
-  DSXTradeReturn trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("volume") BigDecimal volume,
-      @FormParam("pair") String pair, @FormParam("orderType") DSXOrder.OrderType orderType) throws IOException;
+  DSXTradeReturn trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate,
+      @FormParam("volume") BigDecimal volume, @FormParam("pair") String pair, @FormParam("orderType") DSXOrder.OrderType orderType)
+      throws IOException;
 
   /**
    * This method provides cancelling active order operation.
-   *
    * All parameters are obligatory (ie. none may be null)
    *
    * @param orderId Id of order to cancel
@@ -195,7 +190,6 @@ public interface DSXAuthenticatedV2 extends DSX {
 
   /**
    * This method provides order status and related deals to order
-   *
    * All parameters are obligatory (ie. none may be null)
    *
    * @param orderId Id of order to show status
@@ -218,8 +212,8 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/fees")
-  DSXFeesReturn getFees(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+  DSXFeesReturn getFees(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   /**
    * This method provides trading volume for user
@@ -229,32 +223,31 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/volume")
-  DSXVolumeReturn getVolume(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+  DSXVolumeReturn getVolume(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   /**
    * This method provides address for depositing cryptocurrency.
    *
-   * @param currency Cryptocurrency which you want to deposit. Required.
+   * @param currency   Cryptocurrency which you want to deposit. Required.
    * @param newAddress Do you want to get new crypto address or you want to receive previous address.
-   * 1 - generate new address. 0 - get old address. Default value is 0.
+   *                   1 - generate new address. 0 - get old address. Default value is 0.
    * @return {"success": 1,"return": {"address": "crypto-address","currency": "BTC","new": 0}}
    * @throws IOException
    */
   @POST
   @Path("dwapi/v2/deposit/cryptoaddress")
-  DSXCryptoDepositAddressReturn getCryptoDepositAddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @DefaultValue("0") @FormParam("newAddress") int newAddress)
-      throws IOException;
+  DSXCryptoDepositAddressReturn getCryptoDepositAddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency,
+      @DefaultValue("0") @FormParam("newAddress") int newAddress) throws IOException;
 
   /**
    * This method provides preparing for submitting crypto withdraw
-   *
    * All parameters are obligatory (ie. none may be null)
    *
-   * @param currency Cryptocurrency name
-   * @param address Crypto address
-   * @param amount Amount of cryptocurrency you want to withdraw
+   * @param currency   Cryptocurrency name
+   * @param address    Crypto address
+   * @param amount     Amount of cryptocurrency you want to withdraw
    * @param commission Amount of cryptocurrency you want to spend as network fee. If not sent - default commission will be used
    * @return {"success": 1,"return": {"transactionId": 1}}
    * @throws IOException
@@ -267,7 +260,6 @@ public interface DSXAuthenticatedV2 extends DSX {
 
   /**
    * This method provides submitting withdraw by transactionId, which we got from crypto or fiat withdraw
-   *
    * All parameters are obligatory (ie. none may be null)
    *
    * @param transactionId Id of transaction which you want to submit
@@ -282,22 +274,21 @@ public interface DSXAuthenticatedV2 extends DSX {
 
   /**
    * This method provides preparing for submitting crypto withdraw
-   *
    * All parameters are obligatory (ie. none may be null)
    *
    * @param currency Fiat currency name
-   * @param amount Amount of fiat you want to withdraw
+   * @param amount   Amount of fiat you want to withdraw
    * @return {"success": 1,"return": {"transactionId": 1}}
    * @throws IOException
    */
   @POST
   @Path("dwapi/v2/withdraw/fiat")
   DSXFiatWithdrawReturn fiatWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount)
+      throws IOException;
 
   /**
    * This method provides cancelling processing withdraw
-   * <p>
    * All parameters are obligatory (ie. none may be null)
    *
    * @param transactionId Id of transaction which you want to cancel
@@ -319,8 +310,8 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("dwapi/v2/transaction/status")
-  DSXTransactionStatusReturn getTransactionsStatus(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      SynchronizedValueFactory<Long> nonce, @FormParam("id") Long id) throws IOException;
+  DSXTransactionStatusReturn getTransactionsStatus(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") Long id) throws IOException;
 
   enum SortOrder {
     ASC, DESC

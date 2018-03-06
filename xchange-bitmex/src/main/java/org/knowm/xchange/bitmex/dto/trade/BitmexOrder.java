@@ -29,7 +29,7 @@ public class BitmexOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param refId
    * @param userRefId
    * @param status
@@ -50,11 +50,13 @@ public class BitmexOrder {
    * @param closeTimestamp
    * @param closeReason
    */
-  public BitmexOrder(@JsonProperty("refid") String refId, @JsonProperty("userref") String userRefId, @JsonProperty("status") BitmexOrderStatus status, @JsonProperty("opentm") double openTimestamp,
-      @JsonProperty("starttm") double startTimestamp, @JsonProperty("expiretm") double expireTimestamp, @JsonProperty("descr") BitmexOrderDescription orderDescription,
-      @JsonProperty("vol") BigDecimal volume, @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("stopprice") BigDecimal stopPrice, @JsonProperty("limitprice") BigDecimal limitPrice, @JsonProperty("misc") String misc,
-      @JsonProperty("oflags") List<String> orderFLags, @JsonProperty("trades") List<String> tradeIds, @JsonProperty("closetm") double closeTimestamp, @JsonProperty("reason") String closeReason) {
+  public BitmexOrder(@JsonProperty("refid") String refId, @JsonProperty("userref") String userRefId, @JsonProperty("status") BitmexOrderStatus status,
+      @JsonProperty("opentm") double openTimestamp, @JsonProperty("starttm") double startTimestamp, @JsonProperty("expiretm") double expireTimestamp,
+      @JsonProperty("descr") BitmexOrderDescription orderDescription, @JsonProperty("vol") BigDecimal volume,
+      @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("stopprice") BigDecimal stopPrice, @JsonProperty("limitprice") BigDecimal limitPrice,
+      @JsonProperty("misc") String misc, @JsonProperty("oflags") List<String> orderFLags, @JsonProperty("trades") List<String> tradeIds,
+      @JsonProperty("closetm") double closeTimestamp, @JsonProperty("reason") String closeReason) {
 
     this.refId = refId;
     this.userRefId = userRefId;
@@ -175,9 +177,10 @@ public class BitmexOrder {
   @Override
   public String toString() {
 
-    return "BitmexOrder [refId=" + refId + ", userRefId=" + userRefId + ", status=" + status + ", openTimestamp=" + openTimestamp + ", startTimestamp=" + startTimestamp + ", expireTimestamp="
-        + expireTimestamp + ", orderDescription=" + orderDescription + ", volume=" + volume + ", volumeExecuted=" + volumeExecuted + ", cost=" + cost + ", fee=" + fee + ", price=" + price
-        + ", stopPrice=" + stopPrice + ", limitPrice=" + limitPrice + ", miscellaneous=" + miscellaneous + ", orderFlags=" + orderFlags + ", tradeIds=" + tradeIds + ", closeTimestamp="
-        + closeTimestamp + ", closeReason=" + closeReason + "]";
+    return "BitmexOrder [refId=" + refId + ", userRefId=" + userRefId + ", status=" + status + ", openTimestamp=" + openTimestamp
+        + ", startTimestamp=" + startTimestamp + ", expireTimestamp=" + expireTimestamp + ", orderDescription=" + orderDescription + ", volume="
+        + volume + ", volumeExecuted=" + volumeExecuted + ", cost=" + cost + ", fee=" + fee + ", price=" + price + ", stopPrice=" + stopPrice
+        + ", limitPrice=" + limitPrice + ", miscellaneous=" + miscellaneous + ", orderFlags=" + orderFlags + ", tradeIds=" + tradeIds
+        + ", closeTimestamp=" + closeTimestamp + ", closeReason=" + closeReason + "]";
   }
 }

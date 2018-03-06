@@ -18,10 +18,11 @@ public class TaurusTradeServiceRaw extends TaurusBaseService {
 
   public TaurusTradeServiceRaw(Exchange exchange) {
     super(exchange);
-    this.taurusAuthenticated = RestProxyFactory.createProxy(TaurusAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
-    this.signatureCreator = TaurusDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
-        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.taurusAuthenticated = RestProxyFactory
+        .createProxy(TaurusAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.signatureCreator = TaurusDigest
+        .createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getUserName(),
+            exchange.getExchangeSpecification().getApiKey());
   }
 
   public TaurusOrder[] getTaurusOpenOrders() throws IOException {
@@ -29,13 +30,13 @@ public class TaurusTradeServiceRaw extends TaurusBaseService {
   }
 
   public TaurusOrder sellTaurusOrder(BigDecimal originalAmount, BigDecimal price) throws IOException {
-    return taurusAuthenticated.sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount,
-        price);
+    return taurusAuthenticated
+        .sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount, price);
   }
 
   public TaurusOrder buyTaurusOrder(BigDecimal originalAmount, BigDecimal price) throws IOException {
-    return taurusAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount,
-        price);
+    return taurusAuthenticated
+        .buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), originalAmount, price);
   }
 
   public boolean cancelTaurusOrder(String orderId) throws IOException {
@@ -43,7 +44,7 @@ public class TaurusTradeServiceRaw extends TaurusBaseService {
   }
 
   public TaurusUserTransaction[] getTaurusUserTransactions(Integer offset, Integer limit, TradeHistoryParamsSorted.Order sort) throws IOException {
-    return taurusAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-        limit, offset, sort);
+    return taurusAuthenticated
+        .getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), limit, offset, sort);
   }
 }

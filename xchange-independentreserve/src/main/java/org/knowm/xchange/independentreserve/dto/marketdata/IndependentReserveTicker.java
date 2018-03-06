@@ -31,11 +31,9 @@ public final class IndependentReserveTicker {
    * @param bid
    * @param ask
    */
-  public IndependentReserveTicker(@JsonProperty("LastPrice") BigDecimal last,
-      @JsonProperty("DayHighestPrice") BigDecimal high, @JsonProperty("DayLowestPrice") BigDecimal low,
-      @JsonProperty("DayAvgPrice") BigDecimal vwap, @JsonProperty("DayVolumeXbt") BigDecimal volume,
-      @JsonProperty("CurrentHighestBidPrice") BigDecimal bid,
-      @JsonProperty("CurrentLowestOfferPrice") BigDecimal ask,
+  public IndependentReserveTicker(@JsonProperty("LastPrice") BigDecimal last, @JsonProperty("DayHighestPrice") BigDecimal high,
+      @JsonProperty("DayLowestPrice") BigDecimal low, @JsonProperty("DayAvgPrice") BigDecimal vwap, @JsonProperty("DayVolumeXbt") BigDecimal volume,
+      @JsonProperty("CurrentHighestBidPrice") BigDecimal bid, @JsonProperty("CurrentLowestOfferPrice") BigDecimal ask,
       @JsonProperty("CreatedTimestampUtc") String timestamp) {
 
     // @JsonFormat(pattern="") @JsonDeserialize(using =
@@ -99,8 +97,8 @@ public final class IndependentReserveTicker {
   @Override
   public String toString() {
 
-    return "IndependentReserveTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap
-        + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + timestamp + "]";
+    return "IndependentReserveTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid
+        + ", ask=" + ask + ", timestamp=" + timestamp + "]";
   }
 
 }

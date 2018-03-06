@@ -18,7 +18,7 @@ public abstract class Assert {
    * </p>
    *
    * @param condition The condition under test
-   * @param message The message for any exception
+   * @param message   The message for any exception
    */
   public static void isTrue(boolean condition, String message) {
 
@@ -32,7 +32,7 @@ public abstract class Assert {
    * Asserts that an object is not null
    * </p>
    *
-   * @param object The object under test
+   * @param object  The object under test
    * @param message The message for any exception
    */
   public static void notNull(Object object, String message) {
@@ -45,7 +45,7 @@ public abstract class Assert {
   /**
    * Asserts that a String is not null and of a certain length
    *
-   * @param input The input under test
+   * @param input   The input under test
    * @param message The message for any exception
    */
   public static void hasLength(String input, int length, String message) {
@@ -59,7 +59,7 @@ public abstract class Assert {
   /**
    * Asserts that a Collection is not null and of a certain size
    *
-   * @param input The input under test
+   * @param input   The input under test
    * @param message The message for any exception
    */
   public static void hasSize(Collection<?> input, int length, String message) {

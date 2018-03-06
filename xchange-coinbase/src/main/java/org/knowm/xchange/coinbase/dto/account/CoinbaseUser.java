@@ -198,27 +198,27 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
   public static class CoinbaseUserInfo {
 
     private final String id;
-    @JsonProperty("email")
-    private String email;
-    @JsonProperty("name")
-    private String name;
     @JsonProperty("password")
     private final String password;
     private final String receiveAddress;
     @JsonProperty("referrer_id")
     private final String referrerId;
-    @JsonProperty("time_zone")
-    private String timeZone;
     private final CoinbaseMoney balance;
-    @JsonProperty("native_currency")
-    private String nativeCurrency;
     private final CoinbaseBuySellLevel buyLevel;
     private final CoinbaseBuySellLevel sellLevel;
     private final CoinbaseMoney buyLimit;
     private final CoinbaseMoney sellLimit;
+    private final CoinbaseMerchant merchant;
+    @JsonProperty("email")
+    private String email;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("time_zone")
+    private String timeZone;
+    @JsonProperty("native_currency")
+    private String nativeCurrency;
     @JsonProperty("pin")
     private String pin;
-    private final CoinbaseMerchant merchant;
 
     private CoinbaseUserInfo(@JsonProperty("id") final String id, @JsonProperty("email") final String email, @JsonProperty("name") final String name,
         @JsonProperty("password") final String password, @JsonProperty("receive_address") final String receiveAddress,

@@ -40,14 +40,8 @@ public final class ParibuAdapters {
       BigDecimal volume = btcTL.getVolume();
       BigDecimal high24hr = btcTL.getHigh24hr();
       BigDecimal low24hr = btcTL.getLow24hr();
-      return new Ticker.Builder()
-          .currencyPair(new CurrencyPair(BTC, Currency.TRY))
-          .last(last)
-          .bid(highestBid)
-          .ask(lowestAsk)
-          .high(high24hr)
-          .low(low24hr)
-          .volume(volume).build();
+      return new Ticker.Builder().currencyPair(new CurrencyPair(BTC, Currency.TRY)).last(last).bid(highestBid).ask(lowestAsk).high(high24hr)
+                                 .low(low24hr).volume(volume).build();
     }
     return null;
   }

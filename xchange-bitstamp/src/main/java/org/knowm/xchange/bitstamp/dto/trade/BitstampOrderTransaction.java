@@ -26,20 +26,18 @@ public class BitstampOrderTransaction {
    * Constructor
    *
    * @param datetime date and time of transaction
-   * @param tid transaction id
-   * @param type transaction type
-   * @param usd settled amoun
-   * @param btc traded amount
-   * @param price transaction rate
-   * @param fee transaction fee
+   * @param tid      transaction id
+   * @param type     transaction type
+   * @param usd      settled amoun
+   * @param btc      traded amount
+   * @param price    transaction rate
+   * @param fee      transaction fee
    */
   public BitstampOrderTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("tid") long tid,
-      @JsonProperty("type") BitstampUserTransaction.TransactionType type,
-      @JsonProperty("usd") BigDecimal usd, @JsonProperty("btc") BigDecimal btc,
-      @JsonProperty("ltc") BigDecimal ltc, @JsonProperty("eth") BigDecimal eth,
-      @JsonProperty("eur") BigDecimal eur, @JsonProperty("xrp") BigDecimal xrp,
-      @JsonProperty("bch") BigDecimal bch,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("fee") BigDecimal fee) {
+      @JsonProperty("type") BitstampUserTransaction.TransactionType type, @JsonProperty("usd") BigDecimal usd, @JsonProperty("btc") BigDecimal btc,
+      @JsonProperty("ltc") BigDecimal ltc, @JsonProperty("eth") BigDecimal eth, @JsonProperty("eur") BigDecimal eur,
+      @JsonProperty("xrp") BigDecimal xrp, @JsonProperty("bch") BigDecimal bch, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("fee") BigDecimal fee) {
 
     this.datetime = BitstampUtils.parseDate(datetime);
     ;

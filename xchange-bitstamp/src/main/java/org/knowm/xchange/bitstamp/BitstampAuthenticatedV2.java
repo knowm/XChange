@@ -53,46 +53,46 @@ public interface BitstampAuthenticatedV2 {
   @Path("user_transactions/{pair}/")
   BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("pair") BitstampV2.Pair pair,
-      @FormParam("limit") Long numberOfTransactions, @FormParam("offset") Long offset,
-      @FormParam("sort") String sort) throws BitstampException, IOException;
-
-  enum Side {
-    buy, sell
-  }
+      @FormParam("limit") Long numberOfTransactions, @FormParam("offset") Long offset, @FormParam("sort") String sort)
+      throws BitstampException, IOException;
 
   @POST
   @Path("xrp_withdrawal/")
   BitstampWithdrawal xrpWithdrawal(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String rippleAddress, @FormParam("destination_tag") String destinationTag) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String rippleAddress,
+      @FormParam("destination_tag") String destinationTag) throws BitstampException, IOException;
 
   @POST
   @Path("ltc_withdrawal/")
   BitstampWithdrawal withdrawLitecoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
+      throws BitstampException, IOException;
 
   @POST
   @Path("bch_withdrawal/")
   BitstampWithdrawal bchWithdrawal(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
+      throws BitstampException, IOException;
 
   @POST
   @Path("eth_withdrawal/")
   BitstampWithdrawal withdrawEther(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
+      throws BitstampException, IOException;
 
   @POST
   @Path("transfer-to-main/")
   BitstampTransferBalanceResponse transferSubAccountBalanceToMain(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("currency") String currency, @FormParam("subAccount") String subAccount) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("currency") String currency,
+      @FormParam("subAccount") String subAccount) throws BitstampException, IOException;
 
   @POST
   @Path("withdrawal-requests/")
   WithdrawalRequest[] getWithdrawalRequests(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("timedelta") Long timeDelta) throws BitstampException, IOException;
+
+  enum Side {
+    buy, sell
+  }
 
 }

@@ -48,14 +48,10 @@ public class LunoWithdrawals {
     public final BigDecimal amount;
     public final BigDecimal fee;
 
-    public Withdrawal(@JsonProperty(value = "id", required = true) String id
-        , @JsonProperty(value = "status", required = false) Status status
-        , @JsonProperty(value = "created_at", required = false) long createdAt
-        , @JsonProperty(value = "type", required = false) String type
-        , @JsonProperty(value = "currency", required = false) String currency
-        , @JsonProperty(value = "amount", required = false) BigDecimal amount
-        , @JsonProperty(value = "fee", required = false) BigDecimal fee
-    ) {
+    public Withdrawal(@JsonProperty(value = "id", required = true) String id, @JsonProperty(value = "status", required = false) Status status,
+        @JsonProperty(value = "created_at", required = false) long createdAt, @JsonProperty(value = "type", required = false) String type,
+        @JsonProperty(value = "currency", required = false) String currency, @JsonProperty(value = "amount", required = false) BigDecimal amount,
+        @JsonProperty(value = "fee", required = false) BigDecimal fee) {
       this.id = id;
       this.status = status;
       this.createdAt = createdAt;
@@ -71,8 +67,8 @@ public class LunoWithdrawals {
 
     @Override
     public String toString() {
-      return "Withdrawal [id=" + id + ", status=" + status + ", createdAt=" + getCreatedAt() + ", type=" + type + ", currency="
-          + currency + ", amount=" + amount + ", fee=" + fee + "]";
+      return "Withdrawal [id=" + id + ", status=" + status + ", createdAt=" + getCreatedAt() + ", type=" + type + ", currency=" + currency
+          + ", amount=" + amount + ", fee=" + fee + "]";
     }
 
   }

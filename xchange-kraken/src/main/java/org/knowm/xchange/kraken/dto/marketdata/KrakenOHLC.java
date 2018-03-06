@@ -59,7 +59,8 @@ public class KrakenOHLC {
   @Override
   public String toString() {
 
-    return "KrakenOHLC [time=" + time + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close + ", vwap=" + vwap + ", volume=" + volume + ", count=" + count + "]";
+    return "KrakenOHLC [time=" + time + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close + ", vwap=" + vwap + ", volume="
+        + volume + ", count=" + count + "]";
   }
 
 }

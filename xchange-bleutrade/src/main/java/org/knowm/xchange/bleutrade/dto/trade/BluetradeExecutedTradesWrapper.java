@@ -9,7 +9,8 @@ public class BluetradeExecutedTradesWrapper {
   public final String message;
   public final List<BluetradeExecutedTrade> result;
 
-  public BluetradeExecutedTradesWrapper(@JsonProperty("success") boolean success, @JsonProperty("message") String message, @JsonProperty("result") List<BluetradeExecutedTrade> result) {
+  public BluetradeExecutedTradesWrapper(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+      @JsonProperty("result") List<BluetradeExecutedTrade> result) {
     this.success = success;
     this.message = message;
     this.result = result;

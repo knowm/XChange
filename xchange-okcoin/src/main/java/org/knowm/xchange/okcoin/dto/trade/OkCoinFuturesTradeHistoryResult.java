@@ -69,8 +69,8 @@ public class OkCoinFuturesTradeHistoryResult extends OkCoinErrorResult {
 
   public enum TransactionType {
     buy, sell /*
-               * reseved so parsing won 't break in case Bitstamp adds new types
-               */
+     * reseved so parsing won 't break in case Bitstamp adds new types
+     */
   }
 
 }

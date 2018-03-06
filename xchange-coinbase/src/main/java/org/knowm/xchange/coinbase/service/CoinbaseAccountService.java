@@ -77,8 +77,7 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

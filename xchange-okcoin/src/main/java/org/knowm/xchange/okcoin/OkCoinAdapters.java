@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.knowm.xchange.currency.Currency;
@@ -77,8 +76,8 @@ public final class OkCoinAdapters {
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
     final Date date = adaptDate(tickerResponse.getDate());
     return new Ticker.Builder().currencyPair(currencyPair).high(tickerResponse.getTicker().getHigh()).low(tickerResponse.getTicker().getLow())
-        .bid(tickerResponse.getTicker().getBuy()).ask(tickerResponse.getTicker().getSell()).last(tickerResponse.getTicker().getLast())
-        .volume(tickerResponse.getTicker().getVol()).timestamp(date).build();
+                               .bid(tickerResponse.getTicker().getBuy()).ask(tickerResponse.getTicker().getSell())
+                               .last(tickerResponse.getTicker().getLast()).volume(tickerResponse.getTicker().getVol()).timestamp(date).build();
   }
 
   public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {
@@ -200,8 +199,7 @@ public final class OkCoinAdapters {
   }
 
   private static Stream<LimitOrder> adaptLimitOrders(OrderType type, BigDecimal[][] list, Date timestamp, CurrencyPair currencyPair) {
-    return Arrays.stream(list)
-        .map(data -> adaptLimitOrder(type, data, currencyPair, null, timestamp));
+    return Arrays.stream(list).map(data -> adaptLimitOrder(type, data, currencyPair, null, timestamp));
   }
 
   private static LimitOrder adaptLimitOrder(OrderType type, BigDecimal[] data, CurrencyPair currencyPair, String id, Date timestamp) {
@@ -217,9 +215,8 @@ public final class OkCoinAdapters {
 
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
 
-    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()),
-        String.valueOf(order.getOrderId()), order.getCreateDate(), order.getPrice(), order.getAveragePrice(),
-        order.getDealAmount(), null, adaptOrderStatus(order.getStatus()));
+    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
+        order.getCreateDate(), order.getPrice(), order.getAveragePrice(), order.getDealAmount(), null, adaptOrderStatus(order.getStatus()));
   }
 
   public static LimitOrder adaptOpenOrderFutures(OkCoinFuturesOrder order) {
@@ -335,10 +332,8 @@ public final class OkCoinAdapters {
             }
           }
 
-          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(), adaptDate(okCoinRecordEntry.getDate()),
-              depositCurrency, okCoinRecordEntry.getAmount(), null, null,
-              FundingRecord.Type.DEPOSIT, status, null, okCoinRecordEntry.getFee(), null)
-          );
+          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(), adaptDate(okCoinRecordEntry.getDate()), depositCurrency,
+              okCoinRecordEntry.getAmount(), null, null, FundingRecord.Type.DEPOSIT, status, null, okCoinRecordEntry.getFee(), null));
         }
       }
       final OkCoinAccountRecords withdrawalRecord = okCoinAccountRecordsList[1];
@@ -354,10 +349,8 @@ public final class OkCoinAdapters {
             }
           }
 
-          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(), adaptDate(okCoinRecordEntry.getDate()),
-              withdrawalCurrency, okCoinRecordEntry.getAmount(), null, null,
-              FundingRecord.Type.WITHDRAWAL, status, null, okCoinRecordEntry.getFee(), null)
-          );
+          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(), adaptDate(okCoinRecordEntry.getDate()), withdrawalCurrency,
+              okCoinRecordEntry.getAmount(), null, null, FundingRecord.Type.WITHDRAWAL, status, null, okCoinRecordEntry.getFee(), null));
         }
       }
     }

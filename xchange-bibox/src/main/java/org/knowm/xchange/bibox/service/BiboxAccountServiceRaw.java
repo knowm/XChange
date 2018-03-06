@@ -33,7 +33,8 @@ public class BiboxAccountServiceRaw extends BiboxBaseService {
 
   public String requestBiboxDepositAddress(Currency currency) {
     try {
-      BiboxSingleResponse<String> response = bibox.depositAddress(BiboxCommands.depositAddressCommand(currency.getCurrencyCode()).json(), apiKey, signatureCreator);
+      BiboxSingleResponse<String> response = bibox
+          .depositAddress(BiboxCommands.depositAddressCommand(currency.getCurrencyCode()).json(), apiKey, signatureCreator);
       throwErrors(response);
       return response.get().getResult();
     } catch (BiboxException e) {

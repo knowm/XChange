@@ -27,7 +27,7 @@ public class MarketDataServiceIntegration {
     assertThat(ticker.getAsk()).isGreaterThan(ticker.getBid());
     assertThat(ticker.getHigh()).isGreaterThan(ticker.getLow());
   }
-  
+
   @Test
   public void testGetAllOrderBooks() throws Exception {
 

@@ -16,23 +16,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitcoindeOpenOrdersTest {
 
-	@Test
-	public void testBitcoindeOpenOrders() throws JsonParseException, JsonMappingException, IOException {
+  @Test
+  public void testBitcoindeOpenOrders() throws JsonParseException, JsonMappingException, IOException {
 
-		// Read in the JSON from the example resources
-		InputStream is = BitcoindeOpenOrdersTest.class.getResourceAsStream("/orders.json");
+    // Read in the JSON from the example resources
+    InputStream is = BitcoindeOpenOrdersTest.class.getResourceAsStream("/orders.json");
 
-		// Use Jackson to parse it
-		ObjectMapper mapper = new ObjectMapper();
-		BitcoindeMyOpenOrdersWrapper bitcoindeOpenOrdersWrapper = mapper.readValue(is, BitcoindeMyOpenOrdersWrapper.class);
-		System.out.println("bitcoindeTradesWrapper = " + bitcoindeOpenOrdersWrapper);
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitcoindeMyOpenOrdersWrapper bitcoindeOpenOrdersWrapper = mapper.readValue(is, BitcoindeMyOpenOrdersWrapper.class);
+    System.out.println("bitcoindeTradesWrapper = " + bitcoindeOpenOrdersWrapper);
 
-		// Make sure trade values are correct
+    // Make sure trade values are correct
 
-		List<BitcoindeMyOrder> orders = bitcoindeOpenOrdersWrapper.getOrders();
-		BitcoindeMyOrder order = orders.get(0);
+    List<BitcoindeMyOrder> orders = bitcoindeOpenOrdersWrapper.getOrders();
+    BitcoindeMyOrder order = orders.get(0);
 
-		assertEquals(1, orders.size());
-		assertEquals("VNSP86", order.getOrderId());
-	}
+    assertEquals(1, orders.size());
+    assertEquals("VNSP86", order.getOrderId());
+  }
 }

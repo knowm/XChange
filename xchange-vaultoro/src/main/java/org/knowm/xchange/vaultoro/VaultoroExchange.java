@@ -15,9 +15,9 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class VaultoroExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime250NonceFactory();
   public static BigDecimal latest;
   public static long latestTimestamp;
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime250NonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {

@@ -29,8 +29,8 @@ public class BitMarketBaseService extends BaseExchangeService implements BaseSer
     super(exchange);
 
     bitMarket = RestProxyFactory.createProxy(BitMarket.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-    bitMarketAuthenticated = RestProxyFactory.createProxy(BitMarketAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
+    bitMarketAuthenticated = RestProxyFactory
+        .createProxy(BitMarketAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     sign = BitMarketDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     apiKey = exchange.getExchangeSpecification().getApiKey();
   }

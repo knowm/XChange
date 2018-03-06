@@ -39,7 +39,6 @@ public class BitcointoyouAdaptersTest {
   private static BitcointoyouPublicTrade[] bitcointoyouPublicTrades;
   private static BitcointoyouBalance bitcointoyouBalance;
 
-
   @BeforeClass
   public static void setUp() throws Exception {
 
@@ -53,6 +52,32 @@ public class BitcointoyouAdaptersTest {
 
     BitcointoyouBalanceTest.setUp();
     bitcointoyouBalance = BitcointoyouBalanceTest.bitcointoyouBalance;
+  }
+
+  private static BitcointoyouOrderBook loadBitcointoyouOrderBookFromExampleData() throws IOException {
+
+    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/trade/example-orderbook-data.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(is, BitcointoyouOrderBook.class);
+  }
+
+  private static BitcointoyouTicker loadBitcointoyouTickerFromExampleData() throws IOException {
+
+    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    BitcointoyouMarketData marketData = mapper.readValue(is, BitcointoyouMarketData.class);
+    return new BitcointoyouTicker(marketData, CurrencyPair.BTC_BRL);
+  }
+
+  private static BitcointoyouPublicTrade[] loadBitcointoyouPublicTradesFromExampleData() throws IOException {
+
+    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/marketdata/example-public-trades-data.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(is, BitcointoyouPublicTrade[].class);
+
   }
 
   @Test
@@ -127,41 +152,11 @@ public class BitcointoyouAdaptersTest {
 
     softly.assertThat(balances).isNotNull();
     softly.assertThat(balances.size()).isEqualTo(5);
-    softly.assertThat(balances).contains(
-        new Balance(Currency.BRL, new BigDecimal("8657.531311027634275")),
-        new Balance(Currency.BTC, new BigDecimal("35.460074025529646")),
-        new Balance(Currency.LTC, new BigDecimal("9.840918628667236")),
-        new Balance(Currency.DOGE, new BigDecimal("5419.490003406479187")),
-        new Balance(Currency.DRK, new BigDecimal("0.121461143982142"))
-    );
+    softly.assertThat(balances).contains(new Balance(Currency.BRL, new BigDecimal("8657.531311027634275")),
+        new Balance(Currency.BTC, new BigDecimal("35.460074025529646")), new Balance(Currency.LTC, new BigDecimal("9.840918628667236")),
+        new Balance(Currency.DOGE, new BigDecimal("5419.490003406479187")), new Balance(Currency.DRK, new BigDecimal("0.121461143982142")));
 
     softly.assertAll();
-  }
-
-  private static BitcointoyouOrderBook loadBitcointoyouOrderBookFromExampleData() throws IOException {
-
-    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/trade/example-orderbook-data.json");
-
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.readValue(is, BitcointoyouOrderBook.class);
-  }
-
-  private static BitcointoyouTicker loadBitcointoyouTickerFromExampleData() throws IOException {
-
-    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
-
-    ObjectMapper mapper = new ObjectMapper();
-    BitcointoyouMarketData marketData = mapper.readValue(is, BitcointoyouMarketData.class);
-    return new BitcointoyouTicker(marketData, CurrencyPair.BTC_BRL);
-  }
-
-  private static BitcointoyouPublicTrade[] loadBitcointoyouPublicTradesFromExampleData() throws IOException {
-
-    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/marketdata/example-public-trades-data.json");
-
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.readValue(is, BitcointoyouPublicTrade[].class);
-
   }
 
 }

@@ -44,12 +44,12 @@ public class LoanOrder implements Serializable {
   /**
    * Constructor
    *
-   * @param type Order type i.e. bid or ask
-   * @param currency The loan currency
+   * @param type           Order type i.e. bid or ask
+   * @param currency       The loan currency
    * @param originalAmount Amount to be ordered / amount that was ordered
-   * @param dayPeriod Duration of loan in days
-   * @param id An identifier that uniquely identifies the order
-   * @param timestamp The timestamp on the order according to the exchange's server, null if not provided
+   * @param dayPeriod      Duration of loan in days
+   * @param id             An identifier that uniquely identifies the order
+   * @param timestamp      The timestamp on the order according to the exchange's server, null if not provided
    */
   public LoanOrder(OrderType type, String currency, BigDecimal originalAmount, int dayPeriod, String id, Date timestamp) {
 

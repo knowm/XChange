@@ -30,7 +30,7 @@ public class KrakenUserTrade extends UserTrade {
       Builder builder = new Builder().cost(trade.getCost());
       builder.orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency());
       builder.type(trade.getType()).originalAmount(trade.getOriginalAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice())
-          .timestamp(trade.getTimestamp()).id(trade.getId());
+             .timestamp(trade.getTimestamp()).id(trade.getId());
       return builder;
     }
 

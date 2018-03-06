@@ -37,6 +37,24 @@ public class GDAXProductBook {
     }
   }
 
+  private static GDAXProductBookEntry convertToBookEntry(Object[] dataObject) {
+
+    if (dataObject != null && dataObject.length == 3) {
+      BigDecimal price = new BigDecimal((String) dataObject[0]);
+      BigDecimal volume = new BigDecimal((String) dataObject[1]);
+
+      // level 3 order book?
+      if (dataObject[2] instanceof String) {
+        return new GDAXProductBookEntryLevel3(price, volume, (String) dataObject[2]);
+      } else { // level 1 or 2
+        int numberOfOrders = (Integer) dataObject[2];
+        return new GDAXProductBookEntryLevel1or2(price, volume, numberOfOrders);
+      }
+
+    }
+    return null;
+  }
+
   public Long getSequence() {
 
     return sequence;
@@ -65,24 +83,6 @@ public class GDAXProductBook {
 
     if (this.getAsks() != null && this.getAsks().length > 0) {
       return this.getAsks()[0];
-    }
-    return null;
-  }
-
-  private static GDAXProductBookEntry convertToBookEntry(Object[] dataObject) {
-
-    if (dataObject != null && dataObject.length == 3) {
-      BigDecimal price = new BigDecimal((String) dataObject[0]);
-      BigDecimal volume = new BigDecimal((String) dataObject[1]);
-
-      // level 3 order book?
-      if (dataObject[2] instanceof String) {
-        return new GDAXProductBookEntryLevel3(price, volume, (String) dataObject[2]);
-      } else { // level 1 or 2
-        int numberOfOrders = (Integer) dataObject[2];
-        return new GDAXProductBookEntryLevel1or2(price, volume, numberOfOrders);
-      }
-
     }
     return null;
   }

@@ -58,8 +58,7 @@ public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements A
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

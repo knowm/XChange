@@ -26,9 +26,6 @@ public class LiquiCancelOrder {
 
   @Override
   public String toString() {
-    return "LiquiCancelOrder{" +
-        "orderId=" + orderId +
-        ", funds=" + funds +
-        '}';
+    return "LiquiCancelOrder{" + "orderId=" + orderId + ", funds=" + funds + '}';
   }
 }

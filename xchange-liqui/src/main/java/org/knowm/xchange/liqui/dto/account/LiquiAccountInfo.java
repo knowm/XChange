@@ -42,12 +42,7 @@ public class LiquiAccountInfo {
 
   @Override
   public String toString() {
-    return "LiquiAccountInfo{" +
-        "funds=" + funds +
-        ", transactionCount=" + transactionCount +
-        ", openOrders=" + openOrders +
-        ", serverTime=" + serverTime +
-        ", rights=" + rights +
-        '}';
+    return "LiquiAccountInfo{" + "funds=" + funds + ", transactionCount=" + transactionCount + ", openOrders=" + openOrders + ", serverTime="
+        + serverTime + ", rights=" + rights + '}';
   }
 }

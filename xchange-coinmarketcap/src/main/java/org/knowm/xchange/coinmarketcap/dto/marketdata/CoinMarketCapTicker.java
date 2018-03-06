@@ -33,21 +33,9 @@ public final class CoinMarketCapTicker {
   private final Date lastUpdated;
   private final CoinMarketCapCurrency baseCurrency;
 
-  private CoinMarketCapTicker(
-      final String id,
-      final String name,
-      final String isoCode,
-      final BigDecimal priceUSD,
-      final BigDecimal priceBTC,
-      final BigDecimal volume24hUSD,
-      final BigDecimal marketCapUSD,
-      final BigDecimal availableSupply,
-      final BigDecimal totalSupply,
-      final BigDecimal pctChange1h,
-      final BigDecimal pctChange24h,
-      final BigDecimal pctChange7d,
-      final Date lastUpdated
-  ) {
+  private CoinMarketCapTicker(final String id, final String name, final String isoCode, final BigDecimal priceUSD, final BigDecimal priceBTC,
+      final BigDecimal volume24hUSD, final BigDecimal marketCapUSD, final BigDecimal availableSupply, final BigDecimal totalSupply,
+      final BigDecimal pctChange1h, final BigDecimal pctChange24h, final BigDecimal pctChange7d, final Date lastUpdated) {
     this.id = id;
     this.name = name;
     this.baseCurrency = new CoinMarketCapCurrency(isoCode);
@@ -129,8 +117,7 @@ public final class CoinMarketCapTicker {
   static class CoinMarketCapTickerDeserializer extends JsonDeserializer<CoinMarketCapTicker> {
 
     @Override
-    public CoinMarketCapTicker deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
+    public CoinMarketCapTicker deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
@@ -153,10 +140,8 @@ public final class CoinMarketCapTicker {
         BigDecimal pctChange24h = new BigDecimal(node.get("percent_change_24h").asDouble());
         BigDecimal pctChange7d = new BigDecimal(node.get("percent_change_7d").asDouble());
 
-        CoinMarketCapTicker ticker = new CoinMarketCapTicker(
-            id, name, symbol, priceUSD, priceBTC, volume24hUSD, marketCapUSD,
-            availableSupply, totalSupply,
-            pctChange1h, pctChange24h, pctChange7d, lastUpdated);
+        CoinMarketCapTicker ticker = new CoinMarketCapTicker(id, name, symbol, priceUSD, priceBTC, volume24hUSD, marketCapUSD, availableSupply,
+            totalSupply, pctChange1h, pctChange24h, pctChange7d, lastUpdated);
         return ticker;
       }
       return null;

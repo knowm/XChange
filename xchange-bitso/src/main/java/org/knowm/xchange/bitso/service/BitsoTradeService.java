@@ -16,7 +16,11 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -49,8 +53,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     BitsoOrder[] openOrders = getBitsoOpenOrders();
 
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -132,8 +135,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

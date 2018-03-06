@@ -172,18 +172,9 @@ public class LivecoinAdapters {
 
     Order.OrderStatus status = remainingQuantity.compareTo(startingQuantity) < 0 ? Order.OrderStatus.PARTIALLY_FILLED : Order.OrderStatus.PENDING_NEW;
 
-    return new LimitOrder(
-        type,
-        remainingQuantity,
-        new CurrencyPair(ccyA, ccyB),
-        map.get("id").toString(),
-        DateUtils.fromUnixTime(Double.valueOf(map.get("issueTime").toString()).longValue()),
-        new BigDecimal(map.get("price").toString()),
-        null,
-        null,
-        null,
-        status
-    );
+    return new LimitOrder(type, remainingQuantity, new CurrencyPair(ccyA, ccyB), map.get("id").toString(),
+        DateUtils.fromUnixTime(Double.valueOf(map.get("issueTime").toString()).longValue()), new BigDecimal(map.get("price").toString()), null, null,
+        null, status);
   }
 
   public static UserTrade adaptUserTrade(Map map) {
@@ -194,17 +185,10 @@ public class LivecoinAdapters {
     Currency ccyA = Currency.getInstance(map.get("fixedCurrency").toString());
     Currency ccyB = Currency.getInstance(map.get("variableCurrency").toString());
 
-    return new UserTrade(
-        type,
-        new BigDecimal(map.get("amount").toString()),
-        new CurrencyPair(ccyA, ccyB),
-        new BigDecimal(map.get("variableAmount").toString()),
-        DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
-        map.get("id").toString(),
-        map.get("externalKey").toString(),
-        new BigDecimal(map.get("fee").toString()),
-        getInstance(map.get("taxCurrency").toString())
-    );
+    return new UserTrade(type, new BigDecimal(map.get("amount").toString()), new CurrencyPair(ccyA, ccyB),
+        new BigDecimal(map.get("variableAmount").toString()), DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
+        map.get("id").toString(), map.get("externalKey").toString(), new BigDecimal(map.get("fee").toString()),
+        getInstance(map.get("taxCurrency").toString()));
   }
 
   public static FundingRecord adaptFundingRecord(Map map) {
@@ -212,19 +196,9 @@ public class LivecoinAdapters {
     if (map.get("type").toString().equals("DEPOSIT"))
       type = FundingRecord.Type.DEPOSIT;
 
-    return new FundingRecord(
-        map.get("externalKey").toString(),
-        DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
-        getInstance(map.get("fixedCurrency").toString()),
-        new BigDecimal(map.get("amount").toString()),
-        map.get("id").toString(),
-        null,
-        type,
-        FundingRecord.Status.COMPLETE,
-        null,
-        new BigDecimal(map.get("fee").toString()),
-        null
-    );
+    return new FundingRecord(map.get("externalKey").toString(), DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
+        getInstance(map.get("fixedCurrency").toString()), new BigDecimal(map.get("amount").toString()), map.get("id").toString(), null, type,
+        FundingRecord.Status.COMPLETE, null, new BigDecimal(map.get("fee").toString()), null);
   }
 
   public static List<Wallet> adaptWallets(List<Map> data) {
@@ -263,16 +237,8 @@ public class LivecoinAdapters {
 
     public Wallet build() {
       return new Wallet(currency.getCurrencyCode(),
-          new Balance(
-              currency,
-              map.get("total"),
-              map.get("available"),
-              map.get("trade"),
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO
-          ));
+          new Balance(currency, map.get("total"), map.get("available"), map.get("trade"), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+              BigDecimal.ZERO));
     }
 
     public void add(String type, String value) {

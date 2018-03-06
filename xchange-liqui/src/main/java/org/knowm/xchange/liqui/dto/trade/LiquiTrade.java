@@ -53,13 +53,7 @@ public class LiquiTrade {
 
   @Override
   public String toString() {
-    return "LiquiTrade{" +
-        "received='" + received + '\'' +
-        ", remains='" + remains + '\'' +
-        ", orderId=" + orderId +
-        ", initOrderId=" + initOrderId +
-        ", funds=" + funds +
-        ", trades=" + trades +
-        '}';
+    return "LiquiTrade{" + "received='" + received + '\'' + ", remains='" + remains + '\'' + ", orderId=" + orderId + ", initOrderId=" + initOrderId
+        + ", funds=" + funds + ", trades=" + trades + '}';
   }
 }

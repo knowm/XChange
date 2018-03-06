@@ -26,8 +26,6 @@ public class DSXCancelAllOrdersResult {
 
   @Override
   public String toString() {
-    return "DSXCancelAllOrdersResult{" +
-        "funds=" + funds +
-        '}';
+    return "DSXCancelAllOrdersResult{" + "funds=" + funds + '}';
   }
 }

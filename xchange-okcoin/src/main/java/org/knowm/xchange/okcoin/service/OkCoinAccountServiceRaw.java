@@ -59,8 +59,9 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
   }
 
   public OKCoinWithdraw withdraw(String currencySymbol, String withdrawAddress, BigDecimal amount, String target, String fee) throws IOException {
-    OKCoinWithdraw withdrawResult = okCoin.withdraw(exchange.getExchangeSpecification().getApiKey(), currencySymbol, signatureCreator, fee, tradepwd,
-        withdrawAddress, amount.toString(), target);
+    OKCoinWithdraw withdrawResult = okCoin
+        .withdraw(exchange.getExchangeSpecification().getApiKey(), currencySymbol, signatureCreator, fee, tradepwd, withdrawAddress,
+            amount.toString(), target);
 
     return returnOrThrow(withdrawResult);
   }

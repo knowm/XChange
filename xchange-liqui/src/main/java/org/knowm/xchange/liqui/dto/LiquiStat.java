@@ -35,11 +35,6 @@ public class LiquiStat {
 
   @Override
   public String toString() {
-    return "LiquiStat{" +
-        "success=" + success +
-        ", serverTime='" + serverTime + '\'' +
-        ", time='" + time + '\'' +
-        ", errors='" + errors + '\'' +
-        '}';
+    return "LiquiStat{" + "success=" + success + ", serverTime='" + serverTime + '\'' + ", time='" + time + '\'' + ", errors='" + errors + '\'' + '}';
   }
 }

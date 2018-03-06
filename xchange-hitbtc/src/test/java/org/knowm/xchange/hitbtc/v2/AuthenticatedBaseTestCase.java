@@ -13,10 +13,9 @@ import org.knowm.xchange.ExchangeFactory;
  */
 public class AuthenticatedBaseTestCase {
 
-  protected static Exchange EXCHANGE = null;
-
   private static final String API_KEY_LOOKUP = "hitbtc_api_key";
   private static final String SECRET_KEY_LOOKUP = "hitbtc_secret_key";
+  protected static Exchange EXCHANGE = null;
 
   @BeforeClass
   public static void setUpClass() throws IOException {

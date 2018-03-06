@@ -31,7 +31,6 @@ public final class BitfinexUtils {
   /**
    * From the reference documentation for field withdraw_type (2018-02-14);
    * can be one of the following ['bitcoin', 'litecoin', 'ethereum', 'ethereumc', 'mastercoin', 'zcash', 'monero', 'wire', 'dash', 'ripple', 'eos', 'neo', 'aventus', 'qtum', 'eidoo']
-   *
    * From customer support via email on 2018-02-27;
    * "... After discussing with our developers, you can use API to withdraw BCH and withdraw_type is bcash. ..."
    *

@@ -6,17 +6,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * @author odrotleff
  */
 public enum BiboxOrderType {
-  MARKET_ORDER(1),
-  LIMIT_ORDER(2);
+  MARKET_ORDER(1), LIMIT_ORDER(2);
 
   private int orderType;
 
   private BiboxOrderType(int orderType) {
     this.orderType = orderType;
-  }
-
-  public int asInt() {
-    return orderType;
   }
 
   @JsonCreator
@@ -29,5 +24,9 @@ public enum BiboxOrderType {
       default:
         throw new RuntimeException("Unexpected Bibox order type!");
     }
+  }
+
+  public int asInt() {
+    return orderType;
   }
 }

@@ -60,14 +60,14 @@ public interface BittrexAuthenticated extends Bittrex {
   @GET
   @Path("market/buymarket")
   BittrexTradeResponse buymarket(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market,
-      @QueryParam("quantity") String quantity) throws IOException;
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market, @QueryParam("quantity") String quantity)
+      throws IOException;
 
   @GET
   @Path("market/sellmarket")
   BittrexTradeResponse sellmarket(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market,
-      @QueryParam("quantity") String quantity) throws IOException;
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market, @QueryParam("quantity") String quantity)
+      throws IOException;
 
   @GET
   @Path("market/cancel")

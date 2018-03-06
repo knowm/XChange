@@ -22,8 +22,7 @@ public class BTCTurkOrderBook {
    * @param bids
    * @param asks
    */
-  public BTCTurkOrderBook(@JsonProperty("timestamp") Long timestamp,
-      @JsonProperty("bids") List<List<BigDecimal>> bids,
+  public BTCTurkOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("bids") List<List<BigDecimal>> bids,
       @JsonProperty("asks") List<List<BigDecimal>> asks) {
     this.bids = bids;
     this.asks = asks;

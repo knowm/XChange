@@ -1,11 +1,5 @@
 package org.knowm.xchange.cexio.dto.trade;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -13,6 +7,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /*
   examples
@@ -125,11 +125,9 @@ public class CexIOArchivedOrder {
   public final BigDecimal feeValue;
   public final String feeCcy;
 
-  public CexIOArchivedOrder(String id, String type, String time, String lastTxTime,
-                            String lastTx, String pos, String status, String symbol1,
-                            String symbol2, BigDecimal amount, BigDecimal price, String remains,
-                            String tradingFeeMaker, String tradingFeeTaker, String tradingFeeUserVolumeAmount,
-                            String orderId, BigDecimal feeValue, String feeCcy) {
+  public CexIOArchivedOrder(String id, String type, String time, String lastTxTime, String lastTx, String pos, String status, String symbol1,
+      String symbol2, BigDecimal amount, BigDecimal price, String remains, String tradingFeeMaker, String tradingFeeTaker,
+      String tradingFeeUserVolumeAmount, String orderId, BigDecimal feeValue, String feeCcy) {
     this.id = id;
     this.type = type;
     this.time = time;
@@ -195,29 +193,12 @@ public class CexIOArchivedOrder {
       BigDecimal price = filled.get(counter).divide(filled.get(base), scale, BigDecimal.ROUND_HALF_UP);
 
       BigDecimal amount = new BigDecimal(map.get("amount"));
-      if(amount.compareTo(BigDecimal.ZERO) == 0)
+      if (amount.compareTo(BigDecimal.ZERO) == 0)
         amount = new BigDecimal(map.get("amount2"));//madness - i think the 'amount' field changes name for market orders
 
-      return new CexIOArchivedOrder(
-          map.get("id"),
-          map.get("type"),
-          map.get("time"),
-          map.get("lastTxTime"),
-          map.get("lastTx"),
-          map.get("pos"),
-          map.get("status"),
-          base,
-          counter,
-          amount,
-          price,
-          map.get("remains"),
-          map.get("tradingFeeMaker"),
-          map.get("tradingFeeTaker"),
-          map.get("tradingFeeUserVolumeAmount"),
-          map.get("orderId"),
-          feeValue,
-          feeCcy
-      );
+      return new CexIOArchivedOrder(map.get("id"), map.get("type"), map.get("time"), map.get("lastTxTime"), map.get("lastTx"), map.get("pos"),
+          map.get("status"), base, counter, amount, price, map.get("remains"), map.get("tradingFeeMaker"), map.get("tradingFeeTaker"),
+          map.get("tradingFeeUserVolumeAmount"), map.get("orderId"), feeValue, feeCcy);
     }
   }
 

@@ -53,7 +53,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class ANXGenerator {
 
   static ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true)
-      .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                                                 .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
   static Set<Currency> cryptos = new HashSet<>(Arrays.asList(BTC, LTC, DOGE, STR, XRP, START, EGD));
   static Currency[] fiats = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY};
@@ -69,6 +69,7 @@ public class ANXGenerator {
   static Map<Currency, CurrencyMetaData> currencyMap = new TreeMap<>();
 
   static Set<CurrencyPair> pairs = new HashSet<>();
+  static BigDecimal fee = new BigDecimal(".006");
 
   static {
     minAmount.put(BTC, ONE.movePointLeft(2));
@@ -116,8 +117,6 @@ public class ANXGenerator {
       pairs.add(new CurrencyPair(START, counter));
     }
   }
-
-  static BigDecimal fee = new BigDecimal(".006");
 
   public static void main(String[] args) throws IOException {
     new ANXGenerator().run();

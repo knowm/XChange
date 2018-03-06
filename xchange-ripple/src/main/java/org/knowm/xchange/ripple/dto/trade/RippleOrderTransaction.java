@@ -64,12 +64,12 @@ public class RippleOrderTransaction extends RippleCommon implements IRippleTrade
     this.direction = value;
   }
 
-  public void setOrder(final RippleOrderResponseBody value) {
-    order = value;
-  }
-
   public List<RippleOrderResponseBody> getOrderChanges() {
     return orderChanges;
+  }
+
+  public void setOrderChanges(final List<RippleOrderResponseBody> value) {
+    orderChanges = value;
   }
 
   public List<RippleAmount> getBalanceChanges() {
@@ -84,8 +84,8 @@ public class RippleOrderTransaction extends RippleCommon implements IRippleTrade
     return order;
   }
 
-  public void setOrderChanges(final List<RippleOrderResponseBody> value) {
-    orderChanges = value;
+  public void setOrder(final RippleOrderResponseBody value) {
+    order = value;
   }
 
   @Override

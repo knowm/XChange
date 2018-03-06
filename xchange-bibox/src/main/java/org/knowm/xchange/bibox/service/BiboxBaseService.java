@@ -27,7 +27,7 @@ public class BiboxBaseService extends BaseExchangeService implements BaseService
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BiboxDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
-  
+
   protected static void throwErrors(BiboxResponse<?> response) {
     if (response.getError() != null) {
       throw new ExchangeException(response.getError().getCode() + ": " + response.getError().getMsg());

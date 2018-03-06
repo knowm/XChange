@@ -15,16 +15,10 @@ public class GDAXCoinbaseAccountAddress {
   private final String id;
   private final String name;
 
-  public GDAXCoinbaseAccountAddress(@JsonProperty("resource") String resource,
-      @JsonProperty("network") String network,
-      @JsonProperty("exchange_deposit_address") boolean exchangeDepositAddress,
-      @JsonProperty("created_at") String createDate,
-      @JsonProperty("updated_at") String updateDate,
-      @JsonProperty("resource_path") String resourcePath,
-      @JsonProperty("address") String address,
-      @JsonProperty("callback_url") String callbackUrl,
-      @JsonProperty("id") String id,
-      @JsonProperty("name") String name) {
+  public GDAXCoinbaseAccountAddress(@JsonProperty("resource") String resource, @JsonProperty("network") String network,
+      @JsonProperty("exchange_deposit_address") boolean exchangeDepositAddress, @JsonProperty("created_at") String createDate,
+      @JsonProperty("updated_at") String updateDate, @JsonProperty("resource_path") String resourcePath, @JsonProperty("address") String address,
+      @JsonProperty("callback_url") String callbackUrl, @JsonProperty("id") String id, @JsonProperty("name") String name) {
     super();
     this.resource = resource;
     this.network = network;

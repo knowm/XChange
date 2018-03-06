@@ -71,8 +71,9 @@ public class CryptoFacilitiesInstrument extends CryptoFacilitiesResult {
 
   @Override
   public String toString() {
-    return "CryptoFacilitiesInstrument [tradeable=" + tradeable + ", lastTradingTime="
-        + (lastTradingTime == null ? "null" : DATE_FORMAT.format(lastTradingTime)) + ", symbol=" + symbol + ", underlying=" + underlying
-        + ", contractSize=" + contractSize + ", type=" + type + ", tickSize=" + tickSize + " ]";
+    return "CryptoFacilitiesInstrument [tradeable=" + tradeable + ", lastTradingTime=" + (lastTradingTime == null ?
+        "null" :
+        DATE_FORMAT.format(lastTradingTime)) + ", symbol=" + symbol + ", underlying=" + underlying + ", contractSize=" + contractSize + ", type="
+        + type + ", tickSize=" + tickSize + " ]";
   }
 }

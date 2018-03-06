@@ -1,38 +1,31 @@
 package org.knowm.xchange.okcoin.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.meta.RateLimit;
-import org.knowm.xchange.dto.trade.*;
-import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
-import org.knowm.xchange.okcoin.OkCoinUtils;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinOrder;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeService {
@@ -130,7 +123,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
    * OKEX does not support trade history in the usual way, it only provides a aggregated view on a per order basis of how much the order has been
    * filled and the average price. Individual trade details are not available. As a consequence of this, the trades supplied by this method will use
    * the order ID as their trade ID, and will be subject to being amended if a partially filled order if further filled.
-   * <p>
    * Supported parameters are {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamPaging}, if not supplied then the query will default to
    * BTC/USD or BTC/CNY (depending on session configuration) and the last 200 trades.
    */
@@ -173,6 +165,11 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     return new DefaultOpenOrdersParamCurrencyPair();
   }
 
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
   public static class OkCoinTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
 
     private CurrencyPair pair;
@@ -187,21 +184,16 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
-
-      this.pair = pair;
-    }
-
-    @Override
     public CurrencyPair getCurrencyPair() {
 
       return pair;
     }
-  }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+
+      this.pair = pair;
+    }
   }
 
   public static class OkCoinCancelOrderParam implements CancelOrderParams {

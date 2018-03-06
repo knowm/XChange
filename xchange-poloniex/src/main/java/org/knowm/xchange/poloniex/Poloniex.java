@@ -27,8 +27,8 @@ public interface Poloniex {
   HashMap<String, PoloniexMarketData> getTicker(@QueryParam("command") String command) throws PoloniexException, IOException;
 
   @GET
-  PoloniexDepth getOrderBook(@QueryParam("command") String command,
-      @QueryParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
+  PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair)
+      throws PoloniexException, IOException;
 
   @GET
   PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair,

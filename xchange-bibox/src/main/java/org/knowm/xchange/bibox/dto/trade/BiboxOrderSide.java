@@ -9,8 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * @author odrotleff
  */
 public enum BiboxOrderSide {
-  BID(1, OrderType.BID),
-  ASK(2, OrderType.ASK);
+  BID(1, OrderType.BID), ASK(2, OrderType.ASK);
 
   private int orderSide;
   private OrderType orderType;
@@ -18,14 +17,6 @@ public enum BiboxOrderSide {
   private BiboxOrderSide(int orderSide, OrderType orderType) {
     this.orderSide = orderSide;
     this.orderType = orderType;
-  }
-
-  public int asInt() {
-    return orderSide;
-  }
-
-  public OrderType getOrderType() {
-    return orderType;
   }
 
   public static BiboxOrderSide fromOrderType(OrderType orderType) {
@@ -49,5 +40,13 @@ public enum BiboxOrderSide {
       default:
         throw new ExchangeException("Unexpected Bibox order side.");
     }
+  }
+
+  public int asInt() {
+    return orderSide;
+  }
+
+  public OrderType getOrderType() {
+    return orderType;
   }
 }

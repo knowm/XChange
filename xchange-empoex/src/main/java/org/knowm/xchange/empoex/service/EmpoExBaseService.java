@@ -27,8 +27,8 @@ public class EmpoExBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    this.empoExAuthenticated = RestProxyFactory.createProxy(EmpoExAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
+    this.empoExAuthenticated = RestProxyFactory
+        .createProxy(EmpoExAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = EmpoExHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.payloadCreator = new EmpoExPayloadDigest();

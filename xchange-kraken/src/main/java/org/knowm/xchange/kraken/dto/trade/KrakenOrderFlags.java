@@ -23,10 +23,11 @@ public enum KrakenOrderFlags implements IOrderFlags {
   POST, // for market maker orders 
   VIQC; // volume in quote currency
 
-  @Override
-  public String toString() {
+  private static final Map<String, KrakenOrderFlags> fromString = new HashMap<>();
 
-    return super.toString().toLowerCase();
+  static {
+    for (KrakenOrderFlags orderFlag : values())
+      fromString.put(orderFlag.toString(), orderFlag);
   }
 
   public static KrakenOrderFlags fromString(String orderTypeString) {
@@ -34,11 +35,10 @@ public enum KrakenOrderFlags implements IOrderFlags {
     return fromString.get(orderTypeString.toLowerCase());
   }
 
-  private static final Map<String, KrakenOrderFlags> fromString = new HashMap<>();
+  @Override
+  public String toString() {
 
-  static {
-    for (KrakenOrderFlags orderFlag : values())
-      fromString.put(orderFlag.toString(), orderFlag);
+    return super.toString().toLowerCase();
   }
 
   static class KrakenOrderFlagsDeserializer extends JsonDeserializer<Set<KrakenOrderFlags>> {

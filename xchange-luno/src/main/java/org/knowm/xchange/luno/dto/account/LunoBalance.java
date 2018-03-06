@@ -32,9 +32,10 @@ public class LunoBalance {
     public final BigDecimal unconfirmed;
     public final String name;
 
-    public Balance(@JsonProperty(value = "account_id", required = true) String accountId, @JsonProperty(value = "asset", required = true) String asset
-        , @JsonProperty(value = "balance", required = true) BigDecimal balance, @JsonProperty(value = "reserved", required = true) BigDecimal reserved
-        , @JsonProperty(value = "unconfirmed", required = true) BigDecimal unconfirmed, @JsonProperty(value = "name") String name) {
+    public Balance(@JsonProperty(value = "account_id", required = true) String accountId,
+        @JsonProperty(value = "asset", required = true) String asset, @JsonProperty(value = "balance", required = true) BigDecimal balance,
+        @JsonProperty(value = "reserved", required = true) BigDecimal reserved,
+        @JsonProperty(value = "unconfirmed", required = true) BigDecimal unconfirmed, @JsonProperty(value = "name") String name) {
       super();
       this.accountId = accountId;
       this.asset = asset;
@@ -46,8 +47,8 @@ public class LunoBalance {
 
     @Override
     public String toString() {
-      return "Balance [accountId=" + accountId + ", asset=" + asset + ", balance=" + balance + ", reserved=" + reserved
-          + ", unconfirmed=" + unconfirmed + ", name=" + name + "]";
+      return "Balance [accountId=" + accountId + ", asset=" + asset + ", balance=" + balance + ", reserved=" + reserved + ", unconfirmed="
+          + unconfirmed + ", name=" + name + "]";
     }
   }
 }

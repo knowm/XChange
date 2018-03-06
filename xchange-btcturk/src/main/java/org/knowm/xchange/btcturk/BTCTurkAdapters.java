@@ -45,24 +45,15 @@ public final class BTCTurkAdapters {
     BigDecimal open = btcTurkTicker.getOpen();
     BigDecimal average = btcTurkTicker.getAverage();
 
-    return new Ticker.Builder()
-        .currencyPair(pair != null ? pair.pair : null)
-        .last(last)
-        .bid(bid)
-        .ask(ask)
-        .high(high)
-        .low(low)
-        .vwap(average)
-        .open(open)
-        .volume(volume)
-        .timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(pair != null ? pair.pair : null).last(last).bid(bid).ask(ask).high(high).low(low).vwap(average)
+                               .open(open).volume(volume).timestamp(timestamp).build();
   }
 
   /**
    * Adapts a BTCTurkTrade[] to a Trades Object
    *
    * @param btcTurkTrades The BTCTurk trades
-   * @param currencyPair (e.g. BTC/TRY)
+   * @param currencyPair  (e.g. BTC/TRY)
    * @return The XChange Trades
    */
   public static Trades adaptTrades(BTCTurkTrade[] btcTurkTrades, CurrencyPair currencyPair) {
@@ -82,7 +73,7 @@ public final class BTCTurkAdapters {
    *
    * @param btcTurkTrade The BTCTurkTrade trade
    * @param currencyPair (e.g. BTC/TRY)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
+   * @param timeScale    polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
   public static Trade adaptTrade(BTCTurkTrade btcTurkTrade, CurrencyPair currencyPair, int timeScale) {

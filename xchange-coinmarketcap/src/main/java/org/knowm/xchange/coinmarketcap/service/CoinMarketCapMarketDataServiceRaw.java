@@ -56,6 +56,7 @@ class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements B
 
   /**
    * Retrieves limited amount of tickers from CoinMarketCap
+   *
    * @param limit count of tickers to be retrieved
    */
   public List<CoinMarketCapTicker> getCoinMarketCapTickers(final int limit) throws IOException {

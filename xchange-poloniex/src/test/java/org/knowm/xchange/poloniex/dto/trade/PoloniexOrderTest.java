@@ -57,8 +57,9 @@ public class PoloniexOrderTest {
 
     InvocationResult invocationResult = new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("buy", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
-        String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
+    Method apiMethod = PoloniexAuthenticated.class
+        .getDeclaredMethod("buy", String.class, ParamsDigest.class, SynchronizedValueFactory.class, String.class, String.class, String.class,
+            Integer.class, Integer.class, Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {
@@ -92,8 +93,9 @@ public class PoloniexOrderTest {
 
     InvocationResult invocationResult = new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("sell", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
-        String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
+    Method apiMethod = PoloniexAuthenticated.class
+        .getDeclaredMethod("sell", String.class, ParamsDigest.class, SynchronizedValueFactory.class, String.class, String.class, String.class,
+            Integer.class, Integer.class, Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {
@@ -109,8 +111,9 @@ public class PoloniexOrderTest {
 
     InvocationResult invocationResult = new InvocationResult("{\"success\":0,\"error\":\"Not enough LTC.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("moveOrder", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
-        String.class, String.class, String.class, Integer.class, Integer.class);
+    Method apiMethod = PoloniexAuthenticated.class
+        .getDeclaredMethod("moveOrder", String.class, ParamsDigest.class, SynchronizedValueFactory.class, String.class, String.class, String.class,
+            Integer.class, Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {

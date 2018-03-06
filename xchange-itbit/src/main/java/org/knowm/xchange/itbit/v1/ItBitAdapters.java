@@ -56,6 +56,13 @@ public final class ItBitAdapters {
     CUSTOM_SYMBOLS.setDecimalSeparator('.');
   }
 
+  /**
+   * private Constructor
+   */
+  private ItBitAdapters() {
+
+  }
+
   private static DateFormat getDateFormat() {
     DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_STRING);
     dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -78,13 +85,6 @@ public final class ItBitAdapters {
     fiatFormat.setGroupingUsed(false);
     fiatFormat.setRoundingMode(RoundingMode.HALF_UP);
     return fiatFormat;
-  }
-
-  /**
-   * private Constructor
-   */
-  private ItBitAdapters() {
-
   }
 
   private static Date parseDate(String date) {
@@ -214,7 +214,8 @@ public final class ItBitAdapters {
       BigDecimal totalQuantity = BigDecimal.ZERO;
       BigDecimal totalFee = BigDecimal.ZERO;
 
-      for (ItBitUserTrade trade : tradesByOrderId.get(orderId)) {//can have multiple trades for same order, so add them all up here to get the average price and total fee
+      for (ItBitUserTrade trade : tradesByOrderId
+          .get(orderId)) {//can have multiple trades for same order, so add them all up here to get the average price and total fee
         totalValue = totalValue.add(trade.getCurrency1Amount().multiply(trade.getRate()));
         totalQuantity = totalQuantity.add(trade.getCurrency1Amount());
         totalFee = totalFee.add(trade.getCommissionPaid());
@@ -228,17 +229,9 @@ public final class ItBitAdapters {
       CurrencyPair currencyPair = adaptCcyPair(itBitTrade.getInstrument());
       Currency feeCcy = adaptCcy(itBitTrade.getCommissionCurrency());
 
-      UserTrade userTrade = new UserTrade(
-          orderType,
-          totalQuantity,
-          currencyPair,
-          volumeWeightedAveragePrice,
-          itBitTrade.getTimestamp(),
-          orderId,//itbit doesn't have trade ids, so we use the order id instead
-          orderId,
-          totalFee,
-          feeCcy
-      );
+      UserTrade userTrade = new UserTrade(orderType, totalQuantity, currencyPair, volumeWeightedAveragePrice, itBitTrade.getTimestamp(), orderId,
+          //itbit doesn't have trade ids, so we use the order id instead
+          orderId, totalFee, feeCcy);
 
       trades.add(userTrade);
     }
@@ -270,7 +263,7 @@ public final class ItBitAdapters {
     Date timestamp = itBitTicker.getTimestamp() != null ? parseDate(itBitTicker.getTimestamp()) : null;
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-        .build();
+                               .build();
   }
 
   public static String formatFiatAmount(BigDecimal amount) {
@@ -308,19 +301,8 @@ public final class ItBitAdapters {
 
       Currency currency = adaptCcy(itBitFunding.currency);
 
-      return new FundingRecord(
-          itBitFunding.destinationAddress,
-          date,
-          currency,
-          itBitFunding.amount,
-          itBitFunding.withdrawalId,
-          itBitFunding.txnHash,
-          type,
-          status,
-          null,
-          null,
-          null
-      );
+      return new FundingRecord(itBitFunding.destinationAddress, date, currency, itBitFunding.amount, itBitFunding.withdrawalId, itBitFunding.txnHash,
+          type, status, null, null, null);
     } catch (ParseException e) {
       throw new IllegalStateException("Cannot parse " + itBitFunding, e);
     }

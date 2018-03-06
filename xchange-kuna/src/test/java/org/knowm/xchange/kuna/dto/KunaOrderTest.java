@@ -101,8 +101,7 @@ public class KunaOrderTest {
   @Test
   public void test_createdAt() {
     assertThat(KunaOrder.builder().withCreatedAt(null).build().getCreatedAt()).isNull();
-    assertThat(KunaOrder.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt())
-        .isEqualToIgnoringSeconds(new Date());
+    assertThat(KunaOrder.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt()).isEqualToIgnoringSeconds(new Date());
 
     assertThat(order.getCreatedAt()).isEqualTo("2018-01-16T09:28:05Z");
   }

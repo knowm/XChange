@@ -127,8 +127,9 @@ public class CertHelper {
         }
 
         if (filtered.isEmpty())
-          throw new IOException("No supported SSL attributed enabled.  " + Arrays.toString(original) + " provided, " + disabled.toString()
-              + " disabled, " + Arrays.toString(supported) + " supported, result: " + filtered.toString());
+          throw new IOException(
+              "No supported SSL attributed enabled.  " + Arrays.toString(original) + " provided, " + disabled.toString() + " disabled, " + Arrays
+                  .toString(supported) + " supported, result: " + filtered.toString());
 
         return filtered.toArray(new String[filtered.size()]);
       }
@@ -190,7 +191,7 @@ public class CertHelper {
   /**
    * Creates a custom {@link HostnameVerifier} that allows a specific certificate to be accepted for a mismatching hostname.
    *
-   * @param requestHostname hostname used to access the service which offers the incorrectly named certificate
+   * @param requestHostname   hostname used to access the service which offers the incorrectly named certificate
    * @param certPrincipalName RFC 2253 name on the certificate
    * @return A {@link HostnameVerifier} that will accept the provided combination of names
    */

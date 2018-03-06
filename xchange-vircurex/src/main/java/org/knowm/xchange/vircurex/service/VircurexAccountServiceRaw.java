@@ -24,8 +24,8 @@ public class VircurexAccountServiceRaw extends VircurexBaseService {
     long nonce = exchange.getNonceFactory().createValue();
     VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(),
         exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "get_balances");
-    VircurexAccountInfoReturn info = vircurexAuthenticated.getInfo(exchange.getExchangeSpecification().getUserName(), nonce, digest.toString(),
-        timestamp);
+    VircurexAccountInfoReturn info = vircurexAuthenticated
+        .getInfo(exchange.getExchangeSpecification().getUserName(), nonce, digest.toString(), timestamp);
     return info;
   }
 }

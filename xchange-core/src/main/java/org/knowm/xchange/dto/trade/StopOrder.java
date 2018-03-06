@@ -1,11 +1,11 @@
 package org.knowm.xchange.dto.trade;
 
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
+
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 
 /**
  * <p>
@@ -24,12 +24,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   protected final BigDecimal stopPrice;
 
   /**
-   * @param type Either BID (buying) or ASK (selling)
+   * @param type           Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair The identifier (e.g. BTC/USD)
-   * @param id An id (usually provided by the exchange)
-   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
-   * @param stopPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
+   * @param currencyPair   The identifier (e.g. BTC/USD)
+   * @param id             An id (usually provided by the exchange)
+   * @param timestamp      a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param stopPrice      In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public StopOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal stopPrice) {
 
@@ -38,34 +38,34 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   }
 
   /**
-   * @param type Either BID (buying) or ASK (selling)
-   * @param originalAmount The amount to trade
+   * @param type             Either BID (buying) or ASK (selling)
+   * @param originalAmount   The amount to trade
    * @param cumulativeAmount The cumulative amount
-   * @param currencyPair The identifier (e.g. BTC/USD)
-   * @param id An id (usually provided by the exchange)
-   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
-   * @param stopPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
+   * @param currencyPair     The identifier (e.g. BTC/USD)
+   * @param id               An id (usually provided by the exchange)
+   * @param timestamp        a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param stopPrice        In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public StopOrder(OrderType type, BigDecimal originalAmount, BigDecimal cumulativeAmount, CurrencyPair currencyPair, String id, Date timestamp,
-                   BigDecimal stopPrice) {
+      BigDecimal stopPrice) {
 
     super(type, originalAmount, currencyPair, id, timestamp, BigDecimal.ZERO, cumulativeAmount, BigDecimal.ZERO, OrderStatus.PENDING_NEW);
     this.stopPrice = stopPrice;
   }
 
   /**
-   * @param type Either BID (buying) or ASK (selling)
-   * @param originalAmount The amount to trade
-   * @param currencyPair The identifier (e.g. BTC/USD)
-   * @param id An id (usually provided by the exchange)
-   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
-   * @param stopPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
-   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param type             Either BID (buying) or ASK (selling)
+   * @param originalAmount   The amount to trade
+   * @param currencyPair     The identifier (e.g. BTC/USD)
+   * @param id               An id (usually provided by the exchange)
+   * @param timestamp        a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param stopPrice        In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
+   * @param averagePrice     the weighted average price of any fills belonging to the order
    * @param cumulativeAmount the amount that has been filled
-   * @param status the status of the order at the exchange or broker
+   * @param status           the status of the order at the exchange or broker
    */
   public StopOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal stopPrice,
-                   BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
+      BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
 
     super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, BigDecimal.ZERO, status);
     this.stopPrice = stopPrice;
@@ -137,8 +137,9 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     public static Builder from(Order order) {
 
       Builder builder = (Builder) new Builder(order.getType(), order.getCurrencyPair()).originalAmount(order.getOriginalAmount())
-          .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags()).orderStatus(order.getStatus())
-          .averagePrice(order.getAveragePrice());
+                                                                                       .timestamp(order.getTimestamp()).id(order.getId())
+                                                                                       .flags(order.getOrderFlags()).orderStatus(order.getStatus())
+                                                                                       .averagePrice(order.getAveragePrice());
       if (order instanceof StopOrder) {
         StopOrder stopOrder = (StopOrder) order;
         builder.stopPrice(stopOrder.getStopPrice());
@@ -222,7 +223,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
       StopOrder order;
       if (remainingAmount != null) {
-        order = new StopOrder(orderType, originalAmount, currencyPair, id, timestamp, stopPrice, averagePrice, originalAmount.subtract(remainingAmount), status);
+        order = new StopOrder(orderType, originalAmount, currencyPair, id, timestamp, stopPrice, averagePrice,
+            originalAmount.subtract(remainingAmount), status);
       } else {
         order = new StopOrder(orderType, originalAmount, currencyPair, id, timestamp, stopPrice, averagePrice, cumulativeAmount, status);
       }

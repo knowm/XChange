@@ -11,7 +11,7 @@ public class BitmexOrderResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param description
    * @param transactionId
    */
@@ -44,7 +44,7 @@ public class BitmexOrderResponse {
 
     /**
      * Constructor
-     * 
+     *
      * @param orderDescription
      * @param closeDescription
      */

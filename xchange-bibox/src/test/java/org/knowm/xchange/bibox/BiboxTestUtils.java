@@ -1,6 +1,5 @@
 package org.knowm.xchange.bibox;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 

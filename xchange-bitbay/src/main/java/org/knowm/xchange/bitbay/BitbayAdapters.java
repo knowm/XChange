@@ -179,11 +179,7 @@ public class BitbayAdapters {
       throw new IllegalArgumentException(e);
     }
 
-    return new UserTrade(type,
-        bitbayOrder.getAmount(),
-        currencyPair,
-        bitbayOrder.getCurrentPrice().divide(bitbayOrder.getStartAmount()),
-        date,
+    return new UserTrade(type, bitbayOrder.getAmount(), currencyPair, bitbayOrder.getCurrentPrice().divide(bitbayOrder.getStartAmount()), date,
         String.valueOf(bitbayOrder.getId()), String.valueOf(bitbayOrder.getId()), null, null);
   }
 
@@ -216,17 +212,7 @@ public class BitbayAdapters {
         //there's no id - create a synthetic one
         String id = (type + "_" + date + "_" + market).replaceAll("\\s+", "");
 
-        trades.add(new UserTrade(
-            orderType,
-            amount,
-            pair,
-            price,
-            timestamp,
-            id,
-            null,
-            fee,
-            null
-        ));
+        trades.add(new UserTrade(orderType, amount, pair, price, timestamp, id, null, fee, null));
       } catch (ParseException e) {
         throw new IllegalStateException("Cannot parse " + map);
       }

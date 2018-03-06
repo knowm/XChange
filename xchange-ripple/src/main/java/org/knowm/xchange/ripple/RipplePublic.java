@@ -21,7 +21,6 @@ import org.knowm.xchange.ripple.dto.trade.RippleTransactionFee;
 
 /**
  * Returns public information that is stored in the ledger - secret not needed.
- * <p>
  * See https://github.com/ripple/ripple-rest for up-to-date documentation.
  */
 @Path("v1")
@@ -62,16 +61,16 @@ public interface RipplePublic {
    */
   @GET
   @Path("accounts/{address}/orders/{hash}")
-  RippleOrderTransaction orderTransaction(@PathParam("address") final String address,
-      @PathParam("hash") final String hash) throws IOException, RippleException;
+  RippleOrderTransaction orderTransaction(@PathParam("address") final String address, @PathParam("hash") final String hash)
+      throws IOException, RippleException;
 
   /**
    * Returns detailed information about this payment transaction.
    */
   @GET
   @Path("accounts/{address}/payments/{hash}")
-  RipplePaymentTransaction paymentTransaction(@PathParam("address") final String address,
-      @PathParam("hash") final String hash) throws IOException, RippleException;
+  RipplePaymentTransaction paymentTransaction(@PathParam("address") final String address, @PathParam("hash") final String hash)
+      throws IOException, RippleException;
 
   /**
    * Returns notifications for this address.
@@ -80,8 +79,8 @@ public interface RipplePublic {
   @Path("accounts/{address}/notifications")
   RippleNotifications notifications(@PathParam("address") final String address, @QueryParam("exclude_failed") final Boolean excludeFailed,
       @QueryParam("earliest_first") final Boolean earliestFirst, @QueryParam("results_per_page") final Integer resultsPerPage,
-      @QueryParam("page") final Integer page, @QueryParam("start_ledger") final Long startLedger,
-      @QueryParam("end_ledger") final Long endLedger) throws IOException, RippleException;
+      @QueryParam("page") final Integer page, @QueryParam("start_ledger") final Long startLedger, @QueryParam("end_ledger") final Long endLedger)
+      throws IOException, RippleException;
 
   /**
    * Fetch the network transaction fee.

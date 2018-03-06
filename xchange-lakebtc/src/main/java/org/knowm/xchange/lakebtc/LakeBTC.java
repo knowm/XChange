@@ -21,6 +21,18 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 @Path("api_v2")
 @Produces(MediaType.APPLICATION_JSON)
 public interface LakeBTC {
+  /**
+   * @return LakeBTC ticker
+   * @throws IOException
+   */
+  @GET
+  @Path("ticker")
+  Map<String, LakeBTCTicker> getLakeBTCTickers() throws IOException;
+
+  @GET
+  @Path("bcorderbook?symbol={pair}")
+  LakeBTCOrderBook getLakeBTCOrderBookUSD(@PathParam("pair") LakeBTC.Pair pair) throws IOException;
+
   class Pair {
     public final CurrencyPair pair;
 
@@ -47,17 +59,5 @@ public interface LakeBTC {
       return pair == null ? "" : String.format("%s%s", pair.base.getCurrencyCode().toLowerCase(), pair.counter.getCurrencyCode().toLowerCase());
     }
   }
-
-  /**
-   * @return LakeBTC ticker
-   * @throws IOException
-   */
-  @GET
-  @Path("ticker")
-  Map<String,LakeBTCTicker> getLakeBTCTickers() throws IOException;
-
-  @GET
-  @Path("bcorderbook?symbol={pair}")
-  LakeBTCOrderBook getLakeBTCOrderBookUSD(@PathParam("pair") LakeBTC.Pair pair) throws IOException;
 
 }

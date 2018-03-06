@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "high", "low", "vol", "last", "buy", "buyQty", "sell", "sellQty", "date" })
+@JsonPropertyOrder({"high", "low", "vol", "last", "buy", "buyQty", "sell", "sellQty", "date"})
 public class BitcointoyouMarketData {
 
   private final BigDecimal high;
@@ -107,8 +107,8 @@ public class BitcointoyouMarketData {
 
   @Override
   public String toString() {
-    return String.format("BitcointoyouMarketData [high=%f, low=%f, volume=%f, last=%f, buy=%f, buyQuantity=%f, sell=%f, " +
-            "sellQuantity=%f, additionalProperties=%s]", high, low, volume, last, buy, buyQuantity, sell, sellQuantity, date);
+    return String.format("BitcointoyouMarketData [high=%f, low=%f, volume=%f, last=%f, buy=%f, buyQuantity=%f, sell=%f, "
+        + "sellQuantity=%f, additionalProperties=%s]", high, low, volume, last, buy, buyQuantity, sell, sellQuantity, date);
   }
 
 }

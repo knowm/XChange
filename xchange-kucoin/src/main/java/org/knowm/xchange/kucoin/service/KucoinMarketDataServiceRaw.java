@@ -21,7 +21,7 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
   protected KucoinMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
   }
-  
+
   public KucoinResponse<KucoinTicker> getKucoinTicker(CurrencyPair currencyPair) throws IOException {
     try {
       return checkSuccess(kucoin.tick(KucoinAdapters.adaptCurrencyPair(currencyPair)));
@@ -37,7 +37,7 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
       throw new ExchangeException(e.getMessage());
     }
   }
-  
+
   public KucoinResponse<KucoinOrderBook> getKucoinOrderBook(CurrencyPair currencyPair, Integer limit) throws IOException {
     // "group" param is set to null for now since I have no idea what it does
     try {
@@ -46,16 +46,15 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
       throw new ExchangeException(e.getMessage());
     }
   }
-  
-  public KucoinResponse<List<KucoinDealOrder>> getKucoinTrades(CurrencyPair currencyPair, Integer limit,
-      Long since) throws IOException {
+
+  public KucoinResponse<List<KucoinDealOrder>> getKucoinTrades(CurrencyPair currencyPair, Integer limit, Long since) throws IOException {
     try {
       return checkSuccess(kucoin.dealOrders(KucoinAdapters.adaptCurrencyPair(currencyPair), limit, since));
     } catch (KucoinException e) {
       throw new ExchangeException(e.getMessage());
     }
   }
-  
+
   public KucoinResponse<List<KucoinCoin>> getKucoinCurrencies() throws IOException {
     try {
       return checkSuccess(kucoin.coins());

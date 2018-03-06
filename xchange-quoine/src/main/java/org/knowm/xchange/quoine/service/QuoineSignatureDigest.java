@@ -32,9 +32,7 @@ public class QuoineSignatureDigest implements ParamsDigest {
     if (queryString != null && queryString.length() > 0)
       path += "?" + restInvocation.getQueryString();
 
-    return builder.withClaim("path", path)
-        .withClaim("nonce", String.valueOf(nonceFactory.createValue()))
-        .withClaim("token_id", tokenID)
-        .sign(Algorithm.HMAC256(userSecret));
+    return builder.withClaim("path", path).withClaim("nonce", String.valueOf(nonceFactory.createValue())).withClaim("token_id", tokenID)
+                  .sign(Algorithm.HMAC256(userSecret));
   }
 }

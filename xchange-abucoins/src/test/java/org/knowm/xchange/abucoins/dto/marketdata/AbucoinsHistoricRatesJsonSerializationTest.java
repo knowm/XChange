@@ -1,10 +1,10 @@
 package org.knowm.xchange.abucoins.dto.marketdata;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsAccounts;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,9 +22,9 @@ public class AbucoinsHistoricRatesJsonSerializationTest {
 
   @Test
   public void testJsonArray() throws Exception {
-    String json =  "[ [ \"1505984400\", \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"0.001\" ], [ \"1505984460\"," +
-                   " \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"0.00052\" ], [ \"1505984520\",\n" + 
-                   " \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"0.00068\" ] ]";
+    String json = "[ [ \"1505984400\", \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"0.001\" ], [ \"1505984460\","
+        + " \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"0.00052\" ], [ \"1505984520\",\n"
+        + " \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"14209.92500000\", \"0.00068\" ] ]";
     AbucoinsHistoricRates accounts = objectMapper.readValue(json, AbucoinsHistoricRates.class);
     assertNotNull("Accounts are null", accounts);
     assertEquals("Not two elements in array", 3, accounts.historicRates.length);
@@ -32,7 +32,7 @@ public class AbucoinsHistoricRatesJsonSerializationTest {
 
   @Test
   public void testErrorMessage() throws Exception {
-    String json =  "{ \"message\" : \"PERMISSION DENIED\" }";
+    String json = "{ \"message\" : \"PERMISSION DENIED\" }";
     AbucoinsHistoricRates accounts = objectMapper.readValue(json, AbucoinsHistoricRates.class);
     assertNotNull("Accounts are null", accounts);
     assertNotNull("Error message not parsed", accounts.getMessage());

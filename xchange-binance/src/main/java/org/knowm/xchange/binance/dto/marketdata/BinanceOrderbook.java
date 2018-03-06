@@ -16,9 +16,8 @@ public final class BinanceOrderbook {
   public final SortedMap<BigDecimal, BigDecimal> bids;
   public final SortedMap<BigDecimal, BigDecimal> asks;
 
-  public BinanceOrderbook(@JsonProperty("lastUpdateId") long lastUpdateId
-      , @JsonProperty("bids") List<Object[]> bidsJson
-      , @JsonProperty("asks") List<Object[]> asksJson) {
+  public BinanceOrderbook(@JsonProperty("lastUpdateId") long lastUpdateId, @JsonProperty("bids") List<Object[]> bidsJson,
+      @JsonProperty("asks") List<Object[]> asksJson) {
     this.lastUpdateId = lastUpdateId;
     BiConsumer<Object[], Map<BigDecimal, BigDecimal>> entryProcessor = (obj, col) -> {
       BigDecimal price = new BigDecimal(obj[0].toString());

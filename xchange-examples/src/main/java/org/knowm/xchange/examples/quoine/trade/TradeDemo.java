@@ -29,8 +29,8 @@ public class TradeDemo {
   private static void raw(QuoineTradeServiceRaw tradeServiceRaw) throws IOException {
 
     // place a limit buy order
-    QuoineOrderResponse quoinePlaceOrderResponse = tradeServiceRaw.placeLimitOrder(CurrencyPair.BTC_USD, "sell", new BigDecimal(".1"),
-        new BigDecimal("250.00"));
+    QuoineOrderResponse quoinePlaceOrderResponse = tradeServiceRaw
+        .placeLimitOrder(CurrencyPair.BTC_USD, "sell", new BigDecimal(".1"), new BigDecimal("250.00"));
     System.out.println("QuoineOrderResponse return value: " + quoinePlaceOrderResponse.toString());
 
     // cancel the order

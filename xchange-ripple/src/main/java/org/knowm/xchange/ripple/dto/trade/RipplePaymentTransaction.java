@@ -71,6 +71,30 @@ public class RipplePaymentTransaction implements IRippleTradeTransaction {
     success = value;
   }
 
+  @Override
+  public List<RippleAmount> getBalanceChanges() {
+    return payment.getBalanceChanges();
+  }
+
+  @Override
+  public BigDecimal getFee() {
+    return payment.getFee();
+  }
+
+  @Override
+  public long getOrderId() {
+    if (payment.orderChanges.size() == 1) {
+      return payment.orderChanges.get(0).getSequence();
+    } else {
+      return 0; // cannot identify a single order
+    }
+  }
+
+  @Override
+  public Date getTimestamp() {
+    return getPayment().getTimestamp();
+  }
+
   public static class OrderChange {
     @JsonProperty("taker_pays")
     private RippleAmount takerPays;
@@ -377,29 +401,5 @@ public class RipplePaymentTransaction implements IRippleTradeTransaction {
     public void setOrderChanges(final List<OrderChange> value) {
       orderChanges = value;
     }
-  }
-
-  @Override
-  public List<RippleAmount> getBalanceChanges() {
-    return payment.getBalanceChanges();
-  }
-
-  @Override
-  public BigDecimal getFee() {
-    return payment.getFee();
-  }
-
-  @Override
-  public long getOrderId() {
-    if (payment.orderChanges.size() == 1) {
-      return payment.orderChanges.get(0).getSequence();
-    } else {
-      return 0; // cannot identify a single order
-    }
-  }
-
-  @Override
-  public Date getTimestamp() {
-    return getPayment().getTimestamp();
   }
 }

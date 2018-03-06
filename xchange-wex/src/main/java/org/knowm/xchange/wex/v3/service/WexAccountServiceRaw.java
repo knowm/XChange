@@ -42,8 +42,8 @@ public class WexAccountServiceRaw extends WexBaseService {
    * Author: Ondřej Novtný
    *
    * @param currency Currency to withdraw
-   * @param amount Amount of withdrawal
-   * @param address Withdrawall address
+   * @param amount   Amount of withdrawal
+   * @param address  Withdrawall address
    * @return Transactoin ID
    */
   public String withdraw(String currency, BigDecimal amount, String address) {

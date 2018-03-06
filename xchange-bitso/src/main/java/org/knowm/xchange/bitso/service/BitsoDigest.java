@@ -21,6 +21,10 @@ public class BitsoDigest extends BaseParamsDigest {
     this.apiKey = apiKey;
   }
 
+  public static BitsoDigest createInstance(String secretKey, String userName, String apiKey) {
+    return secretKey == null ? null : new BitsoDigest(secretKey, userName, apiKey);
+  }
+
   @Override
   public String digestParams(RestInvocation restInvocation) {
     Mac mac256 = getMac();
@@ -29,9 +33,5 @@ public class BitsoDigest extends BaseParamsDigest {
     mac256.update(apiKey.getBytes());
 
     return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
-  }
-
-  public static BitsoDigest createInstance(String secretKey, String userName, String apiKey) {
-    return secretKey == null ? null : new BitsoDigest(secretKey, userName, apiKey);
   }
 }

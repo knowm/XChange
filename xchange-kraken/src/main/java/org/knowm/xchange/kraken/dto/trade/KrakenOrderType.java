@@ -17,24 +17,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = KrakenOrderTypeDeserializer.class)
 public enum KrakenOrderType {
 
-  MARKET, LIMIT, STOP_LOSS, TAKE_PROFIT, STOP_LOSS_PROFIT, STOP_LOSS_PROFIT_LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT,
-  TRAILING_STOP, TRAILING_STOP_LIMIT, STOP_LOSS_AND_LIMIT, SETTLE_POSITION;
-
-  @Override
-  public String toString() {
-
-    return super.toString().toLowerCase();
-  }
-
-  public static KrakenOrderType fromString(String orderTypeString) {
-
-    return fromString.get(orderTypeString.replace('-', '_').toLowerCase());
-  }
-
-  public String toApiFormat() {
-
-    return name().toLowerCase().replace('_', '-');
-  }
+  MARKET, LIMIT, STOP_LOSS, TAKE_PROFIT, STOP_LOSS_PROFIT, STOP_LOSS_PROFIT_LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT, TRAILING_STOP, TRAILING_STOP_LIMIT, STOP_LOSS_AND_LIMIT, SETTLE_POSITION;
 
   private static final Map<String, KrakenOrderType> fromString = new HashMap<>();
 
@@ -44,6 +27,22 @@ public enum KrakenOrderType {
 
     fromString.put("l", LIMIT);
     fromString.put("m", MARKET);
+  }
+
+  public static KrakenOrderType fromString(String orderTypeString) {
+
+    return fromString.get(orderTypeString.replace('-', '_').toLowerCase());
+  }
+
+  @Override
+  public String toString() {
+
+    return super.toString().toLowerCase();
+  }
+
+  public String toApiFormat() {
+
+    return name().toLowerCase().replace('_', '-');
   }
 
   static class KrakenOrderTypeDeserializer extends JsonDeserializer<KrakenOrderType> {

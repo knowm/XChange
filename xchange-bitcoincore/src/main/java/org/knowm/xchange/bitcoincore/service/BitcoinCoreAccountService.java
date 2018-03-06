@@ -31,8 +31,8 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw impl
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -42,8 +42,8 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw impl
   }
 
   @Override
-  public String requestDepositAddress(Currency currency,
-      String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public String requestDepositAddress(Currency currency, String... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -53,8 +53,7 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw impl
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

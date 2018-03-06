@@ -9,26 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GeminiTicker {
 
-  public static class Volume {
-    private final Map<String, Object> valueMap;
-
-    public Volume(Map<String, Object> valueMap) {
-      this.valueMap = valueMap;
-    }
-
-    public long getTimestampMS() {
-      return (long) valueMap.get("timestamp");
-    }
-
-    public BigDecimal getBaseVolume(CurrencyPair currencyPair) {
-      return new BigDecimal((String) valueMap.get(currencyPair.base.toString()));
-    }
-
-    public BigDecimal getCounterVolume(CurrencyPair currencyPair) {
-      return new BigDecimal((String) valueMap.get(currencyPair.counter.toString()));
-    }
-  }
-
   private final BigDecimal bid;
   private final BigDecimal ask;
   private final BigDecimal last;
@@ -40,9 +20,7 @@ public class GeminiTicker {
    * @param last
    * @param volume
    */
-  public GeminiTicker(@JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("last") BigDecimal last,
+  public GeminiTicker(@JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("last") BigDecimal last,
       @JsonProperty("volume") Map<String, Object> volume) {
 
     this.bid = bid;
@@ -74,8 +52,27 @@ public class GeminiTicker {
   @Override
   public String toString() {
 
-    return "GeminiTicker [bid=" + bid + ", ask=" + ask + ", last=" + last + ", volume="
-        + volume + "]";
+    return "GeminiTicker [bid=" + bid + ", ask=" + ask + ", last=" + last + ", volume=" + volume + "]";
+  }
+
+  public static class Volume {
+    private final Map<String, Object> valueMap;
+
+    public Volume(Map<String, Object> valueMap) {
+      this.valueMap = valueMap;
+    }
+
+    public long getTimestampMS() {
+      return (long) valueMap.get("timestamp");
+    }
+
+    public BigDecimal getBaseVolume(CurrencyPair currencyPair) {
+      return new BigDecimal((String) valueMap.get(currencyPair.base.toString()));
+    }
+
+    public BigDecimal getCounterVolume(CurrencyPair currencyPair) {
+      return new BigDecimal((String) valueMap.get(currencyPair.counter.toString()));
+    }
   }
 
 }

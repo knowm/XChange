@@ -29,10 +29,6 @@ public class BitcoindeError {
 
   @Override
   public String toString() {
-    return "BitcoindeError{" +
-        "message='" + message + '\'' +
-        ", code='" + code + '\'' +
-        ", field='" + field + '\'' +
-        "}";
+    return "BitcoindeError{" + "message='" + message + '\'' + ", code='" + code + '\'' + ", field='" + field + '\'' + "}";
   }
 }

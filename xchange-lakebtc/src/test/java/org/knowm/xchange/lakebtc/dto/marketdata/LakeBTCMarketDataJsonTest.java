@@ -24,7 +24,7 @@ public class LakeBTCMarketDataJsonTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    Map<String,LakeBTCTicker> tickers = mapper.readValue(is, mapper.getTypeFactory().constructMapType(Map.class, String.class, LakeBTCTicker.class));
+    Map<String, LakeBTCTicker> tickers = mapper.readValue(is, mapper.getTypeFactory().constructMapType(Map.class, String.class, LakeBTCTicker.class));
 
     LakeBTCTicker hkdTicker = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
     assertThat(hkdTicker.getAsk()).isEqualTo("73039.54");

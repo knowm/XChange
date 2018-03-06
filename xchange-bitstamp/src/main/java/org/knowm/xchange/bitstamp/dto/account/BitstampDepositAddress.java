@@ -44,7 +44,7 @@ public class BitstampDepositAddress extends BitstampBaseResponse {
       JsonNode node = oc.readTree(jsonParser);
       if (node.get("error") != null) {
         return new BitstampDepositAddress(node.path("error").asText(), "");
-      } else if(node.get("address") != null) {
+      } else if (node.get("address") != null) {
         return new BitstampDepositAddress(null, node.get("address").asText());
       } else {
         return new BitstampDepositAddress(null, node.asText());

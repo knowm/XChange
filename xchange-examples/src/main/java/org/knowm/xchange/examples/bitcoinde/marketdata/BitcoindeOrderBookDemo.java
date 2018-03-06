@@ -24,7 +24,7 @@ public class BitcoindeOrderBookDemo {
 
       generic(marketDataService);
     }
-//    raw((BitcoindeMarketDataServiceRaw) marketDataService);
+    //    raw((BitcoindeMarketDataServiceRaw) marketDataService);
 
   }
 
@@ -32,7 +32,7 @@ public class BitcoindeOrderBookDemo {
 
     /* get OrderBook data */
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.ETH_EUR);
-//    System.out.println(orderBook.toString());
+    //    System.out.println(orderBook.toString());
 
     System.out.println("Current Order Book size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 

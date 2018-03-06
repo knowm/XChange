@@ -40,21 +40,15 @@ public class LunoOrders {
     public final BigDecimal feeCounter;
     public final String pair;
 
-    public Order(
-        @JsonProperty(value = "order_id", required = true) String orderId
-        , @JsonProperty(value = "creation_timestamp", required = true) long creationTimestamp
-        , @JsonProperty(value = "expiration_timestamp", required = true) long expirationTimestamp
-        , @JsonProperty(value = "completed_timestamp", required = true) long completedTimestamp
-        , @JsonProperty(value = "type", required = false) OrderType type
-        , @JsonProperty(value = "state", required = false) State state
-        , @JsonProperty(value = "limit_price", required = true) BigDecimal limitPrice
-        , @JsonProperty(value = "limit_volume", required = true) BigDecimal limitVolume
-        , @JsonProperty(value = "base", required = true) BigDecimal base
-        , @JsonProperty(value = "counter", required = true) BigDecimal counter
-        , @JsonProperty(value = "fee_base", required = true) BigDecimal feeBase
-        , @JsonProperty(value = "fee_counter", required = true) BigDecimal feeCounter
-        , @JsonProperty(value = "pair", required = false) String pair
-    ) {
+    public Order(@JsonProperty(value = "order_id", required = true) String orderId,
+        @JsonProperty(value = "creation_timestamp", required = true) long creationTimestamp,
+        @JsonProperty(value = "expiration_timestamp", required = true) long expirationTimestamp,
+        @JsonProperty(value = "completed_timestamp", required = true) long completedTimestamp,
+        @JsonProperty(value = "type", required = false) OrderType type, @JsonProperty(value = "state", required = false) State state,
+        @JsonProperty(value = "limit_price", required = true) BigDecimal limitPrice,
+        @JsonProperty(value = "limit_volume", required = true) BigDecimal limitVolume, @JsonProperty(value = "base", required = true) BigDecimal base,
+        @JsonProperty(value = "counter", required = true) BigDecimal counter, @JsonProperty(value = "fee_base", required = true) BigDecimal feeBase,
+        @JsonProperty(value = "fee_counter", required = true) BigDecimal feeCounter, @JsonProperty(value = "pair", required = false) String pair) {
       this.orderId = orderId;
       this.creationTimestamp = creationTimestamp;
       this.expirationTimestamp = expirationTimestamp;
@@ -84,11 +78,10 @@ public class LunoOrders {
 
     @Override
     public String toString() {
-      return "Order [orderId=" + orderId + ", type=" + type + ", state=" + state + ", limitPrice=" + limitPrice
-          + ", limitVolume=" + limitVolume + ", base=" + base + ", counter=" + counter + ", feeBase=" + feeBase
-          + ", feeCounter=" + feeCounter + ", pair=" + pair + ", getCreationTimestamp()=" + getCreationTimestamp()
-          + ", getExpirationTimestamp()=" + getExpirationTimestamp() + ", getCompletedTimestamp()="
-          + getCompletedTimestamp() + "]";
+      return "Order [orderId=" + orderId + ", type=" + type + ", state=" + state + ", limitPrice=" + limitPrice + ", limitVolume=" + limitVolume
+          + ", base=" + base + ", counter=" + counter + ", feeBase=" + feeBase + ", feeCounter=" + feeCounter + ", pair=" + pair
+          + ", getCreationTimestamp()=" + getCreationTimestamp() + ", getExpirationTimestamp()=" + getExpirationTimestamp()
+          + ", getCompletedTimestamp()=" + getCompletedTimestamp() + "]";
     }
   }
 }

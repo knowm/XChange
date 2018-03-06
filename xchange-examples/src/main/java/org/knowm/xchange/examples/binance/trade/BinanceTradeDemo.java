@@ -27,7 +27,7 @@ public class BinanceTradeDemo {
 
     CurrencyPair pair = CurrencyPair.EOS_ETH;
     TradeService tradeService = exchange.getTradeService();
-    
+
     // Get open orders
     OpenOrders orders = tradeService.getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(pair));
     LimitOrder order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());

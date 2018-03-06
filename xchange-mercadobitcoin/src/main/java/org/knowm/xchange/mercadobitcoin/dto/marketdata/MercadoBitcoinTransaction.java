@@ -19,11 +19,11 @@ public class MercadoBitcoinTransaction {
   /**
    * Constructor
    *
-   * @param date Unix timestamp date and time
-   * @param tid Transaction id
-   * @param price BTC price in BRL
+   * @param date   Unix timestamp date and time
+   * @param tid    Transaction id
+   * @param price  BTC price in BRL
    * @param amount BTC amount
-   * @param type buy or sell
+   * @param type   buy or sell
    */
   public MercadoBitcoinTransaction(@JsonProperty("date") long date, @JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price,
       @JsonProperty("amount") BigDecimal amount, @JsonProperty("type") String type) {

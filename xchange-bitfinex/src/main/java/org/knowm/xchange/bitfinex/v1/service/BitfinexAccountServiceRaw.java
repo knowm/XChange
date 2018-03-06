@@ -35,8 +35,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
   public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
 
     try {
-      BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator,
-          new BitfinexBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue())));
+      BitfinexBalancesResponse[] balances = bitfinex
+          .balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue())));
       return balances;
     } catch (BitfinexException e) {
       throw new ExchangeException(e);
@@ -54,8 +54,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     }
   }
 
-  public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(String currency, String method, Date since, Date until,
-      Integer limit) throws IOException {
+  public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(String currency, String method, Date since, Date until, Integer limit)
+      throws IOException {
     try {
       BitfinexDepositWithdrawalHistoryRequest request = new BitfinexDepositWithdrawalHistoryRequest(
           String.valueOf(exchange.getNonceFactory().createValue()), currency, method, since, until, limit);
@@ -71,8 +71,9 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address, String paymentId) throws IOException {
 
-    BitfinexWithdrawalResponse[] withdrawResponse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator, new BitfinexWithdrawalRequest(
-        String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address, paymentId));
+    BitfinexWithdrawalResponse[] withdrawResponse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator,
+        new BitfinexWithdrawalRequest(String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address,
+            paymentId));
     if ("error".equalsIgnoreCase(withdrawResponse[0].getStatus())) {
       throw new ExchangeException(withdrawResponse[0].getMessage());
     }

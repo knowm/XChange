@@ -62,7 +62,8 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
     String verb = restInvocation.getHttpMethod().trim();
     String invocationUrl = restInvocation.getInvocationUrl().trim();
     String jsonEncodedArray = new StringBuilder("[\"").append(verb).append(FIELD_SEPARATOR).append(invocationUrl).append(FIELD_SEPARATOR)
-        .append(requestBody).append(FIELD_SEPARATOR).append(currentNonce).append(FIELD_SEPARATOR).append(currentTimestamp).append("\"]").toString();
+                                                      .append(requestBody).append(FIELD_SEPARATOR).append(currentNonce).append(FIELD_SEPARATOR)
+                                                      .append(currentTimestamp).append("\"]").toString();
     md.update(currentNonce.getBytes(charset));
     md.update(jsonEncodedArray.getBytes(charset));
     byte[] messageHash = md.digest();

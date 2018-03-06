@@ -34,8 +34,6 @@ public class DSXTransactionsWrapper {
 
   @Override
   public String toString() {
-    return "DSXTransactionsWrapper{" +
-        "transactionsMap=" + transactionsMap +
-        '}';
+    return "DSXTransactionsWrapper{" + "transactionsMap=" + transactionsMap + '}';
   }
 }

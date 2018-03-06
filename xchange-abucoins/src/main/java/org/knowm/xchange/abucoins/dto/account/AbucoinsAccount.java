@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * <p>POJO representing the output JSON for the Abucoins
  * <code>GET /accounts/&lt;account-id&gt;</code> endpoint.</p>
- *
  * Example:
  * <code><pre>
  *     {
@@ -20,41 +19,53 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *         "profile_id": 3
  *     }
  * </pre></code>
+ *
  * @author bryant_harris
  */
 public class AbucoinsAccount {
-  /** account id */
+  /**
+   * account id
+   */
   String id;
-  
-  /** the currency of the account */
+
+  /**
+   * the currency of the account
+   */
   String currency;
-  
-  /** the funds in the account */
+
+  /**
+   * the funds in the account
+   */
   BigDecimal balance;
-  
-  /** founds available to withdraw or trade */
+
+  /**
+   * founds available to withdraw or trade
+   */
   BigDecimal available;
-  
-  /** founds available to withdraw or trade for BTC */
+
+  /**
+   * founds available to withdraw or trade for BTC
+   */
   BigDecimal available_btc;
-  
-  /** funds on hold (not available for use) */
+
+  /**
+   * funds on hold (not available for use)
+   */
   BigDecimal hold;
-  
-  /** profile id */
+
+  /**
+   * profile id
+   */
   long profileID;
-  
-  /** For error cases */
+
+  /**
+   * For error cases
+   */
   String message;
-        
-  public AbucoinsAccount(@JsonProperty("id") String id,
-                         @JsonProperty("currency") String currency,
-                         @JsonProperty("balance") BigDecimal balance,
-                         @JsonProperty("available") BigDecimal available,
-                         @JsonProperty("available_btc") BigDecimal available_btc,
-                         @JsonProperty("hold") BigDecimal hold,
-                         @JsonProperty("profile_id") long profileID,
-                         @JsonProperty("message") String message) {
+
+  public AbucoinsAccount(@JsonProperty("id") String id, @JsonProperty("currency") String currency, @JsonProperty("balance") BigDecimal balance,
+      @JsonProperty("available") BigDecimal available, @JsonProperty("available_btc") BigDecimal available_btc, @JsonProperty("hold") BigDecimal hold,
+      @JsonProperty("profile_id") long profileID, @JsonProperty("message") String message) {
     this.id = id;
     this.currency = currency;
     this.balance = balance;
@@ -92,15 +103,14 @@ public class AbucoinsAccount {
   public long getProfileID() {
     return profileID;
   }
-  
+
   public String getMessage() {
     return message;
   }
 
   @Override
   public String toString() {
-    return "AbucoinsAccount [id=" + id + ", currency=" + currency + ", balance=" + balance + ", available="
-        + available + ", available_btc=" + available_btc + ", hold=" + hold + ", profileID=" + profileID + 
-        ", message=" + message +"]";
+    return "AbucoinsAccount [id=" + id + ", currency=" + currency + ", balance=" + balance + ", available=" + available + ", available_btc="
+        + available_btc + ", hold=" + hold + ", profileID=" + profileID + ", message=" + message + "]";
   }
 }

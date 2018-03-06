@@ -43,32 +43,32 @@ public interface IndependentReserveAuthenticated {
   @POST
   @Path("GetOpenOrders")
   @Consumes(MediaType.APPLICATION_JSON)
-  IndependentReserveOpenOrdersResponse getOpenOrders(
-      IndependentReserveOpenOrderRequest independentReserveOpenOrderRequest) throws IndependentReserveHttpStatusException, IOException;
+  IndependentReserveOpenOrdersResponse getOpenOrders(IndependentReserveOpenOrderRequest independentReserveOpenOrderRequest)
+      throws IndependentReserveHttpStatusException, IOException;
 
   @POST
   @Path("GetTrades")
   @Consumes(MediaType.APPLICATION_JSON)
-  IndependentReserveTradeHistoryResponse getTradeHistory(
-      IndependentReserveTradeHistoryRequest independentReserveTradeHistoryRequest) throws IndependentReserveHttpStatusException, IOException;
+  IndependentReserveTradeHistoryResponse getTradeHistory(IndependentReserveTradeHistoryRequest independentReserveTradeHistoryRequest)
+      throws IndependentReserveHttpStatusException, IOException;
 
   @POST
   @Path("PlaceLimitOrder")
   @Consumes(MediaType.APPLICATION_JSON)
-  IndependentReservePlaceLimitOrderResponse placeLimitOrder(
-      IndependentReservePlaceLimitOrderRequest independentReservePlaceLimitOrderRequest) throws IndependentReserveHttpStatusException, IOException;
+  IndependentReservePlaceLimitOrderResponse placeLimitOrder(IndependentReservePlaceLimitOrderRequest independentReservePlaceLimitOrderRequest)
+      throws IndependentReserveHttpStatusException, IOException;
 
   @POST
   @Path("CancelOrder")
   @Consumes(MediaType.APPLICATION_JSON)
-  IndependentReserveCancelOrderResponse cancelOrder(
-      IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest) throws IndependentReserveHttpStatusException, IOException;
+  IndependentReserveCancelOrderResponse cancelOrder(IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest)
+      throws IndependentReserveHttpStatusException, IOException;
 
   @POST
   @Path("GetTransactions")
   @Consumes(MediaType.APPLICATION_JSON)
-  IndependentReserveTransactionsResponse getTransactions(
-      IndependentReserveTransactionsRequest independentReserveTransactionsRequest) throws IndependentReserveHttpStatusException, IOException;
+  IndependentReserveTransactionsResponse getTransactions(IndependentReserveTransactionsRequest independentReserveTransactionsRequest)
+      throws IndependentReserveHttpStatusException, IOException;
 
   /**
    * Forces the deposit address to be checked for new Bitcoin or Ether deposits.
@@ -77,7 +77,8 @@ public interface IndependentReserveAuthenticated {
   @Path(SynchDigitalCurrencyDepositAddressWithBlockchain)
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse synchDigitalCurrencyDepositAddressWithBlockchain(
-      IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest independentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest) throws IndependentReserveHttpStatusException, IOException;
+      IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest independentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest)
+      throws IndependentReserveHttpStatusException, IOException;
 
   @POST
   @Path(WithdrawDigitalCurrency)

@@ -69,15 +69,15 @@ public class MercadoBitcoinTradeDemo {
     printRawOpenOrders(tradeService);
 
     // place a limit buy order
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> order = tradeService.mercadoBitcoinPlaceLimitOrder("ltc_brl", "buy",
-        new BigDecimal("0.01"), new BigDecimal("1"));
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> order = tradeService
+        .mercadoBitcoinPlaceLimitOrder("ltc_brl", "buy", new BigDecimal("0.01"), new BigDecimal("1"));
     System.out.println("MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> return value: " + order);
 
     printRawOpenOrders(tradeService);
 
     // Cancel the added order
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> cancelResult = tradeService.mercadoBitcoinCancelOrder("ltc_brl",
-        order.getTheReturn().keySet().iterator().next());
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> cancelResult = tradeService
+        .mercadoBitcoinCancelOrder("ltc_brl", order.getTheReturn().keySet().iterator().next());
     System.out.println("Canceling returned " + cancelResult);
 
     printRawOpenOrders(tradeService);
@@ -85,8 +85,8 @@ public class MercadoBitcoinTradeDemo {
 
   private static void printRawOpenOrders(MercadoBitcoinTradeServiceRaw tradeService) throws IOException, InterruptedException {
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersResult = tradeService.getMercadoBitcoinUserOrders("btc_brl", null, "active",
-        null, null, null, null);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersResult = tradeService
+        .getMercadoBitcoinUserOrders("btc_brl", null, "active", null, null, null, null);
 
     MercadoBitcoinUserOrders openOrders = openOrdersResult.getTheReturn();
 

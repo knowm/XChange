@@ -48,8 +48,8 @@ public class DepthDemo {
   private static void raw(IndependentReserveMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest order book data for BTC/USD
-    IndependentReserveOrderBook orderBook = marketDataService.getIndependentReserveOrderBook(Currency.BTC.getCurrencyCode(),
-        Currency.USD.getCurrencyCode());
+    IndependentReserveOrderBook orderBook = marketDataService
+        .getIndependentReserveOrderBook(Currency.BTC.getCurrencyCode(), Currency.USD.getCurrencyCode());
 
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getSellOrders().size() + orderBook.getBuyOrders().size()));
 

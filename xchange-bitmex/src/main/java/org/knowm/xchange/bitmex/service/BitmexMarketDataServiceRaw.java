@@ -1,7 +1,11 @@
 package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexAdapters;
@@ -117,8 +121,9 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
 
       for (BitmexTicker ticker : tickers) {
         String promptSymbol = ticker.getSymbol().replaceFirst(ticker.getRootSymbol(), "");
-        if (promptSymbol != null && bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()) != null && bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()) != BitmexPrompt.PERPETUAL
-            && !bitmexPromptsToSymbolsMap.containsKey(ticker.getSymbol()))
+        if (promptSymbol != null && bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()) != null
+            && bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()) != BitmexPrompt.PERPETUAL && !bitmexPromptsToSymbolsMap
+            .containsKey(ticker.getSymbol()))
           bitmexPromptsToSymbolsMap.put(bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()), promptSymbol);
 
         // bitmexTickersToIntervalsMap.put(ticker, bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()));

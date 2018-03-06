@@ -12,11 +12,8 @@ public final class BinancePriceQuantity {
   public final BigDecimal askPrice;
   public final BigDecimal askQty;
 
-  public BinancePriceQuantity(@JsonProperty("symbol") String symbol
-      , @JsonProperty("bidPrice") BigDecimal bidPrice
-      , @JsonProperty("bidQty") BigDecimal bidQty
-      , @JsonProperty("askPrice") BigDecimal askPrice
-      , @JsonProperty("askQty") BigDecimal askQty) {
+  public BinancePriceQuantity(@JsonProperty("symbol") String symbol, @JsonProperty("bidPrice") BigDecimal bidPrice,
+      @JsonProperty("bidQty") BigDecimal bidQty, @JsonProperty("askPrice") BigDecimal askPrice, @JsonProperty("askQty") BigDecimal askQty) {
     this.symbol = symbol;
     this.bidPrice = bidPrice;
     this.bidQty = bidQty;

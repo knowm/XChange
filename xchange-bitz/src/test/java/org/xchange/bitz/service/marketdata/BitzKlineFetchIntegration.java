@@ -16,12 +16,12 @@ public class BitzKlineFetchIntegration {
     // Get Specific Exchange
     BitZExchange exchange = (BitZExchange) ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
     BitZMarketDataService marketDataService = (BitZMarketDataService) exchange.getMarketDataService();
-    
+
     BitZKline kline = marketDataService.getKline(CurrencyPair.LTC_BTC, "5m");
-    
+
     // Verify Not Null Values
     assertThat(kline).isNotNull();
-    
+
     // TODO: Logical Verification Of Values
   }
 
