@@ -46,7 +46,7 @@ public final class FundingRecord implements Serializable {
   /**
    * External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash.
    */
-  private final String externalId;
+  private final String blockchainTransactionHash;
 
   /**
    * Description of the transaction
@@ -81,7 +81,7 @@ public final class FundingRecord implements Serializable {
    * @param currency The transaction currency
    * @param amount Amount deposited/withdrawn (always positive)
    * @param internalId Internal transaction identifier, specific to the Exchange
-   * @param externalId External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash
+   * @param blockchainTransactionHash Transaction hash/id that identifies the transaction within the public ledger
    * @param type Transaction Type {@link Type}
    * @param status Status of the transaction whenever available (e.g. Pending, Completed or any descriptive status of transaction). Will be naively converted to Status enum if possible, or else be prefixed to description.
    * @param balance Balance of the associated account after the transaction is performed
@@ -91,10 +91,10 @@ public final class FundingRecord implements Serializable {
    */
   @Deprecated
   public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
-      final String internalId, final String externalId,
+      final String internalId, final String blockchainTransactionHash,
       final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
       final String description) {
-    this(address, date, currency, amount, internalId, externalId, type, Status.resolveStatus(status), balance, fee, description);
+    this(address, date, currency, amount, internalId, blockchainTransactionHash, type, Status.resolveStatus(status), balance, fee, description);
     if (this.status == null && status != null) {
       this.description = this.description == null || this.description.isEmpty()
           ? status
@@ -110,7 +110,7 @@ public final class FundingRecord implements Serializable {
    * @param currency The transaction currency
    * @param amount Amount deposited/withdrawn (always positive)
    * @param internalId Internal transaction identifier, specific to the Exchange
-   * @param externalId External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash
+   * @param blockchainTransactionHash Transaction hash/id that identifies the transaction within the public ledger
    * @param type Transaction Type {@link Type}
    * @param status Status of the transaction whenever available
    * @param balance Balance of the associated account after the transaction is performed
@@ -118,7 +118,7 @@ public final class FundingRecord implements Serializable {
    * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
    */
   public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
-      final String internalId, final String externalId,
+      final String internalId, final String blockchainTransactionHash,
       final Type type, final Status status, final BigDecimal balance, final BigDecimal fee,
       final String description) {
     this.address = address;
@@ -126,7 +126,7 @@ public final class FundingRecord implements Serializable {
     this.currency = currency;
     this.amount = amount == null ? null : amount.abs();
     this.internalId = internalId;
-    this.externalId = externalId;
+    this.blockchainTransactionHash = blockchainTransactionHash;
     this.type = type;
     this.status = status;
     this.balance = balance;
@@ -169,11 +169,16 @@ public final class FundingRecord implements Serializable {
     return internalId;
   }
 
+  @Deprecated//for backward compatibility.  Will be removed
+  public String getExternalId() {
+    return blockchainTransactionHash;
+  }
+
   /**
    * @return External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash.
    */
-  public String getExternalId() {
-    return externalId;
+  public String getBlockchainTransactionHash() {
+    return blockchainTransactionHash;
   }
 
   /**
@@ -213,8 +218,8 @@ public final class FundingRecord implements Serializable {
 
   @Override
   public String toString() {
-    return String.format("FundingRecord{address='%s', date=%s, currency=%s, amount=%s, internalId=%s, externalId=%s, description='%s', type=%s, status=%s, balance=%s, fee=%s}",
-        address, date, currency, amount, internalId, externalId, description, type, status, balance, fee);
+    return String.format("FundingRecord{address='%s', date=%s, currency=%s, amount=%s, internalId=%s, blockchainTransactionHash=%s, description='%s', type=%s, status=%s, balance=%s, fee=%s}",
+        address, date, currency, amount, internalId, blockchainTransactionHash, description, type, status, balance, fee);
   }
 
   public static final class Builder {
@@ -224,7 +229,7 @@ public final class FundingRecord implements Serializable {
     private Currency currency;
     private BigDecimal amount;
     private String internalId;
-    private String externalId;
+    private String blockchainTransactionHash;
     private String description;
     private Type type;
     private Status status;
@@ -256,8 +261,8 @@ public final class FundingRecord implements Serializable {
       return this;
     }
 
-    public Builder setExternalId(String externalId) {
-      this.externalId = externalId;
+    public Builder setBlockchainTransactionHash(String blockchainTransactionHash) {
+      this.blockchainTransactionHash = blockchainTransactionHash;
       return this;
     }
 
@@ -287,7 +292,7 @@ public final class FundingRecord implements Serializable {
     }
 
     public FundingRecord build() {
-      return new FundingRecord(address, date, currency, amount, internalId, externalId, type, status, balance, fee, description);
+      return new FundingRecord(address, date, currency, amount, internalId, blockchainTransactionHash, type, status, balance, fee, description);
     }
   }
 
