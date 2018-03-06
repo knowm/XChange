@@ -21,6 +21,7 @@ import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexKline;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
@@ -73,6 +74,10 @@ public interface Bitmex {
   @Path("trade")
   BitmexPublicTrade[] getTrades(@QueryParam("symbol") String currencyPair, @QueryParam("reverse") Boolean reverse,
       @Nullable @QueryParam("count") Integer count, @Nullable @QueryParam("start") Integer start) throws IOException;
+
+  @GET
+  @Path("trade/bucketed")
+  List<BitmexKline> getBucketedTrades(@QueryParam("binSize") String binSize, @QueryParam("partial") Boolean partial, @QueryParam("symbol") String symbol, @QueryParam("count") Long count, @QueryParam("reverse") Boolean reverse) throws IOException;
 
   @GET
   @Path("orderBook/L2")
