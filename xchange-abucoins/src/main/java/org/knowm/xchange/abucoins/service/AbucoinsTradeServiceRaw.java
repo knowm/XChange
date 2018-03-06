@@ -24,7 +24,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
  * <li>{@link #createAbucoinsOrder POST orders}</li>
  * <li>{@link #deleteAbucoinsOrder DELETE orders/&#123;order-id&#125;}</li>
  * <li>{@link #deleteAllAbucoinsOrders DELETE /orders or DELETE orders?product_id=&#123;product-id&#125;}</li>
- * <li>{@link #getFills GET /fills}</li>
+ * <li>{@link #getAbucoinsFills GET /fills}</li>
  * <ol>
  * @author bryant_harris
  */
@@ -177,11 +177,20 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
   }
   
   /**
-   * Corresponds to <code>GET /fills</code>
+   * @deprecated Use {@link #getAbucoinsFills}.
    * @return
    * @throws IOException
    */
   public AbucoinsFill[] getFills() throws IOException {
+    return getAbucoinsFills();
+  }
+  
+  /**
+   * Corresponds to <code>GET /fills</code>
+   * @return
+   * @throws IOException
+   */
+  public AbucoinsFill[] getAbucoinsFills() throws IOException {
     AbucoinsFills fills = abucoinsAuthenticated.getFills(exchange.getExchangeSpecification().getApiKey(),
                                                          signatureCreator,
                                                          exchange.getExchangeSpecification().getPassword(),
