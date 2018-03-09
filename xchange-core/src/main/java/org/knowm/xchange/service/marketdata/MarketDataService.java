@@ -1,8 +1,8 @@
 package org.knowm.xchange.service.marketdata;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -53,7 +53,7 @@ public interface MarketDataService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  default List<Ticker> getTickers(Set<CurrencyPair> currencyPairs, Object... args) throws IOException {
+  default List<Ticker> getTickers(Collection<CurrencyPair> pairs, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
