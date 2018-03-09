@@ -288,11 +288,11 @@ public class BittrexOrder {
 
   @Override
   public String toString() {
-    return "BittrexOrder [accountId=" + accountId + ", orderUuid= " + orderUuid + ", exchange=" + exchange + "," +
-        ", type= " + type + ", quantity=" + quantity + ", quantityRemaining= " + quantityRemaining + ", limit=" + limit +
-        ", reserved= " + reserved + ", reserveRemaining=" + reserveRemaining + ", commissionReserved= " + commissionReserved + ", commissionReserveRemaining=" + commissionReserveRemaining +
-        ", commissionPaid= " + commissionPaid + ", price=" + price + ", pricePerUnit= " + pricePerUnit + ", opened=" + opened +
-        ", closed= " + closed + ", isOpen=" + isOpen + ", sentinel= " + sentinel + ", cancelInitiated=" + cancelInitiated +
-        ", immediateOrCancel= " + immediateOrCancel + ", isConditional=" + isConditional + ", condition= " + condition + ", conditionTarget=" + conditionTarget + "]";
+    return "BittrexOrder [accountId=" + accountId + ", orderUuid= " + orderUuid + ", exchange=" + exchange + "," + ", type= " + type + ", quantity="
+        + quantity + ", quantityRemaining= " + quantityRemaining + ", limit=" + limit + ", reserved= " + reserved + ", reserveRemaining="
+        + reserveRemaining + ", commissionReserved= " + commissionReserved + ", commissionReserveRemaining=" + commissionReserveRemaining
+        + ", commissionPaid= " + commissionPaid + ", price=" + price + ", pricePerUnit= " + pricePerUnit + ", opened=" + opened + ", closed= "
+        + closed + ", isOpen=" + isOpen + ", sentinel= " + sentinel + ", cancelInitiated=" + cancelInitiated + ", immediateOrCancel= "
+        + immediateOrCancel + ", isConditional=" + isConditional + ", condition= " + condition + ", conditionTarget=" + conditionTarget + "]";
   }
 }

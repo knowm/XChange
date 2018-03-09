@@ -3,7 +3,6 @@ package org.knowm.xchange.bitmex.service;
 import java.util.Base64;
 
 import javax.ws.rs.HeaderParam;
-import javax.ws.rs.QueryParam;
 
 import org.apache.commons.codec.binary.Hex;
 import org.knowm.xchange.service.BaseParamsDigest;
@@ -25,6 +24,12 @@ public class BitmexDigest extends BaseParamsDigest {
     super(Base64.getUrlEncoder().withoutPadding().encodeToString(secretKeyBase64), HMAC_SHA_256);
   }
 
+  private BitmexDigest(String secretKeyBase64, String apiKey) {
+
+    super(secretKeyBase64, HMAC_SHA_256);
+    this.apiKey = apiKey;
+  }
+
   public static BitmexDigest createInstance(String secretKeyBase64) {
 
     if (secretKeyBase64 != null) {
@@ -33,28 +38,19 @@ public class BitmexDigest extends BaseParamsDigest {
     return null;
   }
 
+  public static BitmexDigest createInstance(String secretKeyBase64, String apiKey) {
+
+    return secretKeyBase64 == null ? null : new BitmexDigest(secretKeyBase64, apiKey);
+  }
+
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
     String nonce = restInvocation.getParamValue(HeaderParam.class, "api-nonce").toString();
-
-    String params = restInvocation.getParamsMap().get(QueryParam.class).toString();
-    String query = params.isEmpty() ? "" : "?" + params;
-
-    String payload = restInvocation.getHttpMethod() + "/" + restInvocation.getPath() + query + nonce + restInvocation.getRequestBody();
+    String path = restInvocation.getInvocationUrl().split(restInvocation.getBaseUrl())[1];
+    String payload = restInvocation.getHttpMethod() + "/" + path + nonce + restInvocation.getRequestBody();
 
     return new String(Hex.encodeHex(getMac().doFinal(payload.getBytes())));
-  }
-
-  private BitmexDigest(String secretKeyBase64, String apiKey) {
-
-    super(secretKeyBase64, HMAC_SHA_256);
-    this.apiKey = apiKey;
-  }
-
-  public static BitmexDigest createInstance(String secretKeyBase64, String apiKey) {
-
-    return secretKeyBase64 == null ? null : new BitmexDigest(secretKeyBase64, apiKey);
   }
 
 }

@@ -17,6 +17,14 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class CoinbaseMoneyDeserializer extends JsonDeserializer<CoinbaseMoney> {
 
+  public static CoinbaseMoney getCoinbaseMoneyFromNode(JsonNode node) {
+
+    final String amount = node.path("amount").asText();
+    final String currency = node.path("currency").asText();
+
+    return new CoinbaseMoney(currency, new BigDecimal(amount));
+  }
+
   @Override
   public CoinbaseMoney deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
@@ -24,14 +32,6 @@ public class CoinbaseMoneyDeserializer extends JsonDeserializer<CoinbaseMoney> {
     final JsonNode node = oc.readTree(jp);
 
     return getCoinbaseMoneyFromNode(node);
-  }
-
-  public static CoinbaseMoney getCoinbaseMoneyFromNode(JsonNode node) {
-
-    final String amount = node.path("amount").asText();
-    final String currency = node.path("currency").asText();
-
-    return new CoinbaseMoney(currency, new BigDecimal(amount));
   }
 
 }

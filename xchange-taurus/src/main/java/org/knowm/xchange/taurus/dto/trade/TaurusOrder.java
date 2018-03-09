@@ -71,6 +71,11 @@ public final class TaurusOrder extends TaurusBaseResponse {
     return book;
   }
 
+  @Override
+  public String toString() {
+    return String.format("Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}", id, datetime, type, price, amount);
+  }
+
   @JsonDeserialize(using = StatusDeserializer.class)
   public enum Status {
     cancelled, active, partiallyFilled, complete, unknown
@@ -94,10 +99,5 @@ public final class TaurusOrder extends TaurusBaseResponse {
       }
       return Status.unknown;
     }
-  }
-
-  @Override
-  public String toString() {
-    return String.format("Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}", id, datetime, type, price, amount);
   }
 }

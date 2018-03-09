@@ -53,17 +53,19 @@ public interface Livecoin {
 
   @GET
   @Path("payment/balances")
-  List<Map> balances(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator, @QueryParam("currency") String currency) throws IOException;
+  List<Map> balances(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
+      @QueryParam("currency") String currency) throws IOException;
 
   @GET
   @Path("payment/history/transactions")
   List<Map> transactions(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
-      @QueryParam("start") String start, @QueryParam("end") String end, @QueryParam("types") String types,
-      @QueryParam("limit") Integer limit, @QueryParam("offset") Long offset) throws IOException;
+      @QueryParam("start") String start, @QueryParam("end") String end, @QueryParam("types") String types, @QueryParam("limit") Integer limit,
+      @QueryParam("offset") Long offset) throws IOException;
 
   @GET
   @Path("payment/get/address")
-  Map paymentAddress(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator, @QueryParam("currency") String currency) throws IOException;
+  Map paymentAddress(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
+      @QueryParam("currency") String currency) throws IOException;
 
   @POST
   @Path("payment/out/coin")
@@ -74,7 +76,8 @@ public interface Livecoin {
   @Path("payment/out/payeer")
   LivecoinResponse<Map> paymentOutPayeer(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount, @FormParam("wallet") String wallet,
-      @FormParam("protect") String protect, @FormParam("protect_code") String protectCode, @FormParam("protect_period") Integer protectPeriod) throws IOException;
+      @FormParam("protect") String protect, @FormParam("protect_code") String protectCode, @FormParam("protect_period") Integer protectPeriod)
+      throws IOException;
 
   @POST
   @Path("payment/out/capitalist")
@@ -90,7 +93,8 @@ public interface Livecoin {
   @POST
   @Path("payment/out/okpay")
   LivecoinResponse<Map> paymentOutOkPay(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
-      @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount, @FormParam("wallet") String wallet, @FormParam("invoice") String invoice) throws IOException;
+      @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount, @FormParam("wallet") String wallet,
+      @FormParam("invoice") String invoice) throws IOException;
 
   @POST
   @Path("payment/out/perfectmoney")
@@ -106,18 +110,20 @@ public interface Livecoin {
 
   @GET
   @Path("exchange/client_orders")
-  LivecoinPaginatedResponse allClientOrders(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator, @QueryParam
-      ("openClosed") String openClosed) throws IOException;
+  LivecoinPaginatedResponse allClientOrders(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
+      @QueryParam("openClosed") String openClosed) throws IOException;
 
   @POST
   @Path("exchange/buylimit")
   Map buyWithLimitOrder(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
-      @FormParam("currencyPair") String currencyPair, @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity) throws IOException;
+      @FormParam("currencyPair") String currencyPair, @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity)
+      throws IOException;
 
   @POST
   @Path("exchange/selllimit")
   Map sellWithLimitOrder(@HeaderParam("Api-key") String apiKey, @HeaderParam("Sign") LivecoinDigest signatureCreator,
-      @FormParam("currencyPair") String currencyPair, @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity) throws IOException;
+      @FormParam("currencyPair") String currencyPair, @FormParam("price") BigDecimal price, @FormParam("quantity") BigDecimal quantity)
+      throws IOException;
 
   @POST
   @Path("exchange/buymarket")

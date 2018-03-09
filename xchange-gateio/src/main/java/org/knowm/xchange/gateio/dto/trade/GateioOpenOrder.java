@@ -27,16 +27,9 @@ public class GateioOpenOrder {
   /**
    * Constructor
    */
-  private GateioOpenOrder(@JsonProperty("timestamp") String timestamp,
-      @JsonProperty("total") String total,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("id") String id,
-      @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("status") String status,
-      @JsonProperty("orderNumber") String orderNumber,
-      @JsonProperty("type") String type,
-      @JsonProperty("currencyPair") String currencyPair
-  ) {
+  private GateioOpenOrder(@JsonProperty("timestamp") String timestamp, @JsonProperty("total") String total, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("id") String id, @JsonProperty("rate") BigDecimal rate, @JsonProperty("status") String status,
+      @JsonProperty("orderNumber") String orderNumber, @JsonProperty("type") String type, @JsonProperty("currencyPair") String currencyPair) {
     this.timestamp = timestamp;
     this.total = total;
     this.amount = amount;
@@ -86,16 +79,8 @@ public class GateioOpenOrder {
 
   @Override
   public String toString() {
-    return "GateioOpenOrder{" +
-        "timestamp='" + timestamp + '\'' +
-        ", total='" + total + '\'' +
-        ", amount='" + amount + '\'' +
-        ", id='" + id + '\'' +
-        ", rate='" + rate + '\'' +
-        ", status='" + status + '\'' +
-        ", orderNumber='" + orderNumber + '\'' +
-        ", type='" + type + '\'' +
-        ", currencyPair='" + currencyPair + '\'' +
-        '}';
+    return "GateioOpenOrder{" + "timestamp='" + timestamp + '\'' + ", total='" + total + '\'' + ", amount='" + amount + '\'' + ", id='" + id + '\''
+        + ", rate='" + rate + '\'' + ", status='" + status + '\'' + ", orderNumber='" + orderNumber + '\'' + ", type='" + type + '\''
+        + ", currencyPair='" + currencyPair + '\'' + '}';
   }
 }

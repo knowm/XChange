@@ -69,9 +69,9 @@ public final class AccountInfo implements Serializable {
   /**
    * Constructs an {@link AccountInfo}.
    *
-   * @param username the user name.
+   * @param username   the user name.
    * @param tradingFee the trading fee.
-   * @param wallets the user's wallets
+   * @param wallets    the user's wallets
    */
   public AccountInfo(String username, BigDecimal tradingFee, Collection<Wallet> wallets) {
 

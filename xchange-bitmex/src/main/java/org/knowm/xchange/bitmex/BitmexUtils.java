@@ -21,10 +21,10 @@ import com.google.common.collect.HashBiMap;
  */
 public class BitmexUtils {
 
+  protected static final HashBiMap<String, Currency> assetsMap = HashBiMap.create();
   protected static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
   protected static BiMap<String, BitmexContract> bitmexContracts = HashBiMap.create();
   protected static BiMap<Currency, String> bitmexCurrencies = HashBiMap.create();
-  protected static final HashBiMap<String, Currency> assetsMap = HashBiMap.create();
 
   /**
    * Private Constructor
@@ -58,38 +58,27 @@ public class BitmexUtils {
     return bitmexContracts.inverse().get(contract);
   }
 
-  public class CustomBitmexContractSerializer extends JsonSerializer<BitmexContract> {
-
-    @Override
-    public void serialize(BitmexContract contract, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-
-      jsonGenerator.writeString(contract.toString());
-
-    }
-  }
-
   public static CurrencyPair translateBitmexCurrencyPair(String currencyPairIn) {
 
     CurrencyPair pair = assetPairMap.get(currencyPairIn);
     if (pair == null) {
       // bitmex can give short pairs back from open orders ?
       if (currencyPairIn.length() == 6) {
-        Currency base = new Currency(currencyPairIn.substring(0, 3));
+        Currency base = Currency.getInstance(currencyPairIn.substring(0, 3));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = new Currency(currencyPairIn.substring(3, 6));
+        Currency counter = Currency.getInstance(currencyPairIn.substring(3, 6));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
         pair = new CurrencyPair(base, counter);
-      }
-      else if (currencyPairIn.length() == 7) {
-        Currency base = new Currency(currencyPairIn.substring(0, 4));
+      } else if (currencyPairIn.length() == 7) {
+        Currency base = Currency.getInstance(currencyPairIn.substring(0, 4));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = new Currency(currencyPairIn.substring(4, 7));
+        Currency counter = Currency.getInstance(currencyPairIn.substring(4, 7));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
@@ -148,5 +137,15 @@ public class BitmexUtils {
       throw new ExchangeException("Bitmex does not support the currency code " + currencyIn);
     }
     return currencyOut.getCommonlyUsedCurrency();
+  }
+
+  public class CustomBitmexContractSerializer extends JsonSerializer<BitmexContract> {
+
+    @Override
+    public void serialize(BitmexContract contract, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+
+      jsonGenerator.writeString(contract.toString());
+
+    }
   }
 }

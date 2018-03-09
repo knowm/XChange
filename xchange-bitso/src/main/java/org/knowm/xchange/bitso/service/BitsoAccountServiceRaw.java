@@ -20,16 +20,17 @@ public class BitsoAccountServiceRaw extends BitsoBaseService {
   protected BitsoAccountServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.bitsoAuthenticated = RestProxyFactory.createProxy(BitsoAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
-    this.signatureCreator = BitsoDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
-        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.bitsoAuthenticated = RestProxyFactory
+        .createProxy(BitsoAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.signatureCreator = BitsoDigest
+        .createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getUserName(),
+            exchange.getExchangeSpecification().getApiKey());
   }
 
   public BitsoBalance getBitsoBalance() throws IOException {
 
-    BitsoBalance bitsoBalance = bitsoAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory());
+    BitsoBalance bitsoBalance = bitsoAuthenticated
+        .getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     if (bitsoBalance.getError() != null) {
       throw new ExchangeException("Error getting balance. " + bitsoBalance.getError());
     }
@@ -38,8 +39,8 @@ public class BitsoAccountServiceRaw extends BitsoBaseService {
 
   public String withdrawBitsoFunds(BigDecimal amount, final String address) throws IOException {
 
-    final String response = bitsoAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory(), amount, address);
+    final String response = bitsoAuthenticated
+        .withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount, address);
     if (!"ok".equals(response)) {
       throw new ExchangeException("Withdrawing funds from Bitso failed: " + response);
     }
@@ -49,8 +50,8 @@ public class BitsoAccountServiceRaw extends BitsoBaseService {
 
   public BitsoDepositAddress getBitsoBitcoinDepositAddress() throws IOException {
 
-    final BitsoDepositAddress response = bitsoAuthenticated.getBitcoinDepositAddress(exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    final BitsoDepositAddress response = bitsoAuthenticated
+        .getBitcoinDepositAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     if (response.getError() != null) {
       throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
     }
@@ -65,8 +66,9 @@ public class BitsoAccountServiceRaw extends BitsoBaseService {
    */
   public boolean withdrawToRipple(BigDecimal amount, Currency currency, String rippleAddress) throws IOException {
 
-    final String result = bitsoAuthenticated.withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory(), amount, currency.getCurrencyCode(), rippleAddress);
+    final String result = bitsoAuthenticated
+        .withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), amount,
+            currency.getCurrencyCode(), rippleAddress);
     return "ok".equals(result);
   }
 }

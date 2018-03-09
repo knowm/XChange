@@ -29,10 +29,6 @@ public class LiquiAccountRights {
 
   @Override
   public String toString() {
-    return "LiquiAccountRights{" +
-        "info=" + info +
-        ", trade=" + trade +
-        ", withdraw=" + withdraw +
-        '}';
+    return "LiquiAccountRights{" + "info=" + info + ", trade=" + trade + ", withdraw=" + withdraw + '}';
   }
 }

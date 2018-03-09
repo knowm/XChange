@@ -20,8 +20,8 @@ public class CryptoFacilitiesOrderBook extends CryptoFacilitiesResult {
   private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final Date serverTime;
-  private CurrencyPair currencyPair;
   private final CryptoFacilitiesBidsAsks bidsAsks;
+  private CurrencyPair currencyPair;
 
   public CryptoFacilitiesOrderBook(@JsonProperty("result") String result, @JsonProperty("serverTime") String strServerTime,
       @JsonProperty("error") String error, @JsonProperty("orderBook") CryptoFacilitiesBidsAsks bidsAsks) throws ParseException {
@@ -56,8 +56,8 @@ public class CryptoFacilitiesOrderBook extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess()) {
-      return "CryptoFacilitiesOrderBook [ccyPair=" + currencyPair + ", serverTime=" + DATE_FORMAT.format(serverTime) + ", orderBook="
-          + bidsAsks.toString() + "]";
+      return "CryptoFacilitiesOrderBook [ccyPair=" + currencyPair + ", serverTime=" + DATE_FORMAT.format(serverTime) + ", orderBook=" + bidsAsks
+          .toString() + "]";
     } else {
       return super.toString();
     }

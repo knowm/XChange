@@ -8,23 +8,23 @@ public class CoinbaseExchangeRateData {
 
   private CoinbaseExchangeRates data;
 
-  public void setData(CoinbaseExchangeRates data) {
-    this.data = data;
-  }
-
   public CoinbaseExchangeRates getData() {
     return data;
   }
 
+  public void setData(CoinbaseExchangeRates data) {
+    this.data = data;
+  }
+
   static public class CoinbaseExchangeRates {
-    
+
     private String currency;
     private Map<String, BigDecimal> rates;
-    
+
     public String getCurrency() {
       return currency;
     }
-    
+
     public Map<String, BigDecimal> getRates() {
       return Collections.unmodifiableMap(rates);
     }

@@ -19,22 +19,6 @@ public enum BitmexOrderType {
 
   MARKET, LIMIT, STOP_LOSS, TAKE_PROFIT, STOP_LOSS_PROFIT, STOP_LOSS_PROFIT_LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT, TRAILING_STOP, TRAILING_STOP_LIMIT, STOP_LOSS_AND_LIMIT, SETTLE_POSITION;
 
-  @Override
-  public String toString() {
-
-    return super.toString().toLowerCase();
-  }
-
-  public static BitmexOrderType fromString(String orderTypeString) {
-
-    return fromString.get(orderTypeString.replace('-', '_').toLowerCase());
-  }
-
-  public String toApiFormat() {
-
-    return name().toLowerCase().replace('_', '-');
-  }
-
   private static final Map<String, BitmexOrderType> fromString = new HashMap<>();
 
   static {
@@ -43,6 +27,22 @@ public enum BitmexOrderType {
 
     fromString.put("l", LIMIT);
     fromString.put("m", MARKET);
+  }
+
+  public static BitmexOrderType fromString(String orderTypeString) {
+
+    return fromString.get(orderTypeString.replace('-', '_').toLowerCase());
+  }
+
+  @Override
+  public String toString() {
+
+    return super.toString().toLowerCase();
+  }
+
+  public String toApiFormat() {
+
+    return name().toLowerCase().replace('_', '-');
   }
 
   static class BitmexOrderTypeDeserializer extends JsonDeserializer<BitmexOrderType> {

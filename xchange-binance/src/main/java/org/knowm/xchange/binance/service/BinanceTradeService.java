@@ -2,6 +2,7 @@ package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +18,12 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -32,6 +38,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.Assert;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
@@ -41,14 +49,26 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   @Override
-  public OpenOrders getOpenOrders() {
-    throw new ExchangeException("You need to provide the currency pair to get the list of open orders.");
+  public OpenOrders getOpenOrders() throws IOException {
+    Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    List<BinanceOrder> binanceOpenOrders = super.openOrders(recvWindow, getTimestamp());
+    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> otherOrders = new ArrayList<>();
+    binanceOpenOrders.forEach(binanceOrder -> {
+      Order order = BinanceAdapters.adaptOrder(binanceOrder);
+      if (order instanceof LimitOrder) {
+        limitOrders.add((LimitOrder) order);
+      } else {
+        otherOrders.add(order);
+      }
+    });
+    return new OpenOrders(limitOrders, otherOrders);
   }
 
   public OpenOrders getOpenOrders(CurrencyPair pair) throws IOException {
     return getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(pair));
   }
-  
+
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     Assert.isTrue(params instanceof OpenOrdersParamCurrencyPair, "You need to provide the currency pair to get the list of open orders.");
@@ -56,15 +76,10 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     CurrencyPair pair = pairParams.getCurrencyPair();
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     List<BinanceOrder> binanceOpenOrders = super.openOrders(pair, recvWindow, getTimestamp());
-    List<LimitOrder> openOrders = binanceOpenOrders.stream().map(o -> 
-    new LimitOrder.Builder(BinanceAdapters.convert(o.side), pair)
-      .id(Long.toString(o.orderId))
-      .originalAmount(o.origQty)
-      .cumulativeAmount(o.executedQty)
-      .limitPrice(o.price)
-      .timestamp(o.getTime())
-      .build()
-    ).collect(Collectors.toList());
+    List<LimitOrder> openOrders = binanceOpenOrders.stream().map(
+        o -> new LimitOrder.Builder(BinanceAdapters.convert(o.side), pair).id(Long.toString(o.orderId)).originalAmount(o.origQty)
+                                                                          .cumulativeAmount(o.executedQty).limitPrice(o.price).timestamp(o.getTime())
+                                                                          .build()).collect(Collectors.toList());
     return new OpenOrders(openOrders);
   }
 
@@ -85,15 +100,15 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   private String placeOrder(OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif) throws IOException {
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    BinanceNewOrder newOrder = newOrder(order.getCurrencyPair(), BinanceAdapters.convert(order.getType()), type, tif, 
-        order.getOriginalAmount(), limitPrice, null, stopPrice, null, recvWindow, getTimestamp());
+    BinanceNewOrder newOrder = newOrder(order.getCurrencyPair(), BinanceAdapters.convert(order.getType()), type, tif, order.getOriginalAmount(),
+        limitPrice, null, stopPrice, null, recvWindow, getTimestamp());
     return Long.toString(newOrder.orderId);
   }
 
   public void placeTestOrder(OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice) throws IOException {
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    testNewOrder(order.getCurrencyPair(), BinanceAdapters.convert(order.getType()), type, TimeInForce.GTC, 
-        order.getOriginalAmount(), limitPrice, null, stopPrice, null, recvWindow, getTimestamp());
+    testNewOrder(order.getCurrencyPair(), BinanceAdapters.convert(order.getType()), type, TimeInForce.GTC, order.getOriginalAmount(), limitPrice,
+        null, stopPrice, null, recvWindow, getTimestamp());
   }
 
   @Override
@@ -109,8 +124,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
     CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    super.cancelOrder(paramCurrencyPair.getCurrencyPair(), BinanceAdapters.id(paramId.getOrderId()), null, null,
-        recvWindow, getTimestamp());
+    super.cancelOrder(paramCurrencyPair.getCurrencyPair(), BinanceAdapters.id(paramId.getOrderId()), null, null, recvWindow, getTimestamp());
     return true;
   }
 
@@ -140,10 +154,9 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     List<BinanceTrade> binanceTrades = super.myTrades(pair, limit, fromId, recvWindow, getTimestamp());
-    List<UserTrade> trades = binanceTrades.stream()
-        .map(t -> new UserTrade(BinanceAdapters.convertType(t.isBuyer), t.qty, pair, t.price, t.getTime()
-            , Long.toString(t.id), Long.toString(t.orderId), t.commission, Currency.getInstance(t.commissionAsset)))
-        .collect(Collectors.toList());
+    List<UserTrade> trades = binanceTrades.stream().map(
+        t -> new UserTrade(BinanceAdapters.convertType(t.isBuyer), t.qty, pair, t.price, t.getTime(), Long.toString(t.id), Long.toString(t.orderId),
+            t.commission, Currency.getInstance(t.commissionAsset))).collect(Collectors.toList());
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
@@ -160,6 +173,25 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Override
   public Collection<Order> getOrder(String... orderIds) {
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... params) throws IOException {
+    Collection<Order> orders = new ArrayList<>();
+    for (OrderQueryParams param : params) {
+      if (!(param instanceof OrderQueryParamCurrencyPair)) {
+        throw new ExchangeException("Parameters must be an instance of OrderQueryParamCurrencyPair");
+      }
+      OrderQueryParamCurrencyPair orderQueryParamCurrencyPair = (OrderQueryParamCurrencyPair) param;
+      if (orderQueryParamCurrencyPair.getCurrencyPair() == null || orderQueryParamCurrencyPair.getOrderId() == null) {
+        throw new ExchangeException("You need to provide the currency pair and the order id to query an order.");
+      }
+
+      orders.add(BinanceAdapters.adaptOrder(super
+          .orderStatus(orderQueryParamCurrencyPair.getCurrencyPair(), BinanceAdapters.id(orderQueryParamCurrencyPair.getOrderId()), null,
+              (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow"), getTimestamp())));
+    }
+    return orders;
   }
 
 }

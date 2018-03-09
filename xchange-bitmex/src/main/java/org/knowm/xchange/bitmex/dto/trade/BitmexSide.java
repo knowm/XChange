@@ -20,10 +20,14 @@ public enum BitmexSide {
 
   BUY, SELL;
 
-  @Override
-  public String toString() {
+  private static final Map<String, BitmexSide> fromString = new HashMap<>();
 
-    return super.toString().toLowerCase();
+  static {
+    for (BitmexSide type : values())
+      fromString.put(type.toString(), type);
+
+    fromString.put("buy", BUY);
+    fromString.put("sell", SELL);
   }
 
   public static BitmexSide fromString(String typeString) {
@@ -36,14 +40,10 @@ public enum BitmexSide {
     return type == OrderType.ASK ? BitmexSide.SELL : BitmexSide.BUY;
   }
 
-  private static final Map<String, BitmexSide> fromString = new HashMap<>();
+  @Override
+  public String toString() {
 
-  static {
-    for (BitmexSide type : values())
-      fromString.put(type.toString(), type);
-
-    fromString.put("buy", BUY);
-    fromString.put("sell", SELL);
+    return super.toString().toLowerCase();
   }
 
   static class BitmexTypeDeserializer extends JsonDeserializer<BitmexSide> {

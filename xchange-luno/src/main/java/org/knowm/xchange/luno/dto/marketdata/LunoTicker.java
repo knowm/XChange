@@ -14,9 +14,9 @@ public class LunoTicker {
   public final BigDecimal rolling24HourVolume;
   public final String pair;
 
-  public LunoTicker(@JsonProperty(value = "timestamp", required = true) long timestamp, @JsonProperty("bid") BigDecimal bid
-      , @JsonProperty("ask") BigDecimal ask, @JsonProperty("last_trade") BigDecimal lastTrade
-      , @JsonProperty("rolling_24_hour_volume") BigDecimal rolling24HourVolume, @JsonProperty("pair") String pair) {
+  public LunoTicker(@JsonProperty(value = "timestamp", required = true) long timestamp, @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask, @JsonProperty("last_trade") BigDecimal lastTrade,
+      @JsonProperty("rolling_24_hour_volume") BigDecimal rolling24HourVolume, @JsonProperty("pair") String pair) {
     super();
     this.timestamp = timestamp;
     this.bid = bid;
@@ -32,7 +32,7 @@ public class LunoTicker {
 
   @Override
   public String toString() {
-    return "LunoTicker [timestamp=" + getTimestamp() + ", bid=" + bid + ", ask=" + ask + ", lastTrade=" + lastTrade
-        + ", rolling24HourVolume=" + rolling24HourVolume + ", pair=" + pair + "]";
+    return "LunoTicker [timestamp=" + getTimestamp() + ", bid=" + bid + ", ask=" + ask + ", lastTrade=" + lastTrade + ", rolling24HourVolume="
+        + rolling24HourVolume + ", pair=" + pair + "]";
   }
 }

@@ -5,13 +5,13 @@ package org.knowm.xchange.oer;
  */
 public final class OERUtils {
 
+  public static final long REFRESH_RATE_MILLIS = 1000L * 60L * 60L; // rates refresh every 60 minutes
+
   /**
    * private Constructor
    */
   private OERUtils() {
 
   }
-
-  public static final long REFRESH_RATE_MILLIS = 1000L * 60L * 60L; // rates refresh every 60 minutes
 
 }

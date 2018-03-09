@@ -86,7 +86,7 @@ public final class TaurusAdapters {
   public static Ticker adaptTicker(TaurusTicker tt, CurrencyPair currencyPair) {
 
     return new Ticker.Builder().currencyPair(currencyPair).last(tt.getLast()).bid(tt.getBid()).ask(tt.getAsk()).high(tt.getHigh()).low(tt.getLow())
-        .vwap(tt.getVwap()).volume(tt.getVolume()).timestamp(tt.getTimestamp()).build();
+                               .vwap(tt.getVwap()).volume(tt.getVolume()).timestamp(tt.getTimestamp()).build();
   }
 
   public static UserTrades adaptTradeHistory(TaurusUserTransaction[] taurusUserTransactions) {

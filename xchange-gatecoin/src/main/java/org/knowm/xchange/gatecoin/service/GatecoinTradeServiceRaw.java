@@ -22,8 +22,8 @@ public class GatecoinTradeServiceRaw extends GatecoinBaseService {
   public GatecoinTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.gatecoinAuthenticated = RestProxyFactory.createProxy(GatecoinAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
+    this.gatecoinAuthenticated = RestProxyFactory
+        .createProxy(GatecoinAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.signatureCreator = GatecoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
@@ -33,8 +33,8 @@ public class GatecoinTradeServiceRaw extends GatecoinBaseService {
   }
 
   public GatecoinPlaceOrderResult placeGatecoinOrder(BigDecimal originalAmount, BigDecimal price, String way, String code) throws IOException {
-    return gatecoinAuthenticated.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow(), originalAmount, price, way,
-        code);
+    return gatecoinAuthenticated
+        .placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow(), originalAmount, price, way, code);
   }
 
   public GatecoinCancelOrderResult cancelGatecoinOrder(String orderId) throws IOException {

@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
+import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
@@ -32,14 +33,25 @@ public interface GateioAuthenticated extends Gateio {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
+  @Path("private/depositAddress")
+  GateioDepositAddress getDepositAddress(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer,
+      @FormParam("currency") String currency) throws IOException;
+
+  @POST
+  @Path("private/withdraw")
+  GateioBaseResponse withdraw(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("currency") String currency,
+      @FormParam("amount") String amount, @FormParam("address") String address) throws IOException;
+
+  @POST
   @Path("private/cancelorder")
   GateioBaseResponse cancelOrder(@FormParam("orderNumber") String orderNumber, @HeaderParam("KEY") String apiKey,
       @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("private/cancelAllOrders")
-  GateioBaseResponse cancelAllOrders(@FormParam("type") String type, @FormParam("currencyPair") String currencyPair, @HeaderParam("KEY") String apiKey,
-      @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  GateioBaseResponse cancelAllOrders(@FormParam("type") String type, @FormParam("currencyPair") String currencyPair,
+      @HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws IOException;
 
   @POST
   @Path("private/buy")

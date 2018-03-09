@@ -124,8 +124,8 @@ public class KrakenTicker {
   @Override
   public String toString() {
 
-    return "KrakenTicker [ask=" + ask + ", bid=" + bid + ", close=" + close + ", volume=" + Arrays.toString(volume) + ", volumeAvg="
-        + Arrays.toString(volumeAvg) + ", trades=" + Arrays.toString(trades) + ", low=" + Arrays.toString(low) + ", high=" + Arrays.toString(high)
-        + ", open=" + open + "]";
+    return "KrakenTicker [ask=" + ask + ", bid=" + bid + ", close=" + close + ", volume=" + Arrays.toString(volume) + ", volumeAvg=" + Arrays
+        .toString(volumeAvg) + ", trades=" + Arrays.toString(trades) + ", low=" + Arrays.toString(low) + ", high=" + Arrays.toString(high) + ", open="
+        + open + "]";
   }
 }

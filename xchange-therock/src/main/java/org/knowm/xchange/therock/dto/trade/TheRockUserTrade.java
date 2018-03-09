@@ -83,6 +83,19 @@ public class TheRockUserTrade {
     return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
   }
 
+  private enum TransactionType {
+    sold_currency_to_fund, released_currency_to_fund, paid_commission, bought_currency_from_fund, acquired_currency_from_fund, unknown;
+
+    @JsonCreator
+    public static TransactionType fromString(String string) {
+      try {
+        return TransactionType.valueOf(string);
+      } catch (Throwable e) {
+        return unknown;
+      }
+    }
+  }
+
   private static class TheRockUserTradeTransaction {
     private final long id;
     private final Date date;
@@ -98,19 +111,6 @@ public class TheRockUserTrade {
       this.type = type;
       this.price = price;
       this.currency = currency;
-    }
-  }
-
-  private enum TransactionType {
-    sold_currency_to_fund, released_currency_to_fund, paid_commission, bought_currency_from_fund, acquired_currency_from_fund, unknown;
-
-    @JsonCreator
-    public static TransactionType fromString(String string) {
-      try {
-        return TransactionType.valueOf(string);
-      } catch (Throwable e) {
-        return unknown;
-      }
     }
   }
 }

@@ -24,9 +24,6 @@ public class HitbtcOrderLimit {
 
   @Override
   public String toString() {
-    return "HitbtcOrderLimit{" +
-        "price=" + price +
-        ", size=" + size +
-        '}';
+    return "HitbtcOrderLimit{" + "price=" + price + ", size=" + size + '}';
   }
 }

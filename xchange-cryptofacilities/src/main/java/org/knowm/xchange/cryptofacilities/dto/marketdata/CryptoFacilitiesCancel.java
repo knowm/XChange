@@ -36,8 +36,9 @@ public class CryptoFacilitiesCancel extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess() && serverTime != null && cancelStatus != null) {
-      String res = "CryptoFacilitiesCancel [result=" + this.getResult() + ", serverTime=" + DATE_FORMAT.format(serverTime) + ", "
-          + cancelStatus.toString() + "]";
+      String res =
+          "CryptoFacilitiesCancel [result=" + this.getResult() + ", serverTime=" + DATE_FORMAT.format(serverTime) + ", " + cancelStatus.toString()
+              + "]";
 
       return res;
     } else {

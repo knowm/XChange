@@ -15,26 +15,25 @@ import si.mazi.rescu.RestInvocation;
  * @author bryant_harris
  */
 public class AbucoinsDigest extends BaseParamsDigest {
+  static AbucoinsDigest instance;
   long timeDiffFromServer = 0;
-    
+
   private AbucoinsDigest(Abucoins abucoins, String secretKeyBase64) throws IllegalArgumentException {
     super(secretKeyBase64 == null ? null : Base64.getDecoder().decode(secretKeyBase64), HMAC_SHA_256);
-    
+
     try {
       AbucoinsServerTime serverTime = abucoins.getTime();
-                
-      long ourTime = System.currentTimeMillis()/1000L;
+
+      long ourTime = System.currentTimeMillis() / 1000L;
       timeDiffFromServer = serverTime.getEpoch() - ourTime;
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       throw new RuntimeException("Unable to determine server time");
     }
   }
 
-  static AbucoinsDigest instance;
   public static AbucoinsDigest createInstance(Abucoins abucoins, String secretKeyBase64) {
-    if ( instance == null )
-      instance = secretKeyBase64 == null ? null : new AbucoinsDigest(abucoins, secretKeyBase64); 
+    if (instance == null)
+      instance = secretKeyBase64 == null ? null : new AbucoinsDigest(abucoins, secretKeyBase64);
     return instance;
   }
 
@@ -46,14 +45,14 @@ public class AbucoinsDigest extends BaseParamsDigest {
     String queryParameters = restInvocation.getQueryString();
     String body = restInvocation.getRequestBody();
     body = body == null ? "" : body;
-          
+
     String queryArgs = timestamp + method + path + (queryParameters + body);
     Mac shaMac = getMac();
     final byte[] macData = shaMac.doFinal(queryArgs.getBytes());
     return Base64.getEncoder().encodeToString(macData);
   }
-  
+
   public String timestamp() {
-    return String.valueOf((System.currentTimeMillis()/1000) + timeDiffFromServer);
+    return String.valueOf((System.currentTimeMillis() / 1000) + timeDiffFromServer);
   }
 }

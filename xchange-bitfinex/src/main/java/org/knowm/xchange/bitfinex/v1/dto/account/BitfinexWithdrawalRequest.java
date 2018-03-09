@@ -7,28 +7,23 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 
 public class BitfinexWithdrawalRequest {
 
-  @JsonProperty("request")
-  protected String request;
-
-  @JsonProperty("nonce")
-  protected String nonce;
-
-  @JsonProperty("options")
-  @JsonRawValue
-  protected String options;
-
   @JsonProperty("withdraw_type")
   private final String withdrawType;
-
   @JsonProperty("walletselected")
   private final String walletSelected;
   @JsonProperty("amount")
   private final String amount;
   @JsonProperty("address")
   private final String address;
-
   @JsonProperty("payment_id")
   private final String paymentId;
+  @JsonProperty("request")
+  protected String request;
+  @JsonProperty("nonce")
+  protected String nonce;
+  @JsonProperty("options")
+  @JsonRawValue
+  protected String options;
 
   /**
    * Constructor

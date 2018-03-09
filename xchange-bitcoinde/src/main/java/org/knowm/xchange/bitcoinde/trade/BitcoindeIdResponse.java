@@ -3,9 +3,7 @@ package org.knowm.xchange.bitcoinde.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * 
  * @author kaiserfr
- *
  */
 public class BitcoindeIdResponse {
   private final String id;

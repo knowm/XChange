@@ -75,15 +75,15 @@ public interface CoinmateAuthenticated extends Coinmate {
   @POST
   @Path("cancelOrder")
   CoinmateCancelOrderResponse cancelOder(@FormParam("publicKey") String publicKey, @FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("orderId") String orderId) throws IOException;
+      @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") String orderId)
+      throws IOException;
 
   // new in version 1.3
   @POST
   @Path("cancelOrderWithInfo")
   CoinmateCancelOrderWithInfoResponse cancelOderWithInfo(@FormParam("publicKey") String publicKey, @FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("orderId") String orderId) throws IOException;
+      @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") String orderId)
+      throws IOException;
 
   @POST
   @Path("buyLimit")
@@ -125,10 +125,7 @@ public interface CoinmateAuthenticated extends Coinmate {
   // trade
   @POST
   @Path("orderHistory")
-  CoinmateOrderHistory getOrderHistory(@FormParam("publicKey") String publicKey,
-      @FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("currencyPair") String currencyPair,
-      @FormParam("limit") int limit) throws IOException;
+  CoinmateOrderHistory getOrderHistory(@FormParam("publicKey") String publicKey, @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("currencyPair") String currencyPair, @FormParam("limit") int limit) throws IOException;
 }

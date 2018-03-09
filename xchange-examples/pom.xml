@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.3.4-SNAPSHOT</version>
+        <version>4.3.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-examples</artifactId>
@@ -54,6 +54,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-wex</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- XChange Bibox exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-bibox</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- XChange Binance exchange support -->
@@ -326,6 +332,12 @@
             <artifactId>xchange-dsx</artifactId>
             <version>${project.version}</version>
         </dependency>
+	    <!-- XChange Abucoins exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-abucoins</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- XChange Cryptopia exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -381,6 +393,11 @@
         	<groupId>${project.groupId}</groupId>
         	<artifactId>xchange-bitz</artifactId>
         	<version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-zaif</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

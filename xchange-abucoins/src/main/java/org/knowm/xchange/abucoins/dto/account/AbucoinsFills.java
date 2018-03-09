@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * <p>POJO representing the output JSON for the Abucoins
  * <code>GET /fills</code> endpoint.</p>
- *
  * Example:
  * <code><pre>
  * [
@@ -35,16 +34,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  *   }
  * ]
  * </pre></code>
+ *
  * @author bryant_harris
  */
 @JsonDeserialize(using = AbucoinsFills.AbucoinsFillsDeserializer.class)
 public class AbucoinsFills {
   AbucoinsFill[] fills;
-        
+
   public AbucoinsFills(AbucoinsFill[] fills) {
     this.fills = fills;
   }
-          
+
   public AbucoinsFill[] getFills() {
     return fills;
   }
@@ -57,6 +57,7 @@ public class AbucoinsFills {
   /**
    * Deserializer handles the success case (array json) as well as the error case
    * (json object with <em>message</em> field).
+   *
    * @author bryant_harris
    */
   static class AbucoinsFillsDeserializer extends AbucoinsArrayOrMessageDeserializer<AbucoinsFill, AbucoinsFills> {

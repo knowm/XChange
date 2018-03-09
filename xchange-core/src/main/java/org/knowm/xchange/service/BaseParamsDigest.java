@@ -18,6 +18,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
   public static final String HMAC_SHA_384 = "HmacSHA384";
   public static final String HMAC_SHA_256 = "HmacSHA256";
   public static final String HMAC_SHA_1 = "HmacSHA1";
+  public static final String HMAC_MD5 = "HmacMD5";
 
   private final ThreadLocal<Mac> threadLocalMac;
 
@@ -79,16 +80,16 @@ public abstract class BaseParamsDigest implements ParamsDigest {
     };
   }
 
-  protected Mac getMac() {
-
-    return threadLocalMac.get();
-  }
-
   protected static byte[] decodeBase64(String secretKey) {
     try {
       return Base64.decode(secretKey);
     } catch (IOException e) {
       throw new RuntimeException("Can't decode secret key as Base 64", e);
     }
+  }
+
+  protected Mac getMac() {
+
+    return threadLocalMac.get();
   }
 }

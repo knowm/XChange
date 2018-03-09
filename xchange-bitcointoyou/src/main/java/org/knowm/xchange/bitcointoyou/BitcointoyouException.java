@@ -19,5 +19,4 @@ public class BitcointoyouException extends RuntimeException {
     return error;
   }
 
-
 }

@@ -86,7 +86,7 @@ public final class MercadoBitcoinAdapters {
    * Adapts a MercadoBitcoinTicker to a Ticker Object
    *
    * @param mercadoBitcoinTicker The exchange specific ticker
-   * @param currencyPair (e.g. BTC/USD)
+   * @param currencyPair         (e.g. BTC/USD)
    * @return The ticker
    */
   public static Ticker adaptTicker(MercadoBitcoinTicker mercadoBitcoinTicker, CurrencyPair currencyPair) {
@@ -100,7 +100,7 @@ public final class MercadoBitcoinAdapters {
     Date timestamp = new Date(mercadoBitcoinTicker.getTicker().getDate() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-        .build();
+                               .build();
 
   }
 
@@ -131,7 +131,7 @@ public final class MercadoBitcoinAdapters {
    * Adapts a MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> to an AccountInfo
    *
    * @param accountInfo The Mercado Bitcoin accountInfo
-   * @param userName The user name
+   * @param userName    The user name
    * @return The account info
    */
   public static AccountInfo adaptAccountInfo(MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo, String userName) {
@@ -188,7 +188,7 @@ public final class MercadoBitcoinAdapters {
         String txId = f.getKey();
         OperationEntry op = f.getValue();
         result.add(new UserTrade.Builder().currencyPair(pair).id(txId).orderId(orderId).price(op.getPrice()).timestamp(fromUnixTime(op.getCreated()))
-            .originalAmount(op.getVolume()).type(type).build());
+                                          .originalAmount(op.getVolume()).type(type).build());
       }
     }
     // TODO verify sortType

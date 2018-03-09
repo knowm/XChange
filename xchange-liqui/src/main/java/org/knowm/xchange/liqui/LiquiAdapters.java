@@ -127,8 +127,8 @@ public class LiquiAdapters {
 
     final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
 
-    return new LimitOrder(type, originalAmount, pair, String.valueOf(id), timestamp, orderInfo.getRate(),
-        orderInfo.getRate(), filledAmount, null, status);
+    return new LimitOrder(type, originalAmount, pair, String.valueOf(id), timestamp, orderInfo.getRate(), orderInfo.getRate(), filledAmount, null,
+        status);
   }
 
   public static Order.OrderStatus adaptOrderStatus(final String status) {
@@ -158,20 +158,20 @@ public class LiquiAdapters {
     final OrderType orderType = adaptOrderType(liquiTrade.getType());
     final BigDecimal originalAmount = liquiTrade.getAmount();
     final CurrencyPair pair = liquiTrade.getPair();
-    final Date timestamp = new Date((long) (liquiTrade.getTimestamp() * 1000L));
+    final Date timestamp = new Date(liquiTrade.getTimestamp() * 1000L);
     final BigDecimal price = liquiTrade.getRate();
 
-    return new UserTrade(orderType, originalAmount, pair, price, timestamp, String.valueOf(tradeId),
-        String.valueOf(tradeId), new BigDecimal("0"), null);
+    return new UserTrade(orderType, originalAmount, pair, price, timestamp, String.valueOf(tradeId), String.valueOf(tradeId), new BigDecimal("0"),
+        null);
   }
 
   public static Order adaptOrderInfo(final LiquiOrderInfo info) {
     final OrderType orderType = adaptOrderType(info.getType());
     final CurrencyPair pair = info.getPair();
-    final BigDecimal amount = info.getAmount();
+    final BigDecimal amount = info.getStartAmount().subtract(info.getAmount());
     final BigDecimal startAmount = info.getStartAmount();
     final BigDecimal rate = info.getRate();
-    final Date timestamp = new Date((long) (info.getTimestampCreated() * 1000L));
+    final Date timestamp = new Date(info.getTimestampCreated() * 1000L);
 
     return new LimitOrder(orderType, startAmount, amount, pair, "", timestamp, rate);
   }
@@ -206,8 +206,7 @@ public class LiquiAdapters {
 
   public static AccountInfo adaptAccountInfo(final LiquiAccountInfo info) {
     final Map<Currency, BigDecimal> funds = info.getFunds().getFunds();
-    final List<Balance> balances = funds.entrySet().stream()
-        .map(entry -> new Balance(entry.getKey(), entry.getValue())).collect(Collectors.toList());
+    final List<Balance> balances = funds.entrySet().stream().map(entry -> new Balance(entry.getKey(), entry.getValue())).collect(Collectors.toList());
 
     final Wallet wallet = new Wallet("Liqui wallet", balances);
 

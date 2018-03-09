@@ -14,12 +14,12 @@ public class DefaultTradeHistoryParamCurrency implements TradeHistoryParamCurren
   }
 
   @Override
-  public void setCurrency(Currency currency) {
-    this.currency = currency;
+  public Currency getCurrency() {
+    return this.currency;
   }
 
   @Override
-  public Currency getCurrency() {
-    return this.currency;
+  public void setCurrency(Currency currency) {
+    this.currency = currency;
   }
 }

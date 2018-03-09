@@ -19,21 +19,18 @@ public class TrueFxMarketDataService extends TrueFxMarketDataServiceRaw implemen
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair pair,
-      Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair pair, Object... args) throws IOException {
     final TrueFxTicker ticker = super.getTicker(pair);
     return TrueFxAdapters.adaptTicker(ticker);
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair pair,
-      Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair pair, Object... args) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(CurrencyPair pair,
-      Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair pair, Object... args) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 }

@@ -28,9 +28,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
   public Map<String, HitbtcTicker> getHitbtcTickers() throws IOException {
 
-    return hitbtc.getHitbtcTickers().stream().collect(
-        Collectors.toMap(hitbtcTicker -> hitbtcTicker.getSymbol(), hitbtcTicker -> hitbtcTicker)
-    );
+    return hitbtc.getHitbtcTickers().stream().collect(Collectors.toMap(hitbtcTicker -> hitbtcTicker.getSymbol(), hitbtcTicker -> hitbtcTicker));
   }
 
   public HitbtcTicker getHitbtcTicker(CurrencyPair currencyPair) throws IOException {
@@ -42,7 +40,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
     return hitbtc.getOrderBook(HitbtcAdapters.adaptCurrencyPair(currencyPair), null);
   }
-  
+
   public HitbtcOrderBook getHitbtcOrderBook(CurrencyPair currencyPair, Integer limit) throws IOException {
 
     return hitbtc.getOrderBook(HitbtcAdapters.adaptCurrencyPair(currencyPair), limit);
@@ -54,8 +52,8 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   }
 
   //TODO add extra params in API
-  public List<HitbtcTrade> getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrade.HitbtcTradesSortField sortBy,
-      HitbtcSort sortDirection, long startIndex, long maxResults) throws IOException {
+  public List<HitbtcTrade> getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrade.HitbtcTradesSortField sortBy, HitbtcSort sortDirection,
+      long startIndex, long maxResults) throws IOException {
 
     return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair));
   }

@@ -26,6 +26,7 @@ public class AbucoinsProductStats {
   /**
    * Deserializer handles the success case (array json) as well as the error case
    * (json object with <em>message</em> field).
+   *
    * @author bryant_harris
    */
   static class AbucoinsProductStatsDeserializer extends AbucoinsArrayOrMessageDeserializer<AbucoinsProductStat, AbucoinsProductStats> {

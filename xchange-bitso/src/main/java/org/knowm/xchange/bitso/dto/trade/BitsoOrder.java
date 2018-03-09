@@ -85,7 +85,8 @@ public final class BitsoOrder {
   @Override
   public String toString() {
 
-    return errorMessage != null ? errorMessage
-        : String.format("Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}", id, datetime, type, price, amount);
+    return errorMessage != null ?
+        errorMessage :
+        String.format("Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}", id, datetime, type, price, amount);
   }
 }

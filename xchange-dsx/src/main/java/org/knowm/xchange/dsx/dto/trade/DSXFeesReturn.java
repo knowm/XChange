@@ -10,8 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DSXFeesReturn extends DSXReturn<DSXFeesResult> {
 
-  public DSXFeesReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXFeesResult value,
-      @JsonProperty("error") String error) {
+  public DSXFeesReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXFeesResult value, @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

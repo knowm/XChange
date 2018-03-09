@@ -35,9 +35,7 @@ public class DSXOrderbookWrapper {
   @Override
   public String toString() {
 
-    return "DSXOrderbookWrapper{" +
-        "orderbookMap=" + orderbookMap.toString() +
-        '}';
+    return "DSXOrderbookWrapper{" + "orderbookMap=" + orderbookMap.toString() + '}';
   }
 
 }

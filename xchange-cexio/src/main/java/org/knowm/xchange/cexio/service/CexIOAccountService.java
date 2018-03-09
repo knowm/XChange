@@ -41,7 +41,7 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
 
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-	CexIOCryptoAddress cryptoAddress = getCexIOCryptoAddress(currency.getCurrencyCode());
+    CexIOCryptoAddress cryptoAddress = getCexIOCryptoAddress(currency.getCurrencyCode());
     return cryptoAddress.getData();
   }
 
@@ -63,8 +63,7 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

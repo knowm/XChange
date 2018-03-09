@@ -24,16 +24,16 @@ public class GatecoinAccountServiceRaw extends GatecoinBaseService {
   protected GatecoinAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.gatecoinAuthenticated = RestProxyFactory.createProxy(GatecoinAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
+    this.gatecoinAuthenticated = RestProxyFactory
+        .createProxy(GatecoinAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.signatureCreator = GatecoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   public GatecoinBalanceResult getGatecoinBalance() throws IOException {
 
     final ExchangeSpecification spec = exchange.getExchangeSpecification();
-    GatecoinBalanceResult gatecoinBalanceResult = gatecoinAuthenticated.getUserBalance(spec.getApiKey(), spec.getUserName(), signatureCreator,
-        getNow());
+    GatecoinBalanceResult gatecoinBalanceResult = gatecoinAuthenticated
+        .getUserBalance(spec.getApiKey(), spec.getUserName(), signatureCreator, getNow());
     if (gatecoinBalanceResult.getResponseStatus().getMessage().equalsIgnoreCase("ok")) {
       return gatecoinBalanceResult;
     }
@@ -42,8 +42,8 @@ public class GatecoinAccountServiceRaw extends GatecoinBaseService {
 
   public GatecoinWithdrawResult withdrawGatecoinFunds(String currency, BigDecimal amount, final String address) throws IOException {
 
-    GatecoinWithdrawResult gatecoinWithdrawalResult = gatecoinAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, getNow(), currency, address, amount);
+    GatecoinWithdrawResult gatecoinWithdrawalResult = gatecoinAuthenticated
+        .withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow(), currency, address, amount);
     if (gatecoinWithdrawalResult.getResponseStatus().getMessage().equalsIgnoreCase("ok")) {
       return gatecoinWithdrawalResult;
     }

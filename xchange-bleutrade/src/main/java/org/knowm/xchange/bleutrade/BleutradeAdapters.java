@@ -172,16 +172,7 @@ public class BleutradeAdapters {
   public static UserTrade adaptUserTrade(BluetradeExecutedTrade trade) {
     OrderType orderType = trade.type.equalsIgnoreCase("sell") ? OrderType.ASK : OrderType.BID;
     CurrencyPair currencyPair = BleutradeUtils.toCurrencyPair(trade.exchange);
-    return new UserTrade(
-        orderType,
-        trade.quantity,
-        currencyPair,
-        trade.price,
-        BleutradeUtils.toDate(trade.created),
-        trade.orderId,
-        trade.orderId,
-        null,
-        null
-    );
+    return new UserTrade(orderType, trade.quantity, currencyPair, trade.price, BleutradeUtils.toDate(trade.created), trade.orderId, trade.orderId,
+        null, null);
   }
 }

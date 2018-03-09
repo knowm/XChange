@@ -62,7 +62,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
    * Get market depth from exchange
    *
    * @param currencyPair Currency pair for getting info about
-   * @param args Optional arguments. Exchange-specific
+   * @param args         Optional arguments. Exchange-specific
    * @return The OrderBook
    * @throws IOException
    */
@@ -83,10 +83,10 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
     DSXOrderbookWrapper dsxOrderbookWrapper = getDSXOrderbook(pairs, accountType);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = DSXAdapters.adaptOrders(dsxOrderbookWrapper.getOrderbook(DSXAdapters.getPair(currencyPair)).getAsks(), currencyPair,
-        "ask", "");
-    List<LimitOrder> bids = DSXAdapters.adaptOrders(dsxOrderbookWrapper.getOrderbook(DSXAdapters.getPair(currencyPair)).getBids(), currencyPair,
-        "bid", "");
+    List<LimitOrder> asks = DSXAdapters
+        .adaptOrders(dsxOrderbookWrapper.getOrderbook(DSXAdapters.getPair(currencyPair)).getAsks(), currencyPair, "ask", "");
+    List<LimitOrder> bids = DSXAdapters
+        .adaptOrders(dsxOrderbookWrapper.getOrderbook(DSXAdapters.getPair(currencyPair)).getBids(), currencyPair, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
@@ -95,7 +95,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
    * Get recent trades from exchange
    *
    * @param currencyPair
-   * @param args Optional arguments. Exchange-specific. This implementation assumes args[0] is integer value
+   * @param args         Optional arguments. Exchange-specific. This implementation assumes args[0] is integer value
    * @return Trades object
    * @throws IOException
    */

@@ -14,16 +14,15 @@ import org.knowm.xchange.dto.trade.LimitOrder;
  */
 public final class ANXUtils {
 
+  public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2 = 100000000;
+  public static final int VOLUME_AND_AMOUNT_MAX_SCALE = 8;
+
   /**
    * private Constructor
    */
   private ANXUtils() {
 
   }
-
-  public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2 = 100000000;
-
-  public static final int VOLUME_AND_AMOUNT_MAX_SCALE = 8;
 
   /**
    * Find and match an order with id in orders

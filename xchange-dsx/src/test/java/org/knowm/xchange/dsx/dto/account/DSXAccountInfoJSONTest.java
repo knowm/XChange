@@ -26,7 +26,9 @@ public class DSXAccountInfoJSONTest {
     DSXAccountInfoReturn ai = mapper.readValue(is, DSXAccountInfoReturn.class);
 
     assertThat(ai.getReturnValue().getRights().isInfo()).isTrue();
-    assertThat(ai.getReturnValue().getFunds().get("BTC")).isEqualToComparingFieldByField(new DSXCurrencyAmount(new BigDecimal("100"), new BigDecimal("95")));
-    assertThat(ai.getReturnValue().getFunds().get("USD")).isEqualToComparingFieldByField(new DSXCurrencyAmount(new BigDecimal("10000"), new BigDecimal("9995")));
+    assertThat(ai.getReturnValue().getFunds().get("BTC"))
+        .isEqualToComparingFieldByField(new DSXCurrencyAmount(new BigDecimal("100"), new BigDecimal("95")));
+    assertThat(ai.getReturnValue().getFunds().get("USD"))
+        .isEqualToComparingFieldByField(new DSXCurrencyAmount(new BigDecimal("10000"), new BigDecimal("9995")));
   }
 }

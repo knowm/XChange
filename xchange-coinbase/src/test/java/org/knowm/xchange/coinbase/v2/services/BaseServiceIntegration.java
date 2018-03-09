@@ -16,16 +16,16 @@ public class BaseServiceIntegration {
 
   static CoinbaseExchange exchange;
   static CoinbaseBaseService baseService;
-  
+
   @BeforeClass
   public static void beforeClass() {
     exchange = (CoinbaseExchange) ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
     baseService = (CoinbaseBaseService) exchange.getMarketDataService();
   }
-  
+
   @Test
   public void currencyFetchTest() throws Exception {
-    
+
     CoinbaseTime coinbaseTime = baseService.getCoinbaseTime();
     String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     assertThat(coinbaseTime.getIso()).startsWith(today);

@@ -42,8 +42,8 @@ public interface BitcointoyouAuthenticated {
 
   @GET
   @Path("getorders.aspx?status=OPEN")
-  BitcointoyouOrderResponse returnOpenOrders(@HeaderParam("key") String apiKey,
-      @HeaderParam("nonce") SynchronizedValueFactory<Long> nonce, @HeaderParam("signature") ParamsDigest signature) throws IOException;
+  BitcointoyouOrderResponse returnOpenOrders(@HeaderParam("key") String apiKey, @HeaderParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("signature") ParamsDigest signature) throws IOException;
 
   @GET
   @Path("getorders.aspx?status=CANCELED")

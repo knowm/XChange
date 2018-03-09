@@ -227,32 +227,12 @@ public final class QuoineProduct {
 
   @Override
   public String toString() {
-    return "QuoineProduct{" +
-        "id=" + id +
-        ", productType='" + productType + '\'' +
-        ", code='" + code + '\'' +
-        ", name='" + name + '\'' +
-        ", marketAsk=" + marketAsk +
-        ", marketBid=" + marketBid +
-        ", indicator=" + indicator +
-        ", currencyPairId='" + currencyPairId + '\'' +
-        ", currency='" + currency + '\'' +
-        ", currencyPairCode='" + currencyPairCode + '\'' +
-        ", symbol='" + symbol + '\'' +
-        ", btcMinimumWithdraw=" + btcMinimumWithdraw +
-        ", fiatMinimumWithdraw=" + fiatMinimumWithdraw +
-        ", pusherChannel='" + pusherChannel + '\'' +
-        ", takerFee=" + takerFee +
-        ", makerFee=" + makerFee +
-        ", lowMarketBid=" + lowMarketBid +
-        ", highMarketAsk=" + highMarketAsk +
-        ", volume24h=" + volume24h +
-        ", lastPrice24h=" + lastPrice24h +
-        ", cashSpotAsk=" + cashSpotAsk +
-        ", cashSpotBid=" + cashSpotBid +
-        ", lastTradedPrice=" + lastTradedPrice +
-        ", quotedCurrency='" + quotedCurrency + '\'' +
-        ", baseCurrency='" + baseCurrency + '\'' +
-        '}';
+    return "QuoineProduct{" + "id=" + id + ", productType='" + productType + '\'' + ", code='" + code + '\'' + ", name='" + name + '\''
+        + ", marketAsk=" + marketAsk + ", marketBid=" + marketBid + ", indicator=" + indicator + ", currencyPairId='" + currencyPairId + '\''
+        + ", currency='" + currency + '\'' + ", currencyPairCode='" + currencyPairCode + '\'' + ", symbol='" + symbol + '\'' + ", btcMinimumWithdraw="
+        + btcMinimumWithdraw + ", fiatMinimumWithdraw=" + fiatMinimumWithdraw + ", pusherChannel='" + pusherChannel + '\'' + ", takerFee=" + takerFee
+        + ", makerFee=" + makerFee + ", lowMarketBid=" + lowMarketBid + ", highMarketAsk=" + highMarketAsk + ", volume24h=" + volume24h
+        + ", lastPrice24h=" + lastPrice24h + ", cashSpotAsk=" + cashSpotAsk + ", cashSpotBid=" + cashSpotBid + ", lastTradedPrice=" + lastTradedPrice
+        + ", quotedCurrency='" + quotedCurrency + '\'' + ", baseCurrency='" + baseCurrency + '\'' + '}';
   }
 }

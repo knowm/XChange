@@ -68,7 +68,7 @@ public interface BTCTrade {
    * Returns the secret for signing.
    *
    * @param passphrase the API private key.
-   * @param key the API public key.
+   * @param key        the API public key.
    * @return the secret for signing.
    */
   @POST
@@ -78,8 +78,8 @@ public interface BTCTrade {
   /**
    * Returns the account balance.
    *
-   * @param nonce the nonce.
-   * @param key the API public key.
+   * @param nonce     the nonce.
+   * @param key       the API public key.
    * @param signature the signature
    * @return the account balance.
    */
@@ -91,8 +91,8 @@ public interface BTCTrade {
   /**
    * Returns the deposit address.
    *
-   * @param nonce the nonce.
-   * @param key the API public key.
+   * @param nonce     the nonce.
+   * @param key       the API public key.
    * @param signature the signature.
    * @return the deposit address.
    */
@@ -104,11 +104,11 @@ public interface BTCTrade {
   /**
    * Return orders.
    *
-   * @param nonce the nonce.
-   * @param key the API public key.
+   * @param nonce     the nonce.
+   * @param key       the API public key.
    * @param signature the signature.
-   * @param since unix timestamp(UTC timezone). Default is 0, returns all.
-   * @param type the order type: open, all.
+   * @param since     unix timestamp(UTC timezone). Default is 0, returns all.
+   * @param type      the order type: open, all.
    */
   @POST
   @Path("orders")
@@ -118,10 +118,10 @@ public interface BTCTrade {
   /**
    * Returns order information.
    *
-   * @param nonce the nonce.
-   * @param key the API public key.
+   * @param nonce     the nonce.
+   * @param key       the API public key.
    * @param signature the signature.
-   * @param id the order ID.
+   * @param id        the order ID.
    */
   @POST
   @Path("fetch_order")
@@ -131,10 +131,10 @@ public interface BTCTrade {
   /**
    * Cancels order.
    *
-   * @param nonce the nonce.
-   * @param key the API public key.
+   * @param nonce     the nonce.
+   * @param key       the API public key.
    * @param signature the signature.
-   * @param id the order ID.
+   * @param id        the order ID.
    */
   @POST
   @Path("cancel_order")
@@ -144,31 +144,31 @@ public interface BTCTrade {
   /**
    * Places a buy order.
    *
-   * @param nonce the nonce.
-   * @param key the API public key.
+   * @param nonce     the nonce.
+   * @param key       the API public key.
    * @param signature the signature.
-   * @param amount the quantity to buy.
-   * @param price the price to buy.
+   * @param amount    the quantity to buy.
+   * @param price     the price to buy.
    */
   @POST
   @Path("buy")
   BTCTradePlaceOrderResult buy(@FormParam("amount") String amount, @FormParam("price") String price,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
+      throws IOException;
 
   /**
    * Places a sell order.
    *
-   * @param nonce the nonce.
-   * @param key the API public key.
+   * @param nonce     the nonce.
+   * @param key       the API public key.
    * @param signature the signature.
-   * @param amount the quantity to sell.
-   * @param price the price to sell.
+   * @param amount    the quantity to sell.
+   * @param price     the price to sell.
    */
   @POST
   @Path("sell")
   BTCTradePlaceOrderResult sell(@FormParam("amount") String amount, @FormParam("price") String price,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
+      throws IOException;
 
 }

@@ -25,7 +25,7 @@ public final class LoanInfo {
    * Constructs an {@link LoanInfo}.
    *
    * @param providedLoans provided loans.
-   * @param usedLoans used loans.
+   * @param usedLoans     used loans.
    */
   public LoanInfo(List<LoanOrder> providedLoans, List<LoanOrder> usedLoans) {
     this.providedLoans = providedLoans;

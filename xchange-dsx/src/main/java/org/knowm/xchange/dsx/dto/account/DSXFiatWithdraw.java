@@ -22,8 +22,6 @@ public class DSXFiatWithdraw {
 
   @Override
   public String toString() {
-    return "DSXFiatWithdraw{" +
-        "transactionId=" + transactionId +
-        '}';
+    return "DSXFiatWithdraw{" + "transactionId=" + transactionId + '}';
   }
 }

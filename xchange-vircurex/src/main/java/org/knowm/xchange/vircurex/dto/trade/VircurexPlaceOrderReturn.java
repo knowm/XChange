@@ -6,11 +6,6 @@ public class VircurexPlaceOrderReturn {
 
   private final String orderId;
 
-  public String getOrderId() {
-
-    return orderId;
-  }
-
   /**
    * Constructor
    *
@@ -19,6 +14,11 @@ public class VircurexPlaceOrderReturn {
   public VircurexPlaceOrderReturn(@JsonProperty("orederid") String orderId) {
 
     this.orderId = orderId;
+  }
+
+  public String getOrderId() {
+
+    return orderId;
   }
 
 }

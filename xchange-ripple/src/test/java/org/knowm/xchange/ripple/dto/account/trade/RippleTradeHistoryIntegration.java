@@ -44,8 +44,9 @@ public class RippleTradeHistoryIntegration {
     params.setStartTime(cal.getTime());
 
     final UserTrades trades = tradeService.getTradeHistory(params);
-    System.out.println(String.format("Found %d/%d trades with %d/%d API calls", params.getTradeCount(), params.getTradeCountLimit(),
-        params.getApiCallCount(), params.getApiCallCountLimit()));
+    System.out.println(String
+        .format("Found %d/%d trades with %d/%d API calls", params.getTradeCount(), params.getTradeCountLimit(), params.getApiCallCount(),
+            params.getApiCallCountLimit()));
     for (final Trade trade : trades.getTrades()) {
       assertThat(trade).isInstanceOf(RippleUserTrade.class);
       System.out.println(trade);

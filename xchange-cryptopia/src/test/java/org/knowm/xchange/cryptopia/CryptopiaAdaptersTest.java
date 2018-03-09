@@ -106,7 +106,8 @@ public class CryptopiaAdaptersTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CryptopiaBaseResponse<List<CryptopiaMarketHistory>> cryptopiaMarketHistory = mapper.readValue(is, CryptopiaBaseResponseCryptopiaMarketHistory.class);
+    CryptopiaBaseResponse<List<CryptopiaMarketHistory>> cryptopiaMarketHistory = mapper
+        .readValue(is, CryptopiaBaseResponseCryptopiaMarketHistory.class);
     is.close();
     assertThat(cryptopiaMarketHistory).isNotNull();
 

@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -16,32 +18,55 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 public final class OrderBook implements Serializable {
 
   /**
+   * the asks
+   */
+  private final List<LimitOrder> asks;
+  /**
+   * the bids
+   */
+  private final List<LimitOrder> bids;
+  /**
    * the timestamp of the orderbook according to the exchange's server, null if not provided
    */
   private Date timeStamp;
 
   /**
-   * the asks
-   */
-  private final List<LimitOrder> asks;
-
-  /**
-   * the bids
-   */
-  private final List<LimitOrder> bids;
-
-  /**
    * Constructor
    *
    * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if not provided
-   * @param asks The ASK orders
-   * @param bids The BID orders
+   * @param asks      The ASK orders
+   * @param bids      The BID orders
    */
   public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids) {
 
     this.timeStamp = timeStamp;
     this.asks = asks;
     this.bids = bids;
+  }
+
+  /**
+   * Constructor
+   *
+   * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if not provided
+   * @param asks      The ASK orders
+   * @param bids      The BID orders
+   */
+  public OrderBook(Date timeStamp, Stream<LimitOrder> asks, Stream<LimitOrder> bids) {
+
+    this.timeStamp = timeStamp;
+    this.asks = asks.collect(Collectors.toList());
+    this.bids = bids.collect(Collectors.toList());
+  }
+
+  // Returns a copy of limitOrder with tradeableAmount replaced.
+  private static LimitOrder withAmount(LimitOrder limitOrder, BigDecimal tradeableAmount) {
+
+    OrderType type = limitOrder.getType();
+    CurrencyPair currencyPair = limitOrder.getCurrencyPair();
+    String id = limitOrder.getId();
+    Date date = limitOrder.getTimestamp();
+    BigDecimal limit = limitOrder.getLimitPrice();
+    return new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
   }
 
   public Date getTimeStamp() {
@@ -111,17 +136,6 @@ public final class OrderBook implements Serializable {
     }
 
     updateDate(limitOrder.getTimestamp());
-  }
-
-  // Returns a copy of limitOrder with tradeableAmount replaced.
-  private static LimitOrder withAmount(LimitOrder limitOrder, BigDecimal tradeableAmount) {
-
-    OrderType type = limitOrder.getType();
-    CurrencyPair currencyPair = limitOrder.getCurrencyPair();
-    String id = limitOrder.getId();
-    Date date = limitOrder.getTimestamp();
-    BigDecimal limit = limitOrder.getLimitPrice();
-    return new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
   }
 
   // Replace timeStamp if the provided date is non-null and in the future

@@ -64,6 +64,9 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   }
 
   public static class CryptopiaFundingHistoryParams implements TradeHistoryParams {
+    public final Type type;
+    public final Integer count;
+
     public CryptopiaFundingHistoryParams(Type type, Integer count) {
       this.type = type;
       this.count = count;
@@ -72,8 +75,5 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
     public enum Type {
       Deposit, Withdraw
     }
-
-    public final Type type;
-    public final Integer count;
   }
 }

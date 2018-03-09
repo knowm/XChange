@@ -39,6 +39,22 @@ import org.slf4j.LoggerFactory;
 @RunWith(Parameterized.class)
 public class AllIntegration {
 
+  // Predicate specifies which exceptions indicate to retry the request
+  public static final IPredicate<Exception> RETRYABLE_REQUEST = new IPredicate<Exception>() {
+    @Override
+    public boolean test(Exception e) {
+      return (e.getMessage() != null && e.getMessage().contains("{code=200, message=Too many requests}")) || e instanceof SocketTimeoutException /*
+       * || e instanceof HttpStatusIOException
+       */;
+    }
+  };
+  final static Logger logger = LoggerFactory.getLogger(AllIntegration.class);
+  @Parameterized.Parameter(0)
+  public Class<? extends Exchange> exchangeClass;
+  @Parameterized.Parameter(1)
+  public String exchangeName;
+  private Exchange exchange;
+
   @Parameterized.Parameters(name = "{index}:{1}")
   public static Iterable<Object[]> data() {
 
@@ -56,16 +72,6 @@ public class AllIntegration {
 
     return exchangeClasses;
   }
-
-  @Parameterized.Parameter(0)
-  public Class<? extends Exchange> exchangeClass;
-
-  @Parameterized.Parameter(1)
-  public String exchangeName;
-
-  private Exchange exchange;
-
-  final static Logger logger = LoggerFactory.getLogger(AllIntegration.class);
 
   @Before
   public void createExchange() {
@@ -88,17 +94,6 @@ public class AllIntegration {
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();
     assertThat(currencyMetaDataMap).isNotNull();
   }
-
-  // Predicate specifies which exceptions indicate to retry the request
-  public static final IPredicate<Exception> RETRYABLE_REQUEST = new IPredicate<Exception>() {
-    @Override
-    public boolean test(Exception e) {
-      return (e.getMessage() != null && e.getMessage().contains("{code=200, message=Too many requests}"))
-          || e instanceof SocketTimeoutException /*
-                                                  * || e instanceof HttpStatusIOException
-                                                  */;
-    }
-  };
 
   // Test some service method for a collection of first arguments, catching for example NotYetImplementedForExchangeException
   private <R, A> Collection<R> testExchangeMethod(final Object service, final Method method, Collection<A> firstArgumentOptions,

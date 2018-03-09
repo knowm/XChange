@@ -21,6 +21,21 @@ import si.mazi.rescu.serialization.jackson.JacksonObjectMapperFactory;
 public class TrueFxMarketDataServiceRaw extends BaseExchangeService {
 
   private final TrueFxPublic trueFx;
+  private final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory() {
+    @Override
+    protected ObjectMapper createInstance() {
+      return new CsvMapper();
+    }
+
+    @Override
+    public void configureObjectMapper(ObjectMapper mapper) {
+      super.configureObjectMapper(mapper);
+
+      final SimpleModule customDeserializer = new SimpleModule(TrueFxTicker.class.getSimpleName(), Version.unknownVersion());
+      customDeserializer.addDeserializer(TrueFxTicker.class, new TrueFxTicker.TrueFxTickerDeserializer());
+      mapper.registerModule(customDeserializer);
+    }
+  };
 
   protected TrueFxMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
@@ -40,20 +55,4 @@ public class TrueFxMarketDataServiceRaw extends BaseExchangeService {
     factory.configureObjectMapper(mapper);
     return mapper;
   }
-
-  private final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory() {
-    @Override
-    protected ObjectMapper createInstance() {
-      return new CsvMapper();
-    }
-
-    @Override
-    public void configureObjectMapper(ObjectMapper mapper) {
-      super.configureObjectMapper(mapper);
-
-      final SimpleModule customDeserializer = new SimpleModule(TrueFxTicker.class.getSimpleName(), Version.unknownVersion());
-      customDeserializer.addDeserializer(TrueFxTicker.class, new TrueFxTicker.TrueFxTickerDeserializer());
-      mapper.registerModule(customDeserializer);
-    }
-  };
 }

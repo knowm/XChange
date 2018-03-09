@@ -33,8 +33,7 @@ public interface CoinMarketCap {
    */
   @GET
   @Path("ticker")
-  List<CoinMarketCapTicker> getTickers(@QueryParam("start") int start, @QueryParam("limit") int limit) throws
-      IOException;
+  List<CoinMarketCapTicker> getTickers(@QueryParam("start") int start, @QueryParam("limit") int limit) throws IOException;
 
   /**
    * @param limit number of results. 0 = unlimited
@@ -42,8 +41,7 @@ public interface CoinMarketCap {
    */
   @GET
   @Path("ticker")
-  List<CoinMarketCapTicker> getTickers( @QueryParam("limit") int limit) throws
-      IOException;
+  List<CoinMarketCapTicker> getTickers(@QueryParam("limit") int limit) throws IOException;
 
   CoinMarketCapTicker getTicker(CoinMarketCap.Pair pair);
 

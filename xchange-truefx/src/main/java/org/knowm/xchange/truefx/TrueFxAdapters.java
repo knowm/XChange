@@ -12,6 +12,6 @@ public class TrueFxAdapters {
     Date timestamp = new Date(rawTicker.getTimestamp());
     CurrencyPair pair = CurrencyPairDeserializer.getCurrencyPairFromString(rawTicker.getPair());
     return new Ticker.Builder().currencyPair(pair).timestamp(timestamp).bid(rawTicker.calcBid()).ask(rawTicker.calcAsk()).high(rawTicker.getHigh())
-        .low(rawTicker.getLow()).build();
+                               .low(rawTicker.getLow()).build();
   }
 }

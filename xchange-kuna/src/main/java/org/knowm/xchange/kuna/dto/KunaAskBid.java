@@ -21,14 +21,6 @@ public class KunaAskBid {
   private KunaAskBid() {
   }
 
-  public KunaOrder[] getAsks() {
-    return asks;
-  }
-
-  public KunaOrder[] getBids() {
-    return bids;
-  }
-
   /**
    * Creates new builder.
    *
@@ -38,12 +30,17 @@ public class KunaAskBid {
     return new Builder();
   }
 
+  public KunaOrder[] getAsks() {
+    return asks;
+  }
+
+  public KunaOrder[] getBids() {
+    return bids;
+  }
+
   @Override
   public String toString() {
-    return "KunaAskBid{" +
-        "asks=" + Arrays.toString(asks) +
-        ", bids=" + Arrays.toString(bids) +
-        '}';
+    return "KunaAskBid{" + "asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + '}';
   }
 
   public static class Builder {

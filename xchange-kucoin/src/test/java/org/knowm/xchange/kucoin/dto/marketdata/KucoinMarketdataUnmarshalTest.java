@@ -1,4 +1,3 @@
-
 package org.knowm.xchange.kucoin.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;

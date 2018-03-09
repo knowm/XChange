@@ -1,5 +1,12 @@
 package org.knowm.xchange.itbit.v1.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.itbit.v1.ItBitAdapters;
 import org.knowm.xchange.itbit.v1.dto.ItBitFundingHistoryResponse;
@@ -8,13 +15,6 @@ import org.knowm.xchange.itbit.v1.dto.account.ItBitDepositRequest;
 import org.knowm.xchange.itbit.v1.dto.account.ItBitDepositResponse;
 import org.knowm.xchange.itbit.v1.dto.account.ItBitWithdrawalRequest;
 import org.knowm.xchange.itbit.v1.dto.account.ItBitWithdrawalResponse;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ItBitAccountServiceRaw extends ItBitBaseService {
 
@@ -48,8 +48,8 @@ public class ItBitAccountServiceRaw extends ItBitBaseService {
     String formattedAmount = ItBitAdapters.formatCryptoAmount(amount);
 
     ItBitWithdrawalRequest request = new ItBitWithdrawalRequest(currency, formattedAmount, address);
-    ItBitWithdrawalResponse response = itBitAuthenticated.requestWithdrawal(signatureCreator, new Date().getTime(), exchange.getNonceFactory(),
-        walletId, request);
+    ItBitWithdrawalResponse response = itBitAuthenticated
+        .requestWithdrawal(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, request);
     return response.getId();
   }
 
@@ -61,15 +61,15 @@ public class ItBitAccountServiceRaw extends ItBitBaseService {
     }
 
     ItBitDepositRequest request = new ItBitDepositRequest(currency, metadata);
-    ItBitDepositResponse response = itBitAuthenticated.requestDeposit(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId,
-        request);
+    ItBitDepositResponse response = itBitAuthenticated
+        .requestDeposit(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, request);
     return response.getDepositAddress();
   }
 
   public ItBitAccountInfoReturn getItBitAccountInfo(String walletId) throws IOException {
 
-    ItBitAccountInfoReturn itBitAccountInfoReturn = itBitAuthenticated.getWallet(signatureCreator, new Date().getTime(), exchange.getNonceFactory(),
-        walletId);
+    ItBitAccountInfoReturn itBitAccountInfoReturn = itBitAuthenticated
+        .getWallet(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId);
     return itBitAccountInfoReturn;
   }
 }

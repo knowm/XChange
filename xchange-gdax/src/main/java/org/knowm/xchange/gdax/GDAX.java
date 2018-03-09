@@ -21,6 +21,7 @@ import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawFundsRequest;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXCandle;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
@@ -70,6 +71,11 @@ public interface GDAX {
   GDAXTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency)
       throws GDAXException, IOException;
 
+  @GET
+  @Path("products/{baseCurrency}-{targetCurrency}/candles?start={start}&end={end}&granularity={granularity}")
+  GDAXCandle[] getHistoricalCandles(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
+      @PathParam("start") String start, @PathParam("end") String end, @PathParam("granularity") String granularity) throws GDAXException, IOException;
+
   /**
    * Authenticated calls
    */
@@ -77,7 +83,14 @@ public interface GDAX {
   @GET
   @Path("accounts")
   GDAXAccount[] getAccounts(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
+      throws GDAXException, IOException;
+
+  @GET
+  @Path("orders")
+  GDAXOrder[] getListOrders(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
+      throws GDAXException, IOException;
 
   @GET
   @Path("orders?status={status}")
@@ -98,7 +111,7 @@ public interface GDAX {
   GDAXIdResponse placeMarketOrder(GDAXPlaceOrder placeOrder, @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
-  
+
   @POST
   @Path("orders")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -110,19 +123,22 @@ public interface GDAX {
   @Path("orders/{id}")
   @Produces(MediaType.TEXT_PLAIN)
   void cancelOrder(@PathParam("id") String id, @HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
+      throws GDAXException, IOException;
 
   @GET
   @Path("orders/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   GDAXOrder getOrder(@PathParam("id") String id, @HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
+      throws GDAXException, IOException;
 
   @GET
   @Path("fills")
   GDAXFill[] getFills(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @QueryParam("after") Integer startingOrderId, @QueryParam("order_id") String orderId, @QueryParam("product_id") String productId) throws GDAXException, IOException;
+      @QueryParam("after") Integer startingOrderId, @QueryParam("order_id") String orderId, @QueryParam("product_id") String productId)
+      throws GDAXException, IOException;
 
   @POST
   @Path("accounts/{account_id}/transactions")
@@ -134,68 +150,68 @@ public interface GDAX {
   @GET
   @Path("accounts/{account_id}/ledger")
   @Consumes(MediaType.APPLICATION_JSON)
-  List<Map> ledger(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase, @PathParam("account_id") String accountId, @QueryParam("after") Integer startingOrderId) throws GDAXException, IOException;
+  List<Map> ledger(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      @PathParam("account_id") String accountId, @QueryParam("after") Integer startingOrderId) throws GDAXException, IOException;
 
   @POST
   @Path("reports")
   @Consumes(MediaType.APPLICATION_JSON)
-  Map createReport(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase, GDAXReportRequest request) throws GDAXException, IOException;
+  Map createReport(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      GDAXReportRequest request) throws GDAXException, IOException;
 
   @GET
   @Path("reports/{report_id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  List<Map> getReport(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase, @PathParam("report_id") String reportId) throws GDAXException, IOException;
+  List<Map> getReport(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      @PathParam("report_id") String reportId) throws GDAXException, IOException;
 
   @POST
   @Path("withdrawals/crypto")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  GDAXWithdrawCryptoResponse withdrawCrypto(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+  GDAXWithdrawCryptoResponse withdrawCrypto(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       GDAXWithdrawFundsRequest request) throws HttpStatusIOException;
 
   @GET
   @Path("coinbase-accounts")
-  GDAXCoinbaseAccount[] getGDAXAccounts(@HeaderParam("CB-ACCESS-KEY") String apiKey,
-      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws HttpStatusIOException;
+  GDAXCoinbaseAccount[] getGDAXAccounts(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
+      throws HttpStatusIOException;
 
   @POST
   @Path("coinbase-accounts/{account_id}/addresses")
-  GDAXCoinbaseAccountAddress getGDAXAccountAddress(@HeaderParam("CB-ACCESS-KEY") String apiKey,
-      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+  GDAXCoinbaseAccountAddress getGDAXAccountAddress(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("account_id") String accountId);
 
   @GET
   @Path("/users/self/verify")
   JsonNode getVerifyId(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
-  
+
   class GDAXReportRequest {
-    public final @JsonProperty("type") String type;
-    public final @JsonProperty("start_date") String startDate;
-    public final @JsonProperty("end_date") String endDate;
-    public final @JsonProperty("product_id") String productId;
-    public final @JsonProperty("account_id") String accountId;
-    public final @JsonProperty("format") String format;
-    public final @JsonProperty("email") String email;
-
-    public enum Type {
-      fills, account
-    }
-
-    public enum Format {
-      pdf, csv
-    }
+    public final @JsonProperty("type")
+    String type;
+    public final @JsonProperty("start_date")
+    String startDate;
+    public final @JsonProperty("end_date")
+    String endDate;
+    public final @JsonProperty("product_id")
+    String productId;
+    public final @JsonProperty("account_id")
+    String accountId;
+    public final @JsonProperty("format")
+    String format;
+    public final @JsonProperty("email")
+    String email;
 
     public GDAXReportRequest(Type type, Date startDate, Date endDate, String productId, String accountId, Format format, String email) {
-      this(type.name(), DateUtils.toUTCString(startDate), DateUtils.toUTCString(endDate), productId, accountId, format == null ? null : format.name(), email);
+      this(type.name(), DateUtils.toUTCString(startDate), DateUtils.toUTCString(endDate), productId, accountId, format == null ? null : format.name(),
+          email);
     }
 
     public GDAXReportRequest(String type, String startDate, String endDate, String productId, String accountId, String format, String email) {
@@ -206,6 +222,14 @@ public interface GDAX {
       this.accountId = accountId;
       this.format = format;
       this.email = email;
+    }
+
+    public enum Type {
+      fills, account
+    }
+
+    public enum Format {
+      pdf, csv
     }
   }
 

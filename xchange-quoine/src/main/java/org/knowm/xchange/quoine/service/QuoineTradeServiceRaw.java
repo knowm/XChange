@@ -1,5 +1,9 @@
 package org.knowm.xchange.quoine.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -14,11 +18,8 @@ import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineTradesResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransactionsResponse;
-import si.mazi.rescu.HttpStatusIOException;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
+import si.mazi.rescu.HttpStatusIOException;
 
 /**
  * @author gnandiga
@@ -48,9 +49,9 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
 
     int productId = productId(currencyPair);
 
-    QuoineNewOrderRequest quoineNewOrderRequest = useMargin
-        ? new QuoineNewMarginOrderRequest("limit", productId, type, originalAmount, price, leverageLevel, currencyPair.counter.getCurrencyCode())
-        : new QuoineNewOrderRequest("limit", productId, type, originalAmount, price);
+    QuoineNewOrderRequest quoineNewOrderRequest = useMargin ?
+        new QuoineNewMarginOrderRequest("limit", productId, type, originalAmount, price, leverageLevel, currencyPair.counter.getCurrencyCode()) :
+        new QuoineNewOrderRequest("limit", productId, type, originalAmount, price);
     try {
       return quoine.placeOrder(QUOINE_API_VERSION, signatureCreator, contentType, new QuoineNewOrderRequestWrapper(quoineNewOrderRequest));
     } catch (HttpStatusIOException e) {
@@ -62,9 +63,9 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
 
     int productId = productId(currencyPair);
 
-    QuoineNewOrderRequest quoineNewOrderRequest = useMargin
-        ? new QuoineNewMarginOrderRequest("market", productId, type, originalAmount, null, leverageLevel, currencyPair.counter.getCurrencyCode())
-        : new QuoineNewOrderRequest("market", productId, type, originalAmount, null);
+    QuoineNewOrderRequest quoineNewOrderRequest = useMargin ?
+        new QuoineNewMarginOrderRequest("market", productId, type, originalAmount, null, leverageLevel, currencyPair.counter.getCurrencyCode()) :
+        new QuoineNewOrderRequest("market", productId, type, originalAmount, null);
     try {
       return quoine.placeOrder(QUOINE_API_VERSION, signatureCreator, contentType, new QuoineNewOrderRequestWrapper(quoineNewOrderRequest));
     } catch (HttpStatusIOException e) {
@@ -106,12 +107,15 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
   }
 
   public List<QuoineTrade> trades(Currency fundingCurrency, Integer limit, Integer page) throws IOException {
-    QuoineTradesResponse response = quoine.trades(QUOINE_API_VERSION, signatureCreator, contentType, fundingCurrency == null ? null : fundingCurrency.getCurrencyCode(), "null", limit, page);
+    QuoineTradesResponse response = quoine
+        .trades(QUOINE_API_VERSION, signatureCreator, contentType, fundingCurrency == null ? null : fundingCurrency.getCurrencyCode(), "null", limit,
+            page);
     return response.models;
   }
 
   public List<QuoineTransaction> transactions(Currency currency, Integer limit, Integer page) throws IOException {
-    QuoineTransactionsResponse transactions = quoine.transactions(QUOINE_API_VERSION, signatureCreator, contentType, currency == null ? null : currency.getCurrencyCode(), null, limit, page);
+    QuoineTransactionsResponse transactions = quoine
+        .transactions(QUOINE_API_VERSION, signatureCreator, contentType, currency == null ? null : currency.getCurrencyCode(), null, limit, page);
     return transactions.models;
   }
 

@@ -10,8 +10,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
-public class CoinfloorTradeHistoryParams implements TradeHistoryParamMultiCurrencyPair, TradeHistoryParamCurrencyPair, TradeHistoryParamsSorted,
-    TradeHistoryParamOffset, TradeHistoryParamPaging {
+public class CoinfloorTradeHistoryParams
+    implements TradeHistoryParamMultiCurrencyPair, TradeHistoryParamCurrencyPair, TradeHistoryParamsSorted, TradeHistoryParamOffset,
+    TradeHistoryParamPaging {
   private Collection<CurrencyPair> pairs = Collections.emptySet();
   private CurrencyPair pair = null;
   private Order order = null;
@@ -19,13 +20,13 @@ public class CoinfloorTradeHistoryParams implements TradeHistoryParamMultiCurren
   private Integer pageLength = null;
 
   @Override
-  public void setCurrencyPairs(Collection<CurrencyPair> value) {
-    pairs = value;
+  public Collection<CurrencyPair> getCurrencyPairs() {
+    return pairs;
   }
 
   @Override
-  public Collection<CurrencyPair> getCurrencyPairs() {
-    return pairs;
+  public void setCurrencyPairs(Collection<CurrencyPair> value) {
+    pairs = value;
   }
 
   @Override
@@ -69,16 +70,16 @@ public class CoinfloorTradeHistoryParams implements TradeHistoryParamMultiCurren
   }
 
   @Override
+  public Integer getPageNumber() {
+    return (offset == null || pageLength == null) ? null : offset.intValue() / pageLength;
+  }
+
+  @Override
   public void setPageNumber(Integer pageNumber) {
     if (pageNumber == null) {
       setOffset(null);
     } else if (pageLength != null) {
       this.offset = Long.valueOf(pageNumber * pageLength);
     }
-  }
-
-  @Override
-  public Integer getPageNumber() {
-    return (offset == null || pageLength == null) ? null : offset.intValue() / pageLength;
   }
 }

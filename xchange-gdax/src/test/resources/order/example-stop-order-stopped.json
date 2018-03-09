@@ -1,0 +1,19 @@
+  {
+    "id": "853a9989-7dd9-40f8-9392-64237a9eccc4",
+    "price": "6300.00000000",
+    "size": "0.01000000",
+    "product_id": "BTC-EUR",
+    "side": "sell",
+    "stp": "dc",
+    "type": "limit",
+    "time_in_force": "GTC",
+    "post_only": false,
+    "created_at": "2018-01-08T17:55:44.454112Z",
+    "fill_fees": "0.0000000000000000",
+    "filled_size": "0.00000000",
+    "executed_value": "0.0000000000000000",
+    "status": "open",
+    "settled": false,
+    "stop": "loss",
+    "stop_price": "6364.31000000"
+  }

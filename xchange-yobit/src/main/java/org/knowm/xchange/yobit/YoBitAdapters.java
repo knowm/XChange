@@ -178,28 +178,19 @@ public class YoBitAdapters {
   public static LimitOrder adaptOrder(String orderId, Map map) {
     String pair = map.get("pair").toString();
     String type = map.get("type").toString();
-//        String initialAmount = map.get("start_amount").toString();
+    //        String initialAmount = map.get("start_amount").toString();
     String amountRemaining = map.get("amount").toString();
     String rate = map.get("rate").toString();
     String timestamp = map.get("timestamp_created").toString();
-    String status = map.get("status").toString();//status: 0 - active, 1 - fulfilled and closed, 2 - cancelled, 3 - cancelled after partially fulfilled.
+    String status = map.get("status")
+                       .toString();//status: 0 - active, 1 - fulfilled and closed, 2 - cancelled, 3 - cancelled after partially fulfilled.
 
     Date time = DateUtils.fromUnixTime(Long.valueOf(timestamp));
 
     Order.OrderStatus orderStatus = adaptOrderStatus(status);
 
-    return new LimitOrder(
-        adaptType(type),
-        new BigDecimal(amountRemaining),
-        adaptCurrencyPair(pair),
-        orderId,
-        time,
-        new BigDecimal(rate),
-        null,
-        null,
-        null,
-        orderStatus
-    );
+    return new LimitOrder(adaptType(type), new BigDecimal(amountRemaining), adaptCurrencyPair(pair), orderId, time, new BigDecimal(rate), null, null,
+        null, orderStatus);
   }
 
   public static UserTrade adaptUserTrade(Object key, Map tradeData) {
@@ -213,16 +204,6 @@ public class YoBitAdapters {
 
     Date time = DateUtils.fromUnixTime(Long.valueOf(timestamp));
 
-    return new UserTrade(
-        adaptType(type),
-        new BigDecimal(amount),
-        adaptCurrencyPair(pair),
-        new BigDecimal(rate),
-        time,
-        id,
-        orderId,
-        null,
-        null
-    );
+    return new UserTrade(adaptType(type), new BigDecimal(amount), adaptCurrencyPair(pair), new BigDecimal(rate), time, id, orderId, null, null);
   }
 }

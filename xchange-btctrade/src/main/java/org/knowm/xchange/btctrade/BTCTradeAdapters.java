@@ -42,6 +42,13 @@ public final class BTCTradeAdapters {
 
   private static final Map<String, CurrencyPair> currencyPairs = getCurrencyPairs();
 
+  /**
+   * private Constructor
+   */
+  private BTCTradeAdapters() {
+
+  }
+
   private static Map<String, CurrencyPair> getCurrencyPairs() {
 
     Map<String, CurrencyPair> currencyPairs = new HashMap<>(4);
@@ -53,13 +60,6 @@ public final class BTCTradeAdapters {
     // 3 -> CurrencyPair.DOGE_CNY?
     // 4 -> CurrencyPair.YBC_CNY?
     return currencyPairs;
-  }
-
-  /**
-   * private Constructor
-   */
-  private BTCTradeAdapters() {
-
   }
 
   public static Date adaptDatetime(String datetime) {
@@ -81,7 +81,7 @@ public final class BTCTradeAdapters {
   public static Ticker adaptTicker(BTCTradeTicker btcTradeTicker, CurrencyPair currencyPair) {
 
     return new Ticker.Builder().currencyPair(currencyPair).high(btcTradeTicker.getHigh()).low(btcTradeTicker.getLow()).bid(btcTradeTicker.getBuy())
-        .ask(btcTradeTicker.getSell()).last(btcTradeTicker.getLast()).volume(btcTradeTicker.getVol()).build();
+                               .ask(btcTradeTicker.getSell()).last(btcTradeTicker.getLast()).volume(btcTradeTicker.getVol()).build();
   }
 
   public static OrderBook adaptOrderBook(BTCTradeDepth btcTradeDepth, CurrencyPair currencyPair) {

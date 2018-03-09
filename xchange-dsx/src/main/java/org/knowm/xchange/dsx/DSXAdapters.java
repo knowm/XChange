@@ -1,5 +1,15 @@
 package org.knowm.xchange.dsx;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
@@ -29,16 +39,6 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mikhail Wall
@@ -107,7 +107,7 @@ public class DSXAdapters {
     Date timestamp = DateUtils.fromMillisUtc(dSXTicker.getUpdated() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume)
-        .timestamp(timestamp).build();
+                               .timestamp(timestamp).build();
   }
 
   public static Wallet adaptWallet(DSXAccountInfo dsxAccountInfo) {
@@ -135,15 +135,8 @@ public class DSXAdapters {
       CurrencyPair currencyPair = adaptCurrencyPair(dsxOrder.getPair());
       Date timestamp = DateUtils.fromUnixTime(Long.valueOf(dsxOrder.getTimestampCreated()));
 
-      limitOrders.add(new LimitOrder(
-              orderType,
-              dsxOrder.getAmount(),
-              dsxOrder.getAmount().subtract(dsxOrder.getRemainingVolume()),
-              currencyPair,
-              Long.toString(id),
-              timestamp,
-              price
-      ));
+      limitOrders.add(new LimitOrder(orderType, dsxOrder.getAmount(), dsxOrder.getAmount().subtract(dsxOrder.getRemainingVolume()), currencyPair,
+          Long.toString(id), timestamp, price));
     }
     return new OpenOrders(limitOrders);
   }
@@ -175,7 +168,7 @@ public class DSXAdapters {
   }
 
   public static Currency adaptCurrency(String dsxCurrency) {
-    return new Currency(dsxCurrency.toUpperCase());
+    return Currency.getInstance(dsxCurrency.toUpperCase());
   }
 
   public static List<CurrencyPair> adaptCurrencyPair(Iterable<String> dsxPairs) {

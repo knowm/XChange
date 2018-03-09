@@ -14,40 +14,23 @@ import java.util.Map;
  */
 public class ExchangeSpecification {
 
-  private String exchangeName;
-
-  private String exchangeDescription;
-
-  private String userName;
-
-  private String password;
-
-  private String secretKey;
-
-  private String apiKey;
-
-  private String sslUri;
-
-  private String plainTextUri;
-
-  private String host;
-
-  private int port = 80;
-
-  private String proxyHost;
-
-  private Integer proxyPort;
-
-  private int httpConnTimeout = 0; // default rescu configuration will be used if value not changed
-
-  private int httpReadTimeout = 0; // default rescu configuration will be used if value not changed
-
-  private String metaDataJsonFileOverride = null;
-
-  private boolean shouldLoadRemoteMetaData = true; // default value
-
   private final String exchangeClassName;
-
+  private String exchangeName;
+  private String exchangeDescription;
+  private String userName;
+  private String password;
+  private String secretKey;
+  private String apiKey;
+  private String sslUri;
+  private String plainTextUri;
+  private String host;
+  private int port = 80;
+  private String proxyHost;
+  private Integer proxyPort;
+  private int httpConnTimeout = 0; // default rescu configuration will be used if value not changed
+  private int httpReadTimeout = 0; // default rescu configuration will be used if value not changed
+  private String metaDataJsonFileOverride = null;
+  private boolean shouldLoadRemoteMetaData = true; // default value
   /**
    * arbitrary exchange params that can be set for unique cases
    */
@@ -181,15 +164,13 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the http connection timeout for the connection. If not supplied the default rescu timeout will be used. Check the exchange code to see if
-   * this option has been implemented.  (This value can also be set globally in "rescu.properties" by setting the property
-   * "rescu.http.connTimeoutMillis".)
+   * Set the port number of the server providing direct socket data (e.g. "1337").
    *
-   * @param milliseconds the http read timeout in milliseconds
+   * @param port the port number
    */
-  public void setHttpConnTimeout(int milliseconds) {
+  public void setPort(int port) {
 
-    this.httpConnTimeout = milliseconds;
+    this.port = port;
   }
 
   /**
@@ -204,14 +185,15 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the http read timeout for the connection. If not supplied the default rescu timeout will be used. Check the exchange code to see if this
-   * option has been implemented. (This value can also be set globally in "rescu.properties" by setting the property "rescu.http.readTimeoutMillis".)
+   * Set the http connection timeout for the connection. If not supplied the default rescu timeout will be used. Check the exchange code to see if
+   * this option has been implemented.  (This value can also be set globally in "rescu.properties" by setting the property
+   * "rescu.http.connTimeoutMillis".)
    *
    * @param milliseconds the http read timeout in milliseconds
    */
-  public void setHttpReadTimeout(int milliseconds) {
+  public void setHttpConnTimeout(int milliseconds) {
 
-    this.httpReadTimeout = milliseconds;
+    this.httpConnTimeout = milliseconds;
   }
 
   /**
@@ -226,13 +208,14 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the port number of the server providing direct socket data (e.g. "1337").
+   * Set the http read timeout for the connection. If not supplied the default rescu timeout will be used. Check the exchange code to see if this
+   * option has been implemented. (This value can also be set globally in "rescu.properties" by setting the property "rescu.http.readTimeoutMillis".)
    *
-   * @param port the port number
+   * @param milliseconds the http read timeout in milliseconds
    */
-  public void setPort(int port) {
+  public void setHttpReadTimeout(int milliseconds) {
 
-    this.port = port;
+    this.httpReadTimeout = milliseconds;
   }
 
   /**

@@ -17,8 +17,7 @@ public class QuadrigaCxMarketDataService extends QuadrigaCxMarketDataServiceRaw 
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair,
-      Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return QuadrigaCxAdapters.adaptTicker(getQuadrigaCxTicker(currencyPair), currencyPair);
   }
 
@@ -28,8 +27,7 @@ public class QuadrigaCxMarketDataService extends QuadrigaCxMarketDataServiceRaw 
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair,
-      Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     return QuadrigaCxAdapters.adaptTrades(getQuadrigaCxTransactions(currencyPair, args), currencyPair);
   }
 }

@@ -20,7 +20,8 @@ public class GateioOpenOrders extends GateioBaseResponse {
    * @param orders
    * @param msg
    */
-  public GateioOpenOrders(@JsonProperty("result") Boolean result, @JsonProperty("orders") List<GateioOpenOrder> orders, @JsonProperty("msg") String msg) {
+  public GateioOpenOrders(@JsonProperty("result") Boolean result, @JsonProperty("orders") List<GateioOpenOrder> orders,
+      @JsonProperty("msg") String msg) {
 
     super(result, msg);
     this.orders = orders;

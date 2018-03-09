@@ -10,9 +10,6 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.knowm.xchange.coinbase.v2.dto.CoinbasePrice;
-import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData;
-import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseExchangeRateData;
-import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbasePriceData;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
 
 import com.fasterxml.jackson.databind.JavaType;

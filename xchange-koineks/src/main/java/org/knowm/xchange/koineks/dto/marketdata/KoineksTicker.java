@@ -29,11 +29,9 @@ public final class KoineksTicker {
 
   @Override
   public String toString() {
-    String builder = koineksBTCTicker.toString() +
-        koineksETHTicker.toString() +
-        koineksLTCTicker.toString() +
-        koineksDASHTicker.toString() +
-        koineksDOGETicker.toString();
+    String builder =
+        koineksBTCTicker.toString() + koineksETHTicker.toString() + koineksLTCTicker.toString() + koineksDASHTicker.toString() + koineksDOGETicker
+            .toString();
     return builder;
   }
 

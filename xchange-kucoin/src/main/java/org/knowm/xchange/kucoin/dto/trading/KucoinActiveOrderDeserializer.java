@@ -15,8 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class KucoinActiveOrderDeserializer extends JsonDeserializer<KucoinActiveOrder> {
 
   @Override
-  public KucoinActiveOrder deserialize(JsonParser p, DeserializationContext ctxt)
-      throws IOException, JsonProcessingException {
+  public KucoinActiveOrder deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
     JsonNode root = p.readValueAsTree();
     if (root.isArray()) {
       Date timestamp = new Date(root.get(0).asLong());

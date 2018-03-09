@@ -1,10 +1,10 @@
 package org.knowm.xchange.bitfinex.v1.dto.trade;
 
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.trade.LimitOrder;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.trade.LimitOrder;
 
 /**
  * Bitfinex new order entry returns details of order status. If a LimitOrder object of this type is supplied to the trade service orderEntry method it
@@ -19,17 +19,18 @@ public class BitfinexLimitOrder extends LimitOrder {
     this(type, originalAmount, currencyPair, id, timestamp, limitPrice, null);
   }
 
-  public BitfinexLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice, BigDecimal ocoStopLimit) {
+  public BitfinexLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
+      BigDecimal ocoStopLimit) {
     super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
     myOcoStopLimit = ocoStopLimit;
   }
 
-  public void setResponse(BitfinexOrderStatusResponse value) {
-    response = value;
-  }
-
   public BitfinexOrderStatusResponse getResponse() {
     return response;
+  }
+
+  public void setResponse(BitfinexOrderStatusResponse value) {
+    response = value;
   }
 
   public BigDecimal getOcoStopLimit() {

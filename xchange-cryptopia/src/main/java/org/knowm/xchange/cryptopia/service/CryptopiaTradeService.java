@@ -7,7 +7,11 @@ import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -124,23 +128,23 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
-      this.currencyPair = currencyPair;
-    }
-
-    @Override
     public CurrencyPair getCurrencyPair() {
       return currencyPair;
     }
 
     @Override
-    public void setLimit(Integer limit) {
-      this.limit = limit;
+    public void setCurrencyPair(CurrencyPair currencyPair) {
+      this.currencyPair = currencyPair;
     }
 
     @Override
     public Integer getLimit() {
       return limit;
+    }
+
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
     }
   }
 }

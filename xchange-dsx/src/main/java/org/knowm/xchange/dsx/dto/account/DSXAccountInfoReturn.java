@@ -12,8 +12,8 @@ public class DSXAccountInfoReturn extends DSXReturn<DSXAccountInfo> {
 
   /**
    * @param success True if successful
-   * @param value The DSX account info
-   * @param error Any error
+   * @param value   The DSX account info
+   * @param error   Any error
    */
   public DSXAccountInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXAccountInfo value,
       @JsonProperty("error") String error) {

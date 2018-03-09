@@ -45,8 +45,8 @@ public class GatecoinMarketDataService extends GatecoinMarketDataServiceRaw impl
     } else if (args.length == 1) {
       return GatecoinAdapters.adaptTrades(getGatecoinTransactions(currencyPair.toString(), (Integer) args[0], 0).getTransactions(), currencyPair);
     } else if (args.length == 2) {
-      return GatecoinAdapters.adaptTrades(getGatecoinTransactions(currencyPair.toString(), (Integer) args[0], (Long) args[1]).getTransactions(),
-          currencyPair);
+      return GatecoinAdapters
+          .adaptTrades(getGatecoinTransactions(currencyPair.toString(), (Integer) args[0], (Long) args[1]).getTransactions(), currencyPair);
     }
     throw new IllegalArgumentException("Illegal number of arguments: " + args.length);
   }

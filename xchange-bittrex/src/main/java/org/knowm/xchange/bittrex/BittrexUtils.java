@@ -30,7 +30,7 @@ public final class BittrexUtils {
 
   public static Date toDate(String dateString) {
 
-    if(dateString == null)
+    if (dateString == null)
       return null;
 
     try {

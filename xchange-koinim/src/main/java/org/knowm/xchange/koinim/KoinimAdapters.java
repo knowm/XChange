@@ -32,16 +32,9 @@ public final class KoinimAdapters {
     }
 
     if (koinimTicker != null) {
-      return new Ticker.Builder()
-          .currencyPair(new CurrencyPair(BTC, Currency.TRY))
-          .last(koinimTicker.getSell())
-          .bid(koinimTicker.getBid())
-          .ask(koinimTicker.getAsk())
-          .high(koinimTicker.getHigh())
-          .low(koinimTicker.getLow())
-          .volume(koinimTicker.getVolume())
-          .vwap(koinimTicker.getAvg())
-          .build();
+      return new Ticker.Builder().currencyPair(new CurrencyPair(BTC, Currency.TRY)).last(koinimTicker.getSell()).bid(koinimTicker.getBid())
+                                 .ask(koinimTicker.getAsk()).high(koinimTicker.getHigh()).low(koinimTicker.getLow()).volume(koinimTicker.getVolume())
+                                 .vwap(koinimTicker.getAvg()).build();
     }
     return null;
   }

@@ -9,7 +9,8 @@ public class GDAXWithdrawCryptoResponse {
   public final BigDecimal amount;
   public final String currency;
 
-  public GDAXWithdrawCryptoResponse(@JsonProperty("id") String id, @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency) {
+  public GDAXWithdrawCryptoResponse(@JsonProperty("id") String id, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("currency") String currency) {
     this.id = id;
     this.amount = amount;
     this.currency = currency;

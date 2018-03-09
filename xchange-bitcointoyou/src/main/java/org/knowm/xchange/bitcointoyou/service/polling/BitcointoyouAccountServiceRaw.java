@@ -17,24 +17,24 @@ import org.knowm.xchange.exceptions.ExchangeException;
  */
 class BitcointoyouAccountServiceRaw extends BitcointoyouBasePollingService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange the Bitcointoyou Exchange
-     */
-    BitcointoyouAccountServiceRaw(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange the Bitcointoyou Exchange
+   */
+  BitcointoyouAccountServiceRaw(Exchange exchange) {
 
-        super(exchange);
+    super(exchange);
+  }
+
+  List<Balance> getWallets() {
+
+    try {
+      BitcointoyouBalance response = bitcointoyouAuthenticated.returnBalances(apiKey, exchange.getNonceFactory(), signatureCreator);
+      return BitcointoyouAdapters.adaptBitcointoyouBalances(response);
+    } catch (BitcointoyouException e) {
+      throw new ExchangeException(e.getError());
     }
-
-    List<Balance> getWallets() {
-
-        try {
-            BitcointoyouBalance response = bitcointoyouAuthenticated.returnBalances(apiKey, exchange.getNonceFactory(), signatureCreator);
-            return BitcointoyouAdapters.adaptBitcointoyouBalances(response);
-        } catch (BitcointoyouException e) {
-            throw new ExchangeException(e.getError());
-        }
-    }
+  }
 
 }

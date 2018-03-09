@@ -6,7 +6,11 @@ import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
 import org.knowm.xchange.service.trade.TradeService;
@@ -34,8 +38,7 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     // null: get orders for all currencies
     String primaryCurrency = null;
     String secondaryCurrency = null;
@@ -50,14 +53,12 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   }
 
   @Override
-  public String placeMarketOrder(
-      MarketOrder marketOrder) throws IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public String placeLimitOrder(
-      LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     return independentReservePlaceLimitOrder(limitOrder.getCurrencyPair(), limitOrder.getType(), limitOrder.getLimitPrice(),
         limitOrder.getOriginalAmount());
   }
@@ -68,14 +69,12 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public boolean cancelOrder(
-      String orderId) throws IOException {
+  public boolean cancelOrder(String orderId) throws IOException {
     return independentReserveCancelOrder(orderId);
   }
 

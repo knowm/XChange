@@ -21,9 +21,9 @@ public class TaurusTransaction {
   /**
    * Constructor
    *
-   * @param date Unix timestamp date and time
-   * @param tid Transaction id
-   * @param price BTC price
+   * @param date   Unix timestamp date and time
+   * @param tid    Transaction id
+   * @param price  BTC price
    * @param amount BTC amount
    */
   public TaurusTransaction(@JsonProperty("date") @JsonDeserialize(using = UnixTimestampDeserializer.class) Date date, @JsonProperty("tid") int tid,

@@ -24,11 +24,11 @@ public class BleutradeDtoTest extends BleutradeDtoTestSupport {
       + "result=BleutradeBalance [Currency=BTC, Balance=15.49843675, Available=13.98901996, Pending=0E-8, "
       + "CryptoAddress=1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9, IsActive=true, additionalProperties={}], " + "additionalProperties={}]";
 
-  protected static final String BALANCES_RETURN_STR = "BleutradeBalancesReturn [success=true, message=, result=["
-      + "BleutradeBalance [Currency=DOGE, Balance=0E-8, Available=0E-8, Pending=0E-8, "
-      + "CryptoAddress=DBSwFELQiVrwxFtyHpVHbgVrNJXwb3hoXL, IsActive=true, additionalProperties={}], "
-      + "BleutradeBalance [Currency=BTC, Balance=15.49843675, Available=13.98901996, Pending=0E-8, "
-      + "CryptoAddress=1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9, IsActive=true, additionalProperties={}]], " + "additionalProperties={}]";
+  protected static final String BALANCES_RETURN_STR =
+      "BleutradeBalancesReturn [success=true, message=, result=[" + "BleutradeBalance [Currency=DOGE, Balance=0E-8, Available=0E-8, Pending=0E-8, "
+          + "CryptoAddress=DBSwFELQiVrwxFtyHpVHbgVrNJXwb3hoXL, IsActive=true, additionalProperties={}], "
+          + "BleutradeBalance [Currency=BTC, Balance=15.49843675, Available=13.98901996, Pending=0E-8, "
+          + "CryptoAddress=1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9, IsActive=true, additionalProperties={}]], " + "additionalProperties={}]";
 
   protected static final String CANCEL_ORDER_RETURN_STR = "BleutradeCancelOrderReturn [success=true, message=, result=[12345], additionalProperties={}]";
 

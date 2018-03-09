@@ -105,6 +105,6 @@ public final class BTCMarketsAdapters {
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, BTCMarketsTicker t) {
     return new Ticker.Builder().currencyPair(currencyPair).last(t.getLastPrice()).bid(t.getBestBid()).ask(t.getBestAsk()).timestamp(t.getTimestamp())
-        .build();
+                               .build();
   }
 }

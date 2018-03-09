@@ -23,16 +23,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class BaseExchange implements Exchange {
 
-  protected abstract void initServices();
-
   protected final Logger logger = LoggerFactory.getLogger(getClass());
-
   protected ExchangeSpecification exchangeSpecification;
   protected ExchangeMetaData exchangeMetaData;
-
   protected MarketDataService marketDataService;
   protected TradeService tradeService;
   protected AccountService accountService;
+
+  protected abstract void initServices();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {

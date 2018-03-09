@@ -19,10 +19,11 @@ public enum BitmexTickDirection {
 
   MINUSTICK, PLUSTICK, ZEROPLUSTICK;
 
-  @Override
-  public String toString() {
+  private static final Map<String, BitmexTickDirection> fromString = new HashMap<>();
 
-    return super.toString().toLowerCase();
+  static {
+    for (BitmexTickDirection tickDirection : values())
+      fromString.put(tickDirection.toString(), tickDirection);
   }
 
   public static BitmexTickDirection fromString(String tickDirectionString) {
@@ -30,11 +31,10 @@ public enum BitmexTickDirection {
     return fromString.get(tickDirectionString.toLowerCase());
   }
 
-  private static final Map<String, BitmexTickDirection> fromString = new HashMap<>();
+  @Override
+  public String toString() {
 
-  static {
-    for (BitmexTickDirection tickDirection : values())
-      fromString.put(tickDirection.toString(), tickDirection);
+    return super.toString().toLowerCase();
   }
 
   static class BitmexTickDirectionDeserializer extends JsonDeserializer<BitmexTickDirection> {

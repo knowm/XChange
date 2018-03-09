@@ -63,10 +63,8 @@ public class WexMarketDataService extends WexMarketDataServiceRaw implements Mar
     }
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = WexAdapters.adaptOrders(wexDepthWrapper.getDepth(WexAdapters.getPair(currencyPair)).getAsks(), currencyPair, "ask",
-        "");
-    List<LimitOrder> bids = WexAdapters.adaptOrders(wexDepthWrapper.getDepth(WexAdapters.getPair(currencyPair)).getBids(), currencyPair, "bid",
-        "");
+    List<LimitOrder> asks = WexAdapters.adaptOrders(wexDepthWrapper.getDepth(WexAdapters.getPair(currencyPair)).getAsks(), currencyPair, "ask", "");
+    List<LimitOrder> bids = WexAdapters.adaptOrders(wexDepthWrapper.getDepth(WexAdapters.getPair(currencyPair)).getBids(), currencyPair, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
@@ -75,7 +73,7 @@ public class WexMarketDataService extends WexMarketDataServiceRaw implements Mar
    * Get recent trades from exchange
    *
    * @param args Optional arguments. This implementation assumes args[0] is integer value limiting number of trade items to get. -1 or missing -> use
-   * default 2000 max fetch value int from 1 to 2000 -> use API v.3 to get corresponding number of trades
+   *             default 2000 max fetch value int from 1 to 2000 -> use API v.3 to get corresponding number of trades
    * @return Trades object
    * @throws IOException
    */

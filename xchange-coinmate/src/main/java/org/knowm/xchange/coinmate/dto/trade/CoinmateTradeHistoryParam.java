@@ -18,12 +18,12 @@ public class CoinmateTradeHistoryParam implements TradeHistoryParamCurrencyPair 
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair pair) {
-    this.pair = pair;
+  public CurrencyPair getCurrencyPair() {
+    return pair;
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
-    return pair;
+  public void setCurrencyPair(CurrencyPair pair) {
+    this.pair = pair;
   }
 }

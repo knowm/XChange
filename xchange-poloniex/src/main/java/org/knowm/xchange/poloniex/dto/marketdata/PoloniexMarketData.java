@@ -45,12 +45,12 @@ public class PoloniexMarketData {
     this.high24hr = high24hr;
   }
 
-  public void setLow24hr(BigDecimal low24hr) {
-    this.low24hr = low24hr;
-  }
-
   public BigDecimal getLow24hr() {
     return low24hr;
+  }
+
+  public void setLow24hr(BigDecimal low24hr) {
+    this.low24hr = low24hr;
   }
 
   @JsonProperty("last")

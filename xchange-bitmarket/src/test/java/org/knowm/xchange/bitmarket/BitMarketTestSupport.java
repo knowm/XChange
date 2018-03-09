@@ -27,34 +27,34 @@ import org.knowm.xchange.dto.trade.UserTrade;
 
 public class BitMarketTestSupport extends BitMarketDtoTestSupport {
 
-  protected static final String SPECIFICATION_USERNAME = "admin";
-  protected static final String SPECIFICATION_API_KEY = "publicKey";
-  protected static final String SPECIFICATION_SECRET_KEY = "secretKey";
-
   public static final BitMarketBalance PARSED_BALANCE = new BitMarketBalance(createParsedAvailable(), createParsedBlocked());
-
   public static final BitMarketOrder PARSED_TRADE_ORDER = new BitMarketOrder(31408L, "BTCPLN", new BigDecimal("0.50000000"),
       new BigDecimal("4000.0000"), new BigDecimal("2000.00000000"), "sell", 1432916922L);
-
   public static final BitMarketBalance PARSED_TRADE_BALANCE = new BitMarketBalance(createParsedTradeAvailable(), createParsedTradeBlocked());
-
   public static final BitMarketOrderBook PARSED_ORDER_BOOK = new BitMarketOrderBook(
       new BigDecimal[][]{new BigDecimal[]{new BigDecimal("14.6999"), new BigDecimal("20.47")},
           new BigDecimal[]{new BigDecimal("14.7"), new BigDecimal("10.06627287")}},
       new BigDecimal[][]{new BigDecimal[]{new BigDecimal("14.4102"), new BigDecimal("1.55")},
           new BigDecimal[]{new BigDecimal("14.4101"), new BigDecimal("27.77224019")},
           new BigDecimal[]{new BigDecimal("0"), new BigDecimal("52669.33019064")}});
-
-  public static final OrderBook ORDER_BOOK = new OrderBook(null,
-      Arrays.asList(new LimitOrder(Order.OrderType.ASK, new BigDecimal("20.47"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("14.6999")),
-          new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.06627287"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("14.7"))),
-      Arrays.asList(new LimitOrder(Order.OrderType.BID, new BigDecimal("1.55"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("14.4102")),
+  public static final OrderBook ORDER_BOOK = new OrderBook(null, Arrays
+      .asList(new LimitOrder(Order.OrderType.ASK, new BigDecimal("20.47"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("14.6999")),
+          new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.06627287"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("14.7"))), Arrays
+      .asList(new LimitOrder(Order.OrderType.BID, new BigDecimal("1.55"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("14.4102")),
           new LimitOrder(Order.OrderType.BID, new BigDecimal("27.77224019"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("14.4101")),
           new LimitOrder(Order.OrderType.BID, new BigDecimal("52669.33019064"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("0"))));
-
   public static final BitMarketTicker PARSED_TICKER = new BitMarketTicker(new BigDecimal("1794.5000"), new BigDecimal("1789.2301"),
       new BigDecimal("1789.2001"), new BigDecimal("1756.5000"), new BigDecimal("1813.5000"), new BigDecimal("1785.8484"),
       new BigDecimal("455.69192487"));
+  public static final UserTrade EXPECTED_BM_USER_TRADES = new UserTrade(Order.OrderType.BID, new BigDecimal("0.08888888"), CurrencyPair.BTC_EUR,
+      new BigDecimal("210.3333"), new Date(1444444444000L), "386775", null, null, Currency.BTC);
+  public static final Ticker TICKER = new Ticker.Builder().bid(new BigDecimal("1789.2301")).ask(new BigDecimal("1794.5000"))
+                                                          .last(new BigDecimal("1789.2001")).low(new BigDecimal("1756.5000"))
+                                                          .high(new BigDecimal("1813.5000")).currencyPair(CurrencyPair.BTC_AUD)
+                                                          .vwap(new BigDecimal("1785.8484")).volume(new BigDecimal("455.69192487")).build();
+  protected static final String SPECIFICATION_USERNAME = "admin";
+  protected static final String SPECIFICATION_API_KEY = "publicKey";
+  protected static final String SPECIFICATION_SECRET_KEY = "secretKey";
 
   public static BitMarketTrade[] expectedParsedTrades() {
     return new BitMarketTrade[]{new BitMarketTrade("78455", new BigDecimal("14.6900"), new BigDecimal("27.24579867"), 1450344119L, "ask"),
@@ -89,9 +89,8 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
   }
 
   public static LimitOrder[] expectedOrders() {
-    return new LimitOrder[]{
-        new LimitOrder(Order.OrderType.BID, new BigDecimal("0.20000000"), CurrencyPair.BTC_PLN, "31393", new Date(1432661682000L),
-            new BigDecimal("3000.0000")),
+    return new LimitOrder[]{new LimitOrder(Order.OrderType.BID, new BigDecimal("0.20000000"), CurrencyPair.BTC_PLN, "31393", new Date(1432661682000L),
+        new BigDecimal("3000.0000")),
         new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.08000000"), CurrencyPair.BTC_PLN, "31391", new Date(1432551696000L),
             new BigDecimal("4140.0000"))};
   }
@@ -117,13 +116,6 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
         new UserTrade(Order.OrderType.BID, new BigDecimal("0.05555555"), CurrencyPair.BTC_EUR, new BigDecimal("115.5555"), new Date(1400000000000L),
             "386750", null, null, Currency.BTC),};
   }
-
-  public static final UserTrade EXPECTED_BM_USER_TRADES = new UserTrade(Order.OrderType.BID, new BigDecimal("0.08888888"), CurrencyPair.BTC_EUR,
-      new BigDecimal("210.3333"), new Date(1444444444000L), "386775", null, null, Currency.BTC);
-
-  public static final Ticker TICKER = new Ticker.Builder().bid(new BigDecimal("1789.2301")).ask(new BigDecimal("1794.5000"))
-      .last(new BigDecimal("1789.2001")).low(new BigDecimal("1756.5000")).high(new BigDecimal("1813.5000")).currencyPair(CurrencyPair.BTC_AUD)
-      .vwap(new BigDecimal("1785.8484")).volume(new BigDecimal("455.69192487")).build();
 
   public static Map<String, BigDecimal> createAvailable() {
     Map<String, BigDecimal> availableMock = new HashMap<>();

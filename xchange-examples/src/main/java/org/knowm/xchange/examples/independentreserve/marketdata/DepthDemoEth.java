@@ -48,8 +48,8 @@ public class DepthDemoEth {
   private static void raw(IndependentReserveMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest order book data for ETH/USD
-    IndependentReserveOrderBook orderBook = marketDataService.getIndependentReserveOrderBook(Currency.ETH.getCurrencyCode(),
-        Currency.USD.getCurrencyCode());
+    IndependentReserveOrderBook orderBook = marketDataService
+        .getIndependentReserveOrderBook(Currency.ETH.getCurrencyCode(), Currency.USD.getCurrencyCode());
 
     System.out.println("Current Order Book size for ETH / USD: " + (orderBook.getSellOrders().size() + orderBook.getBuyOrders().size()));
 

@@ -21,9 +21,10 @@ public class DSXOrderStatusResult {
   private final String orderType;
   private final ClientDeal[] deals;
 
-  public DSXOrderStatusResult(@JsonProperty("pair") String pair, @JsonProperty("type") String type, @JsonProperty("remainingVolume") BigDecimal remainingVolume,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("rate") BigDecimal rate, @JsonProperty("timestampCreated") Long timestampCreated,
-      @JsonProperty("status") Integer status, @JsonProperty("orderType") String orderType, @JsonProperty("clientDeals") ClientDeal[] deals) {
+  public DSXOrderStatusResult(@JsonProperty("pair") String pair, @JsonProperty("type") String type,
+      @JsonProperty("remainingVolume") BigDecimal remainingVolume, @JsonProperty("volume") BigDecimal volume, @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("timestampCreated") Long timestampCreated, @JsonProperty("status") Integer status, @JsonProperty("orderType") String orderType,
+      @JsonProperty("clientDeals") ClientDeal[] deals) {
     this.pair = pair;
     this.type = type;
     this.remainingVolume = remainingVolume;
@@ -73,16 +74,8 @@ public class DSXOrderStatusResult {
 
   @Override
   public String toString() {
-    return "DSXOrderStatusResult{" +
-        "pair='" + pair + '\'' +
-        ", type='" + type + '\'' +
-        ", remainingVolume=" + remainingVolume +
-        ", volume=" + volume +
-        ", rate=" + rate +
-        ", timestampCreated=" + timestampCreated +
-        ", status=" + status +
-        ", orderType='" + orderType + '\'' +
-        ", deals=" + Arrays.toString(deals) +
-        '}';
+    return "DSXOrderStatusResult{" + "pair='" + pair + '\'' + ", type='" + type + '\'' + ", remainingVolume=" + remainingVolume + ", volume=" + volume
+        + ", rate=" + rate + ", timestampCreated=" + timestampCreated + ", status=" + status + ", orderType='" + orderType + '\'' + ", deals="
+        + Arrays.toString(deals) + '}';
   }
 }

@@ -39,15 +39,14 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
     // 20 is the maximum page size
     KucoinCoinBalances balancesInfo = getKucoinBalances(20, 1).getData();
     balances.addAll(balancesInfo.getBalances());
-    for (int page = 2; page < balancesInfo.getPageNos(); page++) {
+    for (int page = 2; page <= balancesInfo.getPageNos(); page++) {
       balances.addAll(getKucoinBalances(20, page).getData().getBalances());
     }
     return KucoinAdapters.adaptAccountInfo(balances);
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
@@ -67,29 +66,27 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    
+
     return new KucoinFundingHistoryParams();
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
-    if (!(params instanceof TradeHistoryParamPaging) &&
-        !(params instanceof TradeHistoryParamCurrency)) {
-      throw new ExchangeException(
-          "You need to provide paging information and currency to get the trade history.");
+    if (!(params instanceof TradeHistoryParamPaging) && !(params instanceof TradeHistoryParamCurrency)) {
+      throw new ExchangeException("You need to provide paging information and currency to get the trade history.");
     }
 
     TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
     TradeHistoryParamCurrency curParams = (TradeHistoryParamCurrency) params;
-    
+
     Type type = null;
     if (params instanceof HistoryParamsFundingType) {
       type = ((HistoryParamsFundingType) params).getType();
     }
     // Paging params are 0-based, Kucoin account balances pages are 1-based
-    KucoinSimpleResponse<KucoinWalletRecords> response = walletRecords(curParams.getCurrency(),
-        type, pagingParams.getPageLength(), pagingParams.getPageNumber() + 1);
+    KucoinSimpleResponse<KucoinWalletRecords> response = walletRecords(curParams.getCurrency(), type, pagingParams.getPageLength(),
+        pagingParams.getPageNumber() + 1);
     return KucoinAdapters.adaptFundingHistory(response.getData().getRecords());
   }
 }

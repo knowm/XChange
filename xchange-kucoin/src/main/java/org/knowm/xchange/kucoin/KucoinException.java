@@ -2,6 +2,7 @@ package org.knowm.xchange.kucoin;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,7 +33,7 @@ public class KucoinException extends HttpStatusExceptionSupport {
   public String getMessage() {
     return String.format("%s - %s (HTTP status code: %d)", code, msg, getHttpStatusCode());
   }
-  
+
   @JsonProperty("code")
   public String getCode() {
     return code;

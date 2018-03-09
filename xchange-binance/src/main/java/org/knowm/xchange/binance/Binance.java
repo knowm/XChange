@@ -59,8 +59,7 @@ public interface Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  BinanceOrderbook depth(@QueryParam("symbol") String symbol, @QueryParam("limit") Integer limit)
-      throws IOException, BinanceException;
+  BinanceOrderbook depth(@QueryParam("symbol") String symbol, @QueryParam("limit") Integer limit) throws IOException, BinanceException;
 
   @GET
   @Path("api/v1/aggTrades")
@@ -79,10 +78,8 @@ public interface Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  List<BinanceAggTrades> aggTrades(@QueryParam("symbol") String symbol, @QueryParam("fromId") Long fromId
-      , @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime
-      , @QueryParam("limit") Integer limit)
-      throws IOException, BinanceException;
+  List<BinanceAggTrades> aggTrades(@QueryParam("symbol") String symbol, @QueryParam("fromId") Long fromId, @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime, @QueryParam("limit") Integer limit) throws IOException, BinanceException;
 
   @GET
   @Path("api/v1/klines")
@@ -98,20 +95,18 @@ public interface Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  List<Object[]> klines(@QueryParam("symbol") String symbol, @QueryParam("interval") String interval
-      , @QueryParam("limit") Integer limit, @QueryParam("startTime") Long startTime
-      , @QueryParam("endTime") Long endTime)
-      throws IOException, BinanceException;
+  List<Object[]> klines(@QueryParam("symbol") String symbol, @QueryParam("interval") String interval, @QueryParam("limit") Integer limit,
+      @QueryParam("startTime") Long startTime, @QueryParam("endTime") Long endTime) throws IOException, BinanceException;
 
-	@GET
-	@Path("api/v1/ticker/24hr")
-	/**
+  @GET
+  @Path("api/v1/ticker/24hr")
+  /**
    * 24 hour price change statistics for all symbols. - bee carreful this api call have a big weight,
    * only about 4 call per minut can be without ban.
    * @return
    * @throws IOException
    * @throws BinanceException    */
-	List<BinanceTicker24h> ticker24h() throws IOException, BinanceException;
+  List<BinanceTicker24h> ticker24h() throws IOException, BinanceException;
 
   @GET
   @Path("api/v1/ticker/24hr")

@@ -16,7 +16,7 @@ public class BitflyerDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param secretKeyBase64
-   * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @param apiKey          @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private BitflyerDigest(String secretKeyBase64, String apiKey) {
     super(secretKeyBase64, HMAC_SHA_256);
@@ -31,7 +31,7 @@ public class BitflyerDigest extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
 
     String queryString = restInvocation.getQueryString();
-//    System.out.println("queryString = " + queryString);
+    //    System.out.println("queryString = " + queryString);
 
     String httpMethod = restInvocation.getHttpMethod();
 
@@ -39,7 +39,7 @@ public class BitflyerDigest extends BaseParamsDigest {
     if (queryString != null && queryString.length() > 0) {
       uri += "?" + restInvocation.getQueryString();
     }
-//    System.out.println("uri = " + uri);
+    //    System.out.println("uri = " + uri);
 
     String requestBody = restInvocation.getRequestBody();
     String nonce = restInvocation.getHttpHeadersFromParams().get(Bitflyer.ACCESS_TIMESTAMP);

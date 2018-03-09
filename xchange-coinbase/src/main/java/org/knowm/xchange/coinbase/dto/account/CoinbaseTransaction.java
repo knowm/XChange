@@ -41,6 +41,36 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     this.transaction = transaction;
   }
 
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final CoinbaseMoney amount) {
+
+    return createMoneyRequest(from, amount.getCurrency(), amount.getAmount());
+  }
+
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final String currency, final BigDecimal amount) {
+
+    return createMoneyRequest(from, currency, amount.toPlainString());
+  }
+
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final String currency, final String amountString) {
+
+    return new CoinbaseRequestMoneyRequest(from, currency, amountString);
+  }
+
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final CoinbaseMoney amount) {
+
+    return createSendMoneyRequest(from, amount.getCurrency(), amount.getAmount());
+  }
+
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final String currency, final BigDecimal amount) {
+
+    return createSendMoneyRequest(from, currency, amount.toPlainString());
+  }
+
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final String currency, final String amountString) {
+
+    return new CoinbaseSendMoneyRequest(from, currency, amountString);
+  }
+
   @Override
   public String getId() {
 
@@ -217,36 +247,6 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
       return null;
     }
-  }
-
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final CoinbaseMoney amount) {
-
-    return createMoneyRequest(from, amount.getCurrency(), amount.getAmount());
-  }
-
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final String currency, final BigDecimal amount) {
-
-    return createMoneyRequest(from, currency, amount.toPlainString());
-  }
-
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final String currency, final String amountString) {
-
-    return new CoinbaseRequestMoneyRequest(from, currency, amountString);
-  }
-
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final CoinbaseMoney amount) {
-
-    return createSendMoneyRequest(from, amount.getCurrency(), amount.getAmount());
-  }
-
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final String currency, final BigDecimal amount) {
-
-    return createSendMoneyRequest(from, currency, amount.toPlainString());
-  }
-
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final String currency, final String amountString) {
-
-    return new CoinbaseSendMoneyRequest(from, currency, amountString);
   }
 
   public static class CoinbaseRequestMoneyRequest extends CoinbaseTransactionRequest {

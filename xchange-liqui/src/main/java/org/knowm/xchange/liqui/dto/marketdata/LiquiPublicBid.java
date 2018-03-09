@@ -26,9 +26,6 @@ public class LiquiPublicBid {
 
   @Override
   public String toString() {
-    return "LiquiPublicBid{" +
-        "price=" + price +
-        ", volume=" + volume +
-        '}';
+    return "LiquiPublicBid{" + "price=" + price + ", volume=" + volume + '}';
   }
 }

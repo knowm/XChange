@@ -133,10 +133,8 @@ public final class BittrexAdapters {
       status = Order.OrderStatus.CANCELED;
     }
 
-    return new BittrexLimitOrder(
-        type,
-        order.getQuantity(), pair, order.getOrderUuid(),
-        order.getOpened(), order.getLimit(), order.getQuantityRemaining(), order.getPricePerUnit(), null, status);
+    return new BittrexLimitOrder(type, order.getQuantity(), pair, order.getOrderUuid(), order.getOpened(), order.getLimit(),
+        order.getQuantityRemaining(), order.getPricePerUnit(), null, status);
   }
 
   public static Trade adaptTrade(BittrexTrade trade, CurrencyPair currencyPair) {
@@ -175,7 +173,7 @@ public final class BittrexAdapters {
     Date timestamp = BittrexUtils.toDate(marketSummary.getTimeStamp());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-        .build();
+                               .build();
   }
 
   public static Wallet adaptWallet(List<BittrexBalance> balances) {
@@ -251,9 +249,8 @@ public final class BittrexAdapters {
     final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
     for (BittrexDepositHistory f : bittrexFundingHistories) {
       if (f != null) {
-        fundingRecords.add(new FundingRecord(f.getCryptoAddress(), f.getLastUpdated(), new Currency(f.getCurrency()),
-            f.getAmount(), String.valueOf(f.getId()), f.getTxId(), FundingRecord.Type.DEPOSIT, FundingRecord.Status.COMPLETE,
-            null, null, null));
+        fundingRecords.add(new FundingRecord(f.getCryptoAddress(), f.getLastUpdated(), Currency.getInstance(f.getCurrency()), f.getAmount(),
+            String.valueOf(f.getId()), f.getTxId(), FundingRecord.Type.DEPOSIT, FundingRecord.Status.COMPLETE, null, null, null));
       }
     }
     return fundingRecords;
@@ -276,8 +273,9 @@ public final class BittrexAdapters {
     for (BittrexWithdrawalHistory f : bittrexFundingHistories) {
       if (f != null) {
         final FundingRecord.Status status = fromWithdrawalRecord(f);
-        fundingRecords.add(new FundingRecord(f.getAddress(), f.getOpened(), new Currency(f.getCurrency()),
-            f.getAmount(), f.getPaymentUuid(), f.getTxId(), FundingRecord.Type.WITHDRAWAL, status, null, f.getTxCost(), null));
+        fundingRecords.add(
+            new FundingRecord(f.getAddress(), f.getOpened(), Currency.getInstance(f.getCurrency()), f.getAmount(), f.getPaymentUuid(), f.getTxId(),
+                FundingRecord.Type.WITHDRAWAL, status, null, f.getTxCost(), null));
       }
     }
     return fundingRecords;

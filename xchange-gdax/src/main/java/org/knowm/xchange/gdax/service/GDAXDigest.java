@@ -14,7 +14,7 @@ import si.mazi.rescu.RestInvocation;
 public class GDAXDigest extends BaseParamsDigest {
 
   private String signature = "";
-  
+
   private GDAXDigest(byte[] secretKey) {
 
     super(secretKey, HMAC_SHA_256);
@@ -33,8 +33,11 @@ public class GDAXDigest extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
 
     String pathWithQueryString = restInvocation.getInvocationUrl().replace(restInvocation.getBaseUrl(), "");
-    String message = restInvocation.getParamValue(HeaderParam.class, "CB-ACCESS-TIMESTAMP").toString() + restInvocation.getHttpMethod()
-        + pathWithQueryString + (restInvocation.getRequestBody() != null ? restInvocation.getRequestBody() : "");
+    String message =
+        restInvocation.getParamValue(HeaderParam.class, "CB-ACCESS-TIMESTAMP").toString() + restInvocation.getHttpMethod() + pathWithQueryString + (
+            restInvocation.getRequestBody() != null ?
+                restInvocation.getRequestBody() :
+                "");
 
     Mac mac256 = getMac();
 
@@ -47,7 +50,7 @@ public class GDAXDigest extends BaseParamsDigest {
     signature = Base64.encodeBytes(mac256.doFinal());
     return signature;
   }
-  
+
   public String getSignature() {
     return signature;
   }

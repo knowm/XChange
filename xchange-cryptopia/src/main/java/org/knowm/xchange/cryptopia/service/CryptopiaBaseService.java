@@ -17,7 +17,8 @@ public class CryptopiaBaseService extends BaseExchangeService implements BaseSer
 
     super(exchange);
     this.cryptopia = RestProxyFactory.createProxy(Cryptopia.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-    this.signatureCreator = CryptopiaDigest.createInstance(exchange.getNonceFactory(), exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey());
+    this.signatureCreator = CryptopiaDigest.createInstance(exchange.getNonceFactory(), exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getApiKey());
 
   }
 }

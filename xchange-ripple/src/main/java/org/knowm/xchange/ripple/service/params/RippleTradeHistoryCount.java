@@ -9,6 +9,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 public interface RippleTradeHistoryCount extends TradeHistoryParams {
 
   int DEFAULT_API_CALL_COUNT = 100;
+  int DEFAULT_TRADE_COUNT_LIMIT = 10;
 
   void resetApiCallCount();
 
@@ -17,8 +18,6 @@ public interface RippleTradeHistoryCount extends TradeHistoryParams {
   int getApiCallCount();
 
   int getApiCallCountLimit();
-
-  int DEFAULT_TRADE_COUNT_LIMIT = 10;
 
   void resetTradeCount();
 

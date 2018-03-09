@@ -307,8 +307,9 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     assertThat(trade.getId()).isEqualTo("1111111111111111111111111111111111111111111111111111111111111111");
     assertThat(trade.getOrderId()).isEqualTo("1111");
     // Price = 1.0 / 0.000028572057152
-    assertThat(trade.getPrice()).isEqualTo(new BigDecimal("34999.23000574012011552062010939099496310569328655387396")
-        .setScale(roundingScale, RoundingMode.HALF_UP).stripTrailingZeros());
+    assertThat(trade.getPrice()).isEqualTo(
+        new BigDecimal("34999.23000574012011552062010939099496310569328655387396").setScale(roundingScale, RoundingMode.HALF_UP)
+                                                                                  .stripTrailingZeros());
     assertThat(trade.getTimestamp()).isEqualTo(RippleExchange.ToDate("2011-11-11T11:11:11.111Z"));
     assertThat(trade.getOriginalAmount()).isEqualTo("0.000028572057152");
     assertThat(trade.getType()).isEqualTo(OrderType.BID);

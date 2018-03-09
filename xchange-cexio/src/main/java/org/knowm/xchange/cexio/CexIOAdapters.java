@@ -1,6 +1,13 @@
 package org.knowm.xchange.cexio;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
@@ -25,13 +32,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * Author: brox Since: 2/6/14
@@ -97,7 +98,7 @@ public class CexIOAdapters {
     Date timestamp = new Date(ticker.getTimestamp() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-        .build();
+                               .build();
   }
 
   /**
@@ -126,7 +127,7 @@ public class CexIOAdapters {
     List<Balance> balances = new ArrayList<>();
     for (String ccyName : cexIOBalanceInfo.getBalances().keySet()) {
       CexIOBalance cexIOBalance = cexIOBalanceInfo.getBalances().get(ccyName);
-      balances.add(adaptBalance(new Currency(ccyName), cexIOBalance));
+      balances.add(adaptBalance(Currency.getInstance(ccyName), cexIOBalance));
     }
 
     return new Wallet(balances);
@@ -170,10 +171,9 @@ public class CexIOAdapters {
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
       OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       String id = Long.toString(cexIOOrder.getId());
-      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(),
-          cexIOOrder.getAmount().subtract(cexIOOrder.getPending()), new CurrencyPair(cexIOOrder.getTradableIdentifier(),
-          cexIOOrder.getTransactionCurrency()), id, DateUtils.fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()
-      ));
+      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getAmount().subtract(cexIOOrder.getPending()),
+          new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id,
+          DateUtils.fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()));
     }
 
     return new OpenOrders(limitOrders);
@@ -209,9 +209,9 @@ public class CexIOAdapters {
     Order.OrderStatus status = adaptOrderStatus(cexIOOrder);
     return new LimitOrder(orderType, originalAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice, null, null, null, status);
   }
-  
-  private static Order.OrderStatus adaptOrderStatus(CexIOOpenOrder cexIOOrder){
-    
+
+  private static Order.OrderStatus adaptOrderStatus(CexIOOpenOrder cexIOOrder) {
+
     try {
       BigDecimal remains = new BigDecimal(cexIOOrder.remains);
       BigDecimal amount = new BigDecimal(cexIOOrder.amount);
@@ -223,7 +223,7 @@ public class CexIOAdapters {
       } else {
         return Order.OrderStatus.PENDING_NEW;
       }
-    } catch (NumberFormatException ex){
+    } catch (NumberFormatException ex) {
       return Order.OrderStatus.PENDING_NEW;
     }
   }

@@ -17,8 +17,7 @@ public final class DSXOrderbook {
   private final BigDecimal marketSellPrice;
 
   public DSXOrderbook(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids,
-      @JsonProperty("market_buy_price") BigDecimal marketBuyPrice,
-      @JsonProperty("market_sell_price") BigDecimal marketSellPrice) {
+      @JsonProperty("market_buy_price") BigDecimal marketBuyPrice, @JsonProperty("market_sell_price") BigDecimal marketSellPrice) {
 
     this.asks = asks;
     this.bids = bids;

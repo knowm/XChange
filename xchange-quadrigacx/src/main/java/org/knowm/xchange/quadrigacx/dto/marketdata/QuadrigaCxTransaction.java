@@ -15,11 +15,11 @@ public class QuadrigaCxTransaction {
   /**
    * Constructor
    *
-   * @param date Unix timestamp date and time
-   * @param tid Transaction id
-   * @param price BTC price
+   * @param date   Unix timestamp date and time
+   * @param tid    Transaction id
+   * @param price  BTC price
    * @param amount BTC amount
-   * @param side "buy"/"sell" for the type of order the trade has completed
+   * @param side   "buy"/"sell" for the type of order the trade has completed
    */
   public QuadrigaCxTransaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price,
       @JsonProperty("amount") BigDecimal amount, @JsonProperty("side") String side) {

@@ -17,18 +17,6 @@ public class DefaultOpenOrdersParamCurrencyPair implements OpenOrdersParamCurren
     this.pair = pair;
   }
 
-  @Override
-  public void setCurrencyPair(CurrencyPair pair) {
-
-    this.pair = pair;
-  }
-
-  @Override
-  public CurrencyPair getCurrencyPair() {
-
-    return pair;
-  }
-
   public static List<CurrencyPair> getPairs(OpenOrdersParams params, Exchange exchange) {
     List<CurrencyPair> pairs = new ArrayList<>();
     if (params instanceof OpenOrdersParamCurrencyPair) {
@@ -41,6 +29,18 @@ public class DefaultOpenOrdersParamCurrencyPair implements OpenOrdersParamCurren
       pairs = exchange.getExchangeSymbols();
     }
     return pairs;
+  }
+
+  @Override
+  public CurrencyPair getCurrencyPair() {
+
+    return pair;
+  }
+
+  @Override
+  public void setCurrencyPair(CurrencyPair pair) {
+
+    this.pair = pair;
   }
 
   @Override

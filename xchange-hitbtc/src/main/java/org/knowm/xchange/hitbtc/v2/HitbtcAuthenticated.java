@@ -95,8 +95,8 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @GET
   @Path("history/trades")
   List<HitbtcOwnTrade> getHitbtcTrades(@QueryParam("symbol") String symbol, @QueryParam("sort") String sort, @QueryParam("by") String sortBy,
-      @QueryParam("from") String from, @QueryParam("till") String till, @QueryParam("limit") long limit,
-      @QueryParam("offset") long offset) throws IOException, HitbtcException;
+      @QueryParam("from") String from, @QueryParam("till") String till, @QueryParam("limit") long limit, @QueryParam("offset") long offset)
+      throws IOException, HitbtcException;
 
   //TODO add query params
 
@@ -120,8 +120,8 @@ public interface HitbtcAuthenticated extends Hitbtc {
    */
   @GET
   @Path("history/order")
-  List<HitbtcOrder> getHitbtcOrder(@PathParam("symbol") String symbol,
-      @PathParam("clientOrderId") String clientOrderId) throws IOException, HitbtcException;
+  List<HitbtcOrder> getHitbtcOrder(@PathParam("symbol") String symbol, @PathParam("clientOrderId") String clientOrderId)
+      throws IOException, HitbtcException;
 
   @GET
   @Path("/history/order/{id}/trades")

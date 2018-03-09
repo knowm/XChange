@@ -83,7 +83,8 @@ public final class BitsoBalance {
   @Override
   public String toString() {
 
-    return String.format("Balance{mxnBalance=%s, btcBalance=%s, mxnReserved=%s, btcReserved=%s, mxnAvailable=%s, btcAvailable=%s, fee=%s}",
-        mxnBalance, btcBalance, mxnReserved, btcReserved, mxnAvailable, btcAvailable, fee);
+    return String
+        .format("Balance{mxnBalance=%s, btcBalance=%s, mxnReserved=%s, btcReserved=%s, mxnAvailable=%s, btcAvailable=%s, fee=%s}", mxnBalance,
+            btcBalance, mxnReserved, btcReserved, mxnAvailable, btcAvailable, fee);
   }
 }

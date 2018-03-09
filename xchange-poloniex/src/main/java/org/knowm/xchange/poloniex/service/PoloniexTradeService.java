@@ -14,7 +14,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -114,7 +119,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   /**
    * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
-   * types will be ignored.
+   *               types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -215,21 +220,15 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     private final TradeHistoryParamsAll all = new TradeHistoryParamsAll();
 
     @Override
-    public void setCurrencyPair(CurrencyPair value) {
-
-      all.setCurrencyPair(value);
-    }
-
-    @Override
     public CurrencyPair getCurrencyPair() {
 
       return all.getCurrencyPair();
     }
 
     @Override
-    public void setStartTime(Date value) {
+    public void setCurrencyPair(CurrencyPair value) {
 
-      all.setStartTime(value);
+      all.setCurrencyPair(value);
     }
 
     @Override
@@ -239,15 +238,21 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     }
 
     @Override
-    public void setEndTime(Date value) {
+    public void setStartTime(Date value) {
 
-      all.setEndTime(value);
+      all.setStartTime(value);
     }
 
     @Override
     public Date getEndTime() {
 
       return all.getEndTime();
+    }
+
+    @Override
+    public void setEndTime(Date value) {
+
+      all.setEndTime(value);
     }
   }
 

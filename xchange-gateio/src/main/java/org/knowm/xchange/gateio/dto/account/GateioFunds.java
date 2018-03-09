@@ -19,9 +19,8 @@ public class GateioFunds extends GateioBaseResponse {
    * @param theAvailable
    * @param theLocked
    */
-  public GateioFunds(@JsonProperty("available") Map<String, BigDecimal> theAvailable,
-      @JsonProperty("locked") Map<String, BigDecimal> theLocked, @JsonProperty("result") boolean result,
-      @JsonProperty("message") final String message) {
+  public GateioFunds(@JsonProperty("available") Map<String, BigDecimal> theAvailable, @JsonProperty("locked") Map<String, BigDecimal> theLocked,
+      @JsonProperty("result") boolean result, @JsonProperty("message") final String message) {
 
     super(result, message);
 

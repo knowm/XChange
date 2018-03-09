@@ -10,7 +10,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
-public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrency, TradeHistoryParamsSorted, TradeHistoryParamLimit {
+public class DSXTransHistoryParams
+    implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrency, TradeHistoryParamsSorted, TradeHistoryParamLimit {
 
   private DSXTransHistoryResult.Status status;
   private DSXTransHistoryResult.Type type;
@@ -39,8 +40,8 @@ public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHis
   }
 
   @Override
-  public void setStartId(String startId) {
-    this.startId = startId;
+  public Integer getLimit() {
+    return limit;
   }
 
   @Override
@@ -49,18 +50,13 @@ public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHis
   }
 
   @Override
-  public Integer getLimit() {
-    return limit;
-  }
-
-  @Override
   public String getStartId() {
     return startId;
   }
 
   @Override
-  public void setEndId(String endId) {
-    this.endId = endId;
+  public void setStartId(String startId) {
+    this.startId = startId;
   }
 
   @Override
@@ -69,8 +65,8 @@ public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHis
   }
 
   @Override
-  public void setStartTime(Date startTime) {
-    this.startTime = startTime;
+  public void setEndId(String endId) {
+    this.endId = endId;
   }
 
   @Override
@@ -79,13 +75,18 @@ public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHis
   }
 
   @Override
-  public void setEndTime(Date endTime) {
-    this.endTime = endTime;
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
   }
 
   @Override
   public Date getEndTime() {
     return endTime;
+  }
+
+  @Override
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
   }
 
   @Override
@@ -99,12 +100,12 @@ public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHis
   }
 
   @Override
-  public void setCurrency(Currency currency) {
-    this.currency = currency;
+  public Currency getCurrency() {
+    return currency;
   }
 
   @Override
-  public Currency getCurrency() {
-    return currency;
+  public void setCurrency(Currency currency) {
+    this.currency = currency;
   }
 }

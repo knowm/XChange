@@ -7,10 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TheRockTrade {
 
-  public enum Side {
-    sell, buy, close_long, close_short
-  }
-
   private final BigDecimal amount;
   private final Date date;
   private final BigDecimal price;
@@ -49,5 +45,9 @@ public class TheRockTrade {
   @Override
   public String toString() {
     return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
+  }
+
+  public enum Side {
+    sell, buy, close_long, close_short
   }
 }

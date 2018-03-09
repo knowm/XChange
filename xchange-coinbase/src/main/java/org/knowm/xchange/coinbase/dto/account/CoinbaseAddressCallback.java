@@ -15,6 +15,12 @@ public class CoinbaseAddressCallback {
     this.callbackUrlParam = new CoinbaseCallbackUrlParam(callbackUrl, label);
   }
 
+  @Override
+  public String toString() {
+
+    return "CoinbaseAddressCallback [callbackUrlParam=" + callbackUrlParam + "]";
+  }
+
   private static class CoinbaseCallbackUrlParam {
 
     @JsonProperty("callback_url")
@@ -34,11 +40,5 @@ public class CoinbaseAddressCallback {
 
       return "CoinbaseCallbackUrlParam [callbackUrl=" + callbackUrl + ", label=" + label + "]";
     }
-  }
-
-  @Override
-  public String toString() {
-
-    return "CoinbaseAddressCallback [callbackUrlParam=" + callbackUrlParam + "]";
   }
 }

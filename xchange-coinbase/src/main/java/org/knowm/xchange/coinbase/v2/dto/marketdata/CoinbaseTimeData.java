@@ -9,12 +9,12 @@ public class CoinbaseTimeData {
 
   private CoinbaseTime data;
 
-  public void setData(CoinbaseTime data) {
-    this.data = data;
-  }
-
   public CoinbaseTime getData() {
     return data;
+  }
+
+  public void setData(CoinbaseTime data) {
+    this.data = data;
   }
 
   static public class CoinbaseTime {

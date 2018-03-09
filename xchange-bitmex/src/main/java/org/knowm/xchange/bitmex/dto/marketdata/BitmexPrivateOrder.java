@@ -1,12 +1,11 @@
 package org.knowm.xchange.bitmex.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.bitmex.dto.trade.BitmexOrderStatus;
-import org.knowm.xchange.bitmex.dto.trade.BitmexOrderType;
-import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitmexPrivateOrder {
 
@@ -20,16 +19,10 @@ public class BitmexPrivateOrder {
   private final String currency;
   private final String settleCurrency;
 
-  public enum OrderStatus {
-    New, Partially_filled, Filled, Canceled
-  }
-
-  public BitmexPrivateOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("orderID") String id,
-                            @JsonProperty("orderQty") BigDecimal size, @JsonProperty("side") BitmexSide side,
-                            @JsonProperty("symbol") String symbol, @JsonProperty("timestamp") Date timestamp,
-                            @JsonProperty("ordStatus") OrderStatus orderStatus,
-                            @JsonProperty("currency") String currency,
-                            @JsonProperty("settlCurrency") String settleCurrency) {
+  public BitmexPrivateOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("orderID") String id, @JsonProperty("orderQty") BigDecimal size,
+      @JsonProperty("side") BitmexSide side, @JsonProperty("symbol") String symbol, @JsonProperty("timestamp") Date timestamp,
+      @JsonProperty("ordStatus") OrderStatus orderStatus, @JsonProperty("currency") String currency,
+      @JsonProperty("settlCurrency") String settleCurrency) {
 
     this.symbol = symbol;
     this.id = id;
@@ -88,8 +81,11 @@ public class BitmexPrivateOrder {
   @Override
   public String toString() {
 
-    return "BitmexOrder [price=" + price + ", volume=" + size + ", symbol=" + symbol + ", side=" + side +
-            ", timestamp=" + timestamp + "]";
+    return "BitmexOrder [price=" + price + ", volume=" + size + ", symbol=" + symbol + ", side=" + side + ", timestamp=" + timestamp + "]";
+  }
+
+  public enum OrderStatus {
+    New, Partially_filled, Filled, Canceled
   }
 
 }

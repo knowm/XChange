@@ -46,7 +46,7 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
    * Get market depth from exchange
    *
    * @param args Optional arguments. Exchange-specific. This implementation assumes: absent or "full" -> get full OrderBook "partial" -> get partial
-   * OrderBook
+   *             OrderBook
    * @return The OrderBook
    * @throws java.io.IOException
    */
@@ -70,10 +70,10 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
     }
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.base.getCurrencyCode(),
-        currencyPair.counter.getCurrencyCode(), "ask", "");
-    List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.base.getCurrencyCode(),
-        currencyPair.counter.getCurrencyCode(), "bid", "");
+    List<LimitOrder> asks = ANXAdapters
+        .adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "ask", "");
+    List<LimitOrder> bids = ANXAdapters
+        .adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "bid", "");
     Date date = new Date(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);
     return new OrderBook(date, asks, bids);
   }

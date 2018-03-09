@@ -24,8 +24,9 @@ public class CoinbaseDigest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
-    final String message = restInvocation.getParamValue(HeaderParam.class, "ACCESS_NONCE").toString() + restInvocation.getInvocationUrl()
-        + restInvocation.getRequestBody();
+    final String message =
+        restInvocation.getParamValue(HeaderParam.class, "ACCESS_NONCE").toString() + restInvocation.getInvocationUrl() + restInvocation
+            .getRequestBody();
 
     Mac mac256 = getMac();
     mac256.update(message.getBytes());
@@ -37,5 +38,5 @@ public class CoinbaseDigest extends BaseParamsDigest {
   public Mac getMac() {
     return super.getMac();
   }
-  
+
 }

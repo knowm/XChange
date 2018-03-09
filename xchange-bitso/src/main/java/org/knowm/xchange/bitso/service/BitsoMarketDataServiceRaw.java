@@ -43,11 +43,11 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
     return transactions;
   }
 
-  public enum BitsoTime {
-    HOUR, MINUTE
-  }
-
   public BitsoTicker getBitsoTicker(CurrencyPair pair) throws IOException {
     return bitso.getTicker(pair.base + "_" + pair.counter);
+  }
+
+  public enum BitsoTime {
+    HOUR, MINUTE
   }
 }

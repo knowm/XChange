@@ -23,12 +23,10 @@ public final class BitstampUserTransaction {
   private final long order_id;
   private final TransactionType type;
   private final BigDecimal fee;
-
+  private final Map<String, BigDecimal> amounts = new HashMap<>();
   // possible pairs at the moment: btcusd, btceur, eurusd, xrpusd, xrpeur, xrpbtc
   private String base;          // btc, eur, xrp
   private String counter;       // usd, eur, btc
-
-  private final Map<String, BigDecimal> amounts = new HashMap<>();
   private BigDecimal price;
 
   /**
@@ -40,10 +38,8 @@ public final class BitstampUserTransaction {
    * @param type
    * @param fee
    */
-  public BitstampUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id
-      , @JsonProperty("order_id") long order_id
-      , @JsonProperty("type") TransactionType type
-      , @JsonProperty("fee") BigDecimal fee) {
+  public BitstampUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id, @JsonProperty("order_id") long order_id,
+      @JsonProperty("type") TransactionType type, @JsonProperty("fee") BigDecimal fee) {
 
     this.datetime = BitstampUtils.parseDate(datetime);
     this.id = id;
@@ -134,8 +130,8 @@ public final class BitstampUserTransaction {
 
   @Override
   public String toString() {
-    return "BitstampUserTransaction [datetime=" + datetime + ", id=" + id + ", order_id=" + order_id + ", type=" + type + ", fee="
-        + fee + ", base=" + base + ", counter=" + counter + ", amounts=" + amounts + ", price=" + price + "]";
+    return "BitstampUserTransaction [datetime=" + datetime + ", id=" + id + ", order_id=" + order_id + ", type=" + type + ", fee=" + fee + ", base="
+        + base + ", counter=" + counter + ", amounts=" + amounts + ", price=" + price + "]";
   }
 
   public enum TransactionType {

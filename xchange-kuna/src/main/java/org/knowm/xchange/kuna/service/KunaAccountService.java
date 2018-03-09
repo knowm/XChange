@@ -12,14 +12,11 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-import java.lang.UnsupportedOperationException;
-
 
 /**
  * @author Dat Bui
  */
 public class KunaAccountService extends KunaAccountServiceRaw implements AccountService {
-
 
   /**
    * Constructor.

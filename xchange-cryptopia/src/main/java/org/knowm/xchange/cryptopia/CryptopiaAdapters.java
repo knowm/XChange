@@ -1,16 +1,10 @@
 package org.knowm.xchange.cryptopia;
 
-import java.text.ParseException;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
-
-import java.util.Base64;
 
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
@@ -41,13 +35,12 @@ public final class CryptopiaAdapters {
   private CryptopiaAdapters() {
   }
 
-  public static Date convertTimestamp(String timestamp)   {
-
+  public static Date convertTimestamp(String timestamp) {
 
     try {
-      return  org.knowm.xchange.utils.DateUtils.fromISO8601DateString(timestamp);
+      return org.knowm.xchange.utils.DateUtils.fromISO8601DateString(timestamp);
     } catch (com.fasterxml.jackson.databind.exc.InvalidFormatException e) {
-     throw new Error("Date parse failure:"+timestamp);
+      throw new Error("Date parse failure:" + timestamp);
     }
   }
 
@@ -55,7 +48,7 @@ public final class CryptopiaAdapters {
    * Adapts a CryptopiaOrderBook to an OrderBook Object
    *
    * @param cryptopiaOrderBook The exchange specific order book
-   * @param currencyPair (e.g. BTC/USD)
+   * @param currencyPair       (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(CryptopiaOrderBook cryptopiaOrderBook, CurrencyPair currencyPair) {
@@ -83,19 +76,13 @@ public final class CryptopiaAdapters {
    * Adapts a CryptopiaTicker to a Ticker Object
    *
    * @param cryptopiaTicker The exchange specific ticker
-   * @param currencyPair (e.g. BTC/USD)
+   * @param currencyPair    (e.g. BTC/USD)
    * @return The XChange ticker
    */
   public static Ticker adaptTicker(CryptopiaTicker cryptopiaTicker, CurrencyPair currencyPair) {
-    return new Ticker.Builder().currencyPair(currencyPair)
-        .last(cryptopiaTicker.getLast())
-        .bid(cryptopiaTicker.getBid())
-        .ask(cryptopiaTicker.getAsk())
-        .high(cryptopiaTicker.getHigh())
-        .low(cryptopiaTicker.getLow())
-        .volume(cryptopiaTicker.getVolume())
-        .timestamp(new Date())
-        .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(cryptopiaTicker.getLast()).bid(cryptopiaTicker.getBid()).ask(cryptopiaTicker.getAsk())
+                               .high(cryptopiaTicker.getHigh()).low(cryptopiaTicker.getLow()).volume(cryptopiaTicker.getVolume())
+                               .timestamp(new Date()).build();
   }
 
   public static Trades adaptTrades(List<CryptopiaMarketHistory> cryptopiaMarketHistory) {
@@ -120,8 +107,9 @@ public final class CryptopiaAdapters {
     String tradeTimestamp = String.valueOf(cryptopiaMarketHistory.getTimestamp());
     Date date = DateUtils.fromMillisUtc(cryptopiaMarketHistory.getTimestamp() * 1000L);
 
-    return new Trade(orderType, cryptopiaMarketHistory.getAmount(), CurrencyPairDeserializer.getCurrencyPairFromString(cryptopiaMarketHistory.getLabel()),
-        cryptopiaMarketHistory.getPrice(), date, tradeTimestamp);
+    return new Trade(orderType, cryptopiaMarketHistory.getAmount(),
+        CurrencyPairDeserializer.getCurrencyPairFromString(cryptopiaMarketHistory.getLabel()), cryptopiaMarketHistory.getPrice(), date,
+        tradeTimestamp);
 
   }
 
@@ -135,7 +123,8 @@ public final class CryptopiaAdapters {
 
     for (CryptopiaTradePair cryptopiaTradePair : tradePairs) {
       CurrencyPair currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString(cryptopiaTradePair.getLabel());
-      CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(cryptopiaTradePair.getTradeFee(), cryptopiaTradePair.getMinimumTrade(), cryptopiaTradePair.getMaximumTrade(), 8);
+      CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(cryptopiaTradePair.getTradeFee(), cryptopiaTradePair.getMinimumTrade(),
+          cryptopiaTradePair.getMaximumTrade(), 8);
 
       marketMetaDataMap.put(currencyPair, currencyPairMetaData);
     }

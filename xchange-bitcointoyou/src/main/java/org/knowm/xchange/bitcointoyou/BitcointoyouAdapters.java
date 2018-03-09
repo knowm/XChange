@@ -61,7 +61,7 @@ public final class BitcointoyouAdapters {
     BigDecimal volume = bitcointoyouMarketData.getVolume();
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume)
-        .timestamp(fromUnixTime(bitcointoyouMarketData.getDate())).build();
+                               .timestamp(fromUnixTime(bitcointoyouMarketData.getDate())).build();
   }
 
   public static OrderBook adaptBitcointoyouOrderBook(BitcointoyouOrderBook depth, CurrencyPair currencyPair) {
@@ -110,7 +110,8 @@ public final class BitcointoyouAdapters {
     OrderType type = bitcointoyouTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = fromRfc3339DateStringQuietly(bitcointoyouTrade.getDate().toString());
 
-    return new Trade(type, bitcointoyouTrade.getAmount(), currencyPair, bitcointoyouTrade.getPrice(), timestamp, bitcointoyouTrade.getTid().toString());
+    return new Trade(type, bitcointoyouTrade.getAmount(), currencyPair, bitcointoyouTrade.getPrice(), timestamp,
+        bitcointoyouTrade.getTid().toString());
   }
 
   public static List<Balance> adaptBitcointoyouBalances(BitcointoyouBalance bitcointoyouBalances) {
@@ -150,7 +151,6 @@ public final class BitcointoyouAdapters {
     return new OpenOrders(openOrders);
   }
 
-
   private static LimitOrder adaptBitcointoyouOpenOrder(BitcointoyouOrderResponse openOrder, CurrencyPair currencyPair) {
 
     if (openOrder != null && openOrder.getOrderList() != null && openOrder.getOrderList().isEmpty()) {
@@ -164,14 +164,15 @@ public final class BitcointoyouAdapters {
 
   private static LimitOrder adaptBitcointoyouSingleOpenOrder(BitcointoyouOrderInfo orderInfo, CurrencyPair currencyPair, Date orderDate) {
     OrderType type = orderInfo.getAction().equals("buy") ? OrderType.BID : OrderType.ASK;
-    return new LimitOrder.Builder(type, currencyPair).limitPrice(orderInfo.getPrice()).originalAmount(orderInfo.getAmount())
-        .id(orderInfo.getId()).timestamp(orderDate).build();
+    return new LimitOrder.Builder(type, currencyPair).limitPrice(orderInfo.getPrice()).originalAmount(orderInfo.getAmount()).id(orderInfo.getId())
+                                                     .timestamp(orderDate).build();
 
   }
 
   public static Collection<Order> adaptBitcointoyouOrderToOrdersCollection(BitcointoyouOrderResponse bitcointoyouOrderResponse) {
     Collection<Order> orders = new ArrayList<>();
-    if (bitcointoyouOrderResponse != null && bitcointoyouOrderResponse.getOrderList() != null && !bitcointoyouOrderResponse.getOrderList().isEmpty()) {
+    if (bitcointoyouOrderResponse != null && bitcointoyouOrderResponse.getOrderList() != null && !bitcointoyouOrderResponse.getOrderList()
+                                                                                                                           .isEmpty()) {
       for (BitcointoyouOrderInfo orderInfo : bitcointoyouOrderResponse.getOrderList()) {
         Date orderDate = fromRfc3339DateStringQuietly(orderInfo.getDateCreated());
 

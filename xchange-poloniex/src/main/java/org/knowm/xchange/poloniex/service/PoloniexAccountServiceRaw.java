@@ -39,8 +39,8 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
 
   public List<Balance> getExchangeWallet() throws IOException {
     try {
-      HashMap<String, PoloniexBalance> response = poloniexAuthenticated.returnCompleteBalances(apiKey, signatureCreator, exchange.getNonceFactory(),
-          null);
+      HashMap<String, PoloniexBalance> response = poloniexAuthenticated
+          .returnCompleteBalances(apiKey, signatureCreator, exchange.getNonceFactory(), null);
       return PoloniexAdapters.adaptPoloniexBalances(response);
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
@@ -50,8 +50,8 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
   public List<Balance> getWallets() throws IOException {
     try {
       // using account="all" for margin + lending balances
-      HashMap<String, PoloniexBalance> response = poloniexAuthenticated.returnCompleteBalances(apiKey, signatureCreator, exchange.getNonceFactory(),
-          "all");
+      HashMap<String, PoloniexBalance> response = poloniexAuthenticated
+          .returnCompleteBalances(apiKey, signatureCreator, exchange.getNonceFactory(), "all");
       return PoloniexAdapters.adaptPoloniexBalances(response);
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
@@ -96,7 +96,8 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
 
   public String transfer(Currency currency, BigDecimal amount, PoloniexWallet fromWallet, PoloniexWallet toWallet) throws IOException {
     return poloniexAuthenticated
-        .transferBalance(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, fromWallet.name().toLowerCase(), toWallet.name().toLowerCase()).getMessage();
+        .transferBalance(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, fromWallet.name().toLowerCase(),
+            toWallet.name().toLowerCase()).getMessage();
   }
 
 }

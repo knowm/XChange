@@ -10,49 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "account",
-                       "currency",
-                       "riskLimit",
-                       "prevState",
-                       "state",
-                       "action",
-                       "amount",
-                       "pendingCredit",
-                       "pendingDebit",
-                       "confirmedDebit",
-                       "prevRealisedPnl",
-                       "prevUnrealisedPnl",
-                       "grossComm",
-                       "grossOpenCost",
-                       "grossOpenPremium",
-                       "grossExecCost",
-                       "grossMarkValue",
-                       "riskValue",
-                       "taxableMargin",
-                       "initMargin",
-                       "maintMargin",
-                       "sessionMargin",
-                       "targetExcessMargin",
-                       "varMargin",
-                       "realisedPnl",
-                       "unrealisedPnl",
-                       "indicativeTax",
-                       "unrealisedProfit",
-                       "syntheticMargin",
-                       "walletBalance",
-                       "marginBalance",
-                       "marginBalancePcnt",
-                       "marginLeverage",
-                       "marginUsedPcnt",
-                       "excessMargin",
-                       "excessMarginPcnt",
-                       "availableMargin",
-                       "withdrawableMargin",
-                       "timestamp",
-                       "grossLastValue",
-                       "commission"
-                   })
+@JsonPropertyOrder({"account", "currency", "riskLimit", "prevState", "state", "action", "amount", "pendingCredit", "pendingDebit", "confirmedDebit",
+    "prevRealisedPnl", "prevUnrealisedPnl", "grossComm", "grossOpenCost", "grossOpenPremium", "grossExecCost", "grossMarkValue", "riskValue",
+    "taxableMargin", "initMargin", "maintMargin", "sessionMargin", "targetExcessMargin", "varMargin", "realisedPnl", "unrealisedPnl", "indicativeTax",
+    "unrealisedProfit", "syntheticMargin", "walletBalance", "marginBalance", "marginBalancePcnt", "marginLeverage", "marginUsedPcnt", "excessMargin",
+    "excessMarginPcnt", "availableMargin", "withdrawableMargin", "timestamp", "grossLastValue", "commission"})
 public final class BitmexMarginAccount {
 
   @JsonProperty("account")

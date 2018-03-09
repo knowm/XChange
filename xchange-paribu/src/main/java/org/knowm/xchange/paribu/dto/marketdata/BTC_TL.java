@@ -59,14 +59,7 @@ public final class BTC_TL {
 
   @Override
   public String toString() {
-    return "ParibuTicker {" +
-        "last=" + last +
-        ", lowestAsk=" + lowestAsk +
-        ", highestBid=" + highestBid +
-        ", percentChange=" + percentChange +
-        ", volume=" + volume +
-        ", high24hr=" + high24hr +
-        ", low24hr=" + low24hr +
-        '}';
+    return "ParibuTicker {" + "last=" + last + ", lowestAsk=" + lowestAsk + ", highestBid=" + highestBid + ", percentChange=" + percentChange
+        + ", volume=" + volume + ", high24hr=" + high24hr + ", low24hr=" + low24hr + '}';
   }
 }
