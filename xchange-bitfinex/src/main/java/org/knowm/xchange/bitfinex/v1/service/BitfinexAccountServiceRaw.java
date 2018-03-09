@@ -69,11 +69,11 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     return withdraw(withdrawType, walletSelected, amount, address, null);
   }
 
-  public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address, String paymentId) throws IOException {
+  public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address, String tagOrPaymentId) throws IOException {
 
     BitfinexWithdrawalResponse[] withdrawResponse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator,
         new BitfinexWithdrawalRequest(String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address,
-            paymentId));
+            tagOrPaymentId));
     if ("error".equalsIgnoreCase(withdrawResponse[0].getStatus())) {
       throw new ExchangeException(withdrawResponse[0].getMessage());
     }

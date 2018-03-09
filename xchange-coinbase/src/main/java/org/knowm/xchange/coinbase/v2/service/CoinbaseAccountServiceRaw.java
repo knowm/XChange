@@ -1,24 +1,32 @@
 package org.knowm.xchange.coinbase.v2.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.ws.rs.core.MediaType;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
 import org.knowm.xchange.currency.Currency;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
 
   public CoinbaseAccountServiceRaw(Exchange exchange) {
     super(exchange);
+  }
+
+  public Map getTransactions(String accountId) throws IOException {
+    String path = "/v2/accounts/" + accountId + "/transactions";
+    String apiKey = exchange.getExchangeSpecification().getApiKey();
+    BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
+    String signature = getSignature(timestamp, path);
+
+    return coinbase.getTransactions(Coinbase.CB_VERSION_VALUE, apiKey, signature, timestamp, accountId);
   }
 
   /**
@@ -33,7 +41,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String signature = getSignature(timestamp, path);
     showCurl(apiKey, timestamp, signature, path);
-
+    
     return coinbase.getAccounts(Coinbase.CB_VERSION_VALUE, apiKey, signature, timestamp).getData();
   }
 
@@ -49,7 +57,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     String signature = getSignature(timestamp, path);
     showCurl(apiKey, timestamp, signature, path);
-
+    
     return coinbase.getAccount(Coinbase.CB_VERSION_VALUE, apiKey, signature, timestamp, currency.getCurrencyCode()).getData();
   }
 
@@ -63,12 +71,11 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     class Payload {
       @JsonProperty
       String name;
-
       Payload(String name) {
         this.name = name;
       }
     }
-
+    
     Payload payload = new Payload(name);
 
     String path = "/v2/accounts";
@@ -77,7 +84,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
     String body = new ObjectMapper().writeValueAsString(payload);
     String signature = getSignature(timestamp, HttpMethod.POST, path, body);
     showCurl(HttpMethod.POST, apiKey, timestamp, signature, path, body);
-
+    
     return coinbase.createAccount(MediaType.APPLICATION_JSON, Coinbase.CB_VERSION_VALUE, apiKey, signature, timestamp, payload).getData();
   }
 
