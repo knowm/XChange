@@ -10,9 +10,9 @@ public class LunoFeeInfo {
   public final BigDecimal takerFee;
   public final BigDecimal thirtyDayVolume;
 
-  public LunoFeeInfo(@JsonProperty(value = "maker_fee", required = true) BigDecimal makerFee
-      , @JsonProperty(value = "taker_fee", required = true) BigDecimal takerFee
-      , @JsonProperty(value = "thirty_day_volume", required = true) BigDecimal thirtyDayVolume) {
+  public LunoFeeInfo(@JsonProperty(value = "maker_fee", required = true) BigDecimal makerFee,
+      @JsonProperty(value = "taker_fee", required = true) BigDecimal takerFee,
+      @JsonProperty(value = "thirty_day_volume", required = true) BigDecimal thirtyDayVolume) {
     this.makerFee = makerFee;
     this.takerFee = takerFee;
     this.thirtyDayVolume = thirtyDayVolume;

@@ -36,10 +36,6 @@ public class HitbtcBalance {
   @Override
   public String toString() {
 
-    return new ToStringBuilder(this)
-        .append("currency", currency)
-        .append("available", available)
-        .append("reserved", reserved)
-        .toString();
+    return new ToStringBuilder(this).append("currency", currency).append("available", available).append("reserved", reserved).toString();
   }
 }

@@ -37,8 +37,7 @@ public class GDAXAccountServiceRaw extends GDAXBaseService {
   }
 
   public GDAXSendMoneyResponse sendMoney(String accountId, String to, BigDecimal amount, Currency currency) throws GDAXException, IOException {
-    return gdax.sendMoney(new GDAXSendMoneyRequest(to, amount, currency.getCurrencyCode()), apiKey, digest, nonceFactory, passphrase,
-        accountId);
+    return gdax.sendMoney(new GDAXSendMoneyRequest(to, amount, currency.getCurrencyCode()), apiKey, digest, nonceFactory, passphrase, accountId);
   }
 
   public GDAXWithdrawCryptoResponse withdrawCrypto(String address, BigDecimal amount, Currency currency) throws GDAXException, IOException {
@@ -68,12 +67,12 @@ public class GDAXAccountServiceRaw extends GDAXBaseService {
   public GDAXCoinbaseAccountAddress getCoinbaseAccountAddress(String accountId) throws IOException {
     return gdax.getGDAXAccountAddress(apiKey, digest, nonceFactory, passphrase, accountId);
   }
-  
+
   public GDAXWebsocketAuthData getWebsocketAuthData() throws GDAXException, IOException {
     long timestamp = nonceFactory.createValue();
     JsonNode json = gdax.getVerifyId(apiKey, digest, timestamp, passphrase);
     String userId = json.get("id").asText();
-    GDAXDigest gdaxDigest = (GDAXDigest)digest;
+    GDAXDigest gdaxDigest = (GDAXDigest) digest;
     GDAXWebsocketAuthData data = new GDAXWebsocketAuthData(userId, apiKey, passphrase, gdaxDigest.getSignature(), timestamp);
     return data;
   }

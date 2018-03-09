@@ -8,7 +8,6 @@ import org.knowm.xchange.dto.Order.OrderType;
 
 /**
  * DTO representing a fixed rate loan order
- * <p>
  * A fixed rate loan order lets you specify a fixed rate for your loan order. When offering loan orders, you should be aware as to whether or not
  * loans have callable or putable provisions. These provisions can serve to be advantageous to either the debtor or the creditor.
  */
@@ -20,13 +19,13 @@ public final class FixedRateLoanOrder extends LoanOrder implements Comparable<Fi
   private final BigDecimal rate;
 
   /**
-   * @param type Either BID (debtor) or ASK (creditor)
-   * @param currency The loan currency code
+   * @param type           Either BID (debtor) or ASK (creditor)
+   * @param currency       The loan currency code
    * @param originalAmount Units of currency
-   * @param dayPeriod Loan duration in days
-   * @param id An id (usually provided by the exchange)
-   * @param timestamp The absolute time for this order
-   * @param rate The fixed rate of return for a day
+   * @param dayPeriod      Loan duration in days
+   * @param id             An id (usually provided by the exchange)
+   * @param timestamp      The absolute time for this order
+   * @param rate           The fixed rate of return for a day
    */
   public FixedRateLoanOrder(OrderType type, String currency, BigDecimal originalAmount, int dayPeriod, String id, Date timestamp, BigDecimal rate) {
 

@@ -1,5 +1,7 @@
 package org.knowm.xchange.cexio.service;
 
+import static org.knowm.xchange.cexio.dto.account.CexIOFeeInfo.FeeDetails;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -10,6 +12,7 @@ import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.account.CexIOCryptoAddress;
 import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
 import org.knowm.xchange.cexio.dto.account.GHashIOWorker;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class CexIOAccountServiceRaw extends CexIOBaseService {
@@ -27,10 +30,10 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
 
     return info;
   }
-  
+
   public CexIOCryptoAddress getCexIOCryptoAddress(String isoCode) throws IOException {
     CexIOCryptoAddress cryptoAddress = cexIOAuthenticated.getCryptoAddress(signatureCreator, new CexioCryptoAddressRequest(isoCode));
-    if ( cryptoAddress.getOk().equals("ok"))
+    if (cryptoAddress.getOk().equals("ok"))
       return cryptoAddress;
 
     throw new ExchangeException(cryptoAddress.getE() + ": " + cryptoAddress.getError());
@@ -42,6 +45,10 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
 
   public Map<String, GHashIOWorker> getWorkers() throws IOException {
     return cexIOAuthenticated.getWorkers(signatureCreator).getWorkers();
+  }
+
+  public Map<CurrencyPair, FeeDetails> getMyFee() throws IOException {
+    return cexIOAuthenticated.getMyFee(signatureCreator, new CexIORequest()).getData();
   }
 
 }

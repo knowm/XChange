@@ -55,8 +55,8 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
   /**
    * @param tradableIdentifier
    * @param currency
-   * @param timeWindow - The time period of the requested ticker data. Value can be from set: { "10m", "1h", "3h", "12h", "24h", "3d", "7d", "30d",
-   * "2M" }
+   * @param timeWindow         - The time period of the requested ticker data. Value can be from set: { "10m", "1h", "3h", "12h", "24h", "3d", "7d", "30d",
+   *                           "2M" }
    * @return
    * @throws IOException
    */
@@ -75,8 +75,8 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
   /**
    * @param tradableIdentifier
    * @param currency
-   * @param orderbookwindow - The width of the Orderbook as a percentage plus and minus the current price. Value can be from set: { 2p, 5p, 10p, 20p,
-   * 50p, 100p }
+   * @param orderbookwindow    - The width of the Orderbook as a percentage plus and minus the current price. Value can be from set: { 2p, 5p, 10p, 20p,
+   *                           50p, 100p }
    * @return
    */
   public BitcoiniumOrderbook getBitcoiniumOrderbook(String tradableIdentifier, String currency, String orderbookwindow) throws IOException {

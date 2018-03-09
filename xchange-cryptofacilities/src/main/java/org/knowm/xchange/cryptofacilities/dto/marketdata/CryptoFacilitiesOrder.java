@@ -44,8 +44,9 @@ public class CryptoFacilitiesOrder extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess() && serverTime != null && orderStatus != null) {
-      String res = "CryptoFacilitiesOrder [result=" + this.getResult() + ", serverTime=" + DATE_FORMAT.format(serverTime) + ", "
-          + orderStatus.toString() + "]";
+      String res =
+          "CryptoFacilitiesOrder [result=" + this.getResult() + ", serverTime=" + DATE_FORMAT.format(serverTime) + ", " + orderStatus.toString()
+              + "]";
       return res;
     } else
       return super.toString();

@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
@@ -17,7 +16,6 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWalletJSONTest;
@@ -135,8 +133,8 @@ public class GeminiAdaptersTest {
       BigDecimal originalAmount = new BigDecimal("70");
       BigDecimal remainingAmount = originalAmount.subtract(new BigDecimal(i * 1));
       BigDecimal executedAmount = originalAmount.subtract(remainingAmount);
-      responses[i] = new GeminiOrderStatusResponse(i, "Gemini", SYMBOL, price, avgExecutionPrice, side, type, timestamp.toString(), timestamp.multiply(new BigDecimal(1000)).longValue(), isLive, isCancelled,
-          wasForced, originalAmount, remainingAmount, executedAmount);
+      responses[i] = new GeminiOrderStatusResponse(i, "Gemini", SYMBOL, price, avgExecutionPrice, side, type, timestamp.toString(),
+          timestamp.multiply(new BigDecimal(1000)).longValue(), isLive, isCancelled, wasForced, originalAmount, remainingAmount, executedAmount);
     }
 
     return responses;
@@ -190,8 +188,6 @@ public class GeminiAdaptersTest {
     return responses;
   }
 
-
-
   @Test
   public void testAdaptMarketOrder() throws IOException {
 
@@ -211,6 +207,5 @@ public class GeminiAdaptersTest {
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass()));
 
   }
-
 
 }

@@ -26,7 +26,7 @@ public class LakeBTCDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param secretKeyBase64 secretKeyBase64 key
-   * @param clientId client ID, mail
+   * @param clientId        client ID, mail
    * @param secretKeyBase64 @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private LakeBTCDigest(String clientId, String secretKeyBase64) {
@@ -38,6 +38,24 @@ public class LakeBTCDigest extends BaseParamsDigest {
 
   public static LakeBTCDigest createInstance(String clientId, String secretKeyBase64) {
     return secretKeyBase64 == null ? null : new LakeBTCDigest(clientId, secretKeyBase64);
+  }
+
+  public static String makeSign(String data, String key) throws Exception {
+
+    SecretKeySpec sign = new SecretKeySpec(key.getBytes(), HMAC_SHA_1);
+    Mac mac = Mac.getInstance(HMAC_SHA_1);
+    mac.init(sign);
+    byte[] rawHmac = mac.doFinal(data.getBytes());
+
+    return arrayHex(rawHmac);
+  }
+
+  private static String arrayHex(byte[] a) {
+    StringBuilder sb = new StringBuilder();
+    for (byte b : a) {
+      sb.append(String.format("%02x", b & 0xff));
+    }
+    return sb.toString();
   }
 
   @Override
@@ -60,8 +78,8 @@ public class LakeBTCDigest extends BaseParamsDigest {
     final String method = request.getRequestMethod();
     final String params = ""; //stripParams(request.getParams());
 
-    String signature = String.format("tonce=%s&accesskey=%s&requestmethod=%s&id=%d&method=%s&params=%s", tonce, clientId, method, id,
-        request.getMethod(), params);
+    String signature = String
+        .format("tonce=%s&accesskey=%s&requestmethod=%s&id=%d&method=%s&params=%s", tonce, clientId, method, id, request.getMethod(), params);
     log.debug("signature message: {}", signature);
 
     Mac mac = getMac();
@@ -70,24 +88,6 @@ public class LakeBTCDigest extends BaseParamsDigest {
     BasicAuthCredentials auth = new BasicAuthCredentials(apiKey, LakeBTCUtil.bytesToHex(hash));
 
     return auth.digestParams(restInvocation);
-  }
-
-  public static String makeSign(String data, String key) throws Exception {
-
-    SecretKeySpec sign = new SecretKeySpec(key.getBytes(), HMAC_SHA_1);
-    Mac mac = Mac.getInstance(HMAC_SHA_1);
-    mac.init(sign);
-    byte[] rawHmac = mac.doFinal(data.getBytes());
-
-    return arrayHex(rawHmac);
-  }
-
-  private static String arrayHex(byte[] a) {
-    StringBuilder sb = new StringBuilder();
-    for (byte b : a) {
-      sb.append(String.format("%02x", b & 0xff));
-    }
-    return sb.toString();
   }
 
 }

@@ -31,7 +31,7 @@ public class PaymiumAdapters {
    * Adapts a PaymiumTicker to a Ticker Object
    *
    * @param PaymiumTicker The exchange specific ticker
-   * @param currencyPair (e.g. BTC/USD)
+   * @param currencyPair  (e.g. BTC/USD)
    * @return The ticker
    */
   public static Ticker adaptTicker(PaymiumTicker PaymiumTicker, CurrencyPair currencyPair) {
@@ -45,7 +45,7 @@ public class PaymiumAdapters {
     Date timestamp = new Date(PaymiumTicker.getAt() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).bid(bid).ask(ask).high(high).low(low).last(last).volume(volume).timestamp(timestamp)
-        .build();
+                               .build();
   }
 
   /**

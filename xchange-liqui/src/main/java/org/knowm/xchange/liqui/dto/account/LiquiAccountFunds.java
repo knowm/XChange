@@ -14,8 +14,7 @@ public class LiquiAccountFunds {
 
   @JsonCreator
   public LiquiAccountFunds(final Map<String, String> funds) {
-    funds.entrySet().forEach(entry ->
-        this.funds.put(Currency.getInstance(entry.getKey()), new BigDecimal(entry.getValue())));
+    funds.entrySet().forEach(entry -> this.funds.put(Currency.getInstance(entry.getKey()), new BigDecimal(entry.getValue())));
   }
 
   public Map<Currency, BigDecimal> getFunds() {
@@ -24,8 +23,6 @@ public class LiquiAccountFunds {
 
   @Override
   public String toString() {
-    return "LiquiAccountFunds{" +
-        "funds=" + funds +
-        '}';
+    return "LiquiAccountFunds{" + "funds=" + funds + '}';
   }
 }

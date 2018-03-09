@@ -63,8 +63,9 @@ public class DSXOrderHistoryResult {
   @Override
   public String toString() {
 
-    return MessageFormat.format("DSXOrderHistory[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}, orderType={6}]",
-        pair, type, amount, rate, timestampCreated, status, orderType);
+    return MessageFormat
+        .format("DSXOrderHistory[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}, orderType={6}]", pair, type, amount,
+            rate, timestampCreated, status, orderType);
   }
 
   public enum Type {

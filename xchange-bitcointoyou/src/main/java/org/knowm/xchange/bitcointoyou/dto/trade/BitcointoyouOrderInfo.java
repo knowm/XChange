@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"asset", "currency", "id", "action", "status", "price", "amount", "executedPriceAverage", "executedAmount", "dateCreated"})
 public class BitcointoyouOrderInfo {
 
-  @JsonIgnore
-  private String content;
   private final String asset;
   private final String currency;
   private final String id;
@@ -35,6 +33,8 @@ public class BitcointoyouOrderInfo {
   private final String dateCreated;
   @JsonIgnore
   private final Map<String, Object> additionalProperties = new HashMap<>();
+  @JsonIgnore
+  private String content;
 
   /**
    * Sometimes the {@code oReturn} field contains some text, like NO_RECORD_FOUND.

@@ -40,21 +40,22 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
   protected IndependentReserveTradeServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.independentReserveAuthenticated = RestProxyFactory.createProxy(IndependentReserveAuthenticated.class,
-        exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-    this.signatureCreator = IndependentReserveDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
-        exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSslUri());
+    this.independentReserveAuthenticated = RestProxyFactory
+        .createProxy(IndependentReserveAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.signatureCreator = IndependentReserveDigest
+        .createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getSslUri());
   }
 
   /**
-   * @param primaryCurrency - optional primary currency code
+   * @param primaryCurrency   - optional primary currency code
    * @param secondaryCurrency - optional secondary currency code
-   * @param pageNumber -
+   * @param pageNumber        -
    * @return
    * @throws IOException
    */
-  public IndependentReserveOpenOrdersResponse getIndependentReserveOpenOrders(String primaryCurrency, String secondaryCurrency,
-      Integer pageNumber) throws IOException {
+  public IndependentReserveOpenOrdersResponse getIndependentReserveOpenOrders(String primaryCurrency, String secondaryCurrency, Integer pageNumber)
+      throws IOException {
     if (pageNumber <= 0) {
       throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
     }
@@ -71,8 +72,8 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
     return openOrders;
   }
 
-  public String independentReservePlaceLimitOrder(CurrencyPair currencyPair, Order.OrderType type, BigDecimal limitPrice,
-      BigDecimal originalAmount) throws IOException {
+  public String independentReservePlaceLimitOrder(CurrencyPair currencyPair, Order.OrderType type, BigDecimal limitPrice, BigDecimal originalAmount)
+      throws IOException {
     Long nonce = exchange.getNonceFactory().createValue();
     String apiKey = exchange.getExchangeSpecification().getApiKey();
 
@@ -107,9 +108,8 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
         .cancelOrder(independentReserveCancelOrderRequest);
 
     if (independentReserveCancelOrderResponse.getStatus() != null) {
-      return independentReserveCancelOrderResponse.getStatus().equals("Cancelled")
-          || independentReserveCancelOrderResponse.getStatus().equals("PartiallyFilledAndCancelled")
-          || independentReserveCancelOrderResponse.getStatus().equals("Expired")
+      return independentReserveCancelOrderResponse.getStatus().equals("Cancelled") || independentReserveCancelOrderResponse.getStatus().equals(
+          "PartiallyFilledAndCancelled") || independentReserveCancelOrderResponse.getStatus().equals("Expired")
           || independentReserveCancelOrderResponse.getStatus().equals("Expired");
     } else {
       return false;

@@ -15,7 +15,7 @@ public class KrakenDepthResult extends KrakenResult<Map<String, KrakenDepth>> {
   /**
    * Constructor
    *
-   * @param error array of string error messages
+   * @param error  array of string error messages
    * @param result the returned depths
    */
   public KrakenDepthResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenDepth> result) {

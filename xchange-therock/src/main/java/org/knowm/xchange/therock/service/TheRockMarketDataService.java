@@ -27,7 +27,7 @@ public class TheRockMarketDataService extends TheRockMarketDataServiceRaw implem
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     TheRockTicker t = getTheRockTicker(new TheRock.Pair(currencyPair));
     return new Ticker.Builder().currencyPair(currencyPair).last(t.getLast()).bid(t.getBid()).ask(t.getAsk()).high(t.getHigh()).low(t.getLow())
-        .volume(t.getVolumeTraded()).timestamp(new Date()).build();
+                               .volume(t.getVolumeTraded()).timestamp(new Date()).build();
   }
 
   @Override

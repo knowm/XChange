@@ -21,10 +21,10 @@ public class WexAccountInfo {
    * Constructor
    *
    * @param transactionCount The number of transactions
-   * @param openOrders The open orders
-   * @param serverTime The server time (Unix time)
-   * @param rights The rights
-   * @param funds The funds
+   * @param openOrders       The open orders
+   * @param serverTime       The server time (Unix time)
+   * @param rights           The rights
+   * @param funds            The funds
    */
   public WexAccountInfo(@JsonProperty("transaction_count") int transactionCount, @JsonProperty("open_orders") int openOrders,
       @JsonProperty("server_time") long serverTime, @JsonProperty("rights") Rights rights, @JsonProperty("funds") Map<String, BigDecimal> funds) {
@@ -65,8 +65,9 @@ public class WexAccountInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("WexAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''']", transactionCount,
-        openOrders, serverTime, rights, funds);
+    return MessageFormat
+        .format("WexAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''']", transactionCount, openOrders,
+            serverTime, rights, funds);
   }
 
   public static class Rights {

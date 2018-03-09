@@ -20,28 +20,33 @@ public class RippleExchange extends BaseExchange implements Exchange {
   public static final String REST_API_RIPPLE_LABS = "https://api.ripple.com/";
 
   public static final String REST_API_LOCALHOST_PLAIN_TEXT = "http://localhost:5990/";
-
-  private static final String README = "https://github.com/timmolter/XChange/tree/develop/xchange-ripple";
-
   public static final String PARAMETER_TRUST_API_RIPPLE_COM = "trust.api.ripple.com";
-
   public static final String PARAMETER_STORE_TRADE_TRANSACTION_DETAILS = "store.trade.transaction.details";
-
   public static final String PARAMETER_VALIDATE_ORDER_REQUESTS = "validate.order.requests";
-
   public static final String PARAMETER_ROUNDING_SCALE = "rounding.scale";
-
   public static final int DEFAULT_ROUNDING_SCALE = 50;
-
+  private static final String README = "https://github.com/timmolter/XChange/tree/develop/xchange-ripple";
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+
+  /**
+   * Converts a datetime string as returned from the Ripple REST API into a java date object. The string is the UTC time in format
+   * yyyy-MM-dd'T'hh:mm:ss.SSS'Z' e.g. 2015-06-13T11:45:20.102Z
+   *
+   * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
+   */
+  public static Date ToDate(final String datetime) throws ParseException {
+    final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+    format.setTimeZone(TimeZone.getTimeZone("UTC"));
+    return format.parse(datetime);
+  }
 
   @Override
   public void applySpecification(final ExchangeSpecification specification) {
     super.applySpecification(specification);
 
-    if ((specification.getSecretKey() != null) && (specification.getSecretKey().length() > 0)
-        && specification.getSslUri().equals(REST_API_RIPPLE_LABS)
-        && (Boolean.parseBoolean(specification.getParameter(PARAMETER_TRUST_API_RIPPLE_COM).toString()) == false)) {
+    if ((specification.getSecretKey() != null) && (specification.getSecretKey().length() > 0) && specification.getSslUri()
+                                                                                                              .equals(REST_API_RIPPLE_LABS) && (
+        Boolean.parseBoolean(specification.getParameter(PARAMETER_TRUST_API_RIPPLE_COM).toString()) == false)) {
       throw new IllegalStateException(String.format("server %s has not been trusted - see %s for details", REST_API_RIPPLE_LABS, README));
     }
   }
@@ -100,17 +105,5 @@ public class RippleExchange extends BaseExchange implements Exchange {
 
   public void clearOrderDetailsCache() {
     ((RippleTradeService) tradeService).clearOrderDetailsStore();
-  }
-
-  /**
-   * Converts a datetime string as returned from the Ripple REST API into a java date object. The string is the UTC time in format
-   * yyyy-MM-dd'T'hh:mm:ss.SSS'Z' e.g. 2015-06-13T11:45:20.102Z
-   *
-   * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
-   */
-  public static Date ToDate(final String datetime) throws ParseException {
-    final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
-    format.setTimeZone(TimeZone.getTimeZone("UTC"));
-    return format.parse(datetime);
   }
 }

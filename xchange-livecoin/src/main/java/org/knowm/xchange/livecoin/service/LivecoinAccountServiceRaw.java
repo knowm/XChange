@@ -47,16 +47,12 @@ public class LivecoinAccountServiceRaw extends LivecoinBaseService<Livecoin> {
   }
 
   public List<FundingRecord> funding(Date start, Date end, Integer limit, Long offset) throws IOException {
-    List<Map> response = service.transactions(apiKey, signatureCreator,
-        String.valueOf(DateUtils.toMillisNullSafe(start)),
-        String.valueOf(DateUtils.toMillisNullSafe(end)),
-        "DEPOSIT,WITHDRAWAL",
-        limit,
-        offset
-    );
+    List<Map> response = service
+        .transactions(apiKey, signatureCreator, String.valueOf(DateUtils.toMillisNullSafe(start)), String.valueOf(DateUtils.toMillisNullSafe(end)),
+            "DEPOSIT,WITHDRAWAL", limit, offset);
 
-//        if(!response.success)
-//            throw new ExchangeException("Failed to get funding " + response.errorMessage);
+    //        if(!response.success)
+    //            throw new ExchangeException("Failed to get funding " + response.errorMessage);
 
     List<FundingRecord> resp = new ArrayList<>();
     for (Map map : response) {

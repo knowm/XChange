@@ -216,6 +216,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
   public static class CoinbaseButtonBuilder {
 
+    private static final int MAX_SUGGESTED_PRICES = 5;
     private final String name;
     private final CoinbaseMoney price;
     private CoinbaseButtonType type;
@@ -480,8 +481,6 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
       return price5;
     }
-
-    private static final int MAX_SUGGESTED_PRICES = 5;
 
     public CoinbaseButtonBuilder withSuggestedPrices(String... suggestedPrices) {
 

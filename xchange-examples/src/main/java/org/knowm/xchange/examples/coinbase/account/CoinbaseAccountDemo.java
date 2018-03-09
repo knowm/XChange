@@ -126,7 +126,7 @@ public class CoinbaseAccountDemo {
   private static void demoTransactions(CoinbaseAccountService accountService) throws IOException {
 
     CoinbaseRequestMoneyRequest moneyRequest = CoinbaseTransaction.createMoneyRequest("xchange@demo.com", "BTC", new BigDecimal(".001"))
-        .withNotes("test");
+                                                                  .withNotes("test");
     CoinbaseTransaction pendingTransaction = accountService.requestMoneyCoinbaseRequest(moneyRequest);
     System.out.println(pendingTransaction);
 

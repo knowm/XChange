@@ -43,8 +43,7 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair arg0,
-      Object... arg1) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair arg0, Object... arg1) throws IOException {
 
     List<VaultoroOrderBook> vaultoroOrderBooks = super.getVaultoroOrderBook(arg0);
 
@@ -64,16 +63,14 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair arg0,
-      Object... arg1) throws IOException {
+  public Ticker getTicker(CurrencyPair arg0, Object... arg1) throws IOException {
 
     BigDecimal latest = super.getLast(arg0);
     return VaultoroAdapters.adaptVaultoroLatest(latest);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair arg0,
-      Object... arg1) throws IOException {
+  public Trades getTrades(CurrencyPair arg0, Object... arg1) throws IOException {
 
     List<VaultoroTrade> vaultoroTrades = super.getVaultoroTrades(arg0);
     return VaultoroAdapters.adaptVaultoroTransactions(vaultoroTrades, arg0);

@@ -63,7 +63,7 @@ public class CoinmateAdapters {
    * Adapts a CoinmateTicker to a Ticker Object
    *
    * @param coinmateTicker The exchange specific ticker
-   * @param currencyPair (e.g. BTC/USD)
+   * @param currencyPair   (e.g. BTC/USD)
    * @return The ticker
    */
   public static Ticker adaptTicker(CoinmateTicker coinmateTicker, CurrencyPair currencyPair) {
@@ -76,7 +76,8 @@ public class CoinmateAdapters {
     BigDecimal volume = coinmateTicker.getData().getAmount();
     Date timestamp = new Date(coinmateTicker.getData().getTimestamp() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+                               .build();
 
   }
 
@@ -181,10 +182,15 @@ public class CoinmateAdapters {
           continue;
       }
 
-      switch (entry.getStatus()) {
+      switch (entry.getStatus().toUpperCase()) {
+        case "OK":
         case "COMPLETED":
           status = FundingRecord.Status.COMPLETE;
           break;
+        case "NEW":
+        case "SENT":
+        case "CREATED":
+        case "WAITING":
         case "PENDING":
           status = FundingRecord.Status.PROCESSING;
           break;
@@ -202,19 +208,8 @@ public class CoinmateAdapters {
         externalId = description.replace(feeCurrency + ": ", "");//the transaction hash is in the description
       }
 
-      FundingRecord funding = new FundingRecord(
-          null,
-          new Date(entry.getTimestamp()),
-          Currency.getInstance(entry.getAmountCurrency()),
-          entry.getAmount(),
-          transactionId,
-          externalId,
-          type,
-          status,
-          null,
-          entry.getFee(),
-          description
-      );
+      FundingRecord funding = new FundingRecord(null, new Date(entry.getTimestamp()), Currency.getInstance(entry.getAmountCurrency()),
+          entry.getAmount(), transactionId, externalId, type, status, null, entry.getFee(), description);
 
       fundings.add(funding);
     }

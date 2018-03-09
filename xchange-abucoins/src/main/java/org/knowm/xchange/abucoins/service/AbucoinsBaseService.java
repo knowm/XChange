@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 
@@ -32,30 +33,28 @@ public class AbucoinsBaseService extends BaseExchangeService implements BaseServ
 
     super(exchange);
 
-    abucoins = RestProxyFactory.createProxy(Abucoins.class,
-                                            exchange.getExchangeSpecification().getSslUri(),
-                                            getClientConfig());
-    abucoinsAuthenticated = RestProxyFactory.createProxy(AbucoinsAuthenticated.class,
-                                                         exchange.getExchangeSpecification().getSslUri());
-    signatureCreator = AbucoinsDigest.createInstance(abucoins,
-                                                     exchange.getExchangeSpecification().getSecretKey());
-    
-    getClientConfig().setJacksonObjectMapperFactory(new DefaultJacksonObjectMapperFactory() {
-            @Override
-            public void configureObjectMapper(ObjectMapper objectMapper) {
-              super.configureObjectMapper(objectMapper);
-              SimpleModule module = new SimpleModule();
-              module.addSerializer(BigDecimal.class, new ToStringSerializer());
-              objectMapper.registerModule(module);
-            }
-        });
+    ClientConfig clientConfig = getClientConfig();
+    clientConfig.setJacksonObjectMapperFactory(new DefaultJacksonObjectMapperFactory() {
+      @Override
+      public void configureObjectMapper(ObjectMapper objectMapper) {
+        super.configureObjectMapper(objectMapper);
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(BigDecimal.class, new ToStringSerializer());
+        objectMapper.registerModule(module);
+      }
+    });
+
+    abucoins = RestProxyFactory.createProxy(Abucoins.class, exchange.getExchangeSpecification().getSslUri(), clientConfig);
+    abucoinsAuthenticated = RestProxyFactory.createProxy(AbucoinsAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), clientConfig);
+    signatureCreator = AbucoinsDigest.createInstance(abucoins, exchange.getExchangeSpecification().getSecretKey());
   }
-  
+
   /**
    * Helper method that performs a null check.  SignatureCreator is null if no API key is provided.
+   *
    * @return The timestamp as maintained by the signature creator.
    */
   protected String timestamp() {
-    return ( signatureCreator == null ) ? null : signatureCreator.timestamp();
+    return (signatureCreator == null) ? null : signatureCreator.timestamp();
   }
 }

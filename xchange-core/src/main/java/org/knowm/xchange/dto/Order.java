@@ -13,162 +13,68 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public abstract class Order implements Serializable {
 
-  public BigDecimal getFee() {
-    return fee;
-  }
-
-  public void setFee(BigDecimal fee) {
-    this.fee = fee;
-  }
-
-  public enum OrderType {
-
-    /**
-     * Buying order (the trader is providing the counter currency)
-     */
-    BID,
-    /**
-     * Selling order (the trader is providing the base currency)
-     */
-    ASK,
-    /**
-     * This is to close a short position when trading crypto currency derivatives such as swaps, futures for CFD's.
-     */
-    EXIT_ASK,
-    /**
-     * This is to close a long position when trading crypto currency derivatives such as swaps, futures for CFD's.
-     */
-    EXIT_BID
-  }
-
-  public enum OrderStatus {
-
-    /**
-     * Initial order when instantiated
-     */
-    PENDING_NEW,
-    /**
-     * Initial order when placed on the order book at exchange
-     */
-    NEW,
-    /**
-     * Partially match against opposite order on order book at exchange
-     */
-    PARTIALLY_FILLED,
-    /**
-     * Fully match against opposite order on order book at exchange
-     */
-    FILLED,
-    /**
-     * Waiting to be removed from order book at exchange
-     */
-    PENDING_CANCEL,
-    /**
-     * Removed from order book at exchange
-     */
-    CANCELED,
-    /**
-     * Waiting to be replaced by another order on order book at exchange
-     */
-    PENDING_REPLACE,
-    /**
-     * Order has been replace by another order on order book at exchange
-     */
-    REPLACED,
-    /**
-     * Order has been triggered at stop price
-     */
-    STOPPED,
-    /**
-     * Order has been rejected by exchange and not place on order book
-     */
-    REJECTED,
-    /**
-     * Order has expired it's time to live or trading session and been removed from order book
-     */
-    EXPIRED
-  }
-
-  public interface IOrderFlags {
-  }
-
   /**
    * Order type i.e. bid or ask
    */
   private final OrderType type;
-
-  /**
-   * Status of order during it lifecycle
-   */
-  private OrderStatus status;
-
   /**
    * Amount to be ordered / amount that was ordered
    */
   private final BigDecimal originalAmount;
-
-  /**
-   * Amount to be ordered / amount that has been matched against order on the order book/filled
-   */
-  private BigDecimal cumulativeAmount;
-
-  /**
-   * Weighted Average price of the fills in the order
-   */
-  private BigDecimal averagePrice;
-
   /**
    * The currency pair
    */
   private final CurrencyPair currencyPair;
-
   /**
    * An identifier that uniquely identifies the order
    */
   private final String id;
-
   /**
    * The timestamp on the order according to the exchange's server, null if not provided
    */
   private final Date timestamp;
-
-  /** The total of the fees incured for all transactions related to this order */
-  private BigDecimal fee;
-
   /**
    * Any applicable order flags
    */
   private final Set<IOrderFlags> flags = new HashSet<>();
+  /**
+   * Status of order during it lifecycle
+   */
+  private OrderStatus status;
+  /**
+   * Amount to be ordered / amount that has been matched against order on the order book/filled
+   */
+  private BigDecimal cumulativeAmount;
+  /**
+   * Weighted Average price of the fills in the order
+   */
+  private BigDecimal averagePrice;
+  /**
+   * The total of the fees incured for all transactions related to this order
+   */
+  private BigDecimal fee;
 
   /**
-   * @param type Either BID (buying) or ASK (selling)
+   * @param type           Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
-   * @param id An id (usually provided by the exchange)
-   * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
+   * @param currencyPair   currencyPair The identifier (e.g. BTC/USD)
+   * @param id             An id (usually provided by the exchange)
+   * @param timestamp      the absolute time for this order according to the exchange's server, null if not provided
    */
   public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp) {
-
-    this.type = type;
-    this.originalAmount = originalAmount;
-    this.currencyPair = currencyPair;
-    this.id = id;
-    this.timestamp = timestamp;
-    this.averagePrice = BigDecimal.ZERO;
-    this.status = OrderStatus.PENDING_NEW;
-    this.cumulativeAmount = BigDecimal.ZERO;
+    this(type, originalAmount, currencyPair, id, timestamp, null, null, null, null);
   }
 
   /**
-   * @param type Either BID (buying) or ASK (selling)
-   * @param originalAmount The amount to trade
-   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
-   * @param id An id (usually provided by the exchange)
-   * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
-   * @param averagePrice the averagePrice of fill belonging to the order
+   * @param type             Either BID (buying) or ASK (selling)
+   * @param originalAmount   The amount to trade
+   * @param currencyPair     currencyPair The identifier (e.g. BTC/USD)
+   * @param id               An id (usually provided by the exchange)
+   * @param timestamp        the absolute time for this order according to the exchange's server, null if not provided
+   * @param averagePrice     the averagePrice of fill belonging to the order
    * @param cumulativeAmount the amount that has been filled
-   * @param fee the fee associated with this order
-   * @param status the status of the order at the exchange
+   * @param fee              the fee associated with this order
+   * @param status           the status of the order at the exchange
    */
   public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
       BigDecimal cumulativeAmount, BigDecimal fee, OrderStatus status) {
@@ -182,6 +88,18 @@ public abstract class Order implements Serializable {
     this.cumulativeAmount = cumulativeAmount;
     this.fee = fee;
     this.status = status;
+  }
+
+  private static String print(BigDecimal value) {
+    return value == null ? null : value.toPlainString();
+  }
+
+  public BigDecimal getFee() {
+    return fee;
+  }
+
+  public void setFee(BigDecimal fee) {
+    this.fee = fee;
   }
 
   /**
@@ -216,12 +134,16 @@ public abstract class Order implements Serializable {
     return cumulativeAmount;
   }
 
+  public void setCumulativeAmount(BigDecimal cumulativeAmount) {
+
+    this.cumulativeAmount = cumulativeAmount;
+  }
+
   /**
    * @return The remaining order amount
    */
   public BigDecimal getRemainingAmount() {
-    if (cumulativeAmount != null
-            && originalAmount != null) {
+    if (cumulativeAmount != null && originalAmount != null) {
       return originalAmount.subtract(cumulativeAmount);
     }
     return originalAmount;
@@ -233,6 +155,11 @@ public abstract class Order implements Serializable {
   public BigDecimal getAveragePrice() {
 
     return averagePrice;
+  }
+
+  public void setAveragePrice(BigDecimal averagePrice) {
+
+    this.averagePrice = averagePrice;
   }
 
   public CurrencyPair getCurrencyPair() {
@@ -258,6 +185,14 @@ public abstract class Order implements Serializable {
     return flags;
   }
 
+  public void setOrderFlags(Set<IOrderFlags> flags) {
+
+    this.flags.clear();
+    if (flags != null) {
+      this.flags.addAll(flags);
+    }
+  }
+
   public boolean hasFlag(IOrderFlags flag) {
 
     return flags.contains(flag);
@@ -268,38 +203,16 @@ public abstract class Order implements Serializable {
     flags.add(flag);
   }
 
-  public void setOrderFlags(Set<IOrderFlags> flags) {
-
-    this.flags.clear();
-    if (flags != null) {
-      this.flags.addAll(flags);
-    }
-  }
-
   public void setOrderStatus(OrderStatus status) {
 
     this.status = status;
   }
 
-  public void setAveragePrice(BigDecimal averagePrice) {
-
-    this.averagePrice = averagePrice;
-  }
-
-  public void setCumulativeAmount(BigDecimal cumulativeAmount) {
-
-    this.cumulativeAmount = cumulativeAmount;
-  }
-
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", originalAmount=" + print(originalAmount) + ", cumulativeAmount=" + print(cumulativeAmount) + ", averagePrice=" + print(averagePrice) + ", currencyPair=" + currencyPair
-        + ", id=" + id + ", timestamp=" + timestamp + ", status=" + status + "]";
-  }
-
-  private static String print(BigDecimal value) {
-    return value == null ? null : value.toPlainString();
+    return "Order [type=" + type + ", originalAmount=" + print(originalAmount) + ", cumulativeAmount=" + print(cumulativeAmount) + ", averagePrice="
+        + print(averagePrice) + ", currencyPair=" + currencyPair + ", id=" + id + ", timestamp=" + timestamp + ", status=" + status + "]";
   }
 
   @Override
@@ -342,8 +255,74 @@ public abstract class Order implements Serializable {
     return true;
   }
 
+  public enum OrderType {
+
+    /**
+     * Buying order (the trader is providing the counter currency)
+     */
+    BID, /**
+     * Selling order (the trader is providing the base currency)
+     */
+    ASK, /**
+     * This is to close a short position when trading crypto currency derivatives such as swaps, futures for CFD's.
+     */
+    EXIT_ASK, /**
+     * This is to close a long position when trading crypto currency derivatives such as swaps, futures for CFD's.
+     */
+    EXIT_BID
+  }
+
+  public enum OrderStatus {
+
+    /**
+     * Initial order when instantiated
+     */
+    PENDING_NEW, /**
+     * Initial order when placed on the order book at exchange
+     */
+    NEW, /**
+     * Partially match against opposite order on order book at exchange
+     */
+    PARTIALLY_FILLED, /**
+     * Fully match against opposite order on order book at exchange
+     */
+    FILLED, /**
+     * Waiting to be removed from order book at exchange
+     */
+    PENDING_CANCEL, /**
+     * Order was partially canceled at exchange
+     */
+    PARTIALLY_CANCELED, /**
+     * Removed from order book at exchange
+     */
+    CANCELED, /**
+     * Waiting to be replaced by another order on order book at exchange
+     */
+    PENDING_REPLACE, /**
+     * Order has been replace by another order on order book at exchange
+     */
+    REPLACED, /**
+     * Order has been triggered at stop price
+     */
+    STOPPED, /**
+     * Order has been rejected by exchange and not place on order book
+     */
+    REJECTED, /**
+     * Order has expired it's time to live or trading session and been removed from order book
+     */
+    EXPIRED, /**
+     * The exchange returned a state which is not in the exchange's API documentation.
+     * The state of the order cannot be confirmed.
+     */
+    UNKNOWN
+  }
+
+  public interface IOrderFlags {
+  }
+
   public abstract static class Builder {
 
+    protected final Set<IOrderFlags> flags = new HashSet<>();
     protected OrderType orderType;
     protected BigDecimal originalAmount;
     protected BigDecimal cumulativeAmount;
@@ -354,8 +333,6 @@ public abstract class Order implements Serializable {
     protected BigDecimal averagePrice;
     protected OrderStatus status;
     protected BigDecimal fee;
-
-    protected final Set<IOrderFlags> flags = new HashSet<>();
 
     protected Builder(OrderType orderType, CurrencyPair currencyPair) {
 

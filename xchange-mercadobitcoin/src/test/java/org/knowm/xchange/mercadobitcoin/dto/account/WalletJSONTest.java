@@ -28,8 +28,8 @@ public class WalletJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo = mapper.readValue(is,
-        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo>>() {
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo = mapper
+        .readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo>>() {
         });
 
     // Verify that the example data was unmarshalled correctly

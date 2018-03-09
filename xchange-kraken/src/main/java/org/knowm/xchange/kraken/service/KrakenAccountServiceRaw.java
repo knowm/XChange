@@ -61,44 +61,45 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
   }
 
   public KrakenDepositAddress[] getDepositAddresses(String currency, String method, boolean newAddress) throws IOException {
-    KrakenDepositAddressResult depositAddressesResult = kraken.getDepositAddresses(null, currency, method,
-        exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    KrakenDepositAddressResult depositAddressesResult = kraken
+        .getDepositAddresses(null, currency, method, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return checkResult(depositAddressesResult);
   }
 
   public KrakenDepositMethods[] getDepositMethods(String assetPairs, String assets) throws IOException {
-    KrakenDepositMethodsResults depositMethods = kraken.getDepositMethods(assetPairs, assets, exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    KrakenDepositMethodsResults depositMethods = kraken
+        .getDepositMethods(assetPairs, assets, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return checkResult(depositMethods);
   }
 
   public WithdrawInfo getWithdrawInfo(String assetPairs, String assets, String key, BigDecimal amount) throws IOException {
-    WithdrawInfoResult withdrawInfoResult = kraken.getWithdrawInfo(assetPairs, assets, key, amount, exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    WithdrawInfoResult withdrawInfoResult = kraken
+        .getWithdrawInfo(assetPairs, assets, key, amount, exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+            exchange.getNonceFactory());
     return checkResult(withdrawInfoResult);
   }
 
   public Withdraw withdraw(String assetPairs, String assets, String key, BigDecimal amount) throws IOException {
-    WithdrawResult withdrawResult = kraken.withdraw(assetPairs, assets, key, amount, exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    WithdrawResult withdrawResult = kraken
+        .withdraw(assetPairs, assets, key, amount, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return checkResult(withdrawResult);
   }
 
   public List<DepostitStatus> getDepositStatus(String assetPairs, String assets, String method) throws IOException {
-    DepositStatusResult result = kraken.getDepositStatus(assetPairs, assets, method, exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    DepositStatusResult result = kraken
+        .getDepositStatus(assetPairs, assets, method, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return checkResult(result);
   }
 
   public List<WithdrawStatus> getWithdrawStatus(String assetPairs, String assets, String method) throws IOException {
-    WithdrawStatusResult result = kraken.getWithdrawStatus(assetPairs, assets, method, exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    WithdrawStatusResult result = kraken
+        .getWithdrawStatus(assetPairs, assets, method, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return checkResult(result);
   }
 
   /**
    * @param valuationCurrency - Base asset used to determine balance (can be null, defaults to USD). The asset should be provided in the form of a
-   * standard currency code, i.e., EUR. It will be converted to the appropriate Kraken Asset code.
+   *                          standard currency code, i.e., EUR. It will be converted to the appropriate Kraken Asset code.
    * @return KrakenTradeBalanceInfo
    * @throws IOException
    */
@@ -110,8 +111,8 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
       valuationCurrencyCode = KrakenUtils.getKrakenCurrencyCode(valuationCurrency);
     }
 
-    KrakenTradeBalanceInfoResult balanceResult = kraken.tradeBalance(null, valuationCurrencyCode, exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    KrakenTradeBalanceInfoResult balanceResult = kraken
+        .tradeBalance(null, valuationCurrencyCode, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return checkResult(balanceResult);
   }
 
@@ -142,20 +143,21 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * between the start date and the end date. The ledger records the activity
    * (trades, deposit, withdrawals) of the account for all assets.
    *
-   * @param assets Set of assets to restrict output to (can be null, defaults to all)
+   * @param assets     Set of assets to restrict output to (can be null, defaults to all)
    * @param ledgerType {@link LedgerType} to retrieve (can be null, defaults to all
-   * types)
-   * @param start Start Unix timestamp or ledger id of results (can be null)
-   * @param end End Unix timestamp or ledger id of results (can be null)
-   * @param offset Result offset (can be null)
+   *                   types)
+   * @param start      Start Unix timestamp or ledger id of results (can be null)
+   * @param end        End Unix timestamp or ledger id of results (can be null)
+   * @param offset     Result offset (can be null)
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedger> getKrakenPartialLedgerInfo(LedgerType ledgerType, String startTime, String endTime,
-      Long offset, Currency... assets) throws IOException {
+  public Map<String, KrakenLedger> getKrakenPartialLedgerInfo(LedgerType ledgerType, String startTime, String endTime, Long offset,
+      Currency... assets) throws IOException {
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();
-    KrakenLedgerResult ledgerResult = kraken.ledgers(null, delimitAssets(assets), ledgerTypeString, startTime, endTime,
-        offset, exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    KrakenLedgerResult ledgerResult = kraken
+        .ledgers(null, delimitAssets(assets), ledgerTypeString, startTime, endTime, offset, exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator, exchange.getNonceFactory());
     return checkResult(ledgerResult).getLedgerMap();
   }
 
@@ -165,17 +167,17 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * between the start date and the end date. The ledger records the activity
    * (trades, deposit, withdrawals) of the account for all assets.
    *
-   * @param assets Set of assets to restrict output to (can be null, defaults to all)
+   * @param assets     Set of assets to restrict output to (can be null, defaults to all)
    * @param ledgerType {@link LedgerType} to retrieve (can be null, defaults to all
-   * types)
-   * @param start Start unix timestamp or ledger id of results (can be null)
-   * @param end End unix timestamp or ledger id of results (can be null)
-   * @param offset Result offset (can be null)
+   *                   types)
+   * @param start      Start unix timestamp or ledger id of results (can be null)
+   * @param end        End unix timestamp or ledger id of results (can be null)
+   * @param offset     Result offset (can be null)
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, Date start, Date end, Long offset,
-      Currency... assets) throws IOException {
+  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, Date start, Date end, Long offset, Currency... assets)
+      throws IOException {
 
     String startTime = null;
     String endTime = null;
@@ -191,8 +193,7 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
       longOffset = offset;
     }
 
-    Map<String, KrakenLedger> fullLedgerMap = getKrakenPartialLedgerInfo(ledgerType, startTime, endTime, offset,
-        assets);
+    Map<String, KrakenLedger> fullLedgerMap = getKrakenPartialLedgerInfo(ledgerType, startTime, endTime, offset, assets);
     Map<String, KrakenLedger> lastLedgerMap = fullLedgerMap;
 
     while (!lastLedgerMap.isEmpty()) {
@@ -208,15 +209,16 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
 
   public Map<String, KrakenLedger> queryKrakenLedger(String... ledgerIds) throws IOException {
 
-    KrakenQueryLedgerResult ledgerResult = kraken.queryLedgers(createDelimitedString(ledgerIds), exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    KrakenQueryLedgerResult ledgerResult = kraken
+        .queryLedgers(createDelimitedString(ledgerIds), exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+            exchange.getNonceFactory());
 
     return checkResult(ledgerResult);
   }
 
   public KrakenTradeVolume getTradeVolume(CurrencyPair... currencyPairs) throws IOException {
-    KrakenTradeVolumeResult result = kraken.tradeVolume(delimitAssetPairs(currencyPairs), exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    KrakenTradeVolumeResult result = kraken
+        .tradeVolume(delimitAssetPairs(currencyPairs), exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return checkResult(result);
   }
 }

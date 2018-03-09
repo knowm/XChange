@@ -30,13 +30,15 @@ public class OrderBookDemo {
     System.out.println("received data.");
 
     for (LimitOrder limitOrder : orderBook.getBids()) {
-      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
-          + limitOrder.getOriginalAmount());
+      System.out.println(
+          limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: " + limitOrder
+              .getOriginalAmount());
     }
 
     for (LimitOrder limitOrder : orderBook.getAsks()) {
-      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
-          + limitOrder.getOriginalAmount());
+      System.out.println(
+          limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: " + limitOrder
+              .getOriginalAmount());
     }
   }
 

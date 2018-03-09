@@ -46,7 +46,8 @@ public class GeminiNewOrderRequest {
    * @param side
    * @param type
    */
-  public GeminiNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type, Object[] options) {
+  public GeminiNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type,
+      Object[] options) {
 
     this.request = "/v1/order/new";
     this.nonce = nonce;

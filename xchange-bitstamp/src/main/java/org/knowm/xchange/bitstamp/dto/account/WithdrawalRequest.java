@@ -10,10 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WithdrawalRequest {
 
-  private Long id;
-
   private final Date datetime;
-
+  private Long id;
   private Type type;
   private BigDecimal amount;
   @JsonProperty("status")
@@ -24,13 +22,13 @@ public class WithdrawalRequest {
   @JsonProperty("transaction_id")
   private String transactionId;         // Transaction id (bitcoin withdrawals only).
 
-  public Long getId() {
-    return id;
-  }
-
   public WithdrawalRequest(@JsonProperty("datetime") String datetime) {
     super();
     this.datetime = BitstampUtils.parseDate(datetime);
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public Date getDatetime() {
@@ -68,8 +66,8 @@ public class WithdrawalRequest {
 
   @Override
   public String toString() {
-    return "WithdrawalRequest [id=" + id + ", datetime=" + datetime + ", type=" + type + ", amount=" + amount + ", status="
-        + getStatus() + ", statusOriginal=" + statusOriginal + ", data=" + data + ", address=" + address + ", transactionId=" + transactionId + "]";
+    return "WithdrawalRequest [id=" + id + ", datetime=" + datetime + ", type=" + type + ", amount=" + amount + ", status=" + getStatus()
+        + ", statusOriginal=" + statusOriginal + ", data=" + data + ", address=" + address + ", transactionId=" + transactionId + "]";
   }
 
   public enum Type {

@@ -65,8 +65,8 @@ public enum ExchangeFactory {
    * </p>
    *
    * @param exchangeClassName the fully-qualified class name of the exchange
-   * @param apiKey the public API key
-   * @param secretKey the secret API key
+   * @param apiKey            the public API key
+   * @param secretKey         the secret API key
    * @return a new exchange instance configured with the default {@link org.knowm.xchange.ExchangeSpecification}
    */
   public Exchange createExchange(String exchangeClassName, String apiKey, String secretKey) {
@@ -95,8 +95,8 @@ public enum ExchangeFactory {
    * </p>
    *
    * @param exchangeClass the class of the exchange
-   * @param apiKey the public API key
-   * @param secretKey the secret API key
+   * @param apiKey        the public API key
+   * @param secretKey     the secret API key
    * @return a new exchange instance configured with the default {@link org.knowm.xchange.ExchangeSpecification}
    */
   public Exchange createExchange(Class<? extends Exchange> exchangeClass, String apiKey, String secretKey) {

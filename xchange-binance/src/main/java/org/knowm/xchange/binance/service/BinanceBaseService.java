@@ -31,6 +31,10 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
     return System.currentTimeMillis() + ((BinanceExchange) exchange).deltaServerTime();
   }
 
+  public void refreshTimestamp() {
+    ((BinanceExchange) exchange).clearDeltaServerTime();
+  }
+
   public BinanceExchangeInfo getExchangeInfo() throws IOException {
 
     return binance.exchangeInfo();

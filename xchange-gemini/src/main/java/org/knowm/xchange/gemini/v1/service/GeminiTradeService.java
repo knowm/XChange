@@ -8,7 +8,11 @@ import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -43,8 +47,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     GeminiOrderStatusResponse[] activeOrders = getGeminiOpenOrders();
 
     if (activeOrders.length <= 0) {
@@ -97,7 +100,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
 
   /**
    * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can optionally implement {@link TradeHistoryParamPaging} and
-   * {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be ignored.
+   *               {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -149,8 +152,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
 
     Collection<Order> orders = new ArrayList<>(orderIds.length);
 
@@ -176,18 +178,13 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
-      this.currencyPair = currencyPair;
-    }
-
-    @Override
     public CurrencyPair getCurrencyPair() {
       return currencyPair;
     }
 
     @Override
-    public void setLimit(Integer limit) {
-      this.limit = limit;
+    public void setCurrencyPair(CurrencyPair currencyPair) {
+      this.currencyPair = currencyPair;
     }
 
     @Override
@@ -196,8 +193,8 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     }
 
     @Override
-    public void setStartTime(Date startTime) {
-      this.startTime = startTime;
+    public void setLimit(Integer limit) {
+      this.limit = limit;
     }
 
     @Override
@@ -206,13 +203,18 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     }
 
     @Override
-    public void setEndTime(Date endTime) {
-      //ignored
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
     }
 
     @Override
     public Date getEndTime() {
       return null;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      //ignored
     }
   }
 }

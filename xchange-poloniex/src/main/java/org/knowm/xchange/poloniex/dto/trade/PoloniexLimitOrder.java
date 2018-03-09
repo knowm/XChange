@@ -18,12 +18,12 @@ public class PoloniexLimitOrder extends LimitOrder {
     super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
   }
 
-  public void setResponse(PoloniexTradeResponse value) {
-    response = value;
-  }
-
   public PoloniexTradeResponse getResponse() {
     return response;
+  }
+
+  public void setResponse(PoloniexTradeResponse value) {
+    response = value;
   }
 
   public static class Builder extends LimitOrder.Builder {

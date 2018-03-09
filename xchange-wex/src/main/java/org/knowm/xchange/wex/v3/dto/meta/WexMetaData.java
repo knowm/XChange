@@ -20,8 +20,8 @@ public class WexMetaData extends ExchangeMetaData {
   public int amountScale;
 
   public WexMetaData(@JsonProperty("currency_pairs") Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
-      @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currency,
-      @JsonProperty("publicInfoCacheSeconds") int publicInfoCacheSeconds, @JsonProperty("amountScale") int amountScale) {
+      @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currency, @JsonProperty("publicInfoCacheSeconds") int publicInfoCacheSeconds,
+      @JsonProperty("amountScale") int amountScale) {
     super(currencyPairs, currency, null, null, null);
     this.publicInfoCacheSeconds = publicInfoCacheSeconds;
     this.amountScale = amountScale;

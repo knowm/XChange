@@ -145,13 +145,13 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
   @Test
   public void shouldMakeRemoteInit() throws IOException {
     // given
-    List<BleutradeCurrency> currenciesStub = Arrays.asList(
-        createBleutradeCurrency("BTC", "Bitcoin", 2, new BigDecimal("0.00080000"), true, "BITCOIN"),
-        createBleutradeCurrency("LTC", "Litecoin", 4, new BigDecimal("0.02000000"), true, "BITCOIN"));
+    List<BleutradeCurrency> currenciesStub = Arrays
+        .asList(createBleutradeCurrency("BTC", "Bitcoin", 2, new BigDecimal("0.00080000"), true, "BITCOIN"),
+            createBleutradeCurrency("LTC", "Litecoin", 4, new BigDecimal("0.02000000"), true, "BITCOIN"));
 
-    List<BleutradeMarket> marketsStub = Arrays.asList(
-        createBleutradeMarket("DOGE", "BTC", "Dogecoin", "Bitcoin", new BigDecimal("0.10000000"), "DOGE_BTC", true),
-        createBleutradeMarket("BLEU", "BTC", "Bleutrade Share", "Bitcoin", new BigDecimal("0.00000001"), "BLEU_BTC", true));
+    List<BleutradeMarket> marketsStub = Arrays
+        .asList(createBleutradeMarket("DOGE", "BTC", "Dogecoin", "Bitcoin", new BigDecimal("0.10000000"), "DOGE_BTC", true),
+            createBleutradeMarket("BLEU", "BTC", "Bleutrade Share", "Bitcoin", new BigDecimal("0.00000001"), "BLEU_BTC", true));
 
     BleutradeMarketDataService marketDataServiceMock = mock(BleutradeMarketDataService.class);
     PowerMockito.when(marketDataServiceMock.getBleutradeCurrencies()).thenReturn(currenciesStub);

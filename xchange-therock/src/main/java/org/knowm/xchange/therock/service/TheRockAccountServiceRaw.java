@@ -36,8 +36,8 @@ public class TheRockAccountServiceRaw extends TheRockBaseService {
   /**
    * Withdraw using the default method
    */
-  public TheRockWithdrawalResponse withdrawDefault(Currency currency, BigDecimal amount,
-      String destinationAddress) throws TheRockException, IOException {
+  public TheRockWithdrawalResponse withdrawDefault(Currency currency, BigDecimal amount, String destinationAddress)
+      throws TheRockException, IOException {
     final TheRockWithdrawal withdrawal = TheRockWithdrawal.createDefaultWithdrawal(currency.getCurrencyCode(), amount, destinationAddress);
     return theRockAuthenticated.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), withdrawal);
   }
@@ -45,10 +45,10 @@ public class TheRockAccountServiceRaw extends TheRockBaseService {
   /**
    * Withdraw to Ripple
    */
-  public TheRockWithdrawalResponse withdrawRipple(Currency currency, BigDecimal amount,
-      String destinationAddress, Long destinationTag) throws TheRockException, IOException {
-    final TheRockWithdrawal withdrawal = TheRockWithdrawal.createRippleWithdrawal(currency.getCurrencyCode(), amount
-        , destinationAddress, destinationTag);
+  public TheRockWithdrawalResponse withdrawRipple(Currency currency, BigDecimal amount, String destinationAddress, Long destinationTag)
+      throws TheRockException, IOException {
+    final TheRockWithdrawal withdrawal = TheRockWithdrawal
+        .createRippleWithdrawal(currency.getCurrencyCode(), amount, destinationAddress, destinationTag);
     return theRockAuthenticated.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), withdrawal);
   }
 
@@ -57,10 +57,12 @@ public class TheRockAccountServiceRaw extends TheRockBaseService {
   }
 
   public TheRockTransactions withdrawls(Currency currency, Date after, Date before, Integer page) throws IOException {
-    return theRockAuthenticated.transactions(apiKey, signatureCreator, exchange.getNonceFactory(), "withdraw", after, before, currency == null ? null : currency.getCurrencyCode(), page);
+    return theRockAuthenticated.transactions(apiKey, signatureCreator, exchange.getNonceFactory(), "withdraw", after, before,
+        currency == null ? null : currency.getCurrencyCode(), page);
   }
 
   public TheRockTransactions deposits(Currency currency, Date after, Date before, Integer page) throws IOException {
-    return theRockAuthenticated.transactions(apiKey, signatureCreator, exchange.getNonceFactory(), "atm_payment", after, before, currency == null ? null : currency.getCurrencyCode(), page);
+    return theRockAuthenticated.transactions(apiKey, signatureCreator, exchange.getNonceFactory(), "atm_payment", after, before,
+        currency == null ? null : currency.getCurrencyCode(), page);
   }
 }

@@ -7,15 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "id",
-                       "side",
-                       "price",
-                       "size",
-                       "exec_date",
-                       "buy_child_order_acceptance_id",
-                       "sell_child_order_acceptance_id"
-                   })
+@JsonPropertyOrder({"id", "side", "price", "size", "exec_date", "buy_child_order_acceptance_id", "sell_child_order_acceptance_id"})
 public class BitflyerExecution {
   @JsonProperty("id")
   private Integer id;
@@ -90,14 +82,8 @@ public class BitflyerExecution {
 
   @Override
   public String toString() {
-    return "BitflyerExecution{" +
-        "id=" + id +
-        ", side='" + side + '\'' +
-        ", price=" + price +
-        ", size=" + size +
-        ", execDate='" + execDate + '\'' +
-        ", buyChildOrderAcceptanceId='" + buyChildOrderAcceptanceId + '\'' +
-        ", sellChildOrderAcceptanceId='" + sellChildOrderAcceptanceId + '\'' +
-        '}';
+    return "BitflyerExecution{" + "id=" + id + ", side='" + side + '\'' + ", price=" + price + ", size=" + size + ", execDate='" + execDate + '\''
+        + ", buyChildOrderAcceptanceId='" + buyChildOrderAcceptanceId + '\'' + ", sellChildOrderAcceptanceId='" + sellChildOrderAcceptanceId + '\''
+        + '}';
   }
 }

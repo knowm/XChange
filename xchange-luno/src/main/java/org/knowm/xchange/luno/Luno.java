@@ -60,7 +60,7 @@ public interface Luno {
   /**
    * Returns a list of the most recent trades. At most 100 results are returned per call.
    *
-   * @param pair required - Currency pair e.g. XBTZAR
+   * @param pair  required - Currency pair e.g. XBTZAR
    * @param since optional - Fetch trades executed after this time, specified as a Unix timestamp in milliseconds.
    * @return
    * @throws IOException

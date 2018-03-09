@@ -24,7 +24,7 @@ public class CoinbaseAccountJsonTest {
     ObjectMapper mapper = new ObjectMapper();
     List<CoinbaseAccount> accounts = mapper.readValue(is, CoinbaseAccountsData.class).getData();
     Assert.assertEquals(4, accounts.size());
-    
+
     CoinbaseAccount btcAccount = accounts.stream().filter(t -> t.getName().equals("BTC Wallet")).collect(Collectors.toList()).get(0);
     Assert.assertEquals("xxx-xxx-xxx-xxx-xxx", btcAccount.getId());
     Assert.assertEquals(new BigDecimal("0.12234387"), btcAccount.getBalance().getAmount());

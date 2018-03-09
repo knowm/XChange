@@ -10,20 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "product_code",
-                       "timestamp",
-                       "tick_id",
-                       "best_bid",
-                       "best_ask",
-                       "best_bid_size",
-                       "best_ask_size",
-                       "total_bid_depth",
-                       "total_ask_depth",
-                       "ltp",
-                       "volume",
-                       "volume_by_product"
-                   })
+@JsonPropertyOrder({"product_code", "timestamp", "tick_id", "best_bid", "best_ask", "best_bid_size", "best_ask_size", "total_bid_depth",
+    "total_ask_depth", "ltp", "volume", "volume_by_product"})
 public class BitflyerTicker {
   @JsonProperty("product_code")
   private String productCode;
@@ -158,20 +146,9 @@ public class BitflyerTicker {
 
   @Override
   public String toString() {
-    return "BitflyerTicker{" +
-        "productCode='" + productCode + '\'' +
-        ", timestamp='" + timestamp + '\'' +
-        ", tickId=" + tickId +
-        ", bestBid=" + bestBid +
-        ", bestAsk=" + bestAsk +
-        ", bestBidSize=" + bestBidSize +
-        ", bestAskSize=" + bestAskSize +
-        ", totalBidDepth=" + totalBidDepth +
-        ", totalAskDepth=" + totalAskDepth +
-        ", ltp=" + ltp +
-        ", volume=" + volume +
-        ", volumeByProduct=" + volumeByProduct +
-        ", additionalProperties=" + additionalProperties +
-        '}';
+    return "BitflyerTicker{" + "productCode='" + productCode + '\'' + ", timestamp='" + timestamp + '\'' + ", tickId=" + tickId + ", bestBid="
+        + bestBid + ", bestAsk=" + bestAsk + ", bestBidSize=" + bestBidSize + ", bestAskSize=" + bestAskSize + ", totalBidDepth=" + totalBidDepth
+        + ", totalAskDepth=" + totalAskDepth + ", ltp=" + ltp + ", volume=" + volume + ", volumeByProduct=" + volumeByProduct
+        + ", additionalProperties=" + additionalProperties + '}';
   }
 }

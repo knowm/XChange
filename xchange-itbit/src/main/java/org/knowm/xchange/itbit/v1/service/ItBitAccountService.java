@@ -1,5 +1,10 @@
 package org.knowm.xchange.itbit.v1.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -13,11 +18,6 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ItBitAccountService extends ItBitAccountServiceRaw implements AccountService {
 
@@ -90,23 +90,23 @@ public class ItBitAccountService extends ItBitAccountServiceRaw implements Accou
     private Integer pageNumber = 1;
 
     @Override
-    public void setPageLength(Integer pageLength) {
-      this.pageLength = pageLength;
-    }
-
-    @Override
     public Integer getPageLength() {
       return pageLength;
     }
 
     @Override
-    public void setPageNumber(Integer pageNumber) {
-      this.pageNumber = pageNumber;
+    public void setPageLength(Integer pageLength) {
+      this.pageLength = pageLength;
     }
 
     @Override
     public Integer getPageNumber() {
       return pageNumber;
+    }
+
+    @Override
+    public void setPageNumber(Integer pageNumber) {
+      this.pageNumber = pageNumber;
     }
   }
 }

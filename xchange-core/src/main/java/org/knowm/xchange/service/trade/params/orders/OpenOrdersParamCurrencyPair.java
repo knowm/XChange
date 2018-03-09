@@ -9,7 +9,7 @@ public interface OpenOrdersParamCurrencyPair extends OpenOrdersParams {
     return order != null && getCurrencyPair() != null && getCurrencyPair().equals(order.getCurrencyPair());
   }
 
-  void setCurrencyPair(CurrencyPair pair);
-
   CurrencyPair getCurrencyPair();
+
+  void setCurrencyPair(CurrencyPair pair);
 }

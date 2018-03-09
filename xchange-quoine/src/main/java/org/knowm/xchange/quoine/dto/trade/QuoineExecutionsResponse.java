@@ -9,7 +9,8 @@ public class QuoineExecutionsResponse {
   public final int currentPage;
   public final int totalPages;
 
-  public QuoineExecutionsResponse(@JsonProperty("models") List<QuoineExecution> models, @JsonProperty("current_page") int currentPage, @JsonProperty("total_pages") int totalPages) {
+  public QuoineExecutionsResponse(@JsonProperty("models") List<QuoineExecution> models, @JsonProperty("current_page") int currentPage,
+      @JsonProperty("total_pages") int totalPages) {
     this.models = models;
     this.currentPage = currentPage;
     this.totalPages = totalPages;

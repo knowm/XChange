@@ -46,8 +46,8 @@ public class PoloniexBaseService extends BaseExchangeService implements BaseServ
       }
     });
 
-    this.poloniexAuthenticated = RestProxyFactory.createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        rescuConfig);
+    this.poloniexAuthenticated = RestProxyFactory
+        .createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), rescuConfig);
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = PoloniexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.poloniex = RestProxyFactory.createProxy(Poloniex.class, exchange.getExchangeSpecification().getSslUri(), rescuConfig);

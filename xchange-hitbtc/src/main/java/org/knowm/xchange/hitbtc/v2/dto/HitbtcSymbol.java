@@ -15,15 +15,10 @@ public class HitbtcSymbol {
   private final BigDecimal provideLiquidityRate;
   private final String feeCurrency;
 
-  public HitbtcSymbol(
-      @JsonProperty("id") String id,
-      @JsonProperty("baseCurrency") String baseCurrency,
-      @JsonProperty("quoteCurrency") String quoteCurrency,
-      @JsonProperty("quantityIncrement") BigDecimal quantityIncrement,
-      @JsonProperty("tickSize") BigDecimal tickSize,
-      @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate,
-      @JsonProperty("provideLiquidityRate") BigDecimal provideLiquidityRate,
-      @JsonProperty("feeCurrency") String feeCurrency) {
+  public HitbtcSymbol(@JsonProperty("id") String id, @JsonProperty("baseCurrency") String baseCurrency,
+      @JsonProperty("quoteCurrency") String quoteCurrency, @JsonProperty("quantityIncrement") BigDecimal quantityIncrement,
+      @JsonProperty("tickSize") BigDecimal tickSize, @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate,
+      @JsonProperty("provideLiquidityRate") BigDecimal provideLiquidityRate, @JsonProperty("feeCurrency") String feeCurrency) {
 
     this.id = id;
     this.baseCurrency = baseCurrency;
@@ -69,15 +64,8 @@ public class HitbtcSymbol {
 
   @Override
   public String toString() {
-    return "HitbtcSymbol{" +
-        "id='" + id + '\'' +
-        ", baseCurrency='" + baseCurrency + '\'' +
-        ", quoteCurrency='" + quoteCurrency + '\'' +
-        ", quantityIncrement=" + quantityIncrement +
-        ", tickSize=" + tickSize +
-        ", takeLiquidityRate=" + takeLiquidityRate +
-        ", provideLiquidityRate=" + provideLiquidityRate +
-        ", feeCurrency='" + feeCurrency + '\'' +
-        '}';
+    return "HitbtcSymbol{" + "id='" + id + '\'' + ", baseCurrency='" + baseCurrency + '\'' + ", quoteCurrency='" + quoteCurrency + '\''
+        + ", quantityIncrement=" + quantityIncrement + ", tickSize=" + tickSize + ", takeLiquidityRate=" + takeLiquidityRate
+        + ", provideLiquidityRate=" + provideLiquidityRate + ", feeCurrency='" + feeCurrency + '\'' + '}';
   }
 }

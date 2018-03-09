@@ -39,7 +39,9 @@ public class ExchangeUtils {
       if (conf.secretKey != null)
         exSpec.setSecretKey(conf.secretKey);
     } catch (Exception e) {
-      logger.warn("An exception occured while loading the bitcoinde/exchangeConfiguration.json file from the classpath. " + "Returning null exchange.", e);
+      logger
+          .warn("An exception occured while loading the bitcoinde/exchangeConfiguration.json file from the classpath. " + "Returning null exchange.",
+              e);
       return null;
     }
 

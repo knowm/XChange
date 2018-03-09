@@ -23,7 +23,7 @@ public class CoinbaseButtonDemo {
 
     CoinbaseButtonBuilder buttonBuilder = new CoinbaseButtonBuilder("Demo Button", "BTC", ".001");
     buttonBuilder.withDescription("Coinbase button demo for Coinbase.").withIncludeEmail(true).withStyle(CoinbaseButtonStyle.DONATION_LARGE)
-        .withType(CoinbaseButtonType.DONATION).withVariablePrice(true);
+                 .withType(CoinbaseButtonType.DONATION).withVariablePrice(true);
 
     CoinbaseButton createdButton = accountService.createCoinbaseButton(buttonBuilder.buildButton());
     System.out.println(createdButton);

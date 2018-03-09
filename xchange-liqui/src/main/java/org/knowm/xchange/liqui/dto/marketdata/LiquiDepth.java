@@ -24,9 +24,6 @@ public class LiquiDepth {
 
   @Override
   public String toString() {
-    return "LiquiDepth{" +
-        "asks=" + asks +
-        ", bids=" + bids +
-        '}';
+    return "LiquiDepth{" + "asks=" + asks + ", bids=" + bids + '}';
   }
 }

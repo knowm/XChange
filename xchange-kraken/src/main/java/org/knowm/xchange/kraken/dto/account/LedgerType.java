@@ -19,10 +19,11 @@ public enum LedgerType {
 
   DEPOSIT, WITHDRAWAL, TRADE, MARGIN, CREDIT, ROLLOVER, TRANSFER;
 
-  @Override
-  public String toString() {
+  private static final Map<String, LedgerType> fromString = new HashMap<>();
 
-    return super.toString().toLowerCase();
+  static {
+    for (LedgerType ledgerType : values())
+      fromString.put(ledgerType.toString(), ledgerType);
   }
 
   public static LedgerType fromString(String ledgerTypeString) {
@@ -34,11 +35,10 @@ public enum LedgerType {
     return ledgerType;
   }
 
-  private static final Map<String, LedgerType> fromString = new HashMap<>();
+  @Override
+  public String toString() {
 
-  static {
-    for (LedgerType ledgerType : values())
-      fromString.put(ledgerType.toString(), ledgerType);
+    return super.toString().toLowerCase();
   }
 
   static class LedgerTypeDeserializer extends JsonDeserializer<LedgerType> {

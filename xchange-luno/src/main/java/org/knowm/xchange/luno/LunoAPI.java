@@ -60,7 +60,7 @@ public interface LunoAPI {
   /**
    * Returns a list of the most recent trades. At most 100 results are returned per call.
    *
-   * @param pair required - Currency pair e.g. XBTZAR
+   * @param pair  required - Currency pair e.g. XBTZAR
    * @param since optional - Fetch trades executed after this time, specified as a Unix timestamp in milliseconds.
    * @return
    * @throws IOException
@@ -73,7 +73,7 @@ public interface LunoAPI {
    * You must be verified to trade currency in order to be able to create an account. A user has a limit of 4 accounts per currency.
    *
    * @param currency required - The currency code for the account you want to create e.g. XBT, IDR, MYR, ZAR
-   * @param name required - The label to use for this account e.g. "Trading ACC".
+   * @param name     required - The label to use for this account e.g. "Trading ACC".
    * @return
    * @throws IOException
    * @throws LunoException
@@ -96,7 +96,7 @@ public interface LunoAPI {
    * If min_row or max_row is non-positive, the range wraps around the most recent row. For example, to fetch the 100 most recent
    * rows, use min_row=-100 and max_row=0.
    *
-   * @param id required - Account ID
+   * @param id     required - Account ID
    * @param minRow required - Minimum of the row range to return (inclusive)
    * @param maxRow required - Maximum of the row range to return (exclusive)
    * @return
@@ -122,7 +122,7 @@ public interface LunoAPI {
    * after 100 items.
    *
    * @param state optional - Filter to only orders of this state e.g. PENDING
-   * @param pair optional - Filter to only orders of this currency pair e.g. XBTZAR
+   * @param pair  optional - Filter to only orders of this currency pair e.g. XBTZAR
    * @return
    * @throws IOException
    * @throws LunoException
@@ -136,18 +136,18 @@ public interface LunoAPI {
    * If no base_account_id or counter_account_id are specified, your default base currency or counter currency account will be
    * used. You can find your account IDs by calling the Balances API https://www.luno.com/en/api#accounts-balances.
    *
-   * @param pair required - The currency pair to trade e.g. XBTZAR
-   * @param type required - "BID" for a bid (buy) limit order or "ASK" for an ask (sell) limit order.
-   * @param volume required - Amount of Bitcoin to buy or sell as a decimal string in units of BTC e.g. "1.423".
-   * @param price required - Limit price as a decimal string in units of ZAR/BTC e.g. "1200".
-   * @param baseAccountId optional - The base currency account to use in the trade.
+   * @param pair             required - The currency pair to trade e.g. XBTZAR
+   * @param type             required - "BID" for a bid (buy) limit order or "ASK" for an ask (sell) limit order.
+   * @param volume           required - Amount of Bitcoin to buy or sell as a decimal string in units of BTC e.g. "1.423".
+   * @param price            required - Limit price as a decimal string in units of ZAR/BTC e.g. "1200".
+   * @param baseAccountId    optional - The base currency account to use in the trade.
    * @param counterAccountId optional - The counter currency account to use in the trade.
    * @return
    * @throws IOException
    * @throws LunoException
    */
-  LunoPostOrder postLimitOrder(String pair, OrderType type, BigDecimal volume, BigDecimal price, String baseAccountId,
-      String counterAccountId) throws IOException, LunoException;
+  LunoPostOrder postLimitOrder(String pair, OrderType type, BigDecimal volume, BigDecimal price, String baseAccountId, String counterAccountId)
+      throws IOException, LunoException;
 
   /**
    * Create a new market order.<br>
@@ -158,18 +158,18 @@ public interface LunoAPI {
    * A market order executes immediately, and either buys as much bitcoin that can be bought for a set amount of fiat currency,
    * or sells a set amount of bitcoin for as much fiat as possible.
    *
-   * @param pair required - The currency pair to trade e.g. XBTZAR
-   * @param type required - "BUY" to buy bitcoin, or "SELL" to sell bitcoin.
-   * @param counterVolume required, if type is "BUY"  - For a "BUY" order: amount of local currency (e.g. ZAR, MYR) to spend as a decimal string in units of the local currency e.g. "100.50".
-   * @param baseVolume required, if type is "SELL" - For a "SELL" order: amount of Bitcoin to sell as a decimal string in units of BTC e.g. "1.423".
-   * @param baseAccountId optional - The base currency account to use in the trade.
+   * @param pair             required - The currency pair to trade e.g. XBTZAR
+   * @param type             required - "BUY" to buy bitcoin, or "SELL" to sell bitcoin.
+   * @param counterVolume    required, if type is "BUY"  - For a "BUY" order: amount of local currency (e.g. ZAR, MYR) to spend as a decimal string in units of the local currency e.g. "100.50".
+   * @param baseVolume       required, if type is "SELL" - For a "SELL" order: amount of Bitcoin to sell as a decimal string in units of BTC e.g. "1.423".
+   * @param baseAccountId    optional - The base currency account to use in the trade.
    * @param counterAccountId optional - The counter currency account to use in the trade.
    * @return
    * @throws IOException
    * @throws LunoException
    */
-  LunoPostOrder postMarketOrder(String pair, OrderType type, BigDecimal counterVolume, BigDecimal baseVolume,
-      String baseAccountId, String counterAccountId) throws IOException, LunoException;
+  LunoPostOrder postMarketOrder(String pair, OrderType type, BigDecimal counterVolume, BigDecimal baseVolume, String baseAccountId,
+      String counterAccountId) throws IOException, LunoException;
 
   /**
    * Request to stop an order.
@@ -196,7 +196,7 @@ public interface LunoAPI {
    * type in the response indicates the type of order that you placed in order to participate in the trade.<br>
    * If is_buy in the response is true, then the order which completed the trade (market taker) was a bid order.
    *
-   * @param pair required - Filter to trades of this currency pair e.g. XBTZAR
+   * @param pair  required - Filter to trades of this currency pair e.g. XBTZAR
    * @param since optional - Filter to trades on or after this timestamp, e.g. 1470810728478
    * @param limit optional - Limit to this number of trades (min 1, max 100, default 100)
    * @return
@@ -221,7 +221,7 @@ public interface LunoAPI {
    * total confirmed Bitcoin amount received excluding unconfirmed transactions. total_unconfirmed is the total sum of unconfirmed
    * receive transactions.
    *
-   * @param asset required - Currency code of the asset e.g. XBT
+   * @param asset   required - Currency code of the asset e.g. XBT
    * @param address optional - Specific Bitcoin address to retrieve. If not provided, the default address will be used.
    * @return
    * @throws IOException
@@ -251,11 +251,11 @@ public interface LunoAPI {
   /**
    * Creates a new withdrawal request.
    *
-   * @param type required - Withdrawal types e.g. ZAR_EFT, NAD_EFT, KES_MPESA, MYR_IBG, IDR_LLG
-   * @param amount required - Amount to withdraw. The currency depends on the type.
+   * @param type          required - Withdrawal types e.g. ZAR_EFT, NAD_EFT, KES_MPESA, MYR_IBG, IDR_LLG
+   * @param amount        required - Amount to withdraw. The currency depends on the type.
    * @param beneficiaryId optional - The beneficiary ID of the bank account the withdrawal will be paid out to. This parameter is
-   * required if you have multiple bank accounts. Your bank account beneficiary ID can be found by clicking on the beneficiary
-   * name on the Beneficiaries page [https://www.luno.com/wallet/beneficiaries].
+   *                      required if you have multiple bank accounts. Your bank account beneficiary ID can be found by clicking on the beneficiary
+   *                      name on the Beneficiaries page [https://www.luno.com/wallet/beneficiaries].
    * @return
    * @throws IOException
    * @throws LunoException
@@ -288,17 +288,16 @@ public interface LunoAPI {
    * will be sent.<br>
    * Warning! Bitcoin transactions are irreversible. Please ensure your program has been thoroughly tested before using this call.
    *
-   * @param amount required - Amount to send as a decimal string.
-   * @param currency required - Currency to send e.g. XBT
-   * @param address required - Destination Bitcoin address or email address to send to.
+   * @param amount      required - Amount to send as a decimal string.
+   * @param currency    required - Currency to send e.g. XBT
+   * @param address     required - Destination Bitcoin address or email address to send to.
    * @param description optional - Description for the transaction to record on the account statement.
-   * @param message optional - Message to send to the recipient. This is only relevant when sending to an email address.
+   * @param message     optional - Message to send to the recipient. This is only relevant when sending to an email address.
    * @return
    * @throws IOException
    * @throws LunoException
    */
-  LunoBoolean send(BigDecimal amount, String currency, String address, String description, String message) throws IOException,
-      LunoException;
+  LunoBoolean send(BigDecimal amount, String currency, String address, String description, String message) throws IOException, LunoException;
 
   /**
    * Creates a new quote to buy or sell a particular amount.<br>
@@ -309,10 +308,10 @@ public interface LunoAPI {
    * An error is returned if your account is not verified for the currency pair, or if your account would have insufficient
    * balance to ever exercise the quote.
    *
-   * @param type required - Possible types: BUY, SELL
+   * @param type       required - Possible types: BUY, SELL
    * @param baseAmount required - Amount to buy or sell in the pair base currency.
-   * @param pair required - Currency pair to trade e.g. XBTZAR, XBTMYR. The pair can also be flipped if you want to buy or sell
-   * the counter currency (e.g. ZARXBT).
+   * @param pair       required - Currency pair to trade e.g. XBTZAR, XBTMYR. The pair can also be flipped if you want to buy or sell
+   *                   the counter currency (e.g. ZARXBT).
    * @return
    * @throws IOException
    * @throws LunoException

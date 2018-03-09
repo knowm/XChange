@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * <p>POJO representing the output JSON for the Abucoins
  * <code>GET /orders</code> endpoint.</p>
- *
  * Example:
  * <code><pre>
  * [
@@ -41,6 +40,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *     }
  * ]
  * </pre></code>
+ *
  * @author bryant_harris
  */
 public class AbucoinsOrder {
@@ -50,27 +50,19 @@ public class AbucoinsOrder {
   String productID;
   Side side;
   Type type;
-  TimeInForce timeInForce;
+  String timeInForce;
   boolean postOnly;
   String createdAt;
   BigDecimal filledSize;
-  Status status;
+  String status;
   boolean settled;
   String message;
-        
-  public AbucoinsOrder(@JsonProperty("id") String id,
-                       @JsonProperty("price") BigDecimal price,
-                       @JsonProperty("size") BigDecimal size,
-                       @JsonProperty("product_id") String productID,
-                       @JsonProperty("side") Side side,
-                       @JsonProperty("type") Type type,
-                       @JsonProperty("time_in_force") TimeInForce timeInForce,
-                       @JsonProperty("post_only") boolean postOnly,
-                       @JsonProperty("created_at") String createdAt,
-                       @JsonProperty("filled_size") BigDecimal filledSize,
-                       @JsonProperty("status") Status status,
-                       @JsonProperty("settled") boolean settled,
-                       @JsonProperty("message") String message) {
+
+  public AbucoinsOrder(@JsonProperty("id") String id, @JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size,
+      @JsonProperty("product_id") String productID, @JsonProperty("side") Side side, @JsonProperty("type") Type type,
+      @JsonProperty("time_in_force") String timeInForce, @JsonProperty("post_only") boolean postOnly, @JsonProperty("created_at") String createdAt,
+      @JsonProperty("filled_size") BigDecimal filledSize, @JsonProperty("status") String status, @JsonProperty("settled") boolean settled,
+      @JsonProperty("message") String message) {
     this.id = id;
     this.price = price;
     this.size = size;
@@ -85,7 +77,7 @@ public class AbucoinsOrder {
     this.settled = settled;
     this.message = message;
   }
-  
+
   public String getId() {
     return id;
   }
@@ -110,8 +102,19 @@ public class AbucoinsOrder {
     return type;
   }
 
-  public TimeInForce getTimeInForce() {
+  /**
+   * Returns the raw time in force string, we obtain the time in force as a string in case new
+   * status are added.  We don't want the new string causing the json to fail to
+   * parse.
+   *
+   * @return the raw time in force string
+   */
+  public String getTimeInForceRaw() {
     return timeInForce;
+  }
+
+  public TimeInForce getTimeInForce() {
+    return TimeInForce.fromString(timeInForce);
   }
 
   public boolean isPostOnly() {
@@ -126,56 +129,89 @@ public class AbucoinsOrder {
     return filledSize;
   }
 
-  public Status getStatus() {
+  /**
+   * Returns the raw status string, we obtain the status as a string in case new
+   * status are added.  We don't want the new string causing the json to fail to
+   * parse.
+   *
+   * @return the raw status string
+   */
+  public String getStatusRaw() {
     return status;
+  }
+
+  public Status getStatus() {
+    return Status.fromString(status);
   }
 
   public boolean isSettled() {
     return settled;
   }
-  
+
   public String getMessage() {
-        return message;
+    return message;
   }
 
   @Override
   public String toString() {
-    return "AbucoinsOrder [id=" + id + ", price=" + price + ", size=" + size + ", productID=" + productID + ", side="
-        + side + ", type=" + type + ", timeInForce=" + timeInForce + ", postOnly=" + postOnly + ", createdAt="
-        + createdAt + ", filledSize=" + filledSize + ", status=" + status + ", settled=" + settled + ", message="
-        + message + "]";
+    return "AbucoinsOrder [id=" + id + ", price=" + price + ", size=" + size + ", productID=" + productID + ", side=" + side + ", type=" + type
+        + ", timeInForce=" + timeInForce + ", postOnly=" + postOnly + ", createdAt=" + createdAt + ", filledSize=" + filledSize + ", status=" + status
+        + ", settled=" + settled + ", message=" + message + "]";
   }
-    
+
   public enum Side {
     buy, sell
   }
-  
+
   public enum Type {
     limit, market;
   }
 
   public enum TimeInForce {
-    GTC, GTT, IOC, FOK;
-    
+    GTC, GTT, IOC, FOK,
+
+    Unknown; // added by us to avoid a string parsing error occurs.
+
+    public static TimeInForce fromString(String s) {
+      try {
+        return TimeInForce.valueOf(s);
+      } catch (Exception e) {
+        return Unknown;
+      }
+    }
+
     public String toDescription() {
       switch (this) {
-      case GTC:
-        return "Good Till Canceled";
-        
-      case GTT:
-        return "Good Till Time";
-                
-      case IOC:
-        return "Immediate or cancel";
-                
-      case FOK:
-        return "Fill or kill";
+        case GTC:
+          return "Good Till Canceled";
+
+        case GTT:
+          return "Good Till Time";
+
+        case IOC:
+          return "Immediate or cancel";
+
+        case FOK:
+          return "Fill or kill";
+
+        case Unknown:
+          return "An unrecognized time in force value was returned";
       }
       return ""; // dead code path
     }
   }
-  
+
   public enum Status {
-    pending, open, done, rejected;
+    pending, open, done, closed, rejected,
+
+    unknown; // added by us to avoid a string parsing error occurs.
+
+    public static Status fromString(String s) {
+      try {
+        return Status.valueOf(s);
+      } catch (Exception e) {
+        return unknown;
+      }
+    }
   }
 }

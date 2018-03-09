@@ -16,7 +16,7 @@ public class KrakenTickerResult extends KrakenResult<Map<String, KrakenTicker>> 
    * Constructor
    *
    * @param result The ticker data
-   * @param error List of errors
+   * @param error  List of errors
    */
   public KrakenTickerResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenTicker> result) {
 

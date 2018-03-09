@@ -37,8 +37,7 @@ public interface MarketDataService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  Ticker getTicker(CurrencyPair currencyPair,
-      Object... args) throws IOException;
+  Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException;
 
   /**
    * <p>
@@ -53,8 +52,7 @@ public interface MarketDataService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  OrderBook getOrderBook(CurrencyPair currencyPair,
-      Object... args) throws IOException;
+  OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException;
 
   /**
    * <p>
@@ -69,7 +67,6 @@ public interface MarketDataService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  Trades getTrades(CurrencyPair currencyPair,
-      Object... args) throws IOException;
+  Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException;
 
 }

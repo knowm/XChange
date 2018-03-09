@@ -30,15 +30,15 @@ public class CampBXAccountServiceRaw extends CampBXBaseService {
 
   public CampBXResponse withdrawCampBXFunds(BigDecimal amount, String address) throws IOException {
 
-    CampBXResponse campBXResponse = campBX.withdrawBtc(exchange.getExchangeSpecification().getUserName(),
-        exchange.getExchangeSpecification().getPassword(), address, amount);
+    CampBXResponse campBXResponse = campBX
+        .withdrawBtc(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getPassword(), address, amount);
     return campBXResponse;
   }
 
   public CampBXResponse requestCampBXBitcoinDepositAddress() throws IOException {
 
-    CampBXResponse campBXResponse = campBX.getDepositAddress(exchange.getExchangeSpecification().getUserName(),
-        exchange.getExchangeSpecification().getPassword());
+    CampBXResponse campBXResponse = campBX
+        .getDepositAddress(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getPassword());
     return campBXResponse;
   }
 

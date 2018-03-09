@@ -14,16 +14,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 public enum BitstampOrderStatus {
   Queue, Open, Finished;
 
-  public static BitstampOrderStatus fromString(String orderStatusString) {
-    return fromString.get(orderStatusString.toLowerCase());
-  }
-
   private static final Map<String, BitstampOrderStatus> fromString = new HashMap<String, BitstampOrderStatus>();
 
   static {
     for (BitstampOrderStatus orderStatus : values()) {
       fromString.put(orderStatus.name().toLowerCase(), orderStatus);
     }
+  }
+
+  public static BitstampOrderStatus fromString(String orderStatusString) {
+    return fromString.get(orderStatusString.toLowerCase());
   }
 
   static class BitstampOrderStatusDeserializer extends JsonDeserializer<BitstampOrderStatus> {

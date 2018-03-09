@@ -36,8 +36,12 @@ public class BitflyerMarketDataService extends BitflyerMarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     BitflyerOrderbook orderbook = getOrderbook(currencyPair.base + "_" + currencyPair.counter);
-    List<LimitOrder> bids = orderbook.getBids().stream().map(e -> new LimitOrder(Order.OrderType.BID, e.getSize(), currencyPair, null, null, e.getPrice())).collect(Collectors.toList());
-    List<LimitOrder> asks = orderbook.getAsks().stream().map(e -> new LimitOrder(Order.OrderType.ASK, e.getSize(), currencyPair, null, null, e.getPrice())).collect(Collectors.toList());
+    List<LimitOrder> bids = orderbook.getBids().stream()
+                                     .map(e -> new LimitOrder(Order.OrderType.BID, e.getSize(), currencyPair, null, null, e.getPrice()))
+                                     .collect(Collectors.toList());
+    List<LimitOrder> asks = orderbook.getAsks().stream()
+                                     .map(e -> new LimitOrder(Order.OrderType.ASK, e.getSize(), currencyPair, null, null, e.getPrice()))
+                                     .collect(Collectors.toList());
     return new OrderBook(null, asks, bids);
   }
 

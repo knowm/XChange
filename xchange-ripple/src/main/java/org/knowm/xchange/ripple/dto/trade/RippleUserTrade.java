@@ -63,7 +63,7 @@ public class RippleUserTrade extends UserTrade {
       final Builder builder = new Builder().baseCounterparty(trade.getBaseCounterparty()).counterCounterparty(trade.getCounterCounterparty());
       builder.orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency());
       builder.type(trade.getType()).originalAmount(trade.getOriginalAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice())
-          .timestamp(trade.getTimestamp()).id(trade.getId());
+             .timestamp(trade.getTimestamp()).id(trade.getId());
       return builder;
     }
 

@@ -16,9 +16,9 @@ import org.xchange.coinegg.CoinEggAdapters;
 
 public class CoinEggAccountService extends CoinEggAccountServiceRaw implements AccountService {
 
-	public CoinEggAccountService(Exchange exchange) {
-		super(exchange);
-	}
+  public CoinEggAccountService(Exchange exchange) {
+    super(exchange);
+  }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {

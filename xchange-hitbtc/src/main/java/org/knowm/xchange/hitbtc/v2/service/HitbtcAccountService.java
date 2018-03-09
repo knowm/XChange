@@ -68,9 +68,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
       String currency = hitbtcTradeHistoryParams.getCurrency() != null ? hitbtcTradeHistoryParams.getCurrency().getCurrencyCode() : null;
 
       transactions = getTransactions(currency, hitbtcTradeHistoryParams.getLimit(), hitbtcTradeHistoryParams.getOffset());
-    }
-
-    else {
+    } else {
       transactions = getTransactions(null, null, null);
     }
 

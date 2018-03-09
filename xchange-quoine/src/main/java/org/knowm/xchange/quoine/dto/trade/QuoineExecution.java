@@ -15,8 +15,9 @@ public class QuoineExecution {
   public final String orderId;
   public final String target;
 
-  public QuoineExecution(@JsonProperty("id") String id, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("price") BigDecimal price, @JsonProperty("taker_side") String takerSide,
-      @JsonProperty("my_side") String mySide, @JsonProperty("created_at") long createdAt, @JsonProperty("pnl") String pnl, @JsonProperty("order_id") String orderId, @JsonProperty("target") String target) {
+  public QuoineExecution(@JsonProperty("id") String id, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("taker_side") String takerSide, @JsonProperty("my_side") String mySide, @JsonProperty("created_at") long createdAt,
+      @JsonProperty("pnl") String pnl, @JsonProperty("order_id") String orderId, @JsonProperty("target") String target) {
     this.id = id;
     this.quantity = quantity;
     this.price = price;
@@ -30,16 +31,7 @@ public class QuoineExecution {
 
   @Override
   public String toString() {
-    return "QuoineExecution{" +
-        "id='" + id + '\'' +
-        ", quantity=" + quantity +
-        ", price=" + price +
-        ", takerSide='" + takerSide + '\'' +
-        ", mySide='" + mySide + '\'' +
-        ", createdAt=" + createdAt +
-        ", pnl='" + pnl + '\'' +
-        ", orderId='" + orderId + '\'' +
-        ", target='" + target + '\'' +
-        '}';
+    return "QuoineExecution{" + "id='" + id + '\'' + ", quantity=" + quantity + ", price=" + price + ", takerSide='" + takerSide + '\'' + ", mySide='"
+        + mySide + '\'' + ", createdAt=" + createdAt + ", pnl='" + pnl + '\'' + ", orderId='" + orderId + '\'' + ", target='" + target + '\'' + '}';
   }
 }

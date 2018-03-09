@@ -39,7 +39,7 @@ public class WexMarketDataServiceRaw extends WexBaseService {
    * Get market depth from exchange
    *
    * @param pairs Dash-delimited string of currency pairs to retrieve (e.g. "btc_usd-ltc_btc")
-   * @param size Integer value from 1 to 2000 -> get corresponding number of items
+   * @param size  Integer value from 1 to 2000 -> get corresponding number of items
    * @return WexDepthWrapper object
    * @throws IOException
    */
@@ -60,7 +60,7 @@ public class WexMarketDataServiceRaw extends WexBaseService {
    * Get recent trades from exchange
    *
    * @param pairs Dash-delimited string of currency pairs to retrieve (e.g. "btc_usd-ltc_btc")
-   * @param size Integer value from 1 to 2000 -> get corresponding number of items
+   * @param size  Integer value from 1 to 2000 -> get corresponding number of items
    * @return WexTradesWrapper object
    * @throws IOException
    */

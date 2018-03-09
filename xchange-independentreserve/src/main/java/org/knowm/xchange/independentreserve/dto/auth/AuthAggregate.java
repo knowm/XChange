@@ -11,10 +11,9 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 public class AuthAggregate {
   private final String apiKey;
-  private String signature;
   private final Long nonce;
-
   protected Map<String, Object> parameters;
+  private String signature;
 
   public AuthAggregate(String apiKey, Long nonce) {
     this.apiKey = apiKey;

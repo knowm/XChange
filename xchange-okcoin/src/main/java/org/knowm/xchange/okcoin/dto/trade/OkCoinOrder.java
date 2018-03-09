@@ -26,10 +26,9 @@ public class OkCoinOrder {
   private final BigDecimal averagePrice;
 
   public OkCoinOrder(@JsonProperty("order_id") final long orderId, @JsonProperty("status") final int status,
-      @JsonProperty("symbol") final String symbol, @JsonProperty("type") final String type,
-      @JsonProperty("price") final BigDecimal price, @JsonProperty("avg_price") final BigDecimal averagePrice,
-      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("deal_amount") final BigDecimal dealAmount,
-      @JsonProperty("create_date") final Date createDate) {
+      @JsonProperty("symbol") final String symbol, @JsonProperty("type") final String type, @JsonProperty("price") final BigDecimal price,
+      @JsonProperty("avg_price") final BigDecimal averagePrice, @JsonProperty("amount") final BigDecimal amount,
+      @JsonProperty("deal_amount") final BigDecimal dealAmount, @JsonProperty("create_date") final Date createDate) {
 
     this.orderId = orderId;
     this.status = status;

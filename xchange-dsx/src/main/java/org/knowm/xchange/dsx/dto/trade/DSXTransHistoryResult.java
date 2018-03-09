@@ -82,8 +82,8 @@ public class DSXTransHistoryResult {
 
   @Override
   public String toString() {
-    return MessageFormat.format("DSXTransHistory[id={0}, type={1}, amount={2}, currency=''{3}'', description=''{4}'', status={5}, timestamp={6}, " +
-        "commission={7}, address=''{8}'', txId={9}]", id, type, amount, currency, desc, status, timestamp, commission, address, txId);
+    return MessageFormat.format("DSXTransHistory[id={0}, type={1}, amount={2}, currency=''{3}'', description=''{4}'', status={5}, timestamp={6}, "
+        + "commission={7}, address=''{8}'', txId={9}]", id, type, amount, currency, desc, status, timestamp, commission, address, txId);
   }
 
   /**

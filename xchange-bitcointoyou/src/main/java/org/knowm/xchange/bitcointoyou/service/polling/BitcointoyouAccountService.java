@@ -60,17 +60,17 @@ public class BitcointoyouAccountService extends BitcointoyouAccountServiceRaw im
     throw new NotAvailableFromExchangeException();
   }
 
-@Override
-public TradeHistoryParams createFundingHistoryParams() {
+  @Override
+  public TradeHistoryParams createFundingHistoryParams() {
 
-	return null;
-}
+    return null;
+  }
 
-@Override
-public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException,
-		NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-	throw new NotAvailableFromExchangeException();
-}
+    throw new NotAvailableFromExchangeException();
+  }
 
 }

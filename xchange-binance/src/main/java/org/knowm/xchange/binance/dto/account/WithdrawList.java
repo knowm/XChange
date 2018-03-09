@@ -12,9 +12,8 @@ public final class WithdrawList extends WapiResponse<List<BinanceWithdraw>> {
 
   private final BinanceWithdraw[] withdrawList;
 
-  public WithdrawList(@JsonProperty("withdrawList") BinanceWithdraw[] withdrawList
-      , @JsonProperty("success") boolean success
-      , @JsonProperty("msg") String msg) {
+  public WithdrawList(@JsonProperty("withdrawList") BinanceWithdraw[] withdrawList, @JsonProperty("success") boolean success,
+      @JsonProperty("msg") String msg) {
     super(success, msg);
     this.withdrawList = withdrawList;
   }
@@ -54,10 +53,9 @@ public final class WithdrawList extends WapiResponse<List<BinanceWithdraw>> {
      */
     public final int status;
 
-    public BinanceWithdraw(@JsonProperty("amount") BigDecimal amount, @JsonProperty("address") String address
-        , @JsonProperty("successTime") long successTime, @JsonProperty("txId") String txId, @JsonProperty("id") String id
-        , @JsonProperty("asset") String asset, @JsonProperty("applyTime") long applyTime
-        , @JsonProperty("status") int status) {
+    public BinanceWithdraw(@JsonProperty("amount") BigDecimal amount, @JsonProperty("address") String address,
+        @JsonProperty("successTime") long successTime, @JsonProperty("txId") String txId, @JsonProperty("id") String id,
+        @JsonProperty("asset") String asset, @JsonProperty("applyTime") long applyTime, @JsonProperty("status") int status) {
       super();
       this.amount = amount;
       this.address = address;

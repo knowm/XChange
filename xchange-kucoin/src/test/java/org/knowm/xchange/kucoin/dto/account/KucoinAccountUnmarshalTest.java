@@ -1,4 +1,3 @@
-
 package org.knowm.xchange.kucoin.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,7 +7,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.knowm.xchange.dto.account.FundingRecord.Type;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

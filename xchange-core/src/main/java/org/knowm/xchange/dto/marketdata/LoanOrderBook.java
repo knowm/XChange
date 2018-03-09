@@ -14,11 +14,11 @@ import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
  */
 public final class LoanOrderBook implements Serializable {
 
-  private Date timestamp;
   private final List<FixedRateLoanOrder> fixedRateAsks;
   private final List<FixedRateLoanOrder> fixedRateBids;
   private final List<FloatingRateLoanOrder> floatingRateAsks;
   private final List<FloatingRateLoanOrder> floatingRateBids;
+  private Date timestamp;
 
   /**
    * Constructor

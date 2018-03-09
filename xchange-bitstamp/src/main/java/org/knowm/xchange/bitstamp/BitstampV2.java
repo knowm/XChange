@@ -38,8 +38,8 @@ public interface BitstampV2 {
    */
   @GET
   @Path("transactions/{pair}/")
-  BitstampTransaction[] getTransactions(@PathParam("pair") Pair pair,
-      @QueryParam("time") BitstampMarketDataServiceRaw.BitstampTime time) throws IOException, BitstampException;
+  BitstampTransaction[] getTransactions(@PathParam("pair") Pair pair, @QueryParam("time") BitstampMarketDataServiceRaw.BitstampTime time)
+      throws IOException, BitstampException;
 
   class Pair {
     public final CurrencyPair pair;

@@ -43,10 +43,7 @@ public class CexIOCancelAllOrdersResponse {
 
   @Override
   public String toString() {
-    return "CexIOCancelAllOrdersResponse{" +
-        "eventName='" + eventName + '\'' +
-        ", status='" + status + '\'' +
-        ", canceledOrderIds=" + canceledOrderIds +
-        '}';
+    return "CexIOCancelAllOrdersResponse{" + "eventName='" + eventName + '\'' + ", status='" + status + '\'' + ", canceledOrderIds="
+        + canceledOrderIds + '}';
   }
 }

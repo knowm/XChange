@@ -74,17 +74,21 @@ public interface QuoineAuthenticated extends Quoine {
 
   @GET
   @Path("executions/me")
-  QuoineExecutionsResponse executions(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer, @HeaderParam("Content-Type") String contentType,
-      @QueryParam("product_id") int productId, @QueryParam("limit") Integer limit, @QueryParam("page") Integer page, @QueryParam("with_details") int withDetails) throws IOException;
+  QuoineExecutionsResponse executions(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+      @HeaderParam("Content-Type") String contentType, @QueryParam("product_id") int productId, @QueryParam("limit") Integer limit,
+      @QueryParam("page") Integer page, @QueryParam("with_details") int withDetails) throws IOException;
 
   @GET
   @Path("trades")
-  QuoineTradesResponse trades(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer, @HeaderParam("Content-Type") String contentType,
-      @QueryParam("funding_currency") String fundingCurrency, @QueryParam("status") String status, @QueryParam("limit") Integer limit, @QueryParam("page") Integer page) throws IOException;
+  QuoineTradesResponse trades(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+      @HeaderParam("Content-Type") String contentType, @QueryParam("funding_currency") String fundingCurrency, @QueryParam("status") String status,
+      @QueryParam("limit") Integer limit, @QueryParam("page") Integer page) throws IOException;
 
   @GET
   @Path("transactions")
-  QuoineTransactionsResponse transactions(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer, @HeaderParam("Content-Type") String contentType,
-      @QueryParam("currency") String currency, @QueryParam("transaction_type") String transactionType, @QueryParam("limit") Integer limit, @QueryParam("page") Integer page) throws IOException;
+  QuoineTransactionsResponse transactions(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+      @HeaderParam("Content-Type") String contentType, @QueryParam("currency") String currency,
+      @QueryParam("transaction_type") String transactionType, @QueryParam("limit") Integer limit, @QueryParam("page") Integer page)
+      throws IOException;
 
 }

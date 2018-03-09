@@ -19,11 +19,9 @@ public class ClientDeal {
   private final BigDecimal commission;
   private final String commissionCurrency;
 
-  public ClientDeal(@JsonProperty("pair") String pair, @JsonProperty("type") String type,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("orderId") long orderId, @JsonProperty("timestamp") long timestamp,
-      @JsonProperty("commission") BigDecimal commission,
-      @JsonProperty("commissionCurrency") String commissionCurrency) {
+  public ClientDeal(@JsonProperty("pair") String pair, @JsonProperty("type") String type, @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("rate") BigDecimal rate, @JsonProperty("orderId") long orderId, @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("commission") BigDecimal commission, @JsonProperty("commissionCurrency") String commissionCurrency) {
     this.pair = pair;
     this.type = type;
     this.volume = volume;

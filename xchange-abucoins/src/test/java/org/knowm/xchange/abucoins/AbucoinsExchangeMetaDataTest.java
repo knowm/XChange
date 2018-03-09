@@ -1,6 +1,7 @@
 package org.knowm.xchange.abucoins;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Map;
 
@@ -25,9 +26,9 @@ public class AbucoinsExchangeMetaDataTest {
   public void testCurrencyPairs() {
     ExchangeMetaData metaData = exchange.getExchangeMetaData();
     assertNotNull("meta data is null", metaData);
-                
-    Map<CurrencyPair,CurrencyPairMetaData> currencyPairs = metaData.getCurrencyPairs();
-                
+
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = metaData.getCurrencyPairs();
+
     assertNotNull("currencyPairs meta data is null", currencyPairs);
     assertEquals("Wrong number of currency pairs", 31, currencyPairs.size());
   }
@@ -37,8 +38,8 @@ public class AbucoinsExchangeMetaDataTest {
     ExchangeMetaData metaData = exchange.getExchangeMetaData();
     assertNotNull("meta data is null", metaData);
 
-    Map<Currency,CurrencyMetaData> currencies = metaData.getCurrencies();
-                
+    Map<Currency, CurrencyMetaData> currencies = metaData.getCurrencies();
+
     assertNotNull("currencies meta data is null", currencies);
     assertEquals("Wrong number of currencies", 20, currencies.size());
   }

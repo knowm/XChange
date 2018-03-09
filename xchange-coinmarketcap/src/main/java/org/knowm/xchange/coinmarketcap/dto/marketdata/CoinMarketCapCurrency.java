@@ -6,7 +6,7 @@ public class CoinMarketCapCurrency {
   Currency currency;
 
   public CoinMarketCapCurrency(String code) {
-    currency = new Currency(code);
+    currency = Currency.getInstance(code);
   }
 
   public Currency getCurrency() {

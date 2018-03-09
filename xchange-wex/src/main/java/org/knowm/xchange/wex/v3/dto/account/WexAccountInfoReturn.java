@@ -13,8 +13,8 @@ public class WexAccountInfoReturn extends WexReturn<WexAccountInfo> {
    * Constructor
    *
    * @param success True if successful
-   * @param value The BTC-e account info
-   * @param error Any error
+   * @param value   The BTC-e account info
+   * @param error   Any error
    */
   public WexAccountInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") WexAccountInfo value,
       @JsonProperty("error") String error) {

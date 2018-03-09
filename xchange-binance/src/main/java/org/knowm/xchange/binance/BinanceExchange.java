@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
+import org.knowm.xchange.binance.dto.meta.BinanceCurrencyPairMetaData;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
@@ -29,6 +29,7 @@ public class BinanceExchange extends BaseExchange {
   private static final int DEFAULT_PRECISION = 8;
 
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
+  private BinanceExchangeInfo exchangeInfo;
   private Long deltaServerTime;
 
   @Override
@@ -56,6 +57,10 @@ public class BinanceExchange extends BaseExchange {
     return spec;
   }
 
+  public BinanceExchangeInfo getExchangeInfo() {
+    return exchangeInfo;
+  }
+
   @Override
   public void remoteInit() {
     try {
@@ -64,31 +69,56 @@ public class BinanceExchange extends BaseExchange {
       Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
       BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
-      BinanceExchangeInfo exchangeInfo = marketDataService.getExchangeInfo();
-      Symbol[] symbols = exchangeInfo.getSymbols();
+      exchangeInfo = marketDataService.getExchangeInfo();
 
-      for (BinancePrice price : marketDataService.tickerAllPrices()) {
-        CurrencyPair pair = price.getCurrencyPair();
-        currencyPairs.put(price.getCurrencyPair(), new CurrencyPairMetaData(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 8));
+      for (Symbol symbol : exchangeInfo.getSymbols()) {
 
-        for (Symbol symbol : symbols) {
-          if (symbol.getSymbol().equals(pair.base.getCurrencyCode() + pair.counter.getCurrencyCode())) {
+        CurrencyPair pair = new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset());
+        // defaults
+        BigDecimal tradingFee = BigDecimal.ZERO;
+        BigDecimal minAmount = BigDecimal.ZERO;
+        BigDecimal maxAmount = BigDecimal.ZERO;
+        Integer priceScale = DEFAULT_PRECISION;
+        BigDecimal minNotional = BigDecimal.ZERO;
 
-            int basePrecision = DEFAULT_PRECISION;
-            int counterPrecision = DEFAULT_PRECISION;
-
-            Filter[] filters = symbol.getFilters();
-            for (Filter filter : filters) {
-              if (filter.getFilterType().equals("PRICE_FILTER")) {
-                counterPrecision = numberOfDecimals(filter.getMinPrice());
-              } else if (filter.getFilterType().equals("LOT_SIZE")) {
-                basePrecision = numberOfDecimals(filter.getMinQty());
-              }
-            }
-
-            currencies.put(pair.base, new CurrencyMetaData(basePrecision, BigDecimal.ZERO));
-            currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, BigDecimal.ZERO));
+        CurrencyPairMetaData pairMetaData = currencyPairs.get(pair);
+        if (pairMetaData != null) { // use old values as defaults where available.
+          tradingFee = pairMetaData.getTradingFee();
+          minAmount = pairMetaData.getMinimumAmount();
+          maxAmount = pairMetaData.getMaximumAmount();
+          priceScale = pairMetaData.getPriceScale();
+          if (pairMetaData instanceof BinanceCurrencyPairMetaData) {
+            minNotional = ((BinanceCurrencyPairMetaData) pairMetaData).getMinNotional();
           }
+        }
+
+        for (Filter filter : symbol.getFilters()) { // replace with the new values where available.
+          switch (filter.getFilterType()) {
+            case "PRICE_FILTER":
+              priceScale = numberOfDecimals(filter.getTickSize());
+              break;
+            case "LOT_SIZE":
+              minAmount = new BigDecimal(filter.getMinQty());
+              maxAmount = new BigDecimal(filter.getMaxQty());
+              break;
+            case "MIN_NOTIONAL":
+              minNotional = new BigDecimal(filter.getMinNotional());
+              break;
+          }
+        }
+        pairMetaData = new BinanceCurrencyPairMetaData(tradingFee, minAmount, maxAmount, priceScale, minNotional);
+
+        currencyPairs.put(pair, pairMetaData);
+
+        CurrencyMetaData baseMetaData = currencies.get(pair.base);
+        if (baseMetaData == null) {
+          Integer basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
+          currencies.put(pair.base, new CurrencyMetaData(basePrecision, BigDecimal.ZERO));
+        }
+        CurrencyMetaData counterMetaData = currencies.get(pair.base);
+        if (counterMetaData == null) {
+          Integer counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
+          currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, BigDecimal.ZERO));
         }
       }
     } catch (Exception e) {
@@ -104,6 +134,10 @@ public class BinanceExchange extends BaseExchange {
     } catch (ArrayIndexOutOfBoundsException e) {
       return DEFAULT_PRECISION;
     }
+  }
+
+  public void clearDeltaServerTime() {
+    deltaServerTime = null;
   }
 
   public long deltaServerTime() throws IOException {

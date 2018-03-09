@@ -51,8 +51,8 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
 
   public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
 
-    return poloniexAuthenticated.returnTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexUtils.toPairString(currencyPair),
-        startTime, endTime);
+    return poloniexAuthenticated
+        .returnTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexUtils.toPairString(currencyPair), startTime, endTime);
   }
 
   public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(Long startTime, Long endTime) throws IOException {
@@ -122,18 +122,21 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
       if (limitOrder.hasFlag(PoloniexOrderFlags.MARGIN)) {
         name = "margin" + name.substring(0, 1).toUpperCase() + name.substring(1);
 
-        Method marginMethod = PoloniexAuthenticated.class.getDeclaredMethod(name, String.class, ParamsDigest.class, SynchronizedValueFactory.class,
-            String.class, String.class, String.class, Double.class);
-        PoloniexTradeResponse response = (PoloniexTradeResponse) marginMethod.invoke(poloniexAuthenticated, apiKey, signatureCreator,
-            exchange.getNonceFactory(), limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
-            PoloniexUtils.toPairString(limitOrder.getCurrencyPair()), lendingRate);
+        Method marginMethod = PoloniexAuthenticated.class
+            .getDeclaredMethod(name, String.class, ParamsDigest.class, SynchronizedValueFactory.class, String.class, String.class, String.class,
+                Double.class);
+        PoloniexTradeResponse response = (PoloniexTradeResponse) marginMethod
+            .invoke(poloniexAuthenticated, apiKey, signatureCreator, exchange.getNonceFactory(), limitOrder.getOriginalAmount().toPlainString(),
+                limitOrder.getLimitPrice().toPlainString(), PoloniexUtils.toPairString(limitOrder.getCurrencyPair()), lendingRate);
         return response;
       } else {
-        Method method = PoloniexAuthenticated.class.getDeclaredMethod(name, String.class, ParamsDigest.class, SynchronizedValueFactory.class,
-            String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
-        PoloniexTradeResponse response = (PoloniexTradeResponse) method.invoke(poloniexAuthenticated, apiKey, signatureCreator,
-            exchange.getNonceFactory(), limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
-            PoloniexUtils.toPairString(limitOrder.getCurrencyPair()), fillOrKill, immediateOrCancel, postOnly);
+        Method method = PoloniexAuthenticated.class
+            .getDeclaredMethod(name, String.class, ParamsDigest.class, SynchronizedValueFactory.class, String.class, String.class, String.class,
+                Integer.class, Integer.class, Integer.class);
+        PoloniexTradeResponse response = (PoloniexTradeResponse) method
+            .invoke(poloniexAuthenticated, apiKey, signatureCreator, exchange.getNonceFactory(), limitOrder.getOriginalAmount().toPlainString(),
+                limitOrder.getLimitPrice().toPlainString(), PoloniexUtils.toPairString(limitOrder.getCurrencyPair()), fillOrKill, immediateOrCancel,
+                postOnly);
         return response;
       }
     } catch (PoloniexException e) {
@@ -160,8 +163,9 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     }
 
     try {
-      return poloniexAuthenticated.moveOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId, originalAmount.toPlainString(),
-          limitPrice.toPlainString(), immediateOrCancel, postOnly);
+      return poloniexAuthenticated
+          .moveOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId, originalAmount.toPlainString(), limitPrice.toPlainString(),
+              immediateOrCancel, postOnly);
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
     }

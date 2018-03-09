@@ -5,27 +5,36 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AbucoinsProduct {
-  /**identifier of market*/
+  /**
+   * identifier of market
+   */
   String id;
-  /** which currency is buying/selling */
+  /**
+   * which currency is buying/selling
+   */
   String baseCurrency;
-  /** price currency of base_currency */
+  /**
+   * price currency of base_currency
+   */
   String quoteCurrency;
-  /** minimum order size */
+  /**
+   * minimum order size
+   */
   BigDecimal baseMinSize;
-  /** maximum order size */
+  /**
+   * maximum order size
+   */
   BigDecimal baseMaxSize;
-  /** the order price must be a multiple of this increment */
+  /**
+   * the order price must be a multiple of this increment
+   */
   BigDecimal quoteIncrement;
   String displayName;
 
-  public AbucoinsProduct(@JsonProperty("id") String id,
-                         @JsonProperty("base_currency") String baseCurrency,
-                         @JsonProperty("quote_currency") String quoteCurrency,
-                         @JsonProperty("base_min_size") BigDecimal baseMinSize,
-                         @JsonProperty("base_max_size") BigDecimal baseMaxSize,
-                         @JsonProperty("quote_increment") BigDecimal quoteIncrement,
-                         @JsonProperty("base_min_size") String displayName) {
+  public AbucoinsProduct(@JsonProperty("id") String id, @JsonProperty("base_currency") String baseCurrency,
+      @JsonProperty("quote_currency") String quoteCurrency, @JsonProperty("base_min_size") BigDecimal baseMinSize,
+      @JsonProperty("base_max_size") BigDecimal baseMaxSize, @JsonProperty("quote_increment") BigDecimal quoteIncrement,
+      @JsonProperty("base_min_size") String displayName) {
     this.id = id;
     this.baseCurrency = baseCurrency;
     this.quoteCurrency = quoteCurrency;
@@ -65,8 +74,7 @@ public class AbucoinsProduct {
 
   @Override
   public String toString() {
-    return "AbucoinsProduct [id=" + id + ", baseCurrency=" + baseCurrency + ", quoteCurrency=" + quoteCurrency
-        + ", baseMinSize=" + baseMinSize + ", baseMaxSize=" + baseMaxSize + ", quoteIncrement=" + quoteIncrement
-        + ", displayName=" + displayName + "]";
+    return "AbucoinsProduct [id=" + id + ", baseCurrency=" + baseCurrency + ", quoteCurrency=" + quoteCurrency + ", baseMinSize=" + baseMinSize
+        + ", baseMaxSize=" + baseMaxSize + ", quoteIncrement=" + quoteIncrement + ", displayName=" + displayName + "]";
   }
 }

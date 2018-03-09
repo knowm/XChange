@@ -13,10 +13,6 @@ import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
 
 public class LimitOrderTest {
-  private enum TestFlags implements IOrderFlags {
-    TEST1, TEST2, TEST3
-  }
-
   @Test
   public void testBuilder() {
     final OrderType type = OrderType.BID;
@@ -28,7 +24,7 @@ public class LimitOrderTest {
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
     final LimitOrder copy = new LimitOrder.Builder(type, currencyPair).originalAmount(originalAmount).limitPrice(limitPrice).orderStatus(status)
-        .timestamp(timestamp).id(id).flag(TestFlags.TEST1).build();
+                                                                      .timestamp(timestamp).id(id).flag(TestFlags.TEST1).build();
 
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
@@ -114,5 +110,9 @@ public class LimitOrderTest {
     // Sorted: bid@2, ask@1
     assertEquals(-1, bid2.compareTo(ask1));
     assertEquals(1, ask1.compareTo(bid2));
+  }
+
+  private enum TestFlags implements IOrderFlags {
+    TEST1, TEST2, TEST3
   }
 }

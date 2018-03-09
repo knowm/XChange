@@ -68,17 +68,8 @@ public class BitflyerPosition {
 
   @Override
   public String toString() {
-    return "BitflyerPosition{" +
-        "productCode='" + productCode + '\'' +
-        ", side='" + side + '\'' +
-        ", price=" + price +
-        ", size=" + size +
-        ", commission=" + commission +
-        ", swapPointAccumulate=" + swapPointAccumulate +
-        ", requireCollateral=" + requireCollateral +
-        ", openDate='" + openDate + '\'' +
-        ", leverage=" + leverage +
-        ", pnl=" + pnl +
-        '}';
+    return "BitflyerPosition{" + "productCode='" + productCode + '\'' + ", side='" + side + '\'' + ", price=" + price + ", size=" + size
+        + ", commission=" + commission + ", swapPointAccumulate=" + swapPointAccumulate + ", requireCollateral=" + requireCollateral + ", openDate='"
+        + openDate + '\'' + ", leverage=" + leverage + ", pnl=" + pnl + '}';
   }
 }

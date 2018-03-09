@@ -49,8 +49,8 @@ public interface BitstampAuthenticated {
   @Path("buy/")
   @Deprecated
   BitstampOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("price") BigDecimal price) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+      throws BitstampException, IOException;
 
   /**
    * @deprecated Use .
@@ -59,8 +59,8 @@ public interface BitstampAuthenticated {
   @Path("sell/")
   @Deprecated
   BitstampOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("price") BigDecimal price) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+      throws BitstampException, IOException;
 
   /**
    * @return true if order has been canceled.
@@ -102,8 +102,8 @@ public interface BitstampAuthenticated {
   @POST
   @Path("bitcoin_withdrawal/")
   BitstampWithdrawal withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
+      throws BitstampException, IOException;
 
   @POST
   @Path("v2/eth_address/")
@@ -113,8 +113,8 @@ public interface BitstampAuthenticated {
   @POST
   @Path("v2/eth_withdrawal/")
   BitstampWithdrawal withdrawEthereum(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
+      throws BitstampException, IOException;
 
   @POST
   @Path("v2/ltc_address/")
@@ -124,8 +124,8 @@ public interface BitstampAuthenticated {
   @POST
   @Path("v2/ltc_withdrawal/")
   BitstampWithdrawal withdrawLitecoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address) throws BitstampException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
+      throws BitstampException, IOException;
 
   @POST
   @Path("unconfirmed_btc/")

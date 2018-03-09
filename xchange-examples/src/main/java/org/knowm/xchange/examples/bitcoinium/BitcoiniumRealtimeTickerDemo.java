@@ -31,11 +31,11 @@ import org.knowm.xchart.style.markers.SeriesMarkers;
  */
 public class BitcoiniumRealtimeTickerDemo {
 
+  public static final String SERIES_NAME = "Bitcoinium USD/BTC";
   XYChart chart;
   BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
   List<Date> xAxisData;
   List<Float> yAxisData;
-  public static final String SERIES_NAME = "Bitcoinium USD/BTC";
 
   public static void main(String[] args) throws Exception {
 

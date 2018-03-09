@@ -94,7 +94,8 @@ public class DateUtils {
    * @return Date
    * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
    */
-  public static Date fromRfc1123DateString(String rfc1123FormattedDate, Locale locale) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public static Date fromRfc1123DateString(String rfc1123FormattedDate, Locale locale)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
     SimpleDateFormat rfc1123DateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", locale);
     try {

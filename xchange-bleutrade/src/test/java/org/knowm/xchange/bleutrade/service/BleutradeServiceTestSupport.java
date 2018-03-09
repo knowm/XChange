@@ -22,6 +22,11 @@ public class BleutradeServiceTestSupport extends BleutradeTestData {
   protected static final String SPECIFICATION_USERNAME = "admin";
   protected static final String SPECIFICATION_API_KEY = "publicKey";
   protected static final String SPECIFICATION_SECRET_KEY = "secretKey";
+  protected static final String EXPECTED_BLEUTRADE_TICKER_STR = "Ticker [currencyPair=BLEU/BTC, last=0.00101977, bid=0.00100000, ask=0.00101977, "
+      + "high=0.00105000, low=0.00086000,avg=0.00103455, volume=2450.97496015, timestamp=1406632770000]";
+  protected static final String BLEUTRADE_BALANCE_STR = "BleutradeBalance [Currency=AUD, Balance=40.00000000, Available=10.00000000, "
+      + "Pending=30.00000000, CryptoAddress=null, IsActive=true, additionalProperties={}]";
+  protected static final BleutradeDepositAddress BLEUTRADE_DEPOSIT_ADDRESS = createDepositAddress("AUD", "Deposit Address Details");
 
   protected static List<BleutradeOpenOrder> expectedBleutradeOpenOrdersList() {
     return Arrays.asList(
@@ -32,13 +37,11 @@ public class BleutradeServiceTestSupport extends BleutradeTestData {
   }
 
   protected static List<BleutradeTicker> expectedBleutradeTicker() {
-    return Collections.unmodifiableList(Arrays.asList(createBleutradeTicker("BLEU_BTC", new BigDecimal("0.00095000"), new BigDecimal("0.00105000"),
-        new BigDecimal("0.00086000"), new BigDecimal("0.00101977"), new BigDecimal("0.00103455"), new BigDecimal("2450.97496015"),
-        new BigDecimal("2.40781647"), "2014-07-29 11:19:30", new BigDecimal("0.00100000"), new BigDecimal("0.00101977"), true)));
+    return Collections.unmodifiableList(Arrays.asList(
+        createBleutradeTicker("BLEU_BTC", new BigDecimal("0.00095000"), new BigDecimal("0.00105000"), new BigDecimal("0.00086000"),
+            new BigDecimal("0.00101977"), new BigDecimal("0.00103455"), new BigDecimal("2450.97496015"), new BigDecimal("2.40781647"),
+            "2014-07-29 11:19:30", new BigDecimal("0.00100000"), new BigDecimal("0.00101977"), true)));
   }
-
-  protected static final String EXPECTED_BLEUTRADE_TICKER_STR = "Ticker [currencyPair=BLEU/BTC, last=0.00101977, bid=0.00100000, ask=0.00101977, "
-      + "high=0.00105000, low=0.00086000,avg=0.00103455, volume=2450.97496015, timestamp=1406632770000]";
 
   protected static List<BleutradeTicker> expectedBleutradeTickers() {
     return Collections.unmodifiableList(Arrays.asList(
@@ -51,10 +54,9 @@ public class BleutradeServiceTestSupport extends BleutradeTestData {
   }
 
   protected static String[] expectedBleutradeTickersStr() {
-    return new String[]{
-        "BleutradeTicker [MarketName=BLEU_BTC, PrevDay=0.00095000, High=0.00105000, Low=0.00086000, "
-            + "Last=0.00101977, Average=0.00103455, Volume=2450.97496015, BaseVolume=2.40781647, "
-            + "TimeStamp=2014-07-29 11:19:30, Bid=0.00100000, Ask=0.00101977, IsActive=true, " + "additionalProperties={}]",
+    return new String[]{"BleutradeTicker [MarketName=BLEU_BTC, PrevDay=0.00095000, High=0.00105000, Low=0.00086000, "
+        + "Last=0.00101977, Average=0.00103455, Volume=2450.97496015, BaseVolume=2.40781647, "
+        + "TimeStamp=2014-07-29 11:19:30, Bid=0.00100000, Ask=0.00101977, IsActive=true, " + "additionalProperties={}]",
         "BleutradeTicker [MarketName=LTC_BTC, PrevDay=0.00095000, High=0.01333000, Low=0.01167001, "
             + "Last=0.01333000, Average=0.01235000, Volume=14.46077245, BaseVolume=0.18765956, "
             + "TimeStamp=2014-07-29 11:48:02, Bid=0.01268311, Ask=0.01333000, IsActive=true, " + "additionalProperties={}]"};
@@ -86,38 +88,31 @@ public class BleutradeServiceTestSupport extends BleutradeTestData {
   }
 
   protected static String[] expectedBleutradeCurrenciesStr() {
-    return new String[]{
-        "BleutradeCurrency [Currency=BTC, CurrencyLong=Bitcoin, MinConfirmation=2, TxFee=0.00080000, IsActive=true, "
-            + "CoinType=BITCOIN, additionalProperties={}]",
+    return new String[]{"BleutradeCurrency [Currency=BTC, CurrencyLong=Bitcoin, MinConfirmation=2, TxFee=0.00080000, IsActive=true, "
+        + "CoinType=BITCOIN, additionalProperties={}]",
         "BleutradeCurrency [Currency=LTC, CurrencyLong=Litecoin, MinConfirmation=4, TxFee=0.02000000, IsActive=true, "
             + "CoinType=BITCOIN, additionalProperties={}]"};
   }
 
   protected static List<BleutradeMarket> expectedBleutradeMarkets() {
-    return Collections
-        .unmodifiableList(Arrays.asList(createBleutradeMarket("DOGE", "BTC", "Dogecoin", "Bitcoin", new BigDecimal("0.10000000"), "DOGE_BTC", true),
+    return Collections.unmodifiableList(Arrays
+        .asList(createBleutradeMarket("DOGE", "BTC", "Dogecoin", "Bitcoin", new BigDecimal("0.10000000"), "DOGE_BTC", true),
             createBleutradeMarket("BLEU", "BTC", "Bleutrade Share", "Bitcoin", new BigDecimal("0.00000001"), "BLEU_BTC", true)));
   }
 
   protected static String[] expectedBleutradeMarketsStr() {
-    return new String[]{
-        "BleutradeMarket [MarketCurrency=DOGE, BaseCurrency=BTC, MarketCurrencyLong=Dogecoin, BaseCurrencyLong=Bitcoin, "
-            + "MinTradeSize=0.10000000, MarketName=DOGE_BTC, IsActive=true, additionalProperties={}]",
+    return new String[]{"BleutradeMarket [MarketCurrency=DOGE, BaseCurrency=BTC, MarketCurrencyLong=Dogecoin, BaseCurrencyLong=Bitcoin, "
+        + "MinTradeSize=0.10000000, MarketName=DOGE_BTC, IsActive=true, additionalProperties={}]",
         "BleutradeMarket [MarketCurrency=BLEU, BaseCurrency=BTC, MarketCurrencyLong=Bleutrade Share, "
             + "BaseCurrencyLong=Bitcoin, MinTradeSize=1E-8, MarketName=BLEU_BTC, IsActive=true, additionalProperties={}]"};
   }
 
   protected static List<BleutradeBalance> expectedBleutradeAccountInfo() {
-    return Collections.unmodifiableList(
-        Arrays.asList(createBalance(new BigDecimal("10.00000000"), "AUD", new BigDecimal("40.00000000"), new BigDecimal("30.00000000"), true),
+    return Collections.unmodifiableList(Arrays
+        .asList(createBalance(new BigDecimal("10.00000000"), "AUD", new BigDecimal("40.00000000"), new BigDecimal("30.00000000"), true),
             createBalance(new BigDecimal("40.00000000"), "BTC", new BigDecimal("100.00000000"), new BigDecimal("60.00000000"), false),
             createBalance(new BigDecimal("70.00000000"), "BLEU", new BigDecimal("160.00000000"), new BigDecimal("90.00000000"), true)));
   }
-
-  protected static final String BLEUTRADE_BALANCE_STR = "BleutradeBalance [Currency=AUD, Balance=40.00000000, Available=10.00000000, "
-      + "Pending=30.00000000, CryptoAddress=null, IsActive=true, additionalProperties={}]";
-
-  protected static final BleutradeDepositAddress BLEUTRADE_DEPOSIT_ADDRESS = createDepositAddress("AUD", "Deposit Address Details");
 
   protected static BleutradeBalance createBalance(BigDecimal available, String currency, BigDecimal balance, BigDecimal pending, Boolean isActive) {
     BleutradeBalance bleutradeBalance = new BleutradeBalance();

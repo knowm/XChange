@@ -26,32 +26,32 @@ public class MarketDataServiceIntegration {
 
   static Exchange exchange;
   static MarketDataService marketDataService;
-  
+
   @BeforeClass
   public static void beforeClass() {
     exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
     marketDataService = exchange.getMarketDataService();
   }
-  
+
   @Test
   public void listCurrencies() throws Exception {
-    
+
     CoinbaseMarketDataService coinbaseService = (CoinbaseMarketDataService) marketDataService;
     List<CoinbaseCurrency> currencies = coinbaseService.getCoinbaseCurrencies();
     assertThat(currencies).contains(new CoinbaseCurrency("Bitcoin", "BTC"));
   }
-  
+
   @Test
   public void listExchageRates() throws Exception {
-    
+
     CoinbaseMarketDataService coinbaseService = (CoinbaseMarketDataService) marketDataService;
     Map<String, BigDecimal> exchangeRates = coinbaseService.getCoinbaseExchangeRates();
     Assert.assertTrue(exchangeRates.get("EUR") instanceof BigDecimal);
   }
-  
+
   @Test
   public void listPrices() throws Exception {
-    
+
     CoinbaseMarketDataService coinbaseService = (CoinbaseMarketDataService) marketDataService;
     CoinbasePrice money = coinbaseService.getCoinbaseBuyPrice(Currency.BTC, Currency.USD);
     assertThat(money).hasFieldOrPropertyWithValue("currency", Currency.USD).hasNoNullFieldsOrProperties();

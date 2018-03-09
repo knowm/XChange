@@ -61,11 +61,11 @@ public interface MercadoBitcoin {
 
   @GET
   @Path("/v1/trades/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
-  MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp,
-      @PathParam("end_timestamp") Long endTimestamp) throws IOException;
+  MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp, @PathParam("end_timestamp") Long endTimestamp)
+      throws IOException;
 
   @GET
   @Path("/v1/trades_litecoin/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
-  MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp,
-      @PathParam("end_timestamp") Long endTimestamp) throws IOException;
+  MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp, @PathParam("end_timestamp") Long endTimestamp)
+      throws IOException;
 }

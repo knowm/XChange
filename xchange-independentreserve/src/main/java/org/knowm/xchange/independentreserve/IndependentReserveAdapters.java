@@ -57,7 +57,7 @@ public class IndependentReserveAdapters {
    * Adapts a IndependentReserveTicker to a Ticker Object
    *
    * @param independentReserveTicker The exchange specific ticker
-   * @param currencyPair (e.g. BTC/USD)
+   * @param currencyPair             (e.g. BTC/USD)
    * @return The ticker
    */
   public static Ticker adaptTicker(IndependentReserveTicker independentReserveTicker, CurrencyPair currencyPair) {
@@ -72,7 +72,7 @@ public class IndependentReserveAdapters {
     Date timestamp = independentReserveTicker.getTimestamp();
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
-        .timestamp(timestamp).build();
+                               .timestamp(timestamp).build();
 
   }
 
@@ -149,8 +149,9 @@ public class IndependentReserveAdapters {
       Currency secondary = Currency.getInstanceNoCreate(trade.getSecondaryCurrencyCode());
 
       if (primary == null || secondary == null) {
-        throw new IllegalArgumentException("IndependentReserveTradeHistoryRequest - unknown value of currency code. Base was: "
-            + trade.getPrimaryCurrencyCode() + " counter was " + trade.getSecondaryCurrencyCode());
+        throw new IllegalArgumentException(
+            "IndependentReserveTradeHistoryRequest - unknown value of currency code. Base was: " + trade.getPrimaryCurrencyCode() + " counter was "
+                + trade.getSecondaryCurrencyCode());
       }
 
       CurrencyPair currencyPair = new CurrencyPair(primary, secondary);

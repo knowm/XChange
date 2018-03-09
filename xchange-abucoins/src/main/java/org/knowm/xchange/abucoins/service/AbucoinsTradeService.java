@@ -10,10 +10,17 @@ import org.knowm.xchange.abucoins.AbucoinsAdapters;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsFill;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
@@ -46,23 +53,23 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    if ( params instanceof OpenOrdersParamCurrencyPair ) {
+    if (params instanceof OpenOrdersParamCurrencyPair) {
       OpenOrdersParamCurrencyPair cpParams = (OpenOrdersParamCurrencyPair) params;
       AbucoinsOrderRequest orderRequest = new AbucoinsOrderRequest(AbucoinsOrder.Status.open,
-                                                                   AbucoinsAdapters.adaptCurrencyPairToProductID(cpParams.getCurrencyPair()));
+          AbucoinsAdapters.adaptCurrencyPairToProductID(cpParams.getCurrencyPair()));
       AbucoinsOrder[] openOrders = getAbucoinsOrders(orderRequest);
       return AbucoinsAdapters.adaptOpenOrders(openOrders);
     }
-    
+
     throw new NotYetImplementedForExchangeException("Only OpenOrdersParamCurrencyPair supported");
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    AbucoinsCreateMarketOrderRequest req = AbucoinsAdapters.adaptAbucoinsCreateMarketOrderRequest(marketOrder); 
+    AbucoinsCreateMarketOrderRequest req = AbucoinsAdapters.adaptAbucoinsCreateMarketOrderRequest(marketOrder);
     AbucoinsCreateOrderResponse resp = createAbucoinsOrder(req);
-    if ( resp.getMessage() != null )
-      throw new IOException(resp.getMessage());
+    if (resp.getMessage() != null)
+      throw new ExchangeException(resp.getMessage());
     return resp.getId();
   }
 
@@ -70,14 +77,14 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     AbucoinsCreateLimitOrderRequest req = AbucoinsAdapters.adaptAbucoinsCreateLimitOrderRequest(limitOrder);
     AbucoinsCreateOrderResponse resp = createAbucoinsOrder(req);
-    if ( resp.getMessage() != null )
-      throw new IOException(resp.getMessage());
+    if (resp.getMessage() != null)
+      throw new ExchangeException(resp.getMessage());
     return resp.getId();
   }
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
@@ -100,12 +107,13 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    AbucoinsFill[] fills = getAbucoinsFills();
+    return AbucoinsAdapters.adaptUserTrades(fills);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
+    return new AbucoinsTradeHistoryParams();
   }
 
   @Override

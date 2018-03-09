@@ -21,9 +21,10 @@ public class BitmexPublicTrade {
   private final BigDecimal homeNotional;
   private final BigDecimal foreignNotional;
 
-  public BitmexPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("timestamp") Date timestamp, @JsonProperty("side") BitmexSide side,
-      @JsonProperty("tickDirection") BitmexTickDirection tickDirection, @JsonProperty("symbol") String symbol, @JsonProperty("trdMatchID") String trdMatchID,
-      @JsonProperty("grossValue") BigDecimal grossValue, @JsonProperty("homeNotional") BigDecimal homeNotional, @JsonProperty("foreignNotional") BigDecimal foreignNotional) {
+  public BitmexPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("timestamp") Date timestamp,
+      @JsonProperty("side") BitmexSide side, @JsonProperty("tickDirection") BitmexTickDirection tickDirection, @JsonProperty("symbol") String symbol,
+      @JsonProperty("trdMatchID") String trdMatchID, @JsonProperty("grossValue") BigDecimal grossValue,
+      @JsonProperty("homeNotional") BigDecimal homeNotional, @JsonProperty("foreignNotional") BigDecimal foreignNotional) {
 
     this.price = price;
     this.size = size;
@@ -76,7 +77,8 @@ public class BitmexPublicTrade {
   @Override
   public String toString() {
 
-    return "BitmexPublicTrade [symbol=" + symbol + " price=" + price + ", size=" + size + ", time=" + timestamp + ", side=" + side + ", tickDirection=" + tickDirection + "]";
+    return "BitmexPublicTrade [symbol=" + symbol + " price=" + price + ", size=" + size + ", time=" + timestamp + ", side=" + side
+        + ", tickDirection=" + tickDirection + "]";
   }
 
 }

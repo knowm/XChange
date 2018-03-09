@@ -89,7 +89,8 @@ public class BittrexMarketDataDemo {
     List<BittrexChartData> chartData = marketDataService.getBittrexChartData(CurrencyPair.ETH_BTC, BittrexChartDataPeriodType.ONE_DAY);
     System.out.println(chartData);
 
-    List<BittrexChartData> latestTick = marketDataService.getBittrexLatestTick(CurrencyPair.ETH_BTC, BittrexChartDataPeriodType.ONE_DAY, 1500915289434L);
+    List<BittrexChartData> latestTick = marketDataService
+        .getBittrexLatestTick(CurrencyPair.ETH_BTC, BittrexChartDataPeriodType.ONE_DAY, 1500915289434L);
     System.out.println(latestTick);
 
   }

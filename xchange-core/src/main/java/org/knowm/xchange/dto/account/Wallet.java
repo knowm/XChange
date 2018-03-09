@@ -21,25 +21,23 @@ import org.knowm.xchange.currency.Currency;
 public final class Wallet implements Serializable {
 
   /**
+   * The keys represent the currency of the wallet.
+   */
+  private final Map<Currency, Balance> balances;
+  /**
    * A unique identifier for this wallet
    */
   private String id;
-
   /**
    * A descriptive name for this wallet. Defaults to {@link #id}
    */
   private String name;
 
   /**
-   * The keys represent the currency of the wallet.
-   */
-  private final Map<Currency, Balance> balances;
-
-  /**
    * Constructs a {@link Wallet}.
    *
-   * @param id the wallet id
-   * @param name a descriptive name for the wallet
+   * @param id       the wallet id
+   * @param name     a descriptive name for the wallet
    * @param balances the balances, the currencies of the balances should not be duplicated.
    */
   public Wallet(String id, String name, Collection<Balance> balances) {

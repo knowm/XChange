@@ -18,6 +18,14 @@ import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
 
 public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
 
+  private final long cache_delay = 1000L;
+  private HashMap<String, PoloniexMarketData> TickermarketData;
+  private long next_refresh = System.currentTimeMillis() + cache_delay;
+
+  // There is no point to query the ticker instantly again when
+  // all tickers are returned on 1 query available in the hash map
+  // let's wait a seconds and save our self a call for each ticker in our calling for loop.
+
   /**
    * Constructor
    *
@@ -52,14 +60,6 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     }
 
   }
-
-  // There is no point to query the ticker instantly again when
-  // all tickers are returned on 1 query available in the hash map
-  // let's wait a seconds and save our self a call for each ticker in our calling for loop.
-
-  private HashMap<String, PoloniexMarketData> TickermarketData;
-  private final long cache_delay = 1000L;
-  private long next_refresh = System.currentTimeMillis() + cache_delay;
 
   public PoloniexTicker getPoloniexTicker(CurrencyPair currencyPair) throws IOException {
 
@@ -162,8 +162,8 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexChartData[] getPoloniexChartData(CurrencyPair currencyPair, Long startTime, Long endTime,
-      PoloniexChartDataPeriodType period) throws IOException {
+  public PoloniexChartData[] getPoloniexChartData(CurrencyPair currencyPair, Long startTime, Long endTime, PoloniexChartDataPeriodType period)
+      throws IOException {
 
     String command = "returnChartData";
     String pairString = PoloniexUtils.toPairString(currencyPair);

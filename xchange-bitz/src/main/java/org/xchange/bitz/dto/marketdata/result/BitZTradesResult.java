@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitZTradesResult extends BitZResult<BitZTrades> {
 
-	public BitZTradesResult(@JsonProperty("code") int code, @JsonProperty("msg") String message, @JsonProperty("data") BitZTrades data) {
-		super(code, message, data);
-	}
+  public BitZTradesResult(@JsonProperty("code") int code, @JsonProperty("msg") String message, @JsonProperty("data") BitZTrades data) {
+    super(code, message, data);
+  }
 
 }

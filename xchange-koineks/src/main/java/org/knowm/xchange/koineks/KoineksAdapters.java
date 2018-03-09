@@ -54,15 +54,8 @@ public final class KoineksAdapters {
       BigDecimal low24hr = koineksTicker.getLow();
       String timestampStr = koineksTicker.getTimestamp();
       Date timestamp = new Date(Long.valueOf(timestampStr));
-      return new Ticker.Builder()
-          .currencyPair(new CurrencyPair(currency, Currency.TRY))
-          .last(last)
-          .bid(highestBid)
-          .ask(lowestAsk)
-          .high(high24hr)
-          .low(low24hr)
-          .timestamp(timestamp)
-          .volume(volume).build();
+      return new Ticker.Builder().currencyPair(new CurrencyPair(currency, Currency.TRY)).last(last).bid(highestBid).ask(lowestAsk).high(high24hr)
+                                 .low(low24hr).timestamp(timestamp).volume(volume).build();
     }
     return null;
   }

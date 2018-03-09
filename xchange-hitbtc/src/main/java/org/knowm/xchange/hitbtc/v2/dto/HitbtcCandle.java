@@ -20,7 +20,8 @@ public class HitbtcCandle {
 
   @Override
   public String toString() {
-    return "KrakenOHLC [timestamp=" + timestamp + ", open=" + open + ", max=" + max + ", min=" + min + ", close=" + close + ", volumeQuote=" + volumeQuote + ", volume=" + volume + "]";
+    return "KrakenOHLC [timestamp=" + timestamp + ", open=" + open + ", max=" + max + ", min=" + min + ", close=" + close + ", volumeQuote="
+        + volumeQuote + ", volume=" + volume + "]";
   }
 
   public String getTimestamp() {

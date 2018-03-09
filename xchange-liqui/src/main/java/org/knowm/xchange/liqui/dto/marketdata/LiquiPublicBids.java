@@ -19,8 +19,6 @@ public class LiquiPublicBids {
 
   @Override
   public String toString() {
-    return "LiquiPublicBids{" +
-        "bids=" + bids +
-        '}';
+    return "LiquiPublicBids{" + "bids=" + bids + '}';
   }
 }

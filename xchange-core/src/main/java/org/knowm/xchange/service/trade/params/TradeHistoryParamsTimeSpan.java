@@ -9,12 +9,12 @@ import org.knowm.xchange.service.trade.TradeService;
  */
 public interface TradeHistoryParamsTimeSpan extends TradeHistoryParams {
 
-  void setStartTime(Date startTime);
-
   Date getStartTime();
 
-  void setEndTime(Date endTime);
+  void setStartTime(Date startTime);
 
   Date getEndTime();
+
+  void setEndTime(Date endTime);
 
 }

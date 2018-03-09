@@ -37,8 +37,7 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     BitMarketWithdrawResponse response = withdrawFromBitMarket(currency.toString(), amount, address);
     return response.getData();
@@ -54,8 +53,7 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   }
 
   @Override
-  public String requestDepositAddress(Currency currency,
-      String... strings) throws IOException {
+  public String requestDepositAddress(Currency currency, String... strings) throws IOException {
 
     BitMarketDepositResponse response = depositToBitMarket(currency.toString());
     return response.getData();
@@ -67,8 +65,7 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

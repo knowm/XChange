@@ -43,7 +43,8 @@ public class BitmexSymbolsAndPromptsResult<V> {
   @Override
   public String toString() {
 
-    return String.format("BitmexSymbolsAndPromptsResult[%s: %s]", isSuccess() ? "OK" : "error", isSuccess() ? intervals.toString() + " / " + symbols.toString() : "error");
+    return String.format("BitmexSymbolsAndPromptsResult[%s: %s]", isSuccess() ? "OK" : "error",
+        isSuccess() ? intervals.toString() + " / " + symbols.toString() : "error");
   }
 
 }

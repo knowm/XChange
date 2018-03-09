@@ -33,8 +33,7 @@ public class RippleAccountService extends RippleAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -44,8 +43,7 @@ public class RippleAccountService extends RippleAccountServiceRaw implements Acc
   }
 
   @Override
-  public String requestDepositAddress(Currency currency,
-      String... args) throws IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -55,8 +53,7 @@ public class RippleAccountService extends RippleAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

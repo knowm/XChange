@@ -21,7 +21,7 @@ public class WexWithdrawInfo {
    *
    * @param tId
    * @param amountSent
-   * @param funds The funds
+   * @param funds      The funds
    */
   public WexWithdrawInfo(@JsonProperty("tId") int tId, @JsonProperty("amountSent") BigDecimal amountSent,
       @JsonProperty("funds") Map<String, BigDecimal> funds) {

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class KrakenPublicTradesResult extends KrakenResult<KrakenPublicTrades> {
 
   /**
-   * @param error List of errors
+   * @param error  List of errors
    * @param result Recent trades
    */
   public KrakenPublicTradesResult(@JsonProperty("error") String[] error, @JsonProperty("result") KrakenPublicTrades result) {

@@ -13,6 +13,8 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class ANXTradesDemo {
 
+  private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+
   public static void main(String[] args) throws IOException {
 
     Exchange anx = ANXExamplesUtils.createExchange();
@@ -22,8 +24,6 @@ public class ANXTradesDemo {
     generic(marketDataService);
     raw((ANXMarketDataServiceRaw) marketDataService);
   }
-
-  private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
   public static void generic(MarketDataService marketDataService) throws IOException {
 

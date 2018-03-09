@@ -18,10 +18,16 @@ public enum LiquiTradeType {
 
   BUY, SELL;
 
-  @Override
-  public String toString() {
+  private static final Map<String, LiquiTradeType> fromString = new HashMap<>();
 
-    return super.toString().toLowerCase();
+  static {
+    for (final LiquiTradeType type : values())
+      fromString.put(type.toString(), type);
+
+    fromString.put("bid", BUY);
+    fromString.put("ask", SELL);
+    fromString.put("buy", BUY);
+    fromString.put("sell", SELL);
   }
 
   public static LiquiTradeType fromString(final String typeString) {
@@ -34,16 +40,10 @@ public enum LiquiTradeType {
     return type == Order.OrderType.ASK ? LiquiTradeType.SELL : LiquiTradeType.BUY;
   }
 
-  private static final Map<String, LiquiTradeType> fromString = new HashMap<>();
+  @Override
+  public String toString() {
 
-  static {
-    for (final LiquiTradeType type : values())
-      fromString.put(type.toString(), type);
-
-    fromString.put("bid", BUY);
-    fromString.put("ask", SELL);
-    fromString.put("buy", BUY);
-    fromString.put("sell", SELL);
+    return super.toString().toLowerCase();
   }
 
   static class TradeTypeDeserializer extends JsonDeserializer<LiquiTradeType> {

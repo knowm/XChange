@@ -67,19 +67,17 @@ public interface DSXAuthenticated extends DSX {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String pair) throws IOException;
 
   /**
-   * @param from ID of the first transaction of the selection
-   * @param count Number of transactions to display. Default value is 1000
+   * @param from   ID of the first transaction of the selection
+   * @param count  Number of transactions to display. Default value is 1000
    * @param fromId ID of the first transaction of the selection
-   * @param endId ID of the last transaction of the selection
-   * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «DESK»
-   * @param since Time from which start selecting transaction by transaction time(UNIX time). If this value is not null order will become «ASK»
-   * @param end Time to which start selecting transaction by transaction time(UNIX time). If this value is not null order will become «ASK»
+   * @param endId  ID of the last transaction of the selection
+   * @param order  Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «DESK»
+   * @param since  Time from which start selecting transaction by transaction time(UNIX time). If this value is not null order will become «ASK»
+   * @param end    Time to which start selecting transaction by transaction time(UNIX time). If this value is not null order will become «ASK»
    * @return {success: 1, return: {1000: {id:1000, type: 3, amount: 2.5, currency: USD, desc: Income, status: 2, timestamp: 142123698, commission:1.0,
    * address: address string},}}
    * @throws IOException
-   * @deprecated Use {@link DSXAuthenticatedV2#TransHistory(String, ParamsDigest, SynchronizedValueFactory, Long, Long, Long, DSXAuthenticatedV2.SortOrder,
-   * Long, Long, String, Integer, String)}
-   *
+   * @deprecated Use {@link DSXAuthenticatedV2#TransHistory(String, ParamsDigest, SynchronizedValueFactory, Long, Long, Long, DSXAuthenticatedV2.SortOrder, * Long, Long, String, Integer, String)}
    * All parameters are nullable
    */
   @Deprecated
@@ -92,19 +90,17 @@ public interface DSXAuthenticated extends DSX {
       @FormParam("end") Long end) throws IOException;
 
   /**
-   * @param from ID of the first trade of the selection
-   * @param count Number of trades to display
+   * @param from   ID of the first trade of the selection
+   * @param count  Number of trades to display
    * @param fromId ID of the first trade of the selection
-   * @param endId ID of the last trade of the selection
-   * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
-   * @param since Time from which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
-   * @param end Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
-   * @param pair Currency pair
+   * @param endId  ID of the last trade of the selection
+   * @param order  Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
+   * @param since  Time from which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param end    Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param pair   Currency pair
    * @return {success: 1, return: {1000: {pair: btcusd, type: buy, amount: 10, rate: 300, order_id: 576, is_your_order: 1, timestamp: 142123698},}}
    * @throws IOException
-   * @deprecated Use {@link DSXAuthenticatedV2#TradeHistory(String, ParamsDigest, SynchronizedValueFactory, Long, Long, Long, DSXAuthenticatedV2.SortOrder,
-   * Long, Long, String)}
-   *
+   * @deprecated Use {@link DSXAuthenticatedV2#TradeHistory(String, ParamsDigest, SynchronizedValueFactory, Long, Long, Long, DSXAuthenticatedV2.SortOrder, * Long, Long, String)}
    * All parameters are nullable
    */
   @Deprecated
@@ -117,17 +113,16 @@ public interface DSXAuthenticated extends DSX {
       @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
   /**
-   * @param count Number of orders to display
+   * @param count  Number of orders to display
    * @param fromId ID of the first order of the selection
-   * @param endId ID of the last order of the selection
-   * @param order Order in which orders shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
-   * @param since Time from which start selecting orders by trade time(UNIX time). If this value is not null order will become «asc».
-   * @param end Time to which start selecting orders by trade time(UNIX time). If this value is not null order will become «asc».
-   * @param pair Currency pair.
+   * @param endId  ID of the last order of the selection
+   * @param order  Order in which orders shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
+   * @param since  Time from which start selecting orders by trade time(UNIX time). If this value is not null order will become «asc».
+   * @param end    Time to which start selecting orders by trade time(UNIX time). If this value is not null order will become «asc».
+   * @param pair   Currency pair.
    * @return
    * @throws IOException
-   * @deprecated Use {@link DSXAuthenticatedV2#orderHistory(String, ParamsDigest, SynchronizedValueFactory, Long, Long, Long, DSXAuthenticatedV2.SortOrder,
-   * Long, Long, String)}
+   * @deprecated Use {@link DSXAuthenticatedV2#orderHistory(String, ParamsDigest, SynchronizedValueFactory, Long, Long, Long, DSXAuthenticatedV2.SortOrder, * Long, Long, String)}
    */
   @Deprecated
   @POST
@@ -141,10 +136,10 @@ public interface DSXAuthenticated extends DSX {
   /**
    * All parameters are obligatory (ie. none may be null)
    *
-   * @param type The transaction type (buy or sell)
-   * @param rate The price to buy/sell
+   * @param type   The transaction type (buy or sell)
+   * @param rate   The price to buy/sell
    * @param amount The amount which is necessary to buy/sell
-   * @param pair pair, eg. btcusd
+   * @param pair   pair, eg. btcusd
    * @throws IOException
    * @deprecated Use {@link DSXAuthenticatedV2#trade(String, ParamsDigest, SynchronizedValueFactory, DSXOrder.Type, BigDecimal, BigDecimal, String, DSXOrder.OrderType)}
    * DSXOrder.OrderType, String)}
@@ -153,9 +148,9 @@ public interface DSXAuthenticated extends DSX {
   @POST
   @Path("tapi")
   @FormParam("method")
-  DSXTradeReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount, @FormParam("pair") String
-      pair) throws IOException;
+  DSXTradeReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate,
+      @FormParam("amount") BigDecimal amount, @FormParam("pair") String pair) throws IOException;
 
   /**
    * @param orderId Id of order to cancel
@@ -167,47 +162,48 @@ public interface DSXAuthenticated extends DSX {
   @POST
   @Path("tapi")
   @FormParam("method")
-  DSXCancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      SynchronizedValueFactory<Long> nonce, @FormParam("order_id") Long orderId) throws IOException;
+  DSXCancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("order_id") Long orderId) throws IOException;
 
   @Deprecated
   @POST
   @Path("dwapi")
   @FormParam("method")
-  DSXCryptoDepositAddressReturn getCryptoDepositAddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @DefaultValue("0") @FormParam("newAddress") int newAddress)
-      throws IOException;
+  DSXCryptoDepositAddressReturn getCryptoDepositAddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency,
+      @DefaultValue("0") @FormParam("newAddress") int newAddress) throws IOException;
 
   @Deprecated
   @POST
   @Path("dwapi/cryptoWithdraw")
   @FormParam("method")
-  DSXCryptoWithdrawReturn cryptoWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("address") String address,
+  DSXCryptoWithdrawReturn cryptoWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("address") String address,
       @FormParam("amount") BigDecimal amount, @FormParam("commission") BigDecimal commission) throws IOException;
 
   @Deprecated
   @POST
   @Path("dwapi/fiatWithdraw")
   @FormParam("method")
-  DSXFiatWithdrawReturn fiatWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount) throws IOException;
+  DSXFiatWithdrawReturn fiatWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount)
+      throws IOException;
 
   @Deprecated
   @POST
   @Path("dwapi")
   @FormParam("method")
-  DSXTransactionStatusReturn getTransactionsStatus(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      SynchronizedValueFactory<Long> nonce, @FormParam("id") Long id) throws IOException;
+  DSXTransactionStatusReturn getTransactionsStatus(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") Long id) throws IOException;
 
   @Deprecated
   @POST
   @Path("dwapi/getTransactions")
   @FormParam("method")
-  DSXTransactionReturn getTransactions(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("to") Long to, @FormParam("fromId") Long fromId,
-      @FormParam("told") Long told, @FormParam("type") DSXTransaction.Type type, @FormParam("status") DSXTransaction.Status status,
-      @FormParam("currency") String currency) throws IOException;
+  DSXTransactionReturn getTransactions(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("to") Long to,
+      @FormParam("fromId") Long fromId, @FormParam("told") Long told, @FormParam("type") DSXTransaction.Type type,
+      @FormParam("status") DSXTransaction.Status status, @FormParam("currency") String currency) throws IOException;
 
   enum SortOrder {
     ASC, DESC

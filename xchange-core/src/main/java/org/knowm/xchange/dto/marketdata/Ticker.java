@@ -37,18 +37,18 @@ public final class Ticker implements Serializable {
    * Constructor
    *
    * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
-   * @param last Last price
-   * @param bid Bid price
-   * @param ask Ask price
-   * @param high High price
-   * @param low Low price
-   * @param vwap Volume Weighted Average Price
-   * @param volume 24h volume in base currency
-   * @param quoteVolume 24h volume in counter currency
-   * @param timestamp - the timestamp of the ticker according to the exchange's server, null if not provided
+   * @param last         Last price
+   * @param bid          Bid price
+   * @param ask          Ask price
+   * @param high         High price
+   * @param low          Low price
+   * @param vwap         Volume Weighted Average Price
+   * @param volume       24h volume in base currency
+   * @param quoteVolume  24h volume in counter currency
+   * @param timestamp    - the timestamp of the ticker according to the exchange's server, null if not provided
    */
-  private Ticker(CurrencyPair currencyPair, BigDecimal open, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal vwap,
-      BigDecimal volume, BigDecimal quoteVolume, Date timestamp) {
+  private Ticker(CurrencyPair currencyPair, BigDecimal open, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low,
+      BigDecimal vwap, BigDecimal volume, BigDecimal quoteVolume, Date timestamp) {
     this.open = open;
     this.currencyPair = currencyPair;
     this.last = last;
@@ -122,8 +122,9 @@ public final class Ticker implements Serializable {
   @Override
   public String toString() {
 
-    return "Ticker [currencyPair=" + currencyPair + ", open=" + open + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ",avg="
-        + vwap + ", volume=" + volume + ", quoteVolume=" + quoteVolume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
+    return "Ticker [currencyPair=" + currencyPair + ", open=" + open + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high
+        + ", low=" + low + ",avg=" + vwap + ", volume=" + volume + ", quoteVolume=" + quoteVolume + ", timestamp=" + DateUtils
+        .toMillisNullSafe(timestamp) + "]";
   }
 
   /**

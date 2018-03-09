@@ -27,8 +27,8 @@ public class PlaceLimitOrderJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> apiResult = mapper.readValue(is,
-        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult>>() {
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> apiResult = mapper
+        .readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult>>() {
         });
 
     MercadoBitcoinPlaceLimitOrderResult limitOrder = apiResult.getTheReturn();

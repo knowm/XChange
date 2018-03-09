@@ -75,18 +75,18 @@ public class DSXTransaction {
     return txId;
   }
 
+  @Override
+  public String toString() {
+    return "DSXTransaction [id=" + id + ", timestamp=" + timestamp + ", type=" + type + ", amount=" + amount + ", currency=" + currency + ", address="
+        + address + ", status=" + status + ", commission=" + commission + ", txId=" + txId + "]";
+  }
+
   public enum Type {
     Withdraw, Incoming
   }
 
   public enum Status {
     Failed(1), Completed(2), Processing(3), Rejected(4), Cancelling(5);
-
-    private final int status;
-
-    Status(int status) {
-      this.status = status;
-    }
 
     private static final Map<Integer, Status> STATUS_MAP;
 
@@ -97,6 +97,12 @@ public class DSXTransaction {
       }
     }
 
+    private final int status;
+
+    Status(int status) {
+      this.status = status;
+    }
+
     @JsonCreator
     public static Status create(int status) {
       Status result = STATUS_MAP.get(status);
@@ -105,11 +111,5 @@ public class DSXTransaction {
       }
       return result;
     }
-  }
-
-  @Override
-  public String toString() {
-    return "DSXTransaction [id=" + id + ", timestamp=" + timestamp + ", type=" + type + ", amount=" + amount + ", currency="
-        + currency + ", address=" + address + ", status=" + status + ", commission=" + commission + ", txId=" + txId + "]";
   }
 }

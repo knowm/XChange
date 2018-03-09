@@ -13,8 +13,8 @@ public class WexWithDrawInfoReturn extends WexReturn<WexWithdrawInfo> {
    * Constructor
    *
    * @param success True if successful
-   * @param value The BTC-e account info
-   * @param error Any error
+   * @param value   The BTC-e account info
+   * @param error   Any error
    */
   public WexWithDrawInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") WexWithdrawInfo value,
       @JsonProperty("error") String error) {

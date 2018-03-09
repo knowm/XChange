@@ -14,9 +14,6 @@ public class HitbtcInternalTransferResponse {
 
   @Override
   public String toString() {
-    return "InternalTransferResponse{" +
-        "id='" + id + '\'' +
-        ", error=" + error +
-        '}';
+    return "InternalTransferResponse{" + "id='" + id + '\'' + ", error=" + error + '}';
   }
 }

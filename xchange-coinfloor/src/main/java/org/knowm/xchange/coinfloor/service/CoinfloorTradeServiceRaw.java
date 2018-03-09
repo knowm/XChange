@@ -28,8 +28,8 @@ public class CoinfloorTradeServiceRaw extends CoinfloorAuthenticatedService {
   public CoinfloorUserTransaction[] getUserTransactions(CurrencyPair pair, Integer numberOfTransactions, Long offset,
       TradeHistoryParamsSorted.Order sort) throws IOException {
     try {
-      return coinfloor.getUserTransactions(normalise(pair.base), normalise(pair.counter), numberOfTransactions, offset,
-          sort == null ? null : sort.toString());
+      return coinfloor
+          .getUserTransactions(normalise(pair.base), normalise(pair.counter), numberOfTransactions, offset, sort == null ? null : sort.toString());
     } catch (HttpStatusIOException e) {
       if (e.getHttpStatusCode() == HttpURLConnection.HTTP_BAD_REQUEST) {
         throw new ExchangeException(e.getHttpBody(), e);

@@ -11,15 +11,15 @@ public class WexTradeHistoryParams extends WexTransHistoryParams implements Trad
   private CurrencyPair pair;
 
   @Override
-  public void setCurrencyPair(CurrencyPair pair) {
-
-    this.pair = pair;
-  }
-
-  @Override
   public CurrencyPair getCurrencyPair() {
 
     return pair;
+  }
+
+  @Override
+  public void setCurrencyPair(CurrencyPair pair) {
+
+    this.pair = pair;
   }
 
 }

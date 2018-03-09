@@ -79,19 +79,10 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
 
     List<BittrexDepositHistory> depositsHistory = getDepositsHistory(currency);
     for (BittrexDepositHistory depositHistory : depositsHistory) {
-      res.add(new FundingRecord(
-          depositHistory.getCryptoAddress(),
-          depositHistory.getLastUpdated(),
-          Currency.getInstance(depositHistory.getCurrency()),
-          depositHistory.getAmount(),
-          String.valueOf(depositHistory.getId()),
-          depositHistory.getTxId(),
-          FundingRecord.Type.DEPOSIT,
-          FundingRecord.Status.COMPLETE,
-          null,
-          null,
-          null
-      ));
+      res.add(
+          new FundingRecord(depositHistory.getCryptoAddress(), depositHistory.getLastUpdated(), Currency.getInstance(depositHistory.getCurrency()),
+              depositHistory.getAmount(), String.valueOf(depositHistory.getId()), depositHistory.getTxId(), FundingRecord.Type.DEPOSIT,
+              FundingRecord.Status.COMPLETE, null, null, null));
     }
 
     List<BittrexWithdrawalHistory> withdrawalsHistory = getWithdrawalsHistory(currency);
@@ -109,19 +100,9 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
       if (withdrawalHistory.getInvalidAddress())
         continue;
 
-      res.add(new FundingRecord(
-          withdrawalHistory.getAddress(),
-          withdrawalHistory.getOpened(),
-          Currency.getInstance(withdrawalHistory.getCurrency()),
-          withdrawalHistory.getAmount(),
-          withdrawalHistory.getPaymentUuid(),
-          withdrawalHistory.getTxId(),
-          FundingRecord.Type.WITHDRAWAL,
-          status,
-          null,
-          withdrawalHistory.getTxCost(),
-          null
-      ));
+      res.add(new FundingRecord(withdrawalHistory.getAddress(), withdrawalHistory.getOpened(), Currency.getInstance(withdrawalHistory.getCurrency()),
+          withdrawalHistory.getAmount(), withdrawalHistory.getPaymentUuid(), withdrawalHistory.getTxId(), FundingRecord.Type.WITHDRAWAL, status, null,
+          withdrawalHistory.getTxCost(), null));
     }
 
     return res;

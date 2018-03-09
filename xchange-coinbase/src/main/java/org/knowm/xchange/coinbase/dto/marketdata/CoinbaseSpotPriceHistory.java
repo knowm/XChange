@@ -17,26 +17,14 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
  */
 public class CoinbaseSpotPriceHistory {
 
+  private static final Pattern historicalRateStringPatternInReverse = Pattern
+      .compile("(\\d{1,2}\\.\\d+),(\\d{2}:\\d{2}-\\d{2}:\\d{2}:\\d{2}T\\d{2}\\-\\d{2}-\\d{4})");
   private final List<CoinbaseHistoricalSpotPrice> spotPriceHistory;
 
   private CoinbaseSpotPriceHistory(List<CoinbaseHistoricalSpotPrice> spotPriceHistory) {
 
     this.spotPriceHistory = spotPriceHistory;
   }
-
-  public List<CoinbaseHistoricalSpotPrice> getSpotPriceHistory() {
-
-    return spotPriceHistory;
-  }
-
-  @Override
-  public String toString() {
-
-    return "CoinbaseSpotPriceHistory [spotPriceHistory=" + spotPriceHistory + "]";
-  }
-
-  private static final Pattern historicalRateStringPatternInReverse = Pattern
-      .compile("(\\d{1,2}\\.\\d+),(\\d{2}:\\d{2}-\\d{2}:\\d{2}:\\d{2}T\\d{2}\\-\\d{2}-\\d{4})");
 
   public static CoinbaseSpotPriceHistory fromRawString(String spotPriceHistoryString) {
 
@@ -62,5 +50,16 @@ public class CoinbaseSpotPriceHistory {
     }
     Collections.sort(historicalPrices, Collections.reverseOrder());
     return new CoinbaseSpotPriceHistory(historicalPrices);
+  }
+
+  public List<CoinbaseHistoricalSpotPrice> getSpotPriceHistory() {
+
+    return spotPriceHistory;
+  }
+
+  @Override
+  public String toString() {
+
+    return "CoinbaseSpotPriceHistory [spotPriceHistory=" + spotPriceHistory + "]";
   }
 }

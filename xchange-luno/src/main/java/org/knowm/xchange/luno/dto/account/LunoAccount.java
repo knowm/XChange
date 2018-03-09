@@ -8,9 +8,9 @@ public class LunoAccount {
   public final String currency;
   public final boolean defaultAccount;
 
-  public LunoAccount(@JsonProperty(value = "id", required = true) String id, @JsonProperty(value = "name", required = true) String name
-      , @JsonProperty(value = "currency", required = true) String currency
-      , @JsonProperty(value = "is_default", required = true) boolean defaultAccount) {
+  public LunoAccount(@JsonProperty(value = "id", required = true) String id, @JsonProperty(value = "name", required = true) String name,
+      @JsonProperty(value = "currency", required = true) String currency,
+      @JsonProperty(value = "is_default", required = true) boolean defaultAccount) {
     this.id = id;
     this.name = name;
     this.currency = currency;

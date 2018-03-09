@@ -19,9 +19,8 @@ public final class DSXPairInfo {
   private final int decimalVolume;
 
   public DSXPairInfo(@JsonProperty("decimal_places") int decimalsPrice, @JsonProperty("min_price") BigDecimal minPrice,
-      @JsonProperty("max_price") BigDecimal maxPrice, @JsonProperty("min_amount") BigDecimal minAmount,
-      @JsonProperty("hidden") int hidden, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("amount_decimal_places") int decimalVolume) {
+      @JsonProperty("max_price") BigDecimal maxPrice, @JsonProperty("min_amount") BigDecimal minAmount, @JsonProperty("hidden") int hidden,
+      @JsonProperty("fee") BigDecimal fee, @JsonProperty("amount_decimal_places") int decimalVolume) {
 
     this.decimalsPrice = decimalsPrice;
     this.minPrice = minPrice;
@@ -70,15 +69,8 @@ public final class DSXPairInfo {
   @Override
   public String toString() {
 
-    return "DSXPairInfo{" +
-        "decimalsPrice=" + decimalsPrice +
-        ", minPrice=" + minPrice +
-        ", maxPrice=" + maxPrice +
-        ", minAmount=" + minAmount +
-        ", hidden=" + hidden +
-        ", fee=" + fee +
-        ", decimalVolume=" + decimalVolume +
-        '}';
+    return "DSXPairInfo{" + "decimalsPrice=" + decimalsPrice + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minAmount=" + minAmount
+        + ", hidden=" + hidden + ", fee=" + fee + ", decimalVolume=" + decimalVolume + '}';
   }
 
 }

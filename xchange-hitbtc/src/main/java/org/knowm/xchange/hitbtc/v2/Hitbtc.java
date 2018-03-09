@@ -46,6 +46,7 @@ public interface Hitbtc {
 
   @GET
   @Path("public/candles/{symbol}")
-  List<HitbtcCandle> getHitbtcOHLC(@PathParam("symbol") String symbol, @QueryParam("limit") int limit, @QueryParam("period") String period) throws IOException;
+  List<HitbtcCandle> getHitbtcOHLC(@PathParam("symbol") String symbol, @QueryParam("limit") int limit, @QueryParam("period") String period)
+      throws IOException;
 
 }

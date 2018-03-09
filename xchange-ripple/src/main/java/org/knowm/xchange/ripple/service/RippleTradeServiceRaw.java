@@ -53,6 +53,30 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     super(exchange);
   }
 
+  /**
+   * The expected counterparty transfer fee for an order that results in a transfer of the supplied amount of currency. The fee rate is payable when
+   * sending the currency (not receiving it) and it set by the issuing counterparty. The rate may be zero. Transfer fees are not applicable to sending
+   * XRP. More details can be found <a href="https://wiki.ripple.com/Transit_Fee">here</a>.
+   *
+   * @return transfer fee of the supplied currency
+   */
+  public static BigDecimal getExpectedTransferFee(final ITransferFeeSource transferFeeSource, final String counterparty, final String currency,
+      final BigDecimal quantity, final OrderType type) throws IOException {
+    if (currency.equals("XRP")) {
+      return BigDecimal.ZERO;
+    }
+    if (counterparty.isEmpty()) {
+      return BigDecimal.ZERO;
+    }
+    final BigDecimal transferFeeRate = transferFeeSource.getTransferFeeRate(counterparty);
+    if ((transferFeeRate.compareTo(BigDecimal.ZERO) > 0) && (type == OrderType.ASK)) {
+      // selling/sending the base currency so will incur a transaction fee on it
+      return quantity.multiply(transferFeeRate).abs();
+    } else {
+      return BigDecimal.ZERO;
+    }
+  }
+
   public String placeOrder(final RippleLimitOrder order, final boolean validate) throws RippleException, IOException {
     final RippleOrderEntryRequest entry = new RippleOrderEntryRequest();
     entry.setSecret(exchange.getExchangeSpecification().getSecretKey());
@@ -103,8 +127,8 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     final RippleOrderCancelRequest cancel = new RippleOrderCancelRequest();
     cancel.setSecret(exchange.getExchangeSpecification().getSecretKey());
 
-    final RippleOrderCancelResponse response = rippleAuthenticated.orderCancel(exchange.getExchangeSpecification().getApiKey(), Long.valueOf(orderId),
-        validate, cancel);
+    final RippleOrderCancelResponse response = rippleAuthenticated
+        .orderCancel(exchange.getExchangeSpecification().getApiKey(), Long.valueOf(orderId), validate, cancel);
     return response.isSuccess();
   }
 
@@ -140,14 +164,15 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       } else if (notification.getType().equals("payment")) {
         trade = ripplePublic.paymentTransaction(account, notification.getHash());
       } else {
-        throw new IllegalArgumentException(String.format("unexpected notification %s type for transaction[%s] and account[%s]",
-            notification.getType(), notification.getHash(), notification.getAccount()));
+        throw new IllegalArgumentException(String
+            .format("unexpected notification %s type for transaction[%s] and account[%s]", notification.getType(), notification.getHash(),
+                notification.getAccount()));
       }
 
     } catch (final RippleException e) {
       if (e.getHttpStatusCode() == 500 && e.getErrorType().equals("transaction")) {
-        // Do not let an individual transaction parsing bug in the Ripple REST service cause a total trade   
-        // history failure. See https://github.com/ripple/ripple-rest/issues/384 as an example of this situation. 
+        // Do not let an individual transaction parsing bug in the Ripple REST service cause a total trade
+        // history failure. See https://github.com/ripple/ripple-rest/issues/384 as an example of this situation.
         logger.error("exception reading {} transaction[{}] for account[{}]", notification.getType(), notification.getHash(), account, e);
         return null;
       } else {
@@ -160,8 +185,8 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return trade;
   }
 
-  public List<IRippleTradeTransaction> getTradesForAccount(final TradeHistoryParams params,
-      final String account) throws RippleException, IOException {
+  public List<IRippleTradeTransaction> getTradesForAccount(final TradeHistoryParams params, final String account)
+      throws RippleException, IOException {
     final Integer pageLength;
     final Integer pageNumber;
     if (params instanceof TradeHistoryParamPaging) {
@@ -207,8 +232,8 @@ public class RippleTradeServiceRaw extends RippleBaseService {
 
     final List<IRippleTradeTransaction> trades = new ArrayList<>();
 
-    final RippleNotifications notifications = ripplePublic.notifications(account, EXCLUDE_FAILED, EARLIEST_FIRST, pageLength, pageNumber,
-        START_LEDGER, END_LEDGER);
+    final RippleNotifications notifications = ripplePublic
+        .notifications(account, EXCLUDE_FAILED, EARLIEST_FIRST, pageLength, pageNumber, START_LEDGER, END_LEDGER);
     if (rippleCount != null) {
       rippleCount.incrementApiCallCount();
     }
@@ -260,8 +285,8 @@ public class RippleTradeServiceRaw extends RippleBaseService {
         continue; // this is not a trade - a trade will change 2 or 3 (including XRP fee) currency balances
       }
 
-      if (currencyFilter.isEmpty()
-          || (currencyFilter.contains(balanceChanges.get(0).getCurrency()) && currencyFilter.contains(balanceChanges.get(1).getCurrency()))) {
+      if (currencyFilter.isEmpty() || (currencyFilter.contains(balanceChanges.get(0).getCurrency()) && currencyFilter
+          .contains(balanceChanges.get(1).getCurrency()))) {
         // no currency filter has been applied || currency filter match
         trades.add(trade);
         if (rippleCount != null) {
@@ -329,30 +354,6 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       type = OrderType.BID;
     }
     return getExpectedTransferFee(transferFeeSource, counterparty, currency, quantity, type);
-  }
-
-  /**
-   * The expected counterparty transfer fee for an order that results in a transfer of the supplied amount of currency. The fee rate is payable when
-   * sending the currency (not receiving it) and it set by the issuing counterparty. The rate may be zero. Transfer fees are not applicable to sending
-   * XRP. More details can be found <a href="https://wiki.ripple.com/Transit_Fee">here</a>.
-   *
-   * @return transfer fee of the supplied currency
-   */
-  public static BigDecimal getExpectedTransferFee(final ITransferFeeSource transferFeeSource, final String counterparty, final String currency,
-      final BigDecimal quantity, final OrderType type) throws IOException {
-    if (currency.equals("XRP")) {
-      return BigDecimal.ZERO;
-    }
-    if (counterparty.isEmpty()) {
-      return BigDecimal.ZERO;
-    }
-    final BigDecimal transferFeeRate = transferFeeSource.getTransferFeeRate(counterparty);
-    if ((transferFeeRate.compareTo(BigDecimal.ZERO) > 0) && (type == OrderType.ASK)) {
-      // selling/sending the base currency so will incur a transaction fee on it
-      return quantity.multiply(transferFeeRate).abs();
-    } else {
-      return BigDecimal.ZERO;
-    }
   }
 
   /**

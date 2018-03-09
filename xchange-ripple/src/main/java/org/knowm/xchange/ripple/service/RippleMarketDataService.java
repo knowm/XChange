@@ -26,7 +26,7 @@ public class RippleMarketDataService extends RippleMarketDataServiceRaw implemen
    * similarly if the counter currency is not XRP then {@link RippleExchange.DATA_COUNTER_COUNTERPARTY} is populated.
    *
    * @param currencyPair the base/counter currency pair
-   * @param args a RippleMarketDataParams object needs to be supplied
+   * @param args         a RippleMarketDataParams object needs to be supplied
    */
   @Override
   public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args) throws IOException {
@@ -40,14 +40,12 @@ public class RippleMarketDataService extends RippleMarketDataServiceRaw implemen
   }
 
   @Override
-  public Ticker getTicker(final CurrencyPair currencyPair,
-      final Object... args) throws IOException {
+  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public Trades getTrades(final CurrencyPair currencyPair,
-      final Object... args) throws IOException {
+  public Trades getTrades(final CurrencyPair currencyPair, final Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

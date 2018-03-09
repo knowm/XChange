@@ -25,8 +25,8 @@ public class BittrexBaseService extends BaseExchangeService implements BaseServi
 
     super(exchange);
 
-    this.bittrexAuthenticated = RestProxyFactory.createProxy(BittrexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
+    this.bittrexAuthenticated = RestProxyFactory
+        .createProxy(BittrexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.bittrexV2 = RestProxyFactory.createProxy(BittrexV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BittrexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

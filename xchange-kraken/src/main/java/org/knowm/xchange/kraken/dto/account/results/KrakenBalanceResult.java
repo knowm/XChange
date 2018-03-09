@@ -15,7 +15,7 @@ public class KrakenBalanceResult extends KrakenResult<Map<String, BigDecimal>> {
   /**
    * Constructor
    *
-   * @param error List of errors
+   * @param error  List of errors
    * @param result Recent trades
    */
   public KrakenBalanceResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, BigDecimal> result) {

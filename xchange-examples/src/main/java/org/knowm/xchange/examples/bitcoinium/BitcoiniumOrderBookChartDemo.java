@@ -48,7 +48,7 @@ public class BitcoiniumOrderBookChartDemo {
 
     // Create Chart
     XYChart chart = new XYChartBuilder().width(800).height(600).title("Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC").yAxisTitle("USD")
-        .build();
+                                        .build();
 
     // Customize Chart
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);

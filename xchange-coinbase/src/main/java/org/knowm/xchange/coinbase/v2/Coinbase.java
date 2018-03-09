@@ -23,14 +23,14 @@ import org.slf4j.LoggerFactory;
 public interface Coinbase {
 
   public static Logger LOG = LoggerFactory.getLogger(Coinbase.class.getPackage().getName());
-  
+
   /**
-   * All API calls should be made with a CB-VERSION header which guarantees that your call is using the correct API version. 
+   * All API calls should be made with a CB-VERSION header which guarantees that your call is using the correct API version.
    * <a href="https://developers.coinbase.com/api/v2#versioning">developers.coinbase.com/api/v2#versioning</a>
    */
   final String CB_VERSION = "CB-VERSION";
   final String CB_VERSION_VALUE = "2017-11-26";
-  
+
   @GET
   @Path("currencies")
   CoinbaseCurrencyData getCurrencies(@HeaderParam(CB_VERSION) String apiVersion) throws IOException, CoinbaseException;
@@ -53,7 +53,8 @@ public interface Coinbase {
 
   @GET
   @Path("prices/{pair}/spot")
-  CoinbasePriceData getHistoricalSpotRate(@HeaderParam(CB_VERSION) String apiVersion, @PathParam("pair") String pair, @QueryParam("date") String date) throws IOException, CoinbaseException;
+  CoinbasePriceData getHistoricalSpotRate(@HeaderParam(CB_VERSION) String apiVersion, @PathParam("pair") String pair, @QueryParam("date") String date)
+      throws IOException, CoinbaseException;
 
   @GET
   @Path("time")

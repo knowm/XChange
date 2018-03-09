@@ -41,9 +41,7 @@ public interface BitbayAuthenticated {
 
   /**
    * trade - places offer at the stock market
-   * <p>
    * Input:
-   * <p>
    * type : offer type bid/buy or ask/sell currency : shortcut of main currency for offer (e.g. “BTC”) amount : quantity of main currency
    * payment_currency : shortcut of currency used to pay for offer (e.g. “PLN”) rate : rate for offer
    */
@@ -51,14 +49,12 @@ public interface BitbayAuthenticated {
   @FormParam("method")
   BitbayTradeResponse trade(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("type") String type, @FormParam("currency") String currency,
-      @FormParam("amount") BigDecimal amount, @FormParam("payment_currency") String paymentCurrency,
-      @FormParam("rate") BigDecimal rate) throws IOException;
+      @FormParam("amount") BigDecimal amount, @FormParam("payment_currency") String paymentCurrency, @FormParam("rate") BigDecimal rate)
+      throws IOException;
 
   /**
    * cancel - removes offer from the stock market
-   * <p>
    * Input:
-   * <p>
    * id : id used to recognize offer; you get it from trade method output
    */
   @POST
@@ -68,9 +64,7 @@ public interface BitbayAuthenticated {
 
   /**
    * orders - list of all your offers
-   * <p>
    * Input:
-   * <p>
    * (optional) limit : number of rows to show; if no specified, returns latest 50 orders
    */
   @POST
@@ -81,12 +75,14 @@ public interface BitbayAuthenticated {
   @POST
   @FormParam("method")
   BitbayBaseResponse transfer(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
-      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("quantity") String quantity, @FormParam("address") String address);
+      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("quantity") String quantity,
+      @FormParam("address") String address);
 
   @POST
   @FormParam("method")
   BitbayBaseResponse withdraw(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
-      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("quantity") String quantity, @FormParam("account") String account, @FormParam("express") String express, @FormParam("bic") String bicOrSwift);
+      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("quantity") String quantity,
+      @FormParam("account") String account, @FormParam("express") String express, @FormParam("bic") String bicOrSwift);
 
   @POST
   @FormParam("method")

@@ -46,87 +46,78 @@ public final class FundingRecord implements Serializable {
   /**
    * External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash.
    */
-  private final String externalId;
-
+  private final String blockchainTransactionHash;
+  /**
+   * Transaction Type
+   */
+  private final Type type;
+  /**
+   * Status of the transaction whenever available (e.g. Open, Completed or any descriptive status of transaction)
+   */
+  private final Status status;
+  /**
+   * Balance of the associated account after the transaction is performed
+   */
+  private final BigDecimal balance;
+  /**
+   * Transaction Fee Amount in given transaction currency (always positive)
+   */
+  private final BigDecimal fee;
   /**
    * Description of the transaction
    */
   private String description;
 
   /**
-   * Transaction Type
-   */
-  private final Type type;
-
-  /**
-   * Status of the transaction whenever available (e.g. Open, Completed or any descriptive status of transaction)
-   */
-  private final Status status;
-
-  /**
-   * Balance of the associated account after the transaction is performed
-   */
-  private final BigDecimal balance;
-
-  /**
-   * Transaction Fee Amount in given transaction currency (always positive)
-   */
-  private final BigDecimal fee;
-
-  /**
    * Constructs a {@link FundingRecord}.
    *
-   * @param address Crypto currency address for deposit/withdrawal
-   * @param date Date/Time of transaction
-   * @param currency The transaction currency
-   * @param amount Amount deposited/withdrawn (always positive)
-   * @param internalId Internal transaction identifier, specific to the Exchange
-   * @param externalId External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash
-   * @param type Transaction Type {@link Type}
-   * @param status Status of the transaction whenever available (e.g. Pending, Completed or any descriptive status of transaction). Will be naively converted to Status enum if possible, or else be prefixed to description.
-   * @param balance Balance of the associated account after the transaction is performed
-   * @param fee Transaction Fee Amount (always positive)
-   * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
+   * @param address                   Crypto currency address for deposit/withdrawal
+   * @param date                      Date/Time of transaction
+   * @param currency                  The transaction currency
+   * @param amount                    Amount deposited/withdrawn (always positive)
+   * @param internalId                Internal transaction identifier, specific to the Exchange
+   * @param blockchainTransactionHash Transaction hash/id that identifies the transaction within the public ledger
+   * @param type                      Transaction Type {@link Type}
+   * @param status                    Status of the transaction whenever available (e.g. Pending, Completed or any descriptive status of transaction). Will be naively converted to Status enum if possible, or else be prefixed to description.
+   * @param balance                   Balance of the associated account after the transaction is performed
+   * @param fee                       Transaction Fee Amount (always positive)
+   * @param description               Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
    * @deprecated Use the constructor with enum status parameter.
    */
   @Deprecated
-  public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
-      final String internalId, final String externalId,
-      final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
+  public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount, final String internalId,
+      final String blockchainTransactionHash, final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
       final String description) {
-    this(address, date, currency, amount, internalId, externalId, type, Status.resolveStatus(status), balance, fee, description);
+    this(address, date, currency, amount, internalId, blockchainTransactionHash, type, Status.resolveStatus(status), balance, fee, description);
     if (this.status == null && status != null) {
-      this.description = this.description == null || this.description.isEmpty()
-          ? status
-          : status + ": " + this.description;
+      this.description = this.description == null || this.description.isEmpty() ? status : status + ": " + this.description;
     }
   }
 
   /**
    * Constructs a {@link FundingRecord}.
    *
-   * @param address Crypto currency address for deposit/withdrawal
-   * @param date Date/Time of transaction
-   * @param currency The transaction currency
-   * @param amount Amount deposited/withdrawn (always positive)
-   * @param internalId Internal transaction identifier, specific to the Exchange
-   * @param externalId External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash
-   * @param type Transaction Type {@link Type}
-   * @param status Status of the transaction whenever available
-   * @param balance Balance of the associated account after the transaction is performed
-   * @param fee Transaction Fee Amount (always positive)
-   * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
+   * @param address                   Crypto currency address for deposit/withdrawal
+   * @param date                      Date/Time of transaction
+   * @param currency                  The transaction currency
+   * @param amount                    Amount deposited/withdrawn (always positive)
+   * @param internalId                Internal transaction identifier, specific to the Exchange
+   * @param blockchainTransactionHash Transaction hash/id that identifies the transaction within the public ledger
+   * @param type                      Transaction Type {@link Type}
+   * @param status                    Status of the transaction whenever available
+   * @param balance                   Balance of the associated account after the transaction is performed
+   * @param fee                       Transaction Fee Amount (always positive)
+   * @param description               Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
    */
-  public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
-      final String internalId, final String externalId,
-      final Type type, final Status status, final BigDecimal balance, final BigDecimal fee,
+  public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount, final String internalId,
+      final String blockchainTransactionHash, final Type type, final Status status, final BigDecimal balance, final BigDecimal fee,
       final String description) {
     this.address = address;
     this.date = date;
     this.currency = currency;
     this.amount = amount == null ? null : amount.abs();
     this.internalId = internalId;
-    this.externalId = externalId;
+    this.blockchainTransactionHash = blockchainTransactionHash;
     this.type = type;
     this.status = status;
     this.balance = balance;
@@ -169,11 +160,16 @@ public final class FundingRecord implements Serializable {
     return internalId;
   }
 
+  @Deprecated//for backward compatibility.  Will be removed
+  public String getExternalId() {
+    return blockchainTransactionHash;
+  }
+
   /**
    * @return External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash.
    */
-  public String getExternalId() {
-    return externalId;
+  public String getBlockchainTransactionHash() {
+    return blockchainTransactionHash;
   }
 
   /**
@@ -213,82 +209,9 @@ public final class FundingRecord implements Serializable {
 
   @Override
   public String toString() {
-    return String.format("FundingRecord{address='%s', date=%s, currency=%s, amount=%s, internalId=%s, externalId=%s, description='%s', type=%s, status=%s, balance=%s, fee=%s}",
-        address, date, currency, amount, internalId, externalId, description, type, status, balance, fee);
-  }
-
-  public static final class Builder {
-
-    private String address;
-    private Date date;
-    private Currency currency;
-    private BigDecimal amount;
-    private String internalId;
-    private String externalId;
-    private String description;
-    private Type type;
-    private Status status;
-    private BigDecimal balance;
-    private BigDecimal fee;
-
-    public Builder setAddress(String address) {
-      this.address = address;
-      return this;
-    }
-
-    public Builder setDate(Date date) {
-      this.date = date;
-      return this;
-    }
-
-    public Builder setCurrency(Currency currency) {
-      this.currency = currency;
-      return this;
-    }
-
-    public Builder setAmount(BigDecimal amount) {
-      this.amount = amount;
-      return this;
-    }
-
-    public Builder setInternalId(String internalId) {
-      this.internalId = internalId;
-      return this;
-    }
-
-    public Builder setExternalId(String externalId) {
-      this.externalId = externalId;
-      return this;
-    }
-
-    public Builder setDescription(String description) {
-      this.description = description;
-      return this;
-    }
-
-    public Builder setType(Type type) {
-      this.type = type;
-      return this;
-    }
-
-    public Builder setStatus(Status status) {
-      this.status = status;
-      return this;
-    }
-
-    public Builder setBalance(BigDecimal balance) {
-      this.balance = balance;
-      return this;
-    }
-
-    public Builder setFee(BigDecimal fee) {
-      this.fee = fee;
-      return this;
-    }
-
-    public FundingRecord build() {
-      return new FundingRecord(address, date, currency, amount, internalId, externalId, type, status, balance, fee, description);
-    }
+    return String.format(
+        "FundingRecord{address='%s', date=%s, currency=%s, amount=%s, internalId=%s, blockchainTransactionHash=%s, description='%s', type=%s, status=%s, balance=%s, fee=%s}",
+        address, date, currency, amount, internalId, blockchainTransactionHash, description, type, status, balance, fee);
   }
 
   /**
@@ -338,8 +261,6 @@ public final class FundingRecord implements Serializable {
      */
     FAILED("FAILURE"),;
 
-    private String[] statusArray;
-
     private static final Map<String, Status> fromString = new HashMap<>();
 
     static {
@@ -354,6 +275,8 @@ public final class FundingRecord implements Serializable {
       }
     }
 
+    private String[] statusArray;
+
     Status(String... statusArray) {
       this.statusArray = statusArray;
     }
@@ -365,5 +288,79 @@ public final class FundingRecord implements Serializable {
       return fromString.get(str.toUpperCase());
     }
 
+  }
+
+  public static final class Builder {
+
+    private String address;
+    private Date date;
+    private Currency currency;
+    private BigDecimal amount;
+    private String internalId;
+    private String blockchainTransactionHash;
+    private String description;
+    private Type type;
+    private Status status;
+    private BigDecimal balance;
+    private BigDecimal fee;
+
+    public Builder setAddress(String address) {
+      this.address = address;
+      return this;
+    }
+
+    public Builder setDate(Date date) {
+      this.date = date;
+      return this;
+    }
+
+    public Builder setCurrency(Currency currency) {
+      this.currency = currency;
+      return this;
+    }
+
+    public Builder setAmount(BigDecimal amount) {
+      this.amount = amount;
+      return this;
+    }
+
+    public Builder setInternalId(String internalId) {
+      this.internalId = internalId;
+      return this;
+    }
+
+    public Builder setBlockchainTransactionHash(String blockchainTransactionHash) {
+      this.blockchainTransactionHash = blockchainTransactionHash;
+      return this;
+    }
+
+    public Builder setDescription(String description) {
+      this.description = description;
+      return this;
+    }
+
+    public Builder setType(Type type) {
+      this.type = type;
+      return this;
+    }
+
+    public Builder setStatus(Status status) {
+      this.status = status;
+      return this;
+    }
+
+    public Builder setBalance(BigDecimal balance) {
+      this.balance = balance;
+      return this;
+    }
+
+    public Builder setFee(BigDecimal fee) {
+      this.fee = fee;
+      return this;
+    }
+
+    public FundingRecord build() {
+      return new FundingRecord(address, date, currency, amount, internalId, blockchainTransactionHash, type, status, balance, fee, description);
+    }
   }
 }

@@ -87,9 +87,9 @@ public class LakeBTCAdapters {
   /**
    * Adapts a Transaction to a Trade Object
    *
-   * @param tx The LakeBtc transaction
+   * @param tx           The LakeBtc transaction
    * @param currencyPair (e.g. BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
+   * @param timeScale    polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
   public static Trade adaptTrade(LakeBTCTradeResponse tx, CurrencyPair currencyPair, int timeScale) {
@@ -145,5 +145,15 @@ public class LakeBTCAdapters {
     Balance btcBalance = new Balance(Currency.BTC, balance.getBTC());
 
     return new AccountInfo(profile.getId(), new Wallet(usdBalance, btcBalance, cnyWBalance));
+  }
+
+  /**
+   * Adapts a currency pair to the keys returned by the tickers map.
+   *
+   * @param currencyPair The currency pair to convert to LakeBTCs ticker keys
+   * @return A string suitable for looking up ticker information.
+   */
+  public static String adaptCurrencyPair(CurrencyPair currencyPair) {
+    return currencyPair.base.getCurrencyCode().toLowerCase() + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 }

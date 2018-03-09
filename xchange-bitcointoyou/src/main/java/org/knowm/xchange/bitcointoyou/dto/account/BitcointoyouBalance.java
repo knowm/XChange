@@ -92,11 +92,6 @@ public class BitcointoyouBalance {
 
   @Override
   public String toString() {
-    return "BitcointoyouBalance[" +
-        "success=" + success +
-        ", oReturn=" + oReturn +
-        ", date=" + date +
-        ", timestamp=" + timestamp +
-        ']';
+    return "BitcointoyouBalance[" + "success=" + success + ", oReturn=" + oReturn + ", date=" + date + ", timestamp=" + timestamp + ']';
   }
 }

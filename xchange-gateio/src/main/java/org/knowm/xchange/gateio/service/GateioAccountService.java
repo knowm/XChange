@@ -41,15 +41,14 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(
-      WithdrawFundsParams params) throws IOException {
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    return super.getGateioDepositAddress(currency).getBaseAddress();
   }
 
   @Override
@@ -58,8 +57,7 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

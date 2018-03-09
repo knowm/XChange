@@ -34,6 +34,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ARS = createCurrency("ARS", "Argentine Peso", null);
   public static final Currency AUD = createCurrency("AUD", "Australian Dollar", null);
   public static final Currency AUR = createCurrency("AUR", "Auroracoin", null);
+  public static final Currency AVT = createCurrency("AVT", "Aventus", null);
   public static final Currency AWG = createCurrency("AWG", "Aruban Florin", null);
   public static final Currency AZN = createCurrency("AZN", "Azerbaijani Manat", null);
   public static final Currency BAM = createCurrency("BAM", "Bosnia-Herzegovina Convertible Mark", null);
@@ -85,6 +86,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency DVC = createCurrency("DVC", "Devcoin", null);
   public static final Currency DRK = createCurrency("DRK", "Darkcoin", null);
   public static final Currency DZD = createCurrency("DZD", "Algerian Dinar", null);
+  public static final Currency EDO = createCurrency("EDO", "Eidoo", null);
   public static final Currency EEK = createCurrency("EEK", "Estonian Kroon", null);
   public static final Currency EGD = createCurrency("EGD", "egoldcoin", null);
   public static final Currency EGP = createCurrency("EGP", "Egyptian Pound", null);
@@ -281,6 +283,23 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ELF = createCurrency("ELF", "aelf", null);
   public static final Currency STORJ = createCurrency("STORJ", "Storj", null);
   public static final Currency MOD = createCurrency("MOD", "Modum", null);
+  private final String code;
+  private final CurrencyAttributes attributes;
+
+  /**
+   * Public constructor. Links to an existing currency.
+   */
+  public Currency(String code) {
+
+    this.code = code;
+    this.attributes = getInstance(code).attributes;
+  }
+
+  private Currency(String alternativeCode, CurrencyAttributes attributes) {
+
+    this.code = alternativeCode;
+    this.attributes = attributes;
+  }
 
   /**
    * Gets the set of available currencies.
@@ -297,9 +316,6 @@ public class Currency implements Comparable<Currency>, Serializable {
 
     return new TreeSet<>(currencies.keySet());
   }
-
-  private final String code;
-  private final CurrencyAttributes attributes;
 
   /**
    * Returns a Currency instance for the given currency code.
@@ -324,12 +340,33 @@ public class Currency implements Comparable<Currency>, Serializable {
   }
 
   /**
-   * Public constructor. Links to an existing currency.
+   * Factory
+   *
+   * @param commonCode       commonly used code for this currency: "BTC"
+   * @param name             Name of the currency: "Bitcoin"
+   * @param unicode          Unicode symbol for the currency: "\u20BF" or "฿"
+   * @param alternativeCodes Alternative codes for the currency: "XBT"
    */
-  public Currency(String code) {
+  private static Currency createCurrency(String commonCode, String name, String unicode, String... alternativeCodes) {
 
-    this.code = code;
-    this.attributes = getInstance(code).attributes;
+    CurrencyAttributes attributes = new CurrencyAttributes(commonCode, name, unicode, alternativeCodes);
+
+    Currency currency = new Currency(commonCode, attributes);
+
+    for (String code : attributes.codes) {
+      if (commonCode.equals(code)) {
+        // common code will always be part of the currencies map
+
+        currencies.put(code, currency);
+
+      } else if (!currencies.containsKey(code)) {
+        // alternative codes will never overwrite common codes
+
+        currencies.put(code, new Currency(code, attributes));
+      }
+    }
+
+    return currency;
   }
 
   /**
@@ -408,42 +445,6 @@ public class Currency implements Comparable<Currency>, Serializable {
   public String getDisplayName() {
 
     return attributes.name;
-  }
-
-  /**
-   * Factory
-   *
-   * @param commonCode commonly used code for this currency: "BTC"
-   * @param name Name of the currency: "Bitcoin"
-   * @param unicode Unicode symbol for the currency: "\u20BF" or "฿"
-   * @param alternativeCodes Alternative codes for the currency: "XBT"
-   */
-  private static Currency createCurrency(String commonCode, String name, String unicode, String... alternativeCodes) {
-
-    CurrencyAttributes attributes = new CurrencyAttributes(commonCode, name, unicode, alternativeCodes);
-
-    Currency currency = new Currency(commonCode, attributes);
-
-    for (String code : attributes.codes) {
-      if (commonCode.equals(code)) {
-        // common code will always be part of the currencies map
-
-        currencies.put(code, currency);
-
-      } else if (!currencies.containsKey(code)) {
-        // alternative codes will never overwrite common codes
-
-        currencies.put(code, new Currency(code, attributes));
-      }
-    }
-
-    return currency;
-  }
-
-  private Currency(String alternativeCode, CurrencyAttributes attributes) {
-
-    this.code = alternativeCode;
-    this.attributes = attributes;
   }
 
   @Override

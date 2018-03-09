@@ -27,12 +27,7 @@ public class AbucoinsMarketDataService extends AbucoinsMarketDataServiceRaw impl
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    try {
-      return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(AbucoinsAdapters.adaptCurrencyPairToProductID(currencyPair)), currencyPair);
-    }
-    catch (Exception e) {
-      throw new IOException("Unable to get ticker for " + currencyPair, e);
-    }
+    return AbucoinsAdapters.adaptTicker(getAbucoinsTicker(AbucoinsAdapters.adaptCurrencyPairToProductID(currencyPair)), currencyPair);
   }
 
   @Override

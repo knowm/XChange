@@ -29,9 +29,14 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     this.exchange = exchange;
   }
 
+  private static Order.OrderType type(Map map) {
+    return map.get("Type").toString().equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK;
+  }
+
   public List<LimitOrder> getOpenOrders(CurrencyPair currencyPair, Integer count) throws IOException {
 
-    CryptopiaBaseResponse<List<Map>> response = cryptopia.getOpenOrders(signatureCreator, new Cryptopia.GetOpenOrdersRequest(currencyPair == null ? null : currencyPair.toString(), count));
+    CryptopiaBaseResponse<List<Map>> response = cryptopia
+        .getOpenOrders(signatureCreator, new Cryptopia.GetOpenOrdersRequest(currencyPair == null ? null : currencyPair.toString(), count));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to get open orders: " + response.toString());
 
@@ -54,18 +59,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
       Order.OrderStatus status = Order.OrderStatus.PENDING_NEW;
 
       CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
-      results.add(new LimitOrder(
-          type,
-          originalAmount,
-          pair,
-          id,
-          timestamp,
-          limitPrice,
-          averagePrice,
-          cumulativeAmount,
-          null,
-          status
-      ));
+      results.add(new LimitOrder(type, originalAmount, pair, id, timestamp, limitPrice, averagePrice, cumulativeAmount, null, status));
     }
 
     return results;
@@ -74,7 +68,8 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
   public String submitTrade(CurrencyPair currencyPair, LimitOrder.OrderType type, BigDecimal price, BigDecimal amount) throws IOException {
     String rawType = type.equals(Order.OrderType.BID) ? "Buy" : "Sell";
 
-    CryptopiaBaseResponse<Map> response = cryptopia.submitTrade(signatureCreator, new Cryptopia.SubmitTradeRequest(currencyPair.toString(), rawType, price, amount));
+    CryptopiaBaseResponse<Map> response = cryptopia
+        .submitTrade(signatureCreator, new Cryptopia.SubmitTradeRequest(currencyPair.toString(), rawType, price, amount));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to submit order: " + response.toString());
 
@@ -104,7 +99,8 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
   }
 
   public List<UserTrade> tradeHistory(CurrencyPair currencyPair, Integer count) throws IOException {
-    CryptopiaBaseResponse<List<Map>> response = cryptopia.getTradeHistory(signatureCreator, new Cryptopia.GetTradeHistoryRequest(currencyPair == null ? null : currencyPair.toString(), count == null ? 100 : count));
+    CryptopiaBaseResponse<List<Map>> response = cryptopia.getTradeHistory(signatureCreator,
+        new Cryptopia.GetTradeHistoryRequest(currencyPair == null ? null : currencyPair.toString(), count == null ? 100 : count));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to get trade history: " + response.toString());
 
@@ -120,23 +116,9 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
 
       CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
       Currency feeCcy = pair.counter;
-      results.add(new UserTrade(
-          type,
-          amount,
-          pair,
-          price,
-          timestamp,
-          id,
-          orderId,
-          fee,
-          feeCcy
-      ));
+      results.add(new UserTrade(type, amount, pair, price, timestamp, id, orderId, fee, feeCcy));
     }
 
     return results;
-  }
-
-  private static Order.OrderType type(Map map) {
-    return map.get("Type").toString().equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK;
   }
 }
