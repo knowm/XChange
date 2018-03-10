@@ -97,7 +97,6 @@
         <module>xchange-bitcoinde</module>
         <module>xchange-bitcoinium</module>
         <module>xchange-bitcointoyou</module>
-        <module>xchange-bitcurex</module>
         <module>xchange-bitfinex</module>
         <module>xchange-bitmex</module>
         <module>xchange-bitflyer</module>
