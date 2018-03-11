@@ -103,7 +103,7 @@ public class KrakenAdapters {
 
     if (krakenOrder.getOrderDescription().getOrderType().equals(KrakenOrderType.LIMIT))
       return new LimitOrder(orderType, krakenOrder.getVolume(), currencyPair, orderId, timestamp, krakenOrder.getOrderDescription().getPrice(),
-          krakenOrder.getPrice(), krakenOrder.getVolumeExecuted(), krakenOrder.getFee(), adaptOrderStatus(krakenOrder.getStatus()));
+          krakenOrder.getPrice(), krakenOrder.getVolumeExecuted(), krakenOrder.getFee(), orderStatus);
 
     if (krakenOrder.getOrderDescription().getOrderType().equals(KrakenOrderType.MARKET))
       return new MarketOrder(orderType, krakenOrder.getVolume(), currencyPair, orderId, timestamp, krakenOrder.getPrice(),
