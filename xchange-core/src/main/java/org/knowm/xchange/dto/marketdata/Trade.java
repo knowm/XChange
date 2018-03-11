@@ -45,6 +45,15 @@ public class Trade implements Serializable {
   protected final String id;
 
   /**
+   * The trade taker orderId
+   */
+  protected final String takerId;
+
+  /**
+   * The trade taker orderId
+   */
+  protected final String makerId;
+  /**
    * This constructor is called to create a public Trade object in
    * {@link MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)} implementations) since it's missing the orderId and fee
    * parameters.
@@ -63,6 +72,20 @@ public class Trade implements Serializable {
     this.price = price;
     this.timestamp = timestamp;
     this.id = id;
+    this.makerId = null;
+    this.takerId = null;
+  }
+
+  public Trade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String takerId, String makerId) {
+
+    this.type = type;
+    this.originalAmount = originalAmount;
+    this.currencyPair = currencyPair;
+    this.price = price;
+    this.timestamp = timestamp;
+    this.id = id;
+    this.takerId = takerId;
+    this.makerId = makerId;
   }
 
   public OrderType getType() {
@@ -95,6 +118,16 @@ public class Trade implements Serializable {
     return id;
   }
 
+  public String getMakerId() {
+
+    return makerId;
+  }
+
+  public String getTakerId() {
+
+    return takerId;
+  }
+
   @Override
   public boolean equals(Object o) {
 
@@ -117,7 +150,7 @@ public class Trade implements Serializable {
   public String toString() {
 
     return "Trade [type=" + type + ", originalAmount=" + originalAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp="
-        + timestamp + ", id=" + id + "]";
+        + timestamp + ", id=" + id + ", makerId=" + makerId + ", takerId=" + takerId + "]";
   }
 
   public static class Builder {
@@ -128,6 +161,9 @@ public class Trade implements Serializable {
     protected BigDecimal price;
     protected Date timestamp;
     protected String id;
+    protected String makerId;
+    protected String takerId;
+
 
     public static Builder from(Trade trade) {
       return new Builder().type(trade.getType()).originalAmount(trade.getOriginalAmount()).currencyPair(trade.getCurrencyPair())
@@ -170,9 +206,21 @@ public class Trade implements Serializable {
       return this;
     }
 
+    public Builder makerId(String id) {
+
+      this.makerId = id;
+      return this;
+    }
+
+    public Builder takerId(String id) {
+
+      this.takerId = id;
+      return this;
+    }
+
     public Trade build() {
 
-      return new Trade(type, originalAmount, currencyPair, price, timestamp, id);
+      return new Trade(type, originalAmount, currencyPair, price, timestamp, id, takerId, makerId);
     }
   }
 }
