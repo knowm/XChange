@@ -19,6 +19,8 @@ import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
@@ -106,11 +108,12 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (!(orderParams instanceof OkCoinCancelOrderParam)) {
+    if (!(orderParams instanceof CancelOrderByIdParams) && !(orderParams instanceof CancelOrderByCurrencyPair)) {
       throw new UnsupportedOperationException("Cancelling an order is only available for a single market and a single id.");
     }
-    long id = Long.valueOf(((OkCoinCancelOrderParam) orderParams).getId());
-    OkCoinTradeResult cancelResult = cancelOrder(id, OkCoinAdapters.adaptSymbol(((OkCoinCancelOrderParam) orderParams).getCurrencyPair()));
+    long id = Long.valueOf(((CancelOrderByIdParams) orderParams).getOrderId());
+    String symbol = OkCoinAdapters.adaptSymbol(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
+    OkCoinTradeResult cancelResult = cancelOrder(id, symbol);
     return id == cancelResult.getOrderId();
   }
 
@@ -196,7 +199,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     }
   }
 
-  public static class OkCoinCancelOrderParam implements CancelOrderParams {
+  public static class OkCoinCancelOrderParam implements CancelOrderByIdParams, CancelOrderByCurrencyPair {
     private final CurrencyPair currencyPair;
     private final String id;
 
@@ -205,11 +208,13 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
       this.id = id;
     }
 
+    @Override
     public CurrencyPair getCurrencyPair() {
       return currencyPair;
     }
 
-    public String getId() {
+    @Override
+    public String getOrderId() {
       return id;
     }
   }
