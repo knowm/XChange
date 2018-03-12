@@ -108,7 +108,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (!(orderParams instanceof CancelOrderByIdParams) && !(orderParams instanceof CancelOrderByCurrencyPair)) {
+    if (!(orderParams instanceof CancelOrderByIdParams) || !(orderParams instanceof CancelOrderByCurrencyPair)) {
       throw new UnsupportedOperationException("Cancelling an order is only available for a single market and a single id.");
     }
     long id = Long.valueOf(((CancelOrderByIdParams) orderParams).getOrderId());
