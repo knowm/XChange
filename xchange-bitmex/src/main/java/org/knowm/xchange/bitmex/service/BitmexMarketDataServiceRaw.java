@@ -124,7 +124,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
         if (promptSymbol != null && bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()) != null
             && bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()) != BitmexPrompt.PERPETUAL && !bitmexPromptsToSymbolsMap
             .containsKey(ticker.getSymbol()))
-          bitmexPromptsToSymbolsMap.put(bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()), promptSymbol);
+          bitmexPromptsToSymbolsMap.forcePut(bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()), promptSymbol);
 
         // bitmexTickersToIntervalsMap.put(ticker, bitmexSymbolsToIntervalsMap.get(ticker.getSymbol()));
       }
