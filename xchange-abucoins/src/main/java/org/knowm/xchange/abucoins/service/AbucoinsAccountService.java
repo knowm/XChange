@@ -58,9 +58,9 @@ public class AbucoinsAccountService extends AbucoinsAccountServiceRaw implements
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defParams = (DefaultWithdrawFundsParams) params;
 
-      String method = abucoinsPaymentMethodForCurrency(defParams.currency.getCurrencyCode());
+      String method = abucoinsPaymentMethodForCurrency(defParams.getCurrency().getCurrencyCode());
       AbucoinsCryptoWithdrawal withdrawal = abucoinsWithdrawalsMake(
-          new AbucoinsCryptoWithdrawalRequest(defParams.amount, defParams.currency.getCurrencyCode(), method, defParams.address, null));
+          new AbucoinsCryptoWithdrawalRequest(defParams.getAmount(), defParams.getCurrency().getCurrencyCode(), method, defParams.getAddress(), null));
       return withdrawal.getPayoutId();
     }
 

@@ -100,12 +100,12 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
 
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
-      return withdrawFunds(rippleWithdrawFundsParams.currency, rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address,
-          rippleWithdrawFundsParams.tag);
+      return withdrawFunds(rippleWithdrawFundsParams.getCurrency(), rippleWithdrawFundsParams.getAmount(), rippleWithdrawFundsParams.getAddress(),
+          rippleWithdrawFundsParams.getTag());
     }
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }

@@ -40,13 +40,13 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof MoneroWithdrawFundsParams) {
       MoneroWithdrawFundsParams moneroWithdrawFundsParams = (MoneroWithdrawFundsParams) params;
-      return withdrawFundsRaw(moneroWithdrawFundsParams.currency, moneroWithdrawFundsParams.amount, moneroWithdrawFundsParams.address, moneroWithdrawFundsParams.paymentId);
+      return withdrawFundsRaw(moneroWithdrawFundsParams.getCurrency(), moneroWithdrawFundsParams.getAmount(), moneroWithdrawFundsParams.getAddress(), moneroWithdrawFundsParams.getPaymentId());
     } else if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
-      return withdrawFundsRaw(rippleWithdrawFundsParams.currency, rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address, rippleWithdrawFundsParams.tag);
+      return withdrawFundsRaw(rippleWithdrawFundsParams.getCurrency(), rippleWithdrawFundsParams.getAmount(), rippleWithdrawFundsParams.getAddress(), rippleWithdrawFundsParams.getTag());
     } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFundsRaw(defaultParams.currency, defaultParams.amount, defaultParams.address, null);
+      return withdrawFundsRaw(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(), null);
     }
 
     throw new IllegalStateException("Don't know how to withdraw: " + params);

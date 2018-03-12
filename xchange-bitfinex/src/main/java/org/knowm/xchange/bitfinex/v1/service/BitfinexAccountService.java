@@ -91,21 +91,22 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams xrpParams = (RippleWithdrawFundsParams) params;
       return withdrawFunds(
-          xrpParams.currency,
-          xrpParams.amount,
-          xrpParams.address,
-          xrpParams.tag);
+          xrpParams.getCurrency(),
+          xrpParams.getAmount(),
+          xrpParams.getAddress(),
+          xrpParams.getTag());
     } else if (params instanceof MoneroWithdrawFundsParams) {
       MoneroWithdrawFundsParams xmrParams = (MoneroWithdrawFundsParams) params;
       return withdrawFunds(
-          xmrParams.currency,
-          xmrParams.amount,
-          xmrParams.address,
-          xmrParams.paymentId);
+          xmrParams.getCurrency(),
+          xmrParams.getAmount(),
+          xmrParams.getAddress(),
+          xmrParams.getPaymentId());
     } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
+
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
