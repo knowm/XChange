@@ -1,0 +1,6 @@
+Bl3p Exchange API specification
+===============================
+
+Documentation
+-------------
+https://github.com/BitonicNL/bl3p-api/tree/master/docs
