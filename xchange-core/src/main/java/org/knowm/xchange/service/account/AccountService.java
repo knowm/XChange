@@ -12,6 +12,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -53,7 +54,9 @@ public interface AccountService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException;
+  default String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+  }
 
   /**
    * Withdraw funds from this account. Allows to withdraw digital currency funds from the exchange account to an external address

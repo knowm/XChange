@@ -44,8 +44,8 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
       livecoinWithdrawParams = (LivecoinWithdrawParams) params;
     } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      livecoinWithdrawParams = new CryptoWithdrawParams(defaultWithdrawFundsParams.amount, defaultWithdrawFundsParams.currency,
-          defaultWithdrawFundsParams.address);
+      livecoinWithdrawParams = new CryptoWithdrawParams(defaultWithdrawFundsParams.getAmount(), defaultWithdrawFundsParams.getCurrency(),
+          defaultWithdrawFundsParams.getAddress());
     } else {
       throw new IllegalStateException("Don't understand " + params);
     }

@@ -45,7 +45,6 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
   public BittrexBalance getBittrexBalance(Currency currency) throws IOException {
     BittrexBalanceResponse response = bittrexAuthenticated
         .getBalance(apiKey, signatureCreator, exchange.getNonceFactory(), currency == null ? null : currency.getCurrencyCode());
-    System.out.println(currency.getCurrencyCode());
     if (response.getSuccess()) {
       return response.getResult();
     } else {

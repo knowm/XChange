@@ -36,7 +36,7 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      return submitWithdraw(defaultWithdrawFundsParams.currency, defaultWithdrawFundsParams.amount, defaultWithdrawFundsParams.address, null);
+      return submitWithdraw(defaultWithdrawFundsParams.getCurrency(), defaultWithdrawFundsParams.getAmount(), defaultWithdrawFundsParams.getAddress(), null);
     } else {
       throw new IllegalStateException("Don't understand " + params);
     }
