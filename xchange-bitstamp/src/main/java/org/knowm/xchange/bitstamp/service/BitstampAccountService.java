@@ -60,8 +60,8 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
 
-      BitstampWithdrawal response = withdrawRippleFunds(rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address,
-          rippleWithdrawFundsParams.tag);
+      BitstampWithdrawal response = withdrawRippleFunds(rippleWithdrawFundsParams.getAmount(), rippleWithdrawFundsParams.getAddress(),
+          rippleWithdrawFundsParams.getTag());
 
       if (response.error != null) {
         throw new ExchangeException("Failed to withdraw: " + response.error);
@@ -76,16 +76,16 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
 
       BitstampWithdrawal response;
-      if (defaultParams.currency.equals(Currency.LTC)) {
-        response = withdrawLtcFunds(defaultParams.amount, defaultParams.address);
-      } else if (defaultParams.currency.equals(Currency.ETH)) {
-        response = withdrawEthFunds(defaultParams.amount, defaultParams.address);
-      } else if (defaultParams.currency.equals(Currency.BTC)) {
-        response = withdrawBtcFunds(defaultParams.amount, defaultParams.address);
-      } else if (defaultParams.currency.equals(Currency.BCH)) {
-        response = withdrawBchFunds(defaultParams.amount, defaultParams.address);
+      if (defaultParams.getCurrency().equals(Currency.LTC)) {
+        response = withdrawLtcFunds(defaultParams.getAmount(), defaultParams.getAddress());
+      } else if (defaultParams.getCurrency().equals(Currency.ETH)) {
+        response = withdrawEthFunds(defaultParams.getAmount(), defaultParams.getAddress());
+      } else if (defaultParams.getCurrency().equals(Currency.BTC)) {
+        response = withdrawBtcFunds(defaultParams.getAmount(), defaultParams.getAddress());
+      } else if (defaultParams.getCurrency().equals(Currency.BCH)) {
+        response = withdrawBchFunds(defaultParams.getAmount(), defaultParams.getAddress());
       } else {
-        throw new IllegalStateException("Cannot withdraw " + defaultParams.currency);
+        throw new IllegalStateException("Cannot withdraw " + defaultParams.getCurrency());
       }
 
       if (response.error != null) {

@@ -56,7 +56,7 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
       throw new ExchangeException("Need DefaultWithdrawFundsParams to apply for withdrawal!");
     }
     DefaultWithdrawFundsParams defParams = (DefaultWithdrawFundsParams) params;
-    return withdrawalApply(defParams.currency, defParams.amount, defParams.address).getCode();
+    return withdrawalApply(defParams.getCurrency(), defParams.getAmount(), defParams.getAddress()).getCode();
   }
 
   @Override

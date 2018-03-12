@@ -41,7 +41,7 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      transfer(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      transfer(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
       return "Success";
     } else if (params instanceof BitbayWithdrawFundsSwiftParams) {
       BitbayWithdrawFundsSwiftParams bicParams = (BitbayWithdrawFundsSwiftParams) params;

@@ -94,10 +94,10 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams rippleParams = null;
       rippleParams = (RippleWithdrawFundsParams) params;
-      id = super.withdraw(rippleParams.currency.getCurrencyCode(), rippleParams.address, rippleParams.tag, rippleParams.amount);
+      id = super.withdraw(rippleParams.getCurrency().getCurrencyCode(), rippleParams.getAddress(), rippleParams.getTag(), rippleParams.getAmount());
     } else {
       DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-      id = super.withdraw(p.currency.getCurrencyCode(), p.address, p.amount);
+      id = super.withdraw(p.getCurrency().getCurrencyCode(), p.getAddress(), p.getAmount());
     }
     return id;
   }

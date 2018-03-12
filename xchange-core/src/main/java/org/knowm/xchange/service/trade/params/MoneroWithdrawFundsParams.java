@@ -22,11 +22,16 @@ public class MoneroWithdrawFundsParams extends DefaultWithdrawFundsParams {
   @Override
   public String toString() {
     return "MoneroWithdrawFundsParams{" +
-        "address='" + address + '\'' +
-        ", paymentId='" + paymentId + '\'' +
-        ", currency=" + currency +
-        ", amount=" + amount +
-        ", commission=" + commission +
+        "address='" + getAddress() + '\'' +
+        ", paymentId='" + getPaymentId() + '\'' +
+        ", currency=" + getCurrency() +
+        ", amount=" + getAmount() +
+        ", commission=" + getCommission() +
         '}';
+  }
+
+  @Nullable
+  public String getPaymentId() {
+    return paymentId;
   }
 }
