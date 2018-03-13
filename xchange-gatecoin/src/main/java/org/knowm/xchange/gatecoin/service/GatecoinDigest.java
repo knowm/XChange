@@ -1,11 +1,12 @@
 package org.knowm.xchange.gatecoin.service;
 
+import java.util.Base64;
+
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
 
 import org.knowm.xchange.service.BaseParamsDigest;
 
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
 
 public class GatecoinDigest extends BaseParamsDigest {
@@ -32,6 +33,6 @@ public class GatecoinDigest extends BaseParamsDigest {
       mac256.update(reqContentType.toLowerCase().getBytes());
     }
     mac256.update(now.toLowerCase().getBytes());
-    return Base64.encodeBytes(mac256.doFinal());
+    return Base64.getEncoder().encodeToString(mac256.doFinal());
   }
 }

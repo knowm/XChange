@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Base64;
 
 import org.knowm.xchange.service.BaseParamsDigest;
 
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -41,11 +41,11 @@ public class CryptopiaDigest extends BaseParamsDigest {
       String nonce = String.valueOf(nonceFactory.createValue());
 
       String body = restInvocation.getRequestBody();
-      String md5 = Base64.encodeBytes(MessageDigest.getInstance("MD5").digest(body.getBytes("UTF-8")));
+      String md5 = Base64.getEncoder().encodeToString(MessageDigest.getInstance("MD5").digest(body.getBytes("UTF-8")));
 
       String reqSignature = apiKey + "POST" + URLEncoder.encode(urlMethod, StandardCharsets.UTF_8.toString()).toLowerCase() + nonce + md5;
 
-      return "amx " + apiKey + ":" + Base64.encodeBytes(getMac().doFinal(reqSignature.getBytes("UTF-8"))) + ":" + nonce;
+      return "amx " + apiKey + ":" + Base64.getEncoder().encodeToString(getMac().doFinal(reqSignature.getBytes("UTF-8"))) + ":" + nonce;
     } catch (Exception e) {
       throw new IllegalStateException("Faile to sign request", e);
     }
