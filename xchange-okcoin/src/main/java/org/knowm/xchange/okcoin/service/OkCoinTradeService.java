@@ -130,8 +130,9 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   }
 
   /**
-   * Cancel a batch of up to three orders
+   * Cancel a batch of up to three orders (maximum allowed by the exchange).
    *
+   * @param limitOrders orders to cancel
    * @return (id, result) mappings
    */
   public Map<LimitOrder, Boolean> cancelUpToThreeOrders(List<LimitOrder> limitOrders) throws IOException {
