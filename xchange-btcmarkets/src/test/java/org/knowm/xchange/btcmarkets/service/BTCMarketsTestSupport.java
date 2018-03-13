@@ -3,6 +3,7 @@ package org.knowm.xchange.btcmarkets.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -27,8 +28,8 @@ import org.powermock.reflect.Whitebox;
 public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
 
   protected static final String SPECIFICATION_USERNAME = "admin";
-  protected static final String SPECIFICATION_API_KEY = "publicKey";
-  protected static final String SPECIFICATION_SECRET_KEY = "secretKey";
+  protected static final String SPECIFICATION_API_KEY = Base64.getEncoder().encodeToString("publicKey".getBytes());
+  protected static final String SPECIFICATION_SECRET_KEY = Base64.getEncoder().encodeToString("secretKey".getBytes());
 
   protected static final Balance EXPECTED_BALANCE = new Balance(Currency.BTC, new BigDecimal("3.0E-7"), new BigDecimal("2.0E-7"));
   protected static final Ticker EXPECTED_TICKER = new Ticker.Builder().bid(new BigDecimal("137.00")).ask(new BigDecimal("140.00"))
