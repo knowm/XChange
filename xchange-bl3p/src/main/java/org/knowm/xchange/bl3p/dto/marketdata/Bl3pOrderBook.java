@@ -1,18 +1,9 @@
 package org.knowm.xchange.bl3p.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.bl3p.dto.Bl3pResult;
 
-public class Bl3pOrderBook {
-
-    @JsonProperty("result")
-    private String result;
-
-    @JsonProperty("data")
-    private Bl3pOrderBookData orderBookData;
-
-    public Bl3pOrderBookData getOrderBookData() {
-        return orderBookData;
-    }
+public class Bl3pOrderBook extends Bl3pResult<Bl3pOrderBook.Bl3pOrderBookData> {
 
     public static class Bl3pOrderBookData {
         @JsonProperty("asks")
