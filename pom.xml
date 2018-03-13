@@ -205,13 +205,6 @@
                 <version>${version.knowm.xchart}</version>
             </dependency>
 
-            <!-- compile-time ONLY, for javax.annotation.Generated in Jdk9 -->
-            <dependency>
-                <groupId>javax.annotation</groupId>
-                <artifactId>javax.annotation-api</artifactId>
-                <version>1.3.1</version>
-            </dependency>
-
             <!-- Reflections - java runtime metadata analysis for integration testing -->
             <dependency>
                 <groupId>org.reflections</groupId>
