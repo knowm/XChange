@@ -32,6 +32,7 @@ public class QuoineExchange extends BaseExchange implements Exchange {
     this.tradeService = new QuoineTradeService(this, useMargin);
   }
 
+  
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
