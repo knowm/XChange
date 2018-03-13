@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmarket.dto.BitMarketDtoTestSupport;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketBalance;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
@@ -182,5 +184,14 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
       BitMarketOrdersResponse response = parse("trade/example-orders-data", BitMarketOrdersResponse.class);
       return response.getData();
     }
+  }
+
+  protected static ExchangeSpecification createExchangeSpecification() {
+    ExchangeSpecification specification = ExchangeFactory.INSTANCE.createExchange(BitMarketExchange.class.getCanonicalName())
+        .getExchangeSpecification();
+    specification.setUserName(SPECIFICATION_USERNAME);
+    specification.setApiKey(SPECIFICATION_API_KEY);
+    specification.setSecretKey(SPECIFICATION_SECRET_KEY);
+    return specification;
   }
 }

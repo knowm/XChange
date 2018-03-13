@@ -19,14 +19,16 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * @author kfonal
  */
 public class BitMarketAccountService extends BitMarketAccountServiceRaw implements AccountService {
 
-  public BitMarketAccountService(Exchange exchange) {
+  public BitMarketAccountService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override
