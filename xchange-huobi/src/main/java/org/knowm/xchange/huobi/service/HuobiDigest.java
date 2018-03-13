@@ -1,6 +1,5 @@
 package org.knowm.xchange.huobi.service;
 
-import net.iharder.Base64;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
@@ -13,6 +12,7 @@ import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -54,7 +54,7 @@ public class HuobiDigest extends BaseParamsDigest {
                     .collect(Collectors.joining("&"));
         String toSign = String.format("%s\n%s\n%s\n%s", httpMethod, host, method, query);
         Mac mac = getMac();
-        String signature = encodeValue(Base64.encodeBytes(mac.doFinal(toSign.getBytes())).trim());
+        String signature = encodeValue(Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes())).trim());
         replaceSignatureUrl(restInvocation, signature);
         return signature;
     }

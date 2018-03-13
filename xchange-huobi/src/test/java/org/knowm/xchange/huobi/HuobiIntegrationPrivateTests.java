@@ -1,5 +1,6 @@
 package org.knowm.xchange.huobi;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -25,22 +26,8 @@ import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HuobiIntegrationTests {
-
-    @Test
-    public void getTickerTest() throws Exception {
-        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class.getName());
-        MarketDataService marketDataService = exchange.getMarketDataService();
-        Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC","USDT"));
-        System.out.println(ticker.toString());
-        assertThat(ticker).isNotNull();
-    }
-
-    @Test
-    public void getExchangeSymbolsTest() {
-        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class.getName());
-        System.out.println(Arrays.toString(exchange.getExchangeSymbols().toArray()));
-    }
+@Ignore("Use it for manual launch only")
+public class HuobiIntegrationPrivateTests {
 
     @Test
     public void getAccountTest() throws IOException {
@@ -87,9 +74,14 @@ public class HuobiIntegrationTests {
 
     @Test
     public void placeLimitOrderTest() throws IOException {
+        String orderId = placePendingOrder();
+        System.out.println(orderId);
+    }
+
+    private String placePendingOrder() throws IOException {
         HuobiProperties properties = new HuobiProperties();
         Exchange exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class.getName(),
-                properties.getApiKey(), properties.getSecretKey());
+                                                                    properties.getApiKey(), properties.getSecretKey());
         TradeService tradeService = exchange.getTradeService();
         HuobiAccountService accountService = (HuobiAccountService) exchange.getAccountService();
         HuobiAccount[] accounts = accountService.getAccounts();
@@ -101,8 +93,7 @@ public class HuobiIntegrationTests {
                 null,
                 new BigDecimal("10000")
         );
-        String orderId = tradeService.placeLimitOrder(limitOrder);
-        System.out.println(orderId);
+        return tradeService.placeLimitOrder(limitOrder);
     }
 
     @Test
@@ -125,6 +116,7 @@ public class HuobiIntegrationTests {
     }
 
     @Test
+    @Ignore("Use it for manual")
     public void cancelOrderTest() throws IOException {
         HuobiProperties properties = new HuobiProperties();
         Exchange exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class.getName(),
