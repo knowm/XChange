@@ -17,12 +17,12 @@ public class AuthUtils {
    */
   public static String getBasicAuth(String user, final String pass) {
 
-    return "Basic " + net.iharder.Base64.encodeBytes((user + ":" + pass).getBytes());
+    return "Basic " + java.util.Base64.getEncoder().encodeToString((user + ":" + pass).getBytes());
   }
 
   /**
-   * Read the API & Secret key from a resource called {@code secret.keys}.
-   * NOTE: This file MUST NEVER be commited to source control. It is therefore added to .gitignore.
+   * Read the API & Secret key from a resource called {@code secret.keys}. NOTE: This file MUST NEVER be commited to source control. It is therefore
+   * added to .gitignore.
    */
   public static void setApiAndSecretKey(ExchangeSpecification exchangeSpec) {
 
@@ -30,8 +30,8 @@ public class AuthUtils {
   }
 
   /**
-   * Read the API & Secret key from a resource called {@code prefix}-{@code secret.keys}.
-   * NOTE: This file MUST NEVER be commited to source control. It is therefore added to .gitignore.
+   * Read the API & Secret key from a resource called {@code prefix}-{@code secret.keys}. NOTE: This file MUST NEVER be commited to source control. It
+   * is therefore added to .gitignore.
    */
   public static void setApiAndSecretKey(ExchangeSpecification exchangeSpec, String prefix) {
 
@@ -44,8 +44,8 @@ public class AuthUtils {
   }
 
   /**
-   * Read the secret properties from a resource called {@code prefix}-{@code secret.keys}.
-   * NOTE: This file MUST NEVER be commited to source control. It is therefore added to .gitignore.
+   * Read the secret properties from a resource called {@code prefix}-{@code secret.keys}. NOTE: This file MUST NEVER be commited to source control.
+   * It is therefore added to .gitignore.
    *
    * @return The properties or null
    */
