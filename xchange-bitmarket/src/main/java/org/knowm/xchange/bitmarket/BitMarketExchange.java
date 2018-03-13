@@ -8,6 +8,8 @@ import org.knowm.xchange.bitmarket.service.BitMarketDataService;
 import org.knowm.xchange.bitmarket.service.BitMarketTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
 
+import si.mazi.rescu.IRestProxyFactory;
+import si.mazi.rescu.RestProxyFactoryImpl;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -16,12 +18,21 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class BitMarketExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
+  private final IRestProxyFactory restProxyFactory;
+
+  public BitMarketExchange() {
+    this(new RestProxyFactoryImpl());
+  }
+
+  private BitMarketExchange(IRestProxyFactory restProxyFactory) {
+    this.restProxyFactory = restProxyFactory;
+  }
 
   @Override
   protected void initServices() {
-    this.marketDataService = new BitMarketDataService(this);
-    this.tradeService = new BitMarketTradeService(this);
-    this.accountService = new BitMarketAccountService(this);
+    this.marketDataService = new BitMarketDataService(this, restProxyFactory);
+    this.tradeService = new BitMarketTradeService(this, restProxyFactory);
+    this.accountService = new BitMarketAccountService(this, restProxyFactory);
   }
 
   @Override
