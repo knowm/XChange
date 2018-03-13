@@ -49,8 +49,8 @@ public class Bl3pMarketDataService extends Bl3pBaseService implements MarketData
 
         return new OrderBook(
                 now,
-                toXChangeLimitOrders(orderBook.getOrderBookData().getAsks(), Order.OrderType.ASK, currencyPair, now),
-                toXChangeLimitOrders(orderBook.getOrderBookData().getBids(), Order.OrderType.BID, currencyPair, now)
+                toXChangeLimitOrders(orderBook.getData().getAsks(), Order.OrderType.ASK, currencyPair, now),
+                toXChangeLimitOrders(orderBook.getData().getBids(), Order.OrderType.BID, currencyPair, now)
         );
     }
 

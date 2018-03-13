@@ -22,11 +22,14 @@ public class Bl3pTicker {
     @JsonProperty("low")
     private BigDecimal low;
 
-    @JsonProperty("timestamp")
     private Date timestamp;
 
     @JsonProperty("volume")
     private Bl3pTickerVolume volume;
+
+    public Bl3pTicker(@JsonProperty("timestamp") long timestamp) {
+        this.timestamp = new Date(timestamp * 1000l);
+    }
 
     public BigDecimal getAsk() {
         return ask;

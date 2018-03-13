@@ -11,11 +11,11 @@ public class Bl3pUtils {
     private static final BigDecimal EUROSHI = new BigDecimal(1e5);
 
     public static final BigDecimal fromSatoshi(BigDecimal bd) {
-        return bd.multiply(SATOSHI);
+        return bd.divide(SATOSHI);
     }
 
     public static final BigDecimal fromEuroshi(BigDecimal bd) {
-        return bd.multiply(EUROSHI);
+        return bd.divide(EUROSHI);
     }
 
     public static String toPairString(CurrencyPair currencyPair) {
