@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.ws.rs.FormParam;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import si.mazi.rescu.Params;
@@ -20,7 +21,9 @@ public class CoinEggDigestTest {
   private final String publicKey = "p4pay-2min8-v41si-hah14-g5iqg-metp3-4d7tp";
 
   // The Signature That Is Expected To Be Created From Test Data
-  private final String expectedSignature = "a08e3586b43abc89d0b27b127c95add1613831f9f4da8b68aa1e60e69334e0da";
+//  private final String expectedSignature = "a08e3586b43abc89d0b27b127c95add1613831f9f4da8b68aa1e60e69334e0da";
+  // TODO let me know if this breaks things!
+  private final String expectedSignature = "C8C264D005D7BCD50DD9F98AAA6441293993CBAC8A5F8565341BA8980C84A5A3";
 
   @Test
   public void paramDigestTest() throws Exception {
