@@ -5,8 +5,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.ws.rs.FormParam;
+import javax.xml.bind.DatatypeConverter;
 
-import org.apache.commons.codec.binary.Hex;
 import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.Params;
@@ -32,7 +32,7 @@ public final class CoinEggDigest extends BaseParamsDigest {
   }
 
   private static String hex(byte[] b) {
-    return String.valueOf(Hex.encodeHex(b));
+    return DatatypeConverter.printHexBinary(b);
   }
 
   @Override
@@ -41,7 +41,7 @@ public final class CoinEggDigest extends BaseParamsDigest {
     // Create Query String From Form Parameters
     Params params = Params.of();
     restInvocation.getParamsMap().get(FormParam.class).asHttpHeaders().entrySet().stream().filter(e -> !e.getKey().equalsIgnoreCase("signature"))
-                  .forEach(e -> params.add(e.getKey(), e.getValue()));
+        .forEach(e -> params.add(e.getKey(), e.getValue()));
 
     // Parse Query String
     byte[] queryString = params.asQueryString().trim().getBytes(UTF8);
