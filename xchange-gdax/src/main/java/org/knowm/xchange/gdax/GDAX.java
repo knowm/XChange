@@ -74,7 +74,7 @@ public interface GDAX {
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/candles")
   GDAXCandle[] getHistoricalCandles(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
-      @QueryParam("start") String start, @QueryParam("end") String end, @QueryParam("granularity") Long granularity) throws GDAXException, IOException;
+      @QueryParam("start") String start, @QueryParam("end") String end, @QueryParam("granularity") String granularity) throws GDAXException, IOException;
 
   /**
    * Authenticated calls

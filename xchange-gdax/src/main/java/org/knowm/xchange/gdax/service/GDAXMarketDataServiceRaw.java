@@ -83,7 +83,7 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     }
   }
 
-  public GDAXCandle[] getGDAXHistoricalCandles(CurrencyPair currencyPair, String start, String end, Long granularity) throws IOException {
+  public GDAXCandle[] getGDAXHistoricalCandles(CurrencyPair currencyPair, String start, String end, String granularity) throws IOException {
 
     try {
       return this.gdax.getHistoricalCandles(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), start, end, granularity);
