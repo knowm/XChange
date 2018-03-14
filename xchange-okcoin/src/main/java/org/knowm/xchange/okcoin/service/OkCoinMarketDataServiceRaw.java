@@ -25,7 +25,7 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBaseService {
    */
   public OkCoinMarketDataServiceRaw(Exchange exchange) {
 
-  	super(exchange);
+    super(exchange);
 
     okCoin = RestProxyFactory.createProxy(OkCoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
