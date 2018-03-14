@@ -28,6 +28,6 @@ public class LiquiDigest extends BaseParamsDigest {
     final Mac mac512 = getMac();
     mac512.update(restInvocation.getRequestBody().getBytes(StandardCharsets.UTF_8));
 
-    return DatatypeConverter.printHexBinary(mac512.doFinal());
+    return DatatypeConverter.printHexBinary(mac512.doFinal()).toLowerCase();
   }
 }

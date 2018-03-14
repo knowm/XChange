@@ -32,7 +32,7 @@ public final class CoinEggDigest extends BaseParamsDigest {
   }
 
   private static String hex(byte[] b) {
-    return DatatypeConverter.printHexBinary(b);
+    return DatatypeConverter.printHexBinary(b).toLowerCase();
   }
 
   @Override
