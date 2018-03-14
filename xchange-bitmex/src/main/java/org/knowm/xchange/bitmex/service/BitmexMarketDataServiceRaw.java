@@ -43,12 +43,12 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
    */
   public BitmexMarketDataServiceRaw(Exchange exchange) {
 
-  	super(exchange);
+    super(exchange);
   }
 
   public BitmexDepth getBitmexDepth(CurrencyPair pair, BitmexPrompt prompt, Object... args) throws IOException {
 
-  	BitmexContract contract = new BitmexContract(pair, prompt);
+    BitmexContract contract = new BitmexContract(pair, prompt);
     String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
     BitmexPublicOrder[] result = bitmex.getDepth(bitmexSymbol, 1000d);
 
@@ -85,7 +85,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
 
   public List<BitmexTicker> getTicker(String symbol) throws IOException {
 
-  	try {
+    try {
       return bitmex.getTicker(symbol);
     } catch (BitmexException e) {
       throw handleError(e);
@@ -141,7 +141,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   	BitmexContract contract = new BitmexContract(pair, prompt);
     String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
 
-  	try {
+    try {
       return bitmex.getBucketedTrades(binSize, partial, bitmexSymbol, count, reverse);
     } catch (BitmexException e) {
       throw handleError(e);
