@@ -42,11 +42,13 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
    * @param exchange
    */
   public BitmexMarketDataServiceRaw(Exchange exchange) {
-    super(exchange);
+
+  	super(exchange);
   }
 
   public BitmexDepth getBitmexDepth(CurrencyPair pair, BitmexPrompt prompt, Object... args) throws IOException {
-    BitmexContract contract = new BitmexContract(pair, prompt);
+
+  	BitmexContract contract = new BitmexContract(pair, prompt);
     String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
     BitmexPublicOrder[] result = bitmex.getDepth(bitmexSymbol, 1000d);
 
@@ -82,7 +84,8 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexTicker> getTicker(String symbol) throws IOException {
-    try {
+
+  	try {
       return bitmex.getTicker(symbol);
     } catch (BitmexException e) {
       throw handleError(e);
@@ -90,6 +93,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexTicker> getActiveTickers() throws IOException {
+
     try {
       return bitmex.getActiveTickers();
     } catch (BitmexException e) {
@@ -133,7 +137,8 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexKline> getBucketedTrades(String binSize, Boolean partial, CurrencyPair pair, BitmexPrompt prompt, long count, Boolean reverse) throws IOException {
-    BitmexContract contract = new BitmexContract(pair, prompt);
+
+  	BitmexContract contract = new BitmexContract(pair, prompt);
     String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
 
   	try {
@@ -144,6 +149,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   }
 
   protected <R> List<R> checkResult(BitmexSymbolsAndPromptsResult<R> bitmexSymbolsAndPromptsResult) {
+
     if (!bitmexSymbolsAndPromptsResult.isSuccess()) {
       throw new ExchangeException("Unable to retieve prompts and symbols from bitmex");
     }
