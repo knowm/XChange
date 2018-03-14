@@ -21,7 +21,12 @@ public class RippleWithdrawFundsParams extends DefaultWithdrawFundsParams {
 
   @Override
   public String toString() {
-    return "RippleWithdrawFundsParams{" + "address='" + address + '\'' + ", tag='" + tag + '\'' + ", currency=" + currency + ", amount=" + amount
-        + ", commission=" + commission + '}';
+    return "RippleWithdrawFundsParams{" + "address='" + getAddress() + '\'' + ", tag='" + getTag() + '\'' + ", currency=" + getCurrency() + ", amount=" + getAmount()
+        + ", commission=" + getCommission() + '}';
+  }
+
+  @Nullable
+  public String getTag() {
+    return tag;
   }
 }

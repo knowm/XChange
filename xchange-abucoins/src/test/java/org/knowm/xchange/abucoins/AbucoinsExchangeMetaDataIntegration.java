@@ -14,7 +14,7 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 
-public class AbucoinsExchangeMetaDataTest {
+public class AbucoinsExchangeMetaDataIntegration {
   AbucoinsExchange exchange;
 
   @Before

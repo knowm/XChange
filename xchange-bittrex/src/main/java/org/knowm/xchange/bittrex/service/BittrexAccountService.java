@@ -15,6 +15,7 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -48,11 +49,13 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams defaultParams = (RippleWithdrawFundsParams) params;
-      return withdraw(defaultParams.currency.getCurrencyCode(), defaultParams.amount, defaultParams.address, defaultParams.tag);
-    }
-    if (params instanceof DefaultWithdrawFundsParams) {
+      return withdraw(defaultParams.getCurrency().getCurrencyCode(), defaultParams.getAmount(), defaultParams.getAddress(), defaultParams.getTag());
+    } else if (params instanceof MoneroWithdrawFundsParams) {
+      MoneroWithdrawFundsParams moneroWithdrawFundsParams = (MoneroWithdrawFundsParams) params;
+      return withdraw(moneroWithdrawFundsParams.getCurrency().getCurrencyCode(), moneroWithdrawFundsParams.getAmount(), moneroWithdrawFundsParams.getAddress(), moneroWithdrawFundsParams.getPaymentId());
+    } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }

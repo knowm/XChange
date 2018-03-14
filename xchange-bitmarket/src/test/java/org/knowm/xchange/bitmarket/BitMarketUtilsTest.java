@@ -2,7 +2,6 @@ package org.knowm.xchange.bitmarket;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -30,14 +29,12 @@ public class BitMarketUtilsTest {
   }
 
   @Test
-  @Ignore("issue #1140 https://github.com/timmolter/XChange/issues/1140")
   public void shouldConvertStringToOrderType() {
     assertThat(BitMarketUtils.bitMarketOrderTypeToOrderType("buy")).isEqualTo(Order.OrderType.BID);
     assertThat(BitMarketUtils.bitMarketOrderTypeToOrderType("sell")).isEqualTo(Order.OrderType.ASK);
   }
 
   @Test
-  @Ignore("issue #1140 https://github.com/timmolter/XChange/issues/1140")
   public void shouldConvertOrderTypeToString() {
     assertThat(BitMarketUtils.orderTypeToBitMarketOrderType(Order.OrderType.BID)).isEqualTo("buy");
     assertThat(BitMarketUtils.orderTypeToBitMarketOrderType(Order.OrderType.ASK)).isEqualTo("sell");

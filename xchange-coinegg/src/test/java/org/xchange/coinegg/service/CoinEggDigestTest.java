@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.ws.rs.FormParam;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import si.mazi.rescu.Params;

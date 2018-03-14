@@ -3,6 +3,7 @@ package org.knowm.xchange.dto.marketdata;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -109,7 +110,7 @@ public class Trade implements Serializable {
   @Override
   public int hashCode() {
 
-    return id.hashCode();
+    return Objects.hashCode(id);
   }
 
   @Override
