@@ -19,14 +19,16 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * @author kfonal
  */
 public class BitMarketAccountService extends BitMarketAccountServiceRaw implements AccountService {
 
-  public BitMarketAccountService(Exchange exchange) {
+  public BitMarketAccountService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override
@@ -47,7 +49,7 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }

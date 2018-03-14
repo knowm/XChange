@@ -27,7 +27,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox") != null && exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
         exchangeSpecification.setSslUri("https://testnet.bitmex.com/");
         exchangeSpecification.setHost("testnet.bitmex.com");
       }
@@ -61,6 +61,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitmex");
     exchangeSpecification.setExchangeDescription("Bitmex is a bitcoin exchange");
+    exchangeSpecification.setExchangeSpecificParametersItem("Use_Sandbox", false);
     return exchangeSpecification;
   }
 

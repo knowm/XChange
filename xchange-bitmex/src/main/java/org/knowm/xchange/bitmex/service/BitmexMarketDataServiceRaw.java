@@ -48,7 +48,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   public BitmexDepth getBitmexDepth(CurrencyPair pair, BitmexPrompt prompt, Object... args) throws IOException {
     BitmexContract contract = new BitmexContract(pair, prompt);
     String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
-    BitmexPublicOrder[] result = bitmex.getDepth(bitmexSymbol, 10000d);
+    BitmexPublicOrder[] result = bitmex.getDepth(bitmexSymbol, 1000d);
 
     if (pair != null && prompt != null)
       return BitmexAdapters.adaptDepth(result, pair);

@@ -23,6 +23,8 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * @author kfonal
  */
@@ -32,8 +34,8 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
    *
    * @param exchange
    */
-  public BitMarketTradeService(Exchange exchange) {
-    super(exchange);
+  public BitMarketTradeService(Exchange exchange, IRestProxyFactory restProxyFactory) {
+    super(exchange, restProxyFactory);
   }
 
   @Override
