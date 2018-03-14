@@ -37,36 +37,36 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBaseService {
 
   public OkCoinTickerResponse getFuturesTicker(CurrencyPair currencyPair, FuturesContract prompt) throws IOException {
 
-  	return okCoin.getFuturesTicker(OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName());
+    return okCoin.getFuturesTicker(OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName());
   }
 
   public OkCoinDepth getDepth(CurrencyPair currencyPair) throws IOException {
 
-  	return okCoin.getDepth("1", OkCoinAdapters.adaptSymbol(currencyPair));
+    return okCoin.getDepth("1", OkCoinAdapters.adaptSymbol(currencyPair));
   }
 
   public OkCoinDepth getFuturesDepth(CurrencyPair currencyPair, FuturesContract prompt) throws IOException {
 
-  	return okCoin.getFuturesDepth("1", OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName().toLowerCase());
+    return okCoin.getFuturesDepth("1", OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName().toLowerCase());
   }
 
   public OkCoinTrade[] getTrades(CurrencyPair currencyPair) throws IOException {
 
-  	return okCoin.getTrades("1", OkCoinAdapters.adaptSymbol(currencyPair));
+    return okCoin.getTrades("1", OkCoinAdapters.adaptSymbol(currencyPair));
   }
 
   public OkCoinTrade[] getTrades(CurrencyPair currencyPair, long since) throws IOException {
 
-  	return okCoin.getTrades("1", OkCoinAdapters.adaptSymbol(currencyPair), since);
+    return okCoin.getTrades("1", OkCoinAdapters.adaptSymbol(currencyPair), since);
   }
 
   public OkCoinTrade[] getFuturesTrades(CurrencyPair currencyPair, FuturesContract prompt) throws IOException {
 
-  	return okCoin.getFuturesTrades("1", OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName().toLowerCase());
+    return okCoin.getFuturesTrades("1", OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName().toLowerCase());
   }
 
   public List<Object[]> getKlines(CurrencyPair currencyPair, String type) throws IOException {
 
-  	return okCoin.getKlines(OkCoinAdapters.adaptSymbol(currencyPair), type);
+    return okCoin.getKlines(OkCoinAdapters.adaptSymbol(currencyPair), type);
   }
 }
