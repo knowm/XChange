@@ -48,6 +48,6 @@ public class KucoinDigest extends BaseParamsDigest {
     } catch (IllegalStateException | UnsupportedEncodingException e1) {
       throw new RuntimeException(e1.getMessage());
     }
-    return DatatypeConverter.printHexBinary(mac.doFinal());
+    return DatatypeConverter.printHexBinary(mac.doFinal()).toLowerCase();
   }
 }
