@@ -81,10 +81,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
   }
 
   protected static byte[] decodeBase64(String secretKey) {
-
-    System.out.println("secretKey = " + secretKey);
     return Base64.getDecoder().decode(secretKey);
-//    return Base64.getDecoder().decode(secretKey.getBytes(StandardCharsets.UTF_8));
   }
 
   protected Mac getMac() {
