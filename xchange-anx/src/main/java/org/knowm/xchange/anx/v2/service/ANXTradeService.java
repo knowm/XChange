@@ -27,6 +27,8 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.Assert;
 import org.knowm.xchange.utils.DateUtils;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * @author timmolter
  */
@@ -37,9 +39,9 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
    *
    * @param baseExchange
    */
-  public ANXTradeService(BaseExchange baseExchange) {
+  public ANXTradeService(BaseExchange baseExchange, IRestProxyFactory restProxyFactory) {
 
-    super(baseExchange);
+    super(baseExchange, restProxyFactory);
   }
 
   @Override

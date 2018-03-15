@@ -16,6 +16,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * <p>
  * Implementation of the market data service for ANX V2
@@ -31,9 +33,9 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
    *
    * @param exchange
    */
-  public ANXMarketDataService(Exchange exchange) {
+  public ANXMarketDataService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override

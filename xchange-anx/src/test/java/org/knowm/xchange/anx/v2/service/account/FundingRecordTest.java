@@ -3,9 +3,8 @@ package org.knowm.xchange.anx.v2.service.account;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,48 +15,43 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.anx.v2.ANXExchange;
 import org.knowm.xchange.anx.v2.ANXV2;
 import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistoryWrapper;
 import org.knowm.xchange.anx.v2.service.ANXAccountService;
-import org.knowm.xchange.anx.v2.service.ANXV2Digest;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.service.account.AccountService;
-import org.mockito.internal.stubbing.answers.Returns;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.IRestProxyFactory;
 
-/**
- * @author ujjwal on 28/02/18.
- */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({RestProxyFactory.class, ANXV2Digest.class})
+@RunWith(MockitoJUnitRunner.class)
 public class FundingRecordTest {
+
+  @Mock
   private ANXV2 anxv2;
-  private ANXV2Digest signatureCreator;
+
   private AccountService accountService;
-  private Exchange exchange;
+
   private ObjectMapper mapper;
 
   @Before
   public void setUp() {
     mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    anxv2 = mock(ANXV2.class);
-    signatureCreator = mock(ANXV2Digest.class);
-    exchange = mock(ANXExchange.class);
-    mockStatic(RestProxyFactory.class);
-    when(RestProxyFactory.createProxy(eq(ANXV2.class), any(), any())).thenReturn(anxv2);
-    mockStatic(ANXV2Digest.class, new Returns(signatureCreator));
+
+    IRestProxyFactory restProxyFactory = mock(IRestProxyFactory.class);
+    when(restProxyFactory.createProxy(eq(ANXV2.class), any(), any())).thenReturn(anxv2);
+
     ExchangeSpecification mockExchangeSpecification = mock(ExchangeSpecification.class);
     when(mockExchangeSpecification.getSslUri()).thenReturn("Non-null-ssl-uri");
+
+    Exchange exchange = mock(Exchange.class);
     when(exchange.getExchangeSpecification()).thenReturn(mockExchangeSpecification);
-    accountService = new ANXAccountService(exchange);
+    accountService = new ANXAccountService(exchange, restProxyFactory);
   }
 
   @Test
