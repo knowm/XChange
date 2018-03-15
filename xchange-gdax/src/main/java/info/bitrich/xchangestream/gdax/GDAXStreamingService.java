@@ -108,7 +108,7 @@ public class GDAXStreamingService extends JsonNettyStreamingService {
      * Custom client handler in order to execute an external, user-provided handler on channel events.
      * This is useful because it seems GDAX unexpectedly closes the web socket connection.
      */
-    class GDAXWebSocketClientHandler extends WebSocketClientHandler {
+    class GDAXWebSocketClientHandler extends NettyWebSocketClientHandler {
 
         public GDAXWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
             super(handshaker, handler);

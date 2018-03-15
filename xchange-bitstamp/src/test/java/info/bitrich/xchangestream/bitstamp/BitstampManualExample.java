@@ -29,7 +29,7 @@ public class BitstampManualExample {
         exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
 
         try {
-            Thread.sleep(100000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

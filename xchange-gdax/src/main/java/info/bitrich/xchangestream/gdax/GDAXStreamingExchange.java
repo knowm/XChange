@@ -14,23 +14,22 @@ import org.knowm.xchange.gdax.GDAXExchange;
 public class GDAXStreamingExchange extends GDAXExchange implements StreamingExchange {
     private static final String API_URI = "wss://ws-feed.gdax.com";
 
-    private final GDAXStreamingService streamingService;
+    private GDAXStreamingService streamingService;
     private GDAXStreamingMarketDataService streamingMarketDataService;
 
-    public GDAXStreamingExchange() {
-        this.streamingService = new GDAXStreamingService(API_URI);
-    }
+    public GDAXStreamingExchange() { }
 
     @Override
     protected void initServices() {
         super.initServices();
-        streamingMarketDataService = new GDAXStreamingMarketDataService(streamingService);
     }
 
     @Override
     public Completable connect(ProductSubscription... args) {
         if (args == null || args.length == 0)
             throw new UnsupportedOperationException("The ProductSubscription must be defined!");
+        this.streamingService = new GDAXStreamingService(API_URI);
+        this.streamingMarketDataService = new GDAXStreamingMarketDataService(this.streamingService);
         streamingService.subscribeMultipleCurrencyPairs(args);
 
         return streamingService.connect();
@@ -38,7 +37,10 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
 
     @Override
     public Completable disconnect() {
-        return streamingService.disconnect();
+        GDAXStreamingService service = this.streamingService;
+        streamingService = null;
+        streamingMarketDataService = null;
+        return service.disconnect();
     }
 
     @Override
@@ -65,6 +67,6 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
 
     @Override
     public boolean isAlive() {
-        return streamingService.isSocketOpen();
+        return streamingService != null && streamingService.isSocketOpen();
     }
 }

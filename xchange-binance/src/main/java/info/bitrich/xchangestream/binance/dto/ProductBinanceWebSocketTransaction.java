@@ -15,4 +15,7 @@ public class ProductBinanceWebSocketTransaction extends BaseBinanceWebSocketTran
         currencyPair = new CurrencyPair(symbol.substring(0, 3), symbol.substring(3, 6));
     }
 
+    public CurrencyPair getCurrencyPair() {
+        return currencyPair;
+    }
 }

@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.binance;
 
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,18 +18,25 @@ public class BinanceManualExample {
 
     public static void main(String[] args) {
         StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BinanceStreamingExchange.class.getName());
-        exchange.connect().blockingAwait();
 
-        exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.ETH_BTC).subscribe(orderBook -> {
-            List<LimitOrder> asks = orderBook.getAsks();
-            if (!asks.isEmpty()) {
-                LOG.info("First ask: {}", asks.get(0));
-            }
-            List<LimitOrder> bids = orderBook.getBids();
-            if (!bids.isEmpty()) {
-                LOG.info("First bid: {}", orderBook.getBids().get(0));
-            }
-        }, throwable -> LOG.error("ERROR in getting order book: ", throwable));
+        ProductSubscription subscription = ProductSubscription.create()
+                .addTicker(CurrencyPair.ETH_BTC)
+                .addTicker(CurrencyPair.LTC_BTC)
+                .addOrderbook(CurrencyPair.LTC_BTC)
+                .build();
 
+        exchange.connect(subscription).blockingAwait();
+
+        exchange.getStreamingMarketDataService()
+                .getTicker(CurrencyPair.ETH_BTC)
+                .subscribe(ticker -> {
+                    LOG.info("Ticker: {}", ticker);
+                }, throwable -> LOG.error("ERROR in getting ticker: ", throwable));
+
+        exchange.getStreamingMarketDataService()
+                .getOrderBook(CurrencyPair.LTC_BTC)
+                .subscribe(orderBook -> {
+                    LOG.info("Order Book: {}", orderBook);
+                }, throwable -> LOG.error("ERROR in getting order book: ", throwable));
     }
 }

@@ -91,7 +91,7 @@ Listening for live updates of
 
 Exchange | order books | trades | tickers
 -------- | ----------- | ------ | -------
-**Binance** | :heavy_check_mark: | :x: | :x:
+**Binance** | :heavy_check_mark: | :construction: | :heavy_check_mark:
 **Bitfinex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Bitflyer** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **BitMEX** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:

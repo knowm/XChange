@@ -34,7 +34,7 @@ public class BitfinexWebSocketTickerTransaction {
         BigDecimal high = new BigDecimal(tickerArr[8]);
         BigDecimal last = new BigDecimal(tickerArr[6]);
         // Xchange-bitfinex adapter expects the timestamp to be seconds since Epoch.
-        float timestamp = System.currentTimeMillis() / 1000;
+        double timestamp = System.currentTimeMillis() / 1000;
         BigDecimal volume = new BigDecimal(tickerArr[7]);
 
         return new BitfinexTicker(mid, bid, ask, low, high, last, timestamp, volume);
