@@ -221,7 +221,7 @@ public abstract class NettyStreamingService<T> {
                 }
             }
         }).doOnDispose(() -> {
-            if (!channels.containsKey(channelId)) {
+            if (channels.containsKey(channelId)) {
                 sendMessage(getUnsubscribeMessage(channelId));
                 channels.remove(channelId);
             }
