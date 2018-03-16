@@ -17,4 +17,4 @@ Seconds:
 - `1/BTCEUR/ticker`
 
 2. Inconsistency with result wrapping
-Not a major problem. But most results are wrapped as `{"result": "success", "data": /*actual result*/}`. Except the `1/BTCEUR/ticker`
+Not a major problem (and may be intentional). But most results are wrapped as `{"result": "success", "data": /*actual result*/}`. Except the `1/BTCEUR/ticker`
