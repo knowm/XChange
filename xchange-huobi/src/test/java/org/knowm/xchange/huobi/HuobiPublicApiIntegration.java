@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HuobiIntegrationPublicTests {
+public class HuobiPublicApiIntegration {
 
     @Test
     public void getTickerTest() throws Exception {

@@ -27,7 +27,7 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Ignore("Use it for manual launch only")
-public class HuobiIntegrationPrivateTests {
+public class HuobiPrivateApiIntegration {
 
     @Test
     public void getAccountTest() throws IOException {
