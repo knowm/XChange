@@ -20,7 +20,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.Assert;
 
 import si.mazi.rescu.HttpStatusIOException;
-import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.IRestProxyFactory;
 
 public class ANXMarketDataServiceRaw extends ANXBaseService {
 
@@ -31,12 +31,12 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
    *
    * @param exchange
    */
-  protected ANXMarketDataServiceRaw(Exchange exchange) {
+  protected ANXMarketDataServiceRaw(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
     super(exchange);
 
     Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
-    this.anxV2 = RestProxyFactory.createProxy(ANXV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.anxV2 = restProxyFactory.createProxy(ANXV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public ANXTicker getANXTicker(CurrencyPair currencyPair) throws IOException {

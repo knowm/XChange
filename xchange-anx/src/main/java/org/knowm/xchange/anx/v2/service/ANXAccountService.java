@@ -25,6 +25,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * <p>
  * XChange service to provide the following to {@link org.knowm.xchange.Exchange}:
@@ -38,9 +40,9 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   /**
    * Constructor
    */
-  public ANXAccountService(Exchange exchange) {
+  public ANXAccountService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override
