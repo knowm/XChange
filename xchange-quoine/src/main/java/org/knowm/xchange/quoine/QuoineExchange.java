@@ -40,6 +40,7 @@ public class QuoineExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeName("Quoine");
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Margin", false);
     exchangeSpecification.setExchangeSpecificParametersItem("Leverage_Level", "1");
+    exchangeSpecification.setHttpReadTimeout(10000);
     return exchangeSpecification;
   }
 
