@@ -1,6 +1,7 @@
 package org.knowm.xchange.okcoin.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -64,4 +65,8 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBaseService {
     return okCoin.getFuturesTrades("1", OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName().toLowerCase());
   }
 
+  public List<Object[]> getKlines(CurrencyPair currencyPair, String type) throws IOException {
+
+    return okCoin.getKlines(OkCoinAdapters.adaptSymbol(currencyPair), type);
+  }
 }
