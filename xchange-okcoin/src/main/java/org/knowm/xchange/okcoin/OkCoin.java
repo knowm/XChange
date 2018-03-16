@@ -1,6 +1,7 @@
 package org.knowm.xchange.okcoin;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -18,6 +19,7 @@ import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTrade;
+import org.knowm.xchange.okcoin.dto.trade.OkCoinBatchTradeResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
@@ -66,6 +68,10 @@ public interface OkCoin {
   OkCoinTrade[] getFuturesTrades(@QueryParam("ok") String ok, @QueryParam("symbol") String symbol, @QueryParam("contract_type") String contract,
       @QueryParam("since") long since) throws IOException;
 
+  @GET
+  @Path("kline.do")
+  List<Object[]> getKlines(@QueryParam("symbol") String symbol, @QueryParam("type") String type) throws IOException;
+
   @POST
   @Path("userinfo.do")
   OkCoinUserInfo getUserInfo(@FormParam("api_key") String apikey, @FormParam("sign") ParamsDigest sign) throws IOException;
@@ -94,6 +100,11 @@ public interface OkCoin {
   @Path("cancel_order.do")
   OkCoinTradeResult cancelOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
       @FormParam("sign") ParamsDigest sign) throws IOException;
+
+  @POST
+  @Path("cancel_order.do")
+  OkCoinBatchTradeResult cancelOrders(@FormParam("api_key") String api_key, @FormParam("order_id") String orderIds,
+      @FormParam("symbol") String symbols, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   @Path("future_cancel.do")

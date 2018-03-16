@@ -50,7 +50,7 @@ public class BitmexDigest extends BaseParamsDigest {
     String path = restInvocation.getInvocationUrl().split(restInvocation.getBaseUrl())[1];
     String payload = restInvocation.getHttpMethod() + "/" + path + nonce + restInvocation.getRequestBody();
 
-    return DatatypeConverter.printHexBinary(getMac().doFinal(payload.getBytes()));
+    return DatatypeConverter.printHexBinary(getMac().doFinal(payload.getBytes())).toLowerCase();
   }
 
 }

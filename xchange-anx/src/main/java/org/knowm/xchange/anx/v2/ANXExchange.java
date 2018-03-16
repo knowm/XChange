@@ -10,6 +10,8 @@ import org.knowm.xchange.anx.v2.service.ANXMarketDataService;
 import org.knowm.xchange.anx.v2.service.ANXTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
+import si.mazi.rescu.IRestProxyFactory;
+import si.mazi.rescu.RestProxyFactoryImpl;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ANXExchange extends BaseExchange {
@@ -20,9 +22,10 @@ public class ANXExchange extends BaseExchange {
   @Override
   protected void initServices() {
     // Configure the basic services if configuration does not apply
-    this.marketDataService = new ANXMarketDataService(this);
-    this.tradeService = new ANXTradeService(this);
-    this.accountService = new ANXAccountService(this);
+    IRestProxyFactory restProxyFactory = new RestProxyFactoryImpl();
+    this.marketDataService = new ANXMarketDataService(this, restProxyFactory);
+    this.tradeService = new ANXTradeService(this, restProxyFactory);
+    this.accountService = new ANXAccountService(this, restProxyFactory);
   }
 
   @Override
