@@ -186,5 +186,12 @@
       "scale": 8,
       "withdrawal_fee": 20.0
     }
-  }
+  },
+  "public_rate_limits": [
+    {
+      "calls": 30,
+      "time_span": 60,
+      "time_unit": "SECONDS"
+    }
+  ]
 }
