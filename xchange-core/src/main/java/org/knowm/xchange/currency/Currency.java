@@ -210,6 +210,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency SOS = createCurrency("SOS", "Somali Shilling", null);
   public static final Currency SRD = createCurrency("SRD", "Surinamese Dollar", null);
   public static final Currency START = createCurrency("START", "startcoin", null);
+  public static final Currency STEEM = createCurrency("STEEM", "Steem", null);
   public static final Currency STD = createCurrency("STD", "São Tomé and Príncipe Dobra", null);
   public static final Currency STR = createCurrency("STR", "Stellar", null);
   public static final Currency STRAT = createCurrency("STRAT", "Stratis", null);
