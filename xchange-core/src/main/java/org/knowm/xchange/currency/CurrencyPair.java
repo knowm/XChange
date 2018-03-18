@@ -256,6 +256,23 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair ETH_UAH = new CurrencyPair(Currency.ETH, Currency.UAH);
   public static final CurrencyPair BCH_UAH = new CurrencyPair(Currency.BCH, Currency.UAH);
 
+  //Bitmex futures contracts
+  public static final CurrencyPair XBT_USD = new CurrencyPair(Currency.XBT, Currency.USD);
+  public static final CurrencyPair XBT_H18 = new CurrencyPair(Currency.XBT, Currency.H18);
+  public static final CurrencyPair XBT_M18 = new CurrencyPair(Currency.XBT, Currency.M18);
+
+  public static final CurrencyPair ADA_H18 = new CurrencyPair(Currency.ADA, Currency.H18);
+  public static final CurrencyPair BCH_H18 = new CurrencyPair(Currency.BCH, Currency.H18);
+  public static final CurrencyPair DASH_H18 = new CurrencyPair(Currency.DASH, Currency.H18);
+  public static final CurrencyPair ETH_H18 = new CurrencyPair(Currency.ETH, Currency.H18);
+  public static final CurrencyPair LTC_H18 = new CurrencyPair(Currency.LTC, Currency.H18);
+  public static final CurrencyPair NEO_H18 = new CurrencyPair(Currency.NEO, Currency.H18);
+  public static final CurrencyPair XMR_H18 = new CurrencyPair(Currency.XMR, Currency.H18);
+  public static final CurrencyPair XRP_H18 = new CurrencyPair(Currency.XRP, Currency.H18);
+  public static final CurrencyPair XLM_H18 = new CurrencyPair(Currency.XLM, Currency.H18);
+  public static final CurrencyPair ZEC_H18 = new CurrencyPair(Currency.ZEC, Currency.H18);
+  public static final CurrencyPair ETC_7D = new CurrencyPair(Currency.ETC, Currency.getInstance("7D"));
+
   public final Currency base;
   public final Currency counter;
 
