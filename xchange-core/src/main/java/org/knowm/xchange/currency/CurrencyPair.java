@@ -137,6 +137,14 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair FTC_BTC = new CurrencyPair(Currency.FTC, Currency.BTC);
   public static final CurrencyPair FTC_LTC = new CurrencyPair(Currency.FTC, Currency.LTC);
 
+  public static final CurrencyPair XEM_USD = new CurrencyPair(Currency.XEM, Currency.USD);
+  public static final CurrencyPair XEM_USDT = new CurrencyPair(Currency.XEM, Currency.USDT);
+  public static final CurrencyPair XEM_KRW = new CurrencyPair(Currency.XEM, Currency.KRW);
+  public static final CurrencyPair XEM_JPY = new CurrencyPair(Currency.XEM, Currency.JPY);
+  public static final CurrencyPair XEM_BTC = new CurrencyPair(Currency.XEM, Currency.BTC);
+  public static final CurrencyPair XEM_ETH = new CurrencyPair(Currency.XEM, Currency.ETH);
+  public static final CurrencyPair XEM_EUR = new CurrencyPair(Currency.XEM, Currency.EUR);
+
   public static final CurrencyPair XMR_BTC = new CurrencyPair(Currency.XMR, Currency.BTC);
   public static final CurrencyPair XMR_ETH = new CurrencyPair(Currency.XMR, Currency.ETH);
   public static final CurrencyPair XMR_USD = new CurrencyPair(Currency.XMR, Currency.USD);
@@ -151,6 +159,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
   public static final CurrencyPair STEEM_BTC = new CurrencyPair(Currency.STEEM, Currency.BTC);
   public static final CurrencyPair STEEM_USD = new CurrencyPair(Currency.STEEM, Currency.USD);
+  public static final CurrencyPair STEEM_USDT = new CurrencyPair(Currency.STEEM, Currency.USDT);
   public static final CurrencyPair STEEM_ETH = new CurrencyPair(Currency.STEEM, Currency.ETH);
   public static final CurrencyPair STEEM_BNB = new CurrencyPair(Currency.STEEM, Currency.BNB);
   public static final CurrencyPair STEEM_KRW = new CurrencyPair(Currency.STEEM, Currency.KRW);
