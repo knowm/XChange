@@ -54,9 +54,8 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency BOB = createCurrency("BOB", "Bolivian Boliviano", null);
   public static final Currency BRL = createCurrency("BRL", "Brazilian Real", "R$");
   public static final Currency BSD = createCurrency("BSD", "Bahamian Dollar", null);
-  public static final Currency BTC = createCurrency("BTC", "Bitcoin", null, "XBT");
+  public static final Currency BTC = createCurrency("BTC", "Bitcoin", null);
   public static final Currency BTG = createCurrency("BTG", "Bitcoin Gold", null);
-  public static final Currency XBT = getInstance("XBT");
   public static final Currency BTN = createCurrency("BTN", "Bhutanese Ngultrum", null);
   public static final Currency BWP = createCurrency("BWP", "Botswanan Pula", null);
   public static final Currency BYR = createCurrency("BYR", "Belarusian Ruble", null);
@@ -246,6 +245,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency XAF = createCurrency("XAF", "CFA Franc BEAC", null);
   public static final Currency XAS = createCurrency("XAS", "Asch", null);
   public static final Currency XAUR = createCurrency("XAUR", "Xaurum", null);
+  public static final Currency XBT = createCurrency("XBT", "Bitcoin", null);
   public static final Currency XCD = createCurrency("XCD", "East Caribbean Dollar", null);
   public static final Currency XDR = createCurrency("XDR", "Special Drawing Rights", null);
   public static final Currency XEM = createCurrency("XEM", "NEM", null);
@@ -263,6 +263,10 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ZMK = createCurrency("ZMK", "Zambian Kwacha", null);
   public static final Currency ZRC = createCurrency("ZRC", "ziftrCOIN", null);
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
+
+  //Bitmex futures settlement dates
+  public static final Currency H18 = createCurrency("H18", "March 30th, 2018", null);
+  public static final Currency M18 = createCurrency("M18", "June 30th, 2018", null);
 
   //Cryptos
   public static final Currency BNB = createCurrency("BNB", "Binance Coin", null);
