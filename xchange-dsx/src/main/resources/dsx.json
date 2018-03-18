@@ -35,6 +35,12 @@
     },
     "BCH/EUR": {
       "price_scale": 5
+    },
+    "BCH/USD": {
+      "price_scale": 5
+    },
+    "BCH/GBP": {
+      "price_scale": 5
     }
   },
   "currencies": {
