@@ -149,6 +149,12 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
   public static final CurrencyPair XVN_XRP = new CurrencyPair(Currency.XVN, Currency.XRP);
 
+  public static final CurrencyPair STEEM_BTC = new CurrencyPair(Currency.STEEM, Currency.BTC);
+  public static final CurrencyPair STEEM_USD = new CurrencyPair(Currency.STEEM, Currency.USD);
+  public static final CurrencyPair STEEM_ETH = new CurrencyPair(Currency.STEEM, Currency.ETH);
+  public static final CurrencyPair STEEM_BNB = new CurrencyPair(Currency.STEEM, Currency.BNB);
+  public static final CurrencyPair STEEM_KRW = new CurrencyPair(Currency.STEEM, Currency.KRW);
+
   // start of extra ANX supported pair
   // BTC
   public static final CurrencyPair BTC_XDC = new CurrencyPair(Currency.BTC, Currency.XDC);
