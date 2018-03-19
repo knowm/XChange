@@ -9,6 +9,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
     private static final String API_BASE_URI = "wss://stream.binance.com:9443/";
@@ -16,7 +17,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     private BinanceStreamingService streamingService;
     private BinanceStreamingMarketDataService streamingMarketDataService;
 
-    public BinanceStreamingExchange() {}
+    public BinanceStreamingExchange() {
+    }
 
     /**
      * Binance streaming API expects connections to multiple channels to be defined at connection time. To define the channels for this
@@ -64,27 +66,21 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         return new BinanceStreamingService(path, subscription);
     }
 
-    private static String buildSubscriptionStreams(ProductSubscription subscription) {
-        return buildSubscriptionStrings(subscription.getTicker(), "ticker") +
-                buildSubscriptionStrings(subscription.getOrderBook(), "depth") +
-                buildSubscriptionStrings(subscription.getTrades(), "trade");
+    public static String buildSubscriptionStreams(ProductSubscription subscription) {
+        return Stream.of(buildSubscriptionStrings(subscription.getTicker(), "ticker"),
+                buildSubscriptionStrings(subscription.getOrderBook(), "depth"),
+                buildSubscriptionStrings(subscription.getTrades(), "trade"))
+                    .filter(s -> !s.isEmpty())
+                    .collect(Collectors.joining("/"));
     }
 
     private static String buildSubscriptionStrings(List<CurrencyPair> currencyPairs, String subscriptionType) {
-        StringBuilder builder = new StringBuilder();
-        subscriptionStrings(currencyPairs).forEach(subscriptionString -> {
-            builder.append("/");
-            builder.append(subscriptionString);
-            builder.append("@");
-            builder.append(subscriptionType);
-        });
-        return builder.toString();
+        return subscriptionStrings(currencyPairs).map( s -> s + "@" + subscriptionType).collect(Collectors.joining("/"));
     }
 
-    private static List<String> subscriptionStrings(List<CurrencyPair> currencyPairs) {
+    private static Stream<String> subscriptionStrings(List<CurrencyPair> currencyPairs) {
         return currencyPairs.stream()
-                .map(pair -> String.join("", pair.toString().split("/")).toLowerCase())
-                .collect(Collectors.toList());
+                .map(pair -> String.join("", pair.toString().split("/")).toLowerCase());
     }
 
 }
