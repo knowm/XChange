@@ -42,13 +42,13 @@ public class OkCoinStreamingMarketDataServiceTest {
         when(okCoinStreamingService.subscribeChannel(any())).thenReturn(Observable.just(jsonNode));
 
         List<LimitOrder> bids = new ArrayList<>();
-        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.922"), CurrencyPair.BTC_USD, null, null, new BigDecimal("819.9")));
-        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.085"), CurrencyPair.BTC_USD, null, null, new BigDecimal("818.63")));
+        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.922"), CurrencyPair.BTC_USD, null, new Date(1484602135246L), new BigDecimal("819.9")));
+        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.085"), CurrencyPair.BTC_USD, null, new Date(1484602135246L), new BigDecimal("818.63")));
 
         List<LimitOrder> asks = new ArrayList<>();
-        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.035"), CurrencyPair.BTC_USD, null, null, new BigDecimal("821.6")));
-        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("5.18"), CurrencyPair.BTC_USD, null, null, new BigDecimal("821.65")));
-        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("2.89"), CurrencyPair.BTC_USD, null, null, new BigDecimal("821.7")));
+        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.035"), CurrencyPair.BTC_USD, null, new Date(1484602135246L), new BigDecimal("821.6")));
+        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("5.18"), CurrencyPair.BTC_USD, null, new Date(1484602135246L), new BigDecimal("821.65")));
+        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("2.89"), CurrencyPair.BTC_USD, null, new Date(1484602135246L), new BigDecimal("821.7")));
 
         OrderBook expected = new OrderBook(new Date(1484602135246L), asks, bids);
 
