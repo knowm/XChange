@@ -1,11 +1,9 @@
 package org.knowm.xchange.dsx.service;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DSXAdapters;
+import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbook;
 import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbookWrapper;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTickerWrapper;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTrade;
@@ -14,6 +12,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Mikhail Wall
@@ -42,7 +43,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    String pairs = DSXAdapters.getPair(currencyPair);
+    String marketName = DSXAdapters.currencyPairToMarketName(currencyPair);
     String accountType = null;
     try {
       if (args != null) {
@@ -52,10 +53,10 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
       // ignore, can happen if no argument given.
     }
 
-    DSXTickerWrapper dsxTickerWrapper = getDSXTicker(pairs, accountType);
+    DSXTickerWrapper dsxTickerWrapper = getDSXTicker(marketName, accountType);
 
     // Adapt to XChange DTOs
-    return DSXAdapters.adaptTicker(dsxTickerWrapper.getTicker(DSXAdapters.getPair(currencyPair)), currencyPair);
+    return DSXAdapters.adaptTicker(dsxTickerWrapper.getTicker(marketName), currencyPair);
   }
 
   /**
@@ -69,7 +70,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    String pairs = DSXAdapters.getPair(currencyPair);
+    String marketName = DSXAdapters.currencyPairToMarketName(currencyPair);
 
     String accountType = null;
     try {
@@ -80,13 +81,14 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
       // ignore, can happen if no argument given.
     }
 
-    DSXOrderbookWrapper dsxOrderbookWrapper = getDSXOrderbook(pairs, accountType);
+    DSXOrderbookWrapper dsxOrderbookWrapper = getDSXOrderbook(marketName, accountType);
+    DSXOrderbook orderbook = dsxOrderbookWrapper.getOrderbook(marketName);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = DSXAdapters
-        .adaptOrders(dsxOrderbookWrapper.getOrderbook(DSXAdapters.getPair(currencyPair)).getAsks(), currencyPair, "ask", "");
+        .adaptOrders(orderbook.getAsks(), currencyPair, "ask", "");
     List<LimitOrder> bids = DSXAdapters
-        .adaptOrders(dsxOrderbookWrapper.getOrderbook(DSXAdapters.getPair(currencyPair)).getBids(), currencyPair, "bid", "");
+        .adaptOrders(orderbook.getBids(), currencyPair, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
@@ -102,7 +104,8 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    String pairs = DSXAdapters.getPair(currencyPair);
+    String marketName = DSXAdapters.currencyPairToMarketName(currencyPair);
+
     int numberOfItems = -1;
     try {
       if (args != null) {
@@ -123,9 +126,9 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
     }
 
     if (numberOfItems == -1) {
-      dsxTrades = getDSXTrades(pairs, FULL_SIZE, accountType).getTrades(DSXAdapters.getPair(currencyPair));
+      dsxTrades = getDSXTrades(marketName, FULL_SIZE, accountType).getTrades(marketName);
     } else {
-      dsxTrades = getDSXTrades(pairs, numberOfItems, accountType).getTrades(DSXAdapters.getPair(currencyPair));
+      dsxTrades = getDSXTrades(marketName, numberOfItems, accountType).getTrades(marketName);
     }
     return DSXAdapters.adaptTrades(dsxTrades, currencyPair);
   }
