@@ -39,7 +39,7 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw implem
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      return withdrawCrypto(defaultWithdrawFundsParams.address, defaultWithdrawFundsParams.amount, defaultWithdrawFundsParams.currency);
+      return withdrawCrypto(defaultWithdrawFundsParams.getAddress(), defaultWithdrawFundsParams.getAmount(), defaultWithdrawFundsParams.getCurrency());
     }
     throw new IllegalStateException("Cannot process " + params);
   }

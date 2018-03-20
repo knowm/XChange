@@ -39,7 +39,7 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
     // 20 is the maximum page size
     KucoinCoinBalances balancesInfo = getKucoinBalances(20, 1).getData();
     balances.addAll(balancesInfo.getBalances());
-    for (int page = 2; page < balancesInfo.getPageNos(); page++) {
+    for (int page = 2; page <= balancesInfo.getPageNos(); page++) {
       balances.addAll(getKucoinBalances(20, page).getData().getBalances());
     }
     return KucoinAdapters.adaptAccountInfo(balances);
@@ -56,7 +56,7 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
       throw new ExchangeException("Need DefaultWithdrawFundsParams to apply for withdrawal!");
     }
     DefaultWithdrawFundsParams defParams = (DefaultWithdrawFundsParams) params;
-    return withdrawalApply(defParams.currency, defParams.amount, defParams.address).getCode();
+    return withdrawalApply(defParams.getCurrency(), defParams.getAmount(), defParams.getAddress()).getCode();
   }
 
   @Override

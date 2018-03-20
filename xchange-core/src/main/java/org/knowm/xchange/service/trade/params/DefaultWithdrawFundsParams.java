@@ -27,9 +27,26 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
     this.commission = commission;
   }
 
+  public String getAddress() {
+    return address;
+  }
+
+  public Currency getCurrency() {
+    return currency;
+  }
+
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  @Nullable
+  public BigDecimal getCommission() {
+    return commission;
+  }
+
   @Override
   public String toString() {
-    return "DefaultWithdrawFundsParams{" + "address='" + address + '\'' + ", currency=" + currency + ", amount=" + amount + ", commission="
-        + commission + '}';
+    return "DefaultWithdrawFundsParams{" + "address='" + getAddress() + '\'' + ", currency=" + getCurrency() + ", amount=" + getAmount() + ", commission="
+        + getCommission() + '}';
   }
 }

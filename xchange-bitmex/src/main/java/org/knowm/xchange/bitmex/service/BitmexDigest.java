@@ -3,8 +3,8 @@ package org.knowm.xchange.bitmex.service;
 import java.util.Base64;
 
 import javax.ws.rs.HeaderParam;
+import javax.xml.bind.DatatypeConverter;
 
-import org.apache.commons.codec.binary.Hex;
 import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.RestInvocation;
@@ -50,7 +50,7 @@ public class BitmexDigest extends BaseParamsDigest {
     String path = restInvocation.getInvocationUrl().split(restInvocation.getBaseUrl())[1];
     String payload = restInvocation.getHttpMethod() + "/" + path + nonce + restInvocation.getRequestBody();
 
-    return new String(Hex.encodeHex(getMac().doFinal(payload.getBytes())));
+    return DatatypeConverter.printHexBinary(getMac().doFinal(payload.getBytes())).toLowerCase();
   }
 
 }

@@ -16,7 +16,7 @@ public class KucoinDealOrder {
   private BigDecimal volume;
 
   public KucoinDealOrder(Long timestamp, KucoinOrderType orderType, BigDecimal price, BigDecimal amount, BigDecimal volume) {
-    super();
+
     this.timestamp = timestamp;
     this.orderType = orderType;
     this.price = price;
