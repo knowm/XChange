@@ -25,6 +25,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * <p>
  * XChange service to provide the following to {@link org.knowm.xchange.Exchange}:
@@ -38,9 +40,9 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   /**
    * Constructor
    */
-  public ANXAccountService(Exchange exchange) {
+  public ANXAccountService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override
@@ -100,12 +102,12 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
 
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
-      return withdrawFunds(rippleWithdrawFundsParams.currency, rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address,
-          rippleWithdrawFundsParams.tag);
+      return withdrawFunds(rippleWithdrawFundsParams.getCurrency(), rippleWithdrawFundsParams.getAmount(), rippleWithdrawFundsParams.getAddress(),
+          rippleWithdrawFundsParams.getTag());
     }
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }

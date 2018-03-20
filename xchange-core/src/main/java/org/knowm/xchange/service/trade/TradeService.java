@@ -14,6 +14,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -111,7 +112,9 @@ public interface TradeService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  boolean cancelOrder(String orderId) throws IOException;
+  default boolean cancelOrder(String orderId) throws IOException {
+    return cancelOrder(new DefaultCancelOrderParamId(orderId));
+  }
 
   /**
    * cancels order with matching orderParams

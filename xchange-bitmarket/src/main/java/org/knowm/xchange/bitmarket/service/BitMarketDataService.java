@@ -10,6 +10,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * @author kpysniak
  */
@@ -20,9 +22,9 @@ public class BitMarketDataService extends BitMarketDataServiceRaw implements Mar
    *
    * @param exchange
    */
-  public BitMarketDataService(Exchange exchange) {
+  public BitMarketDataService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override

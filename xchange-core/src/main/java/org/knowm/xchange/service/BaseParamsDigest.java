@@ -1,15 +1,15 @@
 package org.knowm.xchange.service;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import net.iharder.Base64;
 import si.mazi.rescu.ParamsDigest;
 
 public abstract class BaseParamsDigest implements ParamsDigest {
@@ -81,11 +81,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
   }
 
   protected static byte[] decodeBase64(String secretKey) {
-    try {
-      return Base64.decode(secretKey);
-    } catch (IOException e) {
-      throw new RuntimeException("Can't decode secret key as Base 64", e);
-    }
+    return Base64.getDecoder().decode(secretKey);
   }
 
   protected Mac getMac() {

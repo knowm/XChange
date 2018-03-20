@@ -56,13 +56,13 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams xrpParams = (RippleWithdrawFundsParams) params;
 
-      return withdraw(xrpParams.currency, xrpParams.amount, xrpParams.address, xrpParams.tag);
+      return withdraw(xrpParams.getCurrency(), xrpParams.getAmount(), xrpParams.getAddress(), xrpParams.getTag());
     }
 
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
 
-      return withdraw(defaultParams.currency, defaultParams.amount, defaultParams.address, null);
+      return withdraw(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(), null);
     }
 
     throw new IllegalStateException("Don't know how to withdraw: " + params);

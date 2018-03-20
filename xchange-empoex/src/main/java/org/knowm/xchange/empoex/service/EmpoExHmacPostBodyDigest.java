@@ -1,12 +1,12 @@
 package org.knowm.xchange.empoex.service;
 
 import java.math.BigInteger;
+import java.util.Base64;
 
 import javax.crypto.Mac;
 
 import org.knowm.xchange.service.BaseParamsDigest;
 
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
 
 public class EmpoExHmacPostBodyDigest extends BaseParamsDigest {
@@ -32,7 +32,7 @@ public class EmpoExHmacPostBodyDigest extends BaseParamsDigest {
 
     String postBody = restInvocation.getRequestBody();
     Mac mac = getMac();
-    mac.update(Base64.encodeBytes(postBody.getBytes()).getBytes());
+    mac.update(Base64.getEncoder().encodeToString(postBody.getBytes()).getBytes());
 
     return String.format("%096x", new BigInteger(1, mac.doFinal()));
   }

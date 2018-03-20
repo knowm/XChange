@@ -47,7 +47,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      GDAXWithdrawCryptoResponse response = withdrawCrypto(defaultParams.address, defaultParams.amount, defaultParams.currency);
+      GDAXWithdrawCryptoResponse response = withdrawCrypto(defaultParams.getAddress(), defaultParams.getAmount(), defaultParams.getCurrency());
       return response.id;
     }
 

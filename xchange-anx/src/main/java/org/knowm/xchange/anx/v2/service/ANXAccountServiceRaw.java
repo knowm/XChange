@@ -29,7 +29,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.utils.Assert;
 
 import si.mazi.rescu.HttpStatusIOException;
-import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.IRestProxyFactory;
 
 public class ANXAccountServiceRaw extends ANXBaseService {
 
@@ -39,12 +39,12 @@ public class ANXAccountServiceRaw extends ANXBaseService {
   /**
    * Constructor
    */
-  protected ANXAccountServiceRaw(Exchange exchange) {
+  protected ANXAccountServiceRaw(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
     super(exchange);
 
     Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
-    this.anxV2 = RestProxyFactory.createProxy(ANXV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.anxV2 = restProxyFactory.createProxy(ANXV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.signatureCreator = ANXV2Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 

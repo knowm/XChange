@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.QueryParam;
+import javax.xml.bind.DatatypeConverter;
 
-import org.apache.commons.codec.binary.Hex;
 import org.knowm.xchange.kucoin.KucoinAuthenticated;
 import org.knowm.xchange.service.BaseParamsDigest;
 
@@ -39,8 +39,7 @@ public class KucoinDigest extends BaseParamsDigest {
     // https://kucoinapidocs.docs.apiary.io/#introduction/authentication/signature-calculation
     String endpoint = "/" + restInvocation.getPath(); // needs leading slash
     String queryString = restInvocation.getParamsMap().get(QueryParam.class).asHttpHeaders().entrySet().stream()
-                                       .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey())).map(e -> e.getKey() + "=" + e.getValue())
-                                       .collect(Collectors.joining("&"));
+        .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey())).map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining("&"));
     Long nonce = (Long) restInvocation.getParamValue(HeaderParam.class, KucoinAuthenticated.HEADER_NONCE);
     String strForSign = endpoint + "/" + nonce + "/" + queryString;
     Mac mac = getMac();
@@ -49,6 +48,6 @@ public class KucoinDigest extends BaseParamsDigest {
     } catch (IllegalStateException | UnsupportedEncodingException e1) {
       throw new RuntimeException(e1.getMessage());
     }
-    return new String(Hex.encodeHex(mac.doFinal()));
+    return DatatypeConverter.printHexBinary(mac.doFinal()).toLowerCase();
   }
 }

@@ -14,6 +14,8 @@ import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -31,16 +33,20 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-
-    return withdrawFundsRaw(currency, amount, address, null);
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-
-    if (params instanceof DefaultWithdrawFundsParams) {
+    if (params instanceof MoneroWithdrawFundsParams) {
+      MoneroWithdrawFundsParams moneroWithdrawFundsParams = (MoneroWithdrawFundsParams) params;
+      return withdrawFundsRaw(moneroWithdrawFundsParams.getCurrency(), moneroWithdrawFundsParams.getAmount(), moneroWithdrawFundsParams.getAddress(), moneroWithdrawFundsParams.getPaymentId());
+    } else if (params instanceof RippleWithdrawFundsParams) {
+      RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
+      return withdrawFundsRaw(rippleWithdrawFundsParams.getCurrency(), rippleWithdrawFundsParams.getAmount(), rippleWithdrawFundsParams.getAddress(), rippleWithdrawFundsParams.getTag());
+    } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFundsRaw(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(), null);
     }
 
     throw new IllegalStateException("Don't know how to withdraw: " + params);

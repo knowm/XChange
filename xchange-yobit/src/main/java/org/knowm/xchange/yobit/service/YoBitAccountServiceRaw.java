@@ -64,8 +64,8 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit> imp
 
     BaseYoBitResponse response = service
         .withdrawCoinsToAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "WithdrawCoinsToAddress",
-            exchange.getNonceFactory(), defaultWithdrawFundsParams.currency.getCurrencyCode(), defaultWithdrawFundsParams.amount,
-            defaultWithdrawFundsParams.address);
+            exchange.getNonceFactory(), defaultWithdrawFundsParams.getCurrency().getCurrencyCode(), defaultWithdrawFundsParams.getAmount(),
+            defaultWithdrawFundsParams.getAddress());
 
     if (!response.success)
       throw new ExchangeException("failed to withdraw funds");

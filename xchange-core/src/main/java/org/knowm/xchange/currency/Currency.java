@@ -211,6 +211,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency SOS = createCurrency("SOS", "Somali Shilling", null);
   public static final Currency SRD = createCurrency("SRD", "Surinamese Dollar", null);
   public static final Currency START = createCurrency("START", "startcoin", null);
+  public static final Currency STEEM = createCurrency("STEEM", "Steem", null);
   public static final Currency STD = createCurrency("STD", "São Tomé and Príncipe Dobra", null);
   public static final Currency STR = createCurrency("STR", "Stellar", null);
   public static final Currency STRAT = createCurrency("STRAT", "Stratis", null);
@@ -263,6 +264,10 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ZMK = createCurrency("ZMK", "Zambian Kwacha", null);
   public static final Currency ZRC = createCurrency("ZRC", "ziftrCOIN", null);
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
+
+  //Bitmex futures settlement dates
+  public static final Currency H18 = createCurrency("H18", "March 30th, 2018", null);
+  public static final Currency M18 = createCurrency("M18", "June 30th, 2018", null);
 
   //Cryptos
   public static final Currency BNB = createCurrency("BNB", "Binance Coin", null);

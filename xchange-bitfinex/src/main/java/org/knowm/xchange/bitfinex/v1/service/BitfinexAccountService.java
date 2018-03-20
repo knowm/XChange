@@ -16,6 +16,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
@@ -69,11 +70,11 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
    * @param currency
    * @param amount
    * @param address
-   * @param tag
+   * @param tagOrPaymentId
    * @return
    * @throws IOException
    */
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address, String tag) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address, String tagOrPaymentId) throws IOException {
     //determine withdrawal type
     String type = BitfinexUtils.convertToBitfinexWithdrawalType(currency.toString());
     //Bitfinex withdeawal can be from different type of wallets    *
@@ -82,20 +83,30 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     //The wallet to withdraw from, can be “trading”, “exchange”, or “deposit”.
     String walletSelected = "exchange";
     //We have to convert XChange currencies to Bitfinex currencies: can be “bitcoin”, “litecoin” or “ether” or “tether” or “wire”.
-    return withdraw(type, walletSelected, amount, address, tag);
+    return withdraw(type, walletSelected, amount, address, tagOrPaymentId);
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof RippleWithdrawFundsParams) {
-      RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
-      return withdrawFunds(rippleWithdrawFundsParams.currency, rippleWithdrawFundsParams.amount, rippleWithdrawFundsParams.address,
-          rippleWithdrawFundsParams.tag);
-    }
-    if (params instanceof DefaultWithdrawFundsParams) {
+      RippleWithdrawFundsParams xrpParams = (RippleWithdrawFundsParams) params;
+      return withdrawFunds(
+          xrpParams.getCurrency(),
+          xrpParams.getAmount(),
+          xrpParams.getAddress(),
+          xrpParams.getTag());
+    } else if (params instanceof MoneroWithdrawFundsParams) {
+      MoneroWithdrawFundsParams xmrParams = (MoneroWithdrawFundsParams) params;
+      return withdrawFunds(
+          xmrParams.getCurrency(),
+          xmrParams.getAmount(),
+          xmrParams.getAddress(),
+          xmrParams.getPaymentId());
+    } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
+
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
