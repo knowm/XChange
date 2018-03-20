@@ -1,15 +1,5 @@
 package org.knowm.xchange.dsx;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
@@ -39,6 +29,16 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mikhail Wall
@@ -196,7 +196,11 @@ public class DSXAdapters {
 
     if (dsxExchangeInfo != null) {
       for (Entry<String, DSXPairInfo> e : dsxExchangeInfo.getPairs().entrySet()) {
-        CurrencyPair pair = adaptCurrencyPair(e.getKey());
+        String marketName = e.getKey();
+        //temp bodge (will remove) to deal with the metadata being out of sync with the market name for bitcoin cash
+        marketName = marketName.replaceFirst("bcc", "bch");
+
+        CurrencyPair pair = adaptCurrencyPair(marketName);
         CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue());
         currencyPairs.put(pair, marketMetaData);
 
