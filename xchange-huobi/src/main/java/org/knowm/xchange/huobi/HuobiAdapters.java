@@ -116,11 +116,13 @@ public class HuobiAdapters {
         OrderType orderType = adaptOrderType(openOrder.getType());
         CurrencyPair currencyPair = adaptCurrencyPair(openOrder.getSymbol());
         if (openOrder.isMarket()) {
-            order = new MarketOrder(orderType, openOrder.getAmount(), currencyPair);
+            order = new MarketOrder(orderType, openOrder.getAmount(), currencyPair, String.valueOf(openOrder.getId()),
+                                    openOrder.getCreatedAt(), null, openOrder.getFieldAmount(),
+                                    openOrder.getFieldFees(), null);
         }
         if (openOrder.isLimit()) {
-            order = new LimitOrder(orderType, openOrder.getAmount(), currencyPair, String.valueOf(openOrder.getId()),
-                    openOrder.getCreatedAt(), openOrder.getPrice());
+            order = new LimitOrder(orderType, openOrder.getAmount(), openOrder.getFieldAmount(), currencyPair,
+                                   String.valueOf(openOrder.getId()), openOrder.getCreatedAt(), openOrder.getPrice());
         }
         if (order != null) {
             order.setOrderStatus(adaptOrderStatus(openOrder.getState()));
