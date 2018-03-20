@@ -107,7 +107,7 @@ public class DSXAdapters {
     Date timestamp = DateUtils.fromMillisUtc(dSXTicker.getUpdated() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume)
-        .timestamp(timestamp).build();
+                               .timestamp(timestamp).build();
   }
 
   public static Wallet adaptWallet(DSXAccountInfo dsxAccountInfo) {
@@ -186,12 +186,13 @@ public class DSXAdapters {
     return pairs;
   }
 
-  public static String getPair(CurrencyPair currencyPair) {
+  public static String currencyPairToMarketName(CurrencyPair currencyPair) {
 
     String base = currencyPair.base.getCurrencyCode();
     String counter = currencyPair.counter.getCurrencyCode();
-
-    return (base + counter).toLowerCase();
+    String marketName = (base + counter).toLowerCase();
+    marketName = marketName.replace("bch", "bcc");//temp bodge while the exchange moves from bcc to bch
+    return marketName;
   }
 
   public static ExchangeMetaData toMetaData(DSXExchangeInfo dsxExchangeInfo, DSXMetaData dsxMetaData) {
@@ -245,7 +246,7 @@ public class DSXAdapters {
   }
 
   public static LimitOrder createLimitOrder(MarketOrder marketOrder, DSXExchangeInfo dsxExchangeInfo) {
-    DSXPairInfo dsxPairInfo = dsxExchangeInfo.getPairs().get(getPair(marketOrder.getCurrencyPair()));
+    DSXPairInfo dsxPairInfo = dsxExchangeInfo.getPairs().get(currencyPairToMarketName(marketOrder.getCurrencyPair()));
     BigDecimal limitPrice = marketOrder.getType() == OrderType.BID ? dsxPairInfo.getMaxPrice() : dsxPairInfo.getMinPrice();
     return LimitOrder.Builder.from(marketOrder).limitPrice(limitPrice).build();
   }
