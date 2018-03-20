@@ -107,7 +107,7 @@ public class DSXAdapters {
     Date timestamp = DateUtils.fromMillisUtc(dSXTicker.getUpdated() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume)
-                               .timestamp(timestamp).build();
+        .timestamp(timestamp).build();
   }
 
   public static Wallet adaptWallet(DSXAccountInfo dsxAccountInfo) {
@@ -161,9 +161,14 @@ public class DSXAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(String dsxCurrencyPair) {
-
     String currencyOne = dsxCurrencyPair.substring(0, 3);
+    if(currencyOne.equalsIgnoreCase("bcc"))
+      currencyOne = "bch";
+
     String currencyTwo = dsxCurrencyPair.substring(3, 6);
+    if(currencyTwo.equalsIgnoreCase("bcc"))
+      currencyTwo = "bch";
+
     return new CurrencyPair(currencyOne.toUpperCase(), currencyTwo.toUpperCase());
   }
 
@@ -197,8 +202,6 @@ public class DSXAdapters {
     if (dsxExchangeInfo != null) {
       for (Entry<String, DSXPairInfo> e : dsxExchangeInfo.getPairs().entrySet()) {
         String marketName = e.getKey();
-        //temp bodge (will remove) to deal with the metadata being out of sync with the market name for bitcoin cash
-        marketName = marketName.replaceFirst("bcc", "bch");
 
         CurrencyPair pair = adaptCurrencyPair(marketName);
         CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue());
