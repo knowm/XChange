@@ -44,7 +44,7 @@ public class DSXAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     DSXOrderbookWrapper dsxOrderbookWrapper = mapper.readValue(is, DSXOrderbookWrapper.class);
 
-    DSXOrderbook orderbookRaw = dsxOrderbookWrapper.getOrderbook(DSXAdapters.getPair(CurrencyPair.BTC_USD));
+    DSXOrderbook orderbookRaw = dsxOrderbookWrapper.getOrderbook(DSXAdapters.currencyPairToMarketName(CurrencyPair.BTC_USD));
     List<LimitOrder> asks = DSXAdapters.adaptOrders(orderbookRaw.getAsks(), CurrencyPair.BTC_USD, "ask", "");
 
     assertThat(asks.get(0).getType()).isEqualTo(Order.OrderType.ASK);
@@ -69,7 +69,7 @@ public class DSXAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     DSXTradesWrapper dsxTradesWrapper = mapper.readValue(is, DSXTradesWrapper.class);
 
-    Trades trades = DSXAdapters.adaptTrades(dsxTradesWrapper.getTrades(DSXAdapters.getPair(CurrencyPair.BTC_USD)), CurrencyPair.BTC_USD);
+    Trades trades = DSXAdapters.adaptTrades(dsxTradesWrapper.getTrades(DSXAdapters.currencyPairToMarketName(CurrencyPair.BTC_USD)), CurrencyPair.BTC_USD);
 
     assertThat(trades.getTrades().size() == 150);
 
@@ -91,8 +91,8 @@ public class DSXAdapterTest {
     DSXTickerWrapper dsxTickerWrapper = mapper.readValue(is, DSXTickerWrapper.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(dsxTickerWrapper.getTicker(DSXAdapters.getPair(CurrencyPair.BTC_USD)).getLast()).isEqualTo(new BigDecimal("101.773"));
-    Ticker ticker = DSXAdapters.adaptTicker(dsxTickerWrapper.getTicker(DSXAdapters.getPair(CurrencyPair.BTC_USD)), CurrencyPair.BTC_USD);
+    assertThat(dsxTickerWrapper.getTicker(DSXAdapters.currencyPairToMarketName(CurrencyPair.BTC_USD)).getLast()).isEqualTo(new BigDecimal("101.773"));
+    Ticker ticker = DSXAdapters.adaptTicker(dsxTickerWrapper.getTicker(DSXAdapters.currencyPairToMarketName(CurrencyPair.BTC_USD)), CurrencyPair.BTC_USD);
 
     assertThat(ticker.getLast().toString()).isEqualTo("101.773");
     assertThat(ticker.getLow().toString()).isEqualTo("91.14");
