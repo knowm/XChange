@@ -34,7 +34,8 @@ public class GeminiBaseService extends BaseExchangeService implements BaseServic
   }
 
   protected ExchangeException handleException(GeminiException e) {
-    if (e.getMessage().contains("due to insufficient funds"))
+    if (e.getMessage().contains("due to insufficient funds")
+            || e.getMessage().contains("you do not have enough available"))
       return new FundsExceededException(e);
 
     return new ExchangeException(e);
