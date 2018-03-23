@@ -44,7 +44,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     final BTCMarketsBalance[] expectedBtcMarketsBalances = expectedBtcMarketsBalances();
 
     // when
-    final BTCMarketsBalance[] response = parse("NullAvailabilityBalances", BTCMarketsBalance[].class);
+    final BTCMarketsBalance[] response = parse("org/knowm/xchange/btcmarkets/dto/"+"NullAvailabilityBalances", BTCMarketsBalance[].class);
 
     // then
     assertThat(response).hasSize(3);
@@ -65,7 +65,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   @Test
   public void shouldParseEmptyCancelOrderResponse() throws IOException {
     // when
-    final BTCMarketsCancelOrderResponse response = parse("EmptyCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
+    final BTCMarketsCancelOrderResponse response = parse("org/knowm/xchange/btcmarkets/dto/"+"EmptyCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
 
     // then
     assertThat(response.getSuccess()).isTrue();
@@ -76,7 +76,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   @Test
   public void shouldParseNullCancelOrderResponse() throws IOException {
     // when
-    final BTCMarketsCancelOrderResponse response = parse("NullCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
+    final BTCMarketsCancelOrderResponse response = parse("org/knowm/xchange/btcmarkets/dto/"+ "NullCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
 
     // then
     assertThat(response.getSuccess()).isTrue();
@@ -87,7 +87,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   @Test
   public void shouldParseCancelOrderResponseAsException() throws IOException {
     // when
-    final BTCMarketsException ex = parse("CancelOrderResponse", BTCMarketsException.class);
+    final BTCMarketsException ex = parse("org/knowm/xchange/btcmarkets/dto/"+"CancelOrderResponse", BTCMarketsException.class);
 
     // then
     assertThat(ex.getSuccess()).isTrue();
@@ -121,7 +121,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   @Test
   public void shouldParseFailedPlaceOrderResponseAsException() throws IOException {
     // when
-    final BTCMarketsException ex = parse("Error-PlaceOrderResponse", BTCMarketsException.class);
+    final BTCMarketsException ex = parse("org/knowm/xchange/btcmarkets/dto/"+"Error-PlaceOrderResponse", BTCMarketsException.class);
 
     // then
     assertThat(ex.getSuccess()).isFalse();
@@ -139,7 +139,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     final LimitOrder[] expectedBids = expectedBids();
 
     // when
-    final BTCMarketsOrderBook response = parse("ShortOrderBook", BTCMarketsOrderBook.class);
+    final BTCMarketsOrderBook response = parse("org/knowm/xchange/btcmarkets/dto/"+"ShortOrderBook", BTCMarketsOrderBook.class);
 
     // then
     assertThat(response.getCurrency()).isEqualTo("AUD");
