@@ -20,7 +20,7 @@ public class BTCTurkTradeTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCTurkTradeTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = BTCTurkTradeTest.class.getResourceAsStream("/org/knowm/xchange/btcturk/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

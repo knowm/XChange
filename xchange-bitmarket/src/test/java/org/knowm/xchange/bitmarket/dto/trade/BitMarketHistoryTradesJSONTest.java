@@ -16,7 +16,7 @@ public class BitMarketHistoryTradesJSONTest extends BitMarketDtoTestSupport {
   @Test
   public void testUnmarshal() throws IOException {
     // when
-    BitMarketHistoryTradesResponse response = parse("trade/example-history-trades-data", BitMarketHistoryTradesResponse.class);
+    BitMarketHistoryTradesResponse response = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-trades-data", BitMarketHistoryTradesResponse.class);
 
     // then
     BitMarketHistoryTrades trades = response.getData();

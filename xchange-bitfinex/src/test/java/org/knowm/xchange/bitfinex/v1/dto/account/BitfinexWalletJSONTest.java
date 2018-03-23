@@ -19,7 +19,7 @@ public class BitfinexWalletJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitfinexWalletJSONTest.class.getResourceAsStream("/v1/account/example-account-info-data.json");
+    InputStream is = BitfinexWalletJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitfinex/v1/dto/account/example-account-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

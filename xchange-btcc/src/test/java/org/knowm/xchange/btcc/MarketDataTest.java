@@ -18,7 +18,7 @@ public class MarketDataTest {
 
   @Test
   public void testTickerAdapter() throws Exception {
-    InputStream is = MarketDataTest.class.getResourceAsStream("/ticker.json");
+    InputStream is = MarketDataTest.class.getResourceAsStream("/org/knowm/xchange/btcc/ticker.json");
 
     ObjectMapper mapper = new ObjectMapper();
     TypeFactory t = TypeFactory.defaultInstance();

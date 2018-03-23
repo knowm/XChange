@@ -62,7 +62,7 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
   @Test
   public void shouldGetTicker() throws IOException {
     // given
-    BitMarketTicker response = parse("marketdata/example-ticker-data", BitMarketTicker.class);
+    BitMarketTicker response = parse("org/knowm/xchange/bitmarket/dto/marketdata/example-ticker-data", BitMarketTicker.class);
 
     when(bitMarket.getTicker("BTCAUD")).thenReturn(response);
 
@@ -77,7 +77,7 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
   public void shouldGetTrades() throws IOException {
     // given
     final Trade[] expectedTrades = expectedTrades();
-    BitMarketTrade[] response = parse("marketdata/example-trades-data", BitMarketTrade[].class);
+    BitMarketTrade[] response = parse("org/knowm/xchange/bitmarket/dto/marketdata/example-trades-data", BitMarketTrade[].class);
 
     when(bitMarket.getTrades("BTCAUD")).thenReturn(response);
 
@@ -95,7 +95,7 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
   @Test
   public void shouldGetOrderBook() throws IOException {
     // given
-    BitMarketOrderBook response = parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
+    BitMarketOrderBook response = parse("org/knowm/xchange/bitmarket/dto/marketdata/example-order-book-data", BitMarketOrderBook.class);
 
     when(bitMarket.getOrderBook("BTCAUD")).thenReturn(response);
 
