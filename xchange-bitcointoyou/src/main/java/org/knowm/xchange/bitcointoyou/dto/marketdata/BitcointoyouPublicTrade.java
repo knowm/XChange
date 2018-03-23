@@ -3,11 +3,9 @@ package org.knowm.xchange.bitcointoyou.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Generated;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -44,6 +42,39 @@ public class BitcointoyouPublicTrade {
     this.tid = tid;
     this.type = type;
     this.currency = currency;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof BitcointoyouPublicTrade)) return false;
+    BitcointoyouPublicTrade that = (BitcointoyouPublicTrade) o;
+    return Objects.equals(getDate(), that.getDate()) &&
+            Objects.equals(getPrice(), that.getPrice()) &&
+            Objects.equals(getAmount(), that.getAmount()) &&
+            Objects.equals(getTid(), that.getTid()) &&
+            Objects.equals(getType(), that.getType()) &&
+            Objects.equals(getCurrency(), that.getCurrency()) &&
+            Objects.equals(getAdditionalProperties(), that.getAdditionalProperties());
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(getDate(), getPrice(), getAmount(), getTid(), getType(), getCurrency(), getAdditionalProperties());
+  }
+
+  @Override
+  public String toString() {
+    return "BitcointoyouPublicTrade{" +
+            "date=" + date +
+            ", price=" + price +
+            ", amount=" + amount +
+            ", tid=" + tid +
+            ", type='" + type + '\'' +
+            ", currency='" + currency + '\'' +
+            ", additionalProperties=" + additionalProperties +
+            '}';
   }
 
   public Integer getDate() {
@@ -88,10 +119,4 @@ public class BitcointoyouPublicTrade {
     this.additionalProperties.put(name, value);
   }
 
-  @Override
-  public String toString() {
-
-    return new ToStringBuilder(this).append("date", date).append("price", price).append("amount", amount).append("tid", tid).append("type", type)
-                                    .append("currency", currency).append("additionalProperties", additionalProperties).toString();
-  }
 }
