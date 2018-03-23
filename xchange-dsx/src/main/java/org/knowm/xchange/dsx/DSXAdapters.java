@@ -1,15 +1,5 @@
 package org.knowm.xchange.dsx;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
@@ -39,6 +29,16 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mikhail Wall
@@ -161,9 +161,14 @@ public class DSXAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(String dsxCurrencyPair) {
-
     String currencyOne = dsxCurrencyPair.substring(0, 3);
+    if(currencyOne.equalsIgnoreCase("bcc"))
+      currencyOne = "bch";
+
     String currencyTwo = dsxCurrencyPair.substring(3, 6);
+    if(currencyTwo.equalsIgnoreCase("bcc"))
+      currencyTwo = "bch";
+
     return new CurrencyPair(currencyOne.toUpperCase(), currencyTwo.toUpperCase());
   }
 
@@ -181,12 +186,13 @@ public class DSXAdapters {
     return pairs;
   }
 
-  public static String getPair(CurrencyPair currencyPair) {
+  public static String currencyPairToMarketName(CurrencyPair currencyPair) {
 
     String base = currencyPair.base.getCurrencyCode();
     String counter = currencyPair.counter.getCurrencyCode();
-
-    return (base + counter).toLowerCase();
+    String marketName = (base + counter).toLowerCase();
+    marketName = marketName.replace("bch", "bcc");//temp bodge while the exchange moves from bcc to bch
+    return marketName;
   }
 
   public static ExchangeMetaData toMetaData(DSXExchangeInfo dsxExchangeInfo, DSXMetaData dsxMetaData) {
@@ -196,7 +202,9 @@ public class DSXAdapters {
 
     if (dsxExchangeInfo != null) {
       for (Entry<String, DSXPairInfo> e : dsxExchangeInfo.getPairs().entrySet()) {
-        CurrencyPair pair = adaptCurrencyPair(e.getKey());
+        String marketName = e.getKey();
+
+        CurrencyPair pair = adaptCurrencyPair(marketName);
         CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue());
         currencyPairs.put(pair, marketMetaData);
 
@@ -238,8 +246,9 @@ public class DSXAdapters {
   }
 
   public static LimitOrder createLimitOrder(MarketOrder marketOrder, DSXExchangeInfo dsxExchangeInfo) {
-    DSXPairInfo dsxPairInfo = dsxExchangeInfo.getPairs().get(getPair(marketOrder.getCurrencyPair()));
+    DSXPairInfo dsxPairInfo = dsxExchangeInfo.getPairs().get(currencyPairToMarketName(marketOrder.getCurrencyPair()));
     BigDecimal limitPrice = marketOrder.getType() == OrderType.BID ? dsxPairInfo.getMaxPrice() : dsxPairInfo.getMinPrice();
     return LimitOrder.Builder.from(marketOrder).limitPrice(limitPrice).build();
   }
+
 }
