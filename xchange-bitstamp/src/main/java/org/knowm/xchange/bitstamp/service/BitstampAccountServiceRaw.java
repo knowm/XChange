@@ -22,6 +22,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
+import org.knowm.xchange.exceptions.FundsExceededException;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -137,7 +138,10 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       if (response.hasError()) {
-        throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
+        if(response.toString().contains("You have only"))
+          throw new FundsExceededException(response.toString());
+        else
+          throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.toString());
       }
 
       return response;

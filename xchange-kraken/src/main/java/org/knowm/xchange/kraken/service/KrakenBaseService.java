@@ -74,7 +74,8 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
       } else if ("EGeneral:Temporary lockout".equals(error)) {
         throw new FrequencyLimitExceededException(error);
 
-      } else if ("EOrder:Insufficient funds".equals(error)) {
+      } else if ("EOrder:Insufficient funds".equals(error)
+            || "EFunding:Invalid amount".equals(error)) {
         throw new FundsExceededException(error);
       }
       if ("EAPI:Rate limit exceeded".equals(error)) {
