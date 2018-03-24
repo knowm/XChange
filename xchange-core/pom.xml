@@ -2,6 +2,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+            <version>${version.fasterxml}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+    </dependencies>
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
@@ -21,10 +38,10 @@
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
-    <!-- Parent provides default configuration for dependencies -->
+<!--    &lt;!&ndash; Parent provides default configuration for dependencies &ndash;&gt;
     <dependencies>
 
-        <!-- Third party dependencies -->
+        &lt;!&ndash; Third party dependencies &ndash;&gt;
 
         <dependency>
             <groupId>com.github.mmazi</groupId>
@@ -48,5 +65,5 @@
             <version>3.7</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+    </dependencies>-->
 </project>

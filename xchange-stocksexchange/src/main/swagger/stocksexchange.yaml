@@ -1,0 +1,1894 @@
+swagger: '2.0'
+info:
+  title: Stocks.Exchange
+  description: api
+  version: '2.0'
+host: stocks.exchange
+schemes:
+  - https
+basePath: /api2
+produces:
+  - application/json
+
+
+#  <!--The base URL for all the requests other than ticker is https://stocks.exchange/api2.
+#
+#       In order to use the API functions, you must have an API key and API secret, which is generated in the user profile.
+#
+#       Authentication
+#       Most of the calls described next require authentication. All those are POST requests that must be created according to the following steps:
+#
+#       Include a unique 'nonce' argument (numeric value).
+#       Include an 'method' argument set to the end point for the request.
+#       Represent the (key, value) pairs present in the request as JSON. Let SIGNDATA be the result of this step.
+#       Calculate the HMAC-SHA512 of SIGNDATA using your API secret.
+#       Create a 'Sign' header and set its value to the hexadecimal digest resulting from the HMAC-SHA512 calculation.
+#       Create a 'Key' header and set its value to your API key.
+#       Send a POST request with the parameter SIGNDATA.
+#       -->
+
+paths:
+  /GetInfo:
+    post:
+      summary: UserInfo
+      description: '\"Get information about your account. Return an overview of  1.    user email and username 2.    user sessions (active user sessions) 3.    funds ( available balance in all currencies) 4.    hold_funds ( balance in orders) 5.    wallets addresses ( numbers of wallets with exchange types) 6.    public keys (public key for each wallet if exist) 7.    Assets portfolio (funds, hold_funds, wallet address and public key for each asset) 8.    open orders ( count of open orders) 9.    server_time ( current server time)\"\"'
+      responses:
+        '200':
+          description: null
+          schema:
+             $ref: '#/definitions/userAccountInfoResult'
+
+        default:
+          description: Unexpected error
+  /ActiveOrders:
+    post:
+      summary: Price Estimates
+      description: Get information about active orders. Return an overview of 1.    order id (order id in database) 2.    pair (currency pair contained in order record) 3.    type (order type  buy or sell) 4.    amount (the amount that remains to implement) 5.    rate (order price) 6.    order indicate (indicates that your order or not) 7.    timestamp (order creation time)
+      parameters:
+        - name: pair
+          description: string to select an entry order currency pairs optional
+          type: string
+          default: ALL
+          
+        - name: from
+          description: an integer value that represent number of records to be skipped before output (optional)
+          
+        - name: count
+          description: 'an integer value that represents the number of records that you want to display (optional,'
+          maximum: 50
+          default: 50
+          
+        - name: from_id
+          description: 'an integer value which represent order_id, from which the output begins (optional)'
+          
+        - name: end_id
+          description: an integer value that represents order_id after which the output ends (optional)
+          
+        - name: order
+          description: 'string to select the sort type (optional,'
+          default: DESC 
+        - name: since
+          description: UNIX timestamp that represents the time after which the output begins (optional)
+          
+        - name: end
+          description: UNIX timestamp that represents the time after which the output ends (optional)
+          
+        - name: type
+          description: 'string to select the order type (optional,'
+          default: ALL
+          
+        - name: owner
+          description: 'string to select the order owner (optional,'
+          default: OWN
+          
+      responses:
+        '200':
+          schema:
+            type: object
+            $ref: '#/definitions/AccountInfoResult'
+        default:
+          description: Unexpected error
+  /Trade:
+    post:
+      summary: Trade
+      description: Create orders for the purchase and sale. Return an overview of 1.    funds (your wallet balance after operation) 2.    order_id (created order id)
+      parameters:
+        - name: start_latitude
+          in: query
+          description: Latitude component of start location.
+          required: true
+          type: number
+          format: double
+        - name: start_longitude
+          in: query
+          description: Longitude component of start location.
+          required: true
+          type: number
+          format: double
+        - name: customer_uuid
+          in: query
+          type: string
+          format: uuid
+          description: Unique customer identifier to be used for experience customization.
+        - name: product_id
+          in: query
+          type: string
+          description: Unique identifier representing a specific product for a given latitude & longitude.
+      responses:
+        '200':
+          description: An array of products
+          schema:
+            $ref: '#/definitions/Order'
+        default:
+          description: Unexpected error
+  /CancelOrder:
+    post:
+      summary: cancel an order
+      description: |
+        1.4. Cancel Order
+        Cancel selected order. Return an overview of:
+        1.    order_id (canceled order id)
+        2.    funds (your wallet balance after operation)
+        endpoint: CancelOrder
+        method: POST
+        params:
+        order_id: an integer value which represent canceled order_id
+      parameters:
+        name: order_id
+        description: an integer value which represent canceled order_id
+        type: integer
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Order'
+            type: object
+        default:
+          description: |
+            Method errors and their descriptions:
+            1.    Invalid Order ID â€“ an error occurs in the following cases: if the parameter is not a numeric value, the parameter is not included, order is not yours or order is closed
+            2.    Order Pair is disabled â€“ operations for this currency pair are currently closed
+            3.    Order Processed â€“ order is in processing
+  /TradeHistory:
+    post:
+      parameters:
+        - null
+        - name: pair
+          description: string to select an entry order currency pairs
+          default: ALL
+        - name: from
+          description: an integer value that represent number of records to be skipped before output (optional)
+          
+        - name: count
+          description: 'an integer value that represents the number of records that you want to display (optional,'
+          maximum: 50
+          default: 50
+          
+        - name: from_id
+          description: 'an integer value which represent order_id, from which the output begins (optional)'
+          
+        - name: end_id
+          
+          description: an integer value that represents order_id after which the output ends (optional)
+        - name: order
+          description: 'string to select the sort type (optional,'
+          default: DESC
+          
+        - name: since
+          
+          description: UNIX timestamp that represents the time after which the output begins (optional)
+        - name: end
+          
+          description: UNIX timestamp that represents the time after which the output ends (optional)
+        - name: status
+          
+          description: an integer value which represent order_status_id
+          default: 3
+        - name: owner
+          
+          description: 'string to select the order owner (optional,'
+          default: OWN
+      description: |-
+        The parameter pair can be  ALL ,  BTC_NXT , BTC_ET  or any other pair that available right now. You can see the list of all available pairs calling public method markets...
+        The parameter order can be one of  ASC  or  DESC. Please note that all orders are sorted by ID. The parameter owner can be one of  ALL  or   OWN .
+        Note, if you use parameters since or end parameter order will be set to ASC .
+        The parameter status can be one of  1,2,3,4. Here is the list with order status IDs and their descriptions PENDING â€“ 1 PROCESSING â€“ 2 FINISHED â€“ 3 CANCELED â€“ 4 Method errors and their descriptions: 1.    Invalid Currency Pair - one of the currencies is empty or contains invalid characters or currency pair is not available 2.    Invalid Currency Code - currency code is not present  in the list of available 3.    Invalid From: not a positive number â€“ parameter from is not a positive number 4.    Invalid Count: not a positive number â€“ parameter count is not a positive number 5.    Invalid From ID: not a positive number â€“ parameter from_id is not a positive number 6.    Invalid End ID: not a positive number â€“ parameter end_id is not a positive number 7.    Invalid Since: not a UNIX timestamp â€“ parameter since is not a valid UNIX timestamp 8.    Invalid End: not a UNIX timestamp â€“ parameter end is not a valid UNIX timestamp 9.    Invalid Status: not a positive number - parameter status is not a positive number Invalid Owner -  parameter owner is not equal to one of the available Example $client->trade_history() responses:
+        200: schema: $ref: 
+  /TransHistory:
+    post:
+      parameters:
+        - name: currency
+          description: 'string to select an entry deposit or withdrawal currency optional,'
+          default: ALL
+          
+        - name: from
+          description: an integer value that represent number of records to be skipped before output optional
+          
+        - name: count
+          description: 'an integer value that represents the number of records that you want to display optional,'
+          maximum: 50
+          default: 50
+          
+        - name: from_id
+          description: 'an integer value which represent deposit or withdrawal id, from which the output begins optional'
+          
+        - name: end_id
+          description: an integer value that represents deposit or withdrawal id after which the output ends optional
+          
+        - name: order
+          description: 'string to select the sort type optional,'
+          default: DESC
+          
+        - name: since
+          description: UNIX timestamp that represents the time after which the output begins optional
+          
+        - name: end
+          description: UNIX timestamp that represents the time after which the output ends optional
+          
+        - name: operation
+          description: 'string to select the operation type optional,'
+          default: ALL
+          
+        - name: status
+          description: 'an integer value which represent deposit or withdrawal status optional,'
+          default: FINISHED
+          
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/TransHistory'
+  /Grafic:
+    post:
+      summary: Get information about trade statistic
+      description: |-
+        1.7 Grafic Get information about trade statistic. Return an overview of 1.    orders currency pair 2.    start date (period start date) 3.    end date (period end date) 4.    count of page for static info in this period 5.    current page 6.    count of points per page 7.    an array with static records named graf Â·         the price of the first order in the current period Â·         the price of the last order in the current period Â·         the maximum price of the order in the current period Â·         the minimum price of the order in the current period
+
+        The parameter pair can be  BTC_NXT ,  BTC_ETH  or any other pair that available right now. You can see the list of all available pairs calling public method markets
+        The parameter order can be one of ASC  or  DESC . Please note that all orders are sorted by ID. Note, if you use parameters since or end parameter order will be set to  ASC .
+        The parameter interval can be one of 1D, 1M , 3M, 1Y. Here is a description for each interval parameter values 1D â€“ day 1M â€“ month 3M â€“ 3 month 1Y â€“ year The parameter count can be one of 10, 25 ,50, 100.
+        Method errors and their descriptions 1.    Invalid Currency Pair - one of the currencies is empty or contains invalid characters or currency pair is not available 2.    Invalid Currency Code - currency code is not present  in the list of available 3.    Selected Pair is disabled â€“ operations for this pair are currently closed 4.    Invalid Since  not a UNIX timestamp â€“ parameter since is not a valid UNIX timestamp 5.    Invalid End  not a UNIX timestamp â€“ parameter end is not a valid UNIX timestamp 6.    Invalid Page  not a positive number â€“ parameter page is not a positive number 7.    Invalid Count â€“ parameter count is not present  in the list of available
+        Example $client->grafic( BTC_ETH )
+      parameters:
+        - name: pair
+          description: string to select an entry currency pairs
+          default: \"ALL\"
+          type: string
+        - name: order
+          description: 'string to select the sort type optional,'
+          default: \"DESC\"
+          type: string
+        - name: since
+          description: 'UNIX timestamp that represents the time from which the output begins optional,'
+          type: number
+          default: the beginning of the month
+        - name: end
+          description: 'UNIX timestamp that represents the time after which the output ends optional,'
+          type: number
+          default: current time
+        - name: page
+          description: 'an integer value that represent the current page optional,'
+          default: 1
+          type: integer
+        - name: count
+          description: 'an integer value that represents the number of records that you want to display per page optional,'
+          maximum: 100
+          type: integer
+          default: 50
+        - name: interval
+          type: string
+          description: 'string that represent time interval by which values are grouped optional,'
+          default: \"1D\"
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Graf'
+  /Deposit:
+    post:
+      summary: Get information about your wallet to deposit funds
+      parameters:
+        - name: currency
+          description: string to select an entry deposit currency
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/DepositResult'
+  /Withdrawl:
+    post:
+      parameters:
+        - name: currency
+          type: string
+          description: string to select an entry deposit currency
+        - name: address
+          type: string
+          description: string to select the withdrawal address
+        - name: amount
+          type: string
+          description: |-
+            a positive float value which represent the amount that you want to withdraw
+            1.9 Withdraw Withdraw your funds. Return an overview of 1.    msg (operation comment) 2.    currency code (withdrawal currency code) 3.    amount (withdrawal amount) 4.    withdrawal fee (withdraw operation fee) 4.    withdrawal fee currency (withdrawal fee currency code) 5.    date (object that consist info about operation date) 6.    address (withdrawal address) 7. Payment id (optional) endpoint  Withdraw
+            The parameter currency can be  BTC ,  NXT   or any other currency that available right now. You can see the list of all available currencies calling public method currencies
+            Method errors and their descriptions 1.    Invalid Currency Code - currency code is not present  in the list of available 2.    Selected currency is disabled - operations for this currency are currently closed 3.    Withdrawal is disabled â€“  user can not witdraw 4.    You can not withdraw money until <<hold_period>>  â€“ You cann't withdraw money until min period is not pass 5.    The address field is required. â€“ parameter address is required 6.    The amount field is required. â€“ parameter amount is required 7.    The amount must be a number. â€“ parameter amount is not a positive number 8.    \"Address\"  The attribute must contain only letters and numbers 9.    You do not have enough <<currency_code>> â€“ no enough funds on your balance 10.  Minimum withdrawal amount is <<min_withdraw_amount>> <<currency_code>>  â€“  amount rezer than Minimum withdrawal amount 11.  Wrong address â€“  wrong address format  for NXT and Asset withdraw 12.  You do not have enough <<currency_code>>  on your <<currency_code>> balance to pay withdrawals fee â€“ for asset withdraw you must have some funds on your balance to pay withdraw fee Example $client->make_withdraw(\"NXT\", \"NXT-C59X-SZRV-V36P-62SW3\", 5)
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/WithdrawlResult'
+          examples:
+            '\"success\":1': null
+            \"data\":
+              '\"code\":\"NXT\"': null
+              '\"id\":17': null
+              '\"amount\":\"9\"': null
+              '\"address\":\"NXT-C59X-SZRV-V36P-62SW3\"': null
+              '\"withdrawal_fee\":\"1\"': null
+              '\"withdrawal_fee_currency\":\"NXT\"': null
+              '\"token\":\"jTJDhfAok4AbEW0rdLKqMDagKsOOLRe1yTlQsUqLoXIgDyiwEimbWXiJ7\"': null
+              \"date\":
+                '\"date\":\"2016-07-06 14:06:21.000000\"': null
+                '\"timezone_type\":3': null
+                '\"timezone\":\"UTC\"': null
+              '\"msg\":\" Message with confirmation sent to your email address\"': null
+  /GenerateWallets:
+    post:
+      parameters:
+        - name: currency
+          description: string to select an entry wallet currency
+      description: |-
+        1.10 Generate Wallets Generate currency wallet address. Return an overview of 1.    msg (operation comment) 2.    code (currency code) 3.    address (created address) 4.    public key (if need) 5. Payment id (if need)
+        The parameter currency can be \"BTC \", \"NXT \" or any other currency that available right now. You can see the list of all available currencies calling public method currencies
+        Method errors and their descriptions 1.    Invalid Currency Code - currency code is not present  in the list of available 2.    Selected Currency is disabled - operations for this currency are currently closed 3.    Already have an wallet address - you already have an wallet address, so you need to use it before creating a new one 4.    Creation address for <<currency_code>> failed â€“ an error when create a wallet address Example $client->generate_wallets()
+      responses:
+        '200':
+          description: null
+          schema:
+            $ref: '#/definitions/WalletCreation'
+  /Ticket:
+    post:
+      parameters:
+        - name: category
+          description: an integer value which represent   ticket_category_id
+        - name: subject
+          description: string
+        - name: message
+          description: string
+      description: |-
+        1.11 Ticket Create ticket. Return an overview of 1. msg (operation comment) 2. ticket id (ticket id in database) 3. subject 4. ticket category id (category id for tickets in database) 5. ticket status id (status id for tickets in database) 6. ticket message (text message of ticket)
+        The parameter category can be one of 1. Order Problem 2. Deposit Problem 3. Withdrawal Problem 4. Dividend Problem 5. Other
+        The value of status can be one of 1. Awaiting Support Response 2. Awaiting Customer Response 3. Closed
+        Method errors and their descriptions 1. The ticket category id field is required â€“ parameter category is required 2. The subject field is required - parameter subject is required 3. The message field is required - parameter message is required
+        Example $client->create_tickets() Result { \"success\":1, \"data\":{ \"msg\":\"Ticket created\", \"ticket_id\":\"3\", \"subject\":\"Cannâ€™t get deposit\", \"ticket_category_id\":\"2\", \"ticket_status_id\":\"1\", \"message\":\"Cannâ€™t get deposit to my ETH wallet\" } }
+      responses:
+        '200':
+          description: null
+          schema:
+            $ref: '#/definitions/TicketResult'
+  /GetTickets:
+    post:
+      summary: gets Tickets
+      operationId: Tickets
+      parameters:
+        - name: ticket
+          description: an integer value which represent   ticket_id
+        - name: category
+          description: an integer value which represent   ticket_category_id
+        - name: status
+          description: an integer value which represent   ticket_status_id
+      description: |-
+        1.12 Get Tickets Get tickets. Return an overview of 1. ticket id (ticket id in database) 2. ticket category id (category id for tickets in database) 3. ticket status id (status id for tickets in database) 4. ticket message 4.1. text (text message of ticket) 4.2. date (date of created messages)
+        All parameters can be empty. The parameter category can be one of 1. Order Problem 2. Deposit Problem 3. Withdrawal Problem 4. Dividend Problem 5. Other The parameter of status can be one of 1. Awaiting Support Response 2. Awaiting Customer Response 3. Closed
+        Method errors and their descriptions 1. Invalid Ticket id â€“ parameter ticket is not a positive number
+        Example $client->get_tickets()
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/SESimpleData'
+  /ReplyTicket:
+    post:
+      summary: ReplyTicket
+      operationId: ReplyTicket
+      parameters:
+        - name: ticket_id
+          description: an integer value which represent   ticket_id
+        - name: message
+          description: string
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/TicketResponse'
+          description: |-
+            Method errors and their descriptions 1. Invalid Ticket id â€“ parameter ticket is not a positive number 2. Ticket is closed â€“ ticket with id have status closed 3. Ticket dosnâ€™t exist â€“ ticket with id does not exist 4. The message field is required - parameter message is required
+            Example $client->reply_tickets()
+            Result { \"success\":1, \"data\":{ \"msg\":\"Ticket reply created\", \"ticket_massage_id\":\"6\" } }
+  /currencies:
+    get:
+      summary: currencies list
+      responses:
+        '200':
+          description: null
+          schema:
+            $ref: '#/definitions/Currencies'
+          examples:
+            - '\"currency\":\"BTC\"': null
+              '\"active\":true': null
+              '\"precision\":8': null
+              '\"api_precision\":8': null
+              '\"minimum_withdrawal_amount\":\"0.01000000\"': null
+              '\"minimum_deposit_amount\":\"0.01000000\"': null
+              '\"calculated_balance\":\"0\"': null
+              '\"deposit_fee_currency\":\"BTC\"': null
+              '\"deposit_fee_const\":0': null
+              '\"deposit_fee_percent\":0': null
+              '\"withdrawal_fee_currency\":\"BTC\"': null
+              '\"withdrawal_fee_const\":0': null
+              '\"withdrawal_fee_percent\":\"0.50000000\"': null
+              '\"currency_long\":\"Bitcoin\"': null
+            - '\"currency\":\"NXT\"': null
+              '\"active\":true': null
+              '\"precision\":3': null
+              '\"api_precision\":8': null
+              '\"minimum_withdrawal_amount\":\"5.00000000\"': null
+              '\"minimum_deposit_amount\":\"5.00000000\"': null
+              '\"calculated_balance\":\"10\"': null
+              '\"deposit_fee_currency\":\"NXT\"': null
+              '\"deposit_fee_const\":\"1.00000000\"': null
+              '\"deposit_fee_percent\":0': null
+              '\"withdrawal_fee_currency\":\"NXT\"': null
+              '\"withdrawal_fee_const\":\"1.00000000\"': null
+              '\"withdrawal_fee_percent\":0': null
+              '\"currency_long\":\"Next\"': null
+  /Markets:
+    get:
+      summary: Get all available currency pairs with additional info.
+      description: |-
+        Get all available currency pairs with additional info. Return an overview of 1.    currency (currency code) 2.    partner (partner currency code) 3.    currency long (currency long name) 4.    partner long (partner currency long name) 5.    min order amount (minimum order amount) 6.    min buy price (minimum buy price) 7.    min sell price (minimum sell price) 9.    buy fee percent (fee by percent for buying) 10.    sell fee percent (fee by percent for selling) 11.    active (active market or not active) 12.    currency precision 13.    partner precision (partner currency precision) 14.    market name
+        base url https://stocks.exchange/api2/markets
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Market'
+          examples:
+            - '\"currency\":\"BTC\"': null
+              '\"partner\":\"USD\"': null
+              '\"currency_long\":\"Bitcoin\"': null
+              '\"partner_long\":\"USD\"': null
+              '\"min_order_amount\":1.000000': null
+              '\"min_buy_price\":0': null
+              '\"min_sell_price\":0': null
+              '\"buy_fee_percent\":0.002': null
+              '\"sell_fee_percent\":0.002': null
+              '\"active\":false': null
+              '\"currency_precision\":8': null
+              '\"partne_precision\":3': null
+              '\"market_name\":\"BTC_USD\"': null
+            - '\"currency\":\"BTC\"': null
+              '\"partner\":\"NXT\"': null
+              '\"currency_long\":\"Bitcoin\"': null
+              '\"partner_long\":\"Next\"': null
+              '\"min_order_amount\":1.000000': null
+              '\"min_buy_price\":0': null
+              '\"min_sell_price\":0': null
+              '\"buy_fee_percent\":0.002': null
+              '\"sell_fee_percent\":0.002': null
+              '\"active\":true': null
+              '\"currency_precision\":8': null
+              '\"partne_precision\":8': null
+              '\"market_name\":\"BTC_NXT\"': null
+  '/market_summary/{currency1}/{currency2}':
+    get:
+      description: 1.3 Market summary Get currency pair with additional info. Return an overview of 1.    currency (currency code) 2.    partner (partner currency code) 3.    currency long (currency long name) 4.    partner long (partner currency long name) 5.    min order amount (minimum order amount) 6.    min buy price (minimum buy price) 7.    min sell price (minimum sell price) 9.    buy fee percent (fee by percent for buying) 10.    sell fee percent (fee by percent for selling) 11.    active (active market or not active) 12.    currency precision 13.    partner precision (partner currency precision) 14.    market name
+      parameters:
+        - name: currency1
+          in: path
+          type: string
+          required: true
+          description: string to select first currency
+        - name: currency2
+          in: path
+          type: string
+          required: true
+          description: string to select second currency
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/MarketSummary'
+  /ticker:
+    get:
+      description: |-
+        1.4 Ticker Use it to get the recommended retail exchange rates for all currency pairs. Return an overview of 1.    min order amount 2.    ask (highest buy) 3.    bid (lowest sell) 4.    last 5.    last day ago 6.    volume 24 h 7.    spread 8.    buy fee percent (fee by percent for buying) 9.    sell fee percent (fee by percent for selling) 10.    market name 11.    updated time 12.    server time
+        base url https://stocks.exchange/api2 method GET
+        Example $client->ticker()
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Ticker'
+definitions:
+  AccountInfo:
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data: null
+      $id: /properties/data
+      type: object
+      properties:
+        email:
+          $id: /properties/data/properties/email
+          type: string
+          title: The Email Schema
+          description: An explanation about the purpose of this instance.
+          default: ''
+          examples:
+            - some_email@gmail.com
+        username:
+          $id: /properties/data/properties/username
+          type: string
+          title: The Username Schema
+          description: An explanation about the purpose of this instance.
+          default: ''
+          examples:
+            - some_username
+        userSessions:
+          $id: /properties/data/properties/userSessions
+          type: array
+          items:
+            $id: /properties/data/properties/userSessions/items
+            type: object
+            properties:
+              ip:
+                $id: /properties/data/properties/userSessions/items/properties/ip
+                type: string
+                title: The Ip Schema
+                description: An explanation about the purpose of this instance.
+                default: ''
+                examples:
+                  - 46.164.189.25
+              date:
+                $id: /properties/data/properties/userSessions/items/properties/date
+                type: string
+                title: The Date Schema
+                description: An explanation about the purpose of this instance.
+                default: ''
+                examples:
+                  - '2016-06-29 15:41:21'
+              created_at:
+                $id: /properties/data/properties/userSessions/items/properties/created_at
+                type: string
+                title: The Created_at Schema
+                description: An explanation about the purpose of this instance.
+                default: ''
+                examples:
+                  - '2016-06-28 20:30:28'
+              active:
+                $id: /properties/data/properties/userSessions/items/properties/active
+                type: boolean
+                title: The Active Schema
+                description: An explanation about the purpose of this instance.
+                default: false
+                examples:
+                  - false
+        funds:
+          $id: /properties/data/properties/funds
+          type: object
+        hold_funds:
+          $id: /properties/data/properties/hold_funds
+          type: object
+        wallets_addresses:
+          $id: /properties/data/properties/wallets_addresses
+          type: object
+        publick_key:
+          $id: /properties/data/properties/publick_key
+          type: object
+        Assets portfolio:
+          $id: /properties/data/properties/Assets portfolio
+          type: object
+          properties:
+            portfolio_price:
+              $id: /properties/data/properties/Assets portfolio/properties/portfolio_price
+              type: integer
+              title: The Portfolio_price Schema
+              description: An explanation about the purpose of this instance.
+              default: 0
+              examples:
+                - 0
+            frozen_portfolio_price:
+              $id: /properties/data/properties/Assets portfolio/properties/frozen_portfolio_price
+              type: integer
+              title: The Frozen_portfolio_price Schema
+              description: An explanation about the purpose of this instance.
+              default: 0
+              examples:
+                - 0
+            count:
+              $id: /properties/data/properties/Assets portfolio/properties/count
+              type: integer
+              title: The Count Schema
+              description: An explanation about the purpose of this instance.
+              default: 0
+              examples:
+                - 1
+            assets:
+              $id: /properties/data/properties/Assets portfolio/properties/assets
+              type: array
+              items:
+                $id: /properties/data/properties/Assets portfolio/properties/assets/items
+                type: object
+                properties:
+                  wallets_adress:
+                    $id: /properties/data/properties/Assets portfolio/properties/assets/items/properties/wallets_adress
+                    type: string
+                    title: The Wallets_adress Schema
+                    description: An explanation about the purpose of this instance.
+                    default: ''
+                    examples:
+                      - NXT-XXXX-XXXX-XXXX-XXXXX
+                  publick_key:
+                    $id: /properties/data/properties/Assets portfolio/properties/assets/items/properties/publick_key
+                    type: string
+                    title: The Publick_key Schema
+                    description: An explanation about the purpose of this instance.
+                    default: ''
+                    examples:
+                      - XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                  funds:
+                    $id: /properties/data/properties/Assets portfolio/properties/assets/items/properties/funds
+                    type: string
+                    title: The Funds Schema
+                    description: An explanation about the purpose of this instance.
+                    default: ''
+                    examples:
+                      - '100'
+        open_orders:
+          $id: /properties/data/properties/open_orders
+          type: integer
+          title: The Open_orders Schema
+          description: An explanation about the purpose of this instance.
+          default: 0
+          examples:
+            - 0
+        server_time:
+          $id: /properties/data/properties/server_time
+          type: integer
+          title: The Server_time Schema
+          description: An explanation about the purpose of this instance.
+          default: 0
+          examples:
+            - 1463346756
+  SESimpleData:
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data:
+        $id: /properties/data
+        type: object
+  Order:
+    type: object
+    properties:
+      success:
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data:
+        type: object
+        properties:
+          funds:
+            $id: /properties/data/properties/funds
+            type: object
+          order_id:
+            $id: /properties/data/properties/order_id
+            type: integer
+            title: The Order_id Schema
+            description: An explanation about the purpose of this instance.
+            default: 0
+            examples:
+              - 5616820
+  Tx:
+    properties:
+      Currency:
+        $id: /properties/data/properties/DEPOSIT/properties/112/properties/Currency
+        type: string
+        title: The Currency Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - NXT
+      Amount:
+        $id: /properties/data/properties/DEPOSIT/properties/112/properties/Amount
+        type: string
+        title: The Amount Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '10'
+      Deposit_fee:
+        $id: /properties/data/properties/DEPOSIT/properties/112/properties/Deposit_fee
+        type: string
+        title: The Deposit_fee Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - 2NXT
+      TX_id:
+        $id: /properties/data/properties/DEPOSIT/properties/112/properties/TX_id
+        type: string
+        title: The Tx_id Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '4992090663590407388'
+      Address:
+        $id: /properties/data/properties/DEPOSIT/properties/112/properties/TX_id
+        type: string
+        title: The Tx_id Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        required:
+          - false
+        examples:
+          - '4992090663590407388'
+      Status:
+        $id: /properties/data/properties/DEPOSIT/properties/112/properties/Status
+        type: string
+        title: The Status Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - Finished
+      Date:
+        $id: /properties/data/properties/DEPOSIT/properties/112/properties/Date
+        type: integer
+        title: The Date Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1461360604
+  TransHistory:
+    type: object
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data:
+        $id: /properties/data
+        type: object
+        properties:
+          DEPOSIT:
+            $id: /properties/data/properties/DEPOSIT
+            type: object
+            required:
+              - false
+          WITHDRAWAL:
+            $id: /properties/data/properties/WITHDRAWAL
+            type: object
+            required:
+              - false
+  Graf:
+    type: object
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data:
+        $id: /properties/data
+        type: object
+        properties:
+          pair:
+            $id: /properties/data/properties/pair
+            type: string
+            title: The Pair Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - BTC_ETH
+          since:
+            $id: /properties/data/properties/since
+            type: string
+            title: The Since Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - '2016-05-01 00:00:00'
+          end:
+            $id: /properties/data/properties/end
+            type: string
+            title: The End Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - '2016-07-01 00:01:15'
+          count_pages:
+            $id: /properties/data/properties/count_pages
+            type: integer
+            title: The Count_pages Schema
+            description: An explanation about the purpose of this instance.
+            default: 0
+            examples:
+              - 3
+          count:
+            $id: /properties/data/properties/count
+            type: string
+            title: The Count Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - '2'
+          current_page:
+            $id: /properties/data/properties/current_page
+            type: integer
+            title: The Current_page Schema
+            description: An explanation about the purpose of this instance.
+            default: 0
+            examples:
+              - 1
+          graf:
+            $id: /properties/data/properties/graf
+            type: array
+            items:
+              $id: /properties/data/properties/graf/items
+              type: object
+              properties:
+                open:
+                  $id: /properties/data/properties/graf/items/properties/open
+                  type: string
+                  title: The Open Schema
+                  description: An explanation about the purpose of this instance.
+                  default: ''
+                  examples:
+                    - '5350.50000000'
+                close:
+                  $id: /properties/data/properties/graf/items/properties/close
+                  type: string
+                  title: The Close Schema
+                  description: An explanation about the purpose of this instance.
+                  default: ''
+                  examples:
+                    - '5358.70000000'
+                low:
+                  $id: /properties/data/properties/graf/items/properties/low
+                  type: string
+                  title: The Low Schema
+                  description: An explanation about the purpose of this instance.
+                  default: ''
+                  examples:
+                    - '5320.90000000'
+                high:
+                  $id: /properties/data/properties/graf/items/properties/high
+                  type: string
+                  title: The High Schema
+                  description: An explanation about the purpose of this instance.
+                  default: ''
+                  examples:
+                    - '5361.00000000'
+                date:
+                  $id: /properties/data/properties/graf/items/properties/date
+                  type: string
+                  title: The Date Schema
+                  description: An explanation about the purpose of this instance.
+                  default: ''
+                  examples:
+                    - '2016-05-02 00:00:00'
+  DepositResult:
+    type: object
+    properties:
+      success:
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data:
+        $id: /properties/data
+        type: object
+        properties:
+          currency:
+            $id: /properties/data/properties/currency
+            type: string
+            title: The Currency Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - NXT
+          address:
+            $id: /properties/data/properties/address
+            type: string
+            title: The Address Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - NXT-C59X-SZRV-V36P-62SW3
+          publicKey:
+            $id: /properties/data/properties/publicKey
+            type: string
+            title: The Publickey Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - ' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+  WithdrawlResult:
+    $id: 'http://example.com/example.json'
+    type: object
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data:
+        $id: /properties/data
+        type: object
+        properties:
+          code:
+            $id: /properties/data/properties/code
+            type: string
+            title: The Code Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - NXT
+          id:
+            $id: /properties/data/properties/id
+            type: integer
+            title: The Id Schema
+            description: An explanation about the purpose of this instance.
+            default: 0
+            examples:
+              - 17
+          amount:
+            $id: /properties/data/properties/amount
+            type: string
+            title: The Amount Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - '9'
+          address:
+            $id: /properties/data/properties/address
+            type: string
+            title: The Address Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - NXT-C59X-SZRV-V36P-62SW3
+          withdrawal_fee:
+            $id: /properties/data/properties/withdrawal_fee
+            type: string
+            title: The Withdrawal_fee Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - '1'
+          withdrawal_fee_currency:
+            $id: /properties/data/properties/withdrawal_fee_currency
+            type: string
+            title: The Withdrawal_fee_currency Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - NXT
+          token:
+            $id: /properties/data/properties/token
+            type: string
+            title: The Token Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - jTJDhfAok4AbEW0rdLKqMDagKsOOLRe1yTlQsUqLoXIgDyiwEimbWXiJ7
+          date:
+            $id: /properties/data/properties/date
+            type: object
+            properties:
+              date:
+                $id: /properties/data/properties/date/properties/date
+                type: string
+                title: The Date Schema
+                description: An explanation about the purpose of this instance.
+                default: ''
+                examples:
+                  - '2016-07-06 14:06:21.000000'
+              timezone_type:
+                $id: /properties/data/properties/date/properties/timezone_type
+                type: integer
+                title: The Timezone_type Schema
+                description: An explanation about the purpose of this instance.
+                default: 0
+                examples:
+                  - 3
+              timezone:
+                $id: /properties/data/properties/date/properties/timezone
+                type: string
+                title: The Timezone Schema
+                description: An explanation about the purpose of this instance.
+                default: ''
+                examples:
+                  - UTC
+          msg:
+            $id: /properties/data/properties/msg
+            type: string
+            title: The Msg Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - ' Message with confirmation sent to your email address'
+  WalletCreation:
+    type: object
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data:
+        type: object
+        properties:
+          msg:
+            type: string
+            title: The Msg Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - Address generated
+          code:
+            type: string
+            title: The Code Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - BTC
+          address:
+            type: string
+            title: The Address Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - 1GgcGVRfxY8C5WXAkzt1qxKTi66HKzgyRL
+  TicketResult:
+    type: object
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data:
+        $id: /properties/data
+        type: object
+        properties:
+          msg:
+            $id: /properties/data/properties/msg
+            type: string
+            title: The Msg Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - Ticket created
+          ticket_id:
+            $id: /properties/data/properties/ticket_id
+            type: string
+            title: The Ticket_id Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - '3'
+          subject:
+            $id: /properties/data/properties/subject
+            type: string
+            title: The Subject Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - Cannâ€™t get deposit
+          ticket_category_id:
+            $id: /properties/data/properties/ticket_category_id
+            type: string
+            title: The Ticket_category_id Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - '2'
+          ticket_status_id:
+            $id: /properties/data/properties/ticket_status_id
+            type: string
+            title: The Ticket_status_id Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - '1'
+          message:
+            $id: /properties/data/properties/message
+            type: string
+            title: The Message Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - Canâ€™t get deposit to my ETH wallet
+  TicketResponse:
+    $id: 'http://example.com/example.json'
+    type: object
+    definitions: {}
+    $schema: 'http://json-schema.org/draft-06/schema#'
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      data:
+        $id: /properties/data
+        type: object
+        properties:
+          msg:
+            $id: /properties/data/properties/msg
+            type: string
+            title: The Msg Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - Ticket reply created
+          ticket_massage_id:
+            $id: /properties/data/properties/ticket_massage_id
+            type: string
+            title: The Ticket_massage_id Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+              - '6'
+  Currencies:
+    type: array
+    items:
+      $ref: '#/definitions/Currency'
+  Currency:
+    $id: 'http://example.com/example.json/items'
+    type: object
+    properties:
+      currency:
+        $id: 'http://example.com/example.json/items/properties/currency'
+        type: string
+        title: The Currency Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - BTC
+      active:
+        $id: 'http://example.com/example.json/items/properties/active'
+        type: boolean
+        title: The Active Schema
+        description: An explanation about the purpose of this instance.
+        default: false
+        examples:
+          - true
+      precision:
+        $id: 'http://example.com/example.json/items/properties/precision'
+        type: integer
+        title: The Precision Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 8
+      api_precision:
+        $id: 'http://example.com/example.json/items/properties/api_precision'
+        type: integer
+        title: The Api_precision Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 8
+      minimum_withdrawal_amount:
+        $id: 'http://example.com/example.json/items/properties/minimum_withdrawal_amount'
+        type: string
+        title: The Minimum_withdrawal_amount Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '0.01000000'
+      minimum_deposit_amount:
+        $id: 'http://example.com/example.json/items/properties/minimum_deposit_amount'
+        type: string
+        title: The Minimum_deposit_amount Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '0.01000000'
+      calculated_balance:
+        $id: 'http://example.com/example.json/items/properties/calculated_balance'
+        type: string
+        title: The Calculated_balance Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '0'
+      deposit_fee_currency:
+        $id: 'http://example.com/example.json/items/properties/deposit_fee_currency'
+        type: string
+        title: The Deposit_fee_currency Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - BTC
+      deposit_fee_const:
+        $id: 'http://example.com/example.json/items/properties/deposit_fee_const'
+        type: integer
+        title: The Deposit_fee_const Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 0
+      deposit_fee_percent:
+        $id: 'http://example.com/example.json/items/properties/deposit_fee_percent'
+        type: integer
+        title: The Deposit_fee_percent Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 0
+      withdrawal_fee_currency:
+        $id: 'http://example.com/example.json/items/properties/withdrawal_fee_currency'
+        type: string
+        title: The Withdrawal_fee_currency Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - BTC
+      withdrawal_fee_const:
+        $id: 'http://example.com/example.json/items/properties/withdrawal_fee_const'
+        type: integer
+        title: The Withdrawal_fee_const Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 0
+      withdrawal_fee_percent:
+        $id: 'http://example.com/example.json/items/properties/withdrawal_fee_percent'
+        type: string
+        title: The Withdrawal_fee_percent Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '0.50000000'
+      currency_long:
+        $id: 'http://example.com/example.json/items/properties/currency_long'
+        type: string
+        title: The Currency_long Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - Bitcoin
+  MarketSummaryItem:
+    type: object
+    properties:
+      currency:
+        $id: 'http://example.com/example.json/items/properties/currency'
+        type: string
+        title: The Currency Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - BTC
+      partner:
+        $id: 'http://example.com/example.json/items/properties/partner'
+        type: string
+        title: The Partner Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - USD
+      currency_long:
+        $id: 'http://example.com/example.json/items/properties/currency_long'
+        type: string
+        title: The Currency_long Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - Bitcoin
+      partner_long:
+        $id: 'http://example.com/example.json/items/properties/partner_long'
+        type: string
+        title: The Partner_long Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - USD
+      min_order_amount:
+        $id: 'http://example.com/example.json/items/properties/min_order_amount'
+        type: integer
+        title: The Min_order_amount Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      min_buy_price:
+        $id: 'http://example.com/example.json/items/properties/min_buy_price'
+        type: integer
+        title: The Min_buy_price Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 0
+      min_sell_price:
+        $id: 'http://example.com/example.json/items/properties/min_sell_price'
+        type: integer
+        title: The Min_sell_price Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 0
+      buy_fee_percent:
+        $id: 'http://example.com/example.json/items/properties/buy_fee_percent'
+        type: number
+        title: The Buy_fee_percent Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 0.0020000000949949026
+      sell_fee_percent:
+        $id: 'http://example.com/example.json/items/properties/sell_fee_percent'
+        type: number
+        title: The Sell_fee_percent Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 0.0020000000949949026
+      active:
+        $id: 'http://example.com/example.json/items/properties/active'
+        type: boolean
+        title: The Active Schema
+        description: An explanation about the purpose of this instance.
+        default: false
+        examples:
+          - false
+      currency_precision:
+        $id: 'http://example.com/example.json/items/properties/currency_precision'
+        type: integer
+        title: The Currency_precision Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 8
+      partne_precision:
+        $id: 'http://example.com/example.json/items/properties/partne_precision'
+        type: integer
+        title: The Partne_precision Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 3
+      market_name:
+        $id: 'http://example.com/example.json/items/properties/market_name'
+        type: string
+        title: The Market_name Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - BTC_USD
+  MarketSummary:
+    type: array
+    items:
+      $ref: '#/definitions/MarketSummaryItem'
+  Ticker:
+    type: array
+    items:
+      $ref: '#/definitions/TickerItem'
+  TickerItem:
+    type: object
+    properties:
+      min_order_amount:
+        $id: 'http://example.com/example.json/items/properties/min_order_amount'
+        type: string
+        title: The Min_order_amount Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '0.00000000'
+      ask:
+        $id: 'http://example.com/example.json/items/properties/ask'
+        type: integer
+        title: The Ask Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 0
+      bid:
+        $id: 'http://example.com/example.json/items/properties/bid'
+        type: integer
+        title: The Bid Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 0
+      last:
+        $id: 'http://example.com/example.json/items/properties/last'
+        type: string
+        title: The Last Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '10.00000000'
+      lastDayAgo:
+        $id: 'http://example.com/example.json/items/properties/lastDayAgo'
+        type: integer
+        title: The Lastdayago Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1
+      vol:
+        $id: 'http://example.com/example.json/items/properties/vol'
+        type: integer
+        title: The Vol Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 15
+      spread:
+        $id: 'http://example.com/example.json/items/properties/spread'
+        type: number
+        title: The Spread Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - -0.019999999552965164
+      buy_fee_percent:
+        $id: 'http://example.com/example.json/items/properties/buy_fee_percent'
+        type: string
+        title: The Buy_fee_percent Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '0'
+      sell_fee_percent:
+        $id: 'http://example.com/example.json/items/properties/sell_fee_percent'
+        type: string
+        title: The Sell_fee_percent Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - '0'
+      market_name:
+        $id: 'http://example.com/example.json/items/properties/market_name'
+        type: string
+        title: The Market_name Schema
+        description: An explanation about the purpose of this instance.
+        default: ''
+        examples:
+          - BTC_ETH
+      updated_time:
+        $id: 'http://example.com/example.json/items/properties/updated_time'
+        type: integer
+        title: The Updated_time Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1470865580
+      Server_time:
+        $id: 'http://example.com/example.json/items/properties/Server_time'
+        type: integer
+        title: The Server_time Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+          - 1470865580
+  Market:
+    $id: http://example.com/example.json
+    type: array
+    definitions: {}
+    $schema: http://json-schema.org/draft-06/schema#
+    items:
+      $id: http://example.com/example.json/items
+      type: object
+      properties:
+        currency:
+          $id: http://example.com/example.json/items/properties/currency
+          type: string
+          title: The Currency Schema
+          description: An explanation about the purpose of this instance.
+          default: ''
+          examples:
+          - BTC
+        partner:
+          $id: http://example.com/example.json/items/properties/partner
+          type: string
+          title: The Partner Schema
+          description: An explanation about the purpose of this instance.
+          default: ''
+          examples:
+          - USD
+        currency_long:
+          $id: http://example.com/example.json/items/properties/currency_long
+          type: string
+          title: The Currency_long Schema
+          description: An explanation about the purpose of this instance.
+          default: ''
+          examples:
+          - Bitcoin
+        partner_long:
+          $id: http://example.com/example.json/items/properties/partner_long
+          type: string
+          title: The Partner_long Schema
+          description: An explanation about the purpose of this instance.
+          default: ''
+          examples:
+          - USD
+        min_order_amount:
+          $id: http://example.com/example.json/items/properties/min_order_amount
+          type: integer
+          title: The Min_order_amount Schema
+          description: An explanation about the purpose of this instance.
+          default: 0
+          examples:
+          - 1
+        min_buy_price:
+          $id: http://example.com/example.json/items/properties/min_buy_price
+          type: integer
+          title: The Min_buy_price Schema
+          description: An explanation about the purpose of this instance.
+          default: 0
+          examples:
+          - 0
+        min_sell_price:
+          $id: http://example.com/example.json/items/properties/min_sell_price
+          type: integer
+          title: The Min_sell_price Schema
+          description: An explanation about the purpose of this instance.
+          default: 0
+          examples:
+          - 0
+        buy_fee_percent:
+          $id: http://example.com/example.json/items/properties/buy_fee_percent
+          type: number
+          title: The Buy_fee_percent Schema
+          description: An explanation about the purpose of this instance.
+          default: 0.0
+          examples:
+          - 0.0020000000949949026
+        sell_fee_percent:
+          $id: http://example.com/example.json/items/properties/sell_fee_percent
+          type: number
+          title: The Sell_fee_percent Schema
+          description: An explanation about the purpose of this instance.
+          default: 0.0
+          examples:
+          - 0.0020000000949949026
+        active:
+          $id: http://example.com/example.json/items/properties/active
+          type: boolean
+          title: The Active Schema
+          description: An explanation about the purpose of this instance.
+          default: false
+          examples:
+          - false
+        currency_precision:
+          $id: http://example.com/example.json/items/properties/currency_precision
+          type: integer
+          title: The Currency_precision Schema
+          description: An explanation about the purpose of this instance.
+          default: 0
+          examples:
+          - 8
+        partne_precision:
+          $id: http://example.com/example.json/items/properties/partne_precision
+          type: integer
+          title: The Partne_precision Schema
+          description: An explanation about the purpose of this instance.
+          default: 0
+          examples:
+          - 3
+        market_name:
+          $id: http://example.com/example.json/items/properties/market_name
+          type: string
+          title: The Market_name Schema
+          description: An explanation about the purpose of this instance.
+          default: ''
+          examples:
+          - BTC_USD
+  userAccountInfoResult:
+    $id: http://example.com/example.json
+    type: object
+    definitions: {}
+    $schema: http://json-schema.org/draft-06/schema#
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+        - 1
+      data:
+        $id: /properties/data
+        type: object
+        properties:
+          email:
+            $id: /properties/data/properties/email
+            type: string
+            title: The Email Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+            - some_email@gmail.com
+          username:
+            $id: /properties/data/properties/username
+            type: string
+            title: The Username Schema
+            description: An explanation about the purpose of this instance.
+            default: ''
+            examples:
+            - some_username
+          userSessions:
+            $id: /properties/data/properties/userSessions
+            type: array
+            items:
+              $id: /properties/data/properties/userSessions/items
+              type: object
+              properties:
+                ip:
+                  $id: /properties/data/properties/userSessions/items/properties/ip
+                  type: string
+                  title: The Ip Schema
+                  description: An explanation about the purpose of this instance.
+                  default: ''
+                  examples:
+                  - 46.164.189.25
+                date:
+                  $id: /properties/data/properties/userSessions/items/properties/date
+                  type: string
+                  title: The Date Schema
+                  description: An explanation about the purpose of this instance.
+                  default: ''
+                  examples:
+                  - '2016-06-29 15:41:21'
+                created_at:
+                  $id: /properties/data/properties/userSessions/items/properties/created_at
+                  type: string
+                  title: The Created_at Schema
+                  description: An explanation about the purpose of this instance.
+                  default: ''
+                  examples:
+                  - '2016-06-28 20:30:28'
+                active:
+                  $id: /properties/data/properties/userSessions/items/properties/active
+                  type: boolean
+                  title: The Active Schema
+                  description: An explanation about the purpose of this instance.
+                  default: false
+                  examples:
+                  - false
+          funds:
+            $id: /properties/data/properties/funds
+            type: object
+            additionalProperties:
+                type: number
+
+            example:
+             - NXT: 8
+             - BTC:   0.018
+          hold_funds:
+            $id: /properties/data/properties/hold_funds
+            type: object
+            additionalProperties:
+                type: number
+            example:
+              - NXT: 18
+              - BTC: 0
+          wallets_addresses:
+            type: object
+            additionalProperties:
+                type: string
+          publick_key:
+            type: object
+            additionalProperties:
+                type: string
+#            properties:
+#              NXT:
+#                $id: /properties/data/properties/publick_key/properties/NXT
+#                type: string
+#                title: The Nxt Schema
+#                description: An explanation about the purpose of this instance.
+#                default: ''
+#                examples:
+#                - XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#              BTC:
+#                $id: /properties/data/properties/publick_key/properties/BTC
+#                type: string
+#                title: The Btc Schema
+#                description: An explanation about the purpose of this instance.
+#                default: ''
+#                examples:
+#                - ''
+          Assets portfolio:
+            type: object
+            properties:
+              portfolio_price:
+                $id: /properties/data/properties/Assets portfolio/properties/portfolio_price
+                type: integer
+                title: The Portfolio_price Schema
+                description: An explanation about the purpose of this instance.
+                default: 0
+                examples:
+                - 0
+              frozen_portfolio_price:
+                $id: /properties/data/properties/Assets portfolio/properties/frozen_portfolio_price
+                type: integer
+                title: The Frozen_portfolio_price Schema
+                description: An explanation about the purpose of this instance.
+                default: 0
+                examples:
+                - 0
+              count:
+                $id: /properties/data/properties/Assets portfolio/properties/count
+                type: integer
+                title: The Count Schema
+                description: An explanation about the purpose of this instance.
+                default: 0
+                examples:
+                - 1
+              assets:
+                $id: /properties/data/properties/Assets portfolio/properties/assets
+                type: array
+                items:
+                  $id: /properties/data/properties/Assets portfolio/properties/assets/items
+                  type: object
+                  properties:
+                    wallets_adress:
+                      $id: /properties/data/properties/Assets portfolio/properties/assets/items/properties/wallets_adress
+                      type: string
+                      title: The Wallets_adress Schema
+                      description: An explanation about the purpose of this instance.
+                      default: ''
+                      examples:
+                      - NXT-XXXX-XXXX-XXXX-XXXXX
+                    publick_key:
+                      $id: /properties/data/properties/Assets portfolio/properties/assets/items/properties/publick_key
+                      type: string
+                      title: The Publick_key Schema
+                      description: An explanation about the purpose of this instance.
+                      default: ''
+                      examples:
+                      - XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                    funds:
+                      $id: /properties/data/properties/Assets portfolio/properties/assets/items/properties/funds
+                      type: string
+                      title: The Funds Schema
+                      description: An explanation about the purpose of this instance.
+                      default: ''
+                      examples:
+                      - '100'
+          open_orders:
+            $id: /properties/data/properties/open_orders
+            type: integer
+            title: The Open_orders Schema
+            description: An explanation about the purpose of this instance.
+            default: 0
+            examples:
+            - 0
+          server_time:
+            $id: /properties/data/properties/server_time
+            type: integer
+            title: The Server_time Schema
+            description: An explanation about the purpose of this instance.
+            default: 0
+            examples:
+            - 1463346756
+  AccountInfoResult:
+    $id: http://example.com/example.json
+    type: object
+    definitions: {}
+    $schema: http://json-schema.org/draft-06/schema#
+    properties:
+      success:
+        $id: /properties/success
+        type: integer
+        title: The Success Schema
+        description: An explanation about the purpose of this instance.
+        default: 0
+        examples:
+        - 1
+      data:
+        $id: /properties/data
+        type: object
+        additionalProperties:
+          type: object
+          properties:
+              pair:
+                $id: /properties/data/properties/5303351/properties/pair
+                type: string
+                title: The Pair Schema
+                description: An explanation about the purpose of this instance.
+                default: ''
+                examples:
+                - BTC_NXT
+              type:
+                $id: /properties/data/properties/5303351/properties/type
+                type: string
+                title: The Type Schema
+                description: An explanation about the purpose of this instance.
+                default: ''
+                examples:
+                - buy
+              amount:
+                $id: /properties/data/properties/5303351/properties/amount
+                type: string
+                title: The Amount Schema
+                description: An explanation about the purpose of this instance.
+                default: ''
+                examples:
+                - '0.1'
+              rate:
+                $id: /properties/data/properties/5303351/properties/rate
+                type: string
+                title: The Rate Schema
+                description: An explanation about the purpose of this instance.
+                default: ''
+                examples:
+                - '5321.1'
+              is_your_order:
+                $id: /properties/data/properties/5303351/properties/is_your_order
+                type: integer
+                title: The Is_your_order Schema
+                description: An explanation about the purpose of this instance.
+                default: 0
+                examples:
+                - 0
+              timestamp:
+                $id: /properties/data/properties/5303351/properties/timestamp
+                type: integer
+                title: The Timestamp Schema
+                description: An explanation about the purpose of this instance.
+                default: 0
+                examples:
+                - 1464352941
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    in: header
+    name: Key
+  apiSignature:
+    type: apiKey
+    in: header
+    name: Sign
+  apiNonce:
+    type: apiKey
+    in: body
+    name: api-nonce
+  methodName:
+    type: apiKey
+    in: body
+    name: Key
+security:
+  - Sign: []
+  - Key: []
+  - apiNonce: []

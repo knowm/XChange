@@ -1,6 +1,0 @@
-BTCMarkets Exchange API specification
-================================
-
-Documentation
--------------
-https://github.com/BTCMarkets/API/wiki/Introduction

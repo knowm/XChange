@@ -1,4 +1,0 @@
-Liqui.io API specification
-================================
-
-https://liqui.io/api

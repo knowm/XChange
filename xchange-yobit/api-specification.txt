@@ -1,6 +1,0 @@
-YoBit Exchange API specification
-================================
-
-API Documentation
----------------------------
-https://www.yobit.net/en/api/

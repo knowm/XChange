@@ -1,0 +1,1848 @@
+swagger: '2.0'
+schemes:
+  - https
+  - http
+tags:
+  - name: market
+  - name: public
+  - name: account
+  - name: trade
+  - name: margin
+  - name: withdraw
+basePath: ''
+host: api.huobi.pro
+externalDocs:
+  description: english
+  url: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference'
+produces:
+  - application/json
+paths:
+  /market/history/kline:
+    get:
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-markethistorykline--get-candlestick-data'
+      tags:
+        - market
+      operationId: CandleStickData
+      parameters:
+        - in: query
+          name: symbol
+          required: true
+          type: string
+          description: 'trading asset    btcusdt, bccbtc, rcneth ...'
+        - name: period
+          required: true
+          schema:
+            enum:
+              - 1min
+              - 5min
+              - 15min
+              - 30min
+              - 60min
+              - 1day
+              - 1mon
+              - 1week
+              - 1year
+          description: '1min, 5min, 15min, 30min, 60min, 1day, 1mon, 1week, 1year'
+        - name: size
+          required: false
+          type: integer
+          description: '150  [1,2000]'
+          default: 150
+          maximum: 2000
+          minimum: 1
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              ch:
+                type: string
+                title: The Ch Schema
+                default: null
+                examples:
+                  - market.btcusdt.kline.1day
+              ts:
+                type: integer
+                title: The Ts Schema
+                default: 0
+                examples:
+                  - 1499223904680
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      title: The Id Schema
+                      default: 0
+                      examples:
+                        - 1499184000
+                    amount:
+                      type: number
+                      title: The Amount Schema
+                      default: 0
+                      examples:
+                        - 37593.02734375
+                    count:
+                      type: integer
+                      title: The Count Schema
+                      default: 0
+                      examples:
+                        - 0
+                    open:
+                      type: number
+                      title: The Open Schema
+                      default: 0
+                      examples:
+                        - 1935.199951171875
+                    close:
+                      type: integer
+                      title: The Close Schema
+                      default: 0
+                      examples:
+                        - 1879
+                    low:
+                      type: integer
+                      title: The Low Schema
+                      default: 0
+                      examples:
+                        - 1856
+                    high:
+                      type: integer
+                      title: The High Schema
+                      default: 0
+                      examples:
+                        - 1940
+                    vol:
+                      type: number
+                      title: The Vol Schema
+                      default: 0
+                      examples:
+                        - 71031536
+  /market/detail/merged:
+    get:
+      tags:
+        - market
+      operationId: Ticker
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-marketdetailmerged-get-ticker'
+      parameters:
+        - in: query
+          name: symbol
+          required: true
+          type: string
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              ch:
+                type: string
+                title: The Ch Schema
+                default: null
+                examples:
+                  - market.ethusdt.detail.merged
+              ts:
+                type: integer
+                title: The Ts Schema
+                default: 0
+                examples:
+                  - 1499225276950
+              tick:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    title: The Id Schema
+                    default: 0
+                    examples:
+                      - 1499225271
+                  ts:
+                    type: integer
+                    title: The Ts Schema
+                    default: 0
+                    examples:
+                      - 1499225271000
+                  close:
+                    type: integer
+                    title: The Close Schema
+                    default: 0
+                    examples:
+                      - 1885
+                  open:
+                    type: integer
+                    title: The Open Schema
+                    default: 0
+                    examples:
+                      - 1960
+                  high:
+                    type: integer
+                    title: The High Schema
+                    default: 0
+                    examples:
+                      - 1985
+                  low:
+                    type: integer
+                    title: The Low Schema
+                    default: 0
+                    examples:
+                      - 1856
+                  amount:
+                    type: number
+                    title: The Amount Schema
+                    default: 0
+                    examples:
+                      - 81486.2890625
+                  count:
+                    type: integer
+                    title: The Count Schema
+                    default: 0
+                    examples:
+                      - 42122
+                  vol:
+                    type: number
+                    title: The Vol Schema
+                    default: 0
+                    examples:
+                      - 157052752
+                  ask:
+                    type: array
+                    items:
+                      type: integer
+                      title: The 0th Schema
+                      default: 0
+                      examples:
+                        - 1885
+                        - 21.880399703979492
+                  bid:
+                    type: array
+                    items:
+                      type: integer
+                      title: The 0th Schema
+                      default: 0
+                      examples:
+                        - 1884
+                        - '1.670199990272522': null
+  /market/depth:
+    get:
+      tags:
+        - market
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-marketdepth---market-depth'
+      operationId: MarketDepth
+      parameters:
+        - name: symbol
+          required: true
+          type: string
+          description: 'trading asset    btcusdt, bccbtc, rcneth ...'
+        - name: type
+          required: true
+          type: string
+          schema:
+            enum:
+              - step0
+              - step1
+              - step2
+              - step3
+              - step4
+              - step5
+          description: 'Depth data type    step0, step1, step2, step3, step4, step5'
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              ch:
+                type: string
+                title: The Ch Schema
+                default: null
+                examples:
+                  - market.btcusdt.depth.step1
+              ts:
+                type: integer
+                title: The Ts Schema
+                default: 0
+                examples:
+                  - 1489472598812
+              tick:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    title: The Id Schema
+                    default: 0
+                    examples:
+                      - 1489464585407
+                  ts:
+                    type: integer
+                    title: The Ts Schema
+                    default: 0
+                    examples:
+                      - 1489464585407
+                  bids:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: integer
+                        title: The 0th Schema
+                        default: 0
+                        examples:
+                          - 7964
+                          - 0.06780000030994415
+                  asks:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: integer
+                        title: The 0th Schema
+                        default: 0
+                        examples:
+                          - 7979
+                          - 0.07360000163316727
+  /market/trade:
+    get:
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-markettrade--trade-detail'
+      operationId: TradeDetail
+      tags:
+        - market
+      parameters:
+        - in: query
+          name: symbol
+          required: true
+          type: string
+          description: 'trading asset    btcusdt, bccbtc, rcneth ...'
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              ch:
+                type: string
+                title: The Ch Schema
+                default: null
+                examples:
+                  - market.btcusdt.trade.detail
+              ts:
+                type: integer
+                title: The Ts Schema
+                default: 0
+                examples:
+                  - 1489473346905
+              tick:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    title: The Id Schema
+                    default: 0
+                    examples:
+                      - 600848670
+                  ts:
+                    type: integer
+                    title: The Ts Schema
+                    default: 0
+                    examples:
+                      - 1489464451000
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          title: The Id Schema
+                          default: 0
+                          examples:
+                            - 600848670
+                        price:
+                          type: number
+                          title: The Price Schema
+                          default: 0
+                          examples:
+                            - 7962.6201171875
+                        amount:
+                          type: number
+                          title: The Amount Schema
+                          default: 0
+                          examples:
+                            - 0.012199999764561653
+                        direction:
+                          type: string
+                          title: The Direction Schema
+                          default: null
+                          examples:
+                            - buy
+                        ts:
+                          type: integer
+                          title: The Ts Schema
+                          default: 0
+                          examples:
+                            - 1489464451000
+  /market/history/trade:
+    get:
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-markethistorytrade-orderbook'
+      operationId: orderbook
+      parameters:
+        - in: query
+          name: symbol
+          required: true
+          type: string
+          description: 'trading asset    btcusdt, bccbtc, rcneth ...'
+        - name: size
+          required: false
+          type: integer
+          description: '1  [1, 2000]'
+          minimum: 1
+          maximum: 2000
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              ch:
+                type: string
+                title: The Ch Schema
+                default: null
+                examples:
+                  - market.ethusdt.trade.detail
+              ts:
+                type: integer
+                title: The Ts Schema
+                default: 0
+                examples:
+                  - 1502448925216
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      title: The Id Schema
+                      default: 0
+                      examples:
+                        - 31459998
+                    ts:
+                      type: integer
+                      title: The Ts Schema
+                      default: 0
+                      examples:
+                        - 1502448920106
+                    data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            title: The Id Schema
+                            default: 0
+                            examples:
+                              - 17592256642623
+                          amount:
+                            type: number
+                            title: The Amount Schema
+                            default: 0
+                            examples:
+                              - 0.03999999910593033
+                          price:
+                            type: integer
+                            title: The Price Schema
+                            default: 0
+                            examples:
+                              - 1997
+                          direction:
+                            type: string
+                            title: The Direction Schema
+                            default: null
+                            examples:
+                              - buy
+                          ts:
+                            type: integer
+                            title: The Ts Schema
+                            default: 0
+                            examples:
+                              - 1502448920106
+  /market/detail:
+    get:
+      tags:
+        - market
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-marketdetail---market-detail-in-24-hours'
+      operationId: Market Detail in 24 hours
+      parameters:
+        - in: query
+          name: symbol
+          required: true
+          type: string
+          description: 'trading asset    btcusdt, bccbtc, rcneth ...'
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              ch:
+                type: string
+                title: The Ch Schema
+                default: null
+                examples:
+                  - market.btcusdt.detail
+              ts:
+                type: integer
+                title: The Ts Schema
+                default: 0
+                examples:
+                  - 1489473538996
+              tick:
+                type: object
+                properties:
+                  amount:
+                    type: number
+                    title: The Amount Schema
+                    default: 0
+                    examples:
+                      - 4316.4345703125
+                  open:
+                    type: number
+                    title: The Open Schema
+                    default: 0
+                    examples:
+                      - 8090.5400390625
+                  close:
+                    type: number
+                    title: The Close Schema
+                    default: 0
+                    examples:
+                      - 7962.6201171875
+                  high:
+                    type: integer
+                    title: The High Schema
+                    default: 0
+                    examples:
+                      - 8119
+                  ts:
+                    type: integer
+                    title: The Ts Schema
+                    default: 0
+                    examples:
+                      - 1489464451000
+                  id:
+                    type: integer
+                    title: The Id Schema
+                    default: 0
+                    examples:
+                      - 1489464451
+                  count:
+                    type: integer
+                    title: The Count Schema
+                    default: 0
+                    examples:
+                      - 9595
+                  low:
+                    type: integer
+                    title: The Low Schema
+                    default: 0
+                    examples:
+                      - 7875
+                  vol:
+                    type: number
+                    title: The Vol Schema
+                    default: 0
+                    examples:
+                      - 34497276
+  /v1/common/symbols:
+    get:
+      tags:
+        - public
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#public-api'
+      operationId: Get all the trading assets in huobi.pro
+      parameters:
+        - in: query
+        - name: base-currency
+          required: true
+          type: string
+        - name: quote-currency
+          required: true
+          type: string
+        - name: price-precision
+          required: true
+          type: string
+        - name: amount-precision
+          required: true
+          type: string
+        - name: symbol-partition
+          required: true
+          type: string
+          schema:
+            enum:
+              - main
+              - innovation
+              - bifurcation
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    base-currency:
+                      type: string
+                      title: The Base-currency Schema
+                      default: null
+                      examples:
+                        - eth
+                    quote-currency:
+                      type: string
+                      title: The Quote-currency Schema
+                      default: null
+                      examples:
+                        - usdt
+                    symbol:
+                      type: string
+                      title: The Symbol Schema
+                      default: null
+                      examples:
+                        - ethusdt
+  /v1/common/currencys:
+    get:
+      tags:
+        - public
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-v1commoncurrencys-----get-currencys-supported-in-huobipro'
+      operationId: Currencies
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: array
+                items:
+                  type: string
+                  title: The 0th Schema
+                  default: null
+                  examples:
+                    - usdt
+                    - eth
+                    - etc
+  /v1/common/timestamp:
+    get:
+      tags:
+        - public
+      summary: null
+      operationId: Get system timestamp
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: integer
+                title: The Data Schema
+                default: 0
+                examples:
+                  - 1494900087029
+  /v1/account/accounts:
+    get:
+      tags:
+        - account
+      operationId: Get Accounts
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/accountsResponse'
+  '/v1/account/accounts/{account-id}/balance':
+    get:
+      tags:
+        - account
+      summary: Get balance in huobi.pro
+      operationId: balance
+      parameters:
+        - in: path
+          name: account-id
+          required: true
+          type: string
+          description: 'account-id, not UID, filled in the methos path'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/accountsBalanceResponse'
+  /v1/order/orders/place:
+    post:
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#post-v1orderordersplace--make-an-order-in-huobipro'
+      operationId: order
+      tags:
+        - trade
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: params
+          schema:
+            type: object
+            properties:
+              account-id:
+                type: true
+                description: 'string  accountid in  spot for spot trade,  margin for margin trade'
+              amount:
+                required: true
+                type: string
+                description: 'Amount in buy-limit or sell-limitorder. It presents how much quote-currency you trade in buy-market order, and how many base-currency you trade in sell-market order'
+              price:
+                required: false
+                type: string
+                description: dont use this param in buy-market or sell-market order
+              source:
+                required: false
+                type: string
+                description: api for spot trade and margin-api for margin trade
+              symbol:
+                required: true
+                type: string
+                description: 'trading asset    btcusdt, bccbtc, rcneth ...'
+              type:
+                required: true
+                type: string
+                description: 'buy-market , sell-market , buy-limit , sell-limit'
+                enum:
+                  - buy-market
+                  - sell-market
+                  - buy-limit
+                  - sell-limit
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              data:
+                type: string
+  '/v1/order/orders/{order-id}/submitcancel':
+    post:
+      tags:
+        - trade
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#post-v1orderordersorder-idsubmitcancel--request-for-cancelling-an-order'
+      operationId: null
+      parameters:
+        - in: path
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              data:
+                type: string
+  /v1/order/orders/batchcancel:
+    post:
+      summary: 'https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#post-v1orderordersbatchcancel--batch-cancel'
+      operationId: Batch Cancel
+      tags:
+        - trade
+      parameters:
+        - in: body
+          name: tuple
+          schema:
+            type: object
+            properties:
+              order-ids:
+                type: array
+                items:
+                  type: string
+                  title: The 0th Schema
+                  default: null
+                  examples:
+                    - 1
+                    - 2
+                    - 3
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: object
+                properties:
+                  success:
+                    type: array
+                    items:
+                      type: string
+                      title: The 0th Schema
+                      default: null
+                      examples:
+                        - 1
+                        - 3
+                  failed:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        err-msg:
+                          type: string
+                          title: The Err-msg Schema
+                          default: null
+                          examples:
+                            - "è®°å½•æ—\_æ•ˆ"
+                        order-id:
+                          type: string
+                          title: The Order-id Schema
+                          default: null
+                          examples:
+                            - 2
+                        err-code:
+                          type: string
+                          title: The Err-code Schema
+                          default: null
+                          examples:
+                            - base-record-invalid
+  '/v1/order/orders/{order-id}':
+    get:
+      summary: orderinfo
+      operationId: orderinfo
+      parameters:
+        - name: order-id
+          in: query
+          required: true
+          type: string
+          description: 'order id,filled in method path'
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    title: The Id Schema
+                    default: 0
+                    examples:
+                      - 59378
+                  symbol:
+                    type: string
+                    title: The Symbol Schema
+                    default: null
+                    examples:
+                      - ethusdt
+                  account-id:
+                    type: integer
+                    title: The Account-id Schema
+                    default: 0
+                    examples:
+                      - 100009
+                  amount:
+                    type: string
+                    title: The Amount Schema
+                    default: null
+                    examples:
+                      - 10.1
+                  price:
+                    type: string
+                    title: The Price Schema
+                    default: null
+                    examples:
+                      - 100.1
+                  created-at:
+                    type: integer
+                    title: The Created-at Schema
+                    default: 0
+                    examples:
+                      - 1494901162595
+                  type:
+                    type: string
+                    title: The Type Schema
+                    default: null
+                    examples:
+                      - buy-limit
+                  field-amount:
+                    type: string
+                    title: The Field-amount Schema
+                    default: null
+                    examples:
+                      - 10.1
+                  field-cash-amount:
+                    type: string
+                    title: The Field-cash-amount Schema
+                    default: null
+                    examples:
+                      - 1011.01
+                  field-fees:
+                    type: string
+                    title: The Field-fees Schema
+                    default: null
+                    examples:
+                      - 0.0202
+                  finished-at:
+                    type: integer
+                    title: The Finished-at Schema
+                    default: 0
+                    examples:
+                      - 1494901400468
+                  user-id:
+                    type: integer
+                    title: The User-id Schema
+                    default: 0
+                    examples:
+                      - 1000
+                  source:
+                    type: string
+                    title: The Source Schema
+                    default: null
+                    examples:
+                      - api
+                  state:
+                    type: string
+                    title: The State Schema
+                    default: null
+                    examples:
+                      - filled
+                  canceled-at:
+                    type: integer
+                    title: The Canceled-at Schema
+                    default: 0
+                    examples:
+                      - 0
+                  exchange:
+                    type: string
+                    title: The Exchange Schema
+                    default: null
+                    examples:
+                      - huobi
+                  batch:
+                    type: string
+                    title: The Batch Schema
+                    default: null
+                    examples:
+                      - null
+  /v1/order/orders:
+    get:
+      summary: orderlist
+      operationId: orderlist
+      parameters:
+        - in: query
+          name: symbol
+          required: true
+          type: string
+          description: 'trading asset    btcusdt, bccbtc, rcneth ...'
+        - in: query
+          name: types
+          required: false
+          type: string
+          description: 'separate by ,    buy-market, sell-market, buy-limit, sell-limit'
+        - in: query
+          name: start-date
+          required: false
+          type: string
+          description: yyyy-mm-dd
+        - in: query
+          name: end-date
+          required: false
+          type: string
+          description: yyyy-mm-dd
+        - in: query
+          name: states
+          required: true
+          type: string
+          description: 'separate by ,    pre-submitted, submitted , partial-filled , partial-canceled , filled , canceled'
+        - in: query
+          name: from
+          required: false
+          type: string
+          description: null
+        - in: query
+          name: direct
+          required: false
+          type: string
+          description: 'prev ,next'
+          enum:
+            - prev
+            - next
+        - in: query
+          name: size
+          required: false
+          type: string
+          description: null
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      title: The Id Schema
+                      default: 0
+                      examples:
+                        - 59378
+                    symbol:
+                      type: string
+                      title: The Symbol Schema
+                      default: null
+                      examples:
+                        - ethusdt
+                    account-id:
+                      type: integer
+                      title: The Account-id Schema
+                      default: 0
+                      examples:
+                        - 100009
+                    amount:
+                      type: string
+                      title: The Amount Schema
+                      default: null
+                      examples:
+                        - 10.1
+                    price:
+                      type: string
+                      title: The Price Schema
+                      default: null
+                      examples:
+                        - 100.1
+                    created-at:
+                      type: integer
+                      title: The Created-at Schema
+                      default: 0
+                      examples:
+                        - 1494901162595
+                    type:
+                      type: string
+                      title: The Type Schema
+                      default: null
+                      examples:
+                        - buy-limit
+                    field-amount:
+                      type: string
+                      title: The Field-amount Schema
+                      default: null
+                      examples:
+                        - 10.1
+                    field-cash-amount:
+                      type: string
+                      title: The Field-cash-amount Schema
+                      default: null
+                      examples:
+                        - 1011.01
+                    field-fees:
+                      type: string
+                      title: The Field-fees Schema
+                      default: null
+                      examples:
+                        - 0.0202
+                    finished-at:
+                      type: integer
+                      title: The Finished-at Schema
+                      default: 0
+                      examples:
+                        - 1494901400468
+                    user-id:
+                      type: integer
+                      title: The User-id Schema
+                      default: 0
+                      examples:
+                        - 1000
+                    source:
+                      type: string
+                      title: The Source Schema
+                      default: null
+                      examples:
+                        - api
+                    state:
+                      type: string
+                      title: The State Schema
+                      default: null
+                      examples:
+                        - filled
+                    canceled-at:
+                      type: integer
+                      title: The Canceled-at Schema
+                      default: 0
+                      examples:
+                        - 0
+                    exchange:
+                      type: string
+                      title: The Exchange Schema
+                      default: null
+                      examples:
+                        - huobi
+                    batch:
+                      type: string
+                      title: The Batch Schema
+                      default: null
+                      examples:
+                        - null
+  /v1/order/matchresults:
+    get:
+      summary: get order matchresults
+      operationId: get order matchresults
+      tags:
+        - trade
+      parameters:
+        - in: query
+        - name: symbol
+          required: true
+          type: string
+          description: 'trading asset  btcusdt, bccbtc, rcneth ...'
+        - name: types
+          required: false
+          type: string
+          description: 'separate by ,    buy-market, sell-market, buy-limit, sell-limit'
+        - name: start-date
+          required: false
+          type: string
+          description: yyyy-mm-dd
+        - name: end-date
+          required: false
+          type: string
+          description: yyyy-mm-dd
+        - name: from
+          required: false
+          type: string
+          description: null
+        - name: direct
+          required: false
+          type: string
+          description: 'prev ,next'
+          enum:
+            - prev
+            - next
+        - name: size
+          required: false
+          type: string
+          description: null
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      title: The Id Schema
+                      default: 0
+                      examples:
+                        - 29555
+                    order-id:
+                      type: integer
+                      title: The Order-id Schema
+                      default: 0
+                      examples:
+                        - 59378
+                    match-id:
+                      type: integer
+                      title: The Match-id Schema
+                      default: 0
+                      examples:
+                        - 59335
+                    symbol:
+                      type: string
+                      title: The Symbol Schema
+                      default: null
+                      examples:
+                        - ethusdt
+                    type:
+                      type: string
+                      title: The Type Schema
+                      default: null
+                      examples:
+                        - buy-limit
+                    source:
+                      type: string
+                      title: The Source Schema
+                      default: null
+                      examples:
+                        - api
+                    price:
+                      type: string
+                      title: The Price Schema
+                      default: null
+                      examples:
+                        - 100.1
+                    filled-amount:
+                      type: string
+                      title: The Filled-amount Schema
+                      default: null
+                      examples:
+                        - 0.9845
+                    filled-fees:
+                      type: string
+                      title: The Filled-fees Schema
+                      default: null
+                      examples:
+                        - 0.001969
+                    created-at:
+                      type: integer
+                      title: The Created-at Schema
+                      default: 0
+                      examples:
+                        - 1494901400487
+  /v1/dw/transfer-in/margin:
+    post:
+      tags:
+        - margin
+      summary: Transfer asset from spot account to margin account
+      operationId: Transfer asset from spot account to margin account
+      parameters:
+        - in: body
+          name: params
+          schema:
+            type: object
+            properties:
+              symbol:
+                required: true
+                type: string
+                description: trading asset like btcusdt
+              currency:
+                required: true
+                type: string
+                description: null
+              amount:
+                required: true
+                type: string
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: integer
+                title: The Data Schema
+                default: 0
+                examples:
+                  - 1000
+  /v1/margin/orders:
+    post:
+      tags:
+        - margin
+      summary: Margin Application
+      operationId: Margin Application
+      parameters:
+        - in: body
+          name: params
+          schema:
+            type: object
+            properties:
+              symbol:
+                required: true
+                type: string
+              currency:
+                required: true
+                type: string
+              amount:
+                required: true
+                type: string
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: integer
+                title: The Data Schema
+                default: 0
+                examples:
+                  - 1000
+  '/v1/margin/orders/{order-id}/repay':
+    post:
+      parameters:
+        - in: path
+          type: string
+          name: order-id
+        - in: body
+          name: obj
+          schema:
+            type: object
+            properties:
+              order-id:
+                required: true
+                type: integer
+                description: 'margin order id, filled in method path'
+              amount:
+                required: true
+                type: string
+                description: null
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      title: The Id Schema
+                      default: 0
+                      examples:
+                        - 59378
+                    symbol:
+                      type: string
+                      title: The Symbol Schema
+                      default: null
+                      examples:
+                        - ethusdt
+                    account-id:
+                      type: integer
+                      title: The Account-id Schema
+                      default: 0
+                      examples:
+                        - 100009
+                    amount:
+                      type: string
+                      title: The Amount Schema
+                      default: null
+                      examples:
+                        - 10.1
+                    price:
+                      type: string
+                      title: The Price Schema
+                      default: null
+                      examples:
+                        - 100.1
+                    created-at:
+                      type: integer
+                      title: The Created-at Schema
+                      default: 0
+                      examples:
+                        - 1494901162595
+                    type:
+                      type: string
+                      title: The Type Schema
+                      default: null
+                      examples:
+                        - buy-limit
+                    field-amount:
+                      type: string
+                      title: The Field-amount Schema
+                      default: null
+                      examples:
+                        - 10.1
+                    field-cash-amount:
+                      type: string
+                      title: The Field-cash-amount Schema
+                      default: null
+                      examples:
+                        - 1011.01
+                    field-fees:
+                      type: string
+                      title: The Field-fees Schema
+                      default: null
+                      examples:
+                        - 0.0202
+                    finished-at:
+                      type: integer
+                      title: The Finished-at Schema
+                      default: 0
+                      examples:
+                        - 1494901400468
+                    user-id:
+                      type: integer
+                      title: The User-id Schema
+                      default: 0
+                      examples:
+                        - 1000
+                    source:
+                      type: string
+                      title: The Source Schema
+                      default: null
+                      examples:
+                        - api
+                    state:
+                      type: string
+                      title: The State Schema
+                      default: null
+                      examples:
+                        - filled
+                    canceled-at:
+                      type: integer
+                      title: The Canceled-at Schema
+                      default: 0
+                      examples:
+                        - 0
+                    exchange:
+                      type: string
+                      title: The Exchange Schema
+                      default: null
+                      examples:
+                        - huobi
+                    batch:
+                      type: string
+                      title: The Batch Schema
+                      default: null
+                      examples:
+                        - null
+  /v1/margin/accounts/balance:
+    get:
+      tags:
+        - margin
+      summary: Margin account info
+      operationId: Margin account info
+      parameters:
+        - name: symbol
+          required: false
+          type: string
+          description: filled in method path
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      title: The Id Schema
+                      default: 0
+                      examples:
+                        - 18264
+                    type:
+                      type: string
+                      title: The Type Schema
+                      default: null
+                      examples:
+                        - margin
+                    state:
+                      type: string
+                      title: The State Schema
+                      default: null
+                      examples:
+                        - working
+                    symbol:
+                      type: string
+                      title: The Symbol Schema
+                      default: null
+                      examples:
+                        - btcusdt
+                    fl-price:
+                      type: string
+                      title: The Fl-price Schema
+                      default: null
+                      examples:
+                        - 0
+                    fl-type:
+                      type: string
+                      title: The Fl-type Schema
+                      default: null
+                      examples:
+                        - safe
+                    risk-rate:
+                      type: string
+                      title: The Risk-rate Schema
+                      default: null
+                      examples:
+                        - 475.9525710869942
+                    list:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          currency:
+                            type: string
+                            title: The Currency Schema
+                            default: null
+                            examples:
+                              - btc
+                          type:
+                            type: string
+                            title: The Type Schema
+                            default: null
+                            examples:
+                              - trade
+                          balance:
+                            type: string
+                            title: The Balance Schema
+                            default: null
+                            examples:
+                              - 1168.533
+  /v1/dw/withdraw/api/create:
+    post:
+      tags:
+        - withdraw
+      summary: Create a withdraw application
+      operationId: Create a withdraw application
+      parameters:
+        - in: body
+          name: params
+          schema:
+            type: object
+            properties:
+              address:
+                type: string
+                title: The Address Schema
+                default: null
+                examples:
+                  - 1.2699074966708187e+48
+              amount:
+                type: string
+                title: The Amount Schema
+                default: null
+                examples:
+                  - 0.05
+              currency:
+                type: string
+                title: The Currency Schema
+                default: null
+                examples:
+                  - eth
+              fee:
+                type: string
+                title: The Fee Schema
+                default: null
+                examples:
+                  - 0.01
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: integer
+                title: The Data Schema
+                default: 0
+                examples:
+                  - 700
+  '/v1/dw/withdraw-virtual/{withdraw-id}/cancel':
+    post:
+      tags:
+        - withdraw
+      parameters:
+        - name: withdraw-id
+          in: path
+          required: true
+          type: integer
+          description: 'withdraw id,filled in method path'
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              data:
+                type: string
+  /v1/query/deposit-withdraw:
+    get:
+      tags:
+        - withdraw
+      parameters:
+        - name: currency
+          required: true
+          type: string
+          description: null
+        - name: type
+          required: true
+          type: string
+          description: deposit or withdraw
+        - name: from
+          required: false
+          type: string
+          description: ID
+        - name: size
+          required: false
+          type: string
+          description: null
+      responses:
+        '200':
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      title: The Id Schema
+                      default: 0
+                      examples:
+                        - 1171
+                    type:
+                      type: string
+                      title: The Type Schema
+                      default: null
+                      examples:
+                        - deposit
+                    currency:
+                      type: string
+                      title: The Currency Schema
+                      default: null
+                      examples:
+                        - xrp
+                    tx-hash:
+                      type: string
+                      title: The Tx-hash Schema
+                      default: null
+                      examples:
+                        - ed03094b84eafbe4bc16e7ef766ee959885ee5bcb265872baaa9c64e1cf86c2b
+                    amount:
+                      type: number
+                      title: The Amount Schema
+                      default: 0
+                      examples:
+                        - 7.457467079162598
+                    address:
+                      type: string
+                      title: The Address Schema
+                      default: null
+                      examples:
+                        - rae93V8d2mdoUQHwBDBdM4NHCMehRJAsbm
+                    address-tag:
+                      type: string
+                      title: The Address-tag Schema
+                      default: null
+                      examples:
+                        - 100040
+                    fee:
+                      type: integer
+                      title: The Fee Schema
+                      default: 0
+                      examples:
+                        - 0
+                    state:
+                      type: string
+                      title: The State Schema
+                      default: null
+                      examples:
+                        - safe
+                    created-at:
+                      type: integer
+                      title: The Created-at Schema
+                      default: 0
+                      examples:
+                        - 1510912472199
+                    updated-at:
+                      type: integer
+                      title: The Updated-at Schema
+                      default: 0
+                      examples:
+                        - 1511145876575
+definitions:
+  accountsResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        title: The Status Schema
+        default: null
+        examples:
+          - ok
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+              title: The Id Schema
+              default: 0
+              examples:
+                - 100009
+            type:
+              type: string
+              title: The Type Schema
+              default: null
+              examples:
+                - spot
+            state:
+              type: string
+              title: The State Schema
+              default: null
+              examples:
+                - working
+            user-id:
+              type: integer
+              title: The User-id Schema
+              default: 0
+              examples:
+                - 1000
+  accountsBalanceResponse:
+
+            type: object
+            properties:
+              status:
+                type: string
+                title: The Status Schema
+                default: null
+                examples:
+                  - ok
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    title: The Id Schema
+                    default: 0
+                    examples:
+                      - 100009
+                  type:
+                    type: string
+                    enum:
+                      - spot
+                      - margin
+                  state:
+                    type: string
+                    enum:
+                      - working
+                      - lock
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        currency:
+                          type: string
+                          title: The Currency Schema
+                          default: null
+                          examples:
+                            - usdt
+                        type:
+                          type: string
+                          enum:
+                            - trade
+                            - frozen
+                        balance:
+                          type: string
+                          title: The Balance Schema
+                          default: null
+                          examples:
+                            - 500009195917.4363
+                  user-id:
+                    type: integer
+                    title: The User-id Schema
+                    default: 0
+                    examples:
+                      - 1000

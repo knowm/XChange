@@ -1,0 +1,63 @@
+Cryptocompare Web Service API specification
+===========================================
+
+Public API:
+
+Documentation
+-------------
+https://min-api.cryptocompare.com/
+https://www.cryptocompare.com/api/
+
+
+Only the following are currently implemented:
+
+
+Ticker History -- hourly
+------------------------
+https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=BTC&limit=1&aggregate=1&toTs=1452680400&e=CCCAGG
+{
+   "Response":"Success",
+   "Type":100,
+   "Aggregated":false,
+   "Data":[
+      {
+         "time":1452675600,
+         "close":0.002536,
+         "high":0.002549,
+         "low":0.002501,
+         "open":0.002514,
+         "volumefrom":24753.98,
+         "volumeto":62.27
+      },
+      {
+         "time":1452679200,
+         "close":0.002536,
+         "high":0.002585,
+         "low":0.002529,
+         "open":0.002536,
+         "volumefrom":29698.3,
+         "volumeto":75.78
+      }
+   ],
+   "TimeTo":1452679200,
+   "TimeFrom":1452675600,
+   "FirstValueInArray":true,
+   "ConversionType":{
+      "type":"direct",
+      "conversionSymbol":""
+   }
+}
+
+Notes: 
+o Max of 2401 tuples returned per GET
+o CC have recently changed the response. Order used to be most recent first, allowing for straightforward
+  concatenation of data. Is now reversed.
+o CC have recently changed the response. Requests prior to valid data are now returned with valid times but
+  0-filled OHLCVfVt tuples. 
+  
+  
+Exchange List -- maybe...
+-------------
+https://min-api.cryptocompare.com/data/all/exchanges
+
+{"Cryptsy":{"42":["BTC","XRP"],"RDD":["LTC","USD","XRP","BTC"],...
