@@ -43,6 +43,10 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXOrderFlags;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceLimitOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceMarketOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -308,4 +312,52 @@ public class GDAXAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(), true);
   }
 
+  public static String adaptProductID(CurrencyPair currencyPair) {
+    return currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
+  }
+  
+  public static GDAXPlaceOrder.Side adaptSide(OrderType orderType) {
+    return orderType == OrderType.ASK ? GDAXPlaceOrder.Side.sell : GDAXPlaceOrder.Side.buy; 
+  }
+  
+  public static GDAXPlaceOrder.Stop adaptStop(OrderType orderType) {
+    return orderType == OrderType.ASK ? GDAXPlaceOrder.Stop.loss : GDAXPlaceOrder.Stop.entry;  
+  }
+  
+  public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(LimitOrder limitOrder) {
+    GDAXPlaceLimitOrder.Builder builder = new GDAXPlaceLimitOrder.Builder()
+        .price( limitOrder.getLimitPrice() )
+        .productId( adaptProductID( limitOrder.getCurrencyPair()))
+        .side( adaptSide (limitOrder.getType() ))
+        .size(limitOrder.getOriginalAmount());
+    
+    if ( limitOrder.getOrderFlags().contains( GDAXOrderFlags.POST_ONLY ))
+      builder.postOnly(true);
+    if ( limitOrder.getOrderFlags().contains( GDAXOrderFlags.FILL_OR_KILL ))
+      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.FOK );
+    if ( limitOrder.getOrderFlags().contains( GDAXOrderFlags.IMMEDIATE_OR_CANCEL ))
+      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.IOC );
+          
+    return builder.build();
+  }
+  
+  public static GDAXPlaceMarketOrder adaptGDAXPlaceMarketOrder(MarketOrder marketOrder) {
+    return new GDAXPlaceMarketOrder.Builder()
+        .productId(adaptProductID( marketOrder.getCurrencyPair()))
+        .side(adaptSide (marketOrder.getType() ))
+        .size(marketOrder.getOriginalAmount())
+        .build();
+  }
+  
+  public static GDAXPlaceMarketOrder adaptGDAXPlaceMarketOrder(StopOrder stopOrder) {
+    // stop orders can also execute as 'stop limit' orders, that is converting to
+    // a limit order, but a traditional 'stop' order converts to a market order.
+    return new GDAXPlaceMarketOrder.Builder()
+        .productId(adaptProductID( stopOrder.getCurrencyPair()))
+        .side(adaptSide (stopOrder.getType() ))
+        .size(stopOrder.getOriginalAmount())
+        .stop(adaptStop(stopOrder.getType()))
+        .stopPrice(stopOrder.getStopPrice())
+        .build();
+  }
 }
