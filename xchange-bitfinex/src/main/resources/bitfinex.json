@@ -2,7 +2,8 @@
   "currency_pairs": {
     "BTC/USD": {
       "price_scale": 2,
-      "min_amount": 0.01000000
+      "min_amount": 0.01000000,
+      "trading_fee": 0.002
     },
     "BTG/USD": {
       "price_scale": 2,
@@ -11,7 +12,8 @@
     },
     "BTC/EUR": {
       "price_scale": 2,
-      "min_amount": 0.01000000
+      "min_amount": 0.01000000,
+      "trading_fee": 0.002
     },
     "BTC/GBP": {
       "price_scale": 2,
@@ -20,19 +22,23 @@
     },
     "LTC/USD": {
       "price_scale": 4,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "LTC/BTC": {
       "price_scale": 6,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "BTG/BTC": {
       "price_scale": 6,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "ETH/USD": {
       "price_scale": 4,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "ETH/EUR": {
       "price_scale": 4,
@@ -46,95 +52,118 @@
     },
     "ETH/BTC": {
       "price_scale": 6,
-      "min_amount": 0.100000000
+      "min_amount": 0.100000000,
+      "trading_fee": 0.002
     },
     "ETC/USD": {
       "price_scale": 4,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "ETC/BTC": {
       "price_scale": 6,
-      "min_amount": 0.100000000
+      "min_amount": 0.100000000,
+      "trading_fee": 0.002
     },
     "ZEC/BTC": {
       "price_scale": 6,
-      "min_amount": 0.0100000
+      "min_amount": 0.0100000,
+      "trading_fee": 0.002
     },
     "IOT/BTC": {
       "price_scale": 8,
-      "min_amount": 0.0100000
+      "min_amount": 0.0100000,
+      "trading_fee": 0.002
     },
     "ZEC/USD": {
       "price_scale": 4,
-      "min_amount": 0.0100000
+      "min_amount": 0.0100000,
+      "trading_fee": 0.002
     },
     "XMR/BTC": {
       "price_scale": 6,
-      "min_amount": 0.100000000
+      "min_amount": 0.100000000,
+      "trading_fee": 0.002
     },
     "XMR/USD": {
       "price_scale": 4,
-      "min_amount": 0.100000000
+      "min_amount": 0.100000000,
+      "trading_fee": 0.002
     },
     "XRP/USD": {
       "price_scale": 4,
-      "min_amount": 0.100000000
+      "min_amount": 0.100000000,
+      "trading_fee": 0.002
     },
     "DASH/BTC": {
       "price_scale": 6,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "DASH/USD": {
       "price_scale": 4,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "RRT/BTC": {
       "price_scale": 6,
-      "min_amount": 0.100000000
+      "min_amount": 0.100000000,
+      "trading_fee": 0.002
     },
     "RRT/USD": {
       "price_scale": 4,
-      "min_amount": 0.100000000
+      "min_amount": 0.100000000,
+      "trading_fee": 0.002
     },
     "BCC/BTC": {
       "price_scale": 6,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "BCC/USD": {
       "price_scale": 4,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "BCU/BTC": {
       "price_scale": 6,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "BCU/USD": {
       "price_scale": 4,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "XRP/BTC": {
       "price_scale": 8,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "BCH/BTC": {
       "price_scale": 8,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "BCH/ETH": {
       "price_scale": 8,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "OMG/BTC": {
       "price_scale": 8,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "OMG/ETH": {
       "price_scale": 8,
-      "min_amount": 0.1
+      "min_amount": 0.1,
+      "trading_fee": 0.002
     },
     "BCH/USD": {
       "price_scale": 4,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     }
   },
   "currencies": {
