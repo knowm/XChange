@@ -1,0 +1,109 @@
+#!/bin/bash
+
+set -x
+
+rm -fr .git
+
+git init
+mkdir -p target
+
+git clone  ../XChange -b develop target/orig
+git clone  ../XChange -b swagger-gen target/gen
+#git clone  git@github.com:timmolter/XChange.git -b develop target/orig
+#git clone  git@github.com:jnorthrup/XChange.git -b swagger-gen target/gen
+
+grep -e '[</]module.*>' -e '</project>' -e 'dependencyManagement>' -v target/orig/pom.xml >pom.xml
+rm -fr xchange-*
+
+ D=( $(for i in `grep -il --regexp='<name>.*{.*</name>' target/gen/xchange-*/pom.xml |grep -v bitmex` ; do echo $(dirname $i);done ) )
+ cp -a ${D[*]}  .
+
+echo >>pom.xml '<modules>'
+
+
+I=( xchange-* )
+
+for i in xchange-core ${I[*]} ;
+do echo>>pom.xml '<module>' $i '</module>'
+done
+
+echo >>pom.xml '</modules>'
+echo >>pom.xml '</project>'
+DEP='     \
+        <!-- Logging is through SLF4J -->\
+        <dependency>\
+            <groupId>org.slf4j</groupId>\
+            <artifactId>slf4j-api</artifactId>\
+            <version>${version.slf4j}</version>\
+        </dependency>\
+\
+        <!-- SLF4J implementation for use in examples -->\
+        <dependency>\
+            <groupId>ch.qos.logback</groupId>\
+            <artifactId>logback-classic</artifactId>\
+            <scope>test</scope>\
+        </dependency>\
+\
+        <!-- JUnit for testing -->\
+        <dependency>\
+            <groupId>junit</groupId>\
+            <artifactId>junit</artifactId>\
+            <version>${version.junit}</version>\
+            <scope>test</scope>\
+        </dependency>\
+        <dependency>\
+            <groupId>org.assertj</groupId>\
+            <artifactId>assertj-core</artifactId>\
+            <version>${version.assertj}</version>\
+            <scope>test</scope>\
+            <exclusions>\
+                <exclusion>\
+\
+                </exclusion>\
+            </exclusions>\
+        </dependency>\
+\
+        <dependency>\
+            <groupId>org.apache.commons</groupId>\
+            <artifactId>commons-lang3</artifactId>\
+        </dependency>\
+\
+        <dependency>\
+            <groupId>com.fasterxml.jackson.dataformat</groupId>\
+            <artifactId>jackson-dataformat-csv</artifactId>\
+            <scope>compile</scope>\
+            <version>${version.fasterxml}</version>\
+        </dependency>\
+        <dependency>\
+            <groupId>org.knowm.xchart</groupId>\
+            <artifactId>xchart</artifactId>\
+        </dependency>\
+        <dependency>\
+            <groupId>com.google.guava</groupId>\
+            <artifactId>guava</artifactId>\
+            <version>19.0</version>\
+        </dependency>\
+        <dependency>\
+            <groupId>com.auth0</groupId>\
+            <artifactId>java-jwt</artifactId>\
+            <version>3.1.0</version>\
+            <exclusions>\
+                <exclusion>\
+                    <groupId>com.fasterxml.jackson.dataformat</groupId>\
+                    <artifactId>jackson-databind</artifactId>\
+\
+\
+                </exclusion>\
+            </exclusions>\
+        </dependency>\
+    </dependencies>'
+
+#sed -i pom.xml -e 's,</dependencies>,'"${DEP}",
+
+cp -a target/orig/xchange-core .
+#as of this writing, the codebase for examples contains dead xchange artifacts that seem to never be ovrloooked by travis
+rm -fr target/orig/xchange-examples
+cp -au target/orig/xchange-*/src xchange-core/
+
+git fetch target/orig
+git fetch target/gen
