@@ -75,9 +75,9 @@ public class GDAXPlaceLimitOrder extends GDAXPlaceOrder {
         
   @Override
   public String toString() {
-    return "GDAXPlaceLimitOrder [price=" + price + ", size=" + size + ", timeInForce=" + timeInForce
-        + ", cancelAfter=" + cancelAfter + ", postOnly=" + postOnly + ", clientOld=" + clientOid + ", type="
-        + type + ", side=" + side + ", stp=" + stp + ", stop=" + stop + ", stopPrice=" + stopPrice + "]";
+    return "GDAXPlaceLimitOrder [price=" + price + ", size=" + size + ", timeInForce=" + timeInForce + ", cancelAfter="
+        + cancelAfter + ", postOnly=" + postOnly + ", clientOid=" + clientOid + ", type=" + type + ", side=" + side
+        + ", productId=" + productId + ", stp=" + stp + ", stop=" + stop + ", stopPrice=" + stopPrice + "]";
   }
         
   public static class Builder extends GDAXPlaceOrder.Builder<GDAXPlaceLimitOrder, Builder> {

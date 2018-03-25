@@ -33,7 +33,7 @@ public class GDAXPlaceMarketOrder extends GDAXPlaceOrder {
     this.funds = funds;
     
     if (( size != null && funds != null) ||
-        ( size == null || funds == null))
+        ( size == null && funds == null))
       throw new IllegalArgumentException("One of size or funds is required.");
   }
 
@@ -45,11 +45,12 @@ public class GDAXPlaceMarketOrder extends GDAXPlaceOrder {
     return funds;
   }
 
+        
   @Override
   public String toString() {
-    return "GDAXPlaceMarketOrder [size=" + size + ", funds=" + funds + ", clientOld=" + clientOid + ", type=" + type
-        + ", side=" + side + ", stp=" + stp + ", stop=" + stop + ", stopPrice=" + stopPrice + ", orderFlags="
-        + "]";
+    return "GDAXPlaceMarketOrder [size=" + size + ", funds=" + funds + ", clientOid=" + clientOid + ", type=" + type
+        + ", side=" + side + ", productId=" + productId + ", stp=" + stp + ", stop=" + stop + ", stopPrice="
+        + stopPrice + "]";
   }
         
   public static class Builder extends GDAXPlaceOrder.Builder<GDAXPlaceMarketOrder, Builder> {

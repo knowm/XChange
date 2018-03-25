@@ -97,7 +97,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
   
   public GDAXIdResponse placeGDAXOrder(GDAXPlaceOrder order) throws IOException {
     try {
-      return gdax.placeMarketOrder(order, apiKey, digest, nonceFactory, passphrase);
+      return gdax.placeOrder(order, apiKey, digest, nonceFactory, passphrase);
     } catch (GDAXException e) {
       throw handleError(e);
     }
