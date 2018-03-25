@@ -148,7 +148,10 @@ public abstract class GDAXPlaceOrder {
   }
   
   public enum SelfTradePrevention {
-    dc
+	dc, // Decrease and Cancel (default)
+	co, // Cancel oldest
+	cn, // Cancel newest
+	cb; // Cancel both
   }
   
   public enum Stop {
