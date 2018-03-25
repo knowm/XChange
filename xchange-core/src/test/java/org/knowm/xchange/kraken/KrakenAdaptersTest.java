@@ -53,14 +53,14 @@ public class KrakenAdaptersTest {
   public void before() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/marketdata/example-assets-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
     KrakenUtils.setKrakenAssets(krakenResult.getResult());
 
     // Read in the JSON from the example resources
-    is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+    is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/marketdata/example-assetpairs-data.json");
     // Use Jackson to parse it
     mapper = new ObjectMapper();
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
@@ -71,7 +71,7 @@ public class KrakenAdaptersTest {
   public void testAdaptTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -96,7 +96,7 @@ public class KrakenAdaptersTest {
   public void testAdaptCurrencyPairs() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/marketdata/example-assetpairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -112,7 +112,7 @@ public class KrakenAdaptersTest {
   public void testAdaptTrades() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -133,7 +133,7 @@ public class KrakenAdaptersTest {
   public void testAdaptOrderBook() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -157,7 +157,7 @@ public class KrakenAdaptersTest {
   public void testAdaptBalance() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/account/example-balance-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/account/example-balance-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -174,7 +174,7 @@ public class KrakenAdaptersTest {
   public void testAdaptOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/trading/example-openorders-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/trading/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -196,7 +196,7 @@ public class KrakenAdaptersTest {
   public void testAdaptOpenOrdersInTransactionCurrency() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/trading/example-openorders-in-transaction-currency-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/trading/example-openorders-in-transaction-currency-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -218,7 +218,7 @@ public class KrakenAdaptersTest {
   public void testAdaptTradeHistory() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/trading/example-tradehistory-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -247,7 +247,7 @@ public class KrakenAdaptersTest {
   public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/account/example-ledgerinfo-data.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/account/example-ledgerinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -271,7 +271,7 @@ public class KrakenAdaptersTest {
   public void testAdaptMarketOrder() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/order/example-market-ask-order.json");
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/order/example-market-ask-order.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

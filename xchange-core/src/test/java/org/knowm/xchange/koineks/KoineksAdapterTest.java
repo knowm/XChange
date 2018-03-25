@@ -21,7 +21,7 @@ public class KoineksAdapterTest {
   @Test
   public void testTickerAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = KoineksAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = KoineksAdapterTest.class.getResourceAsStream("/org/knowm/xchange/koineks/dto/marketdata/example-ticker-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KoineksTicker paribuTicker = mapper.readValue(is, KoineksTicker.class);

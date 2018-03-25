@@ -20,7 +20,7 @@ public class FullDepthJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = FullDepthJSONTest.class.getResourceAsStream("/marketdata/example-full-depth-data.json");
+    InputStream is = FullDepthJSONTest.class.getResourceAsStream("/org/knowm/xchange/campbx/marketdata/example-full-depth-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     CampBXOrderBook orderBook = mapper.readValue(is, CampBXOrderBook.class);

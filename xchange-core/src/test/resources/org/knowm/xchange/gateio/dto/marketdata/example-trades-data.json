@@ -1,0 +1,20 @@
+{
+  "result": "true",
+  "data": [
+    {
+      "date": "1393908191",
+      "price": 3942,
+      "amount": 0.0129,
+      "tid": "5600118",
+      "type": "sell"
+    },
+    {
+      "date": "1393908388",
+      "price": 3947,
+      "amount": 0.288,
+      "tid": "5600205",
+      "type": "buy"
+    }
+  ],
+  "elapsed": "0.634ms"
+}

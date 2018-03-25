@@ -47,7 +47,7 @@ public class CoinmateAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinmateAdapterTest.class.getResourceAsStream("/marketdata/example-ticker.json");
+    InputStream is = CoinmateAdapterTest.class.getResourceAsStream("/org/knowm/xchange/coinmate/dto/marketdata/example-ticker.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

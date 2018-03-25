@@ -16,7 +16,7 @@ public class LiquiTickerJSONTest {
 
   @Test
   public void testUnmarshall() throws Exception {
-    final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/org/knowm/xchange/liqui/marketdata/example-ticker-data.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final LiquiTickersResult tickersResult = mapper.readValue(is, LiquiTickersResult.class);

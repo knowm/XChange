@@ -26,7 +26,7 @@ public class BitcoindeAdapterTest {
   public void testOrderBookAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoindeAdapterTest.class.getResourceAsStream("/orderbook.json");
+    InputStream is = BitcoindeAdapterTest.class.getResourceAsStream("/org/knowm/xchange/bitcoinde/dto/orderbook.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -46,7 +46,7 @@ public class BitcoindeAdapterTest {
   public void testTradesAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoindeAdapterTest.class.getResourceAsStream("/trades.json");
+    InputStream is = BitcoindeAdapterTest.class.getResourceAsStream("/org/knowm/xchange/bitcoinde/dto/trades.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

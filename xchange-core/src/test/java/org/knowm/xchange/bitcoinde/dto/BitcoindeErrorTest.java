@@ -17,7 +17,7 @@ public class BitcoindeErrorTest {
   public void testBitcoindeOrderBook() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoindeErrorTest.class.getResourceAsStream("/errors.json");
+    InputStream is = BitcoindeErrorTest.class.getResourceAsStream("/org/knowm/xchange/bitcoinde/dto/errors.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -1,0 +1,39 @@
+{
+  "hash": "793D253739246B820A3E1DD4B38717FBDEEFE718501F5987E8B930E711C20C32",
+  "ledger": 14024458,
+  "validated": true,
+  "timestamp": "2015-06-13T11:24:40.000Z",
+  "fee": "0.012",
+  "action": "order_cancel",
+  "direction": "outgoing",
+  "order": {
+    "account": "rDqQUzKUXWgcJbzwjrGw1fZvGEN5dffQYr",
+    "type": "cancel",
+    "sequence": 80,
+    "cancel_sequence": 79
+  },
+  "balance_changes": [
+    {
+      "counterparty": "",
+      "currency": "XRP",
+      "value": "-0.012"
+    }
+  ],
+  "order_changes": [
+    {
+      "taker_pays": {
+        "currency": "BTC",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "value": "0"
+      },
+      "taker_gets": {
+        "currency": "XRP",
+        "counterparty": "",
+        "value": "0"
+      },
+      "sequence": 79,
+      "status": "canceled"
+    }
+  ],
+  "success": true
+}

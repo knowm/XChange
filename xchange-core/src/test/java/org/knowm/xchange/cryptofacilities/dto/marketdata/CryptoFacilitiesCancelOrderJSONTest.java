@@ -19,7 +19,7 @@ public class CryptoFacilitiesCancelOrderJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoFacilitiesCancelOrderJSONTest.class.getResourceAsStream("/marketdata/example-cancelOrder-data.json");
+    InputStream is = CryptoFacilitiesCancelOrderJSONTest.class.getResourceAsStream("/org/knowm/xchange/cryptofacilities/dto/marketdata/example-cancelOrder-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

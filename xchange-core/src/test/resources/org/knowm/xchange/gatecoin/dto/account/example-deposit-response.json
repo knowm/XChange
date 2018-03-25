@@ -1,0 +1,14 @@
+{
+  "addresses": [
+    {
+      "addressName": "123",
+      "currency": "BTC",
+      "address": "n3v78gsrYPd1Qt8GYgfbFNFruBeuauudEj",
+      "createDateTime": "1433754118",
+      "received": 0.5
+    }
+  ],
+  "responseStatus": {
+    "message": "OK"
+  }
+}

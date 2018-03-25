@@ -24,7 +24,7 @@ public class WexTickerJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WexTickerJSONTest.class.getResourceAsStream("/v3/marketdata/example-ticker-data.json");
+    InputStream is = WexTickerJSONTest.class.getResourceAsStream("/org/knowm/xchange/wex/v3/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

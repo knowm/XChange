@@ -17,7 +17,7 @@ public class BitZOrdersJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitZOrdersJSONTest.class.getResourceAsStream("/marketdata/example-orders-data.json");
+    InputStream is = BitZOrdersJSONTest.class.getResourceAsStream("/org/xchange/bitz/dto/marketdata/example-orders-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();
