@@ -343,29 +343,32 @@ public class GDAXAdapters {
   }
   
   /**
-   * Creates a 'stop limit' order.
+   * Creates a 'stop limit' order.  Stop limit order converts to a limit order when the stop amount is
+   * triggered.  The limit order can have a different price than the stop price.
    * @param stopOrder
+   * @param limitPrice If <code>non null</code> will be used as the limit price.  If it is <code>null</code>
+   * The stop price will also be used as the limit price.
    * @return
    */
-  public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(StopOrder stopOrder) {
-	    GDAXPlaceLimitOrder.Builder builder = new GDAXPlaceLimitOrder.Builder()
-	        .price( stopOrder.getStopPrice() )
-	        .stop(adaptStop(stopOrder.getType()))
-	        .stopPrice(stopOrder.getStopPrice())
-	        .type(GDAXPlaceOrder.Type.limit)
-	        .productId( adaptProductID( stopOrder.getCurrencyPair()))
-	        .side( adaptSide (stopOrder.getType() ))
-	        .size(stopOrder.getOriginalAmount());
+  public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(StopOrder stopOrder, BigDecimal limitPrice) {
+    GDAXPlaceLimitOrder.Builder builder = new GDAXPlaceLimitOrder.Builder()
+        .price( limitPrice == null ? stopOrder.getStopPrice() : limitPrice )
+        .stop(adaptStop(stopOrder.getType()))
+        .stopPrice(stopOrder.getStopPrice())
+        .type(GDAXPlaceOrder.Type.limit)
+        .productId( adaptProductID( stopOrder.getCurrencyPair()))
+        .side( adaptSide (stopOrder.getType() ))
+        .size(stopOrder.getOriginalAmount());
     
-	    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.POST_ONLY ))
-	      builder.postOnly(true);
-	    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.FILL_OR_KILL ))
-	      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.FOK );
-	    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.IMMEDIATE_OR_CANCEL ))
-	      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.IOC );
-          
-	    return builder.build();
-	  }
+    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.POST_ONLY ))
+      builder.postOnly(true);
+    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.FILL_OR_KILL ))
+      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.FOK );
+    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.IMMEDIATE_OR_CANCEL ))
+      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.IOC );
+    
+    return builder.build();
+  }
   
   public static GDAXPlaceMarketOrder adaptGDAXPlaceMarketOrder(MarketOrder marketOrder) {
     return new GDAXPlaceMarketOrder.Builder()
