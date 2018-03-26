@@ -22,7 +22,7 @@ public class CryptoFacilitiesOpenPositionsJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoFacilitiesOpenPositionsJSONTest.class.getResourceAsStream("/marketdata/example-openPositions-data.json");
+    InputStream is = CryptoFacilitiesOpenPositionsJSONTest.class.getResourceAsStream("/org/knowm/xchange/cryptofacilities/dto/marketdata/example-openPositions-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
