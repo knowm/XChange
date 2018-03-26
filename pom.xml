@@ -341,7 +341,7 @@
                 <version>2.20.1</version>
             </plugin>
 
-            <plugin>
+<!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.20.1</version>
@@ -359,7 +359,27 @@
                         <include>**/*Integration.java</include>
                     </includes>
                 </configuration>
-            </plugin>
+            </plugin>-->
+            <plugin>
+            <!-- adding second test source directory (just for integration tests) -->
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>1.9.1</version>
+            <executions>
+                <execution>
+                    <id>add-integration-test-source</id>
+                    <phase>generate-test-sources</phase>
+                    <goals>
+                        <goal>add-test-source</goal>
+                    </goals>
+                    <configuration>
+                        <sources>
+                            <source>src/test-integration/java</source>
+                        </sources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
 
 
         </plugins>

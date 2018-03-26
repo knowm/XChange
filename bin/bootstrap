@@ -14,7 +14,7 @@ git clone  ../XChange -b swagger-gen target/gen
 
 [[  pom.xml ]] && {
 alreadypom=t
-cp -b xchange-core/pom.xml target/
+tar cf target/poms.tar $(find -name '*.pom')
 }
 
 
@@ -43,6 +43,19 @@ cp -a target/orig/xchange-core .
 rm -fr target/orig/xchange-examples
 cp -au target/orig/xchange-*/src xchange-core/
 
+pushd xchange-core/src/test/
+mkdir -p ../test-integration
+
+INT=( $(find . -name '*Integration.java' ) )
+tar    cf  >( tar -C ../test-integration -x ) ${INT[@]}
+rm ${INT[@]}
+popd
+
 [[ ${alreadypom}  ]] && {
-cp -b target/pom.xml xchange-core/
+tar xf target/poms.tar
 }
+
+
+###preserve all the original chunks for perfect delta reduction
+#git fetch  target/orig
+#git fetch  target/gen
