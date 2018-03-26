@@ -38,7 +38,7 @@ public class GateioAdapterTest {
   public void before() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GateioAdapterTest.class.getResourceAsStream("/marketdata/example-pairs-data.json");
+    InputStream is = GateioAdapterTest.class.getResourceAsStream("/org/knowm/xchange/gateio/dto/marketdata/example-pairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -51,7 +51,7 @@ public class GateioAdapterTest {
   public void testAdaptOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GateioAdapterTest.class.getResourceAsStream("/trade/example-order-list-data.json");
+    InputStream is = GateioAdapterTest.class.getResourceAsStream("/org/knowm/xchange/gateio/dto/trade/example-order-list-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -73,7 +73,7 @@ public class GateioAdapterTest {
   @Test
   public void testAdaptTrades() throws IOException {
 
-    InputStream is = GateioAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = GateioAdapterTest.class.getResourceAsStream("/org/knowm/xchange/gateio/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -97,7 +97,7 @@ public class GateioAdapterTest {
   public void testAdaptAccountInfo() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GateioAdapterTest.class.getResourceAsStream("/account/example-funds-data.json");
+    InputStream is = GateioAdapterTest.class.getResourceAsStream("/org/knowm/xchange/gateio/dto/account/example-funds-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -120,7 +120,7 @@ public class GateioAdapterTest {
   public void testAdaptOrderBook() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GateioAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = GateioAdapterTest.class.getResourceAsStream("/org/knowm/xchange/gateio/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
