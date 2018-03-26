@@ -16,7 +16,7 @@ public class CoinEggTickerJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinEggTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = CoinEggTickerJSONTest.class.getResourceAsStream("/org/xchange/coinegg/dto/marketdata/example-ticker-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();
