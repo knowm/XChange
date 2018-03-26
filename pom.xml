@@ -11,7 +11,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
         <version.assertj>3.8.0</version.assertj>
         <version.commons.io>2.6</version.commons.io>
         <version.commons.lang3>3.7</version.commons.lang3>
@@ -23,8 +22,6 @@
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
         <version.slf4j>1.7.25</version.slf4j>
-
-        <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
     <repositories>
         <repository>
@@ -38,9 +35,7 @@
             </snapshots>
         </repository>
     </repositories>
-
     <dependencies>
-
         <!-- Rest client -->
         <dependency>
             <groupId>com.github.mmazi</groupId>
@@ -133,7 +128,6 @@
             <version>${version.assertj}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <profiles>
@@ -145,14 +139,12 @@
                     <value>true</value>
                 </property>
             </activation>
-
             <repositories>
                 <repository>
                     <id>jitpack.io</id>
                     <url>https://jitpack.io</url>
                 </repository>
             </repositories>
-
             <build>
                 <plugins>
                     <plugin>

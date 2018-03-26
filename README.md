@@ -34,7 +34,7 @@ e.g. as of this writing this branch uses (subject to change, but a guideline)
     <dependency>
      <groupId>com.github.jnorthrup.XChange</groupId>
      <artifactId>xchange-all</artifactId>
-     <version>polyglot-SNAPSHOT</version>
+     <version>4.3.5-SNAPSHOT</version>
     </dependency>
 
 ```

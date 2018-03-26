@@ -20,7 +20,7 @@
             <dependency>
                 <groupId>org.github.jnorthrup.XChange</groupId>
                 <artifactId>xchange-all</artifactId>
-                <version>polyglot-SNAPSHOT</version>
+                <version>4.3.5-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -106,7 +106,7 @@
         <dependency>
             <groupId>org.github.jnorthrup.XChange</groupId>
             <artifactId>xchange-all</artifactId>
-            <version>polyglot-SNAPSHOT</version>
+            <version>4.3.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
