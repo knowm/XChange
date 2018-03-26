@@ -73,7 +73,7 @@ public interface GateioAuthenticated extends Gateio {
   @POST
   @Path("private/tradeHistory")
   GateioTradeHistoryReturn getUserTradeHistory(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String pair) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws IOException;
 
   @POST
   @Path("private/getorder")
