@@ -19,7 +19,7 @@ public class PoloniexMarketDataTest {
   @Test
   public void testUnmarshallAllTickers() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = PoloniexMarketDataTest.class.getResourceAsStream("/marketdata/currency-info.json");
+    final InputStream is = PoloniexMarketDataTest.class.getResourceAsStream("/org/knowm/xchange/poloniex/dto/marketdata/currency-info.json");
 
     final ObjectMapper mapper = new ObjectMapper();
 

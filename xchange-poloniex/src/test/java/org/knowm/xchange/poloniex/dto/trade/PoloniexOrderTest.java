@@ -25,7 +25,7 @@ public class PoloniexOrderTest {
 
   @Test
   public void orderEntryResponseTest() throws IOException {
-    final InputStream is = getClass().getResourceAsStream("/trade/order-entry.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/poloniex/dto/trade/order-entry.json");
     final ObjectMapper mapper = new ObjectMapper();
     final PoloniexTradeResponse response = mapper.readValue(is, PoloniexTradeResponse.class);
 
@@ -43,7 +43,7 @@ public class PoloniexOrderTest {
 
   @Test
   public void responseImmediateOrCancelTest() throws IOException {
-    final InputStream is = getClass().getResourceAsStream("/trade/order-entry-ioc.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/poloniex/dto/trade/order-entry-ioc.json");
     final ObjectMapper mapper = new ObjectMapper();
     final PoloniexTradeResponse response = mapper.readValue(is, PoloniexTradeResponse.class);
 
@@ -72,7 +72,7 @@ public class PoloniexOrderTest {
 
   @Test
   public void moveOrderTest() throws IOException {
-    final InputStream is = getClass().getResourceAsStream("/trade/order-move.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/poloniex/dto/trade/order-move.json");
     final ObjectMapper mapper = new ObjectMapper();
     final PoloniexMoveResponse response = mapper.readValue(is, PoloniexMoveResponse.class);
 
