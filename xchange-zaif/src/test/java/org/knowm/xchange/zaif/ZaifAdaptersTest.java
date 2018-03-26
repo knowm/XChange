@@ -18,7 +18,7 @@ public class ZaifAdaptersTest {
   public void testFullBookAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = ZaifAdaptersTest.class.getResourceAsStream("/marketdata/example-fullbook-data.json");
+    InputStream is = ZaifAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/zaif/marketdata/example-fullbook-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
