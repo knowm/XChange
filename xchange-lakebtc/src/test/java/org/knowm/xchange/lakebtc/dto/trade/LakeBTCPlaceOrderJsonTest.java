@@ -18,7 +18,7 @@ public class LakeBTCPlaceOrderJsonTest {
   public void testDeserializeBuyOrder() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCPlaceOrderJsonTest.class.getResourceAsStream("/trade/example-place-order-data.json");
+    InputStream is = LakeBTCPlaceOrderJsonTest.class.getResourceAsStream("/org/knowm/xchange/lakebtc/dto/trade/example-place-order-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -37,7 +37,7 @@ public class LakeBTCPlaceOrderJsonTest {
   public void testDeserializeSellOrder() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCPlaceOrderJsonTest.class.getResourceAsStream("/trade/example-place-order2-data.json");
+    InputStream is = LakeBTCPlaceOrderJsonTest.class.getResourceAsStream("/org/knowm/xchange/lakebtc/dto/trade/example-place-order2-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -18,7 +18,7 @@ public class LakeBTCAccountJsonTest {
   public void testDeserializeAccount() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCAccountJsonTest.class.getResourceAsStream("/account/example-account-data.json");
+    InputStream is = LakeBTCAccountJsonTest.class.getResourceAsStream("/org/knowm/xchange/lakebtc/dto/account/example-account-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
