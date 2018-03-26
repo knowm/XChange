@@ -22,7 +22,7 @@ public class GeminiTradeDataJSONTest {
   @Test
   public void testPlaceOrder() throws IOException {
 
-    InputStream resourceAsStream = GeminiTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-place-order-data.json");
+    InputStream resourceAsStream = GeminiTradeDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/gemini/v1/trade/example-place-order-data.json");
     GeminiOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
 
     assertEquals(4003264, response.getId());
@@ -43,7 +43,7 @@ public class GeminiTradeDataJSONTest {
   @Test
   public void testCancelOrder() throws IOException {
 
-    InputStream resourceAsStream = GeminiTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-cancel-order-data.json");
+    InputStream resourceAsStream = GeminiTradeDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/gemini/v1/trade/example-cancel-order-data.json");
     GeminiOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
 
     assertEquals(4003242, response.getId());
@@ -64,7 +64,7 @@ public class GeminiTradeDataJSONTest {
   @Test
   public void testOpenOrders() throws IOException {
 
-    InputStream resourceAsStream = GeminiTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-open-orders-data.json");
+    InputStream resourceAsStream = GeminiTradeDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/gemini/v1/trade/example-open-orders-data.json");
     GeminiOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
 
     assertEquals(4003242, response.getId());
@@ -85,7 +85,7 @@ public class GeminiTradeDataJSONTest {
   @Test
   public void testPastTrades() throws IOException {
 
-    InputStream resourceAsStream = GeminiTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-past-trades-data.json");
+    InputStream resourceAsStream = GeminiTradeDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/gemini/v1/trade/example-past-trades-data.json");
     GeminiTradeResponse[] responses = new ObjectMapper().readValue(resourceAsStream, GeminiTradeResponse[].class);
 
     assertEquals(new BigDecimal("854.01"), responses[0].getPrice());
