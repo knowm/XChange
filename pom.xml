@@ -7,6 +7,7 @@
     <groupId>org.github.jnorthrup.XChange</groupId>
     <artifactId>xchange-parent</artifactId>
     <version>4.3.5-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
