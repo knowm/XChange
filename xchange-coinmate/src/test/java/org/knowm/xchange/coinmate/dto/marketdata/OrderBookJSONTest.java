@@ -42,7 +42,7 @@ public class OrderBookJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = OrderBookJSONTest.class.getResourceAsStream("/marketdata/example-orderbook.json");
+    InputStream is = OrderBookJSONTest.class.getResourceAsStream("/org/knowm/xchange/coinmate/dto/marketdata/example-orderbook.json");
 
     ObjectMapper mapper = new ObjectMapper();
     CoinmateOrderBook coinmateOrderbook = mapper.readValue(is, CoinmateOrderBook.class);
