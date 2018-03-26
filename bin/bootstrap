@@ -7,15 +7,15 @@ set -x
 #git init
 mkdir -p target
 
+[[  pom.xml ]] && {
+alreadypom=t
+tar c >target/poms.tar $(find -name 'pom.xml')
+}
+
 git clone  ../XChange -b develop target/orig
 git clone  ../XChange -b swagger-gen target/gen
 #git clone  git@github.com:timmolter/XChange.git -b develop target/orig
 #git clone  git@github.com:jnorthrup/XChange.git -b swagger-gen target/gen
-
-[[  pom.xml ]] && {
-alreadypom=t
-tar cf target/poms.tar $(find -name '*.pom')
-}
 
 
 [[ $alreadypom ]] || {
