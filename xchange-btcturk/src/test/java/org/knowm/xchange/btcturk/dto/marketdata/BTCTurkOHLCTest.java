@@ -18,7 +18,7 @@ public class BTCTurkOHLCTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCTurkTickerTest.class.getResourceAsStream("/marketdata/example-ohlc-data.json");
+    InputStream is = BTCTurkTickerTest.class.getResourceAsStream("/org/knowm/xchange/btcturk/dto/marketdata/example-ohlc-data.json");
     ObjectMapper mapper = new ObjectMapper();
     BTCTurkOHLC[] btcTurkOHLCs = mapper.readValue(is, BTCTurkOHLC[].class);
 
