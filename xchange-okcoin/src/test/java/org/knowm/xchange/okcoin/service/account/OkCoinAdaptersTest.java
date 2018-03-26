@@ -30,10 +30,10 @@ public class OkCoinAdaptersTest {
   public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
 
-    InputStream is = OkCoinAdaptersTest.class.getResourceAsStream("/account/example-accountrecords-deposit-data.json");
+    InputStream is = OkCoinAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/okcoin/dto/account/example-accountrecords-deposit-data.json");
     OkCoinAccountRecords okCoinAccountDepositRecords = mapper.readValue(is, OkCoinAccountRecords.class);
 
-    is = OkCoinAdaptersTest.class.getResourceAsStream("/account/example-accountrecords-withdrawal-data.json");
+    is = OkCoinAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/okcoin/dto/account/example-accountrecords-withdrawal-data.json");
     OkCoinAccountRecords okCoinAccountWithdrawalRecords = mapper.readValue(is, OkCoinAccountRecords.class);
 
     final List<FundingRecord> records = OkCoinAdapters
