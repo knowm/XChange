@@ -1,9 +1,0 @@
-Kraken Exchange API specification
-================================
-
-Public API
-
-Documentation
--------------
-https://www.kraken.com/help/api
-

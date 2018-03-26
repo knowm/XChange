@@ -18,7 +18,7 @@ nb-configuration.xml
 # Generated
 target/
 javadoc/
-bin/
+
 log/
 classes/
 META-INF/
@@ -41,3 +41,4 @@ GTAGS
 GRTAGS
 GPATH
 GSYMS
+/xchange-idex/src/main/python

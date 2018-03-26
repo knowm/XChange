@@ -1,4 +1,0 @@
-Paymium API specification
-================================
-
-https://github.com/Paymium/api-documentation

@@ -1,6 +1,0 @@
-{
-  "_comment": "You need to replace these values with working keys and rename file to exchangeConfiguration.json",
-  "privateApiKey": "123456789-987654321",
-  "publicApiKey": "XXXyyyXXX-000",
-  "clientId": "777"
-}

@@ -1,4 +1,0 @@
-TrueFX API specification
-========================
-
-https://www.truefx.com/dev/data/TrueFX_MarketDataWebAPI_DeveloperGuide.pdf

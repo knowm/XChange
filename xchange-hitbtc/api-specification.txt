@@ -1,4 +1,0 @@
-Hit BTC Exchange API specification
-======================================
-
-https://hitbtc.com/api

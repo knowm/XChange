@@ -1,4 +1,0 @@
-ACX specification
-=====================================
-
-https://acx.io/documents/api_v2
