@@ -32,7 +32,7 @@ public class CryptonitAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptonitAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = CryptonitAdapterTest.class.getResourceAsStream("/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -53,7 +53,7 @@ public class CryptonitAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptonitTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = CryptonitTradesJSONTest.class.getResourceAsStream("/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -74,7 +74,7 @@ public class CryptonitAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptonitAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = CryptonitAdapterTest.class.getResourceAsStream("/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -95,7 +95,7 @@ public class CryptonitAdapterTest {
   public void testAdaptCurrencyPairs() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptonitAdapterTest.class.getResourceAsStream("/marketdata/example-trading-pairs.json");
+    InputStream is = CryptonitAdapterTest.class.getResourceAsStream("/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-trading-pairs.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
