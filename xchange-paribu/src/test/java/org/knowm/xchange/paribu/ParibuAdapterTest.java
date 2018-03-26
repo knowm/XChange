@@ -21,7 +21,7 @@ public class ParibuAdapterTest {
   @Test
   public void testTickerAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = ParibuAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = ParibuAdapterTest.class.getResourceAsStream("/org/knowm/xchange/paribu/dto/marketdata/example-ticker-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     ParibuTicker paribuTicker = mapper.readValue(is, ParibuTicker.class);
