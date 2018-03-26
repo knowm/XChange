@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.github.jnorthrup</groupId>
+        <groupId>org.github.jnorthrup.XChange</groupId>
         <artifactId>xchange-parent</artifactId>
         <version>4.3.5-SNAPSHOT</version>
     </parent>
@@ -98,7 +98,7 @@
     </profiles>
     <dependencies>
         <dependency>
-            <groupId>org.github.jnorthrup</groupId>
+            <groupId>org.github.jnorthrup.XChange</groupId>
             <artifactId>xchange-all</artifactId>
             <version>polyglot-SNAPSHOT</version>
         </dependency>

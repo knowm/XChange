@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.github.jnorthrup</groupId>
+    <groupId>org.github.jnorthrup.XChange</groupId>
     <artifactId>xchange-parent</artifactId>
     <version>4.3.5-SNAPSHOT</version>
     <packaging>pom</packaging>
