@@ -19,7 +19,7 @@ public class CryptonitTickerJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptonitTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = CryptonitTickerJSONTest.class.getResourceAsStream("/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
