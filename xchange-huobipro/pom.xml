@@ -18,9 +18,9 @@
                 <type>pom</type>
             </dependency>
             <dependency>
-                <groupId>${project.parent.groupId}</groupId>
+                <groupId>org.github.jnorthrup.XChange</groupId>
                 <artifactId>xchange-all</artifactId>
-                <version>${project.parent.version}</version>
+                <version>polyglot-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -33,6 +33,14 @@
         <profile>
             <id>regenerate</id>
             <activation><file><missing>${rebuild.sentinel}</missing></file></activation>
+
+            <repositories>
+                <repository>
+                    <id>jitpack.io</id>
+                    <url>https://jitpack.io</url>
+                </repository>
+            </repositories>
+
             <build>
                 <plugins>
                     <plugin>
@@ -46,7 +54,8 @@
                                 </goals>
                                 <configuration>
                                     <language>java</language>
-                                    <inputSpec>${project.basedir}/src/main/swagger/${exchangeName}.yaml</inputSpec>                                    <!--&lt;!&ndash;<configHelp>true</configHelp>&ndash;&gt;-->
+                                    <inputSpec>${project.basedir}/src/main/swagger/${exchangeName}.yaml
+                                    </inputSpec>                                    <!--&lt;!&ndash;<configHelp>true</configHelp>&ndash;&gt;-->
                                     <configOptions>
                                         <apiPackage>${gen-package}.${exchangeName}.service</apiPackage>
                                         <modelPackage>${gen-package}.${exchangeName}.dto</modelPackage>
@@ -62,7 +71,9 @@
                                         <artifactVersion>${project.parent.version}</artifactVersion>
                                         <artifactDescription>${exchangeName}</artifactDescription>
                                     </configOptions>
-                                    <typeMappings><typeMapping>integer=java.math.BigInteger</typeMapping></typeMappings>
+                                    <typeMappings>
+                                        <typeMapping>integer=java.math.BigInteger</typeMapping>
+                                    </typeMappings>
                                 </configuration>
                             </execution>
                         </executions>
@@ -95,6 +106,7 @@
         <dependency>
             <groupId>org.github.jnorthrup</groupId>
             <artifactId>xchange-all</artifactId>
+            <version>polyglot-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
@@ -212,7 +224,8 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.12</junit-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!--<gen-package>${project.parent.groupId}</gen-package>--><gen-package>org.knowm.xchange</gen-package>
+        <!--<gen-package>${project.parent.groupId}</gen-package>-->
+        <gen-package>org.knowm.xchange</gen-package>
         <kotlin.version>1.2.31</kotlin.version>
         <commons-codec.version>1.11</commons-codec.version>
         <rebuild.sentinel>target/generated-sources/swagger/pom.xml</rebuild.sentinel>

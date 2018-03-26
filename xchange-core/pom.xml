@@ -37,6 +37,12 @@
         <name>Knowm Inc.</name>
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
 <!--    &lt;!&ndash; Parent provides default configuration for dependencies &ndash;&gt;
     <dependencies>

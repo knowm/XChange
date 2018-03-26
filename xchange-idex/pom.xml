@@ -37,6 +37,14 @@
                     <missing>${rebuild.sentinel}</missing>
                 </file>
             </activation>
+
+            <repositories>
+                <repository>
+                    <id>jitpack.io</id>
+                    <url>https://jitpack.io</url>
+                </repository>
+            </repositories>
+
             <build>
                 <plugins>
                     <plugin>
@@ -98,8 +106,9 @@
     </profiles>
     <dependencies>
         <dependency>
-            <groupId>org.github.jnorthrup</groupId>
+            <groupId>org.github.jnorthrup.XChange</groupId>
             <artifactId>xchange-all</artifactId>
+            <version>polyglot-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
