@@ -23,7 +23,7 @@ public class CoinbaseTradeJsonTest {
   public void testDeserializeTransfers() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseTradeJsonTest.class.getResourceAsStream("/trade/example-transfers-data.json");
+    InputStream is = CoinbaseTradeJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/trade/example-transfers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

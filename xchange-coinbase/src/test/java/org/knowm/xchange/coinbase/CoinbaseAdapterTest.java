@@ -44,7 +44,7 @@ public class CoinbaseAdapterTest {
     AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", new Wallet(balances));
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/account/example-users-data.json");
+    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/account/example-users-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -71,7 +71,7 @@ public class CoinbaseAdapterTest {
         Currency.getInstance("USD"));
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/trade/example-transfers-data.json");
+    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/trade/example-transfers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -91,13 +91,13 @@ public class CoinbaseAdapterTest {
     Ticker expectedTicker = new Ticker.Builder().currencyPair(CurrencyPair.BTC_USD).ask(new BigDecimal("723.09")).bid(new BigDecimal("723.09"))
                                                 .last(new BigDecimal("719.79")).low(new BigDecimal("718.2")).high(new BigDecimal("723.11")).build();
 
-    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-price-data.json");
+    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/marketdata/example-price-data.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinbasePrice price = mapper.readValue(is, CoinbasePrice.class);
 
     CoinbaseMoney spotPrice = new CoinbaseMoney("USD", new BigDecimal("719.79"));
 
-    is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.txt");
+    is = CoinbaseAdapterTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/marketdata/example-spot-rate-history-data.txt");
     String spotPriceHistoryString;
     try (Scanner scanner = new Scanner(is)) {
       spotPriceHistoryString = scanner.useDelimiter("\\A").next();
