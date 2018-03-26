@@ -26,7 +26,7 @@ public class BTCTurkAdapterTest {
   public void testOrderBookAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCTurkAdapterTest.class.getResourceAsStream("/marketdata/example-full-depth-data.json");
+    InputStream is = BTCTurkAdapterTest.class.getResourceAsStream("/org/knowm/xchange/btcturk/dto/marketdata/example-full-depth-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BTCTurkOrderBook btcTurkOrderBook = mapper.readValue(is, BTCTurkOrderBook.class);
@@ -45,7 +45,7 @@ public class BTCTurkAdapterTest {
   @Test
   public void testTickerAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = BTCTurkAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = BTCTurkAdapterTest.class.getResourceAsStream("/org/knowm/xchange/btcturk/dto/marketdata/example-ticker-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BTCTurkTicker btcTurkTicker = mapper.readValue(is, BTCTurkTicker.class);
@@ -60,7 +60,7 @@ public class BTCTurkAdapterTest {
   @Test
   public void testTradesAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = BTCTurkAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = BTCTurkAdapterTest.class.getResourceAsStream("/org/knowm/xchange/btcturk/dto/marketdata/example-trades-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BTCTurkTrade[] btcTurkTrades = mapper.readValue(is, BTCTurkTrade[].class);
