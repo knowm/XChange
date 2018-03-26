@@ -19,7 +19,7 @@ public class DSXTransHistoryJSONTest {
   @Test
   public void testUnmarshal() throws IOException {
 
-    InputStream is = DSXTransHistoryJSONTest.class.getResourceAsStream("/trade/example-trans-history-data.json");
+    InputStream is = DSXTransHistoryJSONTest.class.getResourceAsStream("/org/knowm/xchange/dsx/dto/trade/example-trans-history-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXTransHistoryReturn transactions = mapper.readValue(is, DSXTransHistoryReturn.class);
