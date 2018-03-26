@@ -3,7 +3,7 @@
 
 There are two types of fee:
 
-* **Transaction fee** is a network charge levied in XRP. This is taken from the account balance for each order or trade transaction as described
+* **Transaction fee** is a network charge levied in XRP. This is taken from the org.knowm.xchange.ripple.dto.account balance for each order or org.knowm.xchange.ripple.dto.trade transaction as described
 [here](https://wiki.ripple.com/Transaction_Fee). This fee is put into the UserTrade fee fields. 
  
 * **Transfer fee** charged by the issuer levied in the currency of traded instrument. Whoever sends an asset pays the fee, the receiver does not 
@@ -15,20 +15,20 @@ incur a charge. Not all issuers will set a fee, so some transfers may to fee fre
 Ripple Labs **strongly** advise not to use [https://api.ripple.com/](https://api.ripple.com/) for any requests that require sending a secret key. 
 The Ripple REST API [documentation](https://github.com/ripple/ripple-rest) has the warning below copied at a number of different places:  
 
-> "**DO NOT SUBMIT YOUR SECRET TO AN UNTRUSTED REST API SERVER** The secret key can be used to send transactions from your account, 
+> "**DO NOT SUBMIT YOUR SECRET TO AN UNTRUSTED REST API SERVER** The secret key can be used to send transactions from your org.knowm.xchange.ripple.dto.account, 
  including spending all the balances it holds. For the public server, only use test accounts."
 
 It also says:
 
-> "**WARNING: If you submit your secret to a server you do not control, your account can be stolen, along with all the money in it.** We recommend 
-using a test account with very limited funds on the public Ripple-REST server."
+> "**WARNING: If you submit your secret to a server you do not control, your org.knowm.xchange.ripple.dto.account can be stolen, along with all the money in it.** We recommend 
+using a test org.knowm.xchange.ripple.dto.account with very limited funds on the public Ripple-REST server."
 
 In a Ripple forum [discussion](https://forum.ripple.com/viewtopic.php?t=10160) someone from Ripple Labs explains:
 
 > "While we at Ripple Labs aren't planning on stealing anyone's secret keys, we don't want people to "just trust us" instead of following proper 
 security practices. We're also not protecting the server logs of our public API servers with the extreme precautions we use to protect things 
 like Ripple Trade accounts. If we were to get hacked, or if one of our operations employees went rogue, any secret key you submitted to 
-api.ripple.com could be used to take control of that account. Obviously we're not planning on either of those scenarios, but it's a risk you 
+api.ripple.com could be used to take control of that org.knowm.xchange.ripple.dto.account. Obviously we're not planning on either of those scenarios, but it's a risk you 
 don't have to take." 
 
 The simplest solution is to run a plain text (no SSL encryption, http not https) local Ripple REST API Server that signs transactions before sending
@@ -46,7 +46,7 @@ configured using the XChange initialisation:
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
 ```
 
-However, if you are using a test account, or if for some other reason you decide that you really want to trust [https://api.ripple.com/](https://api.ripple.com/)
+However, if you are using a test org.knowm.xchange.ripple.dto.account, or if for some other reason you decide that you really want to trust [https://api.ripple.com/](https://api.ripple.com/)
 then this must be explicitly enabled to prevent an exception being thrown on creation. This is done by setting the parameter item `trust.api.ripple.com` to `true` 
 in the XChange specification, e.g.
 
@@ -61,12 +61,12 @@ in the XChange specification, e.g.
 
 ## Order Entry
 
-If the account does not have sufficient balance to fully execute an order, a partial (unfunded) order will be entered into the market as described 
+If the org.knowm.xchange.ripple.dto.account does not have sufficient balance to fully execute an order, a partial (unfunded) order will be entered into the market as described 
 [here](https://wiki.ripple.com/Unfunded_offers). This detail is not included in the response message so is not possible to immediately identify at  
 the point of order entry. If identification of unfunded orders is important they can be found using an order book poll.    
 
 ## Trade History
 
-The trade history query relies on querying notifications, and then for every order type querying the corresponding hash. This has the potential to 
+The org.knowm.xchange.ripple.dto.trade history query relies on querying notifications, and then for every order type querying the corresponding hash. This has the potential to 
 generate a large number of API calls and be slow. A [RippleTradeHistoryParams](src/main/java/org/knowm/xchange/ripple/service/params/RippleTradeHistoryParams.java)
 object can be used to target the query more efficiently in line with the applications requirements. 
