@@ -320,10 +320,6 @@ public class GDAXAdapters {
     return orderType == OrderType.ASK ? GDAXPlaceOrder.Side.sell : GDAXPlaceOrder.Side.buy; 
   }
   
-  public static GDAXPlaceOrder.Stop adaptStop(OrderType orderType) {
-    return orderType == OrderType.ASK ? GDAXPlaceOrder.Stop.loss : GDAXPlaceOrder.Stop.entry;  
-  }
-  
   public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(LimitOrder limitOrder) {
     GDAXPlaceLimitOrder.Builder builder = new GDAXPlaceLimitOrder.Builder()
         .price( limitOrder.getLimitPrice() )
@@ -353,7 +349,7 @@ public class GDAXAdapters {
   public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(StopOrder stopOrder, BigDecimal limitPrice) {
     GDAXPlaceLimitOrder.Builder builder = new GDAXPlaceLimitOrder.Builder()
         .price( limitPrice == null ? stopOrder.getStopPrice() : limitPrice )
-        .stop(adaptStop(stopOrder.getType()))
+        .stop( GDAXPlaceOrder.Stop.loss )
         .stopPrice(stopOrder.getStopPrice())
         .type(GDAXPlaceOrder.Type.limit)
         .productId( adaptProductID( stopOrder.getCurrencyPair()))
@@ -392,7 +388,7 @@ public class GDAXAdapters {
         .type(GDAXPlaceOrder.Type.market)
         .side(adaptSide (stopOrder.getType() ))
         .size(stopOrder.getOriginalAmount())
-        .stop(adaptStop(stopOrder.getType()))
+        .stop( GDAXPlaceOrder.Stop.loss )
         .stopPrice(stopOrder.getStopPrice())
         .build();
   }
