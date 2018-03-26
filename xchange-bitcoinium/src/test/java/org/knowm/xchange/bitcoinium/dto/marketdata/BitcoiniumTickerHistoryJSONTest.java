@@ -19,7 +19,7 @@ public class BitcoiniumTickerHistoryJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoiniumTickerHistoryJSONTest.class.getResourceAsStream("/marketdata/example-ticker-history-data.json");
+    InputStream is = BitcoiniumTickerHistoryJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitcoinium/dto/marketdata/example-ticker-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
