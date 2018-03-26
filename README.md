@@ -18,6 +18,10 @@ coding standards
 ======
 https://12factor.net and microservices aren't identical, but they are close cousins, and make good guidelines to supercede any manually evangelized set of coding/style guidelines with real-world examples like netflix and heroku ecosystems.  minimizing "bikeshedding" on indentation, module structure, and library increases the available time for someone with a vision to illustrate by doing, and forking if there are irreconcilable differences.
 
+Github Guide
+============
+["How GitHub Uses GitHub to Build GitHub by Zach Holman"](  https://www.youtube.com/watch?v=qyz3jkOBbQY )
+
 Jitpack
 =======
 Jitpack is handy for developing custom forks.
@@ -38,5 +42,5 @@ e.g. as of this writing this branch uses (subject to change, but a guideline)
     </dependency>
 
 ```
-
+...the jury is out on jitpack
 
