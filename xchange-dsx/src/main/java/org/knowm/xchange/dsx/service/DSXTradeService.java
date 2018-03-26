@@ -94,7 +94,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     DSXOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? DSXOrder.Type.buy : DSXOrder.Type.sell;
 
-    String pair = DSXAdapters.getPair(limitOrder.getCurrencyPair());
+    String pair = DSXAdapters.currencyPairToMarketName(limitOrder.getCurrencyPair());
 
     DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), 3,
         DSXOrder.OrderType.limit, null);
@@ -161,7 +161,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
     if (params instanceof TradeHistoryParamCurrencyPair) {
       CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
       if (pair != null) {
-        dsxpair = DSXAdapters.getPair(pair);
+        dsxpair = DSXAdapters.currencyPairToMarketName(pair);
       }
     }
 
