@@ -19,7 +19,7 @@ public class CoinEggTradeViewJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinEggTradeViewJSONTest.class.getResourceAsStream("/trade/example-trade-view-data.json");
+    InputStream is = CoinEggTradeViewJSONTest.class.getResourceAsStream("/org/xchange/coinegg/dto/trade/example-trade-view-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();
