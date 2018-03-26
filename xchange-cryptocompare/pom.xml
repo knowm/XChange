@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.github.jnorthrup.XChange</groupId>
+		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
 		<version>4.3.5-SNAPSHOT</version>
 	</parent>
@@ -25,8 +25,5 @@
 			<version>1.16.20</version>
 			<scope>provided</scope>
 		</dependency>
-
-
 	</dependencies>
-
 </project>
