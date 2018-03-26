@@ -18,7 +18,7 @@ public class BitmexAccountJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexAccountJSONTest.class.getResourceAsStream("/account/example-account.json");
+    InputStream is = BitmexAccountJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitmex/dto/account/example-account.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexAccount bitmexAccount = mapper.readValue(is, BitmexAccount.class);
