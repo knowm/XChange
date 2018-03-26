@@ -4,11 +4,39 @@
 goal
 =====
 
-this branch is for lombok, swagger, kotlin, scala, android, maven code generators, gradle contributors, anyone who wants to push the envelope and pursue (reducto-absurdum)-1 towards scalable and efficient real time trading methods and concise code representations 
+this branch is for {lombok, swagger, kotlin, scala, android, maven code generators, gradle contributors, camel, actors, erlang, nosql} hackers who want to push the envelope and pursue (reducto-absurdum)-1 towards scalable and efficient real time trading methods and concise code representations
 
 methodology/seed build
 =====
 initially this uses a script to merge xchange-core and the style-guide compliant modules and should retain the ability to absorb development branch modifications as a baseline (see bin/bootstrap to start your own!)  this gives a noticeable build time improvement and simplifies debugging and hot reloading visibility by the tools.
+
+bootstrapping
+=============
+
+if done right you can be done in less time than a single XChange build
+
+in bash, (not windows bash) run bin/bootstrap (ssd helps)
+```bash
+git clone git@github.com:jnorthrup/XChange.git
+git clone XChange -b Xpolyglot  Xpolyglot
+cd Xpolyglot
+bin/bootstrap
+mvn clean install
+```
+
+```
+[INFO] Reactor Summary:
+[INFO]
+[INFO] xchange-parent ..................................... SUCCESS [  0.643 s]
+[INFO] XChange Speedball .................................. SUCCESS [ 38.055 s]
+[INFO] XChange {bitcoincoid} generated .................... SUCCESS [  9.487 s]
+[INFO] XChange {cryptocompare} lombok ..................... SUCCESS [ 11.521 s]
+[INFO] XChange {huobipro} generated ....................... SUCCESS [  5.724 s]
+[INFO] XChange {idex} generated ........................... SUCCESS [  7.191 s]
+[INFO] XChange {stocksexchange} generated ................. SUCCESS [  2.809 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+```
 
 testing
 ======
@@ -26,7 +54,7 @@ Jitpack
 =======
 Jitpack is handy for developing custom forks.
 e.g. as of this writing this branch uses (subject to change, but a guideline)
-```#!xml
+```xml
 
     <repositories>
      <repository>
