@@ -31,19 +31,19 @@ rm -fr xchange-*
 
 echo  '<modules>'
 I=( xchange-* )
-for i in xchange-core ${I[*]}
+for i in xchange-all ${I[*]}
 do
 echo '<module>' $i '</module>'
 done
 echo  '</modules>'
 echo  '</project>'
  } >>pom.xml
-cp -a target/orig/xchange-core .
+cp -a target/orig/xchange-core xchange-all
 #as of this writing, the codebase for examples contains dead xchange artifacts that seem to never be ovrloooked by travis
 rm -fr target/orig/xchange-examples
-cp -au target/orig/xchange-*/src xchange-core/
+cp -au target/orig/xchange-*/src xchange-all/
 
-pushd xchange-core/src/test/
+pushd xchange-all/src/test/
 mkdir -p ../test-integration
 
 INT=( $(find . -name '*Integration.java' ) )
