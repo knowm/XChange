@@ -22,7 +22,7 @@ public class UserTransactionsJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = UserTransactionsJSONTest.class.getResourceAsStream("/trade/example-user-transactions.json");
+    InputStream is = UserTransactionsJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitstamp/dto/trade/example-user-transactions.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
