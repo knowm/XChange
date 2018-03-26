@@ -17,6 +17,7 @@ import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -48,6 +49,13 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     super(exchange);
   }
 
+  public interface BinanceOrderFlags extends IOrderFlags {
+    
+    /** Used in fields 'newClientOrderId' */
+    String getClientId();
+    
+  }
+  
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
@@ -76,10 +84,10 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     CurrencyPair pair = pairParams.getCurrencyPair();
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     List<BinanceOrder> binanceOpenOrders = super.openOrders(pair, recvWindow, getTimestamp());
-    List<LimitOrder> openOrders = binanceOpenOrders.stream().map(
-        o -> new LimitOrder.Builder(BinanceAdapters.convert(o.side), pair).id(Long.toString(o.orderId)).originalAmount(o.origQty)
-                                                                          .cumulativeAmount(o.executedQty).limitPrice(o.price).timestamp(o.getTime())
-                                                                          .build()).collect(Collectors.toList());
+    List<LimitOrder> openOrders = binanceOpenOrders.stream()
+        .filter(o -> o.type.equals(OrderType.LIMIT))
+        .map(o -> (LimitOrder) BinanceAdapters.adaptOrder(o))
+        .collect(Collectors.toList());
     return new OpenOrders(openOrders);
   }
 
@@ -101,14 +109,25 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   private String placeOrder(OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif) throws IOException {
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     BinanceNewOrder newOrder = newOrder(order.getCurrencyPair(), BinanceAdapters.convert(order.getType()), type, tif, order.getOriginalAmount(),
-        limitPrice, null, stopPrice, null, recvWindow, getTimestamp());
+        limitPrice, getClientOrderId(order), stopPrice, null, recvWindow, getTimestamp());
     return Long.toString(newOrder.orderId);
   }
 
   public void placeTestOrder(OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice) throws IOException {
     Long recvWindow = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     testNewOrder(order.getCurrencyPair(), BinanceAdapters.convert(order.getType()), type, TimeInForce.GTC, order.getOriginalAmount(), limitPrice,
-        null, stopPrice, null, recvWindow, getTimestamp());
+        getClientOrderId(order), stopPrice, null, recvWindow, getTimestamp());
+  }
+
+  private String getClientOrderId(Order order) {
+    String clientOrderId = null;
+    for (IOrderFlags flags : order.getOrderFlags()) {
+      if (flags instanceof BinanceOrderFlags) {
+        BinanceOrderFlags bof = (BinanceOrderFlags) flags;
+        if (clientOrderId == null) clientOrderId = bof.getClientId();
+      }
+    }
+    return clientOrderId;
   }
 
   @Override

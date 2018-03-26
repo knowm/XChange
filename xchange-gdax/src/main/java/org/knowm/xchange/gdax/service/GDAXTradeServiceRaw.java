@@ -112,7 +112,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
     try {
       return gdax.placeStopOrder(
-          new GDAXPlaceOrder(stopOrder.getOriginalAmount(), stopOrder.getAveragePrice(), side, productId, "stop", stopOrder.getOrderFlags()), apiKey,
+          new GDAXPlaceOrder(stopOrder.getOriginalAmount(), stopOrder.getStopPrice(), side, productId, "stop", stopOrder.getOrderFlags()), apiKey,
           digest, nonceFactory, passphrase);
     } catch (GDAXException e) {
       throw handleError(e);
