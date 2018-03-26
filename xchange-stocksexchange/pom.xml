@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.knowm.xchange</groupId>
+        <groupId>org.github.jnorthrup</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.3.4-SNAPSHOT</version>
+        <version>4.3.5-SNAPSHOT</version>
     </parent>
     <dependencyManagement>
         <dependencies>
@@ -19,10 +19,9 @@
             </dependency>
             <dependency>
                 <groupId>${project.parent.groupId}</groupId>
-                <artifactId>xchange-core</artifactId>
+                <artifactId>xchange-all</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
     <modelVersion>4.0.0</modelVersion>
@@ -99,8 +98,8 @@
     </profiles>
     <dependencies>
         <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core</artifactId>
+            <groupId>org.github.jnorthrup</groupId>
+            <artifactId>xchange-all</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
@@ -218,8 +217,8 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.12</junit-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <gen-package>${project.parent.groupId}</gen-package>
-        <kotlin.version>1.2.21</kotlin.version>
+        <!--<gen-package>${project.parent.groupId}</gen-package>--><gen-package>org.knowm.xchange</gen-package>
+        <kotlin.version>1.2.31</kotlin.version>
         <commons-codec.version>1.11</commons-codec.version>
         <rebuild.sentinel>target/generated-sources/swagger/pom.xml</rebuild.sentinel>
         <toxic.test.include>${build.directory}/generated-sources/swagger/src/test</toxic.test.include>

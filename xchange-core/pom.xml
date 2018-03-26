@@ -20,14 +20,14 @@
         </dependency>
     </dependencies>
     <parent>
-        <groupId>org.knowm.xchange</groupId>
+        <groupId>org.github.jnorthrup</groupId>
         <artifactId>xchange-parent</artifactId>
         <version>4.3.5-SNAPSHOT</version>
     </parent>
 
-    <artifactId>xchange-core</artifactId>
+    <artifactId>xchange-all</artifactId>
 
-    <name>XChange Core</name>
+    <name>XChange Speedball</name>
     <description>Core functionality used by all other modules.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>

@@ -1,5 +1,10 @@
 package org.knowm.xchange.idex
 
+import org.knowm.xchange.idex.dto.CompleteBalancesReq
+import org.knowm.xchange.idex.dto.DepositsWithdrawalsReq
+import org.knowm.xchange.idex.service.AccountApi
+import org.knowm.xchange.idex.util.ApiClient
+import org.knowm.xchange.idex.util.ApiException
 import org.knowm.xchange.currency.Currency
 import org.knowm.xchange.dto.account.*
 import org.knowm.xchange.idex.dto.*
