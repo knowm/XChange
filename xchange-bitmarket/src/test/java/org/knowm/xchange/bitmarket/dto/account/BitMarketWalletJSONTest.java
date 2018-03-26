@@ -16,7 +16,7 @@ public class BitMarketWalletJSONTest extends BitMarketDtoTestSupport {
   public void testUnmarshal() throws IOException {
 
     // when
-    BitMarketAccountInfoResponse response = parse("account/example-info-data", BitMarketAccountInfoResponse.class);
+    BitMarketAccountInfoResponse response = parse("org/knowm/xchange/bitmarket/dto/account/example-info-data", BitMarketAccountInfoResponse.class);
 
     // then
     assertThat(response.getSuccess()).isTrue();
