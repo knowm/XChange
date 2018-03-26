@@ -22,7 +22,7 @@ public class PlaceLimitOrderJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = PlaceLimitOrderJSONTest.class.getResourceAsStream("/trade/example-place-limit-order.json");
+    InputStream is = PlaceLimitOrderJSONTest.class.getResourceAsStream("/org/knowm/xchange/taurus/dto/trade/example-place-limit-order.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -38,7 +38,7 @@ public class PlaceLimitOrderJSONTest {
   @Test
   public void testError() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = PlaceLimitOrderJSONTest.class.getResourceAsStream("/trade/example-place-limit-order-error.json");
+    InputStream is = PlaceLimitOrderJSONTest.class.getResourceAsStream("/org/knowm/xchange/taurus/dto/trade/example-place-limit-order-error.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
