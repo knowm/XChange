@@ -1,22 +1,13 @@
 package org.knowm.xchange.bitcointoyou.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.*;
+
+import javax.annotation.Generated;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Generated;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.Objects;
 
 /**
  * @author Jonathas Carrijo
@@ -32,9 +23,35 @@ public class BitcointoyouOrderBook {
   @JsonIgnore
   private final Map<String, Object> additionalProperties = new HashMap<>();
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof BitcointoyouOrderBook)) return false;
+    BitcointoyouOrderBook that = (BitcointoyouOrderBook) o;
+    return Objects.equals(getAsks(), that.getAsks()) &&
+            Objects.equals(getBids(), that.getBids()) &&
+            Objects.equals(getAdditionalProperties(), that.getAdditionalProperties());
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(getAsks(), getBids(), getAdditionalProperties());
+  }
+
+  @Override
+  public String toString() {
+    return "BitcointoyouOrderBook{" +
+            "asks=" + asks +
+            ", bids=" + bids +
+            ", additionalProperties=" + additionalProperties +
+            '}';
+  }
+
   public BitcointoyouOrderBook(@JsonProperty("asks") List<List<BigDecimal>> asks, @JsonProperty("bids") List<List<BigDecimal>> bids) {
     this.asks = asks;
     this.bids = bids;
+
   }
 
   /**
@@ -53,11 +70,6 @@ public class BitcointoyouOrderBook {
     return bids;
   }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
-
   @JsonAnyGetter
   public Map<String, Object> getAdditionalProperties() {
     return this.additionalProperties;
@@ -66,23 +78,6 @@ public class BitcointoyouOrderBook {
   @JsonAnySetter
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
-  }
-
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder().append(asks).append(bids).append(additionalProperties).toHashCode();
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (other == this) {
-      return true;
-    }
-    if ((other instanceof BitcointoyouOrderBook) == false) {
-      return false;
-    }
-    BitcointoyouOrderBook rhs = ((BitcointoyouOrderBook) other);
-    return new EqualsBuilder().append(asks, rhs.asks).append(bids, rhs.bids).append(additionalProperties, rhs.additionalProperties).isEquals();
   }
 
 }
