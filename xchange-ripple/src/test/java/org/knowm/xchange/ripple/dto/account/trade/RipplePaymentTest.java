@@ -18,7 +18,7 @@ public class RipplePaymentTest {
   @Test
   public void passthroughUnmarshalTest() throws IOException, ParseException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-payment-passthrough.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-payment-passthrough.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RipplePaymentTransaction response = mapper.readValue(is, RipplePaymentTransaction.class);
 
