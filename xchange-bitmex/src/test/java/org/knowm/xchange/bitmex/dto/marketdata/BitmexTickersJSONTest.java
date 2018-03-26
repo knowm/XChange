@@ -19,7 +19,7 @@ public class BitmexTickersJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexTickersJSONTest.class.getResourceAsStream("/example-tickers.json");
+    InputStream is = BitmexTickersJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitmex/example-tickers.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexTicker[] bitmexTickers = mapper.readValue(is, BitmexTicker[].class);

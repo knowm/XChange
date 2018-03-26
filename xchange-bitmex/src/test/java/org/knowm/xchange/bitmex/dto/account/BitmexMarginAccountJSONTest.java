@@ -19,7 +19,7 @@ public class BitmexMarginAccountJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexMarginAccountJSONTest.class.getResourceAsStream("/account/example-margin-account.json");
+    InputStream is = BitmexMarginAccountJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitmex/dto/account/example-margin-account.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexMarginAccount bitmexMarginAccount = mapper.readValue(is, BitmexMarginAccount.class);
