@@ -21,7 +21,7 @@ public class KucoinMarketdataUnmarshalTest {
   public void testCoinUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KucoinMarketdataUnmarshalTest.class.getResourceAsStream("/marketdata/example-coin.json");
+    InputStream is = KucoinMarketdataUnmarshalTest.class.getResourceAsStream("/org/knowm/xchange/kucoin/dto/marketdata/example-coin.json");
     KucoinCoin coin = mapper.readValue(is, KucoinCoin.class);
 
     // Verify that the example data was unmarshalled correctly
@@ -43,7 +43,7 @@ public class KucoinMarketdataUnmarshalTest {
   public void testTickerUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KucoinMarketdataUnmarshalTest.class.getResourceAsStream("/marketdata/example-ticker.json");
+    InputStream is = KucoinMarketdataUnmarshalTest.class.getResourceAsStream("/org/knowm/xchange/kucoin/dto/marketdata/example-ticker.json");
     KucoinTicker ticker = mapper.readValue(is, KucoinTicker.class);
 
     // Verify that the example data was unmarshalled correctly
