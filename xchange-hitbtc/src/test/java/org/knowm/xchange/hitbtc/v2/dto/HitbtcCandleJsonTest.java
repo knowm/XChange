@@ -17,7 +17,7 @@ public class HitbtcCandleJsonTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = HitbtcCandleJsonTest.class.getResourceAsStream("/marketdata/example-candles-data.json");
+    InputStream is = HitbtcCandleJsonTest.class.getResourceAsStream("/org/knowm/xchange/hitbtc/v2/dto/marketdata/example-candles-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
