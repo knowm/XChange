@@ -261,4 +261,18 @@
         <module>xchange-idex</module>
         <module>xchange-stocksexchange</module>
     </modules>
+<!-- tada
+    [INFO] Reactor Summary:
+    [INFO]
+    [INFO] xchange-parent ..................................... SUCCESS [  0.643 s]
+    [INFO] XChange Speedball .................................. SUCCESS [ 38.055 s]
+    [INFO] XChange {bitcoincoid} generated .................... SUCCESS [  9.487 s]
+    [INFO] XChange {cryptocompare} lombok ..................... SUCCESS [ 11.521 s]
+    [INFO] XChange {huobipro} generated ....................... SUCCESS [  5.724 s]
+    [INFO] XChange {idex} generated ........................... SUCCESS [  7.191 s]
+    [INFO] XChange {stocksexchange} generated ................. SUCCESS [  2.809 s]
+
+    [INFO] BUILD SUCCESS
+-->
+
 </project>
