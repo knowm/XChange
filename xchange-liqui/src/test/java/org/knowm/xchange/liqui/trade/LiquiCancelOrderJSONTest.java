@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class LiquiCancelOrderJSONTest {
   @Test
   public void testUnmarshall() throws Exception {
-    final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/trade/example-cancelorder-data.json");
+    final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/org/knowm/xchange/liqui/marketdata/example-cancelorder-data.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final LiquiCancelOrderResult cancelOrderResult = mapper.readValue(is, LiquiCancelOrderResult.class);
