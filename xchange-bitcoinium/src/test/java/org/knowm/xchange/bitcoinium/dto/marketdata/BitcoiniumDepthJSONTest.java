@@ -19,7 +19,7 @@ public class BitcoiniumDepthJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoiniumDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = BitcoiniumDepthJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitcoinium/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

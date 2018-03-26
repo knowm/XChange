@@ -5,9 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,7 +30,10 @@ public class TheRockDtoTest {
   private static ObjectMapper mapper = new ObjectMapper();
 
   private static <T> T parse(Class<T> theClass) throws IOException {
-    return parse(theClass.getSimpleName() + ".json", theClass);
+    LinkedList <String>linkedList = new LinkedList<>(Arrays.asList(new Object(){} .getClass().getPackage().getName().split("\\.")));
+    linkedList.add(theClass.getSimpleName()+".json");
+    String filename = Paths.get(linkedList.removeFirst(), linkedList.toArray(new String[0])).toString();
+    return parse(filename, theClass);
   }
 
   private static <E> E parse(String filename, Class<E> type) throws java.io.IOException {

@@ -42,7 +42,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   @Test
   public void adaptAccountInfoTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/account/example-account-balances.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/account/example-account-balances.json");
 
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();
@@ -77,7 +77,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
   @Test
   public void adaptOrderBookTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/marketdata/example-order-book.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/marketdata/example-order-book.json");
     final CurrencyPair currencyPair = CurrencyPair.XRP_BTC;
 
     // Test data uses Bitstamp issued BTC
@@ -118,7 +118,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     final int roundingScale = exchange.getRoundingScale();
 
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-account-orders.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-account-orders.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleAccountOrders response = mapper.readValue(is, RippleAccountOrders.class);
 
@@ -150,7 +150,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
 
   @Override
   public BigDecimal getTransferFeeRate(final String address) throws IOException {
-    final InputStream is = getClass().getResourceAsStream(String.format("/account/example-account-settings-%s.json", address));
+    final InputStream is = getClass().getResourceAsStream(String.format("/org/knowm/xchange/ripple/dto/account/example-account-settings-%s.json", address));
     final ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(is, RippleAccountSettings.class).getSettings().getTransferFeeRate();
   }
@@ -161,7 +161,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     final int roundingScale = exchange.getRoundingScale();
 
     // Read the trade JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-trade-buyXRP-sellBTC.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-trade-buyXRP-sellBTC.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderTransaction response = mapper.readValue(is, RippleOrderTransaction.class);
 
@@ -201,7 +201,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     final int roundingScale = exchange.getRoundingScale();
 
     // Read the trade JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-trade-buyXRP-sellBTC.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-trade-buyXRP-sellBTC.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderTransaction response = mapper.readValue(is, RippleOrderTransaction.class);
 
@@ -243,7 +243,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     final int roundingScale = exchange.getRoundingScale();
 
     // Read the trade JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-trade-sellXRP-buyBTC.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-trade-sellXRP-buyBTC.json");
     final ObjectMapper mapper = new ObjectMapper();
     final IRippleTradeTransaction response = mapper.readValue(is, RippleOrderTransaction.class);
 
@@ -293,7 +293,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     final int roundingScale = exchange.getRoundingScale();
 
     // Read the trade JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-trade-sellXRP-buyBTC.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-trade-sellXRP-buyBTC.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderTransaction response = mapper.readValue(is, RippleOrderTransaction.class);
 
@@ -334,7 +334,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     final int roundingScale = exchange.getRoundingScale();
 
     // Read the trade JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-trade-buyBTC-sellBTC.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-trade-buyBTC-sellBTC.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderTransaction response = mapper.readValue(is, RippleOrderTransaction.class);
 
@@ -377,7 +377,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     final int roundingScale = exchange.getRoundingScale();
 
     // Read the trade JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-payment-passthrough.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-payment-passthrough.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RipplePaymentTransaction response = mapper.readValue(is, RipplePaymentTransaction.class);
 

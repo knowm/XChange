@@ -26,7 +26,7 @@ public class CoinbaseMerchantJsonTest {
   public void testDeserializeButton() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMerchantJsonTest.class.getResourceAsStream("/merchant/example-create-button-data.json");
+    InputStream is = CoinbaseMerchantJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/merchant/example-create-button-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -55,7 +55,7 @@ public class CoinbaseMerchantJsonTest {
   public void testDeserializeOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMerchantJsonTest.class.getResourceAsStream("/merchant/example-orders-data.json");
+    InputStream is = CoinbaseMerchantJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/merchant/example-orders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -89,7 +89,7 @@ public class CoinbaseMerchantJsonTest {
   public void testDeserializeRecurringPayments() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMerchantJsonTest.class.getResourceAsStream("/merchant/example-subscribers-data.json");
+    InputStream is = CoinbaseMerchantJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/merchant/example-subscribers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -115,7 +115,7 @@ public class CoinbaseMerchantJsonTest {
   public void testDeserializeToken() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMerchantJsonTest.class.getResourceAsStream("/merchant/example-token-data.json");
+    InputStream is = CoinbaseMerchantJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/merchant/example-token-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

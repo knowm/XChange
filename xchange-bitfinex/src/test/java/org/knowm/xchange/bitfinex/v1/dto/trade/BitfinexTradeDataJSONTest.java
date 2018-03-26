@@ -22,7 +22,7 @@ public class BitfinexTradeDataJSONTest {
   @Test
   public void testPlaceOrder() throws IOException {
 
-    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-place-order-data.json");
+    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitfinex/v1/dto/trade/example-place-order-data.json");
     BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
     assertEquals(4003264, response.getId());
@@ -43,7 +43,7 @@ public class BitfinexTradeDataJSONTest {
   @Test
   public void testCancelOrder() throws IOException {
 
-    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-cancel-order-data.json");
+    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitfinex/v1/dto/trade/example-cancel-order-data.json");
     BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
     assertEquals(4003242, response.getId());
@@ -64,7 +64,7 @@ public class BitfinexTradeDataJSONTest {
   @Test
   public void testOpenOrders() throws IOException {
 
-    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-open-orders-data.json");
+    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitfinex/v1/dto/trade/example-open-orders-data.json");
     BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
     assertEquals(4003242, response.getId());
@@ -85,7 +85,7 @@ public class BitfinexTradeDataJSONTest {
   @Test
   public void testPastTrades() throws IOException {
 
-    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-past-trades-data.json");
+    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitfinex/v1/dto/trade/example-past-trades-data.json");
     BitfinexTradeResponse[] responses = new ObjectMapper().readValue(resourceAsStream, BitfinexTradeResponse[].class);
 
     assertEquals(new BigDecimal("854.01"), responses[0].getPrice());

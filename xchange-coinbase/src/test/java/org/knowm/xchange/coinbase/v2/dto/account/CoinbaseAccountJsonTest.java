@@ -18,7 +18,7 @@ public class CoinbaseAccountJsonTest {
   public void testDeserializeAccounts() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/account/example-accounts-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/account/example-accounts-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

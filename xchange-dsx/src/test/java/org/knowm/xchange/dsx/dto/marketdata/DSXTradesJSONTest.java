@@ -22,7 +22,7 @@ public class DSXTradesJSONTest {
   @Test
   public void testUnmarshal() throws IOException {
 
-    InputStream is = DSXTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = DSXTradesJSONTest.class.getResourceAsStream("/org/knowm/xchange/dsx/dto/marketdata/example-trades-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXTradesWrapper dsxTradesWrapper = mapper.readValue(is, DSXTradesWrapper.class);

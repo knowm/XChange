@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CoinfloorBalanceTest {
   @Test
   public void unmarshalTest() throws IOException {
-    InputStream is = getClass().getResourceAsStream("/account/example-balance-btcgbp.json");
+    InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/coinfloor/dto/account/example-balance-btcgbp.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinfloorBalance balance = mapper.readValue(is, CoinfloorBalance.class);
 

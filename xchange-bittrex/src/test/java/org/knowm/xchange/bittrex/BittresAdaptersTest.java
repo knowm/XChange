@@ -87,7 +87,7 @@ public class BittresAdaptersTest {
   public void testAdaptLimitOrder() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BittresAdaptersTest.class.getResourceAsStream("/order/example-limit-buy-order.json");
+    InputStream is = BittresAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/bittrex/dto/trade/order/example-limit-buy-order.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -63,8 +63,8 @@ public class GDAXAdaptersTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GDAXAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
-    InputStream is2 = GDAXAdaptersTest.class.getResourceAsStream("/marketdata/example-stats-data.json");
+    InputStream is = GDAXAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/gdax/dto/marketdata/example-ticker-data.json");
+    InputStream is2 = GDAXAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/gdax/dto/marketdata/example-stats-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -92,7 +92,7 @@ public class GDAXAdaptersTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/trade/example-fills.json");
+    InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/trade/example-fills.json");
     GDAXFill[] fills = mapper.readValue(is, GDAXFill[].class);
 
     UserTrades trades = GDAXAdapters.adaptTradeHistory(fills);
@@ -117,7 +117,7 @@ public class GDAXAdaptersTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/order/example-market-order-filled.json");
+    InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-market-order-filled.json");
     GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -142,7 +142,7 @@ public class GDAXAdaptersTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/order/example-limit-order-filled.json");
+    InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-limit-order-filled.json");
     GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -167,7 +167,7 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-limit-order-settled.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-limit-order-settled.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -191,7 +191,7 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-limit-order-new.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-limit-order-new.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -217,7 +217,7 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-stop-order-new.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-stop-order-new.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -243,7 +243,7 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-stop-order-stopped.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-stop-order-stopped.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -269,7 +269,7 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-stop-order-filled.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-stop-order-filled.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -283,7 +283,7 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-limit-order-pending.json");
+    final InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-limit-order-pending.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -297,9 +297,9 @@ public class GDAXAdaptersTest {
     final ObjectMapper mapper = factory.createObjectMapper();
 
     InputStream is = new SequenceInputStream(IOUtils.toInputStream("[", StandardCharsets.UTF_8),
-        new SequenceInputStream(getClass().getResourceAsStream("/order/example-limit-order-pending.json"),
+        new SequenceInputStream(getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-limit-order-pending.json"),
             new SequenceInputStream(IOUtils.toInputStream(", ", StandardCharsets.UTF_8),
-                new SequenceInputStream(getClass().getResourceAsStream("/order/example-stop-order-filled.json"),
+                new SequenceInputStream(getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-stop-order-filled.json"),
                     IOUtils.toInputStream("]", StandardCharsets.UTF_8)))));
 
     final GDAXOrder[] gdaxOrders = mapper.readValue(is, GDAXOrder[].class);

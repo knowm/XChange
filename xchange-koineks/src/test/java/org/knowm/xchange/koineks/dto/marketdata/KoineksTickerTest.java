@@ -20,7 +20,7 @@ public class KoineksTickerTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KoineksTickerTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = KoineksTickerTest.class.getResourceAsStream("/org/knowm/xchange/koineks/dto/marketdata/example-ticker-data.json");
     ObjectMapper mapper = new ObjectMapper();
     KoineksTicker koineksTicker = mapper.readValue(is, KoineksTicker.class);
 

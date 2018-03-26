@@ -44,7 +44,7 @@ public class WexAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WexDepthJSONTest.class.getResourceAsStream("/v3/marketdata/example-depth-data.json");
+    InputStream is = WexDepthJSONTest.class.getResourceAsStream("/org/knowm/xchange/wex/v3/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -74,7 +74,7 @@ public class WexAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WexTradesJSONTest.class.getResourceAsStream("/v3/marketdata/example-trades-data.json");
+    InputStream is = WexTradesJSONTest.class.getResourceAsStream("/org/knowm/xchange/wex/v3/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -99,7 +99,7 @@ public class WexAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WexTickerJSONTest.class.getResourceAsStream("/v3/marketdata/example-ticker-data.json");
+    InputStream is = WexTickerJSONTest.class.getResourceAsStream("/org/knowm/xchange/wex/v3/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -121,7 +121,7 @@ public class WexAdapterTest {
   public void testUserTradeHistoryAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WexTradeHistoryJSONTest.class.getResourceAsStream("/v3/trade/example-trade-history-data.json");
+    InputStream is = WexTradeHistoryJSONTest.class.getResourceAsStream("/org/knowm/xchange/wex/v3/trade/example-trade-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -143,7 +143,7 @@ public class WexAdapterTest {
   public void testOrderInfoAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WexTradeDataJSONTest.class.getResourceAsStream("/v3/trade/example-order-info-data.json");
+    InputStream is = WexTradeDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/wex/v3/trade/example-order-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -10,8 +10,8 @@ import static org.junit.Assert.assertEquals;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.BUY;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.SELL;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import org.junit.BeforeClass;
@@ -26,7 +26,7 @@ public class KunaTradeTest {
   @BeforeClass
   public static void init() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
-    File file = new File("src/test/resources/mock/trade.json");
+    InputStream file = new Object() {}.getClass().getClassLoader().getResourceAsStream("org/knowm/xchange/kuna/dto/trade.json");
     trade = mapper.readValue(file, KunaTrade.class);
   }
 
