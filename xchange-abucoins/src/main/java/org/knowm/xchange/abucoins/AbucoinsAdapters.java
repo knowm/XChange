@@ -350,8 +350,15 @@ public class AbucoinsAdapters {
   }
 
   public static UserTrade adaptUserTrade(AbucoinsFill fill) {
-    return new UserTrade.Builder().currencyPair(adaptCurrencyPair(fill.getProductID())).id(fill.getTradeID()).orderId(fill.getOrderID())
-                                  .price(fill.getPrice()).timestamp(parseDate(fill.getCreatedAt())).type(adaptOrderType(fill.getSide())).build();
+    return new UserTrade.Builder()
+            .currencyPair(adaptCurrencyPair(fill.getProductID()))
+            .id(fill.getTradeID())
+            .orderId(fill.getOrderID())
+            .price(fill.getPrice())
+            .originalAmount(fill.getSize())
+            .timestamp(parseDate(fill.getCreatedAt()))
+            .type(adaptOrderType(fill.getSide()))
+            .build();
   }
 
   public static List<FundingRecord> adaptFundingRecordsFromDepositsHistory(AbucoinsDepositsHistory history) {
