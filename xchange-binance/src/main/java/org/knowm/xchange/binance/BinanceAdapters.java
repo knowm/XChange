@@ -1,13 +1,17 @@
 package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
+import org.knowm.xchange.binance.service.BinanceTradeService.BinanceOrderFlags;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -108,15 +112,27 @@ public class BinanceAdapters {
       averagePrice = order.price;
     }
 
+    Order result;
     if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
-      return new MarketOrder(type, order.origQty, currencyPair, Long.toString(order.orderId), order.getTime(), averagePrice, order.executedQty,
+      result = new MarketOrder(type, order.origQty, currencyPair, Long.toString(order.orderId), order.getTime(), averagePrice, order.executedQty,
           BigDecimal.ZERO, orderStatus);
     } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)) {
-      return new LimitOrder(type, order.origQty, currencyPair, Long.toString(order.orderId), order.getTime(), order.price, averagePrice,
+        result = new LimitOrder(type, order.origQty, currencyPair, Long.toString(order.orderId), order.getTime(), order.price, averagePrice,
           order.executedQty, BigDecimal.ZERO, orderStatus);
     } else {
-      return new StopOrder(type, order.origQty, currencyPair, Long.toString(order.orderId), order.getTime(), order.stopPrice, averagePrice,
+        result =  new StopOrder(type, order.origQty, currencyPair, Long.toString(order.orderId), order.getTime(), order.stopPrice, averagePrice,
           order.executedQty, orderStatus);
     }
+    Set<IOrderFlags> flags = new HashSet<>();
+    if (order.clientOrderId != null) {
+      flags.add(new BinanceOrderFlags() {
+        @Override
+        public String getClientId() {
+          return order.clientOrderId;
+        }
+      });
+    }
+    result.setOrderFlags(flags);
+    return result;
   }
 }
