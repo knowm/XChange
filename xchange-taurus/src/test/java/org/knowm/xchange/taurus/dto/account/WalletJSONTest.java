@@ -19,7 +19,7 @@ public class WalletJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WalletJSONTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+    InputStream is = WalletJSONTest.class.getResourceAsStream("/org/knowm/xchange/taurus/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
