@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CexIOFeeInfoTest {
   @Test
   public void jsonMapperTest() throws IOException {
-    InputStream is = getClass().getResourceAsStream("/account/sample_get_myfee.json");
+    InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/cexio/dto/account/sample_get_myfee.json");
     ObjectMapper mapper = new ObjectMapper();
     final CexIOFeeInfo cexIOFeeInfo = mapper.readValue(is, CexIOFeeInfo.class);
     assertThat(cexIOFeeInfo).isNotNull();
