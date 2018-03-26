@@ -19,7 +19,7 @@ public class MyOrdersJSONTest {
   @Test
   public void testUnmarshal() throws IOException {
 
-    MyOpenOrders orderBook = new ObjectMapper().readValue(MyOrdersJSONTest.class.getResourceAsStream("/trade/open-orders.json"), MyOpenOrders.class);
+    MyOpenOrders orderBook = new ObjectMapper().readValue(MyOrdersJSONTest.class.getResourceAsStream("/org/knowm/xchange/campbx/trade/open-orders.json"), MyOpenOrders.class);
 
     // Verify that the example data was unmarshalled correctly
     List<CampBXOrder> buy = orderBook.getBuy();
