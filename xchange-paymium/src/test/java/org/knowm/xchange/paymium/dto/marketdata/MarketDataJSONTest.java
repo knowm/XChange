@@ -18,7 +18,7 @@ public class MarketDataJSONTest {
   public void testPaymiumTickerRequest() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MarketDataJSONTest.class.getResourceAsStream("/Example_TickerData.json");
+    InputStream is = MarketDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/paymium/dto/marketdata/Example_TickerData.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -38,7 +38,7 @@ public class MarketDataJSONTest {
   public void testPaymiumDepthRequest() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MarketDataJSONTest.class.getResourceAsStream("/Example_DepthData.json");
+    InputStream is = MarketDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/paymium/dto/marketdata/Example_DepthData.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -55,7 +55,7 @@ public class MarketDataJSONTest {
   public void testPaymiumTradesRequest() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MarketDataJSONTest.class.getResourceAsStream("/Example_TradesData.json");
+    InputStream is = MarketDataJSONTest.class.getResourceAsStream("/org/knowm/xchange/paymium/dto/marketdata/Example_TradesData.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
