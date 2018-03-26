@@ -19,7 +19,7 @@ public class QuoineOrderResponseJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = QuoineOrderResponseJSONTest.class.getResourceAsStream("/trade/example-order-response.json");
+    InputStream is = QuoineOrderResponseJSONTest.class.getResourceAsStream("/org/knowm/xchange/quoine/dto/trade/example-order-response.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
