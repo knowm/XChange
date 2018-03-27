@@ -6,7 +6,8 @@ public class OkCoinBatchTradeResult {
   private final String success;
   private final String error;
 
-  public OkCoinBatchTradeResult(@JsonProperty("success") final String success, @JsonProperty("error") final String error) {
+  public OkCoinBatchTradeResult(
+      @JsonProperty("success") final String success, @JsonProperty("error") final String error) {
 
     this.success = success;
     this.error = error;

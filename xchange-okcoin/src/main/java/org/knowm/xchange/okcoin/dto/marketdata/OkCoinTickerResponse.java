@@ -25,5 +25,4 @@ public class OkCoinTickerResponse {
   public void setDate(long date) {
     this.date = date;
   }
-
 }
