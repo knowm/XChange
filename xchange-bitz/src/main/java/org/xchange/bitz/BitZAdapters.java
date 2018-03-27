@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -35,19 +34,35 @@ public class BitZAdapters {
     BigDecimal volume = bitzTicker.getVolume();
     Date timestamp = DateUtils.fromMillisUtc(bitzTicker.getTimestamp());
 
-    Ticker ticker = new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume)
-                                        .timestamp(timestamp).build();
+    Ticker ticker =
+        new Ticker.Builder()
+            .currencyPair(currencyPair)
+            .last(last)
+            .bid(bid)
+            .ask(ask)
+            .high(high)
+            .low(low)
+            .volume(volume)
+            .timestamp(timestamp)
+            .build();
 
     return ticker;
   }
 
   public static Trade adaptTrade(BitZPublicTrade trade, CurrencyPair pair) {
-    return new Trade.Builder().currencyPair(pair).id(String.valueOf(trade.hashCode())).price(trade.getPrice()).originalAmount(trade.getVolume())
-                              .build();
+    return new Trade.Builder()
+        .currencyPair(pair)
+        .id(String.valueOf(trade.hashCode()))
+        .price(trade.getPrice())
+        .originalAmount(trade.getVolume())
+        .build();
   }
 
   public static Trades adaptTrades(BitZTrades bitZTrades, CurrencyPair pair) {
-    return new Trades(Stream.of(bitZTrades.getTrades()).map(bt -> adaptTrade(bt, pair)).collect(Collectors.toList()));
+    return new Trades(
+        Stream.of(bitZTrades.getTrades())
+            .map(bt -> adaptTrade(bt, pair))
+            .collect(Collectors.toList()));
   }
 
   public static OrderBook adaptOrders(BitZOrders bitZOrders, CurrencyPair currencyPair) {
@@ -57,11 +72,19 @@ public class BitZAdapters {
     List<LimitOrder> bids = new ArrayList<LimitOrder>();
 
     for (BitZPublicOrder order : bitZOrders.getAsks()) {
-      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).averagePrice(order.getPrice()).originalAmount(order.getVolume()).build());
+      asks.add(
+          new LimitOrder.Builder(OrderType.ASK, currencyPair)
+              .averagePrice(order.getPrice())
+              .originalAmount(order.getVolume())
+              .build());
     }
 
     for (BitZPublicOrder order : bitZOrders.getBids()) {
-      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).averagePrice(order.getPrice()).originalAmount(order.getVolume()).build());
+      bids.add(
+          new LimitOrder.Builder(OrderType.BID, currencyPair)
+              .averagePrice(order.getPrice())
+              .originalAmount(order.getVolume())
+              .build());
     }
 
     return new OrderBook(timestamp, asks, bids);
@@ -71,7 +94,8 @@ public class BitZAdapters {
 
     List<Ticker> tickers = new ArrayList<Ticker>();
 
-    for (Entry<String, BitZTicker> ticker : bitZTickerAllResult.getData().getAllTickers().entrySet()) {
+    for (Entry<String, BitZTicker> ticker :
+        bitZTickerAllResult.getData().getAllTickers().entrySet()) {
       CurrencyPair pair = BitZUtils.toCurrencyPair(ticker.getKey());
 
       if (pair != null) {
@@ -81,5 +105,4 @@ public class BitZAdapters {
 
     return tickers;
   }
-
 }
