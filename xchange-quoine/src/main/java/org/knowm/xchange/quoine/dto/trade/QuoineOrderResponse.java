@@ -1,12 +1,9 @@
 package org.knowm.xchange.quoine.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class QuoineOrderResponse {
 
   private final String id;
@@ -39,11 +36,20 @@ public final class QuoineOrderResponse {
    * @param notes
    * @param success
    */
-  public QuoineOrderResponse(@JsonProperty("id") String id, @JsonProperty("price") BigDecimal price, @JsonProperty("status") String status,
-      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("filled_quantity") BigDecimal filledQuantity,
-      @JsonProperty("product_code") String productCode, @JsonProperty("currency_pair_code") String currencyPairCode,
-      @JsonProperty("created_at") String createdAt, @JsonProperty("updated_at") String updatedAt, @JsonProperty("side") String side,
-      @JsonProperty("order_type") String orderType, @JsonProperty("notes") Object notes, @JsonProperty("success") boolean success) {
+  public QuoineOrderResponse(
+      @JsonProperty("id") String id,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("status") String status,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("filled_quantity") BigDecimal filledQuantity,
+      @JsonProperty("product_code") String productCode,
+      @JsonProperty("currency_pair_code") String currencyPairCode,
+      @JsonProperty("created_at") String createdAt,
+      @JsonProperty("updated_at") String updatedAt,
+      @JsonProperty("side") String side,
+      @JsonProperty("order_type") String orderType,
+      @JsonProperty("notes") Object notes,
+      @JsonProperty("success") boolean success) {
     this.id = id;
     this.price = price;
     this.status = status;
@@ -113,9 +119,32 @@ public final class QuoineOrderResponse {
 
   @Override
   public String toString() {
-    return "QuoineOrderResponse [id=" + id + ", price=" + price + ", status=" + status + ", quantity=" + quantity + ", filledQuantity="
-        + filledQuantity + ", productCode=" + productCode + ", currencyPairCode=" + currencyPairCode + ", createdAt=" + createdAt + ", updatedAt="
-        + updatedAt + ", side=" + side + ", orderType=" + orderType + ", notes=" + notes + ", success=" + success + "]";
+    return "QuoineOrderResponse [id="
+        + id
+        + ", price="
+        + price
+        + ", status="
+        + status
+        + ", quantity="
+        + quantity
+        + ", filledQuantity="
+        + filledQuantity
+        + ", productCode="
+        + productCode
+        + ", currencyPairCode="
+        + currencyPairCode
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + ", side="
+        + side
+        + ", orderType="
+        + orderType
+        + ", notes="
+        + notes
+        + ", success="
+        + success
+        + "]";
   }
-
 }

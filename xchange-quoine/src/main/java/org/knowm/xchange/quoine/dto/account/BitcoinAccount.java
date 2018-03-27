@@ -1,12 +1,9 @@
 package org.knowm.xchange.quoine.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class BitcoinAccount {
 
   private final Integer id;
@@ -34,11 +31,17 @@ public final class BitcoinAccount {
    * @param highestOfferInterestRate
    * @param freeBalance
    */
-  public BitcoinAccount(@JsonProperty("id") Integer id, @JsonProperty("balance") BigDecimal balance, @JsonProperty("address") String address,
-      @JsonProperty("currency") String currency, @JsonProperty("currency_symbol") String currencySymbol,
-      @JsonProperty("pusher_channel") String pusherChannel, @JsonProperty("btc_minimum_withdraw") BigDecimal btcMinimumWithdraw,
+  public BitcoinAccount(
+      @JsonProperty("id") Integer id,
+      @JsonProperty("balance") BigDecimal balance,
+      @JsonProperty("address") String address,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("currency_symbol") String currencySymbol,
+      @JsonProperty("pusher_channel") String pusherChannel,
+      @JsonProperty("btc_minimum_withdraw") BigDecimal btcMinimumWithdraw,
       @JsonProperty("lowest_offer_interest_rate") BigDecimal lowestOfferInterestRate,
-      @JsonProperty("highest_offer_interest_rate") BigDecimal highestOfferInterestRate, @JsonProperty("free_balance") BigDecimal freeBalance) {
+      @JsonProperty("highest_offer_interest_rate") BigDecimal highestOfferInterestRate,
+      @JsonProperty("free_balance") BigDecimal freeBalance) {
     this.id = id;
     this.balance = balance;
     this.address = address;
@@ -93,9 +96,26 @@ public final class BitcoinAccount {
 
   @Override
   public String toString() {
-    return "BitcoinAccount [id=" + id + ", balance=" + balance + ", address=" + address + ", currency=" + currency + ", currencySymbol="
-        + currencySymbol + ", pusherChannel=" + pusherChannel + ", btcMinimumWithdraw=" + btcMinimumWithdraw + ", lowestOfferInterestRate="
-        + lowestOfferInterestRate + ", highestOfferInterestRate=" + highestOfferInterestRate + ", freeBalance=" + freeBalance + "]";
+    return "BitcoinAccount [id="
+        + id
+        + ", balance="
+        + balance
+        + ", address="
+        + address
+        + ", currency="
+        + currency
+        + ", currencySymbol="
+        + currencySymbol
+        + ", pusherChannel="
+        + pusherChannel
+        + ", btcMinimumWithdraw="
+        + btcMinimumWithdraw
+        + ", lowestOfferInterestRate="
+        + lowestOfferInterestRate
+        + ", highestOfferInterestRate="
+        + highestOfferInterestRate
+        + ", freeBalance="
+        + freeBalance
+        + "]";
   }
-
 }

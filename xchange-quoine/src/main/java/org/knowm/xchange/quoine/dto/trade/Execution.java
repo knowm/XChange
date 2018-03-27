@@ -1,12 +1,9 @@
 package org.knowm.xchange.quoine.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class Execution {
 
   private final BigDecimal quantity;
@@ -30,10 +27,15 @@ public final class Execution {
    * @param buyFxRate
    * @param sellFxRate
    */
-  public Execution(@JsonProperty("quantity") BigDecimal quantity, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("maker_side") String makerSide, @JsonProperty("created_at") BigDecimal createdAt,
-      @JsonProperty("seller_fee") BigDecimal sellerFee, @JsonProperty("buyer_fee") BigDecimal buyerFee,
-      @JsonProperty("buy_fx_rate") BigDecimal buyFxRate, @JsonProperty("sell_fx_rate") BigDecimal sellFxRate) {
+  public Execution(
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("maker_side") String makerSide,
+      @JsonProperty("created_at") BigDecimal createdAt,
+      @JsonProperty("seller_fee") BigDecimal sellerFee,
+      @JsonProperty("buyer_fee") BigDecimal buyerFee,
+      @JsonProperty("buy_fx_rate") BigDecimal buyFxRate,
+      @JsonProperty("sell_fx_rate") BigDecimal sellFxRate) {
     this.quantity = quantity;
     this.price = price;
     this.makerSide = makerSide;
@@ -78,8 +80,22 @@ public final class Execution {
 
   @Override
   public String toString() {
-    return "Execution [quantity=" + quantity + ", price=" + price + ", makerSide=" + makerSide + ", createdAt=" + createdAt + ", sellerFee="
-        + sellerFee + ", buyerFee=" + buyerFee + ", buyFxRate=" + buyFxRate + ", sellFxRate=" + sellFxRate + "]";
+    return "Execution [quantity="
+        + quantity
+        + ", price="
+        + price
+        + ", makerSide="
+        + makerSide
+        + ", createdAt="
+        + createdAt
+        + ", sellerFee="
+        + sellerFee
+        + ", buyerFee="
+        + buyerFee
+        + ", buyFxRate="
+        + buyFxRate
+        + ", sellFxRate="
+        + sellFxRate
+        + "]";
   }
-
 }
