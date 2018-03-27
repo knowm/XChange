@@ -13,7 +13,9 @@ public class BitflyerException extends RuntimeException {
   @JsonProperty("data")
   private String data;
 
-  public BitflyerException(@JsonProperty("status") int status, @JsonProperty("error_message") String errorMessage,
+  public BitflyerException(
+      @JsonProperty("status") int status,
+      @JsonProperty("error_message") String errorMessage,
       @JsonProperty("data") String data) {
     this.status = status;
     this.errorMessage = errorMessage;
