@@ -1,16 +1,13 @@
 package org.knowm.xchange.wex.v3.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexDepthWrapper;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexExchangeInfo;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexTickerWrapper;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexTradesWrapper;
 
-/**
- * @author brox
- */
+/** @author brox */
 public class WexMarketDataServiceRaw extends WexBaseService {
 
   protected static final int FULL_SIZE = 5000;
@@ -39,7 +36,7 @@ public class WexMarketDataServiceRaw extends WexBaseService {
    * Get market depth from exchange
    *
    * @param pairs Dash-delimited string of currency pairs to retrieve (e.g. "btc_usd-ltc_btc")
-   * @param size  Integer value from 1 to 2000 -> get corresponding number of items
+   * @param size Integer value from 1 to 2000 -> get corresponding number of items
    * @return WexDepthWrapper object
    * @throws IOException
    */
@@ -60,7 +57,7 @@ public class WexMarketDataServiceRaw extends WexBaseService {
    * Get recent trades from exchange
    *
    * @param pairs Dash-delimited string of currency pairs to retrieve (e.g. "btc_usd-ltc_btc")
-   * @param size  Integer value from 1 to 2000 -> get corresponding number of items
+   * @param size Integer value from 1 to 2000 -> get corresponding number of items
    * @return WexTradesWrapper object
    * @throws IOException
    */
@@ -81,5 +78,4 @@ public class WexMarketDataServiceRaw extends WexBaseService {
 
     return btce.getInfo();
   }
-
 }
