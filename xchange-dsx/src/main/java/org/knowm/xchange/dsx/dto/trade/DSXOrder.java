@@ -1,13 +1,9 @@
 package org.knowm.xchange.dsx.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXOrder {
 
   private final String pair;
@@ -19,9 +15,15 @@ public class DSXOrder {
   private final OrderType orderType;
   private final String timestampCreated;
 
-  public DSXOrder(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("remainingVolume") BigDecimal remainingVolume, @JsonProperty("rate") BigDecimal rate, @JsonProperty("status") int status,
-      @JsonProperty("orderType") OrderType orderType, @JsonProperty("timestampCreated") String timestampCreated) {
+  public DSXOrder(
+      @JsonProperty("pair") String pair,
+      @JsonProperty("type") Type type,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("remainingVolume") BigDecimal remainingVolume,
+      @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("status") int status,
+      @JsonProperty("orderType") OrderType orderType,
+      @JsonProperty("timestampCreated") String timestampCreated) {
 
     this.pair = pair;
     this.type = type;
@@ -71,15 +73,35 @@ public class DSXOrder {
 
   @Override
   public String toString() {
-    return "DSXOrder{" + "pair='" + pair + '\'' + ", type=" + type + ", volume=" + volume + ", remainingVolume=" + remainingVolume + ", rate=" + rate
-        + ", status=" + status + ", orderType=" + orderType + ", timestampCreated='" + timestampCreated + '\'' + '}';
+    return "DSXOrder{"
+        + "pair='"
+        + pair
+        + '\''
+        + ", type="
+        + type
+        + ", volume="
+        + volume
+        + ", remainingVolume="
+        + remainingVolume
+        + ", rate="
+        + rate
+        + ", status="
+        + status
+        + ", orderType="
+        + orderType
+        + ", timestampCreated='"
+        + timestampCreated
+        + '\''
+        + '}';
   }
 
   public enum Type {
-    buy, sell
+    buy,
+    sell
   }
 
   public enum OrderType {
-    limit, market
+    limit,
+    market
   }
 }
