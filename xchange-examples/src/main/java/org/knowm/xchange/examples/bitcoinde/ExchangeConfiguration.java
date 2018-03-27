@@ -4,5 +4,4 @@ public class ExchangeConfiguration {
 
   public String secretKey;
   public String apiKey;
-
 }

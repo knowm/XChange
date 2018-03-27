@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.therock;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -20,7 +19,5 @@ public class TheRockMetaDataDemo {
     for (CurrencyPair currencyPair : exchangeMetaData.getCurrencyPairs().keySet()) {
       System.out.println(currencyPair.toString());
     }
-
   }
-
 }

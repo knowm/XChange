@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.bitmex.dto.account;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
@@ -29,11 +28,14 @@ public class BitmexAccountDemo {
     BitmexAccountServiceRaw accountServiceRaw = (BitmexAccountServiceRaw) accountService;
     BitmexAccount bitmexAccountInfo = accountServiceRaw.getBitmexAccountInfo();
     System.out.println("Margin infos response: " + bitmexAccountInfo.toString());
-    BitmexMarginAccount xBt = accountServiceRaw.getBitmexMarginAccountStatus(Currency.getInstance("XBt"));
+    BitmexMarginAccount xBt =
+        accountServiceRaw.getBitmexMarginAccountStatus(Currency.getInstance("XBt"));
     System.out.println(xBt);
-    BitmexMarginAccount usd = accountServiceRaw.getBitmexMarginAccountStatus(Currency.getInstance("USD"));
+    BitmexMarginAccount usd =
+        accountServiceRaw.getBitmexMarginAccountStatus(Currency.getInstance("USD"));
     System.out.println(usd);
-    List<BitmexMarginAccount> bitmexMarginAccountsStatus = accountServiceRaw.getBitmexMarginAccountsStatus();
+    List<BitmexMarginAccount> bitmexMarginAccountsStatus =
+        accountServiceRaw.getBitmexMarginAccountsStatus();
     System.out.println(bitmexMarginAccountsStatus);
   }
 
@@ -42,11 +44,11 @@ public class BitmexAccountDemo {
     BitmexWallet xBt = accountServiceRaw.getBitmexWallet(Currency.getInstance("XBt"));
     System.out.println(xBt);
 
-    List<BitmexWalletTransaction> walletHistory = accountServiceRaw.getBitmexWalletHistory(Currency.getInstance("XBt"));
+    List<BitmexWalletTransaction> walletHistory =
+        accountServiceRaw.getBitmexWalletHistory(Currency.getInstance("XBt"));
     System.out.println(walletHistory);
-    List<BitmexWalletTransaction> bitmexWalletSummary = accountServiceRaw.getBitmexWalletSummary(Currency.getInstance("XBt"));
+    List<BitmexWalletTransaction> bitmexWalletSummary =
+        accountServiceRaw.getBitmexWalletSummary(Currency.getInstance("XBt"));
     System.out.println(bitmexWalletSummary);
-
   }
-
 }

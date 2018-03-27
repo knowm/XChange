@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.dsx.trade;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeHistoryResult;
@@ -13,9 +12,7 @@ import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 
-/**
- * @author Mikhail Wall
- */
+/** @author Mikhail Wall */
 public class DSXUserTradeHistoryDemo {
 
   public static void main(String[] args) throws IOException {

@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.bitstamp.marketdata;
 
 import java.io.IOException;
 import java.util.Arrays;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitstamp.BitstampExchange;
@@ -12,9 +11,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Demonstrate requesting Trades at Bitstamp
- */
+/** Demonstrate requesting Trades at Bitstamp */
 public class TradesDemo {
 
   public static void main(String[] args) throws IOException {
@@ -27,7 +24,6 @@ public class TradesDemo {
 
     generic(marketDataService);
     raw((BitstampMarketDataServiceRaw) marketDataService);
-
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
@@ -36,10 +32,14 @@ public class TradesDemo {
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println("Trades, default. Size= " + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.HOUR);
+    trades =
+        marketDataService.getTrades(
+            CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.HOUR);
     System.out.println("Trades, hour= " + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.MINUTE);
+    trades =
+        marketDataService.getTrades(
+            CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.MINUTE);
     System.out.println("Trades, minute= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }
@@ -50,10 +50,14 @@ public class TradesDemo {
     BitstampTransaction[] trades = marketDataService.getTransactions(CurrencyPair.BTC_USD, null);
     System.out.println("Trades, default. Size= " + trades.length);
 
-    trades = marketDataService.getTransactions(CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.HOUR);
+    trades =
+        marketDataService.getTransactions(
+            CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.HOUR);
     System.out.println("Trades, hour= " + trades.length);
 
-    trades = marketDataService.getTransactions(CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.MINUTE);
+    trades =
+        marketDataService.getTransactions(
+            CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.MINUTE);
     System.out.println("Trades, minute= " + trades.length);
     System.out.println(Arrays.toString(trades));
   }
