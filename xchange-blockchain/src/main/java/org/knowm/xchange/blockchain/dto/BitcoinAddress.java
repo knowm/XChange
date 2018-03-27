@@ -1,11 +1,9 @@
 package org.knowm.xchange.blockchain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.blockchain.BlockchainUtils;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * NOTE: Divide by 10^8 to get the decimal value of BTC amounts
@@ -33,9 +31,14 @@ public final class BitcoinAddress {
    * @param total_sent
    * @param txs
    */
-  public BitcoinAddress(@JsonProperty("address") String address, @JsonProperty("final_balance") long final_balance,
-      @JsonProperty("hash160") String hash160, @JsonProperty("n_tx") int n_tx, @JsonProperty("total_received") long total_received,
-      @JsonProperty("total_sent") long total_sent, @JsonProperty("txs") List<Txs> txs) {
+  public BitcoinAddress(
+      @JsonProperty("address") String address,
+      @JsonProperty("final_balance") long final_balance,
+      @JsonProperty("hash160") String hash160,
+      @JsonProperty("n_tx") int n_tx,
+      @JsonProperty("total_received") long total_received,
+      @JsonProperty("total_sent") long total_sent,
+      @JsonProperty("txs") List<Txs> txs) {
 
     this.address = address;
     this.finalBalance = final_balance;
@@ -99,8 +102,18 @@ public final class BitcoinAddress {
   @Override
   public String toString() {
 
-    return "BitcoinAddress [address=" + address + ", finalBalance=" + finalBalance + ", hash160=" + hash160 + ", numTransactions=" + numTransactions
-        + ", totalReceived=" + totalReceived + ", totalSent=" + totalSent + "]";
+    return "BitcoinAddress [address="
+        + address
+        + ", finalBalance="
+        + finalBalance
+        + ", hash160="
+        + hash160
+        + ", numTransactions="
+        + numTransactions
+        + ", totalReceived="
+        + totalReceived
+        + ", totalSent="
+        + totalSent
+        + "]";
   }
-
 }

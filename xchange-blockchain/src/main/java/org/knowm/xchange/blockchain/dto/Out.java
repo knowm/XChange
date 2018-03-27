@@ -2,9 +2,7 @@ package org.knowm.xchange.blockchain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class Out {
 
   private final String addr;
@@ -22,7 +20,11 @@ public final class Out {
    * @param type
    * @param value
    */
-  public Out(@JsonProperty("addr") String addr, @JsonProperty("n") long n, @JsonProperty("tx_index") long tx_index, @JsonProperty("type") int type,
+  public Out(
+      @JsonProperty("addr") String addr,
+      @JsonProperty("n") long n,
+      @JsonProperty("tx_index") long tx_index,
+      @JsonProperty("type") int type,
       @JsonProperty("value") long value) {
 
     this.addr = addr;
@@ -56,5 +58,4 @@ public final class Out {
 
     return this.value;
   }
-
 }
