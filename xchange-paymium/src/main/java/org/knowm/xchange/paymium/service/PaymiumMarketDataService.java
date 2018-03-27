@@ -1,7 +1,6 @@
 package org.knowm.xchange.paymium.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -10,7 +9,8 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.paymium.PaymiumAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class PaymiumMarketDataService extends PaymiumMarketDataServiceRaw implements MarketDataService {
+public class PaymiumMarketDataService extends PaymiumMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -39,5 +39,4 @@ public class PaymiumMarketDataService extends PaymiumMarketDataServiceRaw implem
 
     return PaymiumAdapters.adaptTrade(getPaymiumTrades(), currencyPair);
   }
-
 }
