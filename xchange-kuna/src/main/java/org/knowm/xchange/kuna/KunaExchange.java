@@ -7,7 +7,6 @@ import org.knowm.xchange.kuna.service.KunaAccountService;
 import org.knowm.xchange.kuna.service.KunaMarketDataService;
 import org.knowm.xchange.kuna.service.KunaTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -37,12 +36,14 @@ public class KunaExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri(KUNA_URL);
     exchangeSpecification.setHost(KUNA_HOST);
     exchangeSpecification.setPort(KUNA_PORT);
     exchangeSpecification.setExchangeName("Kuna");
-    exchangeSpecification.setExchangeDescription("Kuna is the ukrainian crypto currency exchange platform.");
+    exchangeSpecification.setExchangeDescription(
+        "Kuna is the ukrainian crypto currency exchange platform.");
     return exchangeSpecification;
   }
 }
