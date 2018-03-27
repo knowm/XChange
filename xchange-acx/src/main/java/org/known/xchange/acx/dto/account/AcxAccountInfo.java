@@ -1,33 +1,26 @@
 package org.known.xchange.acx.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class AcxAccountInfo {
-  /**
-   * Unique identifier of user
-   */
+  /** Unique identifier of user */
   public final String sn;
-  /**
-   * User name
-   */
+  /** User name */
   public final String name;
-  /**
-   * User email
-   */
+  /** User email */
   public final String email;
-  /**
-   * Whether user is activated
-   */
+  /** Whether user is activated */
   public final boolean activated;
-  /**
-   * User’s accounts info, see {@link AcxAccount}
-   */
+  /** User’s accounts info, see {@link AcxAccount} */
   public final List<AcxAccount> accounts;
 
-  public AcxAccountInfo(@JsonProperty("an") String sn, @JsonProperty("name") String name, @JsonProperty("email") String email,
-      @JsonProperty("activated") boolean activated, @JsonProperty("accounts") List<AcxAccount> accounts) {
+  public AcxAccountInfo(
+      @JsonProperty("an") String sn,
+      @JsonProperty("name") String name,
+      @JsonProperty("email") String email,
+      @JsonProperty("activated") boolean activated,
+      @JsonProperty("accounts") List<AcxAccount> accounts) {
     this.sn = sn;
     this.name = name;
     this.email = email;
