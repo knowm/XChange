@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinfloor.CoinfloorAdapters;
 import org.knowm.xchange.coinfloor.dto.account.CoinfloorBalance;
@@ -32,11 +31,13 @@ public class CoinfloorAccountService extends CoinfloorAccountServiceRaw implemen
       CoinfloorBalance balance = getCoinfloorBalance(pair);
       rawBalances.add(balance);
     }
-    return CoinfloorAdapters.adaptAccountInfo(exchange.getExchangeMetaData().getCurrencies().keySet(), rawBalances);
+    return CoinfloorAdapters.adaptAccountInfo(
+        exchange.getExchangeMetaData().getCurrencies().keySet(), rawBalances);
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws NotAvailableFromExchangeException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws NotAvailableFromExchangeException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -46,7 +47,8 @@ public class CoinfloorAccountService extends CoinfloorAccountServiceRaw implemen
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... args) throws NotAvailableFromExchangeException {
+  public String requestDepositAddress(Currency currency, String... args)
+      throws NotAvailableFromExchangeException {
     throw new NotAvailableFromExchangeException();
   }
 
