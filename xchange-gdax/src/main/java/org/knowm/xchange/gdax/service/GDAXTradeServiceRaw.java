@@ -1,7 +1,6 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -16,7 +15,6 @@ import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GDAXTradeServiceRaw extends GDAXBaseService {
@@ -61,17 +59,20 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
       }
       startingOrderId = historyParams.paginationOrderId;
     } else if (tradeHistoryParams instanceof TradeHistoryParamTransactionId) {
-      TradeHistoryParamTransactionId tnxIdParams = (TradeHistoryParamTransactionId) tradeHistoryParams;
+      TradeHistoryParamTransactionId tnxIdParams =
+          (TradeHistoryParamTransactionId) tradeHistoryParams;
       orderId = tnxIdParams.getTransactionId();
     } else if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
-      TradeHistoryParamCurrencyPair ccyPairParams = (TradeHistoryParamCurrencyPair) tradeHistoryParams;
+      TradeHistoryParamCurrencyPair ccyPairParams =
+          (TradeHistoryParamCurrencyPair) tradeHistoryParams;
       CurrencyPair currencyPair = ccyPairParams.getCurrencyPair();
       if (currencyPair != null) {
         productId = toProductId(currencyPair);
       }
     }
     try {
-      return gdax.getFills(apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
+      return gdax.getFills(
+          apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
     } catch (GDAXException e) {
       throw handleError(e);
     }
@@ -84,8 +85,17 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
     try {
       return gdax.placeLimitOrder(
-          new GDAXPlaceOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), side, productId, "limit", limitOrder.getOrderFlags()),
-          apiKey, digest, nonceFactory, passphrase);
+          new GDAXPlaceOrder(
+              limitOrder.getOriginalAmount(),
+              limitOrder.getLimitPrice(),
+              side,
+              productId,
+              "limit",
+              limitOrder.getOrderFlags()),
+          apiKey,
+          digest,
+          nonceFactory,
+          passphrase);
     } catch (GDAXException e) {
       throw handleError(e);
     }
@@ -97,9 +107,18 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
     String productId = toProductId(marketOrder.getCurrencyPair());
 
     try {
-      return gdax
-          .placeMarketOrder(new GDAXPlaceOrder(marketOrder.getOriginalAmount(), null, side, productId, "market", marketOrder.getOrderFlags()), apiKey,
-              digest, nonceFactory, passphrase);
+      return gdax.placeMarketOrder(
+          new GDAXPlaceOrder(
+              marketOrder.getOriginalAmount(),
+              null,
+              side,
+              productId,
+              "market",
+              marketOrder.getOrderFlags()),
+          apiKey,
+          digest,
+          nonceFactory,
+          passphrase);
     } catch (GDAXException e) {
       throw handleError(e);
     }
@@ -112,8 +131,17 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
     try {
       return gdax.placeStopOrder(
-          new GDAXPlaceOrder(stopOrder.getOriginalAmount(), stopOrder.getStopPrice(), side, productId, "stop", stopOrder.getOrderFlags()), apiKey,
-          digest, nonceFactory, passphrase);
+          new GDAXPlaceOrder(
+              stopOrder.getOriginalAmount(),
+              stopOrder.getStopPrice(),
+              side,
+              productId,
+              "stop",
+              stopOrder.getOrderFlags()),
+          apiKey,
+          digest,
+          nonceFactory,
+          passphrase);
     } catch (GDAXException e) {
       throw handleError(e);
     }
@@ -138,7 +166,8 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
     }
   }
 
-  public static class GdaxTradeHistoryParams implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair {
+  public static class GdaxTradeHistoryParams
+      implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair {
 
     private CurrencyPair currencyPair;
     private String txId;

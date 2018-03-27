@@ -21,5 +21,4 @@ public class GDAXIdResponse {
     builder.append("]");
     return builder.toString();
   }
-
 }
