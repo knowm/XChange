@@ -1,14 +1,13 @@
 package org.knowm.xchange.bitcoinde.dto.account;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"bic_short", "bic_full", "uid"})
@@ -16,18 +15,17 @@ public class BitcoindeEncryptedInformation {
 
   @JsonProperty("bic_short")
   private String bicShort;
+
   @JsonProperty("bic_full")
   private String bicFull;
+
   @JsonProperty("uid")
   private String uid;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public BitcoindeEncryptedInformation() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public BitcoindeEncryptedInformation() {}
 
   /**
    * @param uid
@@ -80,5 +78,4 @@ public class BitcoindeEncryptedInformation {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }
