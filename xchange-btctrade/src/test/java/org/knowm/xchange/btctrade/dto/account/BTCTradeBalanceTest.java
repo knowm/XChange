@@ -6,12 +6,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTCTradeBalanceTest {
 
@@ -20,7 +18,9 @@ public class BTCTradeBalanceTest {
   @Test
   public void testError() throws IOException {
 
-    BTCTradeBalance balance = mapper.readValue(getClass().getResource("balance-signature-error.json"), BTCTradeBalance.class);
+    BTCTradeBalance balance =
+        mapper.readValue(
+            getClass().getResource("balance-signature-error.json"), BTCTradeBalance.class);
     assertNotNull(balance.getResult());
     assertEquals("signature error", balance.getMessage());
     assertFalse(balance.isSuccess());
@@ -29,7 +29,8 @@ public class BTCTradeBalanceTest {
   @Test
   public void testUnmarshalBalance() throws IOException {
 
-    BTCTradeBalance balance = mapper.readValue(getClass().getResource("balance.json"), BTCTradeBalance.class);
+    BTCTradeBalance balance =
+        mapper.readValue(getClass().getResource("balance.json"), BTCTradeBalance.class);
     assertNull(balance.getResult());
     assertNull(balance.getMessage());
     assertTrue(balance.isSuccess());
@@ -47,5 +48,4 @@ public class BTCTradeBalanceTest {
     assertEquals(new BigDecimal("9"), balance.getCnyBalance());
     assertEquals(new BigDecimal("10"), balance.getCnyReserved());
   }
-
 }
