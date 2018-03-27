@@ -1,16 +1,14 @@
 package org.knowm.xchange.bittrex.dto.trade;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -19,8 +17,8 @@ public class BittrexTradeId {
 
   @JsonProperty("uuid")
   private String uuid;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   @JsonProperty("uuid")
   public String getUuid() {
@@ -51,5 +49,4 @@ public class BittrexTradeId {
 
     return "BittrexTradeId [uuid=" + uuid + ", additionalProperties=" + additionalProperties + "]";
   }
-
 }
