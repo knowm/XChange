@@ -19,5 +19,4 @@ public class BitfinexException extends RuntimeException {
   public String getMessage() {
     return message == null ? error : message;
   }
-
 }

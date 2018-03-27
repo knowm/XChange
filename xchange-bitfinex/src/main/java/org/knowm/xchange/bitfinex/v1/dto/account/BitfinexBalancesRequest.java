@@ -56,5 +56,4 @@ public class BitfinexBalancesRequest {
 
     this.options = options;
   }
-
 }
