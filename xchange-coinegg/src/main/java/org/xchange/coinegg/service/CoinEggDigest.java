@@ -3,12 +3,9 @@ package org.xchange.coinegg.service;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import javax.ws.rs.FormParam;
 import javax.xml.bind.DatatypeConverter;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
@@ -27,7 +24,8 @@ public final class CoinEggDigest extends BaseParamsDigest {
 
       return new CoinEggDigest(hex(md5.digest(privateKey.getBytes(UTF8))));
     } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+      throw new RuntimeException(
+          "Illegal algorithm for post body digest. Check the implementation.");
     }
   }
 
@@ -40,7 +38,13 @@ public final class CoinEggDigest extends BaseParamsDigest {
 
     // Create Query String From Form Parameters
     Params params = Params.of();
-    restInvocation.getParamsMap().get(FormParam.class).asHttpHeaders().entrySet().stream().filter(e -> !e.getKey().equalsIgnoreCase("signature"))
+    restInvocation
+        .getParamsMap()
+        .get(FormParam.class)
+        .asHttpHeaders()
+        .entrySet()
+        .stream()
+        .filter(e -> !e.getKey().equalsIgnoreCase("signature"))
         .forEach(e -> params.add(e.getKey(), e.getValue()));
 
     // Parse Query String
@@ -49,5 +53,4 @@ public final class CoinEggDigest extends BaseParamsDigest {
     // Create And Return Signature
     return hex(getMac().doFinal(queryString));
   }
-
 }

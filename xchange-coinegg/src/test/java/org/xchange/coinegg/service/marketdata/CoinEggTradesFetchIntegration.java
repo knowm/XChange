@@ -19,7 +19,7 @@ public class CoinEggTradesFetchIntegration {
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.ETH_BTC);
 
-    // Verify Not Null Values   
+    // Verify Not Null Values
     assertThat(trades).isNotNull();
 
     assertThat(trades.getTrades()).isNotNull();
@@ -31,5 +31,4 @@ public class CoinEggTradesFetchIntegration {
     assertThat(trades.getTrades().get(0).getType()).isNotNull();
     assertThat(trades.getTrades().get(0).getCurrencyPair()).isNotNull();
   }
-
 }
