@@ -3,7 +3,9 @@ package org.knowm.xchange.luno.dto.trade;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum State {
-  PENDING, COMPLETE, UNKNOWN;
+  PENDING,
+  COMPLETE,
+  UNKNOWN;
 
   @JsonCreator
   public static State create(String s) {

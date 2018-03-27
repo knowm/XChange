@@ -1,10 +1,9 @@
 package org.knowm.xchange.luno.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LunoAccountTransactions {
 
@@ -12,7 +11,8 @@ public class LunoAccountTransactions {
   public final boolean defaultAccount;
   private final Transaction[] transactions;
 
-  public LunoAccountTransactions(@JsonProperty(value = "id", required = true) String id,
+  public LunoAccountTransactions(
+      @JsonProperty(value = "id", required = true) String id,
       @JsonProperty(value = "is_default", required = true) boolean defaultAccount,
       @JsonProperty(value = "transactions", required = true) Transaction[] transactions) {
     this.id = id;
@@ -22,8 +22,15 @@ public class LunoAccountTransactions {
 
   @Override
   public String toString() {
-    return "LunoAccountTransactions [id=" + id + ", defaultAccount=" + defaultAccount + ", transactions(" + transactions.length + ")=" + Arrays
-        .toString(transactions) + "]";
+    return "LunoAccountTransactions [id="
+        + id
+        + ", defaultAccount="
+        + defaultAccount
+        + ", transactions("
+        + transactions.length
+        + ")="
+        + Arrays.toString(transactions)
+        + "]";
   }
 
   public Transaction[] getTransactions() {
@@ -42,8 +49,10 @@ public class LunoAccountTransactions {
     public final String currency;
     public final String description;
 
-    public Transaction(@JsonProperty(value = "row_index", required = true) int rowIndex,
-        @JsonProperty(value = "timestamp", required = true) long timestamp, @JsonProperty(value = "balance", required = true) BigDecimal balance,
+    public Transaction(
+        @JsonProperty(value = "row_index", required = true) int rowIndex,
+        @JsonProperty(value = "timestamp", required = true) long timestamp,
+        @JsonProperty(value = "balance", required = true) BigDecimal balance,
         @JsonProperty(value = "available", required = true) BigDecimal available,
         @JsonProperty(value = "balance_delta", required = true) BigDecimal balanceDelta,
         @JsonProperty(value = "available_delta", required = true) BigDecimal availableDelta,
@@ -65,8 +74,23 @@ public class LunoAccountTransactions {
 
     @Override
     public String toString() {
-      return "Transaction [rowIndex=" + rowIndex + ", timestamp=" + getTimestamp() + ", balance=" + balance + ", available=" + available
-          + ", balanceDelta=" + balanceDelta + ", availableDelta=" + availableDelta + ", currency=" + currency + ", description=" + description + "]";
+      return "Transaction [rowIndex="
+          + rowIndex
+          + ", timestamp="
+          + getTimestamp()
+          + ", balance="
+          + balance
+          + ", available="
+          + available
+          + ", balanceDelta="
+          + balanceDelta
+          + ", availableDelta="
+          + availableDelta
+          + ", currency="
+          + currency
+          + ", description="
+          + description
+          + "]";
     }
   }
 }
