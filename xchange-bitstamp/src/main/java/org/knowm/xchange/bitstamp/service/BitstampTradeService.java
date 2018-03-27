@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
@@ -36,9 +35,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class BitstampTradeService extends BitstampTradeServiceRaw implements TradeService {
 
   public BitstampTradeService(Exchange exchange) {
@@ -60,7 +57,14 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
         OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
         String id = Integer.toString(bitstampOrder.getId());
         BigDecimal price = bitstampOrder.getPrice();
-        limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), pair, id, bitstampOrder.getDatetime(), price));
+        limitOrders.add(
+            new LimitOrder(
+                orderType,
+                bitstampOrder.getAmount(),
+                pair,
+                id,
+                bitstampOrder.getDatetime(),
+                price));
       }
     }
     return new OpenOrders(limitOrders);
@@ -68,8 +72,12 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
 
   @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, BitstampException {
-    BitstampAuthenticatedV2.Side side = order.getType().equals(BID) ? BitstampAuthenticatedV2.Side.buy : BitstampAuthenticatedV2.Side.sell;
-    BitstampOrder bitstampOrder = placeBitstampMarketOrder(order.getCurrencyPair(), side, order.getOriginalAmount());
+    BitstampAuthenticatedV2.Side side =
+        order.getType().equals(BID)
+            ? BitstampAuthenticatedV2.Side.buy
+            : BitstampAuthenticatedV2.Side.sell;
+    BitstampOrder bitstampOrder =
+        placeBitstampMarketOrder(order.getCurrencyPair(), side, order.getOriginalAmount());
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
     }
@@ -79,8 +87,13 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, BitstampException {
 
-    BitstampAuthenticatedV2.Side side = order.getType().equals(BID) ? BitstampAuthenticatedV2.Side.buy : BitstampAuthenticatedV2.Side.sell;
-    BitstampOrder bitstampOrder = placeBitstampOrder(order.getCurrencyPair(), side, order.getOriginalAmount(), order.getLimitPrice());
+    BitstampAuthenticatedV2.Side side =
+        order.getType().equals(BID)
+            ? BitstampAuthenticatedV2.Side.buy
+            : BitstampAuthenticatedV2.Side.sell;
+    BitstampOrder bitstampOrder =
+        placeBitstampOrder(
+            order.getCurrencyPair(), side, order.getOriginalAmount(), order.getLimitPrice());
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
     }
@@ -107,9 +120,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     }
   }
 
-  /**
-   * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
-   */
+  /** Required parameter types: {@link TradeHistoryParamPaging#getPageLength()} */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     Long limit = null;
@@ -128,7 +139,9 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     if (params instanceof TradeHistoryParamsSorted) {
       sort = ((TradeHistoryParamsSorted) params).getOrder();
     }
-    BitstampUserTransaction[] txs = getBitstampUserTransactions(limit, currencyPair, offset, sort == null ? null : sort.toString());
+    BitstampUserTransaction[] txs =
+        getBitstampUserTransactions(
+            limit, currencyPair, offset, sort == null ? null : sort.toString());
     return BitstampAdapters.adaptTradeHistory(txs);
   }
 
@@ -149,11 +162,10 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     Collection<Order> orders = new ArrayList<>(orderIds.length);
 
     for (String orderId : orderIds) {
-      orders.add(BitstampAdapters.adaptOrder(orderId, super.getBitstampOrder(Long.parseLong(orderId))));
+      orders.add(
+          BitstampAdapters.adaptOrder(orderId, super.getBitstampOrder(Long.parseLong(orderId))));
     }
 
     return orders;
-
   }
-
 }
