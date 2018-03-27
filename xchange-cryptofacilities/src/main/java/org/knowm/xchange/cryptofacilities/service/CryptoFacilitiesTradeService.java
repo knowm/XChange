@@ -2,7 +2,6 @@ package org.knowm.xchange.cryptofacilities.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptofacilities.CryptoFacilitiesAdapters;
 import org.knowm.xchange.dto.Order;
@@ -19,11 +18,9 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/**
- * @author Jean-Christophe Laruelle
- */
-
-public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRaw implements TradeService {
+/** @author Jean-Christophe Laruelle */
+public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRaw
+    implements TradeService {
 
   /**
    * Constructor
@@ -49,7 +46,6 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     throw new NotAvailableFromExchangeException();
-
   }
 
   @Override
@@ -66,7 +62,8 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(super.cancelCryptoFacilitiesOrder(orderId));
+    return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(
+        super.cancelCryptoFacilitiesOrder(orderId));
   }
 
   @Override
@@ -99,5 +96,4 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-
 }
