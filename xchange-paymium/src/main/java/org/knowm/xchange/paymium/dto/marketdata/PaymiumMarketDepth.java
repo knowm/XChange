@@ -1,8 +1,7 @@
 package org.knowm.xchange.paymium.dto.marketdata;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 public class PaymiumMarketDepth {
 
@@ -13,7 +12,9 @@ public class PaymiumMarketDepth {
    * @param bids
    * @param asks
    */
-  public PaymiumMarketDepth(@JsonProperty("bids") List<PaymiumMarketOrder> bids, @JsonProperty("asks") List<PaymiumMarketOrder> asks) {
+  public PaymiumMarketDepth(
+      @JsonProperty("bids") List<PaymiumMarketOrder> bids,
+      @JsonProperty("asks") List<PaymiumMarketOrder> asks) {
 
     this.bids = bids;
     this.asks = asks;
