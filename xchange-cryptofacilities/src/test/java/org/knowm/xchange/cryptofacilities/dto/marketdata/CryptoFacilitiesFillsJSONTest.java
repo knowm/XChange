@@ -2,27 +2,24 @@ package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author Panchen
- */
-
+/** @author Panchen */
 public class CryptoFacilitiesFillsJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoFacilitiesFillsJSONTest.class.getResourceAsStream("/org/knowm/xchange/cryptofacilities/dto/marketdata/example-fills-data.json");
+    InputStream is =
+        CryptoFacilitiesFillsJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-fills-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -45,5 +42,4 @@ public class CryptoFacilitiesFillsJSONTest {
     assertThat(fill.getSize()).isEqualTo(new BigDecimal("2"));
     assertThat(fill.getPrice()).isEqualTo(new BigDecimal("425.5"));
   }
-
 }
