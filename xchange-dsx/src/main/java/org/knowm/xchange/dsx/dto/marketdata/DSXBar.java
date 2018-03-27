@@ -1,13 +1,9 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public final class DSXBar {
 
   private final BigDecimal high;
@@ -17,8 +13,13 @@ public final class DSXBar {
   private final BigDecimal amount;
   private final long timestamp;
 
-  public DSXBar(@JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("close") BigDecimal close, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp) {
+  public DSXBar(
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("open") BigDecimal open,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("close") BigDecimal close,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("timestamp") long timestamp) {
 
     this.high = high;
     this.open = open;
@@ -61,8 +62,19 @@ public final class DSXBar {
   @Override
   public String toString() {
 
-    return "DSXBar{" + "high=" + high + ", open=" + open + ", low=" + low + ", close=" + close + ", amount=" + amount + ", timestamp=" + timestamp
+    return "DSXBar{"
+        + "high="
+        + high
+        + ", open="
+        + open
+        + ", low="
+        + low
+        + ", close="
+        + close
+        + ", amount="
+        + amount
+        + ", timestamp="
+        + timestamp
         + '}';
   }
-
 }
