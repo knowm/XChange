@@ -1,8 +1,7 @@
 package org.knowm.xchange.yobit.dto.marketdata;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Map;
 
 @JsonDeserialize(using = YoBitTickersDeserializer.class)
 public class YoBitTickersReturn {
@@ -13,5 +12,3 @@ public class YoBitTickersReturn {
     this.tickers = tickers;
   }
 }
-
-
