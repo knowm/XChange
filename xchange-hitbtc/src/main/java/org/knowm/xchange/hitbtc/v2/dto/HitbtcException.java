@@ -10,5 +10,4 @@ public class HitbtcException extends RuntimeException {
 
     super(hitbtcError.getMessage());
   }
-
 }
