@@ -431,7 +431,7 @@ public class AbucoinsAdapters {
   public static FundingRecord.Status adaptFundingStatus(AbucoinsHistory.Status abucoinsStatus) {
     switch (abucoinsStatus) {
       case unknown: // reminder unknown is our own placeholder for cases where we cannot parse the
-                    // status
+        // status
 
       default:
       case awaitingEmailConfirmation:
