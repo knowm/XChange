@@ -1,10 +1,9 @@
 package org.knowm.xchange.kucoin.dto;
 
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -13,11 +12,11 @@ public class KucoinResponse<D> extends KucoinSimpleResponse<D> {
 
   @JsonProperty("msg")
   private String msg;
+
   @JsonProperty("timestamp")
   private Long timestamp;
 
-  public KucoinResponse() {
-  }
+  public KucoinResponse() {}
 
   /**
    * @param msg
@@ -32,36 +31,27 @@ public class KucoinResponse<D> extends KucoinSimpleResponse<D> {
     this.timestamp = timestamp;
   }
 
-  /**
-   * @return The msg
-   */
+  /** @return The msg */
   @JsonProperty("msg")
   public String getMsg() {
     return msg;
   }
 
-  /**
-   * @param msg The msg
-   */
+  /** @param msg The msg */
   @JsonProperty("msg")
   public void setMsg(String msg) {
     this.msg = msg;
   }
 
-  /**
-   * @return The timestamp
-   */
+  /** @return The timestamp */
   @JsonProperty("timestamp")
   public Long getTimestamp() {
     return timestamp;
   }
 
-  /**
-   * @param timestamp The timestamp
-   */
+  /** @param timestamp The timestamp */
   @JsonProperty("timestamp")
   public void setTimestamp(Long timestamp) {
     this.timestamp = timestamp;
   }
-
 }
