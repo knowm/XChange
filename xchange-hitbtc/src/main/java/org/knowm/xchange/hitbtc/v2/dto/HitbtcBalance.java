@@ -1,10 +1,8 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Objects;
-
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcBalance {
 
@@ -12,7 +10,9 @@ public class HitbtcBalance {
   private final BigDecimal available;
   private final BigDecimal reserved;
 
-  public HitbtcBalance(@JsonProperty("currency") String currency, @JsonProperty("available") BigDecimal available,
+  public HitbtcBalance(
+      @JsonProperty("currency") String currency,
+      @JsonProperty("available") BigDecimal available,
       @JsonProperty("reserved") BigDecimal reserved) {
 
     this.currency = currency;
@@ -22,11 +22,15 @@ public class HitbtcBalance {
 
   @Override
   public String toString() {
-    return "HitbtcBalance{" +
-            "currency='" + currency + '\'' +
-            ", available=" + available +
-            ", reserved=" + reserved +
-            '}';
+    return "HitbtcBalance{"
+        + "currency='"
+        + currency
+        + '\''
+        + ", available="
+        + available
+        + ", reserved="
+        + reserved
+        + '}';
   }
 
   @Override
@@ -34,9 +38,9 @@ public class HitbtcBalance {
     if (this == o) return true;
     if (!(o instanceof HitbtcBalance)) return false;
     HitbtcBalance that = (HitbtcBalance) o;
-    return Objects.equals(this.getCurrency(), that.getCurrency()) &&
-            Objects.equals(this.getAvailable(), that.getAvailable()) &&
-            Objects.equals(this.getReserved(), that.getReserved());
+    return Objects.equals(this.getCurrency(), that.getCurrency())
+        && Objects.equals(this.getAvailable(), that.getAvailable())
+        && Objects.equals(this.getReserved(), that.getReserved());
   }
 
   @Override
@@ -57,5 +61,4 @@ public class HitbtcBalance {
 
     return reserved;
   }
-
 }
