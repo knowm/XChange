@@ -1,58 +1,77 @@
 package org.knowm.xchange.bitcoinde.trade;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * @author kaiserfr
- */
+/** @author kaiserfr */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"order_id", "trading_pair", "type", "max_amount", "min_amount", "price", "max_volume", "min_volume", "order_requirements",
-    "new_order_for_remaining_amount", "state", "end_datetime", "created_at"})
+@JsonPropertyOrder({
+  "order_id",
+  "trading_pair",
+  "type",
+  "max_amount",
+  "min_amount",
+  "price",
+  "max_volume",
+  "min_volume",
+  "order_requirements",
+  "new_order_for_remaining_amount",
+  "state",
+  "end_datetime",
+  "created_at"
+})
 public class BitcoindeMyOrder {
 
   @JsonProperty("order_id")
   private String orderId;
+
   @JsonProperty("trading_pair")
   private String tradingPair;
+
   @JsonProperty("type")
   private String type;
+
   @JsonProperty("max_amount")
   private BigDecimal maxAmount;
+
   @JsonProperty("min_amount")
   private BigDecimal minAmount;
+
   @JsonProperty("price")
   private BigDecimal price;
+
   @JsonProperty("max_volume")
   private Integer maxVolume;
+
   @JsonProperty("min_volume")
   private Integer minVolume;
+
   @JsonProperty("order_requirements")
   private BitcoindeOrderRequirements orderRequirements;
+
   @JsonProperty("new_order_for_remaining_amount")
   private Boolean newOrderForRemainingAmount;
+
   @JsonProperty("state")
   private Integer state;
+
   @JsonProperty("end_datetime")
   private String endDatetime;
+
   @JsonProperty("created_at")
   private String createdAt;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public BitcoindeMyOrder() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public BitcoindeMyOrder() {}
 
   /**
    * @param state
@@ -69,9 +88,20 @@ public class BitcoindeMyOrder {
    * @param minVolume
    * @param orderId
    */
-  public BitcoindeMyOrder(String orderId, String tradingPair, String type, BigDecimal maxAmount, BigDecimal minAmount, BigDecimal price,
-      Integer maxVolume, Integer minVolume, BitcoindeOrderRequirements orderRequirements, Boolean newOrderForRemainingAmount, Integer state,
-      String endDatetime, String createdAt) {
+  public BitcoindeMyOrder(
+      String orderId,
+      String tradingPair,
+      String type,
+      BigDecimal maxAmount,
+      BigDecimal minAmount,
+      BigDecimal price,
+      Integer maxVolume,
+      Integer minVolume,
+      BitcoindeOrderRequirements orderRequirements,
+      Boolean newOrderForRemainingAmount,
+      Integer state,
+      String endDatetime,
+      String createdAt) {
     super();
     this.orderId = orderId;
     this.tradingPair = tradingPair;
@@ -227,5 +257,4 @@ public class BitcoindeMyOrder {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }
