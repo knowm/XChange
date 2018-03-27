@@ -1,15 +1,11 @@
 package org.knowm.xchange.bitmex;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-/**
- * Delivery dates for future date currencies
- */
+/** Delivery dates for future date currencies */
 @JsonSerialize(using = BitmexUtils.CustomBitmexContractSerializer.class)
 public class BitmexContract implements Comparable<BitmexContract>, Serializable {
 
@@ -85,7 +81,8 @@ public class BitmexContract implements Comparable<BitmexContract>, Serializable 
   @Override
   public int compareTo(BitmexContract o) {
 
-    return (pair.base.compareTo(o.pair.base) << 16) + pair.counter.compareTo(o.pair.counter) + prompt.compareTo(o.prompt);
+    return (pair.base.compareTo(o.pair.base) << 16)
+        + pair.counter.compareTo(o.pair.counter)
+        + prompt.compareTo(o.prompt);
   }
-
 }

@@ -10,7 +10,8 @@ public class BitmexException extends RuntimeException {
   @JsonProperty("name")
   private String name;
 
-  public BitmexException(@JsonProperty("message") String message, @JsonProperty("name") String name) {
+  public BitmexException(
+      @JsonProperty("message") String message, @JsonProperty("name") String name) {
     this.message = message;
     this.name = name;
   }
@@ -18,5 +19,4 @@ public class BitmexException extends RuntimeException {
   public String getMessage() {
     return message == null ? name : message;
   }
-
 }
