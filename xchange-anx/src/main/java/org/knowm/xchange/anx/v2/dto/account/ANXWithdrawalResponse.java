@@ -3,18 +3,15 @@ package org.knowm.xchange.anx.v2.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data object representing the content of a response message from ANX after requesting a bitcoin withdrawal
+ * Data object representing the content of a response message from ANX after requesting a bitcoin
+ * withdrawal
  */
 public final class ANXWithdrawalResponse {
 
-  /**
-   * Bitcoin transaction id (in the block chain)
-   */
+  /** Bitcoin transaction id (in the block chain) */
   private final String transactionId;
 
-  /**
-   * error message
-   */
+  /** error message */
   private final String message;
 
   /**
@@ -22,7 +19,8 @@ public final class ANXWithdrawalResponse {
    *
    * @param transactionId
    */
-  public ANXWithdrawalResponse(@JsonProperty("trx") String transactionId, @JsonProperty("message") String message) {
+  public ANXWithdrawalResponse(
+      @JsonProperty("trx") String transactionId, @JsonProperty("message") String message) {
     this.message = message;
     this.transactionId = transactionId;
   }
@@ -41,5 +39,4 @@ public final class ANXWithdrawalResponse {
 
     return "ANXWithdrawalResponse [transactionId=" + transactionId + "]";
   }
-
 }

@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class ANXException extends RuntimeException {
 
   @JsonProperty("error")
@@ -16,12 +14,8 @@ public class ANXException extends RuntimeException {
   @JsonProperty("token")
   private String token;
 
-  /**
-   * Constructor
-   */
-  public ANXException() {
-
-  }
+  /** Constructor */
+  public ANXException() {}
 
   public String getError() {
 
