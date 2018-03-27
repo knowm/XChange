@@ -3,7 +3,6 @@ package org.knowm.xchange.anx.v2.service;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.anx.v2.ANXAdapters;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
@@ -15,15 +14,13 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
 import si.mazi.rescu.IRestProxyFactory;
 
 /**
- * <p>
  * Implementation of the market data service for ANX V2
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
 public class ANXMarketDataService extends ANXMarketDataServiceRaw implements MarketDataService {
@@ -47,8 +44,8 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
   /**
    * Get market depth from exchange
    *
-   * @param args Optional arguments. Exchange-specific. This implementation assumes: absent or "full" -> get full OrderBook "partial" -> get partial
-   *             OrderBook
+   * @param args Optional arguments. Exchange-specific. This implementation assumes: absent or
+   *     "full" -> get full OrderBook "partial" -> get partial OrderBook
    * @return The OrderBook
    * @throws java.io.IOException
    */
@@ -72,10 +69,20 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
     }
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = ANXAdapters
-        .adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "ask", "");
-    List<LimitOrder> bids = ANXAdapters
-        .adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "bid", "");
+    List<LimitOrder> asks =
+        ANXAdapters.adaptOrders(
+            anxDepthWrapper.getAnxDepth().getAsks(),
+            currencyPair.base.getCurrencyCode(),
+            currencyPair.counter.getCurrencyCode(),
+            "ask",
+            "");
+    List<LimitOrder> bids =
+        ANXAdapters.adaptOrders(
+            anxDepthWrapper.getAnxDepth().getBids(),
+            currencyPair.base.getCurrencyCode(),
+            currencyPair.counter.getCurrencyCode(),
+            "bid",
+            "");
     Date date = new Date(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);
     return new OrderBook(date, asks, bids);
   }
@@ -94,13 +101,13 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
         sinceTimeStamp = arg.getTime();
       } else {
         throw new IllegalArgumentException(
-            "Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+            "Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was "
+                + args[0].getClass()
+                + ")");
       }
     }
 
     List<ANXTrade> anxTrades = super.getANXTrades(currencyPair, sinceTimeStamp);
     return ANXAdapters.adaptTrades(anxTrades);
-
   }
-
 }
