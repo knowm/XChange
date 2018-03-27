@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -39,7 +38,8 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
@@ -47,7 +47,9 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      GDAXWithdrawCryptoResponse response = withdrawCrypto(defaultParams.getAddress(), defaultParams.getAmount(), defaultParams.getCurrency());
+      GDAXWithdrawCryptoResponse response =
+          withdrawCrypto(
+              defaultParams.getAddress(), defaultParams.getAmount(), defaultParams.getCurrency());
       return response.id;
     }
 
@@ -64,7 +66,8 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
     }
 
     if (accountId == null) {
-      throw new ExchangeException("Cannot determine account id for currency " + currency.getCurrencyCode());
+      throw new ExchangeException(
+          "Cannot determine account id for currency " + currency.getCurrencyCode());
     }
 
     GDAXSendMoneyResponse response = sendMoney(accountId, address, amount, currency);
@@ -83,7 +86,9 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
     for (GDAXCoinbaseAccount account : coinbaseAccounts) {
       Currency accountCurrency = Currency.getInstance(account.getCurrency());
-      if (account.isActive() && account.getType().equals("wallet") && accountCurrency.equals(currency)) {
+      if (account.isActive()
+          && account.getType().equals("wallet")
+          && accountCurrency.equals(currency)) {
         depositAccount = account;
         break;
       }
@@ -112,8 +117,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
       Integer lastId = null;
       while (true) {
         List<Map> ledger = ledger(accountId, lastId);
-        if (ledger.isEmpty())
-          break;
+        if (ledger.isEmpty()) break;
 
         for (Map map : ledger) {
           lastId = Integer.valueOf(map.get("id").toString());
@@ -128,28 +132,35 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
       for (Map map : allForAccount.values()) {
         try {
           boolean isTransfer = map.get("type").toString().equals("transfer");
-          if (!isTransfer)
-            continue;
+          if (!isTransfer) continue;
 
           Map details = (Map) map.get("details");
 
           FundingRecord.Type type;
 
           Object source = details.get("source");
-          if (source != null && source.toString().equals("fork"))
-            type = FundingRecord.Type.DEPOSIT;
+          if (source != null && source.toString().equals("fork")) type = FundingRecord.Type.DEPOSIT;
           else if (details.get("transfer_type").toString().equals("deposit"))
             type = FundingRecord.Type.DEPOSIT;
           else if (details.get("transfer_type").toString().equals("withdraw"))
             type = FundingRecord.Type.WITHDRAWAL;
-          else
-            continue;
+          else continue;
 
           Object transferId = details.get("transfer_id");
 
-          fundingHistory.add(new FundingRecord(null, DateUtils.fromISO8601DateString(map.get("created_at").toString()), currency,
-              new BigDecimal(map.get("amount").toString()), transferId == null ? null : transferId.toString(), null, type,
-              FundingRecord.Status.COMPLETE, new BigDecimal(map.get("balance").toString()), null, null));
+          fundingHistory.add(
+              new FundingRecord(
+                  null,
+                  DateUtils.fromISO8601DateString(map.get("created_at").toString()),
+                  currency,
+                  new BigDecimal(map.get("amount").toString()),
+                  transferId == null ? null : transferId.toString(),
+                  null,
+                  type,
+                  FundingRecord.Status.COMPLETE,
+                  new BigDecimal(map.get("balance").toString()),
+                  null,
+                  null));
         } catch (Exception e) {
           throw new IllegalStateException("Failed to parse: " + map, e);
         }

@@ -14,5 +14,4 @@ public class GDAXProductBookEntryLevel1or2 extends GDAXProductBookEntry {
   public int getNumOrdersOnLevel() {
     return numOrdersOnLevel;
   }
-
 }

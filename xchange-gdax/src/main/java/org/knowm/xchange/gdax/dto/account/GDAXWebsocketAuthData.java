@@ -7,7 +7,8 @@ public class GDAXWebsocketAuthData {
   private final String signature;
   private final long timestamp;
 
-  public GDAXWebsocketAuthData(String userId, String key, String passphrase, String signature, long timestamp) {
+  public GDAXWebsocketAuthData(
+      String userId, String key, String passphrase, String signature, long timestamp) {
     this.userId = userId;
     this.key = key;
     this.passphrase = passphrase;

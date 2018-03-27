@@ -1,29 +1,37 @@
 package org.knowm.xchange.gdax.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Set;
-
-import org.knowm.xchange.dto.Order.IOrderFlags;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.Set;
+import org.knowm.xchange.dto.Order.IOrderFlags;
 
 public class GDAXPlaceOrder {
   @JsonProperty("size")
   private final BigDecimal size;
+
   @JsonProperty("price")
   private final BigDecimal price;
+
   @JsonProperty("side")
   private final String side;
+
   @JsonProperty("product_id")
   private final String productId;
+
   @JsonProperty("type")
   private final String type;
 
   private final Set<IOrderFlags> orderFlags;
 
-  public GDAXPlaceOrder(BigDecimal size, BigDecimal price, String side, String productId, String type, Set<IOrderFlags> orderFlags) {
+  public GDAXPlaceOrder(
+      BigDecimal size,
+      BigDecimal price,
+      String side,
+      String productId,
+      String type,
+      Set<IOrderFlags> orderFlags) {
     this.size = size;
     this.price = price;
     this.side = side;
