@@ -1,11 +1,9 @@
 package org.knowm.xchange.ripple.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.knowm.xchange.ripple.dto.RippleCommon;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class RippleAccountBalances extends RippleCommon {
 
@@ -22,6 +20,8 @@ public final class RippleAccountBalances extends RippleCommon {
 
   @Override
   public String toString() {
-    return String.format("%s [ledger=%s, validated=%s, success=%s, balances=%s]", getClass().getSimpleName(), ledger, validated, success, balances);
+    return String.format(
+        "%s [ledger=%s, validated=%s, success=%s, balances=%s]",
+        getClass().getSimpleName(), ledger, validated, success, balances);
   }
 }
