@@ -1,8 +1,7 @@
 package org.knowm.xchange.ripple.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class RippleOrderCancelResponseBody {
   @JsonProperty("account")
@@ -51,6 +50,8 @@ public class RippleOrderCancelResponseBody {
 
   @Override
   public String toString() {
-    return String.format("%s [account=%s fee=%s, offerSequence=%d sequence=%d]", getClass().getSimpleName(), account, fee, offerSequence, sequence);
+    return String.format(
+        "%s [account=%s fee=%s, offerSequence=%d sequence=%d]",
+        getClass().getSimpleName(), account, fee, offerSequence, sequence);
   }
 }
