@@ -1,19 +1,18 @@
 package org.knowm.xchange.bitcoincore;
 
 import java.io.IOException;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoincore.service.BitcoinCoreAccountService;
 import org.knowm.xchange.exceptions.ExchangeException;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitcoinCoreWallet extends BaseExchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification specification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification specification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     specification.setShouldLoadRemoteMetaData(false);
     specification.setPlainTextUri("http://localhost:8332/");
     specification.setExchangeName("BitcoinCore");
