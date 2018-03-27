@@ -5,12 +5,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.koinim.service.KoinimMarketDataService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author ahmetoz
- */
+/** @author ahmetoz */
 public class KoinimExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -24,12 +21,14 @@ public class KoinimExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.koinim.com");
     exchangeSpecification.setHost("www.koinim.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Koinim");
-    exchangeSpecification.setExchangeDescription("Koinim is a Bitcoin exchange registered in Turkey.");
+    exchangeSpecification.setExchangeDescription(
+        "Koinim is a Bitcoin exchange registered in Turkey.");
     return exchangeSpecification;
   }
 
