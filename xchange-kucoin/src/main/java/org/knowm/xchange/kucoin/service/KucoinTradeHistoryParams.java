@@ -4,7 +4,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 
-public class KucoinTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
+public class KucoinTradeHistoryParams
+    implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
 
   private CurrencyPair currencyPair;
   private Integer pageLength;
@@ -44,5 +45,4 @@ public class KucoinTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
 
     this.currencyPair = pair;
   }
-
 }
