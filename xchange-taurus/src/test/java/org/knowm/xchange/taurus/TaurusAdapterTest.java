@@ -2,12 +2,12 @@ package org.knowm.xchange.taurus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -24,41 +24,48 @@ import org.knowm.xchange.taurus.dto.marketdata.TaurusTicker;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTransaction;
 import org.knowm.xchange.taurus.dto.trade.TaurusUserTransaction;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Tests the TaurusAdapter class
- */
+/** Tests the TaurusAdapter class */
 public class TaurusAdapterTest {
 
   @Test
   public void testAccountInfoAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TaurusAdapterTest.class.getResourceAsStream("/org/knowm/xchange/taurus/dto/account/example-accountinfo-data.json");
+    InputStream is =
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     TaurusBalance taurusBalance = mapper.readValue(is, TaurusBalance.class);
 
-    //    {"btc_available":"0.02350921","btc_reserved":"0.00000000","btc_balance":"0.02350921", "cad_available":"6.16","cad_reserved":"0.00","cad_balance":"6.16","fee":"0.5000"}
+    //    {"btc_available":"0.02350921","btc_reserved":"0.00000000","btc_balance":"0.02350921",
+    // "cad_available":"6.16","cad_reserved":"0.00","cad_balance":"6.16","fee":"0.5000"}
     AccountInfo accountInfo = TaurusAdapters.adaptAccountInfo(taurusBalance, "Joe Mama");
     assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
     assertThat(accountInfo.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
     assertThat(accountInfo.getWallet().getBalances().size()).isEqualTo(2);
-    assertThat(accountInfo.getWallet().getBalance(Currency.CAD).getTotal()).isEqualTo(new BigDecimal("6.16"));
-    assertThat(accountInfo.getWallet().getBalance(Currency.CAD).getAvailable()).isEqualTo(new BigDecimal("6.16"));
-    assertThat(accountInfo.getWallet().getBalance(Currency.CAD).getFrozen()).isEqualTo(new BigDecimal("0.00"));
-    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getTotal()).isEqualTo(new BigDecimal("0.02350921"));
-    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getAvailable()).isEqualTo(new BigDecimal("0.02350921"));
-    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getFrozen()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.CAD).getTotal())
+        .isEqualTo(new BigDecimal("6.16"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.CAD).getAvailable())
+        .isEqualTo(new BigDecimal("6.16"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.CAD).getFrozen())
+        .isEqualTo(new BigDecimal("0.00"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getTotal())
+        .isEqualTo(new BigDecimal("0.02350921"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getAvailable())
+        .isEqualTo(new BigDecimal("0.02350921"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getFrozen())
+        .isEqualTo(new BigDecimal("0.00000000"));
   }
 
   @Test
   public void testOrderBookAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TaurusAdapterTest.class.getResourceAsStream("/org/knowm/xchange/taurus/dto/marketdata/example-full-depth-data.json");
+    InputStream is =
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/marketdata/example-full-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -88,7 +95,9 @@ public class TaurusAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TaurusAdapterTest.class.getResourceAsStream("/org/knowm/xchange/taurus/dto/marketdata/example-trades-data.json");
+    InputStream is =
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/marketdata/example-trades-data.json");
     //    [{"amount":"0.01000000","date":"1427270265","price":"310.00","tid":132}]
 
     // Use Jackson to parse it
@@ -110,7 +119,9 @@ public class TaurusAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TaurusAdapterTest.class.getResourceAsStream("/org/knowm/xchange/taurus/dto/marketdata/example-ticker-data.json");
+    InputStream is =
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -133,27 +144,34 @@ public class TaurusAdapterTest {
   @Test
   public void testUserTradeHistoryAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = TaurusAdapterTest.class.getResourceAsStream("/org/knowm/xchange/taurus/dto/trade/example-user-transactions.json");
+    InputStream is =
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/trade/example-user-transactions.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    TaurusUserTransaction[] taurusUserTransactions = mapper.readValue(is, TaurusUserTransaction[].class);
+    TaurusUserTransaction[] taurusUserTransactions =
+        mapper.readValue(is, TaurusUserTransaction[].class);
 
     UserTrades uth = TaurusAdapters.adaptTradeHistory(taurusUserTransactions);
 
-    // {"cad":"3.08","btc":"-0.01000000","datetime":"2015-03-25 07:57:45","fee":"0.02","id":132,"order_id":"e1mdwidxa4u9174l6keon1lj0er3zwrdxdrtw5r6amgbtkx05bptdbcdq4hp083y","rate":"310.00","type":2}
+    // {"cad":"3.08","btc":"-0.01000000","datetime":"2015-03-25
+    // 07:57:45","fee":"0.02","id":132,"order_id":"e1mdwidxa4u9174l6keon1lj0er3zwrdxdrtw5r6amgbtkx05bptdbcdq4hp083y","rate":"310.00","type":2}
     final UserTrade t0 = uth.getUserTrades().get(1);
     assertThat(t0.getId()).isEqualTo("132");
     assertThat(t0.getType()).isEqualTo(OrderType.ASK);
     assertThat(t0.getPrice()).isEqualTo(new BigDecimal("310.00"));
     assertThat(t0.getFeeAmount()).isEqualTo(new BigDecimal("0.02"));
     assertThat(t0.getId()).isEqualTo("132");
-    assertThat(t0.getOrderId()).isEqualTo("e1mdwidxa4u9174l6keon1lj0er3zwrdxdrtw5r6amgbtkx05bptdbcdq4hp083y");
+    assertThat(t0.getOrderId())
+        .isEqualTo("e1mdwidxa4u9174l6keon1lj0er3zwrdxdrtw5r6amgbtkx05bptdbcdq4hp083y");
     final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    format.setTimeZone(TimeZone.getTimeZone("Europe/Paris")); // The json date is UTC; Paris is UTC+1.
+    format.setTimeZone(
+        TimeZone.getTimeZone("Europe/Paris")); // The json date is UTC; Paris is UTC+1.
     assertThat(format.format(t0.getTimestamp())).isEqualTo("2015-03-25 08:57:45");
 
-    // {"cad":"3.08","btc":"-0.01000000","datetime":"2015-03-25 06:36:33","fee":"0.02","id":131,"order_id":"kf20f4xw16wqv75gvomk7invftavb4rwkuxzyuv01sqxzwdvkzfsh3nxwys83k4n","rate":"310.00","type":2}
+    // {"cad":"3.08","btc":"-0.01000000","datetime":"2015-03-25
+    // 06:36:33","fee":"0.02","id":131,"order_id":"kf20f4xw16wqv75gvomk7invftavb4rwkuxzyuv01sqxzwdvkzfsh3nxwys83k4n","rate":"310.00","type":2}
     final UserTrade t1 = uth.getUserTrades().get(0);
     assertThat(t1.getPrice()).isEqualTo(new BigDecimal("310.00"));
     assertThat(t1.getId()).isEqualTo("131");

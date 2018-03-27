@@ -1,13 +1,11 @@
 package org.knowm.xchange.taurus.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.taurus.Taurus;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusOrderBook;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTicker;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTransaction;
-
 import si.mazi.rescu.RestProxyFactory;
 
 public class TaurusMarketDataServiceRaw extends TaurusBaseService {
@@ -16,7 +14,9 @@ public class TaurusMarketDataServiceRaw extends TaurusBaseService {
 
   public TaurusMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.taurus = RestProxyFactory.createProxy(Taurus.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.taurus =
+        RestProxyFactory.createProxy(
+            Taurus.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public TaurusTicker getTaurusTicker() throws IOException {

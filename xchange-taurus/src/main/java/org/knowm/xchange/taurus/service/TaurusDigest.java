@@ -1,12 +1,9 @@
 package org.knowm.xchange.taurus.service;
 
 import java.math.BigInteger;
-
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
 public class TaurusDigest extends BaseParamsDigest {
@@ -20,7 +17,8 @@ public class TaurusDigest extends BaseParamsDigest {
     this.apiKey = apiKey;
   }
 
-  public static TaurusDigest createInstance(String secretKeyBase64, String clientId, String apiKey) {
+  public static TaurusDigest createInstance(
+      String secretKeyBase64, String clientId, String apiKey) {
     return secretKeyBase64 == null ? null : new TaurusDigest(secretKeyBase64, clientId, apiKey);
   }
 
