@@ -1,19 +1,17 @@
 package org.knowm.xchange.poloniex.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -22,12 +20,14 @@ public class PoloniexDepth {
 
   @JsonProperty("asks")
   private List<List<BigDecimal>> asks = new ArrayList<List<BigDecimal>>();
+
   @JsonProperty("bids")
   private List<List<BigDecimal>> bids = new ArrayList<List<BigDecimal>>();
+
   @JsonProperty("isFrozen")
   private String isFrozen;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   @JsonProperty("asks")
   public List<List<BigDecimal>> getAsks() {
@@ -80,7 +80,14 @@ public class PoloniexDepth {
   @Override
   public String toString() {
 
-    return "PoloniexDepth [asks=" + asks + ", bids=" + bids + ", isFrozen=" + isFrozen + ", additionalProperties=" + additionalProperties + "]";
+    return "PoloniexDepth [asks="
+        + asks
+        + ", bids="
+        + bids
+        + ", isFrozen="
+        + isFrozen
+        + ", additionalProperties="
+        + additionalProperties
+        + "]";
   }
-
 }

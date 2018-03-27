@@ -1,17 +1,15 @@
 package org.knowm.xchange.poloniex.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -20,18 +18,23 @@ public class PoloniexPublicTrade {
 
   @JsonProperty("tradeID")
   private String tradeID;
+
   @JsonProperty("date")
   private String date;
+
   @JsonProperty("type")
   private String type;
+
   @JsonProperty("rate")
   private BigDecimal rate;
+
   @JsonProperty("amount")
   private BigDecimal amount;
+
   @JsonProperty("total")
   private BigDecimal total;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   @JsonProperty("tradeID")
   public String getTradeID() {
@@ -120,7 +123,21 @@ public class PoloniexPublicTrade {
   @Override
   public String toString() {
 
-    return "PoloniexPublicTrade [tradeID=" + tradeID + ", date=" + date + ", type=" + type + ", amount=" + amount + ", rate=" + rate + ", total="
-        + total + "" + ", additionalProperties=" + additionalProperties + "]";
+    return "PoloniexPublicTrade [tradeID="
+        + tradeID
+        + ", date="
+        + date
+        + ", type="
+        + type
+        + ", amount="
+        + amount
+        + ", rate="
+        + rate
+        + ", total="
+        + total
+        + ""
+        + ", additionalProperties="
+        + additionalProperties
+        + "]";
   }
 }
