@@ -3,7 +3,6 @@ package org.knowm.xchange.okcoin.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -33,7 +32,6 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
   public OkCoinAccountService(Exchange exchange) {
 
     super(exchange);
-
   }
 
   @Override
@@ -43,15 +41,22 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    boolean useIntl = this.exchange.getExchangeSpecification().getExchangeSpecificParametersItem("Use_Intl").equals(true);
-    String currencySymbol = OkCoinAdapters.adaptSymbol(new CurrencyPair(currency, useIntl ? Currency.USD : Currency.CNY));
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
+    boolean useIntl =
+        this.exchange
+            .getExchangeSpecification()
+            .getExchangeSpecificParametersItem("Use_Intl")
+            .equals(true);
+    String currencySymbol =
+        OkCoinAdapters.adaptSymbol(
+            new CurrencyPair(currency, useIntl ? Currency.USD : Currency.CNY));
 
-    // Defualt withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw for internal withdraw
+    // Defualt withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw
+    // for internal withdraw
     OKCoinWithdraw result = withdraw(currencySymbol, address, amount, "address");
 
-    if (result != null)
-      return result.getWithdrawId();
+    if (result != null) return result.getWithdrawId();
 
     return "";
   }
@@ -60,7 +65,8 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
@@ -78,12 +84,15 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     String symbol = null;
-    if (params instanceof TradeHistoryParamCurrency && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
+    if (params instanceof TradeHistoryParamCurrency
+        && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
       symbol = OkCoinAdapters.adaptSymbol(((TradeHistoryParamCurrency) params).getCurrency());
     }
     if (symbol == null) {
-      if (params instanceof TradeHistoryParamCurrencyPair && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
-        symbol = OkCoinAdapters.adaptSymbol(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+      if (params instanceof TradeHistoryParamCurrencyPair
+          && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
+        symbol =
+            OkCoinAdapters.adaptSymbol(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
       }
     }
 
@@ -104,9 +113,12 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
       pageNumber = pagingParams.getPageNumber() != null ? pagingParams.getPageNumber() : 1;
     }
 
-    final OkCoinAccountRecords depositRecord = getAccountRecords(symbol, "0", String.valueOf(pageNumber), String.valueOf(pageLength));
-    final OkCoinAccountRecords withdrawalRecord = getAccountRecords(symbol, "1", String.valueOf(pageNumber), String.valueOf(pageLength));
-    final OkCoinAccountRecords[] okCoinAccountRecordsList = new OkCoinAccountRecords[]{depositRecord, withdrawalRecord};
+    final OkCoinAccountRecords depositRecord =
+        getAccountRecords(symbol, "0", String.valueOf(pageNumber), String.valueOf(pageLength));
+    final OkCoinAccountRecords withdrawalRecord =
+        getAccountRecords(symbol, "1", String.valueOf(pageNumber), String.valueOf(pageLength));
+    final OkCoinAccountRecords[] okCoinAccountRecordsList =
+        new OkCoinAccountRecords[] {depositRecord, withdrawalRecord};
     return OkCoinAdapters.adaptFundingHistory(okCoinAccountRecordsList);
   }
 
@@ -116,7 +128,11 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     private Currency currency;
     private CurrencyPair currencyPair;
 
-    public OkCoinFundingHistoryParams(final Integer pageNumber, final Integer pageLength, final Currency currency, final CurrencyPair currencyPair) {
+    public OkCoinFundingHistoryParams(
+        final Integer pageNumber,
+        final Integer pageLength,
+        final Currency currency,
+        final CurrencyPair currencyPair) {
       super(pageLength, pageNumber);
       this.currency = currency;
       this.currencyPair = currencyPair;
@@ -142,5 +158,4 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
       this.currencyPair = currencyPair;
     }
   }
-
 }
