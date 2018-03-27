@@ -1,17 +1,16 @@
 package org.knowm.xchange.bitcointoyou.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import javax.annotation.Generated;
 
 /**
  * Public trade Bitcointoyou Exchange representation.
@@ -30,11 +29,14 @@ public class BitcointoyouPublicTrade {
   private final Integer tid;
   private final String type;
   private final String currency;
-  @JsonIgnore
-  private final Map<String, Object> additionalProperties = new HashMap<>();
+  @JsonIgnore private final Map<String, Object> additionalProperties = new HashMap<>();
 
-  public BitcointoyouPublicTrade(@JsonProperty("date") Integer date, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("tid") Integer tid, @JsonProperty("type") String type,
+  public BitcointoyouPublicTrade(
+      @JsonProperty("date") Integer date,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("tid") Integer tid,
+      @JsonProperty("type") String type,
       @JsonProperty("currency") String currency) {
     this.date = date;
     this.price = price;
@@ -49,32 +51,48 @@ public class BitcointoyouPublicTrade {
     if (this == o) return true;
     if (!(o instanceof BitcointoyouPublicTrade)) return false;
     BitcointoyouPublicTrade that = (BitcointoyouPublicTrade) o;
-    return Objects.equals(getDate(), that.getDate()) &&
-            Objects.equals(getPrice(), that.getPrice()) &&
-            Objects.equals(getAmount(), that.getAmount()) &&
-            Objects.equals(getTid(), that.getTid()) &&
-            Objects.equals(getType(), that.getType()) &&
-            Objects.equals(getCurrency(), that.getCurrency()) &&
-            Objects.equals(getAdditionalProperties(), that.getAdditionalProperties());
+    return Objects.equals(getDate(), that.getDate())
+        && Objects.equals(getPrice(), that.getPrice())
+        && Objects.equals(getAmount(), that.getAmount())
+        && Objects.equals(getTid(), that.getTid())
+        && Objects.equals(getType(), that.getType())
+        && Objects.equals(getCurrency(), that.getCurrency())
+        && Objects.equals(getAdditionalProperties(), that.getAdditionalProperties());
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(getDate(), getPrice(), getAmount(), getTid(), getType(), getCurrency(), getAdditionalProperties());
+    return Objects.hash(
+        getDate(),
+        getPrice(),
+        getAmount(),
+        getTid(),
+        getType(),
+        getCurrency(),
+        getAdditionalProperties());
   }
 
   @Override
   public String toString() {
-    return "BitcointoyouPublicTrade{" +
-            "date=" + date +
-            ", price=" + price +
-            ", amount=" + amount +
-            ", tid=" + tid +
-            ", type='" + type + '\'' +
-            ", currency='" + currency + '\'' +
-            ", additionalProperties=" + additionalProperties +
-            '}';
+    return "BitcointoyouPublicTrade{"
+        + "date="
+        + date
+        + ", price="
+        + price
+        + ", amount="
+        + amount
+        + ", tid="
+        + tid
+        + ", type='"
+        + type
+        + '\''
+        + ", currency='"
+        + currency
+        + '\''
+        + ", additionalProperties="
+        + additionalProperties
+        + '}';
   }
 
   public Integer getDate() {
@@ -118,5 +136,4 @@ public class BitcointoyouPublicTrade {
 
     this.additionalProperties.put(name, value);
   }
-
 }
