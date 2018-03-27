@@ -159,8 +159,6 @@ public final class Ticker implements Serializable {
    * <ul>
    *   <li>Provision of fluent chained construction interface
    * </ul>
-   *
-   *
    */
   public static class Builder {
 
