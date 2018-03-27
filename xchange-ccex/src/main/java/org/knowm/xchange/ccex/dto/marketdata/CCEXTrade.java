@@ -1,8 +1,7 @@
 package org.knowm.xchange.ccex.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CCEXTrade {
 
@@ -14,8 +13,13 @@ public class CCEXTrade {
   private final String fillType;
   private final String orderType;
 
-  public CCEXTrade(@JsonProperty("Id") String id, @JsonProperty("TimeStamp") String timestamp, @JsonProperty("Quantity") BigDecimal quantity,
-      @JsonProperty("Price") BigDecimal price, @JsonProperty("Total") BigDecimal total, @JsonProperty("FillType") String fillType,
+  public CCEXTrade(
+      @JsonProperty("Id") String id,
+      @JsonProperty("TimeStamp") String timestamp,
+      @JsonProperty("Quantity") BigDecimal quantity,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("Total") BigDecimal total,
+      @JsonProperty("FillType") String fillType,
       @JsonProperty("OrderType") String orderType) {
     super();
     this.id = id;
@@ -54,5 +58,4 @@ public class CCEXTrade {
   public String getOrderType() {
     return orderType;
   }
-
 }
