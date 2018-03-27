@@ -18,8 +18,10 @@ public class ZaifExchangeTest {
   public void shouldSupportBitCrystalOnlyByRemoteInit() {
 
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getCanonicalName());
-    //ex.remoteInit();
+    // ex.remoteInit();
 
-    Assert.assertTrue(((ZaifMarketDataServiceRaw) ex.getMarketDataService()).checkProductExists(new CurrencyPair("BITCRYSTALS/JPY")));
+    Assert.assertTrue(
+        ((ZaifMarketDataServiceRaw) ex.getMarketDataService())
+            .checkProductExists(new CurrencyPair("BITCRYSTALS/JPY")));
   }
 }
