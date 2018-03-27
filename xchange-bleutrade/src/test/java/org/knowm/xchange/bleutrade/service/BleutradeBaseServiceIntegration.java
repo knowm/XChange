@@ -5,7 +5,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +27,9 @@ public class BleutradeBaseServiceIntegration extends BleutradeServiceTestSupport
 
   @Before
   public void setUp() {
-    exchange = (BleutradeExchange) ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
+    exchange =
+        (BleutradeExchange)
+            ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
     exchange.getExchangeSpecification().setUserName(SPECIFICATION_USERNAME);
     exchange.getExchangeSpecification().setApiKey(SPECIFICATION_API_KEY);
     exchange.getExchangeSpecification().setSecretKey(SPECIFICATION_SECRET_KEY);
@@ -38,7 +39,8 @@ public class BleutradeBaseServiceIntegration extends BleutradeServiceTestSupport
 
   @Test
   public void constructor() {
-    assertThat((String) Whitebox.getInternalState(service, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertThat((String) Whitebox.getInternalState(service, "apiKey"))
+        .isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test
@@ -59,10 +61,10 @@ public class BleutradeBaseServiceIntegration extends BleutradeServiceTestSupport
     // when
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
-    // We don't test this because it relies on a remote call and it can change at any time. Would be more appropriate for an integration test
+    // We don't test this because it relies on a remote call and it can change at any time. Would be
+    // more appropriate for an integration test
     // then
     //    assertThat(exchangeSymbols).hasSize(176);
     //    assertThat(exchangeSymbols).contains(CurrencyPair.DOGE_BTC, BLEU_BTC_CP);
   }
-
 }

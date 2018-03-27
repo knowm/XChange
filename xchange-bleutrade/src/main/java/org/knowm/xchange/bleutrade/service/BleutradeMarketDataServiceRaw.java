@@ -2,7 +2,6 @@ package org.knowm.xchange.bleutrade.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeUtils;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
@@ -19,11 +18,10 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
- * <p>
  * Implementation of the market data service for Bleutrade
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
 public class BleutradeMarketDataServiceRaw extends BleutradeBaseService {
@@ -61,7 +59,8 @@ public class BleutradeMarketDataServiceRaw extends BleutradeBaseService {
     return response.getResult().get(0);
   }
 
-  public BleutradeOrderBook getBleutradeOrderBook(CurrencyPair currencyPair, int depth) throws IOException {
+  public BleutradeOrderBook getBleutradeOrderBook(CurrencyPair currencyPair, int depth)
+      throws IOException {
 
     String pairString = BleutradeUtils.toPairString(currencyPair);
 
@@ -72,7 +71,6 @@ public class BleutradeMarketDataServiceRaw extends BleutradeBaseService {
     }
 
     return response.getResult();
-
   }
 
   public List<BleutradeCurrency> getBleutradeCurrencies() throws IOException {
@@ -97,7 +95,8 @@ public class BleutradeMarketDataServiceRaw extends BleutradeBaseService {
     return response.getResult();
   }
 
-  public List<BleutradeTrade> getBleutradeMarketHistory(CurrencyPair currencyPair, int count) throws IOException {
+  public List<BleutradeTrade> getBleutradeMarketHistory(CurrencyPair currencyPair, int count)
+      throws IOException {
 
     String pairString = BleutradeUtils.toPairString(currencyPair);
 
@@ -109,5 +108,4 @@ public class BleutradeMarketDataServiceRaw extends BleutradeBaseService {
 
     return response.getResult();
   }
-
 }
