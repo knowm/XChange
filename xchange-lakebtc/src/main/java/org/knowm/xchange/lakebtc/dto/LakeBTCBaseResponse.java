@@ -1,8 +1,6 @@
 package org.knowm.xchange.lakebtc.dto;
 
-/**
- * @author kpysniak
- */
+/** @author kpysniak */
 public class LakeBTCBaseResponse {
 
   private final String error;
