@@ -3,7 +3,6 @@ package org.knowm.xchange.quoine.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -28,9 +27,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeService {
 
   /**
@@ -56,16 +53,23 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    QuoineOrderResponse quoinePlaceOrderResponse = placeMarketOrder(marketOrder.getCurrencyPair(),
-        marketOrder.getType() == OrderType.ASK ? "sell" : "buy", marketOrder.getOriginalAmount());
+    QuoineOrderResponse quoinePlaceOrderResponse =
+        placeMarketOrder(
+            marketOrder.getCurrencyPair(),
+            marketOrder.getType() == OrderType.ASK ? "sell" : "buy",
+            marketOrder.getOriginalAmount());
     return quoinePlaceOrderResponse.getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    QuoineOrderResponse quoinePlaceOrderResponse = placeLimitOrder(limitOrder.getCurrencyPair(),
-        limitOrder.getType() == OrderType.ASK ? "sell" : "buy", limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
+    QuoineOrderResponse quoinePlaceOrderResponse =
+        placeLimitOrder(
+            limitOrder.getCurrencyPair(),
+            limitOrder.getType() == OrderType.ASK ? "sell" : "buy",
+            limitOrder.getOriginalAmount(),
+            limitOrder.getLimitPrice());
     return quoinePlaceOrderResponse.getId();
   }
 
@@ -112,7 +116,8 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
     if (currencyPair == null)
       throw new IllegalStateException("Need to specify TradeHistoryParamCurrencyPair");
 
-    return new UserTrades(QuoineAdapters.adapt(executions, currencyPair), Trades.TradeSortType.SortByTimestamp);
+    return new UserTrades(
+        QuoineAdapters.adapt(executions, currencyPair), Trades.TradeSortType.SortByTimestamp);
   }
 
   @Override
@@ -130,5 +135,4 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
-
 }
