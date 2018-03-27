@@ -1,9 +1,7 @@
 package org.knowm.xchange.coinbase.v2.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.util.List;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
 @SuppressWarnings("serial")
@@ -15,10 +13,8 @@ public class CoinbaseException extends HttpStatusExceptionSupport {
 
   static class CoinbaseError {
 
-    @JsonProperty
-    String id;
-    @JsonProperty
-    String message;
+    @JsonProperty String id;
+    @JsonProperty String message;
 
     @Override
     public String toString() {

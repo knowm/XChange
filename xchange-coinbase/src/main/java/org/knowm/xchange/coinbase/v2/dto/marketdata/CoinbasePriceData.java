@@ -14,4 +14,3 @@ public class CoinbasePriceData {
     this.data = data;
   }
 }
-
