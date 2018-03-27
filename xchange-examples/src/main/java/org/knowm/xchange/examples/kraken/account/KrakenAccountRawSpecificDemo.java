@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.kraken.account;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
@@ -17,7 +16,8 @@ public class KrakenAccountRawSpecificDemo {
 
     Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
-    KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) krakenExchange.getAccountService();
+    KrakenAccountServiceRaw rawKrakenAcctService =
+        (KrakenAccountServiceRaw) krakenExchange.getAccountService();
 
     KrakenTradeBalanceInfo balanceInfo = rawKrakenAcctService.getKrakenTradeBalance();
     System.out.println(balanceInfo);

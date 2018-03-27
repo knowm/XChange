@@ -6,8 +6,7 @@ import org.knowm.xchange.therock.TheRockExchange;
 
 public class TheRockExampleUtils {
 
-  private TheRockExampleUtils() {
-  }
+  private TheRockExampleUtils() {}
 
   public static Exchange createTestExchange() {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());

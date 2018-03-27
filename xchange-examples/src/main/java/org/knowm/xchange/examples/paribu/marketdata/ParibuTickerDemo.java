@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.paribu.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -11,8 +10,8 @@ import org.knowm.xchange.paribu.service.ParibuMarketDataService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * @author semihunaldi
- * Demonstrate requesting Ticker at Paribu. You can access both the raw data from Paribu or the XChange generic DTO data format.
+ * @author semihunaldi Demonstrate requesting Ticker at Paribu. You can access both the raw data
+ *     from Paribu or the XChange generic DTO data format.
  */
 public class ParibuTickerDemo {
 

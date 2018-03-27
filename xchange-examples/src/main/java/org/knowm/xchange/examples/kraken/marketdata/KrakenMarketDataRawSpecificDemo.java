@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.kraken.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -16,10 +15,12 @@ public class KrakenMarketDataRawSpecificDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Kraken exchange API using default settings
-    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    Exchange krakenExchange =
+        ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getMarketDataService();
+    KrakenMarketDataServiceRaw krakenMarketDataService =
+        (KrakenMarketDataServiceRaw) krakenExchange.getMarketDataService();
 
     KrakenServerTime serverTime = krakenMarketDataService.getServerTime();
     System.out.println(serverTime);

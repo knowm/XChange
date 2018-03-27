@@ -5,10 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 
-/**
- * @author Zach Holmes
- */
-
+/** @author Zach Holmes */
 public class PoloniexExamplesUtils {
 
   public static Exchange getExchange() {

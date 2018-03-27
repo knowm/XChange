@@ -5,9 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcturk.BTCTurkExchange;
 
-/**
- * @author semihunaldi
- */
+/** @author semihunaldi */
 public class BTCTurkDemoUtils {
   public static Exchange createExchange() {
 
