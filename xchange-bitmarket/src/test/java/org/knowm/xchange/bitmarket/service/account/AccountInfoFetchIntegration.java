@@ -9,9 +9,7 @@ import org.knowm.xchange.bitmarket.ExchangeUtils;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
 
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class AccountInfoFetchIntegration {
 
   private Exchange exchange;
@@ -25,13 +23,14 @@ public class AccountInfoFetchIntegration {
   @Test
   public void fetchAccountInfoTest() throws Exception {
 
-    if (exchange.getExchangeSpecification().getApiKey() == null || exchange.getExchangeSpecification().getSecretKey() == null) {
+    if (exchange.getExchangeSpecification().getApiKey() == null
+        || exchange.getExchangeSpecification().getSecretKey() == null) {
       return; // forces pass if there is no keys passed
     }
 
     AccountService service = exchange.getAccountService();
     assertNotNull(service);
-    //verify account info exists
+    // verify account info exists
     AccountInfo info = service.getAccountInfo();
     assertNotNull(info);
   }
