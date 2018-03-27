@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -46,12 +45,15 @@ public class OrdersFetchIntegration {
     assertThat(openOrders).isNotNull();
     System.out.println(openOrders);
 
-    String orderID = tradeService.placeLimitOrder(
-        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("500")).originalAmount(new BigDecimal("0.75")).build());
+    String orderID =
+        tradeService.placeLimitOrder(
+            new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+                .limitPrice(new BigDecimal("500"))
+                .originalAmount(new BigDecimal("0.75"))
+                .build());
 
     Collection<Order> orders = tradeService.getOrder(orderID);
-    for (Order order : orders)
-      tradeService.cancelOrder(order.getId());
+    for (Order order : orders) tradeService.cancelOrder(order.getId());
 
     AbucoinsTradeService abucoinsTradeService = (AbucoinsTradeService) tradeService;
     AbucoinsFill[] fills = abucoinsTradeService.getFills();
