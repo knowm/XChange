@@ -1,9 +1,5 @@
 package org.knowm.xchange.coinmarketcap.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -11,10 +7,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 
-/**
- * @author allenday
- */
+/** @author allenday */
 @JsonDeserialize(using = CoinMarketCapTicker.CoinMarketCapTickerDeserializer.class)
 public final class CoinMarketCapTicker {
 
@@ -33,9 +30,20 @@ public final class CoinMarketCapTicker {
   private final Date lastUpdated;
   private final CoinMarketCapCurrency baseCurrency;
 
-  private CoinMarketCapTicker(final String id, final String name, final String isoCode, final BigDecimal priceUSD, final BigDecimal priceBTC,
-      final BigDecimal volume24hUSD, final BigDecimal marketCapUSD, final BigDecimal availableSupply, final BigDecimal totalSupply,
-      final BigDecimal pctChange1h, final BigDecimal pctChange24h, final BigDecimal pctChange7d, final Date lastUpdated) {
+  private CoinMarketCapTicker(
+      final String id,
+      final String name,
+      final String isoCode,
+      final BigDecimal priceUSD,
+      final BigDecimal priceBTC,
+      final BigDecimal volume24hUSD,
+      final BigDecimal marketCapUSD,
+      final BigDecimal availableSupply,
+      final BigDecimal totalSupply,
+      final BigDecimal pctChange1h,
+      final BigDecimal pctChange24h,
+      final BigDecimal pctChange7d,
+      final Date lastUpdated) {
     this.id = id;
     this.name = name;
     this.baseCurrency = new CoinMarketCapCurrency(isoCode);
@@ -117,7 +125,8 @@ public final class CoinMarketCapTicker {
   static class CoinMarketCapTickerDeserializer extends JsonDeserializer<CoinMarketCapTicker> {
 
     @Override
-    public CoinMarketCapTicker deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinMarketCapTicker deserialize(JsonParser jp, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
@@ -135,13 +144,26 @@ public final class CoinMarketCapTicker {
         BigDecimal availableSupply = new BigDecimal(node.get("available_supply").asDouble());
         BigDecimal totalSupply = new BigDecimal(node.get("total_supply").asDouble());
 
-        //TODO use these to create CoinMarketCapHistoricalSpotPrice instances
+        // TODO use these to create CoinMarketCapHistoricalSpotPrice instances
         BigDecimal pctChange1h = new BigDecimal(node.get("percent_change_1h").asDouble());
         BigDecimal pctChange24h = new BigDecimal(node.get("percent_change_24h").asDouble());
         BigDecimal pctChange7d = new BigDecimal(node.get("percent_change_7d").asDouble());
 
-        CoinMarketCapTicker ticker = new CoinMarketCapTicker(id, name, symbol, priceUSD, priceBTC, volume24hUSD, marketCapUSD, availableSupply,
-            totalSupply, pctChange1h, pctChange24h, pctChange7d, lastUpdated);
+        CoinMarketCapTicker ticker =
+            new CoinMarketCapTicker(
+                id,
+                name,
+                symbol,
+                priceUSD,
+                priceBTC,
+                volume24hUSD,
+                marketCapUSD,
+                availableSupply,
+                totalSupply,
+                pctChange1h,
+                pctChange24h,
+                pctChange7d,
+                lastUpdated);
         return ticker;
       }
       return null;
