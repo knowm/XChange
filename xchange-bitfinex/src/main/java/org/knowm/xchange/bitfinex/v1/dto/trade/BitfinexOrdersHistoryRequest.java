@@ -27,5 +27,4 @@ public class BitfinexOrdersHistoryRequest {
     this.limit = limit;
     this.nonce = nonce;
   }
-
 }

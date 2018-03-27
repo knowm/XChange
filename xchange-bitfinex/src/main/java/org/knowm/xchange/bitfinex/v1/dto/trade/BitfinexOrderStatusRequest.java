@@ -32,5 +32,4 @@ public class BitfinexOrderStatusRequest {
 
     return String.valueOf(orderId);
   }
-
 }
