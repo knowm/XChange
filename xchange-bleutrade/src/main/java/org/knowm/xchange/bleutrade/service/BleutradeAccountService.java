@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
@@ -40,7 +39,8 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdraw(currency, amount, address);
   }
 
@@ -48,7 +48,8 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
@@ -86,14 +87,34 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
         }
 
         fundingRecords.add(
-            new FundingRecord(address, dateFormat.parse(record.timestamp), Currency.getInstance(record.coin), amount, record.id, record.transactionId,
-                FundingRecord.Type.WITHDRAWAL, FundingRecord.Status.COMPLETE, null, fee, label));
+            new FundingRecord(
+                address,
+                dateFormat.parse(record.timestamp),
+                Currency.getInstance(record.coin),
+                amount,
+                record.id,
+                record.transactionId,
+                FundingRecord.Type.WITHDRAWAL,
+                FundingRecord.Status.COMPLETE,
+                null,
+                fee,
+                label));
       }
 
       for (DepositRecord record : depositHistory()) {
         fundingRecords.add(
-            new FundingRecord(null, dateFormat.parse(record.timestamp), Currency.getInstance(record.coin), record.amount, record.id, null,
-                FundingRecord.Type.DEPOSIT, FundingRecord.Status.COMPLETE, null, null, record.label));
+            new FundingRecord(
+                null,
+                dateFormat.parse(record.timestamp),
+                Currency.getInstance(record.coin),
+                record.amount,
+                record.id,
+                null,
+                FundingRecord.Type.DEPOSIT,
+                FundingRecord.Status.COMPLETE,
+                null,
+                null,
+                record.label));
       }
     } catch (ParseException e) {
       throw new IllegalStateException("Should not happen", e);

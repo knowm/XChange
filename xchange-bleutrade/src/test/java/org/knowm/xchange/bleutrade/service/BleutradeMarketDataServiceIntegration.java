@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,16 +40,25 @@ import org.powermock.reflect.Whitebox;
 @RunWith(PowerMockRunner.class)
 public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestSupport {
 
-  private static final Ticker TICKER = new Ticker.Builder().currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977"))
-                                                           .bid(new BigDecimal("0.00100000")).ask(new BigDecimal("0.00101977"))
-                                                           .high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
-                                                           .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015"))
-                                                           .timestamp(new Date(1406632770000L)).build();
+  private static final Ticker TICKER =
+      new Ticker.Builder()
+          .currencyPair(BLEU_BTC_CP)
+          .last(new BigDecimal("0.00101977"))
+          .bid(new BigDecimal("0.00100000"))
+          .ask(new BigDecimal("0.00101977"))
+          .high(new BigDecimal("0.00105000"))
+          .low(new BigDecimal("0.00086000"))
+          .vwap(new BigDecimal("0.00103455"))
+          .volume(new BigDecimal("2450.97496015"))
+          .timestamp(new Date(1406632770000L))
+          .build();
   private BleutradeMarketDataService marketDataService;
 
   @Before
   public void setUp() {
-    BleutradeExchange exchange = (BleutradeExchange) ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
+    BleutradeExchange exchange =
+        (BleutradeExchange)
+            ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
     exchange.getExchangeSpecification().setUserName(SPECIFICATION_USERNAME);
     exchange.getExchangeSpecification().setApiKey(SPECIFICATION_API_KEY);
     exchange.getExchangeSpecification().setSecretKey(SPECIFICATION_SECRET_KEY);
@@ -60,7 +68,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
 
   @Test
   public void constructor() {
-    assertThat((String) Whitebox.getInternalState(marketDataService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertThat((String) Whitebox.getInternalState(marketDataService, "apiKey"))
+        .isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test
@@ -99,7 +108,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketDataService.getTicker(BLEU_BTC_CP);
 
     // then
-    fail("BleutradeMarketDataService should throw ExchangeException when ticker request was unsuccessful");
+    fail(
+        "BleutradeMarketDataService should throw ExchangeException when ticker request was unsuccessful");
   }
 
   @Test
@@ -108,16 +118,20 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     BleutradeOrderBookReturn orderBookReturn1 = new BleutradeOrderBookReturn();
     orderBookReturn1.setSuccess(true);
     orderBookReturn1.setMessage("test message");
-    orderBookReturn1.setResult(createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
+    orderBookReturn1.setResult(
+        createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
 
     BleutradeOrderBookReturn orderBookReturn2 = new BleutradeOrderBookReturn();
     orderBookReturn2.setSuccess(true);
     orderBookReturn2.setMessage("");
-    orderBookReturn2.setResult(createBleutradeOrderBook(Collections.EMPTY_LIST, Collections.EMPTY_LIST));
+    orderBookReturn2.setResult(
+        createBleutradeOrderBook(Collections.EMPTY_LIST, Collections.EMPTY_LIST));
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeOrderBook("BTC_AUD", "ALL", 30)).thenReturn(orderBookReturn1);
-    PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50)).thenReturn(orderBookReturn2);
+    PowerMockito.when(bleutrade.getBleutradeOrderBook("BTC_AUD", "ALL", 30))
+        .thenReturn(orderBookReturn1);
+    PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50))
+        .thenReturn(orderBookReturn2);
     Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
     final LimitOrder[] expectedAsks = expectedAsks();
@@ -150,17 +164,20 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     BleutradeOrderBookReturn orderBookReturn = new BleutradeOrderBookReturn();
     orderBookReturn.setSuccess(false);
     orderBookReturn.setMessage("test message");
-    orderBookReturn.setResult(createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
+    orderBookReturn.setResult(
+        createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50)).thenReturn(orderBookReturn);
+    PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50))
+        .thenReturn(orderBookReturn);
     Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
     // when
     marketDataService.getOrderBook(BLEU_BTC_CP);
 
     // then
-    fail("BleutradeMarketDataService should throw ExchangeException when order book request was unsuccessful");
+    fail(
+        "BleutradeMarketDataService should throw ExchangeException when order book request was unsuccessful");
   }
 
   @Test
@@ -189,10 +206,14 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketHistoryReturn4.setResult(Arrays.asList(expectedBleutradeTrades.get(1)));
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 30)).thenReturn(marketHistoryReturn1);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 50)).thenReturn(marketHistoryReturn2);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 1)).thenReturn(marketHistoryReturn3);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 200)).thenReturn(marketHistoryReturn4);
+    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 30))
+        .thenReturn(marketHistoryReturn1);
+    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 50))
+        .thenReturn(marketHistoryReturn2);
+    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 1))
+        .thenReturn(marketHistoryReturn3);
+    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 200))
+        .thenReturn(marketHistoryReturn4);
 
     Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
@@ -230,7 +251,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketHistoryReturn.setResult(expectedBleutradeTrades());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 50)).thenReturn(marketHistoryReturn);
+    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 50))
+        .thenReturn(marketHistoryReturn);
 
     Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
@@ -238,7 +260,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketDataService.getTrades(BLEU_BTC_CP);
 
     // then
-    fail("BleutradeMarketDataService should throw ExchangeException when trades request was unsuccessful");
+    fail(
+        "BleutradeMarketDataService should throw ExchangeException when trades request was unsuccessful");
   }
 
   @Test
@@ -284,7 +307,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketDataService.getBleutradeTickers();
 
     // then
-    fail("BleutradeMarketDataService should throw ExchangeException when tickers request was unsuccessful");
+    fail(
+        "BleutradeMarketDataService should throw ExchangeException when tickers request was unsuccessful");
   }
 
   @Test
@@ -330,7 +354,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketDataService.getBleutradeCurrencies();
 
     // then
-    fail("BleutradeMarketDataService should throw ExchangeException when currencies request was unsuccessful");
+    fail(
+        "BleutradeMarketDataService should throw ExchangeException when currencies request was unsuccessful");
   }
 
   @Test
@@ -376,6 +401,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketDataService.getBleutradeMarkets();
 
     // then
-    fail("BleutradeMarketDataService should throw ExchangeException when markets request was unsuccessful");
+    fail(
+        "BleutradeMarketDataService should throw ExchangeException when markets request was unsuccessful");
   }
 }

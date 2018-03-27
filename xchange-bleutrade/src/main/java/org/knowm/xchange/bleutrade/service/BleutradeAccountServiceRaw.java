@@ -3,7 +3,6 @@ package org.knowm.xchange.bleutrade.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeException;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
@@ -23,8 +22,14 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
   }
 
   public String withdraw(Currency currency, BigDecimal amount, String address) throws IOException {
-    BleutradeWithdrawReturn response = bleutrade
-        .withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address);
+    BleutradeWithdrawReturn response =
+        bleutrade.withdraw(
+            apiKey,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            currency.getCurrencyCode(),
+            amount,
+            address);
 
     if (!response.success) {
       throw new ExchangeException("Withdraw funds failed: " + response.toString());
@@ -36,7 +41,9 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
   public BleutradeDepositAddress getBleutradeDepositAddress(String currency) throws IOException {
 
     try {
-      BleutradeDepositAddressReturn response = bleutrade.getDepositAddress(apiKey, signatureCreator, exchange.getNonceFactory(), currency);
+      BleutradeDepositAddressReturn response =
+          bleutrade.getDepositAddress(
+              apiKey, signatureCreator, exchange.getNonceFactory(), currency);
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -51,7 +58,8 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
   public BleutradeBalance getBleutradeBalance(String currency) throws IOException {
 
     try {
-      BleutradeBalanceReturn response = bleutrade.getBalance(apiKey, signatureCreator, exchange.getNonceFactory(), currency);
+      BleutradeBalanceReturn response =
+          bleutrade.getBalance(apiKey, signatureCreator, exchange.getNonceFactory(), currency);
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -66,7 +74,8 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
   public List<BleutradeBalance> getBleutradeBalances() throws IOException {
 
     try {
-      BleutradeBalancesReturn response = bleutrade.getBalances(apiKey, signatureCreator, exchange.getNonceFactory());
+      BleutradeBalancesReturn response =
+          bleutrade.getBalances(apiKey, signatureCreator, exchange.getNonceFactory());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -79,7 +88,8 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
   }
 
   public List<DepositRecord> depositHistory() throws IOException {
-    BleutradeResponse<List<DepositRecord>> response = bleutrade.depositHistory(apiKey, signatureCreator, exchange.getNonceFactory());
+    BleutradeResponse<List<DepositRecord>> response =
+        bleutrade.depositHistory(apiKey, signatureCreator, exchange.getNonceFactory());
 
     if (!response.success) {
       throw new ExchangeException(response.message);
@@ -89,7 +99,8 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
   }
 
   public List<WithdrawRecord> withdrawalHistory() throws IOException {
-    BleutradeResponse<List<WithdrawRecord>> response = bleutrade.withdrawHistory(apiKey, signatureCreator, exchange.getNonceFactory());
+    BleutradeResponse<List<WithdrawRecord>> response =
+        bleutrade.withdrawHistory(apiKey, signatureCreator, exchange.getNonceFactory());
 
     if (!response.success) {
       throw new ExchangeException(response.message);
@@ -97,5 +108,4 @@ public class BleutradeAccountServiceRaw extends BleutradeBaseService {
 
     return response.result;
   }
-
 }

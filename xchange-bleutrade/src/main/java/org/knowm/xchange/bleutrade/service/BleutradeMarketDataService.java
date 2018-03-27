@@ -2,7 +2,6 @@ package org.knowm.xchange.bleutrade.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeOrderBook;
@@ -14,7 +13,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw implements MarketDataService {
+public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -68,5 +68,4 @@ public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw im
     List<BleutradeTrade> bleutradeTrades = getBleutradeMarketHistory(currencyPair, count);
     return BleutradeAdapters.adaptBleutradeMarketHistory(bleutradeTrades, currencyPair);
   }
-
 }

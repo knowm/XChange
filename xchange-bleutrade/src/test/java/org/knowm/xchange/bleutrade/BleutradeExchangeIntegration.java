@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +26,6 @@ import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @RunWith(PowerMockRunner.class)
@@ -37,7 +35,9 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
 
   @Before
   public void setUp() {
-    exchange = (BleutradeExchange) ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
+    exchange =
+        (BleutradeExchange)
+            ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
     exchangeSpecification = new ExchangeSpecification(BleutradeExchange.class);
   }
 
@@ -47,9 +47,16 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
 
     // then
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange)
+                Whitebox.getInternalState(exchange.getMarketDataService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange"))
+        .isEqualTo(exchange);
   }
 
   @Test
@@ -60,9 +67,16 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // then
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange)
+                Whitebox.getInternalState(exchange.getMarketDataService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange"))
+        .isEqualTo(exchange);
   }
 
   @Test
@@ -75,9 +89,16 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange)
+                Whitebox.getInternalState(exchange.getMarketDataService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange"))
+        .isEqualTo(exchange);
   }
 
   @Test
@@ -89,9 +110,16 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange)
+                Whitebox.getInternalState(exchange.getMarketDataService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange"))
+        .isEqualTo(exchange);
   }
 
   @Test
@@ -103,9 +131,16 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat((BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange)
+                Whitebox.getInternalState(exchange.getMarketDataService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getTradeService(), "exchange"))
+        .isEqualTo(exchange);
+    assertThat(
+            (BleutradeExchange) Whitebox.getInternalState(exchange.getAccountService(), "exchange"))
+        .isEqualTo(exchange);
   }
 
   @Test(expected = NullPointerException.class)
@@ -114,7 +149,8 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     exchange.applySpecification(null);
 
     // then
-    fail("BTCMarketsExchange should throw NullPointerException when tries to apply null specification");
+    fail(
+        "BTCMarketsExchange should throw NullPointerException when tries to apply null specification");
   }
 
   @Test
@@ -123,7 +159,8 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
 
     // then
-    assertThat(specification.getExchangeClassName()).isEqualTo(BleutradeExchange.class.getCanonicalName());
+    assertThat(specification.getExchangeClassName())
+        .isEqualTo(BleutradeExchange.class.getCanonicalName());
     assertThat(specification.getExchangeName()).isEqualTo("Bleutrade");
     assertThat(specification.getSslUri()).isEqualTo("https://bleutrade.com/api/");
     assertThat(specification.getHost()).isEqualTo("bleutrade.com");
@@ -145,13 +182,31 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
   @Test
   public void shouldMakeRemoteInit() throws IOException {
     // given
-    List<BleutradeCurrency> currenciesStub = Arrays
-        .asList(createBleutradeCurrency("BTC", "Bitcoin", 2, new BigDecimal("0.00080000"), true, "BITCOIN"),
-            createBleutradeCurrency("LTC", "Litecoin", 4, new BigDecimal("0.02000000"), true, "BITCOIN"));
+    List<BleutradeCurrency> currenciesStub =
+        Arrays.asList(
+            createBleutradeCurrency(
+                "BTC", "Bitcoin", 2, new BigDecimal("0.00080000"), true, "BITCOIN"),
+            createBleutradeCurrency(
+                "LTC", "Litecoin", 4, new BigDecimal("0.02000000"), true, "BITCOIN"));
 
-    List<BleutradeMarket> marketsStub = Arrays
-        .asList(createBleutradeMarket("DOGE", "BTC", "Dogecoin", "Bitcoin", new BigDecimal("0.10000000"), "DOGE_BTC", true),
-            createBleutradeMarket("BLEU", "BTC", "Bleutrade Share", "Bitcoin", new BigDecimal("0.00000001"), "BLEU_BTC", true));
+    List<BleutradeMarket> marketsStub =
+        Arrays.asList(
+            createBleutradeMarket(
+                "DOGE",
+                "BTC",
+                "Dogecoin",
+                "Bitcoin",
+                new BigDecimal("0.10000000"),
+                "DOGE_BTC",
+                true),
+            createBleutradeMarket(
+                "BLEU",
+                "BTC",
+                "Bleutrade Share",
+                "Bitcoin",
+                new BigDecimal("0.00000001"),
+                "BLEU_BTC",
+                true));
 
     BleutradeMarketDataService marketDataServiceMock = mock(BleutradeMarketDataService.class);
     PowerMockito.when(marketDataServiceMock.getBleutradeCurrencies()).thenReturn(currenciesStub);
@@ -163,17 +218,21 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     exchange.remoteInit();
 
     // then
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchange.getExchangeMetaData().getCurrencies();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap =
+        exchange.getExchangeMetaData().getCurrencies();
     assertThat(currencyMetaDataMap).hasSize(2);
     assertThat(currencyMetaDataMap.get(Currency.BTC).getScale()).isEqualTo(8);
     assertThat(currencyMetaDataMap.get(Currency.LTC).getScale()).isEqualTo(8);
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchange.getExchangeMetaData().getCurrencyPairs();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap =
+        exchange.getExchangeMetaData().getCurrencyPairs();
     assertThat(marketMetaDataMap).hasSize(2);
     //    System.out.println(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString());
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
-        .isEqualTo("CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]");
+        .isEqualTo(
+            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]");
     assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString())
-        .isEqualTo("CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]");
+        .isEqualTo(
+            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]");
   }
 }
