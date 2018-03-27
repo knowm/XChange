@@ -1,7 +1,6 @@
 package org.xchange.coinegg.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.xchange.coinegg.dto.marketdata.CoinEggOrders;
 import org.xchange.coinegg.dto.marketdata.CoinEggTicker;

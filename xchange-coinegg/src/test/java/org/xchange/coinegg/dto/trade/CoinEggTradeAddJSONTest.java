@@ -2,12 +2,10 @@ package org.xchange.coinegg.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinEggTradeAddJSONTest {
 
@@ -15,7 +13,9 @@ public class CoinEggTradeAddJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinEggTradeAddJSONTest.class.getResourceAsStream("/org/xchange/coinegg/dto/trade/example-trade-add-data.json");
+    InputStream is =
+        CoinEggTradeAddJSONTest.class.getResourceAsStream(
+            "/org/xchange/coinegg/dto/trade/example-trade-add-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();
