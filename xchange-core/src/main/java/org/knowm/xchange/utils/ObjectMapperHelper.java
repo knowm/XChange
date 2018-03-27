@@ -1,5 +1,9 @@
 package org.knowm.xchange.utils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -7,18 +11,11 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 public class ObjectMapperHelper {
 
   private static final ObjectMapper objectMapper = new ObjectMapper();
 
-  private ObjectMapperHelper() {
-
-  }
+  private ObjectMapperHelper() {}
 
   public static <T> T readValue(URL src, Class<T> valueType) throws IOException {
 
@@ -46,5 +43,4 @@ public class ObjectMapperHelper {
     }
     return json;
   }
-
 }
