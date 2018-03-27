@@ -2,9 +2,7 @@ package org.knowm.xchange.cryptonit.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Data object representing Ticker from Cryptonit
- */
+/** Data object representing Ticker from Cryptonit */
 public final class CryptonitTicker {
 
   private final CryptonitRate rate;
@@ -14,7 +12,8 @@ public final class CryptonitTicker {
    * @param rate
    * @param volume
    */
-  public CryptonitTicker(@JsonProperty("rate") CryptonitRate rate, @JsonProperty("volume") CryptonitVolume volume) {
+  public CryptonitTicker(
+      @JsonProperty("rate") CryptonitRate rate, @JsonProperty("volume") CryptonitVolume volume) {
 
     this.rate = rate;
     this.volume = volume;
@@ -34,7 +33,5 @@ public final class CryptonitTicker {
   public String toString() {
 
     return "CryptonitTicker [rate=" + rate + ", volume=" + volume + "]";
-
   }
-
 }
