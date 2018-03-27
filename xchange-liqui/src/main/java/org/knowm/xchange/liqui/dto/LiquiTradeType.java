@@ -1,28 +1,25 @@
 package org.knowm.xchange.liqui.dto;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.knowm.xchange.dto.Order;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import org.knowm.xchange.dto.Order;
 
 @JsonDeserialize(using = LiquiTradeType.TradeTypeDeserializer.class)
 public enum LiquiTradeType {
-
-  BUY, SELL;
+  BUY,
+  SELL;
 
   private static final Map<String, LiquiTradeType> fromString = new HashMap<>();
 
   static {
-    for (final LiquiTradeType type : values())
-      fromString.put(type.toString(), type);
+    for (final LiquiTradeType type : values()) fromString.put(type.toString(), type);
 
     fromString.put("bid", BUY);
     fromString.put("ask", SELL);
@@ -49,7 +46,8 @@ public enum LiquiTradeType {
   static class TradeTypeDeserializer extends JsonDeserializer<LiquiTradeType> {
 
     @Override
-    public LiquiTradeType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException {
+    public LiquiTradeType deserialize(
+        final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);
