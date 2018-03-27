@@ -3,7 +3,6 @@ package org.knowm.xchange.livecoin.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
-
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -61,7 +60,8 @@ public class LivecoinTradeService extends LivecoinTradeServiceRaw implements Tra
       limit = ((TradeHistoryParamLimit) params).getLimit();
     }
 
-    return new UserTrades(tradeHistory(start, end, limit, offset), Trades.TradeSortType.SortByTimestamp);
+    return new UserTrades(
+        tradeHistory(start, end, limit, offset), Trades.TradeSortType.SortByTimestamp);
   }
 
   @Override
