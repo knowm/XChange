@@ -33,6 +33,12 @@ public class RateLimit {
 
   @Override
   public String toString() {
-    return "ClassPojo [limit = " + limit + ", interval = " + interval + ", rateLimitType = " + rateLimitType + "]";
+    return "ClassPojo [limit = "
+        + limit
+        + ", interval = "
+        + interval
+        + ", rateLimitType = "
+        + rateLimitType
+        + "]";
   }
 }
