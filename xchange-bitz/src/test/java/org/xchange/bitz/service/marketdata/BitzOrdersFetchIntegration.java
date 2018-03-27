@@ -24,5 +24,4 @@ public class BitzOrdersFetchIntegration {
 
     // TODO: Logical Verification Of Values
   }
-
 }
