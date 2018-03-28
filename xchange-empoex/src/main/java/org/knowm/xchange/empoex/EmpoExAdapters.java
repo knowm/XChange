@@ -1,8 +1,6 @@
 package org.knowm.xchange.empoex;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +23,7 @@ import org.knowm.xchange.empoex.dto.marketdata.EmpoExLevel;
 import org.knowm.xchange.empoex.dto.marketdata.EmpoExTicker;
 import org.knowm.xchange.empoex.dto.marketdata.EmpoExTrade;
 import org.knowm.xchange.empoex.dto.trade.EmpoExOpenOrder;
+import org.knowm.xchange.utils.MathUtils;
 
 public final class EmpoExAdapters {
 
@@ -37,7 +36,7 @@ public final class EmpoExAdapters {
     BigDecimal bid = new BigDecimal(raw.getBid().replace(",", ""));
     BigDecimal ask = new BigDecimal(raw.getAsk().replace(",", ""));
     BigDecimal counterVolume = new BigDecimal(raw.getBaseVolume24hr().replace(",", ""));
-    BigDecimal volume = counterVolume.divide(last, new MathContext(8, RoundingMode.HALF_UP));
+    BigDecimal volume = counterVolume.divide(last, MathUtils.DEFAULT_CONTEXT);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(bid).ask(ask).volume(volume).build();
   }
