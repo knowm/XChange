@@ -2,8 +2,6 @@ package org.knowm.xchange.vaultoro.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +11,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.MathUtils;
 import org.knowm.xchange.vaultoro.VaultoroException;
 import org.knowm.xchange.vaultoro.dto.trade.VaultoroCancelOrderResponse;
 import org.knowm.xchange.vaultoro.dto.trade.VaultoroNewOrderResponse;
@@ -84,7 +83,7 @@ public class VaultoroTradeServiceRaw extends VaultoroBaseService {
           price = ds.getLast(currencyPair);
         }
       } else {
-        amount = price.multiply(amount, new MathContext(8, RoundingMode.HALF_DOWN));
+        amount = price.multiply(amount, MathUtils.DEFAULT_CONTEXT);
       }
       try {
         return vaultoro.buy(baseSymbol, type, exchange.getNonceFactory(), apiKey, amount, price, signatureCreator);

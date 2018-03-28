@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +31,7 @@ import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.knowm.xchange.utils.MathUtils;
 
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonObjectMapperFactory;
@@ -133,7 +133,7 @@ public class GDAXAdaptersTest {
     assertThat(order.getType()).isEqualTo(OrderType.BID);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1481227745508L));
     assertThat(order.getAveragePrice())
-        .isEqualByComparingTo(new BigDecimal("9.9750556620000000").divide(new BigDecimal("0.01291771"), new MathContext(8)));
+        .isEqualByComparingTo(new BigDecimal("9.9750556620000000").divide(new BigDecimal("0.01291771"), MathUtils.DEFAULT_CONTEXT));
   }
 
   @Test
@@ -158,7 +158,7 @@ public class GDAXAdaptersTest {
     assertThat(order.getType()).isEqualTo(OrderType.ASK);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
     assertThat(order.getAveragePrice())
-        .isEqualByComparingTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), new MathContext(8)));
+        .isEqualByComparingTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), MathUtils.DEFAULT_CONTEXT));
   }
 
   @Test
@@ -182,7 +182,7 @@ public class GDAXAdaptersTest {
     assertThat(order.getType()).isEqualTo(OrderType.ASK);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
     assertThat(order.getAveragePrice())
-        .isEqualByComparingTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), new MathContext(8)));
+        .isEqualByComparingTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), MathUtils.DEFAULT_CONTEXT));
   }
 
   @Test
@@ -322,7 +322,7 @@ public class GDAXAdaptersTest {
     assertThat(order.getType()).isEqualTo(OrderType.BID);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
     assertThat(order.getAveragePrice())
-        .isEqualByComparingTo(new BigDecimal("639.3107535312").divide(new BigDecimal("0.08871972"), new MathContext(8)));
+        .isEqualByComparingTo(new BigDecimal("639.3107535312").divide(new BigDecimal("0.08871972"), MathUtils.DEFAULT_CONTEXT));
 
     assertThat(StopOrder.class.isAssignableFrom(order.getClass())).isTrue();
     StopOrder stop = (StopOrder) order;

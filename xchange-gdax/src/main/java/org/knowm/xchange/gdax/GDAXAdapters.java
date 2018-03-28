@@ -1,7 +1,6 @@
 package org.knowm.xchange.gdax;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +42,7 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.knowm.xchange.utils.MathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -173,7 +173,7 @@ public class GDAXAdapters {
     if (order.getFilledSize().signum() == 0) {
       averagePrice = BigDecimal.ZERO;
     } else {
-      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
+      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), MathUtils.DEFAULT_CONTEXT);
     }
 
     if (order.getType().equals("market")) {
