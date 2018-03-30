@@ -26,6 +26,7 @@
         <module>xchange-gemini</module>
         <module>xchange-wex</module>
         <module>xchange-binance</module>
+        <module>xchange-hitbtc</module>
     </modules>
 
     <name>xchange-stream</name>
