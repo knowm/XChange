@@ -53,4 +53,8 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     public StreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
+
 }

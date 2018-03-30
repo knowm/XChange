@@ -90,4 +90,6 @@ public class PusherStreamingService {
     public boolean isSocketOpen() {
         return pusher.getConnection().getState() == ConnectionState.CONNECTED;
     }
+
+    public void useCompressedMessages(boolean compressedMessages) { throw new UnsupportedOperationException(); }
 }

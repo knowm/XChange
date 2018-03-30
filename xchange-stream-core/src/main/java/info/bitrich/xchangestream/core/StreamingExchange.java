@@ -30,4 +30,12 @@ public interface StreamingExchange extends Exchange {
      * Returns service that can be used to access market data.
      */
     StreamingMarketDataService getStreamingMarketDataService();
+
+    /**
+     * Set whether or not to enable compression handler.
+     *
+     * @param compressedMessages Defaults to false
+     */
+    void useCompressedMessages(boolean compressedMessages);
+
 }

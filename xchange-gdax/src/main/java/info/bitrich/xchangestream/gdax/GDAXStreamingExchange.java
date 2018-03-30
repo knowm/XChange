@@ -69,4 +69,7 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
     public boolean isAlive() {
         return streamingService != null && streamingService.isSocketOpen();
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 }

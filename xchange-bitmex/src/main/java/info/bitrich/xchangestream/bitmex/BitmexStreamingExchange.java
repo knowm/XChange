@@ -57,4 +57,7 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     public boolean isAlive() {
         return streamingService.isSocketOpen();
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 }

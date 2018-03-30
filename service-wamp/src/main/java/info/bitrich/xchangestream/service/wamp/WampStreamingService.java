@@ -83,4 +83,6 @@ public class WampStreamingService {
         // WampClient was initiated with infinite reconnects attempts, so we can just always return 'true'
         return !((BehaviorSubject<State>) client.statusChanged()).hasCompleted();
     }
+
+    public void useCompressedMessages(boolean compressedMessages) { throw new UnsupportedOperationException(); }
 }

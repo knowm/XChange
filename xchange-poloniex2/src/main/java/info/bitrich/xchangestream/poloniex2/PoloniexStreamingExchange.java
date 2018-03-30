@@ -10,6 +10,7 @@ import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 
 import java.io.IOException;
@@ -89,4 +90,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
     public boolean isAlive() {
         return streamingService.isSocketOpen();
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 }

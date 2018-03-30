@@ -87,5 +87,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
+
 }
 

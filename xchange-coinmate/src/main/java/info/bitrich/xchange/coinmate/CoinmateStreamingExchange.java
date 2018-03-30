@@ -6,6 +6,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Completable;
 import org.knowm.xchange.coinmate.CoinmateExchange;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public class CoinmateStreamingExchange extends CoinmateExchange implements StreamingExchange {
     private static final String API_KEY = "af76597b6b928970fbb0";
@@ -42,4 +43,7 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
     public boolean isAlive() {
         return streamingService.isSocketOpen();
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 }
