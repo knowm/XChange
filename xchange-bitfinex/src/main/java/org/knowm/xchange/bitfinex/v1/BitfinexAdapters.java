@@ -1,14 +1,5 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
@@ -45,6 +36,15 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public final class BitfinexAdapters {
 
@@ -392,7 +392,11 @@ public final class BitfinexAdapters {
       if (description.contains("txid: ")) {
         txnId = description.substring(description.indexOf("txid: ") + "txid: ".length());
       }
-      final FundingRecord.Status status = FundingRecord.Status.resolveStatus(responseEntry.getStatus());
+
+      FundingRecord.Status status = FundingRecord.Status.resolveStatus(responseEntry.getStatus());
+      if(status == null && responseEntry.getStatus().equalsIgnoreCase("CANCELED"))//there's a spelling mistake in the protocol
+        status = FundingRecord.Status.CANCELLED;
+
       FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(), currency, responseEntry.getAmount(),
           String.valueOf(responseEntry.getId()), txnId, responseEntry.getType(), status, null, null, description);
 
