@@ -26,7 +26,7 @@ public class TickerFetchIntegration {
     MarketDataService marketDataService = exchange.getMarketDataService();
     CurrencyPair market = exchange.getExchangeMetaData().getCurrencyPairs().keySet().iterator().next();
     Ticker ticker = marketDataService.getTicker(market);
-    System.out.println(ticker.toString());
+//    System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
 
