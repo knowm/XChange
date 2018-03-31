@@ -18,6 +18,8 @@ import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 /**
  * <p>
  * Implementation of the market data service for Bleutrade
@@ -33,9 +35,9 @@ public class BleutradeMarketDataServiceRaw extends BleutradeBaseService {
    *
    * @param exchange
    */
-  public BleutradeMarketDataServiceRaw(Exchange exchange) {
+  public BleutradeMarketDataServiceRaw(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   public List<BleutradeTicker> getBleutradeTickers() throws IOException {
