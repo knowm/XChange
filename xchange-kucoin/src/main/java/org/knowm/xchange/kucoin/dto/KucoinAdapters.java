@@ -99,7 +99,8 @@ public class KucoinAdapters {
 
   private static UserTrade adaptUserTrade(KucoinDealtOrder order) {
 
-    return new UserTrade.Builder().currencyPair(new CurrencyPair(order.getCoinType(), order.getCoinTypePair())).orderId(order.getOid())
+    return new UserTrade.Builder().currencyPair(new CurrencyPair(order.getCoinType(), order.getCoinTypePair()))
+                                  .id(order.getOid()).orderId(order.getOrderOid())
                                   .originalAmount(order.getAmount()).price(order.getDealPrice()).timestamp(new Date(order.getCreatedAt()))
                                   .type(order.getDirection().getOrderType()).feeAmount(order.getFee()).feeCurrency(
             order.getDirection().equals(KucoinOrderType.BUY) ?
