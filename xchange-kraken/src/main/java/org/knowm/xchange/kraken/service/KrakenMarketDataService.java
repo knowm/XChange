@@ -38,7 +38,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   }
 
   @Override
-  public List<Ticker> getTickers(Params params, Object... args) throws IOException {
+  public List<Ticker> getTickers(Params params) throws IOException {
     if (!(params instanceof CurrencyPairsParam)) {
       throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
     }
