@@ -146,6 +146,3 @@ If you'd like to submit a new implementation for another exchange, please take a
 
 For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/timmolter/XChange/wiki). 
 
-## Donations
-
-All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/xchart/issues?state=open). Donation addresses, open bounties and bounties paid thus far can be found on Knowm's [bounties](http://knowm.org/open-source/) page.
