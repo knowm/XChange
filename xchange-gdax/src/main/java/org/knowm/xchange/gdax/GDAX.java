@@ -17,6 +17,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.gdax.dto.GDAXException;
+import org.knowm.xchange.gdax.dto.GdaxTransfer;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
@@ -140,6 +141,13 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("account_id") String accountId, @QueryParam("after") Integer startingOrderId) throws GDAXException, IOException;
 
+  @GET
+  @Path("accounts/{account_id}/transfers")
+  @Consumes(MediaType.APPLICATION_JSON)
+  List<GdaxTransfer> transfers(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      @PathParam("account_id") String accountId, @QueryParam("profile_id") String profileId, @QueryParam("limit") Integer limit, @QueryParam("after") String createdAtDate);
+
   @POST
   @Path("reports")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -150,7 +158,7 @@ public interface GDAX {
   @GET
   @Path("reports/{report_id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  List<Map> getReport(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+  Map getReport(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("report_id") String reportId) throws GDAXException, IOException;
 
