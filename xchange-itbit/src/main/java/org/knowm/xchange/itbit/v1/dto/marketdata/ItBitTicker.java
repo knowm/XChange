@@ -9,8 +9,8 @@ public class ItBitTicker {
   private final String currencyPair;
   private final BigDecimal bid;
   private final BigDecimal ask;
-  private final double bidAmt;
-  private final double askAmt;
+  private final BigDecimal bidAmt;
+  private final BigDecimal askAmt;
   private final BigDecimal lastPrice;
   private final double lastAmt;
   private final BigDecimal volume24h;
@@ -22,7 +22,7 @@ public class ItBitTicker {
   private final String timestamp;
 
   public ItBitTicker(@JsonProperty("pair") String currencyPair, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("bidAmt") double bidAmt, @JsonProperty("askAmt") double askAmt, @JsonProperty("lastPrice") BigDecimal lastPrice,
+      @JsonProperty("bidAmt") BigDecimal bidAmt, @JsonProperty("askAmt") BigDecimal askAmt, @JsonProperty("lastPrice") BigDecimal lastPrice,
       @JsonProperty("lastAmt") double lastAmt, @JsonProperty("volume24h") BigDecimal volume24h, @JsonProperty("highToday") BigDecimal highToday,
       @JsonProperty("lowToday") BigDecimal lowToday, @JsonProperty("openToday") double openToday, @JsonProperty("vwapToday") double vwapToday,
       @JsonProperty("vwap24h") double vwap24h, @JsonProperty("serverTimeUTC") String timestamp) {
@@ -59,12 +59,12 @@ public class ItBitTicker {
     return ask;
   }
 
-  public double getBidAmt() {
+  public BigDecimal getBidAmt() {
 
     return bidAmt;
   }
 
-  public double getAskAmt() {
+  public BigDecimal getAskAmt() {
 
     return askAmt;
   }
