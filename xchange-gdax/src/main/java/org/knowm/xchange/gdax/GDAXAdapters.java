@@ -19,6 +19,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -34,6 +35,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.gdax.dto.GdaxTransfer;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
@@ -395,5 +397,37 @@ public class GDAXAdapters {
         .stop(adaptStop(stopOrder.getType()))
         .stopPrice(stopOrder.getStopPrice())
         .build();
+  }
+
+  public static FundingRecord adaptFundingRecord(Currency currency, GdaxTransfer gdaxTransfer) {
+    FundingRecord.Status status = FundingRecord.Status.PROCESSING;
+
+    Date processedAt = gdaxTransfer.processedAt();
+    Date canceledAt = gdaxTransfer.canceledAt();
+
+    if (canceledAt != null)
+      status = FundingRecord.Status.CANCELLED;
+    else if (processedAt != null)
+      status = FundingRecord.Status.COMPLETE;
+
+    Date timestamp = gdaxTransfer.createdAt();
+
+    String address = gdaxTransfer.getDetails().getCryptoAddress();
+    if (address == null)
+      address = gdaxTransfer.getDetails().getSentToAddress();
+
+    return new FundingRecord(
+        address,
+        timestamp,
+        currency,
+        gdaxTransfer.amount(),
+        gdaxTransfer.getId(),
+        gdaxTransfer.getDetails().getCryptoTransactionHash(),
+        gdaxTransfer.type(),
+        status,
+        null,
+        null,
+        null
+    );
   }
 }
