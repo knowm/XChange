@@ -7,34 +7,61 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.IOrderFlags;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.gdax.GDAXAdapters;
 
 public class GDAXPlaceOrderTest {
 
   @Test
-  public void flagTest() {
-
-    GDAXPlaceOrder orderFlagsNull = new GDAXPlaceOrder(BigDecimal.ZERO, BigDecimal.ZERO, "side", "productId", "type", null);
-    assertThat(orderFlagsNull.isPostOnly()).isEqualTo(null);
+  public void nullflagsTest() {
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+        .limitPrice(BigDecimal.ZERO)
+        .build();
+    
+    GDAXPlaceLimitOrder orderFlagsNull = GDAXAdapters.adaptGDAXPlaceLimitOrder(limitOrder);
+    assertThat(orderFlagsNull.getPostOnly()).isEqualTo(null);
     assertThat(orderFlagsNull.getTimeInForce()).isEqualTo(null);
+  }
 
-    Set<IOrderFlags> flags = new HashSet<>();
+  @Test
+  public void fillOrKillflagTest() {
+    LimitOrder order = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+        .limitPrice(BigDecimal.ZERO)
+        .flag(GDAXOrderFlags.FILL_OR_KILL)
+        .build();
+        
+    GDAXPlaceLimitOrder orderFOK = GDAXAdapters.adaptGDAXPlaceLimitOrder(order);
 
-    GDAXPlaceOrder order = new GDAXPlaceOrder(BigDecimal.ZERO, BigDecimal.ZERO, "side", "productId", "type", flags);
-    assertThat(order.isPostOnly()).isEqualTo(null);
-    assertThat(order.getTimeInForce()).isEqualTo(null);
+    assertThat(orderFOK.getPostOnly()).isEqualTo(null);
+    assertThat(orderFOK.getTimeInForce()).isEqualTo( GDAXPlaceLimitOrder.TimeInForce.FOK);
+  }
 
-    flags.add(GDAXOrderFlags.FILL_OR_KILL);
-    assertThat(order.isPostOnly()).isEqualTo(null);
-    assertThat(order.getTimeInForce()).isEqualTo("FOK");
+  @Test
+  public void postOnlyflagTest() {
+    LimitOrder order = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+        .limitPrice(BigDecimal.ZERO)
+        .flag( GDAXOrderFlags.POST_ONLY)
+        .build();
+  
+    GDAXPlaceLimitOrder orderPostOnly = GDAXAdapters.adaptGDAXPlaceLimitOrder(order);
 
-    flags.add(GDAXOrderFlags.POST_ONLY);
-    assertThat(order.isPostOnly()).isEqualTo(Boolean.TRUE);
-    assertThat(order.getTimeInForce()).isEqualTo("FOK");
+    assertThat(orderPostOnly.getPostOnly()).isEqualTo(Boolean.TRUE);
+    assertThat(orderPostOnly.getTimeInForce()).isEqualTo(null);
+  }
 
-    flags.clear();
-    flags.add(GDAXOrderFlags.IMMEDIATE_OR_CANCEL);
-    assertThat(order.isPostOnly()).isEqualTo(null);
-    assertThat(order.getTimeInForce()).isEqualTo("IOC");
+  @Test
+  public void immediateOrCancelflagTest() {
+    LimitOrder order = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+        .limitPrice(BigDecimal.ZERO)
+        .flag( GDAXOrderFlags.IMMEDIATE_OR_CANCEL )
+        .build();
+  
+    GDAXPlaceLimitOrder orderIOC = GDAXAdapters.adaptGDAXPlaceLimitOrder(order);
+
+    assertThat(orderIOC.getPostOnly()).isEqualTo(null);
+    assertThat(orderIOC.getTimeInForce()).isEqualTo( GDAXPlaceLimitOrder.TimeInForce.IOC );
   }
 }
