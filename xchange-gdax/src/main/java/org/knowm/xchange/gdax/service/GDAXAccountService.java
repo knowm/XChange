@@ -3,7 +3,6 @@ package org.knowm.xchange.gdax.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -100,9 +99,13 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
   @Override
   /**
-   * Warning - this method makes several API calls.  The reason is that the paging functionality isn't implemented properly yet
+   * Warning - this method makes several API calls.  The reason is that the paging functionality isn't implemented properly yet.
+   *
+   * It honours TradeHistoryParamCurrency for filtering to a single ccy.
    */
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+    int maxPageSize = 100;
+
     List<FundingRecord> fundingHistory = new ArrayList<>();
 
     for (GDAXAccount gdaxAccount : getGDAXAccountInfo()) {
@@ -119,45 +122,13 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
       String createdAt = null;
 
       while (true) {
-        List<GdaxTransfer> transfers = transfers(accountId, profileId, 100, createdAt);
+        List<GdaxTransfer> transfers = transfers(accountId, profileId, maxPageSize, createdAt);
         if (transfers.isEmpty())
           break;
 
         for (GdaxTransfer gdaxTransfer : transfers) {
-
           createdAt = gdaxTransfer.createdAt;
-
-          FundingRecord.Status status = FundingRecord.Status.PROCESSING;
-
-          Date processedAt = gdaxTransfer.processedAt();
-          Date canceledAt = gdaxTransfer.canceledAt();
-
-          if (canceledAt != null)
-            status = FundingRecord.Status.CANCELLED;
-          else if (processedAt != null)
-            status = FundingRecord.Status.COMPLETE;
-
-          Date timestamp = gdaxTransfer.createdAt();
-
-          String address = gdaxTransfer.getDetails().getCryptoAddress();
-          if (address == null)
-            address = gdaxTransfer.getDetails().getSentToAddress();
-
-          FundingRecord fundingRecord = new FundingRecord(
-              address,
-              timestamp,
-              currency,
-              gdaxTransfer.amount(),
-              gdaxTransfer.getId(),
-              gdaxTransfer.getDetails().getCryptoTransactionHash(),
-              gdaxTransfer.type(),
-              status,
-              null,
-              null,
-              null
-          );
-
-          fundingHistory.add(fundingRecord);
+          fundingHistory.add(GDAXAdapters.adaptFundingRecord(currency, gdaxTransfer));
         }
       }
     }
