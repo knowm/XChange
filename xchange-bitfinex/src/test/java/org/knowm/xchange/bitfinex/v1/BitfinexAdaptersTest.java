@@ -246,7 +246,8 @@ public class BitfinexAdaptersTest {
         assertEquals(new BigDecimal("0.07"), record.getAmount());
         assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ", record.getAddress());
         assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer", record.getDescription());
-        assertEquals("offchain transfer", record.getBlockchainTransactionHash());
+        assertEquals(null, record.getBlockchainTransactionHash());
+        assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer", record.getDescription());
         assertEquals(Currency.BTC, record.getCurrency());
       }
     }

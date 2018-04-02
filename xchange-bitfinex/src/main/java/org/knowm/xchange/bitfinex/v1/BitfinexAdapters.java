@@ -222,7 +222,7 @@ public final class BitfinexAdapters {
     Date timestamp = DateUtils.fromMillisUtc((long) (bitfinexTicker.getTimestamp() * 1000L));
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-                               .build();
+        .build();
   }
 
   public static List<Wallet> adaptWallets(BitfinexBalancesResponse[] response) {
@@ -387,12 +387,37 @@ public final class BitfinexAdapters {
     for (BitfinexDepositWithdrawalHistoryResponse responseEntry : bitfinexDepositWithdrawalHistoryResponses) {
       String address = responseEntry.getAddress();
       String description = responseEntry.getDescription();
+      Currency currency = Currency.getInstance(responseEntry.getCurrency());
+
+      FundingRecord.Status status = FundingRecord.Status.resolveStatus(responseEntry.getStatus());
+      if (status == null && responseEntry.getStatus().equalsIgnoreCase("CANCELED"))//there's a spelling mistake in the protocol
+        status = FundingRecord.Status.CANCELLED;
+
       String txnId = null;
-      final Currency currency = Currency.getInstance(responseEntry.getCurrency());
-      if (description.contains("txid: ")) {
-        txnId = description.substring(description.indexOf("txid: ") + "txid: ".length());
+      if (status == null || !status.equals(FundingRecord.Status.CANCELLED)) {
+        /*
+        sometimes the description looks like this (with the txn hash in it):
+        "description":"a9d387cf5d9df58ff2ac4a338e0f050fd3857cf78d1dbca4f33619dc4ccdac82","address":"1Enx...
+
+        and sometimes like this (with the address in it as well as the txn hash):
+        "description":"3AXVnDapuRiAn73pjKe7gukLSx5813oFyn, txid: aa4057486d5f73747167beb9949a0dfe17b5fc630499a66af075abdaf4986987","address":"3AX...
+
+        and sometimes when cancelled
+        "description":"3LFVTLFZoDDzLCcLGDDQ7MNkk4YPe26Yva, expired","address":"3LFV...
+         */
+
+        String cleanedDescription = description.replace(address, "")
+            .replace(",", "")
+            .replace("txid:", "")
+            .trim()
+            .toLowerCase();
+
+        // check its just some hex characters, and if so lets assume its the txn hash
+        if (cleanedDescription.matches("^(0x)?[0-9a-f]+$")) {
+          txnId = cleanedDescription;
+        }
       }
-      final FundingRecord.Status status = FundingRecord.Status.resolveStatus(responseEntry.getStatus());
+
       FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(), currency, responseEntry.getAmount(),
           String.valueOf(responseEntry.getId()), txnId, responseEntry.getType(), status, null, null, description);
 
