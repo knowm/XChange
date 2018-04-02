@@ -15,11 +15,13 @@ import org.knowm.xchange.bleutrade.dto.account.BleutradeWithdrawReturn;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
 
+import si.mazi.rescu.IRestProxyFactory;
+
 public class BleutradeAccountServiceRaw extends BleutradeBaseService {
 
-  public BleutradeAccountServiceRaw(Exchange exchange) {
+  public BleutradeAccountServiceRaw(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   public String withdraw(Currency currency, BigDecimal amount, String address) throws IOException {

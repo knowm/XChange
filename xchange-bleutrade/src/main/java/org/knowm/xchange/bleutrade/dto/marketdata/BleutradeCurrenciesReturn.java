@@ -9,6 +9,7 @@ import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,6 +28,19 @@ public class BleutradeCurrenciesReturn {
   private List<BleutradeCurrency> result = new ArrayList<BleutradeCurrency>();
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonCreator
+  public BleutradeCurrenciesReturn() {
+    //default c-tor for jackson
+  }
+
+  /**
+   * C-tor for testing
+   */
+  public BleutradeCurrenciesReturn(List<BleutradeCurrency> currencies) {
+    result = currencies;
+    success = true;
+  }
 
   /**
    * @return The success
