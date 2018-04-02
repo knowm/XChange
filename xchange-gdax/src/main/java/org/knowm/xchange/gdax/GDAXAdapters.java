@@ -43,6 +43,10 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXOrderFlags;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceLimitOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceMarketOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -308,4 +312,88 @@ public class GDAXAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(), true);
   }
 
+  public static String adaptProductID(CurrencyPair currencyPair) {
+    return currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
+  }
+  
+  public static GDAXPlaceOrder.Side adaptSide(OrderType orderType) {
+    return orderType == OrderType.ASK ? GDAXPlaceOrder.Side.sell : GDAXPlaceOrder.Side.buy; 
+  }
+  
+  public static GDAXPlaceOrder.Stop adaptStop(OrderType orderType) {
+    return orderType == OrderType.ASK ? GDAXPlaceOrder.Stop.loss : GDAXPlaceOrder.Stop.entry;  
+  }
+  
+  public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(LimitOrder limitOrder) {
+    GDAXPlaceLimitOrder.Builder builder = new GDAXPlaceLimitOrder.Builder()
+        .price( limitOrder.getLimitPrice() )
+        .type(GDAXPlaceOrder.Type.limit)
+        .productId( adaptProductID( limitOrder.getCurrencyPair()))
+        .side( adaptSide (limitOrder.getType() ))
+        .size(limitOrder.getOriginalAmount());
+    
+    if ( limitOrder.getOrderFlags().contains( GDAXOrderFlags.POST_ONLY ))
+      builder.postOnly(true);
+    if ( limitOrder.getOrderFlags().contains( GDAXOrderFlags.FILL_OR_KILL ))
+      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.FOK );
+    if ( limitOrder.getOrderFlags().contains( GDAXOrderFlags.IMMEDIATE_OR_CANCEL ))
+      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.IOC );
+          
+    return builder.build();
+  }
+  
+  /**
+   * Creates a 'stop limit' order.  Stop limit order converts to a limit order when the stop amount is
+   * triggered.  The limit order can have a different price than the stop price.
+   * @param stopOrder
+   * @param limitPrice If <code>non null</code> will be used as the limit price.  If it is <code>null</code>
+   * The stop price will also be used as the limit price.
+   * @return
+   */
+  public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(StopOrder stopOrder, BigDecimal limitPrice) {
+    GDAXPlaceLimitOrder.Builder builder = new GDAXPlaceLimitOrder.Builder()
+        .price( limitPrice == null ? stopOrder.getStopPrice() : limitPrice )
+        .stop(adaptStop(stopOrder.getType()))
+        .stopPrice(stopOrder.getStopPrice())
+        .type(GDAXPlaceOrder.Type.limit)
+        .productId( adaptProductID( stopOrder.getCurrencyPair()))
+        .side( adaptSide (stopOrder.getType() ))
+        .size(stopOrder.getOriginalAmount());
+    
+    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.POST_ONLY ))
+      builder.postOnly(true);
+    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.FILL_OR_KILL ))
+      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.FOK );
+    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.IMMEDIATE_OR_CANCEL ))
+      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.IOC );
+    
+    return builder.build();
+  }
+  
+  public static GDAXPlaceMarketOrder adaptGDAXPlaceMarketOrder(MarketOrder marketOrder) {
+    return new GDAXPlaceMarketOrder.Builder()
+        .productId(adaptProductID( marketOrder.getCurrencyPair()))
+        .type(GDAXPlaceOrder.Type.market)
+        .side(adaptSide (marketOrder.getType() ))
+        .size(marketOrder.getOriginalAmount())
+        .build();
+  }
+
+  /**
+   * Creates a default 'stop' order.
+   * @param stopOrder
+   * @return
+   */
+  public static GDAXPlaceMarketOrder adaptGDAXPlaceMarketOrder(StopOrder stopOrder) {
+    // stop orders can also execute as 'stop limit' orders, that is converting to
+    // a limit order, but a traditional 'stop' order converts to a market order.
+    return new GDAXPlaceMarketOrder.Builder()
+        .productId(adaptProductID( stopOrder.getCurrencyPair()))
+        .type(GDAXPlaceOrder.Type.market)
+        .side(adaptSide (stopOrder.getType() ))
+        .size(stopOrder.getOriginalAmount())
+        .stop(adaptStop(stopOrder.getType()))
+        .stopPrice(stopOrder.getStopPrice())
+        .build();
+  }
 }
