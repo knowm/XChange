@@ -53,7 +53,7 @@ public interface MarketDataService extends BaseService {
    *                                               implemented
    * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
    */
-  default List<Ticker> getTickers(Params params, Object... args) throws IOException {
+  default List<Ticker> getTickers(Params params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
