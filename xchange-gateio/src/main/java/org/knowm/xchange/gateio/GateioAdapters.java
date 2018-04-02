@@ -183,7 +183,7 @@ public final class GateioAdapters {
     Date timestamp = DateUtils.fromMillisUtc(gateioTrade.getTimeUnix() * 1000);
     CurrencyPair currencyPair = adaptCurrencyPair(gateioTrade.getPair());
 
-    return new UserTrade(orderType, gateioTrade.getAmount(), currencyPair, gateioTrade.getRate(), timestamp, gateioTrade.getId(), null, null,
+    return new UserTrade(orderType, gateioTrade.getAmount(), currencyPair, gateioTrade.getRate(), timestamp, gateioTrade.getId(), gateioTrade.getOrderid(), null,
         (Currency) null);
   }
 
