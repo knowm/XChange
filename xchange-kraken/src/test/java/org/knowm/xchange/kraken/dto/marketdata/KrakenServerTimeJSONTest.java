@@ -16,7 +16,9 @@ public class KrakenServerTimeJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenServerTimeJSONTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/marketdata/example-servertime-data.json");
+    InputStream is =
+        KrakenServerTimeJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-servertime-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

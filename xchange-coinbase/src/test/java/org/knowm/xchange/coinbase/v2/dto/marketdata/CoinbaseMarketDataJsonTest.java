@@ -19,7 +19,9 @@ public class CoinbaseMarketDataJsonTest {
   public void testDeserializeExchangeRates() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/marketdata/example-exchange-rate-data.json");
+    InputStream is =
+        CoinbaseMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/marketdata/example-exchange-rate-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -37,7 +39,9 @@ public class CoinbaseMarketDataJsonTest {
   public void testDeserializeCurrencies() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/marketdata/example-currencies-data.json");
+    InputStream is =
+        CoinbaseMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/marketdata/example-currencies-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -56,7 +60,9 @@ public class CoinbaseMarketDataJsonTest {
   public void testDeserializePrice() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/marketdata/example-price-data.json");
+    InputStream is =
+        CoinbaseMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/marketdata/example-price-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -32,8 +32,7 @@ public final class GatecoinUtils {
 
     try {
       long unixSeconds = Long.valueOf(dateString);
-      Date date =
-          new Date(unixSeconds * 1000L); // *1000 is to convert seconds to milliseconds
+      Date date = new Date(unixSeconds * 1000L); // *1000 is to convert seconds to milliseconds
       return DATE_FORMAT.parse(DATE_FORMAT.format(date));
     } catch (ParseException e) {
       throw new ExchangeException("Illegal date/time format", e);

@@ -14,7 +14,9 @@ public class LakeBTCCancelJsonTest {
   public void testDeserializeBuyOrder() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCPlaceOrderJsonTest.class.getResourceAsStream("/org/knowm/xchange/lakebtc/dto/trade/example-cancel-order-data.json");
+    InputStream is =
+        LakeBTCPlaceOrderJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/lakebtc/dto/trade/example-cancel-order-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

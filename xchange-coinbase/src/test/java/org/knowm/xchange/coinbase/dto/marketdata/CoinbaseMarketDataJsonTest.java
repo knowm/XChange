@@ -22,7 +22,9 @@ public class CoinbaseMarketDataJsonTest {
   public void testDeserializeExchangeRates() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/marketdata/example-exchange-rate-data.json");
+    InputStream is =
+        CoinbaseMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/marketdata/example-exchange-rate-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -40,7 +42,9 @@ public class CoinbaseMarketDataJsonTest {
   public void testDeserializeCurrencies() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/marketdata/example-currencies-data.json");
+    InputStream is =
+        CoinbaseMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/marketdata/example-currencies-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -81,7 +85,9 @@ public class CoinbaseMarketDataJsonTest {
   public void testDeserializeSpotRateHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/marketdata/example-spot-rate-history-data.txt");
+    InputStream is =
+        CoinbaseMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/marketdata/example-spot-rate-history-data.txt");
     String spotPriceHistoryString;
     try (Scanner scanner = new Scanner(is)) {
       spotPriceHistoryString = scanner.useDelimiter("\\A").next();

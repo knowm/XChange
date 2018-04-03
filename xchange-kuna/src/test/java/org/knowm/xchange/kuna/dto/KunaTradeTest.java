@@ -11,7 +11,6 @@ import static org.knowm.xchange.kuna.dto.enums.KunaSide.BUY;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.SELL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;

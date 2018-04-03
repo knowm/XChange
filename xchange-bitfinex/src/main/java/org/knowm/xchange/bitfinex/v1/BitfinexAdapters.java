@@ -518,8 +518,19 @@ public final class BitfinexAdapters {
         }
       }
 
-      FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(), currency, responseEntry.getAmount(),
-          String.valueOf(responseEntry.getId()), txnId, responseEntry.getType(), status, null, null, description);
+      FundingRecord fundingRecordEntry =
+          new FundingRecord(
+              address,
+              responseEntry.getTimestamp(),
+              currency,
+              responseEntry.getAmount(),
+              String.valueOf(responseEntry.getId()),
+              txnId,
+              responseEntry.getType(),
+              status,
+              null,
+              null,
+              description);
 
       fundingRecords.add(fundingRecordEntry);
     }

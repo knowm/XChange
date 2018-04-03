@@ -133,10 +133,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     orderBookReturn2.setResult(
         createBleutradeOrderBook(Collections.EMPTY_LIST, Collections.EMPTY_LIST));
 
-    when(bleutrade.getBleutradeOrderBook("BTC_AUD", "ALL", 30))
-        .thenReturn(orderBookReturn1);
-    when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50))
-        .thenReturn(orderBookReturn2);
+    when(bleutrade.getBleutradeOrderBook("BTC_AUD", "ALL", 30)).thenReturn(orderBookReturn1);
+    when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50)).thenReturn(orderBookReturn2);
 
     final LimitOrder[] expectedAsks = expectedAsks();
     final LimitOrder[] expectedBids = expectedBids();
@@ -171,8 +169,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     orderBookReturn.setResult(
         createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
 
-    when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50))
-        .thenReturn(orderBookReturn);
+    when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50)).thenReturn(orderBookReturn);
 
     // when
     marketDataService.getOrderBook(BLEU_BTC_CP);
@@ -207,14 +204,10 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketHistoryReturn4.setMessage("test message");
     marketHistoryReturn4.setResult(Arrays.asList(expectedBleutradeTrades.get(1)));
 
-    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 30))
-        .thenReturn(marketHistoryReturn1);
-    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 50))
-        .thenReturn(marketHistoryReturn2);
-    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 1))
-        .thenReturn(marketHistoryReturn3);
-    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 200))
-        .thenReturn(marketHistoryReturn4);
+    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 30)).thenReturn(marketHistoryReturn1);
+    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 50)).thenReturn(marketHistoryReturn2);
+    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 1)).thenReturn(marketHistoryReturn3);
+    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 200)).thenReturn(marketHistoryReturn4);
 
     final Trade[] expectedTrades = expectedTrades();
 
@@ -249,8 +242,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketHistoryReturn.setMessage("test message");
     marketHistoryReturn.setResult(expectedBleutradeTrades());
 
-    when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 50))
-        .thenReturn(marketHistoryReturn);
+    when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 50)).thenReturn(marketHistoryReturn);
 
     // when
     marketDataService.getTrades(BLEU_BTC_CP);

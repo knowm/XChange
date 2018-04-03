@@ -61,8 +61,7 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
 
   @Test
   public void constructor() {
-    assertThat(accountService.apiKey)
-        .isEqualTo(SPECIFICATION_API_KEY);
+    assertThat(accountService.apiKey).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test
@@ -75,10 +74,12 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
     balanceReturn.setMessage("test message");
     balanceReturn.setResult(expectedBleutradeAccountInfo.get(0));
 
-    when(bleutrade
-        .getBalance(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class),
-            eq("AUD"))).thenReturn(balanceReturn);
-
+    when(bleutrade.getBalance(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("AUD")))
+        .thenReturn(balanceReturn);
 
     // when
     BleutradeBalance balance = accountService.getBleutradeBalance("AUD");
@@ -96,10 +97,12 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
     balanceReturn.setMessage("test message");
     balanceReturn.setResult(expectedBleutradeAccountInfo().get(0));
 
-    when(bleutrade
-        .getBalance(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class),
-            eq("AUD"))).thenReturn(balanceReturn);
-
+    when(bleutrade.getBalance(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("AUD")))
+        .thenReturn(balanceReturn);
 
     // when
     accountService.getBleutradeBalance("AUD");
@@ -112,10 +115,12 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
   @Test(expected = ExchangeException.class)
   public void shouldFailOnGetBalanceThrowError() throws IOException {
     // given
-    when(bleutrade
-        .getBalance(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class),
-            eq("AUD"))).thenThrow(BleutradeException.class);
-
+    when(bleutrade.getBalance(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("AUD")))
+        .thenThrow(BleutradeException.class);
 
     // when
     accountService.getBleutradeBalance("AUD");
@@ -132,7 +137,10 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
     balancesReturn.setMessage("test message");
     balancesReturn.setResult(expectedBleutradeAccountInfo());
 
-    when(bleutrade.getBalances(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class)))
+    when(bleutrade.getBalances(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class)))
         .thenReturn(balancesReturn);
 
     final Balance[] expectedAccountBalances = expectedAccountBalances();
@@ -160,7 +168,10 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
     balancesReturn.setMessage("test message");
     balancesReturn.setResult(expectedBleutradeAccountInfo());
 
-    when(bleutrade.getBalances(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class)))
+    when(bleutrade.getBalances(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class)))
         .thenReturn(balancesReturn);
 
     // when
@@ -174,7 +185,10 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
   @Test(expected = ExchangeException.class)
   public void shouldFailOnGetAccountInfoThrowError() throws IOException {
     // given
-    when(bleutrade.getBalances(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class)))
+    when(bleutrade.getBalances(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class)))
         .thenThrow(BleutradeException.class);
 
     // when
@@ -187,11 +201,14 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
 
   @Test()
   public void withdrawFunds() throws IOException {
-    when(bleutrade
-        .withdraw(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class), eq("BTC"),
-            eq(BigDecimal.TEN), eq("any address"))).thenReturn(new BleutradeWithdrawReturn(true, "message", new String[0]));
-
-
+    when(bleutrade.withdraw(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("BTC"),
+            eq(BigDecimal.TEN),
+            eq("any address")))
+        .thenReturn(new BleutradeWithdrawReturn(true, "message", new String[0]));
 
     // when
     String message = accountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "any address");
@@ -207,10 +224,12 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
     addressReturn.setMessage("test message");
     addressReturn.setResult(BLEUTRADE_DEPOSIT_ADDRESS);
 
-    when(bleutrade
-        .getDepositAddress(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class),
-            eq("AUD"))).thenReturn(addressReturn);
-
+    when(bleutrade.getDepositAddress(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("AUD")))
+        .thenReturn(addressReturn);
 
     // when
     String depositAddress = accountService.requestDepositAddress(Currency.AUD);
@@ -227,10 +246,12 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
     addressReturn.setMessage("test message");
     addressReturn.setResult(BLEUTRADE_DEPOSIT_ADDRESS);
 
-    when(bleutrade
-        .getDepositAddress(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class),
-            eq("AUD"))).thenReturn(addressReturn);
-
+    when(bleutrade.getDepositAddress(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("AUD")))
+        .thenReturn(addressReturn);
 
     // when
     accountService.requestDepositAddress(Currency.AUD);
@@ -243,10 +264,12 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
   @Test(expected = ExchangeException.class)
   public void shouldFailRequestDepositAddressError() throws IOException {
     // given
-    when(bleutrade
-        .getDepositAddress(eq(SPECIFICATION_API_KEY), any(ParamsDigest.class), any(SynchronizedValueFactory.class),
-            eq("AUD"))).thenThrow(BleutradeException.class);
-
+    when(bleutrade.getDepositAddress(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("AUD")))
+        .thenThrow(BleutradeException.class);
 
     // when
     accountService.requestDepositAddress(Currency.AUD);

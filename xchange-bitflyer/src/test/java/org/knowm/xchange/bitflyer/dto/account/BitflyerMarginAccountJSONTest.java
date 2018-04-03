@@ -13,7 +13,9 @@ public class BitflyerMarginAccountJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitflyerMarginAccountJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitflyer/dto/account/example-margin-accounts.json");
+    InputStream is =
+        BitflyerMarginAccountJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitflyer/dto/account/example-margin-accounts.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

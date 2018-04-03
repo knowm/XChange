@@ -13,7 +13,9 @@ public class CoinEggTradeCancelJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinEggTradeCancelJSONTest.class.getResourceAsStream("/org/xchange/coinegg/dto/trade/example-trade-cancel-data.json");
+    InputStream is =
+        CoinEggTradeCancelJSONTest.class.getResourceAsStream(
+            "/org/xchange/coinegg/dto/trade/example-trade-cancel-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();

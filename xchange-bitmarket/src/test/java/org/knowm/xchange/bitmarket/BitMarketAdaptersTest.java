@@ -76,9 +76,14 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
   public void testTradeHistoryAdapter() throws IOException {
 
     // given
-    BitMarketHistoryTradesResponse historyTradesResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-trades-data", BitMarketHistoryTradesResponse.class);
-    BitMarketHistoryOperationsResponse marketHistoryOperationsResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-operations-data",
-        BitMarketHistoryOperationsResponse.class);
+    BitMarketHistoryTradesResponse historyTradesResponse =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/trade/example-history-trades-data",
+            BitMarketHistoryTradesResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsResponse =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-data",
+            BitMarketHistoryOperationsResponse.class);
 
     final UserTrade[] expectedUserTrades = expectedUserTrades();
 

@@ -216,7 +216,9 @@ public class KrakenAdaptersTest {
   public void testAdaptOpenOrdersInTransactionCurrency() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/trading/example-openorders-in-transaction-currency-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-openorders-in-transaction-currency-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

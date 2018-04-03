@@ -125,8 +125,13 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     }
 
     // Kucoin has 1-based paging
-    KucoinResponse<KucoinDealtOrdersInfo> response = getKucoinTradeHistory(pair, null, pagingParams.getPageLength(), pagingParams.getPageNumber() + 1,
-        startTime,
+    KucoinResponse<KucoinDealtOrdersInfo> response =
+        getKucoinTradeHistory(
+            pair,
+            null,
+            pagingParams.getPageLength(),
+            pagingParams.getPageNumber() + 1,
+            startTime,
             endTime);
     return KucoinAdapters.adaptUserTrades(response.getData().getDealtOrders());
   }
