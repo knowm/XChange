@@ -1,11 +1,10 @@
 package org.knowm.xchange.gdax;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,8 +15,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
 import org.knowm.xchange.gdax.dto.GDAXException;
-import org.knowm.xchange.gdax.dto.GdaxTransfer;
+import org.knowm.xchange.gdax.dto.GdaxTransfers;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
@@ -36,6 +36,10 @@ import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -188,7 +192,7 @@ public interface GDAX {
   @GET
   @Path("accounts/{account_id}/transfers")
   @Consumes(MediaType.APPLICATION_JSON)
-  List<GdaxTransfer> transfers(
+  GdaxTransfers transfers(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
