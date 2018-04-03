@@ -192,6 +192,7 @@ public abstract class NettyStreamingService<T> {
                 CloseWebSocketFrame closeFrame = new CloseWebSocketFrame();
                 webSocketChannel.writeAndFlush(closeFrame).addListener(future -> {
                     channels = new ConcurrentHashMap<>();
+                    eventLoopGroup.shutdownGracefully();
                     completable.onComplete();
                 });
             }
