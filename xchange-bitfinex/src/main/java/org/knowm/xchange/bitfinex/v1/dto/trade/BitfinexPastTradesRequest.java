@@ -14,15 +14,11 @@ public class BitfinexPastTradesRequest {
   @JsonProperty("symbol")
   protected String symbol;
 
-  /**
-   * REQUIRED Trades made before this timestamp won’t be returned
-   */
+  /** REQUIRED Trades made before this timestamp won’t be returned */
   @JsonProperty("timestamp")
   protected long startTime;
 
-  /**
-   * Trades made after this timestamp won’t be returned.
-   */
+  /** Trades made after this timestamp won’t be returned. */
   @JsonProperty("until")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   protected Long endTime;
@@ -32,14 +28,20 @@ public class BitfinexPastTradesRequest {
   protected Integer limitTrades;
 
   /**
-   * Return trades in reverse order (the oldest comes first). Default is returning newest trades first.
-   * default: 0
+   * Return trades in reverse order (the oldest comes first). Default is returning newest trades
+   * first. default: 0
    */
   @JsonProperty("reverse")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   protected Integer reverse;
 
-  public BitfinexPastTradesRequest(String nonce, String symbol, long startTime, Long endTime, Integer limitTrades, Integer reverse) {
+  public BitfinexPastTradesRequest(
+      String nonce,
+      String symbol,
+      long startTime,
+      Long endTime,
+      Integer limitTrades,
+      Integer reverse) {
     this.request = "/v1/mytrades";
     this.nonce = nonce;
     this.symbol = symbol;

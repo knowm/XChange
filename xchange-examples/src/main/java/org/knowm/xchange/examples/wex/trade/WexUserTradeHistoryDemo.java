@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.wex.trade;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -49,5 +48,4 @@ public class WexUserTradeHistoryDemo {
       System.out.println(e.getMessage());
     }
   }
-
 }

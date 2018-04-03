@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.ccex.trade;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.examples.ccex.CCEXExamplesUtils;
@@ -26,5 +25,4 @@ public class CCEXTradesHistoryDemo {
       System.out.println(temp.toString());
     }
   }
-
 }

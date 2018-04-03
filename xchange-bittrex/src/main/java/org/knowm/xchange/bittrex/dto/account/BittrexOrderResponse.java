@@ -6,8 +6,10 @@ public class BittrexOrderResponse {
 
   @JsonProperty("success")
   private Boolean success;
+
   @JsonProperty("message")
   private String message;
+
   @JsonProperty("result")
   private BittrexOrder result;
 
@@ -50,7 +52,12 @@ public class BittrexOrderResponse {
   @Override
   public String toString() {
 
-    return "BittrexBalancesResponse [message=" + message + ", result=" + result + ", success=" + success + "]";
+    return "BittrexBalancesResponse [message="
+        + message
+        + ", result="
+        + result
+        + ", success="
+        + success
+        + "]";
   }
-
 }

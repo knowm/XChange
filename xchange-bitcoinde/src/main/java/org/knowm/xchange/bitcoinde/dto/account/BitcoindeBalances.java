@@ -1,14 +1,13 @@
 package org.knowm.xchange.bitcoinde.dto.account;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"btc", "bch", "eth"})
@@ -16,18 +15,17 @@ public class BitcoindeBalances {
 
   @JsonProperty("btc")
   private BitcoindeBalance btc;
+
   @JsonProperty("bch")
   private BitcoindeBalance bch;
+
   @JsonProperty("eth")
   private BitcoindeBalance eth;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public BitcoindeBalances() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public BitcoindeBalances() {}
 
   /**
    * @param eth
@@ -80,5 +78,4 @@ public class BitcoindeBalances {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }

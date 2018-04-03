@@ -1,9 +1,7 @@
 package org.knowm.xchange.bitcointoyou.service;
 
 import java.util.Base64;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
 /**
@@ -19,7 +17,8 @@ public class BitcointoyouDigest extends BaseParamsDigest {
    *
    * @param secretKeyBase64 the Secret Key
    * @param apiKey the API Key
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded
+   *     key is invalid).
    */
   private BitcointoyouDigest(String secretKeyBase64, String apiKey) {
 

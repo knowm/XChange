@@ -1,8 +1,7 @@
 package org.knowm.xchange.liqui.dto.trade;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Map;
 
 public class LiquiTradeHistory {
 

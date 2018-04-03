@@ -1,14 +1,10 @@
 package org.knowm.xchange.gateio.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing depth from Bter
- */
+/** Data object representing depth from Bter */
 public class GateioDepth extends GateioBaseResponse {
 
   private final List<GateioPublicOrder> asks;
@@ -20,7 +16,9 @@ public class GateioDepth extends GateioBaseResponse {
    * @param asks
    * @param bids
    */
-  private GateioDepth(@JsonProperty("asks") List<GateioPublicOrder> asks, @JsonProperty("bids") List<GateioPublicOrder> bids,
+  private GateioDepth(
+      @JsonProperty("asks") List<GateioPublicOrder> asks,
+      @JsonProperty("bids") List<GateioPublicOrder> bids,
       @JsonProperty("result") boolean result) {
 
     super(result, null);
@@ -43,5 +41,4 @@ public class GateioDepth extends GateioBaseResponse {
 
     return "GateioDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
-
 }

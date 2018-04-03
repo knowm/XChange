@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.abucoins.trade;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.AbucoinsAdapters;
 import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
@@ -20,10 +19,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 
-/**
- * Author: bryant_harris
- */
-
+/** Author: bryant_harris */
 public class TradeDemo {
 
   public static void main(String[] args) throws IOException {
@@ -33,7 +29,6 @@ public class TradeDemo {
 
     generic(tradeService);
     raw((AbucoinsTradeServiceRaw) tradeService);
-
   }
 
   private static void generic(TradeService tradeService)
@@ -42,7 +37,14 @@ public class TradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, "", null, new BigDecimal("100"));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            Order.OrderType.BID,
+            BigDecimal.ONE,
+            CurrencyPair.BTC_USD,
+            "",
+            null,
+            new BigDecimal("100"));
     System.out.println("Trying to place: " + limitOrder);
     String orderId = "0";
     try {
@@ -65,8 +67,10 @@ public class TradeDemo {
 
   private static void raw(AbucoinsTradeServiceRaw tradeService) throws IOException {
 
-    AbucoinsOrder[] openOrders = tradeService
-        .getAbucoinsOrders(new AbucoinsOrderRequest(AbucoinsAdapters.adaptCurrencyPairToProductID(CurrencyPair.BTC_USD)));
+    AbucoinsOrder[] openOrders =
+        tradeService.getAbucoinsOrders(
+            new AbucoinsOrderRequest(
+                AbucoinsAdapters.adaptCurrencyPairToProductID(CurrencyPair.BTC_USD)));
     System.out.println(Arrays.asList(openOrders));
   }
 

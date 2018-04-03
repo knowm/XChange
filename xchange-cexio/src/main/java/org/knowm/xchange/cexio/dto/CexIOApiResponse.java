@@ -1,8 +1,6 @@
 package org.knowm.xchange.cexio.dto;
 
-/**
- * @author ujjwal on 13/02/18.
- */
+/** @author ujjwal on 13/02/18. */
 public abstract class CexIOApiResponse<T> {
   private final String e;
   private final T data;

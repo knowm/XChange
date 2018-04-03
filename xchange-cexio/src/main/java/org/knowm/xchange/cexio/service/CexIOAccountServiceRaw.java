@@ -4,7 +4,6 @@ import static org.knowm.xchange.cexio.dto.account.CexIOFeeInfo.FeeDetails;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.dto.CexIORequest;
 import org.knowm.xchange.cexio.dto.CexioCryptoAddressRequest;
@@ -32,9 +31,10 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
   }
 
   public CexIOCryptoAddress getCexIOCryptoAddress(String isoCode) throws IOException {
-    CexIOCryptoAddress cryptoAddress = cexIOAuthenticated.getCryptoAddress(signatureCreator, new CexioCryptoAddressRequest(isoCode));
-    if (cryptoAddress.getOk().equals("ok"))
-      return cryptoAddress;
+    CexIOCryptoAddress cryptoAddress =
+        cexIOAuthenticated.getCryptoAddress(
+            signatureCreator, new CexioCryptoAddressRequest(isoCode));
+    if (cryptoAddress.getOk().equals("ok")) return cryptoAddress;
 
     throw new ExchangeException(cryptoAddress.getE() + ": " + cryptoAddress.getError());
   }
@@ -50,5 +50,4 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
   public Map<CurrencyPair, FeeDetails> getMyFee() throws IOException {
     return cexIOAuthenticated.getMyFee(signatureCreator, new CexIORequest()).getData();
   }
-
 }

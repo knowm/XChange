@@ -1,9 +1,8 @@
 package org.knowm.xchange.gdax.dto.marketdata;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(using = GDAXCandleDeserializer.class)
 public class GDAXCandle {
@@ -11,7 +10,13 @@ public class GDAXCandle {
   private final Date time;
   private final BigDecimal open, high, low, close, volume;
 
-  public GDAXCandle(Date time, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, BigDecimal volume) {
+  public GDAXCandle(
+      Date time,
+      BigDecimal open,
+      BigDecimal high,
+      BigDecimal low,
+      BigDecimal close,
+      BigDecimal volume) {
     this.time = time;
     this.open = open;
     this.high = high;
@@ -46,6 +51,18 @@ public class GDAXCandle {
 
   @Override
   public String toString() {
-    return "GDAXCandle [time=" + time + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close + ", volume=" + volume + "]";
+    return "GDAXCandle [time="
+        + time
+        + ", open="
+        + open
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", close="
+        + close
+        + ", volume="
+        + volume
+        + "]";
   }
 }

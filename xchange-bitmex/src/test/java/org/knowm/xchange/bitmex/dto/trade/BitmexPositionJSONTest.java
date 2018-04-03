@@ -2,12 +2,10 @@ package org.knowm.xchange.bitmex.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitmexPositionJSONTest {
   @Test
@@ -23,6 +21,5 @@ public class BitmexPositionJSONTest {
     assertThat(position.getCurrency()).isEqualTo("string");
     assertThat(position.getUnderlying()).isEqualTo("string");
     assertThat(position.getQuoteCurrency()).isEqualTo("string");
-
   }
 }

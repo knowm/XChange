@@ -1,7 +1,6 @@
 package org.knowm.xchange.campbx.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import org.knowm.xchange.campbx.dto.marketdata.CampBXTicker;
@@ -10,9 +9,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class CampBXMarketDataServiceRaw extends CampBXBaseService {
 
   /**
@@ -43,7 +40,8 @@ public class CampBXMarketDataServiceRaw extends CampBXBaseService {
     if (!campBXOrderBook.isError()) {
       return campBXOrderBook;
     } else {
-      throw new ExchangeException("Error calling getCampBXFullOrderBook(): " + campBXOrderBook.getError());
+      throw new ExchangeException(
+          "Error calling getCampBXFullOrderBook(): " + campBXOrderBook.getError());
     }
   }
 
@@ -51,5 +49,4 @@ public class CampBXMarketDataServiceRaw extends CampBXBaseService {
 
     throw new NotAvailableFromExchangeException();
   }
-
 }

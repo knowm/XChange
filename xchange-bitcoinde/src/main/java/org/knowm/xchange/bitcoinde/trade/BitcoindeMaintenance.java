@@ -1,36 +1,32 @@
 package org.knowm.xchange.bitcoinde.trade;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * @author kaiserfr
- */
+/** @author kaiserfr */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"message", "start", "end"})
 public class BitcoindeMaintenance {
 
   @JsonProperty("message")
   private String message;
+
   @JsonProperty("start")
   private String start;
+
   @JsonProperty("end")
   private String end;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public BitcoindeMaintenance() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public BitcoindeMaintenance() {}
 
   /**
    * @param message
@@ -83,5 +79,4 @@ public class BitcoindeMaintenance {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }

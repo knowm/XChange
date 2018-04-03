@@ -2,7 +2,6 @@ package org.knowm.xchange.empoex.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -99,5 +98,4 @@ public class EmpoExTradeService extends EmpoExTradeServiceRaw implements TradeSe
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-
 }

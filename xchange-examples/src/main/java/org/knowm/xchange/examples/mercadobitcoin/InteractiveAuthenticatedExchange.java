@@ -1,19 +1,17 @@
 package org.knowm.xchange.examples.mercadobitcoin;
 
 import java.util.Scanner;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 
-/**
- * @author Felipe Micaroni Lalli
- */
+/** @author Felipe Micaroni Lalli */
 public class InteractiveAuthenticatedExchange {
 
   public static Exchange createInstanceFromDefaultInput() {
-    Exchange mercadoBitcoin = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
+    Exchange mercadoBitcoin =
+        ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
     ExchangeSpecification exchangeSpecification = mercadoBitcoin.getExchangeSpecification();
 
     Scanner s = new Scanner(System.in);

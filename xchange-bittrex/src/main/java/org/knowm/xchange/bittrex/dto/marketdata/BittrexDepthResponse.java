@@ -8,7 +8,9 @@ public class BittrexDepthResponse {
   private final String message;
   private final BittrexDepth depth;
 
-  public BittrexDepthResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+  public BittrexDepthResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("message") String message,
       @JsonProperty("result") BittrexDepth depth) {
 
     this.success = success;
@@ -34,7 +36,12 @@ public class BittrexDepthResponse {
   @Override
   public String toString() {
 
-    return "BittrexDepthResponse [success=" + success + ", message=" + message + ", depth=" + depth + "]";
+    return "BittrexDepthResponse [success="
+        + success
+        + ", message="
+        + message
+        + ", depth="
+        + depth
+        + "]";
   }
-
 }

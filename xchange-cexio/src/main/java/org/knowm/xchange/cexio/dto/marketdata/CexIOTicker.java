@@ -1,12 +1,9 @@
 package org.knowm.xchange.cexio.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: brox Since: 2/5/14
- */
+/** Author: brox Since: 2/5/14 */
 public class CexIOTicker {
 
   private final BigDecimal last;
@@ -27,8 +24,13 @@ public class CexIOTicker {
    * @param bid
    * @param ask
    */
-  public CexIOTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
+  public CexIOTicker(
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
       @JsonProperty("timestamp") long timestamp) {
 
     this.last = last;
@@ -78,8 +80,20 @@ public class CexIOTicker {
   @Override
   public String toString() {
 
-    return "CexIOTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp="
-        + timestamp + "]";
+    return "CexIOTicker [last="
+        + last
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", volume="
+        + volume
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", timestamp="
+        + timestamp
+        + "]";
   }
-
 }

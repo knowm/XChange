@@ -1,16 +1,15 @@
 package org.knowm.xchange.gdax.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
- * <p>These parameters are common to all order types. Depending on the order type, additional parameters will
- * be required (see below).</p>
- * 
- * <p>PARAMETERS</p>
- * 
+ * These parameters are common to all order types. Depending on the order type, additional
+ * parameters will be required (see below).
+ *
+ * <p>PARAMETERS
+ *
  * <table>
  * <tr><th>Param</th><th>Description</th></tr>
  * <tr><td>client_oid</td><td>[optional] Order ID selected by you to identify your order</td></tr>
@@ -21,37 +20,44 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * <tr><td>stop</td><td>[optional] Either loss or entry. Requires stop_price to be defined.</td></tr>
  * <tr><td>stop_price</td><td>[optional] Only if stop is defined. Sets trigger price for stop order.</td></tr>
  * </table>
+ *
  * @author bryant_harris
  */
 public abstract class GDAXPlaceOrder {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("client_oid")
   String clientOid;
-  
+
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("type")
   Type type;
-  
+
   @JsonProperty("side")
   Side side;
-  
+
   @JsonProperty("product_id")
   String productId;
-  
+
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("stp")
   SelfTradePrevention stp;
-  
+
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("stop")
   Stop stop;
-  
+
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("stop_price")
   BigDecimal stopPrice;
 
-  public GDAXPlaceOrder(String clientOid, Type type, Side side, String productId, SelfTradePrevention stp, Stop stop,
-                        BigDecimal stopPrice) {
+  public GDAXPlaceOrder(
+      String clientOid,
+      Type type,
+      Side side,
+      String productId,
+      SelfTradePrevention stp,
+      Stop stop,
+      BigDecimal stopPrice) {
     this.clientOid = clientOid;
     this.type = type;
     this.side = side;
@@ -60,7 +66,7 @@ public abstract class GDAXPlaceOrder {
     this.stop = stop;
     this.stopPrice = stopPrice;
   }
-  
+
   public String getClientOid() {
     return clientOid;
   }
@@ -88,9 +94,9 @@ public abstract class GDAXPlaceOrder {
   public BigDecimal getStopPrice() {
     return stopPrice;
   }
-  
+
   @SuppressWarnings("unchecked")
-  static abstract class Builder<T, B extends Builder<?,?>> {
+  abstract static class Builder<T, B extends Builder<?, ?>> {
     String clientOid;
     Type type;
     Side side;
@@ -98,7 +104,7 @@ public abstract class GDAXPlaceOrder {
     SelfTradePrevention stp;
     Stop stop;
     BigDecimal stopPrice;
-          
+
     public B clientOid(String clientOid) {
       this.clientOid = clientOid;
       return (B) this;
@@ -108,12 +114,12 @@ public abstract class GDAXPlaceOrder {
       this.type = type;
       return (B) this;
     }
-          
+
     public B side(Side side) {
       this.side = side;
       return (B) this;
-    }     
-          
+    }
+
     public B productId(String productId) {
       this.productId = productId;
       return (B) this;
@@ -123,12 +129,12 @@ public abstract class GDAXPlaceOrder {
       this.stp = stp;
       return (B) this;
     }
-          
+
     public B stop(Stop stop) {
       this.stop = stop;
       return (B) this;
     }
-          
+
     public B stopPrice(BigDecimal stopPrice) {
       this.stopPrice = stopPrice;
       return (B) this;
@@ -141,19 +147,19 @@ public abstract class GDAXPlaceOrder {
     limit,
     market;
   }
-  
+
   public enum Side {
     buy,
     sell
   }
-  
+
   public enum SelfTradePrevention {
-	dc, // Decrease and Cancel (default)
-	co, // Cancel oldest
-	cn, // Cancel newest
-	cb; // Cancel both
+    dc, // Decrease and Cancel (default)
+    co, // Cancel oldest
+    cn, // Cancel newest
+    cb; // Cancel both
   }
-  
+
   public enum Stop {
     loss,
     entry

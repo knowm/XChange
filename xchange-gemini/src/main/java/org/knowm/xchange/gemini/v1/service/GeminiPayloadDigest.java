@@ -1,7 +1,6 @@
 package org.knowm.xchange.gemini.v1.service;
 
 import java.util.Base64;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 

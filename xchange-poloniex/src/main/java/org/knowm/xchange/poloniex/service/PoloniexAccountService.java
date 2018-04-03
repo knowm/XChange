@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -22,10 +21,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/**
- * @author Zach Holmes
- */
-
+/** @author Zach Holmes */
 public class PoloniexAccountService extends PoloniexAccountServiceRaw implements AccountService {
 
   /**
@@ -46,8 +42,9 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    //does not support XRP withdrawals, use RippleWithdrawFundsParams instead
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
+    // does not support XRP withdrawals, use RippleWithdrawFundsParams instead
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
@@ -56,13 +53,18 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
     if (params instanceof RippleWithdrawFundsParams) {
       RippleWithdrawFundsParams xrpParams = (RippleWithdrawFundsParams) params;
 
-      return withdraw(xrpParams.getCurrency(), xrpParams.getAmount(), xrpParams.getAddress(), xrpParams.getTag());
+      return withdraw(
+          xrpParams.getCurrency(),
+          xrpParams.getAmount(),
+          xrpParams.getAddress(),
+          xrpParams.getTag());
     }
 
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
 
-      return withdraw(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(), null);
+      return withdraw(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(), null);
     }
 
     throw new IllegalStateException("Don't know how to withdraw: " + params);
@@ -77,13 +79,15 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
     final DefaultTradeHistoryParamsTimeSpan params = new DefaultTradeHistoryParamsTimeSpan();
-    params.setStartTime(new Date(System.currentTimeMillis() - 366L * 24 * 60 * 60 * 1000)); // just over one year
+    params.setStartTime(
+        new Date(System.currentTimeMillis() - 366L * 24 * 60 * 60 * 1000)); // just over one year
     params.setEndTime(new Date());
     return params;
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
+      throws ExchangeException, IOException {
     Date start = null;
     Date end = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {

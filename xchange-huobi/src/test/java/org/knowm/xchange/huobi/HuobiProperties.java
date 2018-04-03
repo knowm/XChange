@@ -7,22 +7,22 @@ import java.util.Properties;
 
 class HuobiProperties {
 
-    private String apiKey;
-    private String secretKey;
+  private String apiKey;
+  private String secretKey;
 
-    HuobiProperties() throws IOException {
-        Properties properties = new Properties();
-        InputStream input = new FileInputStream("huobi-secret.keys");
-        properties.load(input);
-        apiKey = properties.getProperty("api-key");
-        secretKey = properties.getProperty("secret-key");
-    }
+  HuobiProperties() throws IOException {
+    Properties properties = new Properties();
+    InputStream input = new FileInputStream("huobi-secret.keys");
+    properties.load(input);
+    apiKey = properties.getProperty("api-key");
+    secretKey = properties.getProperty("secret-key");
+  }
 
-    String getApiKey() {
-        return apiKey;
-    }
+  String getApiKey() {
+    return apiKey;
+  }
 
-    String getSecretKey() {
-        return secretKey;
-    }
+  String getSecretKey() {
+    return secretKey;
+  }
 }

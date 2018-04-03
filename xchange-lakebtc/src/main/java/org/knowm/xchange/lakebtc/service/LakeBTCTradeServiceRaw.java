@@ -1,7 +1,6 @@
 package org.knowm.xchange.lakebtc.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -17,9 +16,7 @@ import org.knowm.xchange.lakebtc.dto.trade.LakeBTCSellOrderRequest;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCTradeResponse;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCTradesRequest;
 
-/**
- * Created by cristian.lucaci on 12/19/2014.
- */
+/** Created by cristian.lucaci on 12/19/2014. */
 public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
 
   /**
@@ -38,14 +35,24 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
       LakeBTCOrderResponse newOrder = null;
       switch (marketOrder.getType()) {
         case BID:
-          newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
-              //unit price, amount, currency concatenated by commas
-              new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getOriginalAmount().toString(), pair)));
+          newOrder =
+              lakeBTCAuthenticated.placeBuyOrder(
+                  signatureCreator,
+                  exchange.getNonceFactory(),
+                  // unit price, amount, currency concatenated by commas
+                  new LakeBTCBuyOrderRequest(
+                      String.format(
+                          "\"%s,%s,%s\"", "0", marketOrder.getOriginalAmount().toString(), pair)));
           break;
         case ASK:
-          newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
-              //unit price, amount, currency concatenated by commas
-              new LakeBTCSellOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getOriginalAmount().toString(), pair)));
+          newOrder =
+              lakeBTCAuthenticated.placeSellOrder(
+                  signatureCreator,
+                  exchange.getNonceFactory(),
+                  // unit price, amount, currency concatenated by commas
+                  new LakeBTCSellOrderRequest(
+                      String.format(
+                          "\"%s,%s,%s\"", "0", marketOrder.getOriginalAmount().toString(), pair)));
           break;
       }
       return newOrder;
@@ -60,15 +67,30 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
       LakeBTCOrderResponse newOrder = null;
       switch (limitOrder.getType()) {
         case BID:
-          newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
-              //unit price, amount, currency concatenated by commas
-              new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getOriginalAmount().toString(), pair)));
+          newOrder =
+              lakeBTCAuthenticated.placeBuyOrder(
+                  signatureCreator,
+                  exchange.getNonceFactory(),
+                  // unit price, amount, currency concatenated by commas
+                  new LakeBTCBuyOrderRequest(
+                      String.format(
+                          "\"%s,%s,%s\"",
+                          limitOrder.getLimitPrice(),
+                          limitOrder.getOriginalAmount().toString(),
+                          pair)));
           break;
         case ASK:
-          newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
-              //unit price, amount, currency concatenated by commas
-              new LakeBTCSellOrderRequest(
-                  String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getOriginalAmount().toString(), pair)));
+          newOrder =
+              lakeBTCAuthenticated.placeSellOrder(
+                  signatureCreator,
+                  exchange.getNonceFactory(),
+                  // unit price, amount, currency concatenated by commas
+                  new LakeBTCSellOrderRequest(
+                      String.format(
+                          "\"%s,%s,%s\"",
+                          limitOrder.getLimitPrice(),
+                          limitOrder.getOriginalAmount().toString(),
+                          pair)));
           break;
       }
       return newOrder;
@@ -79,7 +101,8 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
 
   public LakeBTCCancelResponse cancelLakeBTCOrder(String orderId) throws IOException {
     try {
-      return lakeBTCAuthenticated.cancelOrder(signatureCreator, exchange.getNonceFactory(), new LakeBTCCancelRequest(orderId));
+      return lakeBTCAuthenticated.cancelOrder(
+          signatureCreator, exchange.getNonceFactory(), new LakeBTCCancelRequest(orderId));
     } catch (Exception e) {
       throw new ExchangeException("LakeBTC returned an error", e);
     }
@@ -88,13 +111,17 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
   public LakeBTCTradeResponse[] getLakeBTCTradeHistory(long timestamp) throws IOException {
 
     try {
-      return lakeBTCAuthenticated.pastTrades(signatureCreator, exchange.getNonceFactory(), new LakeBTCTradesRequest(String.valueOf(timestamp)));
+      return lakeBTCAuthenticated.pastTrades(
+          signatureCreator,
+          exchange.getNonceFactory(),
+          new LakeBTCTradesRequest(String.valueOf(timestamp)));
     } catch (IOException e) {
       throw new ExchangeException("LakeBTC returned an error", e);
     }
   }
 
   public LakeBTCOrdersResponse[] getLakeBTCOrders() throws IOException {
-    return lakeBTCAuthenticated.getOrders(signatureCreator, exchange.getNonceFactory(), new LakeBTCOrdersRequest());
+    return lakeBTCAuthenticated.getOrders(
+        signatureCreator, exchange.getNonceFactory(), new LakeBTCOrdersRequest());
   }
 }

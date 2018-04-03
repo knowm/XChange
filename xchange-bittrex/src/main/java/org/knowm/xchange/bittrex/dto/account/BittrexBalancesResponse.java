@@ -1,12 +1,10 @@
 package org.knowm.xchange.bittrex.dto.account;
 
-import java.util.List;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.List;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -15,8 +13,10 @@ public class BittrexBalancesResponse {
 
   @JsonProperty("success")
   private Boolean success;
+
   @JsonProperty("message")
   private String message;
+
   @JsonProperty("result")
   private List<BittrexBalance> result;
 
@@ -59,7 +59,12 @@ public class BittrexBalancesResponse {
   @Override
   public String toString() {
 
-    return "BittrexBalancesResponse [message=" + message + ", result=" + result + ", success=" + success + "]";
+    return "BittrexBalancesResponse [message="
+        + message
+        + ", result="
+        + result
+        + ", success="
+        + success
+        + "]";
   }
-
 }

@@ -2,7 +2,6 @@ package org.knowm.xchange.coinbase.v2.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -96,5 +95,4 @@ public class TradeServiceIntegration {
     CoinbaseAccountService accountService = (CoinbaseAccountService) exchange.getAccountService();
     return accountService.getCoinbaseAccount(currency).getId();
   }
-
 }

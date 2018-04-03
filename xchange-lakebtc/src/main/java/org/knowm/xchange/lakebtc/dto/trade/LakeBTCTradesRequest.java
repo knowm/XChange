@@ -2,16 +2,12 @@ package org.knowm.xchange.lakebtc.dto.trade;
 
 import org.knowm.xchange.lakebtc.dto.LakeBTCRequest;
 
-/**
- * Created by cristian.lucaci on 12/19/2014.
- */
+/** Created by cristian.lucaci on 12/19/2014. */
 public class LakeBTCTradesRequest extends LakeBTCRequest {
 
   private static final String METHOD_NAME = "getTrades";
 
-  /**
-   * Constructor
-   */
+  /** Constructor */
   public LakeBTCTradesRequest() {
 
     method = METHOD_NAME;

@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -56,9 +55,7 @@ public class GDAXAdapters {
 
   private static Logger logger = LoggerFactory.getLogger(GDAXAdapters.class);
 
-  private GDAXAdapters() {
-
-  }
+  private GDAXAdapters() {}
 
   protected static Date parseDate(final String rawDate) {
 
@@ -106,7 +103,8 @@ public class GDAXAdapters {
     }
   }
 
-  public static Ticker adaptTicker(GDAXProductTicker ticker, GDAXProductStats stats, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      GDAXProductTicker ticker, GDAXProductStats stats, CurrencyPair currencyPair) {
 
     BigDecimal last = ticker.getPrice();
     BigDecimal open = stats.getOpen();
@@ -117,8 +115,17 @@ public class GDAXAdapters {
     BigDecimal volume = ticker.getVolume();
     Date date = parseDate(ticker.getTime());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).open(open).high(high).low(low).bid(buy).ask(sell).volume(volume).timestamp(date)
-                               .build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .open(open)
+        .high(high)
+        .low(low)
+        .bid(buy)
+        .ask(sell)
+        .volume(volume)
+        .timestamp(date)
+        .build();
   }
 
   public static OrderBook adaptOrderBook(GDAXProductBook book, CurrencyPair currencyPair) {
@@ -129,7 +136,8 @@ public class GDAXAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  private static List<LimitOrder> toLimitOrderList(GDAXProductBookEntry[] levels, OrderType orderType, CurrencyPair currencyPair) {
+  private static List<LimitOrder> toLimitOrderList(
+      GDAXProductBookEntry[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>();
 
@@ -137,12 +145,12 @@ public class GDAXAdapters {
       for (int i = 0; i < levels.length; i++) {
         GDAXProductBookEntry ask = levels[i];
 
-        allLevels.add(new LimitOrder(orderType, ask.getVolume(), currencyPair, "0", null, ask.getPrice()));
+        allLevels.add(
+            new LimitOrder(orderType, ask.getVolume(), currencyPair, "0", null, ask.getPrice()));
       }
     }
 
     return allLevels;
-
   }
 
   public static Wallet adaptAccountInfo(GDAXAccount[] gdaxAccounts) {
@@ -153,7 +161,11 @@ public class GDAXAdapters {
 
       GDAXAccount gdaxAccount = gdaxAccounts[i];
       balances.add(
-          new Balance(Currency.getInstance(gdaxAccount.getCurrency()), gdaxAccount.getBalance(), gdaxAccount.getAvailable(), gdaxAccount.getHold()));
+          new Balance(
+              Currency.getInstance(gdaxAccount.getCurrency()),
+              gdaxAccount.getBalance(),
+              gdaxAccount.getAvailable(),
+              gdaxAccount.getHold()));
     }
 
     return new Wallet(gdaxAccounts[0].getProfile_id(), balances);
@@ -161,9 +173,12 @@ public class GDAXAdapters {
 
   @SuppressWarnings("unchecked")
   public static OpenOrders adaptOpenOrders(GDAXOrder[] coinbaseExOpenOrders) {
-    Stream<Order> orders = Arrays.asList(coinbaseExOpenOrders).stream().map(GDAXAdapters::adaptOrder);
-    Map<Boolean, List<Order>> twoTypes = orders.collect(Collectors.partitioningBy(t -> t instanceof LimitOrder));
-    @SuppressWarnings("rawtypes") List limitOrders = twoTypes.get(true);
+    Stream<Order> orders =
+        Arrays.asList(coinbaseExOpenOrders).stream().map(GDAXAdapters::adaptOrder);
+    Map<Boolean, List<Order>> twoTypes =
+        orders.collect(Collectors.partitioningBy(t -> t instanceof LimitOrder));
+    @SuppressWarnings("rawtypes")
+    List limitOrders = twoTypes.get(true);
     return new OpenOrders(limitOrders, twoTypes.get(false));
   }
 
@@ -183,14 +198,39 @@ public class GDAXAdapters {
     }
 
     if (order.getType().equals("market")) {
-      return new MarketOrder(type, order.getSize(), currencyPair, order.getId(), createdAt, averagePrice, order.getFilledSize(), order.getFillFees(),
+      return new MarketOrder(
+          type,
+          order.getSize(),
+          currencyPair,
+          order.getId(),
+          createdAt,
+          averagePrice,
+          order.getFilledSize(),
+          order.getFillFees(),
           orderStatus);
     } else if (order.getType().equals("limit")) {
       if (order.getStop() == null) {
-        return new LimitOrder(type, order.getSize(), currencyPair, order.getId(), createdAt, order.getPrice(), averagePrice, order.getFilledSize(),
-            order.getFillFees(), orderStatus);
+        return new LimitOrder(
+            type,
+            order.getSize(),
+            currencyPair,
+            order.getId(),
+            createdAt,
+            order.getPrice(),
+            averagePrice,
+            order.getFilledSize(),
+            order.getFillFees(),
+            orderStatus);
       } else {
-        return new StopOrder(type, order.getSize(), currencyPair, order.getId(), createdAt, order.getStopPrice(), averagePrice, order.getFilledSize(),
+        return new StopOrder(
+            type,
+            order.getSize(),
+            currencyPair,
+            order.getId(),
+            createdAt,
+            order.getStopPrice(),
+            averagePrice,
+            order.getFilledSize(),
             orderStatus);
       }
     }
@@ -208,12 +248,9 @@ public class GDAXAdapters {
     }
 
     return orderStatuses;
-
   }
 
-  /**
-   * The status from the GDAXOrder object converted to xchange status
-   */
+  /** The status from the GDAXOrder object converted to xchange status */
   public static OrderStatus adaptOrderStatus(GDAXOrder order) {
 
     if (order.getStatus().equals("pending")) {
@@ -241,10 +278,10 @@ public class GDAXAdapters {
       }
 
       return OrderStatus.NEW;
-
     }
 
-    if (order.getFilledSize().compareTo(BigDecimal.ZERO) > 0 && order.getSize().compareTo(order.getFilledSize()) < 0)
+    if (order.getFilledSize().compareTo(BigDecimal.ZERO) > 0
+        && order.getSize().compareTo(order.getFilledSize()) < 0)
       return OrderStatus.PARTIALLY_FILLED;
 
     return OrderStatus.UNKNOWN;
@@ -261,8 +298,17 @@ public class GDAXAdapters {
 
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
 
-      UserTrade t = new UserTrade(type, fill.getSize(), currencyPair, fill.getPrice(), parseDate(fill.getCreatedAt()),
-          String.valueOf(fill.getTradeId()), fill.getOrderId(), fill.getFee(), currencyPair.counter);
+      UserTrade t =
+          new UserTrade(
+              type,
+              fill.getSize(),
+              currencyPair,
+              fill.getPrice(),
+              parseDate(fill.getCreatedAt()),
+              String.valueOf(fill.getTradeId()),
+              fill.getOrderId(),
+              fill.getFee(),
+              currencyPair.counter);
       trades.add(t);
     }
 
@@ -279,7 +325,14 @@ public class GDAXAdapters {
       // yes, sell means buy for gdax reported trades..
       OrderType type = trade.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
 
-      Trade t = new Trade(type, trade.getSize(), currencyPair, trade.getPrice(), parseDate(trade.getTimestamp()), String.valueOf(trade.getTradeId()));
+      Trade t =
+          new Trade(
+              type,
+              trade.getSize(),
+              currencyPair,
+              trade.getPrice(),
+              parseDate(trade.getTimestamp()),
+              String.valueOf(trade.getTradeId()));
       trades.add(t);
     }
 
@@ -290,7 +343,8 @@ public class GDAXAdapters {
     return new CurrencyPair(product.getBaseCurrency(), product.getTargetCurrency());
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, GDAXProduct[] products) {
+  public static ExchangeMetaData adaptToExchangeMetaData(
+      ExchangeMetaData exchangeMetaData, GDAXProduct[] products) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
@@ -306,83 +360,89 @@ public class GDAXAdapters {
       CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, maxSize, priceScale);
       currencyPairs.put(pair, cpmd);
 
-      if (!currencies.containsKey(pair.base))
-        currencies.put(pair.base, null);
-      if (!currencies.containsKey(pair.counter))
-        currencies.put(pair.counter, null);
+      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
+      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
     }
-    return new ExchangeMetaData(currencyPairs, currencies, exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(), true);
+    return new ExchangeMetaData(
+        currencyPairs,
+        currencies,
+        exchangeMetaData.getPublicRateLimits(),
+        exchangeMetaData.getPrivateRateLimits(),
+        true);
   }
 
   public static String adaptProductID(CurrencyPair currencyPair) {
     return currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
   }
-  
+
   public static GDAXPlaceOrder.Side adaptSide(OrderType orderType) {
-    return orderType == OrderType.ASK ? GDAXPlaceOrder.Side.sell : GDAXPlaceOrder.Side.buy; 
+    return orderType == OrderType.ASK ? GDAXPlaceOrder.Side.sell : GDAXPlaceOrder.Side.buy;
   }
-  
+
   public static GDAXPlaceOrder.Stop adaptStop(OrderType orderType) {
-    return orderType == OrderType.ASK ? GDAXPlaceOrder.Stop.loss : GDAXPlaceOrder.Stop.entry;  
+    return orderType == OrderType.ASK ? GDAXPlaceOrder.Stop.loss : GDAXPlaceOrder.Stop.entry;
   }
-  
+
   public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(LimitOrder limitOrder) {
-    GDAXPlaceLimitOrder.Builder builder = new GDAXPlaceLimitOrder.Builder()
-        .price( limitOrder.getLimitPrice() )
-        .type(GDAXPlaceOrder.Type.limit)
-        .productId( adaptProductID( limitOrder.getCurrencyPair()))
-        .side( adaptSide (limitOrder.getType() ))
-        .size(limitOrder.getOriginalAmount());
-    
-    if ( limitOrder.getOrderFlags().contains( GDAXOrderFlags.POST_ONLY ))
-      builder.postOnly(true);
-    if ( limitOrder.getOrderFlags().contains( GDAXOrderFlags.FILL_OR_KILL ))
-      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.FOK );
-    if ( limitOrder.getOrderFlags().contains( GDAXOrderFlags.IMMEDIATE_OR_CANCEL ))
-      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.IOC );
-          
+    GDAXPlaceLimitOrder.Builder builder =
+        new GDAXPlaceLimitOrder.Builder()
+            .price(limitOrder.getLimitPrice())
+            .type(GDAXPlaceOrder.Type.limit)
+            .productId(adaptProductID(limitOrder.getCurrencyPair()))
+            .side(adaptSide(limitOrder.getType()))
+            .size(limitOrder.getOriginalAmount());
+
+    if (limitOrder.getOrderFlags().contains(GDAXOrderFlags.POST_ONLY)) builder.postOnly(true);
+    if (limitOrder.getOrderFlags().contains(GDAXOrderFlags.FILL_OR_KILL))
+      builder.timeInForce(GDAXPlaceLimitOrder.TimeInForce.FOK);
+    if (limitOrder.getOrderFlags().contains(GDAXOrderFlags.IMMEDIATE_OR_CANCEL))
+      builder.timeInForce(GDAXPlaceLimitOrder.TimeInForce.IOC);
+
     return builder.build();
   }
-  
+
   /**
-   * Creates a 'stop limit' order.  Stop limit order converts to a limit order when the stop amount is
-   * triggered.  The limit order can have a different price than the stop price.
+   * Creates a 'stop limit' order. Stop limit order converts to a limit order when the stop amount
+   * is triggered. The limit order can have a different price than the stop price.
+   *
    * @param stopOrder
-   * @param limitPrice If <code>non null</code> will be used as the limit price.  If it is <code>null</code>
-   * The stop price will also be used as the limit price.
+   * @param limitPrice If <code>non null</code> will be used as the limit price. If it is <code>null
+   *     </code> The stop price will also be used as the limit price.
    * @return
    */
-  public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(StopOrder stopOrder, BigDecimal limitPrice) {
-    GDAXPlaceLimitOrder.Builder builder = new GDAXPlaceLimitOrder.Builder()
-        .price( limitPrice == null ? stopOrder.getStopPrice() : limitPrice )
-        .stop(adaptStop(stopOrder.getType()))
-        .stopPrice(stopOrder.getStopPrice())
-        .type(GDAXPlaceOrder.Type.limit)
-        .productId( adaptProductID( stopOrder.getCurrencyPair()))
-        .side( adaptSide (stopOrder.getType() ))
-        .size(stopOrder.getOriginalAmount());
-    
-    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.POST_ONLY ))
-      builder.postOnly(true);
-    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.FILL_OR_KILL ))
-      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.FOK );
-    if ( stopOrder.getOrderFlags().contains( GDAXOrderFlags.IMMEDIATE_OR_CANCEL ))
-      builder.timeInForce( GDAXPlaceLimitOrder.TimeInForce.IOC );
-    
+  public static GDAXPlaceLimitOrder adaptGDAXPlaceLimitOrder(
+      StopOrder stopOrder, BigDecimal limitPrice) {
+    GDAXPlaceLimitOrder.Builder builder =
+        new GDAXPlaceLimitOrder.Builder()
+            .price(limitPrice == null ? stopOrder.getStopPrice() : limitPrice)
+            .stop(adaptStop(stopOrder.getType()))
+            .stopPrice(stopOrder.getStopPrice())
+            .type(GDAXPlaceOrder.Type.limit)
+            .productId(adaptProductID(stopOrder.getCurrencyPair()))
+            .side(adaptSide(stopOrder.getType()))
+            .size(stopOrder.getOriginalAmount());
+
+    if (stopOrder.getOrderFlags().contains(GDAXOrderFlags.POST_ONLY)) builder.postOnly(true);
+    if (stopOrder.getOrderFlags().contains(GDAXOrderFlags.FILL_OR_KILL))
+      builder.timeInForce(GDAXPlaceLimitOrder.TimeInForce.FOK);
+    if (stopOrder.getOrderFlags().contains(GDAXOrderFlags.IMMEDIATE_OR_CANCEL))
+      builder.timeInForce(GDAXPlaceLimitOrder.TimeInForce.IOC);
+
     return builder.build();
   }
-  
+
   public static GDAXPlaceMarketOrder adaptGDAXPlaceMarketOrder(MarketOrder marketOrder) {
     return new GDAXPlaceMarketOrder.Builder()
-        .productId(adaptProductID( marketOrder.getCurrencyPair()))
+        .productId(adaptProductID(marketOrder.getCurrencyPair()))
         .type(GDAXPlaceOrder.Type.market)
-        .side(adaptSide (marketOrder.getType() ))
+        .side(adaptSide(marketOrder.getType()))
         .size(marketOrder.getOriginalAmount())
         .build();
   }
 
   /**
    * Creates a default 'stop' order.
+   *
    * @param stopOrder
    * @return
    */
@@ -390,9 +450,9 @@ public class GDAXAdapters {
     // stop orders can also execute as 'stop limit' orders, that is converting to
     // a limit order, but a traditional 'stop' order converts to a market order.
     return new GDAXPlaceMarketOrder.Builder()
-        .productId(adaptProductID( stopOrder.getCurrencyPair()))
+        .productId(adaptProductID(stopOrder.getCurrencyPair()))
         .type(GDAXPlaceOrder.Type.market)
-        .side(adaptSide (stopOrder.getType() ))
+        .side(adaptSide(stopOrder.getType()))
         .size(stopOrder.getOriginalAmount())
         .stop(adaptStop(stopOrder.getType()))
         .stopPrice(stopOrder.getStopPrice())
@@ -405,16 +465,13 @@ public class GDAXAdapters {
     Date processedAt = gdaxTransfer.processedAt();
     Date canceledAt = gdaxTransfer.canceledAt();
 
-    if (canceledAt != null)
-      status = FundingRecord.Status.CANCELLED;
-    else if (processedAt != null)
-      status = FundingRecord.Status.COMPLETE;
+    if (canceledAt != null) status = FundingRecord.Status.CANCELLED;
+    else if (processedAt != null) status = FundingRecord.Status.COMPLETE;
 
     Date timestamp = gdaxTransfer.createdAt();
 
     String address = gdaxTransfer.getDetails().getCryptoAddress();
-    if (address == null)
-      address = gdaxTransfer.getDetails().getSentToAddress();
+    if (address == null) address = gdaxTransfer.getDetails().getSentToAddress();
 
     return new FundingRecord(
         address,
@@ -427,7 +484,6 @@ public class GDAXAdapters {
         status,
         null,
         null,
-        null
-    );
+        null);
   }
 }

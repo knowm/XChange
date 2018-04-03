@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
 import org.knowm.xchange.ExchangeSpecification;
 
 public class AuthUtils {
@@ -21,8 +20,8 @@ public class AuthUtils {
   }
 
   /**
-   * Read the API & Secret key from a resource called {@code secret.keys}. NOTE: This file MUST NEVER be commited to source control. It is therefore
-   * added to .gitignore.
+   * Read the API & Secret key from a resource called {@code secret.keys}. NOTE: This file MUST
+   * NEVER be commited to source control. It is therefore added to .gitignore.
    */
   public static void setApiAndSecretKey(ExchangeSpecification exchangeSpec) {
 
@@ -30,8 +29,8 @@ public class AuthUtils {
   }
 
   /**
-   * Read the API & Secret key from a resource called {@code prefix}-{@code secret.keys}. NOTE: This file MUST NEVER be commited to source control. It
-   * is therefore added to .gitignore.
+   * Read the API & Secret key from a resource called {@code prefix}-{@code secret.keys}. NOTE: This
+   * file MUST NEVER be commited to source control. It is therefore added to .gitignore.
    */
   public static void setApiAndSecretKey(ExchangeSpecification exchangeSpec, String prefix) {
 
@@ -44,8 +43,8 @@ public class AuthUtils {
   }
 
   /**
-   * Read the secret properties from a resource called {@code prefix}-{@code secret.keys}. NOTE: This file MUST NEVER be commited to source control.
-   * It is therefore added to .gitignore.
+   * Read the secret properties from a resource called {@code prefix}-{@code secret.keys}. NOTE:
+   * This file MUST NEVER be commited to source control. It is therefore added to .gitignore.
    *
    * @return The properties or null
    */
@@ -53,7 +52,7 @@ public class AuthUtils {
 
     String resource = prefix != null ? prefix + "-secret.keys" : "secret.keys";
 
-    // First try to find the keys in the classpath 
+    // First try to find the keys in the classpath
     InputStream inStream = AuthUtils.class.getResourceAsStream("/" + resource);
 
     // Next try to find the keys in the user's home/.ssh dir

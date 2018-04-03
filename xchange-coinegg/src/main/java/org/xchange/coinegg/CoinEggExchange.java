@@ -8,7 +8,6 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.xchange.coinegg.service.CoinEggAccountService;
 import org.xchange.coinegg.service.CoinEggMarketDataService;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinEggExchange extends BaseExchange implements Exchange {
@@ -28,12 +27,14 @@ public class CoinEggExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.coinegg.com");
     exchangeSpecification.setHost("http://api.coinegg.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("CoinEgg");
-    exchangeSpecification.setExchangeDescription("CoinEgg is a Bitcoin exchange based in the United Kingdom.");
+    exchangeSpecification.setExchangeDescription(
+        "CoinEgg is a Bitcoin exchange based in the United Kingdom.");
     exchangeSpecification.setApiKey("");
     exchangeSpecification.setSecretKey("");
     exchangeSpecification.setPassword("");
@@ -45,5 +46,4 @@ public class CoinEggExchange extends BaseExchange implements Exchange {
   public TradeService getTradeService() {
     throw new NotAvailableFromExchangeException();
   }
-
 }

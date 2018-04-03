@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinfloor.service;
 
 import java.io.IOException;
-
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -32,7 +31,8 @@ public class CoinfloorUserTradesIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
 
     TradeService service = exchange.getTradeService();
-    CoinfloorTradeHistoryParams params = (CoinfloorTradeHistoryParams) service.createTradeHistoryParams();
+    CoinfloorTradeHistoryParams params =
+        (CoinfloorTradeHistoryParams) service.createTradeHistoryParams();
     UserTrades trades = service.getTradeHistory(params);
     logger.info("{}", trades);
   }

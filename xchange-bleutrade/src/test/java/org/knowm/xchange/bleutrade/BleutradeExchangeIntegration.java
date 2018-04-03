@@ -13,7 +13,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.assertj.core.api.Condition;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +28,6 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -40,7 +38,11 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
 
   @Before
   public void setUp() {
-    exchange = spy((BleutradeExchange) ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName()));
+    exchange =
+        spy(
+            (BleutradeExchange)
+                ExchangeFactory.INSTANCE.createExchange(
+                    BleutradeExchange.class.getCanonicalName()));
   }
 
   @Test
@@ -58,7 +60,8 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     exchange.applySpecification(null);
 
     // then
-    fail("BTCMarketsExchange should throw NullPointerException when tries to apply null specification");
+    fail(
+        "BTCMarketsExchange should throw NullPointerException when tries to apply null specification");
   }
 
   @Test
@@ -67,13 +70,17 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
 
     // then
-    assertThat(specification.getExchangeClassName()).is(new Condition<>((String s) -> {
-      try {
-        return BleutradeExchange.class.isAssignableFrom(Class.forName(s));
-      } catch (ClassNotFoundException e) {
-        throw new RuntimeException(e);
-      }
-    }, "Is assignable from BleutradeExchange"));
+    assertThat(specification.getExchangeClassName())
+        .is(
+            new Condition<>(
+                (String s) -> {
+                  try {
+                    return BleutradeExchange.class.isAssignableFrom(Class.forName(s));
+                  } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                  }
+                },
+                "Is assignable from BleutradeExchange"));
     assertThat(specification.getExchangeName()).isEqualTo("Bleutrade");
     assertThat(specification.getSslUri()).isEqualTo("https://bleutrade.com/api/");
     assertThat(specification.getHost()).isEqualTo("bleutrade.com");
@@ -95,25 +102,42 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
   @Test
   public void shouldMakeRemoteInit() throws IOException {
     // given
-    BleutradeCurrenciesReturn bleutradeCurrenciesReturn = new BleutradeCurrenciesReturn(
-        asList(
-            createBleutradeCurrency("BTC", "Bitcoin", 2, new BigDecimal("0.00080000"), true, "BITCOIN"),
-            createBleutradeCurrency("LTC", "Litecoin", 4, new BigDecimal("0.02000000"), true, "BITCOIN")
-        )
-    );
+    BleutradeCurrenciesReturn bleutradeCurrenciesReturn =
+        new BleutradeCurrenciesReturn(
+            asList(
+                createBleutradeCurrency(
+                    "BTC", "Bitcoin", 2, new BigDecimal("0.00080000"), true, "BITCOIN"),
+                createBleutradeCurrency(
+                    "LTC", "Litecoin", 4, new BigDecimal("0.02000000"), true, "BITCOIN")));
 
-    BleutradeMarketsReturn bleutradeMarketsReturn = new BleutradeMarketsReturn(
-        asList(
-            createBleutradeMarket("DOGE", "BTC", "Dogecoin", "Bitcoin", new BigDecimal("0.10000000"), "DOGE_BTC", true),
-            createBleutradeMarket("BLEU", "BTC", "Bleutrade Share", "Bitcoin", new BigDecimal("0.00000001"), "BLEU_BTC", true))
-    );
+    BleutradeMarketsReturn bleutradeMarketsReturn =
+        new BleutradeMarketsReturn(
+            asList(
+                createBleutradeMarket(
+                    "DOGE",
+                    "BTC",
+                    "Dogecoin",
+                    "Bitcoin",
+                    new BigDecimal("0.10000000"),
+                    "DOGE_BTC",
+                    true),
+                createBleutradeMarket(
+                    "BLEU",
+                    "BTC",
+                    "Bleutrade Share",
+                    "Bitcoin",
+                    new BigDecimal("0.00000001"),
+                    "BLEU_BTC",
+                    true)));
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     when(bleutrade.getBleutradeCurrencies()).thenReturn(bleutradeCurrenciesReturn);
     when(bleutrade.getBleutradeMarkets()).thenReturn(bleutradeMarketsReturn);
 
     IRestProxyFactory restProxyFactory = mock(IRestProxyFactory.class);
-    when(restProxyFactory.createProxy(eq(BleutradeAuthenticated.class), any(String.class), any(ClientConfig.class))).thenReturn(bleutrade);
+    when(restProxyFactory.createProxy(
+            eq(BleutradeAuthenticated.class), any(String.class), any(ClientConfig.class)))
+        .thenReturn(bleutrade);
 
     BleutradeExchange mockExchange = new BleutradeExchange(restProxyFactory);
     mockExchange.applySpecification(mockExchange.getDefaultExchangeSpecification());
@@ -123,16 +147,20 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     mockExchange.remoteInit();
 
     // then
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = mockExchange.getExchangeMetaData().getCurrencies();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap =
+        mockExchange.getExchangeMetaData().getCurrencies();
     assertThat(currencyMetaDataMap).hasSize(2);
     assertThat(currencyMetaDataMap.get(Currency.BTC).getScale()).isEqualTo(8);
     assertThat(currencyMetaDataMap.get(Currency.LTC).getScale()).isEqualTo(8);
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = mockExchange.getExchangeMetaData().getCurrencyPairs();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap =
+        mockExchange.getExchangeMetaData().getCurrencyPairs();
     assertThat(marketMetaDataMap).hasSize(2);
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
-        .isEqualTo("CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]");
+        .isEqualTo(
+            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]");
     assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString())
-        .isEqualTo("CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]");
+        .isEqualTo(
+            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]");
   }
 }

@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.bitso.account;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
 import org.knowm.xchange.bitso.dto.account.BitsoDepositAddress;
@@ -13,14 +12,13 @@ import org.knowm.xchange.examples.bitso.BitsoDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
 
 /**
- * <p>
  * Example showing the following:
- * </p>
+ *
  * <ul>
- * <li>Connect to Bitso exchange with authentication</li>
- * <li>View account balance</li>
- * <li>Get the bitcoin deposit address</li>
- * <li>Withdraw a small amount of BTC</li>
+ *   <li>Connect to Bitso exchange with authentication
+ *   <li>View account balance
+ *   <li>Get the bitcoin deposit address
+ *   <li>Withdraw a small amount of BTC
  * </ul>
  */
 public class BitsoAccountDemo {
@@ -43,7 +41,8 @@ public class BitsoAccountDemo {
     String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
+    String withdrawResult =
+        accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 
@@ -55,7 +54,8 @@ public class BitsoAccountDemo {
     BitsoDepositAddress depositAddress = accountService.getBitsoBitcoinDepositAddress();
     System.out.println("Bitcoin deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawBitsoFunds(new BigDecimal(1).movePointLeft(4), "XXX");
+    String withdrawResult =
+        accountService.withdrawBitsoFunds(new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("Bitso withdrawal response = " + withdrawResult);
   }
 }

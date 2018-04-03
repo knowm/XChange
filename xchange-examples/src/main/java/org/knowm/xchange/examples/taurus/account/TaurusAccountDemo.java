@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.taurus.account;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -12,16 +11,15 @@ import org.knowm.xchange.taurus.dto.account.TaurusBalance;
 import org.knowm.xchange.taurus.service.TaurusAccountServiceRaw;
 
 /**
- * <p>
  * Example showing the following:
- * </p>
+ *
  * <ul>
- * <li>Connect to Taurus exchange with authentication</li>
- * <li>View account balance</li>
- * <li>Get the bitcoin deposit address</li>
- * <li>List unconfirmed deposits (raw interface only)</li>
- * <li>List recent withdrawals (raw interface only)</li>
- * <li>Withdraw a small amount of BTC</li>
+ *   <li>Connect to Taurus exchange with authentication
+ *   <li>View account balance
+ *   <li>Get the bitcoin deposit address
+ *   <li>List unconfirmed deposits (raw interface only)
+ *   <li>List recent withdrawals (raw interface only)
+ *   <li>Withdraw a small amount of BTC
  * </ul>
  */
 public class TaurusAccountDemo {
@@ -44,7 +42,8 @@ public class TaurusAccountDemo {
     String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
+    String withdrawResult =
+        accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 
@@ -57,7 +56,8 @@ public class TaurusAccountDemo {
     String depositAddress = accountService.getTaurusBitcoinDepositAddress();
     System.out.println("TaurusDepositAddress address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawTaurusFunds(new BigDecimal(1).movePointLeft(4), "XXX");
+    String withdrawResult =
+        accountService.withdrawTaurusFunds(new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("TaurusBooleanResponse = " + withdrawResult);
   }
 }

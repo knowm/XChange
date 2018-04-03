@@ -2,16 +2,14 @@ package org.xchange.coinegg.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.xchange.coinegg.dto.CoinEggResult;
 import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinEggTradeViewJSONTest {
 
@@ -19,12 +17,13 @@ public class CoinEggTradeViewJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinEggTradeViewJSONTest.class.getResourceAsStream("/trade/example-trade-view-data.json");
+    InputStream is =
+        CoinEggTradeViewJSONTest.class.getResourceAsStream("/trade/example-trade-view-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();
-    CoinEggResult<CoinEggTradeView> coinEggResult = mapper.readValue(is, new TypeReference<CoinEggResult<CoinEggTradeView>>() {
-    });
+    CoinEggResult<CoinEggTradeView> coinEggResult =
+        mapper.readValue(is, new TypeReference<CoinEggResult<CoinEggTradeView>>() {});
 
     CoinEggTradeView coinEggTradeList = coinEggResult.getData();
 

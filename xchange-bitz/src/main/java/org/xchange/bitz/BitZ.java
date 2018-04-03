@@ -1,13 +1,11 @@
 package org.xchange.bitz;
 
 import java.io.IOException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import org.xchange.bitz.dto.marketdata.result.BitZKlineResult;
 import org.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
 import org.xchange.bitz.dto.marketdata.result.BitZTickerAllResult;
@@ -36,6 +34,6 @@ public interface BitZ {
 
   @GET
   @Path("kline?coin={symbol}&type={type}")
-  BitZKlineResult getKlineResult(@PathParam("symbol") String symbol, @PathParam("type") String type) throws IOException;
-
+  BitZKlineResult getKlineResult(@PathParam("symbol") String symbol, @PathParam("type") String type)
+      throws IOException;
 }

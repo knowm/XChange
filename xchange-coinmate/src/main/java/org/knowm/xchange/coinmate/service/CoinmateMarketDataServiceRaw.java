@@ -24,25 +24,23 @@
 package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.Coinmate;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
-
 import si.mazi.rescu.RestProxyFactory;
 
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
 
   private final Coinmate coinmate;
 
   public CoinmateMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.coinmate = RestProxyFactory.createProxy(Coinmate.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.coinmate =
+        RestProxyFactory.createProxy(
+            Coinmate.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public CoinmateTicker getCoinmateTicker(String currencyPair) throws IOException {
@@ -53,7 +51,8 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
     return ticker;
   }
 
-  public CoinmateOrderBook getCoinmateOrderBook(String currencyPair, boolean groupByPriceLimit) throws IOException {
+  public CoinmateOrderBook getCoinmateOrderBook(String currencyPair, boolean groupByPriceLimit)
+      throws IOException {
     CoinmateOrderBook orderBook = coinmate.getOrderBook(currencyPair, groupByPriceLimit);
 
     throwExceptionIfError(orderBook);
@@ -61,12 +60,12 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBaseService {
     return orderBook;
   }
 
-  public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory, String currencyPair) throws IOException {
+  public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory, String currencyPair)
+      throws IOException {
     CoinmateTransactions transactions = coinmate.getTransactions(minutesIntoHistory, currencyPair);
 
     throwExceptionIfError(transactions);
 
     return transactions;
   }
-
 }

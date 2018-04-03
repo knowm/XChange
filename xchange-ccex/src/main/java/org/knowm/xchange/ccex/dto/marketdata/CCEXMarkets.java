@@ -1,16 +1,17 @@
 package org.knowm.xchange.ccex.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CCEXMarkets {
   private final Boolean success;
   private final String message;
   private List<CCEXMarket> result = new ArrayList<>();
 
-  public CCEXMarkets(@JsonProperty("success") Boolean success, @JsonProperty("message") String message,
+  public CCEXMarkets(
+      @JsonProperty("success") Boolean success,
+      @JsonProperty("message") String message,
       @JsonProperty("result") List<CCEXMarket> result) {
     super();
     this.success = success;
@@ -29,5 +30,4 @@ public class CCEXMarkets {
   public List<CCEXMarket> getResult() {
     return result;
   }
-
 }

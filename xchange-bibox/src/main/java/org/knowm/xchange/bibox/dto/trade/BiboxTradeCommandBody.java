@@ -1,8 +1,7 @@
 package org.knowm.xchange.bibox.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BiboxTradeCommandBody {
 
@@ -24,12 +23,17 @@ public class BiboxTradeCommandBody {
 
   private BigDecimal amount;
 
-  /**
-   * what?
-   */
+  /** what? */
   private BigDecimal money;
 
-  public BiboxTradeCommandBody(String pair, int accountType, int orderType, int orderSide, boolean payBix, BigDecimal price, BigDecimal amount,
+  public BiboxTradeCommandBody(
+      String pair,
+      int accountType,
+      int orderType,
+      int orderSide,
+      boolean payBix,
+      BigDecimal price,
+      BigDecimal amount,
       BigDecimal money) {
     super();
     this.pair = pair;

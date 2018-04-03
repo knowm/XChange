@@ -3,7 +3,6 @@ package org.xchange.coinegg.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -72,10 +71,12 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
 
-    if ((orderParams instanceof CancelOrderByIdParams) && (orderParams instanceof CancelOrderByCurrencyPair)) {
+    if ((orderParams instanceof CancelOrderByIdParams)
+        && (orderParams instanceof CancelOrderByCurrencyPair)) {
 
       String id = ((CancelOrderByIdParams) orderParams).getOrderId();
-      String coin = CoinEggUtils.toBaseCoin(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
+      String coin =
+          CoinEggUtils.toBaseCoin(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
 
       return CoinEggAdapters.adaptTradeCancel(getCoinEggTradeCancel(id, coin));
     }
@@ -89,12 +90,15 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException, ExchangeException {
+  public UserTrades getTradeHistory(TradeHistoryParams params)
+      throws IOException, ExchangeException {
 
-    if ((params instanceof TradeHistoryParamCurrency) && (params instanceof TradeHistoryParamTransactionId)) {
+    if ((params instanceof TradeHistoryParamCurrency)
+        && (params instanceof TradeHistoryParamTransactionId)) {
 
       String tradeID = ((TradeHistoryParamTransactionId) params).getTransactionId();
-      String coin = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode().toLowerCase();
+      String coin =
+          ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode().toLowerCase();
 
       return CoinEggAdapters.adaptTradeHistory(getCoinEggTradeView(tradeID, coin));
     }

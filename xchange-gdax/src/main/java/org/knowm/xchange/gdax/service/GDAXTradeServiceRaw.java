@@ -1,7 +1,6 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -18,7 +17,6 @@ import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GDAXTradeServiceRaw extends GDAXBaseService {
@@ -55,46 +53,43 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
       }
       startingOrderId = historyParams.paginationOrderId;
     } else if (tradeHistoryParams instanceof TradeHistoryParamTransactionId) {
-      TradeHistoryParamTransactionId tnxIdParams = (TradeHistoryParamTransactionId) tradeHistoryParams;
+      TradeHistoryParamTransactionId tnxIdParams =
+          (TradeHistoryParamTransactionId) tradeHistoryParams;
       orderId = tnxIdParams.getTransactionId();
     } else if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
-      TradeHistoryParamCurrencyPair ccyPairParams = (TradeHistoryParamCurrencyPair) tradeHistoryParams;
+      TradeHistoryParamCurrencyPair ccyPairParams =
+          (TradeHistoryParamCurrencyPair) tradeHistoryParams;
       CurrencyPair currencyPair = ccyPairParams.getCurrencyPair();
       if (currencyPair != null) {
         productId = GDAXAdapters.adaptProductID(currencyPair);
       }
     }
     try {
-      return gdax.getFills(apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
+      return gdax.getFills(
+          apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
     } catch (GDAXException e) {
       throw handleError(e);
     }
   }
 
-  /**
-   * @deprecated Use @link {@link #placeGDAXOrder}
-   */
+  /** @deprecated Use @link {@link #placeGDAXOrder} */
   public GDAXIdResponse placeGDAXLimitOrder(LimitOrder limitOrder) throws IOException {
     GDAXPlaceLimitOrder gdaxLimitOrder = GDAXAdapters.adaptGDAXPlaceLimitOrder(limitOrder);
     return placeGDAXOrder(gdaxLimitOrder);
   }
 
-  /**
-   * @deprecated Use {@link #placeGDAXOrder}
-   */
+  /** @deprecated Use {@link #placeGDAXOrder} */
   public GDAXIdResponse placeGDAXMarketOrder(MarketOrder marketOrder) throws IOException {
     GDAXPlaceMarketOrder gdaxMarketOrder = GDAXAdapters.adaptGDAXPlaceMarketOrder(marketOrder);
     return placeGDAXOrder(gdaxMarketOrder);
   }
 
-  /**
-   * @deprecated Use {@link #placeGDAXOrder}
-   */
+  /** @deprecated Use {@link #placeGDAXOrder} */
   public GDAXIdResponse placeGDAXStopOrder(StopOrder stopOrder) throws IOException {
     GDAXPlaceMarketOrder gdaxStopOrder = GDAXAdapters.adaptGDAXPlaceMarketOrder(stopOrder);
     return placeGDAXOrder(gdaxStopOrder);
   }
-  
+
   public GDAXIdResponse placeGDAXOrder(GDAXPlaceOrder order) throws IOException {
     try {
 
@@ -123,7 +118,8 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
     }
   }
 
-  public static class GdaxTradeHistoryParams implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair {
+  public static class GdaxTradeHistoryParams
+      implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair {
 
     private CurrencyPair currencyPair;
     private String txId;

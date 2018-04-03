@@ -1,7 +1,6 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -13,9 +12,7 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Created by Yingzhe on 4/6/2015.
- */
+/** Created by Yingzhe on 4/6/2015. */
 public class GDAXMarketDataService extends GDAXMarketDataServiceRaw implements MarketDataService {
 
   public GDAXMarketDataService(Exchange exchange) {
@@ -24,7 +21,8 @@ public class GDAXMarketDataService extends GDAXMarketDataServiceRaw implements M
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException, RateLimitExceededException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args)
+      throws IOException, RateLimitExceededException {
 
     // Request data
     GDAXProductTicker ticker = getGDAXProductTicker(currencyPair);
@@ -35,7 +33,8 @@ public class GDAXMarketDataService extends GDAXMarketDataServiceRaw implements M
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException, RateLimitExceededException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
+      throws IOException, RateLimitExceededException {
 
     int level = 3; // full order book
     if (args != null && args.length > 0) {
@@ -44,7 +43,8 @@ public class GDAXMarketDataService extends GDAXMarketDataServiceRaw implements M
         Number arg = (Number) args[0];
         level = arg.intValue();
       } else {
-        throw new IllegalArgumentException("Extra argument #1, the 'level', must be an int (was " + args[0].getClass() + ")");
+        throw new IllegalArgumentException(
+            "Extra argument #1, the 'level', must be an int (was " + args[0].getClass() + ")");
       }
     }
 
@@ -52,9 +52,9 @@ public class GDAXMarketDataService extends GDAXMarketDataServiceRaw implements M
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException, RateLimitExceededException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args)
+      throws IOException, RateLimitExceededException {
 
     return GDAXAdapters.adaptTrades(getGDAXTrades(currencyPair), currencyPair);
   }
-
 }

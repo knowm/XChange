@@ -1,14 +1,10 @@
 package org.knowm.xchange.wex.v3.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
-
 import org.knowm.xchange.wex.v3.dto.WexReturn;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class WexOpenOrdersReturn extends WexReturn<Map<Long, WexOrder>> {
 
   /**
@@ -18,7 +14,9 @@ public class WexOpenOrdersReturn extends WexReturn<Map<Long, WexOrder>> {
    * @param value
    * @param error
    */
-  public WexOpenOrdersReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, WexOrder> value,
+  public WexOpenOrdersReturn(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("return") Map<Long, WexOrder> value,
       @JsonProperty("error") String error) {
 
     super(success, value, error);

@@ -2,10 +2,7 @@ package org.knowm.xchange.dsx.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXFiatWithdraw {
 
   private final long transactionId;

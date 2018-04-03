@@ -15,11 +15,11 @@ public class TickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(LiquiExchange.class.getName());
+    final Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(LiquiExchange.class.getName());
     final MarketDataService marketDataService = exchange.getMarketDataService();
     final Ticker ticker = marketDataService.getTicker(new CurrencyPair("LTC", "BTC"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
-
 }

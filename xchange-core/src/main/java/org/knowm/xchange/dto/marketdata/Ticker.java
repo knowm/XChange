@@ -3,18 +3,15 @@ package org.knowm.xchange.dto.marketdata;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.Assert;
 import org.knowm.xchange.utils.DateUtils;
 
 /**
- * <p>
- * A class encapsulating the information a "Ticker" can contain. Some fields can be empty if not provided by the exchange.
- * </p>
- * <p>
- * A ticker contains data representing the latest trade.
- * </p>
+ * A class encapsulating the information a "Ticker" can contain. Some fields can be empty if not
+ * provided by the exchange.
+ *
+ * <p>A ticker contains data representing the latest trade.
  */
 public final class Ticker implements Serializable {
 
@@ -28,10 +25,9 @@ public final class Ticker implements Serializable {
   private final BigDecimal vwap;
   private final BigDecimal volume;
   private final BigDecimal quoteVolume;
-  /**
-   * the timestamp of the ticker according to the exchange's server, null if not provided
-   */
+  /** the timestamp of the ticker according to the exchange's server, null if not provided */
   private final Date timestamp;
+
   private final BigDecimal bidSize;
   private final BigDecimal askSize;
 
@@ -39,20 +35,33 @@ public final class Ticker implements Serializable {
    * Constructor
    *
    * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
-   * @param last         Last price
-   * @param bid          Bid price
-   * @param ask          Ask price
-   * @param high         High price
-   * @param low          Low price
-   * @param vwap         Volume Weighted Average Price
-   * @param volume       24h volume in base currency
-   * @param quoteVolume  24h volume in counter currency
-   * @param timestamp    - the timestamp of the ticker according to the exchange's server, null if not provided
-   * @param bidSize      The instantaneous size at the bid price
-   * @param askSize      The instantaneous size at the ask price
+   * @param last Last price
+   * @param bid Bid price
+   * @param ask Ask price
+   * @param high High price
+   * @param low Low price
+   * @param vwap Volume Weighted Average Price
+   * @param volume 24h volume in base currency
+   * @param quoteVolume 24h volume in counter currency
+   * @param timestamp - the timestamp of the ticker according to the exchange's server, null if not
+   *     provided
+   * @param bidSize The instantaneous size at the bid price
+   * @param askSize The instantaneous size at the ask price
    */
-  private Ticker(CurrencyPair currencyPair, BigDecimal open, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low,
-      BigDecimal vwap, BigDecimal volume, BigDecimal quoteVolume, Date timestamp, BigDecimal bidSize, BigDecimal askSize) {
+  private Ticker(
+      CurrencyPair currencyPair,
+      BigDecimal open,
+      BigDecimal last,
+      BigDecimal bid,
+      BigDecimal ask,
+      BigDecimal high,
+      BigDecimal low,
+      BigDecimal vwap,
+      BigDecimal volume,
+      BigDecimal quoteVolume,
+      Date timestamp,
+      BigDecimal bidSize,
+      BigDecimal askSize) {
     this.open = open;
     this.currencyPair = currencyPair;
     this.last = last;
@@ -136,19 +145,41 @@ public final class Ticker implements Serializable {
   @Override
   public String toString() {
 
-    return "Ticker [currencyPair=" + currencyPair + ", open=" + open + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high
-        + ", low=" + low + ",avg=" + vwap + ", volume=" + volume + ", quoteVolume=" + quoteVolume + ", timestamp=" + DateUtils
-        .toMillisNullSafe(timestamp) + ", bidSize=" + bidSize + ", askSize=" + askSize + "]";
+    return "Ticker [currencyPair="
+        + currencyPair
+        + ", open="
+        + open
+        + ", last="
+        + last
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ",avg="
+        + vwap
+        + ", volume="
+        + volume
+        + ", quoteVolume="
+        + quoteVolume
+        + ", timestamp="
+        + DateUtils.toMillisNullSafe(timestamp)
+        + ", bidSize="
+        + bidSize
+        + ", askSize="
+        + askSize
+        + "]";
   }
 
   /**
-   * <p>
    * Builder to provide the following to {@link Ticker}:
-   * </p>
+   *
    * <ul>
-   * <li>Provision of fluent chained construction interface</li>
+   *   <li>Provision of fluent chained construction interface
    * </ul>
-   *  
    */
   public static class Builder {
 
@@ -173,7 +204,21 @@ public final class Ticker implements Serializable {
 
       validateState();
 
-      Ticker ticker = new Ticker(currencyPair, open, last, bid, ask, high, low, vwap, volume, quoteVolume, timestamp, bidSize, askSize);
+      Ticker ticker =
+          new Ticker(
+              currencyPair,
+              open,
+              last,
+              bid,
+              ask,
+              high,
+              low,
+              vwap,
+              volume,
+              quoteVolume,
+              timestamp,
+              bidSize,
+              askSize);
 
       isBuilt = true;
 

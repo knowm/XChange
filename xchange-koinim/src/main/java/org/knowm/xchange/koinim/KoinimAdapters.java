@@ -9,14 +9,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
 
-/**
- * @author ahmetoz
- * Various adapters for converting from Koinim DTOs to XChange DTOs
- */
+/** @author ahmetoz Various adapters for converting from Koinim DTOs to XChange DTOs */
 public final class KoinimAdapters {
 
-  private KoinimAdapters() {
-  }
+  private KoinimAdapters() {}
 
   /**
    * Adapts a KoinimTicker to a Ticker Object
@@ -32,9 +28,16 @@ public final class KoinimAdapters {
     }
 
     if (koinimTicker != null) {
-      return new Ticker.Builder().currencyPair(new CurrencyPair(BTC, Currency.TRY)).last(koinimTicker.getSell()).bid(koinimTicker.getBid())
-                                 .ask(koinimTicker.getAsk()).high(koinimTicker.getHigh()).low(koinimTicker.getLow()).volume(koinimTicker.getVolume())
-                                 .vwap(koinimTicker.getAvg()).build();
+      return new Ticker.Builder()
+          .currencyPair(new CurrencyPair(BTC, Currency.TRY))
+          .last(koinimTicker.getSell())
+          .bid(koinimTicker.getBid())
+          .ask(koinimTicker.getAsk())
+          .high(koinimTicker.getHigh())
+          .low(koinimTicker.getLow())
+          .volume(koinimTicker.getVolume())
+          .vwap(koinimTicker.getAvg())
+          .build();
     }
     return null;
   }

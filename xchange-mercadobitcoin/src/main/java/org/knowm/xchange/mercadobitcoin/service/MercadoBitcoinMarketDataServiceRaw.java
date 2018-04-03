@@ -2,7 +2,6 @@ package org.knowm.xchange.mercadobitcoin.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,12 +11,9 @@ import org.knowm.xchange.mercadobitcoin.MercadoBitcoin;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
-
 import si.mazi.rescu.RestProxyFactory;
 
-/**
- * @author Felipe Micaroni Lalli
- */
+/** @author Felipe Micaroni Lalli */
 public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseService {
 
   private final MercadoBitcoin mercadoBitcoin;
@@ -30,10 +26,15 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
   public MercadoBitcoinMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.mercadoBitcoin = RestProxyFactory.createProxy(MercadoBitcoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.mercadoBitcoin =
+        RestProxyFactory.createProxy(
+            MercadoBitcoin.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
   }
 
-  public MercadoBitcoinOrderBook getMercadoBitcoinOrderBook(CurrencyPair currencyPair) throws IOException {
+  public MercadoBitcoinOrderBook getMercadoBitcoinOrderBook(CurrencyPair currencyPair)
+      throws IOException {
 
     if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       return mercadoBitcoin.getOrderBookBTC();
@@ -44,7 +45,8 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
     }
   }
 
-  public MercadoBitcoinTicker getMercadoBitcoinTicker(CurrencyPair currencyPair) throws IOException {
+  public MercadoBitcoinTicker getMercadoBitcoinTicker(CurrencyPair currencyPair)
+      throws IOException {
 
     if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       return mercadoBitcoin.getTickerBTC();
@@ -55,7 +57,8 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
     }
   }
 
-  public MercadoBitcoinTransaction[] getMercadoBitcoinTransactions(CurrencyPair currencyPair, Object... args) throws IOException {
+  public MercadoBitcoinTransaction[] getMercadoBitcoinTransactions(
+      CurrencyPair currencyPair, Object... args) throws IOException {
 
     MercadoBitcoinTransaction[] transactions;
 
@@ -83,9 +86,13 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
       BigDecimal timeEnd = new BigDecimal((Long) args[1]);
 
       if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
-        transactions = mercadoBitcoin.getTransactionsBTC(timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);
+        transactions =
+            mercadoBitcoin.getTransactionsBTC(
+                timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);
       } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
-        transactions = mercadoBitcoin.getTransactionsLTC(timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);
+        transactions =
+            mercadoBitcoin.getTransactionsLTC(
+                timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);
       } else {
         throw new NotAvailableFromExchangeException();
       }

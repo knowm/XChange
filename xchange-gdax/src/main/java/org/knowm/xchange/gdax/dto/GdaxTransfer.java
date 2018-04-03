@@ -1,13 +1,11 @@
 package org.knowm.xchange.gdax.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.knowm.xchange.dto.account.FundingRecord;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /*
 examples:
@@ -60,9 +58,13 @@ public class GdaxTransfer {
     public final String sentToAddress;
     public final String coinbaseWithdrawalId;
 
-    public Detail(@JsonProperty("crypto_address") String cryptoAddress, @JsonProperty("coinbase_account_id") String coinbaseAccountId,
-        @JsonProperty("crypto_transaction_id") String cryptoTransactionId, @JsonProperty("coinbase_transaction_id") String coinbaseTransactionId,
-        @JsonProperty("crypto_transaction_hash") String cryptoTransactionHash, @JsonProperty("sent_to_address") String sentToAddress,
+    public Detail(
+        @JsonProperty("crypto_address") String cryptoAddress,
+        @JsonProperty("coinbase_account_id") String coinbaseAccountId,
+        @JsonProperty("crypto_transaction_id") String cryptoTransactionId,
+        @JsonProperty("coinbase_transaction_id") String coinbaseTransactionId,
+        @JsonProperty("crypto_transaction_hash") String cryptoTransactionHash,
+        @JsonProperty("sent_to_address") String sentToAddress,
         @JsonProperty("coinbase_withdrawal_id") String coinbaseWithdrawalId) {
       this.cryptoAddress = cryptoAddress;
       this.coinbaseAccountId = coinbaseAccountId;
@@ -103,15 +105,29 @@ public class GdaxTransfer {
 
     @Override
     public String toString() {
-      return "Detail{" +
-          "cryptoAddress='" + cryptoAddress + '\'' +
-          ", coinbaseAccountId='" + coinbaseAccountId + '\'' +
-          ", cryptoTransactionId='" + cryptoTransactionId + '\'' +
-          ", coinbaseTransactionId='" + coinbaseTransactionId + '\'' +
-          ", cryptoTransactionHash='" + cryptoTransactionHash + '\'' +
-          ", sentToAddress='" + sentToAddress + '\'' +
-          ", coinbaseWithdrawalId='" + coinbaseWithdrawalId + '\'' +
-          '}';
+      return "Detail{"
+          + "cryptoAddress='"
+          + cryptoAddress
+          + '\''
+          + ", coinbaseAccountId='"
+          + coinbaseAccountId
+          + '\''
+          + ", cryptoTransactionId='"
+          + cryptoTransactionId
+          + '\''
+          + ", coinbaseTransactionId='"
+          + coinbaseTransactionId
+          + '\''
+          + ", cryptoTransactionHash='"
+          + cryptoTransactionHash
+          + '\''
+          + ", sentToAddress='"
+          + sentToAddress
+          + '\''
+          + ", coinbaseWithdrawalId='"
+          + coinbaseWithdrawalId
+          + '\''
+          + '}';
     }
   }
 
@@ -123,9 +139,14 @@ public class GdaxTransfer {
   public final String amount;
   public final Detail details;
 
-  public GdaxTransfer(@JsonProperty("id") String id, @JsonProperty("type") String type, @JsonProperty("created_at") String createdAt,
-      @JsonProperty("canceled_at") String canceledAt, @JsonProperty("processed_at") String processedAt,
-      @JsonProperty("amount") String amount, @JsonProperty("details") Detail details) {
+  public GdaxTransfer(
+      @JsonProperty("id") String id,
+      @JsonProperty("type") String type,
+      @JsonProperty("created_at") String createdAt,
+      @JsonProperty("canceled_at") String canceledAt,
+      @JsonProperty("processed_at") String processedAt,
+      @JsonProperty("amount") String amount,
+      @JsonProperty("details") Detail details) {
     this.id = id;
     this.type = type;
     this.createdAt = createdAt;
@@ -144,7 +165,9 @@ public class GdaxTransfer {
   }
 
   public FundingRecord.Type type() {
-    return type.equalsIgnoreCase("withdraw") ? FundingRecord.Type.WITHDRAWAL : FundingRecord.Type.DEPOSIT;
+    return type.equalsIgnoreCase("withdraw")
+        ? FundingRecord.Type.WITHDRAWAL
+        : FundingRecord.Type.DEPOSIT;
   }
 
   public String getCreatedAt() {
@@ -185,7 +208,9 @@ public class GdaxTransfer {
 
   private static Date parse(String time) {
     try {
-      return time == null ? null : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ").parse(time + "00");
+      return time == null
+          ? null
+          : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ").parse(time + "00");
     } catch (ParseException e) {
       throw new IllegalStateException("Cannot parse '" + time + "'", e);
     }
@@ -193,14 +218,27 @@ public class GdaxTransfer {
 
   @Override
   public String toString() {
-    return "GdaxTransfer{" +
-        "id='" + id + '\'' +
-        ", type='" + type + '\'' +
-        ", createdAt='" + createdAt + '\'' +
-        ", canceledAt='" + canceledAt + '\'' +
-        ", processedAt='" + processedAt + '\'' +
-        ", amount='" + amount + '\'' +
-        ", details=" + details +
-        '}';
+    return "GdaxTransfer{"
+        + "id='"
+        + id
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", createdAt='"
+        + createdAt
+        + '\''
+        + ", canceledAt='"
+        + canceledAt
+        + '\''
+        + ", processedAt='"
+        + processedAt
+        + '\''
+        + ", amount='"
+        + amount
+        + '\''
+        + ", details="
+        + details
+        + '}';
   }
 }

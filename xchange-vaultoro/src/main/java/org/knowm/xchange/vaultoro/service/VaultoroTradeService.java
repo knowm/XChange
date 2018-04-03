@@ -2,7 +2,6 @@ package org.knowm.xchange.vaultoro.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -88,9 +87,10 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   @Override
   public String placeLimitOrder(LimitOrder arg0) throws IOException {
 
-    VaultoroNewOrderResponse response = super.placeLimitOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount(), arg0.getLimitPrice());
+    VaultoroNewOrderResponse response =
+        super.placeLimitOrder(
+            arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount(), arg0.getLimitPrice());
     return response.getData().getOrderID();
-
   }
 
   @Override
@@ -101,16 +101,14 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   @Override
   public String placeMarketOrder(MarketOrder arg0) throws IOException {
 
-    VaultoroNewOrderResponse response = super.placeMarketOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount());
+    VaultoroNewOrderResponse response =
+        super.placeMarketOrder(arg0.getCurrencyPair(), arg0.getType(), arg0.getOriginalAmount());
     return response.getData().getOrderID();
-
   }
 
   @Override
   public Collection<Order> getOrder(String... arg0) throws IOException {
 
     throw new NotAvailableFromExchangeException();
-
   }
-
 }

@@ -1,13 +1,11 @@
 package org.xchange.coinegg.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.utils.DateUtils;
-import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.math.BigDecimal;
+import java.util.Date;
+import org.knowm.xchange.utils.DateUtils;
+import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
 
 public class CoinEggTradeList {
 
@@ -18,8 +16,12 @@ public class CoinEggTradeList {
   private final BigDecimal amountOutstanding;
   private Date datetime;
 
-  public CoinEggTradeList(@JsonProperty("id") int id, @JsonProperty("datetime") String datetime, @JsonProperty("type") Type type,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("amount_original") BigDecimal amountOriginal,
+  public CoinEggTradeList(
+      @JsonProperty("id") int id,
+      @JsonProperty("datetime") String datetime,
+      @JsonProperty("type") Type type,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount_original") BigDecimal amountOriginal,
       @JsonProperty("amount_outstanding") BigDecimal amountOutstanding) {
 
     this.id = id;

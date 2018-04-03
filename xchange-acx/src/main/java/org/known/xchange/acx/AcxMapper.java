@@ -3,7 +3,6 @@ package org.known.xchange.acx;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -28,12 +27,22 @@ import org.known.xchange.acx.dto.marketdata.AcxTicker;
 public class AcxMapper {
   public Ticker mapTicker(CurrencyPair currencyPair, AcxMarket tickerData) {
     AcxTicker ticker = tickerData.ticker;
-    return new Ticker.Builder().currencyPair(currencyPair).timestamp(new Date(tickerData.at * 1000)).ask(ticker.sell).bid(ticker.buy)
-                               .open(ticker.open).low(ticker.low).high(ticker.high).last(ticker.last).volume(ticker.vol).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .timestamp(new Date(tickerData.at * 1000))
+        .ask(ticker.sell)
+        .bid(ticker.buy)
+        .open(ticker.open)
+        .low(ticker.low)
+        .high(ticker.high)
+        .last(ticker.last)
+        .volume(ticker.vol)
+        .build();
   }
 
   public OrderBook mapOrderBook(CurrencyPair currencyPair, AcxOrderBook orderBook) {
-    return new OrderBook(null, mapOrders(currencyPair, orderBook.asks), mapOrders(currencyPair, orderBook.bids));
+    return new OrderBook(
+        null, mapOrders(currencyPair, orderBook.asks), mapOrders(currencyPair, orderBook.bids));
   }
 
   public List<LimitOrder> mapOrders(CurrencyPair currencyPair, List<AcxOrder> orders) {
@@ -42,9 +51,16 @@ public class AcxMapper {
 
   private LimitOrder mapOrder(CurrencyPair currencyPair, AcxOrder order) {
     OrderType type = mapOrderType(order);
-    return new LimitOrder.Builder(type, currencyPair).id(order.id).limitPrice(order.price).averagePrice(order.avgPrice).timestamp(order.createdAt)
-                                                     .originalAmount(order.volume).remainingAmount(order.remainingVolume)
-                                                     .cumulativeAmount(order.executedVolume).orderStatus(mapOrderStatus(order.state)).build();
+    return new LimitOrder.Builder(type, currencyPair)
+        .id(order.id)
+        .limitPrice(order.price)
+        .averagePrice(order.avgPrice)
+        .timestamp(order.createdAt)
+        .originalAmount(order.volume)
+        .remainingAmount(order.remainingVolume)
+        .cumulativeAmount(order.executedVolume)
+        .orderStatus(mapOrderStatus(order.state))
+        .build();
   }
 
   private OrderType mapOrderType(AcxOrder order) {
@@ -70,12 +86,20 @@ public class AcxMapper {
   }
 
   public Trades mapTrades(CurrencyPair currencyPair, List<AcxTrade> trades) {
-    return new Trades(trades.stream().map(t -> mapTrade(currencyPair, t)).collect(Collectors.toList()), TradeSortType.SortByTimestamp);
+    return new Trades(
+        trades.stream().map(t -> mapTrade(currencyPair, t)).collect(Collectors.toList()),
+        TradeSortType.SortByTimestamp);
   }
 
   private Trade mapTrade(CurrencyPair currencyPair, AcxTrade trade) {
-    return new Trade.Builder().currencyPair(currencyPair).id(trade.id).price(trade.price).originalAmount(trade.volume).timestamp(trade.createdAt)
-                              .type(mapTradeType(trade.side)).build();
+    return new Trade.Builder()
+        .currencyPair(currencyPair)
+        .id(trade.id)
+        .price(trade.price)
+        .originalAmount(trade.volume)
+        .timestamp(trade.createdAt)
+        .type(mapTradeType(trade.side))
+        .build();
   }
 
   private OrderType mapTradeType(String side) {
@@ -88,11 +112,15 @@ public class AcxMapper {
   }
 
   public AccountInfo mapAccountInfo(AcxAccountInfo accountInfo) {
-    return new AccountInfo(accountInfo.name, new Wallet(accountInfo.accounts.stream().map(this::mapBalance).collect(Collectors.toList())));
+    return new AccountInfo(
+        accountInfo.name,
+        new Wallet(
+            accountInfo.accounts.stream().map(this::mapBalance).collect(Collectors.toList())));
   }
 
   private Balance mapBalance(AcxAccount acc) {
-    return new Balance(Currency.getInstance(acc.currency), acc.balance.add(acc.locked), acc.balance, acc.locked);
+    return new Balance(
+        Currency.getInstance(acc.currency), acc.balance.add(acc.locked), acc.balance, acc.locked);
   }
 
   public String getOrderType(OrderType type) {
