@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 
 public class TickerBinanceWebsocketTransaction extends ProductBinanceWebSocketTransaction {
@@ -57,7 +58,8 @@ public class TickerBinanceWebsocketTransaction extends ProductBinanceWebSocketTr
                 closeTime,
                 firstId,
                 lastId,
-                count);
+                count,
+                BinanceAdapters.toSymbol(currencyPair));
         ticker.setCurrencyPair(currencyPair);
     }
 
