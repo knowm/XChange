@@ -10,7 +10,6 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.xchange.bitz.service.BitZMarketDataService;
 import org.xchange.bitz.service.BitZTradeService;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitZExchange extends BaseExchange implements Exchange {
@@ -30,19 +29,22 @@ public class BitZExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.bit-z.com");
     exchangeSpecification.setHost("http://www.bit-z.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bit-Z");
-    exchangeSpecification.setExchangeDescription("Bit-Z is a Bitcoin exchange registered in Hong Kong.");
+    exchangeSpecification.setExchangeDescription(
+        "Bit-Z is a Bitcoin exchange registered in Hong Kong.");
 
     return exchangeSpecification;
   }
 
   @Override
   public TradeService getTradeService() {
-    throw new NotYetImplementedForExchangeException("Parital implementation due to partial implementation by the exchange");
+    throw new NotYetImplementedForExchangeException(
+        "Parital implementation due to partial implementation by the exchange");
   }
 
   @Override

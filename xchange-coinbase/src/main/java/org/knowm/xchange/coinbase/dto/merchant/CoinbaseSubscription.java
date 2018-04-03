@@ -1,22 +1,19 @@
 package org.knowm.xchange.coinbase.dto.merchant;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Date;
-
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseSubscription {
 
   private final CoinbaseSubscriptionInfo subscription;
 
-  private CoinbaseSubscription(@JsonProperty("recurring_payment") final CoinbaseSubscriptionInfo subscription) {
+  private CoinbaseSubscription(
+      @JsonProperty("recurring_payment") final CoinbaseSubscriptionInfo subscription) {
 
     this.subscription = subscription;
   }
@@ -60,9 +57,12 @@ public class CoinbaseSubscription {
     private final String custom;
     private final CoinbaseButton button;
 
-    private CoinbaseSubscriptionInfo(@JsonProperty("id") final String id,
-        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
-        @JsonProperty("status") final CoinbaseRecurringPaymentStatus status, @JsonProperty("custom") final String custom,
+    private CoinbaseSubscriptionInfo(
+        @JsonProperty("id") final String id,
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class)
+            final Date createdAt,
+        @JsonProperty("status") final CoinbaseRecurringPaymentStatus status,
+        @JsonProperty("custom") final String custom,
         @JsonProperty("button") final CoinbaseButtonInfo button) {
 
       this.id = id;
@@ -100,7 +100,16 @@ public class CoinbaseSubscription {
     @Override
     public String toString() {
 
-      return "CoinbaseSubscriptionInfo [id=" + id + ", createdAt=" + createdAt + ", status=" + status + ", custom=" + custom + ", button=" + button
+      return "CoinbaseSubscriptionInfo [id="
+          + id
+          + ", createdAt="
+          + createdAt
+          + ", status="
+          + status
+          + ", custom="
+          + custom
+          + ", button="
+          + button
           + "]";
     }
   }

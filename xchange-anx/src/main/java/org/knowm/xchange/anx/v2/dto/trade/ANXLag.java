@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXLag {
 
   private final long lag;
@@ -20,7 +18,10 @@ public class ANXLag {
    * @param lagText
    * @param length
    */
-  public ANXLag(@JsonProperty("lag") long lag, @JsonProperty("lag_secs") double lagDecimal, @JsonProperty("lag_text") String lagText,
+  public ANXLag(
+      @JsonProperty("lag") long lag,
+      @JsonProperty("lag_secs") double lagDecimal,
+      @JsonProperty("lag_text") String lagText,
       @JsonProperty("length") int length) {
 
     this.lag = lag;
@@ -54,5 +55,4 @@ public class ANXLag {
 
     return "ANXLag [lagText=" + lagText + "]";
   }
-
 }

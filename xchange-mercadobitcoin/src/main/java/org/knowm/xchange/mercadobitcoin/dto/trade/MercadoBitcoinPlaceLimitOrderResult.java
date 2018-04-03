@@ -3,10 +3,9 @@ package org.knowm.xchange.mercadobitcoin.dto.trade;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author Felipe Micaroni Lalli
- */
-public class MercadoBitcoinPlaceLimitOrderResult extends HashMap<String, MercadoBitcoinUserOrdersEntry> {
+/** @author Felipe Micaroni Lalli */
+public class MercadoBitcoinPlaceLimitOrderResult
+    extends HashMap<String, MercadoBitcoinUserOrdersEntry> {
   public MercadoBitcoinPlaceLimitOrderResult(int initialCapacity, float loadFactor) {
     super(initialCapacity, loadFactor);
   }
@@ -15,10 +14,10 @@ public class MercadoBitcoinPlaceLimitOrderResult extends HashMap<String, Mercado
     super(initialCapacity);
   }
 
-  public MercadoBitcoinPlaceLimitOrderResult() {
-  }
+  public MercadoBitcoinPlaceLimitOrderResult() {}
 
-  public MercadoBitcoinPlaceLimitOrderResult(Map<? extends String, ? extends MercadoBitcoinUserOrdersEntry> m) {
+  public MercadoBitcoinPlaceLimitOrderResult(
+      Map<? extends String, ? extends MercadoBitcoinUserOrdersEntry> m) {
     super(m);
   }
 }

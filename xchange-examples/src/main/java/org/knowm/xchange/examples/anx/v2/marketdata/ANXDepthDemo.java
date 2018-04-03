@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.anx.v2.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -21,14 +20,14 @@ public class ANXDepthDemo {
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
 
-    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    System.out.println(
+        "Current Order Book size for BTC / USD: "
+            + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
 
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
 
     System.out.println(orderBook.toString());
-
   }
-
 }

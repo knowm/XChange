@@ -7,7 +7,6 @@ import org.knowm.xchange.itbit.v1.service.ItBitAccountService;
 import org.knowm.xchange.itbit.v1.service.ItBitMarketDataService;
 import org.knowm.xchange.itbit.v1.service.ItBitTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ItBitExchange extends BaseExchange implements Exchange {
@@ -24,7 +23,8 @@ public class ItBitExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.itbit.com");
     exchangeSpecification.setHost("api.itbit.com");
     exchangeSpecification.setPort(443);

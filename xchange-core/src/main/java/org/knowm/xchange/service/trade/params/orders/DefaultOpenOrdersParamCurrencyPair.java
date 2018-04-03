@@ -2,7 +2,6 @@ package org.knowm.xchange.service.trade.params.orders;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 
@@ -10,8 +9,7 @@ public class DefaultOpenOrdersParamCurrencyPair implements OpenOrdersParamCurren
 
   private CurrencyPair pair;
 
-  public DefaultOpenOrdersParamCurrencyPair() {
-  }
+  public DefaultOpenOrdersParamCurrencyPair() {}
 
   public DefaultOpenOrdersParamCurrencyPair(CurrencyPair pair) {
     this.pair = pair;

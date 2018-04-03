@@ -1,24 +1,22 @@
 package org.knowm.xchange.bittrex.dto.account;
 
-import java.util.List;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.List;
+import javax.annotation.Generated;
 
-/**
- * @author npinot
- */
+/** @author npinot */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"success", "message", "result"})
 public class BittrexWithdrawalsHistoryResponse {
   @JsonProperty("success")
   private Boolean success;
+
   @JsonProperty("message")
   private String message;
+
   @JsonProperty("result")
   private List<BittrexWithdrawalHistory> result;
 

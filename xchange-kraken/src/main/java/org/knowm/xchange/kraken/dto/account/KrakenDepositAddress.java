@@ -8,7 +8,9 @@ public class KrakenDepositAddress {
   private final Long expiretm;
   private final boolean newAddress;
 
-  public KrakenDepositAddress(@JsonProperty("address") String address, @JsonProperty("expiretm") Long expiretm,
+  public KrakenDepositAddress(
+      @JsonProperty("address") String address,
+      @JsonProperty("expiretm") Long expiretm,
       @JsonProperty("new") boolean newAddress) {
     super();
     this.address = address;
@@ -30,7 +32,12 @@ public class KrakenDepositAddress {
 
   @Override
   public String toString() {
-    return "KrakenDepositAddress [address=" + address + ", expiretm=" + expiretm + ", newAddress=" + newAddress + "]";
+    return "KrakenDepositAddress [address="
+        + address
+        + ", expiretm="
+        + expiretm
+        + ", newAddress="
+        + newAddress
+        + "]";
   }
-
 }

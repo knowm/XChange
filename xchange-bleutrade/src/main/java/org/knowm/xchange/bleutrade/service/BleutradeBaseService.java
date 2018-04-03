@@ -4,7 +4,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.IRestProxyFactory;
 import si.mazi.rescu.ParamsDigest;
 
@@ -23,9 +22,13 @@ public class BleutradeBaseService extends BaseExchangeService implements BaseSer
 
     super(exchange);
 
-    this.bleutrade = restProxyFactory.createProxy(BleutradeAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.bleutrade =
+        restProxyFactory.createProxy(
+            BleutradeAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator = BleutradeDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    this.signatureCreator =
+        BleutradeDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
-
 }

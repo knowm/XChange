@@ -2,16 +2,12 @@ package org.knowm.xchange.lakebtc.dto.account;
 
 import org.knowm.xchange.lakebtc.dto.LakeBTCRequest;
 
-/**
- * User: cristian.lucaci Date: 10/3/2014 Time: 5:37 PM
- */
+/** User: cristian.lucaci Date: 10/3/2014 Time: 5:37 PM */
 public class LakeBTCAccountRequest extends LakeBTCRequest {
 
   private static final String METHOD_NAME = "getAccountInfo";
 
-  /**
-   * Constructor
-   */
+  /** Constructor */
   public LakeBTCAccountRequest() {
 
     method = METHOD_NAME;

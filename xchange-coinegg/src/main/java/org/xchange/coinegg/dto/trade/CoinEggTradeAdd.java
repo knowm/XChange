@@ -19,5 +19,4 @@ public class CoinEggTradeAdd {
   public int getID() {
     return id;
   }
-
 }

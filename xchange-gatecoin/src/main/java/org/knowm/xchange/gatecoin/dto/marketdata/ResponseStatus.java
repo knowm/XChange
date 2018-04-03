@@ -3,16 +3,15 @@ package org.knowm.xchange.gatecoin.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author sumedha
- */
+/** @author sumedha */
 public class ResponseStatus {
 
   private final String message;
   private final String errorCode;
 
   @JsonCreator
-  public ResponseStatus(@JsonProperty("message") String message, @JsonProperty("errorCode") String errorCode) {
+  public ResponseStatus(
+      @JsonProperty("message") String message, @JsonProperty("errorCode") String errorCode) {
     this.message = message;
     this.errorCode = errorCode;
   }

@@ -1,13 +1,10 @@
 package org.knowm.xchange.quoine.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class QuoineOrderDetailsResponse {
 
   private final String id;
@@ -45,12 +42,22 @@ public final class QuoineOrderDetailsResponse {
    * @param settings
    * @param executions
    */
-  public QuoineOrderDetailsResponse(@JsonProperty("id") String id, @JsonProperty("order_type") String orderType,
-      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("currency_pair_code") String currencyPairCode, @JsonProperty("side") String side,
-      @JsonProperty("leverage_level") Integer leverageLevel, @JsonProperty("product_code") String productCode,
-      @JsonProperty("filled_quantity") BigDecimal filledQuantity, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("created_at") BigDecimal createdAt, @JsonProperty("updated_at") BigDecimal updatedAt, @JsonProperty("status") String status,
-      @JsonProperty("order_fee") BigDecimal orderFee, @JsonProperty("settings") Object settings, @JsonProperty("executions") Execution[] executions) {
+  public QuoineOrderDetailsResponse(
+      @JsonProperty("id") String id,
+      @JsonProperty("order_type") String orderType,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("currency_pair_code") String currencyPairCode,
+      @JsonProperty("side") String side,
+      @JsonProperty("leverage_level") Integer leverageLevel,
+      @JsonProperty("product_code") String productCode,
+      @JsonProperty("filled_quantity") BigDecimal filledQuantity,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("created_at") BigDecimal createdAt,
+      @JsonProperty("updated_at") BigDecimal updatedAt,
+      @JsonProperty("status") String status,
+      @JsonProperty("order_fee") BigDecimal orderFee,
+      @JsonProperty("settings") Object settings,
+      @JsonProperty("executions") Execution[] executions) {
     this.id = id;
     this.orderType = orderType;
     this.quantity = quantity;
@@ -130,10 +137,36 @@ public final class QuoineOrderDetailsResponse {
 
   @Override
   public String toString() {
-    return "OrderDetailsResponse [id=" + id + ", orderType=" + orderType + ", quantity=" + quantity + ", currencyPairCode=" + currencyPairCode
-        + ", side=" + side + ", leverageLevel=" + leverageLevel + ", productCode=" + productCode + ", filledQuantity=" + filledQuantity + ", price="
-        + price + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", status=" + status + ", orderFee=" + orderFee + ", settings=" + settings
-        + ", executions=" + Arrays.toString(executions) + "]";
+    return "OrderDetailsResponse [id="
+        + id
+        + ", orderType="
+        + orderType
+        + ", quantity="
+        + quantity
+        + ", currencyPairCode="
+        + currencyPairCode
+        + ", side="
+        + side
+        + ", leverageLevel="
+        + leverageLevel
+        + ", productCode="
+        + productCode
+        + ", filledQuantity="
+        + filledQuantity
+        + ", price="
+        + price
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + ", status="
+        + status
+        + ", orderFee="
+        + orderFee
+        + ", settings="
+        + settings
+        + ", executions="
+        + Arrays.toString(executions)
+        + "]";
   }
-
 }

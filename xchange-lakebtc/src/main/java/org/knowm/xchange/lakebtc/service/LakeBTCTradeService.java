@@ -2,7 +2,6 @@ package org.knowm.xchange.lakebtc.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -92,5 +91,4 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Trade
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-
 }

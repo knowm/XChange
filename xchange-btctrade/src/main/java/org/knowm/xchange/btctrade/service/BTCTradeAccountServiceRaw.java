@@ -1,7 +1,6 @@
 package org.knowm.xchange.btctrade.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeBalance;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeWallet;

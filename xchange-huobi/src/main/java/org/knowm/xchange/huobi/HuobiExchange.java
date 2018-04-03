@@ -1,5 +1,6 @@
 package org.knowm.xchange.huobi;
 
+import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -13,39 +14,40 @@ import org.knowm.xchange.huobi.service.HuobiTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-
 public class HuobiExchange extends BaseExchange implements Exchange {
 
-    private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
-    @Override
-    protected void initServices() {
-        this.marketDataService = new HuobiMarketDataService(this);
-        this.tradeService = new HuobiTradeService(this);
-        this.accountService = new HuobiAccountService(this);
-    }
+  @Override
+  protected void initServices() {
+    this.marketDataService = new HuobiMarketDataService(this);
+    this.tradeService = new HuobiTradeService(this);
+    this.accountService = new HuobiAccountService(this);
+  }
 
-    @Override
-    public ExchangeSpecification getDefaultExchangeSpecification() {
-        ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-        exchangeSpecification.setSslUri("https://api.huobi.pro");
-        exchangeSpecification.setHost("api.huobi.pro");
-        exchangeSpecification.setPort(80);
-        exchangeSpecification.setExchangeName("Huobi");
-        exchangeSpecification.setExchangeDescription("Huobi is a Chinese digital currency trading platform and exchange based in Beijing");
-        return exchangeSpecification;
-    }
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
+    exchangeSpecification.setSslUri("https://api.huobi.pro");
+    exchangeSpecification.setHost("api.huobi.pro");
+    exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("Huobi");
+    exchangeSpecification.setExchangeDescription(
+        "Huobi is a Chinese digital currency trading platform and exchange based in Beijing");
+    return exchangeSpecification;
+  }
 
-    @Override
-    public SynchronizedValueFactory<Long> getNonceFactory() {
-        return nonceFactory;
-    }
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    return nonceFactory;
+  }
 
-    @Override
-    public void remoteInit() throws IOException, ExchangeException {
-        HuobiAssetPair[] assetPairs = ((HuobiMarketDataServiceRaw)marketDataService).getHuobiAssetPairs();
-        HuobiAsset[] assets = ((HuobiMarketDataServiceRaw)marketDataService).getHuobiAssets();
-        exchangeMetaData = HuobiAdapters.adaptToExchangeMetaData(assetPairs, assets);
-    }
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {
+    HuobiAssetPair[] assetPairs =
+        ((HuobiMarketDataServiceRaw) marketDataService).getHuobiAssetPairs();
+    HuobiAsset[] assets = ((HuobiMarketDataServiceRaw) marketDataService).getHuobiAssets();
+    exchangeMetaData = HuobiAdapters.adaptToExchangeMetaData(assetPairs, assets);
+  }
 }

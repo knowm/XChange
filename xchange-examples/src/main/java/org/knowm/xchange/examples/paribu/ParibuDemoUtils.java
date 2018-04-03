@@ -5,9 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.paribu.ParibuExchange;
 
-/**
- * @author semihunaldi
- */
+/** @author semihunaldi */
 public class ParibuDemoUtils {
   public static Exchange createExchange() {
     ExchangeSpecification exSpec = new ParibuExchange().getDefaultExchangeSpecification();

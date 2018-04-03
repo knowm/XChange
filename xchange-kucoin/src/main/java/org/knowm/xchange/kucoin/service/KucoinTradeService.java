@@ -3,7 +3,6 @@ package org.knowm.xchange.kucoin.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -50,8 +49,10 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       throw new ExchangeException("You need to provide the currency pair to get open orders.");
     }
     CurrencyPair currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
-    return KucoinAdapters
-        .adaptActiveOrders(currencyPair, getKucoinOpenOrders(currencyPair, null).getData()); // order type null returns both bid and ask
+    return KucoinAdapters.adaptActiveOrders(
+        currencyPair,
+        getKucoinOpenOrders(currencyPair, null)
+            .getData()); // order type null returns both bid and ask
   }
 
   @Override
@@ -74,25 +75,32 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    throw new ExchangeException("You need to provide the currency pair, the order id and the order type to cancel an order.");
+    throw new ExchangeException(
+        "You need to provide the currency pair, the order id and the order type to cancel an order.");
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
 
-    if (!(orderParams instanceof CancelOrderByCurrencyPair) && !(orderParams instanceof CancelOrderByIdParams)
+    if (!(orderParams instanceof CancelOrderByCurrencyPair)
+        && !(orderParams instanceof CancelOrderByIdParams)
         && !(orderParams instanceof CancelOrderByOrderTypeParams)) {
-      throw new ExchangeException("You need to provide the currency pair, the order id and the order type to cancel an order.");
+      throw new ExchangeException(
+          "You need to provide the currency pair, the order id and the order type to cancel an order.");
     }
-    return cancelKucoinOrder(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair(), ((CancelOrderByIdParams) orderParams).getOrderId(),
-        ((CancelOrderByOrderTypeParams) orderParams).getOrderType()).isSuccess();
+    return cancelKucoinOrder(
+            ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair(),
+            ((CancelOrderByIdParams) orderParams).getOrderId(),
+            ((CancelOrderByOrderTypeParams) orderParams).getOrderType())
+        .isSuccess();
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     if (!(params instanceof TradeHistoryParamPaging)) {
-      throw new ExchangeException("You need to provide paging information to get the trade history.");
+      throw new ExchangeException(
+          "You need to provide paging information to get the trade history.");
     }
 
     TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
@@ -117,9 +125,14 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     }
 
     // Kucoin has 1-based paging
-    KucoinResponse<KucoinDealtOrdersInfo> response = getKucoinTradeHistory(pair, null,
-      pagingParams.getPageLength(), pagingParams.getPageNumber() + 1,
-      startTime, endTime);
+    KucoinResponse<KucoinDealtOrdersInfo> response =
+        getKucoinTradeHistory(
+            pair,
+            null,
+            pagingParams.getPageLength(),
+            pagingParams.getPageNumber() + 1,
+            startTime,
+            endTime);
     return KucoinAdapters.adaptUserTrades(response.getData().getDealtOrders());
   }
 
@@ -140,5 +153,4 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
     throw new NotAvailableFromExchangeException();
   }
-
 }

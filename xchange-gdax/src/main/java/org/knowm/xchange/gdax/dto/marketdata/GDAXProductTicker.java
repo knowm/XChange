@@ -1,12 +1,9 @@
 package org.knowm.xchange.gdax.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Created by Yingzhe on 4/4/2015.
- */
+/** Created by Yingzhe on 4/4/2015. */
 public class GDAXProductTicker {
 
   private final String tradeId;
@@ -17,8 +14,13 @@ public class GDAXProductTicker {
   private final BigDecimal volume;
   private final String time;
 
-  public GDAXProductTicker(@JsonProperty("trade_id") String tradeId, @JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size,
-      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("volume") BigDecimal volume,
+  public GDAXProductTicker(
+      @JsonProperty("trade_id") String tradeId,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("volume") BigDecimal volume,
       @JsonProperty("time") String time) {
 
     this.tradeId = tradeId;
@@ -60,8 +62,20 @@ public class GDAXProductTicker {
 
   @Override
   public String toString() {
-    return "GDAXProductTicker [tradeId=" + tradeId + ", price=" + price + ", size=" + size + ", bid=" + bid + ", ask=" + ask + ", volume=" + volume
-        + ", time=" + time + "]";
+    return "GDAXProductTicker [tradeId="
+        + tradeId
+        + ", price="
+        + price
+        + ", size="
+        + size
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", volume="
+        + volume
+        + ", time="
+        + time
+        + "]";
   }
-
 }

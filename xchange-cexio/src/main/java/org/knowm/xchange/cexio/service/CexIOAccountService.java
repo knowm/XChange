@@ -3,7 +3,6 @@ package org.knowm.xchange.cexio.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
@@ -17,10 +16,7 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/**
- * Author: brox Since: 2/6/14
- */
-
+/** Author: brox Since: 2/6/14 */
 public class CexIOAccountService extends CexIOAccountServiceRaw implements AccountService {
 
   /**
@@ -36,7 +32,9 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     CexIOBalanceInfo cexIOAccountInfo = getCexIOAccountInfo();
-    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), CexIOAdapters.adaptWallet(cexIOAccountInfo));
+    return new AccountInfo(
+        exchange.getExchangeSpecification().getUserName(),
+        CexIOAdapters.adaptWallet(cexIOAccountInfo));
   }
 
   @Override
@@ -51,10 +49,10 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
 
     throw new NotAvailableFromExchangeException();
-
   }
 
   @Override

@@ -1,14 +1,11 @@
 package org.knowm.xchange.wex.v3.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class WexAccountInfo {
 
   private final int transactionCount; // deprecated, always 0
@@ -21,13 +18,17 @@ public class WexAccountInfo {
    * Constructor
    *
    * @param transactionCount The number of transactions
-   * @param openOrders       The open orders
-   * @param serverTime       The server time (Unix time)
-   * @param rights           The rights
-   * @param funds            The funds
+   * @param openOrders The open orders
+   * @param serverTime The server time (Unix time)
+   * @param rights The rights
+   * @param funds The funds
    */
-  public WexAccountInfo(@JsonProperty("transaction_count") int transactionCount, @JsonProperty("open_orders") int openOrders,
-      @JsonProperty("server_time") long serverTime, @JsonProperty("rights") Rights rights, @JsonProperty("funds") Map<String, BigDecimal> funds) {
+  public WexAccountInfo(
+      @JsonProperty("transaction_count") int transactionCount,
+      @JsonProperty("open_orders") int openOrders,
+      @JsonProperty("server_time") long serverTime,
+      @JsonProperty("rights") Rights rights,
+      @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
     this.transactionCount = transactionCount;
     this.openOrders = openOrders;
@@ -65,9 +66,9 @@ public class WexAccountInfo {
   @Override
   public String toString() {
 
-    return MessageFormat
-        .format("WexAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''']", transactionCount, openOrders,
-            serverTime, rights, funds);
+    return MessageFormat.format(
+        "WexAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''']",
+        transactionCount, openOrders, serverTime, rights, funds);
   }
 
   public static class Rights {
@@ -81,7 +82,10 @@ public class WexAccountInfo {
      * @param trade
      * @param withdraw
      */
-    private Rights(@JsonProperty("info") boolean info, @JsonProperty("trade") boolean trade, @JsonProperty("withdraw") boolean withdraw) {
+    private Rights(
+        @JsonProperty("info") boolean info,
+        @JsonProperty("trade") boolean trade,
+        @JsonProperty("withdraw") boolean withdraw) {
 
       this.info = info;
       this.trade = trade;
@@ -106,7 +110,8 @@ public class WexAccountInfo {
     @Override
     public String toString() {
 
-      return MessageFormat.format("Rights[info={0}, trade={1}, withdraw={2}]", info, trade, withdraw);
+      return MessageFormat.format(
+          "Rights[info={0}, trade={1}, withdraw={2}]", info, trade, withdraw);
     }
   }
 }

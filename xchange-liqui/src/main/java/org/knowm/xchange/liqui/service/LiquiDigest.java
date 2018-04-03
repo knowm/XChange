@@ -1,12 +1,9 @@
 package org.knowm.xchange.liqui.service;
 
 import java.nio.charset.StandardCharsets;
-
 import javax.crypto.Mac;
 import javax.xml.bind.DatatypeConverter;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
 public class LiquiDigest extends BaseParamsDigest {

@@ -3,18 +3,16 @@ package org.knowm.xchange.bittrex;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.account.BittrexOrderResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BittresAdaptersTest {
 
@@ -87,7 +85,8 @@ public class BittresAdaptersTest {
   public void testAdaptLimitOrder() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BittresAdaptersTest.class.getResourceAsStream("/order/example-limit-buy-order.json");
+    InputStream is =
+        BittresAdaptersTest.class.getResourceAsStream("/order/example-limit-buy-order.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -101,7 +100,5 @@ public class BittresAdaptersTest {
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);
     assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.NEW);
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass()));
-
   }
-
 }

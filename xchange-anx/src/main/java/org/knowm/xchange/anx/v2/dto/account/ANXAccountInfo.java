@@ -1,16 +1,12 @@
 package org.knowm.xchange.anx.v2.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.anx.v2.dto.ANXValue;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing Account Info from ANX
- */
+/** Data object representing Account Info from ANX */
 public final class ANXAccountInfo {
 
   private final String login;
@@ -38,10 +34,17 @@ public final class ANXAccountInfo {
    * @param monthlyVolume
    * @param tradeFee
    */
-  public ANXAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id,
-      @JsonProperty("Rights") List<String> rights, @JsonProperty("Language") String language, @JsonProperty("Created") String created,
-      @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Map<String, ANXWallet> wallets,
-      @JsonProperty("Monthly_Volume") ANXValue monthlyVolume, @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
+  public ANXAccountInfo(
+      @JsonProperty("Login") String login,
+      @JsonProperty("Index") String index,
+      @JsonProperty("Id") String id,
+      @JsonProperty("Rights") List<String> rights,
+      @JsonProperty("Language") String language,
+      @JsonProperty("Created") String created,
+      @JsonProperty("Last_Login") String lastLogin,
+      @JsonProperty("Wallets") Map<String, ANXWallet> wallets,
+      @JsonProperty("Monthly_Volume") ANXValue monthlyVolume,
+      @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
 
     this.login = login;
     this.index = index;
@@ -108,8 +111,26 @@ public final class ANXAccountInfo {
   @Override
   public String toString() {
 
-    return "ANXAccountInfo [login=" + login + ", index=" + index + ", id=" + id + ", rights=" + rights + ", language=" + language + ", created="
-        + created + ", lastLogin=" + lastLogin + ", wallets=" + wallets + ", monthlyVolume=" + monthlyVolume + ", tradeFee=" + tradeFee + "]";
+    return "ANXAccountInfo [login="
+        + login
+        + ", index="
+        + index
+        + ", id="
+        + id
+        + ", rights="
+        + rights
+        + ", language="
+        + language
+        + ", created="
+        + created
+        + ", lastLogin="
+        + lastLogin
+        + ", wallets="
+        + wallets
+        + ", monthlyVolume="
+        + monthlyVolume
+        + ", tradeFee="
+        + tradeFee
+        + "]";
   }
-
 }

@@ -17,5 +17,4 @@ public class GeminiException extends RuntimeException {
 
     return message;
   }
-
 }

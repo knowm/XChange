@@ -1,12 +1,9 @@
 package org.knowm.xchange.quoine.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class FiatAccount {
 
   private final Integer id;
@@ -30,9 +27,13 @@ public final class FiatAccount {
    * @param lowestOfferInterestRate
    * @param highestOfferInterestRate
    */
-  public FiatAccount(@JsonProperty("id") Integer id, @JsonProperty("currency") String currency,
-      @JsonProperty("currency_symbol") String currencySymbol, @JsonProperty("balance") BigDecimal balance,
-      @JsonProperty("send_to_btc_address") String sendToBtcAddress, @JsonProperty("pusher_channel") String pusherChannel,
+  public FiatAccount(
+      @JsonProperty("id") Integer id,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("currency_symbol") String currencySymbol,
+      @JsonProperty("balance") BigDecimal balance,
+      @JsonProperty("send_to_btc_address") String sendToBtcAddress,
+      @JsonProperty("pusher_channel") String pusherChannel,
       @JsonProperty("lowest_offer_interest_rate") BigDecimal lowestOfferInterestRate,
       @JsonProperty("highest_offer_interest_rate") BigDecimal highestOfferInterestRate) {
     this.id = id;
@@ -79,9 +80,21 @@ public final class FiatAccount {
 
   @Override
   public String toString() {
-    return "FiatAccount [id=" + id + ", currency=" + currency + ", currencySymbol=" + currencySymbol + ", balance=" + balance + ", sendToBtcAddress="
-        + sendToBtcAddress + ", pusherChannel=" + pusherChannel + ", lowestOfferInterestRate=" + lowestOfferInterestRate
-        + ", highestOfferInterestRate=" + highestOfferInterestRate;
+    return "FiatAccount [id="
+        + id
+        + ", currency="
+        + currency
+        + ", currencySymbol="
+        + currencySymbol
+        + ", balance="
+        + balance
+        + ", sendToBtcAddress="
+        + sendToBtcAddress
+        + ", pusherChannel="
+        + pusherChannel
+        + ", lowestOfferInterestRate="
+        + lowestOfferInterestRate
+        + ", highestOfferInterestRate="
+        + highestOfferInterestRate;
   }
-
 }

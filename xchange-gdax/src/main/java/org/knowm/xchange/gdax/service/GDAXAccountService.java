@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -38,7 +37,8 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
@@ -46,7 +46,9 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      GDAXWithdrawCryptoResponse response = withdrawCrypto(defaultParams.getAddress(), defaultParams.getAmount(), defaultParams.getCurrency());
+      GDAXWithdrawCryptoResponse response =
+          withdrawCrypto(
+              defaultParams.getAddress(), defaultParams.getAmount(), defaultParams.getCurrency());
       return response.id;
     }
 
@@ -63,7 +65,8 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
     }
 
     if (accountId == null) {
-      throw new ExchangeException("Cannot determine account id for currency " + currency.getCurrencyCode());
+      throw new ExchangeException(
+          "Cannot determine account id for currency " + currency.getCurrencyCode());
     }
 
     GDAXSendMoneyResponse response = sendMoney(accountId, address, amount, currency);
@@ -82,7 +85,9 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
     for (GDAXCoinbaseAccount account : coinbaseAccounts) {
       Currency accountCurrency = Currency.getInstance(account.getCurrency());
-      if (account.isActive() && account.getType().equals("wallet") && accountCurrency.equals(currency)) {
+      if (account.isActive()
+          && account.getType().equals("wallet")
+          && accountCurrency.equals(currency)) {
         depositAccount = account;
         break;
       }
@@ -99,9 +104,10 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
   @Override
   /**
-   * Warning - this method makes several API calls.  The reason is that the paging functionality isn't implemented properly yet.
+   * Warning - this method makes several API calls. The reason is that the paging functionality
+   * isn't implemented properly yet.
    *
-   * It honours TradeHistoryParamCurrency for filtering to a single ccy.
+   * <p>It honours TradeHistoryParamCurrency for filtering to a single ccy.
    */
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     int maxPageSize = 100;
@@ -113,8 +119,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
       if (params instanceof TradeHistoryParamCurrency) {
         Currency desiredCurrency = ((TradeHistoryParamCurrency) params).getCurrency();
-        if (!desiredCurrency.equals(currency))
-          continue;
+        if (!desiredCurrency.equals(currency)) continue;
       }
 
       String accountId = gdaxAccount.getId();
@@ -123,8 +128,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
       while (true) {
         List<GdaxTransfer> transfers = transfers(accountId, profileId, maxPageSize, createdAt);
-        if (transfers.isEmpty())
-          break;
+        if (transfers.isEmpty()) break;
 
         for (GdaxTransfer gdaxTransfer : transfers) {
           createdAt = gdaxTransfer.createdAt;

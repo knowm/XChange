@@ -14,5 +14,4 @@ public class GDAXProductBookEntryLevel3 extends GDAXProductBookEntry {
   public String getOrderId() {
     return orderId;
   }
-
 }

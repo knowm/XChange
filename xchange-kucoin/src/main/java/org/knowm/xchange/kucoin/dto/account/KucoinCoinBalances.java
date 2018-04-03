@@ -1,18 +1,16 @@
 package org.knowm.xchange.kucoin.dto.account;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -21,22 +19,23 @@ public class KucoinCoinBalances {
 
   @JsonProperty("total")
   private Integer total;
+
   @JsonProperty("datas")
   private List<KucoinCoinBalance> balances = new ArrayList<KucoinCoinBalance>();
+
   @JsonProperty("currPageNo")
   private Integer currPageNo;
+
   @JsonProperty("limit")
   private Integer limit;
+
   @JsonProperty("pageNos")
   private Integer pageNos;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public KucoinCoinBalances() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public KucoinCoinBalances() {}
 
   /**
    * @param total
@@ -45,7 +44,12 @@ public class KucoinCoinBalances {
    * @param limit
    * @param pageNos
    */
-  public KucoinCoinBalances(Integer total, List<KucoinCoinBalance> datas, Integer currPageNo, Integer limit, Integer pageNos) {
+  public KucoinCoinBalances(
+      Integer total,
+      List<KucoinCoinBalance> datas,
+      Integer currPageNo,
+      Integer limit,
+      Integer pageNos) {
     super();
     this.total = total;
     this.balances = datas;
@@ -54,81 +58,61 @@ public class KucoinCoinBalances {
     this.pageNos = pageNos;
   }
 
-  /**
-   * @return The total
-   */
+  /** @return The total */
   @JsonProperty("total")
   public Integer getTotal() {
     return total;
   }
 
-  /**
-   * @param total The total
-   */
+  /** @param total The total */
   @JsonProperty("total")
   public void setTotal(Integer total) {
     this.total = total;
   }
 
-  /**
-   * @return The balances
-   */
+  /** @return The balances */
   @JsonProperty("datas")
   public List<KucoinCoinBalance> getBalances() {
     return balances;
   }
 
-  /**
-   * @param balances The balances
-   */
+  /** @param balances The balances */
   @JsonProperty("datas")
   public void setBalances(List<KucoinCoinBalance> balances) {
     this.balances = balances;
   }
 
-  /**
-   * @return The currPageNo
-   */
+  /** @return The currPageNo */
   @JsonProperty("currPageNo")
   public Integer getCurrPageNo() {
     return currPageNo;
   }
 
-  /**
-   * @param currPageNo The currPageNo
-   */
+  /** @param currPageNo The currPageNo */
   @JsonProperty("currPageNo")
   public void setCurrPageNo(Integer currPageNo) {
     this.currPageNo = currPageNo;
   }
 
-  /**
-   * @return The limit
-   */
+  /** @return The limit */
   @JsonProperty("limit")
   public Integer getLimit() {
     return limit;
   }
 
-  /**
-   * @param limit The limit
-   */
+  /** @param limit The limit */
   @JsonProperty("limit")
   public void setLimit(Integer limit) {
     this.limit = limit;
   }
 
-  /**
-   * @return The pageNos
-   */
+  /** @return The pageNos */
   @JsonProperty("pageNos")
   public Integer getPageNos() {
     return pageNos;
   }
 
-  /**
-   * @param pageNos The pageNos
-   */
+  /** @param pageNos The pageNos */
   @JsonProperty("pageNos")
   public void setPageNos(Integer pageNos) {
     this.pageNos = pageNos;
@@ -143,5 +127,4 @@ public class KucoinCoinBalances {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }

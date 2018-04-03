@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.yobit.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -10,9 +9,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.yobit.YoBitExchange;
 
-/**
- * Demonstrate requesting OrderBook from YoBit.
- */
+/** Demonstrate requesting OrderBook from YoBit. */
 public class YoBitBookDemo {
 
   public static void main(String[] args) throws IOException {
@@ -31,15 +28,24 @@ public class YoBitBookDemo {
 
     for (LimitOrder limitOrder : orderBook.getBids()) {
       System.out.println(
-          limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: " + limitOrder
-              .getOriginalAmount());
+          limitOrder.getType()
+              + " "
+              + limitOrder.getCurrencyPair()
+              + " Limit price: "
+              + limitOrder.getLimitPrice()
+              + " Amount: "
+              + limitOrder.getOriginalAmount());
     }
 
     for (LimitOrder limitOrder : orderBook.getAsks()) {
       System.out.println(
-          limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: " + limitOrder
-              .getOriginalAmount());
+          limitOrder.getType()
+              + " "
+              + limitOrder.getCurrencyPair()
+              + " Limit price: "
+              + limitOrder.getLimitPrice()
+              + " Amount: "
+              + limitOrder.getOriginalAmount());
     }
   }
-
 }

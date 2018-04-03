@@ -1,8 +1,7 @@
 package org.xchange.bitz.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BitZTicker {
 
@@ -14,8 +13,13 @@ public class BitZTicker {
   private final BigDecimal sell;
   private final long timestamp;
 
-  public BitZTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("vol") BigDecimal volume, @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell,
+  public BitZTicker(
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("vol") BigDecimal volume,
+      @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("sell") BigDecimal sell,
       @JsonProperty("date") long timestamp) {
 
     this.last = last;
@@ -58,7 +62,14 @@ public class BitZTicker {
   // TODO: Generate toString Override
   @Override
   public String toString() {
-    return String.format("BitZTicker[last=%s, high=%s, low=%s, buy=%s, sell=%s, volume=%s, timestamp=%d]", getLast().toString(), getHigh().toString(),
-        getLow().toString(), getBuy().toString(), getSell().toString(), getVolume().toString(), getTimestamp());
+    return String.format(
+        "BitZTicker[last=%s, high=%s, low=%s, buy=%s, sell=%s, volume=%s, timestamp=%d]",
+        getLast().toString(),
+        getHigh().toString(),
+        getLow().toString(),
+        getBuy().toString(),
+        getSell().toString(),
+        getVolume().toString(),
+        getTimestamp());
   }
 }

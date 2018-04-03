@@ -3,16 +3,11 @@ package org.knowm.xchange.bitcoinde.service;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
-/**
- * @author kaiserfr
- */
+/** @author kaiserfr */
 public class BitcoindeDigest extends BaseParamsDigest {
   private final String apiKey;
 
@@ -21,8 +16,8 @@ public class BitcoindeDigest extends BaseParamsDigest {
    *
    * @param secretKeyBase64
    * @param apiKey
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is
-   *                                  invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded
+   *     key is invalid).
    */
   private BitcoindeDigest(String secretKeyBase64, String apiKey) {
     super(secretKeyBase64, HMAC_SHA_256);

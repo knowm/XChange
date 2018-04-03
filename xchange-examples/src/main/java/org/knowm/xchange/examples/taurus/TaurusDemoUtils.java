@@ -5,9 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.taurus.TaurusExchange;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class TaurusDemoUtils {
 
   public static Exchange createExchange() {

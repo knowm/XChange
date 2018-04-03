@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.cryptopia.Cryptopia;
 import org.knowm.xchange.cryptopia.CryptopiaAdapters;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
@@ -22,12 +21,12 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
   public CryptopiaAccountServiceRaw(CryptopiaExchange exchange) {
 
     super(exchange);
-
   }
 
   public List<Balance> getBalances() throws IOException {
 
-    CryptopiaBaseResponse<List<Map>> response = cryptopia.getBalance(signatureCreator, new HashMap<>());
+    CryptopiaBaseResponse<List<Map>> response =
+        cryptopia.getBalance(signatureCreator, new HashMap<>());
     if (!response.isSuccess())
       throw new ExchangeException("Failed to get balance: " + response.toString());
 
@@ -39,7 +38,16 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
       BigDecimal heldForTrades = new BigDecimal(datum.get("HeldForTrades").toString());
       BigDecimal pendingWithdraw = new BigDecimal(datum.get("PendingWithdraw").toString());
       BigDecimal unconfirmed = new BigDecimal(datum.get("Unconfirmed").toString());
-      Balance balance = new Balance(symbol, total, available, heldForTrades, BigDecimal.ZERO, BigDecimal.ZERO, pendingWithdraw, unconfirmed);
+      Balance balance =
+          new Balance(
+              symbol,
+              total,
+              available,
+              heldForTrades,
+              BigDecimal.ZERO,
+              BigDecimal.ZERO,
+              pendingWithdraw,
+              unconfirmed);
 
       balances.add(balance);
     }
@@ -47,9 +55,13 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
     return balances;
   }
 
-  public String submitWithdraw(Currency currency, BigDecimal amount, String address, String paymentId) throws IOException {
-    CryptopiaBaseResponse<Long> response = cryptopia
-        .submitWithdraw(signatureCreator, new Cryptopia.SubmitWithdrawRequest(currency.getCurrencyCode(), address, paymentId, amount));
+  public String submitWithdraw(
+      Currency currency, BigDecimal amount, String address, String paymentId) throws IOException {
+    CryptopiaBaseResponse<Long> response =
+        cryptopia.submitWithdraw(
+            signatureCreator,
+            new Cryptopia.SubmitWithdrawRequest(
+                currency.getCurrencyCode(), address, paymentId, amount));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to withdraw funds: " + response.toString());
 
@@ -57,8 +69,9 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
   }
 
   public String getDepositAddress(Currency currency) throws IOException {
-    CryptopiaBaseResponse<Map> response = cryptopia
-        .getDepositAddress(signatureCreator, new Cryptopia.GetDepositAddressRequest(currency.getCurrencyCode()));
+    CryptopiaBaseResponse<Map> response =
+        cryptopia.getDepositAddress(
+            signatureCreator, new Cryptopia.GetDepositAddressRequest(currency.getCurrencyCode()));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to get address: " + response.toString());
 
@@ -66,7 +79,9 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
   }
 
   public List<FundingRecord> getTransactions(String type, Integer count) throws IOException {
-    CryptopiaBaseResponse<List<Map>> response = cryptopia.getTransactions(signatureCreator, new Cryptopia.GetTransactionsRequest(type, count));
+    CryptopiaBaseResponse<List<Map>> response =
+        cryptopia.getTransactions(
+            signatureCreator, new Cryptopia.GetTransactionsRequest(type, count));
     if (!response.isSuccess())
       throw new ExchangeException("Failed to get transactions: " + response.toString());
 
@@ -74,9 +89,12 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
     for (Map map : response.getData()) {
       Date timeStamp = CryptopiaAdapters.convertTimestamp(map.get("Timestamp").toString());
       Currency currency = Currency.getInstance(map.get("Currency").toString());
-      FundingRecord.Type fundingType = map.get("Type").toString().equals(CryptopiaAccountService.CryptopiaFundingHistoryParams.Type.Deposit.name()) ?
-          FundingRecord.Type.DEPOSIT :
-          FundingRecord.Type.WITHDRAWAL;
+      FundingRecord.Type fundingType =
+          map.get("Type")
+                  .toString()
+                  .equals(CryptopiaAccountService.CryptopiaFundingHistoryParams.Type.Deposit.name())
+              ? FundingRecord.Type.DEPOSIT
+              : FundingRecord.Type.WITHDRAWAL;
 
       FundingRecord.Status status;
       String rawStatus = map.get("Status").toString();
@@ -99,8 +117,19 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
 
       String address = map.get("Address") == null ? null : map.get("Address").toString();
 
-      FundingRecord fundingRecord = new FundingRecord(address, timeStamp, currency, new BigDecimal(map.get("Amount").toString()),
-          map.get("Id").toString(), map.get("TxId").toString(), fundingType, status, null, new BigDecimal(map.get("Fee").toString()), null);
+      FundingRecord fundingRecord =
+          new FundingRecord(
+              address,
+              timeStamp,
+              currency,
+              new BigDecimal(map.get("Amount").toString()),
+              map.get("Id").toString(),
+              map.get("TxId").toString(),
+              fundingType,
+              status,
+              null,
+              new BigDecimal(map.get("Fee").toString()),
+              null);
 
       results.add(fundingRecord);
     }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -114,6 +113,7 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    return getOrder(Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new));
+    return getOrder(
+        Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new));
   }
 }

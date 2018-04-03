@@ -2,12 +2,15 @@ package org.knowm.xchange.independentreserve.dto.trade;
 
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 
-/**
- * Author: Kamil Zbikowski Date: 4/14/15
- */
+/** Author: Kamil Zbikowski Date: 4/14/15 */
 public class IndependentReserveOpenOrderRequest extends AuthAggregate {
 
-  public IndependentReserveOpenOrderRequest(String apiKey, Long nonce, String primaryCurrencyCode, String secondaryCurrencyCode, String pageIndex,
+  public IndependentReserveOpenOrderRequest(
+      String apiKey,
+      Long nonce,
+      String primaryCurrencyCode,
+      String secondaryCurrencyCode,
+      String pageIndex,
       String pageSize) {
     super(apiKey, nonce);
 
@@ -17,7 +20,8 @@ public class IndependentReserveOpenOrderRequest extends AuthAggregate {
       } else if (primaryCurrencyCode.equals("ETH")) {
         primaryCurrencyCode = "Eth";
       } else {
-        throw new IllegalArgumentException("IndependentReserveOpenOrderRequest - unknown value of base currency code");
+        throw new IllegalArgumentException(
+            "IndependentReserveOpenOrderRequest - unknown value of base currency code");
       }
       this.parameters.put("primaryCurrencyCode", primaryCurrencyCode);
     }
@@ -30,13 +34,13 @@ public class IndependentReserveOpenOrderRequest extends AuthAggregate {
       } else if (secondaryCurrencyCode.equals("NZD")) {
         secondaryCurrencyCode = "Nzd";
       } else {
-        throw new IllegalArgumentException("IndependentReserveOpenOrderRequest - unknown value of counter currency code");
+        throw new IllegalArgumentException(
+            "IndependentReserveOpenOrderRequest - unknown value of counter currency code");
       }
       this.parameters.put("secondaryCurrencyCode", secondaryCurrencyCode);
     }
 
     this.parameters.put("pageIndex", pageIndex);
     this.parameters.put("pageSize", pageSize);
-
   }
 }

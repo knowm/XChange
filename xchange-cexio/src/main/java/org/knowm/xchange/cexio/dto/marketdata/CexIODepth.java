@@ -1,13 +1,10 @@
 package org.knowm.xchange.cexio.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: brox Since: 2/5/14
- */
+/** Author: brox Since: 2/5/14 */
 public class CexIODepth {
 
   private final String error;
@@ -22,7 +19,9 @@ public class CexIODepth {
     this.timestamp = null;
   }
 
-  public CexIODepth(@JsonProperty("timestamp") Long timestamp, @JsonProperty("bids") List<List<BigDecimal>> bids,
+  public CexIODepth(
+      @JsonProperty("timestamp") Long timestamp,
+      @JsonProperty("bids") List<List<BigDecimal>> bids,
       @JsonProperty("asks") List<List<BigDecimal>> asks) {
     this.bids = bids;
     this.asks = asks;
@@ -34,25 +33,19 @@ public class CexIODepth {
     return error;
   }
 
-  /**
-   * @return Timestamp in Unix milliseconds
-   */
+  /** @return Timestamp in Unix milliseconds */
   public Long getTimestamp() {
 
     return timestamp;
   }
 
-  /**
-   * (price, amount)
-   */
+  /** (price, amount) */
   public List<List<BigDecimal>> getBids() {
 
     return bids;
   }
 
-  /**
-   * (price, amount)
-   */
+  /** (price, amount) */
   public List<List<BigDecimal>> getAsks() {
 
     return asks;
@@ -63,5 +56,4 @@ public class CexIODepth {
 
     return "CexIOOrderBook [timestamp=" + timestamp + ", bids=" + bids + ", asks=" + asks + "]";
   }
-
 }

@@ -2,9 +2,7 @@ package org.knowm.xchange.bitmex.dto.marketdata;
 
 import java.util.List;
 
-/**
- * Data object representing depth from bitmex
- */
+/** Data object representing depth from bitmex */
 public class BitmexDepth {
 
   private final List<BitmexPublicOrder> asks;
@@ -20,7 +18,6 @@ public class BitmexDepth {
 
     this.asks = asks;
     this.bids = bids;
-
   }
 
   public List<BitmexPublicOrder> getAsks() {

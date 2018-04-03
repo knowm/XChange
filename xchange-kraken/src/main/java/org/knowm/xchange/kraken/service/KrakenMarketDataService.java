@@ -3,8 +3,6 @@ package org.knowm.xchange.kraken.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -14,12 +12,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implements MarketDataService {
+public class KrakenMarketDataService extends KrakenMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -42,7 +40,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
     if (!(params instanceof CurrencyPairsParam)) {
       throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
     }
-    Collection<CurrencyPair> pairs = ((CurrencyPairsParam)params).getCurrencyPairs();
+    Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
     CurrencyPair[] pair = pairs.toArray(new CurrencyPair[pairs.size()]);
     return KrakenAdapters.adaptTickers(getKrakenTickers(pair));
   }
@@ -83,7 +81,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
     }
 
     KrakenPublicTrades krakenTrades = getKrakenTrades(currencyPair, since);
-    return KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currencyPair, krakenTrades.getLast());
+    return KrakenAdapters.adaptTrades(
+        krakenTrades.getTrades(), currencyPair, krakenTrades.getLast());
   }
-
 }

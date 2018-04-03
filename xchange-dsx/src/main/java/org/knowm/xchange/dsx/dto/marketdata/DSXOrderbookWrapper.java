@@ -1,13 +1,9 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXOrderbookWrapper {
 
   private final Map<String, DSXOrderbook> orderbookMap;
@@ -37,5 +33,4 @@ public class DSXOrderbookWrapper {
 
     return "DSXOrderbookWrapper{" + "orderbookMap=" + orderbookMap.toString() + '}';
   }
-
 }

@@ -1,8 +1,7 @@
 package org.knowm.xchange.coinfloor.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CoinfloorMarketOrderResponse {
   private final BigDecimal remaining;

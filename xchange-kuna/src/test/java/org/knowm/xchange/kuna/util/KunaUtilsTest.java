@@ -3,7 +3,6 @@ package org.knowm.xchange.kuna.util;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 
