@@ -13,11 +13,9 @@ import static org.knowm.xchange.kuna.dto.enums.KunaSide.BUY;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.SELL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
@@ -120,8 +118,8 @@ public class KunaOrderTest {
         .isEqualToIgnoringSeconds(new Date());
     // belongs in the adapter
     //    assertThat(order().getCreatedAt()).isEqualTo("2018-01-16T09:28:05Z");
-      // TODO fix this. somehow the local time zone is causing this to fail by a one-hour difference.
-      //    assertThat(order.getCreatedAt()).isEqualTo("2018-01-16T09:28:05Z");
+    // TODO fix this. somehow the local time zone is causing this to fail by a one-hour difference.
+    //    assertThat(order.getCreatedAt()).isEqualTo("2018-01-16T09:28:05Z");
   }
 
   @Test

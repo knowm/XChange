@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -129,15 +128,11 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
       while (true) {
         List<GdaxTransfer> transfers = transfers(accountId, profileId, maxPageSize, createdAt);
-        if (transfers.isEmpty())
-          break;
+        if (transfers.isEmpty()) break;
 
-
-
-          for (GdaxTransfer gdaxTransfer : transfers){
-createdAt = gdaxTransfer.createdAt;
-          fundingHistory.add(GDAXAdapters.adaptFundingRecord( currency,
-              gdaxTransfer));
+        for (GdaxTransfer gdaxTransfer : transfers) {
+          createdAt = gdaxTransfer.createdAt;
+          fundingHistory.add(GDAXAdapters.adaptFundingRecord(currency, gdaxTransfer));
         }
       }
     }

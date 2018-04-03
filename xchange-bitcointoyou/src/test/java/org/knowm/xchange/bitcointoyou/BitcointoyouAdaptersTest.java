@@ -79,7 +79,9 @@ public class BitcointoyouAdaptersTest {
   private static BitcointoyouPublicTrade[] loadBitcointoyouPublicTradesFromExampleData()
       throws IOException {
 
-    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/bitcointoyou/dto/marketdata/example-public-trades-data.json");
+    InputStream is =
+        BitcointoyouAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcointoyou/dto/marketdata/example-public-trades-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(is, BitcointoyouPublicTrade[].class);

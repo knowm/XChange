@@ -145,12 +145,33 @@ public final class Ticker implements Serializable {
   @Override
   public String toString() {
 
-    return "Ticker [currencyPair=" + currencyPair + ", open=" + open + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high
-        + ", low=" + low + ",avg=" + vwap + ", volume=" + volume + ", quoteVolume=" + quoteVolume + ", timestamp=" + DateUtils
-        .toMillisNullSafe(timestamp)+ ", bidSize="
+    return "Ticker [currencyPair="
+        + currencyPair
+        + ", open="
+        + open
+        + ", last="
+        + last
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ",avg="
+        + vwap
+        + ", volume="
+        + volume
+        + ", quoteVolume="
+        + quoteVolume
+        + ", timestamp="
+        + DateUtils.toMillisNullSafe(timestamp)
+        + ", bidSize="
         + bidSize
         + ", askSize="
-        + askSize + "]";
+        + askSize
+        + "]";
   }
 
   /**

@@ -22,7 +22,11 @@ public class BleutradeBaseService extends BaseExchangeService implements BaseSer
 
     super(exchange);
 
-    this.bleutrade = restProxyFactory.createProxy(BleutradeAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.bleutrade =
+        restProxyFactory.createProxy(
+            BleutradeAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         BleutradeDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

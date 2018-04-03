@@ -76,14 +76,14 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
   public GDAXIdResponse placeGDAXLimitOrder(LimitOrder limitOrder) throws IOException {
 
     GDAXPlaceLimitOrder gdaxLimitOrder = GDAXAdapters.adaptGDAXPlaceLimitOrder(limitOrder);
-      return placeGDAXOrder(gdaxLimitOrder);
+    return placeGDAXOrder(gdaxLimitOrder);
   }
 
   /** @deprecated Use {@link #placeGDAXOrder} */
   public GDAXIdResponse placeGDAXMarketOrder(MarketOrder marketOrder) throws IOException {
 
     GDAXPlaceMarketOrder gdaxMarketOrder = GDAXAdapters.adaptGDAXPlaceMarketOrder(marketOrder);
-      return placeGDAXOrder(gdaxMarketOrder);
+    return placeGDAXOrder(gdaxMarketOrder);
   }
 
   /** @deprecated Use {@link #placeGDAXOrder} */
@@ -94,8 +94,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
   public GDAXIdResponse placeGDAXOrder(GDAXPlaceOrder order) throws IOException {
     try {
-      return gdax.placeOrder(order, apiKey,
-          digest, nonceFactory, passphrase);
+      return gdax.placeOrder(order, apiKey, digest, nonceFactory, passphrase);
     } catch (GDAXException e) {
       throw handleError(e);
     }

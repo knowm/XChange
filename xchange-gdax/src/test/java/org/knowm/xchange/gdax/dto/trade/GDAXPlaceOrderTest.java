@@ -3,8 +3,6 @@ package org.knowm.xchange.gdax.dto.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;

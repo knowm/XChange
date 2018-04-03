@@ -28,15 +28,18 @@ public abstract class GDAXPlaceOrder {
   @JsonProperty("client_oid")
   String clientOid;
 
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("type")
   Type type;
 
   @JsonProperty("side")
   Side side;
+
   @JsonProperty("product_id")
-   String productId;
-@JsonInclude(JsonInclude.Include.NON_EMPTY)  @JsonProperty("stp")
+  String productId;
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  @JsonProperty("stp")
   SelfTradePrevention stp;
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -45,9 +48,14 @@ public abstract class GDAXPlaceOrder {
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("stop_price")
-  BigDecimal stopPrice;public GDAXPlaceOrder( String clientOid,
+  BigDecimal stopPrice;
+
+  public GDAXPlaceOrder(
+      String clientOid,
       Type type,
-      Sideside, String productId, SelfTradePrevention stp,
+      Side side,
+      String productId,
+      SelfTradePrevention stp,
       Stop stop,
       BigDecimal stopPrice) {
     this.clientOid = clientOid;
