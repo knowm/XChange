@@ -41,7 +41,8 @@ public class OpenOrdersJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        OrderBookJSONTest.class.getResourceAsStream("/account/example-open-orders.json");
+        OrderBookJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/account/example-open-orders.json");
 
     ObjectMapper mapper = new ObjectMapper();
     CoinmateOpenOrders coinmateOrders = mapper.readValue(is, CoinmateOpenOrders.class);

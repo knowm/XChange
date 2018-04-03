@@ -32,19 +32,22 @@ public class BitcointoyouOrderResponseTest {
   private static BitcointoyouOrderResponse loadBitcointoyouOrderResponseFromExampleData()
       throws IOException {
 
-    return loadBitcointoyouOrderResponse("/trade/example-single-order-response-data.json");
+    return loadBitcointoyouOrderResponse(
+        "/org/knowm/xchange/bitcointoyou/dto/trade/example-single-order-response-data.json");
   }
 
   private static BitcointoyouOrderResponse
       loadBitcointoyouOrderResponseMultipleOrdersFromExampleData() throws IOException {
 
-    return loadBitcointoyouOrderResponse("/trade/example-multiple-orders-response-data.json");
+    return loadBitcointoyouOrderResponse(
+        "/org/knowm/xchange/bitcointoyou/dto/trade/example-multiple-orders-response-data.json");
   }
 
   private static BitcointoyouOrderResponse loadBitcointoyouOrderResponseErrorFromExampleData()
       throws IOException {
 
-    return loadBitcointoyouOrderResponse("/trade/example-order-response-data-error.json");
+    return loadBitcointoyouOrderResponse(
+        "/org/knowm/xchange/bitcointoyou/dto/trade/example-order-response-data-error.json");
   }
 
   private static BitcointoyouOrderResponse loadBitcointoyouOrderResponse(String resource)

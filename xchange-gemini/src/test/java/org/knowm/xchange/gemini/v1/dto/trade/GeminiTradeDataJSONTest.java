@@ -23,7 +23,7 @@ public class GeminiTradeDataJSONTest {
 
     InputStream resourceAsStream =
         GeminiTradeDataJSONTest.class.getResourceAsStream(
-            "/v1/trade/example-place-order-data.json");
+            "/org/knowm/xchange/gemini/v1/trade/example-place-order-data.json");
     GeminiOrderStatusResponse response =
         new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
 
@@ -47,7 +47,7 @@ public class GeminiTradeDataJSONTest {
 
     InputStream resourceAsStream =
         GeminiTradeDataJSONTest.class.getResourceAsStream(
-            "/v1/trade/example-cancel-order-data.json");
+            "/org/knowm/xchange/gemini/v1/trade/example-cancel-order-data.json");
     GeminiOrderStatusResponse response =
         new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
 
@@ -71,7 +71,7 @@ public class GeminiTradeDataJSONTest {
 
     InputStream resourceAsStream =
         GeminiTradeDataJSONTest.class.getResourceAsStream(
-            "/v1/trade/example-open-orders-data.json");
+            "/org/knowm/xchange/gemini/v1/trade/example-open-orders-data.json");
     GeminiOrderStatusResponse response =
         new ObjectMapper().readValue(resourceAsStream, GeminiOrderStatusResponse.class);
 
@@ -95,7 +95,7 @@ public class GeminiTradeDataJSONTest {
 
     InputStream resourceAsStream =
         GeminiTradeDataJSONTest.class.getResourceAsStream(
-            "/v1/trade/example-past-trades-data.json");
+            "/org/knowm/xchange/gemini/v1/trade/example-past-trades-data.json");
     GeminiTradeResponse[] responses =
         new ObjectMapper().readValue(resourceAsStream, GeminiTradeResponse[].class);
 

@@ -21,7 +21,8 @@ public class DSXDepthJSONTest {
   public void testUnmarshal() throws IOException {
 
     InputStream is =
-        DSXDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        DSXDepthJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/marketdata/example-depth-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXOrderbookWrapper dsxOrderbookWrapper = mapper.readValue(is, DSXOrderbookWrapper.class);

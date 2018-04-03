@@ -13,7 +13,7 @@ public class DepositAddressJSONTest {
   public void testUnmarshal() throws IOException {
     InputStream is =
         DepositAddressJSONTest.class.getResourceAsStream(
-            "/account/example-deposit-address-response.json");
+            "/org/knowm/xchange/taurus/dto/account/example-deposit-address-response.json");
 
     String address = new ObjectMapper().readValue(is, String.class);
 

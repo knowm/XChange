@@ -17,7 +17,9 @@ public class MyFundsJSONTest {
     MyFunds myFunds =
         new ObjectMapper()
             .readValue(
-                MyFundsJSONTest.class.getResourceAsStream("/account/myfunds.json"), MyFunds.class);
+                MyFundsJSONTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/campbx/account/myfunds.json"),
+                MyFunds.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(myFunds.getLiquidUSD()).isEqualTo(new BigDecimal("0.00"));

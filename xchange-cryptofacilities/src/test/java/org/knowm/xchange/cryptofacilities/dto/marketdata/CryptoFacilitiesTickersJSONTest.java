@@ -19,7 +19,7 @@ public class CryptoFacilitiesTickersJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         CryptoFacilitiesTickersJSONTest.class.getResourceAsStream(
-            "/marketdata/example-tickers-data.json");
+            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-tickers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -73,7 +73,7 @@ public class CryptoFacilitiesTickersJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         CryptoFacilitiesTickersJSONTest.class.getResourceAsStream(
-            "/marketdata/example-ticker-data-2.json");
+            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-ticker-data-2.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

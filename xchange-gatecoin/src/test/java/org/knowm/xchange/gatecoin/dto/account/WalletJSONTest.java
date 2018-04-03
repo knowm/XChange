@@ -16,7 +16,8 @@ public class WalletJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        WalletJSONTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+        WalletJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gatecoin/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

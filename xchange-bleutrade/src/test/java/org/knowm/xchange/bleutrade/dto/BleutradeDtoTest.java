@@ -206,7 +206,8 @@ public class BleutradeDtoTest extends BleutradeDtoTestSupport {
   @Test
   public void shouldParseCancelOrderReturnAsException() throws IOException {
     // when
-    final BleutradeException response = parse("CancelOrderReturn", BleutradeException.class);
+    final BleutradeException response =
+        parse("org/knowm/xchange/bleutrade/dto/" + "CancelOrderReturn", BleutradeException.class);
 
     // then
     assertThat(response.getSuccess()).isEqualTo("true");

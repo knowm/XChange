@@ -202,8 +202,8 @@ public class YoBitAdapters {
     String timestamp = map.get("timestamp_created").toString();
     String status =
         map.get("status")
-            .toString(); // status: 0 - active, 1 - fulfilled and closed, 2 - cancelled, 3 -
-    // cancelled after partially fulfilled.
+            .toString(); // status: 0 - active, 1 - fulfilled and closed, 2 - cancelled, 3 -//
+                         // cancelled after partially fulfilled.
 
     Date time = DateUtils.fromUnixTime(Long.valueOf(timestamp));
 

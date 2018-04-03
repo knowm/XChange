@@ -17,7 +17,7 @@ public class BitmexMarginAccountJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         BitmexMarginAccountJSONTest.class.getResourceAsStream(
-            "/account/example-margin-account.json");
+            "/org/knowm/xchange/bitmex/dto/account/example-margin-account.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexMarginAccount bitmexMarginAccount = mapper.readValue(is, BitmexMarginAccount.class);

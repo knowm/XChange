@@ -19,7 +19,7 @@ public class BitfinexMarketDataJSONTest {
 
     InputStream resourceAsStream =
         BitfinexMarketDataJSONTest.class.getResourceAsStream(
-            "/v1/marketdata/example-marketdepth-lendbook-data.json");
+            "/org/knowm/xchange/bitfinex/v1/dto/marketdata/example-marketdepth-lendbook-data.json");
     BitfinexLendDepth lendDepth =
         new ObjectMapper().readValue(resourceAsStream, BitfinexLendDepth.class);
 
@@ -32,7 +32,7 @@ public class BitfinexMarketDataJSONTest {
 
     InputStream resourceAsStream =
         BitfinexMarketDataJSONTest.class.getResourceAsStream(
-            "/v1/marketdata/example-marketdepth-data.json");
+            "/org/knowm/xchange/bitfinex/v1/dto/marketdata/example-marketdepth-data.json");
     BitfinexDepth depthRaw = new ObjectMapper().readValue(resourceAsStream, BitfinexDepth.class);
     BitfinexAdapters.OrdersContainer asksOrdersContainer =
         BitfinexAdapters.adaptOrders(depthRaw.getAsks(), CurrencyPair.BTC_EUR, OrderType.ASK);

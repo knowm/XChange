@@ -24,7 +24,7 @@ public class CoinbaseMerchantJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinbaseMerchantJsonTest.class.getResourceAsStream(
-            "/merchant/example-create-button-data.json");
+            "/org/knowm/xchange/coinbase/dto/merchant/example-create-button-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -55,7 +55,8 @@ public class CoinbaseMerchantJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CoinbaseMerchantJsonTest.class.getResourceAsStream("/merchant/example-orders-data.json");
+        CoinbaseMerchantJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/merchant/example-orders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -94,7 +95,7 @@ public class CoinbaseMerchantJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinbaseMerchantJsonTest.class.getResourceAsStream(
-            "/merchant/example-subscribers-data.json");
+            "/org/knowm/xchange/coinbase/dto/merchant/example-subscribers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -122,7 +123,8 @@ public class CoinbaseMerchantJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CoinbaseMerchantJsonTest.class.getResourceAsStream("/merchant/example-token-data.json");
+        CoinbaseMerchantJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/merchant/example-token-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -7,6 +7,9 @@ import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class KunaUtilsTest {
+  static {
+    System.setProperty("user.timezone", "GMT");
+  }
 
   @Test
   public void test_toPairString() {
@@ -22,6 +25,8 @@ public class KunaUtilsTest {
     assertThat(actual).isEqualToIgnoringHours(dateString);
 
     // TODO fix this. somehow the local time zone is causing this to fail by a one-hour difference.
+    //    assertThat(KunaUtils.toDate("2018-01-16T09:28:05Z")).isEqualTo("2018-01-16T09:28:05Z");
+    // belongs in the adapter
     //    assertThat(KunaUtils.toDate("2018-01-16T09:28:05Z")).isEqualTo("2018-01-16T09:28:05Z");
   }
 }

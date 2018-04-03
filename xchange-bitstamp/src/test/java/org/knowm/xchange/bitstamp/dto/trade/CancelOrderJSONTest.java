@@ -15,7 +15,8 @@ public class CancelOrderJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CancelOrderJSONTest.class.getResourceAsStream("/trade/example-cancel-order.json");
+        CancelOrderJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/trade/example-cancel-order.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

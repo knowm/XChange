@@ -15,7 +15,8 @@ public class LakeBTCPlaceOrderJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        LakeBTCPlaceOrderJsonTest.class.getResourceAsStream("/trade/example-place-order-data.json");
+        LakeBTCPlaceOrderJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/lakebtc/dto/trade/example-place-order-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -35,7 +36,7 @@ public class LakeBTCPlaceOrderJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         LakeBTCPlaceOrderJsonTest.class.getResourceAsStream(
-            "/trade/example-place-order2-data.json");
+            "/org/knowm/xchange/lakebtc/dto/trade/example-place-order2-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

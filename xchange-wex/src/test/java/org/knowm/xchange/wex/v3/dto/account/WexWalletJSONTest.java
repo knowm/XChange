@@ -16,7 +16,8 @@ public class WexWalletJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        WexWalletJSONTest.class.getResourceAsStream("/v3/account/example-account-info-data.json");
+        WexWalletJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/wex/v3/account/example-account-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

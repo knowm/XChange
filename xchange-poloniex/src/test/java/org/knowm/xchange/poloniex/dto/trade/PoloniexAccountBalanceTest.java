@@ -15,7 +15,8 @@ public class PoloniexAccountBalanceTest {
   public void testUnmarshal() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        PoloniexAccountBalanceTest.class.getResourceAsStream("/trade/order-balances.json");
+        PoloniexAccountBalanceTest.class.getResourceAsStream(
+            "/org/knowm/xchange/poloniex/dto/trade/order-balances.json");
 
     ObjectMapper mapper = new ObjectMapper();
     PoloniexAccountBalance balance = mapper.readValue(is, PoloniexAccountBalance.class);

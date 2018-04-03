@@ -24,7 +24,7 @@ public class GDAXMetadataTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/products.json");
+    InputStream is = getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/products.json");
     GDAXProduct[] products = mapper.readValue(is, GDAXProduct[].class);
     assertThat(products).hasSize(9);
 

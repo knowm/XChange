@@ -16,7 +16,8 @@ public class QuoineTickerJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        QuoineTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        QuoineTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

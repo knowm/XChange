@@ -16,7 +16,8 @@ public class PlaceLimitOrderJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        PlaceLimitOrderJSONTest.class.getResourceAsStream("/trade/example-place-limit-order.json");
+        PlaceLimitOrderJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/trade/example-place-limit-order.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -34,7 +35,7 @@ public class PlaceLimitOrderJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         PlaceLimitOrderJSONTest.class.getResourceAsStream(
-            "/trade/example-place-limit-order-error.json");
+            "/org/knowm/xchange/bitstamp/dto/trade/example-place-limit-order-error.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -24,7 +24,7 @@ public class CoinbaseMarketDataJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinbaseMarketDataJsonTest.class.getResourceAsStream(
-            "/marketdata/example-exchange-rate-data.json");
+            "/org/knowm/xchange/coinbase/dto/marketdata/example-exchange-rate-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -44,7 +44,7 @@ public class CoinbaseMarketDataJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinbaseMarketDataJsonTest.class.getResourceAsStream(
-            "/marketdata/example-currencies-data.json");
+            "/org/knowm/xchange/coinbase/dto/marketdata/example-currencies-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -64,7 +64,8 @@ public class CoinbaseMarketDataJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-price-data.json");
+        CoinbaseMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/marketdata/example-price-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -86,7 +87,7 @@ public class CoinbaseMarketDataJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinbaseMarketDataJsonTest.class.getResourceAsStream(
-            "/marketdata/example-spot-rate-history-data.txt");
+            "/org/knowm/xchange/coinbase/dto/marketdata/example-spot-rate-history-data.txt");
     String spotPriceHistoryString;
     try (Scanner scanner = new Scanner(is)) {
       spotPriceHistoryString = scanner.useDelimiter("\\A").next();

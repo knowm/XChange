@@ -11,7 +11,10 @@ import org.junit.Test;
 public class CexIOCurrencyLimitsTest {
   @Test
   public void jsonMapperTest() throws IOException {
-    InputStream is = getClass().getResourceAsStream("/marketdata/sample_currency_limits.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/cexio/dto/marketdata/sample_currency_limits.json");
     ObjectMapper mapper = new ObjectMapper();
     final CexIOCurrencyLimits cexIOCurrencyLimits = mapper.readValue(is, CexIOCurrencyLimits.class);
     assertThat(cexIOCurrencyLimits).isNotNull();

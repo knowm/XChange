@@ -5,8 +5,8 @@ import static java.lang.Double.MIN_VALUE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,8 +18,12 @@ public class KunaTickerTest {
   @BeforeClass
   public static void init() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
-    File file = new File("src/test/resources/mock/ticker.json");
-    ticker = mapper.readValue(file, KunaTicker.class);
+    try (InputStream file =
+        KunaTickerTest.class
+            .getClassLoader()
+            .getResourceAsStream("org/knowm/xchange/kuna/dto/ticker.json")) {
+      ticker = mapper.readValue(file, KunaTicker.class);
+    }
   }
 
   @Test

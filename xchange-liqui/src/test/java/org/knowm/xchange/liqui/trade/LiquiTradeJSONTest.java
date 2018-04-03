@@ -16,7 +16,8 @@ public class LiquiTradeJSONTest {
   @Test
   public void testUnmarshall() throws Exception {
     final InputStream is =
-        LiquiTickerJSONTest.class.getResourceAsStream("/trade/example-trade-data.json");
+        LiquiTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/liqui/marketdata/example-trade-data.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final LiquiTradeResult tradeResult = mapper.readValue(is, LiquiTradeResult.class);
@@ -36,7 +37,9 @@ public class LiquiTradeJSONTest {
 
   @Test
   public void testError() throws Exception {
-    final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/example-error.json");
+    final InputStream is =
+        LiquiTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/liqui/marketdata/example-error.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final LiquiTradeResult result = mapper.readValue(is, LiquiTradeResult.class);

@@ -14,7 +14,8 @@ public class BitflyerMarginStatusJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        BitflyerMarginStatus.class.getResourceAsStream("/account/example-margin-status.json");
+        BitflyerMarginStatus.class.getResourceAsStream(
+            "/org/knowm/xchange/bitflyer/dto/account/example-margin-status.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

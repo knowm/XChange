@@ -52,7 +52,7 @@ public class KrakenAssetPairsJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         KrakenAssetPairsJSONTest.class.getResourceAsStream(
-            "/marketdata/example-assetpairs-data.json");
+            "/org/knowm/xchange/kraken/dto/marketdata/example-assetpairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

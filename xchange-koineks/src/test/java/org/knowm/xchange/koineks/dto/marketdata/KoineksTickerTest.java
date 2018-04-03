@@ -17,7 +17,8 @@ public class KoineksTickerTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KoineksTickerTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        KoineksTickerTest.class.getResourceAsStream(
+            "/org/knowm/xchange/koineks/dto/marketdata/example-ticker-data.json");
     ObjectMapper mapper = new ObjectMapper();
     KoineksTicker koineksTicker = mapper.readValue(is, KoineksTicker.class);
 

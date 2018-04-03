@@ -16,7 +16,9 @@ public class DepthJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = DepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is =
+        DepthJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gatecoin/dto/marketdata/example-depth-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     GatecoinDepthResult gatecoinDepthResult = mapper.readValue(is, GatecoinDepthResult.class);

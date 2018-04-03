@@ -22,7 +22,8 @@ public class KrakenTickerJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        KrakenTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

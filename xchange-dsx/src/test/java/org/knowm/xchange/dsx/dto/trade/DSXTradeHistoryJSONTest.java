@@ -16,7 +16,8 @@ public class DSXTradeHistoryJSONTest {
   public void testUnmarhal() throws IOException {
 
     InputStream is =
-        DSXTradeHistoryJSONTest.class.getResourceAsStream("/trade/example-trade-history-data.json");
+        DSXTradeHistoryJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/trade/example-trade-history-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXTradeHistoryReturn transactions = mapper.readValue(is, DSXTradeHistoryReturn.class);
