@@ -16,7 +16,8 @@ public class LakeBTCTradesJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        LakeBTCTradesJsonTest.class.getResourceAsStream("/trade/example-past-trades-data.json");
+        LakeBTCTradesJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/lakebtc/dto/trade/example-past-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

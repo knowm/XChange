@@ -34,7 +34,8 @@ public class CryptopiaAdaptersTest {
   public void testOrderBookAdapter() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        CryptopiaAdaptersTest.class.getResourceAsStream("/marketdata/example-full-depth-data.json");
+        CryptopiaAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptopia/dto/marketdata/example-full-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -59,7 +60,8 @@ public class CryptopiaAdaptersTest {
   public void testTickerAdapter() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        CryptopiaAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        CryptopiaAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptopia/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -80,7 +82,8 @@ public class CryptopiaAdaptersTest {
   public void testExchangeMetaDataAdapter() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        CryptopiaAdaptersTest.class.getResourceAsStream("/marketdata/example-currencies.json");
+        CryptopiaAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptopia/dto/marketdata/example-currencies.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -89,7 +92,9 @@ public class CryptopiaAdaptersTest {
     is.close();
     assertThat(cryptopiaCurrencies).isNotNull();
 
-    is = CryptopiaAdaptersTest.class.getResourceAsStream("/marketdata/example-trade-pairs.json");
+    is =
+        CryptopiaAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptopia/dto/marketdata/example-trade-pairs.json");
     CryptopiaBaseResponse<List<CryptopiaTradePair>> cryptopiaTradePairs =
         mapper.readValue(is, CryptopiaBaseResponseCryptopiaTradePair.class);
     is.close();
@@ -116,7 +121,8 @@ public class CryptopiaAdaptersTest {
   public void testTradesAdapter() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        CryptopiaAdaptersTest.class.getResourceAsStream("/marketdata/example-trades.json");
+        CryptopiaAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptopia/dto/marketdata/example-trades.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

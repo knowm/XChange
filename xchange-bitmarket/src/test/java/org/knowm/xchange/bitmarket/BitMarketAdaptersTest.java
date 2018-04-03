@@ -33,7 +33,9 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
   public void testAccountInfoAdapter() throws IOException {
     // given
     BitMarketAccountInfoResponse response =
-        parse("account/example-info-data", BitMarketAccountInfoResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/account/example-info-data",
+            BitMarketAccountInfoResponse.class);
     final Balance[] expectedInfoBalances = expectedInfoBalances();
 
     // when
@@ -53,7 +55,9 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
   public void testOpenOrdersAdapter() throws IOException {
     // given
     BitMarketOrdersResponse response =
-        parse("trade/example-orders-data", BitMarketOrdersResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/trade/example-orders-data",
+            BitMarketOrdersResponse.class);
     final LimitOrder[] expectedOrders = expectedOrders();
 
     // when
@@ -73,9 +77,13 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
 
     // given
     BitMarketHistoryTradesResponse historyTradesResponse =
-        parse("trade/example-history-trades-data", BitMarketHistoryTradesResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/trade/example-history-trades-data",
+            BitMarketHistoryTradesResponse.class);
     BitMarketHistoryOperationsResponse marketHistoryOperationsResponse =
-        parse("trade/example-history-operations-data", BitMarketHistoryOperationsResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-data",
+            BitMarketHistoryOperationsResponse.class);
 
     final UserTrade[] expectedUserTrades = expectedUserTrades();
 
@@ -97,7 +105,9 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
 
     // given
     BitMarketTicker bitMarketTicker =
-        parse("marketdata/example-ticker-data", BitMarketTicker.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-ticker-data",
+            BitMarketTicker.class);
 
     // when
     Ticker ticker = BitMarketAdapters.adaptTicker(bitMarketTicker, CurrencyPair.BTC_AUD);
@@ -113,7 +123,9 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
   public void testTradesAdapter() throws IOException {
     // given
     BitMarketTrade[] bitMarketTrades =
-        parse("marketdata/example-trades-data", BitMarketTrade[].class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-trades-data",
+            BitMarketTrade[].class);
     final Trade[] expectedTrades = expectedTrades();
 
     // when
@@ -131,7 +143,9 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
   public void testOrderBookAdapter() throws IOException {
     // given
     BitMarketOrderBook bitMarketOrderBook =
-        parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-order-book-data",
+            BitMarketOrderBook.class);
 
     // when
     OrderBook orderBook =

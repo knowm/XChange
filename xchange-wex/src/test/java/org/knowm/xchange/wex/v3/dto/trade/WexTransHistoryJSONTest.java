@@ -18,7 +18,7 @@ public class WexTransHistoryJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         WexTransHistoryJSONTest.class.getResourceAsStream(
-            "/v3/trade/example-trans-history-data.json");
+            "/org/knowm/xchange/wex/v3/trade/example-trans-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

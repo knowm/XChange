@@ -24,7 +24,9 @@ public class ExchangeUtils {
     ExchangeSpecification exSpec = new ExchangeSpecification(WexExchange.class);
     ObjectMapper mapper = new ObjectMapper();
     InputStream is =
-        ExchangeUtils.class.getClassLoader().getResourceAsStream("v3/exchangeConfiguration.json");
+        ExchangeUtils.class
+            .getClassLoader()
+            .getResourceAsStream("org/knowm/xchange/wex/v3/exchangeConfiguration.json");
     if (is == null) {
       logger.warn("No v3/exchangeConfiguration.json file found. Returning null exchange.");
       return null;

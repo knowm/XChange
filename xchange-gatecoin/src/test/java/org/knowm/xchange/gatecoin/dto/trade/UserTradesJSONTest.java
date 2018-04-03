@@ -16,7 +16,8 @@ public class UserTradesJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        UserTradesJSONTest.class.getResourceAsStream("/trade/example-user-trades.json");
+        UserTradesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gatecoin/dto/trade/example-user-trades.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

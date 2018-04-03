@@ -22,7 +22,8 @@ public class CampBXAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CampBXAdapterTest.class.getResourceAsStream("/marketdata/example-full-depth-data.json");
+        CampBXAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/campbx/marketdata/example-full-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -44,7 +45,8 @@ public class CampBXAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CampBXAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        CampBXAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/campbx/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

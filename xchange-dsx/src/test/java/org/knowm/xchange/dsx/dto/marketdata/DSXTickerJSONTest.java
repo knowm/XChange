@@ -24,7 +24,8 @@ public class DSXTickerJSONTest {
   public void testUnmarshall() throws IOException {
 
     InputStream is =
-        DSXTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        DSXTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/marketdata/example-ticker-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXTickerWrapper dsxTickerWrapper = mapper.readValue(is, DSXTickerWrapper.class);

@@ -13,7 +13,9 @@ public class BitflyerOrderbookJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitflyerTicker.class.getResourceAsStream("/marketdata/example-orderbook.json");
+    InputStream is =
+        BitflyerTicker.class.getResourceAsStream(
+            "/org/knowm/xchange/bitflyer/dto/marketdata/example-orderbook.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

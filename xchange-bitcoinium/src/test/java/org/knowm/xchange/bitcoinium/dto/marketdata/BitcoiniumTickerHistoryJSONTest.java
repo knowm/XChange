@@ -17,7 +17,7 @@ public class BitcoiniumTickerHistoryJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         BitcoiniumTickerHistoryJSONTest.class.getResourceAsStream(
-            "/marketdata/example-ticker-history-data.json");
+            "/org/knowm/xchange/bitcoinium/dto/marketdata/example-ticker-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -37,7 +37,8 @@ public class GateioAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        GateioAdapterTest.class.getResourceAsStream("/marketdata/example-pairs-data.json");
+        GateioAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gateio/dto/marketdata/example-pairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -51,7 +52,8 @@ public class GateioAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        GateioAdapterTest.class.getResourceAsStream("/trade/example-order-list-data.json");
+        GateioAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gateio/dto/trade/example-order-list-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -74,7 +76,8 @@ public class GateioAdapterTest {
   public void testAdaptTrades() throws IOException {
 
     InputStream is =
-        GateioAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+        GateioAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gateio/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -99,7 +102,8 @@ public class GateioAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        GateioAdapterTest.class.getResourceAsStream("/account/example-funds-data.json");
+        GateioAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gateio/dto/account/example-funds-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -127,7 +131,8 @@ public class GateioAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        GateioAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        GateioAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gateio/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

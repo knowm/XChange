@@ -110,7 +110,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseBalanceReturn() throws IOException {
     // when
     final BleutradeBalanceReturn response =
-        parse("ExtendedBalanceReturn", BleutradeBalanceReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedBalanceReturn",
+            BleutradeBalanceReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(BALANCE_RETURN_STR);
@@ -120,7 +122,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedBalancesReturn() throws IOException {
     // when
     final BleutradeBalancesReturn response =
-        parse("ExtendedBalancesReturn", BleutradeBalancesReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedBalancesReturn",
+            BleutradeBalancesReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(BALANCES_RETURN_STR);
@@ -132,7 +136,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedCancelOrderReturn() throws IOException {
     // when
     final BleutradeCancelOrderReturn response =
-        parse("ExtendedCancelOrderReturn", BleutradeCancelOrderReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedCancelOrderReturn",
+            BleutradeCancelOrderReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(CANCEL_ORDER_RETURN_STR);
@@ -142,7 +148,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedCurrenciesReturn() throws IOException {
     // when
     final BleutradeCurrenciesReturn response =
-        parse("ExtendedCurrenciesReturn", BleutradeCurrenciesReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedCurrenciesReturn",
+            BleutradeCurrenciesReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(CURRENCIES_RETURN_STR);
@@ -152,7 +160,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedDepositAddressReturn() throws IOException {
     // when
     final BleutradeDepositAddressReturn response =
-        parse("ExtendedDepositAddressReturn", BleutradeDepositAddressReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedDepositAddressReturn",
+            BleutradeDepositAddressReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(DEPOSIT_ADDRESS_RETURN_STR);
@@ -162,7 +172,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedMarketHistoryReturn() throws IOException {
     // when
     final BleutradeMarketHistoryReturn response =
-        parse("ExtendedMarketHistoryReturn", BleutradeMarketHistoryReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedMarketHistoryReturn",
+            BleutradeMarketHistoryReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(MARKET_HISTORY_RETURN_STR);
@@ -172,7 +184,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedMarketsReturn() throws IOException {
     // when
     final BleutradeMarketsReturn response =
-        parse("ExtendedMarketsReturn", BleutradeMarketsReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedMarketsReturn",
+            BleutradeMarketsReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(MARKETS_RETURN_STR);
@@ -182,7 +196,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedOpenOrdersReturn() throws IOException {
     // when
     final BleutradeOpenOrdersReturn response =
-        parse("ExtendedOpenOrdersReturn", BleutradeOpenOrdersReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedOpenOrdersReturn",
+            BleutradeOpenOrdersReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(OPEN_ORDERS_RETURN_STR);
@@ -192,7 +208,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedOrderBookReturn() throws IOException {
     // when
     final BleutradeOrderBookReturn response =
-        parse("ExtendedOrderBookReturn", BleutradeOrderBookReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedOrderBookReturn",
+            BleutradeOrderBookReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(ORDER_BOOK_RETURN_STR);
@@ -202,7 +220,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedPlaceOrderReturn() throws IOException {
     // when
     final BleutradePlaceOrderReturn response =
-        parse("ExtendedPlaceOrderReturn", BleutradePlaceOrderReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedPlaceOrderReturn",
+            BleutradePlaceOrderReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(PLACE_ORDER_RETURN_STR);
@@ -212,7 +232,9 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   public void shouldParseExtendedTickerReturn() throws IOException {
     // when
     final BleutradeTickerReturn response =
-        parse("ExtendedTickerReturn", BleutradeTickerReturn.class);
+        parse(
+            "org/knowm/xchange/bleutrade/dto/" + "ExtendedTickerReturn",
+            BleutradeTickerReturn.class);
 
     // then
     assertThat(response.toString()).isEqualTo(TICKER_RETURN_STR);
@@ -222,7 +244,8 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   @Ignore("BleutradeException is not parsed from json with additional properties")
   public void shouldParseExtendedCancelOrderReturnAsException() throws IOException {
     // when
-    final BleutradeException response = parse("CancelOrderReturn", BleutradeException.class);
+    final BleutradeException response =
+        parse("org/knowm/xchange/bleutrade/dto/" + "CancelOrderReturn", BleutradeException.class);
 
     // then
     assertThat(response.getSuccess()).isEqualTo("true");

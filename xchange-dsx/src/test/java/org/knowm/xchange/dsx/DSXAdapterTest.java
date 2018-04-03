@@ -38,7 +38,8 @@ public class DSXAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     InputStream is =
-        DSXDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        DSXDepthJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/marketdata/example-depth-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXOrderbookWrapper dsxOrderbookWrapper = mapper.readValue(is, DSXOrderbookWrapper.class);
@@ -68,7 +69,8 @@ public class DSXAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     InputStream is =
-        DSXTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+        DSXTradesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/marketdata/example-trades-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXTradesWrapper dsxTradesWrapper = mapper.readValue(is, DSXTradesWrapper.class);
@@ -93,7 +95,8 @@ public class DSXAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        DSXTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        DSXTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -122,7 +125,8 @@ public class DSXAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        DSXTradeHistoryJSONTest.class.getResourceAsStream("/trade/example-trade-history-data.json");
+        DSXTradeHistoryJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/trade/example-trade-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

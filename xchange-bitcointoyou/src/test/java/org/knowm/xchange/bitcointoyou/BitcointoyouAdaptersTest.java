@@ -58,7 +58,8 @@ public class BitcointoyouAdaptersTest {
       throws IOException {
 
     InputStream is =
-        BitcointoyouAdaptersTest.class.getResourceAsStream("/trade/example-orderbook-data.json");
+        BitcointoyouAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcointoyou/dto/trade/example-orderbook-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(is, BitcointoyouOrderBook.class);
@@ -67,7 +68,8 @@ public class BitcointoyouAdaptersTest {
   private static BitcointoyouTicker loadBitcointoyouTickerFromExampleData() throws IOException {
 
     InputStream is =
-        BitcointoyouAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        BitcointoyouAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcointoyou/dto/marketdata/example-ticker-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitcointoyouMarketData marketData = mapper.readValue(is, BitcointoyouMarketData.class);
@@ -79,7 +81,7 @@ public class BitcointoyouAdaptersTest {
 
     InputStream is =
         BitcointoyouAdaptersTest.class.getResourceAsStream(
-            "/marketdata/example-public-trades-data.json");
+            "/org/knowm/xchange/bitcointoyou/dto/marketdata/example-public-trades-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(is, BitcointoyouPublicTrade[].class);

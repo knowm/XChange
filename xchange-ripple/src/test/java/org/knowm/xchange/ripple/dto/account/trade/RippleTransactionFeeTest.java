@@ -17,7 +17,10 @@ public class RippleTransactionFeeTest {
   public void transactionFeeUnmarshalTest()
       throws JsonParseException, JsonMappingException, IOException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-transaction-fee.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/ripple/dto/trade/example-transaction-fee.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleTransactionFee response = mapper.readValue(is, RippleTransactionFee.class);
 

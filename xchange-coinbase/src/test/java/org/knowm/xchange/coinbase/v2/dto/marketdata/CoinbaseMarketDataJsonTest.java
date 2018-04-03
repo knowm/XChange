@@ -21,7 +21,7 @@ public class CoinbaseMarketDataJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinbaseMarketDataJsonTest.class.getResourceAsStream(
-            "/v2/marketdata/example-exchange-rate-data.json");
+            "/org/knowm/xchange/coinbase/marketdata/example-exchange-rate-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -41,7 +41,7 @@ public class CoinbaseMarketDataJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinbaseMarketDataJsonTest.class.getResourceAsStream(
-            "/v2/marketdata/example-currencies-data.json");
+            "/org/knowm/xchange/coinbase/marketdata/example-currencies-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -62,7 +62,7 @@ public class CoinbaseMarketDataJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinbaseMarketDataJsonTest.class.getResourceAsStream(
-            "/v2/marketdata/example-price-data.json");
+            "/org/knowm/xchange/coinbase/marketdata/example-price-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

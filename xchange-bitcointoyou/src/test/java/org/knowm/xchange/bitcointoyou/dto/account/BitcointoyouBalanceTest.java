@@ -30,13 +30,15 @@ public class BitcointoyouBalanceTest {
 
   private static BitcointoyouBalance loadBitcointoyouBalanceFromExampleData() throws IOException {
 
-    return loadBitcointoyouBalance("/account/example-balance-data.json");
+    return loadBitcointoyouBalance(
+        "/org/knowm/xchange/bitcointoyou/dto/account/example-balance-data.json");
   }
 
   private static BitcointoyouBalance loadBitcointoyouBalanceErrorFromExampleData()
       throws IOException {
 
-    return loadBitcointoyouBalance("/account/example-balance-data-error.json");
+    return loadBitcointoyouBalance(
+        "/org/knowm/xchange/bitcointoyou/dto/account/example-balance-data-error.json");
   }
 
   private static BitcointoyouBalance loadBitcointoyouBalance(String resource) throws IOException {

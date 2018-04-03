@@ -29,7 +29,8 @@ public class CryptonitAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CryptonitAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        CryptonitAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -51,7 +52,8 @@ public class CryptonitAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CryptonitTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+        CryptonitTradesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -74,7 +76,8 @@ public class CryptonitAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CryptonitAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        CryptonitAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -95,7 +98,8 @@ public class CryptonitAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CryptonitAdapterTest.class.getResourceAsStream("/marketdata/example-trading-pairs.json");
+        CryptonitAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-trading-pairs.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -18,7 +18,8 @@ public class MyOrdersJSONTest {
     MyOpenOrders orderBook =
         new ObjectMapper()
             .readValue(
-                MyOrdersJSONTest.class.getResourceAsStream("/trade/open-orders.json"),
+                MyOrdersJSONTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/campbx/trade/open-orders.json"),
                 MyOpenOrders.class);
 
     // Verify that the example data was unmarshalled correctly

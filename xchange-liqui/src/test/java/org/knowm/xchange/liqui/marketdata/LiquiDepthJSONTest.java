@@ -18,7 +18,8 @@ public class LiquiDepthJSONTest {
   @Test
   public void testUnmarshall() throws Exception {
     final InputStream is =
-        LiquiTickerJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        LiquiTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/liqui/marketdata/example-depth-data.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final LiquiDepthResult depthResult = mapper.readValue(is, LiquiDepthResult.class);

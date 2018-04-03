@@ -22,7 +22,7 @@ public class BiboxTradeUnmarshalTest {
     BiboxSingleResponse<BiboxOrders> response =
         BiboxTestUtils.getResponse(
             new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
-            "/trade/example-open-orders.json");
+            "/org/knowm/xchange/bibox/dto/trade/example-open-orders.json");
     assertThat(response.get().getCmd()).isEqualTo("orderpending/orderPendingList");
 
     BiboxOrders orders = response.get().getResult();
@@ -65,7 +65,7 @@ public class BiboxTradeUnmarshalTest {
     BiboxSingleResponse<BiboxOrders> response =
         BiboxTestUtils.getResponse(
             new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
-            "/trade/example-trade-history.json");
+            "/org/knowm/xchange/bibox/dto/trade/example-trade-history.json");
     assertThat(response.get().getCmd()).isEqualTo("orderpending/orderHistoryList");
 
     BiboxOrders orders = response.get().getResult();

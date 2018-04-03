@@ -15,7 +15,10 @@ public class GDAXExceptionTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/trade/example-order-entry-reject.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/gdax/dto/trade/example-order-entry-reject.json");
     GDAXException exception = mapper.readValue(is, GDAXException.class);
     assertThat(exception.getMessage()).startsWith("Insufficient funds");
   }

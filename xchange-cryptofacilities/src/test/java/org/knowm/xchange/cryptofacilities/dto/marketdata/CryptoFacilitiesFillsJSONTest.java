@@ -19,7 +19,7 @@ public class CryptoFacilitiesFillsJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         CryptoFacilitiesFillsJSONTest.class.getResourceAsStream(
-            "/marketdata/example-fills-data.json");
+            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-fills-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

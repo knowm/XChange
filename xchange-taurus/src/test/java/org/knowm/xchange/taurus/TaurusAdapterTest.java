@@ -32,7 +32,8 @@ public class TaurusAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        TaurusAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -63,7 +64,8 @@ public class TaurusAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        TaurusAdapterTest.class.getResourceAsStream("/marketdata/example-full-depth-data.json");
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/marketdata/example-full-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -94,7 +96,8 @@ public class TaurusAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        TaurusAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/marketdata/example-trades-data.json");
     //    [{"amount":"0.01000000","date":"1427270265","price":"310.00","tid":132}]
 
     // Use Jackson to parse it
@@ -117,7 +120,8 @@ public class TaurusAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        TaurusAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -141,7 +145,8 @@ public class TaurusAdapterTest {
   public void testUserTradeHistoryAdapter() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        TaurusAdapterTest.class.getResourceAsStream("/trade/example-user-transactions.json");
+        TaurusAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/taurus/dto/trade/example-user-transactions.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

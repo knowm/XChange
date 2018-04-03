@@ -16,7 +16,8 @@ public class BTCTurkTradeTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        BTCTurkTradeTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+        BTCTurkTradeTest.class.getResourceAsStream(
+            "/org/knowm/xchange/btcturk/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

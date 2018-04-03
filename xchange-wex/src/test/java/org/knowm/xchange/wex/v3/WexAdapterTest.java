@@ -41,7 +41,8 @@ public class WexAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        WexDepthJSONTest.class.getResourceAsStream("/v3/marketdata/example-depth-data.json");
+        WexDepthJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/wex/v3/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -73,7 +74,8 @@ public class WexAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        WexTradesJSONTest.class.getResourceAsStream("/v3/marketdata/example-trades-data.json");
+        WexTradesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/wex/v3/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -103,7 +105,8 @@ public class WexAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        WexTickerJSONTest.class.getResourceAsStream("/v3/marketdata/example-ticker-data.json");
+        WexTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/wex/v3/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -130,7 +133,7 @@ public class WexAdapterTest {
     // Read in the JSON from the example resources
     InputStream is =
         WexTradeHistoryJSONTest.class.getResourceAsStream(
-            "/v3/trade/example-trade-history-data.json");
+            "/org/knowm/xchange/wex/v3/trade/example-trade-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -153,7 +156,8 @@ public class WexAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        WexTradeDataJSONTest.class.getResourceAsStream("/v3/trade/example-order-info-data.json");
+        WexTradeDataJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/wex/v3/trade/example-order-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

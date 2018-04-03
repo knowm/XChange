@@ -20,7 +20,8 @@ public class PoloniexLoansDataTest {
   public void testUnmarshallLoans() throws JsonParseException, JsonMappingException, IOException {
 
     final InputStream is =
-        PoloniexLoansDataTest.class.getResourceAsStream("/marketdata/loans-info.json");
+        PoloniexLoansDataTest.class.getResourceAsStream(
+            "/org/knowm/xchange/poloniex/dto/marketdata/loans-info.json");
 
     final ObjectMapper mapper = new ObjectMapper();
 

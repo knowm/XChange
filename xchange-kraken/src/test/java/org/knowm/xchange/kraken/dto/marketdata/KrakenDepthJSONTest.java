@@ -19,7 +19,8 @@ public class KrakenDepthJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        KrakenDepthJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

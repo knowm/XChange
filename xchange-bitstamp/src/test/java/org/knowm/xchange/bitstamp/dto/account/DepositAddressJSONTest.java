@@ -18,21 +18,24 @@ public class DepositAddressJSONTest {
 
   @Test
   public void testError() throws IOException {
-    BitstampDepositAddress address = unmarshall("/account/example-deposit-error.json");
+    BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-deposit-error.json");
     assertThat(address.getError()).isNotBlank();
     assertThat(address.getDepositAddress()).isNullOrEmpty();
   }
 
   @Test
   public void testV1DepositResponse() throws IOException {
-    final BitstampDepositAddress address = unmarshall("/account/example-deposit-response.json");
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
     assertThat(address.getDepositAddress()).isNotBlank();
   }
 
   @Test
   public void testV2DepositResponse() throws IOException {
-    final BitstampDepositAddress address = unmarshall("/account/example-v2-deposit-response.json");
+    final BitstampDepositAddress address =
+        unmarshall("/org/knowm/xchange/bitstamp/dto/account/example-v2-deposit-response.json");
     assertThat(address.getError()).isNullOrEmpty();
     assertThat(address.getDepositAddress()).isNotBlank();
   }

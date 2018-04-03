@@ -16,7 +16,8 @@ public class TickerJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        TickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/marketdata/example-ticker-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitstampTicker bitstampTicker = mapper.readValue(is, BitstampTicker.class);

@@ -16,7 +16,8 @@ public class PlaceOrderJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        PlaceOrderJSONTest.class.getResourceAsStream("/trade/example-place-order.json");
+        PlaceOrderJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gatecoin/dto/trade/example-place-order.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

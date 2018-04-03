@@ -23,7 +23,7 @@ public class BiboxAccountUnmarshalTest {
     BiboxSingleResponse<List<BiboxCoin>> response =
         BiboxTestUtils.getResponse(
             new TypeReference<BiboxSingleResponse<List<BiboxCoin>>>() {},
-            "/account/example-coin-list.json");
+            "/org/knowm/xchange/bibox/dto/account/example-coin-list.json");
     assertThat(response.get().getCmd()).isEqualTo("transfer/coinList");
 
     List<BiboxCoin> coinList = response.get().getResult();

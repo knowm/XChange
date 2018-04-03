@@ -37,6 +37,7 @@
         <version.slf4j>1.7.25</version.slf4j>
 
         <skipIntegrationTests>true</skipIntegrationTests>
+        <reformat.skip>true</reformat.skip>
     </properties>
 
 
@@ -86,6 +87,9 @@
     </ciManagement>
 
     <modules>
+<!--shouldn't this always be first?-->
+        <module>xchange-core</module>
+ <!--child modules-->
         <module>xchange-abucoins</module>
         <module>xchange-acx</module>
         <module>xchange-anx</module>
@@ -99,9 +103,9 @@
         <module>xchange-bitcoinium</module>
         <module>xchange-bitcointoyou</module>
         <module>xchange-bitfinex</module>
-        <module>xchange-bitmex</module>
         <module>xchange-bitflyer</module>
         <module>xchange-bitmarket</module>
+        <module>xchange-bitmex</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
         <module>xchange-bittrex</module>
@@ -117,13 +121,12 @@
         <module>xchange-cexio</module>
         <module>xchange-coinbase</module>
         <module>xchange-coinegg</module>
-        <module>xchange-coinmarketcap</module>
         <module>xchange-coinfloor</module>
+        <module>xchange-coinmarketcap</module>
         <module>xchange-coinmate</module>
-        <module>xchange-core</module>
         <module>xchange-cryptofacilities</module>
-        <module>xchange-cryptopia</module>
         <module>xchange-cryptonit</module>
+        <module>xchange-cryptopia</module>
         <module>xchange-dsx</module>
         <module>xchange-empoex</module>
         <module>xchange-examples</module>
@@ -133,13 +136,13 @@
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
         <module>xchange-huobi</module>
-        <module>xchange-itbit</module>
         <module>xchange-independentreserve</module>
+        <module>xchange-itbit</module>
         <module>xchange-koineks</module>
         <module>xchange-koinim</module>
         <module>xchange-kraken</module>
-        <module>xchange-kuna</module>
         <module>xchange-kucoin</module>
+        <module>xchange-kuna</module>
         <module>xchange-lakebtc</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
@@ -150,8 +153,8 @@
         <module>xchange-paribu</module>
         <module>xchange-paymium</module>
         <module>xchange-poloniex</module>
-        <module>xchange-quoine</module>
         <module>xchange-quadrigacx</module>
+        <module>xchange-quoine</module>
         <module>xchange-ripple</module>
         <module>xchange-taurus</module>
         <module>xchange-therock</module>
@@ -348,6 +351,9 @@
 
                 </plugins>
             </build>
+            <properties>
+                <reformat.skip>false</reformat.skip>
+            </properties>
         </profile>
         <profile>
             <id>disable-java8-doclint</id>

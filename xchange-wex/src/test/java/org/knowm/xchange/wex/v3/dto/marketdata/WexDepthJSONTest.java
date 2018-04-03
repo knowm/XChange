@@ -18,7 +18,8 @@ public class WexDepthJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        WexDepthJSONTest.class.getResourceAsStream("/v3/marketdata/example-depth-data.json");
+        WexDepthJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/wex/v3/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

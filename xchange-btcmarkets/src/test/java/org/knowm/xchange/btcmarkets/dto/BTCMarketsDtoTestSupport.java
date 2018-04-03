@@ -12,7 +12,7 @@ public class BTCMarketsDtoTestSupport {
 
   protected static <E> E parse(Class<E> type) throws IOException {
     String coreName = getBaseFileName(type);
-    return parse(coreName, type);
+    return parse("org/knowm/xchange/btcmarkets/dto/" + coreName, type);
   }
 
   protected static <E> String getBaseFileName(Class<E> type) {

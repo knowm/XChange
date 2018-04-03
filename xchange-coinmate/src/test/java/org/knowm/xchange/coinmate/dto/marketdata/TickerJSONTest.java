@@ -38,7 +38,9 @@ public class TickerJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker.json");
+    InputStream is =
+        TickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/marketdata/example-ticker.json");
 
     ObjectMapper mapper = new ObjectMapper();
     CoinmateTicker coinmateTicker = mapper.readValue(is, CoinmateTicker.class);

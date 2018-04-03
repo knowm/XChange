@@ -40,7 +40,7 @@ public class MercadoBitcoinAdapterTest {
     // Read in the JSON from the example resources
     InputStream is =
         MercadoBitcoinAdapterTest.class.getResourceAsStream(
-            "/marketdata/example-full-depth-data.json");
+            "/org/knowm/xchange/mercadobitcoin/dto/marketdata/example-full-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -63,7 +63,8 @@ public class MercadoBitcoinAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        MercadoBitcoinAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+        MercadoBitcoinAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/mercadobitcoin/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -86,7 +87,8 @@ public class MercadoBitcoinAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        MercadoBitcoinAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        MercadoBitcoinAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/mercadobitcoin/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -107,7 +109,7 @@ public class MercadoBitcoinAdapterTest {
     // Read in the JSON from the example resources
     InputStream is =
         MercadoBitcoinAdapterTest.class.getResourceAsStream(
-            "/account/example-accountinfo-data.json");
+            "/org/knowm/xchange/mercadobitcoin/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -139,7 +141,8 @@ public class MercadoBitcoinAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        MercadoBitcoinAdapterTest.class.getResourceAsStream("/trade/example-userorders.json");
+        MercadoBitcoinAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/mercadobitcoin/dto/trade/example-userorders.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

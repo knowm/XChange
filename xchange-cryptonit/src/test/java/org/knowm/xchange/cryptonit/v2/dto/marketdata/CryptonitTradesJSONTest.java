@@ -16,7 +16,8 @@ public class CryptonitTradesJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CryptonitTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+        CryptonitTradesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptonit/v2/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

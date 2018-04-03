@@ -16,7 +16,8 @@ public class QuoineWalletJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        QuoineWalletJSONTest.class.getResourceAsStream("/account/example-account-data.json");
+        QuoineWalletJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/account/example-account-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
