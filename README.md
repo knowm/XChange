@@ -7,7 +7,7 @@ consistent interface for trading and accessing market data.
 
 ## Important!
 
-The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Knowm's Twitter page](https://twitter.com/knowmorg). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). There are also most likely some open [bounties](http://knowm.org/open-source/) to be had as well.
+The world of Bitcoin changes quickly and XChange is no exception. For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). 
 
 ## Description
 
@@ -79,6 +79,7 @@ Looking for streaming API? Use library [xchange-stream](https://github.com/bitri
 * [New Implementation Best Practices](https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices)
 * [Installing SSL Certificates into TrustStore](https://github.com/timmolter/XChange/wiki/Installing-SSL-Certificates-into-TrustStore)
 * [Getting Started with XChange for Noobies](https://github.com/timmolter/XChange/wiki/Getting-Started-with-XChange-for-Noobies)
+* [Code Style](https://github.com/timmolter/XChange/wiki/Code-Style)
 
 ## Continuous Integration
 
@@ -135,6 +136,7 @@ install in local Maven repo: `mvn clean install`
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
 check for dependency updates: `mvn versions:display-dependency-updates`
+code format: `mvn com.coveo:fmt-maven-plugin:format`
 
 ## Bugs
 
