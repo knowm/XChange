@@ -39,9 +39,7 @@ public class KrakenAccountJSONTest {
   public void testBalanceInfoUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        KrakenAccountJSONTest.class.getResourceAsStream(
-            "/org/knowm/xchange/kraken/dto/account/example-tradebalanceinfo-data.json");
+    InputStream is = KrakenAccountJSONTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/account/example-tradebalanceinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

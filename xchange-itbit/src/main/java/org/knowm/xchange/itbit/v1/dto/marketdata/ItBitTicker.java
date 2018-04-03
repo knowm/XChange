@@ -8,8 +8,8 @@ public class ItBitTicker {
   private final String currencyPair;
   private final BigDecimal bid;
   private final BigDecimal ask;
-  private final double bidAmt;
-  private final double askAmt;
+  private final BigDecimal bidAmt;
+  private final BigDecimal askAmt;
   private final BigDecimal lastPrice;
   private final double lastAmt;
   private final BigDecimal volume24h;
@@ -24,8 +24,8 @@ public class ItBitTicker {
       @JsonProperty("pair") String currencyPair,
       @JsonProperty("bid") BigDecimal bid,
       @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("bidAmt") double bidAmt,
-      @JsonProperty("askAmt") double askAmt,
+      @JsonProperty("bidAmt") BigDecimal bidAmt,
+      @JsonProperty("askAmt") BigDecimal askAmt,
       @JsonProperty("lastPrice") BigDecimal lastPrice,
       @JsonProperty("lastAmt") double lastAmt,
       @JsonProperty("volume24h") BigDecimal volume24h,
@@ -68,12 +68,12 @@ public class ItBitTicker {
     return ask;
   }
 
-  public double getBidAmt() {
+  public BigDecimal getBidAmt() {
 
     return bidAmt;
   }
 
-  public double getAskAmt() {
+  public BigDecimal getAskAmt() {
 
     return askAmt;
   }

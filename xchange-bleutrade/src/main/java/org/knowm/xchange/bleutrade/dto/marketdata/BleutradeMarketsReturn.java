@@ -2,6 +2,7 @@ package org.knowm.xchange.bleutrade.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,6 +28,17 @@ public class BleutradeMarketsReturn {
   private List<BleutradeMarket> result = new ArrayList<BleutradeMarket>();
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonCreator
+  public BleutradeMarketsReturn() {
+    // default c-tor for jackson
+  }
+
+  /** C-tor for testing */
+  public BleutradeMarketsReturn(List<BleutradeMarket> markets) {
+    result = markets;
+    success = true;
+  }
 
   /** @return The success */
   @JsonProperty("success")

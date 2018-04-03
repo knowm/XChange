@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.3.5-SNAPSHOT</version>
+    <version>4.3.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
-    <description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of cryptocurrency exchanges.
+    <description>XChange is a Java library providing a simple and consistent API for interacting with
+        a diverse set of cryptocurrency exchanges.
     </description>
     <url>http://knowm.org/open-source/xchange</url>
     <inceptionYear>2012</inceptionYear>
@@ -24,11 +24,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <version.assertj>3.8.0</version.assertj>
+        <version.assertj>3.9.1</version.assertj>
         <version.commons.io>2.6</version.commons.io>
         <version.commons.lang3>3.7</version.commons.lang3>
-        <version.fasterxml>2.9.1</version.fasterxml>
-        <version.github.mmazi>2.0.2-SNAPSHOT</version.github.mmazi>
+        <version.fasterxml>2.9.5</version.fasterxml>
+        <version.github.mmazi>2.0.2</version.github.mmazi>
         <version.junit>4.12</version.junit>
         <version.knowm.xchart>3.5.1</version.knowm.xchart>
         <version.powermock>1.7.3</version.powermock>
@@ -222,7 +222,11 @@
                 <version>${version.reflections}</version>
                 <scope>test</scope>
             </dependency>
-
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-csv</artifactId>
+                <version>${version.fasterxml}</version>
+            </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
@@ -445,40 +449,13 @@
                     </includes>
                 </configuration>
             </plugin>
-            <!--<plugin>
-                &lt;!&ndash; adding second test source directory (just for integration tests) &ndash;&gt;
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
-                <executions>
-                    <execution>
-                        <id>add-integration-test-source</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/test-integration/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
             <plugin>
                 <groupId>com.coveo</groupId>
                 <artifactId>fmt-maven-plugin</artifactId>
                 <version>2.4.0</version>
                 <configuration>
-                    <!--<sourceDirectory>src/</sourceDirectory>-->
-                    <!--<testSourceDirectory>some/test/directory</testSourceDirectory>-->
-                    <verbose>true</verbose>
                     <filesNamePattern>.*\.java</filesNamePattern>
-                    <additionalSourceDirectories>
-                        <param>src/test-integration/java</param>
-                    </additionalSourceDirectories>
-                    <skip>${reformat.skip}</skip>
-                    <style>google</style>
+                    <skip>false</skip>
                 </configuration>
                 <executions>
                     <execution>
@@ -488,27 +465,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!--  better, but broken
-
-            <plugin>
-                <groupId>net.revelc.code.formatter</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <version>2.7.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-
-                    </execution>
-                </executions>
-                <configuration>
-                    <lineEnding>LF</lineEnding>
-
-                    <configFile>${project.basedir}/etc/XChange_Eclipse_mvn_plugin.xml</configFile>
-                </configuration>
-            </plugin>-->
 
         </plugins>
     </build>

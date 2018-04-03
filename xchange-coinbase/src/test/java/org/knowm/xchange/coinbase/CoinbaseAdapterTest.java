@@ -114,9 +114,7 @@ public class CoinbaseAdapterTest {
 
     CoinbaseMoney spotPrice = new CoinbaseMoney("USD", new BigDecimal("719.79"));
 
-    is =
-        CoinbaseAdapterTest.class.getResourceAsStream(
-            "/org/knowm/xchange/coinbase/dto/marketdata/example-spot-rate-history-data.txt");
+    is = CoinbaseAdapterTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/marketdata/example-spot-rate-history-data.txt");
     String spotPriceHistoryString;
     try (Scanner scanner = new Scanner(is)) {
       spotPriceHistoryString = scanner.useDelimiter("\\A").next();

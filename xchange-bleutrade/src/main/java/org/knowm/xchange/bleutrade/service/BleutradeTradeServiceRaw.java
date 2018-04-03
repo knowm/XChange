@@ -16,6 +16,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import si.mazi.rescu.IRestProxyFactory;
 
 public class BleutradeTradeServiceRaw extends BleutradeBaseService {
 
@@ -24,9 +25,9 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
    *
    * @param exchange
    */
-  public BleutradeTradeServiceRaw(Exchange exchange) {
+  public BleutradeTradeServiceRaw(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   private static String toMarket(CurrencyPair currencyPair) {

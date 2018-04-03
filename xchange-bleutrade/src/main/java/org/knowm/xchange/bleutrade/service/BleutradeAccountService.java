@@ -18,6 +18,7 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import si.mazi.rescu.IRestProxyFactory;
 
 public class BleutradeAccountService extends BleutradeAccountServiceRaw implements AccountService {
 
@@ -26,9 +27,9 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
    *
    * @param exchange
    */
-  public BleutradeAccountService(Exchange exchange) {
+  public BleutradeAccountService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override

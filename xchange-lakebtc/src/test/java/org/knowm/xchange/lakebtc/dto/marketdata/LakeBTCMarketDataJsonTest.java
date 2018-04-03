@@ -50,9 +50,7 @@ public class LakeBTCMarketDataJsonTest {
   public void testDeserializeOrderBook() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        LakeBTCMarketDataJsonTest.class.getResourceAsStream(
-            "/org/knowm/xchange/lakebtc/dto/marketdata/example-orderbook-data.json");
+    InputStream is = LakeBTCMarketDataJsonTest.class.getResourceAsStream("/org/knowm/xchange/lakebtc/dto/marketdata/example-orderbook-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -38,9 +38,7 @@ public class MercadoBitcoinAdapterTest {
   public void testOrderBookAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        MercadoBitcoinAdapterTest.class.getResourceAsStream(
-            "/org/knowm/xchange/mercadobitcoin/dto/marketdata/example-full-depth-data.json");
+    InputStream is = MercadoBitcoinAdapterTest.class.getResourceAsStream("/org/knowm/xchange/mercadobitcoin/dto/marketdata/example-full-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -107,9 +105,7 @@ public class MercadoBitcoinAdapterTest {
   public void testAccountInfoAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        MercadoBitcoinAdapterTest.class.getResourceAsStream(
-            "/org/knowm/xchange/mercadobitcoin/dto/account/example-accountinfo-data.json");
+    InputStream is = MercadoBitcoinAdapterTest.class.getResourceAsStream("/org/knowm/xchange/mercadobitcoin/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

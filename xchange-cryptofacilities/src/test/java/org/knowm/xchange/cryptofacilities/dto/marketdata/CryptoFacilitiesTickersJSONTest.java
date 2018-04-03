@@ -17,9 +17,7 @@ public class CryptoFacilitiesTickersJSONTest {
   public void testUnmarshal1() throws IOException, ParseException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        CryptoFacilitiesTickersJSONTest.class.getResourceAsStream(
-            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-tickers-data.json");
+    InputStream is = CryptoFacilitiesTickersJSONTest.class.getResourceAsStream("/org/knowm/xchange/cryptofacilities/dto/marketdata/example-tickers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -71,9 +69,7 @@ public class CryptoFacilitiesTickersJSONTest {
   public void testUnmarshal2() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        CryptoFacilitiesTickersJSONTest.class.getResourceAsStream(
-            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-ticker-data-2.json");
+    InputStream is = CryptoFacilitiesTickersJSONTest.class.getResourceAsStream("/org/knowm/xchange/cryptofacilities/dto/marketdata/example-ticker-data-2.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

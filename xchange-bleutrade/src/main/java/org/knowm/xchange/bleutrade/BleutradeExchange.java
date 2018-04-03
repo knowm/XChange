@@ -12,6 +12,8 @@ import org.knowm.xchange.bleutrade.service.BleutradeMarketDataService;
 import org.knowm.xchange.bleutrade.service.BleutradeMarketDataServiceRaw;
 import org.knowm.xchange.bleutrade.service.BleutradeTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+import si.mazi.rescu.IRestProxyFactory;
+import si.mazi.rescu.RestProxyFactoryImpl;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BleutradeExchange extends BaseExchange implements Exchange {
@@ -20,11 +22,24 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
   private static SynchronizedValueFactory<Long> nonceFactory =
       new AtomicLongIncrementalTime2013NonceFactory();
 
+  private IRestProxyFactory restProxyFactory;
+
+  /** C-tor used by ExchangeFactory */
+  @SuppressWarnings("unused")
+  public BleutradeExchange() {
+    this(new RestProxyFactoryImpl());
+  }
+
+  /** C-tor used by tests */
+  BleutradeExchange(IRestProxyFactory restProxyFactory) {
+    this.restProxyFactory = restProxyFactory;
+  }
+
   @Override
   protected void initServices() {
-    this.marketDataService = new BleutradeMarketDataService(this);
-    this.accountService = new BleutradeAccountService(this);
-    this.tradeService = new BleutradeTradeService(this);
+    this.marketDataService = new BleutradeMarketDataService(this, restProxyFactory);
+    this.accountService = new BleutradeAccountService(this, restProxyFactory);
+    this.tradeService = new BleutradeTradeService(this, restProxyFactory);
   }
 
   @Override

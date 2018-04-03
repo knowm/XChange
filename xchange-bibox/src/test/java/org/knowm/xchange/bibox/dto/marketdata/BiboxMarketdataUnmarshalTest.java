@@ -20,10 +20,8 @@ public class BiboxMarketdataUnmarshalTest {
 
   @Test
   public void testTickerUnmarshal() throws IOException {
-    BiboxResponse<BiboxTicker> response =
-        BiboxTestUtils.getResponse(
-            new TypeReference<BiboxResponse<BiboxTicker>>() {},
-            "/org/knowm/xchange/bibox/dto/marketdata/example-ticker.json");
+    BiboxResponse<BiboxTicker> response = BiboxTestUtils.getResponse(new TypeReference<BiboxResponse<BiboxTicker>>() {
+    }, "/org/knowm/xchange/bibox/dto/marketdata/example-ticker.json");
     assertThat(response.getCmd()).isEqualTo("ticker");
 
     BiboxTicker ticker = response.getResult();

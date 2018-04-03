@@ -1,15 +1,19 @@
 package org.knowm.xchange.kucoin.service;
 
+import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class KucoinTradeHistoryParams
-    implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
+    implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
 
   private CurrencyPair currencyPair;
   private Integer pageLength;
   private Integer pageNumber;
+  private Date startTime;
+  private Date endTime;
 
   @Override
   public Integer getPageLength() {
@@ -44,5 +48,29 @@ public class KucoinTradeHistoryParams
   public void setCurrencyPair(CurrencyPair pair) {
 
     this.currencyPair = pair;
+  }
+
+  @Override
+  public Date getStartTime() {
+
+    return startTime;
+  }
+
+  @Override
+  public void setStartTime(Date startTime) {
+
+    this.startTime = startTime;
+  }
+
+  @Override
+  public Date getEndTime() {
+
+    return endTime;
+  }
+
+  @Override
+  public void setEndTime(Date endTime) {
+
+    this.endTime = endTime;
   }
 }

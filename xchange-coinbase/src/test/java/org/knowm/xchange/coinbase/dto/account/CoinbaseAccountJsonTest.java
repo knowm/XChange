@@ -24,9 +24,7 @@ public class CoinbaseAccountJsonTest {
   public void testDeserializeAccountChanges() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        CoinbaseAccountJsonTest.class.getResourceAsStream(
-            "/org/knowm/xchange/coinbase/dto/account/example-account-changes-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/account/example-account-changes-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -178,9 +176,7 @@ public class CoinbaseAccountJsonTest {
   public void testDeserializeTransactions() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        CoinbaseAccountJsonTest.class.getResourceAsStream(
-            "/org/knowm/xchange/coinbase/dto/account/example-transactions-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/account/example-transactions-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -218,9 +214,7 @@ public class CoinbaseAccountJsonTest {
   public void testDeserializeRecurringPayments() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        CoinbaseAccountJsonTest.class.getResourceAsStream(
-            "/org/knowm/xchange/coinbase/dto/account/example-recurring-payments-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinbase/dto/account/example-recurring-payments-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -16,6 +16,8 @@ import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceLimitOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceMarketOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -51,22 +53,22 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-
-    GDAXIdResponse response = placeGDAXMarketOrder(marketOrder);
+    GDAXPlaceMarketOrder gdaxMarketOrder = GDAXAdapters.adaptGDAXPlaceMarketOrder(marketOrder);
+    GDAXIdResponse response = placeGDAXOrder(gdaxMarketOrder);
     return response.getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
-
-    GDAXIdResponse response = placeGDAXLimitOrder(limitOrder);
+    GDAXPlaceLimitOrder gdaxLimitOrder = GDAXAdapters.adaptGDAXPlaceLimitOrder(limitOrder);
+    GDAXIdResponse response = placeGDAXOrder(gdaxLimitOrder);
     return response.getId();
   }
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException, FundsExceededException {
-
-    GDAXIdResponse response = placeGDAXStopOrder(stopOrder);
+    GDAXPlaceMarketOrder gdaxStopOrder = GDAXAdapters.adaptGDAXPlaceMarketOrder(stopOrder);
+    GDAXIdResponse response = placeGDAXOrder(gdaxStopOrder);
     return response.getId();
   }
 

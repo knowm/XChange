@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.gdax.dto.GDAXException;
+import org.knowm.xchange.gdax.dto.GdaxTransfer;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
@@ -107,46 +108,18 @@ public interface GDAX {
 
   @GET
   @Path("orders?status={status}")
-  GDAXOrder[] getListOrders(
-      @HeaderParam("CB-ACCESS-KEY") String apiKey,
-      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+  GDAXOrder[] getListOrders(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("status") String status)
-      throws GDAXException, IOException;
+
+   throws GDAXException, IOException;
 
   @POST
   @Path("orders")
   @Consumes(MediaType.APPLICATION_JSON)
-  GDAXIdResponse placeLimitOrder(
-      GDAXPlaceOrder placeOrder,
-      @HeaderParam("CB-ACCESS-KEY") String apiKey,
-      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws GDAXException, IOException;
-
-  @POST
-  @Path("orders")
-  @Consumes(MediaType.APPLICATION_JSON)
-  GDAXIdResponse placeMarketOrder(
-      GDAXPlaceOrder placeOrder,
-      @HeaderParam("CB-ACCESS-KEY") String apiKey,
-      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws GDAXException, IOException;
-
-  @POST
-  @Path("orders")
-  @Consumes(MediaType.APPLICATION_JSON)
-  GDAXIdResponse placeStopOrder(
-      GDAXPlaceOrder placeOrder,
-      @HeaderParam("CB-ACCESS-KEY") String apiKey,
-      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws GDAXException, IOException;
+  GDAXIdResponse placeOrder(GDAXPlaceOrder placeOrder, @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
 
   @DELETE
   @Path("orders/{id}")
@@ -206,6 +179,19 @@ public interface GDAX {
       @QueryParam("after") Integer startingOrderId)
       throws GDAXException, IOException;
 
+  @GET
+  @Path("accounts/{account_id}/transfers")
+  @Consumes(MediaType.APPLICATION_JSON)
+  List<GdaxTransfer> transfers(
+      @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      @PathParam("account_id") String accountId,
+      @QueryParam("profile_id") String profileId,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("after") String createdAtDate);
+
   @POST
   @Path("reports")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -220,7 +206,7 @@ public interface GDAX {
   @GET
   @Path("reports/{report_id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  List<Map> getReport(
+  Map getReport(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
