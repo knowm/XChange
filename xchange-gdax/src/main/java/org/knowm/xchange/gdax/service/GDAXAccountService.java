@@ -1,9 +1,5 @@
 package org.knowm.xchange.gdax.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -11,6 +7,7 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.GdaxTransfer;
+import org.knowm.xchange.gdax.dto.GdaxTransfers;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
@@ -22,6 +19,11 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GDAXAccountService extends GDAXAccountServiceRaw implements AccountService {
 
@@ -103,7 +105,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   }
 
   @Override
-  /**
+  /*
    * Warning - this method makes several API calls. The reason is that the paging functionality
    * isn't implemented properly yet.
    *
@@ -124,16 +126,17 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
       String accountId = gdaxAccount.getId();
       String profileId = gdaxAccount.getProfile_id();
-      String createdAt = null;
+      String createdAt = null;//use to get next page
 
       while (true) {
-        List<GdaxTransfer> transfers = transfers(accountId, profileId, maxPageSize, createdAt);
+        GdaxTransfers transfers = transfers(accountId, profileId, maxPageSize, createdAt);
         if (transfers.isEmpty()) break;
 
         for (GdaxTransfer gdaxTransfer : transfers) {
-          createdAt = gdaxTransfer.createdAt;
           fundingHistory.add(GDAXAdapters.adaptFundingRecord(currency, gdaxTransfer));
         }
+
+        createdAt = transfers.getHeader("cb-after");
       }
     }
 
