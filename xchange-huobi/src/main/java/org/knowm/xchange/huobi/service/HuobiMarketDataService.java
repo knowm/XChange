@@ -6,6 +6,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -20,13 +21,13 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
     return HuobiAdapters.adaptTicker(getHuobiTicker(currencyPair), currencyPair);
   }
 
-  @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) throws IOException {
-    return null;
-  }
+    @Override
+    public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) throws IOException {
+        throw new NotYetImplementedForExchangeException();
+    }
 
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return null;
+    @Override
+    public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+        throw new NotYetImplementedForExchangeException();
   }
 }

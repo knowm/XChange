@@ -2,6 +2,7 @@ package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -24,6 +25,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -103,6 +105,8 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
     TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
     CurrencyPair pair = null;
+    Date startTime = null;
+    Date endTime = null;
 
     if (params instanceof TradeHistoryParamCurrencyPair) {
       if (pagingParams.getPageLength() > 20) {
@@ -114,10 +118,16 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
         throw new ExchangeException("Page length > 100 not allowed with a currency pair.");
       }
     }
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+      endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
+    }
+
     // Kucoin has 1-based paging
-    KucoinResponse<KucoinDealtOrdersInfo> response =
-        getKucoinTradeHistory(
-            pair, null, pagingParams.getPageLength(), pagingParams.getPageNumber() + 1, null, null);
+    KucoinResponse<KucoinDealtOrdersInfo> response = getKucoinTradeHistory(pair, null, pagingParams.getPageLength(), pagingParams.getPageNumber() + 1,
+        startTime,
+            endTime);
     return KucoinAdapters.adaptUserTrades(response.getData().getDealtOrders());
   }
 

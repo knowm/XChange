@@ -9,6 +9,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gdax.GDAX;
 import org.knowm.xchange.gdax.dto.GDAXException;
+import org.knowm.xchange.gdax.dto.GdaxTransfer;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.account.GDAXWebsocketAuthData;
@@ -65,8 +66,13 @@ public class GDAXAccountServiceRaw extends GDAXBaseService {
     return response.get("id").toString();
   }
 
-  public List report(String reportId) throws IOException {
+  public Map report(String reportId) throws IOException {
     return gdax.getReport(apiKey, digest, nonceFactory, passphrase, reportId);
+  }
+
+  public List<GdaxTransfer> transfers(String accountId, String profileId, int limit, String after) {
+    return gdax.transfers(
+        apiKey, digest, nonceFactory, passphrase, accountId, profileId, limit, after);
   }
 
   public GDAXCoinbaseAccount[] getCoinbaseAccounts() throws IOException {

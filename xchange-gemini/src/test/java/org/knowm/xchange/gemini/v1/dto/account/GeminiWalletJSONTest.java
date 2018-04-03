@@ -15,9 +15,7 @@ public class GeminiWalletJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        GeminiWalletJSONTest.class.getResourceAsStream(
-            "/org/knowm/xchange/gemini/v1/account/example-account-info-data.json");
+    InputStream is = GeminiWalletJSONTest.class.getResourceAsStream("/org/knowm/xchange/gemini/v1/account/example-account-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

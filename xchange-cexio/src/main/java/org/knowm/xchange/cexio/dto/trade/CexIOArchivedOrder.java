@@ -211,11 +211,7 @@ public class CexIOArchivedOrder {
 
       BigDecimal amount = new BigDecimal(map.get("amount"));
       if (amount.compareTo(BigDecimal.ZERO) == 0)
-        amount =
-            new BigDecimal(
-                map.get(
-                    "amount2")); // madness - i think the 'amount' field changes name for market
-                                 // orders
+        amount = new BigDecimal(map.get("amount2"));//madness - i think the 'amount' field changes name for market// orders
 
       return new CexIOArchivedOrder(
           map.get("id"),

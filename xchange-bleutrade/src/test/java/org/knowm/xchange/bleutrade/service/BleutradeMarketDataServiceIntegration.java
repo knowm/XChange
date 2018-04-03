@@ -2,7 +2,10 @@ package org.knowm.xchange.bleutrade.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -33,11 +36,12 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import si.mazi.rescu.ClientConfig;
+import si.mazi.rescu.IRestProxyFactory;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestSupport {
 
   private static final Ticker TICKER =
@@ -54,6 +58,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
           .build();
   private BleutradeMarketDataService marketDataService;
 
+  @Mock private BleutradeAuthenticated bleutrade;
+
   @Before
   public void setUp() {
     BleutradeExchange exchange =
@@ -63,13 +69,17 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     exchange.getExchangeSpecification().setApiKey(SPECIFICATION_API_KEY);
     exchange.getExchangeSpecification().setSecretKey(SPECIFICATION_SECRET_KEY);
 
-    marketDataService = new BleutradeMarketDataService(exchange);
+    IRestProxyFactory restProxyFactory = mock(IRestProxyFactory.class);
+    when(restProxyFactory.createProxy(
+            eq(BleutradeAuthenticated.class), any(String.class), any(ClientConfig.class)))
+        .thenReturn(bleutrade);
+
+    marketDataService = new BleutradeMarketDataService(exchange, restProxyFactory);
   }
 
   @Test
   public void constructor() {
-    assertThat((String) Whitebox.getInternalState(marketDataService, "apiKey"))
-        .isEqualTo(SPECIFICATION_API_KEY);
+    assertThat(marketDataService.apiKey.equals(SPECIFICATION_API_KEY));
   }
 
   @Test
@@ -80,9 +90,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     tickerReturn.setMessage("test message");
     tickerReturn.setResult(expectedBleutradeTicker());
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeTicker("BLEU_BTC")).thenReturn(tickerReturn);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
+    when(bleutrade.getBleutradeTicker("BLEU_BTC")).thenReturn(tickerReturn);
 
     // when
     Ticker ticker = marketDataService.getTicker(BLEU_BTC_CP);
@@ -100,9 +108,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     tickerReturn.setMessage("test message");
     tickerReturn.setResult(expectedBleutradeTicker());
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeTicker("BLEU_BTC")).thenReturn(tickerReturn);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
+    when(bleutrade.getBleutradeTicker("BLEU_BTC")).thenReturn(tickerReturn);
 
     // when
     marketDataService.getTicker(BLEU_BTC_CP);
@@ -127,12 +133,10 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     orderBookReturn2.setResult(
         createBleutradeOrderBook(Collections.EMPTY_LIST, Collections.EMPTY_LIST));
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeOrderBook("BTC_AUD", "ALL", 30))
+    when(bleutrade.getBleutradeOrderBook("BTC_AUD", "ALL", 30))
         .thenReturn(orderBookReturn1);
-    PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50))
+    when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50))
         .thenReturn(orderBookReturn2);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
     final LimitOrder[] expectedAsks = expectedAsks();
     final LimitOrder[] expectedBids = expectedBids();
@@ -167,10 +171,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     orderBookReturn.setResult(
         createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50))
+    when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50))
         .thenReturn(orderBookReturn);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
     // when
     marketDataService.getOrderBook(BLEU_BTC_CP);
@@ -205,17 +207,14 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketHistoryReturn4.setMessage("test message");
     marketHistoryReturn4.setResult(Arrays.asList(expectedBleutradeTrades.get(1)));
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 30))
+    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 30))
         .thenReturn(marketHistoryReturn1);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 50))
+    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 50))
         .thenReturn(marketHistoryReturn2);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 1))
+    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 1))
         .thenReturn(marketHistoryReturn3);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 200))
+    when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 200))
         .thenReturn(marketHistoryReturn4);
-
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
     final Trade[] expectedTrades = expectedTrades();
 
@@ -250,11 +249,8 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketHistoryReturn.setMessage("test message");
     marketHistoryReturn.setResult(expectedBleutradeTrades());
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 50))
+    when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 50))
         .thenReturn(marketHistoryReturn);
-
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
     // when
     marketDataService.getTrades(BLEU_BTC_CP);
@@ -275,9 +271,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     tickerReturn.setMessage("test message");
     tickerReturn.setResult(expectedBleutradeTickers);
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeTickers()).thenReturn(tickerReturn);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
+    when(bleutrade.getBleutradeTickers()).thenReturn(tickerReturn);
 
     // when
     List<BleutradeTicker> tickers = marketDataService.getBleutradeTickers();
@@ -299,9 +293,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     tickerReturn.setMessage("test message");
     tickerReturn.setResult(expectedBleutradeTickers());
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeTickers()).thenReturn(tickerReturn);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
+    when(bleutrade.getBleutradeTickers()).thenReturn(tickerReturn);
 
     // when
     marketDataService.getBleutradeTickers();
@@ -322,9 +314,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     currenciesReturn.setMessage("test message");
     currenciesReturn.setResult(expectedBleutradeCurrencies);
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeCurrencies()).thenReturn(currenciesReturn);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
+    when(bleutrade.getBleutradeCurrencies()).thenReturn(currenciesReturn);
 
     // when
     List<BleutradeCurrency> currencies = marketDataService.getBleutradeCurrencies();
@@ -346,9 +336,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     currenciesReturn.setMessage("test message");
     currenciesReturn.setResult(expectedBleutradeCurrencies());
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeCurrencies()).thenReturn(currenciesReturn);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
+    when(bleutrade.getBleutradeCurrencies()).thenReturn(currenciesReturn);
 
     // when
     marketDataService.getBleutradeCurrencies();
@@ -369,9 +357,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketsReturn.setMessage("test message");
     marketsReturn.setResult(expectedBleutradeMarkets);
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeMarkets()).thenReturn(marketsReturn);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
+    when(bleutrade.getBleutradeMarkets()).thenReturn(marketsReturn);
 
     // when
     List<BleutradeMarket> markets = marketDataService.getBleutradeMarkets();
@@ -393,9 +379,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
     marketsReturn.setMessage("test message");
     marketsReturn.setResult(expectedBleutradeMarkets());
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeMarkets()).thenReturn(marketsReturn);
-    Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
+    when(bleutrade.getBleutradeMarkets()).thenReturn(marketsReturn);
 
     // when
     marketDataService.getBleutradeMarkets();

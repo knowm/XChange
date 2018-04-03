@@ -12,6 +12,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import si.mazi.rescu.IRestProxyFactory;
 
 public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw
     implements MarketDataService {
@@ -21,9 +22,9 @@ public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw
    *
    * @param exchange
    */
-  public BleutradeMarketDataService(Exchange exchange) {
+  public BleutradeMarketDataService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override

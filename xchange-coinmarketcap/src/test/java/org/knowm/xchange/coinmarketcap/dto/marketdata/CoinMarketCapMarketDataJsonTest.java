@@ -12,9 +12,7 @@ public class CoinMarketCapMarketDataJsonTest {
   public void testDeserializeTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        CoinMarketCapMarketDataJsonTest.class.getResourceAsStream(
-            "/org/knowm/xchange/coinmarketcap/dto/marketdata/example-ticker-data.json");
+    InputStream is = CoinMarketCapMarketDataJsonTest.class.getResourceAsStream("/org/knowm/xchange/coinmarketcap/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

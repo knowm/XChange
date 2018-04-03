@@ -36,9 +36,7 @@ public class BitfinexAdaptersTest {
   @Test
   public void shouldAdaptBalances() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is =
-        BitfinexWalletJSONTest.class.getResourceAsStream(
-            "/org/knowm/xchange/bitfinex/v1/dto/account/example-account-info-balance.json");
+    InputStream is = BitfinexWalletJSONTest.class.getResourceAsStream("/org/knowm/xchange/bitfinex/v1/dto/account/example-account-info-balance.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -283,9 +281,7 @@ public class BitfinexAdaptersTest {
   public void testAdaptFundingHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        BitfinexAdaptersTest.class.getResourceAsStream(
-            "/org/knowm/xchange/bitfinex/v1/dto/account/example-deposit-withdrawal-info-data.json");
+    InputStream is = BitfinexAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/bitfinex/v1/dto/account/example-deposit-withdrawal-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -307,7 +303,9 @@ public class BitfinexAdaptersTest {
         assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ", record.getAddress());
         assertEquals(
             "3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer", record.getDescription());
-        assertEquals("offchain transfer", record.getBlockchainTransactionHash());
+        assertEquals(null, record.getBlockchainTransactionHash());
+        assertEquals(
+            "3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer", record.getDescription());
         assertEquals(Currency.BTC, record.getCurrency());
       }
     }

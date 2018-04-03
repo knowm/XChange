@@ -23,6 +23,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import si.mazi.rescu.IRestProxyFactory;
 
 public class BleutradeTradeService extends BleutradeTradeServiceRaw implements TradeService {
 
@@ -31,9 +32,9 @@ public class BleutradeTradeService extends BleutradeTradeServiceRaw implements T
    *
    * @param exchange
    */
-  public BleutradeTradeService(Exchange exchange) {
+  public BleutradeTradeService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override

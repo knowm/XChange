@@ -50,9 +50,7 @@ public class KrakenAssetPairsJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        KrakenAssetPairsJSONTest.class.getResourceAsStream(
-            "/org/knowm/xchange/kraken/dto/marketdata/example-assetpairs-data.json");
+    InputStream is = KrakenAssetPairsJSONTest.class.getResourceAsStream("/org/knowm/xchange/kraken/dto/marketdata/example-assetpairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

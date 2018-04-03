@@ -229,9 +229,7 @@ public final class ItBitAdapters {
       BigDecimal totalFee = BigDecimal.ZERO;
 
       for (ItBitUserTrade trade :
-          tradesByOrderId.get(
-              orderId)) { // can have multiple trades for same order, so add them all up here to get
-                          // the average price and total fee
+          tradesByOrderId.get(orderId)) {//can have multiple trades for same order, so add them all up here to get// the average price and total fee
         totalValue = totalValue.add(trade.getCurrency1Amount().multiply(trade.getRate()));
         totalQuantity = totalQuantity.add(trade.getCurrency1Amount());
         totalFee = totalFee.add(trade.getCommissionPaid());
@@ -300,6 +298,8 @@ public final class ItBitAdapters {
         .low(low)
         .volume(volume)
         .timestamp(timestamp)
+        .bidSize(itBitTicker.getBidAmt())
+        .askSize(itBitTicker.getAskAmt())
         .build();
   }
 

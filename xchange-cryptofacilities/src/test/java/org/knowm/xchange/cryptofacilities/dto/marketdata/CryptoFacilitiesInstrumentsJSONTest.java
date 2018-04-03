@@ -19,9 +19,7 @@ public class CryptoFacilitiesInstrumentsJSONTest {
   public void testUnmarshal() throws IOException, ParseException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        CryptoFacilitiesInstrumentsJSONTest.class.getResourceAsStream(
-            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-instruments-data.json");
+    InputStream is = CryptoFacilitiesInstrumentsJSONTest.class.getResourceAsStream("/org/knowm/xchange/cryptofacilities/dto/marketdata/example-instruments-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

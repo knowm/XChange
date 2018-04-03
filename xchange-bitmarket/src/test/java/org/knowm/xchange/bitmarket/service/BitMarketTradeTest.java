@@ -322,18 +322,11 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
     // given
     final UserTrade[] expectedUserTrades = expectedUserTrades();
 
-    BitMarketHistoryTradesResponse historyTradesResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-trades-data",
-            BitMarketHistoryTradesResponse.class);
-    BitMarketHistoryOperationsResponse marketHistoryOperationsPlnResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-data",
-            BitMarketHistoryOperationsResponse.class);
-    BitMarketHistoryOperationsResponse marketHistoryOperationsBtcResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-btc-data",
-            BitMarketHistoryOperationsResponse.class);
+    BitMarketHistoryTradesResponse historyTradesResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-trades-data", BitMarketHistoryTradesResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsPlnResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-operations-data",
+        BitMarketHistoryOperationsResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsBtcResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-operations-btc-data",
+        BitMarketHistoryOperationsResponse.class);
 
     when(bitMarketAuthenticated.trades(
             eq(SPECIFICATION_API_KEY),
@@ -377,18 +370,11 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
     // given
     final UserTrade[] expectedCpUserTrades = expectedCpUserTrades();
 
-    BitMarketHistoryTradesResponse historyTradesCPResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-trades-cp-data",
-            BitMarketHistoryTradesResponse.class);
-    BitMarketHistoryOperationsResponse marketHistoryOperationsEurResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-eur-data",
-            BitMarketHistoryOperationsResponse.class);
-    BitMarketHistoryOperationsResponse marketHistoryOperationsBtcResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-btc-data",
-            BitMarketHistoryOperationsResponse.class);
+    BitMarketHistoryTradesResponse historyTradesCPResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-trades-cp-data", BitMarketHistoryTradesResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsEurResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-operations-eur-data",
+        BitMarketHistoryOperationsResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsBtcResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-operations-btc-data",
+        BitMarketHistoryOperationsResponse.class);
 
     when(bitMarketAuthenticated.trades(
             eq(SPECIFICATION_API_KEY),
@@ -432,18 +418,11 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
   @Test
   public void shouldGetTradeHistory() throws IOException {
     // given
-    BitMarketHistoryTradesResponse historyTradesBMResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-trades-bm-data",
-            BitMarketHistoryTradesResponse.class);
-    BitMarketHistoryOperationsResponse marketHistoryOperationsEurResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-eur-data",
-            BitMarketHistoryOperationsResponse.class);
-    BitMarketHistoryOperationsResponse marketHistoryOperationsBtcResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-btc-data",
-            BitMarketHistoryOperationsResponse.class);
+    BitMarketHistoryTradesResponse historyTradesBMResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-trades-bm-data", BitMarketHistoryTradesResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsEurResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-operations-eur-data",
+        BitMarketHistoryOperationsResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsBtcResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-operations-btc-data",
+        BitMarketHistoryOperationsResponse.class);
 
     when(bitMarketAuthenticated.trades(
             eq(SPECIFICATION_API_KEY),
@@ -512,10 +491,8 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
         new BitMarketHistoryOperationsResponse(
             false, null, new BitMarketAPILimit(3, 100, 12345000L), 502, "Invalid message hash");
 
-    BitMarketHistoryOperationsResponse marketHistoryOperationsBtcResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-btc-data",
-            BitMarketHistoryOperationsResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsBtcResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-operations-btc-data",
+        BitMarketHistoryOperationsResponse.class);
 
     when(bitMarketAuthenticated.history(
             eq(SPECIFICATION_API_KEY),
@@ -549,10 +526,8 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
         new BitMarketHistoryOperationsResponse(
             false, null, new BitMarketAPILimit(3, 100, 12345000L), 502, "Invalid message hash");
 
-    BitMarketHistoryOperationsResponse marketHistoryOperationsPlnResponse =
-        parse(
-            "org/knowm/xchange/bitmarket/dto/trade/example-history-operations-data",
-            BitMarketHistoryOperationsResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsPlnResponse = parse("org/knowm/xchange/bitmarket/dto/trade/example-history-operations-data",
+        BitMarketHistoryOperationsResponse.class);
 
     when(bitMarketAuthenticated.history(
             eq(SPECIFICATION_API_KEY),
