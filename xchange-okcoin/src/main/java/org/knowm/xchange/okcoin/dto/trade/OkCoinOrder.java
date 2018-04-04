@@ -1,9 +1,8 @@
 package org.knowm.xchange.okcoin.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OkCoinOrder {
 
@@ -25,10 +24,15 @@ public class OkCoinOrder {
 
   private final BigDecimal averagePrice;
 
-  public OkCoinOrder(@JsonProperty("order_id") final long orderId, @JsonProperty("status") final int status,
-      @JsonProperty("symbol") final String symbol, @JsonProperty("type") final String type,
-      @JsonProperty("price") final BigDecimal price, @JsonProperty("avg_price") final BigDecimal averagePrice,
-      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("deal_amount") final BigDecimal dealAmount,
+  public OkCoinOrder(
+      @JsonProperty("order_id") final long orderId,
+      @JsonProperty("status") final int status,
+      @JsonProperty("symbol") final String symbol,
+      @JsonProperty("type") final String type,
+      @JsonProperty("price") final BigDecimal price,
+      @JsonProperty("avg_price") final BigDecimal averagePrice,
+      @JsonProperty("amount") final BigDecimal amount,
+      @JsonProperty("deal_amount") final BigDecimal dealAmount,
       @JsonProperty("create_date") final Date createDate) {
 
     this.orderId = orderId;

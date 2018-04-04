@@ -3,58 +3,51 @@ package org.knowm.xchange.dto.marketdata;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
+import java.util.Objects;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Data object representing a Trade
- */
+/** Data object representing a Trade */
 public class Trade implements Serializable {
 
-  /**
-   * Did this trade result from the execution of a bid or a ask?
-   */
+  /** Did this trade result from the execution of a bid or a ask? */
   protected final OrderType type;
 
-  /**
-   * Amount that was traded
-   */
+  /** Amount that was traded */
   protected final BigDecimal originalAmount;
 
-  /**
-   * The currency pair
-   */
+  /** The currency pair */
   protected final CurrencyPair currencyPair;
 
-  /**
-   * The price
-   */
+  /** The price */
   protected final BigDecimal price;
 
-  /**
-   * The timestamp of the trade according to the exchange's server, null if not provided
-   */
+  /** The timestamp of the trade according to the exchange's server, null if not provided */
   protected final Date timestamp;
 
-  /**
-   * The trade id
-   */
+  /** The trade id */
   protected final String id;
 
   /**
-   * This constructor is called to create a public Trade object in
-   * {@link MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)} implementations) since it's missing the orderId and fee
-   * parameters.
+   * This constructor is called to create a public Trade object in {@link
+   * MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)}
+   * implementations) since it's missing the orderId and fee parameters.
    *
    * @param type The trade type (BID side or ASK side)
    * @param originalAmount The depth of this trade
    * @param price The price (either the bid or the ask)
-   * @param timestamp The timestamp of the trade according to the exchange's server, null if not provided
+   * @param timestamp The timestamp of the trade according to the exchange's server, null if not
+   *     provided
    * @param id The id of the trade
    */
-  public Trade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
+  public Trade(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      BigDecimal price,
+      Date timestamp,
+      String id) {
 
     this.type = type;
     this.originalAmount = originalAmount;
@@ -109,14 +102,25 @@ public class Trade implements Serializable {
   @Override
   public int hashCode() {
 
-    return id.hashCode();
+    return Objects.hashCode(id);
   }
 
   @Override
   public String toString() {
 
-    return "Trade [type=" + type + ", originalAmount=" + originalAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp="
-        + timestamp + ", id=" + id + "]";
+    return "Trade [type="
+        + type
+        + ", originalAmount="
+        + originalAmount
+        + ", currencyPair="
+        + currencyPair
+        + ", price="
+        + price
+        + ", timestamp="
+        + timestamp
+        + ", id="
+        + id
+        + "]";
   }
 
   public static class Builder {
@@ -129,8 +133,13 @@ public class Trade implements Serializable {
     protected String id;
 
     public static Builder from(Trade trade) {
-      return new Builder().type(trade.getType()).originalAmount(trade.getOriginalAmount()).currencyPair(trade.getCurrencyPair())
-          .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId());
+      return new Builder()
+          .type(trade.getType())
+          .originalAmount(trade.getOriginalAmount())
+          .currencyPair(trade.getCurrencyPair())
+          .price(trade.getPrice())
+          .timestamp(trade.getTimestamp())
+          .id(trade.getId());
     }
 
     public Builder type(OrderType type) {

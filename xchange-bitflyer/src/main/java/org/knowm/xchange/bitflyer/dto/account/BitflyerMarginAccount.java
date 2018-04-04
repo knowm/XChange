@@ -1,26 +1,23 @@
 package org.knowm.xchange.bitflyer.dto.account;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "currency_code",
-                       "amount"
-                   })
+@JsonPropertyOrder({"currency_code", "amount"})
 public class BitflyerMarginAccount {
   @JsonProperty("currency_code")
   private String currencyCode;
+
   @JsonProperty("amount")
   private BigDecimal amount;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   public String getCurrencyCode() {
     return currencyCode;
@@ -48,10 +45,14 @@ public class BitflyerMarginAccount {
 
   @Override
   public String toString() {
-    return "BitflyerMarginAccount{" +
-        "currencyCode='" + currencyCode + '\'' +
-        ", amount=" + amount +
-        ", additionalProperties=" + additionalProperties +
-        '}';
+    return "BitflyerMarginAccount{"
+        + "currencyCode='"
+        + currencyCode
+        + '\''
+        + ", amount="
+        + amount
+        + ", additionalProperties="
+        + additionalProperties
+        + '}';
   }
 }

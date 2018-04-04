@@ -3,7 +3,6 @@ package org.knowm.xchange.bitfinex.v1.service;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
@@ -21,14 +20,14 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * <p>
  * Implementation of the market data service for Bitfinex
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
-public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw implements MarketDataService {
+public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -43,12 +42,11 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitfinexAdapters.adaptTicker(getBitfinexTicker(BitfinexUtils.toPairString(currencyPair)), currencyPair);
+    return BitfinexAdapters.adaptTicker(
+        getBitfinexTicker(BitfinexUtils.toPairString(currencyPair)), currencyPair);
   }
 
-  /**
-   * @param args If two integers are provided, then those count as limit bid and limit ask count
-   */
+  /** @param args If two integers are provided, then those count as limit bid and limit ask count */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
@@ -71,7 +69,8 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
       }
     }
 
-    BitfinexDepth bitfinexDepth = getBitfinexOrderBook(BitfinexUtils.toPairString(currencyPair), limitBids, limitAsks);
+    BitfinexDepth bitfinexDepth =
+        getBitfinexOrderBook(BitfinexUtils.toPairString(currencyPair), limitBids, limitAsks);
 
     OrderBook orderBook = BitfinexAdapters.adaptOrderBook(bitfinexDepth, currencyPair);
 
@@ -101,18 +100,26 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
 
     BitfinexLendDepth bitfinexLendDepth = getBitfinexLendBook(currency, limitBids, limitAsks);
 
-    List<FixedRateLoanOrder> fixedRateAsks = BitfinexAdapters.adaptFixedRateLoanOrders(bitfinexLendDepth.getAsks(), currency, "ask", "");
-    List<FixedRateLoanOrder> fixedRateBids = BitfinexAdapters.adaptFixedRateLoanOrders(bitfinexLendDepth.getBids(), currency, "bid", "");
-    List<FloatingRateLoanOrder> floatingRateAsks = BitfinexAdapters.adaptFloatingRateLoanOrders(bitfinexLendDepth.getAsks(), currency, "ask", "");
-    List<FloatingRateLoanOrder> floatingRateBids = BitfinexAdapters.adaptFloatingRateLoanOrders(bitfinexLendDepth.getBids(), currency, "bid", "");
+    List<FixedRateLoanOrder> fixedRateAsks =
+        BitfinexAdapters.adaptFixedRateLoanOrders(bitfinexLendDepth.getAsks(), currency, "ask", "");
+    List<FixedRateLoanOrder> fixedRateBids =
+        BitfinexAdapters.adaptFixedRateLoanOrders(bitfinexLendDepth.getBids(), currency, "bid", "");
+    List<FloatingRateLoanOrder> floatingRateAsks =
+        BitfinexAdapters.adaptFloatingRateLoanOrders(
+            bitfinexLendDepth.getAsks(), currency, "ask", "");
+    List<FloatingRateLoanOrder> floatingRateBids =
+        BitfinexAdapters.adaptFloatingRateLoanOrders(
+            bitfinexLendDepth.getBids(), currency, "bid", "");
 
-    return new LoanOrderBook(null, fixedRateAsks, fixedRateBids, floatingRateAsks, floatingRateBids);
+    return new LoanOrderBook(
+        null, fixedRateAsks, fixedRateBids, floatingRateAsks, floatingRateBids);
   }
 
   /**
    * @param currencyPair The CurrencyPair for which to query trades.
-   * @param args One argument may be supplied which is the timestamp after which trades should be collected. Trades before this time are not reported.
-   * The argument may be of type java.util.Date or Number (milliseconds since Jan 1, 1970)
+   * @param args One argument may be supplied which is the timestamp after which trades should be
+   *     collected. Trades before this time are not reported. The argument may be of type
+   *     java.util.Date or Number (milliseconds since Jan 1, 1970)
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -122,18 +129,22 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
       // parameter 1, if present, is the last trade timestamp
       if (args[0] instanceof Number) {
         Number arg = (Number) args[0];
-        lastTradeTime = arg.longValue() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
+        lastTradeTime =
+            arg.longValue() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       } else if (args[0] instanceof Date) {
         Date arg = (Date) args[0];
-        lastTradeTime = arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
+        lastTradeTime =
+            arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       } else {
         throw new IllegalArgumentException(
-            "Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+            "Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was "
+                + args[0].getClass()
+                + ")");
       }
     }
-    BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(currencyPair), lastTradeTime);
+    BitfinexTrade[] trades =
+        getBitfinexTrades(BitfinexUtils.toPairString(currencyPair), lastTradeTime);
 
     return BitfinexAdapters.adaptTrades(trades, currencyPair);
   }
-
 }

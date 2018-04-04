@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -27,13 +26,10 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrde
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTrade;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
 
-/**
- * Author: Kamil Zbikowski Date: 4/10/15
- */
+/** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAdapters {
 
-  private IndependentReserveAdapters() {
-  }
+  private IndependentReserveAdapters() {}
 
   public static OrderBook adaptOrderBook(IndependentReserveOrderBook independentReserveOrderBook) {
 
@@ -44,10 +40,13 @@ public class IndependentReserveAdapters {
       base = "BTC";
     }
 
-    CurrencyPair currencyPair = new CurrencyPair(base, independentReserveOrderBook.getSecondaryCurrencyCode());
+    CurrencyPair currencyPair =
+        new CurrencyPair(base, independentReserveOrderBook.getSecondaryCurrencyCode());
 
-    List<LimitOrder> bids = adaptOrders(independentReserveOrderBook.getBuyOrders(), Order.OrderType.BID, currencyPair);
-    List<LimitOrder> asks = adaptOrders(independentReserveOrderBook.getSellOrders(), Order.OrderType.ASK, currencyPair);
+    List<LimitOrder> bids =
+        adaptOrders(independentReserveOrderBook.getBuyOrders(), Order.OrderType.BID, currencyPair);
+    List<LimitOrder> asks =
+        adaptOrders(independentReserveOrderBook.getSellOrders(), Order.OrderType.ASK, currencyPair);
     Date timestamp = independentReserveOrderBook.getCreatedTimestamp();
 
     return new OrderBook(timestamp, asks, bids);
@@ -60,7 +59,8 @@ public class IndependentReserveAdapters {
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
    */
-  public static Ticker adaptTicker(IndependentReserveTicker independentReserveTicker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      IndependentReserveTicker independentReserveTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = independentReserveTicker.getLast();
     BigDecimal bid = independentReserveTicker.getBid();
@@ -71,15 +71,25 @@ public class IndependentReserveAdapters {
     BigDecimal volume = independentReserveTicker.getVolume();
     Date timestamp = independentReserveTicker.getTimestamp();
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
-        .timestamp(timestamp).build();
-
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .vwap(vwap)
+        .volume(volume)
+        .timestamp(timestamp)
+        .build();
   }
 
-  private static List<LimitOrder> adaptOrders(List<OrderBookOrder> buyOrders, Order.OrderType type, CurrencyPair currencyPair) {
+  private static List<LimitOrder> adaptOrders(
+      List<OrderBookOrder> buyOrders, Order.OrderType type, CurrencyPair currencyPair) {
     final List<LimitOrder> orders = new ArrayList<>();
     for (OrderBookOrder obo : buyOrders) {
-      LimitOrder limitOrder = new LimitOrder(type, obo.getVolume(), currencyPair, null, null, obo.getPrice());
+      LimitOrder limitOrder =
+          new LimitOrder(type, obo.getVolume(), currencyPair, null, null, obo.getPrice());
       orders.add(limitOrder);
     }
     return orders;
@@ -88,16 +98,23 @@ public class IndependentReserveAdapters {
   public static Wallet adaptWallet(IndependentReserveBalance independentReserveBalance) {
     List<Balance> balances = new ArrayList<>();
 
-    for (IndependentReserveAccount balanceAccount : independentReserveBalance.getIndependentReserveAccounts()) {
+    for (IndependentReserveAccount balanceAccount :
+        independentReserveBalance.getIndependentReserveAccounts()) {
       Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
-      balances.add(new Balance(currency.getCommonlyUsedCurrency(), balanceAccount.getTotalBalance(), balanceAccount.getAvailableBalance()));
+      balances.add(
+          new Balance(
+              currency.getCommonlyUsedCurrency(),
+              balanceAccount.getTotalBalance(),
+              balanceAccount.getAvailableBalance()));
     }
     return new Wallet(balances);
   }
 
-  public static OpenOrders adaptOpenOrders(IndependentReserveOpenOrdersResponse independentReserveOrders) {
+  public static OpenOrders adaptOpenOrders(
+      IndependentReserveOpenOrdersResponse independentReserveOrders) {
     List<LimitOrder> limitOrders = new ArrayList<>();
-    List<IndependentReserveOpenOrder> independentReserveOrdersList = independentReserveOrders.getIndependentReserveOrders();
+    List<IndependentReserveOpenOrder> independentReserveOrdersList =
+        independentReserveOrders.getIndependentReserveOrders();
     for (IndependentReserveOpenOrder order : independentReserveOrdersList) {
       String orderType = order.getOrderType();
       Order.OrderType type;
@@ -120,16 +137,24 @@ public class IndependentReserveAdapters {
       Currency secondary = Currency.getInstanceNoCreate(order.getSecondaryCurrencyCode());
       CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
 
-      LimitOrder limitOrder = new LimitOrder(type, order.getOutstanding(), currencyPair, order.getOrderGuid(), order.getCreatedTimestamp(),
-          order.getPrice());
+      LimitOrder limitOrder =
+          new LimitOrder(
+              type,
+              order.getOutstanding(),
+              currencyPair,
+              order.getOrderGuid(),
+              order.getCreatedTimestamp(),
+              order.getPrice());
       limitOrders.add(limitOrder);
     }
     return new OpenOrders(limitOrders);
   }
 
-  public static UserTrades adaptTradeHistory(IndependentReserveTradeHistoryResponse independentReserveTradeHistoryResponse) {
+  public static UserTrades adaptTradeHistory(
+      IndependentReserveTradeHistoryResponse independentReserveTradeHistoryResponse) {
     List<UserTrade> userTrades = new ArrayList<>();
-    for (IndependentReserveTrade trade : independentReserveTradeHistoryResponse.getIndependentReserveTrades()) {
+    for (IndependentReserveTrade trade :
+        independentReserveTradeHistoryResponse.getIndependentReserveTrades()) {
       Order.OrderType type;
       String orderType = trade.getOrderType();
       if (orderType.equals("LimitOffer") || orderType.equals("MarketOffer")) {
@@ -149,14 +174,26 @@ public class IndependentReserveAdapters {
       Currency secondary = Currency.getInstanceNoCreate(trade.getSecondaryCurrencyCode());
 
       if (primary == null || secondary == null) {
-        throw new IllegalArgumentException("IndependentReserveTradeHistoryRequest - unknown value of currency code. Base was: "
-            + trade.getPrimaryCurrencyCode() + " counter was " + trade.getSecondaryCurrencyCode());
+        throw new IllegalArgumentException(
+            "IndependentReserveTradeHistoryRequest - unknown value of currency code. Base was: "
+                + trade.getPrimaryCurrencyCode()
+                + " counter was "
+                + trade.getSecondaryCurrencyCode());
       }
 
       CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
 
-      UserTrade ut = new UserTrade(type, trade.getVolumeTraded(), currencyPair, trade.getPrice(), trade.getTradeTimestamp(), trade.getTradeGuid(),
-          trade.getOrderGuid(), null, (Currency) null);
+      UserTrade ut =
+          new UserTrade(
+              type,
+              trade.getVolumeTraded(),
+              currencyPair,
+              trade.getPrice(),
+              trade.getTradeTimestamp(),
+              trade.getTradeGuid(),
+              trade.getOrderGuid(),
+              null,
+              (Currency) null);
 
       userTrades.add(ut);
     }

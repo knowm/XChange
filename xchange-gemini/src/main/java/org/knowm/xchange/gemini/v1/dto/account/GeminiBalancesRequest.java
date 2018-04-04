@@ -56,5 +56,4 @@ public class GeminiBalancesRequest {
 
     this.options = options;
   }
-
 }

@@ -1,147 +1,106 @@
-
 package org.knowm.xchange.kucoin.dto.marketdata;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "success",
-    "code",
-    "msg",
-    "data"
-})
+@JsonPropertyOrder({"success", "code", "msg", "data"})
 public class KucoinTickResponse {
 
-    @JsonProperty("success")
-    private Boolean success;
-    @JsonProperty("code")
-    private String code;
-    @JsonProperty("msg")
-    private String msg;
-    @JsonProperty("data")
-    private KucoinTicker data;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonProperty("success")
+  private Boolean success;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public KucoinTickResponse() {
-    }
+  @JsonProperty("code")
+  private String code;
 
-    /**
-     * 
-     * @param msg
-     * @param code
-     * @param data
-     * @param success
-     */
-    public KucoinTickResponse(Boolean success, String code, String msg, KucoinTicker data) {
-        super();
-        this.success = success;
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-    }
+  @JsonProperty("msg")
+  private String msg;
 
-    /**
-     * 
-     * @return
-     *     The success
-     */
-    @JsonProperty("success")
-    public Boolean getSuccess() {
-        return success;
-    }
+  @JsonProperty("data")
+  private KucoinTicker data;
 
-    /**
-     * 
-     * @param success
-     *     The success
-     */
-    @JsonProperty("success")
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    /**
-     * 
-     * @return
-     *     The code
-     */
-    @JsonProperty("code")
-    public String getCode() {
-        return code;
-    }
+  /** No args constructor for use in serialization */
+  public KucoinTickResponse() {}
 
-    /**
-     * 
-     * @param code
-     *     The code
-     */
-    @JsonProperty("code")
-    public void setCode(String code) {
-        this.code = code;
-    }
+  /**
+   * @param msg
+   * @param code
+   * @param data
+   * @param success
+   */
+  public KucoinTickResponse(Boolean success, String code, String msg, KucoinTicker data) {
+    super();
+    this.success = success;
+    this.code = code;
+    this.msg = msg;
+    this.data = data;
+  }
 
-    /**
-     * 
-     * @return
-     *     The msg
-     */
-    @JsonProperty("msg")
-    public String getMsg() {
-        return msg;
-    }
+  /** @return The success */
+  @JsonProperty("success")
+  public Boolean getSuccess() {
+    return success;
+  }
 
-    /**
-     * 
-     * @param msg
-     *     The msg
-     */
-    @JsonProperty("msg")
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
+  /** @param success The success */
+  @JsonProperty("success")
+  public void setSuccess(Boolean success) {
+    this.success = success;
+  }
 
-    /**
-     * 
-     * @return
-     *     The data
-     */
-    @JsonProperty("data")
-    public KucoinTicker getData() {
-        return data;
-    }
+  /** @return The code */
+  @JsonProperty("code")
+  public String getCode() {
+    return code;
+  }
 
-    /**
-     * 
-     * @param data
-     *     The data
-     */
-    @JsonProperty("data")
-    public void setData(KucoinTicker data) {
-        this.data = data;
-    }
+  /** @param code The code */
+  @JsonProperty("code")
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  /** @return The msg */
+  @JsonProperty("msg")
+  public String getMsg() {
+    return msg;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  /** @param msg The msg */
+  @JsonProperty("msg")
+  public void setMsg(String msg) {
+    this.msg = msg;
+  }
 
+  /** @return The data */
+  @JsonProperty("data")
+  public KucoinTicker getData() {
+    return data;
+  }
+
+  /** @param data The data */
+  @JsonProperty("data")
+  public void setData(KucoinTicker data) {
+    this.data = data;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
+
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put(name, value);
+  }
 }

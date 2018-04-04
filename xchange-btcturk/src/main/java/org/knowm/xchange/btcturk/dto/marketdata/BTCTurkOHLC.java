@@ -1,13 +1,10 @@
 package org.knowm.xchange.btcturk.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Created by semihunaldi on 26/11/2017
- */
+/** Created by semihunaldi on 26/11/2017 */
 public final class BTCTurkOHLC {
   private final Date time;
   private final BigDecimal open;
@@ -19,10 +16,15 @@ public final class BTCTurkOHLC {
   private final BigDecimal dailyChangeAmount;
   private final BigDecimal dailyChangePercentage;
 
-  public BTCTurkOHLC(@JsonProperty("Time") Date time, @JsonProperty("Open") BigDecimal open,
-      @JsonProperty("High") BigDecimal high, @JsonProperty("Low") BigDecimal low,
-      @JsonProperty("Close") BigDecimal close, @JsonProperty("Volume") BigDecimal volume,
-      @JsonProperty("Average") BigDecimal average, @JsonProperty("DailyChangeAmount") BigDecimal dailyChangeAmount,
+  public BTCTurkOHLC(
+      @JsonProperty("Time") Date time,
+      @JsonProperty("Open") BigDecimal open,
+      @JsonProperty("High") BigDecimal high,
+      @JsonProperty("Low") BigDecimal low,
+      @JsonProperty("Close") BigDecimal close,
+      @JsonProperty("Volume") BigDecimal volume,
+      @JsonProperty("Average") BigDecimal average,
+      @JsonProperty("DailyChangeAmount") BigDecimal dailyChangeAmount,
       @JsonProperty("DailyChangePercentage") BigDecimal dailyChangePercentage) {
     this.time = time;
     this.open = open;
@@ -73,6 +75,25 @@ public final class BTCTurkOHLC {
 
   @Override
   public String toString() {
-    return "BTCTurkOHLC {" + "time=" + time + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close + ", volume=" + volume + ", average=" + average + ", dailyChangeAmount=" + dailyChangeAmount + ", dailyChangePercentage=" + dailyChangePercentage + '}';
+    return "BTCTurkOHLC {"
+        + "time="
+        + time
+        + ", open="
+        + open
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", close="
+        + close
+        + ", volume="
+        + volume
+        + ", average="
+        + average
+        + ", dailyChangeAmount="
+        + dailyChangeAmount
+        + ", dailyChangePercentage="
+        + dailyChangePercentage
+        + '}';
   }
 }

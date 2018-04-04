@@ -1,23 +1,22 @@
 package org.knowm.xchange.bitstamp.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class DepositTransaction {
 
-  public DepositTransaction(@JsonProperty("amount") BigDecimal amount, @JsonProperty("confirmations") Integer confirmations,
+  private BigDecimal amount;
+  private Integer confirmations;
+  private String address;
+
+  public DepositTransaction(
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("confirmations") Integer confirmations,
       @JsonProperty("address") String address) {
     this.amount = amount;
     this.confirmations = confirmations;
     this.address = address;
   }
-
-  private BigDecimal amount;
-
-  private Integer confirmations;
-
-  private String address;
 
   public BigDecimal getAmount() {
     return amount;
@@ -33,6 +32,8 @@ public class DepositTransaction {
 
   @Override
   public String toString() {
-    return String.format("DepositTransaction{amount=%s, confirmations=%d, address='%s'}", amount, confirmations, address);
+    return String.format(
+        "DepositTransaction{amount=%s, confirmations=%d, address='%s'}",
+        amount, confirmations, address);
   }
 }

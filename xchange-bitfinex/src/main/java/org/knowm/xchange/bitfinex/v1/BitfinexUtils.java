@@ -3,17 +3,11 @@ package org.knowm.xchange.bitfinex.v1;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/**
- * A central place for shared Bitfinex properties
- */
+/** A central place for shared Bitfinex properties */
 public final class BitfinexUtils {
 
-  /**
-   * private Constructor
-   */
-  private BitfinexUtils() {
-
-  }
+  /** private Constructor */
+  private BitfinexUtils() {}
 
   public static String adaptXchangeCurrency(String xchangeSymbol) {
     String currency = xchangeSymbol.toLowerCase();
@@ -25,15 +19,16 @@ public final class BitfinexUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return adaptXchangeCurrency(currencyPair.base.toString()) + adaptXchangeCurrency(currencyPair.counter.toString());
+    return adaptXchangeCurrency(currencyPair.base.toString())
+        + adaptXchangeCurrency(currencyPair.counter.toString());
   }
 
   /**
-   * From the reference documentation for field withdraw_type (2018-02-14);
-   * can be one of the following ['bitcoin', 'litecoin', 'ethereum', 'ethereumc', 'mastercoin', 'zcash', 'monero', 'wire', 'dash', 'ripple', 'eos', 'neo', 'aventus', 'qtum', 'eidoo']
-   *
-   * From customer support via email on 2018-02-27;
-   * "... After discussing with our developers, you can use API to withdraw BCH and withdraw_type is bcash. ..."
+   * From the reference documentation for field withdraw_type (2018-02-14); can be one of the
+   * following ['bitcoin', 'litecoin', 'ethereum', 'ethereumc', 'mastercoin', 'zcash', 'monero',
+   * 'wire', 'dash', 'ripple', 'eos', 'neo', 'aventus', 'qtum', 'eidoo'] From customer support via
+   * email on 2018-02-27; "... After discussing with our developers, you can use API to withdraw BCH
+   * and withdraw_type is bcash. ..."
    *
    * @param currency
    * @return
@@ -75,6 +70,5 @@ public final class BitfinexUtils {
       default:
         throw new BitfinexException("Cannot determine withdrawal type.");
     }
-
   }
 }

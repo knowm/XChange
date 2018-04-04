@@ -1,11 +1,9 @@
 package org.knowm.xchange.therock.dto.trade;
 
-import java.math.BigDecimal;
-
-import org.knowm.xchange.therock.TheRock;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import java.math.BigDecimal;
+import org.knowm.xchange.therock.TheRock;
 
 /**
  * @author Matija Mazi
@@ -30,10 +28,10 @@ public class TheRockOrder {
   private BigDecimal leverage;
   private long positionId;
 
-  protected TheRockOrder() {
-  }
+  protected TheRockOrder() {}
 
-  public TheRockOrder(TheRock.Pair fundId, Side side, Type type, BigDecimal amount, BigDecimal price) {
+  public TheRockOrder(
+      TheRock.Pair fundId, Side side, Type type, BigDecimal amount, BigDecimal price) {
     this.fundId = fundId;
     this.side = side;
     this.type = type;
@@ -103,15 +101,18 @@ public class TheRockOrder {
 
   @Override
   public String toString() {
-    return String.format("TheRockOrder{id=%d, side=%s, type=%s, amount=%s, amountUnfilled=%s, price=%s, fundId=%s, status='%s'}", id, side, type,
-        amount, amountUnfilled, price, fundId, status);
+    return String.format(
+        "TheRockOrder{id=%d, side=%s, type=%s, amount=%s, amountUnfilled=%s, price=%s, fundId=%s, status='%s'}",
+        id, side, type, amount, amountUnfilled, price, fundId, status);
   }
 
   public enum Side {
-    buy, sell
+    buy,
+    sell
   }
 
   public enum Type {
-    market, limit
+    market,
+    limit
   }
 }

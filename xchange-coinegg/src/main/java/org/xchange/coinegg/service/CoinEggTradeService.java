@@ -3,11 +3,14 @@ package org.xchange.coinegg.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -33,7 +36,7 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
   public OpenOrdersParams createOpenOrdersParams() {
     throw new NotYetImplementedForExchangeException();
   }
-  
+
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     throw new NotYetImplementedForExchangeException();
@@ -43,7 +46,7 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-  
+
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
@@ -51,12 +54,12 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    
+
     BigDecimal amount = limitOrder.getOriginalAmount();
     BigDecimal price = limitOrder.getAveragePrice();
     String type = limitOrder.getType() == OrderType.ASK ? "buy" : "sell";
     String coin = CoinEggUtils.toBaseCoin(limitOrder.getCurrencyPair());
-    
+
     return CoinEggAdapters.adaptTradeAdd(getCoinEggTradeAdd(amount, price, type, coin));
   }
 
@@ -67,52 +70,57 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    
-    if ((orderParams instanceof CancelOrderByIdParams) && (orderParams instanceof CancelOrderByCurrencyPair)) {
-      
+
+    if ((orderParams instanceof CancelOrderByIdParams)
+        && (orderParams instanceof CancelOrderByCurrencyPair)) {
+
       String id = ((CancelOrderByIdParams) orderParams).getOrderId();
-      String coin = CoinEggUtils.toBaseCoin(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
-      
+      String coin =
+          CoinEggUtils.toBaseCoin(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
+
       return CoinEggAdapters.adaptTradeCancel(getCoinEggTradeCancel(id, coin));
     }
-    
+
     throw new ExchangeException("Incorrect CancelOrderParams!");
   }
-  
+
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new TradeHistoryParamsAll();
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException, ExchangeException {
-    
-    if ((params instanceof TradeHistoryParamCurrency) && (params instanceof TradeHistoryParamTransactionId)) {
-      
+  public UserTrades getTradeHistory(TradeHistoryParams params)
+      throws IOException, ExchangeException {
+
+    if ((params instanceof TradeHistoryParamCurrency)
+        && (params instanceof TradeHistoryParamTransactionId)) {
+
       String tradeID = ((TradeHistoryParamTransactionId) params).getTransactionId();
-      String coin = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode().toLowerCase();
-     
+      String coin =
+          ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode().toLowerCase();
+
       return CoinEggAdapters.adaptTradeHistory(getCoinEggTradeView(tradeID, coin));
     }
-    
+
     throw new ExchangeException("Incorrect TradeHistoryParams!");
   }
-  
+
   @Override
   public void verifyOrder(LimitOrder limitOrder) {
     throw new NotYetImplementedForExchangeException();
   }
-  
+
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
-  
+
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
-  
+
   @Override
   public void verifyOrder(MarketOrder marketOrder) {
     throw new NotAvailableFromExchangeException();

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Set;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
@@ -27,8 +26,10 @@ public class KrakenTradeRawSpecificDemo {
     KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getTradeService();
 
     KrakenStandardOrder order = // stop at -5% loss, take profit at +$10 price increase.
-        KrakenStandardOrder.getLimitOrderBuilder(CurrencyPair.BTC_USD, KrakenType.BUY, "100.00", new BigDecimal("2.12345678"))
-            .withCloseOrder(KrakenOrderType.STOP_LOSS_PROFIT, "#5%", "#10").withValidateOnly(true) // validate only for demo purposes
+        KrakenStandardOrder.getLimitOrderBuilder(
+                CurrencyPair.BTC_USD, KrakenType.BUY, "100.00", new BigDecimal("2.12345678"))
+            .withCloseOrder(KrakenOrderType.STOP_LOSS_PROFIT, "#5%", "#10")
+            .withValidateOnly(true) // validate only for demo purposes
             .buildOrder();
 
     KrakenOrderResponse orderResponse = tradeService.placeKrakenOrder(order);
@@ -43,13 +44,15 @@ public class KrakenTradeRawSpecificDemo {
     System.out.println(closedOrders);
 
     Set<String> closedOrderIds = closedOrders.keySet();
-    System.out.println(tradeService.queryKrakenOrders(closedOrderIds.toArray(new String[closedOrderIds.size()])));
+    System.out.println(
+        tradeService.queryKrakenOrders(closedOrderIds.toArray(new String[closedOrderIds.size()])));
 
     Map<String, KrakenTrade> trades = tradeService.getKrakenTradeHistory().getTrades();
     System.out.println(trades);
 
     Set<String> tradeIds = trades.keySet();
-    System.out.println(tradeService.queryKrakenTrades(tradeIds.toArray(new String[tradeIds.size()])));
+    System.out.println(
+        tradeService.queryKrakenTrades(tradeIds.toArray(new String[tradeIds.size()])));
 
     Map<String, KrakenOpenPosition> openPositions = tradeService.getOpenPositions();
     System.out.println(openPositions);

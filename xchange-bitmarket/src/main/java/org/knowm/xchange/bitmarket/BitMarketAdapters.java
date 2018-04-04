@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.bitmarket.dto.account.BitMarketBalance;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTicker;
@@ -29,17 +28,11 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 
-/**
- * @author kpysniak, kfonal
- */
+/** @author kpysniak, kfonal */
 public class BitMarketAdapters {
 
-  /**
-   * Singleton
-   */
-  private BitMarketAdapters() {
-
-  }
+  /** Singleton */
+  private BitMarketAdapters() {}
 
   /**
    * Adapts BitMarketBalance to Wallet
@@ -53,7 +46,10 @@ public class BitMarketAdapters {
 
     for (Map.Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
       Currency currency = Currency.getInstance(entry.getKey());
-      BigDecimal frozen = balance.getBlocked().containsKey(entry.getKey()) ? balance.getBlocked().get(entry.getKey()) : new BigDecimal("0");
+      BigDecimal frozen =
+          balance.getBlocked().containsKey(entry.getKey())
+              ? balance.getBlocked().get(entry.getKey())
+              : new BigDecimal("0");
       BigDecimal available = entry.getValue();
       balances.add(new Balance(currency, available.add(frozen), available, frozen));
     }
@@ -78,24 +74,39 @@ public class BitMarketAdapters {
     BigDecimal vwap = bitMarketTicker.getVwap();
     BigDecimal last = bitMarketTicker.getLast();
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).vwap(vwap).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .volume(volume)
+        .vwap(vwap)
+        .build();
   }
 
-  private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
+  private static List<LimitOrder> transformArrayToLimitOrders(
+      BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (BigDecimal[] order : orders) {
-      limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
+      limitOrders.add(
+          new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
     }
 
     return limitOrders;
   }
 
-  public static OrderBook adaptOrderBook(BitMarketOrderBook bitMarketOrderBook, CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(
+      BitMarketOrderBook bitMarketOrderBook, CurrencyPair currencyPair) {
 
-    OrderBook orderBook = new OrderBook(null, transformArrayToLimitOrders(bitMarketOrderBook.getAsks(), OrderType.ASK, currencyPair),
-        transformArrayToLimitOrders(bitMarketOrderBook.getBids(), OrderType.BID, currencyPair));
+    OrderBook orderBook =
+        new OrderBook(
+            null,
+            transformArrayToLimitOrders(bitMarketOrderBook.getAsks(), OrderType.ASK, currencyPair),
+            transformArrayToLimitOrders(bitMarketOrderBook.getBids(), OrderType.BID, currencyPair));
 
     return orderBook;
   }
@@ -106,8 +117,14 @@ public class BitMarketAdapters {
 
     for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
 
-      Trade trade = new Trade(bitMarketTrade.getType().equals("sell") ? OrderType.ASK : OrderType.BID, bitMarketTrade.getAmount(), currencyPair,
-          bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate() * 1000), bitMarketTrade.getTid());
+      Trade trade =
+          new Trade(
+              bitMarketTrade.getType().equals("sell") ? OrderType.ASK : OrderType.BID,
+              bitMarketTrade.getAmount(),
+              currencyPair,
+              bitMarketTrade.getPrice(),
+              new Date(bitMarketTrade.getDate() * 1000),
+              bitMarketTrade.getTid());
 
       tradeList.add(trade);
     }
@@ -116,7 +133,8 @@ public class BitMarketAdapters {
     return trades;
   }
 
-  public static OpenOrders adaptOpenOrders(Map<String, Map<String, List<BitMarketOrder>>> ordersMap) {
+  public static OpenOrders adaptOpenOrders(
+      Map<String, Map<String, List<BitMarketOrder>>> ordersMap) {
 
     List<LimitOrder> orders = new ArrayList<>();
 
@@ -133,11 +151,17 @@ public class BitMarketAdapters {
 
   private static LimitOrder createOrder(BitMarketOrder bitMarketOrder) {
 
-    return new LimitOrder(bitMarketOrder.getType(), bitMarketOrder.getAmount(), bitMarketOrder.getCurrencyPair(),
-        String.valueOf(bitMarketOrder.getId()), bitMarketOrder.getTimestamp(), bitMarketOrder.getRate());
+    return new LimitOrder(
+        bitMarketOrder.getType(),
+        bitMarketOrder.getAmount(),
+        bitMarketOrder.getCurrencyPair(),
+        String.valueOf(bitMarketOrder.getId()),
+        bitMarketOrder.getTimestamp(),
+        bitMarketOrder.getRate());
   }
 
-  public static UserTrades adaptTradeHistory(BitMarketHistoryTrades historyTrades, BitMarketHistoryOperations historyOperations) {
+  public static UserTrades adaptTradeHistory(
+      BitMarketHistoryTrades historyTrades, BitMarketHistoryOperations historyOperations) {
 
     List<UserTrade> trades = new ArrayList<>();
 
@@ -148,24 +172,35 @@ public class BitMarketAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  private static UserTrade createHistoryTrade(BitMarketHistoryTrade trade, BitMarketHistoryOperations operations) {
+  private static UserTrade createHistoryTrade(
+      BitMarketHistoryTrade trade, BitMarketHistoryOperations operations) {
 
-    //deduce commission currency
-    String commissionCurrency = BitMarketUtils.bitMarketOrderTypeToOrderType(trade.getType()) == OrderType.BID ? trade.getCurrencyCrypto()
-        : trade.getCurrencyFiat();
+    // deduce commission currency
+    String commissionCurrency =
+        BitMarketUtils.bitMarketOrderTypeToOrderType(trade.getType()) == OrderType.BID
+            ? trade.getCurrencyCrypto()
+            : trade.getCurrencyFiat();
 
-    //find in history operations - the operation which time match to time of given trade
+    // find in history operations - the operation which time match to time of given trade
     BitMarketHistoryOperation tradeOperation = null;
     for (BitMarketHistoryOperation operation : operations.getOperations()) {
-      if (operation.getType().equals("trade") && operation.getCurrency().equals(commissionCurrency) && operation.getTime() == trade.getTime()) {
+      if (operation.getType().equals("trade")
+          && operation.getCurrency().equals(commissionCurrency)
+          && operation.getTime() == trade.getTime()) {
         tradeOperation = operation;
-        break; //first matching history operation is taking into consideration only
+        break; // first matching history operation is taking into consideration only
       }
     }
 
-    return new UserTrade(BitMarketUtils.bitMarketOrderTypeToOrderType(trade.getType()), trade.getAmountCrypto(),
-        new CurrencyPair(trade.getCurrencyCrypto(), trade.getCurrencyFiat()), trade.getRate(), trade.getTimestamp(), String.valueOf(trade.getId()),
-        tradeOperation != null ? String.valueOf(tradeOperation.getId()) : null, tradeOperation != null ? tradeOperation.getCommission() : null,
+    return new UserTrade(
+        BitMarketUtils.bitMarketOrderTypeToOrderType(trade.getType()),
+        trade.getAmountCrypto(),
+        new CurrencyPair(trade.getCurrencyCrypto(), trade.getCurrencyFiat()),
+        trade.getRate(),
+        trade.getTimestamp(),
+        String.valueOf(trade.getId()),
+        tradeOperation != null ? String.valueOf(tradeOperation.getId()) : null,
+        tradeOperation != null ? tradeOperation.getCommission() : null,
         Currency.getInstance(commissionCurrency));
   }
 }

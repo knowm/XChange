@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -40,12 +39,8 @@ import org.knowm.xchange.utils.DateUtils;
  */
 public final class MercadoBitcoinAdapters {
 
-  /**
-   * private Constructor
-   */
-  private MercadoBitcoinAdapters() {
-
-  }
+  /** private Constructor */
+  private MercadoBitcoinAdapters() {}
 
   /**
    * Adapts a org.knowm.xchange.mercadobitcoin.dto.marketdata.OrderBook to a OrderBook Object
@@ -53,26 +48,33 @@ public final class MercadoBitcoinAdapters {
    * @param currencyPair (e.g. BTC/BRL or LTC/BRL)
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(MercadoBitcoinOrderBook mercadoBitcoinOrderBook, CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(
+      MercadoBitcoinOrderBook mercadoBitcoinOrderBook, CurrencyPair currencyPair) {
 
-    List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, mercadoBitcoinOrderBook.getAsks());
-    List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, mercadoBitcoinOrderBook.getBids());
+    List<LimitOrder> asks =
+        createOrders(currencyPair, OrderType.ASK, mercadoBitcoinOrderBook.getAsks());
+    List<LimitOrder> bids =
+        createOrders(currencyPair, OrderType.BID, mercadoBitcoinOrderBook.getBids());
     return new OrderBook(null, asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(
+      CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
-      checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
+      checkArgument(
+          ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
     }
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
+  public static LimitOrder createOrder(
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
+    return new LimitOrder(
+        orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
   }
 
   public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
@@ -89,7 +91,8 @@ public final class MercadoBitcoinAdapters {
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
    */
-  public static Ticker adaptTicker(MercadoBitcoinTicker mercadoBitcoinTicker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      MercadoBitcoinTicker mercadoBitcoinTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = mercadoBitcoinTicker.getTicker().getLast();
     BigDecimal bid = mercadoBitcoinTicker.getTicker().getBuy();
@@ -99,9 +102,16 @@ public final class MercadoBitcoinAdapters {
     BigDecimal volume = mercadoBitcoinTicker.getTicker().getVol();
     Date timestamp = new Date(mercadoBitcoinTicker.getTicker().getDate() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .volume(volume)
+        .timestamp(timestamp)
         .build();
-
   }
 
   /**
@@ -111,7 +121,8 @@ public final class MercadoBitcoinAdapters {
    * @param currencyPair (e.g. BTC/BRL or LTC/BRL)
    * @return The XChange Trades
    */
-  public static Trades adaptTrades(MercadoBitcoinTransaction[] transactions, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(
+      MercadoBitcoinTransaction[] transactions, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
@@ -120,8 +131,14 @@ public final class MercadoBitcoinAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades.add(new Trade(toOrderType(tx.getType()), tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L),
-          String.valueOf(tradeId)));
+      trades.add(
+          new Trade(
+              toOrderType(tx.getType()),
+              tx.getAmount(),
+              currencyPair,
+              tx.getPrice(),
+              DateUtils.fromMillisUtc(tx.getDate() * 1000L),
+              String.valueOf(tradeId)));
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
@@ -134,7 +151,8 @@ public final class MercadoBitcoinAdapters {
    * @param userName The user name
    * @return The account info
    */
-  public static AccountInfo adaptAccountInfo(MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo, String userName) {
+  public static AccountInfo adaptAccountInfo(
+      MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo, String userName) {
 
     // Adapt to XChange DTOs
     Balance brlBalance = new Balance(Currency.BRL, accountInfo.getTheReturn().getFunds().getBrl());
@@ -144,7 +162,8 @@ public final class MercadoBitcoinAdapters {
     return new AccountInfo(userName, new Wallet(brlBalance, btcBalance, ltcBalance));
   }
 
-  public static List<LimitOrder> adaptOrders(CurrencyPair currencyPair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> input) {
+  public static List<LimitOrder> adaptOrders(
+      CurrencyPair currencyPair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> input) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
@@ -157,7 +176,8 @@ public final class MercadoBitcoinAdapters {
     return limitOrders;
   }
 
-  private static LimitOrder processOrderEntry(Map.Entry<String, MercadoBitcoinUserOrdersEntry> entry, CurrencyPair currencyPair) {
+  private static LimitOrder processOrderEntry(
+      Map.Entry<String, MercadoBitcoinUserOrdersEntry> entry, CurrencyPair currencyPair) {
 
     String id = entry.getKey();
     MercadoBitcoinUserOrdersEntry userOrdersEntry = entry.getValue();
@@ -178,7 +198,8 @@ public final class MercadoBitcoinAdapters {
     return (pair.base.getCurrencyCode() + "_" + pair.counter.getCurrencyCode()).toLowerCase();
   }
 
-  public static UserTrades toUserTrades(CurrencyPair pair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> orders) {
+  public static UserTrades toUserTrades(
+      CurrencyPair pair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> orders) {
     List<UserTrade> result = new LinkedList<>();
     for (Map.Entry<String, MercadoBitcoinUserOrdersEntry> e : orders.getTheReturn().entrySet()) {
       String orderId = e.getKey();
@@ -187,8 +208,16 @@ public final class MercadoBitcoinAdapters {
       for (Map.Entry<String, OperationEntry> f : order.getOperations().entrySet()) {
         String txId = f.getKey();
         OperationEntry op = f.getValue();
-        result.add(new UserTrade.Builder().currencyPair(pair).id(txId).orderId(orderId).price(op.getPrice()).timestamp(fromUnixTime(op.getCreated()))
-            .originalAmount(op.getVolume()).type(type).build());
+        result.add(
+            new UserTrade.Builder()
+                .currencyPair(pair)
+                .id(txId)
+                .orderId(orderId)
+                .price(op.getPrice())
+                .timestamp(fromUnixTime(op.getCreated()))
+                .originalAmount(op.getVolume())
+                .type(type)
+                .build());
       }
     }
     // TODO verify sortType

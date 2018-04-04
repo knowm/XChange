@@ -1,58 +1,78 @@
 package org.knowm.xchange.bittrex.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.bittrex.BittrexUtils;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BittrexOrder {
 
   @JsonProperty("AccountId")
   private String accountId;
+
   @JsonProperty("OrderUuid")
   private String orderUuid;
+
   @JsonProperty("Exchange")
   private String exchange;
+
   @JsonProperty("Type")
   private String type;
+
   @JsonProperty("Quantity")
   private BigDecimal quantity;
+
   @JsonProperty("QuantityRemaining")
   private BigDecimal quantityRemaining;
+
   @JsonProperty("Limit")
   private BigDecimal limit;
+
   @JsonProperty("Reserved")
   private BigDecimal reserved;
+
   @JsonProperty("ReserveRemaining")
   private BigDecimal reserveRemaining;
+
   @JsonProperty("CommissionReserved")
   private BigDecimal commissionReserved;
+
   @JsonProperty("CommissionReserveRemaining")
   private BigDecimal commissionReserveRemaining;
+
   @JsonProperty("CommissionPaid")
   private BigDecimal commissionPaid;
+
   @JsonProperty("Price")
   private BigDecimal price;
+
   @JsonProperty("PricePerUnit")
   private BigDecimal pricePerUnit;
+
   @JsonProperty("Opened")
   private Date opened;
+
   @JsonProperty("Closed")
   private Date closed;
+
   @JsonProperty("IsOpen")
   private Boolean isOpen;
+
   @JsonProperty("Sentinel")
   private String sentinel;
+
   @JsonProperty("CancelInitiated")
   private Boolean cancelInitiated;
+
   @JsonProperty("ImmediateOrCancel")
   private Boolean immediateOrCancel;
+
   @JsonProperty("IsConditional")
   private Boolean isConditional;
+
   @JsonProperty("Condition")
   private String condition;
+
   @JsonProperty("ConditionTarget")
   private String conditionTarget;
 
@@ -288,11 +308,53 @@ public class BittrexOrder {
 
   @Override
   public String toString() {
-    return "BittrexOrder [accountId=" + accountId + ", orderUuid= " + orderUuid + ", exchange=" + exchange + "," +
-        ", type= " + type + ", quantity=" + quantity + ", quantityRemaining= " + quantityRemaining + ", limit=" + limit +
-        ", reserved= " + reserved + ", reserveRemaining=" + reserveRemaining + ", commissionReserved= " + commissionReserved + ", commissionReserveRemaining=" + commissionReserveRemaining +
-        ", commissionPaid= " + commissionPaid + ", price=" + price + ", pricePerUnit= " + pricePerUnit + ", opened=" + opened +
-        ", closed= " + closed + ", isOpen=" + isOpen + ", sentinel= " + sentinel + ", cancelInitiated=" + cancelInitiated +
-        ", immediateOrCancel= " + immediateOrCancel + ", isConditional=" + isConditional + ", condition= " + condition + ", conditionTarget=" + conditionTarget + "]";
+    return "BittrexOrder [accountId="
+        + accountId
+        + ", orderUuid= "
+        + orderUuid
+        + ", exchange="
+        + exchange
+        + ","
+        + ", type= "
+        + type
+        + ", quantity="
+        + quantity
+        + ", quantityRemaining= "
+        + quantityRemaining
+        + ", limit="
+        + limit
+        + ", reserved= "
+        + reserved
+        + ", reserveRemaining="
+        + reserveRemaining
+        + ", commissionReserved= "
+        + commissionReserved
+        + ", commissionReserveRemaining="
+        + commissionReserveRemaining
+        + ", commissionPaid= "
+        + commissionPaid
+        + ", price="
+        + price
+        + ", pricePerUnit= "
+        + pricePerUnit
+        + ", opened="
+        + opened
+        + ", closed= "
+        + closed
+        + ", isOpen="
+        + isOpen
+        + ", sentinel= "
+        + sentinel
+        + ", cancelInitiated="
+        + cancelInitiated
+        + ", immediateOrCancel= "
+        + immediateOrCancel
+        + ", isConditional="
+        + isConditional
+        + ", condition= "
+        + condition
+        + ", conditionTarget="
+        + conditionTarget
+        + "]";
   }
 }

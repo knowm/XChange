@@ -5,17 +5,19 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class HitbtcFundingHistoryParams implements TradeHistoryParams {
 
+  private Currency currency;
+  private Integer offset;
+  private Integer limit;
+
   private HitbtcFundingHistoryParams(Currency currency, Integer offset, Integer limit) {
     this.currency = currency;
     this.offset = offset;
     this.limit = limit;
   }
 
-  private Currency currency;
-
-  private Integer offset;
-
-  private Integer limit;
+  public static Builder builder() {
+    return new Builder();
+  }
 
   public Currency getCurrency() {
     return currency;
@@ -27,10 +29,6 @@ public class HitbtcFundingHistoryParams implements TradeHistoryParams {
 
   public Integer getLimit() {
     return limit;
-  }
-
-  public static Builder builder(){
-    return new Builder();
   }
 
   public static class Builder {
@@ -60,5 +58,4 @@ public class HitbtcFundingHistoryParams implements TradeHistoryParams {
       return new HitbtcFundingHistoryParams(currency, offset, limit);
     }
   }
-
 }

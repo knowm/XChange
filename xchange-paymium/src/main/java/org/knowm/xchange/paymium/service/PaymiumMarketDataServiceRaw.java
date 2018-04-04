@@ -1,7 +1,6 @@
 package org.knowm.xchange.paymium.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketDepth;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumTicker;
@@ -33,5 +32,4 @@ public class PaymiumMarketDataServiceRaw extends PaymiumBaseService {
 
     return Paymium.getTrades();
   }
-
 }

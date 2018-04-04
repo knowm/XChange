@@ -8,7 +8,11 @@ public class LivecoinResponse<T> {
   public final String errorMessage;
   public final T data;
 
-  public LivecoinResponse(@JsonProperty("success") boolean success, @JsonProperty("errorCode") Integer errorCode, @JsonProperty("errorMessage") String errorMessage, @JsonProperty("response") T data) {
+  public LivecoinResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("errorCode") Integer errorCode,
+      @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("response") T data) {
     this.success = success;
     this.errorCode = errorCode;
     this.errorMessage = errorMessage;

@@ -1,11 +1,9 @@
 package org.knowm.xchange.bitstamp.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.bitstamp.BitstampUtils;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitstampOrderTransaction {
 
@@ -33,13 +31,19 @@ public class BitstampOrderTransaction {
    * @param price transaction rate
    * @param fee transaction fee
    */
-  public BitstampOrderTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("tid") long tid,
+  public BitstampOrderTransaction(
+      @JsonProperty("datetime") String datetime,
+      @JsonProperty("tid") long tid,
       @JsonProperty("type") BitstampUserTransaction.TransactionType type,
-      @JsonProperty("usd") BigDecimal usd, @JsonProperty("btc") BigDecimal btc,
-      @JsonProperty("ltc") BigDecimal ltc, @JsonProperty("eth") BigDecimal eth,
-      @JsonProperty("eur") BigDecimal eur, @JsonProperty("xrp") BigDecimal xrp,
+      @JsonProperty("usd") BigDecimal usd,
+      @JsonProperty("btc") BigDecimal btc,
+      @JsonProperty("ltc") BigDecimal ltc,
+      @JsonProperty("eth") BigDecimal eth,
+      @JsonProperty("eur") BigDecimal eur,
+      @JsonProperty("xrp") BigDecimal xrp,
       @JsonProperty("bch") BigDecimal bch,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("fee") BigDecimal fee) {
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("fee") BigDecimal fee) {
 
     this.datetime = BitstampUtils.parseDate(datetime);
     ;
@@ -54,7 +58,6 @@ public class BitstampOrderTransaction {
     this.eur = eur;
     this.xrp = xrp;
     this.bch = bch;
-
   }
 
   public Date getDatetime() {

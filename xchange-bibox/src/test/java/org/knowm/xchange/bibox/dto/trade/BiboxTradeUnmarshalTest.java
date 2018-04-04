@@ -2,18 +2,16 @@ package org.knowm.xchange.bibox.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.bibox.BiboxTestUtils;
 import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 /**
  * Test Trade JSON parsing
- * 
+ *
  * @author odrotleff
  */
 public class BiboxTradeUnmarshalTest {
@@ -22,8 +20,9 @@ public class BiboxTradeUnmarshalTest {
   public void testOpenOrdersUnmarshal() throws IOException {
 
     BiboxSingleResponse<BiboxOrders> response =
-        BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
-            "/trade/example-open-orders.json");
+        BiboxTestUtils.getResponse(
+            new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
+            "/org/knowm/xchange/bibox/dto/trade/example-open-orders.json");
     assertThat(response.get().getCmd()).isEqualTo("orderpending/orderPendingList");
 
     BiboxOrders orders = response.get().getResult();
@@ -64,8 +63,9 @@ public class BiboxTradeUnmarshalTest {
   public void testTradeHistoryUnmarshal() throws IOException {
 
     BiboxSingleResponse<BiboxOrders> response =
-        BiboxTestUtils.getResponse(new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
-            "/trade/example-trade-history.json");
+        BiboxTestUtils.getResponse(
+            new TypeReference<BiboxSingleResponse<BiboxOrders>>() {},
+            "/org/knowm/xchange/bibox/dto/trade/example-trade-history.json");
     assertThat(response.get().getCmd()).isEqualTo("orderpending/orderHistoryList");
 
     BiboxOrders orders = response.get().getResult();

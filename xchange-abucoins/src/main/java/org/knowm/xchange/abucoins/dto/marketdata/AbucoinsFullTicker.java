@@ -1,17 +1,12 @@
 package org.knowm.xchange.abucoins.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /products/ticker</code> endpoint.</p>
+ * POJO representing the output JSON for the Abucoins <code>GET /products/ticker</code> endpoint.
  *
- * <p>This is essentially the {@link AbucoinsTicker} object
- * plus a product ID.</p>
- * Example:
- * <code><pre>
+ * <p>This is essentially the {@link AbucoinsTicker} object plus a product ID. Example: <code><pre>
  * {
  *     "product_id":"ETH-BTC",
  *     "trade_id": "553612",
@@ -23,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *     "time": "2017-09-21T10:26:58Z"
  * }
  * </pre></code>
+ *
  * @author bryant_harris
  */
 public class AbucoinsFullTicker extends AbucoinsTicker {
@@ -32,7 +28,6 @@ public class AbucoinsFullTicker extends AbucoinsTicker {
   /**
    * Constructor
    *
-   * 
    * @param productID identifier of the market
    * @param tradeID identifier of the last trade
    * @param price last price
@@ -43,18 +38,18 @@ public class AbucoinsFullTicker extends AbucoinsTicker {
    * @param time time in UTC
    */
   public AbucoinsFullTicker(
-                  @JsonProperty("product_id") String productID,
-                  @JsonProperty("trade_id") String tradeID,
-                  @JsonProperty("price") BigDecimal price,
-                  @JsonProperty("size") BigDecimal size,
-                  @JsonProperty("bid") BigDecimal bid,
-                  @JsonProperty("ask") BigDecimal ask,
-                  @JsonProperty("volume") BigDecimal volume,
-                  @JsonProperty("time") String time) {
-        super(tradeID, price, size, bid, ask, volume, time);
+      @JsonProperty("product_id") String productID,
+      @JsonProperty("trade_id") String tradeID,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("time") String time) {
+    super(tradeID, price, size, bid, ask, volume, time);
     this.productID = productID;
   }
-  
+
   /** identifier of the market */
   public String getProductID() {
     return productID;
@@ -62,7 +57,22 @@ public class AbucoinsFullTicker extends AbucoinsTicker {
 
   @Override
   public String toString() {
-    return "AbucoinsFullTicker [productID=" + productID + ", tradeID=" + tradeID + ", price=" + price + ", size=" + size
-        + ", bid=" + bid + ", ask=" + ask + ", volume=" + volume + ", time=" + time + "]";
+    return "AbucoinsFullTicker [productID="
+        + productID
+        + ", tradeID="
+        + tradeID
+        + ", price="
+        + price
+        + ", size="
+        + size
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", volume="
+        + volume
+        + ", time="
+        + time
+        + "]";
   }
 }

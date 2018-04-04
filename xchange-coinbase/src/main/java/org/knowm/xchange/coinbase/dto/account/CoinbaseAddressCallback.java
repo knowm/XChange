@@ -2,9 +2,7 @@ package org.knowm.xchange.coinbase.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseAddressCallback {
 
   @JsonProperty("address")
@@ -13,6 +11,12 @@ public class CoinbaseAddressCallback {
   public CoinbaseAddressCallback(String callbackUrl, final String label) {
 
     this.callbackUrlParam = new CoinbaseCallbackUrlParam(callbackUrl, label);
+  }
+
+  @Override
+  public String toString() {
+
+    return "CoinbaseAddressCallback [callbackUrlParam=" + callbackUrlParam + "]";
   }
 
   private static class CoinbaseCallbackUrlParam {
@@ -34,11 +38,5 @@ public class CoinbaseAddressCallback {
 
       return "CoinbaseCallbackUrlParam [callbackUrl=" + callbackUrl + ", label=" + label + "]";
     }
-  }
-
-  @Override
-  public String toString() {
-
-    return "CoinbaseAddressCallback [callbackUrlParam=" + callbackUrlParam + "]";
   }
 }

@@ -10,8 +10,11 @@ public class LiquiAccountInfo {
   private final long serverTime;
   private final LiquiAccountRights rights;
 
-  public LiquiAccountInfo(@JsonProperty("funds") final LiquiAccountFunds funds, @JsonProperty("transaction_count") final long transactionCount,
-      @JsonProperty("open_orders") final long openOrders, @JsonProperty("server_time") final long serverTime,
+  public LiquiAccountInfo(
+      @JsonProperty("funds") final LiquiAccountFunds funds,
+      @JsonProperty("transaction_count") final long transactionCount,
+      @JsonProperty("open_orders") final long openOrders,
+      @JsonProperty("server_time") final long serverTime,
       @JsonProperty("rights") final LiquiAccountRights rights) {
     this.funds = funds;
     this.transactionCount = transactionCount;
@@ -42,12 +45,17 @@ public class LiquiAccountInfo {
 
   @Override
   public String toString() {
-    return "LiquiAccountInfo{" +
-        "funds=" + funds +
-        ", transactionCount=" + transactionCount +
-        ", openOrders=" + openOrders +
-        ", serverTime=" + serverTime +
-        ", rights=" + rights +
-        '}';
+    return "LiquiAccountInfo{"
+        + "funds="
+        + funds
+        + ", transactionCount="
+        + transactionCount
+        + ", openOrders="
+        + openOrders
+        + ", serverTime="
+        + serverTime
+        + ", rights="
+        + rights
+        + '}';
   }
 }

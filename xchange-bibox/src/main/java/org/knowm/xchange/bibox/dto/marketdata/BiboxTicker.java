@@ -1,264 +1,191 @@
 package org.knowm.xchange.bibox.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "buy",
-    "high",
-    "last",
-    "low",
-    "sell",
-    "timestamp",
-    "vol",
-    "last_cny",
-    "last_usd",
-    "percent"
+  "buy",
+  "high",
+  "last",
+  "low",
+  "sell",
+  "timestamp",
+  "vol",
+  "last_cny",
+  "last_usd",
+  "percent"
 })
 public class BiboxTicker {
 
-    @JsonProperty("buy")
-    private BigDecimal buy;
-    @JsonProperty("high")
-    private BigDecimal high;
-    @JsonProperty("last")
-    private BigDecimal last;
-    @JsonProperty("low")
-    private BigDecimal low;
-    @JsonProperty("sell")
-    private BigDecimal sell;
-    @JsonProperty("timestamp")
-    private long timestamp;
-    @JsonProperty("vol")
-    private BigDecimal vol;
-    @JsonProperty("last_cny")
-    private BigDecimal lastCny;
-    @JsonProperty("last_usd")
-    private BigDecimal lastUsd;
-    // yes, I'm lazy
-    @JsonProperty("percent")
-    private String percent;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonProperty("buy")
+  private BigDecimal buy;
 
-    /**
-     * 
-     * @return
-     *     The buy
-     */
-    @JsonProperty("buy")
-    public BigDecimal getBuy() {
-        return buy;
-    }
+  @JsonProperty("high")
+  private BigDecimal high;
 
-    /**
-     * 
-     * @param buy
-     *     The buy
-     */
-    @JsonProperty("buy")
-    public void setBuy(BigDecimal buy) {
-        this.buy = buy;
-    }
+  @JsonProperty("last")
+  private BigDecimal last;
 
-    /**
-     * 
-     * @return
-     *     The high
-     */
-    @JsonProperty("high")
-    public BigDecimal getHigh() {
-        return high;
-    }
+  @JsonProperty("low")
+  private BigDecimal low;
 
-    /**
-     * 
-     * @param high
-     *     The high
-     */
-    @JsonProperty("high")
-    public void setHigh(BigDecimal high) {
-        this.high = high;
-    }
+  @JsonProperty("sell")
+  private BigDecimal sell;
 
-    /**
-     * 
-     * @return
-     *     The last
-     */
-    @JsonProperty("last")
-    public BigDecimal getLast() {
-        return last;
-    }
+  @JsonProperty("timestamp")
+  private long timestamp;
 
-    /**
-     * 
-     * @param last
-     *     The last
-     */
-    @JsonProperty("last")
-    public void setLast(BigDecimal last) {
-        this.last = last;
-    }
+  @JsonProperty("vol")
+  private BigDecimal vol;
 
-    /**
-     * 
-     * @return
-     *     The low
-     */
-    @JsonProperty("low")
-    public BigDecimal getLow() {
-        return low;
-    }
+  @JsonProperty("last_cny")
+  private BigDecimal lastCny;
 
-    /**
-     * 
-     * @param low
-     *     The low
-     */
-    @JsonProperty("low")
-    public void setLow(BigDecimal low) {
-        this.low = low;
-    }
+  @JsonProperty("last_usd")
+  private BigDecimal lastUsd;
+  // yes, I'm lazy
+  @JsonProperty("percent")
+  private String percent;
 
-    /**
-     * 
-     * @return
-     *     The sell
-     */
-    @JsonProperty("sell")
-    public BigDecimal getSell() {
-        return sell;
-    }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    /**
-     * 
-     * @param sell
-     *     The sell
-     */
-    @JsonProperty("sell")
-    public void setSell(BigDecimal sell) {
-        this.sell = sell;
-    }
+  /** @return The buy */
+  @JsonProperty("buy")
+  public BigDecimal getBuy() {
+    return buy;
+  }
 
-    /**
-     * 
-     * @return
-     *     The timestamp
-     */
-    @JsonProperty("timestamp")
-    public long getTimestamp() {
-        return timestamp;
-    }
+  /** @param buy The buy */
+  @JsonProperty("buy")
+  public void setBuy(BigDecimal buy) {
+    this.buy = buy;
+  }
 
-    /**
-     * 
-     * @param timestamp
-     *     The timestamp
-     */
-    @JsonProperty("timestamp")
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
+  /** @return The high */
+  @JsonProperty("high")
+  public BigDecimal getHigh() {
+    return high;
+  }
 
-    /**
-     * 
-     * @return
-     *     The vol
-     */
-    @JsonProperty("vol")
-    public BigDecimal getVol() {
-        return vol;
-    }
+  /** @param high The high */
+  @JsonProperty("high")
+  public void setHigh(BigDecimal high) {
+    this.high = high;
+  }
 
-    /**
-     * 
-     * @param vol
-     *     The vol
-     */
-    @JsonProperty("vol")
-    public void setVol(BigDecimal vol) {
-        this.vol = vol;
-    }
+  /** @return The last */
+  @JsonProperty("last")
+  public BigDecimal getLast() {
+    return last;
+  }
 
-    /**
-     * 
-     * @return
-     *     The lastCny
-     */
-    @JsonProperty("last_cny")
-    public BigDecimal getLastCny() {
-        return lastCny;
-    }
+  /** @param last The last */
+  @JsonProperty("last")
+  public void setLast(BigDecimal last) {
+    this.last = last;
+  }
 
-    /**
-     * 
-     * @param lastCny
-     *     The last_cny
-     */
-    @JsonProperty("last_cny")
-    public void setLastCny(BigDecimal lastCny) {
-        this.lastCny = lastCny;
-    }
+  /** @return The low */
+  @JsonProperty("low")
+  public BigDecimal getLow() {
+    return low;
+  }
 
-    /**
-     * 
-     * @return
-     *     The lastUsd
-     */
-    @JsonProperty("last_usd")
-    public BigDecimal getLastUsd() {
-        return lastUsd;
-    }
+  /** @param low The low */
+  @JsonProperty("low")
+  public void setLow(BigDecimal low) {
+    this.low = low;
+  }
 
-    /**
-     * 
-     * @param lastUsd
-     *     The last_usd
-     */
-    @JsonProperty("last_usd")
-    public void setLastUsd(BigDecimal lastUsd) {
-        this.lastUsd = lastUsd;
-    }
+  /** @return The sell */
+  @JsonProperty("sell")
+  public BigDecimal getSell() {
+    return sell;
+  }
 
-    /**
-     * 
-     * @return
-     *     The percent
-     */
-    @JsonProperty("percent")
-    public String getPercent() {
-        return percent;
-    }
+  /** @param sell The sell */
+  @JsonProperty("sell")
+  public void setSell(BigDecimal sell) {
+    this.sell = sell;
+  }
 
-    /**
-     * 
-     * @param percent
-     *     The percent
-     */
-    @JsonProperty("percent")
-    public void setPercent(String percent) {
-        this.percent = percent;
-    }
+  /** @return The timestamp */
+  @JsonProperty("timestamp")
+  public long getTimestamp() {
+    return timestamp;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  /** @param timestamp The timestamp */
+  @JsonProperty("timestamp")
+  public void setTimestamp(long timestamp) {
+    this.timestamp = timestamp;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  /** @return The vol */
+  @JsonProperty("vol")
+  public BigDecimal getVol() {
+    return vol;
+  }
 
+  /** @param vol The vol */
+  @JsonProperty("vol")
+  public void setVol(BigDecimal vol) {
+    this.vol = vol;
+  }
+
+  /** @return The lastCny */
+  @JsonProperty("last_cny")
+  public BigDecimal getLastCny() {
+    return lastCny;
+  }
+
+  /** @param lastCny The last_cny */
+  @JsonProperty("last_cny")
+  public void setLastCny(BigDecimal lastCny) {
+    this.lastCny = lastCny;
+  }
+
+  /** @return The lastUsd */
+  @JsonProperty("last_usd")
+  public BigDecimal getLastUsd() {
+    return lastUsd;
+  }
+
+  /** @param lastUsd The last_usd */
+  @JsonProperty("last_usd")
+  public void setLastUsd(BigDecimal lastUsd) {
+    this.lastUsd = lastUsd;
+  }
+
+  /** @return The percent */
+  @JsonProperty("percent")
+  public String getPercent() {
+    return percent;
+  }
+
+  /** @param percent The percent */
+  @JsonProperty("percent")
+  public void setPercent(String percent) {
+    this.percent = percent;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
+
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put(name, value);
+  }
 }

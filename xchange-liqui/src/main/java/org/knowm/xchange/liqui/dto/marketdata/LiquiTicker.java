@@ -1,8 +1,7 @@
 package org.knowm.xchange.liqui.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class LiquiTicker {
 
@@ -16,9 +15,16 @@ public class LiquiTicker {
   private final BigDecimal sell;
   private final long updated;
 
-  public LiquiTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("avg") BigDecimal avg,
-      @JsonProperty("vol") BigDecimal vol, @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("last") BigDecimal last,
-      @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell, @JsonProperty("updated") long updated) {
+  public LiquiTicker(
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("avg") BigDecimal avg,
+      @JsonProperty("vol") BigDecimal vol,
+      @JsonProperty("vol_cur") BigDecimal volCur,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("sell") BigDecimal sell,
+      @JsonProperty("updated") long updated) {
     this.high = high;
     this.low = low;
     this.avg = avg;
@@ -68,16 +74,25 @@ public class LiquiTicker {
 
   @Override
   public String toString() {
-    return "LiquiTicker{" +
-        "high=" + this.high +
-        ", low=" + this.low +
-        ", avg=" + this.avg +
-        ", vol=" + this.vol +
-        ", volCur=" + this.volCur +
-        ", last=" + this.last +
-        ", buy=" + this.buy +
-        ", sell=" + this.sell +
-        ", updated=" + this.updated +
-        '}';
+    return "LiquiTicker{"
+        + "high="
+        + this.high
+        + ", low="
+        + this.low
+        + ", avg="
+        + this.avg
+        + ", vol="
+        + this.vol
+        + ", volCur="
+        + this.volCur
+        + ", last="
+        + this.last
+        + ", buy="
+        + this.buy
+        + ", sell="
+        + this.sell
+        + ", updated="
+        + this.updated
+        + '}';
   }
 }

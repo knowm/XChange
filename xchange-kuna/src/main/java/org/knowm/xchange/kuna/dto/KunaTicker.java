@@ -1,12 +1,11 @@
 package org.knowm.xchange.kuna.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
- * Ticker of crypto currency.
- * Instances of this type are immutable, constructed with a dedicated Builder implementation.
+ * Ticker of crypto currency. Instances of this type are immutable, constructed with a dedicated
+ * Builder implementation.
  *
  * @author Dat Bui
  */
@@ -21,10 +20,16 @@ public class KunaTicker {
   private BigDecimal vol;
   private BigDecimal price;
 
+  /** Hide default constructor. */
+  private KunaTicker() {}
+
   /**
-   * Hide default constructor.
+   * Creates new builder.
+   *
+   * @return builder
    */
-  private KunaTicker() {
+  public static Builder builder() {
+    return new Builder();
   }
 
   /**
@@ -90,26 +95,24 @@ public class KunaTicker {
     return price;
   }
 
-  /**
-   * Creates new builder.
-   *
-   * @return builder
-   */
-  public static Builder builder() {
-    return new Builder();
-  }
-
   @Override
   public String toString() {
-    return "KunaTicker{" +
-        "buy=" + buy +
-        ", sell=" + sell +
-        ", low=" + low +
-        ", high=" + high +
-        ", last=" + last +
-        ", vol=" + vol +
-        ", price=" + price +
-        '}';
+    return "KunaTicker{"
+        + "buy="
+        + buy
+        + ", sell="
+        + sell
+        + ", low="
+        + low
+        + ", high="
+        + high
+        + ", last="
+        + last
+        + ", vol="
+        + vol
+        + ", price="
+        + price
+        + '}';
   }
 
   public static class Builder {
@@ -182,6 +185,5 @@ public class KunaTicker {
     public KunaTicker build() {
       return this.target;
     }
-
   }
 }

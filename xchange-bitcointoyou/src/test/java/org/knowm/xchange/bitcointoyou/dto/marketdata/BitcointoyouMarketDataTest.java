@@ -1,15 +1,13 @@
 package org.knowm.xchange.bitcointoyou.dto.marketdata;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdaptersTest;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the {@link BitcointoyouMarketData} class.
@@ -23,6 +21,16 @@ public class BitcointoyouMarketDataTest {
   @BeforeClass
   public static void setUp() throws Exception {
     marketData = loadBitcointoyouTickerFromExampleData();
+  }
+
+  private static BitcointoyouMarketData loadBitcointoyouTickerFromExampleData() throws IOException {
+
+    InputStream is =
+        BitcointoyouAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcointoyou/dto/marketdata/example-ticker-data.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(is, BitcointoyouMarketData.class);
   }
 
   @Test
@@ -40,14 +48,4 @@ public class BitcointoyouMarketDataTest {
 
     softly.assertAll();
   }
-
-  private static BitcointoyouMarketData loadBitcointoyouTickerFromExampleData() throws IOException {
-
-    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
-
-    ObjectMapper mapper = new ObjectMapper();
-    return mapper.readValue(is, BitcointoyouMarketData.class);
-  }
-
-
 }

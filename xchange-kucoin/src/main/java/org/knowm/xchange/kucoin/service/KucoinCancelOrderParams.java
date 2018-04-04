@@ -12,7 +12,7 @@ public class KucoinCancelOrderParams
   private CurrencyPair currencyPair;
   private String orderId;
   private OrderType orderType;
-  
+
   public KucoinCancelOrderParams(CurrencyPair currencyPair, String orderId, OrderType orderType) {
     super();
     this.currencyPair = currencyPair;
@@ -34,5 +34,4 @@ public class KucoinCancelOrderParams
   public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }
-
 }

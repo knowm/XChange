@@ -1,8 +1,7 @@
 package org.knowm.xchange.coinmate.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CoinmateOrderHistoryEntry {
 
@@ -14,7 +13,8 @@ public class CoinmateOrderHistoryEntry {
   private final BigDecimal originalAmount;
   private final String status;
 
-  public CoinmateOrderHistoryEntry(@JsonProperty("id") long id,
+  public CoinmateOrderHistoryEntry(
+      @JsonProperty("id") long id,
       @JsonProperty("timestamp") long timestamp,
       @JsonProperty("type") String type,
       @JsonProperty("price") BigDecimal price,

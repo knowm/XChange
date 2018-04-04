@@ -1,27 +1,20 @@
 package org.knowm.xchange.dto.meta;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class CurrencyPairMetaData implements Serializable {
 
-  /**
-   * Trading fee (fraction)
-   */
+  /** Trading fee (fraction) */
   @JsonProperty("trading_fee")
   private final BigDecimal tradingFee;
 
-  /**
-   * Minimum trade amount
-   */
+  /** Minimum trade amount */
   @JsonProperty("min_amount")
   private final BigDecimal minimumAmount;
 
-  /**
-   * Maximum trade amount
-   */
+  /** Maximum trade amount */
   @JsonProperty("max_amount")
   private final BigDecimal maximumAmount;
 
@@ -36,8 +29,11 @@ public class CurrencyPairMetaData implements Serializable {
    * @param maximumAmount Maximum trade amount
    * @param priceScale Price scale
    */
-  public CurrencyPairMetaData(@JsonProperty("trading_fee") BigDecimal tradingFee, @JsonProperty("min_amount") BigDecimal minimumAmount,
-      @JsonProperty("max_amount") BigDecimal maximumAmount, @JsonProperty("price_scale") Integer priceScale) {
+  public CurrencyPairMetaData(
+      @JsonProperty("trading_fee") BigDecimal tradingFee,
+      @JsonProperty("min_amount") BigDecimal minimumAmount,
+      @JsonProperty("max_amount") BigDecimal maximumAmount,
+      @JsonProperty("price_scale") Integer priceScale) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
@@ -68,8 +64,14 @@ public class CurrencyPairMetaData implements Serializable {
   @Override
   public String toString() {
 
-    return "CurrencyPairMetaData [tradingFee=" + tradingFee + ", minimumAmount=" + minimumAmount + ", maximumAmount=" + maximumAmount
-        + ", priceScale=" + priceScale + "]";
+    return "CurrencyPairMetaData [tradingFee="
+        + tradingFee
+        + ", minimumAmount="
+        + minimumAmount
+        + ", maximumAmount="
+        + maximumAmount
+        + ", priceScale="
+        + priceScale
+        + "]";
   }
-
 }

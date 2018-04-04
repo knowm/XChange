@@ -1,17 +1,15 @@
 package org.knowm.xchange.bitcoinaverage;
 
+import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
 import org.junit.Assume;
 import org.junit.Test;
-
-import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
 public class BitcoinAverageAuthenticationTest {
 
@@ -34,7 +32,8 @@ public class BitcoinAverageAuthenticationTest {
     connection.setRequestProperty("X-Signature", signature);
 
     // read all the lines of the response into response StringBuffer
-    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+    BufferedReader bufferedReader =
+        new BufferedReader(new InputStreamReader(connection.getInputStream()));
     String inputLine;
     StringBuffer response = new StringBuffer();
 
@@ -55,9 +54,8 @@ public class BitcoinAverageAuthenticationTest {
     Mac sha256_Mac = Mac.getInstance("HmacSHA256");
     SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256");
     sha256_Mac.init(secretKeySpec);
-    String hashHex =  bytesToHex(sha256_Mac.doFinal(payload.getBytes())).toLowerCase();
+    String hashHex = bytesToHex(sha256_Mac.doFinal(payload.getBytes())).toLowerCase();
     String signature = payload + "." + hashHex;
     return signature;
   }
-
 }

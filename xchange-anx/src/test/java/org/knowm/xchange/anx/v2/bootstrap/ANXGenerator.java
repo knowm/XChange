@@ -28,6 +28,9 @@ import static org.knowm.xchange.currency.CurrencyPair.LTC_BTC;
 import static org.knowm.xchange.currency.CurrencyPair.STR_BTC;
 import static org.knowm.xchange.currency.CurrencyPair.XRP_BTC;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,7 +41,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import org.knowm.xchange.anx.v2.dto.meta.ANXMarketMetaData;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.knowm.xchange.currency.Currency;
@@ -46,14 +48,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 public class ANXGenerator {
 
-  static ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true)
-      .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+  static ObjectMapper mapper =
+      new ObjectMapper()
+          .configure(SerializationFeature.INDENT_OUTPUT, true)
+          .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
   static Set<Currency> cryptos = new HashSet<>(Arrays.asList(BTC, LTC, DOGE, STR, XRP, START, EGD));
   static Currency[] fiats = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY};
@@ -69,6 +69,7 @@ public class ANXGenerator {
   static Map<Currency, CurrencyMetaData> currencyMap = new TreeMap<>();
 
   static Set<CurrencyPair> pairs = new HashSet<>();
+  static BigDecimal fee = new BigDecimal(".006");
 
   static {
     minAmount.put(BTC, ONE.movePointLeft(2));
@@ -117,8 +118,6 @@ public class ANXGenerator {
     }
   }
 
-  static BigDecimal fee = new BigDecimal(".006");
-
   public static void main(String[] args) throws IOException {
     new ANXGenerator().run();
   }
@@ -138,11 +137,15 @@ public class ANXGenerator {
     out.flush();
   }
 
-  private void handleCurrencyPair(Map<CurrencyPair, CurrencyPairMetaData> map, CurrencyPair currencyPair) {
+  private void handleCurrencyPair(
+      Map<CurrencyPair, CurrencyPairMetaData> map, CurrencyPair currencyPair) {
     int amountScale = amountScale(currencyPair);
-    BigDecimal minimumAmount = scaled(minAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
-    BigDecimal maximumAmount = scaled(maxAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
-    ANXMarketMetaData mmd = new ANXMarketMetaData(fee, minimumAmount, maximumAmount, priceScale(currencyPair));
+    BigDecimal minimumAmount =
+        scaled(minAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
+    BigDecimal maximumAmount =
+        scaled(maxAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
+    ANXMarketMetaData mmd =
+        new ANXMarketMetaData(fee, minimumAmount, maximumAmount, priceScale(currencyPair));
     map.put(currencyPair, mmd);
   }
 
@@ -155,11 +158,12 @@ public class ANXGenerator {
   }
 
   int priceScale(CurrencyPair pair) {
-    if (LTC_BTC.equals(pair) || (BTC.equals(pair.base.getCurrencyCode()) && !cryptos.contains(pair.counter.getCurrencyCode()))) {
+    if (LTC_BTC.equals(pair)
+        || (BTC.equals(pair.base.getCurrencyCode())
+            && !cryptos.contains(pair.counter.getCurrencyCode()))) {
       return 5;
     } else {
       return 8;
     }
   }
-
 }

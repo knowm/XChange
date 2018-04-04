@@ -1,19 +1,14 @@
-
 package org.knowm.xchange.kucoin.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test Marketdata JSON parsing
- */
+/** Test Marketdata JSON parsing */
 public class KucoinMarketdataUnmarshalTest {
 
   private ObjectMapper mapper = new ObjectMapper();
@@ -22,7 +17,9 @@ public class KucoinMarketdataUnmarshalTest {
   public void testCoinUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KucoinMarketdataUnmarshalTest.class.getResourceAsStream("/marketdata/example-coin.json");
+    InputStream is =
+        KucoinMarketdataUnmarshalTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kucoin/dto/marketdata/example-coin.json");
     KucoinCoin coin = mapper.readValue(is, KucoinCoin.class);
 
     // Verify that the example data was unmarshalled correctly
@@ -44,7 +41,9 @@ public class KucoinMarketdataUnmarshalTest {
   public void testTickerUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KucoinMarketdataUnmarshalTest.class.getResourceAsStream("/marketdata/example-ticker.json");
+    InputStream is =
+        KucoinMarketdataUnmarshalTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kucoin/dto/marketdata/example-ticker.json");
     KucoinTicker ticker = mapper.readValue(is, KucoinTicker.class);
 
     // Verify that the example data was unmarshalled correctly
@@ -65,5 +64,4 @@ public class KucoinMarketdataUnmarshalTest {
     assertThat(ticker.getLow()).isEqualTo(BigDecimal.valueOf(0.00114983));
     assertThat(ticker.getChangeRate()).isEqualTo(BigDecimal.valueOf(0.3604));
   }
-
 }

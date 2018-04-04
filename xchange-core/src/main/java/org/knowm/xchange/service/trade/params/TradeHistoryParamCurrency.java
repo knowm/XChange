@@ -4,7 +4,7 @@ import org.knowm.xchange.currency.Currency;
 
 public interface TradeHistoryParamCurrency extends TradeHistoryParams {
 
-  void setCurrency(Currency currency);
-
   Currency getCurrency();
+
+  void setCurrency(Currency currency);
 }

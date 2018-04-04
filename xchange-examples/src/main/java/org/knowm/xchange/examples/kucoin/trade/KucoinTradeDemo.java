@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.kucoin.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -29,13 +28,15 @@ public class KucoinTradeDemo {
 
     generic(tradeService);
     raw((KucoinTradeServiceRaw) tradeService);
-
   }
 
   private static void generic(TradeService tradeService) throws IOException {
 
-    LimitOrder limitOrder = new LimitOrder.Builder(ORDER_TYPE, PAIR).limitPrice(new BigDecimal("100.0")).originalAmount(new BigDecimal("1"))
-        .build();
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(ORDER_TYPE, PAIR)
+            .limitPrice(new BigDecimal("100.0"))
+            .originalAmount(new BigDecimal("1"))
+            .build();
 
     try {
       String uuid = tradeService.placeLimitOrder(limitOrder);
@@ -44,7 +45,8 @@ public class KucoinTradeDemo {
       Thread.sleep(7000); // wait for order to propagate
 
       System.out.println();
-      DefaultOpenOrdersParamCurrencyPair orderParams = (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+      DefaultOpenOrdersParamCurrencyPair orderParams =
+          (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
       orderParams.setCurrencyPair(PAIR);
       System.out.println(tradeService.getOpenOrders(orderParams));
 
@@ -70,11 +72,15 @@ public class KucoinTradeDemo {
 
   private static void raw(KucoinTradeServiceRaw tradeService) throws IOException {
 
-    LimitOrder limitOrder = new LimitOrder.Builder(ORDER_TYPE, PAIR).limitPrice(new BigDecimal("100")).originalAmount(new BigDecimal("1"))
-        .build();
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(ORDER_TYPE, PAIR)
+            .limitPrice(new BigDecimal("100"))
+            .originalAmount(new BigDecimal("1"))
+            .build();
 
     try {
-      KucoinResponse<KucoinOrder> limitOrderResponse = tradeService.placeKucoinLimitOrder(limitOrder);
+      KucoinResponse<KucoinOrder> limitOrderResponse =
+          tradeService.placeKucoinLimitOrder(limitOrder);
       String orderId = limitOrderResponse.getData().getOrderOid();
       System.out.println("Order successfully placed. ID=" + orderId);
 
@@ -84,7 +90,8 @@ public class KucoinTradeDemo {
       System.out.println(tradeService.getKucoinOpenOrders(PAIR, null));
 
       System.out.println("Attempting to cancel order " + orderId);
-      KucoinResponse<KucoinOrder> cancelResponse = tradeService.cancelKucoinOrder(PAIR, orderId, ORDER_TYPE);
+      KucoinResponse<KucoinOrder> cancelResponse =
+          tradeService.cancelKucoinOrder(PAIR, orderId, ORDER_TYPE);
 
       if (cancelResponse.isSuccess()) {
         System.out.println("Order successfully canceled.");

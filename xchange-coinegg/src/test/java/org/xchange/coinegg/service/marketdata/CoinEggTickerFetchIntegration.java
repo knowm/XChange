@@ -18,10 +18,10 @@ public class CoinEggTickerFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(CurrencyPair.ETH_BTC);
-    
+
     // Verify Not Null Values
     assertThat(ticker).isNotNull();
-    
+
     assertThat(ticker.getLast()).isNotNull();
     assertThat(ticker.getAsk()).isNotNull();
     assertThat(ticker.getBid()).isNotNull();
@@ -29,5 +29,4 @@ public class CoinEggTickerFetchIntegration {
     assertThat(ticker.getLow()).isNotNull();
     assertThat(ticker.getVolume()).isNotNull();
   }
-
 }

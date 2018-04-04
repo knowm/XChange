@@ -1,16 +1,11 @@
 package org.knowm.xchange.abucoins.dto.account;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Arrays;
-
 import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /accounts</code> endpoint.</p>
- *
- * Example:
+ * POJO representing the output JSON for the Abucoins <code>GET /accounts</code> endpoint. Example:
  * <code><pre>
  * [
  *     {
@@ -33,12 +28,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  *     }
  * ]
  * </pre></code>
+ *
  * @author bryant_harris
  */
 @JsonDeserialize(using = AbucoinsAccounts.AbucoinsAccountsDeserializer.class)
 public class AbucoinsAccounts {
   AbucoinsAccount[] accounts;
-        
+
   public AbucoinsAccounts(AbucoinsAccount[] accounts) {
     this.accounts = accounts;
   }
@@ -51,15 +47,17 @@ public class AbucoinsAccounts {
   public String toString() {
     return "AbucoinsAccounts [accounts=" + Arrays.toString(accounts) + "]";
   }
-        
+
   /**
-   * Deserializer handles the success case (array json) as well as the error case
-   * (json object with <em>message</em> field).
+   * Deserializer handles the success case (array json) as well as the error case (json object with
+   * <em>message</em> field).
+   *
    * @author bryant_harris
    */
-  static class AbucoinsAccountsDeserializer extends AbucoinsArrayOrMessageDeserializer<AbucoinsAccount, AbucoinsAccounts> {
+  static class AbucoinsAccountsDeserializer
+      extends AbucoinsArrayOrMessageDeserializer<AbucoinsAccount, AbucoinsAccounts> {
     public AbucoinsAccountsDeserializer() {
-        super(AbucoinsAccount.class, AbucoinsAccounts.class);
+      super(AbucoinsAccount.class, AbucoinsAccounts.class);
     }
   }
 }

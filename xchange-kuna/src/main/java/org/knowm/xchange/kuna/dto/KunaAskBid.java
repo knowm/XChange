@@ -1,12 +1,11 @@
 package org.knowm.xchange.kuna.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
- * Asks and bids of crypto currency.
- * Instances of this type are immutable, constructed with a dedicated Builder implementation.
+ * Asks and bids of crypto currency. Instances of this type are immutable, constructed with a
+ * dedicated Builder implementation.
  *
  * @author Dat Bui
  */
@@ -15,19 +14,8 @@ public class KunaAskBid {
   private KunaOrder[] asks;
   private KunaOrder[] bids;
 
-  /**
-   * Hide default constructor.
-   */
-  private KunaAskBid() {
-  }
-
-  public KunaOrder[] getAsks() {
-    return asks;
-  }
-
-  public KunaOrder[] getBids() {
-    return bids;
-  }
+  /** Hide default constructor. */
+  private KunaAskBid() {}
 
   /**
    * Creates new builder.
@@ -38,12 +26,22 @@ public class KunaAskBid {
     return new Builder();
   }
 
+  public KunaOrder[] getAsks() {
+    return asks;
+  }
+
+  public KunaOrder[] getBids() {
+    return bids;
+  }
+
   @Override
   public String toString() {
-    return "KunaAskBid{" +
-        "asks=" + Arrays.toString(asks) +
-        ", bids=" + Arrays.toString(bids) +
-        '}';
+    return "KunaAskBid{"
+        + "asks="
+        + Arrays.toString(asks)
+        + ", bids="
+        + Arrays.toString(bids)
+        + '}';
   }
 
   public static class Builder {
@@ -63,6 +61,5 @@ public class KunaAskBid {
     public KunaAskBid build() {
       return this.target;
     }
-
   }
 }

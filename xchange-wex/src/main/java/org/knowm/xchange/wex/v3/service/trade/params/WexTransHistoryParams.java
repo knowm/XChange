@@ -1,7 +1,6 @@
 package org.knowm.xchange.wex.v3.service.trade.params;
 
 import java.util.Date;
-
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -12,7 +11,8 @@ import org.knowm.xchange.wex.v3.WexAuthenticated;
  *
  * @author Peter N. Steinmetz Date: 4/3/15 Time: 8:29 AM
  */
-public class WexTransHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan {
+public class WexTransHistoryParams extends DefaultTradeHistoryParamPaging
+    implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan {
   private WexAuthenticated.SortOrder sortOrder;
   private String startId;
   private String endId;
@@ -20,18 +20,13 @@ public class WexTransHistoryParams extends DefaultTradeHistoryParamPaging implem
   private Date endTime;
 
   @Override
-  public void setStartId(String startId) {
-    this.startId = startId;
-  }
-
-  @Override
   public String getStartId() {
     return startId;
   }
 
   @Override
-  public void setEndId(String endId) {
-    this.endId = endId;
+  public void setStartId(String startId) {
+    this.startId = startId;
   }
 
   @Override
@@ -40,8 +35,8 @@ public class WexTransHistoryParams extends DefaultTradeHistoryParamPaging implem
   }
 
   @Override
-  public void setStartTime(Date startTime) {
-    this.startTime = startTime;
+  public void setEndId(String endId) {
+    this.endId = endId;
   }
 
   @Override
@@ -50,8 +45,8 @@ public class WexTransHistoryParams extends DefaultTradeHistoryParamPaging implem
   }
 
   @Override
-  public void setEndTime(Date endTime) {
-    this.endTime = endTime;
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
   }
 
   @Override
@@ -59,11 +54,16 @@ public class WexTransHistoryParams extends DefaultTradeHistoryParamPaging implem
     return endTime;
   }
 
-  public void setSortOrder(WexAuthenticated.SortOrder sortOrder) {
-    this.sortOrder = sortOrder;
+  @Override
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
   }
 
   public WexAuthenticated.SortOrder getSortOrder() {
     return sortOrder;
+  }
+
+  public void setSortOrder(WexAuthenticated.SortOrder sortOrder) {
+    this.sortOrder = sortOrder;
   }
 }

@@ -7,14 +7,10 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXBaseService extends BaseExchangeService implements BaseService {
 
   private static final String ERR_MSG_NONCE = "Parameter: nonce is invalid";
@@ -31,9 +27,14 @@ public class DSXBaseService extends BaseExchangeService implements BaseService {
   protected DSXBaseService(Exchange exchange) {
     super(exchange);
 
-    this.dsx = RestProxyFactory.createProxy(DSXAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.dsx =
+        RestProxyFactory.createProxy(
+            DSXAuthenticatedV2.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator = DSXHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    this.signatureCreator =
+        DSXHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   protected void checkResult(DSXReturn<?> result) {

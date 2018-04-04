@@ -1,8 +1,7 @@
 package org.knowm.xchange.coinfloor.dto.markedata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CoinfloorTransaction {
   private final long date;
@@ -16,7 +15,10 @@ public class CoinfloorTransaction {
    * @param price price
    * @param amount amount
    */
-  public CoinfloorTransaction(@JsonProperty("date") long date, @JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price,
+  public CoinfloorTransaction(
+      @JsonProperty("date") long date,
+      @JsonProperty("tid") long tid,
+      @JsonProperty("price") BigDecimal price,
       @JsonProperty("amount") BigDecimal amount) {
 
     this.date = date;

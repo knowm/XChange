@@ -3,7 +3,6 @@ package org.knowm.xchange.bibox.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
@@ -17,13 +16,12 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * <p>
  * Implementation of the market data service for Bibox
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
- * 
+ *
  * @author odrotleff
  */
 public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements MarketDataService {
@@ -71,7 +69,8 @@ public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    throw new NotYetImplementedForExchangeException(
+        "This operation is not yet implemented for this exchange");
   }
 
   public ExchangeMetaData getMetadata() throws IOException {

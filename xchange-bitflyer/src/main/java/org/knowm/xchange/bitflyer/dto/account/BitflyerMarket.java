@@ -1,25 +1,22 @@
 package org.knowm.xchange.bitflyer.dto.account;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "product_code",
-                       "alias"
-                   })
+@JsonPropertyOrder({"product_code", "alias"})
 public class BitflyerMarket {
   @JsonProperty("product_code")
   private String productCode;
+
   @JsonProperty("alias")
   private String alias;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<>();
 
   public String getProductCode() {
     return productCode;
@@ -47,10 +44,15 @@ public class BitflyerMarket {
 
   @Override
   public String toString() {
-    return "BitflyerMarket{" +
-        "productCode='" + productCode + '\'' +
-        ", alias='" + alias + '\'' +
-        ", additionalProperties=" + additionalProperties +
-        '}';
+    return "BitflyerMarket{"
+        + "productCode='"
+        + productCode
+        + '\''
+        + ", alias='"
+        + alias
+        + '\''
+        + ", additionalProperties="
+        + additionalProperties
+        + '}';
   }
 }

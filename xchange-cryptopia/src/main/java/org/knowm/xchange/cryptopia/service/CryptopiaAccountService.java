@@ -3,7 +3,6 @@ package org.knowm.xchange.cryptopia.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -28,7 +27,8 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
@@ -36,7 +36,11 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      return submitWithdraw(defaultWithdrawFundsParams.currency, defaultWithdrawFundsParams.amount, defaultWithdrawFundsParams.address, null);
+      return submitWithdraw(
+          defaultWithdrawFundsParams.getCurrency(),
+          defaultWithdrawFundsParams.getAmount(),
+          defaultWithdrawFundsParams.getAddress(),
+          null);
     } else {
       throw new IllegalStateException("Don't understand " + params);
     }
@@ -55,25 +59,28 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     if (params instanceof CryptopiaFundingHistoryParams) {
-      CryptopiaFundingHistoryParams cryptopiaFundingHistoryParams = (CryptopiaFundingHistoryParams) params;
+      CryptopiaFundingHistoryParams cryptopiaFundingHistoryParams =
+          (CryptopiaFundingHistoryParams) params;
 
-      return getTransactions(cryptopiaFundingHistoryParams.type.name(), cryptopiaFundingHistoryParams.count);
+      return getTransactions(
+          cryptopiaFundingHistoryParams.type.name(), cryptopiaFundingHistoryParams.count);
     } else {
       return getTransactions(CryptopiaFundingHistoryParams.Type.Deposit.name(), 100);
     }
   }
 
   public static class CryptopiaFundingHistoryParams implements TradeHistoryParams {
+    public final Type type;
+    public final Integer count;
+
     public CryptopiaFundingHistoryParams(Type type, Integer count) {
       this.type = type;
       this.count = count;
     }
 
     public enum Type {
-      Deposit, Withdraw
+      Deposit,
+      Withdraw
     }
-
-    public final Type type;
-    public final Integer count;
   }
 }

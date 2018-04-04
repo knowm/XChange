@@ -13,7 +13,15 @@ public class KrakenOHLC {
   private final BigDecimal volume;
   private final long count;
 
-  public KrakenOHLC(long time, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, BigDecimal vwap, BigDecimal volume, long count) {
+  public KrakenOHLC(
+      long time,
+      BigDecimal open,
+      BigDecimal high,
+      BigDecimal low,
+      BigDecimal close,
+      BigDecimal vwap,
+      BigDecimal volume,
+      long count) {
     this.time = time;
     this.open = open;
     this.high = high;
@@ -59,7 +67,22 @@ public class KrakenOHLC {
   @Override
   public String toString() {
 
-    return "KrakenOHLC [time=" + time + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close + ", vwap=" + vwap + ", volume=" + volume + ", count=" + count + "]";
+    return "KrakenOHLC [time="
+        + time
+        + ", open="
+        + open
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", close="
+        + close
+        + ", vwap="
+        + vwap
+        + ", volume="
+        + volume
+        + ", count="
+        + count
+        + "]";
   }
-
 }

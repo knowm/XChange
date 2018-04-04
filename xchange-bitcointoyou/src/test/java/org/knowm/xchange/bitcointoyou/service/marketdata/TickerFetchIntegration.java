@@ -24,7 +24,8 @@ public class TickerFetchIntegration {
   @BeforeClass
   public static void setUp() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitcointoyouExchange.class.getName());
+    Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(BitcointoyouExchange.class.getName());
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();
     ticker = marketDataService.getTicker(new CurrencyPair(Currency.BTC, Currency.BRL));

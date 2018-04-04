@@ -6,7 +6,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.CampBX;
 import org.knowm.xchange.campbx.dto.CampBXOrder;
@@ -14,7 +13,11 @@ import org.knowm.xchange.campbx.dto.CampBXResponse;
 import org.knowm.xchange.campbx.dto.trade.MyOpenOrders;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -26,14 +29,11 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeService {
 
-  private final Logger logger = LoggerFactory.getLogger(CampBXTradeService.class);
-
   private static final MessageFormat ID_FORMAT = new MessageFormat("{0}-{1}");
+  private final Logger logger = LoggerFactory.getLogger(CampBXTradeService.class);
 
   /**
    * Constructor
@@ -51,8 +51,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
 
     MyOpenOrders myOpenOrders = getCampBXOpenOrders();
     logger.debug("myOpenOrders = {}", myOpenOrders);
@@ -67,7 +66,14 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
         } else {
           String id = composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID());
           BigDecimal price = cbo.getPrice();
-          orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
+          orders.add(
+              new LimitOrder(
+                  Order.OrderType.BID,
+                  cbo.getQuantity(),
+                  CurrencyPair.BTC_USD,
+                  id,
+                  cbo.getOrderEntered(),
+                  price));
         }
       }
       for (CampBXOrder cbo : myOpenOrders.getSell()) {
@@ -77,7 +83,14 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
 
           String id = composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID());
           BigDecimal price = cbo.getPrice();
-          orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
+          orders.add(
+              new LimitOrder(
+                  Order.OrderType.ASK,
+                  cbo.getQuantity(),
+                  CurrencyPair.BTC_USD,
+                  id,
+                  cbo.getOrderEntered(),
+                  price));
         }
       }
       return new OpenOrders(orders);
@@ -141,13 +154,14 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
 
   private String composeOrderId(String id, Order.OrderType orderType) {
 
-    CampBX.OrderType type = orderType == Order.OrderType.ASK ? CampBX.OrderType.Sell : CampBX.OrderType.Buy;
+    CampBX.OrderType type =
+        orderType == Order.OrderType.ASK ? CampBX.OrderType.Sell : CampBX.OrderType.Buy;
     return composeOrderId(type, id);
   }
 
   private String composeOrderId(CampBX.OrderType type, String id) {
 
-    return ID_FORMAT.format(new Object[]{type, id});
+    return ID_FORMAT.format(new Object[] {type, id});
   }
 
   @Override
@@ -168,9 +182,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-
 }

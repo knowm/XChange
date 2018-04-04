@@ -2,10 +2,10 @@ package org.knowm.xchange.kraken.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,20 +14,18 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class KrakenAccountJSONTest {
 
   @Before
-  public void setUp() throws Exception {
-
-  }
+  public void setUp() throws Exception {}
 
   @Test
   public void testBalanceUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAccountJSONTest.class.getResourceAsStream("/account/example-balance-data.json");
+    InputStream is =
+        KrakenAccountJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-balance-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -35,18 +33,20 @@ public class KrakenAccountJSONTest {
     Assert.assertEquals(2, krakenBalance.getResult().size());
     assertThat(krakenBalance.getResult().get("ZUSD")).isNull();
     assertThat(krakenBalance.getResult().get("ZEUR")).isEqualTo("1.0539");
-
   }
 
   @Test
   public void testBalanceInfoUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAccountJSONTest.class.getResourceAsStream("/account/example-tradebalanceinfo-data.json");
+    InputStream is =
+        KrakenAccountJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-tradebalanceinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenTradeBalanceInfoResult krakenResult = mapper.readValue(is, KrakenTradeBalanceInfoResult.class);
+    KrakenTradeBalanceInfoResult krakenResult =
+        mapper.readValue(is, KrakenTradeBalanceInfoResult.class);
     KrakenTradeBalanceInfo tradeBalanceInfo = krakenResult.getResult();
 
     assertThat(tradeBalanceInfo.getTradeBalance()).isEqualTo("71.6310");
@@ -62,7 +62,9 @@ public class KrakenAccountJSONTest {
   public void testLedgerInfoUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAccountJSONTest.class.getResourceAsStream("/account/example-ledgerinfo-data.json");
+    InputStream is =
+        KrakenAccountJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-ledgerinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -84,7 +86,9 @@ public class KrakenAccountJSONTest {
   public void testTradeVolumeUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAccountJSONTest.class.getResourceAsStream("/account/example-tradevolume-data.json");
+    InputStream is =
+        KrakenAccountJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-tradevolume-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

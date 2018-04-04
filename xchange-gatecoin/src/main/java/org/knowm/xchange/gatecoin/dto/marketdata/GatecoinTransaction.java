@@ -1,12 +1,9 @@
 package org.knowm.xchange.gatecoin.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Sumedha
- */
+/** @author Sumedha */
 public class GatecoinTransaction {
 
   private final long transactionTime;
@@ -24,8 +21,12 @@ public class GatecoinTransaction {
    * @param quantity
    * @param currencyPair
    */
-  public GatecoinTransaction(@JsonProperty("transactionTime") long transactionTime, @JsonProperty("transactionId") int transactionId,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("currencyPair") String currencyPair) {
+  public GatecoinTransaction(
+      @JsonProperty("transactionTime") long transactionTime,
+      @JsonProperty("transactionId") int transactionId,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("currencyPair") String currencyPair) {
 
     this.transactionTime = transactionTime;
     this.transactionId = transactionId;
@@ -57,7 +58,14 @@ public class GatecoinTransaction {
   @Override
   public String toString() {
 
-    return "Transaction [date=" + transactionTime + ", tid=" + transactionId + ", price=" + price + ", amount=" + quantity + "]";
+    return "Transaction [date="
+        + transactionTime
+        + ", tid="
+        + transactionId
+        + ", price="
+        + price
+        + ", amount="
+        + quantity
+        + "]";
   }
-
 }

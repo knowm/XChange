@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.okcoin.marketdata;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -50,21 +49,30 @@ public class OkCoinTradesDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println(accountInfo);
 
-    OkCoinFuturesTradeService tradeService = (OkCoinFuturesTradeService) okcoinExchange.getTradeService();
+    OkCoinFuturesTradeService tradeService =
+        (OkCoinFuturesTradeService) okcoinExchange.getTradeService();
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
 
-    OkCoinPositionResult futuresPosition = tradeService.getFuturesPosition(OkCoinAdapters.adaptSymbol(CurrencyPair.BTC_USD),
-        FuturesContract.ThisWeek);
+    OkCoinPositionResult futuresPosition =
+        tradeService.getFuturesPosition(
+            OkCoinAdapters.adaptSymbol(CurrencyPair.BTC_USD), FuturesContract.ThisWeek);
     OkCoinPosition[] positions = futuresPosition.getPositions();
 
     for (int i = 0; i < positions.length; i++) {
       System.out.println(positions[i].getContractId());
     }
 
-    String placeLimitOrder = tradeService
-        .placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("1"), CurrencyPair.BTC_USD, "0", new Date(), new BigDecimal("200")));
+    String placeLimitOrder =
+        tradeService.placeLimitOrder(
+            new LimitOrder(
+                OrderType.BID,
+                new BigDecimal("1"),
+                CurrencyPair.BTC_USD,
+                "0",
+                new Date(),
+                new BigDecimal("200")));
     System.out.println(placeLimitOrder);
 
     boolean cancelOrder = tradeService.cancelOrder(placeLimitOrder);
@@ -91,7 +99,8 @@ public class OkCoinTradesDemo {
   private static void raw(Exchange okcoinExchange) throws IOException {
 
     // Interested in the public market data feed (no authentication)
-    OkCoinMarketDataServiceRaw okCoinMarketDataServiceRaw = (OkCoinMarketDataServiceRaw) okcoinExchange.getMarketDataService();
+    OkCoinMarketDataServiceRaw okCoinMarketDataServiceRaw =
+        (OkCoinMarketDataServiceRaw) okcoinExchange.getMarketDataService();
 
     // Get the latest trade data for BTC_USD
     OkCoinTrade[] trades = okCoinMarketDataServiceRaw.getTrades(CurrencyPair.BTC_CNY);
@@ -100,7 +109,9 @@ public class OkCoinTradesDemo {
     System.out.println("newest trade: " + trades[trades.length - 1].toString());
 
     // Poll for any new trades since last id
-    trades = okCoinMarketDataServiceRaw.getTrades(CurrencyPair.BTC_CNY, trades[trades.length - 1].getTid() - 10);
+    trades =
+        okCoinMarketDataServiceRaw.getTrades(
+            CurrencyPair.BTC_CNY, trades[trades.length - 1].getTid() - 10);
     for (int i = 0; i < trades.length; i++) {
       OkCoinTrade okCoinTrade = trades[i];
       System.out.println(okCoinTrade.toString());

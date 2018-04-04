@@ -1,56 +1,66 @@
 package org.knowm.xchange.bitflyer.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-                       "product_code",
-                       "timestamp",
-                       "tick_id",
-                       "best_bid",
-                       "best_ask",
-                       "best_bid_size",
-                       "best_ask_size",
-                       "total_bid_depth",
-                       "total_ask_depth",
-                       "ltp",
-                       "volume",
-                       "volume_by_product"
-                   })
+  "product_code",
+  "timestamp",
+  "tick_id",
+  "best_bid",
+  "best_ask",
+  "best_bid_size",
+  "best_ask_size",
+  "total_bid_depth",
+  "total_ask_depth",
+  "ltp",
+  "volume",
+  "volume_by_product"
+})
 public class BitflyerTicker {
   @JsonProperty("product_code")
   private String productCode;
+
   @JsonProperty("timestamp")
   private String timestamp;
+
   @JsonProperty("tick_id")
   private Integer tickId;
+
   @JsonProperty("best_bid")
   private BigDecimal bestBid;
+
   @JsonProperty("best_ask")
   private BigDecimal bestAsk;
+
   @JsonProperty("best_bid_size")
   private BigDecimal bestBidSize;
+
   @JsonProperty("best_ask_size")
   private BigDecimal bestAskSize;
+
   @JsonProperty("total_bid_depth")
   private BigDecimal totalBidDepth;
+
   @JsonProperty("total_ask_depth")
   private BigDecimal totalAskDepth;
+
   @JsonProperty("ltp")
   private BigDecimal ltp;
+
   @JsonProperty("volume")
   private BigDecimal volume;
+
   @JsonProperty("volume_by_product")
   private BigDecimal volumeByProduct;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<>();
 
   public String getProductCode() {
     return productCode;
@@ -158,20 +168,35 @@ public class BitflyerTicker {
 
   @Override
   public String toString() {
-    return "BitflyerTicker{" +
-        "productCode='" + productCode + '\'' +
-        ", timestamp='" + timestamp + '\'' +
-        ", tickId=" + tickId +
-        ", bestBid=" + bestBid +
-        ", bestAsk=" + bestAsk +
-        ", bestBidSize=" + bestBidSize +
-        ", bestAskSize=" + bestAskSize +
-        ", totalBidDepth=" + totalBidDepth +
-        ", totalAskDepth=" + totalAskDepth +
-        ", ltp=" + ltp +
-        ", volume=" + volume +
-        ", volumeByProduct=" + volumeByProduct +
-        ", additionalProperties=" + additionalProperties +
-        '}';
+    return "BitflyerTicker{"
+        + "productCode='"
+        + productCode
+        + '\''
+        + ", timestamp='"
+        + timestamp
+        + '\''
+        + ", tickId="
+        + tickId
+        + ", bestBid="
+        + bestBid
+        + ", bestAsk="
+        + bestAsk
+        + ", bestBidSize="
+        + bestBidSize
+        + ", bestAskSize="
+        + bestAskSize
+        + ", totalBidDepth="
+        + totalBidDepth
+        + ", totalAskDepth="
+        + totalAskDepth
+        + ", ltp="
+        + ltp
+        + ", volume="
+        + volume
+        + ", volumeByProduct="
+        + volumeByProduct
+        + ", additionalProperties="
+        + additionalProperties
+        + '}';
   }
 }

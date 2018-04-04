@@ -4,18 +4,15 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 
-/**
- * @author kfonal
- */
-public class BitMarketHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamOffset {
+/** @author kfonal */
+public class BitMarketHistoryParams
+    implements TradeHistoryParamCurrencyPair, TradeHistoryParamOffset {
 
   private CurrencyPair currencyPair;
   private Long offset;
   private Integer count;
 
-  /**
-   * Default constructor
-   */
+  /** Default constructor */
   public BitMarketHistoryParams() {
 
     this.currencyPair = CurrencyPair.BTC_PLN;
@@ -38,18 +35,13 @@ public class BitMarketHistoryParams implements TradeHistoryParamCurrencyPair, Tr
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair currencyPair) {
-    this.currencyPair = currencyPair;
-  }
-
-  @Override
   public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }
 
   @Override
-  public void setOffset(Long offset) {
-    this.offset = offset;
+  public void setCurrencyPair(CurrencyPair currencyPair) {
+    this.currencyPair = currencyPair;
   }
 
   @Override
@@ -57,11 +49,16 @@ public class BitMarketHistoryParams implements TradeHistoryParamCurrencyPair, Tr
     return offset;
   }
 
-  public void setCount(Integer count) {
-    this.count = count;
+  @Override
+  public void setOffset(Long offset) {
+    this.offset = offset;
   }
 
   public Integer getCount() {
     return count;
+  }
+
+  public void setCount(Integer count) {
+    this.count = count;
   }
 }

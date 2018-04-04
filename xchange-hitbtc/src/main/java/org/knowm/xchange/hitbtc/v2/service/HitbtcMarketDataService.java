@@ -1,7 +1,6 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -12,7 +11,8 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implements MarketDataService {
+public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw
+    implements MarketDataService {
 
   public HitbtcMarketDataService(Exchange exchange) {
     super(exchange);
@@ -28,8 +28,7 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     if (args == null || args.length == 0) {
       return HitbtcAdapters.adaptOrderBook(getHitbtcOrderBook(currencyPair), currencyPair);
-    }
-    else {
+    } else {
       Integer limit = (Integer) args[0];
       return HitbtcAdapters.adaptOrderBook(getHitbtcOrderBook(currencyPair, limit), currencyPair);
     }
@@ -43,12 +42,14 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
     }
 
     long from = (Long) args[0]; // <trade_id> or <timestamp>
-    HitbtcTrade.HitbtcTradesSortField sortBy = (HitbtcTrade.HitbtcTradesSortField) args[1]; // "trade_id" or "timestamp"
+    HitbtcTrade.HitbtcTradesSortField sortBy =
+        (HitbtcTrade.HitbtcTradesSortField) args[1]; // "trade_id" or "timestamp"
     HitbtcSort sortDirection = (HitbtcSort) args[2]; // "asc" or "desc"
     long startIndex = (Long) args[3]; // 0
     long max_results = (Long) args[4]; // max is 1000
 
-    return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair, from, sortBy, sortDirection, startIndex, max_results), currencyPair);
+    return HitbtcAdapters.adaptTrades(
+        getHitbtcTrades(currencyPair, from, sortBy, sortDirection, startIndex, max_results),
+        currencyPair);
   }
-
 }

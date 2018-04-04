@@ -1,15 +1,15 @@
 package org.knowm.xchange.bitcoinde.dto;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class BitcoindeException extends RuntimeException {
 
   private final BitcoindeError[] errors;
   private final int credits;
 
-  public BitcoindeException(@JsonProperty("errors") BitcoindeError[] errors, @JsonProperty("credits") int credits) {
+  public BitcoindeException(
+      @JsonProperty("errors") BitcoindeError[] errors, @JsonProperty("credits") int credits) {
     this.errors = errors;
     this.credits = credits;
   }
@@ -24,10 +24,12 @@ public class BitcoindeException extends RuntimeException {
 
   @Override
   public String toString() {
-    return "BitcoindeException{" +
-        "errors=" + Arrays.toString(errors) +
-        ", credits=" + credits +
-        "}";
+    return "BitcoindeException{"
+        + "errors="
+        + Arrays.toString(errors)
+        + ", credits="
+        + credits
+        + "}";
   }
 
   @Override

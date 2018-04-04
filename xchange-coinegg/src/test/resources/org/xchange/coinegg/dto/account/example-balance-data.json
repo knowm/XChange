@@ -1,0 +1,12 @@
+{
+    "result":true,
+    "data":{
+       "uid":"1",
+       "xas_balance":1,
+       "xas_lock":0,
+       "eth_balance":1,
+       "eth_lock":0,
+       "btc_balance":1,
+       "btc_lock":0
+    }
+ }

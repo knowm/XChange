@@ -1,10 +1,8 @@
 package org.knowm.xchange.bitmex.dto.marketdata;
 
-import java.math.BigDecimal;
-
-import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 
 public class BitmexPublicOrder {
 
@@ -14,7 +12,11 @@ public class BitmexPublicOrder {
   private final BigDecimal id;
   private final BitmexSide side;
 
-  public BitmexPublicOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("id") BigDecimal id, @JsonProperty("size") BigDecimal size, @JsonProperty("side") BitmexSide side,
+  public BitmexPublicOrder(
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("id") BigDecimal id,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("side") BitmexSide side,
       @JsonProperty("symbol") String symbol) {
 
     this.symbol = symbol;
@@ -22,7 +24,6 @@ public class BitmexPublicOrder {
     this.side = side;
     this.size = size;
     this.price = price;
-
   }
 
   public BigDecimal getPrice() {
@@ -53,7 +54,14 @@ public class BitmexPublicOrder {
   @Override
   public String toString() {
 
-    return "BitmexOrder [price=" + price + ", volume=" + size + ", symbol=" + symbol + ", side=" + side + "]";
+    return "BitmexOrder [price="
+        + price
+        + ", volume="
+        + size
+        + ", symbol="
+        + symbol
+        + ", side="
+        + side
+        + "]";
   }
-
 }

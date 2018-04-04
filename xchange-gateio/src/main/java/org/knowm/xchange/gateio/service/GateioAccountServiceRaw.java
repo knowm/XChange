@@ -22,26 +22,36 @@ public class GateioAccountServiceRaw extends GateioBaseService {
 
   public GateioFunds getGateioAccountInfo() throws IOException {
 
-    GateioFunds gateioFunds = bter.getFunds(exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    GateioFunds gateioFunds =
+        bter.getFunds(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory());
     return handleResponse(gateioFunds);
   }
 
   public GateioDepositAddress getGateioDepositAddress(Currency currency) throws IOException {
     GateioDepositAddress depositAddress =
-        bter.getDepositAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        bter.getDepositAddress(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
             currency.getCurrencyCode());
     return depositAddress;
   }
 
-  public GateioBaseResponse withdraw(Currency currency, BigDecimal amount, String baseAddress,
-      String addressTag) throws IOException {
+  public GateioBaseResponse withdraw(
+      Currency currency, BigDecimal amount, String baseAddress, String addressTag)
+      throws IOException {
     String withdrawAddress = baseAddress;
     if (addressTag != null && addressTag.length() > 0) {
       withdrawAddress = withdrawAddress + "/" + addressTag;
     }
 
-    return bter.withdraw(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        currency.getCurrencyCode(), amount.toPlainString(), withdrawAddress);
+    return bter.withdraw(
+        exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator,
+        currency.getCurrencyCode(),
+        amount.toPlainString(),
+        withdrawAddress);
   }
 }

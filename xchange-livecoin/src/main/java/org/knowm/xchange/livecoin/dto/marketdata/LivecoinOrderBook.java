@@ -1,11 +1,9 @@
 package org.knowm.xchange.livecoin.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
-
 import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LivecoinOrderBook {
 
@@ -13,7 +11,10 @@ public class LivecoinOrderBook {
   private final LivecoinAsksBidsData[] asks;
   private final LivecoinAsksBidsData[] bids;
 
-  public LivecoinOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("asks") Object[][] asks, @JsonProperty("bids") Object[][] bids) {
+  public LivecoinOrderBook(
+      @JsonProperty("timestamp") Long timestamp,
+      @JsonProperty("asks") Object[][] asks,
+      @JsonProperty("bids") Object[][] bids) {
     super();
 
     this.timestamp = timestamp;
@@ -37,6 +38,16 @@ public class LivecoinOrderBook {
     }
   }
 
+  private static LivecoinAsksBidsData convertToOrderBookEntry(Object[] dataObject) {
+    if (dataObject != null && dataObject.length == 2) {
+      BigDecimal volume = new BigDecimal((String) dataObject[0]);
+      BigDecimal price = new BigDecimal((String) dataObject[1]);
+
+      return new LivecoinAsksBidsData(price, volume);
+    }
+    return null;
+  }
+
   public Long getTimestamp() {
     return timestamp;
   }
@@ -49,20 +60,14 @@ public class LivecoinOrderBook {
     return bids;
   }
 
-  private static LivecoinAsksBidsData convertToOrderBookEntry(Object[] dataObject) {
-    if (dataObject != null && dataObject.length == 2) {
-      BigDecimal volume = new BigDecimal((String) dataObject[0]);
-      BigDecimal price = new BigDecimal((String) dataObject[1]);
-
-      return new LivecoinAsksBidsData(price, volume);
-
-    }
-    return null;
-  }
-
   @Override
   public String toString() {
-    return "LivecoinOrderBook [timestamp=" + timestamp + ", asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + "]";
+    return "LivecoinOrderBook [timestamp="
+        + timestamp
+        + ", asks="
+        + Arrays.toString(asks)
+        + ", bids="
+        + Arrays.toString(bids)
+        + "]";
   }
-
 }

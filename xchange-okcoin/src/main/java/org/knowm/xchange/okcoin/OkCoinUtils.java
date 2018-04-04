@@ -7,7 +7,7 @@ import java.util.TimeZone;
 public class OkCoinUtils {
 
   public static Long toEpoch(Date dateTime, String timeZone) {
-    //Epoch of midnight in local time zone
+    // Epoch of midnight in local time zone
     Calendar timeOffset = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
     timeOffset.set(Calendar.MILLISECOND, 0);
     timeOffset.set(Calendar.SECOND, 0);
@@ -32,7 +32,7 @@ public class OkCoinUtils {
       case (1007):
         return "No trading market information";
       case (1008):
-        return "No latest market information"; 
+        return "No latest market information";
       case (1009):
         return "No order";
       case (1010):

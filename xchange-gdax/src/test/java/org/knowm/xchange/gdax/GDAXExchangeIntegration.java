@@ -20,6 +20,8 @@ public class GDAXExchangeIntegration {
 
     Exchange ex = ExchangeFactory.INSTANCE.createExchange(GDAXExchange.class.getCanonicalName());
     ex.remoteInit();
-    Assert.assertTrue(((GDAXMarketDataServiceRaw) ex.getMarketDataService()).checkProductExists(new CurrencyPair("ETH", "USD")));
+    Assert.assertTrue(
+        ((GDAXMarketDataServiceRaw) ex.getMarketDataService())
+            .checkProductExists(new CurrencyPair("ETH", "USD")));
   }
 }

@@ -1,22 +1,21 @@
 package org.knowm.xchange.btctrade.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.BTCTradeAdapters;
 import org.knowm.xchange.btctrade.dto.BTCTradeSecretData;
-
 import si.mazi.rescu.ParamsDigest;
 
 /**
  * Represents an API key status.
- * <p>
- * For one API key, we can only have one single session, and all requests on one session should be synchronized, because:
+ *
+ * <p>For one API key, we can only have one single session, and all requests on one session should
+ * be synchronized, because:
+ *
  * <ol>
- * <li>the {@code BTCTradeSecretData} of one API key is single in server side.</li>
- * <li>the nonce of one API key should be incrementing.</li>
+ *   <li>the {@code BTCTradeSecretData} of one API key is single in server side.
+ *   <li>the nonce of one API key should be incrementing.
  * </ol>
- * </p>
  */
 public class BTCTradeSession {
 
@@ -70,5 +69,4 @@ public class BTCTradeSession {
 
     signatureCreator = BTCTradeDigest.createInstance(secretData.getSecret());
   }
-
 }

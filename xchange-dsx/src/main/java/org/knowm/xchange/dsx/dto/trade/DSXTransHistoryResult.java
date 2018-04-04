@@ -1,14 +1,10 @@
 package org.knowm.xchange.dsx.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXTransHistoryResult {
 
   private final long id;
@@ -22,9 +18,16 @@ public class DSXTransHistoryResult {
   private final String address;
   private final String txId;
 
-  public DSXTransHistoryResult(@JsonProperty("id") long id, @JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("currency") String currency, @JsonProperty("desc") String desc, @JsonProperty("status") Status status,
-      @JsonProperty("timestamp") Long timestamp, @JsonProperty("commission") BigDecimal commission, @JsonProperty("address") String address,
+  public DSXTransHistoryResult(
+      @JsonProperty("id") long id,
+      @JsonProperty("type") Type type,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("desc") String desc,
+      @JsonProperty("status") Status status,
+      @JsonProperty("timestamp") Long timestamp,
+      @JsonProperty("commission") BigDecimal commission,
+      @JsonProperty("address") String address,
       @JsonProperty("txid") String txId) {
 
     this.id = id;
@@ -82,21 +85,24 @@ public class DSXTransHistoryResult {
 
   @Override
   public String toString() {
-    return MessageFormat.format("DSXTransHistory[id={0}, type={1}, amount={2}, currency=''{3}'', description=''{4}'', status={5}, timestamp={6}, " +
-        "commission={7}, address=''{8}'', txId={9}]", id, type, amount, currency, desc, status, timestamp, commission, address, txId);
+    return MessageFormat.format(
+        "DSXTransHistory[id={0}, type={1}, amount={2}, currency=''{3}'', description=''{4}'', status={5}, timestamp={6}, "
+            + "commission={7}, address=''{8}'', txId={9}]",
+        id, type, amount, currency, desc, status, timestamp, commission, address, txId);
   }
 
-  /**
-   * Type of transaction
-   */
+  /** Type of transaction */
   public enum Type {
-    Incoming, Withdraw
+    Incoming,
+    Withdraw
   }
 
-  /**
-   * Status of transaction
-   */
+  /** Status of transaction */
   public enum Status {
-    reserved0, Failed, Completed, Processing, Rejected
+    reserved0,
+    Failed,
+    Completed,
+    Processing,
+    Rejected
   }
 }

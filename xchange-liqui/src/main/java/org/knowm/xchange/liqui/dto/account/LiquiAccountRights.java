@@ -8,7 +8,9 @@ public class LiquiAccountRights {
   private final boolean trade;
   private final boolean withdraw;
 
-  public LiquiAccountRights(@JsonProperty("info") final boolean info, @JsonProperty("trade") final boolean trade,
+  public LiquiAccountRights(
+      @JsonProperty("info") final boolean info,
+      @JsonProperty("trade") final boolean trade,
       @JsonProperty("withdraw") final boolean withdraw) {
     this.info = info;
     this.trade = trade;
@@ -29,10 +31,13 @@ public class LiquiAccountRights {
 
   @Override
   public String toString() {
-    return "LiquiAccountRights{" +
-        "info=" + info +
-        ", trade=" + trade +
-        ", withdraw=" + withdraw +
-        '}';
+    return "LiquiAccountRights{"
+        + "info="
+        + info
+        + ", trade="
+        + trade
+        + ", withdraw="
+        + withdraw
+        + '}';
   }
 }

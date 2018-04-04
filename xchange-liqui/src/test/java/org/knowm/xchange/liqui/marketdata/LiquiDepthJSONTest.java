@@ -2,24 +2,24 @@ package org.knowm.xchange.liqui.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiDepth;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicAsk;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicBid;
 import org.knowm.xchange.liqui.dto.marketdata.result.LiquiDepthResult;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class LiquiDepthJSONTest {
 
   @Test
   public void testUnmarshall() throws Exception {
-    final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    final InputStream is =
+        LiquiTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/liqui/marketdata/example-depth-data.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final LiquiDepthResult depthResult = mapper.readValue(is, LiquiDepthResult.class);

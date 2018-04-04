@@ -8,7 +8,10 @@ public class HitbtcError {
   private final String message;
   private final String description;
 
-  public HitbtcError(@JsonProperty("code") String code, @JsonProperty("message") String message, @JsonProperty("description") String description) {
+  public HitbtcError(
+      @JsonProperty("code") String code,
+      @JsonProperty("message") String message,
+      @JsonProperty("description") String description) {
     this.code = code;
     this.message = message;
     this.description = description;
@@ -28,10 +31,16 @@ public class HitbtcError {
 
   @Override
   public String toString() {
-    return "HitbtcError{" +
-        "code='" + code + '\'' +
-        ", message='" + message + '\'' +
-        ", description='" + description + '\'' +
-        '}';
+    return "HitbtcError{"
+        + "code='"
+        + code
+        + '\''
+        + ", message='"
+        + message
+        + '\''
+        + ", description='"
+        + description
+        + '\''
+        + '}';
   }
 }

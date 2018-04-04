@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -19,14 +18,14 @@ import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * <p>
  * Implementation of the market data service for Bittrex
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
-public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implements MarketDataService {
+public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -40,24 +39,20 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    return KucoinAdapters.adaptTicker(
-        getKucoinTicker(currencyPair),
-        currencyPair);
+    return KucoinAdapters.adaptTicker(getKucoinTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     Integer limit = null;
-    
+
     if (args != null && args.length > 0) {
       if (args[0] instanceof Integer && (Integer) args[0] > 0) {
         limit = (Integer) args[0];
       }
     }
-    return KucoinAdapters.adaptOrderBook(
-        getKucoinOrderBook(currencyPair, limit),
-        currencyPair);
+    return KucoinAdapters.adaptOrderBook(getKucoinOrderBook(currencyPair, limit), currencyPair);
   }
 
   @Override
@@ -65,7 +60,7 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
 
     Integer limit = null;
     Long since = null;
-    
+
     if (args != null && args.length > 0) {
       if (args[0] instanceof Integer && (Integer) args[0] > 0) {
         limit = (Integer) args[0];
@@ -78,14 +73,18 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
     }
 
     KucoinResponse<List<KucoinDealOrder>> response = getKucoinTrades(currencyPair, limit, since);
-    List<Trade> trades = response.getData().stream()
-        .map(o -> KucoinAdapters.adaptTrade(o, currencyPair))
-        .collect(Collectors.toList());
+    List<Trade> trades =
+        response
+            .getData()
+            .stream()
+            .map(o -> KucoinAdapters.adaptTrade(o, currencyPair))
+            .collect(Collectors.toList());
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
-  
+
   public ExchangeMetaData getMetadata() throws IOException {
 
-    return KucoinAdapters.adaptExchangeMetadata(getKucoinTickers().getData(), getKucoinCurrencies().getData());
+    return KucoinAdapters.adaptExchangeMetadata(
+        getKucoinTickers().getData(), getKucoinCurrencies().getData());
   }
 }

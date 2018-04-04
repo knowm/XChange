@@ -1,12 +1,9 @@
 package org.knowm.xchange.bibox.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.knowm.xchange.dto.Order.OrderStatus;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 public enum BiboxOrderStatus {
   PENDING(1, OrderStatus.NEW),
   PART_COMPLETED(2, OrderStatus.PARTIALLY_FILLED),
@@ -21,14 +18,6 @@ public enum BiboxOrderStatus {
   private BiboxOrderStatus(int orderStatus, OrderStatus xchangeStatus) {
     this.orderStatus = orderStatus;
     this.xchangeStatus = xchangeStatus;
-  }
-
-  public int asInt() {
-    return orderStatus;
-  }
-
-  public OrderStatus getOrderStatus() {
-    return xchangeStatus;
   }
 
   @JsonCreator
@@ -49,5 +38,13 @@ public enum BiboxOrderStatus {
       default:
         throw new RuntimeException("Unexpected Bibox order status!");
     }
+  }
+
+  public int asInt() {
+    return orderStatus;
+  }
+
+  public OrderStatus getOrderStatus() {
+    return xchangeStatus;
   }
 }

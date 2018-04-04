@@ -7,12 +7,9 @@ import org.knowm.xchange.btcmarkets.service.BTCMarketsAccountService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsMarketDataService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class BTCMarketsExchange extends BaseExchange implements Exchange {
 
   public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
@@ -33,7 +30,8 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.btcmarkets.net");
     exchangeSpecification.setHost("btcmarkets.net");
     exchangeSpecification.setPort(80);

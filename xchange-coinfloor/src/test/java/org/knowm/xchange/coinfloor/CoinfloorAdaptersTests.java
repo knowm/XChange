@@ -2,10 +2,12 @@ package org.knowm.xchange.coinfloor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-
 import org.junit.Test;
 import org.knowm.xchange.coinfloor.dto.account.CoinfloorBalance;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorOrderBook;
@@ -28,15 +30,13 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class CoinfloorAdaptersTests {
 
   @Test
   public void adaptTickerTest() throws JsonParseException, JsonMappingException, IOException {
-    InputStream is = getClass().getResourceAsStream("/marketdata/example-ticker.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream("/org/knowm/xchange/coinfloor/dto/marketdata/example-ticker.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinfloorTicker rawTicker = mapper.readValue(is, CoinfloorTicker.class);
 
@@ -53,7 +53,10 @@ public class CoinfloorAdaptersTests {
 
   @Test
   public void adaptOrderBookTest() throws JsonParseException, JsonMappingException, IOException {
-    InputStream is = getClass().getResourceAsStream("/marketdata/example-order-book.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/coinfloor/dto/marketdata/example-order-book.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinfloorOrderBook rawOrderBook = mapper.readValue(is, CoinfloorOrderBook.class);
 
@@ -69,7 +72,10 @@ public class CoinfloorAdaptersTests {
 
   @Test
   public void adaptTransactionTest() throws JsonParseException, JsonMappingException, IOException {
-    InputStream is = getClass().getResourceAsStream("/marketdata/example-transactions.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/coinfloor/dto/marketdata/example-transactions.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinfloorTransaction[] rawTransactions = mapper.readValue(is, CoinfloorTransaction[].class);
 
@@ -89,15 +95,22 @@ public class CoinfloorAdaptersTests {
   public void adaptAccountInfoTest() throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
 
-    InputStream btcgbpStream = getClass().getResourceAsStream("/account/example-balance-btcgbp.json");
+    InputStream btcgbpStream =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/coinfloor/dto/account/example-balance-btcgbp.json");
     CoinfloorBalance btcgbp = mapper.readValue(btcgbpStream, CoinfloorBalance.class);
 
-    InputStream btcusdStream = getClass().getResourceAsStream("/account/example-balance-btcusd.json");
+    InputStream btcusdStream =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/coinfloor/dto/account/example-balance-btcusd.json");
     CoinfloorBalance btcusd = mapper.readValue(btcusdStream, CoinfloorBalance.class);
 
     Currency[] currencies = {Currency.BTC, Currency.GBP, Currency.USD, Currency.EUR};
     CoinfloorBalance[] rawBalances = {btcgbp, btcusd};
-    AccountInfo info = CoinfloorAdapters.adaptAccountInfo(Arrays.asList(currencies), Arrays.asList(rawBalances));
+    AccountInfo info =
+        CoinfloorAdapters.adaptAccountInfo(Arrays.asList(currencies), Arrays.asList(rawBalances));
 
     assertThat(info.getWallet().getBalances()).hasSize(3);
 
@@ -119,9 +132,13 @@ public class CoinfloorAdaptersTests {
 
   @Test
   public void adaptTradeHistoryTest() throws JsonParseException, JsonMappingException, IOException {
-    InputStream is = getClass().getResourceAsStream("/trade/example-user-transactions.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/coinfloor/dto/trade/example-user-transactions.json");
     ObjectMapper mapper = new ObjectMapper();
-    CoinfloorUserTransaction[] transactions = mapper.readValue(is, CoinfloorUserTransaction[].class);
+    CoinfloorUserTransaction[] transactions =
+        mapper.readValue(is, CoinfloorUserTransaction[].class);
 
     UserTrades trades = CoinfloorAdapters.adaptTradeHistory(Arrays.asList(transactions));
 
@@ -152,7 +169,9 @@ public class CoinfloorAdaptersTests {
 
   @Test
   public void adaptOpenOrderTest() throws JsonParseException, JsonMappingException, IOException {
-    InputStream is = getClass().getResourceAsStream("/trade/example-open-orders.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream("/org/knowm/xchange/coinfloor/dto/trade/example-open-orders.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinfloorOrder[] transactions = mapper.readValue(is, CoinfloorOrder[].class);
 

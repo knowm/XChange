@@ -16,5 +16,4 @@ public enum BittrexChartDataPeriodType {
   public String getPeriod() {
     return period;
   }
-
 }

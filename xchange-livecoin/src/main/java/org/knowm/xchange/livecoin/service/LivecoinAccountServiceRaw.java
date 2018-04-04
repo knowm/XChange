@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
@@ -46,17 +45,20 @@ public class LivecoinAccountServiceRaw extends LivecoinBaseService<Livecoin> {
     return response.get("wallet").toString();
   }
 
-  public List<FundingRecord> funding(Date start, Date end, Integer limit, Long offset) throws IOException {
-    List<Map> response = service.transactions(apiKey, signatureCreator,
-        String.valueOf(DateUtils.toMillisNullSafe(start)),
-        String.valueOf(DateUtils.toMillisNullSafe(end)),
-        "DEPOSIT,WITHDRAWAL",
-        limit,
-        offset
-    );
+  public List<FundingRecord> funding(Date start, Date end, Integer limit, Long offset)
+      throws IOException {
+    List<Map> response =
+        service.transactions(
+            apiKey,
+            signatureCreator,
+            String.valueOf(DateUtils.toMillisNullSafe(start)),
+            String.valueOf(DateUtils.toMillisNullSafe(end)),
+            "DEPOSIT,WITHDRAWAL",
+            limit,
+            offset);
 
-//        if(!response.success)
-//            throw new ExchangeException("Failed to get funding " + response.errorMessage);
+    //        if(!response.success)
+    //            throw new ExchangeException("Failed to get funding " + response.errorMessage);
 
     List<FundingRecord> resp = new ArrayList<>();
     for (Map map : response) {
@@ -67,7 +69,7 @@ public class LivecoinAccountServiceRaw extends LivecoinBaseService<Livecoin> {
   }
 
   interface LivecoinWithdrawParams {
-    LivecoinResponse<Map> withdraw(Livecoin service, String apiKey, LivecoinDigest signatureCreator) throws IOException;
+    LivecoinResponse<Map> withdraw(Livecoin service, String apiKey, LivecoinDigest signatureCreator)
+        throws IOException;
   }
-
 }

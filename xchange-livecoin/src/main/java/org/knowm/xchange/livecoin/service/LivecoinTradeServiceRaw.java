@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -28,36 +27,40 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     super(Livecoin.class, exchange);
   }
 
-  public List<LimitOrder> getAllOpenOrders() throws
-      ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<LimitOrder> getAllOpenOrders()
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException, IOException {
     LivecoinPaginatedResponse response = service.allClientOrders(apiKey, signatureCreator, "OPEN");
 
     List<LimitOrder> resp = new ArrayList<>();
-    if (response.data == null)
-      return resp;
+    if (response.data == null) return resp;
 
     for (Map map : response.data) {
       Object statusRaw = map.get("orderStatus");
-      if (statusRaw != null && (statusRaw.toString().equals("OPEN") || statusRaw.toString().equals("PARTIALLY_FILLED"))) {
+      if (statusRaw != null
+          && (statusRaw.toString().equals("OPEN")
+              || statusRaw.toString().equals("PARTIALLY_FILLED"))) {
         resp.add(LivecoinAdapters.adaptOpenOrder(map));
       }
     }
     return resp;
   }
 
-  public List<UserTrade> tradeHistory(Date start, Date end, Integer limit, Long offset) throws IOException {
-    List<Map> response = service.transactions(
-        apiKey,
-        signatureCreator,
-        String.valueOf(DateUtils.toMillisNullSafe(start)),
-        String.valueOf(DateUtils.toMillisNullSafe(end)),
-        "BUY,SELL",
-        limit,
-        offset
-    );
+  public List<UserTrade> tradeHistory(Date start, Date end, Integer limit, Long offset)
+      throws IOException {
+    List<Map> response =
+        service.transactions(
+            apiKey,
+            signatureCreator,
+            String.valueOf(DateUtils.toMillisNullSafe(start)),
+            String.valueOf(DateUtils.toMillisNullSafe(end)),
+            "BUY,SELL",
+            limit,
+            offset);
 
-//        if (!response.success)
-//            throw new ExchangeException("Failed to get trade history: " + response.errorMessage);
+    //        if (!response.success)
+    //            throw new ExchangeException("Failed to get trade history: " +
+    // response.errorMessage);
 
     List<UserTrade> resp = new ArrayList<>();
     for (Map map : response) {
@@ -72,9 +75,19 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
   public String makeMarketOrder(MarketOrder order) throws IOException {
     Map response;
     if (order.getType().equals(Order.OrderType.BID)) {
-      response = service.buyWithMarketOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getOriginalAmount());
+      response =
+          service.buyWithMarketOrder(
+              apiKey,
+              signatureCreator,
+              order.getCurrencyPair().toString(),
+              order.getOriginalAmount());
     } else {
-      response = service.sellWithMarketOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getOriginalAmount());
+      response =
+          service.sellWithMarketOrder(
+              apiKey,
+              signatureCreator,
+              order.getCurrencyPair().toString(),
+              order.getOriginalAmount());
     }
 
     return response.get("orderId").toString();
@@ -83,9 +96,21 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
   public String makeLimitOrder(LimitOrder order) throws IOException {
     Map response;
     if (order.getType().equals(Order.OrderType.BID)) {
-      response = service.buyWithLimitOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getLimitPrice(), order.getOriginalAmount());
+      response =
+          service.buyWithLimitOrder(
+              apiKey,
+              signatureCreator,
+              order.getCurrencyPair().toString(),
+              order.getLimitPrice(),
+              order.getOriginalAmount());
     } else {
-      response = service.sellWithLimitOrder(apiKey, signatureCreator, order.getCurrencyPair().toString(), order.getLimitPrice(), order.getOriginalAmount());
+      response =
+          service.sellWithLimitOrder(
+              apiKey,
+              signatureCreator,
+              order.getCurrencyPair().toString(),
+              order.getLimitPrice(),
+              order.getOriginalAmount());
     }
 
     if (response.containsKey("success") && !Boolean.valueOf(response.get("success").toString()))
@@ -94,25 +119,33 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return response.get("orderId").toString();
   }
 
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException {
+  public boolean cancelOrder(String orderId)
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException {
     throw new ExchangeException("You need to provide the currency pair to cancel an order.");
   }
 
-  public boolean cancelOrder(CurrencyPair currencyPair, String orderId) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException,
-      IOException {
+  public boolean cancelOrder(CurrencyPair currencyPair, String orderId)
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException, IOException {
     return cancelOrder(new LiveCoinCancelOrderParams(currencyPair, orderId));
   }
 
   public boolean cancelOrder(CancelOrderParams params) throws IOException {
-    if (!(params instanceof CancelOrderByCurrencyPair) && !(params instanceof CancelOrderByIdParams)) {
-      throw new ExchangeException("You need to provide the currency pair and the order id to cancel an order.");
+    if (!(params instanceof CancelOrderByCurrencyPair)
+        && !(params instanceof CancelOrderByIdParams)) {
+      throw new ExchangeException(
+          "You need to provide the currency pair and the order id to cancel an order.");
     }
     CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
     CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
 
-    Map response = service.cancelLimitOrder(apiKey, signatureCreator, paramCurrencyPair.getCurrencyPair().toString(), Long.valueOf(paramId.getOrderId()));
+    Map response =
+        service.cancelLimitOrder(
+            apiKey,
+            signatureCreator,
+            paramCurrencyPair.getCurrencyPair().toString(),
+            Long.valueOf(paramId.getOrderId()));
 
     if (response.containsKey("success") && !Boolean.valueOf(response.get("success").toString()))
       throw new ExchangeException("Failed to cancel order " + response);
@@ -120,7 +153,8 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return Boolean.valueOf(response.get("cancelled").toString());
   }
 
-  public static class LiveCoinCancelOrderParams implements CancelOrderByIdParams, CancelOrderByCurrencyPair {
+  public static class LiveCoinCancelOrderParams
+      implements CancelOrderByIdParams, CancelOrderByCurrencyPair {
     public final CurrencyPair currencyPair;
     public final String orderId;
 

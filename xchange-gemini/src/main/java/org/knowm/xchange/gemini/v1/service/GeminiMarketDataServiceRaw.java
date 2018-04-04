@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
@@ -17,11 +15,10 @@ import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTicker;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 
 /**
- * <p>
  * Implementation of the market data service for Gemini
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
 public class GeminiMarketDataServiceRaw extends GeminiBaseService {
@@ -46,7 +43,8 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
     }
   }
 
-  public GeminiDepth getGeminiOrderBook(String pair, Integer limitBids, Integer limitAsks) throws IOException {
+  public GeminiDepth getGeminiOrderBook(String pair, Integer limitBids, Integer limitAsks)
+      throws IOException {
 
     try {
       GeminiDepth GeminiDepth;
@@ -61,7 +59,8 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
     }
   }
 
-  public GeminiLendDepth getGeminiLendBook(String currency, int limitBids, int limitAsks) throws IOException {
+  public GeminiLendDepth getGeminiLendBook(String currency, int limitBids, int limitAsks)
+      throws IOException {
 
     try {
       GeminiLendDepth GeminiLendDepth = Gemini.getLendBook(currency, limitBids, limitAsks);
@@ -71,7 +70,8 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
     }
   }
 
-  public GeminiTrade[] getGeminiTrades(String pair, long sinceTimestamp, int limitTrades) throws IOException {
+  public GeminiTrade[] getGeminiTrades(String pair, long sinceTimestamp, int limitTrades)
+      throws IOException {
 
     try {
       GeminiTrade[] GeminiTrades = Gemini.getTrades(pair, sinceTimestamp, limitTrades);
@@ -81,7 +81,8 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
     }
   }
 
-  public GeminiLend[] getGeminiLends(String currency, long sinceTimestamp, int limitTrades) throws IOException {
+  public GeminiLend[] getGeminiLends(String currency, long sinceTimestamp, int limitTrades)
+      throws IOException {
 
     try {
       GeminiLend[] GeminiLends = Gemini.getLends(currency, sinceTimestamp, limitTrades);

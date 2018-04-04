@@ -9,58 +9,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>
  * DTO representing account information
- * </p>
- * <p>
- * Account information is anything particular associated with the user's login
- * </p>
+ *
+ * <p>Account information is anything particular associated with the user's login
  */
 public final class AccountInfo implements Serializable {
 
-  /**
-   * The name on the account
-   */
+  /** The name on the account */
   private final String username;
 
   /**
-   * The current fee this account must pay as a fraction of the value of each trade. Null if there is no such fee.
+   * The current fee this account must pay as a fraction of the value of each trade. Null if there
+   * is no such fee.
    */
   private final BigDecimal tradingFee;
 
-  /**
-   * The wallets owned by this account
-   */
+  /** The wallets owned by this account */
   private final Map<String, Wallet> wallets;
 
-  /**
-   * @see #AccountInfo(String, BigDecimal, Collection)
-   */
+  /** @see #AccountInfo(String, BigDecimal, Collection) */
   public AccountInfo(Wallet... wallets) {
 
-    // TODO when refactoring for separate feature interfaces, change this constructor to require at least two wallets
+    // TODO when refactoring for separate feature interfaces, change this constructor to require at
+    // least two wallets
     this(null, null, wallets);
   }
 
-  /**
-   * @see #AccountInfo(String, BigDecimal, Collection)
-   */
+  /** @see #AccountInfo(String, BigDecimal, Collection) */
   public AccountInfo(Collection<Wallet> wallets) {
 
     this(null, null, wallets);
   }
 
-  /**
-   * @see #AccountInfo(String, BigDecimal, Collection)
-   */
+  /** @see #AccountInfo(String, BigDecimal, Collection) */
   public AccountInfo(String username, Wallet... wallets) {
 
     this(username, null, wallets);
   }
 
-  /**
-   * @see #AccountInfo(String, BigDecimal, Collection)
-   */
+  /** @see #AccountInfo(String, BigDecimal, Collection) */
   public AccountInfo(String username, Collection<Wallet> wallets) {
 
     this(username, null, wallets);
@@ -92,28 +79,21 @@ public final class AccountInfo implements Serializable {
         this.wallets.put(wallet.getId(), wallet);
       }
     }
-
   }
 
-  /**
-   * @see #AccountInfo(String, BigDecimal, Collection)
-   */
+  /** @see #AccountInfo(String, BigDecimal, Collection) */
   public AccountInfo(String username, BigDecimal tradingFee, Wallet... wallets) {
 
     this(username, tradingFee, Arrays.asList(wallets));
   }
 
-  /**
-   * Gets all wallets in this account
-   */
+  /** Gets all wallets in this account */
   public Map<String, Wallet> getWallets() {
 
     return Collections.unmodifiableMap(wallets);
   }
 
-  /**
-   * Gets wallet for accounts which don't use multiple wallets with ids
-   */
+  /** Gets wallet for accounts which don't use multiple wallets with ids */
   public Wallet getWallet() {
 
     if (wallets.size() != 1) {
@@ -123,17 +103,13 @@ public final class AccountInfo implements Serializable {
     return getWallet(wallets.keySet().iterator().next());
   }
 
-  /**
-   * Gets the wallet with a specific id
-   */
+  /** Gets the wallet with a specific id */
   public Wallet getWallet(String id) {
 
     return wallets.get(id);
   }
 
-  /**
-   * @return The user name
-   */
+  /** @return The user name */
   public String getUsername() {
 
     return username;
@@ -152,6 +128,12 @@ public final class AccountInfo implements Serializable {
   @Override
   public String toString() {
 
-    return "AccountInfo [username=" + username + ", tradingFee=" + tradingFee + ", wallets=" + wallets + "]";
+    return "AccountInfo [username="
+        + username
+        + ", tradingFee="
+        + tradingFee
+        + ", wallets="
+        + wallets
+        + "]";
   }
 }

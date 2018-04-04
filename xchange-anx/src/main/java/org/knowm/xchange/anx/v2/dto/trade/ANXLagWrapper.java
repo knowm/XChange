@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXLagWrapper {
 
   private final String result;
@@ -18,7 +16,10 @@ public class ANXLagWrapper {
    * @param anxLag
    * @param error
    */
-  public ANXLagWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXLag anxLag, @JsonProperty("error") String error) {
+  public ANXLagWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") ANXLag anxLag,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxLag = anxLag;
@@ -39,5 +40,4 @@ public class ANXLagWrapper {
 
     return error;
   }
-
 }

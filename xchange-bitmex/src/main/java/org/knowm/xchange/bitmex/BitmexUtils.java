@@ -1,37 +1,29 @@
 package org.knowm.xchange.bitmex;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class BitmexUtils {
 
+  protected static final HashBiMap<String, Currency> assetsMap = HashBiMap.create();
   protected static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
   protected static BiMap<String, BitmexContract> bitmexContracts = HashBiMap.create();
   protected static BiMap<Currency, String> bitmexCurrencies = HashBiMap.create();
-  protected static final HashBiMap<String, Currency> assetsMap = HashBiMap.create();
 
-  /**
-   * Private Constructor
-   */
-  private BitmexUtils() {
-
-  }
+  /** Private Constructor */
+  private BitmexUtils() {}
 
   public static void setBitmexAssetPairs(List<BitmexTicker> tickers) {
 
@@ -48,24 +40,12 @@ public class BitmexUtils {
         assetsMap.put(quote, quoteCurrencyCode);
       if (!assetsMap.containsKey(base) && !assetsMap.containsValue(baseCurrencyCode))
         assetsMap.put(base, baseCurrencyCode);
-
     }
-
   }
 
   public static String createBitmexContract(BitmexContract contract) {
 
     return bitmexContracts.inverse().get(contract);
-  }
-
-  public class CustomBitmexContractSerializer extends JsonSerializer<BitmexContract> {
-
-    @Override
-    public void serialize(BitmexContract contract, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-
-      jsonGenerator.writeString(contract.toString());
-
-    }
   }
 
   public static CurrencyPair translateBitmexCurrencyPair(String currencyPairIn) {
@@ -83,8 +63,7 @@ public class BitmexUtils {
           counter = counter.getCommonlyUsedCurrency();
         }
         pair = new CurrencyPair(base, counter);
-      }
-      else if (currencyPairIn.length() == 7) {
+      } else if (currencyPairIn.length() == 7) {
         Currency base = Currency.getInstance(currencyPairIn.substring(0, 4));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
@@ -148,5 +127,16 @@ public class BitmexUtils {
       throw new ExchangeException("Bitmex does not support the currency code " + currencyIn);
     }
     return currencyOut.getCommonlyUsedCurrency();
+  }
+
+  public class CustomBitmexContractSerializer extends JsonSerializer<BitmexContract> {
+
+    @Override
+    public void serialize(
+        BitmexContract contract, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+        throws IOException {
+
+      jsonGenerator.writeString(contract.toString());
+    }
   }
 }

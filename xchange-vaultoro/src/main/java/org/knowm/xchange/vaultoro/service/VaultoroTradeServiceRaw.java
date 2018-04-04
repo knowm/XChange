@@ -6,7 +6,6 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -34,7 +33,8 @@ public class VaultoroTradeServiceRaw extends VaultoroBaseService {
   public VaultoroCancelOrderResponse cancelVaultoroOrder(String orderId) throws IOException {
 
     try {
-      VaultoroCancelOrderResponse response = vaultoro.cancel(orderId, exchange.getNonceFactory(), apiKey, signatureCreator);
+      VaultoroCancelOrderResponse response =
+          vaultoro.cancel(orderId, exchange.getNonceFactory(), apiKey, signatureCreator);
       return response;
     } catch (VaultoroException e) {
       throw new ExchangeException(e);
@@ -44,28 +44,34 @@ public class VaultoroTradeServiceRaw extends VaultoroBaseService {
   public Map<String, List<VaultoroOpenOrder>> getVaultoroOrders() throws IOException {
 
     try {
-      VaultoroOrdersResponse response = vaultoro.getOrders(exchange.getNonceFactory(), apiKey, signatureCreator);
+      VaultoroOrdersResponse response =
+          vaultoro.getOrders(exchange.getNonceFactory(), apiKey, signatureCreator);
       return response.getData().get(0);
     } catch (VaultoroException e) {
       throw new ExchangeException(e);
     }
   }
 
-  public VaultoroNewOrderResponse placeLimitOrder(CurrencyPair currencyPair, OrderType orderType, BigDecimal amount,
-      BigDecimal price) throws IOException {
+  public VaultoroNewOrderResponse placeLimitOrder(
+      CurrencyPair currencyPair, OrderType orderType, BigDecimal amount, BigDecimal price)
+      throws IOException {
 
     return placeOrder("limit", currencyPair, orderType, amount, price);
-
   }
 
-  public VaultoroNewOrderResponse placeMarketOrder(CurrencyPair currencyPair, OrderType orderType, BigDecimal amount) throws IOException {
+  public VaultoroNewOrderResponse placeMarketOrder(
+      CurrencyPair currencyPair, OrderType orderType, BigDecimal amount) throws IOException {
 
     return placeOrder("market", currencyPair, orderType, amount, null);
-
   }
 
-  private VaultoroNewOrderResponse placeOrder(String type, CurrencyPair currencyPair, OrderType orderType, BigDecimal amount,
-      BigDecimal price) throws IOException {
+  private VaultoroNewOrderResponse placeOrder(
+      String type,
+      CurrencyPair currencyPair,
+      OrderType orderType,
+      BigDecimal amount,
+      BigDecimal price)
+      throws IOException {
 
     String baseSymbol = currencyPair.base.getCurrencyCode().toLowerCase();
 
@@ -87,17 +93,18 @@ public class VaultoroTradeServiceRaw extends VaultoroBaseService {
         amount = price.multiply(amount, new MathContext(8, RoundingMode.HALF_DOWN));
       }
       try {
-        return vaultoro.buy(baseSymbol, type, exchange.getNonceFactory(), apiKey, amount, price, signatureCreator);
+        return vaultoro.buy(
+            baseSymbol, type, exchange.getNonceFactory(), apiKey, amount, price, signatureCreator);
       } catch (VaultoroException e) {
         throw new ExchangeException(e);
       }
     } else {
       try {
-        return vaultoro.sell(baseSymbol, type, exchange.getNonceFactory(), apiKey, amount, price, signatureCreator);
+        return vaultoro.sell(
+            baseSymbol, type, exchange.getNonceFactory(), apiKey, amount, price, signatureCreator);
       } catch (VaultoroException e) {
         throw new ExchangeException(e);
       }
     }
-
   }
 }

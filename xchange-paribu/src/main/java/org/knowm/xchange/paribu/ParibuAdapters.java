@@ -4,7 +4,6 @@ import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.TRY;
 
 import java.math.BigDecimal;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -12,14 +11,10 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.paribu.dto.marketdata.BTC_TL;
 import org.knowm.xchange.paribu.dto.marketdata.ParibuTicker;
 
-/**
- * @author semihunaldi
- * Various adapters for converting from Paribu DTOs to XChange DTOs
- */
+/** @author semihunaldi Various adapters for converting from Paribu DTOs to XChange DTOs */
 public final class ParibuAdapters {
 
-  private ParibuAdapters() {
-  }
+  private ParibuAdapters() {}
 
   /**
    * Adapts a ParibuTicker to a Ticker Object
@@ -47,7 +42,8 @@ public final class ParibuAdapters {
           .ask(lowestAsk)
           .high(high24hr)
           .low(low24hr)
-          .volume(volume).build();
+          .volume(volume)
+          .build();
     }
     return null;
   }

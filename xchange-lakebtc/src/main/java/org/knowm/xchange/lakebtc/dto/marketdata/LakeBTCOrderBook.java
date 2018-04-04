@@ -1,13 +1,10 @@
 package org.knowm.xchange.lakebtc.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author kpysniak
- */
+/** @author kpysniak */
 public class LakeBTCOrderBook {
 
   private final BigDecimal[][] asks;
@@ -19,7 +16,8 @@ public class LakeBTCOrderBook {
    * @param asks
    * @param bids
    */
-  public LakeBTCOrderBook(@JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids) {
+  public LakeBTCOrderBook(
+      @JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids) {
 
     this.asks = asks;
     this.bids = bids;

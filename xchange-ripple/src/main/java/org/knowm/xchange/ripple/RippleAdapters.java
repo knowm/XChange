@@ -12,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -46,25 +45,19 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Various adapters for converting from Ripple DTOs to XChange DTOs
- */
+/** Various adapters for converting from Ripple DTOs to XChange DTOs */
 public abstract class RippleAdapters {
 
   private static final Set<Currency> EMPTY_CURRENCY_SET = Collections.emptySet();
 
   private static final Logger logger = LoggerFactory.getLogger(RippleAdapters.class);
 
-  /**
-   * private Constructor
-   */
-  private RippleAdapters() {
-  }
+  /** private Constructor */
+  private RippleAdapters() {}
 
-  /**
-   * Adapts a Ripple Account to an XChange Wallet object.
-   */
-  public static AccountInfo adaptAccountInfo(final RippleAccountBalances account, final String username) {
+  /** Adapts a Ripple Account to an XChange Wallet object. */
+  public static AccountInfo adaptAccountInfo(
+      final RippleAccountBalances account, final String username) {
 
     // Adapt account balances to XChange balances
     final Map<String, List<Balance>> balances = new HashMap<>();
@@ -78,7 +71,9 @@ public abstract class RippleAdapters {
       if (!balances.containsKey(walletId)) {
         balances.put(walletId, new LinkedList<Balance>());
       }
-      balances.get(walletId).add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue()));
+      balances
+          .get(walletId)
+          .add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue()));
     }
 
     final List<Wallet> accountInfo = new ArrayList<>(balances.size());
@@ -90,20 +85,25 @@ public abstract class RippleAdapters {
   }
 
   /**
-   * Adapts a Ripple OrderBook to an XChange OrderBook object.
-   * <p>
-   * Counterparties are not mapped since the application calling this should know and keep track of the counterparties it is using in the polling
-   * thread.
+   * Adapts a Ripple OrderBook to an XChange OrderBook object. Counterparties are not mapped since
+   * the application calling this should know and keep track of the counterparties it is using in
+   * the polling thread.
    */
-  public static OrderBook adaptOrderBook(final RippleOrderBook rippleOrderBook, final RippleMarketDataParams params,
+  public static OrderBook adaptOrderBook(
+      final RippleOrderBook rippleOrderBook,
+      final RippleMarketDataParams params,
       final CurrencyPair currencyPair) {
-    final String orderBook = rippleOrderBook.getOrderBook(); // e.g. XRP/BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B
+    final String orderBook =
+        rippleOrderBook.getOrderBook(); // e.g. XRP/BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B
     final String[] splitPair = orderBook.split("/");
 
     final String[] baseSplit = splitPair[0].split("\\+");
     final String baseSymbol = baseSplit[0];
     if (baseSymbol.equals(currencyPair.base.getCurrencyCode()) == false) {
-      throw new IllegalStateException(String.format("base symbol in Ripple order book %s does not match requested base %s", orderBook, currencyPair));
+      throw new IllegalStateException(
+          String.format(
+              "base symbol in Ripple order book %s does not match requested base %s",
+              orderBook, currencyPair));
     }
     final String baseCounterparty;
     if (baseSymbol.equals("XRP")) {
@@ -112,15 +112,19 @@ public abstract class RippleAdapters {
       baseCounterparty = baseSplit[1];
     }
     if (baseCounterparty.equals(params.getBaseCounterparty()) == false) {
-      throw new IllegalStateException(String.format("base counterparty in Ripple order book %s does not match requested counterparty %s", orderBook,
-          params.getBaseCounterparty()));
+      throw new IllegalStateException(
+          String.format(
+              "base counterparty in Ripple order book %s does not match requested counterparty %s",
+              orderBook, params.getBaseCounterparty()));
     }
 
     final String[] counterSplit = splitPair[1].split("\\+");
     final String counterSymbol = counterSplit[0];
     if (counterSymbol.equals(currencyPair.counter.getCurrencyCode()) == false) {
       throw new IllegalStateException(
-          String.format("counter symbol in Ripple order book %s does not match requested base %s", orderBook, currencyPair));
+          String.format(
+              "counter symbol in Ripple order book %s does not match requested base %s",
+              orderBook, currencyPair));
     }
     final String counterCounterparty;
     if (counterSymbol.equals("XRP")) {
@@ -129,17 +133,35 @@ public abstract class RippleAdapters {
       counterCounterparty = counterSplit[1];
     }
     if (counterCounterparty.equals(params.getCounterCounterparty()) == false) {
-      throw new IllegalStateException(String.format("counter counterparty in Ripple order book %s does not match requested counterparty %s",
-          orderBook, params.getCounterCounterparty()));
+      throw new IllegalStateException(
+          String.format(
+              "counter counterparty in Ripple order book %s does not match requested counterparty %s",
+              orderBook, params.getCounterCounterparty()));
     }
 
-    final List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, rippleOrderBook.getBids(), baseCounterparty, counterCounterparty);
-    final List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, rippleOrderBook.getAsks(), baseCounterparty, counterCounterparty);
+    final List<LimitOrder> bids =
+        createOrders(
+            currencyPair,
+            OrderType.BID,
+            rippleOrderBook.getBids(),
+            baseCounterparty,
+            counterCounterparty);
+    final List<LimitOrder> asks =
+        createOrders(
+            currencyPair,
+            OrderType.ASK,
+            rippleOrderBook.getAsks(),
+            baseCounterparty,
+            counterCounterparty);
     return new OrderBook(null, asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(final CurrencyPair currencyPair, final OrderType orderType, final List<RippleOrder> orders,
-      final String baseCounterparty, final String counterCounterparty) {
+  public static List<LimitOrder> createOrders(
+      final CurrencyPair currencyPair,
+      final OrderType orderType,
+      final List<RippleOrder> orders,
+      final String baseCounterparty,
+      final String counterCounterparty) {
     final List<LimitOrder> limitOrders = new ArrayList<>();
     for (final RippleOrder rippleOrder : orders) {
 
@@ -159,19 +181,27 @@ public abstract class RippleAdapters {
       // price in counter currency
       final BigDecimal price = rippleOrder.getPrice().getValue();
 
-      final RippleLimitOrder order = new RippleLimitOrder(orderType, originalAmount, currencyPair, Integer.toString(rippleOrder.getSequence()), null,
-          price, baseCounterparty, counterCounterparty);
+      final RippleLimitOrder order =
+          new RippleLimitOrder(
+              orderType,
+              originalAmount,
+              currencyPair,
+              Integer.toString(rippleOrder.getSequence()),
+              null,
+              price,
+              baseCounterparty,
+              counterCounterparty);
       limitOrders.add(order);
     }
     return limitOrders;
   }
 
   /**
-   * Adapts a Ripple Account Orders object to an XChange OpenOrders object
-   * <p>
-   * Counterparties set in additional data since there is no other way of the application receiving this information.
+   * Adapts a Ripple Account Orders object to an XChange OpenOrders object Counterparties set in
+   * additional data since there is no other way of the application receiving this information.
    */
-  public static OpenOrders adaptOpenOrders(final RippleAccountOrders rippleOrders, final int scale) {
+  public static OpenOrders adaptOpenOrders(
+      final RippleAccountOrders rippleOrders, final int scale) {
     final List<LimitOrder> list = new ArrayList<>(rippleOrders.getOrders().size());
     for (final RippleAccountOrdersBody order : rippleOrders.getOrders()) {
 
@@ -195,47 +225,72 @@ public abstract class RippleAdapters {
       final String counterSymbol = counterAmount.getCurrency();
 
       // need to provide rounding scale to prevent ArithmeticException
-      final BigDecimal price = counterAmount.getValue().divide(baseAmount.getValue(), scale, RoundingMode.HALF_UP).stripTrailingZeros();
+      final BigDecimal price =
+          counterAmount
+              .getValue()
+              .divide(baseAmount.getValue(), scale, RoundingMode.HALF_UP)
+              .stripTrailingZeros();
       final CurrencyPair pair = new CurrencyPair(baseSymbol, counterSymbol);
 
-      final RippleLimitOrder xchangeOrder = (RippleLimitOrder) new RippleLimitOrder.Builder(orderType, pair)
-          .baseCounterparty(baseAmount.getCounterparty()).counterCounterparty(counterAmount.getCounterparty()).id(Long.toString(order.getSequence()))
-          .limitPrice(price).timestamp(null).originalAmount(baseAmount.getValue()).build();
+      final RippleLimitOrder xchangeOrder =
+          (RippleLimitOrder)
+              new RippleLimitOrder.Builder(orderType, pair)
+                  .baseCounterparty(baseAmount.getCounterparty())
+                  .counterCounterparty(counterAmount.getCounterparty())
+                  .id(Long.toString(order.getSequence()))
+                  .limitPrice(price)
+                  .timestamp(null)
+                  .originalAmount(baseAmount.getValue())
+                  .build();
       list.add(xchangeOrder);
     }
 
     return new OpenOrders(list);
   }
 
-  public static UserTrade adaptTrade(final IRippleTradeTransaction trade, final TradeHistoryParams params, final ITransferFeeSource transferFeeSource,
-      final int scale) throws IOException {
+  public static UserTrade adaptTrade(
+      final IRippleTradeTransaction trade,
+      final TradeHistoryParams params,
+      final ITransferFeeSource transferFeeSource,
+      final int scale)
+      throws IOException {
 
-    // The order{} section of the body cannot be used to determine trade facts e.g. if the order was to sell BTC.Bitstamp and buy
-    // BTC.SnapSwap, and traded via XRP, and our trade was one of the XRP legs, all we'd see would be the taker getting and paying BTC.
+    // The order{} section of the body cannot be used to determine trade facts e.g. if the order was
+    // to sell BTC.Bitstamp and buy
+    // BTC.SnapSwap, and traded via XRP, and our trade was one of the XRP legs, all we'd see would
+    // be the taker getting and paying BTC.
     //
-    // Details in the balance_changes{} and order_changes{} blocks are relative to the perspective account, i.e. the Ripple account address used in the URI.
+    // Details in the balance_changes{} and order_changes{} blocks are relative to the perspective
+    // account, i.e. the Ripple account address used in the URI.
 
     final List<RippleAmount> balanceChanges = trade.getBalanceChanges();
     final Iterator<RippleAmount> iterator = balanceChanges.iterator();
     while (iterator.hasNext()) {
       final RippleAmount amount = iterator.next();
       if (amount.getCurrency().equals("XRP") && trade.getFee().equals(amount.getValue().negate())) {
-        // XRP balance change is just the fee - it should not be part of the currency pair considerations
+        // XRP balance change is just the fee - it should not be part of the currency pair
+        // considerations
         iterator.remove();
       }
     }
 
     if (balanceChanges.size() != 2) {
-      logger.warn("for hash[{}] of type[{}] balance changes section should contains 2 currency amounts but found {}", trade.getHash(),
-          trade.getClass().getSimpleName(), balanceChanges);
+      logger.warn(
+          "for hash[{}] of type[{}] balance changes section should contains 2 currency amounts but found {}",
+          trade.getHash(),
+          trade.getClass().getSimpleName(),
+          balanceChanges);
       return null;
     }
 
-    // There is no way of telling the original entered base or counter currency - Ripple just provides 2 currency adjustments.
-    // Check if TradeHistoryParams expressed a preference, otherwise arrange the currencies in the order they are supplied.
+    // There is no way of telling the original entered base or counter currency - Ripple just
+    // provides 2 currency adjustments.
+    // Check if TradeHistoryParams expressed a preference, otherwise arrange the currencies in the
+    // order they are supplied.
     final Collection<Currency> preferredBase, preferredCounter;
     if (params instanceof RippleTradeHistoryPreferredCurrencies) {
-      final RippleTradeHistoryPreferredCurrencies rippleParams = (RippleTradeHistoryPreferredCurrencies) params;
+      final RippleTradeHistoryPreferredCurrencies rippleParams =
+          (RippleTradeHistoryPreferredCurrencies) params;
       preferredBase = rippleParams.getPreferredBaseCurrency();
       preferredCounter = rippleParams.getPreferredCounterCurrency();
     } else {
@@ -249,14 +304,17 @@ public abstract class RippleAdapters {
     } else if (preferredBase.contains(Currency.getInstance(balanceChanges.get(1).getCurrency()))) {
       base = balanceChanges.get(1);
       counter = balanceChanges.get(0);
-    } else if (preferredCounter.contains(Currency.getInstance(balanceChanges.get(0).getCurrency()))) {
+    } else if (preferredCounter.contains(
+        Currency.getInstance(balanceChanges.get(0).getCurrency()))) {
       counter = balanceChanges.get(0);
       base = balanceChanges.get(1);
-    } else if (preferredCounter.contains(Currency.getInstance(balanceChanges.get(1).getCurrency()))) {
+    } else if (preferredCounter.contains(
+        Currency.getInstance(balanceChanges.get(1).getCurrency()))) {
       counter = balanceChanges.get(1);
       base = balanceChanges.get(0);
 
-    } else if ((params instanceof TradeHistoryParamCurrencyPair) && (((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null)) {
+    } else if ((params instanceof TradeHistoryParamCurrencyPair)
+        && (((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null)) {
       // Searching for a specific currency pair - use this direction
       final CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
       if (pair.base.getCurrencyCode().equals(balanceChanges.get(0).getCurrency())
@@ -268,9 +326,12 @@ public abstract class RippleAdapters {
         base = balanceChanges.get(1);
         counter = balanceChanges.get(0);
       } else {
-        // Unexpected: this should have been filtered out in RippleTradeServiceRaw.getTradesForAccount(..) method.
-        throw new IllegalStateException(String.format("trade history param currency filter specified %s but trade query returned %s and %s", pair,
-            balanceChanges.get(0).getCurrency(), balanceChanges.get(1).getCurrency()));
+        // Unexpected: this should have been filtered out in
+        // RippleTradeServiceRaw.getTradesForAccount(..) method.
+        throw new IllegalStateException(
+            String.format(
+                "trade history param currency filter specified %s but trade query returned %s and %s",
+                pair, balanceChanges.get(0).getCurrency(), balanceChanges.get(1).getCurrency()));
       }
 
     } else { // select the currency direction as return from the API
@@ -286,7 +347,8 @@ public abstract class RippleAdapters {
     }
 
     final String currencyPairString = base.getCurrency() + "/" + counter.getCurrency();
-    final CurrencyPair currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString(currencyPairString);
+    final CurrencyPair currencyPair =
+        CurrencyPairDeserializer.getCurrencyPairFromString(currencyPairString);
 
     // Ripple has 2 types of fee.
     //
@@ -298,11 +360,12 @@ public abstract class RippleAdapters {
     // https://wiki.ripple.com/Transit_Fee
     // https://ripple.com/knowledge_center/transfer-fees/
 
-    // Ripple supplies XRP with net quantity and price, must apply these to the  
+    // Ripple supplies XRP with net quantity and price, must apply these to the
     // trade as gross amounts to ensure the same as the other XChange connections.
 
-    final BigDecimal baseTransferFee = RippleTradeServiceRaw.getExpectedTransferFee(transferFeeSource, base.getCounterparty(), base.getCurrency(),
-        base.getValue(), type);
+    final BigDecimal baseTransferFee =
+        RippleTradeServiceRaw.getExpectedTransferFee(
+            transferFeeSource, base.getCounterparty(), base.getCurrency(), base.getValue(), type);
     final BigDecimal baseValue = base.getValue().abs().subtract(baseTransferFee);
 
     final OrderType counterDirection;
@@ -311,11 +374,16 @@ public abstract class RippleAdapters {
     } else {
       counterDirection = OrderType.BID;
     }
-    final BigDecimal counterTransferFee = RippleTradeServiceRaw.getExpectedTransferFee(transferFeeSource, counter.getCounterparty(),
-        counter.getCurrency(), counter.getValue(), counterDirection);
+    final BigDecimal counterTransferFee =
+        RippleTradeServiceRaw.getExpectedTransferFee(
+            transferFeeSource,
+            counter.getCounterparty(),
+            counter.getCurrency(),
+            counter.getValue(),
+            counterDirection);
     final BigDecimal counterValue = counter.getValue().abs().subtract(counterTransferFee);
 
-    // Account for transaction fee in quantities.  
+    // Account for transaction fee in quantities.
     final BigDecimal transactionFee = trade.getFee();
     final BigDecimal quantity;
     if (base.getCurrency().equals("XRP")) {
@@ -344,9 +412,18 @@ public abstract class RippleAdapters {
 
     final String orderId = Long.toString(trade.getOrderId());
 
-    final RippleUserTrade.Builder builder = (RippleUserTrade.Builder) new RippleUserTrade.Builder().currencyPair(currencyPair)
-        .feeAmount(transactionFee).feeCurrency(Currency.XRP).id(trade.getHash()).orderId(orderId).price(price.stripTrailingZeros())
-        .timestamp(trade.getTimestamp()).originalAmount(quantity.stripTrailingZeros()).type(type);
+    final RippleUserTrade.Builder builder =
+        (RippleUserTrade.Builder)
+            new RippleUserTrade.Builder()
+                .currencyPair(currencyPair)
+                .feeAmount(transactionFee)
+                .feeCurrency(Currency.XRP)
+                .id(trade.getHash())
+                .orderId(orderId)
+                .price(price.stripTrailingZeros())
+                .timestamp(trade.getTimestamp())
+                .originalAmount(quantity.stripTrailingZeros())
+                .type(type);
     builder.baseTransferFee(baseTransferFee.abs());
     builder.counterTransferFee(counterTransferFee.abs());
     if (base.getCounterparty().length() > 0) {
@@ -358,8 +435,12 @@ public abstract class RippleAdapters {
     return builder.build();
   }
 
-  public static UserTrades adaptTrades(final Collection<IRippleTradeTransaction> tradesForAccount, final TradeHistoryParams params,
-      final RippleAccountService accountService, final int roundingScale) throws IOException {
+  public static UserTrades adaptTrades(
+      final Collection<IRippleTradeTransaction> tradesForAccount,
+      final TradeHistoryParams params,
+      final RippleAccountService accountService,
+      final int roundingScale)
+      throws IOException {
     final List<UserTrade> trades = new ArrayList<>();
     for (final IRippleTradeTransaction orderDetails : tradesForAccount) {
       final UserTrade trade = adaptTrade(orderDetails, params, accountService, roundingScale);

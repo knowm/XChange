@@ -1,9 +1,8 @@
 package org.knowm.xchange.liqui.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class LiquiPublicAsk {
 
@@ -26,9 +25,6 @@ public class LiquiPublicAsk {
 
   @Override
   public String toString() {
-    return "LiquiPublicAsk{" +
-        "price=" + price +
-        ", volume=" + volume +
-        '}';
+    return "LiquiPublicAsk{" + "price=" + price + ", volume=" + volume + '}';
   }
 }

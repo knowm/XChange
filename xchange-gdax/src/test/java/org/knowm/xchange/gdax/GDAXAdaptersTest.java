@@ -2,6 +2,9 @@ package org.knowm.xchange.gdax;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
@@ -11,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -27,51 +29,57 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonObjectMapperFactory;
 
-/**
- * Created by Yingzhe on 4/8/2015.
- */
+/** Created by Yingzhe on 4/8/2015. */
 public class GDAXAdaptersTest {
 
   @Test
   public void parseDateTest() {
 
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03Z").getTime()).isEqualTo(1493737803000L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1Z").getTime()).isEqualTo(1493737803100L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12Z").getTime()).isEqualTo(1493737803120L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123Z").getTime()).isEqualTo(1493737803123L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1234567Z").getTime()).isEqualTo(1493737803123L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1Z").getTime())
+        .isEqualTo(1493737803100L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12Z").getTime())
+        .isEqualTo(1493737803120L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123Z").getTime())
+        .isEqualTo(1493737803123L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1234567Z").getTime())
+        .isEqualTo(1493737803123L);
 
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03").getTime()).isEqualTo(1493737803000L);
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1").getTime()).isEqualTo(1493737803100L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12").getTime()).isEqualTo(1493737803120L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123").getTime()).isEqualTo(1493737803123L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123456").getTime()).isEqualTo(1493737803123L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12").getTime())
+        .isEqualTo(1493737803120L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123").getTime())
+        .isEqualTo(1493737803123L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123456").getTime())
+        .isEqualTo(1493737803123L);
 
-    assertThat(GDAXAdapters.parseDate("2017-06-21T04:52:01.996Z").getTime()).isEqualTo(1498020721996L);
+    assertThat(GDAXAdapters.parseDate("2017-06-21T04:52:01.996Z").getTime())
+        .isEqualTo(1498020721996L);
   }
 
   @Test
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GDAXAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
-    InputStream is2 = GDAXAdaptersTest.class.getResourceAsStream("/marketdata/example-stats-data.json");
+    InputStream is =
+        GDAXAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gdax/dto/marketdata/example-ticker-data.json");
+    InputStream is2 =
+        GDAXAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gdax/dto/marketdata/example-stats-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     GDAXProductTicker coinbaseExTicker = mapper.readValue(is, GDAXProductTicker.class);
     GDAXProductStats coinbaseExStats = mapper.readValue(is2, GDAXProductStats.class);
 
-    Ticker ticker = GDAXAdapters.adaptTicker(coinbaseExTicker, coinbaseExStats, CurrencyPair.BTC_USD);
+    Ticker ticker =
+        GDAXAdapters.adaptTicker(coinbaseExTicker, coinbaseExStats, CurrencyPair.BTC_USD);
 
     assertThat(ticker.getLast().toString()).isEqualTo("246.28000000");
     assertThat(ticker.getOpen().toString()).isEqualTo("254.04000000");
@@ -92,7 +100,8 @@ public class GDAXAdaptersTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/trade/example-fills.json");
+    InputStream is =
+        getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/trade/example-fills.json");
     GDAXFill[] fills = mapper.readValue(is, GDAXFill[].class);
 
     UserTrades trades = GDAXAdapters.adaptTradeHistory(fills);
@@ -117,7 +126,10 @@ public class GDAXAdaptersTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/order/example-market-order-filled.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/gdax/dto/order/example-market-order-filled.json");
     GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -127,14 +139,17 @@ public class GDAXAdaptersTest {
     assertThat(order.getCurrencyPair()).isEqualTo((CurrencyPair.BTC_USD));
     assertThat(order.getOriginalAmount()).isEqualByComparingTo(new BigDecimal("1.00000000"));
     assertThat(order.getCumulativeAmount()).isEqualByComparingTo(new BigDecimal("0.01291771"));
-    assertThat(order.getRemainingAmount()).isEqualByComparingTo(new BigDecimal("1.0").subtract(new BigDecimal("0.01291771")));
+    assertThat(order.getRemainingAmount())
+        .isEqualByComparingTo(new BigDecimal("1.0").subtract(new BigDecimal("0.01291771")));
     assertThat(order.getFee()).isEqualTo(new BigDecimal("0.0249376391550000"));
     assertThat(MarketOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.BID);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1481227745508L));
-    assertThat(order.getAveragePrice()).isEqualByComparingTo(new BigDecimal("9.9750556620000000").divide(new BigDecimal("0.01291771"), new MathContext(8)));
+    assertThat(order.getAveragePrice())
+        .isEqualByComparingTo(
+            new BigDecimal("9.9750556620000000")
+                .divide(new BigDecimal("0.01291771"), new MathContext(8)));
   }
-
 
   @Test
   public void testOrderStatusLimitOrderFilled() throws IOException {
@@ -142,12 +157,13 @@ public class GDAXAdaptersTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/order/example-limit-order-filled.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/gdax/dto/order/example-limit-order-filled.json");
     GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
-
     Order order = GDAXAdapters.adaptOrder(gdaxOrder);
-
 
     assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
     assertThat(order.getId()).isEqualTo("b2cdd7fe-1f4a-495e-8b96-7a4be368f43c");
@@ -159,7 +175,10 @@ public class GDAXAdaptersTest {
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.ASK);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
-    assertThat(order.getAveragePrice()).isEqualByComparingTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), new MathContext(8)));
+    assertThat(order.getAveragePrice())
+        .isEqualByComparingTo(
+            new BigDecimal("1050.2618069699000000")
+                .divide(new BigDecimal("0.07060351"), new MathContext(8)));
   }
 
   @Test
@@ -168,7 +187,10 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-limit-order-settled.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/gdax/dto/order/example-limit-order-settled.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -182,7 +204,10 @@ public class GDAXAdaptersTest {
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.ASK);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
-    assertThat(order.getAveragePrice()).isEqualByComparingTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), new MathContext(8)));
+    assertThat(order.getAveragePrice())
+        .isEqualByComparingTo(
+            new BigDecimal("1050.2618069699000000")
+                .divide(new BigDecimal("0.07060351"), new MathContext(8)));
   }
 
   @Test
@@ -191,7 +216,9 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-limit-order-new.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-limit-order-new.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -212,12 +239,15 @@ public class GDAXAdaptersTest {
   }
 
   @Test
-  public void testOrderStatusStopOrderNew() throws JsonParseException, JsonMappingException, IOException {
+  public void testOrderStatusStopOrderNew()
+      throws JsonParseException, JsonMappingException, IOException {
 
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-stop-order-new.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream("/org/knowm/xchange/gdax/dto/order/example-stop-order-new.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -238,12 +268,16 @@ public class GDAXAdaptersTest {
   }
 
   @Test
-  public void testOrderStatusStopOrderStopped() throws JsonParseException, JsonMappingException, IOException {
+  public void testOrderStatusStopOrderStopped()
+      throws JsonParseException, JsonMappingException, IOException {
 
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-stop-order-stopped.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/gdax/dto/order/example-stop-order-stopped.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -264,12 +298,16 @@ public class GDAXAdaptersTest {
   }
 
   @Test
-  public void testOrderStatusStopOrderFilled() throws JsonParseException, JsonMappingException, IOException {
+  public void testOrderStatusStopOrderFilled()
+      throws JsonParseException, JsonMappingException, IOException {
 
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-stop-order-filled.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/gdax/dto/order/example-stop-order-filled.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -283,7 +321,10 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    final InputStream is = getClass().getResourceAsStream("/order/example-limit-order-pending.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/gdax/dto/order/example-limit-order-pending.json");
     final GDAXOrder gdaxOrder = mapper.readValue(is, GDAXOrder.class);
 
     final Order order = GDAXAdapters.adaptOrder(gdaxOrder);
@@ -296,19 +337,20 @@ public class GDAXAdaptersTest {
     final JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     final ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = new SequenceInputStream(
-      IOUtils.toInputStream("[", StandardCharsets.UTF_8),
-      new SequenceInputStream(
-        getClass().getResourceAsStream("/order/example-limit-order-pending.json"),
+    InputStream is =
         new SequenceInputStream(
-            IOUtils.toInputStream(", ", StandardCharsets.UTF_8),
-          new SequenceInputStream(
-            getClass().getResourceAsStream("/order/example-stop-order-filled.json"),
-            IOUtils.toInputStream("]", StandardCharsets.UTF_8)
-          )
-        )
-      )
-    );
+            IOUtils.toInputStream("[", StandardCharsets.UTF_8),
+            new SequenceInputStream(
+                getClass()
+                    .getResourceAsStream(
+                        "/org/knowm/xchange/gdax/dto/order/example-limit-order-pending.json"),
+                new SequenceInputStream(
+                    IOUtils.toInputStream(", ", StandardCharsets.UTF_8),
+                    new SequenceInputStream(
+                        getClass()
+                            .getResourceAsStream(
+                                "/org/knowm/xchange/gdax/dto/order/example-stop-order-filled.json"),
+                        IOUtils.toInputStream("]", StandardCharsets.UTF_8)))));
 
     final GDAXOrder[] gdaxOrders = mapper.readValue(is, GDAXOrder[].class);
 
@@ -329,7 +371,10 @@ public class GDAXAdaptersTest {
     assertThat(order.getRemainingAmount()).isEqualByComparingTo(BigDecimal.ZERO);
     assertThat(order.getType()).isEqualTo(OrderType.BID);
     assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
-    assertThat(order.getAveragePrice()).isEqualByComparingTo(new BigDecimal("639.3107535312").divide(new BigDecimal("0.08871972"), new MathContext(8)));
+    assertThat(order.getAveragePrice())
+        .isEqualByComparingTo(
+            new BigDecimal("639.3107535312")
+                .divide(new BigDecimal("0.08871972"), new MathContext(8)));
 
     assertThat(StopOrder.class.isAssignableFrom(order.getClass())).isTrue();
     StopOrder stop = (StopOrder) order;

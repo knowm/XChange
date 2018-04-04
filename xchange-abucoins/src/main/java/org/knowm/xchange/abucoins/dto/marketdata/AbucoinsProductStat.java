@@ -1,15 +1,11 @@
 package org.knowm.xchange.abucoins.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /products/stats</code> endpoint.</p>
- *
- * Example:
- * <code><pre>
+ * POJO representing the output JSON for the Abucoins <code>GET /products/stats</code> endpoint.
+ * Example: <code><pre>
  * [
  *   {
  *     "product_id":"BTC-PLN",
@@ -39,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *   }
  * ]
  * </pre></code>
+ *
  * @author bryant_harris
  */
 public class AbucoinsProductStat {
@@ -54,19 +51,20 @@ public class AbucoinsProductStat {
   BigDecimal volume30d;
   BigDecimal change;
   String message;
-        
-  public AbucoinsProductStat(@JsonProperty("product_id") String productID,
-                             @JsonProperty("last") BigDecimal last,
-                             @JsonProperty("open") BigDecimal open,
-                             @JsonProperty("high") BigDecimal high,
-                             @JsonProperty("low") BigDecimal low,
-                             @JsonProperty("volume") BigDecimal volume,
-                             @JsonProperty("volume_BTC") BigDecimal volumeBTC,
-                             @JsonProperty("volume_USD") BigDecimal volumeUSD,
-                             @JsonProperty("volume_7d") BigDecimal volume7d,
-                             @JsonProperty("volume_30d") BigDecimal volume30d,
-                             @JsonProperty("change") BigDecimal change,
-                             @JsonProperty("message") String message) {
+
+  public AbucoinsProductStat(
+      @JsonProperty("product_id") String productID,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("open") BigDecimal open,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("volume_BTC") BigDecimal volumeBTC,
+      @JsonProperty("volume_USD") BigDecimal volumeUSD,
+      @JsonProperty("volume_7d") BigDecimal volume7d,
+      @JsonProperty("volume_30d") BigDecimal volume30d,
+      @JsonProperty("change") BigDecimal change,
+      @JsonProperty("message") String message) {
     this.productID = productID;
     this.last = last;
     this.open = open;
@@ -80,46 +78,79 @@ public class AbucoinsProductStat {
     this.change = change;
     this.message = message;
   }
+
   public String getProductID() {
     return productID;
   }
+
   public BigDecimal getLast() {
     return last;
   }
+
   public BigDecimal getOpen() {
     return open;
   }
+
   public BigDecimal getHigh() {
     return high;
   }
+
   public BigDecimal getLow() {
     return low;
   }
+
   public BigDecimal getVolume() {
     return volume;
   }
+
   public BigDecimal getVolumeBTC() {
     return volumeBTC;
   }
+
   public BigDecimal getVolumeUSD() {
     return volumeUSD;
   }
+
   public BigDecimal getVolume7d() {
     return volume7d;
   }
+
   public BigDecimal getVolume30d() {
     return volume30d;
   }
+
   public BigDecimal getChange() {
     return change;
   }
+
   public String getMessage() {
     return message;
   }
+
   @Override
   public String toString() {
-    return "AbucoinsProductStat [productID=" + productID + ", last=" + last + ", open=" + open + ", high=" + high
-        + ", low=" + low + ", volume=" + volume + ", volumeBTC=" + volumeBTC + ", volumeUSD=" + volumeUSD
-        + ", volume7d=" + volume7d + ", volume30d=" + volume30d + ", change=" + change + "]";
+    return "AbucoinsProductStat [productID="
+        + productID
+        + ", last="
+        + last
+        + ", open="
+        + open
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", volume="
+        + volume
+        + ", volumeBTC="
+        + volumeBTC
+        + ", volumeUSD="
+        + volumeUSD
+        + ", volume7d="
+        + volume7d
+        + ", volume30d="
+        + volume30d
+        + ", change="
+        + change
+        + "]";
   }
 }

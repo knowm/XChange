@@ -1,14 +1,10 @@
 package org.knowm.xchange.taurus.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.taurus.dto.TaurusBaseResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public final class TaurusBalance extends TaurusBaseResponse {
 
   private final BigDecimal cadBalance;
@@ -19,10 +15,15 @@ public final class TaurusBalance extends TaurusBaseResponse {
   private final BigDecimal btcAvailable;
   private final BigDecimal fee;
 
-  public TaurusBalance(@JsonProperty("cad_balance") BigDecimal cadBalance, @JsonProperty("btc_balance") BigDecimal btcBalance,
-      @JsonProperty("cad_reserved") BigDecimal cadReserved, @JsonProperty("btc_reserved") BigDecimal btcReserved,
-      @JsonProperty("cad_available") BigDecimal cadAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
+  public TaurusBalance(
+      @JsonProperty("cad_balance") BigDecimal cadBalance,
+      @JsonProperty("btc_balance") BigDecimal btcBalance,
+      @JsonProperty("cad_reserved") BigDecimal cadReserved,
+      @JsonProperty("btc_reserved") BigDecimal btcReserved,
+      @JsonProperty("cad_available") BigDecimal cadAvailable,
+      @JsonProperty("btc_available") BigDecimal btcAvailable,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("error") String error) {
     super(error);
     this.cadBalance = cadBalance;
     this.btcBalance = btcBalance;
@@ -70,7 +71,8 @@ public final class TaurusBalance extends TaurusBaseResponse {
 
   @Override
   public String toString() {
-    return String.format("Balance{cadBalance=%s, btcBalance=%s, cadReserved=%s, btcReserved=%s, cadAvailable=%s, btcAvailable=%s, fee=%s}",
+    return String.format(
+        "Balance{cadBalance=%s, btcBalance=%s, cadReserved=%s, btcReserved=%s, cadAvailable=%s, btcAvailable=%s, fee=%s}",
         cadBalance, btcBalance, cadReserved, btcReserved, cadAvailable, btcAvailable, fee);
   }
 }

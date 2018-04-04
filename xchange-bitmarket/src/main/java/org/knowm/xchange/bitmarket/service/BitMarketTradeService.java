@@ -2,7 +2,6 @@ package org.knowm.xchange.bitmarket.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmarket.BitMarketAdapters;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
@@ -10,7 +9,11 @@ import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -18,18 +21,17 @@ import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import si.mazi.rescu.IRestProxyFactory;
 
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class BitMarketTradeService extends BitMarketTradeServiceRaw implements TradeService {
   /**
    * Constructor
    *
    * @param exchange
    */
-  public BitMarketTradeService(Exchange exchange) {
-    super(exchange);
+  public BitMarketTradeService(Exchange exchange, IRestProxyFactory restProxyFactory) {
+    super(exchange, restProxyFactory);
   }
 
   @Override
@@ -38,22 +40,19 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     BitMarketOrdersResponse response = getBitMarketOpenOrders();
     return BitMarketAdapters.adaptOpenOrders(response.getData());
   }
 
   @Override
-  public String placeMarketOrder(
-      MarketOrder marketOrder) throws IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(
-      LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     BitMarketTradeResponse response = placeBitMarketOrder(limitOrder);
     return String.valueOf(response.getData().getId());
@@ -65,8 +64,7 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
   }
 
   @Override
-  public boolean cancelOrder(
-      String id) throws IOException {
+  public boolean cancelOrder(String id) throws IOException {
 
     cancelBitMarketOrder(id);
     return true;
@@ -101,9 +99,7 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-
 }

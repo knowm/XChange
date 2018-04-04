@@ -1,18 +1,16 @@
 package org.knowm.xchange.kuna.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.kuna.dto.enums.KunaOrderType;
 import org.knowm.xchange.kuna.dto.enums.KunaSide;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
- * Order of crypto currency.
- * Instances of this type are immutable, constructed with a dedicated Builder implementation.
+ * Order of crypto currency. Instances of this type are immutable, constructed with a dedicated
+ * Builder implementation.
  *
  * @author Dat Bui
  */
@@ -39,10 +37,16 @@ public class KunaOrder {
   private BigDecimal executedVolume;
   private int tradesCount;
 
+  /** Hide default constructor. */
+  private KunaOrder() {}
+
   /**
-   * Hide default constructor.
+   * Creates new builder.
+   *
+   * @return builder
    */
-  private KunaOrder() {
+  public static Builder builder() {
+    return new Builder();
   }
 
   /**
@@ -152,15 +156,6 @@ public class KunaOrder {
   @JsonProperty(TRADES_COUNT)
   public int getTradesCount() {
     return tradesCount;
-  }
-
-  /**
-   * Creates new builder.
-   *
-   * @return builder
-   */
-  public static Builder builder() {
-    return new Builder();
   }
 
   public static class Builder {

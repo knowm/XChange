@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ccex.CCEXExchange;
@@ -20,9 +19,7 @@ import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
-/**
- * Demonstrate requesting OrderBook from C-CEX and plotting it using XChart.
- */
+/** Demonstrate requesting OrderBook from C-CEX and plotting it using XChart. */
 public class DepthChartDemo {
 
   public static void main(String[] args) throws IOException {
@@ -41,19 +38,38 @@ public class DepthChartDemo {
     System.out.println("received data.");
 
     for (LimitOrder limitOrder : orderBook.getBids()) {
-      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
-          + limitOrder.getOriginalAmount());
+      System.out.println(
+          limitOrder.getType()
+              + " "
+              + limitOrder.getCurrencyPair()
+              + " Limit price: "
+              + limitOrder.getLimitPrice()
+              + " Amount: "
+              + limitOrder.getOriginalAmount());
     }
 
     for (LimitOrder limitOrder : orderBook.getAsks()) {
-      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
-          + limitOrder.getOriginalAmount());
+      System.out.println(
+          limitOrder.getType()
+              + " "
+              + limitOrder.getCurrencyPair()
+              + " Limit price: "
+              + limitOrder.getLimitPrice()
+              + " Amount: "
+              + limitOrder.getOriginalAmount());
     }
 
     System.out.println("plotting...");
 
     // Create Chart
-    XYChart chart = new XYChartBuilder().width(800).height(600).title("C-CEX Order Book - Xaurum").xAxisTitle("BTC").yAxisTitle("Amount").build();
+    XYChart chart =
+        new XYChartBuilder()
+            .width(800)
+            .height(600)
+            .title("C-CEX Order Book - Xaurum")
+            .xAxisTitle("BTC")
+            .yAxisTitle("Amount")
+            .build();
 
     // Customize Chart
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
@@ -89,7 +105,5 @@ public class DepthChartDemo {
     series.setMarker(SeriesMarkers.NONE);
 
     new SwingWrapper(chart).displayChart();
-
   }
-
 }

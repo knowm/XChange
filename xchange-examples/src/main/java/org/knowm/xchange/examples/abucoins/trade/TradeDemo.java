@@ -2,25 +2,24 @@ package org.knowm.xchange.examples.abucoins.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
-
+import java.util.Arrays;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
-import org.knowm.xchange.cexio.service.CexIOTradeServiceRaw;
+import org.knowm.xchange.abucoins.AbucoinsAdapters;
+import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
+import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
+import org.knowm.xchange.abucoins.service.AbucoinsTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.abucoins.AbucoinsDemoUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 
-/**
- * Author: bryant_harris
- */
-
+/** Author: bryant_harris */
 public class TradeDemo {
 
   public static void main(String[] args) throws IOException {
@@ -29,18 +28,23 @@ public class TradeDemo {
     TradeService tradeService = exchange.getTradeService();
 
     generic(tradeService);
-    raw((CexIOTradeServiceRaw) tradeService);
-
+    raw((AbucoinsTradeServiceRaw) tradeService);
   }
 
-  private static void generic(
-      TradeService tradeService) throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  private static void generic(TradeService tradeService)
+      throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, "", null,
-        new BigDecimal("100"));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            Order.OrderType.BID,
+            BigDecimal.ONE,
+            CurrencyPair.BTC_USD,
+            "",
+            null,
+            new BigDecimal("100"));
     System.out.println("Trying to place: " + limitOrder);
     String orderId = "0";
     try {
@@ -56,12 +60,18 @@ public class TradeDemo {
     System.out.println("Canceling order id=" + orderId + " returned " + cancelResult);
 
     printOpenOrders(tradeService);
+
+    UserTrades userTrades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
+    System.out.println(userTrades);
   }
 
-  private static void raw(CexIOTradeServiceRaw tradeService) throws IOException {
+  private static void raw(AbucoinsTradeServiceRaw tradeService) throws IOException {
 
-    List<CexIOOrder> openOrders = tradeService.getCexIOOpenOrders(new CurrencyPair("NMC", "BTC"));
-    System.out.println(openOrders);
+    AbucoinsOrder[] openOrders =
+        tradeService.getAbucoinsOrders(
+            new AbucoinsOrderRequest(
+                AbucoinsAdapters.adaptCurrencyPairToProductID(CurrencyPair.BTC_USD)));
+    System.out.println(Arrays.asList(openOrders));
   }
 
   private static void printOpenOrders(TradeService tradeService) throws IOException {

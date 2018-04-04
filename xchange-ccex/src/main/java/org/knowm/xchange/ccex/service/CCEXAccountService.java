@@ -3,7 +3,6 @@ package org.knowm.xchange.ccex.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ccex.CCEXAdapters;
 import org.knowm.xchange.currency.Currency;
@@ -27,8 +26,8 @@ public class CCEXAccountService extends CCEXAccountServiceRaw implements Account
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -48,8 +47,7 @@ public class CCEXAccountService extends CCEXAccountServiceRaw implements Account
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -25,9 +24,7 @@ import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroOrderBook;
 import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroTrade;
 import org.knowm.xchange.vaultoro.dto.trade.VaultoroOpenOrder;
 
-/**
- * Various adapters for converting from Vaultoro DTOs to XChange DTOs
- */
+/** Various adapters for converting from Vaultoro DTOs to XChange DTOs */
 public final class VaultoroAdapters {
 
   public static Ticker adaptVaultoroLatest(BigDecimal latest) {
@@ -35,7 +32,8 @@ public final class VaultoroAdapters {
     return new Ticker.Builder().last(latest).build();
   }
 
-  public static OrderBook adaptVaultoroOrderBook(VaultoroOrderBook vaultoroOrderBook, CurrencyPair currencyPair) {
+  public static OrderBook adaptVaultoroOrderBook(
+      VaultoroOrderBook vaultoroOrderBook, CurrencyPair currencyPair) {
 
     List<VaultoroOrder> vaultoroBids = vaultoroOrderBook.getBuys();
     List<VaultoroOrder> vaultoroAsks = vaultoroOrderBook.getSells();
@@ -43,28 +41,40 @@ public final class VaultoroAdapters {
     List<LimitOrder> asks = new ArrayList<>();
 
     for (VaultoroOrder vaultoroOrder : vaultoroAsks) {
-      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).limitPrice(vaultoroOrder.getGoldPrice())
-          .originalAmount(vaultoroOrder.getGoldAmount()).build());
+      asks.add(
+          new LimitOrder.Builder(OrderType.ASK, currencyPair)
+              .limitPrice(vaultoroOrder.getGoldPrice())
+              .originalAmount(vaultoroOrder.getGoldAmount())
+              .build());
     }
 
     List<LimitOrder> bids = new ArrayList<>();
 
     for (VaultoroOrder vaultoroOrder : vaultoroBids) {
-      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).limitPrice(vaultoroOrder.getGoldPrice())
-          .originalAmount(vaultoroOrder.getGoldAmount()).build());
+      bids.add(
+          new LimitOrder.Builder(OrderType.BID, currencyPair)
+              .limitPrice(vaultoroOrder.getGoldPrice())
+              .originalAmount(vaultoroOrder.getGoldAmount())
+              .build());
     }
 
     return new OrderBook(null, asks, bids);
   }
 
-  public static Trades adaptVaultoroTransactions(List<VaultoroTrade> vaultoroTransactions, CurrencyPair currencyPair) {
+  public static Trades adaptVaultoroTransactions(
+      List<VaultoroTrade> vaultoroTransactions, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
 
     for (VaultoroTrade vaultoroTrade : vaultoroTransactions) {
       Date date = VaultoroUtils.parseDate(vaultoroTrade.getTime());
-      trades.add(new Trade.Builder().timestamp(date).currencyPair(currencyPair).price(vaultoroTrade.getGoldPrice())
-          .originalAmount(vaultoroTrade.getGoldAmount()).build());
+      trades.add(
+          new Trade.Builder()
+              .timestamp(date)
+              .currencyPair(currencyPair)
+              .price(vaultoroTrade.getGoldPrice())
+              .originalAmount(vaultoroTrade.getGoldAmount())
+              .build());
     }
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
@@ -82,7 +92,8 @@ public final class VaultoroAdapters {
 
   public static Balance adaptVaultoroBalance(VaultoroBalance vaultoroBalance) {
 
-    return new Balance(Currency.getInstance(vaultoroBalance.getCurrencyCode()), vaultoroBalance.getCash());
+    return new Balance(
+        Currency.getInstance(vaultoroBalance.getCurrencyCode()), vaultoroBalance.getCash());
   }
 
   public static OpenOrders adaptVaultoroOpenOrders(Map<String, List<VaultoroOpenOrder>> orders) {
@@ -106,8 +117,10 @@ public final class VaultoroAdapters {
 
   public static LimitOrder adaptVaultoroOrder(VaultoroOpenOrder o, OrderType orderType) {
 
-    return new LimitOrder.Builder(orderType, new CurrencyPair("GLD", "BTC")).id(o.getOrderID()).limitPrice(o.getGoldPrice())
-        .originalAmount(o.getGoldAmount()).build();
+    return new LimitOrder.Builder(orderType, new CurrencyPair("GLD", "BTC"))
+        .id(o.getOrderID())
+        .limitPrice(o.getGoldPrice())
+        .originalAmount(o.getGoldAmount())
+        .build();
   }
-
 }

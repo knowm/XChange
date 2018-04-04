@@ -8,7 +8,10 @@ public class BitcoindeError {
   private final String code;
   private final String field;
 
-  public BitcoindeError(@JsonProperty("message") String message, @JsonProperty("code") String code, @JsonProperty("field") String field) {
+  public BitcoindeError(
+      @JsonProperty("message") String message,
+      @JsonProperty("code") String code,
+      @JsonProperty("field") String field) {
 
     this.message = message;
     this.code = code;
@@ -29,10 +32,16 @@ public class BitcoindeError {
 
   @Override
   public String toString() {
-    return "BitcoindeError{" +
-        "message='" + message + '\'' +
-        ", code='" + code + '\'' +
-        ", field='" + field + '\'' +
-        "}";
+    return "BitcoindeError{"
+        + "message='"
+        + message
+        + '\''
+        + ", code='"
+        + code
+        + '\''
+        + ", field='"
+        + field
+        + '\''
+        + "}";
   }
 }

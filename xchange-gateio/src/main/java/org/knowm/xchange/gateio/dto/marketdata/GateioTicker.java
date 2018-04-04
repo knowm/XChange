@@ -1,10 +1,8 @@
 package org.knowm.xchange.gateio.dto.marketdata;
 
-import java.math.BigDecimal;
-
-import org.knowm.xchange.gateio.dto.GateioBaseResponse;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 
 public class GateioTicker extends GateioBaseResponse {
   private BigDecimal highestBid;
@@ -25,9 +23,17 @@ public class GateioTicker extends GateioBaseResponse {
 
   private BigDecimal baseVolume;
 
-  public GateioTicker(@JsonProperty("result") boolean result, @JsonProperty("message") String message, @JsonProperty("highestBid") BigDecimal highestBid,
-      @JsonProperty("low24hr") BigDecimal low24hr, @JsonProperty("last") BigDecimal last, @JsonProperty("high24hr") BigDecimal high24hr, @JsonProperty("percentChange") BigDecimal percentChange,
-      @JsonProperty("lowestAsk") BigDecimal lowestAsk, @JsonProperty("quoteVolume") BigDecimal quoteVolume, @JsonProperty("baseVolume") BigDecimal baseVolume) {
+  public GateioTicker(
+      @JsonProperty("result") boolean result,
+      @JsonProperty("message") String message,
+      @JsonProperty("highestBid") BigDecimal highestBid,
+      @JsonProperty("low24hr") BigDecimal low24hr,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("high24hr") BigDecimal high24hr,
+      @JsonProperty("percentChange") BigDecimal percentChange,
+      @JsonProperty("lowestAsk") BigDecimal lowestAsk,
+      @JsonProperty("quoteVolume") BigDecimal quoteVolume,
+      @JsonProperty("baseVolume") BigDecimal baseVolume) {
     super(result, message);
     this.highestBid = highestBid;
     this.result = result;
@@ -79,16 +85,34 @@ public class GateioTicker extends GateioBaseResponse {
 
   @Override
   public String toString() {
-    return "GateioTicker{" +
-        "highestBid='" + highestBid + '\'' +
-        ", result='" + result + '\'' +
-        ", low24hr='" + low24hr + '\'' +
-        ", last='" + last + '\'' +
-        ", high24hr='" + high24hr + '\'' +
-        ", percentChange='" + percentChange + '\'' +
-        ", lowestAsk='" + lowestAsk + '\'' +
-        ", quoteVolume='" + quoteVolume + '\'' +
-        ", baseVolume='" + baseVolume + '\'' +
-        '}';
+    return "GateioTicker{"
+        + "highestBid='"
+        + highestBid
+        + '\''
+        + ", result='"
+        + result
+        + '\''
+        + ", low24hr='"
+        + low24hr
+        + '\''
+        + ", last='"
+        + last
+        + '\''
+        + ", high24hr='"
+        + high24hr
+        + '\''
+        + ", percentChange='"
+        + percentChange
+        + '\''
+        + ", lowestAsk='"
+        + lowestAsk
+        + '\''
+        + ", quoteVolume='"
+        + quoteVolume
+        + '\''
+        + ", baseVolume='"
+        + baseVolume
+        + '\''
+        + '}';
   }
 }

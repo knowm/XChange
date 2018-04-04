@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.liqui.LiquiAdapters;
@@ -40,7 +43,8 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
   @Override
   public OpenOrders getOpenOrders(final OpenOrdersParams params) throws IOException {
     if (params instanceof OpenOrdersParamCurrencyPair) {
-      return LiquiAdapters.adaptActiveOrders(getActiveOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair()));
+      return LiquiAdapters.adaptActiveOrders(
+          getActiveOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair()));
     }
 
     throw new LiquiException("Unable to get open orders with the provided params: " + params);
@@ -87,8 +91,10 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
       if (((LiquiTradeHistoryParams) params).getCurrencyPair() != null) {
         return LiquiAdapters.adaptTradesHistory(getTradeHistory());
       } else {
-        return LiquiAdapters.adaptTradesHistory(getTradeHistory(((LiquiTradeHistoryParams) params).getCurrencyPair(),
-            ((LiquiTradeHistoryParams) params).getAmount()));
+        return LiquiAdapters.adaptTradesHistory(
+            getTradeHistory(
+                ((LiquiTradeHistoryParams) params).getCurrencyPair(),
+                ((LiquiTradeHistoryParams) params).getAmount()));
       }
     }
 
@@ -120,23 +126,22 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
     private CurrencyPair currencyPair = null;
     private int amount = 1000;
 
-    public LiquiTradeHistoryParams() {
+    public LiquiTradeHistoryParams() {}
+
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
     }
 
     public void setCurrencyPair(final CurrencyPair currencyPair) {
       this.currencyPair = currencyPair;
     }
 
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
+    public int getAmount() {
+      return amount;
     }
 
     public void setAmount(final int amount) {
       this.amount = amount;
-    }
-
-    public int getAmount() {
-      return amount;
     }
   }
 }

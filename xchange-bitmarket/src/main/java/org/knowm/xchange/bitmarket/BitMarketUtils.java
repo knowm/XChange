@@ -4,13 +4,12 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class BitMarketUtils {
 
   public static String currencyPairToBitMarketCurrencyPair(CurrencyPair currencyPair) {
-    if (currencyPair.base.getCurrencyCode().equals("LiteMineX") && currencyPair.counter.getCurrencyCode().equals("BTC")) {
+    if (currencyPair.base.getCurrencyCode().equals("LiteMineX")
+        && currencyPair.counter.getCurrencyCode().equals("BTC")) {
       return "LiteMineXBTC";
     } else {
       return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();

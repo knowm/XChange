@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
@@ -19,6 +18,7 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import si.mazi.rescu.IRestProxyFactory;
 
 public class BleutradeAccountService extends BleutradeAccountServiceRaw implements AccountService {
 
@@ -27,9 +27,9 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
    *
    * @param exchange
    */
-  public BleutradeAccountService(Exchange exchange) {
+  public BleutradeAccountService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(exchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override
@@ -40,7 +40,8 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdraw(currency, amount, address);
   }
 
@@ -48,7 +49,8 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
@@ -85,35 +87,35 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
           fee = new BigDecimal(parts[2]);
         }
 
-        fundingRecords.add(new FundingRecord(
-            address,
-            dateFormat.parse(record.timestamp),
-            Currency.getInstance(record.coin),
-            amount,
-            record.id,
-            record.transactionId,
-            FundingRecord.Type.WITHDRAWAL,
-            FundingRecord.Status.COMPLETE,
-            null,
-            fee,
-            label
-        ));
+        fundingRecords.add(
+            new FundingRecord(
+                address,
+                dateFormat.parse(record.timestamp),
+                Currency.getInstance(record.coin),
+                amount,
+                record.id,
+                record.transactionId,
+                FundingRecord.Type.WITHDRAWAL,
+                FundingRecord.Status.COMPLETE,
+                null,
+                fee,
+                label));
       }
 
       for (DepositRecord record : depositHistory()) {
-        fundingRecords.add(new FundingRecord(
-            null,
-            dateFormat.parse(record.timestamp),
-            Currency.getInstance(record.coin),
-            record.amount,
-            record.id,
-            null,
-            FundingRecord.Type.DEPOSIT,
-            FundingRecord.Status.COMPLETE,
-            null,
-            null,
-            record.label
-        ));
+        fundingRecords.add(
+            new FundingRecord(
+                null,
+                dateFormat.parse(record.timestamp),
+                Currency.getInstance(record.coin),
+                record.amount,
+                record.id,
+                null,
+                FundingRecord.Type.DEPOSIT,
+                FundingRecord.Status.COMPLETE,
+                null,
+                null,
+                record.label));
       }
     } catch (ParseException e) {
       throw new IllegalStateException("Should not happen", e);

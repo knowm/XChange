@@ -1,25 +1,25 @@
 package org.knowm.xchange.coinfloor.service;
 
+import java.util.Collection;
+import java.util.Collections;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiCurrencyPair;
 
-import java.util.Collection;
-import java.util.Collections;
-
-public class CoinfloorOpenOrdersParams implements OpenOrdersParamMultiCurrencyPair, OpenOrdersParamCurrencyPair {
+public class CoinfloorOpenOrdersParams
+    implements OpenOrdersParamMultiCurrencyPair, OpenOrdersParamCurrencyPair {
   private Collection<CurrencyPair> pairs = Collections.emptySet();
   private CurrencyPair pair = null;
 
   @Override
-  public void setCurrencyPairs(Collection<CurrencyPair> value) {
-    pairs = value;
+  public Collection<CurrencyPair> getCurrencyPairs() {
+    return pairs;
   }
 
   @Override
-  public Collection<CurrencyPair> getCurrencyPairs() {
-    return pairs;
+  public void setCurrencyPairs(Collection<CurrencyPair> value) {
+    pairs = value;
   }
 
   @Override
@@ -34,6 +34,7 @@ public class CoinfloorOpenOrdersParams implements OpenOrdersParamMultiCurrencyPa
 
   @Override
   public boolean accept(LimitOrder order) {
-    return OpenOrdersParamCurrencyPair.super.accept(order) || OpenOrdersParamMultiCurrencyPair.super.accept(order);
+    return OpenOrdersParamCurrencyPair.super.accept(order)
+        || OpenOrdersParamMultiCurrencyPair.super.accept(order);
   }
 }

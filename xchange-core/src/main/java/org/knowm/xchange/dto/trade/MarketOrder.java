@@ -3,17 +3,16 @@ package org.knowm.xchange.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
 /**
  * DTO representing a market order
- * <p>
- * A market order is a buy or sell order to be executed immediately at current market prices. As long as there are willing sellers and buyers, market
- * orders are filled. Market orders are therefore used when certainty of execution is a priority over price of execution.
- * </p>
- * <strong>Use market orders with caution, and review {@link LimitOrder} in case it is more suitable.</strong>
+ *
+ * <p>A market order is a buy or sell order to be executed immediately at current market prices. As
+ * long as there are willing sellers and buyers, market orders are filled. Market orders are
+ * therefore used when certainty of execution is a priority over price of execution. <strong>Use
+ * market orders with caution, and review {@link LimitOrder} in case it is more suitable.</strong>
  */
 public class MarketOrder extends Order {
 
@@ -22,13 +21,31 @@ public class MarketOrder extends Order {
    * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
-   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's
+   *     server, null if not provided
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param status the status of the order at the exchange or broker
    */
-  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
-      BigDecimal cumulativeAmount, BigDecimal fee, OrderStatus status) {
-    super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, fee, status);
+  public MarketOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status) {
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status);
   }
 
   /**
@@ -38,7 +55,12 @@ public class MarketOrder extends Order {
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order
    */
-  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp) {
+  public MarketOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp) {
 
     super(type, originalAmount, currencyPair, id, timestamp);
   }
@@ -49,7 +71,8 @@ public class MarketOrder extends Order {
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param timestamp the absolute time for this order
    */
-  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, Date timestamp) {
+  public MarketOrder(
+      OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, Date timestamp) {
 
     super(type, originalAmount, currencyPair, "", timestamp);
   }
@@ -73,8 +96,13 @@ public class MarketOrder extends Order {
 
     public static Builder from(Order order) {
 
-      return new Builder(order.getType(), order.getCurrencyPair()).originalAmount(order.getOriginalAmount()).timestamp(order.getTimestamp())
-          .id(order.getId()).flags(order.getOrderFlags()).averagePrice(order.getAveragePrice()).orderStatus(order.getStatus());
+      return new Builder(order.getType(), order.getCurrencyPair())
+          .originalAmount(order.getOriginalAmount())
+          .timestamp(order.getTimestamp())
+          .id(order.getId())
+          .flags(order.getOrderFlags())
+          .averagePrice(order.getAveragePrice())
+          .orderStatus(order.getStatus());
     }
 
     @Override
@@ -106,7 +134,6 @@ public class MarketOrder extends Order {
 
       return (Builder) super.cumulativeAmount(fee);
     }
-
 
     @Override
     public Builder originalAmount(BigDecimal originalAmount) {
@@ -146,7 +173,17 @@ public class MarketOrder extends Order {
 
     public MarketOrder build() {
 
-      MarketOrder order = new MarketOrder(orderType, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount,fee, status);
+      MarketOrder order =
+          new MarketOrder(
+              orderType,
+              originalAmount,
+              currencyPair,
+              id,
+              timestamp,
+              averagePrice,
+              cumulativeAmount,
+              fee,
+              status);
       order.setOrderFlags(flags);
       return order;
     }

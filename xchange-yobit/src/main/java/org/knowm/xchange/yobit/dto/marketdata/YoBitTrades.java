@@ -1,15 +1,5 @@
 package org.knowm.xchange.yobit.dto.marketdata;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades.YoBitTradesDeserializer;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -18,6 +8,14 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades.YoBitTradesDeserializer;
 
 @JsonDeserialize(using = YoBitTradesDeserializer.class)
 public class YoBitTrades {
@@ -36,7 +34,8 @@ public class YoBitTrades {
   static class YoBitTradesDeserializer extends JsonDeserializer<YoBitTrades> {
 
     @Override
-    public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
       Map<String, List<YoBitTrade>> trades = new HashMap<>();
 
       ObjectCodec oc = p.getCodec();
@@ -64,6 +63,5 @@ public class YoBitTrades {
 
       return new YoBitTrades(trades);
     }
-
   }
 }

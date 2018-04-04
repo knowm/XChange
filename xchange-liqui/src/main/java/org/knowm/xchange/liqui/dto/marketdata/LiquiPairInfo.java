@@ -1,8 +1,7 @@
 package org.knowm.xchange.liqui.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class LiquiPairInfo {
 
@@ -15,10 +14,15 @@ public class LiquiPairInfo {
   private final boolean hidden;
   private final BigDecimal fee;
 
-  public LiquiPairInfo(@JsonProperty("decimal_places") int decimalPlaces, @JsonProperty("min_price") BigDecimal minPrice,
-      @JsonProperty("max_price") BigDecimal maxPrice, @JsonProperty("min_amount") BigDecimal minAmount,
-      @JsonProperty("max_amount") BigDecimal maxAmount, @JsonProperty("min_total") BigDecimal minTotal,
-      @JsonProperty("hidden") boolean hidden, @JsonProperty("fee") BigDecimal fee) {
+  public LiquiPairInfo(
+      @JsonProperty("decimal_places") int decimalPlaces,
+      @JsonProperty("min_price") BigDecimal minPrice,
+      @JsonProperty("max_price") BigDecimal maxPrice,
+      @JsonProperty("min_amount") BigDecimal minAmount,
+      @JsonProperty("max_amount") BigDecimal maxAmount,
+      @JsonProperty("min_total") BigDecimal minTotal,
+      @JsonProperty("hidden") boolean hidden,
+      @JsonProperty("fee") BigDecimal fee) {
     this.decimalPlaces = decimalPlaces;
     this.minPrice = minPrice;
     this.maxPrice = maxPrice;
@@ -63,15 +67,23 @@ public class LiquiPairInfo {
 
   @Override
   public String toString() {
-    return "LiquiPairInfo{" +
-        "decimalPlaces=" + this.decimalPlaces +
-        ", minPrice=" + this.minPrice +
-        ", maxPrice=" + this.maxPrice +
-        ", minAmount=" + this.minAmount +
-        ", maxAmount=" + this.maxAmount +
-        ", minTotal=" + this.minTotal +
-        ", hidden=" + this.hidden +
-        ", fee=" + this.fee +
-        '}';
+    return "LiquiPairInfo{"
+        + "decimalPlaces="
+        + this.decimalPlaces
+        + ", minPrice="
+        + this.minPrice
+        + ", maxPrice="
+        + this.maxPrice
+        + ", minAmount="
+        + this.minAmount
+        + ", maxAmount="
+        + this.maxAmount
+        + ", minTotal="
+        + this.minTotal
+        + ", hidden="
+        + this.hidden
+        + ", fee="
+        + this.fee
+        + '}';
   }
 }

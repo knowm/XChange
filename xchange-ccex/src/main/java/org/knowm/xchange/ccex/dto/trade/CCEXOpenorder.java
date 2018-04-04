@@ -1,8 +1,7 @@
 package org.knowm.xchange.ccex.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CCEXOpenorder {
 
@@ -23,13 +22,22 @@ public class CCEXOpenorder {
   private String Condition;
   private String ConditionTarget;
 
-  public CCEXOpenorder(@JsonProperty("OrderUuid") String orderUuid, @JsonProperty("Exchange") String exchange,
-      @JsonProperty("OrderType") String orderType, @JsonProperty("Quantity") BigDecimal quantity,
-      @JsonProperty("QuantityRemaining") BigDecimal quantityRemaining, @JsonProperty("Limit") BigDecimal limit,
-      @JsonProperty("CommissionPaid") BigDecimal commissionPaid, @JsonProperty("Price") BigDecimal price,
-      @JsonProperty("PricePerUnit") BigDecimal pricePerUnit, @JsonProperty("Opened") String opened, @JsonProperty("Closed") String closed,
-      @JsonProperty("CancelInitiated") boolean cancelInitiated, @JsonProperty("ImmediateOrCancel") boolean immediateOrCancel,
-      @JsonProperty("IsConditional") boolean isConditional, @JsonProperty("Condition") String condition,
+  public CCEXOpenorder(
+      @JsonProperty("OrderUuid") String orderUuid,
+      @JsonProperty("Exchange") String exchange,
+      @JsonProperty("OrderType") String orderType,
+      @JsonProperty("Quantity") BigDecimal quantity,
+      @JsonProperty("QuantityRemaining") BigDecimal quantityRemaining,
+      @JsonProperty("Limit") BigDecimal limit,
+      @JsonProperty("CommissionPaid") BigDecimal commissionPaid,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("PricePerUnit") BigDecimal pricePerUnit,
+      @JsonProperty("Opened") String opened,
+      @JsonProperty("Closed") String closed,
+      @JsonProperty("CancelInitiated") boolean cancelInitiated,
+      @JsonProperty("ImmediateOrCancel") boolean immediateOrCancel,
+      @JsonProperty("IsConditional") boolean isConditional,
+      @JsonProperty("Condition") String condition,
       @JsonProperty("ConditionTarget") String conditionTarget) {
     super();
     OrderUuid = orderUuid;
@@ -180,10 +188,38 @@ public class CCEXOpenorder {
 
   @Override
   public String toString() {
-    return "CCEXOpenorder [OrderUuid=" + OrderUuid + ", Exchange=" + Exchange + ", OrderType=" + OrderType + ", Quantity=" + Quantity
-        + ", QuantityRemaining=" + QuantityRemaining + ", Limit=" + Limit + ", CommissionPaid=" + CommissionPaid + ", Price=" + Price
-        + ", PricePerUnit=" + PricePerUnit + ", Opened=" + Opened + ", Closed=" + Closed + ", CancelInitiated=" + CancelInitiated
-        + ", ImmediateOrCancel=" + ImmediateOrCancel + ", IsConditional=" + IsConditional + ", Condition=" + Condition + ", ConditionTarget="
-        + ConditionTarget + "]";
+    return "CCEXOpenorder [OrderUuid="
+        + OrderUuid
+        + ", Exchange="
+        + Exchange
+        + ", OrderType="
+        + OrderType
+        + ", Quantity="
+        + Quantity
+        + ", QuantityRemaining="
+        + QuantityRemaining
+        + ", Limit="
+        + Limit
+        + ", CommissionPaid="
+        + CommissionPaid
+        + ", Price="
+        + Price
+        + ", PricePerUnit="
+        + PricePerUnit
+        + ", Opened="
+        + Opened
+        + ", Closed="
+        + Closed
+        + ", CancelInitiated="
+        + CancelInitiated
+        + ", ImmediateOrCancel="
+        + ImmediateOrCancel
+        + ", IsConditional="
+        + IsConditional
+        + ", Condition="
+        + Condition
+        + ", ConditionTarget="
+        + ConditionTarget
+        + "]";
   }
 }

@@ -1,8 +1,7 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class HitbtcSymbol {
 
@@ -69,15 +68,27 @@ public class HitbtcSymbol {
 
   @Override
   public String toString() {
-    return "HitbtcSymbol{" +
-        "id='" + id + '\'' +
-        ", baseCurrency='" + baseCurrency + '\'' +
-        ", quoteCurrency='" + quoteCurrency + '\'' +
-        ", quantityIncrement=" + quantityIncrement +
-        ", tickSize=" + tickSize +
-        ", takeLiquidityRate=" + takeLiquidityRate +
-        ", provideLiquidityRate=" + provideLiquidityRate +
-        ", feeCurrency='" + feeCurrency + '\'' +
-        '}';
+    return "HitbtcSymbol{"
+        + "id='"
+        + id
+        + '\''
+        + ", baseCurrency='"
+        + baseCurrency
+        + '\''
+        + ", quoteCurrency='"
+        + quoteCurrency
+        + '\''
+        + ", quantityIncrement="
+        + quantityIncrement
+        + ", tickSize="
+        + tickSize
+        + ", takeLiquidityRate="
+        + takeLiquidityRate
+        + ", provideLiquidityRate="
+        + provideLiquidityRate
+        + ", feeCurrency='"
+        + feeCurrency
+        + '\''
+        + '}';
   }
 }

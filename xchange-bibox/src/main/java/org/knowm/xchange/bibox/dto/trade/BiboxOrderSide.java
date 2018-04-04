@@ -1,13 +1,10 @@
 package org.knowm.xchange.bibox.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 public enum BiboxOrderSide {
   BID(1, OrderType.BID),
   ASK(2, OrderType.ASK);
@@ -18,14 +15,6 @@ public enum BiboxOrderSide {
   private BiboxOrderSide(int orderSide, OrderType orderType) {
     this.orderSide = orderSide;
     this.orderType = orderType;
-  }
-
-  public int asInt() {
-    return orderSide;
-  }
-
-  public OrderType getOrderType() {
-    return orderType;
   }
 
   public static BiboxOrderSide fromOrderType(OrderType orderType) {
@@ -49,5 +38,13 @@ public enum BiboxOrderSide {
       default:
         throw new ExchangeException("Unexpected Bibox order side.");
     }
+  }
+
+  public int asInt() {
+    return orderSide;
+  }
+
+  public OrderType getOrderType() {
+    return orderType;
   }
 }

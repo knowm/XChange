@@ -2,7 +2,6 @@ package org.knowm.xchange.therock.service;
 
 import java.io.IOException;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -14,10 +13,9 @@ import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
 
-/**
- * @author Matija Mazi
- */
-public class TheRockMarketDataService extends TheRockMarketDataServiceRaw implements MarketDataService {
+/** @author Matija Mazi */
+public class TheRockMarketDataService extends TheRockMarketDataServiceRaw
+    implements MarketDataService {
 
   public TheRockMarketDataService(Exchange exchange) {
     super(exchange);
@@ -26,8 +24,16 @@ public class TheRockMarketDataService extends TheRockMarketDataServiceRaw implem
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     TheRockTicker t = getTheRockTicker(new TheRock.Pair(currencyPair));
-    return new Ticker.Builder().currencyPair(currencyPair).last(t.getLast()).bid(t.getBid()).ask(t.getAsk()).high(t.getHigh()).low(t.getLow())
-        .volume(t.getVolumeTraded()).timestamp(new Date()).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(t.getLast())
+        .bid(t.getBid())
+        .ask(t.getAsk())
+        .high(t.getHigh())
+        .low(t.getLow())
+        .volume(t.getVolumeTraded())
+        .timestamp(new Date())
+        .build();
   }
 
   @Override
@@ -38,6 +44,7 @@ public class TheRockMarketDataService extends TheRockMarketDataServiceRaw implem
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return TheRockAdapters.adaptTrades(getTheRockTrades(new TheRock.Pair(currencyPair), args), currencyPair);
+    return TheRockAdapters.adaptTrades(
+        getTheRockTrades(new TheRock.Pair(currencyPair), args), currencyPair);
   }
 }

@@ -1,9 +1,5 @@
 package org.knowm.xchange.bitcointoyou.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -11,6 +7,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Bitcointoyou order details
@@ -18,11 +17,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * @author Danilo Guimaraes
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"asset", "currency", "id", "action", "status", "price", "amount", "executedPriceAverage", "executedAmount", "dateCreated"})
+@JsonPropertyOrder({
+  "asset",
+  "currency",
+  "id",
+  "action",
+  "status",
+  "price",
+  "amount",
+  "executedPriceAverage",
+  "executedAmount",
+  "dateCreated"
+})
 public class BitcointoyouOrderInfo {
 
-  @JsonIgnore
-  private String content;
   private final String asset;
   private final String currency;
   private final String id;
@@ -33,8 +41,8 @@ public class BitcointoyouOrderInfo {
   private final String executedPriceAverage;
   private final String executedAmount;
   private final String dateCreated;
-  @JsonIgnore
-  private final Map<String, Object> additionalProperties = new HashMap<>();
+  @JsonIgnore private final Map<String, Object> additionalProperties = new HashMap<>();
+  @JsonIgnore private String content;
 
   /**
    * Sometimes the {@code oReturn} field contains some text, like NO_RECORD_FOUND.
@@ -58,10 +66,17 @@ public class BitcointoyouOrderInfo {
   }
 
   @JsonCreator
-  public BitcointoyouOrderInfo(@JsonProperty("asset") String asset, @JsonProperty("currency") String currency, @JsonProperty("id") String id,
-      @JsonProperty("action") String action, @JsonProperty("status") String status, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("executedPriceAverage") String executedPriceAverage,
-      @JsonProperty("executedAmount") String executedAmount, @JsonProperty("dateCreated") String dateCreated) {
+  public BitcointoyouOrderInfo(
+      @JsonProperty("asset") String asset,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("id") String id,
+      @JsonProperty("action") String action,
+      @JsonProperty("status") String status,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("executedPriceAverage") String executedPriceAverage,
+      @JsonProperty("executedAmount") String executedAmount,
+      @JsonProperty("dateCreated") String dateCreated) {
     this.asset = asset;
     this.currency = currency;
     this.id = id;
@@ -188,5 +203,4 @@ public class BitcointoyouOrderInfo {
 
     this.additionalProperties.put(name, value);
   }
-
 }

@@ -1,12 +1,5 @@
 package org.knowm.xchange.yobit.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook.YoBitOrderBookDeserializer;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -14,6 +7,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook.YoBitOrderBookDeserializer;
 
 @JsonDeserialize(using = YoBitOrderBookDeserializer.class)
 public class YoBitOrderBook {
@@ -37,7 +35,8 @@ public class YoBitOrderBook {
   static class YoBitOrderBookDeserializer extends JsonDeserializer<YoBitOrderBook> {
 
     @Override
-    public YoBitOrderBook deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public YoBitOrderBook deserialize(JsonParser jp, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
@@ -53,7 +52,10 @@ public class YoBitOrderBook {
 
       if (nodeArray != null) {
         for (JsonNode jsonNode : nodeArray) {
-          res.add(new YoBitAsksBidsData(BigDecimal.valueOf(jsonNode.get(1).asDouble()), BigDecimal.valueOf(jsonNode.get(0).asDouble())));
+          res.add(
+              new YoBitAsksBidsData(
+                  BigDecimal.valueOf(jsonNode.get(1).asDouble()),
+                  BigDecimal.valueOf(jsonNode.get(0).asDouble())));
         }
       }
 

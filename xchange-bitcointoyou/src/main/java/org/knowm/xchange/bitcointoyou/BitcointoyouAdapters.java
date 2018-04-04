@@ -2,13 +2,13 @@ package org.knowm.xchange.bitcointoyou;
 
 import static org.knowm.xchange.utils.DateUtils.fromUnixTime;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.bitcointoyou.dto.account.BitcointoyouBalance;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouLevel;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouMarketData;
@@ -31,27 +31,26 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
 /**
  * Bitcointoyou adapter class.
  *
  * @author Jonathas Carrijo
  * @author Danilo Guimaraes
  */
-
 public final class BitcointoyouAdapters {
 
   private BitcointoyouAdapters() {
     // Static use only
   }
 
-  public static Ticker adaptBitcointoyouTicker(BitcointoyouTicker bitcointoyouTicker, CurrencyPair currencyPair) {
+  public static Ticker adaptBitcointoyouTicker(
+      BitcointoyouTicker bitcointoyouTicker, CurrencyPair currencyPair) {
 
     return adaptBitcointoyouTicker(bitcointoyouTicker.getBitcointoyouMarketData(), currencyPair);
   }
 
-  static Ticker adaptBitcointoyouTicker(BitcointoyouMarketData bitcointoyouMarketData, CurrencyPair currencyPair) {
+  static Ticker adaptBitcointoyouTicker(
+      BitcointoyouMarketData bitcointoyouMarketData, CurrencyPair currencyPair) {
 
     BigDecimal last = bitcointoyouMarketData.getLast();
     BigDecimal bid = bitcointoyouMarketData.getBuy();
@@ -60,19 +59,31 @@ public final class BitcointoyouAdapters {
     BigDecimal low = bitcointoyouMarketData.getLow();
     BigDecimal volume = bitcointoyouMarketData.getVolume();
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume)
-        .timestamp(fromUnixTime(bitcointoyouMarketData.getDate())).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .volume(volume)
+        .timestamp(fromUnixTime(bitcointoyouMarketData.getDate()))
+        .build();
   }
 
-  public static OrderBook adaptBitcointoyouOrderBook(BitcointoyouOrderBook depth, CurrencyPair currencyPair) {
+  public static OrderBook adaptBitcointoyouOrderBook(
+      BitcointoyouOrderBook depth, CurrencyPair currencyPair) {
 
-    List<LimitOrder> asks = adaptBitcointoyouPublicOrders(depth.getAsks(), OrderType.ASK, currencyPair);
-    List<LimitOrder> bids = adaptBitcointoyouPublicOrders(depth.getBids(), OrderType.BID, currencyPair);
+    List<LimitOrder> asks =
+        adaptBitcointoyouPublicOrders(depth.getAsks(), OrderType.ASK, currencyPair);
+    List<LimitOrder> bids =
+        adaptBitcointoyouPublicOrders(depth.getBids(), OrderType.BID, currencyPair);
 
     return new OrderBook(new Date(), asks, bids);
   }
 
-  static List<LimitOrder> adaptBitcointoyouPublicOrders(List<List<BigDecimal>> list, OrderType orderType, CurrencyPair currencyPair) {
+  static List<LimitOrder> adaptBitcointoyouPublicOrders(
+      List<List<BigDecimal>> list, OrderType orderType, CurrencyPair currencyPair) {
 
     List<BitcointoyouLevel> levels = new ArrayList<>();
 
@@ -83,7 +94,11 @@ public final class BitcointoyouAdapters {
     List<LimitOrder> orders = new ArrayList<>();
 
     for (BitcointoyouLevel level : levels) {
-      LimitOrder limitOrder = new LimitOrder.Builder(orderType, currencyPair).originalAmount(level.getAmount()).limitPrice(level.getLimit()).build();
+      LimitOrder limitOrder =
+          new LimitOrder.Builder(orderType, currencyPair)
+              .originalAmount(level.getAmount())
+              .limitPrice(level.getLimit())
+              .build();
       orders.add(limitOrder);
     }
     return orders;
@@ -94,7 +109,8 @@ public final class BitcointoyouAdapters {
     return new BitcointoyouLevel(rawLevel.get(0), rawLevel.get(1));
   }
 
-  public static Trades adaptBitcointoyouPublicTrades(BitcointoyouPublicTrade[] bitcointoyouPublicTrades, CurrencyPair currencyPair) {
+  public static Trades adaptBitcointoyouPublicTrades(
+      BitcointoyouPublicTrade[] bitcointoyouPublicTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
 
@@ -105,19 +121,29 @@ public final class BitcointoyouAdapters {
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
-  private static Trade adaptBitcointoyouPublicTrade(BitcointoyouPublicTrade bitcointoyouTrade, CurrencyPair currencyPair) {
+  private static Trade adaptBitcointoyouPublicTrade(
+      BitcointoyouPublicTrade bitcointoyouTrade, CurrencyPair currencyPair) {
 
-    OrderType type = bitcointoyouTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
+    OrderType type =
+        bitcointoyouTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = fromRfc3339DateStringQuietly(bitcointoyouTrade.getDate().toString());
 
-    return new Trade(type, bitcointoyouTrade.getAmount(), currencyPair, bitcointoyouTrade.getPrice(), timestamp, bitcointoyouTrade.getTid().toString());
+    return new Trade(
+        type,
+        bitcointoyouTrade.getAmount(),
+        currencyPair,
+        bitcointoyouTrade.getPrice(),
+        timestamp,
+        bitcointoyouTrade.getTid().toString());
   }
 
   public static List<Balance> adaptBitcointoyouBalances(BitcointoyouBalance bitcointoyouBalances) {
 
     List<Balance> balances = new ArrayList<>();
 
-    if (bitcointoyouBalances != null && bitcointoyouBalances.getoReturn() != null && bitcointoyouBalances.getoReturn().size() > 0) {
+    if (bitcointoyouBalances != null
+        && bitcointoyouBalances.getoReturn() != null
+        && bitcointoyouBalances.getoReturn().size() > 0) {
       Map<String, BigDecimal> balancesMap = bitcointoyouBalances.getoReturn().get(0);
       for (Map.Entry<String, BigDecimal> balance : balancesMap.entrySet()) {
 
@@ -129,7 +155,8 @@ public final class BitcointoyouAdapters {
     return balances;
   }
 
-  public static OpenOrders adaptBitcointoyouOpenOrders(BitcointoyouOrderResponse bitcointoyouOpenOrders) {
+  public static OpenOrders adaptBitcointoyouOpenOrders(
+      BitcointoyouOrderResponse bitcointoyouOpenOrders) {
 
     List<LimitOrder> openOrders = new ArrayList<>();
 
@@ -139,7 +166,8 @@ public final class BitcointoyouAdapters {
       if (ordersInfo != null && !ordersInfo.isEmpty()) {
         for (BitcointoyouOrderInfo orderInfo : ordersInfo) {
           if (orderInfo.getAsset() != null && orderInfo.getCurrency() != null) {
-            CurrencyPair currencyPair = new CurrencyPair(orderInfo.getAsset(), orderInfo.getCurrency());
+            CurrencyPair currencyPair =
+                new CurrencyPair(orderInfo.getAsset(), orderInfo.getCurrency());
 
             openOrders.add(adaptBitcointoyouOpenOrder(bitcointoyouOpenOrders, currencyPair));
           }
@@ -150,10 +178,12 @@ public final class BitcointoyouAdapters {
     return new OpenOrders(openOrders);
   }
 
+  private static LimitOrder adaptBitcointoyouOpenOrder(
+      BitcointoyouOrderResponse openOrder, CurrencyPair currencyPair) {
 
-  private static LimitOrder adaptBitcointoyouOpenOrder(BitcointoyouOrderResponse openOrder, CurrencyPair currencyPair) {
-
-    if (openOrder != null && openOrder.getOrderList() != null && openOrder.getOrderList().isEmpty()) {
+    if (openOrder != null
+        && openOrder.getOrderList() != null
+        && openOrder.getOrderList().isEmpty()) {
       BitcointoyouOrderInfo orderInfo = openOrder.getOrderList().get(0);
       Date orderDate = fromRfc3339DateStringQuietly(orderInfo.getDateCreated());
       return adaptBitcointoyouSingleOpenOrder(orderInfo, currencyPair, orderDate);
@@ -162,16 +192,23 @@ public final class BitcointoyouAdapters {
     }
   }
 
-  private static LimitOrder adaptBitcointoyouSingleOpenOrder(BitcointoyouOrderInfo orderInfo, CurrencyPair currencyPair, Date orderDate) {
+  private static LimitOrder adaptBitcointoyouSingleOpenOrder(
+      BitcointoyouOrderInfo orderInfo, CurrencyPair currencyPair, Date orderDate) {
     OrderType type = orderInfo.getAction().equals("buy") ? OrderType.BID : OrderType.ASK;
-    return new LimitOrder.Builder(type, currencyPair).limitPrice(orderInfo.getPrice()).originalAmount(orderInfo.getAmount())
-        .id(orderInfo.getId()).timestamp(orderDate).build();
-
+    return new LimitOrder.Builder(type, currencyPair)
+        .limitPrice(orderInfo.getPrice())
+        .originalAmount(orderInfo.getAmount())
+        .id(orderInfo.getId())
+        .timestamp(orderDate)
+        .build();
   }
 
-  public static Collection<Order> adaptBitcointoyouOrderToOrdersCollection(BitcointoyouOrderResponse bitcointoyouOrderResponse) {
+  public static Collection<Order> adaptBitcointoyouOrderToOrdersCollection(
+      BitcointoyouOrderResponse bitcointoyouOrderResponse) {
     Collection<Order> orders = new ArrayList<>();
-    if (bitcointoyouOrderResponse != null && bitcointoyouOrderResponse.getOrderList() != null && !bitcointoyouOrderResponse.getOrderList().isEmpty()) {
+    if (bitcointoyouOrderResponse != null
+        && bitcointoyouOrderResponse.getOrderList() != null
+        && !bitcointoyouOrderResponse.getOrderList().isEmpty()) {
       for (BitcointoyouOrderInfo orderInfo : bitcointoyouOrderResponse.getOrderList()) {
         Date orderDate = fromRfc3339DateStringQuietly(orderInfo.getDateCreated());
 

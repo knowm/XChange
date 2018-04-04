@@ -2,7 +2,6 @@ package org.knowm.xchange.bitcointoyou.service.polling;
 
 import java.io.IOException;
 import java.util.HashMap;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouException;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderResponse;
@@ -29,12 +28,14 @@ public class BitcointoyouTradeServiceRaw extends BitcointoyouBasePollingService 
 
   public BitcointoyouOrderResponse returnOpenOrders() throws IOException {
 
-    return bitcointoyouAuthenticated.returnOpenOrders(apiKey, exchange.getNonceFactory(), signatureCreator);
+    return bitcointoyouAuthenticated.returnOpenOrders(
+        apiKey, exchange.getNonceFactory(), signatureCreator);
   }
 
   public BitcointoyouOrderResponse returnOrderById(String orderId) throws IOException {
 
-    return bitcointoyouAuthenticated.returnOrderById(apiKey, exchange.getNonceFactory(), signatureCreator, orderId);
+    return bitcointoyouAuthenticated.returnOrderById(
+        apiKey, exchange.getNonceFactory(), signatureCreator, orderId);
   }
 
   public BitcointoyouOrderResponse buy(LimitOrder limitOrder) throws IOException {
@@ -47,11 +48,18 @@ public class BitcointoyouTradeServiceRaw extends BitcointoyouBasePollingService 
     return createOrder("sell", limitOrder);
   }
 
-  private BitcointoyouOrderResponse createOrder(String action, LimitOrder limitOrder) throws IOException {
+  private BitcointoyouOrderResponse createOrder(String action, LimitOrder limitOrder)
+      throws IOException {
     try {
       String asset = limitOrder.getCurrencyPair().base.getSymbol();
-      return bitcointoyouAuthenticated.createOrder(apiKey, exchange.getNonceFactory(), signatureCreator, asset, action, limitOrder
-          .getOriginalAmount(), limitOrder.getLimitPrice());
+      return bitcointoyouAuthenticated.createOrder(
+          apiKey,
+          exchange.getNonceFactory(),
+          signatureCreator,
+          asset,
+          action,
+          limitOrder.getOriginalAmount(),
+          limitOrder.getLimitPrice());
     } catch (BitcointoyouException e) {
       throw new ExchangeException(e.getError());
     }
@@ -62,11 +70,12 @@ public class BitcointoyouTradeServiceRaw extends BitcointoyouBasePollingService 
     /*
      * No need to look up CurrencyPair associated with orderId, as the caller will provide it.
      */
-    HashMap<String, String> response = bitcointoyouAuthenticated.deleteOrder(apiKey, exchange.getNonceFactory(), signatureCreator, orderId);
+    HashMap<String, String> response =
+        bitcointoyouAuthenticated.deleteOrder(
+            apiKey, exchange.getNonceFactory(), signatureCreator, orderId);
     if (response.containsKey("error")) {
       throw new ExchangeException(response.get("error"));
     }
     return response.get("success").equals("1");
   }
-
 }

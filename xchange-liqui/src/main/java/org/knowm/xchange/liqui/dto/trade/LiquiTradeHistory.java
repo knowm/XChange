@@ -1,8 +1,7 @@
 package org.knowm.xchange.liqui.dto.trade;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Map;
 
 public class LiquiTradeHistory {
 
@@ -19,8 +18,6 @@ public class LiquiTradeHistory {
 
   @Override
   public String toString() {
-    return "LiquiTradeHistory{" +
-        "history=" + history +
-        '}';
+    return "LiquiTradeHistory{" + "history=" + history + '}';
   }
 }

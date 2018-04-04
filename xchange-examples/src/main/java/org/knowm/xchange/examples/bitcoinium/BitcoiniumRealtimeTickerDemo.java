@@ -6,9 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.swing.JFrame;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -31,76 +29,82 @@ import org.knowm.xchart.style.markers.SeriesMarkers;
  */
 public class BitcoiniumRealtimeTickerDemo {
 
+  public static final String SERIES_NAME = "Bitcoinium USD/BTC";
   XYChart chart;
   BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
   List<Date> xAxisData;
   List<Float> yAxisData;
-  public static final String SERIES_NAME = "Bitcoinium USD/BTC";
 
   public static void main(String[] args) throws Exception {
 
-    final BitcoiniumRealtimeTickerDemo bitcoiniumRealtimeTickerDemo = new BitcoiniumRealtimeTickerDemo();
+    final BitcoiniumRealtimeTickerDemo bitcoiniumRealtimeTickerDemo =
+        new BitcoiniumRealtimeTickerDemo();
     bitcoiniumRealtimeTickerDemo.go();
   }
 
   private void go() throws IOException {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(BitcoiniumExchange.class.getName());
     // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the public market data feed (no authentication)
-    bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
+    bitcoiniumMarketDataService =
+        (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
 
     // Setup the panel
     final XChartPanel<XYChart> chartPanel = buildPanel();
     // Schedule a job for the event-dispatching thread:
     // creating and showing this application's GUI.
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+    javax.swing.SwingUtilities.invokeLater(
+        new Runnable() {
 
-      @Override
-      public void run() {
+          @Override
+          public void run() {
 
-        // Create and set up the window.
-        JFrame frame = new JFrame("XChart");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(chartPanel);
+            // Create and set up the window.
+            JFrame frame = new JFrame("XChart");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.add(chartPanel);
 
-        // Display the window.
-        frame.pack();
-        frame.setVisible(true);
-      }
-    });
+            // Display the window.
+            frame.pack();
+            frame.setVisible(true);
+          }
+        });
 
     // Simulate a data feed
-    TimerTask chartUpdaterTask = new TimerTask() {
+    TimerTask chartUpdaterTask =
+        new TimerTask() {
 
-      @Override
-      public void run() {
+          @Override
+          public void run() {
 
-        try {
-          BitcoiniumTicker bitcoiniumTicker = bitcoiniumMarketDataService.getBitcoiniumTicker("BTC", "BITSTAMP_USD");
-          System.out.println(bitcoiniumTicker.toString());
-          Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
-          float price = bitcoiniumTicker.getLast().floatValue();
-          if (xAxisData.get(xAxisData.size() - 1).getTime() != timestamp.getTime()) {
-            xAxisData.add(timestamp);
-            yAxisData.add(price);
-            XYSeries series = chart.updateXYSeries(SERIES_NAME, xAxisData, yAxisData, null);
-            chartPanel.revalidate();
-            chartPanel.repaint();
-            System.out.println(series.getXData());
-            System.out.println(series.getYData());
-          } else {
-            System.out.println("No new data.");
+            try {
+              BitcoiniumTicker bitcoiniumTicker =
+                  bitcoiniumMarketDataService.getBitcoiniumTicker("BTC", "BITSTAMP_USD");
+              System.out.println(bitcoiniumTicker.toString());
+              Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
+              float price = bitcoiniumTicker.getLast().floatValue();
+              if (xAxisData.get(xAxisData.size() - 1).getTime() != timestamp.getTime()) {
+                xAxisData.add(timestamp);
+                yAxisData.add(price);
+                XYSeries series = chart.updateXYSeries(SERIES_NAME, xAxisData, yAxisData, null);
+                chartPanel.revalidate();
+                chartPanel.repaint();
+                System.out.println(series.getXData());
+                System.out.println(series.getYData());
+              } else {
+                System.out.println("No new data.");
+              }
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
           }
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-    };
+        };
 
     Timer timer = new Timer();
     timer.scheduleAtFixedRate(chartUpdaterTask, 0, 10000); // every ten
@@ -113,7 +117,9 @@ public class BitcoiniumRealtimeTickerDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory("BTC", "BITSTAMP_USD", "THREE_HOURS");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory =
+        bitcoiniumMarketDataService.getBitcoiniumTickerHistory(
+            "BTC", "BITSTAMP_USD", "THREE_HOURS");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
@@ -132,7 +138,14 @@ public class BitcoiniumRealtimeTickerDemo {
     }
 
     // Create Chart
-    chart = new XYChartBuilder().width(800).height(600).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time").yAxisTitle("Price").build();
+    chart =
+        new XYChartBuilder()
+            .width(800)
+            .height(600)
+            .title("Real-time Bitstamp Price vs. Time")
+            .xAxisTitle("Time")
+            .yAxisTitle("Price")
+            .build();
 
     // Customize Chart
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);

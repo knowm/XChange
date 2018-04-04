@@ -3,14 +3,17 @@ package org.knowm.xchange.bitcointoyou.service.polling;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdapters;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -90,8 +93,8 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
   }
 
   /**
-   * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
-   *        types will be ignored.
+   * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link
+   *     TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -99,7 +102,8 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
   }
 
   /**
-   * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link TradeHistoryParamCurrencyPair}.
+   * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link
+   * TradeHistoryParamCurrencyPair}.
    */
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
@@ -107,15 +111,36 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
     return new BitcointoyouTradeHistoryParams();
   }
 
-  public static class BitcointoyouTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan {
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException, IOException {
+
+    if (orderIds.length == 1) {
+      return BitcointoyouAdapters.adaptBitcointoyouOrderToOrdersCollection(
+          returnOrderById(orderIds[0]));
+    }
+
+    // Bitcointoyou API doesn't support multiple-orders ID.
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params)
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    throw new NotAvailableFromExchangeException();
+  }
+
+  public static class BitcointoyouTradeHistoryParams
+      implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan {
 
     private final TradeHistoryParamsAll all = new TradeHistoryParamsAll();
-
-    @Override
-    public void setCurrencyPair(CurrencyPair value) {
-
-      all.setCurrencyPair(value);
-    }
 
     @Override
     public CurrencyPair getCurrencyPair() {
@@ -124,9 +149,9 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
     }
 
     @Override
-    public void setStartTime(Date value) {
+    public void setCurrencyPair(CurrencyPair value) {
 
-      all.setStartTime(value);
+      all.setCurrencyPair(value);
     }
 
     @Override
@@ -136,9 +161,9 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
     }
 
     @Override
-    public void setEndTime(Date value) {
+    public void setStartTime(Date value) {
 
-      all.setEndTime(value);
+      all.setStartTime(value);
     }
 
     @Override
@@ -146,29 +171,11 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
 
       return all.getEndTime();
     }
-  }
 
-	@Override
-	public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+    @Override
+    public void setEndTime(Date value) {
 
-    if (orderIds.length == 1) {
-      return BitcointoyouAdapters.adaptBitcointoyouOrderToOrdersCollection(returnOrderById(orderIds[0]));
+      all.setEndTime(value);
     }
-
-    // Bitcointoyou API doesn't support multiple-orders ID.
-    throw new NotAvailableFromExchangeException();
-	}
-
-	@Override
-	public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException,
-			NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotAvailableFromExchangeException();
-	}
-
-	@Override
-	public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotAvailableFromExchangeException();
-	}
-
+  }
 }

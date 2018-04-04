@@ -1,15 +1,10 @@
 package org.knowm.xchange.therock.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class TheRockTrade {
-
-  public enum Side {
-    sell, buy, close_long, close_short
-  }
 
   private final BigDecimal amount;
   private final Date date;
@@ -17,8 +12,12 @@ public class TheRockTrade {
   private final long id;
   private final Side side;
 
-  public TheRockTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") Date date, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("id") long id, @JsonProperty("side") Side tradeSide) {
+  public TheRockTrade(
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("date") Date date,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("id") long id,
+      @JsonProperty("side") Side tradeSide) {
     this.amount = amount;
     this.date = date;
     this.price = price;
@@ -48,6 +47,23 @@ public class TheRockTrade {
 
   @Override
   public String toString() {
-    return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
+    return "TheRockTrade [amount="
+        + amount
+        + ", date="
+        + date
+        + ", price="
+        + price
+        + ", id="
+        + id
+        + ", side="
+        + side
+        + "]";
+  }
+
+  public enum Side {
+    sell,
+    buy,
+    close_long,
+    close_short
   }
 }

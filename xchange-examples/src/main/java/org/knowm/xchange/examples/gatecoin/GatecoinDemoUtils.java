@@ -5,9 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gatecoin.GatecoinExchange;
 
-/**
- * @author sumdeha
- */
+/** @author sumdeha */
 public class GatecoinDemoUtils {
   public static Exchange createExchange() {
 

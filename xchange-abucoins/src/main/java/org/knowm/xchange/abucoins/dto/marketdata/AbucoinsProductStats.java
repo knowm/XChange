@@ -1,10 +1,8 @@
 package org.knowm.xchange.abucoins.dto.marketdata;
 
-import java.util.Arrays;
-
-import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Arrays;
+import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
 
 @JsonDeserialize(using = AbucoinsProductStats.AbucoinsProductStatsDeserializer.class)
 public class AbucoinsProductStats {
@@ -24,11 +22,13 @@ public class AbucoinsProductStats {
   }
 
   /**
-   * Deserializer handles the success case (array json) as well as the error case
-   * (json object with <em>message</em> field).
+   * Deserializer handles the success case (array json) as well as the error case (json object with
+   * <em>message</em> field).
+   *
    * @author bryant_harris
    */
-  static class AbucoinsProductStatsDeserializer extends AbucoinsArrayOrMessageDeserializer<AbucoinsProductStat, AbucoinsProductStats> {
+  static class AbucoinsProductStatsDeserializer
+      extends AbucoinsArrayOrMessageDeserializer<AbucoinsProductStat, AbucoinsProductStats> {
     public AbucoinsProductStatsDeserializer() {
       super(AbucoinsProductStat.class, AbucoinsProductStats.class, true);
     }

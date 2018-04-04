@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -17,14 +16,14 @@ import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroOrderBook;
 import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroTrade;
 
 /**
- * <p>
  * Implementation of the market data service for Bittrex
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
-public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw implements MarketDataService {
+public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -43,8 +42,7 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair arg0,
-      Object... arg1) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair arg0, Object... arg1) throws IOException {
 
     List<VaultoroOrderBook> vaultoroOrderBooks = super.getVaultoroOrderBook(arg0);
 
@@ -64,19 +62,16 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair arg0,
-      Object... arg1) throws IOException {
+  public Ticker getTicker(CurrencyPair arg0, Object... arg1) throws IOException {
 
     BigDecimal latest = super.getLast(arg0);
     return VaultoroAdapters.adaptVaultoroLatest(latest);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair arg0,
-      Object... arg1) throws IOException {
+  public Trades getTrades(CurrencyPair arg0, Object... arg1) throws IOException {
 
     List<VaultoroTrade> vaultoroTrades = super.getVaultoroTrades(arg0);
     return VaultoroAdapters.adaptVaultoroTransactions(vaultoroTrades, arg0);
   }
-
 }

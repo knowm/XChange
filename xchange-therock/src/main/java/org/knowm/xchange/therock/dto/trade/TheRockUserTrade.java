@@ -1,12 +1,10 @@
 package org.knowm.xchange.therock.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.therock.dto.marketdata.TheRockTrade.Side;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.Date;
+import org.knowm.xchange.therock.dto.marketdata.TheRockTrade.Side;
 
 public class TheRockUserTrade {
 
@@ -19,9 +17,15 @@ public class TheRockUserTrade {
   private final long orderId;
   private final TheRockUserTradeTransaction feeTransaction;
 
-  public TheRockUserTrade(@JsonProperty("id") long id, @JsonProperty("fund_id") String fundId, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("date") Date date, @JsonProperty("side") Side tradeSide,
-      @JsonProperty("order_id") long orderId, @JsonProperty("transactions") TheRockUserTradeTransaction[] transactions) {
+  public TheRockUserTrade(
+      @JsonProperty("id") long id,
+      @JsonProperty("fund_id") String fundId,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("date") Date date,
+      @JsonProperty("side") Side tradeSide,
+      @JsonProperty("order_id") long orderId,
+      @JsonProperty("transactions") TheRockUserTradeTransaction[] transactions) {
     this.id = id;
     this.fundId = fundId;
     this.amount = amount;
@@ -39,7 +43,6 @@ public class TheRockUserTrade {
       }
     }
     feeTransaction = ft;
-
   }
 
   public long getId() {
@@ -80,7 +83,35 @@ public class TheRockUserTrade {
 
   @Override
   public String toString() {
-    return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
+    return "TheRockTrade [amount="
+        + amount
+        + ", date="
+        + date
+        + ", price="
+        + price
+        + ", id="
+        + id
+        + ", side="
+        + side
+        + "]";
+  }
+
+  private enum TransactionType {
+    sold_currency_to_fund,
+    released_currency_to_fund,
+    paid_commission,
+    bought_currency_from_fund,
+    acquired_currency_from_fund,
+    unknown;
+
+    @JsonCreator
+    public static TransactionType fromString(String string) {
+      try {
+        return TransactionType.valueOf(string);
+      } catch (Throwable e) {
+        return unknown;
+      }
+    }
   }
 
   private static class TheRockUserTradeTransaction {
@@ -90,27 +121,18 @@ public class TheRockUserTrade {
     private final BigDecimal price;
     private final String currency;
 
-    public TheRockUserTradeTransaction(@JsonProperty("id") long id, @JsonProperty("date") Date date, @JsonProperty("type") TransactionType type,
-        @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency) {
+    public TheRockUserTradeTransaction(
+        @JsonProperty("id") long id,
+        @JsonProperty("date") Date date,
+        @JsonProperty("type") TransactionType type,
+        @JsonProperty("price") BigDecimal price,
+        @JsonProperty("currency") String currency) {
       super();
       this.id = id;
       this.date = date;
       this.type = type;
       this.price = price;
       this.currency = currency;
-    }
-  }
-
-  private enum TransactionType {
-    sold_currency_to_fund, released_currency_to_fund, paid_commission, bought_currency_from_fund, acquired_currency_from_fund, unknown;
-
-    @JsonCreator
-    public static TransactionType fromString(String string) {
-      try {
-        return TransactionType.valueOf(string);
-      } catch (Throwable e) {
-        return unknown;
-      }
     }
   }
 }

@@ -18,9 +18,8 @@ public class CoinEggOrdersFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orders = marketDataService.getOrderBook(CurrencyPair.ETH_BTC);
-    
+
     // Verify Not Null Values
     assertThat(orders).isNotNull();
   }
-
 }

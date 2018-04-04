@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.coinbase.v2.account;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
@@ -38,11 +37,11 @@ public class CoinbaseAccountDemo {
   public static void raw(CoinbaseAccountService accountService) throws IOException {
 
     demoAccounts(accountService);
-    
+
     demoPaymentMethods(accountService);
-    
+
     // [TODO] CoinbaseMoney balance = accountService.getCoinbaseBalance();
-    //System.out.println(balance);
+    // System.out.println(balance);
 
     // [TODO] demoUsers(accountService);
 

@@ -1,8 +1,7 @@
 package org.knowm.xchange.gateio.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class GateioOpenOrder {
 
@@ -24,10 +23,9 @@ public class GateioOpenOrder {
 
   private String currencyPair;
 
-  /**
-   * Constructor
-   */
-  private GateioOpenOrder(@JsonProperty("timestamp") String timestamp,
+  /** Constructor */
+  private GateioOpenOrder(
+      @JsonProperty("timestamp") String timestamp,
       @JsonProperty("total") String total,
       @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("id") String id,
@@ -35,8 +33,7 @@ public class GateioOpenOrder {
       @JsonProperty("status") String status,
       @JsonProperty("orderNumber") String orderNumber,
       @JsonProperty("type") String type,
-      @JsonProperty("currencyPair") String currencyPair
-  ) {
+      @JsonProperty("currencyPair") String currencyPair) {
     this.timestamp = timestamp;
     this.total = total;
     this.amount = amount;
@@ -86,16 +83,34 @@ public class GateioOpenOrder {
 
   @Override
   public String toString() {
-    return "GateioOpenOrder{" +
-        "timestamp='" + timestamp + '\'' +
-        ", total='" + total + '\'' +
-        ", amount='" + amount + '\'' +
-        ", id='" + id + '\'' +
-        ", rate='" + rate + '\'' +
-        ", status='" + status + '\'' +
-        ", orderNumber='" + orderNumber + '\'' +
-        ", type='" + type + '\'' +
-        ", currencyPair='" + currencyPair + '\'' +
-        '}';
+    return "GateioOpenOrder{"
+        + "timestamp='"
+        + timestamp
+        + '\''
+        + ", total='"
+        + total
+        + '\''
+        + ", amount='"
+        + amount
+        + '\''
+        + ", id='"
+        + id
+        + '\''
+        + ", rate='"
+        + rate
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", orderNumber='"
+        + orderNumber
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", currencyPair='"
+        + currencyPair
+        + '\''
+        + '}';
   }
 }

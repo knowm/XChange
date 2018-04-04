@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.itbit.market;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,9 +10,7 @@ import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import org.knowm.xchange.itbit.v1.service.ItBitMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Created by joseph on 6/15/17.
- */
+/** Created by joseph on 6/15/17. */
 public class ItBitTickerDemo {
   public static void main(String[] args) throws IOException {
 

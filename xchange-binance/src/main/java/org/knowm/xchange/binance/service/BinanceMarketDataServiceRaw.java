@@ -3,7 +3,6 @@ package org.knowm.xchange.binance.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
@@ -30,7 +29,9 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
     return binance.depth(BinanceAdapters.toSymbol(pair), limit);
   }
 
-  public List<BinanceAggTrades> aggTrades(CurrencyPair pair, Long fromId, Long startTime, Long endTime, Integer limit) throws IOException {
+  public List<BinanceAggTrades> aggTrades(
+      CurrencyPair pair, Long fromId, Long startTime, Long endTime, Integer limit)
+      throws IOException {
     return binance.aggTrades(BinanceAdapters.toSymbol(pair), fromId, startTime, endTime, limit);
   }
 
@@ -42,9 +43,14 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
     return klines(pair, interval, null, null, null);
   }
 
-  public List<BinanceKline> klines(CurrencyPair pair, KlineInterval interval, Integer limit, Long startTime, Long endTime) throws IOException {
-    List<Object[]> raw = binance.klines(BinanceAdapters.toSymbol(pair), interval.code(), limit, startTime, endTime);
-    return raw.stream().map(obj -> new BinanceKline(pair, interval, obj)).collect(Collectors.toList());
+  public List<BinanceKline> klines(
+      CurrencyPair pair, KlineInterval interval, Integer limit, Long startTime, Long endTime)
+      throws IOException {
+    List<Object[]> raw =
+        binance.klines(BinanceAdapters.toSymbol(pair), interval.code(), limit, startTime, endTime);
+    return raw.stream()
+        .map(obj -> new BinanceKline(pair, interval, obj))
+        .collect(Collectors.toList());
   }
 
   public List<BinanceTicker24h> ticker24h() throws IOException {
@@ -59,9 +65,10 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
   }
 
   public BinancePrice tickerPrice(CurrencyPair pair) throws IOException {
-    return tickerAllPrices().stream()
-    .filter(p -> p.getCurrencyPair().equals(pair))
-    .collect(StreamUtils.singletonCollector());
+    return tickerAllPrices()
+        .stream()
+        .filter(p -> p.getCurrencyPair().equals(pair))
+        .collect(StreamUtils.singletonCollector());
   }
 
   public List<BinancePrice> tickerAllPrices() throws IOException {

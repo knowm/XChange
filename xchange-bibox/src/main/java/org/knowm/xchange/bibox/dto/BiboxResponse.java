@@ -2,9 +2,8 @@ package org.knowm.xchange.bibox.dto;
 
 /**
  * General Bibox response
- * 
- * @param <T> Result type
  *
+ * @param <T> Result type
  * @author odrotleff
  */
 public class BiboxResponse<T> {
@@ -27,11 +26,11 @@ public class BiboxResponse<T> {
   public void setCmd(String cmd) {
     this.cmd = cmd;
   }
-  
+
   public BiboxError getError() {
     return error;
   }
-  
+
   public void setError(BiboxError error) {
     this.error = error;
   }

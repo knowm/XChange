@@ -1,7 +1,7 @@
 package org.knowm.xchange.kraken.dto.account;
 
-import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class KrakenDepositMethods {
   /*
@@ -15,8 +15,10 @@ public class KrakenDepositMethods {
   private final BigDecimal fee;
   private final BigDecimal addressSetupFee;
 
-  public KrakenDepositMethods(@JsonProperty("method") String method,
-      @JsonProperty("limit") String limit, @JsonProperty("fee") BigDecimal fee,
+  public KrakenDepositMethods(
+      @JsonProperty("method") String method,
+      @JsonProperty("limit") String limit,
+      @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("address-setup-fee") BigDecimal addressSetupFee) {
     super();
     this.method = method;
@@ -47,8 +49,14 @@ public class KrakenDepositMethods {
 
   @Override
   public String toString() {
-    return "KrakenDepositMethods [method=" + method + ", limit=" + limit + ", fee=" + fee
-        + ", addressSetupFee=" + addressSetupFee + "]";
+    return "KrakenDepositMethods [method="
+        + method
+        + ", limit="
+        + limit
+        + ", fee="
+        + fee
+        + ", addressSetupFee="
+        + addressSetupFee
+        + "]";
   }
-
 }

@@ -20,9 +20,6 @@ public class LiquiResult<V> {
 
   @Override
   public String toString() {
-    return "LiquiResult{" +
-        "result=" + result +
-        ", error='" + error + '\'' +
-        '}';
+    return "LiquiResult{" + "result=" + result + ", error='" + error + '\'' + '}';
   }
 }

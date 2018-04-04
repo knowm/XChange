@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.coinfloor.dto.account.CoinfloorBalance;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorOrderBook;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorTicker;
@@ -33,8 +32,16 @@ import org.knowm.xchange.utils.DateUtils;
 public class CoinfloorAdapters {
 
   public static Ticker adaptTicker(CoinfloorTicker rawTicker, CurrencyPair pair) {
-    return new Ticker.Builder().currencyPair(pair).last(rawTicker.getLast()).bid(rawTicker.getBid()).ask(rawTicker.getAsk()).high(rawTicker.getHigh())
-        .low(rawTicker.getLow()).vwap(rawTicker.getVwap()).volume(rawTicker.getVolume()).build();
+    return new Ticker.Builder()
+        .currencyPair(pair)
+        .last(rawTicker.getLast())
+        .bid(rawTicker.getBid())
+        .ask(rawTicker.getAsk())
+        .high(rawTicker.getHigh())
+        .low(rawTicker.getLow())
+        .vwap(rawTicker.getVwap())
+        .volume(rawTicker.getVolume())
+        .build();
   }
 
   public static OrderBook adaptOrderBook(CoinfloorOrderBook rawOrderBook, CurrencyPair pair) {
@@ -44,18 +51,20 @@ public class CoinfloorAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  private static List<LimitOrder> createOrders(CurrencyPair pair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  private static List<LimitOrder> createOrders(
+      CurrencyPair pair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
-    if (orders == null)
-      return limitOrders;
+    if (orders == null) return limitOrders;
 
     for (List<BigDecimal> priceAndAmount : orders) {
 
       if (priceAndAmount.size() != 2) {
-        throw new IllegalArgumentException("Expected a price and amount pair but received: " + priceAndAmount);
+        throw new IllegalArgumentException(
+            "Expected a price and amount pair but received: " + priceAndAmount);
       }
-      LimitOrder order = new LimitOrder(orderType, priceAndAmount.get(1), pair, "", null, priceAndAmount.get(0));
+      LimitOrder order =
+          new LimitOrder(orderType, priceAndAmount.get(1), pair, "", null, priceAndAmount.get(0));
       limitOrders.add(order);
     }
     return limitOrders;
@@ -71,15 +80,22 @@ public class CoinfloorAdapters {
       }
 
       long msSinceEpoch = tx.getDate() * 1000;
-      Trade trade = new Trade(null /* order type */, tx.getAmount(), pair, tx.getPrice(), DateUtils.fromMillisUtc(msSinceEpoch),
-          String.valueOf(tradeId));
+      Trade trade =
+          new Trade(
+              null /* order type */,
+              tx.getAmount(),
+              pair,
+              tx.getPrice(),
+              DateUtils.fromMillisUtc(msSinceEpoch),
+              String.valueOf(tradeId));
       trades.add(trade);
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static AccountInfo adaptAccountInfo(Collection<Currency> currencies, Collection<CoinfloorBalance> rawBalances) {
+  public static AccountInfo adaptAccountInfo(
+      Collection<Currency> currencies, Collection<CoinfloorBalance> rawBalances) {
     Collection<Balance> balances = new ArrayList<>();
     for (Currency currency : currencies) {
       for (CoinfloorBalance rawBalance : rawBalances) {
@@ -99,7 +115,7 @@ public class CoinfloorAdapters {
     long lastTradeId = 0;
     for (CoinfloorUserTransaction transaction : transactions) {
       if (transaction.isTrade() == false) {
-        continue;// skip deposits and withdrawals.
+        continue; // skip deposits and withdrawals.
       }
 
       Date timestamp = CoinfloorUtils.parseDate(transaction.getDateTime());
@@ -112,8 +128,17 @@ public class CoinfloorAdapters {
       final String orderId = String.valueOf(transaction.getOrderId());
       final BigDecimal feeAmount = transaction.getFee();
 
-      UserTrade trade = new UserTrade(transaction.getSide(), transaction.getAmount().abs(), transaction.getCurrencyPair(), transaction.getPrice(),
-          timestamp, tradeId, orderId, feeAmount, transaction.getCurrencyPair().counter);
+      UserTrade trade =
+          new UserTrade(
+              transaction.getSide(),
+              transaction.getAmount().abs(),
+              transaction.getCurrencyPair(),
+              transaction.getPrice(),
+              timestamp,
+              tradeId,
+              orderId,
+              feeAmount,
+              transaction.getCurrencyPair().counter);
       trades.add(trade);
     }
 
@@ -123,8 +148,14 @@ public class CoinfloorAdapters {
   public static OpenOrders adaptOpenOrders(Collection<CoinfloorOrder> openOrders) {
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (CoinfloorOrder rawOrder : openOrders) {
-      LimitOrder order = new LimitOrder(rawOrder.getSide(), rawOrder.getAmount(), rawOrder.getCurrencyPair(), Long.toString(rawOrder.getId()),
-          CoinfloorUtils.parseDate(rawOrder.getDatetime()), rawOrder.getPrice());
+      LimitOrder order =
+          new LimitOrder(
+              rawOrder.getSide(),
+              rawOrder.getAmount(),
+              rawOrder.getCurrencyPair(),
+              Long.toString(rawOrder.getId()),
+              CoinfloorUtils.parseDate(rawOrder.getDatetime()),
+              rawOrder.getPrice());
       order.setOrderStatus(OrderStatus.NEW);
       limitOrders.add(order);
     }

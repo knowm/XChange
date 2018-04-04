@@ -18,7 +18,7 @@ public class MarketDataFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ZaifExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    OrderBook orderBook  = marketDataService.getOrderBook(CurrencyPair.BTC_JPY);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_JPY);
     System.out.println(orderBook.toString());
     assertThat(orderBook).isNotNull();
   }

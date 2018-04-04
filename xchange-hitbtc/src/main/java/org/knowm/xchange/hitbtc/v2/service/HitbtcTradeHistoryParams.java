@@ -5,7 +5,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 
-public class HitbtcTradeHistoryParams implements TradeHistoryParamLimit, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
+public class HitbtcTradeHistoryParams
+    implements TradeHistoryParamLimit, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
 
   private CurrencyPair pair;
   private Integer limit;
@@ -18,18 +19,13 @@ public class HitbtcTradeHistoryParams implements TradeHistoryParamLimit, TradeHi
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair pair) {
-    this.pair = pair;
-  }
-
-  @Override
   public CurrencyPair getCurrencyPair() {
     return pair;
   }
 
   @Override
-  public void setLimit(Integer limit) {
-    this.limit = limit;
+  public void setCurrencyPair(CurrencyPair pair) {
+    this.pair = pair;
   }
 
   @Override
@@ -38,12 +34,17 @@ public class HitbtcTradeHistoryParams implements TradeHistoryParamLimit, TradeHi
   }
 
   @Override
-  public void setOffset(Long offset) {
-    this.offset = offset;
+  public void setLimit(Integer limit) {
+    this.limit = limit;
   }
 
   @Override
   public Long getOffset() {
     return offset;
+  }
+
+  @Override
+  public void setOffset(Long offset) {
+    this.offset = offset;
   }
 }

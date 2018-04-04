@@ -1,16 +1,5 @@
 package org.knowm.xchange.coinbase.dto.account;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
-import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
-import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
-import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,17 +8,26 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
+import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
+import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseTransaction extends CoinbaseBaseResponse implements CoinbaseTransactionInfo {
 
   @JsonProperty("transaction")
   private final CoinbaseTransactionInfo transaction;
 
-  private CoinbaseTransaction(@JsonProperty("transaction") final CoinbaseTransactionInfoResult transaction,
-      @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
+  private CoinbaseTransaction(
+      @JsonProperty("transaction") final CoinbaseTransactionInfoResult transaction,
+      @JsonProperty("success") final boolean success,
+      @JsonProperty("errors") final List<String> errors) {
 
     super(success, errors);
     this.transaction = transaction;
@@ -39,6 +37,42 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
     super(true, null);
     this.transaction = transaction;
+  }
+
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(
+      String from, final CoinbaseMoney amount) {
+
+    return createMoneyRequest(from, amount.getCurrency(), amount.getAmount());
+  }
+
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(
+      String from, final String currency, final BigDecimal amount) {
+
+    return createMoneyRequest(from, currency, amount.toPlainString());
+  }
+
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(
+      String from, final String currency, final String amountString) {
+
+    return new CoinbaseRequestMoneyRequest(from, currency, amountString);
+  }
+
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(
+      String from, final CoinbaseMoney amount) {
+
+    return createSendMoneyRequest(from, amount.getCurrency(), amount.getAmount());
+  }
+
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(
+      String from, final String currency, final BigDecimal amount) {
+
+    return createSendMoneyRequest(from, currency, amount.toPlainString());
+  }
+
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(
+      String from, final String currency, final String amountString) {
+
+    return new CoinbaseSendMoneyRequest(from, currency, amountString);
   }
 
   @Override
@@ -115,18 +149,19 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
   @JsonDeserialize(using = CoinbaseTransactionStatusDeserializer.class)
   public enum CoinbaseTransactionStatus {
-
-    PENDING, COMPLETE;
-
+    PENDING,
+    COMPLETE;
   }
 
-  static class CoinbaseTransactionStatusDeserializer extends JsonDeserializer<CoinbaseTransactionStatus> {
+  static class CoinbaseTransactionStatusDeserializer
+      extends JsonDeserializer<CoinbaseTransactionStatus> {
 
-    private static final EnumFromStringHelper<CoinbaseTransactionStatus> FROM_STRING_HELPER = new EnumFromStringHelper<>(
-        CoinbaseTransactionStatus.class);
+    private static final EnumFromStringHelper<CoinbaseTransactionStatus> FROM_STRING_HELPER =
+        new EnumFromStringHelper<>(CoinbaseTransactionStatus.class);
 
     @Override
-    public CoinbaseTransactionStatus deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseTransactionStatus deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
@@ -139,8 +174,10 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
     @JsonProperty("amount_string")
     private final String amountString;
+
     @JsonProperty("amount_currency_iso")
     private final String currencyIso;
+
     @JsonProperty("notes")
     protected String notes;
 
@@ -219,42 +256,13 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     }
   }
 
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final CoinbaseMoney amount) {
-
-    return createMoneyRequest(from, amount.getCurrency(), amount.getAmount());
-  }
-
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final String currency, final BigDecimal amount) {
-
-    return createMoneyRequest(from, currency, amount.toPlainString());
-  }
-
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final String currency, final String amountString) {
-
-    return new CoinbaseRequestMoneyRequest(from, currency, amountString);
-  }
-
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final CoinbaseMoney amount) {
-
-    return createSendMoneyRequest(from, amount.getCurrency(), amount.getAmount());
-  }
-
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final String currency, final BigDecimal amount) {
-
-    return createSendMoneyRequest(from, currency, amount.toPlainString());
-  }
-
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final String currency, final String amountString) {
-
-    return new CoinbaseSendMoneyRequest(from, currency, amountString);
-  }
-
   public static class CoinbaseRequestMoneyRequest extends CoinbaseTransactionRequest {
 
     @JsonProperty("from")
     private final String from;
 
-    private CoinbaseRequestMoneyRequest(String from, final String currency, final String amountString) {
+    private CoinbaseRequestMoneyRequest(
+        String from, final String currency, final String amountString) {
 
       super(currency, amountString);
       this.from = from;
@@ -277,12 +285,16 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
     @JsonProperty("to")
     private final String to;
+
     @JsonProperty("user_fee")
     private String userFee;
+
     @JsonProperty("referrer_id")
     private String referrerId;
+
     @JsonProperty("idem")
     private String idempotencyKey;
+
     @JsonProperty("instant_buy")
     private boolean instantBuy;
 
@@ -352,8 +364,17 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     @Override
     public String toString() {
 
-      return "CoinbaseSendMoneyRequest [to=" + to + ", userFee=" + userFee + ", referrerId=" + referrerId + ", idempotencyKey=" + idempotencyKey
-          + ", instantBuy=" + instantBuy + "]";
+      return "CoinbaseSendMoneyRequest [to="
+          + to
+          + ", userFee="
+          + userFee
+          + ", referrerId="
+          + referrerId
+          + ", idempotencyKey="
+          + idempotencyKey
+          + ", instantBuy="
+          + instantBuy
+          + "]";
     }
   }
 
@@ -371,12 +392,18 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     private final String transactionHash;
     private final String idempotencyKey;
 
-    private CoinbaseTransactionInfoResult(@JsonProperty("id") final String id,
-        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
-        @JsonProperty("amount") final CoinbaseMoney amount, @JsonProperty("request") final boolean request,
-        @JsonProperty("status") final CoinbaseTransactionStatus status, @JsonProperty("sender") final CoinbaseUserInfo sender,
-        @JsonProperty("recipient") final CoinbaseUserInfo recipient, @JsonProperty("recipient_address") final String recipientAddress,
-        @JsonProperty("notes") final String notes, @JsonProperty("hsh") final String transactionHash,
+    private CoinbaseTransactionInfoResult(
+        @JsonProperty("id") final String id,
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class)
+            final Date createdAt,
+        @JsonProperty("amount") final CoinbaseMoney amount,
+        @JsonProperty("request") final boolean request,
+        @JsonProperty("status") final CoinbaseTransactionStatus status,
+        @JsonProperty("sender") final CoinbaseUserInfo sender,
+        @JsonProperty("recipient") final CoinbaseUserInfo recipient,
+        @JsonProperty("recipient_address") final String recipientAddress,
+        @JsonProperty("notes") final String notes,
+        @JsonProperty("hsh") final String transactionHash,
         @JsonProperty("idem") final String idempotencyKey) {
 
       this.id = id;
@@ -461,9 +488,29 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     @Override
     public String toString() {
 
-      return "CoinbaseTransactionInfoResult [id=" + id + ", createdAt=" + createdAt + ", amount=" + amount + ", request=" + request + ", status="
-          + status + ", sender=" + sender + ", recipient=" + recipient + ", recipientAddress=" + recipientAddress + ", notes=" + notes
-          + ", transactionHash=" + transactionHash + ", idempotencyKey=" + idempotencyKey + "]";
+      return "CoinbaseTransactionInfoResult [id="
+          + id
+          + ", createdAt="
+          + createdAt
+          + ", amount="
+          + amount
+          + ", request="
+          + request
+          + ", status="
+          + status
+          + ", sender="
+          + sender
+          + ", recipient="
+          + recipient
+          + ", recipientAddress="
+          + recipientAddress
+          + ", notes="
+          + notes
+          + ", transactionHash="
+          + transactionHash
+          + ", idempotencyKey="
+          + idempotencyKey
+          + "]";
     }
   }
 }

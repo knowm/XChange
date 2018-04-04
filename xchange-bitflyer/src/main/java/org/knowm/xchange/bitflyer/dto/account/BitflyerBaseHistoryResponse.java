@@ -1,31 +1,31 @@
 package org.knowm.xchange.bitflyer.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * A base class for history related responses
+ *
  * @author bryant_harris
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BitflyerBaseHistoryResponse {
   @JsonProperty("id")
   String id;
-        
+
   @JsonProperty("order_id")
   String orderID;
-        
+
   @JsonProperty("currency_code")
   String currencyCode;
-        
+
   @JsonProperty("amount")
   BigDecimal amount;
-        
+
   @JsonProperty("status")
   String status;
-        
+
   @JsonProperty("event_date")
   String eventDate;
 
@@ -36,7 +36,7 @@ public abstract class BitflyerBaseHistoryResponse {
   public void setID(String id) {
     this.id = id;
   }
- 
+
   public String getOrderID() {
     return orderID;
   }
@@ -60,7 +60,7 @@ public abstract class BitflyerBaseHistoryResponse {
   public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
-        
+
   public String getStatus() {
     return status;
   }

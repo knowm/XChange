@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -55,15 +54,21 @@ public class LiquiAdapters {
     return builder.build();
   }
 
-  public static OrderBook adaptOrderBook(final LiquiDepth liquiDepth, final CurrencyPair currencyPair) {
-    return new OrderBook(null, LiquiAdapters.adaptAsks(liquiDepth.getAsks(), currencyPair), adaptBids(liquiDepth.getBids(), currencyPair));
+  public static OrderBook adaptOrderBook(
+      final LiquiDepth liquiDepth, final CurrencyPair currencyPair) {
+    return new OrderBook(
+        null,
+        LiquiAdapters.adaptAsks(liquiDepth.getAsks(), currencyPair),
+        adaptBids(liquiDepth.getBids(), currencyPair));
   }
 
-  public static List<LimitOrder> adaptAsks(final List<LiquiPublicAsk> orders, final CurrencyPair currencyPair) {
+  public static List<LimitOrder> adaptAsks(
+      final List<LiquiPublicAsk> orders, final CurrencyPair currencyPair) {
     return orders.stream().map(ask -> adaptOrder(ask, currencyPair)).collect(Collectors.toList());
   }
 
-  public static List<LimitOrder> adaptBids(final List<LiquiPublicBid> orders, final CurrencyPair currencyPair) {
+  public static List<LimitOrder> adaptBids(
+      final List<LiquiPublicBid> orders, final CurrencyPair currencyPair) {
     return orders.stream().map(ask -> adaptOrder(ask, currencyPair)).collect(Collectors.toList());
   }
 
@@ -77,7 +82,8 @@ public class LiquiAdapters {
     return new LimitOrder(OrderType.BID, volume, currencyPair, "", null, order.getPrice());
   }
 
-  public static Trades adaptTrades(final List<LiquiPublicTrade> liquiTrades, final CurrencyPair currencyPair) {
+  public static Trades adaptTrades(
+      final List<LiquiPublicTrade> liquiTrades, final CurrencyPair currencyPair) {
     final List<Trade> trades = new ArrayList<>();
     for (final LiquiPublicTrade trade : liquiTrades) {
       trades.add(adaptTrade(trade, currencyPair));
@@ -94,7 +100,6 @@ public class LiquiAdapters {
     final long tradeId = trade.getTradeId();
 
     return new Trade(type, originalAmount, currencyPair, price, timestamp, String.valueOf(tradeId));
-
   }
 
   public static OrderType adaptOrderType(final LiquiTradeType liquiTradeType) {
@@ -127,8 +132,17 @@ public class LiquiAdapters {
 
     final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
 
-    return new LimitOrder(type, originalAmount, pair, String.valueOf(id), timestamp, orderInfo.getRate(),
-        orderInfo.getRate(), filledAmount, null, status);
+    return new LimitOrder(
+        type,
+        originalAmount,
+        pair,
+        String.valueOf(id),
+        timestamp,
+        orderInfo.getRate(),
+        orderInfo.getRate(),
+        filledAmount,
+        null,
+        status);
   }
 
   public static Order.OrderStatus adaptOrderStatus(final String status) {
@@ -161,8 +175,16 @@ public class LiquiAdapters {
     final Date timestamp = new Date(liquiTrade.getTimestamp() * 1000L);
     final BigDecimal price = liquiTrade.getRate();
 
-    return new UserTrade(orderType, originalAmount, pair, price, timestamp, String.valueOf(tradeId),
-        String.valueOf(tradeId), new BigDecimal("0"), null);
+    return new UserTrade(
+        orderType,
+        originalAmount,
+        pair,
+        price,
+        timestamp,
+        String.valueOf(tradeId),
+        String.valueOf(tradeId),
+        new BigDecimal("0"),
+        null);
   }
 
   public static Order adaptOrderInfo(final LiquiOrderInfo info) {
@@ -189,11 +211,9 @@ public class LiquiAdapters {
 
       currencyPairs.put(pair, new CurrencyPairMetaData(fee, minAmount, maxAmount, priceScale));
 
-      if (!currencies.containsKey(pair.base))
-        currencies.put(pair.base, null);
+      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
 
-      if (!currencies.containsKey(pair.counter))
-        currencies.put(pair.counter, null);
+      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
     }
 
     return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
@@ -206,8 +226,12 @@ public class LiquiAdapters {
 
   public static AccountInfo adaptAccountInfo(final LiquiAccountInfo info) {
     final Map<Currency, BigDecimal> funds = info.getFunds().getFunds();
-    final List<Balance> balances = funds.entrySet().stream()
-        .map(entry -> new Balance(entry.getKey(), entry.getValue())).collect(Collectors.toList());
+    final List<Balance> balances =
+        funds
+            .entrySet()
+            .stream()
+            .map(entry -> new Balance(entry.getKey(), entry.getValue()))
+            .collect(Collectors.toList());
 
     final Wallet wallet = new Wallet("Liqui wallet", balances);
 

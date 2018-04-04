@@ -6,16 +6,9 @@ public class DefaultTradeHistoryParamCurrencyPair implements TradeHistoryParamCu
 
   private CurrencyPair pair;
 
-  public DefaultTradeHistoryParamCurrencyPair() {
-  }
+  public DefaultTradeHistoryParamCurrencyPair() {}
 
   public DefaultTradeHistoryParamCurrencyPair(CurrencyPair pair) {
-    this.pair = pair;
-  }
-
-  @Override
-  public void setCurrencyPair(CurrencyPair pair) {
-
     this.pair = pair;
   }
 
@@ -23,5 +16,11 @@ public class DefaultTradeHistoryParamCurrencyPair implements TradeHistoryParamCu
   public CurrencyPair getCurrencyPair() {
 
     return pair;
+  }
+
+  @Override
+  public void setCurrencyPair(CurrencyPair pair) {
+
+    this.pair = pair;
   }
 }

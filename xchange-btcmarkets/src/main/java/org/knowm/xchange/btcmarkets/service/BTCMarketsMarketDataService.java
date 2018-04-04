@@ -1,7 +1,6 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
@@ -12,10 +11,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author Matija Mazi
- */
-public class BTCMarketsMarketDataService extends BTCMarketsMarketDataServiceRaw implements MarketDataService {
+/** @author Matija Mazi */
+public class BTCMarketsMarketDataService extends BTCMarketsMarketDataServiceRaw
+    implements MarketDataService {
 
   public BTCMarketsMarketDataService(Exchange exchange) {
     super(exchange);

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.wex.v3.WexAuthenticated;
 import org.knowm.xchange.wex.v3.dto.trade.WexCancelOrderResult;
@@ -20,10 +19,7 @@ import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryReturn;
 import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryResult;
 import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryReturn;
 
-/**
- * Author: brox Since: 2014-02-13
- */
-
+/** Author: brox Since: 2014-02-13 */
 public class WexTradeServiceRaw extends WexBaseService {
 
   private static final String MSG_NO_TRADES = "no trades";
@@ -46,7 +42,8 @@ public class WexTradeServiceRaw extends WexBaseService {
    */
   public Map<Long, WexOrder> getBTCEActiveOrders(String pair) throws IOException {
 
-    WexOpenOrdersReturn orders = btce.ActiveOrders(apiKey, signatureCreator, exchange.getNonceFactory(), pair);
+    WexOpenOrdersReturn orders =
+        btce.ActiveOrders(apiKey, signatureCreator, exchange.getNonceFactory(), pair);
     if ("no orders".equals(orders.getError())) {
       return new HashMap<>();
     }
@@ -62,15 +59,23 @@ public class WexTradeServiceRaw extends WexBaseService {
   public WexPlaceOrderResult placeBTCEOrder(WexOrder order) throws IOException {
 
     String pair = order.getPair().toLowerCase();
-    WexPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, exchange.getNonceFactory(), pair, order.getType(), order.getRate(),
-        order.getAmount());
+    WexPlaceOrderReturn ret =
+        btce.Trade(
+            apiKey,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            pair,
+            order.getType(),
+            order.getRate(),
+            order.getAmount());
     checkResult(ret);
     return ret.getReturnValue();
   }
 
   public WexCancelOrderResult cancelBTCEOrder(long orderId) throws IOException {
 
-    WexCancelOrderReturn ret = btce.CancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
+    WexCancelOrderReturn ret =
+        btce.CancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
     if (MSG_BAD_STATUS.equals(ret.getError())) {
       return null;
     }
@@ -90,13 +95,33 @@ public class WexTradeServiceRaw extends WexBaseService {
    * @param since When to start displaying; UNIX time default 0
    * @param end When to finish displaying; UNIX time default +inf
    * @param pair The pair to show the transaction; example btc_usd; all pairs
-   * @return {success=1, return={tradeId={pair=btc_usd, type=sell, amount=1, rate=1, orderId=1234, timestamp=1234}}}
+   * @return {success=1, return={tradeId={pair=btc_usd, type=sell, amount=1, rate=1, orderId=1234,
+   *     timestamp=1234}}}
    */
-  public Map<Long, WexTradeHistoryResult> getBTCETradeHistory(Long from, Long count, Long fromId, Long endId, WexAuthenticated.SortOrder order,
-      Long since, Long end, String pair) throws IOException {
+  public Map<Long, WexTradeHistoryResult> getBTCETradeHistory(
+      Long from,
+      Long count,
+      Long fromId,
+      Long endId,
+      WexAuthenticated.SortOrder order,
+      Long since,
+      Long end,
+      String pair)
+      throws IOException {
 
-    WexTradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), from, count, fromId, endId,
-        order, since, end, pair);
+    WexTradeHistoryReturn btceTradeHistory =
+        btce.TradeHistory(
+            apiKey,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            from,
+            count,
+            fromId,
+            endId,
+            order,
+            since,
+            end,
+            pair);
     String error = btceTradeHistory.getError();
     // BTC-e returns this error if it finds no trades matching the criteria
     if (MSG_NO_TRADES.equals(error)) {
@@ -119,11 +144,28 @@ public class WexTradeServiceRaw extends WexBaseService {
    * @param end When to finish displaying; UNIX time default +inf
    * @return Map of transaction id's to transaction history results.
    */
-  public Map<Long, WexTransHistoryResult> getBTCETransHistory(Long from, Long count, Long fromId, Long endId, WexAuthenticated.SortOrder order,
-      Long since, Long end) throws IOException {
+  public Map<Long, WexTransHistoryResult> getBTCETransHistory(
+      Long from,
+      Long count,
+      Long fromId,
+      Long endId,
+      WexAuthenticated.SortOrder order,
+      Long since,
+      Long end)
+      throws IOException {
 
-    WexTransHistoryReturn btceTransHistory = btce.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), from, count, fromId, endId,
-        order, since, end);
+    WexTransHistoryReturn btceTransHistory =
+        btce.TransHistory(
+            apiKey,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            from,
+            count,
+            fromId,
+            endId,
+            order,
+            since,
+            end);
     String error = btceTransHistory.getError();
     // BTC-e returns this error if it finds no trades matching the criteria
     if (MSG_NO_TRADES.equals(error)) {
@@ -142,7 +184,8 @@ public class WexTradeServiceRaw extends WexBaseService {
    */
   public WexOrderInfoResult getBTCEOrderInfo(Long orderId) throws IOException {
 
-    WexOrderInfoReturn btceOrderInfo = btce.OrderInfo(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
+    WexOrderInfoReturn btceOrderInfo =
+        btce.OrderInfo(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
 
     checkResult(btceOrderInfo);
 

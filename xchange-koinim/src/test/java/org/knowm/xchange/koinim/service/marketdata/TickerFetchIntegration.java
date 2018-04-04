@@ -10,9 +10,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.koinim.KoinimExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author ahmetoz
- */
+/** @author ahmetoz */
 public class TickerFetchIntegration {
 
   @Test

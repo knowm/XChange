@@ -1,14 +1,13 @@
 package org.knowm.xchange.bibox;
 
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
+import java.util.HashMap;
+import java.util.Map;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -19,14 +18,17 @@ public class BiboxException extends HttpStatusExceptionSupport {
 
   @JsonProperty("code")
   private String code;
+
   @JsonProperty("msg")
   private String msg;
+
   @JsonProperty("success")
   private boolean success;
+
   @JsonProperty("timestamp")
   private long timestamp;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   @Override
   public String getMessage() {

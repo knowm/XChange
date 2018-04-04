@@ -1,16 +1,12 @@
 package org.knowm.xchange.kuna.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.kuna.dto.enums.KunaSide;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Dat Bui
- */
+/** @author Dat Bui */
 public class KunaTrade {
 
   public static final String CREATED_AT = "created_at";
@@ -23,10 +19,16 @@ public class KunaTrade {
   private Date createdAt;
   private KunaSide side;
 
+  /** Hide default constructor. */
+  private KunaTrade() {}
+
   /**
-   * Hide default constructor.
+   * Creates new builder.
+   *
+   * @return builder
    */
-  private KunaTrade() {
+  public static Builder builder() {
+    return new Builder();
   }
 
   public int getId() {
@@ -56,15 +58,6 @@ public class KunaTrade {
 
   public KunaSide getSide() {
     return side;
-  }
-
-  /**
-   * Creates new builder.
-   *
-   * @return builder
-   */
-  public static Builder builder() {
-    return new Builder();
   }
 
   public static class Builder {

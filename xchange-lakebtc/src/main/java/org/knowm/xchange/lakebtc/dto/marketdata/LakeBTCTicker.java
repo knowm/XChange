@@ -1,12 +1,9 @@
 package org.knowm.xchange.lakebtc.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author kpysniak
- */
+/** @author kpysniak */
 public final class LakeBTCTicker {
 
   private final BigDecimal last;
@@ -16,8 +13,13 @@ public final class LakeBTCTicker {
   private final BigDecimal low;
   private final BigDecimal volume;
 
-  public LakeBTCTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume) {
+  public LakeBTCTicker(
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("volume") BigDecimal volume) {
 
     this.last = last;
     this.bid = bid;
@@ -60,7 +62,18 @@ public final class LakeBTCTicker {
   @Override
   public String toString() {
 
-    return "LakeBTCTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
+    return "LakeBTCTicker [last="
+        + last
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", volume="
+        + volume
+        + "]";
   }
-
 }

@@ -1,8 +1,7 @@
 package org.knowm.xchange.cryptopia.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public final class CryptopiaTradePair {
 
@@ -22,11 +21,21 @@ public final class CryptopiaTradePair {
   private final BigDecimal minimumPrice;
   private final BigDecimal maximumPrice;
 
-  public CryptopiaTradePair(@JsonProperty("Id") long id, @JsonProperty("Label") String label, @JsonProperty("Currency") String currency, @JsonProperty("Symbol") String symbol,
-      @JsonProperty("BaseCurrency") String baseCurrency, @JsonProperty("BaseSymbol") String baseSymbol, @JsonProperty("Status") String status,
-      @JsonProperty("StatusMessage") String statusMessage, @JsonProperty("TradeFee") BigDecimal tradeFee, @JsonProperty("MinimumTrade") BigDecimal minimumTrade,
-      @JsonProperty("MaximumTrade") BigDecimal maximumTrade, @JsonProperty("MinimumBaseTrade") BigDecimal minimumBaseTrade,
-      @JsonProperty("MaximumBaseTrade") BigDecimal maximumBaseTrade, @JsonProperty("MinimumPrice") BigDecimal minimumPrice,
+  public CryptopiaTradePair(
+      @JsonProperty("Id") long id,
+      @JsonProperty("Label") String label,
+      @JsonProperty("Currency") String currency,
+      @JsonProperty("Symbol") String symbol,
+      @JsonProperty("BaseCurrency") String baseCurrency,
+      @JsonProperty("BaseSymbol") String baseSymbol,
+      @JsonProperty("Status") String status,
+      @JsonProperty("StatusMessage") String statusMessage,
+      @JsonProperty("TradeFee") BigDecimal tradeFee,
+      @JsonProperty("MinimumTrade") BigDecimal minimumTrade,
+      @JsonProperty("MaximumTrade") BigDecimal maximumTrade,
+      @JsonProperty("MinimumBaseTrade") BigDecimal minimumBaseTrade,
+      @JsonProperty("MaximumBaseTrade") BigDecimal maximumBaseTrade,
+      @JsonProperty("MinimumPrice") BigDecimal minimumPrice,
       @JsonProperty("MaximumPrice") BigDecimal maximumPrice) {
     this.id = id;
     this.label = label;
@@ -107,22 +116,44 @@ public final class CryptopiaTradePair {
 
   @Override
   public String toString() {
-    return "CryptopiaTradePair{" +
-        "id=" + id +
-        ", label='" + label + '\'' +
-        ", currency='" + currency + '\'' +
-        ", symbol='" + symbol + '\'' +
-        ", baseCurrency='" + baseCurrency + '\'' +
-        ", baseSymbol='" + baseSymbol + '\'' +
-        ", status='" + status + '\'' +
-        ", statusMessage='" + statusMessage + '\'' +
-        ", tradeFee=" + tradeFee +
-        ", minimumTrade=" + minimumTrade +
-        ", maximumTrade=" + maximumTrade +
-        ", minimumBaseTrade=" + minimumBaseTrade +
-        ", maximumBaseTrade=" + maximumBaseTrade +
-        ", minimumPrice=" + minimumPrice +
-        ", maximumPrice=" + maximumPrice +
-        '}';
+    return "CryptopiaTradePair{"
+        + "id="
+        + id
+        + ", label='"
+        + label
+        + '\''
+        + ", currency='"
+        + currency
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", baseCurrency='"
+        + baseCurrency
+        + '\''
+        + ", baseSymbol='"
+        + baseSymbol
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", statusMessage='"
+        + statusMessage
+        + '\''
+        + ", tradeFee="
+        + tradeFee
+        + ", minimumTrade="
+        + minimumTrade
+        + ", maximumTrade="
+        + maximumTrade
+        + ", minimumBaseTrade="
+        + minimumBaseTrade
+        + ", maximumBaseTrade="
+        + maximumBaseTrade
+        + ", minimumPrice="
+        + minimumPrice
+        + ", maximumPrice="
+        + maximumPrice
+        + '}';
   }
 }

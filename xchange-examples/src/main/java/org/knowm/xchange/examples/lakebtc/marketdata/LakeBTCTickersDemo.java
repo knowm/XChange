@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.lakebtc.marketdata;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -13,9 +12,7 @@ import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import org.knowm.xchange.lakebtc.service.LakeBTCMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Created by Cristi on 12/22/2014.
- */
+/** Created by Cristi on 12/22/2014. */
 public class LakeBTCTickersDemo {
 
   public static void main(String[] args) throws IOException {
@@ -43,14 +40,14 @@ public class LakeBTCTickersDemo {
     System.out.println("Volume: " + ticker.getVolume());
     System.out.println("High: " + ticker.getHigh());
     System.out.println("Low: " + ticker.getLow());
-
   }
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {
-    LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getMarketDataService();
-    Map<String,LakeBTCTicker> tickers = marketDataService.getLakeBTCTickers();
+    LakeBTCMarketDataServiceRaw marketDataService =
+        (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getMarketDataService();
+    Map<String, LakeBTCTicker> tickers = marketDataService.getLakeBTCTickers();
 
-    LakeBTCTicker hkd = tickers.get( LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
+    LakeBTCTicker hkd = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
     System.out.println("Ticker: " + hkd);
     System.out.println("Currency: " + Currency.HKD);
     System.out.println("Last: " + hkd.getLast());
@@ -58,13 +55,12 @@ public class LakeBTCTickersDemo {
     System.out.println("High: " + hkd.getHigh());
     System.out.println("Low: " + hkd.getLow());
 
-    LakeBTCTicker usd = tickers.get( LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD));
+    LakeBTCTicker usd = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD));
     System.out.println("Ticker: " + usd);
     System.out.println("Currency: " + Currency.USD);
     System.out.println("Last: " + usd.getLast());
     System.out.println("Volume: " + usd.getVolume());
     System.out.println("High: " + usd.getHigh());
     System.out.println("Low: " + usd.getLow());
-
   }
 }

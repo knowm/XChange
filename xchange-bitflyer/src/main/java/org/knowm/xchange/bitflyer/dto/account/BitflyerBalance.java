@@ -4,26 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-                       "currency_code",
-                       "amount",
-                       "available"
-                   })
+@JsonPropertyOrder({"currency_code", "amount", "available"})
 public class BitflyerBalance {
   @JsonProperty("currency_code")
   private String currencyCode;
+
   @JsonProperty("amount")
   private BigDecimal amount;
+
   @JsonProperty("available")
   private BigDecimal available;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<>();
 
   public String getCurrencyCode() {
     return currencyCode;
@@ -59,11 +56,16 @@ public class BitflyerBalance {
 
   @Override
   public String toString() {
-    return "BitflyerBalance{" +
-        "currencyCode='" + currencyCode + '\'' +
-        ", amount=" + amount +
-        ", available=" + available +
-        ", additionalProperties=" + additionalProperties +
-        '}';
+    return "BitflyerBalance{"
+        + "currencyCode='"
+        + currencyCode
+        + '\''
+        + ", amount="
+        + amount
+        + ", available="
+        + available
+        + ", additionalProperties="
+        + additionalProperties
+        + '}';
   }
 }
