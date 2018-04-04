@@ -5,6 +5,7 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
 import org.knowm.xchange.cexio.CexIOExchange;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public class CexioStreamingExchange extends CexIOExchange implements StreamingExchange {
 
@@ -36,6 +37,11 @@ public class CexioStreamingExchange extends CexIOExchange implements StreamingEx
     @Override
     public StreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
+    }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) {
+        throw new NotYetImplementedForExchangeException();
     }
 
     public void setCredentials(String apiKey, String apiSecret) {
