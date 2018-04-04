@@ -1,13 +1,11 @@
 package org.knowm.xchange.kraken.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
-
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags.KrakenOrderFlagsDeserializer;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class KrakenOrder {
 
@@ -54,14 +52,27 @@ public class KrakenOrder {
    * @param closeTimestamp
    * @param closeReason
    */
-  public KrakenOrder(@JsonProperty("refid") String refId, @JsonProperty("userref") String userRefId, @JsonProperty("status") KrakenOrderStatus status,
-      @JsonProperty("opentm") double openTimestamp, @JsonProperty("starttm") double startTimestamp, @JsonProperty("expiretm") double expireTimestamp,
-      @JsonProperty("descr") KrakenOrderDescription orderDescription, @JsonProperty("vol") BigDecimal volume,
-      @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("stopprice") BigDecimal stopPrice, @JsonProperty("limitprice") BigDecimal limitPrice,
+  public KrakenOrder(
+      @JsonProperty("refid") String refId,
+      @JsonProperty("userref") String userRefId,
+      @JsonProperty("status") KrakenOrderStatus status,
+      @JsonProperty("opentm") double openTimestamp,
+      @JsonProperty("starttm") double startTimestamp,
+      @JsonProperty("expiretm") double expireTimestamp,
+      @JsonProperty("descr") KrakenOrderDescription orderDescription,
+      @JsonProperty("vol") BigDecimal volume,
+      @JsonProperty("vol_exec") BigDecimal volumeExecuted,
+      @JsonProperty("cost") BigDecimal cost,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("stopprice") BigDecimal stopPrice,
+      @JsonProperty("limitprice") BigDecimal limitPrice,
       @JsonProperty("misc") String misc,
-      @JsonProperty("oflags") @JsonDeserialize(using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFLags,
-      @JsonProperty("trades") List<String> tradeIds, @JsonProperty("closetm") double closeTimestamp, @JsonProperty("reason") String closeReason) {
+      @JsonProperty("oflags") @JsonDeserialize(using = KrakenOrderFlagsDeserializer.class)
+          Set<KrakenOrderFlags> orderFLags,
+      @JsonProperty("trades") List<String> tradeIds,
+      @JsonProperty("closetm") double closeTimestamp,
+      @JsonProperty("reason") String closeReason) {
 
     this.refId = refId;
     this.userRefId = userRefId;
@@ -182,10 +193,44 @@ public class KrakenOrder {
   @Override
   public String toString() {
 
-    return "KrakenOrder [refId=" + refId + ", userRefId=" + userRefId + ", status=" + status + ", openTimestamp=" + openTimestamp
-        + ", startTimestamp=" + startTimestamp + ", expireTimestamp=" + expireTimestamp + ", orderDescription=" + orderDescription + ", volume="
-        + volume + ", volumeExecuted=" + volumeExecuted + ", cost=" + cost + ", fee=" + fee + ", price=" + price + ", stopPrice=" + stopPrice
-        + ", limitPrice=" + limitPrice + ", miscellaneous=" + miscellaneous + ", orderFlags=" + orderFlags + ", tradeIds=" + tradeIds
-        + ", closeTimestamp=" + closeTimestamp + ", closeReason=" + closeReason + "]";
+    return "KrakenOrder [refId="
+        + refId
+        + ", userRefId="
+        + userRefId
+        + ", status="
+        + status
+        + ", openTimestamp="
+        + openTimestamp
+        + ", startTimestamp="
+        + startTimestamp
+        + ", expireTimestamp="
+        + expireTimestamp
+        + ", orderDescription="
+        + orderDescription
+        + ", volume="
+        + volume
+        + ", volumeExecuted="
+        + volumeExecuted
+        + ", cost="
+        + cost
+        + ", fee="
+        + fee
+        + ", price="
+        + price
+        + ", stopPrice="
+        + stopPrice
+        + ", limitPrice="
+        + limitPrice
+        + ", miscellaneous="
+        + miscellaneous
+        + ", orderFlags="
+        + orderFlags
+        + ", tradeIds="
+        + tradeIds
+        + ", closeTimestamp="
+        + closeTimestamp
+        + ", closeReason="
+        + closeReason
+        + "]";
   }
 }

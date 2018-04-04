@@ -1,14 +1,11 @@
 package org.knowm.xchange.wex.v3.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Ondřej Novotný
- */
+/** @author Ondřej Novotný */
 public class WexWithdrawInfo {
 
   private final Map<String, BigDecimal> funds;
@@ -23,7 +20,9 @@ public class WexWithdrawInfo {
    * @param amountSent
    * @param funds The funds
    */
-  public WexWithdrawInfo(@JsonProperty("tId") int tId, @JsonProperty("amountSent") BigDecimal amountSent,
+  public WexWithdrawInfo(
+      @JsonProperty("tId") int tId,
+      @JsonProperty("amountSent") BigDecimal amountSent,
       @JsonProperty("funds") Map<String, BigDecimal> funds) {
     this.funds = funds;
     this.tId = tId;
@@ -46,7 +45,7 @@ public class WexWithdrawInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("WexAccountInfo[tId={0}, amountSent={1}, funds=''{2}''']", tId, amountSent, funds);
+    return MessageFormat.format(
+        "WexAccountInfo[tId={0}, amountSent={1}, funds=''{2}''']", tId, amountSent, funds);
   }
-
 }

@@ -2,36 +2,33 @@ package org.knowm.xchange.kraken;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class KrakenUtils {
 
   private static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
-  private static Map<CurrencyPair, String> assetPairMapReverse = new HashMap<CurrencyPair, String>();
+  private static Map<CurrencyPair, String> assetPairMapReverse =
+      new HashMap<CurrencyPair, String>();
   private static Map<String, Currency> assetsMap = new HashMap<String, Currency>();
   private static Map<Currency, String> assetsMapReverse = new HashMap<Currency, String>();
 
-  /**
-   * Private Constructor
-   */
-  private KrakenUtils() {
-
-  }
+  /** Private Constructor */
+  private KrakenUtils() {}
 
   public static void setKrakenAssetPairs(Map<String, KrakenAssetPair> pairs) {
     if (assetPairMap.isEmpty()) {
       for (Map.Entry<String, KrakenAssetPair> entry : pairs.entrySet()) {
         //  skip dark markets!
         if (!entry.getKey().endsWith(".d")) {
-          CurrencyPair pair = new CurrencyPair(translateKrakenCurrencyCode(entry.getValue().getBase()), translateKrakenCurrencyCode(entry.getValue().getQuote()));
+          CurrencyPair pair =
+              new CurrencyPair(
+                  translateKrakenCurrencyCode(entry.getValue().getBase()),
+                  translateKrakenCurrencyCode(entry.getValue().getQuote()));
           assetPairMap.put(entry.getKey(), pair);
           assetPairMapReverse.put(pair, entry.getKey());
         }

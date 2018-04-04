@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.btctrade.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btctrade.BTCTradeExchange;
@@ -11,9 +10,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Demonstrate requesting ticker at BTCTrade.
- */
+/** Demonstrate requesting ticker at BTCTrade. */
 public class TickerDemo {
 
   public static void main(String[] args) throws IOException {
@@ -37,7 +34,8 @@ public class TickerDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public market data feed (no authentication).
-    BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getMarketDataService();
+    BTCTradeMarketDataServiceRaw marketDataService =
+        (BTCTradeMarketDataServiceRaw) exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to CNY.
     BTCTradeTicker ticker = marketDataService.getBTCTradeTicker();
@@ -48,5 +46,4 @@ public class TickerDemo {
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Vol:  " + ticker.getVol());
   }
-
 }

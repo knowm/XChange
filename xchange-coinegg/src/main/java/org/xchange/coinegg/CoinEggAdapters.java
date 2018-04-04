@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -41,98 +40,108 @@ public class CoinEggAdapters {
     BigDecimal high = coinEggTicker.getHigh();
     BigDecimal low = coinEggTicker.getLow();
     BigDecimal volume = coinEggTicker.getVolume();
-      
-    Ticker ticker = new Ticker.Builder()
-                .currencyPair(currencyPair)
-                .last(last)
-                .bid(bid)
-                .ask(ask)
-                .high(high)
-                .low(low)
-                .volume(volume)
-                .build();
-      
+
+    Ticker ticker =
+        new Ticker.Builder()
+            .currencyPair(currencyPair)
+            .last(last)
+            .bid(bid)
+            .ask(ask)
+            .high(high)
+            .low(low)
+            .volume(volume)
+            .build();
+
     return ticker;
   }
 
-  public static LimitOrder adaptOrder(CoinEggOrder order, OrderType type, CurrencyPair currencyPair) {
+  public static LimitOrder adaptOrder(
+      CoinEggOrder order, OrderType type, CurrencyPair currencyPair) {
     BigDecimal quantity = order.getQuantity();
     BigDecimal price = order.getPrice();
-   
-    LimitOrder limitOrder = new LimitOrder.Builder(type, currencyPair)
-                             .originalAmount(quantity)
-                             .limitPrice(price)
-                             .build();
-    
+
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(type, currencyPair)
+            .originalAmount(quantity)
+            .limitPrice(price)
+            .build();
+
     return limitOrder;
   }
-  
+
   public static OrderBook adaptOrders(CoinEggOrders coinEggOrders, CurrencyPair currencyPair) {
-    
-    
-    List<LimitOrder> asks = Stream.of(coinEggOrders.getAsks())
-                                  .map(order -> adaptOrder(order, OrderType.ASK, currencyPair))
-                                  .collect(Collectors.toList());
-    
-    List<LimitOrder> bids = Stream.of(coinEggOrders.getBids())
-                                  .map(order -> adaptOrder(order, OrderType.BID, currencyPair))
-                                  .collect(Collectors.toList());
-    
+
+    List<LimitOrder> asks =
+        Stream.of(coinEggOrders.getAsks())
+            .map(order -> adaptOrder(order, OrderType.ASK, currencyPair))
+            .collect(Collectors.toList());
+
+    List<LimitOrder> bids =
+        Stream.of(coinEggOrders.getBids())
+            .map(order -> adaptOrder(order, OrderType.BID, currencyPair))
+            .collect(Collectors.toList());
+
     return new OrderBook(null, asks, bids);
   }
 
   public static Trade adaptTrade(CoinEggTrade coinEggTrade, CurrencyPair currencyPair) {
     return new Trade.Builder()
-              .currencyPair(currencyPair)
-              .id(String.valueOf(coinEggTrade.getTransactionID()))
-              .type(coinEggTrade.getOrderType())
-              .price(coinEggTrade.getPrice())
-              .originalAmount(coinEggTrade.getAmount())
-              .build();
+        .currencyPair(currencyPair)
+        .id(String.valueOf(coinEggTrade.getTransactionID()))
+        .type(coinEggTrade.getOrderType())
+        .price(coinEggTrade.getPrice())
+        .originalAmount(coinEggTrade.getAmount())
+        .build();
   }
-  
+
   public static Trades adaptTrades(CoinEggTrade[] coinEggTrades, CurrencyPair currencyPair) {
-    List<Trade> trades = Stream.of(coinEggTrades)
-                                .map(t -> adaptTrade(t, currencyPair))
-                                .collect(Collectors.toList());
-    
+    List<Trade> trades =
+        Stream.of(coinEggTrades).map(t -> adaptTrade(t, currencyPair)).collect(Collectors.toList());
+
     return new Trades(trades);
   }
 
-  //TODO: Implement XAS Currency
+  // TODO: Implement XAS Currency
   public static AccountInfo adaptAccountInfo(CoinEggBalance coinEggBalance, Exchange exchange) {
-    
+
     String userName = exchange.getExchangeSpecification().getUserName();
-    Wallet btcWallet = new Wallet(Currency.BTC.getCurrencyCode(), new Balance(Currency.BTC, coinEggBalance.getBTCBalance()));
-    Wallet ethWallet = new Wallet(Currency.ETH.getCurrencyCode(), new Balance(Currency.ETH, coinEggBalance.getETHBalance()));
-    //Wallet xasWallet = new Wallet(new Balance(Currency.XAS, coinEggBalance.getXASBalance()));
-    
+    Wallet btcWallet =
+        new Wallet(
+            Currency.BTC.getCurrencyCode(),
+            new Balance(Currency.BTC, coinEggBalance.getBTCBalance()));
+    Wallet ethWallet =
+        new Wallet(
+            Currency.ETH.getCurrencyCode(),
+            new Balance(Currency.ETH, coinEggBalance.getETHBalance()));
+    // Wallet xasWallet = new Wallet(new Balance(Currency.XAS, coinEggBalance.getXASBalance()));
+
     Set<Wallet> wallets = new HashSet<Wallet>();
     wallets.add(btcWallet);
     wallets.add(ethWallet);
-    //wallets.add(xasWallet);
-    
+    // wallets.add(xasWallet);
+
     return new AccountInfo(userName, null, wallets);
   }
-  
+
   // TODO: Cleanup Code
   // TODO: Make Use Of Adapt Trade
   public static UserTrades adaptTradeHistory(CoinEggTradeView coinEggTradeView) {
     List<UserTrade> trades = new ArrayList<UserTrade>();
-    Trade trade = new Trade.Builder()
-                          //.currencyPair(null)
-                          .id(String.valueOf(coinEggTradeView.getID()))
-                          .type(coinEggTradeView.getType() == Type.BUY ? OrderType.ASK : OrderType.BID)
-                          .price(coinEggTradeView.getPrice())
-                          .originalAmount(coinEggTradeView.getAmountOriginal())
-                          .timestamp(coinEggTradeView.getDateTime())
-                          .build();
-    
+    Trade trade =
+        new Trade.Builder()
+            // .currencyPair(null)
+            .id(String.valueOf(coinEggTradeView.getID()))
+            .type(coinEggTradeView.getType() == Type.BUY ? OrderType.ASK : OrderType.BID)
+            .price(coinEggTradeView.getPrice())
+            .originalAmount(coinEggTradeView.getAmountOriginal())
+            .timestamp(coinEggTradeView.getDateTime())
+            .build();
+
     trades.add((UserTrade) UserTrade.Builder.from(trade).build());
-    
+
     return new UserTrades(trades, null);
   }
- 
+
   public static String adaptTradeAdd(CoinEggTradeAdd coinEggTradeAdd) {
     return String.valueOf(coinEggTradeAdd.getID());
   }
@@ -140,5 +149,4 @@ public class CoinEggAdapters {
   public static boolean adaptTradeCancel(CoinEggTradeCancel coinEggTradeCancel) {
     return coinEggTradeCancel.getResult();
   }
-   
 }

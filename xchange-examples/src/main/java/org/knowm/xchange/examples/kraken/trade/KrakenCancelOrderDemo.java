@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -33,7 +32,14 @@ public class KrakenCancelOrderDemo {
     System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".01"), CurrencyPair.BTC_LTC, "", null, new BigDecimal("51.25"));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            (OrderType.ASK),
+            new BigDecimal(".01"),
+            CurrencyPair.BTC_LTC,
+            "",
+            null,
+            new BigDecimal("51.25"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
@@ -52,7 +58,14 @@ public class KrakenCancelOrderDemo {
     System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders());
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".01"), CurrencyPair.BTC_LTC, "", null, new BigDecimal("51.25"));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            (OrderType.ASK),
+            new BigDecimal(".01"),
+            CurrencyPair.BTC_LTC,
+            "",
+            null,
+            new BigDecimal("51.25"));
     KrakenOrderResponse limitOrderReturnValue = tradeService.placeKrakenLimitOrder(limitOrder);
 
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
@@ -63,10 +76,10 @@ public class KrakenCancelOrderDemo {
     // Cancel the added order
     List<String> transactionIds = limitOrderReturnValue.getTransactionIds();
     if (transactionIds != null && !transactionIds.isEmpty()) {
-      KrakenCancelOrderResponse cancelResult = tradeService.cancelKrakenOrder(transactionIds.get(0));
+      KrakenCancelOrderResponse cancelResult =
+          tradeService.cancelKrakenOrder(transactionIds.get(0));
       System.out.println("Canceling returned " + cancelResult);
       System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders());
     }
-
   }
 }

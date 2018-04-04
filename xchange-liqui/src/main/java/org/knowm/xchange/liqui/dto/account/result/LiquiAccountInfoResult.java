@@ -1,11 +1,10 @@
 package org.knowm.xchange.liqui.dto.account.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.liqui.dto.LiquiStat;
 import org.knowm.xchange.liqui.dto.account.LiquiAccountInfo;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiResult;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LiquiAccountInfoResult extends LiquiResult<LiquiAccountInfo> {
@@ -13,7 +12,8 @@ public class LiquiAccountInfoResult extends LiquiResult<LiquiAccountInfo> {
   private final boolean success;
   private final LiquiStat stat;
 
-  public LiquiAccountInfoResult(@JsonProperty("success") final boolean success,
+  public LiquiAccountInfoResult(
+      @JsonProperty("success") final boolean success,
       @JsonProperty("return") final LiquiAccountInfo result,
       @JsonProperty("stat") final LiquiStat stat,
       @JsonProperty("error") final String error) {
@@ -32,9 +32,6 @@ public class LiquiAccountInfoResult extends LiquiResult<LiquiAccountInfo> {
 
   @Override
   public String toString() {
-    return "LiquiAccountInfoResult{" +
-        "success=" + success +
-        ", stat=" + stat +
-        '}';
+    return "LiquiAccountInfoResult{" + "success=" + success + ", stat=" + stat + '}';
   }
 }

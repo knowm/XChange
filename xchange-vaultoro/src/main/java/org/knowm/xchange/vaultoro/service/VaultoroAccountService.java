@@ -3,7 +3,6 @@ package org.knowm.xchange.vaultoro.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -36,15 +35,13 @@ public class VaultoroAccountService extends VaultoroAccountServiceRaw implements
   }
 
   @Override
-  public String requestDepositAddress(Currency arg0,
-      String... arg1) throws IOException {
+  public String requestDepositAddress(Currency arg0, String... arg1) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String withdrawFunds(Currency arg0, BigDecimal arg1,
-      String arg2) throws IOException {
+  public String withdrawFunds(Currency arg0, BigDecimal arg1, String arg2) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
@@ -60,8 +57,7 @@ public class VaultoroAccountService extends VaultoroAccountServiceRaw implements
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

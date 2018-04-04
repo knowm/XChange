@@ -1,13 +1,10 @@
 package org.knowm.xchange.wex.v3.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Raphael Voellmy
- */
+/** @author Raphael Voellmy */
 public class WexTradeHistoryResult {
 
   private final String pair;
@@ -16,10 +13,11 @@ public class WexTradeHistoryResult {
   private final BigDecimal rate;
   private final Long orderId;
   /**
-   * reflects who created original order. True means that you opened the order and then someone completely bought/sold it. False means you bought/sold
-   * from someone else's order.
+   * reflects who created original order. True means that you opened the order and then someone
+   * completely bought/sold it. False means you bought/sold from someone else's order.
    */
   private final int isYourOrder;
+
   private final Long timestamp;
 
   /**
@@ -33,9 +31,14 @@ public class WexTradeHistoryResult {
    * @param type
    * @param pair
    */
-  public WexTradeHistoryResult(@JsonProperty("timestamp") Long timestamp, @JsonProperty("is_your_order") int isYourOrder,
-      @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount, @JsonProperty("order_id") Long orderId,
-      @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
+  public WexTradeHistoryResult(
+      @JsonProperty("timestamp") Long timestamp,
+      @JsonProperty("is_your_order") int isYourOrder,
+      @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("order_id") Long orderId,
+      @JsonProperty("type") Type type,
+      @JsonProperty("pair") String pair) {
 
     this.timestamp = timestamp;
     this.isYourOrder = isYourOrder;
@@ -84,11 +87,13 @@ public class WexTradeHistoryResult {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]", pair,
-        type, amount, rate, timestamp, orderId, isYourOrder);
+    return MessageFormat.format(
+        "BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]",
+        pair, type, amount, rate, timestamp, orderId, isYourOrder);
   }
 
   public enum Type {
-    buy, sell
+    buy,
+    sell
   }
 }

@@ -1,13 +1,10 @@
 package org.knowm.xchange.wex.v3.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Dyorgio Nascimento
- */
+/** @author Dyorgio Nascimento */
 public class WexOrderInfoResult {
 
   private final String pair;
@@ -16,9 +13,7 @@ public class WexOrderInfoResult {
   private final BigDecimal amount;
   private final BigDecimal rate;
   private final Long timestampCreated;
-  /**
-   * 0 - active, 1 – executed order, 2 - canceled, 3 – canceled, but was partially executed.
-   */
+  /** 0 - active, 1 – executed order, 2 - canceled, 3 – canceled, but was partially executed. */
   private final int status;
 
   /**
@@ -32,9 +27,14 @@ public class WexOrderInfoResult {
    * @param type
    * @param pair
    */
-  public WexOrderInfoResult(@JsonProperty("status") int status, @JsonProperty("timestamp_created") Long timestampCreated,
-      @JsonProperty("rate") BigDecimal rate, @JsonProperty("start_amount") BigDecimal startAmount, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
+  public WexOrderInfoResult(
+      @JsonProperty("status") int status,
+      @JsonProperty("timestamp_created") Long timestampCreated,
+      @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("start_amount") BigDecimal startAmount,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("type") Type type,
+      @JsonProperty("pair") String pair) {
 
     this.status = status;
     this.timestampCreated = timestampCreated;
@@ -83,11 +83,13 @@ public class WexOrderInfoResult {
   @Override
   public String toString() {
 
-    return MessageFormat.format("WexOrderInfoResult[pair=''{0}'', type={1}, startAmount={2}, amount={3}, rate={4}, timestampCreated={5}, status={6}]", pair, type, startAmount,
-        amount, rate, timestampCreated, status);
+    return MessageFormat.format(
+        "WexOrderInfoResult[pair=''{0}'', type={1}, startAmount={2}, amount={3}, rate={4}, timestampCreated={5}, status={6}]",
+        pair, type, startAmount, amount, rate, timestampCreated, status);
   }
 
   public enum Type {
-    buy, sell
+    buy,
+    sell
   }
 }

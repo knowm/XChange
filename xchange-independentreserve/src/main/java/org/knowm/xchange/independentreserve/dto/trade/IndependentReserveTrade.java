@@ -1,15 +1,10 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
-
-/**
- * Author: Kamil Zbikowski Date: 4/16/15
- */
+/** Author: Kamil Zbikowski Date: 4/16/15 */
 public class IndependentReserveTrade {
   private final String tradeGuid;
   private final Date tradeTimestamp;
@@ -21,11 +16,17 @@ public class IndependentReserveTrade {
   private final String primaryCurrencyCode;
   private final String secondaryCurrencyCode;
 
-  public IndependentReserveTrade(@JsonProperty("OrderGuid") String orderGuid, @JsonProperty("TradeGuid") String tradeGuid,
-      @JsonProperty("TradeTimestampUtc") String tradeTimestampUtc, @JsonProperty("OrderType") String orderType,
-      @JsonProperty("OrderTimestampUtc") String orderTimestampUtc, @JsonProperty("VolumeTraded") BigDecimal volumeTraded,
-      @JsonProperty("Price") BigDecimal price, @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
-      @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public IndependentReserveTrade(
+      @JsonProperty("OrderGuid") String orderGuid,
+      @JsonProperty("TradeGuid") String tradeGuid,
+      @JsonProperty("TradeTimestampUtc") String tradeTimestampUtc,
+      @JsonProperty("OrderType") String orderType,
+      @JsonProperty("OrderTimestampUtc") String orderTimestampUtc,
+      @JsonProperty("VolumeTraded") BigDecimal volumeTraded,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
+      @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     this.orderGuid = orderGuid;
     this.tradeGuid = tradeGuid;
     tradeTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(tradeTimestampUtc);

@@ -23,13 +23,10 @@
  */
 package org.knowm.xchange.coinmate.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class CoinmateBalanceDataEntry {
 
   private final String currency;
@@ -37,8 +34,11 @@ public class CoinmateBalanceDataEntry {
   private final BigDecimal reserved;
   private final BigDecimal available;
 
-  public CoinmateBalanceDataEntry(@JsonProperty("currency") String currency, @JsonProperty("balance") BigDecimal balance,
-      @JsonProperty("reserved") BigDecimal reserved, @JsonProperty("available") BigDecimal available) {
+  public CoinmateBalanceDataEntry(
+      @JsonProperty("currency") String currency,
+      @JsonProperty("balance") BigDecimal balance,
+      @JsonProperty("reserved") BigDecimal reserved,
+      @JsonProperty("available") BigDecimal available) {
 
     this.currency = currency;
     this.balance = balance;
@@ -46,32 +46,23 @@ public class CoinmateBalanceDataEntry {
     this.available = available;
   }
 
-  /**
-   * @return the currency
-   */
+  /** @return the currency */
   public String getCurrency() {
     return currency;
   }
 
-  /**
-   * @return the balance
-   */
+  /** @return the balance */
   public BigDecimal getBalance() {
     return balance;
   }
 
-  /**
-   * @return the reserved
-   */
+  /** @return the reserved */
   public BigDecimal getReserved() {
     return reserved;
   }
 
-  /**
-   * @return the available
-   */
+  /** @return the available */
   public BigDecimal getAvailable() {
     return available;
   }
-
 }

@@ -16,15 +16,10 @@ public class BitzTradesFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(new CurrencyPair("LTC", "BTC"));
-    
-    
-    
-    // Verify Not Null Values
-    //assertThat(trades).isNotNull();
-    
 
-    
+    // Verify Not Null Values
+    // assertThat(trades).isNotNull();
+
     // TODO: Logical Verification Of Values
   }
-
 }

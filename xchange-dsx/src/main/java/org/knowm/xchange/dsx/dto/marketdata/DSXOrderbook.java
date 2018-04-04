@@ -1,14 +1,10 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public final class DSXOrderbook {
 
   private final List<BigDecimal[]> asks;
@@ -16,7 +12,9 @@ public final class DSXOrderbook {
   private final BigDecimal marketBuyPrice;
   private final BigDecimal marketSellPrice;
 
-  public DSXOrderbook(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids,
+  public DSXOrderbook(
+      @JsonProperty("asks") List<BigDecimal[]> asks,
+      @JsonProperty("bids") List<BigDecimal[]> bids,
       @JsonProperty("market_buy_price") BigDecimal marketBuyPrice,
       @JsonProperty("market_sell_price") BigDecimal marketSellPrice) {
 
@@ -64,5 +62,4 @@ public final class DSXOrderbook {
     sb.append("]");
     return sb.toString();
   }
-
 }

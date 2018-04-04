@@ -1,12 +1,10 @@
 package org.knowm.xchange.kraken.dto.trade.results;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
-
 import org.knowm.xchange.kraken.dto.KrakenResult;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenTradeHistoryResult extends KrakenResult<KrakenTradeHistory> {
 
@@ -16,7 +14,8 @@ public class KrakenTradeHistoryResult extends KrakenResult<KrakenTradeHistory> {
    * @param result
    * @param error
    */
-  public KrakenTradeHistoryResult(@JsonProperty("result") KrakenTradeHistory result, @JsonProperty("error") String[] error) {
+  public KrakenTradeHistoryResult(
+      @JsonProperty("result") KrakenTradeHistory result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }
@@ -32,7 +31,8 @@ public class KrakenTradeHistoryResult extends KrakenResult<KrakenTradeHistory> {
      * @param orders
      * @param count
      */
-    public KrakenTradeHistory(@JsonProperty("trades") Map<String, KrakenTrade> orders, @JsonProperty("count") int count) {
+    public KrakenTradeHistory(
+        @JsonProperty("trades") Map<String, KrakenTrade> orders, @JsonProperty("count") int count) {
 
       this.orders = orders;
       this.count = count;

@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinfloor.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinfloor.dto.account.CoinfloorBalance;
 import org.knowm.xchange.currency.CurrencyPair;

@@ -1,17 +1,15 @@
 package org.knowm.xchange.bitcointoyou.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
 
 /**
  * @author Danilo Guimaraes
@@ -19,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "high", "low", "vol", "last", "buy", "buyQty", "sell", "sellQty", "date" })
+@JsonPropertyOrder({"high", "low", "vol", "last", "buy", "buyQty", "sell", "sellQty", "date"})
 public class BitcointoyouMarketData {
 
   private final BigDecimal high;
@@ -31,12 +29,18 @@ public class BitcointoyouMarketData {
   private final BigDecimal sell;
   private final BigDecimal sellQuantity;
   private final Long date;
-  @JsonIgnore
-  private final Map<String, Object> additionalProperties = new HashMap<>();
+  @JsonIgnore private final Map<String, Object> additionalProperties = new HashMap<>();
 
-  public BitcointoyouMarketData(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("vol") BigDecimal volume,
-      @JsonProperty("last") BigDecimal last, @JsonProperty("buy") BigDecimal buy, @JsonProperty("buyQty") BigDecimal buyQuantity,
-      @JsonProperty("sell") BigDecimal sell, @JsonProperty("sellQty") BigDecimal sellQuantity, @JsonProperty("date") Long date) {
+  public BitcointoyouMarketData(
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("vol") BigDecimal volume,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("buyQty") BigDecimal buyQuantity,
+      @JsonProperty("sell") BigDecimal sell,
+      @JsonProperty("sellQty") BigDecimal sellQuantity,
+      @JsonProperty("date") Long date) {
     this.high = high;
     this.low = low;
     this.volume = volume;
@@ -107,8 +111,9 @@ public class BitcointoyouMarketData {
 
   @Override
   public String toString() {
-    return String.format("BitcointoyouMarketData [high=%f, low=%f, volume=%f, last=%f, buy=%f, buyQuantity=%f, sell=%f, " +
-            "sellQuantity=%f, additionalProperties=%s]", high, low, volume, last, buy, buyQuantity, sell, sellQuantity, date);
+    return String.format(
+        "BitcointoyouMarketData [high=%f, low=%f, volume=%f, last=%f, buy=%f, buyQuantity=%f, sell=%f, "
+            + "sellQuantity=%f, additionalProperties=%s]",
+        high, low, volume, last, buy, buyQuantity, sell, sellQuantity, date);
   }
-
 }

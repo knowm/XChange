@@ -1,13 +1,11 @@
 package org.knowm.xchange.kucoin.dto.trading;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.sql.Date;
-
 import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-@JsonDeserialize(using=KucoinActiveOrderDeserializer.class)
+@JsonDeserialize(using = KucoinActiveOrderDeserializer.class)
 public class KucoinActiveOrder {
 
   // arr[0] Time arr[1] Order Type arr[2] Price arr[3] Amount arr[4] Deal Amount arr[5] OrderOid
@@ -18,8 +16,13 @@ public class KucoinActiveOrder {
   private BigDecimal dealAmount;
   private String orderOid;
 
-  public KucoinActiveOrder(Date timestamp, KucoinOrderType orderType, BigDecimal price,
-      BigDecimal amount, BigDecimal dealAmount, String orderOid) {
+  public KucoinActiveOrder(
+      Date timestamp,
+      KucoinOrderType orderType,
+      BigDecimal price,
+      BigDecimal amount,
+      BigDecimal dealAmount,
+      String orderOid) {
     super();
     this.timestamp = timestamp;
     this.orderType = orderType;

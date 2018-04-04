@@ -3,7 +3,6 @@ package org.knowm.xchange.empoex.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -30,12 +29,15 @@ public class EmpoExAccountService extends EmpoExAccountServiceRaw implements Acc
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    // TODO empoex also provides "pending" and "held" balances; perhaps they are depositing and frozen?
-    return new AccountInfo(EmpoExAdapters.adaptBalances(super.getEmpoExBalances().get("available")));
+    // TODO empoex also provides "pending" and "held" balances; perhaps they are depositing and
+    // frozen?
+    return new AccountInfo(
+        EmpoExAdapters.adaptBalances(super.getEmpoExBalances().get("available")));
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
@@ -57,8 +59,7 @@ public class EmpoExAccountService extends EmpoExAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

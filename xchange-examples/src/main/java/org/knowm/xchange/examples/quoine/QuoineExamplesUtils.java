@@ -5,9 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.quoine.QuoineExchange;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class QuoineExamplesUtils {
 
   public static Exchange createExchange() {

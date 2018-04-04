@@ -3,7 +3,6 @@ package org.knowm.xchange.ripple.service.params;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
@@ -11,11 +10,15 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
-/**
- * The complete set of parameters that a Ripple trade history query will consider.
- */
-public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging, TradeHistoryParamsTimeSpan,
-    RippleTradeHistoryAccount, RippleTradeHistoryHashLimit, RippleTradeHistoryCount, RippleTradeHistoryPreferredCurrencies {
+/** The complete set of parameters that a Ripple trade history query will consider. */
+public class RippleTradeHistoryParams
+    implements TradeHistoryParamCurrencyPair,
+        TradeHistoryParamPaging,
+        TradeHistoryParamsTimeSpan,
+        RippleTradeHistoryAccount,
+        RippleTradeHistoryHashLimit,
+        RippleTradeHistoryCount,
+        RippleTradeHistoryPreferredCurrencies {
 
   public static final int DEFAULT_PAGE_LENGTH = 20;
 
@@ -37,22 +40,22 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     setPageLength(DEFAULT_PAGE_LENGTH);
   }
 
-  public void setAccount(final String value) {
-    account = value;
-  }
-
   @Override
   public String getAccount() {
     return account;
   }
 
-  public void setHashLimit(final String value) {
-    hashLimit = value;
+  public void setAccount(final String value) {
+    account = value;
   }
 
   @Override
   public String getHashLimit() {
     return hashLimit;
+  }
+
+  public void setHashLimit(final String value) {
+    hashLimit = value;
   }
 
   @Override
@@ -70,13 +73,13 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     return apiCallCount;
   }
 
-  public void setApiCallCountLimit(final int value) {
-    apiCallCountLimit = value;
-  }
-
   @Override
   public int getApiCallCountLimit() {
     return apiCallCountLimit;
+  }
+
+  public void setApiCallCountLimit(final int value) {
+    apiCallCountLimit = value;
   }
 
   @Override
@@ -94,13 +97,13 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     return tradeCount;
   }
 
-  public void setTradeCountLimit(final int value) {
-    tradeCountLimit = value;
-  }
-
   @Override
   public int getTradeCountLimit() {
     return tradeCountLimit;
+  }
+
+  public void setTradeCountLimit(final int value) {
+    tradeCountLimit = value;
   }
 
   public void addPreferredBaseCurrency(final Currency value) {
@@ -122,22 +125,18 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
   }
 
   @Override
-  public void setCurrencyPair(final CurrencyPair value) {
-    all.setCurrencyPair(value);
-  }
-
-  @Override
   public CurrencyPair getCurrencyPair() {
     return all.getCurrencyPair();
   }
 
   @Override
-  public void setPageLength(final Integer value) {
-    all.setPageLength(value);
+  public void setCurrencyPair(final CurrencyPair value) {
+    all.setCurrencyPair(value);
   }
 
   /**
-   * @return the number of notifications to return in a single query, if not set the server assumes a default of 10.
+   * @return the number of notifications to return in a single query, if not set the server assumes
+   *     a default of 10.
    */
   @Override
   public Integer getPageLength() {
@@ -145,8 +144,8 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
   }
 
   @Override
-  public void setPageNumber(final Integer value) {
-    all.setPageNumber(value);
+  public void setPageLength(final Integer value) {
+    all.setPageLength(value);
   }
 
   @Override
@@ -155,8 +154,8 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
   }
 
   @Override
-  public void setStartTime(final Date value) {
-    all.setStartTime(value);
+  public void setPageNumber(final Integer value) {
+    all.setPageNumber(value);
   }
 
   @Override
@@ -165,12 +164,17 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
   }
 
   @Override
-  public void setEndTime(final Date value) {
-    all.setEndTime(value);
+  public void setStartTime(final Date value) {
+    all.setStartTime(value);
   }
 
   @Override
   public Date getEndTime() {
     return all.getEndTime();
+  }
+
+  @Override
+  public void setEndTime(final Date value) {
+    all.setEndTime(value);
   }
 }

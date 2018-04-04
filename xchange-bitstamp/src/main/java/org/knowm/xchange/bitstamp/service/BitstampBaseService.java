@@ -2,13 +2,15 @@ package org.knowm.xchange.bitstamp.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
-import org.knowm.xchange.exceptions.*;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.exceptions.InternalServerException;
+import org.knowm.xchange.exceptions.NonceException;
+import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class BitstampBaseService extends BaseExchangeService implements BaseService {
 
   /**
@@ -20,8 +22,6 @@ public class BitstampBaseService extends BaseExchangeService implements BaseServ
 
     super(exchange);
   }
-
-
 
   protected ExchangeException handleError(BitstampException exception) {
 

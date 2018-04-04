@@ -3,42 +3,27 @@ package org.knowm.xchange.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.dto.Order.OrderType;
 
-/**
- * Data object representing an order for a loan
- */
+/** Data object representing an order for a loan */
 public class LoanOrder implements Serializable {
 
-  /**
-   * Order type i.e. bid or ask
-   */
+  /** Order type i.e. bid or ask */
   private final OrderType type;
 
-  /**
-   * The loan currency
-   */
+  /** The loan currency */
   private final String currency;
 
-  /**
-   * Amount to be ordered / amount that was ordered
-   */
+  /** Amount to be ordered / amount that was ordered */
   private final BigDecimal originalAmount;
 
-  /**
-   * Duration of loan in days
-   */
+  /** Duration of loan in days */
   private final int dayPeriod;
 
-  /**
-   * An identifier that uniquely identifies the order
-   */
+  /** An identifier that uniquely identifies the order */
   private final String id;
 
-  /**
-   * The timestamp on the order according to the exchange's server, null if not provided
-   */
+  /** The timestamp on the order according to the exchange's server, null if not provided */
   private final Date timestamp;
 
   /**
@@ -49,9 +34,16 @@ public class LoanOrder implements Serializable {
    * @param originalAmount Amount to be ordered / amount that was ordered
    * @param dayPeriod Duration of loan in days
    * @param id An identifier that uniquely identifies the order
-   * @param timestamp The timestamp on the order according to the exchange's server, null if not provided
+   * @param timestamp The timestamp on the order according to the exchange's server, null if not
+   *     provided
    */
-  public LoanOrder(OrderType type, String currency, BigDecimal originalAmount, int dayPeriod, String id, Date timestamp) {
+  public LoanOrder(
+      OrderType type,
+      String currency,
+      BigDecimal originalAmount,
+      int dayPeriod,
+      String id,
+      Date timestamp) {
 
     this.type = type;
     this.currency = currency;
@@ -94,8 +86,19 @@ public class LoanOrder implements Serializable {
   @Override
   public String toString() {
 
-    return "LoanOrder [type=" + type + ", currency=" + currency + ", originalAmount=" + originalAmount + ", dayPeriod=" + dayPeriod + ", id=" + id
-        + ", timestamp=" + timestamp + "]";
+    return "LoanOrder [type="
+        + type
+        + ", currency="
+        + currency
+        + ", originalAmount="
+        + originalAmount
+        + ", dayPeriod="
+        + dayPeriod
+        + ", id="
+        + id
+        + ", timestamp="
+        + timestamp
+        + "]";
   }
 
   @Override
@@ -158,5 +161,4 @@ public class LoanOrder implements Serializable {
     }
     return type == other.type;
   }
-
 }

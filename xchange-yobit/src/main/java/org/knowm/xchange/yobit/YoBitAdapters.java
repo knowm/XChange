@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -53,7 +52,8 @@ public class YoBitAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, YoBitInfo products) {
+  public static ExchangeMetaData adaptToExchangeMetaData(
+      ExchangeMetaData exchangeMetaData, YoBitInfo products) {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
@@ -70,13 +70,17 @@ public class YoBitAdapters {
 
       if (!currencies.containsKey(pair.base)) {
         CurrencyMetaData currencyMetaData = exchangeMetaData.getCurrencies().get(pair.base);
-        BigDecimal withdrawalFee = currencyMetaData == null ? null : currencyMetaData.getWithdrawalFee();
+        BigDecimal withdrawalFee =
+            currencyMetaData == null ? null : currencyMetaData.getWithdrawalFee();
         currencies.put(pair.base, new CurrencyMetaData(8, withdrawalFee));
       }
 
       if (!currencies.containsKey(pair.counter)) {
         CurrencyMetaData currencyMetaData = exchangeMetaData.getCurrencies().get(pair.counter);
-        CurrencyMetaData withdrawalFee = currencyMetaData == null ? null : new CurrencyMetaData(8, currencyMetaData.getWithdrawalFee());
+        CurrencyMetaData withdrawalFee =
+            currencyMetaData == null
+                ? null
+                : new CurrencyMetaData(8, currencyMetaData.getWithdrawalFee());
         currencies.put(pair.counter, withdrawalFee);
       }
     }
@@ -84,18 +88,19 @@ public class YoBitAdapters {
     return exchangeMetaData;
   }
 
-  private static List<LimitOrder> toLimitOrderList(List<YoBitAsksBidsData> levels, OrderType orderType, CurrencyPair currencyPair) {
+  private static List<LimitOrder> toLimitOrderList(
+      List<YoBitAsksBidsData> levels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
     for (int i = 0; i < levels.size(); i++) {
       YoBitAsksBidsData ask = levels.get(i);
       if (ask != null) {
-        allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+        allLevels.add(
+            new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
       }
     }
 
     return allLevels;
-
   }
 
   public static Trades adaptTrades(List<YoBitTrade> ctrades, CurrencyPair currencyPair) {
@@ -108,7 +113,14 @@ public class YoBitAdapters {
 
       OrderType type = trade.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
 
-      Trade t = new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(), parseDate(trade.getTimestamp()), String.valueOf(trade.getTid()));
+      Trade t =
+          new Trade(
+              type,
+              trade.getAmount(),
+              currencyPair,
+              trade.getPrice(),
+              parseDate(trade.getTimestamp()),
+              String.valueOf(trade.getTid()));
       trades.add(t);
       lastTrade = i;
     }
@@ -146,7 +158,9 @@ public class YoBitAdapters {
   }
 
   public static String adaptCcyPairToUrlFormat(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode().toLowerCase() + "_" + currencyPair.counter.getCurrencyCode().toLowerCase();
+    return currencyPair.base.getCurrencyCode().toLowerCase()
+        + "_"
+        + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 
   public static OrderType adaptType(String type) {
@@ -156,21 +170,25 @@ public class YoBitAdapters {
   public static Order.OrderStatus adaptOrderStatus(String status) {
     Order.OrderStatus orderStatus = Order.OrderStatus.PARTIALLY_FILLED;
     switch (status) {
-      case "0": {
-        orderStatus = Order.OrderStatus.NEW;
-        break;
-      }
-      case "1": {
-        orderStatus = Order.OrderStatus.FILLED;
-        break;
-      }
-      case "2": {
-        orderStatus = Order.OrderStatus.CANCELED;
-        break;
-      }
-      case "3": {
-        orderStatus = Order.OrderStatus.STOPPED;
-      }
+      case "0":
+        {
+          orderStatus = Order.OrderStatus.NEW;
+          break;
+        }
+      case "1":
+        {
+          orderStatus = Order.OrderStatus.FILLED;
+          break;
+        }
+      case "2":
+        {
+          orderStatus = Order.OrderStatus.CANCELED;
+          break;
+        }
+      case "3":
+        {
+          orderStatus = Order.OrderStatus.STOPPED;
+        }
     }
     return orderStatus;
   }
@@ -178,11 +196,14 @@ public class YoBitAdapters {
   public static LimitOrder adaptOrder(String orderId, Map map) {
     String pair = map.get("pair").toString();
     String type = map.get("type").toString();
-//        String initialAmount = map.get("start_amount").toString();
+    //        String initialAmount = map.get("start_amount").toString();
     String amountRemaining = map.get("amount").toString();
     String rate = map.get("rate").toString();
     String timestamp = map.get("timestamp_created").toString();
-    String status = map.get("status").toString();//status: 0 - active, 1 - fulfilled and closed, 2 - cancelled, 3 - cancelled after partially fulfilled.
+    String status =
+        map.get("status")
+            .toString(); // status: 0 - active, 1 - fulfilled and closed, 2 - cancelled, 3 -//
+                         // cancelled after partially fulfilled.
 
     Date time = DateUtils.fromUnixTime(Long.valueOf(timestamp));
 
@@ -198,8 +219,7 @@ public class YoBitAdapters {
         null,
         null,
         null,
-        orderStatus
-    );
+        orderStatus);
   }
 
   public static UserTrade adaptUserTrade(Object key, Map tradeData) {
@@ -222,7 +242,6 @@ public class YoBitAdapters {
         id,
         orderId,
         null,
-        null
-    );
+        null);
   }
 }

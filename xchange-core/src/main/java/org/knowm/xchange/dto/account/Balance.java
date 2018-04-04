@@ -2,21 +2,17 @@ package org.knowm.xchange.dto.account;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>
  * DTO representing a balance in a currency
- * </p>
- * <p>
- * This is simply defined by an amount of money in a given currency, contained in the cash object.
- * </p>
- * <p>
- * This class is immutable.
- * </p>
+ *
+ * <p>This is simply defined by an amount of money in a given currency, contained in the cash
+ * object.
+ *
+ * <p>This class is immutable.
  */
 public final class Balance implements Comparable<Balance>, Serializable {
 
@@ -35,74 +31,108 @@ public final class Balance implements Comparable<Balance>, Serializable {
   private final BigDecimal depositing;
 
   /**
-   * Returns a zero balance.
-   *
-   * @param currency the balance currency.
-   * @return a zero balance.
-   */
-  public static Balance zero(Currency currency) {
-
-    return new Balance(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
-        BigDecimal.ZERO);
-  }
-
-  /**
-   * Constructs a balance, the {@link #available} will be the same as the <code>total</code>, and the {@link #frozen} is zero. The
-   * <code>borrowed</code> and <code>loaned</code> will be zero.
+   * Constructs a balance, the {@link #available} will be the same as the <code>total</code>, and
+   * the {@link #frozen} is zero. The <code>borrowed</code> and <code>loaned</code> will be zero.
    *
    * @param currency The underlying currency
    * @param total The total
    */
   public Balance(Currency currency, BigDecimal total) {
 
-    this(currency, total, total, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    this(
+        currency,
+        total,
+        total,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO);
   }
 
   /**
-   * Constructs a balance, the {@link #frozen} will be assigned as <code>total</code> - <code>available</code>. The <code>borrowed</code> and
-   * <code>loaned</code> will be zero.
+   * Constructs a balance, the {@link #frozen} will be assigned as <code>total</code> - <code>
+   * available</code>. The <code>borrowed</code> and <code>loaned</code> will be zero.
    *
    * @param currency the underlying currency of this balance.
    * @param total the total amount of the <code>currency</code> in this balance.
-   * @param available the amount of the <code>currency</code> in this balance that is available to trade.
+   * @param available the amount of the <code>currency</code> in this balance that is available to
+   *     trade.
    */
   public Balance(Currency currency, BigDecimal total, BigDecimal available) {
 
-    this(currency, total, available, total.add(available.negate()), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    this(
+        currency,
+        total,
+        available,
+        total.add(available.negate()),
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO);
   }
 
   /**
    * Constructs a balance. The <code>borrowed</code> and <code>loaned</code> will be zero.
    *
    * @param currency the underlying currency of this balance.
-   * @param total the total amount of the <code>currency</code> in this balance, including the <code>available</code> and <code>frozen</code>.
-   * @param available the amount of the <code>currency</code> in this balance that is available to trade.
-   * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in trading.
+   * @param total the total amount of the <code>currency</code> in this balance, including the
+   *     <code>available</code> and <code>frozen</code>.
+   * @param available the amount of the <code>currency</code> in this balance that is available to
+   *     trade.
+   * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in
+   *     trading.
    */
   public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen) {
 
-    this(currency, total, available, frozen, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    this(
+        currency,
+        total,
+        available,
+        frozen,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO);
   }
 
   /**
    * Constructs a balance.
    *
    * @param currency the underlying currency of this balance.
-   * @param total the total amount of the <code>currency</code> in this balance, equal to <code>available + frozen - borrowed + loaned</code>.
-   * @param available the amount of the <code>currency</code> in this balance that is available to trade, including the <code>borrowed</code>.
-   * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in trading.
-   * @param borrowed the borrowed amount of the available <code>currency</code> in this balance that must be repaid.
-   * @param loaned the loaned amount of the total <code>currency</code> in this balance that will be returned.
-   * @param withdrawing the amount of the <code>currency</code> in this balance that is scheduled for withdrawal.
-   * @param depositing the amount of the <code>currency</code> in this balance that is being deposited but not available yet.
+   * @param total the total amount of the <code>currency</code> in this balance, equal to <code>
+   *     available + frozen - borrowed + loaned</code>.
+   * @param available the amount of the <code>currency</code> in this balance that is available to
+   *     trade, including the <code>borrowed</code>.
+   * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in
+   *     trading.
+   * @param borrowed the borrowed amount of the available <code>currency</code> in this balance that
+   *     must be repaid.
+   * @param loaned the loaned amount of the total <code>currency</code> in this balance that will be
+   *     returned.
+   * @param withdrawing the amount of the <code>currency</code> in this balance that is scheduled
+   *     for withdrawal.
+   * @param depositing the amount of the <code>currency</code> in this balance that is being
+   *     deposited but not available yet.
    */
-  public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen, BigDecimal borrowed, BigDecimal loaned,
-      BigDecimal withdrawing, BigDecimal depositing) {
+  public Balance(
+      Currency currency,
+      BigDecimal total,
+      BigDecimal available,
+      BigDecimal frozen,
+      BigDecimal borrowed,
+      BigDecimal loaned,
+      BigDecimal withdrawing,
+      BigDecimal depositing) {
 
     if (total != null && available != null) {
-      BigDecimal sum = available.add(frozen).subtract(borrowed).add(loaned).add(withdrawing).add(depositing);
+      BigDecimal sum =
+          available.add(frozen).subtract(borrowed).add(loaned).add(withdrawing).add(depositing);
       if (0 != total.compareTo(sum)) {
-        log.warn("{} = total != available + frozen - borrowed + loaned + withdrawing + depositing = {}", total, sum);
+        log.warn(
+            "{} = total != available + frozen - borrowed + loaned + withdrawing + depositing = {}",
+            total,
+            sum);
       }
     }
     this.currency = currency;
@@ -113,6 +143,25 @@ public final class Balance implements Comparable<Balance>, Serializable {
     this.loaned = loaned;
     this.withdrawing = withdrawing;
     this.depositing = depositing;
+  }
+
+  /**
+   * Returns a zero balance.
+   *
+   * @param currency the balance currency.
+   * @return a zero balance.
+   */
+  public static Balance zero(Currency currency) {
+
+    return new Balance(
+        currency,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO);
   }
 
   public Currency getCurrency() {
@@ -142,14 +191,20 @@ public final class Balance implements Comparable<Balance>, Serializable {
   public BigDecimal getAvailable() {
 
     if (available == null) {
-      return total.subtract(frozen).subtract(loaned).add(borrowed).subtract(withdrawing).subtract(depositing);
+      return total
+          .subtract(frozen)
+          .subtract(loaned)
+          .add(borrowed)
+          .subtract(withdrawing)
+          .subtract(depositing);
     } else {
       return available;
     }
   }
 
   /**
-   * Returns the amount of the <code>currency</code> in this balance that may be withdrawn. Equal to <code>available - borrowed</code>.
+   * Returns the amount of the <code>currency</code> in this balance that may be withdrawn. Equal to
+   * <code>available - borrowed</code>.
    *
    * @return the amount that is available to withdraw.
    */
@@ -159,7 +214,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
   }
 
   /**
-   * Returns the frozen amount of the <code>currency</code> in this balance that is locked in trading.
+   * Returns the frozen amount of the <code>currency</code> in this balance that is locked in
+   * trading.
    *
    * @return the amount that is locked in open orders.
    */
@@ -172,7 +228,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
   }
 
   /**
-   * Returns the borrowed amount of the available <code>currency</code> in this balance that must be repaid.
+   * Returns the borrowed amount of the available <code>currency</code> in this balance that must be
+   * repaid.
    *
    * @return the amount that must be repaid.
    */
@@ -182,7 +239,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
   }
 
   /**
-   * Returns the loaned amount of the total <code>currency</code> in this balance that will be returned.
+   * Returns the loaned amount of the total <code>currency</code> in this balance that will be
+   * returned.
    *
    * @return that amount that is loaned out.
    */
@@ -214,8 +272,23 @@ public final class Balance implements Comparable<Balance>, Serializable {
   @Override
   public String toString() {
 
-    return "Balance [currency=" + currency + ", total=" + total + ", available=" + available + ", frozen=" + frozen + ", borrowed=" + borrowed
-        + ", loaned=" + loaned + ", withdrawing=" + withdrawing + ", depositing=" + depositing + "]";
+    return "Balance [currency="
+        + currency
+        + ", total="
+        + total
+        + ", available="
+        + available
+        + ", frozen="
+        + frozen
+        + ", borrowed="
+        + borrowed
+        + ", loaned="
+        + loaned
+        + ", withdrawing="
+        + withdrawing
+        + ", depositing="
+        + depositing
+        + "]";
   }
 
   @Override
@@ -310,26 +383,19 @@ public final class Balance implements Comparable<Balance>, Serializable {
   public int compareTo(Balance other) {
 
     int comparison = currency.compareTo(other.currency);
-    if (comparison != 0)
-      return comparison;
+    if (comparison != 0) return comparison;
     comparison = total.compareTo(other.total);
-    if (comparison != 0)
-      return comparison;
+    if (comparison != 0) return comparison;
     comparison = available.compareTo(other.available);
-    if (comparison != 0)
-      return comparison;
+    if (comparison != 0) return comparison;
     comparison = frozen.compareTo(other.frozen);
-    if (comparison != 0)
-      return comparison;
+    if (comparison != 0) return comparison;
     comparison = borrowed.compareTo(other.borrowed);
-    if (comparison != 0)
-      return comparison;
+    if (comparison != 0) return comparison;
     comparison = loaned.compareTo(other.loaned);
-    if (comparison != 0)
-      return comparison;
+    if (comparison != 0) return comparison;
     comparison = withdrawing.compareTo(other.withdrawing);
-    if (comparison != 0)
-      return comparison;
+    if (comparison != 0) return comparison;
     comparison = depositing.compareTo(other.depositing);
     return comparison;
   }
@@ -347,8 +413,14 @@ public final class Balance implements Comparable<Balance>, Serializable {
 
     public static Builder from(Balance balance) {
 
-      return new Builder().currency(balance.getCurrency()).available(balance.getAvailable()).frozen(balance.getFrozen())
-          .borrowed(balance.getBorrowed()).loaned(balance.getLoaned()).withdrawing(balance.getWithdrawing()).depositing(balance.getDepositing());
+      return new Builder()
+          .currency(balance.getCurrency())
+          .available(balance.getAvailable())
+          .frozen(balance.getFrozen())
+          .borrowed(balance.getBorrowed())
+          .loaned(balance.getLoaned())
+          .withdrawing(balance.getWithdrawing())
+          .depositing(balance.getDepositing());
     }
 
     public Builder currency(Currency currency) {
@@ -407,7 +479,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
         }
       }
 
-      return new Balance(currency, total, available, frozen, borrowed, loaned, withdrawing, depositing);
+      return new Balance(
+          currency, total, available, frozen, borrowed, loaned, withdrawing, depositing);
     }
   }
 }

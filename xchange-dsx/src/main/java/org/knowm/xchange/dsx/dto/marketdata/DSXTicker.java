@@ -1,13 +1,9 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public final class DSXTicker {
 
   private final BigDecimal high;
@@ -21,11 +17,17 @@ public final class DSXTicker {
   private final long updated;
   private final String pair;
 
-  public DSXTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("avg") BigDecimal avg, @JsonProperty("vol") BigDecimal vol,
-      @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("last") BigDecimal last,
-      @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell,
-      @JsonProperty("updated") long updated, @JsonProperty("pair") String pair) {
+  public DSXTicker(
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("avg") BigDecimal avg,
+      @JsonProperty("vol") BigDecimal vol,
+      @JsonProperty("vol_cur") BigDecimal volCur,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("sell") BigDecimal sell,
+      @JsonProperty("updated") long updated,
+      @JsonProperty("pair") String pair) {
 
     this.high = high;
     this.low = low;
@@ -92,18 +94,28 @@ public final class DSXTicker {
   @Override
   public String toString() {
 
-    return "DSXTicker{" +
-        "high=" + high +
-        ", low=" + low +
-        ", avg=" + avg +
-        ", vol=" + vol +
-        ", volCur=" + volCur +
-        ", last=" + last +
-        ", buy=" + buy +
-        ", sell=" + sell +
-        ", updated=" + updated +
-        ", pair='" + pair + '\'' +
-        '}';
+    return "DSXTicker{"
+        + "high="
+        + high
+        + ", low="
+        + low
+        + ", avg="
+        + avg
+        + ", vol="
+        + vol
+        + ", volCur="
+        + volCur
+        + ", last="
+        + last
+        + ", buy="
+        + buy
+        + ", sell="
+        + sell
+        + ", updated="
+        + updated
+        + ", pair='"
+        + pair
+        + '\''
+        + '}';
   }
-
 }

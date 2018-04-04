@@ -1,11 +1,9 @@
 package org.knowm.xchange.liqui.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.liqui.dto.LiquiTradeType;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LiquiOrderInfo {
 
@@ -17,9 +15,13 @@ public class LiquiOrderInfo {
   private final BigDecimal startAmount;
   private final String status;
 
-  public LiquiOrderInfo(@JsonProperty("start_amount") final String startAmount, @JsonProperty("status") final String status,
-      @JsonProperty("pair") final String pair, @JsonProperty("type") final LiquiTradeType type,
-      @JsonProperty("amount") final String amount, @JsonProperty("rate") final String rate,
+  public LiquiOrderInfo(
+      @JsonProperty("start_amount") final String startAmount,
+      @JsonProperty("status") final String status,
+      @JsonProperty("pair") final String pair,
+      @JsonProperty("type") final LiquiTradeType type,
+      @JsonProperty("amount") final String amount,
+      @JsonProperty("rate") final String rate,
       @JsonProperty("timestamp_created") final long timestampCreated) {
     this.status = status;
     final String[] split = pair.split("_");
@@ -61,14 +63,23 @@ public class LiquiOrderInfo {
 
   @Override
   public String toString() {
-    return "LiquiOrderInfo{" +
-        "pair=" + pair +
-        ", type=" + type +
-        ", amount=" + amount +
-        ", rate=" + rate +
-        ", timestampCreated=" + timestampCreated +
-        ", startAmount='" + startAmount + '\'' +
-        ", status='" + status + '\'' +
-        '}';
+    return "LiquiOrderInfo{"
+        + "pair="
+        + pair
+        + ", type="
+        + type
+        + ", amount="
+        + amount
+        + ", rate="
+        + rate
+        + ", timestampCreated="
+        + timestampCreated
+        + ", startAmount='"
+        + startAmount
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + '}';
   }
 }

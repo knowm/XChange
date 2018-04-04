@@ -15,7 +15,8 @@ public class GDAXCoinbaseAccountAddress {
   private final String id;
   private final String name;
 
-  public GDAXCoinbaseAccountAddress(@JsonProperty("resource") String resource,
+  public GDAXCoinbaseAccountAddress(
+      @JsonProperty("resource") String resource,
       @JsonProperty("network") String network,
       @JsonProperty("exchange_deposit_address") boolean exchangeDepositAddress,
       @JsonProperty("created_at") String createDate,

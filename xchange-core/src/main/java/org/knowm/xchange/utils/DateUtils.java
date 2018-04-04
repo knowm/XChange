@@ -1,29 +1,23 @@
 package org.knowm.xchange.utils;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
 /**
- * <p>
  * Utilities to provide the following to application:
- * </p>
+ *
  * <ul>
- * <li>Provision of standard date and time handling</li>
+ *   <li>Provision of standard date and time handling
  * </ul>
  */
 public class DateUtils {
 
-  /**
-   * private Constructor
-   */
-  private DateUtils() {
-
-  }
+  /** private Constructor */
+  private DateUtils() {}
 
   /**
    * Creates a date from a long representing milliseconds from epoch
@@ -56,7 +50,8 @@ public class DateUtils {
    * @return Date
    * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
    */
-  public static Date fromISODateString(String isoFormattedDate) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public static Date fromISODateString(String isoFormattedDate)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
     SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     // set UTC time zone - 'Z' indicates it
@@ -69,16 +64,18 @@ public class DateUtils {
   }
 
   /**
-   * Converts an ISO 8601 formatted Date String to a Java Date ISO 8601 format: yyyy-MM-dd'T'HH:mm:ss
+   * Converts an ISO 8601 formatted Date String to a Java Date ISO 8601 format:
+   * yyyy-MM-dd'T'HH:mm:ss
    *
    * @param iso8601FormattedDate
    * @return Date
    * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
    */
-  public static Date fromISO8601DateString(String iso8601FormattedDate) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public static Date fromISO8601DateString(String iso8601FormattedDate)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
     SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    // set UTC time zone 
+    // set UTC time zone
     iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
     try {
       return iso8601Format.parse(iso8601FormattedDate);
@@ -88,15 +85,18 @@ public class DateUtils {
   }
 
   /**
-   * Converts an rfc1123 formatted Date String to a Java Date rfc1123 format: EEE, dd MMM yyyy HH:mm:ss zzz
+   * Converts an rfc1123 formatted Date String to a Java Date rfc1123 format: EEE, dd MMM yyyy
+   * HH:mm:ss zzz
    *
    * @param rfc1123FormattedDate
    * @return Date
    * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
    */
-  public static Date fromRfc1123DateString(String rfc1123FormattedDate, Locale locale) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public static Date fromRfc1123DateString(String rfc1123FormattedDate, Locale locale)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
-    SimpleDateFormat rfc1123DateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", locale);
+    SimpleDateFormat rfc1123DateFormat =
+        new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", locale);
     try {
       return rfc1123DateFormat.parse(rfc1123FormattedDate);
     } catch (ParseException e) {
@@ -112,7 +112,8 @@ public class DateUtils {
    * @throws InvalidFormatException the RFC3339 formatted Date is invalid or cannot be parsed.
    * @see <a href="https://tools.ietf.org/html/rfc3339">The Internet Society - RFC 3339</a>
    */
-  public static Date fromRfc3339DateString(String rfc3339FormattedDate) throws InvalidFormatException {
+  public static Date fromRfc3339DateString(String rfc3339FormattedDate)
+      throws InvalidFormatException {
 
     SimpleDateFormat rfc3339DateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     try {
@@ -122,23 +123,17 @@ public class DateUtils {
     }
   }
 
-  /**
-   * Convert java time long to unix time long, simply by dividing by 1000
-   */
+  /** Convert java time long to unix time long, simply by dividing by 1000 */
   public static long toUnixTime(long javaTime) {
     return javaTime / 1000;
   }
 
-  /**
-   * Convert java time to unix time long, simply by dividing by the time 1000
-   */
+  /** Convert java time to unix time long, simply by dividing by the time 1000 */
   public static long toUnixTime(Date time) {
     return time.getTime() / 1000;
   }
 
-  /**
-   * Convert java time to unix time long, simply by dividing by the time 1000. Null safe
-   */
+  /** Convert java time to unix time long, simply by dividing by the time 1000. Null safe */
   public static Long toUnixTimeNullSafe(Date time) {
 
     return time == null ? null : time.getTime() / 1000;
@@ -149,11 +144,8 @@ public class DateUtils {
     return time == null ? null : time.getTime();
   }
 
-  /**
-   * Convert unix time to Java Date
-   */
+  /** Convert unix time to Java Date */
   public static Date fromUnixTime(long unix) {
     return new Date(unix * 1000);
   }
-
 }

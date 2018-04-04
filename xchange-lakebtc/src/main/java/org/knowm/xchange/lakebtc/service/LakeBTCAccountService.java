@@ -3,7 +3,6 @@ package org.knowm.xchange.lakebtc.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -16,9 +15,7 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/**
- * @author cristian.lucaci
- */
+/** @author cristian.lucaci */
 public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements AccountService {
 
   /**
@@ -38,7 +35,8 @@ public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements A
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -58,8 +56,7 @@ public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements A
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

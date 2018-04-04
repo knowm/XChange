@@ -2,6 +2,7 @@ package org.knowm.xchange.coinbase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -9,7 +10,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import org.junit.Test;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUsers;
@@ -28,11 +28,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseAdapterTest {
 
   @Test
@@ -44,7 +40,9 @@ public class CoinbaseAdapterTest {
     AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", new Wallet(balances));
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/account/example-users-data.json");
+    InputStream is =
+        CoinbaseAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/account/example-users-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -55,8 +53,8 @@ public class CoinbaseAdapterTest {
 
     AccountInfo accountInfo = CoinbaseAdapters.adaptAccountInfo(user);
     //// fest bug: map fields are compared by values() which is always false
-    //assertThat(wallet).isEqualToIgnoringGivenFields(expectedWallet, "balances");
-    //assertThat(wallet.getBalance("BTC")).isEqualTo(expectedWallet.getBalance("BTC"));
+    // assertThat(wallet).isEqualToIgnoringGivenFields(expectedWallet, "balances");
+    // assertThat(wallet.getBalance("BTC")).isEqualTo(expectedWallet.getBalance("BTC"));
     assertThat(accountInfo).isEqualToComparingFieldByField(expectedAccountInfo);
   }
 
@@ -66,12 +64,22 @@ public class CoinbaseAdapterTest {
     BigDecimal originalAmount = new BigDecimal("1.20000000");
     BigDecimal price = new BigDecimal("905.10").divide(originalAmount, RoundingMode.HALF_EVEN);
 
-    UserTrade expectedTrade = new UserTrade(OrderType.BID, originalAmount, CurrencyPair.BTC_USD, price,
-        DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"), "52f4411767c71baf9000003f", "52f4411667c71baf9000003c", new BigDecimal("9.05"),
-        Currency.getInstance("USD"));
+    UserTrade expectedTrade =
+        new UserTrade(
+            OrderType.BID,
+            originalAmount,
+            CurrencyPair.BTC_USD,
+            price,
+            DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"),
+            "52f4411767c71baf9000003f",
+            "52f4411667c71baf9000003c",
+            new BigDecimal("9.05"),
+            Currency.getInstance("USD"));
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/trade/example-transfers-data.json");
+    InputStream is =
+        CoinbaseAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/trade/example-transfers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -88,26 +96,40 @@ public class CoinbaseAdapterTest {
   @Test
   public void testAdaptTicker() throws IOException {
 
-    Ticker expectedTicker = new Ticker.Builder().currencyPair(CurrencyPair.BTC_USD).ask(new BigDecimal("723.09")).bid(new BigDecimal("723.09"))
-        .last(new BigDecimal("719.79")).low(new BigDecimal("718.2")).high(new BigDecimal("723.11")).build();
+    Ticker expectedTicker =
+        new Ticker.Builder()
+            .currencyPair(CurrencyPair.BTC_USD)
+            .ask(new BigDecimal("723.09"))
+            .bid(new BigDecimal("723.09"))
+            .last(new BigDecimal("719.79"))
+            .low(new BigDecimal("718.2"))
+            .high(new BigDecimal("723.11"))
+            .build();
 
-    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-price-data.json");
+    InputStream is =
+        CoinbaseAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/marketdata/example-price-data.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinbasePrice price = mapper.readValue(is, CoinbasePrice.class);
 
     CoinbaseMoney spotPrice = new CoinbaseMoney("USD", new BigDecimal("719.79"));
 
-    is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.txt");
+    is =
+        CoinbaseAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/marketdata/example-spot-rate-history-data.txt");
     String spotPriceHistoryString;
     try (Scanner scanner = new Scanner(is)) {
       spotPriceHistoryString = scanner.useDelimiter("\\A").next();
     }
 
-    CoinbaseSpotPriceHistory spotPriceHistory = CoinbaseSpotPriceHistory.fromRawString(spotPriceHistoryString);
+    CoinbaseSpotPriceHistory spotPriceHistory =
+        CoinbaseSpotPriceHistory.fromRawString(spotPriceHistoryString);
 
-    Ticker ticker = CoinbaseAdapters.adaptTicker(CurrencyPair.BTC_USD, price, price, spotPrice, spotPriceHistory);
+    Ticker ticker =
+        CoinbaseAdapters.adaptTicker(
+            CurrencyPair.BTC_USD, price, price, spotPrice, spotPriceHistory);
 
     // TOD  this seems broke. If you
-//    assertThat(ticker).isEqualToComparingFieldByField(expectedTicker);
+    //    assertThat(ticker).isEqualToComparingFieldByField(expectedTicker);
   }
 }

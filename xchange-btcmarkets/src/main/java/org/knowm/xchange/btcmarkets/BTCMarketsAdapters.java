@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
@@ -27,21 +26,22 @@ import org.knowm.xchange.dto.trade.UserTrades;
 
 public final class BTCMarketsAdapters {
 
-  public static final Comparator<LimitOrder> ASK_COMPARATOR = new Comparator<LimitOrder>() {
-    @Override
-    public int compare(LimitOrder o1, LimitOrder o2) {
-      return o1.getLimitPrice().compareTo(o2.getLimitPrice());
-    }
-  };
-  public static final Comparator<LimitOrder> BID_COMPARATOR = new Comparator<LimitOrder>() {
-    @Override
-    public int compare(LimitOrder o1, LimitOrder o2) {
-      return o2.getLimitPrice().compareTo(o1.getLimitPrice());
-    }
-  };
+  public static final Comparator<LimitOrder> ASK_COMPARATOR =
+      new Comparator<LimitOrder>() {
+        @Override
+        public int compare(LimitOrder o1, LimitOrder o2) {
+          return o1.getLimitPrice().compareTo(o2.getLimitPrice());
+        }
+      };
+  public static final Comparator<LimitOrder> BID_COMPARATOR =
+      new Comparator<LimitOrder>() {
+        @Override
+        public int compare(LimitOrder o1, LimitOrder o2) {
+          return o2.getLimitPrice().compareTo(o1.getLimitPrice());
+        }
+      };
 
-  private BTCMarketsAdapters() {
-  }
+  private BTCMarketsAdapters() {}
 
   public static Wallet adaptWallet(List<BTCMarketsBalance> balances) {
     List<Balance> wallets = new ArrayList<>(balances.size());
@@ -52,15 +52,19 @@ public final class BTCMarketsAdapters {
     return new Wallet(wallets);
   }
 
-  public static OrderBook adaptOrderBook(BTCMarketsOrderBook btcmarketsOrderBook, CurrencyPair currencyPair) {
-    List<LimitOrder> asks = createOrders(Order.OrderType.ASK, btcmarketsOrderBook.getAsks(), currencyPair);
-    List<LimitOrder> bids = createOrders(Order.OrderType.BID, btcmarketsOrderBook.getBids(), currencyPair);
+  public static OrderBook adaptOrderBook(
+      BTCMarketsOrderBook btcmarketsOrderBook, CurrencyPair currencyPair) {
+    List<LimitOrder> asks =
+        createOrders(Order.OrderType.ASK, btcmarketsOrderBook.getAsks(), currencyPair);
+    List<LimitOrder> bids =
+        createOrders(Order.OrderType.BID, btcmarketsOrderBook.getBids(), currencyPair);
     Collections.sort(bids, BID_COMPARATOR);
     Collections.sort(asks, ASK_COMPARATOR);
     return new OrderBook(btcmarketsOrderBook.getTimestamp(), asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(Order.OrderType orderType, List<BigDecimal[]> orders, CurrencyPair currencyPair) {
+  public static List<LimitOrder> createOrders(
+      Order.OrderType orderType, List<BigDecimal[]> orders, CurrencyPair currencyPair) {
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (BigDecimal[] o : orders) {
       limitOrders.add(new LimitOrder(orderType, o[1], currencyPair, null, null, o[0]));
@@ -69,11 +73,17 @@ public final class BTCMarketsAdapters {
   }
 
   public static LimitOrder adaptOrder(BTCMarketsOrder o) {
-    return new LimitOrder(adaptOrderType(o.getOrderSide()), o.getVolume(), new CurrencyPair(o.getInstrument(), o.getCurrency()),
-        Long.toString(o.getId()), o.getCreationTime(), o.getPrice());
+    return new LimitOrder(
+        adaptOrderType(o.getOrderSide()),
+        o.getVolume(),
+        new CurrencyPair(o.getInstrument(), o.getCurrency()),
+        Long.toString(o.getId()),
+        o.getCreationTime(),
+        o.getPrice());
   }
 
-  public static UserTrades adaptTradeHistory(List<BTCMarketsUserTrade> btcmarketsUserTrades, CurrencyPair currencyPair) {
+  public static UserTrades adaptTradeHistory(
+      List<BTCMarketsUserTrade> btcmarketsUserTrades, CurrencyPair currencyPair) {
     List<UserTrade> trades = new ArrayList<>();
     for (BTCMarketsUserTrade btcmarketsUserTrade : btcmarketsUserTrades) {
       trades.add(adaptTrade(btcmarketsUserTrade, currencyPair));
@@ -87,8 +97,16 @@ public final class BTCMarketsAdapters {
     final String tradeId = Long.toString(trade.getId());
     final Long orderId = trade.getOrderId();
     final String feeCurrency = currencyPair.base.getCurrencyCode();
-    return new UserTrade(type, trade.getVolume(), currencyPair, trade.getPrice().abs(), trade.getCreationTime(), tradeId, String.valueOf(orderId),
-        trade.getFee(), Currency.getInstance(feeCurrency));
+    return new UserTrade(
+        type,
+        trade.getVolume(),
+        currencyPair,
+        trade.getPrice().abs(),
+        trade.getCreationTime(),
+        tradeId,
+        String.valueOf(orderId),
+        trade.getFee(),
+        Currency.getInstance(feeCurrency));
   }
 
   public static Order.OrderType adaptOrderType(BTCMarketsOrder.Side orderType) {
@@ -104,7 +122,12 @@ public final class BTCMarketsAdapters {
   }
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, BTCMarketsTicker t) {
-    return new Ticker.Builder().currencyPair(currencyPair).last(t.getLastPrice()).bid(t.getBestBid()).ask(t.getBestAsk()).timestamp(t.getTimestamp())
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(t.getLastPrice())
+        .bid(t.getBestBid())
+        .ask(t.getBestAsk())
+        .timestamp(t.getTimestamp())
         .build();
   }
 }

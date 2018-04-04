@@ -46,11 +46,24 @@ public class CexIOOpenOrder {
   public final String orderId;
   public final String id;
 
-  public CexIOOpenOrder(@JsonProperty("user") String user, @JsonProperty("type") String type, @JsonProperty("symbol1") String symbol1, @JsonProperty("symbol2") String symbol2,
-      @JsonProperty("amount") String amount, @JsonProperty("remains") String remains, @JsonProperty("price") String price, @JsonProperty("time") long time,
-      @JsonProperty("lastTxTime") String lastTxTime, @JsonProperty("tradingFeeStrategy") String tradingFeeStrategy, @JsonProperty("tradingFeeTaker") String tradingFeeTaker,
-      @JsonProperty("tradingFeeMaker") String tradingFeeMaker, @JsonProperty("tradingFeeUserVolumeAmount") String tradingFeeUserVolumeAmount, @JsonProperty("lastTx") String lastTx,
-      @JsonProperty("status") String status, @JsonProperty("orderId") String orderId, @JsonProperty("id") String id) {
+  public CexIOOpenOrder(
+      @JsonProperty("user") String user,
+      @JsonProperty("type") String type,
+      @JsonProperty("symbol1") String symbol1,
+      @JsonProperty("symbol2") String symbol2,
+      @JsonProperty("amount") String amount,
+      @JsonProperty("remains") String remains,
+      @JsonProperty("price") String price,
+      @JsonProperty("time") long time,
+      @JsonProperty("lastTxTime") String lastTxTime,
+      @JsonProperty("tradingFeeStrategy") String tradingFeeStrategy,
+      @JsonProperty("tradingFeeTaker") String tradingFeeTaker,
+      @JsonProperty("tradingFeeMaker") String tradingFeeMaker,
+      @JsonProperty("tradingFeeUserVolumeAmount") String tradingFeeUserVolumeAmount,
+      @JsonProperty("lastTx") String lastTx,
+      @JsonProperty("status") String status,
+      @JsonProperty("orderId") String orderId,
+      @JsonProperty("id") String id) {
     this.user = user;
     this.type = type;
     this.symbol1 = symbol1;
@@ -69,5 +82,4 @@ public class CexIOOpenOrder {
     this.orderId = orderId;
     this.id = id;
   }
-
 }

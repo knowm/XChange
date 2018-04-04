@@ -2,13 +2,14 @@ package org.knowm.xchange.anx.v2;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,12 +33,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Tests the ANXAdapter class
- */
+/** Tests the ANXAdapter class */
 public class ANXAdapterTest {
 
   static ANXMetaData metaData;
@@ -52,7 +48,8 @@ public class ANXAdapterTest {
   public void testAccountInfoAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = ANXAdapterTest.class.getResourceAsStream("/v2/account/example-accountinfo-data.json");
+    InputStream is =
+        ANXAdapterTest.class.getResourceAsStream("/v2/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -62,16 +59,20 @@ public class ANXAdapterTest {
     AccountInfo accountInfo = ANXAdapters.adaptAccountInfo(anxAccountInfo);
     assertThat(accountInfo.getUsername()).isEqualTo("test@anxpro.com");
 
-    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getTotal()).isEqualTo(new BigDecimal("9999781.09457936"));
-    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
-    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getTotal())
+        .isEqualTo(new BigDecimal("9999781.09457936"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getAvailable())
+        .isEqualTo(new BigDecimal("9914833.52608521"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getFrozen())
+        .isEqualTo(new BigDecimal("84947.56849415"));
   }
 
   @Test
   public void testOrderAdapterWithOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = ANXAdapterTest.class.getResourceAsStream("/v2/trade/example-openorders-data.json");
+    InputStream is =
+        ANXAdapterTest.class.getResourceAsStream("/v2/trade/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -99,14 +100,16 @@ public class ANXAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = ANXAdapterTest.class.getResourceAsStream("/v2/marketdata/example-fulldepth-data.json");
+    InputStream is =
+        ANXAdapterTest.class.getResourceAsStream("/v2/marketdata/example-fulldepth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     ANXDepth anxDepth = mapper.readValue(is, ANXDepth.class);
 
-    List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepth.getAsks(), "BTC", "USD", "ask", "id_567");
+    List<LimitOrder> asks =
+        ANXAdapters.adaptOrders(anxDepth.getAsks(), "BTC", "USD", "ask", "id_567");
     Assert.assertEquals(3, asks.size());
 
     // Verify all fields filled
@@ -123,7 +126,8 @@ public class ANXAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TickerJSONTest.class.getResourceAsStream("/v2/marketdata/example-trades-data.json");
+    InputStream is =
+        TickerJSONTest.class.getResourceAsStream("/v2/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -150,7 +154,8 @@ public class ANXAdapterTest {
   public void testWalletAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = ANXAdapterTest.class.getResourceAsStream("/v2/account/example-accountinfo-data.json");
+    InputStream is =
+        ANXAdapterTest.class.getResourceAsStream("/v2/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -158,19 +163,34 @@ public class ANXAdapterTest {
     ANXAccountInfo anxAccountInfo = mapper.readValue(is, ANXAccountInfo.class);
 
     // in Wallet, only wallets from ANXAccountInfo.getBalancesList that contained data are NOT null.
-    Collection<Balance> balances = ANXAdapters.adaptWallet(anxAccountInfo.getWallets()).getBalances().values();
+    Collection<Balance> balances =
+        ANXAdapters.adaptWallet(anxAccountInfo.getWallets()).getBalances().values();
     Assert.assertEquals(22, balances.size());
 
-    Assert.assertTrue(balances.contains(new Balance(Currency.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
-    Assert.assertTrue(balances.contains(new Balance(Currency.BTC, new BigDecimal("100000.01988000"), new BigDecimal("100000.01988000"))));
-    Assert.assertTrue(balances.contains(new Balance(Currency.DOGE, new BigDecimal("9999781.09457936"), new BigDecimal("9914833.52608521"))));
+    Assert.assertTrue(
+        balances.contains(
+            new Balance(
+                Currency.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
+    Assert.assertTrue(
+        balances.contains(
+            new Balance(
+                Currency.BTC,
+                new BigDecimal("100000.01988000"),
+                new BigDecimal("100000.01988000"))));
+    Assert.assertTrue(
+        balances.contains(
+            new Balance(
+                Currency.DOGE,
+                new BigDecimal("9999781.09457936"),
+                new BigDecimal("9914833.52608521"))));
   }
 
   @Test
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = ANXAdapterTest.class.getResourceAsStream("/v2/marketdata/example-ticker-data.json");
+    InputStream is =
+        ANXAdapterTest.class.getResourceAsStream("/v2/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

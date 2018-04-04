@@ -1,15 +1,13 @@
 package org.knowm.xchange.kucoin.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import org.knowm.xchange.kucoin.dto.KucoinOrderType;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.io.IOException;
+import java.math.BigDecimal;
+import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 
 public class KucoinDealOrderDeserializer extends JsonDeserializer<KucoinDealOrder> {
 
@@ -28,5 +26,4 @@ public class KucoinDealOrderDeserializer extends JsonDeserializer<KucoinDealOrde
       throw new RuntimeException("KucoinDealOrder should have an array as root node!");
     }
   }
-
 }

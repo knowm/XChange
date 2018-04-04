@@ -3,7 +3,6 @@ package org.xchange.coinegg.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -16,9 +15,9 @@ import org.xchange.coinegg.CoinEggAdapters;
 
 public class CoinEggAccountService extends CoinEggAccountServiceRaw implements AccountService {
 
-	public CoinEggAccountService(Exchange exchange) {
-		super(exchange);
-	}
+  public CoinEggAccountService(Exchange exchange) {
+    super(exchange);
+  }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
@@ -26,7 +25,8 @@ public class CoinEggAccountService extends CoinEggAccountServiceRaw implements A
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 

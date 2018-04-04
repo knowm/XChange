@@ -10,16 +10,13 @@ import static org.junit.Assert.assertEquals;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.BUY;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.SELL;
 
-import java.io.File;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
-
-import org.assertj.core.api.AbstractDateAssert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.kuna.util.KunaUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KunaTradeTest {
   private static KunaTrade trade;
@@ -27,7 +24,10 @@ public class KunaTradeTest {
   @BeforeClass
   public static void init() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
-    File file = new File("src/test/resources/mock/trade.json");
+    InputStream file =
+        new Object() {}.getClass()
+            .getClassLoader()
+            .getResourceAsStream("org/knowm/xchange/kuna/dto/trade.json");
     trade = mapper.readValue(file, KunaTrade.class);
   }
 
@@ -43,10 +43,14 @@ public class KunaTradeTest {
   @Test
   public void test_side() {
     assertThat(KunaTrade.builder().withSide(null).build().getSide()).isNull();
-    assertThat(KunaTrade.builder().withSide(BUY.name().toUpperCase()).build().getSide()).isEqualByComparingTo(BUY);
-    assertThat(KunaTrade.builder().withSide(SELL.name().toUpperCase()).build().getSide()).isEqualByComparingTo(SELL);
-    assertThat(KunaTrade.builder().withSide(BUY.name().toLowerCase()).build().getSide()).isEqualByComparingTo(BUY);
-    assertThat(KunaTrade.builder().withSide(SELL.name().toLowerCase()).build().getSide()).isEqualByComparingTo(SELL);
+    assertThat(KunaTrade.builder().withSide(BUY.name().toUpperCase()).build().getSide())
+        .isEqualByComparingTo(BUY);
+    assertThat(KunaTrade.builder().withSide(SELL.name().toUpperCase()).build().getSide())
+        .isEqualByComparingTo(SELL);
+    assertThat(KunaTrade.builder().withSide(BUY.name().toLowerCase()).build().getSide())
+        .isEqualByComparingTo(BUY);
+    assertThat(KunaTrade.builder().withSide(SELL.name().toLowerCase()).build().getSide())
+        .isEqualByComparingTo(SELL);
 
     assertThat(trade.getSide()).isNull();
   }
@@ -71,7 +75,8 @@ public class KunaTradeTest {
   @Test
   public void test_createdAt() {
     assertThat(KunaTrade.builder().withCreatedAt(null).build().getCreatedAt()).isNull();
-    assertThat(KunaTrade.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt())
+    assertThat(
+            KunaTrade.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt())
         .isEqualToIgnoringSeconds(new Date());
     assertThat(trade.getCreatedAt()).isEqualToIgnoringHours("2018-01-16T14:19:24+02:00");
   }
@@ -93,5 +98,4 @@ public class KunaTradeTest {
 
     assertThat(trade.getFunds()).isEqualByComparingTo("13454.6568");
   }
-
 }

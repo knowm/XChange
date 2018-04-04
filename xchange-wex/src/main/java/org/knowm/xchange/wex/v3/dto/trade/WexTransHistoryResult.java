@@ -1,20 +1,18 @@
 package org.knowm.xchange.wex.v3.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Peter N. Steinmetz Date: 3/30/15 Time: 3:19 PM
- */
+/** @author Peter N. Steinmetz Date: 3/30/15 Time: 3:19 PM */
 public class WexTransHistoryResult {
 
   private final Type type; // Transaction type. 1/2 - deposit/withdrawal, 4/5 - credit/debit
   private final BigDecimal amount;
   private final String currency;
   private final String description;
-  private final Status status; // 0 - canceled/failed, 1 - waiting for acceptance, 2 - successful, 3 – not confirmed
+  private final Status
+      status; // 0 - canceled/failed, 1 - waiting for acceptance, 2 - successful, 3 – not confirmed
   private final Long timestamp;
 
   /**
@@ -27,8 +25,13 @@ public class WexTransHistoryResult {
    * @param status
    * @param timestamp
    */
-  public WexTransHistoryResult(@JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency,
-      @JsonProperty("desc") String description, @JsonProperty("status") Status status, @JsonProperty("timestamp") Long timestamp) {
+  public WexTransHistoryResult(
+      @JsonProperty("type") Type type,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("desc") String description,
+      @JsonProperty("status") Status status,
+      @JsonProperty("timestamp") Long timestamp) {
 
     this.type = type;
     this.amount = amount;
@@ -64,21 +67,28 @@ public class WexTransHistoryResult {
 
   @Override
   public String toString() {
-    return MessageFormat.format("BTCETransHistory[type={0}, amount={1}, currency=''{2}'', description=''{3}'', status={4}, timestamp={5}]", type,
-        amount, currency, description, status, timestamp);
+    return MessageFormat.format(
+        "BTCETransHistory[type={0}, amount={1}, currency=''{2}'', description=''{3}'', status={4}, timestamp={5}]",
+        type, amount, currency, description, status, timestamp);
   }
 
-  /**
-   * Type of transaction.
-   */
+  /** Type of transaction. */
   public enum Type {
-    reserved0, BTC_deposit, BTC_withdrawal, reserved3, credit, payment, reserved6, reserved7, reserved8
+    reserved0,
+    BTC_deposit,
+    BTC_withdrawal,
+    reserved3,
+    credit,
+    payment,
+    reserved6,
+    reserved7,
+    reserved8
   }
 
-  /**
-   * Status of transaction.
-   */
+  /** Status of transaction. */
   public enum Status {
-    entered, waiting, complete
+    entered,
+    waiting,
+    complete
   }
 }

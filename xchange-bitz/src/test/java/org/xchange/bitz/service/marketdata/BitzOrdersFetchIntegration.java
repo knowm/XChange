@@ -18,11 +18,10 @@ public class BitzOrdersFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orders = marketDataService.getOrderBook(new CurrencyPair("LTC", "BTC"));
-    
+
     // Verify Not Null Values
     assertThat(orders).isNotNull();
-    
+
     // TODO: Logical Verification Of Values
   }
-
 }

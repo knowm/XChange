@@ -2,9 +2,6 @@ package org.knowm.xchange.lakebtc.service;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -16,10 +13,9 @@ import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author kpysniak
- */
-public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw implements MarketDataService {
+/** @author kpysniak */
+public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -35,11 +31,10 @@ public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw implem
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     LakeBTCTicker lakeBTCTicker;
-    Map<String,LakeBTCTicker> lakeBTCTickers = getLakeBTCTickers();
+    Map<String, LakeBTCTicker> lakeBTCTickers = getLakeBTCTickers();
 
-    lakeBTCTicker = lakeBTCTickers.get( LakeBTCAdapters.adaptCurrencyPair(currencyPair));
-    if ( lakeBTCTicker == null )
-      throw new NotAvailableFromExchangeException();
+    lakeBTCTicker = lakeBTCTickers.get(LakeBTCAdapters.adaptCurrencyPair(currencyPair));
+    if (lakeBTCTicker == null) throw new NotAvailableFromExchangeException();
 
     return LakeBTCAdapters.adaptTicker(lakeBTCTicker, currencyPair);
   }
@@ -57,5 +52,4 @@ public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw implem
 
     throw new NotAvailableFromExchangeException();
   }
-
 }

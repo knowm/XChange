@@ -6,10 +6,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 public interface OpenOrdersParamCurrencyPair extends OpenOrdersParams {
   @Override
   default boolean accept(LimitOrder order) {
-    return order != null && getCurrencyPair() != null && getCurrencyPair().equals(order.getCurrencyPair());
+    return order != null
+        && getCurrencyPair() != null
+        && getCurrencyPair().equals(order.getCurrencyPair());
   }
 
-  void setCurrencyPair(CurrencyPair pair);
-
   CurrencyPair getCurrencyPair();
+
+  void setCurrencyPair(CurrencyPair pair);
 }

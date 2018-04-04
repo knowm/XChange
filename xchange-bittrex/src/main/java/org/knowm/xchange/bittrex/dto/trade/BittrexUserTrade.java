@@ -1,55 +1,83 @@
 package org.knowm.xchange.bittrex.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"OrderUuid", "Exchange", "TimeStamp", "OrderType", "Limit", "Quantity", "QuantityRemaining", "Commission", "Price", "PricePerUnit", "IsConditional", "Condition", "ConditionTarget", "ImmediateOrCancel", "Closed"})
+@JsonPropertyOrder({
+  "OrderUuid",
+  "Exchange",
+  "TimeStamp",
+  "OrderType",
+  "Limit",
+  "Quantity",
+  "QuantityRemaining",
+  "Commission",
+  "Price",
+  "PricePerUnit",
+  "IsConditional",
+  "Condition",
+  "ConditionTarget",
+  "ImmediateOrCancel",
+  "Closed"
+})
 public class BittrexUserTrade {
 
   @JsonProperty("OrderUuid")
   private String orderUuid;
+
   @JsonProperty("Exchange")
   private String exchange;
+
   @JsonProperty("TimeStamp")
   private String timeStamp;
+
   @JsonProperty("OrderType")
   private String orderType;
+
   @JsonProperty("Limit")
   private BigDecimal limit;
+
   @JsonProperty("Quantity")
   private BigDecimal quantity;
+
   @JsonProperty("QuantityRemaining")
   private BigDecimal quantityRemaining;
+
   @JsonProperty("Commission")
   private BigDecimal commission;
+
   @JsonProperty("Price")
   private BigDecimal price;
+
   @JsonProperty("PricePerUnit")
   private BigDecimal pricePerUnit;
+
   @JsonProperty("IsConditional")
   private Boolean isConditional;
+
   @JsonProperty("Condition")
   private Object condition;
+
   @JsonProperty("ConditionTarget")
   private Object conditionTarget;
+
   @JsonProperty("ImmediateOrCancel")
   private Boolean immediateOrCancel;
+
   @JsonProperty("Closed")
   private String closed;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   @JsonProperty("OrderUuid")
   public String getOrderUuid() {
@@ -246,10 +274,36 @@ public class BittrexUserTrade {
   @Override
   public String toString() {
 
-    return "BittrexUserTrade [orderUuid=" + orderUuid + ", exchange=" + exchange + ", timeStamp=" + timeStamp + ", orderType=" + orderType
-        + ", limit=" + limit + ", quantity=" + quantity + ", quantityRemaining=" + quantityRemaining + ", commission=" + commission + ", price="
-        + price + ", pricePerUnit=" + pricePerUnit + ", isConditional=" + isConditional + ", condition=" + condition + ", conditionTarget="
-        + conditionTarget + ", immediateOrCancel=" + immediateOrCancel + ", additionalProperties=" + additionalProperties + "]";
+    return "BittrexUserTrade [orderUuid="
+        + orderUuid
+        + ", exchange="
+        + exchange
+        + ", timeStamp="
+        + timeStamp
+        + ", orderType="
+        + orderType
+        + ", limit="
+        + limit
+        + ", quantity="
+        + quantity
+        + ", quantityRemaining="
+        + quantityRemaining
+        + ", commission="
+        + commission
+        + ", price="
+        + price
+        + ", pricePerUnit="
+        + pricePerUnit
+        + ", isConditional="
+        + isConditional
+        + ", condition="
+        + condition
+        + ", conditionTarget="
+        + conditionTarget
+        + ", immediateOrCancel="
+        + immediateOrCancel
+        + ", additionalProperties="
+        + additionalProperties
+        + "]";
   }
-
 }

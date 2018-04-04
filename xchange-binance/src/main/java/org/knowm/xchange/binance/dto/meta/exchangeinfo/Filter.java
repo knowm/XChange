@@ -83,15 +83,31 @@ public class Filter {
 
   @Override
   public String toString() {
-    return "Filter{" +
-        "maxPrice='" + maxPrice + '\'' +
-        ", filterType='" + filterType + '\'' +
-        ", tickSize='" + tickSize + '\'' +
-        ", minPrice='" + minPrice + '\'' +
-        ", minQty='" + minQty + '\'' +
-        ", maxQty='" + maxQty + '\'' +
-        ", stepSize='" + stepSize + '\'' +
-        ", minNotional='" + minNotional + '\'' +
-        '}';
+    return "Filter{"
+        + "maxPrice='"
+        + maxPrice
+        + '\''
+        + ", filterType='"
+        + filterType
+        + '\''
+        + ", tickSize='"
+        + tickSize
+        + '\''
+        + ", minPrice='"
+        + minPrice
+        + '\''
+        + ", minQty='"
+        + minQty
+        + '\''
+        + ", maxQty='"
+        + maxQty
+        + '\''
+        + ", stepSize='"
+        + stepSize
+        + '\''
+        + ", minNotional='"
+        + minNotional
+        + '\''
+        + '}';
   }
 }

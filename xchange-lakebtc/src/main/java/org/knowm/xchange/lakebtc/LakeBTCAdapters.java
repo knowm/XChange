@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -26,17 +25,11 @@ import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCTradeResponse;
 import org.knowm.xchange.utils.DateUtils;
 
-/**
- * @author kpysniak
- */
+/** @author kpysniak */
 public class LakeBTCAdapters {
 
-  /**
-   * Singleton
-   */
-  private LakeBTCAdapters() {
-
-  }
+  /** Singleton */
+  private LakeBTCAdapters() {}
 
   public static Ticker adaptTicker(LakeBTCTicker lakeBTCTicker, CurrencyPair currencyPair) {
 
@@ -47,10 +40,19 @@ public class LakeBTCAdapters {
     BigDecimal last = lakeBTCTicker.getLast();
     BigDecimal volume = lakeBTCTicker.getVolume();
 
-    return new Ticker.Builder().currencyPair(currencyPair).bid(bid).ask(ask).high(high).low(low).last(last).volume(volume).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .last(last)
+        .volume(volume)
+        .build();
   }
 
-  private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
+  private static List<LimitOrder> transformArrayToLimitOrders(
+      BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (BigDecimal[] order : orders) {
       limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, null, order[0]));
@@ -59,8 +61,11 @@ public class LakeBTCAdapters {
     return limitOrders;
   }
 
-  public static OrderBook adaptOrderBook(LakeBTCOrderBook lakeBTCOrderBook, CurrencyPair currencyPair) {
-    return new OrderBook(null, transformArrayToLimitOrders(lakeBTCOrderBook.getAsks(), OrderType.ASK, currencyPair),
+  public static OrderBook adaptOrderBook(
+      LakeBTCOrderBook lakeBTCOrderBook, CurrencyPair currencyPair) {
+    return new OrderBook(
+        null,
+        transformArrayToLimitOrders(lakeBTCOrderBook.getAsks(), OrderType.ASK, currencyPair),
         transformArrayToLimitOrders(lakeBTCOrderBook.getBids(), OrderType.BID, currencyPair));
   }
 
@@ -78,7 +83,13 @@ public class LakeBTCAdapters {
     for (LakeBTCTradeResponse trade : transactions) {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;
       trades.add(
-          new Trade(orderType, trade.getAmount(), currencyPair, trade.getTotal(), DateUtils.fromMillisUtc(trade.getAt() * 1000L), trade.getId()));
+          new Trade(
+              orderType,
+              trade.getAmount(),
+              currencyPair,
+              trade.getTotal(),
+              DateUtils.fromMillisUtc(trade.getAt() * 1000L),
+              trade.getId()));
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
@@ -92,10 +103,11 @@ public class LakeBTCAdapters {
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(LakeBTCTradeResponse tx, CurrencyPair currencyPair, int timeScale) {
+  public static Trade adaptTrade(
+      LakeBTCTradeResponse tx, CurrencyPair currencyPair, int timeScale) {
 
     final String tradeId = String.valueOf(tx.getId());
-    Date date = DateUtils.fromMillisUtc(tx.getAt() * timeScale);// polled order
+    Date date = DateUtils.fromMillisUtc(tx.getAt() * timeScale); // polled order
     // books provide
     // a timestamp
     // in seconds,
@@ -121,8 +133,17 @@ public class LakeBTCAdapters {
 
       final String tradeId = trade.getId();
       final CurrencyPair currencyPair = CurrencyPair.BTC_CNY;
-      UserTrade userTrade = new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, null, null,
-          Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+      UserTrade userTrade =
+          new UserTrade(
+              orderType,
+              originalAmount,
+              currencyPair,
+              price,
+              timestamp,
+              tradeId,
+              null,
+              null,
+              Currency.getInstance(currencyPair.counter.getCurrencyCode()));
       trades.add(userTrade);
     }
 
@@ -146,13 +167,15 @@ public class LakeBTCAdapters {
 
     return new AccountInfo(profile.getId(), new Wallet(usdBalance, btcBalance, cnyWBalance));
   }
-  
+
   /**
    * Adapts a currency pair to the keys returned by the tickers map.
+   *
    * @param currencyPair The currency pair to convert to LakeBTCs ticker keys
    * @return A string suitable for looking up ticker information.
    */
   public static String adaptCurrencyPair(CurrencyPair currencyPair) {
-	return currencyPair.base.getCurrencyCode().toLowerCase() + currencyPair.counter.getCurrencyCode().toLowerCase(); 
+    return currencyPair.base.getCurrencyCode().toLowerCase()
+        + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 }

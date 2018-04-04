@@ -24,7 +24,6 @@
 package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
 import org.knowm.xchange.coinmate.CoinmateUtils;
@@ -34,36 +33,34 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author Martin Stachon
- */
-public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw implements MarketDataService {
+/** @author Martin Stachon */
+public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw
+    implements MarketDataService {
 
-  private final static int TRANSACTIONS_MINUTES_INTO_HISTORY = 60;
+  private static final int TRANSACTIONS_MINUTES_INTO_HISTORY = 60;
 
   public CoinmateMarketDataService(Exchange exchange) {
     super(exchange);
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair,
-      Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return CoinmateAdapters.adaptTicker(getCoinmateTicker(CoinmateUtils.getPair(currencyPair)), currencyPair);
+    return CoinmateAdapters.adaptTicker(
+        getCoinmateTicker(CoinmateUtils.getPair(currencyPair)), currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair,
-      Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return CoinmateAdapters.adaptOrderBook(getCoinmateOrderBook(CoinmateUtils.getPair(currencyPair), true), currencyPair);
-
+    return CoinmateAdapters.adaptOrderBook(
+        getCoinmateOrderBook(CoinmateUtils.getPair(currencyPair), true), currencyPair);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair,
-      Object... args) throws IOException {
-    return CoinmateAdapters.adaptTrades(getCoinmateTransactions(TRANSACTIONS_MINUTES_INTO_HISTORY, CoinmateUtils.getPair(currencyPair)));
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    return CoinmateAdapters.adaptTrades(
+        getCoinmateTransactions(
+            TRANSACTIONS_MINUTES_INTO_HISTORY, CoinmateUtils.getPair(currencyPair)));
   }
-
 }

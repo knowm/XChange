@@ -3,19 +3,16 @@ package org.knowm.xchange.utils;
 import java.util.Collection;
 
 /**
- * <p>
  * Abstract class to provide the following to framework:
- * </p>
+ *
  * <ul>
- * <li>Provision of useful assertions to trap programmer errors early</li>
+ *   <li>Provision of useful assertions to trap programmer errors early
  * </ul>
  */
 public abstract class Assert {
 
   /**
-   * <p>
    * Asserts that a condition is true
-   * </p>
    *
    * @param condition The condition under test
    * @param message The message for any exception
@@ -28,9 +25,7 @@ public abstract class Assert {
   }
 
   /**
-   * <p>
    * Asserts that an object is not null
-   * </p>
    *
    * @param object The object under test
    * @param message The message for any exception
@@ -69,5 +64,4 @@ public abstract class Assert {
       throw new IllegalArgumentException(message);
     }
   }
-
 }

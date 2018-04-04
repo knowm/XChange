@@ -1,7 +1,6 @@
 package org.knowm.xchange.taurus.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -11,10 +10,9 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.taurus.Taurus;
 import org.knowm.xchange.taurus.TaurusAdapters;
 
-/**
- * @author Matija Mazi
- */
-public class TaurusMarketDataService extends TaurusMarketDataServiceRaw implements MarketDataService {
+/** @author Matija Mazi */
+public class TaurusMarketDataService extends TaurusMarketDataServiceRaw
+    implements MarketDataService {
 
   public TaurusMarketDataService(Exchange exchange) {
     super(exchange);

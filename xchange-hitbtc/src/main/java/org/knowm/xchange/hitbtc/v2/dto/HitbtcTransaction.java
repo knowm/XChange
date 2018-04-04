@@ -1,9 +1,8 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcTransaction {
 
@@ -21,9 +20,19 @@ public class HitbtcTransaction {
   private final Date createdAt;
   private final Date updatedAt;
 
-  public HitbtcTransaction(@JsonProperty("id") String id, @JsonProperty("index") String index, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("networkFee") BigDecimal networkFee, @JsonProperty("address") String address, @JsonProperty("paymentId") String paymentId,
-      @JsonProperty("hash") String hash, @JsonProperty("status") String status, @JsonProperty("type") String type, @JsonProperty("createdAt") Date createdAt,
+  public HitbtcTransaction(
+      @JsonProperty("id") String id,
+      @JsonProperty("index") String index,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("networkFee") BigDecimal networkFee,
+      @JsonProperty("address") String address,
+      @JsonProperty("paymentId") String paymentId,
+      @JsonProperty("hash") String hash,
+      @JsonProperty("status") String status,
+      @JsonProperty("type") String type,
+      @JsonProperty("createdAt") Date createdAt,
       @JsonProperty("updatedAt") Date updatedAt) {
 
     this.id = id;
@@ -95,20 +104,44 @@ public class HitbtcTransaction {
 
   @Override
   public String toString() {
-    return "HitbtcTransaction{" +
-        "id='" + id + '\'' +
-        ", index='" + index + '\'' +
-        ", currency='" + currency + '\'' +
-        ", amount='" + amount + '\'' +
-        ", fee='" + fee + '\'' +
-        ", networkFee='" + networkFee + '\'' +
-        ", address='" + address + '\'' +
-        ", paymentId='" + paymentId + '\'' +
-        ", hash='" + hash + '\'' +
-        ", status='" + status + '\'' +
-        ", type='" + type + '\'' +
-        ", createdAt=" + createdAt +
-        ", updatedAt=" + updatedAt +
-        '}';
+    return "HitbtcTransaction{"
+        + "id='"
+        + id
+        + '\''
+        + ", index='"
+        + index
+        + '\''
+        + ", currency='"
+        + currency
+        + '\''
+        + ", amount='"
+        + amount
+        + '\''
+        + ", fee='"
+        + fee
+        + '\''
+        + ", networkFee='"
+        + networkFee
+        + '\''
+        + ", address='"
+        + address
+        + '\''
+        + ", paymentId='"
+        + paymentId
+        + '\''
+        + ", hash='"
+        + hash
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + '}';
   }
 }

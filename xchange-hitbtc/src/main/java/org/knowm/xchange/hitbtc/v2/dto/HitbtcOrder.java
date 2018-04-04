@@ -1,9 +1,8 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcOrder {
 
@@ -21,12 +20,19 @@ public class HitbtcOrder {
   private final Date createdAt;
   private final Date updatedAt;
 
-  public HitbtcOrder(@JsonProperty("id") String id, @JsonProperty("clientOrderId") String clientOrderId
-      , @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("status") String status
-      , @JsonProperty("type") String type, @JsonProperty("timeInForce") String timeInForce
-      , @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("price") BigDecimal price
-      , @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("createdAt") Date createdAt
-      , @JsonProperty("updatedAt") Date updatedAt) {
+  public HitbtcOrder(
+      @JsonProperty("id") String id,
+      @JsonProperty("clientOrderId") String clientOrderId,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("side") String side,
+      @JsonProperty("status") String status,
+      @JsonProperty("type") String type,
+      @JsonProperty("timeInForce") String timeInForce,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("cumQuantity") BigDecimal cumQuantity,
+      @JsonProperty("createdAt") Date createdAt,
+      @JsonProperty("updatedAt") Date updatedAt) {
     super();
     this.id = id;
     this.clientOrderId = clientOrderId;
@@ -52,9 +58,30 @@ public class HitbtcOrder {
 
   @Override
   public String toString() {
-    return "HitbtcNewOrderResponse [id=" + id + ", clientOrderId=" + clientOrderId + ", symbol=" + symbol + ", side=" + side
-        + ", status=" + status + ", type=" + type + ", timeInForce=" + timeInForce + ", quantity=" + quantity + ", price="
-        + price + ", cumQuantity=" + cumQuantity + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+    return "HitbtcNewOrderResponse [id="
+        + id
+        + ", clientOrderId="
+        + clientOrderId
+        + ", symbol="
+        + symbol
+        + ", side="
+        + side
+        + ", status="
+        + status
+        + ", type="
+        + type
+        + ", timeInForce="
+        + timeInForce
+        + ", quantity="
+        + quantity
+        + ", price="
+        + price
+        + ", cumQuantity="
+        + cumQuantity
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + "]";
   }
-
 }

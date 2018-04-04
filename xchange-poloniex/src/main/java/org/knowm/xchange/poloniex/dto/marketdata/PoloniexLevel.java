@@ -2,10 +2,7 @@ package org.knowm.xchange.poloniex.dto.marketdata;
 
 import java.math.BigDecimal;
 
-/**
- * @author Zach Holmes
- */
-
+/** @author Zach Holmes */
 public class PoloniexLevel {
 
   private BigDecimal amount;
@@ -33,5 +30,4 @@ public class PoloniexLevel {
 
     return "PoloniexLevel [amount=" + amount + ", limit=" + limit + "]";
   }
-
 }

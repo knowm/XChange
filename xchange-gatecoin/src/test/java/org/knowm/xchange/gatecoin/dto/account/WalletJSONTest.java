@@ -2,14 +2,12 @@ package org.knowm.xchange.gatecoin.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.gatecoin.dto.account.Results.GatecoinBalanceResult;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class WalletJSONTest {
 
@@ -17,7 +15,9 @@ public class WalletJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WalletJSONTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+    InputStream is =
+        WalletJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gatecoin/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -32,6 +32,5 @@ public class WalletJSONTest {
     assertThat(gatecoinBalance[0].getBalance()).isEqualTo(BigDecimal.valueOf(2.94137538));
     assertThat(gatecoinBalance[0].getAvailableBalance()).isEqualTo(BigDecimal.valueOf(2.94137538));
     assertThat(gatecoinBalance[0].getOpenOrder()).isEqualTo(BigDecimal.valueOf(0));
-
   }
 }

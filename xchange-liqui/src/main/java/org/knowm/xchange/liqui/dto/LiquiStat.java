@@ -9,8 +9,11 @@ public class LiquiStat {
   private final String time;
   private final String errors;
 
-  public LiquiStat(@JsonProperty("isSuccess") final boolean success, @JsonProperty("serverTime") final String serverTime,
-      @JsonProperty("time") final String time, @JsonProperty("errors") final String errors) {
+  public LiquiStat(
+      @JsonProperty("isSuccess") final boolean success,
+      @JsonProperty("serverTime") final String serverTime,
+      @JsonProperty("time") final String time,
+      @JsonProperty("errors") final String errors) {
     this.success = success;
     this.serverTime = serverTime;
     this.time = time;
@@ -35,11 +38,18 @@ public class LiquiStat {
 
   @Override
   public String toString() {
-    return "LiquiStat{" +
-        "success=" + success +
-        ", serverTime='" + serverTime + '\'' +
-        ", time='" + time + '\'' +
-        ", errors='" + errors + '\'' +
-        '}';
+    return "LiquiStat{"
+        + "success="
+        + success
+        + ", serverTime='"
+        + serverTime
+        + '\''
+        + ", time='"
+        + time
+        + '\''
+        + ", errors='"
+        + errors
+        + '\''
+        + '}';
   }
 }

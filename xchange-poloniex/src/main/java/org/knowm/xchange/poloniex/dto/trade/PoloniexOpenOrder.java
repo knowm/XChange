@@ -1,17 +1,15 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -39,8 +37,7 @@ public class PoloniexOpenOrder {
   @JsonProperty("date")
   private String date;
 
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   @JsonProperty("orderNumber")
   public String getOrderNumber() {
@@ -124,15 +121,26 @@ public class PoloniexOpenOrder {
 
   @Override
   public String toString() {
-    return "PoloniexOpenOrder{" +
-        "orderNumber='" + orderNumber + '\'' +
-        ", type='" + type + '\'' +
-        ", rate=" + rate +
-        ", startingAmount=" + startingAmount +
-        ", amount=" + amount +
-        ", total=" + total +
-        ", date='" + date + '\'' +
-        ", additionalProperties=" + additionalProperties +
-        '}';
+    return "PoloniexOpenOrder{"
+        + "orderNumber='"
+        + orderNumber
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", rate="
+        + rate
+        + ", startingAmount="
+        + startingAmount
+        + ", amount="
+        + amount
+        + ", total="
+        + total
+        + ", date='"
+        + date
+        + '\''
+        + ", additionalProperties="
+        + additionalProperties
+        + '}';
   }
 }

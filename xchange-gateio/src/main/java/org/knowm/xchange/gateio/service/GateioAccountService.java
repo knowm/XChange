@@ -24,7 +24,6 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   public GateioAccountService(Exchange exchange) {
 
     super(exchange);
-
   }
 
   @Override

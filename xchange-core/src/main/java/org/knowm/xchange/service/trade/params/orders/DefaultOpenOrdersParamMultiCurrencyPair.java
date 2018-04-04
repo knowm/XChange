@@ -2,7 +2,6 @@ package org.knowm.xchange.service.trade.params.orders;
 
 import java.util.Collection;
 import java.util.Collections;
-
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class DefaultOpenOrdersParamMultiCurrencyPair implements OpenOrdersParamMultiCurrencyPair {
@@ -10,12 +9,12 @@ public class DefaultOpenOrdersParamMultiCurrencyPair implements OpenOrdersParamM
   private Collection<CurrencyPair> pairs = Collections.emptySet();
 
   @Override
-  public void setCurrencyPairs(Collection<CurrencyPair> value) {
-    pairs = value;
+  public Collection<CurrencyPair> getCurrencyPairs() {
+    return pairs;
   }
 
   @Override
-  public Collection<CurrencyPair> getCurrencyPairs() {
-    return pairs;
+  public void setCurrencyPairs(Collection<CurrencyPair> value) {
+    pairs = value;
   }
 }

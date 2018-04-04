@@ -5,7 +5,6 @@ import org.knowm.xchange.empoex.EmpoEx;
 import org.knowm.xchange.empoex.EmpoExAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -27,14 +26,18 @@ public class EmpoExBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    this.empoExAuthenticated = RestProxyFactory.createProxy(EmpoExAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
+    this.empoExAuthenticated =
+        RestProxyFactory.createProxy(
+            EmpoExAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator = EmpoExHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    this.signatureCreator =
+        EmpoExHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.payloadCreator = new EmpoExPayloadDigest();
 
-    this.empoEx = RestProxyFactory.createProxy(EmpoEx.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-
+    this.empoEx =
+        RestProxyFactory.createProxy(
+            EmpoEx.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
-
 }

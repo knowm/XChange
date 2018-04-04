@@ -2,7 +2,6 @@ package org.knowm.xchange.bitcoinde.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcoinde.BitcoindeAdapters;
 import org.knowm.xchange.bitcoinde.trade.BitcoindeIdResponse;
@@ -18,75 +17,70 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/**
- * 
- * @author kaiserfr
- *
- */
+/** @author kaiserfr */
 public class BitcoindeTradeService extends BitcoindeTradeServiceRaw implements TradeService {
 
   public BitcoindeTradeService(Exchange exchange) {
-	 super(exchange);
+    super(exchange);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-	 return BitcoindeAdapters.adaptOpenOrders(getBitcoindeOpenOrders());
+    return BitcoindeAdapters.adaptOpenOrders(getBitcoindeOpenOrders());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-	 throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-	 throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-	 BitcoindeIdResponse response = bitcoindePlaceLimitOrder(limitOrder);
-	 return response.getId();
+    BitcoindeIdResponse response = bitcoindePlaceLimitOrder(limitOrder);
+    return response.getId();
   }
 
-    @Override
-    public String placeStopOrder(StopOrder stopOrder) throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
+  @Override
   public boolean cancelOrder(String orderId) throws IOException {
-	 throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-	 if (orderParams instanceof CancelOrderByIdAndCurrencyPair) {
-		CancelOrderByIdAndCurrencyPair cob = (CancelOrderByIdAndCurrencyPair) orderParams;
-		bitcoindeCancelOrders(cob.getId(),
-			 cob.getCurrencyPair());
-	 }
-	 return true;
+    if (orderParams instanceof CancelOrderByIdAndCurrencyPair) {
+      CancelOrderByIdAndCurrencyPair cob = (CancelOrderByIdAndCurrencyPair) orderParams;
+      bitcoindeCancelOrders(cob.getId(), cob.getCurrencyPair());
+    }
+    return true;
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-	 throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-	 throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-	 throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-	 throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 }

@@ -2,6 +2,9 @@ package org.knowm.xchange.kraken;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -9,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +24,11 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
@@ -39,24 +45,24 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class KrakenAdaptersTest {
 
   @Before
   public void before() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-assets-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
     KrakenUtils.setKrakenAssets(krakenResult.getResult());
 
     // Read in the JSON from the example resources
-    is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+    is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-assetpairs-data.json");
     // Use Jackson to parse it
     mapper = new ObjectMapper();
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
@@ -67,14 +73,17 @@ public class KrakenAdaptersTest {
   public void testAdaptTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenTickerResult krakenTicker = mapper.readValue(is, KrakenTickerResult.class);
     CurrencyPair currencyPair = CurrencyPair.BTC_EUR;
     String krakenCurencyPair = "XXBTZEUR";
-    Ticker ticker = KrakenAdapters.adaptTicker(krakenTicker.getResult().get(krakenCurencyPair), currencyPair);
+    Ticker ticker =
+        KrakenAdapters.adaptTicker(krakenTicker.getResult().get(krakenCurencyPair), currencyPair);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("562.26651"));
@@ -85,20 +94,24 @@ public class KrakenAdaptersTest {
     assertThat(ticker.getVwap()).isEqualTo(new BigDecimal("576.77284"));
     assertThat(ticker.getVolume()).isEqualByComparingTo("600.91850325");
     assertThat(ticker.getOpen()).isEqualTo(new BigDecimal("568.98910"));
-    assertThat(ticker.getCurrencyPair().base.getCurrencyCode()).isEqualTo(currencyPair.base.getCurrencyCode());
+    assertThat(ticker.getCurrencyPair().base.getCurrencyCode())
+        .isEqualTo(currencyPair.base.getCurrencyCode());
   }
 
   @Test
   public void testAdaptCurrencyPairs() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-assetpairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 
-    Set<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
+    Set<CurrencyPair> pairs =
+        KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
     assertThat(pairs).hasSize(56);
     assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
     System.out.println("pairs = " + pairs);
@@ -108,13 +121,19 @@ public class KrakenAdaptersTest {
   public void testAdaptTrades() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenPublicTradesResult krakenTrades = mapper.readValue(is, KrakenPublicTradesResult.class);
 
-    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTrades(), CurrencyPair.BTC_USD, krakenTrades.getResult().getLast());
+    Trades trades =
+        KrakenAdapters.adaptTrades(
+            krakenTrades.getResult().getTrades(),
+            CurrencyPair.BTC_USD,
+            krakenTrades.getResult().getLast());
 
     Assert.assertEquals(14, trades.getTrades().size());
     assertThat(trades.getTrades().get(0).getPrice()).isEqualTo("1023.82219");
@@ -122,14 +141,15 @@ public class KrakenAdaptersTest {
     assertThat(trades.getTrades().get(0).getTimestamp()).isEqualTo(new Date(1385579841777L));
     assertThat(trades.getTrades().get(1).getOriginalAmount()).isEqualTo("0.01500000");
     assertThat(trades.getlastID()).isEqualTo(1385579841881785998L);
-
   }
 
   @Test
   public void testAdaptOrderBook() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -153,7 +173,9 @@ public class KrakenAdaptersTest {
   public void testAdaptBalance() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/account/example-balance-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-balance-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -162,15 +184,17 @@ public class KrakenAdaptersTest {
     Wallet wallet = KrakenAdapters.adaptWallet(krakenBalance.getResult());
 
     assertThat(wallet.getBalance(Currency.EUR).getTotal()).isEqualTo(new BigDecimal("1.0539"));
-    assertThat(wallet.getBalance(Currency.BTC).getTotal()).isEqualTo(new BigDecimal("0.4888583300"));
-
+    assertThat(wallet.getBalance(Currency.BTC).getTotal())
+        .isEqualTo(new BigDecimal("0.4888583300"));
   }
 
   @Test
   public void testAdaptOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/trading/example-openorders-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -192,7 +216,9 @@ public class KrakenAdaptersTest {
   public void testAdaptOpenOrdersInTransactionCurrency() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/trading/example-openorders-in-transaction-currency-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-openorders-in-transaction-currency-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -214,7 +240,9 @@ public class KrakenAdaptersTest {
   public void testAdaptTradeHistory() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/trading/example-tradehistory-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -240,10 +268,13 @@ public class KrakenAdaptersTest {
   }
 
   @Test
-  public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
+  public void testAdaptFundingHistory()
+      throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/account/example-ledgerinfo-data.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-ledgerinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -259,20 +290,23 @@ public class KrakenAdaptersTest {
     assertThat(fundingRecord.getType()).isEqualTo(FundingRecord.Type.WITHDRAWAL);
     assertThat(fundingRecord.getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
     assertThat(fundingRecord.getAmount()).isEqualTo(new BigDecimal("15.9857300000"));
-    assertThat(fundingRecord.getFee().doubleValue()).isEqualTo(new BigDecimal("0.02").doubleValue());
+    assertThat(fundingRecord.getFee().doubleValue())
+        .isEqualTo(new BigDecimal("0.02").doubleValue());
     assertThat(fundingRecord.getBalance().doubleValue()).isEqualTo(BigDecimal.ZERO.doubleValue());
   }
-
 
   @Test
   public void testAdaptMarketOrder() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/order/example-market-ask-order.json");
+    InputStream is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/order/example-market-ask-order.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenQueryOrderResult krakenQueryOrderResult = mapper.readValue(is, KrakenQueryOrderResult.class);
+    KrakenQueryOrderResult krakenQueryOrderResult =
+        mapper.readValue(is, KrakenQueryOrderResult.class);
 
     List<Order> orders = KrakenAdapters.adaptOrders(krakenQueryOrderResult.getResult());
 
@@ -285,8 +319,5 @@ public class KrakenAdaptersTest {
     assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.84962599"));
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_USD);
     assertThat(MarketOrder.class.isAssignableFrom(order.getClass()));
-
   }
-
-
 }

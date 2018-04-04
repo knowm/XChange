@@ -2,21 +2,18 @@ package org.knowm.xchange.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.dto.LoanOrder;
 import org.knowm.xchange.dto.Order.OrderType;
 
 /**
- * DTO representing a fixed rate loan order
- * <p>
- * A fixed rate loan order lets you specify a fixed rate for your loan order. When offering loan orders, you should be aware as to whether or not
- * loans have callable or putable provisions. These provisions can serve to be advantageous to either the debtor or the creditor.
+ * DTO representing a fixed rate loan order A fixed rate loan order lets you specify a fixed rate
+ * for your loan order. When offering loan orders, you should be aware as to whether or not loans
+ * have callable or putable provisions. These provisions can serve to be advantageous to either the
+ * debtor or the creditor.
  */
 public final class FixedRateLoanOrder extends LoanOrder implements Comparable<FixedRateLoanOrder> {
 
-  /**
-   * The fixed rate of return for a day
-   */
+  /** The fixed rate of return for a day */
   private final BigDecimal rate;
 
   /**
@@ -28,16 +25,21 @@ public final class FixedRateLoanOrder extends LoanOrder implements Comparable<Fi
    * @param timestamp The absolute time for this order
    * @param rate The fixed rate of return for a day
    */
-  public FixedRateLoanOrder(OrderType type, String currency, BigDecimal originalAmount, int dayPeriod, String id, Date timestamp, BigDecimal rate) {
+  public FixedRateLoanOrder(
+      OrderType type,
+      String currency,
+      BigDecimal originalAmount,
+      int dayPeriod,
+      String id,
+      Date timestamp,
+      BigDecimal rate) {
 
     super(type, currency, originalAmount, dayPeriod, id, timestamp);
 
     this.rate = rate;
   }
 
-  /**
-   * @return The fixed rate of return for a day
-   */
+  /** @return The fixed rate of return for a day */
   public BigDecimal getRate() {
 
     return rate;
@@ -84,5 +86,4 @@ public final class FixedRateLoanOrder extends LoanOrder implements Comparable<Fi
     }
     return true;
   }
-
 }

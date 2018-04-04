@@ -1,9 +1,17 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
@@ -17,11 +25,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeService {
 
@@ -70,9 +73,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     }
   }
 
-  /**
-   * Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair}
-   */
+  /** Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair} */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
@@ -110,18 +111,17 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    if (orderIds == null || orderIds.length == 0){
+    if (orderIds == null || orderIds.length == 0) {
       return new ArrayList<>();
     }
 
     Collection<Order> orders = new ArrayList<>();
     for (String orderId : orderIds) {
       HitbtcOrder rawOrder = getHitbtcOrder("BTCUSD", orderId);
-      
-      if (rawOrder != null)
-        orders.add(HitbtcAdapters.adaptOrder(rawOrder));
+
+      if (rawOrder != null) orders.add(HitbtcAdapters.adaptOrder(rawOrder));
     }
-    
+
     return orders;
   }
 

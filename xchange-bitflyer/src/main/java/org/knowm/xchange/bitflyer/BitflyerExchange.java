@@ -2,7 +2,6 @@ package org.knowm.xchange.bitflyer;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -13,12 +12,12 @@ import org.knowm.xchange.bitflyer.service.BitflyerMarketDataServiceRaw;
 import org.knowm.xchange.bitflyer.service.BitflyerTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitflyerExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2014NonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory =
+      new AtomicLongIncrementalTime2014NonceFactory();
 
   @Override
   protected void initServices() {
@@ -30,7 +29,8 @@ public class BitflyerExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.bitflyer.jp/");
     exchangeSpecification.setHost("api.bitflyer.jp");
     exchangeSpecification.setPort(80);
@@ -48,9 +48,9 @@ public class BitflyerExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-    BitflyerMarketDataServiceRaw dataService = (BitflyerMarketDataServiceRaw) this.marketDataService;
+    BitflyerMarketDataServiceRaw dataService =
+        (BitflyerMarketDataServiceRaw) this.marketDataService;
     List<BitflyerMarket> markets = dataService.getMarkets();
     exchangeMetaData = BitflyerAdapters.adaptMetaData(markets);
-
   }
 }

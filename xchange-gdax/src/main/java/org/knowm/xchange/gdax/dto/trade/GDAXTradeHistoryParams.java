@@ -15,12 +15,12 @@ public class GDAXTradeHistoryParams implements TradeHistoryParamTransactionId {
   }
 
   @Override
-  public void setTransactionId(String txId) {
-    orderId = txId;
+  public String getTransactionId() {
+    return orderId;
   }
 
   @Override
-  public String getTransactionId() {
-    return orderId;
+  public void setTransactionId(String txId) {
+    orderId = txId;
   }
 }

@@ -6,13 +6,10 @@ import org.knowm.xchange.bitmarket.BitMarketAuthenticated;
 import org.knowm.xchange.bitmarket.BitMarketDigest;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
+import si.mazi.rescu.IRestProxyFactory;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
-/**
- * @author kpysniak, kfonal
- */
+/** @author kpysniak, kfonal */
 public class BitMarketBaseService extends BaseExchangeService implements BaseService {
 
   protected final BitMarket bitMarket;
@@ -20,17 +17,17 @@ public class BitMarketBaseService extends BaseExchangeService implements BaseSer
   protected final ParamsDigest sign;
   protected final String apiKey;
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
-  protected BitMarketBaseService(Exchange exchange) {
+  BitMarketBaseService(Exchange exchange, IRestProxyFactory restProxyFactory) {
     super(exchange);
 
-    bitMarket = RestProxyFactory.createProxy(BitMarket.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-    bitMarketAuthenticated = RestProxyFactory.createProxy(BitMarketAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
+    bitMarket =
+        restProxyFactory.createProxy(
+            BitMarket.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    bitMarketAuthenticated =
+        restProxyFactory.createProxy(
+            BitMarketAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
     sign = BitMarketDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     apiKey = exchange.getExchangeSpecification().getApiKey();
   }

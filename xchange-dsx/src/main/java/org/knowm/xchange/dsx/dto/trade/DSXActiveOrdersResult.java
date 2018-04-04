@@ -1,14 +1,10 @@
 package org.knowm.xchange.dsx.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXActiveOrdersResult {
 
   private final String pair;
@@ -19,8 +15,13 @@ public class DSXActiveOrdersResult {
   private final Status status;
   private final OrderType orderType;
 
-  public DSXActiveOrdersResult(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("rate") BigDecimal rate, @JsonProperty("timestampCreated") Long timestampCreated, @JsonProperty("status") Status status,
+  public DSXActiveOrdersResult(
+      @JsonProperty("pair") String pair,
+      @JsonProperty("type") Type type,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("timestampCreated") Long timestampCreated,
+      @JsonProperty("status") Status status,
       @JsonProperty("orderType") OrderType orderType) {
 
     this.pair = pair;
@@ -62,12 +63,14 @@ public class DSXActiveOrdersResult {
 
   public String toString() {
 
-    return MessageFormat.format("DSXActiveOrders[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}, orderType={6}",
+    return MessageFormat.format(
+        "DSXActiveOrders[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}, orderType={6}",
         pair, type, amount, rate, timestampCreated, status, orderType);
   }
 
   public enum Type {
-    buy, sell
+    buy,
+    sell
   }
 
   public enum Status {
@@ -75,6 +78,7 @@ public class DSXActiveOrdersResult {
   }
 
   public enum OrderType {
-    limit, market
+    limit,
+    market
   }
 }

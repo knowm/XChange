@@ -1,14 +1,9 @@
 package org.knowm.xchange.wex.v3.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: okhomenko
- * <p>
- * Data object representing single Trade from Wex API v.3
- */
+/** Author: okhomenko Data object representing single Trade from Wex API v.3 */
 public class WexTrade {
 
   private final BigDecimal amount;
@@ -26,8 +21,12 @@ public class WexTrade {
    * @param tid
    * @param date
    */
-  public WexTrade(@JsonProperty("type") String tradeType, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("tid") long tid, @JsonProperty("timestamp") long date) {
+  public WexTrade(
+      @JsonProperty("type") String tradeType,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("tid") long tid,
+      @JsonProperty("timestamp") long date) {
 
     this.tradeType = tradeType;
     this.price = price;
@@ -64,7 +63,16 @@ public class WexTrade {
   @Override
   public String toString() {
 
-    return "WexTrade [amount=" + amount + ", timestamp=" + date + ", price=" + price + ", tid=" + tid + ", type=" + tradeType + "]";
+    return "WexTrade [amount="
+        + amount
+        + ", timestamp="
+        + date
+        + ", price="
+        + price
+        + ", tid="
+        + tid
+        + ", type="
+        + tradeType
+        + "]";
   }
-
 }

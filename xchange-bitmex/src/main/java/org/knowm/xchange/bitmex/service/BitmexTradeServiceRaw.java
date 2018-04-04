@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -36,7 +35,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   public List<BitmexPosition> getBitmexPositions(String symbol) throws IOException {
 
     try {
-      return bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, null);
+      return bitmex.getPositions(
+          apiKey, exchange.getNonceFactory(), signatureCreator, symbol, null);
     } catch (BitmexException e) {
       throw handleError(e);
     }
@@ -46,8 +46,18 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     ArrayList<BitmexPrivateOrder> orders = new ArrayList<>();
 
     for (int i = 0; orders.size() % 500 == 0; i++) {
-      List<BitmexPrivateOrder> orderResponse = bitmex.getOrders(apiKey, exchange.getNonceFactory(), signatureCreator,
-              symbol, filter, 500, i * 500, true, null, null);
+      List<BitmexPrivateOrder> orderResponse =
+          bitmex.getOrders(
+              apiKey,
+              exchange.getNonceFactory(),
+              signatureCreator,
+              symbol,
+              filter,
+              500,
+              i * 500,
+              true,
+              null,
+              null);
       orders.addAll(orderResponse);
     }
 
@@ -58,23 +68,51 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     return getBitmexOrders(null, null);
   }
 
-  public BitmexPrivateOrder placeMarketOrder(String symbol, BigDecimal orderQuantity, String executionInstructions) {
-    return bitmex.placeOrder(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, orderQuantity.intValue(),
-            null, null, "Market", executionInstructions);
+  public BitmexPrivateOrder placeMarketOrder(
+      String symbol, BigDecimal orderQuantity, String executionInstructions) {
+    return bitmex.placeOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        signatureCreator,
+        symbol,
+        orderQuantity.intValue(),
+        null,
+        null,
+        "Market",
+        executionInstructions);
   }
 
-  public BitmexPrivateOrder placeLimitOrder(String symbol, BigDecimal orderQuantity, BigDecimal price, String executionInstructions) {
-    return bitmex.placeOrder(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, orderQuantity.intValue(),
-            price, null, "Limit", executionInstructions);
+  public BitmexPrivateOrder placeLimitOrder(
+      String symbol, BigDecimal orderQuantity, BigDecimal price, String executionInstructions) {
+    return bitmex.placeOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        signatureCreator,
+        symbol,
+        orderQuantity.intValue(),
+        price,
+        null,
+        "Limit",
+        executionInstructions);
   }
 
-  public BitmexPrivateOrder placeStopOrder(String symbol, BigDecimal orderQuantity, BigDecimal stopPrice, String executionInstructions) {
-    return bitmex.placeOrder(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, orderQuantity.intValue(),
-            null, stopPrice, "Stop", executionInstructions);
+  public BitmexPrivateOrder placeStopOrder(
+      String symbol, BigDecimal orderQuantity, BigDecimal stopPrice, String executionInstructions) {
+    return bitmex.placeOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        signatureCreator,
+        symbol,
+        orderQuantity.intValue(),
+        null,
+        stopPrice,
+        "Stop",
+        executionInstructions);
   }
 
   public boolean cancelBitmexOrder(String orderID) {
-    List<BitmexPrivateOrder> orders = bitmex.cancelOrder(apiKey, exchange.getNonceFactory(), signatureCreator, orderID);
+    List<BitmexPrivateOrder> orders =
+        bitmex.cancelOrder(apiKey, exchange.getNonceFactory(), signatureCreator, orderID);
     return orders.get(0).getId().equals(orderID);
   }
 }

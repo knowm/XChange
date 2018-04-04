@@ -3,7 +3,6 @@ package org.knowm.xchange.campbx.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.dto.CampBXResponse;
 import org.knowm.xchange.campbx.dto.account.MyFunds;
@@ -22,9 +21,7 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class CampBXAccountService extends CampBXAccountServiceRaw implements AccountService {
 
   private final Logger logger = LoggerFactory.getLogger(CampBXAccountService.class);
@@ -48,15 +45,19 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Acc
     if (!myFunds.isError()) {
       // TODO move to adapter class
       // TODO: what does MyFunds.liquid* mean? means available amount of the wallet?
-      return new AccountInfo(exchange.getExchangeSpecification().getUserName(),
-          new Wallet(new Balance(Currency.BTC, myFunds.getTotalBTC()), new Balance(Currency.USD, myFunds.getTotalUSD())));
+      return new AccountInfo(
+          exchange.getExchangeSpecification().getUserName(),
+          new Wallet(
+              new Balance(Currency.BTC, myFunds.getTotalBTC()),
+              new Balance(Currency.USD, myFunds.getTotalUSD())));
     } else {
       throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
     }
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
 
     CampBXResponse campBXResponse = withdrawCampBXFunds(amount, address);
     logger.debug("campBXResponse = {}", campBXResponse);
@@ -72,7 +73,8 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Acc
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
@@ -86,7 +88,8 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Acc
     if (!campBXResponse.isError()) {
       return campBXResponse.getSuccess();
     } else {
-      throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + campBXResponse.getError());
+      throw new ExchangeException(
+          "Error calling requestBitcoinDepositAddress(): " + campBXResponse.getError());
     }
   }
 
@@ -96,8 +99,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

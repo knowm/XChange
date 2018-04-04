@@ -2,21 +2,22 @@ package org.knowm.xchange.ripple.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.ripple.dto.RippleAmount;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RippleOrderBookTest {
 
   @Test
   public void unmarshalTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/marketdata/example-order-book.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/ripple/dto/marketdata/example-order-book.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderBook orderBook = mapper.readValue(is, RippleOrderBook.class);
 

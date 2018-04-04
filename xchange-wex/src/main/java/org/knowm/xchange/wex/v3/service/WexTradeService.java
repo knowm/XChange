@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -35,9 +38,7 @@ import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryResult;
 import org.knowm.xchange.wex.v3.service.trade.params.WexTradeHistoryParams;
 import org.knowm.xchange.wex.v3.service.trade.params.WexTransHistoryParams;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class WexTradeService extends WexTradeServiceRaw implements TradeService {
 
   /**
@@ -50,22 +51,35 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
     super(exchange);
   }
 
+  private static Long nullSafeToLong(String str) {
+
+    try {
+      return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
+    } catch (NumberFormatException e) {
+      return null;
+    }
+  }
+
+  private static Long nullSafeUnixTime(Date time) {
+    return time != null ? DateUtils.toUnixTime(time) : null;
+  }
+
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     // todo: use the currency pair from params
     Map<Long, WexOrder> orders = getBTCEActiveOrders(null);
     return WexAdapters.adaptOrders(orders);
   }
 
   /**
-   * Implementation note: this method calls placeLimitOrder with LimitOrder created from passed MarketOrder and either max price in case of BID or min
-   * proce in case of ASK, taken from the remote metadata cached in WexExchange
+   * Implementation note: this method calls placeLimitOrder with LimitOrder created from passed
+   * MarketOrder and either max price in case of BID or min proce in case of ASK, taken from the
+   * remote metadata cached in WexExchange
    */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
@@ -77,11 +91,14 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    WexOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? WexOrder.Type.buy : WexOrder.Type.sell;
+    WexOrder.Type type =
+        limitOrder.getType() == Order.OrderType.BID ? WexOrder.Type.buy : WexOrder.Type.sell;
 
     String pair = WexAdapters.getPair(limitOrder.getCurrencyPair());
 
-    WexOrder wexOrder = new WexOrder(0, null, limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), type, pair);
+    WexOrder wexOrder =
+        new WexOrder(
+            0, null, limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), type, pair);
 
     WexPlaceOrderResult result = placeBTCEOrder(wexOrder);
     return Long.toString(result.getOrderId());
@@ -109,11 +126,13 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
   }
 
   /**
-   * Supported parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamsIdSpan} {@link TradeHistoryParamsTimeSpan}
-   * {@link TradeHistoryParamCurrencyPair} You can also override sorting order (default is descending) by using {@link WexTradeHistoryParams}
+   * Supported parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamsIdSpan} {@link
+   * TradeHistoryParamsTimeSpan} {@link TradeHistoryParamCurrencyPair} You can also override sorting
+   * order (default is descending) by using {@link WexTradeHistoryParams}
    */
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params)
+      throws ExchangeException, IOException {
 
     Long offset = null;
     Long count = null;
@@ -163,21 +182,9 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
       sort = ((WexTransHistoryParams) params).getSortOrder();
     }
 
-    Map<Long, WexTradeHistoryResult> resultMap = getBTCETradeHistory(offset, count, startId, endId, sort, startTime, endTime, btcrPair);
+    Map<Long, WexTradeHistoryResult> resultMap =
+        getBTCETradeHistory(offset, count, startId, endId, sort, startTime, endTime, btcrPair);
     return WexAdapters.adaptTradeHistory(resultMap);
-  }
-
-  private static Long nullSafeToLong(String str) {
-
-    try {
-      return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
-    } catch (NumberFormatException e) {
-      return null;
-    }
-  }
-
-  private static Long nullSafeUnixTime(Date time) {
-    return time != null ? DateUtils.toUnixTime(time) : null;
   }
 
   @Override
@@ -202,13 +209,14 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
   }
 
   /**
-   * Retrieve TransHistory. :TODO: Return could be abstracted in a fashion similar to UserTrades and also used in additional service for BitStamp
-   * exchange.
+   * Retrieve TransHistory. :TODO: Return could be abstracted in a fashion similar to UserTrades and
+   * also used in additional service for BitStamp exchange.
    *
    * @param params
    * @return Map of transaction id to WexTransHistoryResult
    */
-  public Map<Long, WexTransHistoryResult> getTransHistory(WexTransHistoryParams params) throws ExchangeException, IOException {
+  public Map<Long, WexTransHistoryResult> getTransHistory(WexTransHistoryParams params)
+      throws ExchangeException, IOException {
 
     Long offset = null;
     Long count = null;
@@ -250,7 +258,8 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
       sort = params.getSortOrder();
     }
 
-    Map<Long, WexTransHistoryResult> resultMap = getBTCETransHistory(offset, count, startId, endId, sort, startTime, endTime);
+    Map<Long, WexTransHistoryResult> resultMap =
+        getBTCETransHistory(offset, count, startId, endId, sort, startTime, endTime);
 
     return resultMap;
   }

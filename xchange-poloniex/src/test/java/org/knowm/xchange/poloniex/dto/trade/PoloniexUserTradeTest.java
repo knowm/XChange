@@ -3,30 +3,32 @@ package org.knowm.xchange.poloniex.dto.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PoloniexUserTradeTest {
 
   @Test
-  public void testTradeHistoryMultiPair() throws JsonParseException, JsonMappingException, IOException {
+  public void testTradeHistoryMultiPair()
+      throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = PoloniexUserTrade.class.getResourceAsStream("/trade/trade-history-multi-pair.json");
+    final InputStream is =
+        PoloniexUserTrade.class.getResourceAsStream(
+            "/org/knowm/xchange/poloniex/dto/trade/trade-history-multi-pair.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType stringType = mapper.getTypeFactory().constructType(String.class, String.class);
     final JavaType tradeArray = mapper.getTypeFactory().constructArrayType(PoloniexUserTrade.class);
-    final JavaType multiPairTradeType = mapper.getTypeFactory().constructMapType(HashMap.class, stringType, tradeArray);
+    final JavaType multiPairTradeType =
+        mapper.getTypeFactory().constructMapType(HashMap.class, stringType, tradeArray);
 
     final Map<String, PoloniexUserTrade[]> tradeHistory = mapper.readValue(is, multiPairTradeType);
     assertThat(tradeHistory).hasSize(2);
@@ -49,9 +51,12 @@ public class PoloniexUserTradeTest {
   }
 
   @Test
-  public void testTradeHistorySinglePair() throws JsonParseException, JsonMappingException, IOException {
+  public void testTradeHistorySinglePair()
+      throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = PoloniexUserTrade.class.getResourceAsStream("/trade/trade-history-single-pair.json");
+    final InputStream is =
+        PoloniexUserTrade.class.getResourceAsStream(
+            "/org/knowm/xchange/poloniex/dto/trade/trade-history-single-pair.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType tradeArray = mapper.getTypeFactory().constructArrayType(PoloniexUserTrade.class);
@@ -69,5 +74,4 @@ public class PoloniexUserTradeTest {
     assertThat(trade.getOrderNumber()).isEqualTo("17730787");
     assertThat(trade.getType()).isEqualTo("sell");
   }
-
 }

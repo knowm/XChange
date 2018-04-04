@@ -1,17 +1,13 @@
 package org.knowm.xchange.dsx.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dsx.dto.marketdata.DSXExchangeInfo;
 import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbookWrapper;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTickerWrapper;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTradesWrapper;
 
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXMarketDataServiceRaw extends DSXBaseService {
 
   protected static final int FULL_SIZE = 2000;

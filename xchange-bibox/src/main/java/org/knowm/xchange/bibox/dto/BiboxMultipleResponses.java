@@ -4,9 +4,8 @@ import java.util.List;
 
 /**
  * Result of batched calls (all POST requests)
- * 
- * @author odrotleff
+ *
  * @param <R>
+ * @author odrotleff
  */
-public class BiboxMultipleResponses<T> extends BiboxResponse<List<BiboxResponse<T>>> {
-}
+public class BiboxMultipleResponses<T> extends BiboxResponse<List<BiboxResponse<T>>> {}

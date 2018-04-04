@@ -1,12 +1,9 @@
 package org.knowm.xchange.gdax.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Created by Yingzhe on 4/1/2015.
- */
+/** Created by Yingzhe on 4/1/2015. */
 public class GDAXProduct {
 
   private final String id;
@@ -16,9 +13,13 @@ public class GDAXProduct {
   private final BigDecimal baseMaxSize;
   private final BigDecimal quoteIncrement;
 
-  public GDAXProduct(@JsonProperty("id") String id, @JsonProperty("base_currency") String baseCurrency,
-      @JsonProperty("quote_currency") String targetCurrency, @JsonProperty("base_min_size") BigDecimal baseMinSize,
-      @JsonProperty("base_max_size") BigDecimal baseMaxSize, @JsonProperty("quote_increment") BigDecimal quoteIncrement) {
+  public GDAXProduct(
+      @JsonProperty("id") String id,
+      @JsonProperty("base_currency") String baseCurrency,
+      @JsonProperty("quote_currency") String targetCurrency,
+      @JsonProperty("base_min_size") BigDecimal baseMinSize,
+      @JsonProperty("base_max_size") BigDecimal baseMaxSize,
+      @JsonProperty("quote_increment") BigDecimal quoteIncrement) {
 
     this.id = id;
     this.baseCurrency = baseCurrency;

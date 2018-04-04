@@ -53,6 +53,16 @@ public class BinanceExchangeInfo {
 
   @Override
   public String toString() {
-    return "ClassPojo [timezone = " + timezone + ", symbols = " + symbols + ", serverTime = " + serverTime + ", rateLimits = " + rateLimits + ", exchangeFilters = " + exchangeFilters + "]";
+    return "ClassPojo [timezone = "
+        + timezone
+        + ", symbols = "
+        + symbols
+        + ", serverTime = "
+        + serverTime
+        + ", rateLimits = "
+        + rateLimits
+        + ", exchangeFilters = "
+        + exchangeFilters
+        + "]";
   }
 }

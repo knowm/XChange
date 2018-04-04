@@ -2,9 +2,7 @@ package org.knowm.xchange.bibox.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 public enum BiboxOrderType {
   MARKET_ORDER(1),
   LIMIT_ORDER(2);
@@ -13,10 +11,6 @@ public enum BiboxOrderType {
 
   private BiboxOrderType(int orderType) {
     this.orderType = orderType;
-  }
-
-  public int asInt() {
-    return orderType;
   }
 
   @JsonCreator
@@ -29,5 +23,9 @@ public enum BiboxOrderType {
       default:
         throw new RuntimeException("Unexpected Bibox order type!");
     }
+  }
+
+  public int asInt() {
+    return orderType;
   }
 }

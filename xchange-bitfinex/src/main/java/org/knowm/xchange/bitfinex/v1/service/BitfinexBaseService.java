@@ -4,7 +4,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -24,10 +23,15 @@ public class BitfinexBaseService extends BaseExchangeService implements BaseServ
 
     super(exchange);
 
-    this.bitfinex = RestProxyFactory.createProxy(BitfinexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.bitfinex =
+        RestProxyFactory.createProxy(
+            BitfinexAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator = BitfinexHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    this.signatureCreator =
+        BitfinexHmacPostBodyDigest.createInstance(
+            exchange.getExchangeSpecification().getSecretKey());
     this.payloadCreator = new BitfinexPayloadDigest();
   }
-
 }

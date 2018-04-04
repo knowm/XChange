@@ -7,33 +7,21 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 import org.knowm.xchange.currency.Currency;
 
 /**
- * <p>
  * DTO representing a wallet
- * </p>
- * <p>
- * A wallet has a set of current balances in various currencies held on the exchange.
- * </p>
+ *
+ * <p>A wallet has a set of current balances in various currencies held on the exchange.
  */
 public final class Wallet implements Serializable {
 
-  /**
-   * A unique identifier for this wallet
-   */
-  private String id;
-
-  /**
-   * A descriptive name for this wallet. Defaults to {@link #id}
-   */
-  private String name;
-
-  /**
-   * The keys represent the currency of the wallet.
-   */
+  /** The keys represent the currency of the wallet. */
   private final Map<Currency, Balance> balances;
+  /** A unique identifier for this wallet */
+  private String id;
+  /** A descriptive name for this wallet. Defaults to {@link #id} */
+  private String name;
 
   /**
    * Constructs a {@link Wallet}.
@@ -59,64 +47,51 @@ public final class Wallet implements Serializable {
       this.balances = new HashMap<>();
       for (Balance balance : balances) {
         if (this.balances.containsKey(balance.getCurrency()))
-          // this class could merge balances, but probably better to catch mistakes and let the exchange merge them
+          // this class could merge balances, but probably better to catch mistakes and let the
+          // exchange merge them
           throw new IllegalArgumentException("duplicate balances in wallet");
         this.balances.put(balance.getCurrency(), balance);
       }
     }
   }
 
-  /**
-   * @see #Wallet(String, String, Collection)
-   */
+  /** @see #Wallet(String, String, Collection) */
   public Wallet(String id, Collection<Balance> balances) {
 
     this(id, null, balances);
   }
 
-  /**
-   * @see #Wallet(String, String, Collection)
-   */
+  /** @see #Wallet(String, String, Collection) */
   public Wallet(String id, Balance... balances) {
 
     this(id, null, Arrays.asList(balances));
   }
 
-  /**
-   * @see #Wallet(String, String, Collection)
-   */
+  /** @see #Wallet(String, String, Collection) */
   public Wallet(Collection<Balance> balances) {
 
     this(null, null, balances);
   }
 
-  /**
-   * @see #Wallet(String, String, Collection)
-   */
+  /** @see #Wallet(String, String, Collection) */
   public Wallet(Balance... balances) {
 
     this(null, balances);
   }
 
-  /**
-   * @return The wallet id
-   */
+  /** @return The wallet id */
   public String getId() {
 
     return id;
   }
 
-  /**
-   * @return A descriptive name for the wallet
-   */
+  /** @return A descriptive name for the wallet */
   public String getName() {
 
     return name;
   }
 
-  /**
-   * @return The available balances (amount and currency)
-   */
+  /** @return The available balances (amount and currency) */
   public Map<Currency, Balance> getBalances() {
 
     return Collections.unmodifiableMap(balances);
@@ -137,13 +112,13 @@ public final class Wallet implements Serializable {
   @Override
   public boolean equals(Object object) {
 
-    if (object == this)
-      return true;
-    if (!(object instanceof Wallet))
-      return false;
+    if (object == this) return true;
+    if (!(object instanceof Wallet)) return false;
 
     Wallet wallet = (Wallet) object;
-    return Objects.equals(id, wallet.id) && Objects.equals(name, wallet.name) && balances.equals(wallet.balances);
+    return Objects.equals(id, wallet.id)
+        && Objects.equals(name, wallet.name)
+        && balances.equals(wallet.balances);
   }
 
   @Override
@@ -151,5 +126,4 @@ public final class Wallet implements Serializable {
 
     return "Wallet [id=" + id + ", name=" + name + ", balances=" + balances.values() + "]";
   }
-
 }

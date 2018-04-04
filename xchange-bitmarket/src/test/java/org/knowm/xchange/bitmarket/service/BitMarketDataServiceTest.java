@@ -1,19 +1,19 @@
 package org.knowm.xchange.bitmarket.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmarket.BitMarket;
 import org.knowm.xchange.bitmarket.BitMarketAssert;
-import org.knowm.xchange.bitmarket.BitMarketExchange;
 import org.knowm.xchange.bitmarket.BitMarketTestSupport;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTicker;
@@ -23,39 +23,47 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import si.mazi.rescu.ClientConfig;
+import si.mazi.rescu.IRestProxyFactory;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class BitMarketDataServiceTest extends BitMarketTestSupport {
 
   private BitMarketDataService dataService;
 
+  @Mock private Exchange exchange;
+
+  @Mock private IRestProxyFactory restProxyFactory;
+
+  @Mock private BitMarket bitMarket;
+
   @Before
   public void setUp() {
-    BitMarketExchange exchange = (BitMarketExchange) ExchangeFactory.INSTANCE.createExchange(BitMarketExchange.class.getCanonicalName());
-    ExchangeSpecification specification = exchange.getExchangeSpecification();
-    specification.setUserName(SPECIFICATION_USERNAME);
-    specification.setApiKey(SPECIFICATION_API_KEY);
-    specification.setSecretKey(SPECIFICATION_SECRET_KEY);
+    when(exchange.getExchangeSpecification()).thenReturn(createExchangeSpecification());
 
-    dataService = new BitMarketDataService(exchange);
+    when(restProxyFactory.createProxy(
+            eq(BitMarket.class), any(String.class), any(ClientConfig.class)))
+        .thenReturn(bitMarket);
+
+    dataService = new BitMarketDataService(exchange, restProxyFactory);
   }
 
   @Test
   public void constructor() {
-    assertThat((String) Whitebox.getInternalState(dataService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    assertEquals(SPECIFICATION_API_KEY, dataService.apiKey);
   }
 
   @Test
   public void shouldGetTicker() throws IOException {
     // given
-    BitMarketTicker response = parse("marketdata/example-ticker-data", BitMarketTicker.class);
+    BitMarketTicker response =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-ticker-data",
+            BitMarketTicker.class);
 
-    BitMarket bitMarket = mock(BitMarket.class);
-    PowerMockito.when(bitMarket.getTicker("BTCAUD")).thenReturn(response);
-    Whitebox.setInternalState(dataService, "bitMarket", bitMarket);
+    when(bitMarket.getTicker("BTCAUD")).thenReturn(response);
 
     // when
     Ticker ticker = dataService.getTicker(CurrencyPair.BTC_AUD);
@@ -68,11 +76,12 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
   public void shouldGetTrades() throws IOException {
     // given
     final Trade[] expectedTrades = expectedTrades();
-    BitMarketTrade[] response = parse("marketdata/example-trades-data", BitMarketTrade[].class);
+    BitMarketTrade[] response =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-trades-data",
+            BitMarketTrade[].class);
 
-    BitMarket bitMarket = mock(BitMarket.class);
-    PowerMockito.when(bitMarket.getTrades("BTCAUD")).thenReturn(response);
-    Whitebox.setInternalState(dataService, "bitMarket", bitMarket);
+    when(bitMarket.getTrades("BTCAUD")).thenReturn(response);
 
     // when
     Trades trades = dataService.getTrades(CurrencyPair.BTC_AUD);
@@ -88,11 +97,12 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
   @Test
   public void shouldGetOrderBook() throws IOException {
     // given
-    BitMarketOrderBook response = parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
+    BitMarketOrderBook response =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-order-book-data",
+            BitMarketOrderBook.class);
 
-    BitMarket bitMarket = mock(BitMarket.class);
-    PowerMockito.when(bitMarket.getOrderBook("BTCAUD")).thenReturn(response);
-    Whitebox.setInternalState(dataService, "bitMarket", bitMarket);
+    when(bitMarket.getOrderBook("BTCAUD")).thenReturn(response);
 
     // when
     OrderBook orderBook = dataService.getOrderBook(CurrencyPair.BTC_AUD);

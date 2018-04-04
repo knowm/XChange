@@ -1,8 +1,7 @@
 package org.knowm.xchange.bleutrade.service;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class DepositRecord {
   public final String id;
@@ -11,7 +10,12 @@ public class DepositRecord {
   public final String label;
   public final String coin;
 
-  public DepositRecord(@JsonProperty("Id") String id, @JsonProperty("TimeStamp") String timestamp, @JsonProperty("Amount") BigDecimal amount, @JsonProperty("Label") String label, @JsonProperty("Coin") String coin) {
+  public DepositRecord(
+      @JsonProperty("Id") String id,
+      @JsonProperty("TimeStamp") String timestamp,
+      @JsonProperty("Amount") BigDecimal amount,
+      @JsonProperty("Label") String label,
+      @JsonProperty("Coin") String coin) {
     this.id = id;
     this.timestamp = timestamp;
     this.amount = amount;
@@ -21,12 +25,21 @@ public class DepositRecord {
 
   @Override
   public String toString() {
-    return "DepositRecord{" +
-        "id='" + id + '\'' +
-        ", timestamp='" + timestamp + '\'' +
-        ", amount=" + amount +
-        ", label='" + label + '\'' +
-        ", coin='" + coin + '\'' +
-        '}';
+    return "DepositRecord{"
+        + "id='"
+        + id
+        + '\''
+        + ", timestamp='"
+        + timestamp
+        + '\''
+        + ", amount="
+        + amount
+        + ", label='"
+        + label
+        + '\''
+        + ", coin='"
+        + coin
+        + '\''
+        + '}';
   }
 }

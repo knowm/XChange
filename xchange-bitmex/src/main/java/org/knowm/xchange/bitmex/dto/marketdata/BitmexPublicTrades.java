@@ -2,7 +2,7 @@ package org.knowm.xchange.bitmex.dto.marketdata;
 
 import java.util.List;
 
-//@JsonDeserialize(using = BitmexTradesDeserializer.class)
+// @JsonDeserialize(using = BitmexTradesDeserializer.class)
 public class BitmexPublicTrades {
 
   private final List<BitmexPublicTrade> trades;
@@ -11,7 +11,6 @@ public class BitmexPublicTrades {
   public BitmexPublicTrades(List<BitmexPublicTrade> trades) {
 
     this.trades = trades;
-
   }
 
   public long getLast() {
@@ -29,5 +28,4 @@ public class BitmexPublicTrades {
 
     return "BitmexTrades [trades=" + trades + ", last=" + 0 + "]";
   }
-
 }

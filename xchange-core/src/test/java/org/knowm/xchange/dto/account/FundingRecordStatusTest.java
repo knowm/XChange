@@ -31,15 +31,21 @@ public class FundingRecordStatusTest {
 
   @Test
   public void shouldPrependUnrecognizedStatusStringToDescription() throws Exception {
-    testStatusDesc("AdminCancelled", "The administrator has cancelled the transfers.", null, "AdminCancelled: The administrator has cancelled the transfers.");
+    testStatusDesc(
+        "AdminCancelled",
+        "The administrator has cancelled the transfers.",
+        null,
+        "AdminCancelled: The administrator has cancelled the transfers.");
   }
 
   private void testStatusDesc(
       String statusInput,
       String descriptionInput,
-      FundingRecord.Status expectedStatus, String expectedDescription
-  ) {
-    final FundingRecord fundingRecord = new FundingRecord("", null, BTC, ONE, "", "", DEPOSIT, statusInput, ONE, ONE, descriptionInput);
+      FundingRecord.Status expectedStatus,
+      String expectedDescription) {
+    final FundingRecord fundingRecord =
+        new FundingRecord(
+            "", null, BTC, ONE, "", "", DEPOSIT, statusInput, ONE, ONE, descriptionInput);
     assertThat(fundingRecord.getStatus()).isEqualTo(expectedStatus);
     assertThat(fundingRecord.getDescription()).isEqualTo(expectedDescription);
   }

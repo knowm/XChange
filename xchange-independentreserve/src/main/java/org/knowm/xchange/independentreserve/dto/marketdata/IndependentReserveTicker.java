@@ -1,15 +1,12 @@
 package org.knowm.xchange.independentreserve.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Stuart Low
- */
+/** @author Stuart Low */
 public final class IndependentReserveTicker {
   private final BigDecimal last;
   private final BigDecimal high;
@@ -31,9 +28,12 @@ public final class IndependentReserveTicker {
    * @param bid
    * @param ask
    */
-  public IndependentReserveTicker(@JsonProperty("LastPrice") BigDecimal last,
-      @JsonProperty("DayHighestPrice") BigDecimal high, @JsonProperty("DayLowestPrice") BigDecimal low,
-      @JsonProperty("DayAvgPrice") BigDecimal vwap, @JsonProperty("DayVolumeXbt") BigDecimal volume,
+  public IndependentReserveTicker(
+      @JsonProperty("LastPrice") BigDecimal last,
+      @JsonProperty("DayHighestPrice") BigDecimal high,
+      @JsonProperty("DayLowestPrice") BigDecimal low,
+      @JsonProperty("DayAvgPrice") BigDecimal vwap,
+      @JsonProperty("DayVolumeXbt") BigDecimal volume,
       @JsonProperty("CurrentHighestBidPrice") BigDecimal bid,
       @JsonProperty("CurrentLowestOfferPrice") BigDecimal ask,
       @JsonProperty("CreatedTimestampUtc") String timestamp) {
@@ -52,9 +52,9 @@ public final class IndependentReserveTicker {
       SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSX");
       this.timestamp = myFormatter.parse(timestamp);
     } catch (ParseException e) {
-      System.out.println("Received parsing exception while attempting to process timestamp: " + e.getMessage());
+      System.out.println(
+          "Received parsing exception while attempting to process timestamp: " + e.getMessage());
     }
-
   }
 
   public BigDecimal getLast() {
@@ -99,8 +99,22 @@ public final class IndependentReserveTicker {
   @Override
   public String toString() {
 
-    return "IndependentReserveTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap
-        + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + timestamp + "]";
+    return "IndependentReserveTicker [last="
+        + last
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", vwap="
+        + vwap
+        + ", volume="
+        + volume
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", timestamp="
+        + timestamp
+        + "]";
   }
-
 }

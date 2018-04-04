@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersResult;
@@ -18,9 +17,7 @@ import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 
-/**
- * @author Mikhail Wall
- */
+/** @author Mikhail Wall */
 public class DSXTradeDemo {
 
   public static void main(String[] args) throws IOException {
@@ -36,7 +33,14 @@ public class DSXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, "", new Date(), new BigDecimal("900"));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            Order.OrderType.BID,
+            new BigDecimal("0.01"),
+            CurrencyPair.BTC_USD,
+            "",
+            new Date(),
+            new BigDecimal("900"));
 
     String limitOrderReturnValue = null;
     try {
@@ -62,7 +66,16 @@ public class DSXTradeDemo {
 
     DSXOrder.Type type = DSXOrder.Type.buy;
     String pair = "btcusd";
-    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.01"), new BigDecimal("900"), new BigDecimal("900"), 0, DSXOrder.OrderType.limit, null);
+    DSXOrder dsxOrder =
+        new DSXOrder(
+            pair,
+            type,
+            new BigDecimal("0.01"),
+            new BigDecimal("900"),
+            new BigDecimal("900"),
+            0,
+            DSXOrder.OrderType.limit,
+            null);
 
     DSXTradeResult result = null;
     DSXTradeResult result1 = null;
@@ -100,8 +113,16 @@ public class DSXTradeDemo {
     // place buy order
     DSXOrder.Type type = DSXOrder.Type.buy;
     String pair = "btcusd";
-    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("900"), new BigDecimal("900"), 0, DSXOrder.OrderType
-        .limit, null);
+    DSXOrder dsxOrder =
+        new DSXOrder(
+            pair,
+            type,
+            new BigDecimal("0.1"),
+            new BigDecimal("900"),
+            new BigDecimal("900"),
+            0,
+            DSXOrder.OrderType.limit,
+            null);
 
     DSXTradeResult result = null;
     try {
@@ -117,7 +138,6 @@ public class DSXTradeDemo {
     }
 
     printRawOpenOrders(tradeService);
-
   }
 
   private static void printOpenOrders(TradeService tradeService) throws IOException {

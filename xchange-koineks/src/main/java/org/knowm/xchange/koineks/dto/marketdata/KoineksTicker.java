@@ -2,9 +2,7 @@ package org.knowm.xchange.koineks.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by semihunaldi on 27/11/2017
- */
+/** Created by semihunaldi on 27/11/2017 */
 public final class KoineksTicker {
 
   private final KoineksBTCTicker koineksBTCTicker;
@@ -17,8 +15,11 @@ public final class KoineksTicker {
 
   private final KoineksDOGETicker koineksDOGETicker;
 
-  public KoineksTicker(@JsonProperty("BTC") KoineksBTCTicker koineksBTCTicker, @JsonProperty("ETH") KoineksETHTicker koineksETHTicker,
-      @JsonProperty("LTC") KoineksLTCTicker koineksLTCTicker, @JsonProperty("DASH") KoineksDASHTicker koineksDASHTicker,
+  public KoineksTicker(
+      @JsonProperty("BTC") KoineksBTCTicker koineksBTCTicker,
+      @JsonProperty("ETH") KoineksETHTicker koineksETHTicker,
+      @JsonProperty("LTC") KoineksLTCTicker koineksLTCTicker,
+      @JsonProperty("DASH") KoineksDASHTicker koineksDASHTicker,
       @JsonProperty("DOGE") KoineksDOGETicker koineksDOGETicker) {
     this.koineksBTCTicker = koineksBTCTicker;
     this.koineksETHTicker = koineksETHTicker;
@@ -29,11 +30,12 @@ public final class KoineksTicker {
 
   @Override
   public String toString() {
-    String builder = koineksBTCTicker.toString() +
-        koineksETHTicker.toString() +
-        koineksLTCTicker.toString() +
-        koineksDASHTicker.toString() +
-        koineksDOGETicker.toString();
+    String builder =
+        koineksBTCTicker.toString()
+            + koineksETHTicker.toString()
+            + koineksLTCTicker.toString()
+            + koineksDASHTicker.toString()
+            + koineksDOGETicker.toString();
     return builder;
   }
 

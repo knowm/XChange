@@ -1,9 +1,5 @@
 package org.knowm.xchange.coinbase.v2.dto.marketdata;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -11,21 +7,24 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class CoinbaseCurrencyData {
 
   private List<CoinbaseCurrency> data;
 
-  public void setData(List<CoinbaseCurrency> data) {
-    this.data = data;
-  }
-
   public List<CoinbaseCurrency> getData() {
     return Collections.unmodifiableList(data);
   }
 
+  public void setData(List<CoinbaseCurrency> data) {
+    this.data = data;
+  }
+
   @JsonDeserialize(using = CoinbaseCurrencyDeserializer.class)
-  static public class CoinbaseCurrency {
+  public static class CoinbaseCurrency {
     private final String name;
     private final String id;
 
@@ -61,12 +60,13 @@ public class CoinbaseCurrencyData {
       return id + " (" + name + ")";
     }
   }
-  
+
   // [TODO] can we not do this with @JsonCreator
   static class CoinbaseCurrencyDeserializer extends JsonDeserializer<CoinbaseCurrency> {
 
     @Override
-    public CoinbaseCurrency deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseCurrency deserialize(JsonParser jp, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
       String name = node.get("name").asText();
@@ -75,4 +75,3 @@ public class CoinbaseCurrencyData {
     }
   }
 }
-

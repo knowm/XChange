@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.empoex.EmpoExErrorException;
@@ -53,8 +52,12 @@ public class EmpoExTradeServiceRaw extends EmpoExBaseService {
   public String buy(LimitOrder limitOrder) throws IOException {
 
     try {
-      EmpoExOrderResponse response = empoExAuthenticated.buy(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()),
-          limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      EmpoExOrderResponse response =
+          empoExAuthenticated.buy(
+              apiKey,
+              EmpoExUtils.toPairString(limitOrder.getCurrencyPair()),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString());
       if (response.getSuccess()) {
         return response.getOrderId();
       } else {
@@ -68,8 +71,12 @@ public class EmpoExTradeServiceRaw extends EmpoExBaseService {
   public String sell(LimitOrder limitOrder) throws IOException {
 
     try {
-      EmpoExOrderResponse response = empoExAuthenticated.sell(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()),
-          limitOrder.getOriginalAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      EmpoExOrderResponse response =
+          empoExAuthenticated.sell(
+              apiKey,
+              EmpoExUtils.toPairString(limitOrder.getCurrencyPair()),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString());
       if (response.getSuccess()) {
         return response.getOrderId();
       } else {
@@ -79,5 +86,4 @@ public class EmpoExTradeServiceRaw extends EmpoExBaseService {
       throw new ExchangeException(e);
     }
   }
-
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.kraken.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,10 +15,11 @@ public class KrakenTradesDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Kraken exchange API using default settings
-    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    Exchange krakenExchange =
+        ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
     generic(krakenExchange);
-//    raw(krakenExchange);
+    //    raw(krakenExchange);
   }
 
   private static void generic(Exchange krakenExchange) throws IOException {
@@ -35,18 +35,21 @@ public class KrakenTradesDemo {
 
     // Get the latest trade data for BTC_USD for the past 12 hours (note:
     // doesn't account for time zone differences, should use UTC instead)
-//    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, (long) (System.nanoTime() - (12 * 60 * 60 * Math.pow(10, 9))));
-//    System.out.println(trades);
-//    System.out.println("Trades size: " + trades.getTrades().size());
+    //    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, (long) (System.nanoTime() - (12
+    // * 60 * 60 * Math.pow(10, 9))));
+    //    System.out.println(trades);
+    //    System.out.println("Trades size: " + trades.getTrades().size());
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
     // Interested in the public market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getMarketDataService();
+    KrakenMarketDataServiceRaw krakenMarketDataService =
+        (KrakenMarketDataServiceRaw) krakenExchange.getMarketDataService();
 
     // Get the latest trade data for BTC_USD
-    KrakenPublicTrades krakenPublicTrades = krakenMarketDataService.getKrakenTrades(CurrencyPair.BTC_USD);
+    KrakenPublicTrades krakenPublicTrades =
+        krakenMarketDataService.getKrakenTrades(CurrencyPair.BTC_USD);
     long last = krakenPublicTrades.getLast();
     System.out.println(krakenPublicTrades.getTrades());
 
@@ -59,6 +62,5 @@ public class KrakenTradesDemo {
     System.out.println(krakenPublicTrades.getTrades());
 
     System.out.println("Trades size: " + krakenPublicTrades.getTrades().size());
-
   }
 }

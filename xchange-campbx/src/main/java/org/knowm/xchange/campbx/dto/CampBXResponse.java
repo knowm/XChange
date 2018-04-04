@@ -1,18 +1,17 @@
 package org.knowm.xchange.campbx.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class CampBXResponse implements Serializable {
 
   @JsonProperty("Success")
   private String success;
+
   @JsonProperty("Info")
   private String info;
+
   @JsonProperty("Error")
   private String error;
 

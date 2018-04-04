@@ -6,11 +6,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.itbit.v1.ItBitAdapters;
@@ -40,8 +43,7 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     CurrencyPair currencyPair = null;
     if (params instanceof OpenOrdersParamCurrencyPair) {
       currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
@@ -50,11 +52,15 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
     // In case of no currency pair - return all currency pairs.
     if (currencyPair == null) {
       List<ItBitOrder> orders = new ArrayList<>();
-      for (CurrencyPair tmpCurrencyPair : this.exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
+      for (CurrencyPair tmpCurrencyPair :
+          this.exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
         orders.addAll(Arrays.asList(getItBitOpenOrders(tmpCurrencyPair)));
       }
       ItBitOrder[] empty = {};
-      return ItBitAdapters.adaptPrivateOrders(orders.isEmpty() ? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
+      return ItBitAdapters.adaptPrivateOrders(
+          orders.isEmpty()
+              ? empty
+              : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
     } else {
       ItBitOrder[] itBitOpenOrders = getItBitOpenOrders(currencyPair);
       return ItBitAdapters.adaptPrivateOrders(itBitOpenOrders);
@@ -118,13 +124,8 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
       endTime = tradeHistoryParamsTimeSpan.getEndTime();
     }
 
-    ItBitTradeHistory userTradeHistory = getUserTradeHistory(
-        transactionId,
-        page,
-        pageLength,
-        startTime,
-        endTime
-    );
+    ItBitTradeHistory userTradeHistory =
+        getUserTradeHistory(transactionId, page, pageLength, startTime, endTime);
 
     return ItBitAdapters.adaptTradeHistory(userTradeHistory);
   }
@@ -139,23 +140,26 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
     return new ItBitOpenOrdersParams();
   }
 
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
   public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging
-      implements TradeHistoryParamsTimeSpan, TradeHistoryParamTransactionId, TradeHistoryParamPaging {
+      implements TradeHistoryParamsTimeSpan,
+          TradeHistoryParamTransactionId,
+          TradeHistoryParamPaging {
 
     private String txId;
     private Date startTime;
     private Date endTime;
 
-    public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, String txId, Date startTime, Date endTime) {
+    public ItBitTradeHistoryParams(
+        Integer pageLength, Integer pageNumber, String txId, Date startTime, Date endTime) {
       super(pageLength, pageNumber);
       this.txId = txId;
       this.startTime = startTime;
       this.endTime = endTime;
-    }
-
-    @Override
-    public void setTransactionId(String txId) {
-      this.txId = txId;
     }
 
     @Override
@@ -164,8 +168,8 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
     }
 
     @Override
-    public void setStartTime(Date startTime) {
-      this.startTime = startTime;
+    public void setTransactionId(String txId) {
+      this.txId = txId;
     }
 
     @Override
@@ -174,20 +178,18 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
     }
 
     @Override
-    public void setEndTime(Date endTime) {
-      this.endTime = endTime;
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
     }
 
     @Override
     public Date getEndTime() {
       return endTime;
     }
-  }
 
-  @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    @Override
+    public void setEndTime(Date endTime) {
+      this.endTime = endTime;
+    }
   }
-
 }

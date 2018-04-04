@@ -1,106 +1,77 @@
 package org.knowm.xchange.bibox.dto.trade;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
 
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "count",
-    "page",
-    "items"
-})
+@JsonPropertyOrder({"count", "page", "items"})
 public class BiboxOrders {
 
-    @JsonProperty("count")
-    private Integer count;
-    @JsonProperty("page")
-    private Integer page;
-    @JsonProperty("items")
-    private List<BiboxOrder> items = new ArrayList<BiboxOrder>();
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonProperty("count")
+  private Integer count;
 
-    /**
-     * 
-     * @return
-     *     The count
-     */
-    @JsonProperty("count")
-    public Integer getCount() {
-        return count;
-    }
+  @JsonProperty("page")
+  private Integer page;
 
-    /**
-     * 
-     * @param count
-     *     The count
-     */
-    @JsonProperty("count")
-    public void setCount(Integer count) {
-        this.count = count;
-    }
+  @JsonProperty("items")
+  private List<BiboxOrder> items = new ArrayList<BiboxOrder>();
 
-    /**
-     * 
-     * @return
-     *     The page
-     */
-    @JsonProperty("page")
-    public Integer getPage() {
-        return page;
-    }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    /**
-     * 
-     * @param page
-     *     The page
-     */
-    @JsonProperty("page")
-    public void setPage(Integer page) {
-        this.page = page;
-    }
+  /** @return The count */
+  @JsonProperty("count")
+  public Integer getCount() {
+    return count;
+  }
 
-    /**
-     * 
-     * @return
-     *     The items
-     */
-    @JsonProperty("items")
-    public List<BiboxOrder> getItems() {
-        return items;
-    }
+  /** @param count The count */
+  @JsonProperty("count")
+  public void setCount(Integer count) {
+    this.count = count;
+  }
 
-    /**
-     * 
-     * @param items
-     *     The items
-     */
-    @JsonProperty("items")
-    public void setItems(List<BiboxOrder> items) {
-        this.items = items;
-    }
+  /** @return The page */
+  @JsonProperty("page")
+  public Integer getPage() {
+    return page;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  /** @param page The page */
+  @JsonProperty("page")
+  public void setPage(Integer page) {
+    this.page = page;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  /** @return The items */
+  @JsonProperty("items")
+  public List<BiboxOrder> getItems() {
+    return items;
+  }
 
+  /** @param items The items */
+  @JsonProperty("items")
+  public void setItems(List<BiboxOrder> items) {
+    this.items = items;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
+
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put(name, value);
+  }
 }

@@ -16,13 +16,25 @@
       "price_scale": 2,
       "min_amount": 0.00000001
     },
+    "BCH/CAD": {
+      "price_scale": 2,
+      "min_amount": 0.00000001
+    },
     "BCH/BTC": {
       "price_scale": 8,
       "min_amount": 0.01
     },
+    "BTG/CAD": {
+      "price_scale": 2,
+      "min_amount": 0.00000001
+    },
     "BTG/BTC": {
       "price_scale": 8,
       "min_amount": 0.00000001
+    },
+    "LTC/CAD": {
+      "price_scale": 2,
+      "min_amount": 0.0000001
     },
     "LTC/BTC": {
       "price_scale": 8,

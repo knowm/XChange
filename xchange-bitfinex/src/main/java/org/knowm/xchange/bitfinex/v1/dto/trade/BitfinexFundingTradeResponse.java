@@ -1,8 +1,7 @@
 package org.knowm.xchange.bitfinex.v1.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BitfinexFundingTradeResponse {
 
@@ -73,7 +72,20 @@ public class BitfinexFundingTradeResponse {
 
   @Override
   public String toString() {
-    return "BitfinexFundingTradeResponse [rate=" + rate + ", period=" + period + ", amount=" + amount + ", timestamp="
-        + timestamp + ", type=" + type + ", tradeId=" + tradeId + ", offerId=" + offerId + "]";
+    return "BitfinexFundingTradeResponse [rate="
+        + rate
+        + ", period="
+        + period
+        + ", amount="
+        + amount
+        + ", timestamp="
+        + timestamp
+        + ", type="
+        + type
+        + ", tradeId="
+        + tradeId
+        + ", offerId="
+        + offerId
+        + "]";
   }
 }

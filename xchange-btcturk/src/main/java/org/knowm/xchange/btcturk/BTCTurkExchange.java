@@ -5,12 +5,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcturk.service.BTCTurkMarketDataService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author semihunaldi
- */
+/** @author semihunaldi */
 public class BTCTurkExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -24,12 +21,14 @@ public class BTCTurkExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.btcturk.com");
     exchangeSpecification.setHost("www.btcturk.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCTurk");
-    exchangeSpecification.setExchangeDescription("BTCTurk is a Bitcoin & Etherium exchange registered in Turkey.");
+    exchangeSpecification.setExchangeDescription(
+        "BTCTurk is a Bitcoin & Etherium exchange registered in Turkey.");
     return exchangeSpecification;
   }
 

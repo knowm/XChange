@@ -1,174 +1,130 @@
-
 package org.knowm.xchange.kucoin.dto.account;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "total",
-    "datas",
-    "currPageNo",
-    "limit",
-    "pageNos"
-})
+@JsonPropertyOrder({"total", "datas", "currPageNo", "limit", "pageNos"})
 public class KucoinCoinBalances {
 
-    @JsonProperty("total")
-    private Integer total;
-    @JsonProperty("datas")
-    private List<KucoinCoinBalance> balances = new ArrayList<KucoinCoinBalance>();
-    @JsonProperty("currPageNo")
-    private Integer currPageNo;
-    @JsonProperty("limit")
-    private Integer limit;
-    @JsonProperty("pageNos")
-    private Integer pageNos;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonProperty("total")
+  private Integer total;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public KucoinCoinBalances() {
-    }
+  @JsonProperty("datas")
+  private List<KucoinCoinBalance> balances = new ArrayList<KucoinCoinBalance>();
 
-    /**
-     * 
-     * @param total
-     * @param datas
-     * @param currPageNo
-     * @param limit
-     * @param pageNos
-     */
-    public KucoinCoinBalances(Integer total, List<KucoinCoinBalance> datas, Integer currPageNo, Integer limit, Integer pageNos) {
-        super();
-        this.total = total;
-        this.balances = datas;
-        this.currPageNo = currPageNo;
-        this.limit = limit;
-        this.pageNos = pageNos;
-    }
+  @JsonProperty("currPageNo")
+  private Integer currPageNo;
 
-    /**
-     * 
-     * @return
-     *     The total
-     */
-    @JsonProperty("total")
-    public Integer getTotal() {
-        return total;
-    }
+  @JsonProperty("limit")
+  private Integer limit;
 
-    /**
-     * 
-     * @param total
-     *     The total
-     */
-    @JsonProperty("total")
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
+  @JsonProperty("pageNos")
+  private Integer pageNos;
 
-    /**
-     * 
-     * @return
-     *     The balances
-     */
-    @JsonProperty("datas")
-    public List<KucoinCoinBalance> getBalances() {
-        return balances;
-    }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    /**
-     * 
-     * @param balances
-     *     The balances
-     */
-    @JsonProperty("datas")
-    public void setBalances(List<KucoinCoinBalance> balances) {
-        this.balances = balances;
-    }
+  /** No args constructor for use in serialization */
+  public KucoinCoinBalances() {}
 
-    /**
-     * 
-     * @return
-     *     The currPageNo
-     */
-    @JsonProperty("currPageNo")
-    public Integer getCurrPageNo() {
-        return currPageNo;
-    }
+  /**
+   * @param total
+   * @param datas
+   * @param currPageNo
+   * @param limit
+   * @param pageNos
+   */
+  public KucoinCoinBalances(
+      Integer total,
+      List<KucoinCoinBalance> datas,
+      Integer currPageNo,
+      Integer limit,
+      Integer pageNos) {
+    super();
+    this.total = total;
+    this.balances = datas;
+    this.currPageNo = currPageNo;
+    this.limit = limit;
+    this.pageNos = pageNos;
+  }
 
-    /**
-     * 
-     * @param currPageNo
-     *     The currPageNo
-     */
-    @JsonProperty("currPageNo")
-    public void setCurrPageNo(Integer currPageNo) {
-        this.currPageNo = currPageNo;
-    }
+  /** @return The total */
+  @JsonProperty("total")
+  public Integer getTotal() {
+    return total;
+  }
 
-    /**
-     * 
-     * @return
-     *     The limit
-     */
-    @JsonProperty("limit")
-    public Integer getLimit() {
-        return limit;
-    }
+  /** @param total The total */
+  @JsonProperty("total")
+  public void setTotal(Integer total) {
+    this.total = total;
+  }
 
-    /**
-     * 
-     * @param limit
-     *     The limit
-     */
-    @JsonProperty("limit")
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
+  /** @return The balances */
+  @JsonProperty("datas")
+  public List<KucoinCoinBalance> getBalances() {
+    return balances;
+  }
 
-    /**
-     * 
-     * @return
-     *     The pageNos
-     */
-    @JsonProperty("pageNos")
-    public Integer getPageNos() {
-        return pageNos;
-    }
+  /** @param balances The balances */
+  @JsonProperty("datas")
+  public void setBalances(List<KucoinCoinBalance> balances) {
+    this.balances = balances;
+  }
 
-    /**
-     * 
-     * @param pageNos
-     *     The pageNos
-     */
-    @JsonProperty("pageNos")
-    public void setPageNos(Integer pageNos) {
-        this.pageNos = pageNos;
-    }
+  /** @return The currPageNo */
+  @JsonProperty("currPageNo")
+  public Integer getCurrPageNo() {
+    return currPageNo;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  /** @param currPageNo The currPageNo */
+  @JsonProperty("currPageNo")
+  public void setCurrPageNo(Integer currPageNo) {
+    this.currPageNo = currPageNo;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  /** @return The limit */
+  @JsonProperty("limit")
+  public Integer getLimit() {
+    return limit;
+  }
 
+  /** @param limit The limit */
+  @JsonProperty("limit")
+  public void setLimit(Integer limit) {
+    this.limit = limit;
+  }
+
+  /** @return The pageNos */
+  @JsonProperty("pageNos")
+  public Integer getPageNos() {
+    return pageNos;
+  }
+
+  /** @param pageNos The pageNos */
+  @JsonProperty("pageNos")
+  public void setPageNos(Integer pageNos) {
+    this.pageNos = pageNos;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
+
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put(name, value);
+  }
 }

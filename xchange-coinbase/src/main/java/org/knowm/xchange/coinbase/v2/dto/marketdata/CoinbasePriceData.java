@@ -6,12 +6,11 @@ public class CoinbasePriceData {
 
   private CoinbasePrice data;
 
-  public void setData(CoinbasePrice data) {
-    this.data = data;
-  }
-
   public CoinbasePrice getData() {
     return data;
   }
-}
 
+  public void setData(CoinbasePrice data) {
+    this.data = data;
+  }
+}

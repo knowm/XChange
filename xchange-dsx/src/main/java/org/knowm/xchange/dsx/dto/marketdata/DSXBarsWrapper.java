@@ -2,10 +2,7 @@ package org.knowm.xchange.dsx.dto.marketdata;
 
 import java.util.Map;
 
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXBarsWrapper {
 
   private final Map<String, DSXBar[]> barsMap;
@@ -32,9 +29,6 @@ public class DSXBarsWrapper {
   @Override
   public String toString() {
 
-    return "DSXBarsWrapper{" +
-        "barsMap=" + barsMap +
-        '}';
+    return "DSXBarsWrapper{" + "barsMap=" + barsMap + '}';
   }
-
 }

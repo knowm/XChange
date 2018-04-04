@@ -2,12 +2,9 @@ package org.knowm.xchange.cexio.service;
 
 import java.math.BigInteger;
 import java.util.List;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.cexio.dto.CexIORequest;
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -22,10 +19,15 @@ public class CexIODigest extends BaseParamsDigest {
    *
    * @param secretKeyBase64
    * @param clientId Account user name
-   * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or
+   *     the decoded key is invalid).
    * @param nonceFactory
    */
-  private CexIODigest(String secretKeyBase64, String clientId, String apiKey, SynchronizedValueFactory<Long> nonceFactory) {
+  private CexIODigest(
+      String secretKeyBase64,
+      String clientId,
+      String apiKey,
+      SynchronizedValueFactory<Long> nonceFactory) {
     super(secretKeyBase64, HMAC_SHA_256);
 
     this.clientId = clientId;
@@ -33,8 +35,14 @@ public class CexIODigest extends BaseParamsDigest {
     this.nonceFactory = nonceFactory;
   }
 
-  public static CexIODigest createInstance(String secretKeyBase64, String clientId, String apiKey, SynchronizedValueFactory<Long> nonceFactory) {
-    return secretKeyBase64 == null ? null : new CexIODigest(secretKeyBase64, clientId, apiKey, nonceFactory);
+  public static CexIODigest createInstance(
+      String secretKeyBase64,
+      String clientId,
+      String apiKey,
+      SynchronizedValueFactory<Long> nonceFactory) {
+    return secretKeyBase64 == null
+        ? null
+        : new CexIODigest(secretKeyBase64, clientId, apiKey, nonceFactory);
   }
 
   @Override
@@ -51,7 +59,7 @@ public class CexIODigest extends BaseParamsDigest {
     List<Object> unannanotatedParams = restInvocation.getUnannanotatedParams();
 
     for (Object unannanotatedParam : unannanotatedParams) {
-      //there *should* be only one
+      // there *should* be only one
       if (unannanotatedParam instanceof CexIORequest) {
         CexIORequest request = (CexIORequest) unannanotatedParam;
         request.signature = signature;
@@ -62,5 +70,4 @@ public class CexIODigest extends BaseParamsDigest {
 
     return signature;
   }
-
 }

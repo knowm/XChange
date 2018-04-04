@@ -1,8 +1,7 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 public class BitmexOrderResponse {
 
@@ -11,11 +10,13 @@ public class BitmexOrderResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param description
    * @param transactionId
    */
-  public BitmexOrderResponse(@JsonProperty("descr") BitmexOrderResponseDescription description, @JsonProperty("txid") List<String> transactionId) {
+  public BitmexOrderResponse(
+      @JsonProperty("descr") BitmexOrderResponseDescription description,
+      @JsonProperty("txid") List<String> transactionId) {
 
     this.description = description;
     this.transactionIds = transactionId;
@@ -34,7 +35,11 @@ public class BitmexOrderResponse {
   @Override
   public String toString() {
 
-    return "BitmexOrderResponse [description=" + description + ", transactionId=" + transactionIds + "]";
+    return "BitmexOrderResponse [description="
+        + description
+        + ", transactionId="
+        + transactionIds
+        + "]";
   }
 
   public static class BitmexOrderResponseDescription {
@@ -44,11 +49,13 @@ public class BitmexOrderResponse {
 
     /**
      * Constructor
-     * 
+     *
      * @param orderDescription
      * @param closeDescription
      */
-    public BitmexOrderResponseDescription(@JsonProperty("order") String orderDescription, @JsonProperty("close") String closeDescription) {
+    public BitmexOrderResponseDescription(
+        @JsonProperty("order") String orderDescription,
+        @JsonProperty("close") String closeDescription) {
 
       this.orderDescription = orderDescription;
       this.closeDescription = closeDescription;
@@ -67,8 +74,11 @@ public class BitmexOrderResponse {
     @Override
     public String toString() {
 
-      return "BitmexOrderResponseDescription [orderDescription=" + orderDescription + ", closeDescription=" + closeDescription + "]";
+      return "BitmexOrderResponseDescription [orderDescription="
+          + orderDescription
+          + ", closeDescription="
+          + closeDescription
+          + "]";
     }
-
   }
 }

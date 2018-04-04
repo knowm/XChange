@@ -1,15 +1,14 @@
 package org.knowm.xchange.bitflyer.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
- *  Object representing json returned from <code>GET /v1/me/getcoinins</code> or <code>GET /v1/me/getcoinouts</code>
- *  
- *  <p>Example getcoinins</p>
- *  <code><pre>{
+ * Object representing json returned from <code>GET /v1/me/getcoinins</code> or <code>
+ * GET /v1/me/getcoinouts</code>
+ *
+ * <p>Example getcoinins <code><pre>{
  *    "id": 100,
  *    "order_id": "CDP20151227-024141-055555",
  *    "currency_code": "BTC",
@@ -19,9 +18,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *    "status": "COMPLETED",
  *    "event_date": "2015-11-27T08:59:20.301"
  *  }</pre></code>
- *  
- *  <p>Example getcoinouts</p>
- *  <code><pre>{
+ *
+ * <p>Example getcoinouts <code><pre>{
  *     "id": 500,
  *     "order_id": "CWD20151224-014040-077777",
  *     "currency_code": "BTC",
@@ -33,20 +31,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *     "status": "COMPLETED",
  *     "event_date": "2015-12-24T01:40:40.397"
  *   }</pre></code>
-
+ *
  * @author bryant_harris
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BitflyerCoinHistory extends BitflyerBaseHistoryResponse {  
+public class BitflyerCoinHistory extends BitflyerBaseHistoryResponse {
   @JsonProperty("address")
   String address;
-        
+
   @JsonProperty("fee")
   BigDecimal fee;
-        
+
   @JsonProperty("additional_fee")
   BigDecimal additionalFee;
-        
+
   @JsonProperty("tx_hash")
   String txHash;
 
@@ -56,8 +54,8 @@ public class BitflyerCoinHistory extends BitflyerBaseHistoryResponse {
 
   public void setAddress(String address) {
     this.address = address;
- }
-        
+  }
+
   public BigDecimal getFee() {
     return fee;
   }
@@ -84,8 +82,26 @@ public class BitflyerCoinHistory extends BitflyerBaseHistoryResponse {
 
   @Override
   public String toString() {
-    return "BitflyerCoinIn [id=" + id + ", orderID=" + orderID + ", currencyCode=" + currencyCode + ", amount="
-        + amount + ", address=" + address + ", fee=" + fee + ", additionalFee=" + additionalFee + ", txHash="
-        + txHash + ", status=" + status + ", eventDate=" + eventDate + "]";
+    return "BitflyerCoinIn [id="
+        + id
+        + ", orderID="
+        + orderID
+        + ", currencyCode="
+        + currencyCode
+        + ", amount="
+        + amount
+        + ", address="
+        + address
+        + ", fee="
+        + fee
+        + ", additionalFee="
+        + additionalFee
+        + ", txHash="
+        + txHash
+        + ", status="
+        + status
+        + ", eventDate="
+        + eventDate
+        + "]";
   }
 }

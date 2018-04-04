@@ -1,17 +1,10 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.Date;
 
-
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-
-/**
- * Author: Kamil Zbikowski Date: 4/15/15
- */
+/** Author: Kamil Zbikowski Date: 4/15/15 */
 public class IndependentReserveOpenOrder {
   private final BigDecimal avgPrice;
   private final Date createdTimestamp;
@@ -26,13 +19,23 @@ public class IndependentReserveOpenOrder {
   private final BigDecimal value;
   private final BigDecimal volume;
 
-  public IndependentReserveOpenOrder(@JsonProperty("AvgPrice") BigDecimal avgPrice, @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc,
-      @JsonProperty("FeePercent") BigDecimal feePercent, @JsonProperty("OrderGuid") String orderGuid, @JsonProperty("OrderType") String orderType,
-      @JsonProperty("Outstanding") BigDecimal outstanding, @JsonProperty("Price") BigDecimal price,
-      @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode, @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode,
-      @JsonProperty("Status") String status, @JsonProperty("Value") BigDecimal value, @JsonProperty("Volume") BigDecimal volume) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public IndependentReserveOpenOrder(
+      @JsonProperty("AvgPrice") BigDecimal avgPrice,
+      @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc,
+      @JsonProperty("FeePercent") BigDecimal feePercent,
+      @JsonProperty("OrderGuid") String orderGuid,
+      @JsonProperty("OrderType") String orderType,
+      @JsonProperty("Outstanding") BigDecimal outstanding,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
+      @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode,
+      @JsonProperty("Status") String status,
+      @JsonProperty("Value") BigDecimal value,
+      @JsonProperty("Volume") BigDecimal volume)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     this.avgPrice = avgPrice;
-    this.createdTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(createdTimestampUtc) ;
+    this.createdTimestamp =
+        org.knowm.xchange.utils.DateUtils.fromISO8601DateString(createdTimestampUtc);
     this.feePercent = feePercent;
     this.orderGuid = orderGuid;
     this.orderType = orderType;
@@ -95,9 +98,36 @@ public class IndependentReserveOpenOrder {
 
   @Override
   public String toString() {
-    return "IndependentReserveOpenOrder{" + "avgPrice=" + avgPrice + ", createdTimestamp=" + createdTimestamp + ", feePercent=" + feePercent
-        + ", orderGuid='" + orderGuid + '\'' + ", orderType='" + orderType + '\'' + ", outstanding=" + outstanding + ", price=" + price
-        + ", primaryCurrencyCode='" + primaryCurrencyCode + '\'' + ", secondaryCurrencyCode='" + secondaryCurrencyCode + '\'' + ", status='" + status
-        + '\'' + ", value=" + value + ", volume=" + volume + '}';
+    return "IndependentReserveOpenOrder{"
+        + "avgPrice="
+        + avgPrice
+        + ", createdTimestamp="
+        + createdTimestamp
+        + ", feePercent="
+        + feePercent
+        + ", orderGuid='"
+        + orderGuid
+        + '\''
+        + ", orderType='"
+        + orderType
+        + '\''
+        + ", outstanding="
+        + outstanding
+        + ", price="
+        + price
+        + ", primaryCurrencyCode='"
+        + primaryCurrencyCode
+        + '\''
+        + ", secondaryCurrencyCode='"
+        + secondaryCurrencyCode
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", value="
+        + value
+        + ", volume="
+        + volume
+        + '}';
   }
 }

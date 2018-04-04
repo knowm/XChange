@@ -1,18 +1,14 @@
 package org.knowm.xchange.therock.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import java.math.BigDecimal;
+import java.util.Date;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 public class TheRockTicker {
 
@@ -70,7 +66,7 @@ public class TheRockTicker {
   @Override
   public String toString() {
     return String.format(
-        "TheRockTicker{currencyPair=%s, date=%s, bid=%s, ask=%s, last=%s, volume=%s, volumeTraed=%s, open=%s, high=%s, low=%s, close=%s}", fundId,
-        date, bid, ask, last, volume, volumeTraded, open, high, low, close);
+        "TheRockTicker{currencyPair=%s, date=%s, bid=%s, ask=%s, last=%s, volume=%s, volumeTraed=%s, open=%s, high=%s, low=%s, close=%s}",
+        fundId, date, bid, ask, last, volume, volumeTraded, open, high, low, close);
   }
 }

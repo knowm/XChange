@@ -3,7 +3,6 @@ package org.knowm.xchange.poloniex.service;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -17,6 +16,14 @@ import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
 
 public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
+
+  private final long cache_delay = 1000L;
+  private HashMap<String, PoloniexMarketData> TickermarketData;
+  private long next_refresh = System.currentTimeMillis() + cache_delay;
+
+  // There is no point to query the ticker instantly again when
+  // all tickers are returned on 1 query available in the hash map
+  // let's wait a seconds and save our self a call for each ticker in our calling for loop.
 
   /**
    * Constructor
@@ -50,16 +57,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
     }
-
   }
-
-  // There is no point to query the ticker instantly again when
-  // all tickers are returned on 1 query available in the hash map
-  // let's wait a seconds and save our self a call for each ticker in our calling for loop.
-
-  private HashMap<String, PoloniexMarketData> TickermarketData;
-  private final long cache_delay = 1000L;
-  private long next_refresh = System.currentTimeMillis() + cache_delay;
 
   public PoloniexTicker getPoloniexTicker(CurrencyPair currencyPair) throws IOException {
 
@@ -136,7 +134,8 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair) throws IOException {
+  public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair)
+      throws IOException {
 
     String command = "returnTradeHistory";
     String pairString = PoloniexUtils.toPairString(currencyPair);
@@ -149,7 +148,8 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
+  public PoloniexPublicTrade[] getPoloniexPublicTrades(
+      CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
 
     String command = "returnTradeHistory";
     String pairString = PoloniexUtils.toPairString(currencyPair);
@@ -162,14 +162,16 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexChartData[] getPoloniexChartData(CurrencyPair currencyPair, Long startTime, Long endTime,
-      PoloniexChartDataPeriodType period) throws IOException {
+  public PoloniexChartData[] getPoloniexChartData(
+      CurrencyPair currencyPair, Long startTime, Long endTime, PoloniexChartDataPeriodType period)
+      throws IOException {
 
     String command = "returnChartData";
     String pairString = PoloniexUtils.toPairString(currencyPair);
 
     try {
-      PoloniexChartData[] chartData = poloniex.getChartData(command, pairString, startTime, endTime, period.getPeriod());
+      PoloniexChartData[] chartData =
+          poloniex.getChartData(command, pairString, startTime, endTime, period.getPeriod());
       return chartData;
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);

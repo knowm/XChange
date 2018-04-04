@@ -2,16 +2,14 @@ package org.knowm.xchange.lakebtc.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.lakebtc.LakeBTCAdapters;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LakeBTCMarketDataJsonTest {
 
@@ -19,12 +17,17 @@ public class LakeBTCMarketDataJsonTest {
   public void testDeserializeTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        LakeBTCMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/lakebtc/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    Map<String,LakeBTCTicker> tickers = mapper.readValue(is, mapper.getTypeFactory().constructMapType(Map.class, String.class, LakeBTCTicker.class));
+    Map<String, LakeBTCTicker> tickers =
+        mapper.readValue(
+            is,
+            mapper.getTypeFactory().constructMapType(Map.class, String.class, LakeBTCTicker.class));
 
     LakeBTCTicker hkdTicker = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
     assertThat(hkdTicker.getAsk()).isEqualTo("73039.54");
@@ -41,14 +44,15 @@ public class LakeBTCMarketDataJsonTest {
     assertThat(usdTicker.getHigh()).isEqualTo("9477.63");
     assertThat(usdTicker.getLow()).isEqualTo("8653.83");
     assertThat(usdTicker.getVolume()).isEqualTo("2133.491461");
-
   }
 
   @Test
   public void testDeserializeOrderBook() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-orderbook-data.json");
+    InputStream is =
+        LakeBTCMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/lakebtc/dto/marketdata/example-orderbook-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

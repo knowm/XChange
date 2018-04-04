@@ -12,6 +12,10 @@
       "price_scale": 2,
       "min_amount": 0.01000000
     },
+    "BTC/GBP": {
+      "price_scale": 2,
+      "min_amount": 0.01000000
+    },
     "LTC/USD": {
       "price_scale": 4,
       "min_amount": 0.10000000
@@ -25,6 +29,14 @@
       "min_amount": 0.10000000
     },
     "ETH/USD": {
+      "price_scale": 4,
+      "min_amount": 0.10000000
+    },
+    "ETH/EUR": {
+      "price_scale": 4,
+      "min_amount": 0.10000000
+    },
+    "ETH/GBP": {
       "price_scale": 4,
       "min_amount": 0.10000000
     },
@@ -154,6 +166,10 @@
       "scale": 2,
       "withdrawal_fee": 0
     },
+    "GBP": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
     "XMR": {
       "scale": 8,
       "withdrawal_fee": 0.04
@@ -186,5 +202,12 @@
       "scale": 8,
       "withdrawal_fee": 20.0
     }
-  }
+  },
+  "public_rate_limits": [
+    {
+      "calls": 30,
+      "time_span": 60,
+      "time_unit": "SECONDS"
+    }
+  ]
 }

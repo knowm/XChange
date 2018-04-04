@@ -1,16 +1,11 @@
 package org.knowm.xchange.abucoins.dto.trade;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Arrays;
-
 import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /orders</code> endpoint.</p>
- *
- * Example:
+ * POJO representing the output JSON for the Abucoins <code>GET /orders</code> endpoint. Example:
  * <code><pre>
  * [
  *    {
@@ -43,16 +38,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  *     }
  * ]
  * </pre></code>
+ *
  * @author bryant_harris
  */
 @JsonDeserialize(using = AbucoinsOrders.AbucoinsOrdersDeserializer.class)
 public class AbucoinsOrders {
   AbucoinsOrder[] orders;
-        
+
   public AbucoinsOrders(AbucoinsOrder[] orders) {
     this.orders = orders;
   }
-                
+
   public AbucoinsOrder[] getOrders() {
     return orders;
   }
@@ -63,11 +59,13 @@ public class AbucoinsOrders {
   }
 
   /**
-   * Deserializer handles the success case (array json) as well as the error case
-   * (json object with <em>message</em> field).
+   * Deserializer handles the success case (array json) as well as the error case (json object with
+   * <em>message</em> field).
+   *
    * @author bryant_harris
    */
-  static class AbucoinsOrdersDeserializer extends AbucoinsArrayOrMessageDeserializer<AbucoinsOrder, AbucoinsOrders> {
+  static class AbucoinsOrdersDeserializer
+      extends AbucoinsArrayOrMessageDeserializer<AbucoinsOrder, AbucoinsOrders> {
     public AbucoinsOrdersDeserializer() {
       super(AbucoinsOrder.class, AbucoinsOrders.class);
     }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -15,10 +14,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.utils.CertHelper;
 
-/**
- * @author Zach Holmes
- */
-
+/** @author Zach Holmes */
 public class PoloniexAccountDemo {
 
   public static void main(String[] args) throws Exception {
@@ -41,7 +37,8 @@ public class PoloniexAccountDemo {
     System.out.println(accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.03"), "XXX"));
 
     final TradeHistoryParams params = accountService.createFundingHistoryParams();
-    ((TradeHistoryParamsTimeSpan) params).setStartTime(new Date(System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000));
+    ((TradeHistoryParamsTimeSpan) params)
+        .setStartTime(new Date(System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000));
 
     final List<FundingRecord> fundingHistory = accountService.getFundingHistory(params);
     for (FundingRecord fundingRecord : fundingHistory) {
@@ -55,5 +52,4 @@ public class PoloniexAccountDemo {
     System.out.println(accountService.getDepositAddress("BTC"));
     System.out.println(accountService.getWallets());
   }
-
 }

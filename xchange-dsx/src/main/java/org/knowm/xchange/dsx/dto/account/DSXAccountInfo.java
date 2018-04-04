@@ -1,14 +1,10 @@
 package org.knowm.xchange.dsx.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXAccountInfo {
 
   private final int transactionCount;
@@ -26,8 +22,11 @@ public class DSXAccountInfo {
    * @param rights The rights
    * @param funds The funds
    */
-  public DSXAccountInfo(@JsonProperty("transactionCount") int transactionCount, @JsonProperty("openOrders") int openOrders,
-      @JsonProperty("serverTime") long serverTime, @JsonProperty("rights") Rights rights,
+  public DSXAccountInfo(
+      @JsonProperty("transactionCount") int transactionCount,
+      @JsonProperty("openOrders") int openOrders,
+      @JsonProperty("serverTime") long serverTime,
+      @JsonProperty("rights") Rights rights,
       @JsonProperty("funds") Map<String, DSXCurrencyAmount> funds) {
 
     this.transactionCount = transactionCount;
@@ -65,7 +64,8 @@ public class DSXAccountInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("DSXAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''', total={5}]",
+    return MessageFormat.format(
+        "DSXAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''', total={5}]",
         transactionCount, openOrders, serverTime, rights, funds);
   }
 

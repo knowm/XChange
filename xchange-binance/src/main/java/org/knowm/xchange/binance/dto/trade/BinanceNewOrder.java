@@ -1,8 +1,7 @@
 package org.knowm.xchange.binance.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public final class BinanceNewOrder {
 
@@ -18,17 +17,18 @@ public final class BinanceNewOrder {
   public final OrderType type;
   public final OrderSide side;
 
-  public BinanceNewOrder(@JsonProperty("symbol") String symbol
-      , @JsonProperty("orderId") long orderId
-      , @JsonProperty("clientOrderId") String clientOrderId
-      , @JsonProperty("transactTime") long transactTime
-      , @JsonProperty("price") BigDecimal price
-      , @JsonProperty("origQty") BigDecimal origQty
-      , @JsonProperty("executedQty") BigDecimal executedQty
-      , @JsonProperty("status") OrderStatus status
-      , @JsonProperty("timeInForce") TimeInForce timeInForce
-      , @JsonProperty("type") OrderType type
-      , @JsonProperty("side") OrderSide side) {
+  public BinanceNewOrder(
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("orderId") long orderId,
+      @JsonProperty("clientOrderId") String clientOrderId,
+      @JsonProperty("transactTime") long transactTime,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("origQty") BigDecimal origQty,
+      @JsonProperty("executedQty") BigDecimal executedQty,
+      @JsonProperty("status") OrderStatus status,
+      @JsonProperty("timeInForce") TimeInForce timeInForce,
+      @JsonProperty("type") OrderType type,
+      @JsonProperty("side") OrderSide side) {
     super();
     this.symbol = symbol;
     this.orderId = orderId;

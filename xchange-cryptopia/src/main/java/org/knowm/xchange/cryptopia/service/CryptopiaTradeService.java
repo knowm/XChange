@@ -2,12 +2,15 @@ package org.knowm.xchange.cryptopia.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -46,7 +49,11 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return submitTrade(limitOrder.getCurrencyPair(), limitOrder.getType(), limitOrder.getLimitPrice(), limitOrder.getOriginalAmount());
+    return submitTrade(
+        limitOrder.getCurrencyPair(),
+        limitOrder.getType(),
+        limitOrder.getLimitPrice(),
+        limitOrder.getOriginalAmount());
   }
 
   @Override
@@ -110,7 +117,8 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
     throw new NotAvailableFromExchangeException();
   }
 
-  public static class CryptopiaTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit {
+  public static class CryptopiaTradeHistoryParams
+      implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit {
 
     private CurrencyPair currencyPair;
     private Integer limit;
@@ -120,7 +128,11 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
       this.limit = limit;
     }
 
-    public CryptopiaTradeHistoryParams() {
+    public CryptopiaTradeHistoryParams() {}
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
     }
 
     @Override
@@ -129,18 +141,13 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
+    public Integer getLimit() {
+      return limit;
     }
 
     @Override
     public void setLimit(Integer limit) {
       this.limit = limit;
-    }
-
-    @Override
-    public Integer getLimit() {
-      return limit;
     }
   }
 }

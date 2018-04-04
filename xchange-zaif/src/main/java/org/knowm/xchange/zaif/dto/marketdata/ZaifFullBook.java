@@ -1,15 +1,15 @@
 package org.knowm.xchange.zaif.dto.marketdata;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class ZaifFullBook {
 
   private final ZaifFullBookTier[] bids;
   private final ZaifFullBookTier[] asks;
 
-  public ZaifFullBook(@JsonProperty("bids") Object[][] bids, @JsonProperty("asks") Object[][] asks) {
+  public ZaifFullBook(
+      @JsonProperty("bids") Object[][] bids, @JsonProperty("asks") Object[][] asks) {
     if (bids != null && bids.length > 0) {
       this.bids = new ZaifFullBookTier[bids.length];
 
@@ -40,6 +40,10 @@ public class ZaifFullBook {
 
   @Override
   public String toString() {
-    return "ZaifFullBook [bids: " + Arrays.toString(this.getBids()) + ", asks: " + Arrays.toString(this.getAsks()) + "]";
+    return "ZaifFullBook [bids: "
+        + Arrays.toString(this.getBids())
+        + ", asks: "
+        + Arrays.toString(this.getAsks())
+        + "]";
   }
 }

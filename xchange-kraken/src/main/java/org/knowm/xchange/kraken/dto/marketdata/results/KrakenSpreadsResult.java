@@ -1,9 +1,8 @@
 package org.knowm.xchange.kraken.dto.marketdata.results;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.kraken.dto.KrakenResult;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenSpreads;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenSpreadsResult extends KrakenResult<KrakenSpreads> {
 
@@ -13,7 +12,8 @@ public class KrakenSpreadsResult extends KrakenResult<KrakenSpreads> {
    * @param error List of errors
    * @param result Recent spreads
    */
-  public KrakenSpreadsResult(@JsonProperty("error") String[] error, @JsonProperty("result") KrakenSpreads result) {
+  public KrakenSpreadsResult(
+      @JsonProperty("error") String[] error, @JsonProperty("result") KrakenSpreads result) {
 
     super(result, error);
   }

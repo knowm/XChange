@@ -1,8 +1,7 @@
 package org.knowm.xchange.bitcointoyou.service;
 
+import java.util.Base64;
 import org.knowm.xchange.service.BaseParamsDigest;
-
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
 
 /**
@@ -15,10 +14,11 @@ public class BitcointoyouDigest extends BaseParamsDigest {
 
   /**
    * Constructor
-   * 
+   *
    * @param secretKeyBase64 the Secret Key
    * @param apiKey the API Key
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded
+   *     key is invalid).
    */
   private BitcointoyouDigest(String secretKeyBase64, String apiKey) {
 
@@ -37,6 +37,6 @@ public class BitcointoyouDigest extends BaseParamsDigest {
     // The Bitcointoyou API specifies that signature field is a concat between nonce and API Key.
     String signature = restInvocation.getHttpHeadersFromParams().get("nonce") + apiKey;
 
-    return Base64.encodeBytes(getMac().doFinal(signature.getBytes())).toUpperCase();
+    return Base64.getEncoder().encodeToString(getMac().doFinal(signature.getBytes())).toUpperCase();
   }
 }

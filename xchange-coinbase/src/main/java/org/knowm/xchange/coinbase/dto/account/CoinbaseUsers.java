@@ -1,12 +1,9 @@
 package org.knowm.xchange.coinbase.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseUsers {
 
   private final List<CoinbaseUser> users;
@@ -26,5 +23,4 @@ public class CoinbaseUsers {
 
     return "CoinbaseUsers [users=" + users + "]";
   }
-
 }

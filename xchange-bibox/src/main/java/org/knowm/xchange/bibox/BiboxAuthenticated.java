@@ -1,24 +1,19 @@
 package org.knowm.xchange.bibox;
 
 import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.bibox.dto.BiboxMultipleResponses;
 import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrders;
-
 import si.mazi.rescu.ParamsDigest;
 
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 @Path("v1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
@@ -26,7 +21,7 @@ public interface BiboxAuthenticated extends Bibox {
 
   /**
    * Retrieve balances of the account
-   * 
+   *
    * @return list of coins
    */
   @POST
@@ -38,7 +33,7 @@ public interface BiboxAuthenticated extends Bibox {
 
   /**
    * Get deposit address for coin
-   * 
+   *
    * @return list of coins
    */
   @POST
@@ -50,7 +45,7 @@ public interface BiboxAuthenticated extends Bibox {
 
   /**
    * Create an order (market/limit)
-   * 
+   *
    * @return order id
    */
   @POST
@@ -62,7 +57,7 @@ public interface BiboxAuthenticated extends Bibox {
 
   /**
    * Cancel an order
-   * 
+   *
    * @return chinese for "cancelled", useless
    */
   @POST
@@ -74,7 +69,7 @@ public interface BiboxAuthenticated extends Bibox {
 
   /**
    * Obtain open order list / order history
-   * 
+   *
    * @return open orders
    */
   @POST
@@ -86,7 +81,7 @@ public interface BiboxAuthenticated extends Bibox {
 
   /**
    * Cancel multiple orders
-   * 
+   *
    * @return multiple times chinese for "cancelled", useless
    */
   @POST

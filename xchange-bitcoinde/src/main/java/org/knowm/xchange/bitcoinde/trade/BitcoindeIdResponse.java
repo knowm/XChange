@@ -2,11 +2,7 @@ package org.knowm.xchange.bitcoinde.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * 
- * @author kaiserfr
- *
- */
+/** @author kaiserfr */
 public class BitcoindeIdResponse {
   private final String id;
 
@@ -26,5 +22,4 @@ public class BitcoindeIdResponse {
     builder.append("]");
     return builder.toString();
   }
-
 }

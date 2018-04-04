@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.poloniex.marketdata;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,10 +10,7 @@ import org.knowm.xchange.poloniex.PoloniexExchange;
 import org.knowm.xchange.poloniex.service.PoloniexMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author Zach Holmes
- */
-
+/** @author Zach Holmes */
 public class PoloniexMarketDataDemo {
 
   private static Exchange poloniex;
@@ -22,15 +18,15 @@ public class PoloniexMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
 
-//    CertHelper.trustAllCerts();
+    //    CertHelper.trustAllCerts();
 
     poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
     MarketDataService dataService = poloniex.getMarketDataService();
     currencyPair = new CurrencyPair("BTC", "USDT");
-//    currencyPair = new CurrencyPair("ETH", "BTC");
+    //    currencyPair = new CurrencyPair("ETH", "BTC");
 
     generic(dataService);
-//    raw((PoloniexMarketDataServiceRaw) dataService);
+    //    raw((PoloniexMarketDataServiceRaw) dataService);
   }
 
   private static void generic(MarketDataService dataService) throws IOException {
@@ -38,10 +34,10 @@ public class PoloniexMarketDataDemo {
     System.out.println("----------GENERIC----------");
     System.out.println(dataService.getTicker(currencyPair));
     System.out.println(dataService.getOrderBook(currencyPair));
-//    System.out.println(dataService.getOrderBook(currencyPair, 3));
-//    System.out.println(dataService.getTrades(currencyPair));
-//    long now = new Date().getTime() / 1000;
-//    System.out.println(dataService.getTrades(currencyPair, now -  60));
+    //    System.out.println(dataService.getOrderBook(currencyPair, 3));
+    //    System.out.println(dataService.getTrades(currencyPair));
+    //    long now = new Date().getTime() / 1000;
+    //    System.out.println(dataService.getTrades(currencyPair, now -  60));
   }
 
   private static void raw(PoloniexMarketDataServiceRaw dataService) throws IOException {
@@ -57,7 +53,7 @@ public class PoloniexMarketDataDemo {
     System.out.println(dataService.getPoloniexDepth(currencyPair, 3));
     System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair)));
     long now = new Date().getTime() / 1000;
-    System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair, now - 8 * 60 * 60, null)));
+    System.out.println(
+        Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair, now - 8 * 60 * 60, null)));
   }
-
 }

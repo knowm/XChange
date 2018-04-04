@@ -2,7 +2,6 @@ package org.knowm.xchange.zaif.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -18,7 +17,9 @@ public class ZaifMarketDataServiceRaw extends ZaifBaseService {
 
   public ZaifFullBook getZaifFullBook(CurrencyPair currencyPair) throws IOException {
     try {
-      return this.zaif.getDepth(currencyPair.base.toString().toLowerCase(), currencyPair.counter.toString().toLowerCase());
+      return this.zaif.getDepth(
+          currencyPair.base.toString().toLowerCase(),
+          currencyPair.counter.toString().toLowerCase());
     } catch (ZaifException e) {
       throw new ExchangeException(e.getMessage());
     }
@@ -37,7 +38,9 @@ public class ZaifMarketDataServiceRaw extends ZaifBaseService {
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
       if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-          && cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+          && cp.counter
+              .getCurrencyCode()
+              .equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
         currencyPairSupported = true;
         break;
       }

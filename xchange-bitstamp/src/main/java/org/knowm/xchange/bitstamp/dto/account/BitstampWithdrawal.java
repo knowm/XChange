@@ -9,7 +9,11 @@ public final class BitstampWithdrawal {
   public final Object reason;
   public final Object error;
 
-  public BitstampWithdrawal(@JsonProperty("id") Integer id, @JsonProperty("status") String status, @JsonProperty("reason") Object reason, @JsonProperty("error") Object error) {
+  public BitstampWithdrawal(
+      @JsonProperty("id") Integer id,
+      @JsonProperty("status") String status,
+      @JsonProperty("reason") Object reason,
+      @JsonProperty("error") Object error) {
     this.id = id;
     this.status = status;
     this.reason = reason;
@@ -30,11 +34,15 @@ public final class BitstampWithdrawal {
 
   @Override
   public String toString() {
-    return "BitstampWithdrawal{" +
-        "id=" + id +
-        ", status='" + status + '\'' +
-        ", reason=" + reason +
-        '}';
+    return "BitstampWithdrawal{"
+        + "id="
+        + id
+        + ", status='"
+        + status
+        + '\''
+        + ", reason="
+        + reason
+        + '}';
   }
 
   public boolean hasError() {

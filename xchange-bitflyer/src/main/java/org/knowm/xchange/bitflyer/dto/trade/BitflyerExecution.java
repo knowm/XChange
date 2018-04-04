@@ -1,34 +1,39 @@
 package org.knowm.xchange.bitflyer.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-                       "id",
-                       "side",
-                       "price",
-                       "size",
-                       "exec_date",
-                       "buy_child_order_acceptance_id",
-                       "sell_child_order_acceptance_id"
-                   })
+  "id",
+  "side",
+  "price",
+  "size",
+  "exec_date",
+  "buy_child_order_acceptance_id",
+  "sell_child_order_acceptance_id"
+})
 public class BitflyerExecution {
   @JsonProperty("id")
   private Integer id;
+
   @JsonProperty("side")
   private String side;
+
   @JsonProperty("price")
   private BigDecimal price;
+
   @JsonProperty("size")
   private BigDecimal size;
+
   @JsonProperty("exec_date")
   private String execDate;
+
   @JsonProperty("buy_child_order_acceptance_id")
   private String buyChildOrderAcceptanceId;
+
   @JsonProperty("sell_child_order_acceptance_id")
   private String sellChildOrderAcceptanceId;
 
@@ -90,14 +95,25 @@ public class BitflyerExecution {
 
   @Override
   public String toString() {
-    return "BitflyerExecution{" +
-        "id=" + id +
-        ", side='" + side + '\'' +
-        ", price=" + price +
-        ", size=" + size +
-        ", execDate='" + execDate + '\'' +
-        ", buyChildOrderAcceptanceId='" + buyChildOrderAcceptanceId + '\'' +
-        ", sellChildOrderAcceptanceId='" + sellChildOrderAcceptanceId + '\'' +
-        '}';
+    return "BitflyerExecution{"
+        + "id="
+        + id
+        + ", side='"
+        + side
+        + '\''
+        + ", price="
+        + price
+        + ", size="
+        + size
+        + ", execDate='"
+        + execDate
+        + '\''
+        + ", buyChildOrderAcceptanceId='"
+        + buyChildOrderAcceptanceId
+        + '\''
+        + ", sellChildOrderAcceptanceId='"
+        + sellChildOrderAcceptanceId
+        + '\''
+        + '}';
   }
 }

@@ -1,12 +1,9 @@
 package org.knowm.xchange.cexio.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: brox Since: 2/5/14
- */
+/** Author: brox Since: 2/5/14 */
 public class CexIOOrder {
 
   private final long id;
@@ -17,10 +14,9 @@ public class CexIOOrder {
   private final BigDecimal pending;
   private final String errorMessage;
 
-  /**
-   * non-JSON fields
-   */
+  /** non-JSON fields */
   private String tradableIdentifier;
+
   private String transactionCurrency;
 
   /**
@@ -33,8 +29,13 @@ public class CexIOOrder {
    * @param amount
    * @param pending
    */
-  public CexIOOrder(@JsonProperty("id") long id, @JsonProperty("time") long time, @JsonProperty("type") Type type,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("pending") BigDecimal pending,
+  public CexIOOrder(
+      @JsonProperty("id") long id,
+      @JsonProperty("time") long time,
+      @JsonProperty("type") Type type,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("pending") BigDecimal pending,
       @JsonProperty("error") String errorMessage) {
 
     this.id = id;
@@ -104,13 +105,15 @@ public class CexIOOrder {
   @Override
   public String toString() {
 
-    return errorMessage != null ? errorMessage
-        : String.format("Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}", id, time, type, price, amount, pending);
+    return errorMessage != null
+        ? errorMessage
+        : String.format(
+            "Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}",
+            id, time, type, price, amount, pending);
   }
 
   public enum Type {
-
-    buy, sell
+    buy,
+    sell
   }
-
 }

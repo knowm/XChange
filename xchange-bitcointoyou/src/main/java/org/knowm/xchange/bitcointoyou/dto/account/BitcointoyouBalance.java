@@ -1,14 +1,12 @@
 package org.knowm.xchange.bitcointoyou.dto.account;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
 
 /**
  * @author Danilo Guimaraes
@@ -21,12 +19,16 @@ public class BitcointoyouBalance {
 
   @JsonProperty("success")
   private String success;
+
   @JsonProperty("oReturn")
   private List<Map<String, BigDecimal>> oReturn;
+
   @JsonProperty("error")
   private String error;
+
   @JsonProperty("date")
   private String date;
+
   @JsonProperty("timestamp")
   private String timestamp;
 
@@ -92,11 +94,15 @@ public class BitcointoyouBalance {
 
   @Override
   public String toString() {
-    return "BitcointoyouBalance[" +
-        "success=" + success +
-        ", oReturn=" + oReturn +
-        ", date=" + date +
-        ", timestamp=" + timestamp +
-        ']';
+    return "BitcointoyouBalance["
+        + "success="
+        + success
+        + ", oReturn="
+        + oReturn
+        + ", date="
+        + date
+        + ", timestamp="
+        + timestamp
+        + ']';
   }
 }

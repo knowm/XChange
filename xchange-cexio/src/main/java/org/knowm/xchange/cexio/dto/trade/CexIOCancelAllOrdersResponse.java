@@ -1,9 +1,8 @@
 package org.knowm.xchange.cexio.dto.trade;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CexIOCancelAllOrdersResponse {
@@ -43,10 +42,15 @@ public class CexIOCancelAllOrdersResponse {
 
   @Override
   public String toString() {
-    return "CexIOCancelAllOrdersResponse{" +
-        "eventName='" + eventName + '\'' +
-        ", status='" + status + '\'' +
-        ", canceledOrderIds=" + canceledOrderIds +
-        '}';
+    return "CexIOCancelAllOrdersResponse{"
+        + "eventName='"
+        + eventName
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", canceledOrderIds="
+        + canceledOrderIds
+        + '}';
   }
 }

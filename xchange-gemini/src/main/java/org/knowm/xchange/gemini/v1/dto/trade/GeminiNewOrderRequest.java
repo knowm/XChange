@@ -1,10 +1,9 @@
 package org.knowm.xchange.gemini.v1.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class GeminiNewOrderRequest {
 
@@ -46,7 +45,15 @@ public class GeminiNewOrderRequest {
    * @param side
    * @param type
    */
-  public GeminiNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type, Object[] options) {
+  public GeminiNewOrderRequest(
+      String nonce,
+      String symbol,
+      BigDecimal amount,
+      BigDecimal price,
+      String exchange,
+      String side,
+      String type,
+      Object[] options) {
 
     this.request = "/v1/order/new";
     this.nonce = nonce;

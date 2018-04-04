@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.binance.trade;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceTradeService;
@@ -27,7 +26,7 @@ public class BinanceTradeDemo {
 
     CurrencyPair pair = CurrencyPair.EOS_ETH;
     TradeService tradeService = exchange.getTradeService();
-    
+
     // Get open orders
     OpenOrders orders = tradeService.getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(pair));
     LimitOrder order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
@@ -48,4 +47,3 @@ public class BinanceTradeDemo {
     }
   }
 }
-

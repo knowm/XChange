@@ -1,46 +1,81 @@
 package org.knowm.xchange.gdax.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Set;
-
-import org.knowm.xchange.dto.Order.IOrderFlags;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
-public class GDAXPlaceOrder {
-  @JsonProperty("size")
-  private final BigDecimal size;
-  @JsonProperty("price")
-  private final BigDecimal price;
-  @JsonProperty("side")
-  private final String side;
-  @JsonProperty("product_id")
-  private final String productId;
+/**
+ * These parameters are common to all order types. Depending on the order type, additional
+ * parameters will be required (see below).
+ *
+ * <p>PARAMETERS
+ *
+ * <table>
+ * <tr><th>Param</th><th>Description</th></tr>
+ * <tr><td>client_oid</td><td>[optional] Order ID selected by you to identify your order</td></tr>
+ * <tr><td>type</td><td>[optional] limit or market (default is limit)</td></tr>
+ * <tr><td>side</td><td>buy or sell</td></tr>
+ * <tr><td>product_id</td><td>A valid product id</td></tr>
+ * <tr><td>stp</td><td>[optional] Self-trade prevention flag</td></tr>
+ * <tr><td>stop</td><td>[optional] Either loss or entry. Requires stop_price to be defined.</td></tr>
+ * <tr><td>stop_price</td><td>[optional] Only if stop is defined. Sets trigger price for stop order.</td></tr>
+ * </table>
+ *
+ * @author bryant_harris
+ */
+public abstract class GDAXPlaceOrder {
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  @JsonProperty("client_oid")
+  String clientOid;
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("type")
-  private final String type;
+  Type type;
 
-  private final Set<IOrderFlags> orderFlags;
+  @JsonProperty("side")
+  Side side;
 
-  public GDAXPlaceOrder(BigDecimal size, BigDecimal price, String side, String productId, String type, Set<IOrderFlags> orderFlags) {
-    this.size = size;
-    this.price = price;
+  @JsonProperty("product_id")
+  String productId;
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  @JsonProperty("stp")
+  SelfTradePrevention stp;
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  @JsonProperty("stop")
+  Stop stop;
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  @JsonProperty("stop_price")
+  BigDecimal stopPrice;
+
+  public GDAXPlaceOrder(
+      String clientOid,
+      Type type,
+      Side side,
+      String productId,
+      SelfTradePrevention stp,
+      Stop stop,
+      BigDecimal stopPrice) {
+    this.clientOid = clientOid;
+    this.type = type;
     this.side = side;
     this.productId = productId;
-    this.type = type;
-    this.orderFlags = orderFlags;
+    this.stp = stp;
+    this.stop = stop;
+    this.stopPrice = stopPrice;
   }
 
-  public BigDecimal getSize() {
-    return size;
+  public String getClientOid() {
+    return clientOid;
   }
 
-  public BigDecimal getPrice() {
-    return price;
+  public Type getType() {
+    return type;
   }
 
-  public String getSide() {
+  public Side getSide() {
     return side;
   }
 
@@ -48,52 +83,85 @@ public class GDAXPlaceOrder {
     return productId;
   }
 
-  public String getType() {
-    return type;
+  public SelfTradePrevention getStp() {
+    return stp;
   }
 
-  @JsonProperty("time_in_force")
-  @JsonInclude(Include.NON_NULL)
-  public String getTimeInForce() {
-    if (orderFlags == null) {
-      return null;
-    } else if (orderFlags.contains(GDAXOrderFlags.FILL_OR_KILL)) {
-      return "FOK";
-    } else if (orderFlags.contains(GDAXOrderFlags.IMMEDIATE_OR_CANCEL)) {
-      return "IOC";
-    } else {
-      return null; // defaults to GTC
+  public Stop getStop() {
+    return stop;
+  }
+
+  public BigDecimal getStopPrice() {
+    return stopPrice;
+  }
+
+  @SuppressWarnings("unchecked")
+  abstract static class Builder<T, B extends Builder<?, ?>> {
+    String clientOid;
+    Type type;
+    Side side;
+    String productId;
+    SelfTradePrevention stp;
+    Stop stop;
+    BigDecimal stopPrice;
+
+    public B clientOid(String clientOid) {
+      this.clientOid = clientOid;
+      return (B) this;
     }
-  }
 
-  @JsonProperty("post_only")
-  @JsonInclude(Include.NON_NULL)
-  public Boolean isPostOnly() {
-    if (orderFlags == null) {
-      return null;
-    } else if (orderFlags.contains(GDAXOrderFlags.POST_ONLY)) {
-      return Boolean.TRUE;
-    } else {
-      return null;
+    public B type(Type type) {
+      this.type = type;
+      return (B) this;
     }
+
+    public B side(Side side) {
+      this.side = side;
+      return (B) this;
+    }
+
+    public B productId(String productId) {
+      this.productId = productId;
+      return (B) this;
+    }
+
+    public B stp(SelfTradePrevention stp) {
+      this.stp = stp;
+      return (B) this;
+    }
+
+    public B stop(Stop stop) {
+      this.stop = stop;
+      return (B) this;
+    }
+
+    public B stopPrice(BigDecimal stopPrice) {
+      this.stopPrice = stopPrice;
+      return (B) this;
+    }
+
+    public abstract T build();
   }
 
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("CoinbaseExPlaceOrder [size=");
-    builder.append(size);
-    builder.append(", price=");
-    builder.append(price);
-    builder.append(", side=");
-    builder.append(side);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append(", productId=");
-    builder.append(productId);
-    builder.append(", orderFlags=");
-    builder.append(orderFlags);
-    builder.append("]");
-    return builder.toString();
+  public enum Type {
+    limit,
+    market;
+  }
+
+  public enum Side {
+    buy,
+    sell
+  }
+
+  public enum SelfTradePrevention {
+    dc, // Decrease and Cancel (default)
+    co, // Cancel oldest
+    cn, // Cancel newest
+    cb; // Cancel both
+  }
+
+  public enum Stop {
+    loss,
+    entry
   }
 }

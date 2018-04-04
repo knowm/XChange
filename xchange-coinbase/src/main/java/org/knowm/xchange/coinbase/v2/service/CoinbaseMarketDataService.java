@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinbase.v2.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -10,7 +9,8 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw implements MarketDataService {
+public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw
+    implements MarketDataService {
 
   public CoinbaseMarketDataService(Exchange exchange) {
 
@@ -34,5 +34,4 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
 
     throw new NotAvailableFromExchangeException();
   }
-
 }

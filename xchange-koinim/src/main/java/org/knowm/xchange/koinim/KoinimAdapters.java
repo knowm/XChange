@@ -9,14 +9,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
 
-/**
- * @author ahmetoz
- * Various adapters for converting from Koinim DTOs to XChange DTOs
- */
+/** @author ahmetoz Various adapters for converting from Koinim DTOs to XChange DTOs */
 public final class KoinimAdapters {
 
-  private KoinimAdapters() {
-  }
+  private KoinimAdapters() {}
 
   /**
    * Adapts a KoinimTicker to a Ticker Object

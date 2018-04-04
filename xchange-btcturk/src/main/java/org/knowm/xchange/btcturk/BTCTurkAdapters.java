@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTicker;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTrade;
@@ -18,14 +17,10 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
 
-/**
- * @author semihunaldi
- * Various adapters for converting from BTCTurk DTOs to XChange DTOs
- */
+/** @author semihunaldi Various adapters for converting from BTCTurk DTOs to XChange DTOs */
 public final class BTCTurkAdapters {
 
-  private BTCTurkAdapters() {
-  }
+  private BTCTurkAdapters() {}
 
   /**
    * Adapts a BTCTurkTicker to a Ticker Object
@@ -55,7 +50,8 @@ public final class BTCTurkAdapters {
         .vwap(average)
         .open(open)
         .volume(volume)
-        .timestamp(timestamp).build();
+        .timestamp(timestamp)
+        .build();
   }
 
   /**
@@ -85,11 +81,16 @@ public final class BTCTurkAdapters {
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(BTCTurkTrade btcTurkTrade, CurrencyPair currencyPair, int timeScale) {
+  public static Trade adaptTrade(
+      BTCTurkTrade btcTurkTrade, CurrencyPair currencyPair, int timeScale) {
 
     final String tradeId = String.valueOf(btcTurkTrade.getTid());
-    Date date = DateUtils.fromMillisUtc(btcTurkTrade.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
-    return new Trade(null, btcTurkTrade.getAmount(), currencyPair, btcTurkTrade.getPrice(), date, tradeId);
+    Date date =
+        DateUtils.fromMillisUtc(
+            btcTurkTrade.getDate()
+                * timeScale); // polled order books provide a timestamp in seconds, stream in ms
+    return new Trade(
+        null, btcTurkTrade.getAmount(), currencyPair, btcTurkTrade.getPrice(), date, tradeId);
   }
 
   /**
@@ -98,24 +99,31 @@ public final class BTCTurkAdapters {
    * @param currencyPair (e.g. BTC/TRY)
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(BTCTurkOrderBook btcTurkOrderBook, CurrencyPair currencyPair) {
-    List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, btcTurkOrderBook.getAsks());
-    List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, btcTurkOrderBook.getBids());
+  public static OrderBook adaptOrderBook(
+      BTCTurkOrderBook btcTurkOrderBook, CurrencyPair currencyPair) {
+    List<LimitOrder> asks =
+        createOrders(currencyPair, Order.OrderType.ASK, btcTurkOrderBook.getAsks());
+    List<LimitOrder> bids =
+        createOrders(currencyPair, Order.OrderType.BID, btcTurkOrderBook.getBids());
     return new OrderBook(btcTurkOrderBook.getTimestamp(), asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(
+      CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
-      checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
+      checkArgument(
+          ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
     }
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
+    return new LimitOrder(
+        orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
   }
 
   public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {

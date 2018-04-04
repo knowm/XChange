@@ -2,16 +2,12 @@ package org.knowm.xchange.abucoins.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * 
- * @author bryant_harris
- *
- */
+/** @author bryant_harris */
 public class AbucoinsCryptoDepositRequest {
   /** The type of currency */
   @JsonProperty("currency")
   String currency;
-        
+
   /** Payment method */
   @JsonProperty("method")
   String method;

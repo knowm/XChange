@@ -1,16 +1,14 @@
 package org.knowm.xchange.bitcointoyou.dto.trade;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdaptersTest;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Testes the {@link BitcointoyouOrderInfo} class
@@ -26,8 +24,40 @@ public class BitcointoyouOrderResponseTest {
   @BeforeClass
   public static void setUp() throws Exception {
     bitcointoyouOrderResponse = loadBitcointoyouOrderResponseFromExampleData();
-    bitcointoyouOrderResponseMultipleOrders = loadBitcointoyouOrderResponseMultipleOrdersFromExampleData();
+    bitcointoyouOrderResponseMultipleOrders =
+        loadBitcointoyouOrderResponseMultipleOrdersFromExampleData();
     bitcointoyouOrderResponseError = loadBitcointoyouOrderResponseErrorFromExampleData();
+  }
+
+  private static BitcointoyouOrderResponse loadBitcointoyouOrderResponseFromExampleData()
+      throws IOException {
+
+    return loadBitcointoyouOrderResponse(
+        "/org/knowm/xchange/bitcointoyou/dto/trade/example-single-order-response-data.json");
+  }
+
+  private static BitcointoyouOrderResponse
+      loadBitcointoyouOrderResponseMultipleOrdersFromExampleData() throws IOException {
+
+    return loadBitcointoyouOrderResponse(
+        "/org/knowm/xchange/bitcointoyou/dto/trade/example-multiple-orders-response-data.json");
+  }
+
+  private static BitcointoyouOrderResponse loadBitcointoyouOrderResponseErrorFromExampleData()
+      throws IOException {
+
+    return loadBitcointoyouOrderResponse(
+        "/org/knowm/xchange/bitcointoyou/dto/trade/example-order-response-data-error.json");
+  }
+
+  private static BitcointoyouOrderResponse loadBitcointoyouOrderResponse(String resource)
+      throws IOException {
+    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream(resource);
+
+    ObjectMapper mapper = new ObjectMapper();
+    // 'oReturn' field can be either an object or a String or an array... This feature handle this.
+    mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+    return mapper.readValue(is, BitcointoyouOrderResponse.class);
   }
 
   @Test
@@ -79,8 +109,12 @@ public class BitcointoyouOrderResponseTest {
     softly.assertThat(orderInfo.getExecutedAmount()).isEqualTo("0.096589707883710");
     softly.assertThat(orderInfo.getDateCreated()).isEqualTo("2016-12-20 12:37:36.750");
 
-    softly.assertThat(bitcointoyouOrderResponseMultipleOrders.getDate()).isEqualTo("2018-01-15 12:48:41.700");
-    softly.assertThat(bitcointoyouOrderResponseMultipleOrders.getTimestamp()).isEqualTo("1516038521");
+    softly
+        .assertThat(bitcointoyouOrderResponseMultipleOrders.getDate())
+        .isEqualTo("2018-01-15 12:48:41.700");
+    softly
+        .assertThat(bitcointoyouOrderResponseMultipleOrders.getTimestamp())
+        .isEqualTo("1516038521");
 
     softly.assertAll();
   }
@@ -92,35 +126,11 @@ public class BitcointoyouOrderResponseTest {
 
     softly.assertThat(bitcointoyouOrderResponseError).isNotNull();
     softly.assertThat(bitcointoyouOrderResponseError.getSuccess()).isEqualTo("0");
-    softly.assertThat(bitcointoyouOrderResponseError.getDate()).isEqualTo("2014-10-09 14:14:04.543");
+    softly
+        .assertThat(bitcointoyouOrderResponseError.getDate())
+        .isEqualTo("2014-10-09 14:14:04.543");
     softly.assertThat(bitcointoyouOrderResponseError.getTimestamp()).isEqualTo("1412864044");
 
     softly.assertAll();
-
   }
-
-  private static BitcointoyouOrderResponse loadBitcointoyouOrderResponseFromExampleData() throws IOException {
-
-    return loadBitcointoyouOrderResponse("/trade/example-single-order-response-data.json");
-  }
-
-  private static BitcointoyouOrderResponse loadBitcointoyouOrderResponseMultipleOrdersFromExampleData() throws IOException {
-
-    return loadBitcointoyouOrderResponse("/trade/example-multiple-orders-response-data.json");
-  }
-
-  private static BitcointoyouOrderResponse loadBitcointoyouOrderResponseErrorFromExampleData() throws IOException {
-
-    return loadBitcointoyouOrderResponse("/trade/example-order-response-data-error.json");
-  }
-
-  private static BitcointoyouOrderResponse loadBitcointoyouOrderResponse(String resource) throws IOException {
-    InputStream is = BitcointoyouAdaptersTest.class.getResourceAsStream(resource);
-
-    ObjectMapper mapper = new ObjectMapper();
-    // 'oReturn' field can be either an object or a String or an array... This feature handle this.
-    mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-    return mapper.readValue(is, BitcointoyouOrderResponse.class);
-  }
-
 }

@@ -18,18 +18,17 @@ public class CoinEggTradesFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.ETH_BTC);
-    
-    // Verify Not Null Values   
+
+    // Verify Not Null Values
     assertThat(trades).isNotNull();
-    
+
     assertThat(trades.getTrades()).isNotNull();
     assertThat(trades.getTrades()).isNotEmpty();
-    
+
     assertThat(trades.getTrades().get(0).getId()).isNotNull();
     assertThat(trades.getTrades().get(0).getPrice()).isNotNull();
     assertThat(trades.getTrades().get(0).getOriginalAmount()).isNotNull();
     assertThat(trades.getTrades().get(0).getType()).isNotNull();
     assertThat(trades.getTrades().get(0).getCurrencyPair()).isNotNull();
   }
-
 }

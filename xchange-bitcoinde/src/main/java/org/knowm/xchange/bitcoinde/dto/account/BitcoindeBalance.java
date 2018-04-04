@@ -1,9 +1,4 @@
-
 package org.knowm.xchange.bitcoinde.dto.account;
-
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -11,82 +6,78 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "available_amount",
-    "reserved_amount",
-    "total_amount"
-})
+@JsonPropertyOrder({"available_amount", "reserved_amount", "total_amount"})
 public class BitcoindeBalance {
 
-    @JsonProperty("available_amount")
-    private BigDecimal availableAmount;
-    @JsonProperty("reserved_amount")
-    private BigDecimal reservedAmount;
-    @JsonProperty("total_amount")
-    private BigDecimal totalAmount;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonProperty("available_amount")
+  private BigDecimal availableAmount;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public BitcoindeBalance() {
-    }
+  @JsonProperty("reserved_amount")
+  private BigDecimal reservedAmount;
 
-    /**
-     * 
-     * @param availableAmount
-     * @param reservedAmount
-     * @param totalAmount
-     */
-    public BitcoindeBalance(BigDecimal availableAmount, BigDecimal reservedAmount, BigDecimal totalAmount) {
-        super();
-        this.availableAmount = availableAmount;
-        this.reservedAmount = reservedAmount;
-        this.totalAmount = totalAmount;
-    }
+  @JsonProperty("total_amount")
+  private BigDecimal totalAmount;
 
-    @JsonProperty("available_amount")
-    public BigDecimal getAvailableAmount() {
-        return availableAmount;
-    }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("available_amount")
-    public void setAvailableAmount(BigDecimal availableAmount) {
-        this.availableAmount = availableAmount;
-    }
+  /** No args constructor for use in serialization */
+  public BitcoindeBalance() {}
 
-    @JsonProperty("reserved_amount")
-    public BigDecimal getReservedAmount() {
-        return reservedAmount;
-    }
+  /**
+   * @param availableAmount
+   * @param reservedAmount
+   * @param totalAmount
+   */
+  public BitcoindeBalance(
+      BigDecimal availableAmount, BigDecimal reservedAmount, BigDecimal totalAmount) {
+    super();
+    this.availableAmount = availableAmount;
+    this.reservedAmount = reservedAmount;
+    this.totalAmount = totalAmount;
+  }
 
-    @JsonProperty("reserved_amount")
-    public void setReservedAmount(BigDecimal reservedAmount) {
-        this.reservedAmount = reservedAmount;
-    }
+  @JsonProperty("available_amount")
+  public BigDecimal getAvailableAmount() {
+    return availableAmount;
+  }
 
-    @JsonProperty("total_amount")
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
+  @JsonProperty("available_amount")
+  public void setAvailableAmount(BigDecimal availableAmount) {
+    this.availableAmount = availableAmount;
+  }
 
-    @JsonProperty("total_amount")
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
+  @JsonProperty("reserved_amount")
+  public BigDecimal getReservedAmount() {
+    return reservedAmount;
+  }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  @JsonProperty("reserved_amount")
+  public void setReservedAmount(BigDecimal reservedAmount) {
+    this.reservedAmount = reservedAmount;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  @JsonProperty("total_amount")
+  public BigDecimal getTotalAmount() {
+    return totalAmount;
+  }
 
+  @JsonProperty("total_amount")
+  public void setTotalAmount(BigDecimal totalAmount) {
+    this.totalAmount = totalAmount;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
+
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put(name, value);
+  }
 }

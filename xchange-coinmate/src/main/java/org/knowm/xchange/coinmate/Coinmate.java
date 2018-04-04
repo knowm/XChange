@@ -24,20 +24,16 @@
 package org.knowm.xchange.coinmate;
 
 import java.io.IOException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Coinmate {
@@ -48,13 +44,15 @@ public interface Coinmate {
 
   @GET
   @Path("orderBook")
-  CoinmateOrderBook getOrderBook(@QueryParam("currencyPair") String currencyPair,
-      @QueryParam("groupByPriceLimit") boolean groupByPriceLimit) throws IOException;
+  CoinmateOrderBook getOrderBook(
+      @QueryParam("currencyPair") String currencyPair,
+      @QueryParam("groupByPriceLimit") boolean groupByPriceLimit)
+      throws IOException;
 
   @GET
   @Path("transactions")
   CoinmateTransactions getTransactions(
       @QueryParam("minutesIntoHistory") int minutesIntoHistory,
-      @QueryParam("currencyPair") String currencyPair) throws IOException;
-
+      @QueryParam("currencyPair") String currencyPair)
+      throws IOException;
 }

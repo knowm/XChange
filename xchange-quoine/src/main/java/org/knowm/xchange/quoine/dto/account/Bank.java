@@ -1,12 +1,9 @@
 package org.knowm.xchange.quoine.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class Bank {
 
   private final String name;
@@ -28,8 +25,13 @@ public final class Bank {
    * @param swift
    * @param bankAccountNumbers
    */
-  public Bank(@JsonProperty("name") String name, @JsonProperty("branch") String branch, @JsonProperty("acc_type") String accType,
-      @JsonProperty("acc_name") String accName, @JsonProperty("bank_address") String bankAddress, @JsonProperty("swift") String swift,
+  public Bank(
+      @JsonProperty("name") String name,
+      @JsonProperty("branch") String branch,
+      @JsonProperty("acc_type") String accType,
+      @JsonProperty("acc_name") String accName,
+      @JsonProperty("bank_address") String bankAddress,
+      @JsonProperty("swift") String swift,
       @JsonProperty("bank_account_numbers") BankAccountNumber[] bankAccountNumbers) {
     this.name = name;
     this.branch = branch;
@@ -74,8 +76,20 @@ public final class Bank {
 
   @Override
   public String toString() {
-    return "Bank [name=" + name + ", branch=" + branch + ", accType=" + accType + ", accName=" + accName + ", bankAddress=" + bankAddress + ", swift="
-        + swift + ", bankAccountNumbers=" + Arrays.toString(bankAccountNumbers) + "]";
+    return "Bank [name="
+        + name
+        + ", branch="
+        + branch
+        + ", accType="
+        + accType
+        + ", accName="
+        + accName
+        + ", bankAddress="
+        + bankAddress
+        + ", swift="
+        + swift
+        + ", bankAccountNumbers="
+        + Arrays.toString(bankAccountNumbers)
+        + "]";
   }
-
 }
