@@ -2,24 +2,22 @@ package org.knowm.xchange.bitmex.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test BitstampTicker JSON parsing
- */
+/** Test BitstampTicker JSON parsing */
 public class BitmexTickersJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexTickersJSONTest.class.getResourceAsStream("/example-tickers.json");
+    InputStream is =
+        BitmexTickersJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitmex/example-tickers.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexTicker[] bitmexTickers = mapper.readValue(is, BitmexTicker[].class);

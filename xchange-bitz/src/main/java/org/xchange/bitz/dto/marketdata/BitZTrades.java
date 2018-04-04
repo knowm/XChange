@@ -1,8 +1,7 @@
 package org.xchange.bitz.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BitZTrades {
 
@@ -12,7 +11,10 @@ public class BitZTrades {
 
   private final BitZPublicTrade[] trades;
 
-  public BitZTrades(@JsonProperty("min") BigDecimal min, @JsonProperty("max") BigDecimal max, @JsonProperty("sum") BigDecimal sum,
+  public BitZTrades(
+      @JsonProperty("min") BigDecimal min,
+      @JsonProperty("max") BigDecimal max,
+      @JsonProperty("sum") BigDecimal sum,
       @JsonProperty("d") BitZPublicTrade[] trades) {
 
     this.min = min;

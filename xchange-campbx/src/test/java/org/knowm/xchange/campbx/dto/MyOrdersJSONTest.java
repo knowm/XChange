@@ -2,24 +2,25 @@ package org.knowm.xchange.campbx.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.campbx.dto.trade.MyOpenOrders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test BitStamp Full Depth JSON parsing
- */
+/** Test BitStamp Full Depth JSON parsing */
 public class MyOrdersJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
-    MyOpenOrders orderBook = new ObjectMapper().readValue(MyOrdersJSONTest.class.getResourceAsStream("/trade/open-orders.json"), MyOpenOrders.class);
+    MyOpenOrders orderBook =
+        new ObjectMapper()
+            .readValue(
+                MyOrdersJSONTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/campbx/trade/open-orders.json"),
+                MyOpenOrders.class);
 
     // Verify that the example data was unmarshalled correctly
     List<CampBXOrder> buy = orderBook.getBuy();

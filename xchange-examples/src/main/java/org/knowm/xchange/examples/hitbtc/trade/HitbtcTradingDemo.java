@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.hitbtc.trade;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.hitbtc.HitbtcExampleUtils;

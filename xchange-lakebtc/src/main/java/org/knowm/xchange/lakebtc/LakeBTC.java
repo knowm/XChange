@@ -3,21 +3,17 @@ package org.knowm.xchange.lakebtc;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-/**
- * @author kpysniak
- */
+/** @author kpysniak */
 @Path("api_v2")
 @Produces(MediaType.APPLICATION_JSON)
 public interface LakeBTC {
@@ -46,7 +42,8 @@ public interface LakeBTC {
 
     @Override
     public boolean equals(Object o) {
-      return this == o || !(o == null || getClass() != o.getClass()) && Objects.equals(pair, ((Pair) o).pair);
+      return this == o
+          || !(o == null || getClass() != o.getClass()) && Objects.equals(pair, ((Pair) o).pair);
     }
 
     @Override
@@ -56,8 +53,12 @@ public interface LakeBTC {
 
     @Override
     public String toString() {
-      return pair == null ? "" : String.format("%s%s", pair.base.getCurrencyCode().toLowerCase(), pair.counter.getCurrencyCode().toLowerCase());
+      return pair == null
+          ? ""
+          : String.format(
+              "%s%s",
+              pair.base.getCurrencyCode().toLowerCase(),
+              pair.counter.getCurrencyCode().toLowerCase());
     }
   }
-
 }

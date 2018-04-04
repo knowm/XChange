@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitmarket.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class BitMarketHistoryOperation {
 
   private final long id;
@@ -28,8 +25,13 @@ public class BitMarketHistoryOperation {
    * @param commission
    * @param type
    */
-  public BitMarketHistoryOperation(@JsonProperty("id") long id, @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency,
-      @JsonProperty("time") long time, @JsonProperty("rate") BigDecimal rate, @JsonProperty("commission") BigDecimal commission,
+  public BitMarketHistoryOperation(
+      @JsonProperty("id") long id,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("time") long time,
+      @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("commission") BigDecimal commission,
       @JsonProperty("type") String type) {
 
     this.id = id;

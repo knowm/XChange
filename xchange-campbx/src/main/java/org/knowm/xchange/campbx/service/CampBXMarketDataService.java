@@ -1,7 +1,6 @@
 package org.knowm.xchange.campbx.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.CampBXAdapters;
 import org.knowm.xchange.campbx.dto.marketdata.CampBXOrderBook;
@@ -13,10 +12,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author Matija Mazi
- */
-public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implements MarketDataService {
+/** @author Matija Mazi */
+public class CampBXMarketDataService extends CampBXMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -49,5 +47,4 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
 
     throw new NotAvailableFromExchangeException();
   }
-
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.lakebtc.account;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import org.knowm.xchange.lakebtc.dto.account.LakeBTCAccountInfoResponse;
@@ -13,11 +12,12 @@ public class LakeBTCAccountRawSpecificDemo {
 
     Exchange lakebtcExchange = LakeBTCExamplesUtils.createTestExchange();
 
-    LakeBTCAccountServiceRaw rawLakeBtcAcctService = (LakeBTCAccountServiceRaw) lakebtcExchange.getAccountService();
+    LakeBTCAccountServiceRaw rawLakeBtcAcctService =
+        (LakeBTCAccountServiceRaw) lakebtcExchange.getAccountService();
 
     LakeBTCAccountInfoResponse balanceInfo = rawLakeBtcAcctService.getLakeBTCAccountInfo();
     System.out.println(balanceInfo);
 
-    //TODO: add more demos
+    // TODO: add more demos
   }
 }

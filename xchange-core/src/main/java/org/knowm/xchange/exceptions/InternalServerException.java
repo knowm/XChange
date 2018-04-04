@@ -1,8 +1,6 @@
 package org.knowm.xchange.exceptions;
 
-/**
- * An exception indicating there was an internal server error
- */
+/** An exception indicating there was an internal server error */
 public class InternalServerException extends ExchangeException {
 
   public InternalServerException(String message) {
@@ -20,5 +18,4 @@ public class InternalServerException extends ExchangeException {
   public InternalServerException() {
     super("Internal Server Error.");
   }
-
 }

@@ -1,14 +1,10 @@
 package org.knowm.xchange.cexio.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-
-/**
- * Author: veken0m
- */
-
+/** Author: veken0m */
 public class GHashIOWorkers {
 
   private final Map<String, GHashIOWorker> workers = new HashMap<>();
@@ -23,5 +19,4 @@ public class GHashIOWorkers {
 
     this.workers.put(name, worker);
   }
-
 }

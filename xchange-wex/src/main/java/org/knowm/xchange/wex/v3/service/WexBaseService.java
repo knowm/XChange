@@ -8,7 +8,6 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.wex.v3.WexAuthenticated;
 import org.knowm.xchange.wex.v3.dto.WexReturn;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -30,9 +29,14 @@ public class WexBaseService extends BaseExchangeService implements BaseService {
 
     super(exchange);
 
-    this.btce = RestProxyFactory.createProxy(WexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.btce =
+        RestProxyFactory.createProxy(
+            WexAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator = WexHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    this.signatureCreator =
+        WexHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   protected void checkResult(WexReturn<?> result) {
@@ -45,7 +49,7 @@ public class WexBaseService extends BaseExchangeService implements BaseService {
         } else if (error.startsWith(ERR_MSG_FUNDS)) {
           throw new FundsExceededException(error);
         } else if (error.equals("no transactions")) {
-          return;//this isn't an error - just an indicator that there's no data
+          return; // this isn't an error - just an indicator that there's no data
         }
       }
       throw new ExchangeException(error);
@@ -55,5 +59,4 @@ public class WexBaseService extends BaseExchangeService implements BaseService {
       throw new ExchangeException(error);
     }
   }
-
 }

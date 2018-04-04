@@ -1,19 +1,15 @@
 package org.knowm.xchange.luno;
 
 import java.io.IOException;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.luno.service.LunoAccountService;
 import org.knowm.xchange.luno.service.LunoMarketDataService;
 import org.knowm.xchange.luno.service.LunoTradeService;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author Benedikt Bünz
- */
+/** @author Benedikt Bünz */
 public class LunoExchange extends BaseExchange implements Exchange {
 
   @Override
@@ -27,7 +23,8 @@ public class LunoExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.mybitx.com");
     exchangeSpecification.setHost("api.mybitx.com");
     exchangeSpecification.setPort(443);
@@ -42,7 +39,5 @@ public class LunoExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void remoteInit() throws IOException {
-
-  }
+  public void remoteInit() throws IOException {}
 }

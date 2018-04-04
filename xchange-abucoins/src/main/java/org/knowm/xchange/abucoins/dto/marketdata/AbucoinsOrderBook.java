@@ -1,16 +1,13 @@
 package org.knowm.xchange.abucoins.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /products/&lt;product-id&gt;/book</code> endpoint.</p>
- * Example:
- * <code><pre>
+ * POJO representing the output JSON for the Abucoins <code>GET /products/&lt;product-id&gt;/book
+ * </code> endpoint. Example: <code><pre>
  * {
  *     "asks": [
  *       [ price, size, num-orders ],
@@ -31,7 +28,9 @@ public class AbucoinsOrderBook {
   AbucoinsOrderBook.LimitOrder[] bids;
   long sequence;
 
-  public AbucoinsOrderBook(@JsonProperty("asks") AbucoinsOrderBook.LimitOrder[] asks, @JsonProperty("bids") AbucoinsOrderBook.LimitOrder[] bids,
+  public AbucoinsOrderBook(
+      @JsonProperty("asks") AbucoinsOrderBook.LimitOrder[] asks,
+      @JsonProperty("bids") AbucoinsOrderBook.LimitOrder[] bids,
       @JsonProperty("sequence") long sequence) {
     this.asks = asks;
     this.bids = bids;
@@ -52,7 +51,13 @@ public class AbucoinsOrderBook {
 
   @Override
   public String toString() {
-    return "AbucoinsOrderBook [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + ", sequence=" + sequence + "]";
+    return "AbucoinsOrderBook [asks="
+        + Arrays.toString(asks)
+        + ", bids="
+        + Arrays.toString(bids)
+        + ", sequence="
+        + sequence
+        + "]";
   }
 
   @JsonFormat(shape = JsonFormat.Shape.ARRAY)

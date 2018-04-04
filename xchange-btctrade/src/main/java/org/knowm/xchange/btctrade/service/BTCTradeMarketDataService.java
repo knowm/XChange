@@ -1,7 +1,6 @@
 package org.knowm.xchange.btctrade.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.BTCTradeAdapters;
 import org.knowm.xchange.btctrade.dto.marketdata.BTCTradeTrade;
@@ -11,7 +10,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw implements MarketDataService {
+public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -23,27 +23,21 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw impl
     super(exchange);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     return BTCTradeAdapters.adaptTicker(getBTCTradeTicker(), currencyPair);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     return BTCTradeAdapters.adaptOrderBook(getBTCTradeDepth(), currencyPair);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
@@ -55,5 +49,4 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw impl
     }
     return BTCTradeAdapters.adaptTrades(trades, currencyPair);
   }
-
 }

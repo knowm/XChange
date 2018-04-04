@@ -10,7 +10,8 @@ public class LiquiExampleUtil {
   public static final String SECRET = "";
 
   public static Exchange createTestExchange() {
-    final Exchange liquiExchange = ExchangeFactory.INSTANCE.createExchange(LiquiExchange.class.getName());
+    final Exchange liquiExchange =
+        ExchangeFactory.INSTANCE.createExchange(LiquiExchange.class.getName());
     liquiExchange.getExchangeSpecification().setApiKey(KEY);
     liquiExchange.getExchangeSpecification().setSecretKey(SECRET);
     liquiExchange.applySpecification(liquiExchange.getExchangeSpecification());

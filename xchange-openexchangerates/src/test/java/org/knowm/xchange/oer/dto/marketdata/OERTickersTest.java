@@ -2,24 +2,22 @@ package org.knowm.xchange.oer.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import org.junit.Test;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class OERTickersTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = OERTickersTest.class.getResourceAsStream("/example-latest-rates.json");
+    InputStream is =
+        OERTickersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/oer/dto/marketdata/example-latest-rates.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

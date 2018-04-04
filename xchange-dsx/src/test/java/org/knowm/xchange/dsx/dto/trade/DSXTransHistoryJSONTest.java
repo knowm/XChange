@@ -2,24 +2,22 @@ package org.knowm.xchange.dsx.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author Mikhail Wall
- */
+/** @author Mikhail Wall */
 public class DSXTransHistoryJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
-    InputStream is = DSXTransHistoryJSONTest.class.getResourceAsStream("/trade/example-trans-history-data.json");
+    InputStream is =
+        DSXTransHistoryJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/trade/example-trans-history-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXTransHistoryReturn transactions = mapper.readValue(is, DSXTransHistoryReturn.class);

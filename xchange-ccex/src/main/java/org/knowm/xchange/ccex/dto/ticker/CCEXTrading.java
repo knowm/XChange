@@ -1,10 +1,9 @@
 package org.knowm.xchange.ccex.dto.ticker;
 
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -14,30 +13,21 @@ public class CCEXTrading {
   @JsonProperty("ticker")
   private Ticker ticker;
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public CCEXTrading() {
-  }
+  /** No args constructor for use in serialization */
+  public CCEXTrading() {}
 
-  /**
-   * @param ticker
-   */
+  /** @param ticker */
   public CCEXTrading(Ticker ticker) {
     this.ticker = ticker;
   }
 
-  /**
-   * @return The ticker
-   */
+  /** @return The ticker */
   @JsonProperty("ticker")
   public Ticker getTicker() {
     return ticker;
   }
 
-  /**
-   * @param ticker The ticker
-   */
+  /** @param ticker The ticker */
   @JsonProperty("ticker")
   public void setTicker(Ticker ticker) {
     this.ticker = ticker;
@@ -47,5 +37,4 @@ public class CCEXTrading {
     this.ticker = ticker;
     return this;
   }
-
 }

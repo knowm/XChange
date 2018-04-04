@@ -1,16 +1,16 @@
 package org.knowm.xchange.itbit.v1.dto.trade;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.itbit.v1.ItBitDateDeserializer;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class ItBitUserTrade {
   private String orderId;
+
   @JsonDeserialize(using = ItBitDateDeserializer.class)
   private Date timestamp;
+
   private String instrument;
   private Direction direction;
   private String currency1;
@@ -76,6 +76,7 @@ public class ItBitUserTrade {
   }
 
   public enum Direction {
-    buy, sell
+    buy,
+    sell
   }
 }

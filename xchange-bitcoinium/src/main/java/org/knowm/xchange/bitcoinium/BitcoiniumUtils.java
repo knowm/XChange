@@ -3,28 +3,30 @@ package org.knowm.xchange.bitcoinium;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * A central place for shared Bitcoinium properties
- */
+/** A central place for shared Bitcoinium properties */
 public final class BitcoiniumUtils {
 
-  public static final List<String> PRICE_WINDOW = Arrays.asList(
+  public static final List<String> PRICE_WINDOW =
+      Arrays.asList(
+          "TWO_PERCENT",
+          "FIVE_PERCENT",
+          "TEN_PERCENT",
+          "TWENTY_PERCENT",
+          "FIFTY_PERCENT",
+          "ONE_HUNDRED_PERCENT");
+  public static final List<String> TIME_WINDOW =
+      Arrays.asList(
+          "ONE_HOUR",
+          "THREE_HOURS",
+          "TWELVE_HOURS",
+          "TWENTY_FOUR_HOURS",
+          "THREE_DAYS",
+          "SEVEN_DAYS",
+          "THIRTY_DAYS",
+          "TWO_MONTHS");
 
-      "TWO_PERCENT", "FIVE_PERCENT", "TEN_PERCENT", "TWENTY_PERCENT", "FIFTY_PERCENT", "ONE_HUNDRED_PERCENT"
-
-  );
-  public static final List<String> TIME_WINDOW = Arrays.asList(
-
-      "ONE_HOUR", "THREE_HOURS", "TWELVE_HOURS", "TWENTY_FOUR_HOURS", "THREE_DAYS", "SEVEN_DAYS", "THIRTY_DAYS", "TWO_MONTHS"
-
-  );
-
-  /**
-   * private Constructor
-   */
-  private BitcoiniumUtils() {
-
-  }
+  /** private Constructor */
+  private BitcoiniumUtils() {}
 
   /**
    * Creates a valid currency pair for Bitcoinium.com
@@ -36,7 +38,6 @@ public final class BitcoiniumUtils {
   public static String createCurrencyPairString(String tradableIdentifier, String currency) {
 
     return tradableIdentifier + "_" + currency;
-
   }
 
   /**

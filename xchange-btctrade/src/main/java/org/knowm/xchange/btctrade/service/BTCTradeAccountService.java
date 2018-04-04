@@ -3,7 +3,6 @@ package org.knowm.xchange.btctrade.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.BTCTradeAdapters;
 import org.knowm.xchange.currency.Currency;
@@ -27,18 +26,14 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw implements
     super(exchange);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
     return new AccountInfo(BTCTradeAdapters.adaptWallet(getBTCTradeBalance()));
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) {
 
@@ -50,9 +45,7 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw implements
     throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
 

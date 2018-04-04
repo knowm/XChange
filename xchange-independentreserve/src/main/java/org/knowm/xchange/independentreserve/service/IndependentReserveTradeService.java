@@ -2,7 +2,6 @@ package org.knowm.xchange.independentreserve.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,15 +22,14 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-public class IndependentReserveTradeService extends IndependentReserveTradeServiceRaw implements TradeService {
+public class IndependentReserveTradeService extends IndependentReserveTradeServiceRaw
+    implements TradeService {
 
   public IndependentReserveTradeService(Exchange exchange) {
     super(exchange);
   }
 
-  /**
-   * Assumes asking for the first 50 orders with the currency pair BTCUSD + ETHUSD
-   */
+  /** Assumes asking for the first 50 orders with the currency pair BTCUSD + ETHUSD */
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
@@ -49,7 +47,8 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
         secondaryCurrency = cp.counter.getCurrencyCode();
       }
     }
-    return IndependentReserveAdapters.adaptOpenOrders(getIndependentReserveOpenOrders(primaryCurrency, secondaryCurrency, 1));
+    return IndependentReserveAdapters.adaptOpenOrders(
+        getIndependentReserveOpenOrders(primaryCurrency, secondaryCurrency, 1));
   }
 
   @Override
@@ -59,7 +58,10 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return independentReservePlaceLimitOrder(limitOrder.getCurrencyPair(), limitOrder.getType(), limitOrder.getLimitPrice(),
+    return independentReservePlaceLimitOrder(
+        limitOrder.getCurrencyPair(),
+        limitOrder.getType(),
+        limitOrder.getLimitPrice(),
         limitOrder.getOriginalAmount());
   }
 
@@ -87,13 +89,12 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
     }
   }
 
-  /**
-   * Optional parameters: {@link TradeHistoryParamPaging#getPageNumber()} indexed from 0
-   */
+  /** Optional parameters: {@link TradeHistoryParamPaging#getPageNumber()} indexed from 0 */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     int pageNumber = ((TradeHistoryParamPaging) params).getPageNumber() + 1;
-    return IndependentReserveAdapters.adaptTradeHistory(getIndependentReserveTradeHistory(pageNumber));
+    return IndependentReserveAdapters.adaptTradeHistory(
+        getIndependentReserveTradeHistory(pageNumber));
   }
 
   @Override

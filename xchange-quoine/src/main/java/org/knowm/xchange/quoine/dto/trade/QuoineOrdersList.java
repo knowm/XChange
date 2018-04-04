@@ -1,12 +1,9 @@
 package org.knowm.xchange.quoine.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class QuoineOrdersList {
 
   private final Model[] models;
@@ -20,7 +17,9 @@ public final class QuoineOrdersList {
    * @param currentPage
    * @param totalPages
    */
-  public QuoineOrdersList(@JsonProperty("models") Model[] models, @JsonProperty("current_page") Integer currentPage,
+  public QuoineOrdersList(
+      @JsonProperty("models") Model[] models,
+      @JsonProperty("current_page") Integer currentPage,
       @JsonProperty("total_pages") Integer totalPages) {
     this.models = models;
     this.currentPage = currentPage;
@@ -41,7 +40,12 @@ public final class QuoineOrdersList {
 
   @Override
   public String toString() {
-    return "QuoineOrdersList [models=" + Arrays.toString(models) + ", currentPage=" + currentPage + ", totalPages=" + totalPages + "]";
+    return "QuoineOrdersList [models="
+        + Arrays.toString(models)
+        + ", currentPage="
+        + currentPage
+        + ", totalPages="
+        + totalPages
+        + "]";
   }
-
 }

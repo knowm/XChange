@@ -6,8 +6,7 @@ public class DefaultTradeHistoryParamCurrency implements TradeHistoryParamCurren
 
   private Currency currency;
 
-  public DefaultTradeHistoryParamCurrency() {
-  }
+  public DefaultTradeHistoryParamCurrency() {}
 
   public DefaultTradeHistoryParamCurrency(Currency currency) {
     this.currency = currency;

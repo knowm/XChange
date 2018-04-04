@@ -2,21 +2,21 @@ package org.knowm.xchange.liqui.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiPairInfo;
 import org.knowm.xchange.liqui.dto.marketdata.result.LiquiInfoResult;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LiquiInfoJSONTest {
 
   @Test
   public void testUnmarshall() throws Exception {
-    final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/marketdata/example-info-data.json");
+    final InputStream is =
+        LiquiTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/liqui/marketdata/example-info-data.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final LiquiInfoResult infoResult = mapper.readValue(is, LiquiInfoResult.class);
@@ -44,6 +44,5 @@ public class LiquiInfoJSONTest {
     assertThat(ltcBtc.getMinPrice()).isEqualTo(new BigDecimal("0.00000001"));
     assertThat(ltcBtc.getMinTotal()).isEqualTo(new BigDecimal("0.0001"));
     assertThat(ltcBtc.isHidden()).isFalse();
-
   }
 }

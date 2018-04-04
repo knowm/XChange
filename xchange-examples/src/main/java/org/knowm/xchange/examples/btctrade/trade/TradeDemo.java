@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.btctrade.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -38,15 +37,29 @@ public class TradeDemo {
     TradeService tradeService = exchange.getTradeService();
 
     // Bid.
-    String orderId = tradeService.placeLimitOrder(
-        new LimitOrder(OrderType.BID, MIN_AMOUNT_PER_ORDER.multiply(new BigDecimal("1000")), CurrencyPair.BTC_CNY, null, null, MIN_PRICE_IN_CNY));
+    String orderId =
+        tradeService.placeLimitOrder(
+            new LimitOrder(
+                OrderType.BID,
+                MIN_AMOUNT_PER_ORDER.multiply(new BigDecimal("1000")),
+                CurrencyPair.BTC_CNY,
+                null,
+                null,
+                MIN_PRICE_IN_CNY));
 
     // Cancel.
     tradeService.cancelOrder(orderId);
 
     // Ask.
-    orderId = tradeService
-        .placeLimitOrder(new LimitOrder(OrderType.ASK, MIN_AMOUNT_PER_ORDER, CurrencyPair.BTC_CNY, null, null, new BigDecimal(Integer.MAX_VALUE)));
+    orderId =
+        tradeService.placeLimitOrder(
+            new LimitOrder(
+                OrderType.ASK,
+                MIN_AMOUNT_PER_ORDER,
+                CurrencyPair.BTC_CNY,
+                null,
+                null,
+                new BigDecimal(Integer.MAX_VALUE)));
 
     // Cancel.
     tradeService.cancelOrder(orderId);
@@ -57,7 +70,10 @@ public class TradeDemo {
     BTCTradeTradeServiceRaw tradeService = (BTCTradeTradeServiceRaw) exchange.getTradeService();
 
     // Buy.
-    String orderId = tradeService.buy(MIN_AMOUNT_PER_ORDER.multiply(new BigDecimal("1000")), MIN_PRICE_IN_CNY).getId();
+    String orderId =
+        tradeService
+            .buy(MIN_AMOUNT_PER_ORDER.multiply(new BigDecimal("1000")), MIN_PRICE_IN_CNY)
+            .getId();
 
     // Cancel.
     tradeService.cancelBTCTradeOrder(orderId);
@@ -68,5 +84,4 @@ public class TradeDemo {
     // Cancel.
     tradeService.cancelBTCTradeOrder(orderId);
   }
-
 }

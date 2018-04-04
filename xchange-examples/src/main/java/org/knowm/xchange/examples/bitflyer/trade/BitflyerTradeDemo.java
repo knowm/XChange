@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.bitflyer.trade;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerExecution;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerPosition;
@@ -29,7 +28,6 @@ public class BitflyerTradeDemo {
     System.out.println(executions);
     executions = serviceRaw.getExecutions("BTC_JPY");
     System.out.println(executions);
-
   }
 
   private static void positionsInfo(TradeService service) throws IOException {
@@ -40,7 +38,5 @@ public class BitflyerTradeDemo {
     System.out.println(executions);
     executions = serviceRaw.getPositions("BTC_JPY");
     System.out.println(executions);
-
   }
-
 }

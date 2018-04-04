@@ -8,11 +8,9 @@ public class BitstampRippleDepositAddress {
   @JsonProperty("address")
   private final String addressAndDt;
 
-  @JsonIgnore
-  private String address = null;
+  @JsonIgnore private String address = null;
 
-  @JsonIgnore
-  private Long destinationTag = null;
+  @JsonIgnore private Long destinationTag = null;
 
   protected BitstampRippleDepositAddress(@JsonProperty("address") String addressAndDt) {
 
@@ -42,6 +40,8 @@ public class BitstampRippleDepositAddress {
   @Override
   public String toString() {
 
-    return (address == null ? addressAndDt : String.format("RippleAddress[%s, dt=%s]", address, destinationTag));
+    return (address == null
+        ? addressAndDt
+        : String.format("RippleAddress[%s, dt=%s]", address, destinationTag));
   }
 }

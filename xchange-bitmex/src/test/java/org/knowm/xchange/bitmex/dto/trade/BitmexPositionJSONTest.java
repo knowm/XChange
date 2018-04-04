@@ -2,19 +2,19 @@ package org.knowm.xchange.bitmex.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitmexPositionJSONTest {
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexTradesJSONTest.class.getResourceAsStream("/trade/example-position.json");
+    InputStream is =
+        BitmexTradesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitmex/dto/trade/example-position.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexPosition position = mapper.readValue(is, BitmexPosition.class);
@@ -23,6 +23,5 @@ public class BitmexPositionJSONTest {
     assertThat(position.getCurrency()).isEqualTo("string");
     assertThat(position.getUnderlying()).isEqualTo("string");
     assertThat(position.getQuoteCurrency()).isEqualTo("string");
-
   }
 }

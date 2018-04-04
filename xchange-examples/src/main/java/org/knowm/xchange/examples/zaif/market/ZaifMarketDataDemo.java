@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.zaif.market;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -27,7 +26,6 @@ public class ZaifMarketDataDemo {
 
     generic(marketDataService);
     raw((ZaifMarketDataServiceRaw) marketDataService);
-
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {

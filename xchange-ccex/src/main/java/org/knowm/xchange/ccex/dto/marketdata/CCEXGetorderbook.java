@@ -1,8 +1,7 @@
 package org.knowm.xchange.ccex.dto.marketdata;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 public class CCEXGetorderbook {
 
@@ -15,46 +14,37 @@ public class CCEXGetorderbook {
    * @param result
    * @param success
    */
-  public CCEXGetorderbook(@JsonProperty("success") Boolean success, @JsonProperty("message") String message,
+  public CCEXGetorderbook(
+      @JsonProperty("success") Boolean success,
+      @JsonProperty("message") String message,
       @JsonProperty("result") CCEXBuySellResult result) {
     this.success = success;
     this.message = message;
     this.result = result;
   }
 
-  /**
-   * @return The success
-   */
+  /** @return The success */
   public Boolean getSuccess() {
     return success;
   }
 
-  /**
-   * @return The message
-   */
+  /** @return The message */
   public String getMessage() {
     return message;
   }
 
-  /**
-   * @return The result
-   */
+  /** @return The result */
   public CCEXBuySellResult getResult() {
     return result;
   }
 
-  /**
-   * (price, amount)
-   */
+  /** (price, amount) */
   public List<CCEXBuySellData> getBids() {
     return this.result.getBuy();
   }
 
-  /**
-   * (price, amount)
-   */
+  /** (price, amount) */
   public List<CCEXBuySellData> getAsks() {
     return this.result.getSell();
   }
-
 }

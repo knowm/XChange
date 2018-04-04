@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.taurus.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,7 +11,8 @@ import org.knowm.xchange.taurus.dto.marketdata.TaurusTicker;
 import org.knowm.xchange.taurus.service.TaurusMarketDataServiceRaw;
 
 /**
- * Demonstrate requesting Ticker at Taurus. You can access both the raw data from Taurus or the XChange generic DTO data format.
+ * Demonstrate requesting Ticker at Taurus. You can access both the raw data from Taurus or the
+ * XChange generic DTO data format.
  */
 public class TaurusTickerDemo {
 
@@ -41,5 +41,4 @@ public class TaurusTickerDemo {
 
     System.out.println(taurusTicker.toString());
   }
-
 }

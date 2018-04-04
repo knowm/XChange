@@ -3,9 +3,7 @@ package org.knowm.xchange.coinbase.dto.serialization;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class EnumFromStringHelper<T extends Enum<T>> {
 
   private final Map<String, T> fromString = new HashMap<>();

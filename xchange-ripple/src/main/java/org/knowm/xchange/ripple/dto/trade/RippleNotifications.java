@@ -1,12 +1,10 @@
 package org.knowm.xchange.ripple.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.ripple.dto.RippleCommon;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RippleNotifications extends RippleCommon {
 
@@ -22,7 +20,8 @@ public class RippleNotifications extends RippleCommon {
 
   @Override
   public String toString() {
-    return String.format("%s [success=%b notifications=%s]", getClass().getSimpleName(), isSuccess(), notifications);
+    return String.format(
+        "%s [success=%b notifications=%s]", getClass().getSimpleName(), isSuccess(), notifications);
   }
 
   public static class RippleNotification extends RippleCommon {
@@ -140,9 +139,20 @@ public class RippleNotifications extends RippleCommon {
     public String toString() {
       return String.format(
           "%s [account=%s, type=%s, direction=%s, state=%s, result=%s, ledger=%s, hash=%s, timestamp=%s, transactionURL=%s, previousHash=%s, previousNotificationUrl=%s, nextHash=%s, nextNotificationUrl=%s]",
-          getClass().getSimpleName(), account, type, direction, state, result, ledger, hash, timestamp, transactionURL, previousHash,
-          previousNotificationUrl, nextHash, nextNotificationUrl);
+          getClass().getSimpleName(),
+          account,
+          type,
+          direction,
+          state,
+          result,
+          ledger,
+          hash,
+          timestamp,
+          transactionURL,
+          previousHash,
+          previousNotificationUrl,
+          nextHash,
+          nextNotificationUrl);
     }
-
   }
 }

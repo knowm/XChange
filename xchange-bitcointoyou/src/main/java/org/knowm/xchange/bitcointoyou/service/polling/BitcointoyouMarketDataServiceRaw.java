@@ -2,7 +2,6 @@ package org.knowm.xchange.bitcointoyou.service.polling;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouException;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouMarketData;
@@ -44,11 +43,9 @@ class BitcointoyouMarketDataServiceRaw extends BitcointoyouBasePollingService {
       data = marketData.entrySet().iterator().next().getValue();
     }
 
-    if (data == null)
-      throw new ExchangeException(currencyPair + " not available");
+    if (data == null) throw new ExchangeException(currencyPair + " not available");
 
     return new BitcointoyouTicker(data, currencyPair);
-
   }
 
   BitcointoyouOrderBook getBitcointoyouOrderBook() throws IOException {
@@ -67,7 +64,8 @@ class BitcointoyouMarketDataServiceRaw extends BitcointoyouBasePollingService {
    * @return an array of {@link BitcointoyouPublicTrade}
    * @throws IOException
    */
-  BitcointoyouPublicTrade[] getBitcointoyouPublicTrades(CurrencyPair currencyPair) throws IOException {
+  BitcointoyouPublicTrade[] getBitcointoyouPublicTrades(CurrencyPair currencyPair)
+      throws IOException {
 
     try {
       return getBitcointoyouPublicTrades(currencyPair, null, null);
@@ -79,13 +77,14 @@ class BitcointoyouMarketDataServiceRaw extends BitcointoyouBasePollingService {
   /**
    * List all public trades made at Bitcointoyou Exchange.
    *
-   * @param currencyPair   the trade currency pair
+   * @param currencyPair the trade currency pair
    * @param tradeTimestamp the trade timestamp
-   * @param minTradeId     the minimum trade ID
+   * @param minTradeId the minimum trade ID
    * @return an array of {@link BitcointoyouPublicTrade}
    * @throws IOException
    */
-  BitcointoyouPublicTrade[] getBitcointoyouPublicTrades(CurrencyPair currencyPair, Long tradeTimestamp, Long minTradeId) throws IOException {
+  BitcointoyouPublicTrade[] getBitcointoyouPublicTrades(
+      CurrencyPair currencyPair, Long tradeTimestamp, Long minTradeId) throws IOException {
 
     String currency = currencyPair.base.toString();
 
@@ -95,5 +94,4 @@ class BitcointoyouMarketDataServiceRaw extends BitcointoyouBasePollingService {
       throw new ExchangeException(e.getError());
     }
   }
-
 }

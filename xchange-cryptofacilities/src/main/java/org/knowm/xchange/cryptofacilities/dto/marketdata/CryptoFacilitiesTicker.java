@@ -1,21 +1,17 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Jean-Christophe Laruelle
- */
-
+/** @author Jean-Christophe Laruelle */
 public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final SimpleDateFormat DATE_FORMAT =
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final BigDecimal bid;
   private final BigDecimal ask;
@@ -32,12 +28,24 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
   private final BigDecimal lastSize;
   private final BigDecimal vol24H;
 
-  public CryptoFacilitiesTicker(@JsonProperty("result") String result, @JsonProperty("error") String error, @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("ask") BigDecimal ask, @JsonProperty("last") BigDecimal last, @JsonProperty("askSize") BigDecimal askSize,
-      @JsonProperty("symbol") String symbol, @JsonProperty("lastTime") String strLastTime, @JsonProperty("low24h") BigDecimal low24H,
-      @JsonProperty("bidSize") BigDecimal bidSize, @JsonProperty("suspended") boolean suspended, @JsonProperty("open24h") BigDecimal open24H,
-      @JsonProperty("high24h") BigDecimal high24H, @JsonProperty("markPrice") BigDecimal markPrice, @JsonProperty("lastSize") BigDecimal lastSize,
-      @JsonProperty("vol24h") BigDecimal vol24H) throws ParseException {
+  public CryptoFacilitiesTicker(
+      @JsonProperty("result") String result,
+      @JsonProperty("error") String error,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("askSize") BigDecimal askSize,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("lastTime") String strLastTime,
+      @JsonProperty("low24h") BigDecimal low24H,
+      @JsonProperty("bidSize") BigDecimal bidSize,
+      @JsonProperty("suspended") boolean suspended,
+      @JsonProperty("open24h") BigDecimal open24H,
+      @JsonProperty("high24h") BigDecimal high24H,
+      @JsonProperty("markPrice") BigDecimal markPrice,
+      @JsonProperty("lastSize") BigDecimal lastSize,
+      @JsonProperty("vol24h") BigDecimal vol24H)
+      throws ParseException {
 
     super(result, error);
 
@@ -116,10 +124,35 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
   @Override
   public String toString() {
 
-    return "CryptoFacilitiesTicker [" + "symbol=" + symbol + ", bid=" + bid + ", bidSize=" + bidSize + ", ask=" + ask + ", askSize=" + askSize
-        + ", last=" + last + ", lastSize=" + lastSize + ", lastTime=" + (lastTime == null ? "null" : DATE_FORMAT.format(lastTime)) + ", open24H="
-        + open24H + ", low24H=" + low24H + ", high24H=" + high24H + ", vol24H=" + vol24H + ", markPrice=" + markPrice + ", suspended=" + suspended
+    return "CryptoFacilitiesTicker ["
+        + "symbol="
+        + symbol
+        + ", bid="
+        + bid
+        + ", bidSize="
+        + bidSize
+        + ", ask="
+        + ask
+        + ", askSize="
+        + askSize
+        + ", last="
+        + last
+        + ", lastSize="
+        + lastSize
+        + ", lastTime="
+        + (lastTime == null ? "null" : DATE_FORMAT.format(lastTime))
+        + ", open24H="
+        + open24H
+        + ", low24H="
+        + low24H
+        + ", high24H="
+        + high24H
+        + ", vol24H="
+        + vol24H
+        + ", markPrice="
+        + markPrice
+        + ", suspended="
+        + suspended
         + "]";
   }
-
 }

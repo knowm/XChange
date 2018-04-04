@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitOrder;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitRate;
@@ -23,18 +22,11 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
 
-/**
- * Various adapters for converting from Cryptonit DTOs to XChange DTOs
- */
-
+/** Various adapters for converting from Cryptonit DTOs to XChange DTOs */
 public final class CryptonitAdapters {
 
-  /**
-   * private Constructor
-   */
-  private CryptonitAdapters() {
-
-  }
+  /** private Constructor */
+  private CryptonitAdapters() {}
 
   /**
    * Adapts a CryptonitOrder to a LimitOrder
@@ -45,13 +37,18 @@ public final class CryptonitAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, Date date, String id) {
+  public static LimitOrder adaptOrder(
+      BigDecimal amount,
+      BigDecimal price,
+      CurrencyPair currencyPair,
+      String orderTypeString,
+      Date date,
+      String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
 
     return new LimitOrder(orderType, amount, currencyPair, id, date, price);
-
   }
 
   /**
@@ -62,18 +59,31 @@ public final class CryptonitAdapters {
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(CryptonitOrders cryptonitOrders, CurrencyPair currencyPair, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(
+      CryptonitOrders cryptonitOrders, CurrencyPair currencyPair, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     Map<String, CryptonitOrder> orders = cryptonitOrders.getOrders();
     for (Map.Entry<String, CryptonitOrder> trade : orders.entrySet()) {
       if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(adaptOrder(trade.getValue().getAskAmount(), trade.getValue().getAskRate(), currencyPair, orderType,
-            DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String.valueOf(trade.getKey())));
+        limitOrders.add(
+            adaptOrder(
+                trade.getValue().getAskAmount(),
+                trade.getValue().getAskRate(),
+                currencyPair,
+                orderType,
+                DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L),
+                String.valueOf(trade.getKey())));
       } else {
-        limitOrders.add(adaptOrder(trade.getValue().getBidAmount(), trade.getValue().getBidRate(), currencyPair, orderType,
-            DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String.valueOf(trade.getKey())));
+        limitOrders.add(
+            adaptOrder(
+                trade.getValue().getBidAmount(),
+                trade.getValue().getBidRate(),
+                currencyPair,
+                orderType,
+                DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L),
+                String.valueOf(trade.getKey())));
       }
     }
     Collections.sort(limitOrders);
@@ -87,12 +97,19 @@ public final class CryptonitAdapters {
    * @param cryptonitTrade A Cryptonit trade
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(String tradeId, CryptonitOrder cryptonitTrade, CurrencyPair currencyPair) {
+  public static Trade adaptTrade(
+      String tradeId, CryptonitOrder cryptonitTrade, CurrencyPair currencyPair) {
 
     BigDecimal amount = cryptonitTrade.getBidAmount();
     BigDecimal price = cryptonitTrade.getBidRate();
 
-    return new Trade(null, amount, currencyPair, price, DateUtils.fromMillisUtc(cryptonitTrade.getFilled() * 1000L), tradeId);
+    return new Trade(
+        null,
+        amount,
+        currencyPair,
+        price,
+        DateUtils.fromMillisUtc(cryptonitTrade.getFilled() * 1000L),
+        tradeId);
   }
 
   /**
@@ -110,8 +127,7 @@ public final class CryptonitAdapters {
     for (Map.Entry<String, CryptonitOrder> trade : orders.entrySet()) {
       String tradeId = trade.getKey();
       long tradeIdAsLong = Long.valueOf(tradeId);
-      if (tradeIdAsLong > lastTradeId)
-        lastTradeId = tradeIdAsLong;
+      if (tradeIdAsLong > lastTradeId) lastTradeId = tradeIdAsLong;
       tradesList.add(adaptTrade(tradeId, trade.getValue(), currencyPair));
     }
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
@@ -134,7 +150,15 @@ public final class CryptonitAdapters {
     BigDecimal ask = rate.getAsk();
     BigDecimal volume = cryptonitTicker.getVolume().getVolume(currencyPair.base.getCurrencyCode());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(bid).ask(ask).volume(volume).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .high(high)
+        .low(low)
+        .bid(bid)
+        .ask(ask)
+        .volume(volume)
+        .build();
   }
 
   public static Collection<CurrencyPair> adaptCurrencyPairs(List<List<String>> tradingPairs) {

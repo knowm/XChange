@@ -2,7 +2,6 @@ package org.knowm.xchange.coinfloor.service;
 
 import java.util.Collection;
 import java.util.Collections;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamMultiCurrencyPair;
@@ -11,8 +10,11 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 public class CoinfloorTradeHistoryParams
-    implements TradeHistoryParamMultiCurrencyPair, TradeHistoryParamCurrencyPair, TradeHistoryParamsSorted, TradeHistoryParamOffset,
-    TradeHistoryParamPaging {
+    implements TradeHistoryParamMultiCurrencyPair,
+        TradeHistoryParamCurrencyPair,
+        TradeHistoryParamsSorted,
+        TradeHistoryParamOffset,
+        TradeHistoryParamPaging {
   private Collection<CurrencyPair> pairs = Collections.emptySet();
   private CurrencyPair pair = null;
   private Order order = null;

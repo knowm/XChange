@@ -2,21 +2,21 @@ package org.knowm.xchange.poloniex.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PoloniexAccountBalanceTest {
 
   @Test
   public void testUnmarshal() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = PoloniexAccountBalanceTest.class.getResourceAsStream("/trade/order-balances.json");
+    InputStream is =
+        PoloniexAccountBalanceTest.class.getResourceAsStream(
+            "/org/knowm/xchange/poloniex/dto/trade/order-balances.json");
 
     ObjectMapper mapper = new ObjectMapper();
     PoloniexAccountBalance balance = mapper.readValue(is, PoloniexAccountBalance.class);
@@ -39,6 +39,5 @@ public class PoloniexAccountBalanceTest {
     assertThat(marginBalance.get("BTC")).isEqualTo(new BigDecimal("3.90015637"));
     assertThat(marginBalance.get("DASH")).isEqualTo(new BigDecimal("250.00238240"));
     assertThat(marginBalance.get("XMR")).isEqualTo(new BigDecimal("497.12028113"));
-
   }
 }

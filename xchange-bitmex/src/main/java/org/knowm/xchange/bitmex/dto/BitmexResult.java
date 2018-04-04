@@ -2,9 +2,7 @@ package org.knowm.xchange.bitmex.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-/**
- * @author Raphael Voellmy
- */
+/** @author Raphael Voellmy */
 public class BitmexResult<V> {
 
   /**
@@ -14,8 +12,5 @@ public class BitmexResult<V> {
    * @param error
    */
   @JsonCreator
-  public BitmexResult() {
-
-  }
-
+  public BitmexResult() {}
 }
