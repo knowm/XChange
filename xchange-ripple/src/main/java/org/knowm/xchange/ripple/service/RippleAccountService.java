@@ -3,7 +3,6 @@ package org.knowm.xchange.ripple.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -23,7 +22,8 @@ public class RippleAccountService extends RippleAccountServiceRaw implements Acc
   }
 
   /**
-   * A wallet's currency will be prefixed with the issuing counterparty address for all currencies other than XRP.
+   * A wallet's currency will be prefixed with the issuing counterparty address for all currencies
+   * other than XRP.
    */
   @Override
   public AccountInfo getAccountInfo() throws IOException {
@@ -33,7 +33,8 @@ public class RippleAccountService extends RippleAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

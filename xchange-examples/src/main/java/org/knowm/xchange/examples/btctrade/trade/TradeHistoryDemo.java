@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.btctrade.trade;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -51,5 +50,4 @@ public class TradeHistoryDemo {
     BTCTradeOrder order = tradeService.getBTCTradeOrder(orderId);
     System.out.println("Order status: " + order.getStatus());
   }
-
 }

@@ -1,16 +1,10 @@
 package org.knowm.xchange.cryptonit.v2.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-
-/**
- * <p>
- * Data object representing a Trade from Cryptonit
- * </p>
- */
-
+/** Data object representing a Trade from Cryptonit */
 public final class CryptonitOrders {
 
   private final Map<String, CryptonitOrder> orders = new HashMap<>();
@@ -30,5 +24,4 @@ public final class CryptonitOrders {
 
     this.orders.put(tid, order);
   }
-
 }

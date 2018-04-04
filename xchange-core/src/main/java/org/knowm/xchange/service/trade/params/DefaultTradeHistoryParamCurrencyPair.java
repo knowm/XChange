@@ -6,8 +6,7 @@ public class DefaultTradeHistoryParamCurrencyPair implements TradeHistoryParamCu
 
   private CurrencyPair pair;
 
-  public DefaultTradeHistoryParamCurrencyPair() {
-  }
+  public DefaultTradeHistoryParamCurrencyPair() {}
 
   public DefaultTradeHistoryParamCurrencyPair(CurrencyPair pair) {
     this.pair = pair;

@@ -1,5 +1,8 @@
 package org.knowm.xchange.huobi.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -11,52 +14,49 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 public class HuobiAccountService extends HuobiAccountServiceRaw implements AccountService {
 
-    public HuobiAccountService(Exchange exchange) {
-        super(exchange);
+  public HuobiAccountService(Exchange exchange) {
+    super(exchange);
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams withdrawFundsParams) throws IOException {
+    return null;
+  }
+
+  @Override
+  public String withdrawFunds(Currency currency, BigDecimal bigDecimal, String s)
+      throws IOException {
+    return null;
+  }
+
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
+    HuobiAccount[] accounts = getAccounts();
+    if (accounts.length == 0) {
+      throw new ExchangeException("Account is not recognized.");
     }
+    String accountID = String.valueOf(accounts[0].getId());
+    return new AccountInfo(
+        accountID,
+        HuobiAdapters.adaptWallet(
+            HuobiAdapters.adaptBalance(getHuobiBalance(accountID).getList())));
+  }
 
-    @Override
-    public String withdrawFunds(WithdrawFundsParams withdrawFundsParams) throws IOException {
-        return null;
-    }
+  @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    return null;
+  }
 
-    @Override
-    public String withdrawFunds(Currency currency, BigDecimal bigDecimal, String s) throws IOException {
-        return null;
-    }
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams tradeHistoryParams)
+      throws IOException {
+    return null;
+  }
 
-    @Override
-    public AccountInfo getAccountInfo() throws IOException {
-        HuobiAccount[] accounts = getAccounts();
-        if (accounts.length == 0) {
-            throw new ExchangeException("Account is not recognized.");
-        }
-        String accountID = String.valueOf(accounts[0].getId());
-        return new AccountInfo(accountID,
-                HuobiAdapters.adaptWallet(HuobiAdapters.adaptBalance(getHuobiBalance(accountID).getList())));
-    }
-
-    @Override
-    public TradeHistoryParams createFundingHistoryParams() {
-        return null;
-    }
-
-    @Override
-    public List<FundingRecord> getFundingHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
-        return null;
-    }
-
-    @Override
-    public String requestDepositAddress(Currency currency, String... strings) throws IOException {
-        return null;
-    }
-
-
-
+  @Override
+  public String requestDepositAddress(Currency currency, String... strings) throws IOException {
+    return null;
+  }
 }

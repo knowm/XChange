@@ -2,7 +2,6 @@ package org.knowm.xchange.wex.v3;
 
 import org.junit.Assert;
 import org.junit.Test;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class WexExchangeTest {

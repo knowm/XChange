@@ -2,7 +2,6 @@ package org.knowm.xchange.cryptopia.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
@@ -52,7 +51,8 @@ public class CryptopiaMarketDataServiceRaw extends CryptopiaBaseService {
   }
 
   public List<CryptopiaTicker> getCryptopiaMarkets(Currency baseMarket) throws IOException {
-    CryptopiaBaseResponse<List<CryptopiaTicker>> response = cryptopia.getMarkets(baseMarket.getCurrencyCode());
+    CryptopiaBaseResponse<List<CryptopiaTicker>> response =
+        cryptopia.getMarkets(baseMarket.getCurrencyCode());
 
     if (response.getError() != null) {
       throw new ExchangeException(response.getError());
@@ -61,8 +61,10 @@ public class CryptopiaMarketDataServiceRaw extends CryptopiaBaseService {
     return response.getData();
   }
 
-  public List<CryptopiaTicker> getCryptopiaMarkets(Currency baseMarket, long hours) throws IOException {
-    CryptopiaBaseResponse<List<CryptopiaTicker>> response = cryptopia.getMarkets(baseMarket.getCurrencyCode(), hours);
+  public List<CryptopiaTicker> getCryptopiaMarkets(Currency baseMarket, long hours)
+      throws IOException {
+    CryptopiaBaseResponse<List<CryptopiaTicker>> response =
+        cryptopia.getMarkets(baseMarket.getCurrencyCode(), hours);
 
     if (response.getError() != null) {
       throw new ExchangeException(response.getError());
@@ -92,7 +94,8 @@ public class CryptopiaMarketDataServiceRaw extends CryptopiaBaseService {
   }
 
   public List<CryptopiaMarketHistory> getCryptopiaTrades(CurrencyPair market) throws IOException {
-    CryptopiaBaseResponse<List<CryptopiaMarketHistory>> response = cryptopia.getMarketHistory(getPair(market));
+    CryptopiaBaseResponse<List<CryptopiaMarketHistory>> response =
+        cryptopia.getMarketHistory(getPair(market));
 
     if (response.getError() != null) {
       throw new ExchangeException(response.getError());
@@ -101,8 +104,10 @@ public class CryptopiaMarketDataServiceRaw extends CryptopiaBaseService {
     return response.getData();
   }
 
-  public List<CryptopiaMarketHistory> getCryptopiaTrades(CurrencyPair market, long hours) throws IOException {
-    CryptopiaBaseResponse<List<CryptopiaMarketHistory>> response = cryptopia.getMarketHistory(getPair(market), hours);
+  public List<CryptopiaMarketHistory> getCryptopiaTrades(CurrencyPair market, long hours)
+      throws IOException {
+    CryptopiaBaseResponse<List<CryptopiaMarketHistory>> response =
+        cryptopia.getMarketHistory(getPair(market), hours);
 
     if (response.getError() != null) {
       throw new ExchangeException(response.getError());
@@ -121,8 +126,10 @@ public class CryptopiaMarketDataServiceRaw extends CryptopiaBaseService {
     return response.getData();
   }
 
-  public CryptopiaOrderBook getCryptopiaOrderBook(CurrencyPair market, long orderCount) throws IOException {
-    CryptopiaBaseResponse<CryptopiaOrderBook> response = cryptopia.getMarketOrders(getPair(market), orderCount);
+  public CryptopiaOrderBook getCryptopiaOrderBook(CurrencyPair market, long orderCount)
+      throws IOException {
+    CryptopiaBaseResponse<CryptopiaOrderBook> response =
+        cryptopia.getMarketOrders(getPair(market), orderCount);
 
     if (response.getError() != null) {
       throw new ExchangeException(response.getError());

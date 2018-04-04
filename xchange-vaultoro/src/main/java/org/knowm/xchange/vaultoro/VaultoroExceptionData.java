@@ -1,16 +1,14 @@
 package org.knowm.xchange.vaultoro;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -19,21 +17,17 @@ public class VaultoroExceptionData {
 
   @JsonProperty("message")
   private String message;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * @return The message
-   */
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** @return The message */
   @JsonProperty("message")
   public String getMessage() {
 
     return message;
   }
 
-  /**
-   * @param message The message
-   */
+  /** @param message The message */
   @JsonProperty("message")
   public void setMessage(String message) {
 
@@ -51,5 +45,4 @@ public class VaultoroExceptionData {
 
     this.additionalProperties.put(name, value);
   }
-
 }

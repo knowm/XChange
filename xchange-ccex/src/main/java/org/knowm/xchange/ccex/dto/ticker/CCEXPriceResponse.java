@@ -1,8 +1,7 @@
 package org.knowm.xchange.ccex.dto.ticker;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CCEXPriceResponse {
 
@@ -17,9 +16,16 @@ public class CCEXPriceResponse {
   private BigDecimal buysupport;
   private int updated;
 
-  public CCEXPriceResponse(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("avg") BigDecimal avg,
-      @JsonProperty("lastbuy") BigDecimal lastbuy, @JsonProperty("lastsell") BigDecimal lastsell, @JsonProperty("buy") BigDecimal buy,
-      @JsonProperty("sell") BigDecimal sell, @JsonProperty("lastprice") BigDecimal lastprice, @JsonProperty("buysupport") BigDecimal buysupport,
+  public CCEXPriceResponse(
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("avg") BigDecimal avg,
+      @JsonProperty("lastbuy") BigDecimal lastbuy,
+      @JsonProperty("lastsell") BigDecimal lastsell,
+      @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("sell") BigDecimal sell,
+      @JsonProperty("lastprice") BigDecimal lastprice,
+      @JsonProperty("buysupport") BigDecimal buysupport,
       @JsonProperty("updated") int updated) {
     super();
     this.high = high;
@@ -116,7 +122,26 @@ public class CCEXPriceResponse {
 
   @Override
   public String toString() {
-    return "CCEXPriceResponse [high=" + high + ", low=" + low + ", avg=" + avg + ", lastbuy=" + lastbuy + ", lastsell=" + lastsell + ", buy=" + buy
-        + ", sell=" + sell + ", lastprice=" + lastprice + ", buysupport=" + buysupport + ", updated=" + updated + "]";
+    return "CCEXPriceResponse [high="
+        + high
+        + ", low="
+        + low
+        + ", avg="
+        + avg
+        + ", lastbuy="
+        + lastbuy
+        + ", lastsell="
+        + lastsell
+        + ", buy="
+        + buy
+        + ", sell="
+        + sell
+        + ", lastprice="
+        + lastprice
+        + ", buysupport="
+        + buysupport
+        + ", updated="
+        + updated
+        + "]";
   }
 }

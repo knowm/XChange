@@ -1,8 +1,7 @@
 package org.knowm.xchange.itbit.v1.dto.account;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class ItBitAccountInfoReturn {
 
@@ -11,7 +10,10 @@ public class ItBitAccountInfoReturn {
   private final String name;
   private final ItBitAccountBalance[] balances;
 
-  public ItBitAccountInfoReturn(@JsonProperty("id") String id, @JsonProperty("userId") String userId, @JsonProperty("name") String name,
+  public ItBitAccountInfoReturn(
+      @JsonProperty("id") String id,
+      @JsonProperty("userId") String userId,
+      @JsonProperty("name") String name,
       @JsonProperty("balances") ItBitAccountBalance[] balances) {
 
     this.id = id;
@@ -55,5 +57,4 @@ public class ItBitAccountInfoReturn {
     builder.append("]");
     return builder.toString();
   }
-
 }

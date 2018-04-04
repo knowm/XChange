@@ -10,8 +10,8 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
 
 /**
- * Integration tests for Wallet retrieval. For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain valid
- * api and secret keys.
+ * Integration tests for Wallet retrieval. For these tests to function, a file
+ * 'exchangeConfiguration.json' must be on the classpath and contain valid api and secret keys.
  */
 public class AccountInfoFetchIntegration {
 

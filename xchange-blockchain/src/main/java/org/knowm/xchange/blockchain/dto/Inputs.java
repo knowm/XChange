@@ -2,9 +2,7 @@ package org.knowm.xchange.blockchain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class Inputs {
 
   private final Out prevOut;
@@ -23,5 +21,4 @@ public final class Inputs {
 
     return this.prevOut;
   }
-
 }

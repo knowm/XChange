@@ -1,17 +1,19 @@
 package org.knowm.xchange.gdax.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class GDAXSendMoneyRequest {
 
   @JsonProperty("type")
   private final String type = "send";
+
   @JsonProperty("to")
   private final String to;
+
   @JsonProperty("amount")
   private final BigDecimal amount;
+
   @JsonProperty("currency")
   private final String currency;
 
@@ -39,7 +41,18 @@ public class GDAXSendMoneyRequest {
 
   @Override
   public String toString() {
-    return "CoinbaseExSendMoneyRequest{" + "type='" + type + '\'' + ", to='" + to + '\'' + ", amount=" + amount + ", currency='" + currency + '\''
+    return "CoinbaseExSendMoneyRequest{"
+        + "type='"
+        + type
+        + '\''
+        + ", to='"
+        + to
+        + '\''
+        + ", amount="
+        + amount
+        + ", currency='"
+        + currency
+        + '\''
         + '}';
   }
 }

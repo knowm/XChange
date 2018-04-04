@@ -1,18 +1,14 @@
 package org.knowm.xchange.gatecoin.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.gatecoin.Gatecoin;
 import org.knowm.xchange.gatecoin.dto.marketdata.Results.GatecoinDepthResult;
 import org.knowm.xchange.gatecoin.dto.marketdata.Results.GatecoinTickerResult;
 import org.knowm.xchange.gatecoin.dto.marketdata.Results.GatecoinTransactionResult;
-
 import si.mazi.rescu.RestProxyFactory;
 
-/**
- * @author sumedha
- */
+/** @author sumedha */
 public class GatecoinMarketDataServiceRaw extends GatecoinBaseService {
 
   private final Gatecoin gatecoin;
@@ -25,7 +21,9 @@ public class GatecoinMarketDataServiceRaw extends GatecoinBaseService {
   public GatecoinMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.gatecoin = RestProxyFactory.createProxy(Gatecoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.gatecoin =
+        RestProxyFactory.createProxy(
+            Gatecoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
   public GatecoinTickerResult getGatecoinTicker() throws IOException {
@@ -45,10 +43,10 @@ public class GatecoinMarketDataServiceRaw extends GatecoinBaseService {
     return gatecoin.getTransactions(ccyPair);
   }
 
-  public GatecoinTransactionResult getGatecoinTransactions(String currencyPair, int count, long tid) throws IOException {
+  public GatecoinTransactionResult getGatecoinTransactions(String currencyPair, int count, long tid)
+      throws IOException {
 
     String ccyPair = currencyPair.replace("/", "");
     return gatecoin.getTransactions(ccyPair, count, tid);
   }
-
 }

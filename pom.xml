@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.3.5-SNAPSHOT</version>
+    <version>4.3.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
-    <description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of cryptocurrency exchanges.
+    <description>XChange is a Java library providing a simple and consistent API for interacting with
+        a diverse set of cryptocurrency exchanges.
     </description>
     <url>http://knowm.org/open-source/xchange</url>
     <inceptionYear>2012</inceptionYear>
@@ -24,11 +24,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <version.assertj>3.8.0</version.assertj>
+        <version.assertj>3.9.1</version.assertj>
         <version.commons.io>2.6</version.commons.io>
         <version.commons.lang3>3.7</version.commons.lang3>
-        <version.fasterxml>2.9.1</version.fasterxml>
-        <version.github.mmazi>2.0.2-SNAPSHOT</version.github.mmazi>
+        <version.fasterxml>2.9.5</version.fasterxml>
+        <version.github.mmazi>2.0.2</version.github.mmazi>
         <version.junit>4.12</version.junit>
         <version.knowm.xchart>3.5.1</version.knowm.xchart>
         <version.powermock>1.7.3</version.powermock>
@@ -37,6 +37,7 @@
         <version.slf4j>1.7.25</version.slf4j>
 
         <skipIntegrationTests>true</skipIntegrationTests>
+        <reformat.skip>true</reformat.skip>
     </properties>
 
 
@@ -86,6 +87,9 @@
     </ciManagement>
 
     <modules>
+<!--shouldn't this always be first?-->
+        <module>xchange-core</module>
+ <!--child modules-->
         <module>xchange-abucoins</module>
         <module>xchange-acx</module>
         <module>xchange-anx</module>
@@ -99,9 +103,9 @@
         <module>xchange-bitcoinium</module>
         <module>xchange-bitcointoyou</module>
         <module>xchange-bitfinex</module>
-        <module>xchange-bitmex</module>
         <module>xchange-bitflyer</module>
         <module>xchange-bitmarket</module>
+        <module>xchange-bitmex</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
         <module>xchange-bittrex</module>
@@ -117,13 +121,12 @@
         <module>xchange-cexio</module>
         <module>xchange-coinbase</module>
         <module>xchange-coinegg</module>
-        <module>xchange-coinmarketcap</module>
         <module>xchange-coinfloor</module>
+        <module>xchange-coinmarketcap</module>
         <module>xchange-coinmate</module>
-        <module>xchange-core</module>
         <module>xchange-cryptofacilities</module>
-        <module>xchange-cryptopia</module>
         <module>xchange-cryptonit</module>
+        <module>xchange-cryptopia</module>
         <module>xchange-dsx</module>
         <module>xchange-empoex</module>
         <module>xchange-examples</module>
@@ -133,13 +136,13 @@
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
         <module>xchange-huobi</module>
-        <module>xchange-itbit</module>
         <module>xchange-independentreserve</module>
+        <module>xchange-itbit</module>
         <module>xchange-koineks</module>
         <module>xchange-koinim</module>
         <module>xchange-kraken</module>
-        <module>xchange-kuna</module>
         <module>xchange-kucoin</module>
+        <module>xchange-kuna</module>
         <module>xchange-lakebtc</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
@@ -150,8 +153,8 @@
         <module>xchange-paribu</module>
         <module>xchange-paymium</module>
         <module>xchange-poloniex</module>
-        <module>xchange-quoine</module>
         <module>xchange-quadrigacx</module>
+        <module>xchange-quoine</module>
         <module>xchange-ripple</module>
         <module>xchange-taurus</module>
         <module>xchange-therock</module>
@@ -219,7 +222,11 @@
                 <version>${version.reflections}</version>
                 <scope>test</scope>
             </dependency>
-
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-csv</artifactId>
+                <version>${version.fasterxml}</version>
+            </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
@@ -344,6 +351,9 @@
 
                 </plugins>
             </build>
+            <properties>
+                <reformat.skip>false</reformat.skip>
+            </properties>
         </profile>
         <profile>
             <id>disable-java8-doclint</id>
@@ -439,7 +449,22 @@
                     </includes>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>com.coveo</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <version>2.4.0</version>
+                <configuration>
+                    <filesNamePattern>.*\.java</filesNamePattern>
+                    <skip>false</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
         </plugins>
     </build>

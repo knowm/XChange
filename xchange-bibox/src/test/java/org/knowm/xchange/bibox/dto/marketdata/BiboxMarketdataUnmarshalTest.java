@@ -2,16 +2,14 @@ package org.knowm.xchange.bibox.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.bibox.BiboxTestUtils;
 import org.knowm.xchange.bibox.dto.BiboxResponse;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Test Marketdata JSON parsing
@@ -22,8 +20,10 @@ public class BiboxMarketdataUnmarshalTest {
 
   @Test
   public void testTickerUnmarshal() throws IOException {
-    BiboxResponse<BiboxTicker> response = BiboxTestUtils.getResponse(new TypeReference<BiboxResponse<BiboxTicker>>() {
-    }, "/marketdata/example-ticker.json");
+    BiboxResponse<BiboxTicker> response =
+        BiboxTestUtils.getResponse(
+            new TypeReference<BiboxResponse<BiboxTicker>>() {},
+            "/org/knowm/xchange/bibox/dto/marketdata/example-ticker.json");
     assertThat(response.getCmd()).isEqualTo("ticker");
 
     BiboxTicker ticker = response.getResult();
@@ -41,8 +41,10 @@ public class BiboxMarketdataUnmarshalTest {
 
   @Test
   public void testOrderBookUnmarshal() throws IOException {
-    BiboxResponse<BiboxOrderBook> response = BiboxTestUtils.getResponse(new TypeReference<BiboxResponse<BiboxOrderBook>>() {
-    }, "/marketdata/example-order-book.json");
+    BiboxResponse<BiboxOrderBook> response =
+        BiboxTestUtils.getResponse(
+            new TypeReference<BiboxResponse<BiboxOrderBook>>() {},
+            "/org/knowm/xchange/bibox/dto/marketdata/example-order-book.json");
     assertThat(response.getCmd()).isEqualTo("depth");
 
     BiboxOrderBook orderBook = response.getResult();
@@ -58,8 +60,10 @@ public class BiboxMarketdataUnmarshalTest {
 
   @Test
   public void testAllMarketsUnmarshal() throws IOException {
-    BiboxResponse<List<BiboxMarket>> response = BiboxTestUtils.getResponse(new TypeReference<BiboxResponse<List<BiboxMarket>>>() {
-    }, "/marketdata/example-all-markets.json");
+    BiboxResponse<List<BiboxMarket>> response =
+        BiboxTestUtils.getResponse(
+            new TypeReference<BiboxResponse<List<BiboxMarket>>>() {},
+            "/org/knowm/xchange/bibox/dto/marketdata/example-all-markets.json");
     assertThat(response.getCmd()).isEqualTo("marketAll");
 
     List<BiboxMarket> markets = response.getResult();

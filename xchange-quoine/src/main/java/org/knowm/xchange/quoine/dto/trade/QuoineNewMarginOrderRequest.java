@@ -1,8 +1,7 @@
 package org.knowm.xchange.quoine.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class QuoineNewMarginOrderRequest extends QuoineNewOrderRequest {
   @JsonProperty("leverage_level")
@@ -14,7 +13,13 @@ public class QuoineNewMarginOrderRequest extends QuoineNewOrderRequest {
   @JsonProperty("order_direction")
   private final String orderDirection;
 
-  public QuoineNewMarginOrderRequest(String orderType, int productCode, String side, BigDecimal quantity, BigDecimal price, int leverageLevel,
+  public QuoineNewMarginOrderRequest(
+      String orderType,
+      int productCode,
+      String side,
+      BigDecimal quantity,
+      BigDecimal price,
+      int leverageLevel,
       String fundingCurrency) {
     super(orderType, productCode, side, quantity, price);
 

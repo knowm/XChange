@@ -1,13 +1,12 @@
 package org.knowm.xchange.bitflyer.service;
 
 import java.util.Arrays;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencies;
 
 /**
- * {@link TradeHistoryParam}.  Allows filtering to just the provided set of currencies.
- * If left <code>null</code> all currencies are included.
+ * {@link TradeHistoryParam}. Allows filtering to just the provided set of currencies. If left
+ * <code>null</code> all currencies are included.
  *
  * @author bryant_harris
  */

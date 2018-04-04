@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -53,11 +52,15 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
     // In case of no currency pair - return all currency pairs.
     if (currencyPair == null) {
       List<ItBitOrder> orders = new ArrayList<>();
-      for (CurrencyPair tmpCurrencyPair : this.exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
+      for (CurrencyPair tmpCurrencyPair :
+          this.exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
         orders.addAll(Arrays.asList(getItBitOpenOrders(tmpCurrencyPair)));
       }
       ItBitOrder[] empty = {};
-      return ItBitAdapters.adaptPrivateOrders(orders.isEmpty() ? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
+      return ItBitAdapters.adaptPrivateOrders(
+          orders.isEmpty()
+              ? empty
+              : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
     } else {
       ItBitOrder[] itBitOpenOrders = getItBitOpenOrders(currencyPair);
       return ItBitAdapters.adaptPrivateOrders(itBitOpenOrders);
@@ -121,7 +124,8 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
       endTime = tradeHistoryParamsTimeSpan.getEndTime();
     }
 
-    ItBitTradeHistory userTradeHistory = getUserTradeHistory(transactionId, page, pageLength, startTime, endTime);
+    ItBitTradeHistory userTradeHistory =
+        getUserTradeHistory(transactionId, page, pageLength, startTime, endTime);
 
     return ItBitAdapters.adaptTradeHistory(userTradeHistory);
   }
@@ -142,13 +146,16 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   }
 
   public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging
-      implements TradeHistoryParamsTimeSpan, TradeHistoryParamTransactionId, TradeHistoryParamPaging {
+      implements TradeHistoryParamsTimeSpan,
+          TradeHistoryParamTransactionId,
+          TradeHistoryParamPaging {
 
     private String txId;
     private Date startTime;
     private Date endTime;
 
-    public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, String txId, Date startTime, Date endTime) {
+    public ItBitTradeHistoryParams(
+        Integer pageLength, Integer pageNumber, String txId, Date startTime, Date endTime) {
       super(pageLength, pageNumber);
       this.txId = txId;
       this.startTime = startTime;
@@ -185,5 +192,4 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
       this.endTime = endTime;
     }
   }
-
 }

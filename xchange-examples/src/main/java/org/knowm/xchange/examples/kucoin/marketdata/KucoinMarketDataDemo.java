@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.kucoin.marketdata;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -33,7 +32,6 @@ public class KucoinMarketDataDemo {
 
     generic(marketDataService);
     raw((KucoinMarketDataServiceRaw) marketDataService);
-
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
@@ -61,10 +59,12 @@ public class KucoinMarketDataDemo {
     KucoinResponse<List<KucoinTicker>> tickersResponse = marketDataService.getKucoinTickers();
     System.out.println(tickersResponse.getData());
 
-    KucoinResponse<KucoinOrderBook> orderBookResponse = marketDataService.getKucoinOrderBook(PAIR, 10);
+    KucoinResponse<KucoinOrderBook> orderBookResponse =
+        marketDataService.getKucoinOrderBook(PAIR, 10);
     System.out.println(orderBookResponse.getData());
 
-    KucoinResponse<List<KucoinDealOrder>> tradesResponse = marketDataService.getKucoinTrades(PAIR, 10, null);
+    KucoinResponse<List<KucoinDealOrder>> tradesResponse =
+        marketDataService.getKucoinTrades(PAIR, 10, null);
     System.out.println(Arrays.asList(tradesResponse.getData()));
 
     KucoinResponse<List<KucoinCoin>> currenciesResponse = marketDataService.getKucoinCurrencies();

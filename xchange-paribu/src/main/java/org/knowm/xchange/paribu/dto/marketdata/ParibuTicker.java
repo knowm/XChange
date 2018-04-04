@@ -2,9 +2,7 @@ package org.knowm.xchange.paribu.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by semihunaldi on 27/11/2017
- */
+/** Created by semihunaldi on 27/11/2017 */
 public final class ParibuTicker {
 
   private final BTC_TL btcTL;

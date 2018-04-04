@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitbay.service.account.params;
 
 import java.math.BigDecimal;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -21,7 +20,8 @@ public class BitbayWithdrawFundsSwiftParams implements WithdrawFundsParams {
 
   public final String bic;
 
-  public BitbayWithdrawFundsSwiftParams(Currency currency, BigDecimal amount, String account, boolean express, String bic) {
+  public BitbayWithdrawFundsSwiftParams(
+      Currency currency, BigDecimal amount, String account, boolean express, String bic) {
     this.currency = currency;
     this.amount = amount;
     this.account = account;
@@ -51,7 +51,16 @@ public class BitbayWithdrawFundsSwiftParams implements WithdrawFundsParams {
 
   @Override
   public String toString() {
-    return "BitbayWithdrawFundsSwift [currency=" + currency + ", amount=" + amount + ", account=" + account + ", express=" + express + ", bic=" + bic
+    return "BitbayWithdrawFundsSwift [currency="
+        + currency
+        + ", amount="
+        + amount
+        + ", account="
+        + account
+        + ", express="
+        + express
+        + ", bic="
+        + bic
         + "]";
   }
 }

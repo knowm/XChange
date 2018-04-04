@@ -2,11 +2,8 @@ package org.knowm.xchange.empoex.service;
 
 import java.math.BigInteger;
 import java.util.Base64;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
 public class EmpoExHmacPostBodyDigest extends BaseParamsDigest {
@@ -15,7 +12,8 @@ public class EmpoExHmacPostBodyDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param secretKeyBase64
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded
+   *     key is invalid).
    */
   private EmpoExHmacPostBodyDigest(String secretKeyBase64) {
 

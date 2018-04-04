@@ -41,7 +41,8 @@ public class RippleMarketDataParams {
   }
 
   /**
-   * @param value Max results per response. Cannot be less than 10, cannot be greater than 400, defaults to 200 at the exchange if not set.
+   * @param value Max results per response. Cannot be less than 10, cannot be greater than 400,
+   *     defaults to 200 at the exchange if not set.
    */
   public void setLimit(final int value) {
     limit = value;

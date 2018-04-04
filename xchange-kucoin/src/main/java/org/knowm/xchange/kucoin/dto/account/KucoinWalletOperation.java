@@ -4,8 +4,8 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 
 public enum KucoinWalletOperation {
-
-  DEPOSIT(FundingRecord.Type.DEPOSIT), WITHDRAW(FundingRecord.Type.WITHDRAWAL);
+  DEPOSIT(FundingRecord.Type.DEPOSIT),
+  WITHDRAW(FundingRecord.Type.WITHDRAWAL);
 
   private FundingRecord.Type fundingRecordType;
 

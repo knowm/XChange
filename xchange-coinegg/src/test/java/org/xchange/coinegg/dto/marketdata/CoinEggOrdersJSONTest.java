@@ -2,13 +2,11 @@ package org.xchange.coinegg.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinEggOrdersJSONTest {
 
@@ -16,7 +14,9 @@ public class CoinEggOrdersJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinEggOrdersJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is =
+        CoinEggOrdersJSONTest.class.getResourceAsStream(
+            "/org/xchange/coinegg/dto/marketdata/example-depth-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();

@@ -3,7 +3,6 @@ package org.knowm.xchange.gateio.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -25,7 +24,6 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   public GateioAccountService(Exchange exchange) {
 
     super(exchange);
-
   }
 
   @Override
@@ -35,7 +33,8 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

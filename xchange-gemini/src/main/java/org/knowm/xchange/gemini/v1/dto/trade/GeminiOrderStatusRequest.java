@@ -32,5 +32,4 @@ public class GeminiOrderStatusRequest {
 
     return String.valueOf(orderId);
   }
-
 }

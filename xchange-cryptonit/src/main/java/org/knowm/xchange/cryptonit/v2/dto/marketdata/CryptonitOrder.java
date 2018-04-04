@@ -1,15 +1,9 @@
 package org.knowm.xchange.cryptonit.v2.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * <p>
- * Data object representing a Trade from Cryptonit
- * </p>
- */
-
+/** Data object representing a Trade from Cryptonit */
 public final class CryptonitOrder {
 
   private final String type;
@@ -33,10 +27,16 @@ public final class CryptonitOrder {
    * @param created
    * @param filled
    */
-  public CryptonitOrder(@JsonProperty("type") String type, @JsonProperty("bid_currency") String bid_currency,
-      @JsonProperty("ask_currency") String ask_currency, @JsonProperty("bid_amount") BigDecimal bid_amount,
-      @JsonProperty("ask_amount") BigDecimal ask_amount, @JsonProperty("ask_rate") BigDecimal ask_rate, @JsonProperty("bid_rate") BigDecimal bid_rate,
-      @JsonProperty("created") long created, @JsonProperty("filled") long filled) {
+  public CryptonitOrder(
+      @JsonProperty("type") String type,
+      @JsonProperty("bid_currency") String bid_currency,
+      @JsonProperty("ask_currency") String ask_currency,
+      @JsonProperty("bid_amount") BigDecimal bid_amount,
+      @JsonProperty("ask_amount") BigDecimal ask_amount,
+      @JsonProperty("ask_rate") BigDecimal ask_rate,
+      @JsonProperty("bid_rate") BigDecimal bid_rate,
+      @JsonProperty("created") long created,
+      @JsonProperty("filled") long filled) {
 
     this.type = type;
     this.bid_currency = bid_currency;
@@ -97,9 +97,22 @@ public final class CryptonitOrder {
   @Override
   public String toString() {
 
-    return "CryptonitOrder [type=" + type + ", bid_currency=" + bid_currency + ", ask_currency=" + ask_currency + ", bid_amount=" + bid_amount
-        + ", ask_amount=" + ask_amount + ", ask_rate=" + ask_rate + ", created=" + created + ", filled=" + filled + "]";
-
+    return "CryptonitOrder [type="
+        + type
+        + ", bid_currency="
+        + bid_currency
+        + ", ask_currency="
+        + ask_currency
+        + ", bid_amount="
+        + bid_amount
+        + ", ask_amount="
+        + ask_amount
+        + ", ask_rate="
+        + ask_rate
+        + ", created="
+        + created
+        + ", filled="
+        + filled
+        + "]";
   }
-
 }
