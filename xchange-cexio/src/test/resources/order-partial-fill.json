@@ -1,0 +1,12 @@
+{
+  "e": "order",
+  "data": {
+    "id": "5891752542",
+    "remains": "200000",
+    "fremains": "0.00200000",
+    "pair": {
+      "symbol1": "BTC",
+      "symbol2": "USD"
+    }
+  }
+}

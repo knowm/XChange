@@ -15,6 +15,7 @@
         <module>service-wamp</module>
         <module>service-core</module>
         <module>xchange-bitstamp</module>
+        <module>xchange-cexio</module>
         <module>xchange-okcoin</module>
         <module>xchange-poloniex</module>
         <module>xchange-coinmate</module>
