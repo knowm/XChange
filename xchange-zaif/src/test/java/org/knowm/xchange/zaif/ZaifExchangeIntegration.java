@@ -7,7 +7,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.zaif.service.ZaifMarketDataServiceRaw;
 
-public class ZaifExchangeTest {
+public class ZaifExchangeIntegration {
 
   @Test
   public void shouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
