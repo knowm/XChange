@@ -176,9 +176,15 @@ public class HuobiAdapters {
     return result;
   }
 
-    private static OrderType adaptOrderType(String orderType) {
-        return orderType.substring(1, 3).equals("buy") ? OrderType.BID : OrderType.ASK;
+  private static OrderType adaptOrderType(String orderType) {
+    if (orderType.startsWith("buy")) {
+      return OrderType.BID;
     }
+    if (orderType.startsWith("sell")) {
+      return OrderType.ASK;
+    }
+    return null;
+  }
 
   public static List<Order> adaptOrders(List<HuobiOrder> huobiOrders) {
     List<Order> orders = new ArrayList<>();
