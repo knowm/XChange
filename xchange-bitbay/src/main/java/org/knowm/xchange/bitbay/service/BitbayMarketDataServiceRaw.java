@@ -39,12 +39,17 @@ public class BitbayMarketDataServiceRaw extends BitbayBaseService {
       since = ((Number) args[0]).longValue();
     }
     String sort = "asc";
-    if (args.length == 2) {
+    if (args.length >= 2) {
       sort = (String) args[1];
+    }
+    int limit = 50; // param works up to 150
+    if (args.length == 3) {
+      limit = ((Number) args[2]).intValue();
     }
     return bitbay.getBitbayTrades(
         currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode(),
         since,
-        sort);
+        sort,
+        limit);
   }
 }
