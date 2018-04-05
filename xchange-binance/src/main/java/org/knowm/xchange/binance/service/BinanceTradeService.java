@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -103,7 +104,18 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeLimitOrder(LimitOrder lo) throws IOException {
-    return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, TimeInForce.GTC);
+    TimeInForce tif;
+    Set<IOrderFlags> orderFlags = lo.getOrderFlags();
+    if (orderFlags.size() == 1) {
+      IOrderFlags orderFlag = orderFlags.iterator().next();
+      Assert.isTrue(
+          orderFlag instanceof TimeInForce,
+          "Order flag should be instance of TimeInForce.");
+      tif = (TimeInForce) orderFlag;
+    } else {
+      tif = TimeInForce.GTC;
+    }
+    return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, tif);
   }
 
   @Override
