@@ -43,7 +43,7 @@ public class GateioTradeDemo {
     String orderId = tradeService.placeLimitOrder(limitOrder);
     System.out.println(
         orderId); // Returned order id is currently broken for Gateio, rely on open orders instead//
-                  // for demo :(
+    // for demo :(
 
     Thread.sleep(2000); // wait for Gateio's back-end to propagate the order
 
