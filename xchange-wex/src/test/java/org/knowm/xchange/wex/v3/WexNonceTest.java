@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class WexExchangeTest {
+public class WexNonceTest {
 
   private int prevNonce;
 

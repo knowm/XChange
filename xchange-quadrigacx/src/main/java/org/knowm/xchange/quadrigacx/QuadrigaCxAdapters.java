@@ -160,10 +160,17 @@ public final class QuadrigaCxAdapters {
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static UserTrade adaptTrade(CurrencyPair currencyPair, QuadrigaCxUserTransaction quadrigacxUserTransaction) {
-    Order.OrderType orderType = quadrigacxUserTransaction.getCurrencyAmount(currencyPair.counter.getCurrencyCode()).doubleValue() > 0.0
-     ? Order.OrderType.ASK : Order.OrderType.BID;
-    BigDecimal originalAmount = quadrigacxUserTransaction.getCurrencyAmount(currencyPair.base.getCurrencyCode());
+  public static UserTrade adaptTrade(
+      CurrencyPair currencyPair, QuadrigaCxUserTransaction quadrigacxUserTransaction) {
+    Order.OrderType orderType =
+        quadrigacxUserTransaction
+                    .getCurrencyAmount(currencyPair.counter.getCurrencyCode())
+                    .doubleValue()
+                > 0.0
+            ? Order.OrderType.ASK
+            : Order.OrderType.BID;
+    BigDecimal originalAmount =
+        quadrigacxUserTransaction.getCurrencyAmount(currencyPair.base.getCurrencyCode());
     BigDecimal price = quadrigacxUserTransaction.getPrice().abs();
     Date timestamp = QuadrigaCxUtils.parseDate(quadrigacxUserTransaction.getDatetime());
     long transactionId = quadrigacxUserTransaction.getId();
@@ -172,7 +179,19 @@ public final class QuadrigaCxAdapters {
     String orderId = String.valueOf(quadrigacxUserTransaction.getOrderId());
     BigDecimal feeAmount = quadrigacxUserTransaction.getFee();
 
-    String feeCurrency = orderType.equals(Order.OrderType.ASK) ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode();
-    return new UserTrade(orderType, originalAmount.abs(), currencyPair, price, timestamp, tradeId, orderId, feeAmount, Currency.getInstance(feeCurrency));
+    String feeCurrency =
+        orderType.equals(Order.OrderType.ASK)
+            ? currencyPair.counter.getCurrencyCode()
+            : currencyPair.base.getCurrencyCode();
+    return new UserTrade(
+        orderType,
+        originalAmount.abs(),
+        currencyPair,
+        price,
+        timestamp,
+        tradeId,
+        orderId,
+        feeAmount,
+        Currency.getInstance(feeCurrency));
   }
 }

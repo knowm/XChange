@@ -37,7 +37,6 @@
         <version.slf4j>1.7.25</version.slf4j>
 
         <skipIntegrationTests>true</skipIntegrationTests>
-        <reformat.skip>true</reformat.skip>
     </properties>
 
 
@@ -351,9 +350,6 @@
 
                 </plugins>
             </build>
-            <properties>
-                <reformat.skip>false</reformat.skip>
-            </properties>
         </profile>
         <profile>
             <id>disable-java8-doclint</id>

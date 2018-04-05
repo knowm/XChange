@@ -1,5 +1,9 @@
 package org.knowm.xchange.gdax.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -19,11 +23,6 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GDAXAccountService extends GDAXAccountServiceRaw implements AccountService {
 
@@ -126,7 +125,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
       String accountId = gdaxAccount.getId();
       String profileId = gdaxAccount.getProfile_id();
-      String createdAt = null;//use to get next page
+      String createdAt = null; // use to get next page
 
       while (true) {
         GdaxTransfers transfers = transfers(accountId, profileId, maxPageSize, createdAt);
