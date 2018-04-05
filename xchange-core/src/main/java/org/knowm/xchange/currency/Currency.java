@@ -265,8 +265,9 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
 
   // Bitmex futures settlement dates
-  public static final Currency H18 = createCurrency("H18", "March 30th, 2018", null);
-  public static final Currency M18 = createCurrency("M18", "June 30th, 2018", null);
+  public static final Currency H18 = createCurrency("H18", "March 30th", null);
+  public static final Currency M18 = createCurrency("M18", "June 29th", null);
+  public static final Currency U18 = createCurrency("U18", "September 28th", null);
 
   // Cryptos
   public static final Currency BNB = createCurrency("BNB", "Binance Coin", null);
