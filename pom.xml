@@ -87,9 +87,9 @@
     </ciManagement>
 
     <modules>
-<!--shouldn't this always be first?-->
+        <!--shouldn't this always be first?-->
         <module>xchange-core</module>
- <!--child modules-->
+        <!--child modules-->
         <module>xchange-abucoins</module>
         <module>xchange-acx</module>
         <module>xchange-anx</module>
@@ -116,6 +116,7 @@
         <module>xchange-btcmarkets</module>
         <module>xchange-btctrade</module>
         <module>xchange-btcturk</module>
+        <module>xchange-bx</module>
         <module>xchange-campbx</module>
         <module>xchange-ccex</module>
         <module>xchange-cexio</module>
