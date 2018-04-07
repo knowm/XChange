@@ -65,22 +65,12 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw
 
   /**
    * @param currencyPair The CurrencyPair for which to query trades.
-   * @param args One argument may be supplied which is the timestamp after which trades should be
-   *     collected. Trades before this time are not reported. The argument may be of type
-   *     java.util.Date or Number (milliseconds since Jan 1, 1970)
+   * @param args no further args are supported by the API
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    int count = 50;
-
-    if (args != null && args.length > 0) {
-      if (args[0] instanceof Integer) {
-        count = (Integer) args[0];
-      }
-    }
-
-    BittrexTrade[] trades = getBittrexTrades(BittrexUtils.toPairString(currencyPair), count);
+    BittrexTrade[] trades = getBittrexTrades(BittrexUtils.toPairString(currencyPair));
 
     return BittrexAdapters.adaptTrades(trades, currencyPair);
   }

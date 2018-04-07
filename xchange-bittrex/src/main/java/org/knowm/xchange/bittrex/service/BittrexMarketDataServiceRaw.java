@@ -102,9 +102,9 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     }
   }
 
-  public BittrexTrade[] getBittrexTrades(String pair, int count) throws IOException {
+  public BittrexTrade[] getBittrexTrades(String pair) throws IOException {
 
-    BittrexTradesResponse response = bittrexAuthenticated.getTrades(pair, count);
+    BittrexTradesResponse response = bittrexAuthenticated.getTrades(pair);
 
     if (response.getSuccess()) {
 
