@@ -3,7 +3,6 @@ package org.knowm.xchange.gdax.dto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import si.mazi.rescu.HttpResponseAware;
 
 public class GdaxTransfers extends ArrayList<GdaxTransfer> implements HttpResponseAware {

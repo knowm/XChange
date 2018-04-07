@@ -1,11 +1,14 @@
 package org.knowm.xchange.gdax.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gdax.GDAX;
 import org.knowm.xchange.gdax.dto.GDAXException;
-import org.knowm.xchange.gdax.dto.GdaxTransfer;
 import org.knowm.xchange.gdax.dto.GdaxTransfers;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
@@ -16,11 +19,6 @@ import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
 import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccountAddress;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 public class GDAXAccountServiceRaw extends GDAXBaseService {
 
