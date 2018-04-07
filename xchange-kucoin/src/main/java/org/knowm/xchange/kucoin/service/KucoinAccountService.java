@@ -84,9 +84,11 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
     TradeHistoryParamCurrency curParams = (TradeHistoryParamCurrency) params;
 
     Type type = null;
-    HistoryParamsFundingType fundingType = (HistoryParamsFundingType) params;
-    if (fundingType.getType() != null) {
-      type = fundingType.getType();
+    if (params instanceof HistoryParamsFundingType) {
+      HistoryParamsFundingType fundingType = (HistoryParamsFundingType) params;
+      if (fundingType.getType() != null) {
+        type = fundingType.getType();
+      }
     }
     // Paging params are 0-based, Kucoin account balances pages are 1-based
     KucoinSimpleResponse<KucoinWalletRecords> response =
