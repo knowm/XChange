@@ -94,7 +94,7 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
             curParams.getCurrency(),
             type,
             pagingParams.getPageLength(),
-            pagingParams.getPageNumber());
+            pagingParams.getPageNumber() != null ? pagingParams.getPageNumber() + 1 : null);
     return KucoinAdapters.adaptFundingHistory(response.getData().getRecords());
   }
 }
