@@ -41,9 +41,13 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @Path("account/transactions")
   List<HitbtcTransaction> transactions(
       @QueryParam("currency") String currency,
+      @QueryParam("sort") String sort,
+      @QueryParam("by") String by,
+      @QueryParam("from") String from,
+      @QueryParam("till") String till,
       @QueryParam("limit") Integer limit,
       @QueryParam("offset") Integer offset)
-      throws HttpStatusIOException;
+      throws HitbtcException, HttpStatusIOException;
 
   @POST
   @Path("account/transfer")
@@ -51,7 +55,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
       @FormParam("amount") BigDecimal amount,
       @FormParam("currency") String currency,
       @FormParam("type") String type)
-      throws IOException;
+      throws IOException, HitbtcException;
 
   @POST
   @Path("account/crypto/withdraw")
@@ -60,7 +64,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
       @FormParam("currency") String currency,
       @FormParam("address") String address,
       @FormParam("paymentId") String paymentId)
-      throws HttpStatusIOException;
+      throws HitbtcException, HttpStatusIOException;
 
   /** ********************** Tradding & Order APIs *********************** */
 
@@ -136,14 +140,16 @@ public interface HitbtcAuthenticated extends Hitbtc {
   /**
    * Get an old order. The returning collection contains, at most, 1 element.
    *
-   * @return
-   * @throws IOException
-   * @throws HitbtcException
+   * @param symbol symbol
+   * @param clientOrderId client order id
+   * @return list of orders
+   * @throws IOException throw in case IO problems
+   * @throws HitbtcException  throw in case internal HITBTC problems
    */
   @GET
   @Path("history/order")
   List<HitbtcOrder> getHitbtcOrder(
-      @PathParam("symbol") String symbol, @PathParam("clientOrderId") String clientOrderId)
+      @QueryParam("symbol") String symbol, @QueryParam("clientOrderId") String clientOrderId)
       throws IOException, HitbtcException;
 
   @GET
