@@ -149,6 +149,20 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
       throws GDAXException, IOException;
 
+    /**
+     *
+     * @param apiKey
+     * @param signer
+     * @param nonce
+     * @param passphrase
+     * @param tradeIdAfter Return trades before this tradeId.
+     * @param tradeIdBefore Return trades after this tradeId.
+     * @param orderId
+     * @param productId
+     * @return
+     * @throws GDAXException
+     * @throws IOException
+     */
   @GET
   @Path("fills")
   GDAXFill[] getFills(
@@ -156,7 +170,8 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @QueryParam("after") Integer startingOrderId,
+      @QueryParam("after") Integer tradeIdAfter,
+      @QueryParam("before") Integer tradeIdBefore,
       @QueryParam("order_id") String orderId,
       @QueryParam("product_id") String productId)
       throws GDAXException, IOException;
