@@ -1,15 +1,12 @@
 package org.knowm.xchange.abucoins.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>POST /withdrawals/crypto</code> endpoint.</p>
- * Example:
- * <code><pre>
+ * POJO representing the output JSON for the Abucoins <code>POST /withdrawals/crypto</code>
+ * endpoint. Example: <code><pre>
  * {
  *     "status": 0,
  *     "message": "Your transaction is pending. Please confirm it via email.",
@@ -35,8 +32,11 @@ public class AbucoinsCryptoWithdrawal {
   String payoutId;
   Balance[] balance;
 
-  public AbucoinsCryptoWithdrawal(@JsonProperty("status") long status, @JsonProperty("message") String message,
-      @JsonProperty("payoutId") String payoutId, @JsonProperty("balance") Balance[] balance) {
+  public AbucoinsCryptoWithdrawal(
+      @JsonProperty("status") long status,
+      @JsonProperty("message") String message,
+      @JsonProperty("payoutId") String payoutId,
+      @JsonProperty("balance") Balance[] balance) {
     this.status = status;
     this.message = message;
     this.payoutId = payoutId;
@@ -61,7 +61,14 @@ public class AbucoinsCryptoWithdrawal {
 
   @Override
   public String toString() {
-    return "AbucoinsCryptoWithdrawal [status=" + status + ", message=" + message + ", payoutId=" + payoutId + ", balance=" + Arrays.toString(balance)
+    return "AbucoinsCryptoWithdrawal [status="
+        + status
+        + ", message="
+        + message
+        + ", payoutId="
+        + payoutId
+        + ", balance="
+        + Arrays.toString(balance)
         + "]";
   }
 
@@ -70,7 +77,10 @@ public class AbucoinsCryptoWithdrawal {
     BigDecimal balance;
     BigDecimal locked;
 
-    public Balance(@JsonProperty("type") String type, @JsonProperty("balance") BigDecimal balance, @JsonProperty("locked") BigDecimal locked) {
+    public Balance(
+        @JsonProperty("type") String type,
+        @JsonProperty("balance") BigDecimal balance,
+        @JsonProperty("locked") BigDecimal locked) {
       this.type = type;
       this.balance = balance;
       this.locked = locked;

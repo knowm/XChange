@@ -1,10 +1,9 @@
 package org.knowm.xchange.luno.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LunoPendingTransactions {
 
@@ -12,7 +11,9 @@ public class LunoPendingTransactions {
   public final boolean defaultAccount;
   private final PendingTransaction[] pending;
 
-  public LunoPendingTransactions(@JsonProperty(value = "id", required = true) String id, @JsonProperty(value = "is_default") boolean defaultAccount,
+  public LunoPendingTransactions(
+      @JsonProperty(value = "id", required = true) String id,
+      @JsonProperty(value = "is_default") boolean defaultAccount,
       @JsonProperty(value = "pending", required = true) PendingTransaction[] pending) {
     this.id = id;
     this.defaultAccount = defaultAccount;
@@ -21,8 +22,15 @@ public class LunoPendingTransactions {
 
   @Override
   public String toString() {
-    return "LunoAccountTransactions [id=" + id + ", defaultAccount=" + defaultAccount + ", pending(" + pending.length + ")=" + Arrays
-        .toString(pending) + "]";
+    return "LunoAccountTransactions [id="
+        + id
+        + ", defaultAccount="
+        + defaultAccount
+        + ", pending("
+        + pending.length
+        + ")="
+        + Arrays.toString(pending)
+        + "]";
   }
 
   public PendingTransaction[] getTransactions() {
@@ -40,7 +48,8 @@ public class LunoPendingTransactions {
     public final String currency;
     public final String description;
 
-    public PendingTransaction(@JsonProperty(value = "timestamp", required = true) long timestamp,
+    public PendingTransaction(
+        @JsonProperty(value = "timestamp", required = true) long timestamp,
         @JsonProperty(value = "balance", required = true) BigDecimal balance,
         @JsonProperty(value = "available", required = true) BigDecimal available,
         @JsonProperty(value = "balance_delta", required = true) BigDecimal balanceDelta,
@@ -62,8 +71,21 @@ public class LunoPendingTransactions {
 
     @Override
     public String toString() {
-      return "PendingTransaction [timestamp=" + getTimestamp() + ", balance=" + balance + ", available=" + available + ", balanceDelta="
-          + balanceDelta + ", availableDelta=" + availableDelta + ", currency=" + currency + ", description=" + description + "]";
+      return "PendingTransaction [timestamp="
+          + getTimestamp()
+          + ", balance="
+          + balance
+          + ", available="
+          + available
+          + ", balanceDelta="
+          + balanceDelta
+          + ", availableDelta="
+          + availableDelta
+          + ", currency="
+          + currency
+          + ", description="
+          + description
+          + "]";
     }
   }
 }

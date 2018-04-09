@@ -1,13 +1,9 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXTradesWrapper {
 
   private final Map<String, DSXTrade[]> tradesMap;

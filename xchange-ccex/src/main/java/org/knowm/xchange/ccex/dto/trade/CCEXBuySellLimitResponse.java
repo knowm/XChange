@@ -8,7 +8,9 @@ public class CCEXBuySellLimitResponse {
   private String message;
   private CCEXUUIDResponse result;
 
-  public CCEXBuySellLimitResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+  public CCEXBuySellLimitResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("message") String message,
       @JsonProperty("result") CCEXUUIDResponse result) {
     super();
     this.success = success;
@@ -42,6 +44,12 @@ public class CCEXBuySellLimitResponse {
 
   @Override
   public String toString() {
-    return "CCEXBuySellLimitResponse [success=" + success + ", message=" + message + ", result=" + result + "]";
+    return "CCEXBuySellLimitResponse [success="
+        + success
+        + ", message="
+        + message
+        + ", result="
+        + result
+        + "]";
   }
 }

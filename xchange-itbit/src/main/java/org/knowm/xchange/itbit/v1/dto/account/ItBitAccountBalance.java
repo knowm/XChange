@@ -1,8 +1,7 @@
 package org.knowm.xchange.itbit.v1.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class ItBitAccountBalance {
 
@@ -10,7 +9,9 @@ public class ItBitAccountBalance {
   private final BigDecimal totalBalance;
   private final String currency;
 
-  public ItBitAccountBalance(@JsonProperty("availableBalance") BigDecimal availableBalance, @JsonProperty("totalBalance") BigDecimal totalBalance,
+  public ItBitAccountBalance(
+      @JsonProperty("availableBalance") BigDecimal availableBalance,
+      @JsonProperty("totalBalance") BigDecimal totalBalance,
       @JsonProperty("currency") String currency) {
 
     this.availableBalance = availableBalance;
@@ -46,5 +47,4 @@ public class ItBitAccountBalance {
     builder.append("]");
     return builder.toString();
   }
-
 }

@@ -3,14 +3,13 @@ package org.knowm.xchange.abucoins.dto.account;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
- * Test that confirms we can handle array json (success case from REST call)
- * as well as object json (occurs during the error case for the REST call).
+ * Test that confirms we can handle array json (success case from REST call) as well as object json
+ * (occurs during the error case for the REST call).
  */
 public class AbucoinsAccountsJsonSerializationTest {
   ObjectMapper objectMapper;
@@ -37,6 +36,7 @@ public class AbucoinsAccountsJsonSerializationTest {
     AbucoinsAccounts accounts = objectMapper.readValue(json, AbucoinsAccounts.class);
     assertNotNull("Accounts are null", accounts);
     assertEquals("Wrong number of elements", 1, accounts.accounts.length);
-    assertEquals("Error message not parsed", "PERMISSION DENIED", accounts.accounts[0].getMessage());
+    assertEquals(
+        "Error message not parsed", "PERMISSION DENIED", accounts.accounts[0].getMessage());
   }
 }

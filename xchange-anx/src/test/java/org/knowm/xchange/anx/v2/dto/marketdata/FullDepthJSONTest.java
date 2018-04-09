@@ -1,24 +1,21 @@
 package org.knowm.xchange.anx.v2.dto.marketdata;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test ANXFullDepth JSON parsing
- */
+/** Test ANXFullDepth JSON parsing */
 public class FullDepthJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = FullDepthJSONTest.class.getResourceAsStream("/v2/marketdata/example-fulldepth-data.json");
+    InputStream is =
+        FullDepthJSONTest.class.getResourceAsStream("/v2/marketdata/example-fulldepth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -39,6 +36,5 @@ public class FullDepthJSONTest {
     Assert.assertEquals(200000000L, anxFullDepth.getBids().get(0).getPriceInt());
     Assert.assertEquals(new BigDecimal("3.00000000"), anxFullDepth.getBids().get(0).getAmount());
     Assert.assertEquals(300000000L, anxFullDepth.getBids().get(0).getAmountInt());
-
   }
 }

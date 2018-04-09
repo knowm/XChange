@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -44,19 +43,13 @@ import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Various adapters for converting from Wex DTOs to XChange DTOs
- */
+/** Various adapters for converting from Wex DTOs to XChange DTOs */
 public final class WexAdapters {
 
   public static final Logger log = LoggerFactory.getLogger(WexAdapters.class);
 
-  /**
-   * private Constructor
-   */
-  private WexAdapters() {
-
-  }
+  /** private Constructor */
+  private WexAdapters() {}
 
   /**
    * Adapts a List of BTCEOrders to a List of LimitOrders
@@ -67,7 +60,8 @@ public final class WexAdapters {
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
+  public static List<LimitOrder> adaptOrders(
+      List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -89,7 +83,12 @@ public final class WexAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, String id) {
+  public static LimitOrder adaptOrder(
+      BigDecimal amount,
+      BigDecimal price,
+      CurrencyPair currencyPair,
+      OrderType orderType,
+      String id) {
 
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }
@@ -97,13 +96,14 @@ public final class WexAdapters {
   /**
    * Adapts a BTCETradeV3 to a Trade Object
    *
-   * @param bTCETrade    Wex trade object v.3
+   * @param bTCETrade Wex trade object v.3
    * @param currencyPair the currency pair
    * @return The XChange Trade
    */
   public static Trade adaptTrade(WexTrade bTCETrade, CurrencyPair currencyPair) {
 
-    OrderType orderType = bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+    OrderType orderType =
+        bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = bTCETrade.getAmount();
     BigDecimal price = bTCETrade.getPrice();
     Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
@@ -115,7 +115,7 @@ public final class WexAdapters {
   /**
    * Adapts a BTCETradeV3[] to a Trades Object
    *
-   * @param bTCETrades   The Wex trade data returned by API v.3
+   * @param bTCETrades The Wex trade data returned by API v.3
    * @param currencyPair the currency pair
    * @return The trades
    */
@@ -151,8 +151,17 @@ public final class WexAdapters {
     BigDecimal volume = bTCETicker.getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume)
-                               .timestamp(timestamp).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .vwap(avg)
+        .volume(volume)
+        .timestamp(timestamp)
+        .build();
   }
 
   public static Wallet adaptWallet(WexAccountInfo wexAccountInfo) {
@@ -177,12 +186,15 @@ public final class WexAdapters {
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (Long id : btceOrderMap.keySet()) {
       WexOrder bTCEOrder = btceOrderMap.get(id);
-      OrderType orderType = bTCEOrder.getType() == WexOrder.Type.buy ? OrderType.BID : OrderType.ASK;
+      OrderType orderType =
+          bTCEOrder.getType() == WexOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = bTCEOrder.getRate();
       Date timestamp = DateUtils.fromMillisUtc(bTCEOrder.getTimestampCreated() * 1000L);
       CurrencyPair currencyPair = adaptCurrencyPair(bTCEOrder.getPair());
 
-      limitOrders.add(new LimitOrder(orderType, bTCEOrder.getAmount(), currencyPair, Long.toString(id), timestamp, price));
+      limitOrders.add(
+          new LimitOrder(
+              orderType, bTCEOrder.getAmount(), currencyPair, Long.toString(id), timestamp, price));
     }
     return new OpenOrders(limitOrders);
   }
@@ -192,14 +204,25 @@ public final class WexAdapters {
     List<UserTrade> trades = new ArrayList<>(tradeHistory.size());
     for (Entry<Long, WexTradeHistoryResult> entry : tradeHistory.entrySet()) {
       WexTradeHistoryResult result = entry.getValue();
-      OrderType type = result.getType() == WexTradeHistoryResult.Type.buy ? OrderType.BID : OrderType.ASK;
+      OrderType type =
+          result.getType() == WexTradeHistoryResult.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = result.getRate();
       BigDecimal originalAmount = result.getAmount();
       Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
       CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
-      trades.add(new UserTrade(type, originalAmount, currencyPair, price, timeStamp, tradeId, orderId, null, (Currency) null));
+      trades.add(
+          new UserTrade(
+              type,
+              originalAmount,
+              currencyPair,
+              price,
+              timeStamp,
+              tradeId,
+              orderId,
+              null,
+              (Currency) null));
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
@@ -207,13 +230,14 @@ public final class WexAdapters {
   /**
    * Adapts a WexOrderInfoResult to a LimitOrder
    *
-   * @param orderId   Order original id
+   * @param orderId Order original id
    * @param orderInfo
    * @return
    */
   public static LimitOrder adaptOrderInfo(String orderId, WexOrderInfoResult orderInfo) {
 
-    OrderType orderType = orderInfo.getType() == WexOrderInfoResult.Type.buy ? OrderType.BID : OrderType.ASK;
+    OrderType orderType =
+        orderInfo.getType() == WexOrderInfoResult.Type.buy ? OrderType.BID : OrderType.ASK;
     BigDecimal price = orderInfo.getRate();
     Date timestamp = DateUtils.fromMillisUtc(orderInfo.getTimestampCreated() * 1000L);
     CurrencyPair currencyPair = adaptCurrencyPair(orderInfo.getPair());
@@ -235,8 +259,17 @@ public final class WexAdapters {
         break;
     }
 
-    return new LimitOrder(orderType, orderInfo.getStartAmount(), currencyPair, orderId, timestamp, price, price,
-        orderInfo.getStartAmount().subtract(orderInfo.getAmount()), null, orderStatus);
+    return new LimitOrder(
+        orderType,
+        orderInfo.getStartAmount(),
+        currencyPair,
+        orderId,
+        timestamp,
+        price,
+        price,
+        orderInfo.getStartAmount().subtract(orderInfo.getAmount()),
+        null,
+        orderStatus);
   }
 
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
@@ -262,7 +295,8 @@ public final class WexAdapters {
     return pairs;
   }
 
-  public static ExchangeMetaData toMetaData(WexExchangeInfo wexExchangeInfo, WexMetaData wexMetaData) {
+  public static ExchangeMetaData toMetaData(
+      WexExchangeInfo wexExchangeInfo, WexMetaData wexMetaData) {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
@@ -277,13 +311,18 @@ public final class WexAdapters {
       }
     }
 
-    RateLimit[] publicRateLimits = new RateLimit[]{new RateLimit(wexMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)};
+    RateLimit[] publicRateLimits =
+        new RateLimit[] {new RateLimit(wexMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)};
     return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, null, false);
   }
 
-  private static void addCurrencyMetaData(Currency symbol, Map<Currency, CurrencyMetaData> currencies, WexMetaData wexMetaData) {
+  private static void addCurrencyMetaData(
+      Currency symbol, Map<Currency, CurrencyMetaData> currencies, WexMetaData wexMetaData) {
     if (!currencies.containsKey(symbol)) {
-      BigDecimal withdrawalFee = wexMetaData.getCurrencies().get(symbol) == null ? null : wexMetaData.getCurrencies().get(symbol).getWithdrawalFee();
+      BigDecimal withdrawalFee =
+          wexMetaData.getCurrencies().get(symbol) == null
+              ? null
+              : wexMetaData.getCurrencies().get(symbol).getWithdrawalFee();
       currencies.put(symbol, new CurrencyMetaData(wexMetaData.amountScale, withdrawalFee));
     }
   }
@@ -320,9 +359,14 @@ public final class WexAdapters {
     return (base + "_" + counter).toLowerCase();
   }
 
-  public static LimitOrder createLimitOrder(MarketOrder marketOrder, WexExchangeInfo wexExchangeInfo) {
-    WexPairInfo wexPairInfo = wexExchangeInfo.getPairs().get(getPair(marketOrder.getCurrencyPair()));
-    BigDecimal limitPrice = marketOrder.getType() == OrderType.BID ? wexPairInfo.getMaxPrice() : wexPairInfo.getMinPrice();
+  public static LimitOrder createLimitOrder(
+      MarketOrder marketOrder, WexExchangeInfo wexExchangeInfo) {
+    WexPairInfo wexPairInfo =
+        wexExchangeInfo.getPairs().get(getPair(marketOrder.getCurrencyPair()));
+    BigDecimal limitPrice =
+        marketOrder.getType() == OrderType.BID
+            ? wexPairInfo.getMaxPrice()
+            : wexPairInfo.getMinPrice();
     return LimitOrder.Builder.from(marketOrder).limitPrice(limitPrice).build();
   }
 
@@ -334,23 +378,36 @@ public final class WexAdapters {
 
       FundingRecord.Status status = FundingRecord.Status.COMPLETE;
 
-      if (result.getStatus().equals(WexTransHistoryResult.Status.entered))//looks like the enum has the wrong name maybe?
-        status = FundingRecord.Status.FAILED;
+      if (result
+          .getStatus()
+          .equals(
+              WexTransHistoryResult.Status
+                  .entered)) // looks like the enum has the wrong name maybe?
+      status = FundingRecord.Status.FAILED;
       else if (result.getStatus().equals(WexTransHistoryResult.Status.waiting))
         status = FundingRecord.Status.PROCESSING;
 
-      FundingRecord.Type type;//todo
+      FundingRecord.Type type; // todo
       if (result.getType().equals(WexTransHistoryResult.Type.BTC_deposit))
         type = FundingRecord.Type.DEPOSIT;
       else if (result.getType().equals(WexTransHistoryResult.Type.BTC_withdrawal))
         type = FundingRecord.Type.WITHDRAWAL;
-      else
-        continue;
+      else continue;
 
       Date date = DateUtils.fromUnixTime(result.getTimestamp());
       fundingRecords.add(
-          new FundingRecord(null, date, Currency.getInstance(result.getCurrency()), result.getAmount(), String.valueOf(key), null, type, status, null,
-              null, result.getDescription()));
+          new FundingRecord(
+              null,
+              date,
+              Currency.getInstance(result.getCurrency()),
+              result.getAmount(),
+              String.valueOf(key),
+              null,
+              type,
+              status,
+              null,
+              null,
+              result.getDescription()));
     }
     return fundingRecords;
   }

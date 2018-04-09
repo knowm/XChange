@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitstamp.BitstampExchange;
@@ -20,15 +19,14 @@ import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
-/**
- * Demonstrate requesting OrderBook from Bitstamp and plotting it using XChart.
- */
+/** Demonstrate requesting OrderBook from Bitstamp and plotting it using XChart. */
 public class DepthChartDemo {
 
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get the version 1 Bitstamp exchange API using default settings
-    Exchange bitstampExchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+    Exchange bitstampExchange =
+        ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = bitstampExchange.getMarketDataService();
@@ -45,7 +43,14 @@ public class DepthChartDemo {
     System.out.println("plotting...");
 
     // Create Chart
-    XYChart chart = new XYChartBuilder().width(800).height(600).title("Bitstamp Order Book").xAxisTitle("BTC").yAxisTitle("USD").build();
+    XYChart chart =
+        new XYChartBuilder()
+            .width(800)
+            .height(600)
+            .title("Bitstamp Order Book")
+            .xAxisTitle("BTC")
+            .yAxisTitle("USD")
+            .build();
 
     // Customize Chart
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
@@ -85,7 +90,5 @@ public class DepthChartDemo {
     series.setMarker(SeriesMarkers.NONE);
 
     new SwingWrapper(chart).displayChart();
-
   }
-
 }

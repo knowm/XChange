@@ -2,14 +2,12 @@ package org.knowm.xchange.kraken.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KrakenAssetsJSONTest {
 
@@ -17,7 +15,9 @@ public class KrakenAssetsJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenAssetsJSONTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
+    InputStream is =
+        KrakenAssetsJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-assets-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

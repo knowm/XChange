@@ -1,8 +1,7 @@
 package org.knowm.xchange.ccex.dto.trade;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 public class CCEXGetopenordersResponse {
 
@@ -10,7 +9,9 @@ public class CCEXGetopenordersResponse {
   private String message;
   private List<CCEXOpenorder> result;
 
-  public CCEXGetopenordersResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+  public CCEXGetopenordersResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("message") String message,
       @JsonProperty("result") List<CCEXOpenorder> result) {
     super();
     this.success = success;
@@ -44,6 +45,12 @@ public class CCEXGetopenordersResponse {
 
   @Override
   public String toString() {
-    return "CCEXGetopenordersResponse [success=" + success + ", message=" + message + ", result=" + result + "]";
+    return "CCEXGetopenordersResponse [success="
+        + success
+        + ", message="
+        + message
+        + ", result="
+        + result
+        + "]";
   }
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.liqui.service;
 
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.liqui.Liqui;
 import org.knowm.xchange.liqui.LiquiAuthenticated;
@@ -10,7 +9,6 @@ import org.knowm.xchange.liqui.dto.marketdata.LiquiPairInfo;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiResult;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.RestProxyFactory;
 
 public class LiquiBaseService extends BaseExchangeService implements BaseService {
@@ -22,10 +20,17 @@ public class LiquiBaseService extends BaseExchangeService implements BaseService
   protected LiquiBaseService(final Exchange exchange) {
     super(exchange);
 
-    liqui = RestProxyFactory.createProxy(Liqui.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-    liquiAuthenticated = RestProxyFactory.createProxy(LiquiAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    liqui =
+        RestProxyFactory.createProxy(
+            Liqui.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    liquiAuthenticated =
+        RestProxyFactory.createProxy(
+            LiquiAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
 
-    signatureCreator = LiquiDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    signatureCreator =
+        LiquiDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   public Map<String, LiquiPairInfo> getInfo() {

@@ -2,12 +2,9 @@ package org.knowm.xchange.yobit;
 
 import java.io.IOException;
 import java.math.BigInteger;
-
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 

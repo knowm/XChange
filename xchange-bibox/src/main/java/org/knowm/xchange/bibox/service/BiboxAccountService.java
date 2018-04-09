@@ -3,7 +3,6 @@ package org.knowm.xchange.bibox.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.currency.Currency;
@@ -14,9 +13,7 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 public class BiboxAccountService extends BiboxAccountServiceRaw implements AccountService {
 
   public BiboxAccountService(Exchange exchange) {
@@ -30,13 +27,16 @@ public class BiboxAccountService extends BiboxAccountServiceRaw implements Accou
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
+    throw new NotYetImplementedForExchangeException(
+        "This operation is not yet implemented for this exchange");
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    throw new NotYetImplementedForExchangeException(
+        "This operation is not yet implemented for this exchange");
   }
 
   @Override
@@ -46,11 +46,13 @@ public class BiboxAccountService extends BiboxAccountServiceRaw implements Accou
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    throw new NotYetImplementedForExchangeException(
+        "This operation is not yet implemented for this exchange");
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    throw new NotYetImplementedForExchangeException(
+        "This operation is not yet implemented for this exchange");
   }
 }

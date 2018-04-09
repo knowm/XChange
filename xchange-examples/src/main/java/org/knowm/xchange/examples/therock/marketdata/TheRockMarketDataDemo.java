@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.therock.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -13,7 +12,8 @@ public class TheRockMarketDataDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get TheRock exchange API using default settings
-    Exchange theRockExchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
+    Exchange theRockExchange =
+        ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
 
     generic(theRockExchange);
   }
@@ -27,6 +27,7 @@ public class TheRockMarketDataDemo {
     System.out.println("Ticker: " + loyalbitMarketDataService.getTicker(CurrencyPair.BTC_USD));
 
     // Get the order book
-    System.out.println("Order book: " + loyalbitMarketDataService.getOrderBook(CurrencyPair.BTC_USD));
+    System.out.println(
+        "Order book: " + loyalbitMarketDataService.getOrderBook(CurrencyPair.BTC_USD));
   }
 }

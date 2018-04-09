@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.bitcoinium;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -28,19 +27,23 @@ public class BitcoiniumTickerHistoryDemo {
 
   public static void main(String[] args) throws Exception {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(BitcoiniumExchange.class.getName());
     // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the public market data feed (no authentication)
-    BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
+    BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService =
+        (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
 
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory("BTC", "BITSTAMP_USD", "THIRTY_DAYS");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory =
+        bitcoiniumMarketDataService.getBitcoiniumTickerHistory(
+            "BTC", "BITSTAMP_USD", "THIRTY_DAYS");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
@@ -58,7 +61,14 @@ public class BitcoiniumTickerHistoryDemo {
     }
 
     // Create Chart
-    XYChart chart = new XYChartBuilder().width(800).height(600).title("Bitstamp Price vs. Date").xAxisTitle("Date").yAxisTitle("Price").build();
+    XYChart chart =
+        new XYChartBuilder()
+            .width(800)
+            .height(600)
+            .title("Bitstamp Price vs. Date")
+            .xAxisTitle("Date")
+            .yAxisTitle("Price")
+            .build();
 
     // Customize Chart
     chart.getStyler().setLegendPosition(LegendPosition.InsideNE);

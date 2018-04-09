@@ -1,18 +1,14 @@
 package org.knowm.xchange.bitcoinaverage.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing Ticker from BitcoinAverage
- */
-
+/** Data object representing Ticker from BitcoinAverage */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class BitcoinAverageTicker {
 
@@ -32,9 +28,13 @@ public final class BitcoinAverageTicker {
    * @param last
    * @param timestamp
    */
-
-  public BitcoinAverageTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("volume_btc") BigDecimal volume,
-      @JsonProperty("last") BigDecimal last, @JsonProperty("volume_percent") BigDecimal volume_percent, @JsonProperty("timestamp") String timestamp) {
+  public BitcoinAverageTicker(
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("volume_btc") BigDecimal volume,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("volume_percent") BigDecimal volume_percent,
+      @JsonProperty("timestamp") String timestamp) {
 
     this.ask = ask;
     this.bid = bid;
@@ -73,7 +73,8 @@ public final class BitcoinAverageTicker {
 
     try {
       // Parse the timestamp into a Date object
-      return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(timestamp);
+      return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault())
+          .parse(timestamp);
     } catch (IllegalArgumentException | ParseException e) {
       // Return current Date
       return new Date();
@@ -83,9 +84,18 @@ public final class BitcoinAverageTicker {
   @Override
   public String toString() {
 
-    return "BitcoinAverageTicker [last=" + last + ", ask=" + ask + ", bid=" + bid + ", volume=" + volume + ", volume_percent=" + volume_percent
-        + ", timestamp=" + timestamp + "]";
-
+    return "BitcoinAverageTicker [last="
+        + last
+        + ", ask="
+        + ask
+        + ", bid="
+        + bid
+        + ", volume="
+        + volume
+        + ", volume_percent="
+        + volume_percent
+        + ", timestamp="
+        + timestamp
+        + "]";
   }
-
 }

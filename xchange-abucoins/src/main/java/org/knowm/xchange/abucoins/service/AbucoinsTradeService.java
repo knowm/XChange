@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.AbucoinsAdapters;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
@@ -30,10 +29,7 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/**
- * Author: bryant_harris
- */
-
+/** Author: bryant_harris */
 public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements TradeService {
 
   /**
@@ -55,8 +51,10 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     if (params instanceof OpenOrdersParamCurrencyPair) {
       OpenOrdersParamCurrencyPair cpParams = (OpenOrdersParamCurrencyPair) params;
-      AbucoinsOrderRequest orderRequest = new AbucoinsOrderRequest(AbucoinsOrder.Status.open,
-          AbucoinsAdapters.adaptCurrencyPairToProductID(cpParams.getCurrencyPair()));
+      AbucoinsOrderRequest orderRequest =
+          new AbucoinsOrderRequest(
+              AbucoinsOrder.Status.open,
+              AbucoinsAdapters.adaptCurrencyPairToProductID(cpParams.getCurrencyPair()));
       AbucoinsOrder[] openOrders = getAbucoinsOrders(orderRequest);
       return AbucoinsAdapters.adaptOpenOrders(openOrders);
     }
@@ -66,19 +64,19 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    AbucoinsCreateMarketOrderRequest req = AbucoinsAdapters.adaptAbucoinsCreateMarketOrderRequest(marketOrder);
+    AbucoinsCreateMarketOrderRequest req =
+        AbucoinsAdapters.adaptAbucoinsCreateMarketOrderRequest(marketOrder);
     AbucoinsCreateOrderResponse resp = createAbucoinsOrder(req);
-    if (resp.getMessage() != null)
-      throw new ExchangeException(resp.getMessage());
+    if (resp.getMessage() != null) throw new ExchangeException(resp.getMessage());
     return resp.getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    AbucoinsCreateLimitOrderRequest req = AbucoinsAdapters.adaptAbucoinsCreateLimitOrderRequest(limitOrder);
+    AbucoinsCreateLimitOrderRequest req =
+        AbucoinsAdapters.adaptAbucoinsCreateLimitOrderRequest(limitOrder);
     AbucoinsCreateOrderResponse resp = createAbucoinsOrder(req);
-    if (resp.getMessage() != null)
-      throw new ExchangeException(resp.getMessage());
+    if (resp.getMessage() != null) throw new ExchangeException(resp.getMessage());
     return resp.getId();
   }
 
@@ -131,5 +129,4 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
     }
     return orders;
   }
-
 }

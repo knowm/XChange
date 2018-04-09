@@ -1,12 +1,9 @@
 package org.knowm.xchange.cexio.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: brox Since: 2/5/14
- */
+/** Author: brox Since: 2/5/14 */
 public class CexIOTrade {
 
   private final BigDecimal amount;
@@ -23,8 +20,12 @@ public class CexIOTrade {
    * @param date
    * @param tid
    */
-  public CexIOTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price, @JsonProperty("date") long date,
-      @JsonProperty("tid") long tid, @JsonProperty("type") String type) {
+  public CexIOTrade(
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("date") long date,
+      @JsonProperty("tid") long tid,
+      @JsonProperty("type") String type) {
 
     this.price = price;
     this.amount = amount;
@@ -75,5 +76,4 @@ public class CexIOTrade {
     builder.append("]");
     return builder.toString();
   }
-
 }

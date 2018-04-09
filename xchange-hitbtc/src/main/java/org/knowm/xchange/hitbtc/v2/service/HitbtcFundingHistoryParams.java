@@ -58,5 +58,4 @@ public class HitbtcFundingHistoryParams implements TradeHistoryParams {
       return new HitbtcFundingHistoryParams(currency, offset, limit);
     }
   }
-
 }

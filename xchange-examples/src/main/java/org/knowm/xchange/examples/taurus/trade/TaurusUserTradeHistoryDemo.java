@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.taurus.trade;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.taurus.TaurusDemoUtils;
@@ -13,12 +12,11 @@ import org.knowm.xchange.taurus.dto.trade.TaurusUserTransaction;
 import org.knowm.xchange.taurus.service.TaurusTradeServiceRaw;
 
 /**
- * <p>
  * Example showing the following:
- * </p>
+ *
  * <ul>
- * <li>Connect to Taurus exchange with authentication</li>
- * <li>get user trade history</li>
+ *   <li>Connect to Taurus exchange with authentication
+ *   <li>get user trade history
  * </ul>
  */
 public class TaurusUserTradeHistoryDemo {
@@ -50,12 +48,14 @@ public class TaurusUserTradeHistoryDemo {
 
   private static void raw(TaurusTradeServiceRaw tradeService) throws IOException {
 
-    TaurusUserTransaction[] trades = tradeService.getTaurusUserTransactions(null, 1000, TradeHistoryParamsSorted.Order.asc);
+    TaurusUserTransaction[] trades =
+        tradeService.getTaurusUserTransactions(null, 1000, TradeHistoryParamsSorted.Order.asc);
     for (TaurusUserTransaction trade : trades) {
       System.out.println(trade);
     }
 
-    TaurusUserTransaction[] transactionLimitedTo3 = tradeService.getTaurusUserTransactions(null, 3, null);
+    TaurusUserTransaction[] transactionLimitedTo3 =
+        tradeService.getTaurusUserTransactions(null, 3, null);
     for (TaurusUserTransaction tx : transactionLimitedTo3) {
       System.out.println(tx);
     }

@@ -22,5 +22,4 @@ public class Withdraw {
   public String toString() {
     return "Withdraw [refid=" + refid + "]";
   }
-
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.gdax;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -35,5 +34,4 @@ public class GDAXTickerDemo {
 
     System.out.println(gdaxTicker.toString());
   }
-
 }

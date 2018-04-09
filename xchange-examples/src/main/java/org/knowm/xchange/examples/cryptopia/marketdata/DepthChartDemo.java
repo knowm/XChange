@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
@@ -19,9 +18,7 @@ import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
-/**
- * Demonstrate requesting OrderBook from Cryptopia and plotting it using XChart.
- */
+/** Demonstrate requesting OrderBook from Cryptopia and plotting it using XChart. */
 public class DepthChartDemo {
 
   public static void main(String[] args) throws IOException {
@@ -41,7 +38,14 @@ public class DepthChartDemo {
     System.out.println("plotting...");
 
     // Create Chart
-    XYChart chart = new XYChartBuilder().width(800).height(600).title("Cryptopia Order Book").xAxisTitle("BTC").yAxisTitle("ETH").build();
+    XYChart chart =
+        new XYChartBuilder()
+            .width(800)
+            .height(600)
+            .title("Cryptopia Order Book")
+            .xAxisTitle("BTC")
+            .yAxisTitle("ETH")
+            .build();
 
     // Customize Chart
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Area);

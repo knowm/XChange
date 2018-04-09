@@ -1,9 +1,5 @@
 package org.knowm.xchange.gdax.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;
@@ -12,6 +8,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.NumericNode;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class GDAXCandleDeserializer extends StdDeserializer<GDAXCandle> {
 
@@ -26,7 +25,8 @@ public class GDAXCandleDeserializer extends StdDeserializer<GDAXCandle> {
   }
 
   @Override
-  public GDAXCandle deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public GDAXCandle deserialize(JsonParser jp, DeserializationContext ctxt)
+      throws IOException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     TreeNode jo = mapper.readTree(jp);
     if (!jo.isArray() || jo.size() != 6) {
@@ -37,8 +37,12 @@ public class GDAXCandleDeserializer extends StdDeserializer<GDAXCandle> {
         throw new JsonMappingException(jp, "Numeric values expected: " + jo.toString());
       }
     }
-    return new GDAXCandle(new Date(((NumericNode) jo.get(0)).asLong() * 1000), new BigDecimal(((NumericNode) jo.get(3)).asText()),
-        new BigDecimal(((NumericNode) jo.get(2)).asText()), new BigDecimal(((NumericNode) jo.get(1)).asText()),
-        new BigDecimal(((NumericNode) jo.get(4)).asText()), new BigDecimal(((NumericNode) jo.get(5)).asText()));
+    return new GDAXCandle(
+        new Date(((NumericNode) jo.get(0)).asLong() * 1000),
+        new BigDecimal(((NumericNode) jo.get(3)).asText()),
+        new BigDecimal(((NumericNode) jo.get(2)).asText()),
+        new BigDecimal(((NumericNode) jo.get(1)).asText()),
+        new BigDecimal(((NumericNode) jo.get(4)).asText()),
+        new BigDecimal(((NumericNode) jo.get(5)).asText()));
   }
 }

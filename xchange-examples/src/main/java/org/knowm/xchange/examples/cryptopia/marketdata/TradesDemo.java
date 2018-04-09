@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.cryptopia.marketdata;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
@@ -12,9 +11,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Demonstrate requesting Trades at Cryptopia
- */
+/** Demonstrate requesting Trades at Cryptopia */
 public class TradesDemo {
 
   public static void main(String[] args) throws IOException {
@@ -44,7 +41,8 @@ public class TradesDemo {
 
   private static void raw(CryptopiaMarketDataServiceRaw marketDataService) throws IOException {
     // Get the latest trade data for ETH/BTC
-    List<CryptopiaMarketHistory> trades = marketDataService.getCryptopiaTrades(CurrencyPair.ETH_BTC);
+    List<CryptopiaMarketHistory> trades =
+        marketDataService.getCryptopiaTrades(CurrencyPair.ETH_BTC);
     System.out.println("Trades, default. Size= " + trades.size());
 
     trades = marketDataService.getCryptopiaTrades(CurrencyPair.ETH_BTC, 1L);

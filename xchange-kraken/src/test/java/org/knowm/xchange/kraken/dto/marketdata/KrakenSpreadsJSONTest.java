@@ -2,13 +2,11 @@ package org.knowm.xchange.kraken.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KrakenSpreadsJSONTest {
 
@@ -16,7 +14,9 @@ public class KrakenSpreadsJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenSpreadsJSONTest.class.getResourceAsStream("/marketdata/example-spreads-data.json");
+    InputStream is =
+        KrakenSpreadsJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-spreads-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

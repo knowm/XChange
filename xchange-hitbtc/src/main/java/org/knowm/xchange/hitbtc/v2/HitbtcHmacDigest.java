@@ -2,13 +2,10 @@ package org.knowm.xchange.hitbtc.v2;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
 import org.knowm.xchange.utils.DigestUtils;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
@@ -28,7 +25,8 @@ public class HitbtcHmacDigest implements ParamsDigest {
     } catch (InvalidKeyException e) {
       throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
     } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+      throw new RuntimeException(
+          "Illegal algorithm for post body digest. Check the implementation.");
     }
   }
 
@@ -52,5 +50,4 @@ public class HitbtcHmacDigest implements ParamsDigest {
 
     return DigestUtils.bytesToHex(mac.doFinal()).toLowerCase();
   }
-
 }

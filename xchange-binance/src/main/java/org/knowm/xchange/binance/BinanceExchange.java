@@ -3,8 +3,10 @@ package org.knowm.xchange.binance;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
-
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.meta.BinanceCurrencyPairMetaData;
@@ -20,16 +22,21 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.utils.AuthUtils;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange {
 
+  private static final Logger LOG = LoggerFactory.getLogger(BinanceExchange.class);
+
   private static final int DEFAULT_PRECISION = 8;
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory =
+      new AtomicLongCurrentTimeIncrementalNonceFactory();
   private BinanceExchangeInfo exchangeInfo;
+  private Long deltaServerTimeExpire;
   private Long deltaServerTime;
 
   @Override
@@ -68,7 +75,8 @@ public class BinanceExchange extends BaseExchange {
       Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
       Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
-      BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
+      BinanceMarketDataService marketDataService =
+          (BinanceMarketDataService) this.marketDataService;
       exchangeInfo = marketDataService.getExchangeInfo();
 
       for (Symbol symbol : exchangeInfo.getSymbols()) {
@@ -106,7 +114,9 @@ public class BinanceExchange extends BaseExchange {
               break;
           }
         }
-        pairMetaData = new BinanceCurrencyPairMetaData(tradingFee, minAmount, maxAmount, priceScale, minNotional);
+        pairMetaData =
+            new BinanceCurrencyPairMetaData(
+                tradingFee, minAmount, maxAmount, priceScale, minNotional);
 
         currencyPairs.put(pair, pairMetaData);
 
@@ -141,10 +151,30 @@ public class BinanceExchange extends BaseExchange {
   }
 
   public long deltaServerTime() throws IOException {
-    if (deltaServerTime == null) {
-      Binance binance = RestProxyFactory.createProxy(Binance.class, getExchangeSpecification().getSslUri());
-      deltaServerTime = binance.time().getServerTime().getTime() - System.currentTimeMillis();
+
+    if (deltaServerTime == null || deltaServerTimeExpire <= System.currentTimeMillis()) {
+
+      // Do a little warm up
+      Binance binance =
+          RestProxyFactory.createProxy(Binance.class, getExchangeSpecification().getSslUri());
+      Date serverTime = new Date(binance.time().getServerTime().getTime());
+      serverTime = new Date(binance.time().getServerTime().getTime());
+
+      // Assume that we are closer to the server time when we get the repose
+      Date systemTime = new Date(System.currentTimeMillis());
+
+      // Expire every 10min
+      deltaServerTimeExpire = systemTime.getTime() + TimeUnit.MINUTES.toMillis(10);
+      deltaServerTime = serverTime.getTime() - systemTime.getTime();
+
+      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+      LOG.trace(
+          "deltaServerTime: {} - {} => {}",
+          df.format(serverTime),
+          df.format(systemTime),
+          deltaServerTime);
     }
+
     return deltaServerTime;
   }
 }

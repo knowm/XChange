@@ -2,27 +2,27 @@ package org.knowm.xchange.btcc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.btcc.dto.marketdata.BTCCTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-
 public class MarketDataTest {
 
   @Test
   public void testTickerAdapter() throws Exception {
-    InputStream is = MarketDataTest.class.getResourceAsStream("/ticker.json");
+    InputStream is =
+        MarketDataTest.class.getResourceAsStream("/org/knowm/xchange/btcc/ticker.json");
 
     ObjectMapper mapper = new ObjectMapper();
     TypeFactory t = TypeFactory.defaultInstance();
-    Map<String, BTCCTicker> response = mapper.readValue(is, t.constructMapType(Map.class, String.class, BTCCTicker.class));
+    Map<String, BTCCTicker> response =
+        mapper.readValue(is, t.constructMapType(Map.class, String.class, BTCCTicker.class));
     BTCCTicker btccTicker = response.get("ticker");
 
     Ticker ticker = BTCCAdapters.adaptTicker(btccTicker, CurrencyPair.BTC_USD);
@@ -34,5 +34,4 @@ public class MarketDataTest {
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("1729"));
     assertThat(ticker.getBid()).isEqualTo(new BigDecimal("1725"));
   }
-
 }

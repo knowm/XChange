@@ -1,41 +1,39 @@
 package org.knowm.xchange.bitcoinde.trade;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * @author kaiserfr
- */
+/** @author kaiserfr */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"orders", "page", "errors", "credits", "maintenance"})
 public class BitcoindeMyOpenOrdersWrapper {
 
   @JsonProperty("orders")
   private List<BitcoindeMyOrder> orders = null;
+
   @JsonProperty("page")
   private BitcoindePage page;
+
   @JsonProperty("errors")
   private List<Object> errors = null;
+
   @JsonProperty("credits")
   private Integer credits;
+
   @JsonProperty("maintenance")
   private BitcoindeMaintenance maintenance;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public BitcoindeMyOpenOrdersWrapper() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public BitcoindeMyOpenOrdersWrapper() {}
 
   /**
    * @param errors
@@ -44,7 +42,11 @@ public class BitcoindeMyOpenOrdersWrapper {
    * @param credits
    * @param orders
    */
-  public BitcoindeMyOpenOrdersWrapper(List<BitcoindeMyOrder> orders, BitcoindePage page, List<Object> errors, Integer credits,
+  public BitcoindeMyOpenOrdersWrapper(
+      List<BitcoindeMyOrder> orders,
+      BitcoindePage page,
+      List<Object> errors,
+      Integer credits,
       BitcoindeMaintenance maintenance) {
     super();
     this.orders = orders;
@@ -113,5 +115,4 @@ public class BitcoindeMyOpenOrdersWrapper {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }

@@ -3,7 +3,6 @@ package org.knowm.xchange.gemini.v1.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -45,7 +44,8 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
    * @throws IOException
    */
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdraw(currency, amount, address);
   }
 
@@ -53,14 +53,13 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
-  /**
-   * This will result in a new address being created each time, and is severely rate-limited
-   */
+  /** This will result in a new address being created each time, and is severely rate-limited */
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
     GeminiDepositAddressResponse response = super.requestDepositAddressRaw(currency);

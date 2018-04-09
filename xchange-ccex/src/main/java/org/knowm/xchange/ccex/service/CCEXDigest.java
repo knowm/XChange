@@ -1,11 +1,8 @@
 package org.knowm.xchange.ccex.service;
 
 import java.math.BigInteger;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
 public class CCEXDigest extends BaseParamsDigest {
@@ -28,5 +25,4 @@ public class CCEXDigest extends BaseParamsDigest {
 
     return String.format("%0128x", new BigInteger(1, mac.doFinal()));
   }
-
 }

@@ -2,10 +2,10 @@ package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -15,19 +15,19 @@ import org.junit.rules.ExpectedException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.hitbtc.v2.BaseAuthenticatedServiceTest;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransferType;
-
 import si.mazi.rescu.HttpStatusIOException;
 
 /**
- * Test ignored in default build because it requires production authentication credentials. See {@link BaseAuthenticatedServiceTest}.
+ * Test ignored in default build because it requires production authentication credentials. See
+ * {@link BaseAuthenticatedServiceTest}.
  */
 @Ignore
 public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedServiceTest {
 
-  @Rule
-  public final ExpectedException exception = ExpectedException.none();
+  @Rule public final ExpectedException exception = ExpectedException.none();
 
   private HitbtcAccountServiceRaw service = (HitbtcAccountServiceRaw) exchange.getAccountService();
 
@@ -79,20 +79,61 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
 
   @Test
   public void testGetTransactions() throws IOException {
+    List<HitbtcTransaction> transactions;
 
-    List<HitbtcTransaction> transactions = service.getTransactions(null, null, null);
+    transactions =
+        service.getTransactions(
+            null, HitbtcSort.SORT_ASCENDING, new Date(1520949577579L), new Date(), 100, null);
+    Assert.assertTrue(!transactions.isEmpty());
+    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
 
+    transactions =
+        service.getTransactions(
+            Currency.LTC.getCurrencyCode(),
+            HitbtcSort.SORT_DESCENDING,
+            new Date(0),
+            new Date(),
+            100,
+            null);
+    Assert.assertTrue(!transactions.isEmpty());
+    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+
+    transactions =
+        service.getTransactions(
+            Currency.LTC.getCurrencyCode(),
+            HitbtcSort.SORT_DESCENDING,
+            new Date(0),
+            new Date(),
+            100,
+            null);
+    Assert.assertTrue(!transactions.isEmpty());
+    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+
+    transactions = service.getTransactions(null, null, null);
+    Assert.assertTrue(!transactions.isEmpty());
+    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+
+    transactions =
+        service.getTransactions(
+            Currency.LTC.getCurrencyCode(), null, new Date(0), new Date(), null, null);
+    Assert.assertTrue(!transactions.isEmpty());
+    Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
+
+    transactions =
+        service.getTransactions(
+            Currency.LTC.getCurrencyCode(), null, 0L, Long.MAX_VALUE, null, null);
     Assert.assertTrue(!transactions.isEmpty());
     Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
   }
 
-  //Should return {"error":{"code":20001,"message":"Insufficient funds","description":"Check that the funds are sufficient, given commissions"}} --I'm poor
+  // Should return {"error":{"code":20001,"message":"Insufficient funds","description":"Check that
+  // the funds are sufficient, given commissions"}} --I'm poor
   @Test
   public void testTransferFunds() throws IOException {
 
     exception.expect(HttpStatusIOException.class);
     exception.expectMessage("HTTP status code was not OK: 400");
-    service.transferFunds(Currency.USD, new BigDecimal("0.01"), HitbtcTransferType.BANK_TO_EXCHANGE);
+    service.transferFunds(
+        Currency.USD, new BigDecimal("0.01"), HitbtcTransferType.BANK_TO_EXCHANGE);
   }
-
 }

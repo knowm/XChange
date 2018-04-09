@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.mercadobitcoin.account;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.mercadobitcoin.InteractiveAuthenticatedExchange;
@@ -11,14 +10,13 @@ import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinAccountServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
 
 /**
- * <p>
  * Example showing the following:
- * </p>
+ *
  * <ul>
- * <li>Connect to Mercado Bitcoin exchange with authentication</li>
- * <li>View account balance</li>
- * <li>Get the bitcoin deposit address</li>
- * <li>Withdraw a small amount of BTC</li>
+ *   <li>Connect to Mercado Bitcoin exchange with authentication
+ *   <li>View account balance
+ *   <li>Get the bitcoin deposit address
+ *   <li>Withdraw a small amount of BTC
  * </ul>
  *
  * @author Copied from Bitstamp and adapted by Felipe Micaroni Lalli
@@ -44,7 +42,10 @@ public class MercadoBitcoinAccountDemo {
   private static void raw(MercadoBitcoinAccountServiceRaw accountService) throws IOException {
 
     // Get the account information
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> mercadoBitcoinAccountInfo = accountService.getMercadoBitcoinAccountInfo();
-    System.out.println("MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> as String: " + mercadoBitcoinAccountInfo.toString());
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> mercadoBitcoinAccountInfo =
+        accountService.getMercadoBitcoinAccountInfo();
+    System.out.println(
+        "MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> as String: "
+            + mercadoBitcoinAccountInfo.toString());
   }
 }

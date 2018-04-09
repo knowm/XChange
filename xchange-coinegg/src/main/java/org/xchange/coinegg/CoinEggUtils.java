@@ -2,9 +2,7 @@ package org.xchange.coinegg;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import javax.xml.bind.DatatypeConverter;
-
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class CoinEggUtils {
@@ -30,5 +28,4 @@ public class CoinEggUtils {
   public static String toMD5Hash(String data) {
     return toHexString(md5Digest.digest(data.getBytes())).toLowerCase();
   }
-
 }

@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public final class CoinfloorUtils {
@@ -15,8 +14,7 @@ public final class CoinfloorUtils {
     DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
   }
 
-  private CoinfloorUtils() {
-  }
+  private CoinfloorUtils() {}
 
   public static Date parseDate(final String date) {
     try {

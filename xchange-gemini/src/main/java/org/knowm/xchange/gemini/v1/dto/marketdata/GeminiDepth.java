@@ -1,8 +1,7 @@
 package org.knowm.xchange.gemini.v1.dto.marketdata;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class GeminiDepth {
 
@@ -15,7 +14,8 @@ public class GeminiDepth {
    * @param asks
    * @param bids
    */
-  public GeminiDepth(@JsonProperty("asks") GeminiLevel[] asks, @JsonProperty("bids") GeminiLevel[] bids) {
+  public GeminiDepth(
+      @JsonProperty("asks") GeminiLevel[] asks, @JsonProperty("bids") GeminiLevel[] bids) {
 
     this.asks = asks;
     this.bids = bids;
@@ -36,5 +36,4 @@ public class GeminiDepth {
 
     return "GeminiDepth [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + "]";
   }
-
 }

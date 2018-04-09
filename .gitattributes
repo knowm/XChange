@@ -1,0 +1,53 @@
+# https://gist.githubusercontent.com/dpalomar/ebc64d6f56cfc25a3e5c20fe7cdfbd4f/raw/87ccba61ccd0758cf9e4ddade082977eb0d0985b/.gitattributes
+#From this [issue](https://github.com/puphpet/puphpet/issues/1025#issuecomment-157059174):
+#
+#
+#I know that this issue is closed, but as I spent a lot of time to understand what was going on, I made some researches and I can explain why this happen, and you can fix it.
+#
+#Using git config core.autocrlf true can help, but not on a multi-developpers project.
+#This command has to be the same on each developper machine, and that's not always the case.
+#
+#You have to use the .gitattributes provided in the puphpet archive and edit it as follow (carefull, this file need to be in your project root)
+#You also need to use an IDE that allow you to save/edit files as LF (like phpstorm). You can check the type of the file in the bottom right corner, in the status bar (you'll see LF or CRLF while a file is opened)
+#
+#.gitattributes
+#=================================================
+# These settings are for any web project
+
+# Handle line endings automatically for files detected as text
+# and leave all files detected as binary untouched.
+* text=auto
+
+# Force the following filetypes to have unix eols, so Windows does not break them
+*.* text eol=lf
+
+# Windows forced line-endings
+/.idea/* text eol=crlf
+
+#
+## These files are binary and should be left untouched
+#
+
+# (binary is a macro for -text -diff)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.flv binary
+*.fla binary
+*.swf binary
+*.gz binary
+*.zip binary
+*.7z binary
+*.ttf binary
+*.eot binary
+*.woff binary
+*.pyc binary
+*.pdf binary
+*.ez binary
+*.bz2 binary
+*.swp binary

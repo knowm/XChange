@@ -3,7 +3,6 @@ package org.knowm.xchange.abucoins.service.account;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;

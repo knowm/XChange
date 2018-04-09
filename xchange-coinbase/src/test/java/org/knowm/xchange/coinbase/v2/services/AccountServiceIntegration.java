@@ -2,7 +2,6 @@ package org.knowm.xchange.coinbase.v2.services;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -39,7 +38,12 @@ public class AccountServiceIntegration {
     List<CoinbaseAccount> accounts = coinbaseService.getCoinbaseAccounts();
     Assert.assertTrue(accounts.size() > 0);
 
-    CoinbaseAccount btcAccount = accounts.stream().filter(t -> t.getName().equals("BTC Wallet")).collect(Collectors.toList()).get(0);
+    CoinbaseAccount btcAccount =
+        accounts
+            .stream()
+            .filter(t -> t.getName().equals("BTC Wallet"))
+            .collect(Collectors.toList())
+            .get(0);
     Assert.assertEquals("BTC", btcAccount.getBalance().getCurrency());
     Assert.assertEquals("BTC Wallet", btcAccount.getName());
   }
@@ -65,7 +69,9 @@ public class AccountServiceIntegration {
       coinbaseService.createCoinbaseAccount("BTC Test");
     } catch (CoinbaseException ex) {
       Assert.assertEquals(400, ex.getHttpStatusCode());
-      Assert.assertEquals("Creation of multiple BTC accounts is not supported (HTTP status code: 400)", ex.getMessage());
+      Assert.assertEquals(
+          "Creation of multiple BTC accounts is not supported (HTTP status code: 400)",
+          ex.getMessage());
     }
   }
 

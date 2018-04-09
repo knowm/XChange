@@ -2,24 +2,22 @@ package org.knowm.xchange.bitmex.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test BitstampTicker JSON parsing
- */
+/** Test BitstampTicker JSON parsing */
 public class BitmexTradesJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexTradesJSONTest.class.getResourceAsStream("/trade/example-trades.json");
+    InputStream is =
+        BitmexTradesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitmex/dto/trade/example-trades.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexTrade[] bitmexTrades = mapper.readValue(is, BitmexTrade[].class);
@@ -37,5 +35,4 @@ public class BitmexTradesJSONTest {
     assertThat(bitmexTrade.getHomeNotional()).isNull();
     assertThat(bitmexTrade.getTickDirection()).isEqualTo(BitmexTickDirection.PLUSTICK);
   }
-
 }

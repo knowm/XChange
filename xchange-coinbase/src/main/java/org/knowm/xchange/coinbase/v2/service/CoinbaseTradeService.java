@@ -2,7 +2,6 @@ package org.knowm.xchange.coinbase.v2.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -25,8 +24,9 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
     super(exchange);
   }
 
-  /***********************************************************************************************************************************************************/
-
+  /**
+   * ********************************************************************************************************************************************************
+   */
   @Override
   public OpenOrders getOpenOrders() throws NotAvailableFromExchangeException, IOException {
     return getOpenOrders(createOpenOrdersParams());
@@ -34,7 +34,8 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -62,14 +63,17 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 
   /**
-   * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in descending order by creation date.
+   * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in
+   * descending order by creation date.
    *
-   * @see <a href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
+   * @see <a
+   *     href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -78,7 +82,8 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
 
   @Override
   public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws ExchangeException, NotAvailableFromExchangeException,
+          NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -95,5 +100,4 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
-
 }

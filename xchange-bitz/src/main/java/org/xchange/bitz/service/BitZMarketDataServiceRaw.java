@@ -1,7 +1,6 @@
 package org.xchange.bitz.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.xchange.bitz.dto.marketdata.BitZKline;
 import org.xchange.bitz.dto.marketdata.BitZOrders;
@@ -35,9 +34,8 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
     return bitz.getTradesResult(pair).getData();
   }
 
-  //TODO: Exception Handling - See Bitfinex
+  // TODO: Exception Handling - See Bitfinex
   public BitZKline getBitZKline(String pair, String type) throws IOException {
     return bitz.getKlineResult(pair, type).getData();
   }
-
 }

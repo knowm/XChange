@@ -1,7 +1,11 @@
 package org.knowm.xchange.bittrex.service;
 
 public enum BittrexChartDataPeriodType {
-  ONE_MIN("oneMin"), FIVE_MIN("fiveMin"), THIRTY_MIN("thirtyMin"), ONE_HOUR("hour"), ONE_DAY("day");
+  ONE_MIN("oneMin"),
+  FIVE_MIN("fiveMin"),
+  THIRTY_MIN("thirtyMin"),
+  ONE_HOUR("hour"),
+  ONE_DAY("day");
 
   private final String period;
 
@@ -12,5 +16,4 @@ public enum BittrexChartDataPeriodType {
   public String getPeriod() {
     return period;
   }
-
 }

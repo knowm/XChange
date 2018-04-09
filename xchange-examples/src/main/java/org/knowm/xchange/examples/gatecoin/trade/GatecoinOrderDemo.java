@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.gatecoin.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -31,12 +30,20 @@ public class GatecoinOrderDemo {
   private static void generic(TradeService tradeService) throws IOException {
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("2"), CurrencyPair.BTC_USD, "", null, new BigDecimal("1000.00"));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            (OrderType.ASK),
+            new BigDecimal("2"),
+            CurrencyPair.BTC_USD,
+            "",
+            null,
+            new BigDecimal("1000.00"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     // place a market buy order
-    MarketOrder marketOrder = new MarketOrder((OrderType.ASK), new BigDecimal("1"), CurrencyPair.BTC_HKD);
+    MarketOrder marketOrder =
+        new MarketOrder((OrderType.ASK), new BigDecimal("1"), CurrencyPair.BTC_HKD);
     String marketOrderReturnValue = tradeService.placeMarketOrder(marketOrder);
     System.out.println("Market Order return value: " + marketOrderReturnValue);
 
@@ -58,7 +65,9 @@ public class GatecoinOrderDemo {
     // printRawOpenOrders(tradeService);
 
     // place a limit buy order
-    GatecoinPlaceOrderResult order = tradeService.placeGatecoinOrder(new BigDecimal(".001"), new BigDecimal("1000.00"), "BID", "BTCUSD");
+    GatecoinPlaceOrderResult order =
+        tradeService.placeGatecoinOrder(
+            new BigDecimal(".001"), new BigDecimal("1000.00"), "BID", "BTCUSD");
     System.out.println("GatecoinOrder return value: " + order.getResponseStatus().getMessage());
 
     printRawOpenOrders(tradeService);
