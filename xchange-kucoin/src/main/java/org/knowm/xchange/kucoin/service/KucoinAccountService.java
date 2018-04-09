@@ -85,7 +85,10 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
 
     Type type = null;
     if (params instanceof HistoryParamsFundingType) {
-      type = ((HistoryParamsFundingType) params).getType();
+      HistoryParamsFundingType fundingType = (HistoryParamsFundingType) params;
+      if (fundingType.getType() != null) {
+        type = fundingType.getType();
+      }
     }
     // Paging params are 0-based, Kucoin account balances pages are 1-based
     KucoinSimpleResponse<KucoinWalletRecords> response =
@@ -93,7 +96,7 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
             curParams.getCurrency(),
             type,
             pagingParams.getPageLength(),
-            pagingParams.getPageNumber() + 1);
+            pagingParams.getPageNumber() != null ? pagingParams.getPageNumber() + 1 : null);
     return KucoinAdapters.adaptFundingHistory(response.getData().getRecords());
   }
 }
