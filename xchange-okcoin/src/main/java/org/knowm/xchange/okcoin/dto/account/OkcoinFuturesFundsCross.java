@@ -1,8 +1,7 @@
 package org.knowm.xchange.okcoin.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class OkcoinFuturesFundsCross {
 
@@ -12,8 +11,11 @@ public class OkcoinFuturesFundsCross {
   private final BigDecimal profitUnreal;
   private final int riskRate;
 
-  public OkcoinFuturesFundsCross(@JsonProperty("account_rights") BigDecimal accountRights, @JsonProperty("keep_deposit") BigDecimal keepDeposits,
-      @JsonProperty("profit_real") BigDecimal profitReal, @JsonProperty("profit_unreal") BigDecimal profitUnreal,
+  public OkcoinFuturesFundsCross(
+      @JsonProperty("account_rights") BigDecimal accountRights,
+      @JsonProperty("keep_deposit") BigDecimal keepDeposits,
+      @JsonProperty("profit_real") BigDecimal profitReal,
+      @JsonProperty("profit_unreal") BigDecimal profitUnreal,
       @JsonProperty("risk_rate") int riskRate) {
 
     this.accountRights = accountRights;
@@ -21,7 +23,6 @@ public class OkcoinFuturesFundsCross {
     this.profitReal = profitReal;
     this.profitUnreal = profitUnreal;
     this.riskRate = riskRate;
-
   }
 
   public BigDecimal getAccountRights() {

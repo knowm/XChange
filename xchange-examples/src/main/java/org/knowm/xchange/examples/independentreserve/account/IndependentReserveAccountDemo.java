@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.independentreserve.account;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -13,9 +12,7 @@ import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalanc
 import org.knowm.xchange.independentreserve.service.IndependentReserveAccountService;
 import org.knowm.xchange.service.account.AccountService;
 
-/**
- * Author: Kamil Zbikowski Date: 4/10/15
- */
+/** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAccountDemo {
 
   public static void main(String[] args) throws IOException {
@@ -37,11 +34,13 @@ public class IndependentReserveAccountDemo {
     Map<Currency, Balance> balances = wallet.getBalances();
     for (Map.Entry<Currency, Balance> entry : balances.entrySet()) {
       Balance balance = entry.getValue();
-      System.out.format("%s balance: %s / %s / %s\n", entry.getKey().getCurrencyCode(), balance.getAvailable(), balance.getAvailableForWithdrawal(),
+      System.out.format(
+          "%s balance: %s / %s / %s\n",
+          entry.getKey().getCurrencyCode(),
+          balance.getAvailable(),
+          balance.getAvailableForWithdrawal(),
           balance.getTotal());
-
     }
-
   }
 
   private static void raw(IndependentReserveAccountService accountService) throws IOException {

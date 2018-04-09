@@ -2,13 +2,11 @@ package org.xchange.bitz.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
 import org.xchange.bitz.dto.marketdata.result.BitZKlineResult;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitZTickerJSONTest {
 
@@ -16,7 +14,9 @@ public class BitZTickerJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitZTickerJSONTest.class.getResourceAsStream("/marketdata/example-kline-data.json");
+    InputStream is =
+        BitZTickerJSONTest.class.getResourceAsStream(
+            "/org/xchange/bitz/dto/marketdata/example-kline-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();

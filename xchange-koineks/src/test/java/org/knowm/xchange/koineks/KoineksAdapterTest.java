@@ -2,26 +2,24 @@ package org.knowm.xchange.koineks;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.koineks.dto.marketdata.KoineksTicker;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author semihunaldi
- */
+/** @author semihunaldi */
 public class KoineksAdapterTest {
 
   @Test
   public void testTickerAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = KoineksAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        KoineksAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/koineks/dto/marketdata/example-ticker-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KoineksTicker paribuTicker = mapper.readValue(is, KoineksTicker.class);

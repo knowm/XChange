@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.kraken.trade;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
@@ -38,6 +37,5 @@ public class KrakenOpenOrdersDemo {
     // Get the open orders
     Map<String, KrakenOrder> openOrders = tradeService.getKrakenOpenOrders();
     System.out.println(openOrders);
-
   }
 }

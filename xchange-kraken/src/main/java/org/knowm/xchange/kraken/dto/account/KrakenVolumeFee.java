@@ -1,8 +1,7 @@
 package org.knowm.xchange.kraken.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class KrakenVolumeFee {
 
@@ -23,8 +22,12 @@ public class KrakenVolumeFee {
    * @param nextVolume
    * @param tierVolume
    */
-  public KrakenVolumeFee(@JsonProperty("fee") BigDecimal fee, @JsonProperty("minfee") BigDecimal minFee, @JsonProperty("maxfee") BigDecimal maxFee,
-      @JsonProperty("nextfee") BigDecimal nextFee, @JsonProperty("nextvolume") BigDecimal nextVolume,
+  public KrakenVolumeFee(
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("minfee") BigDecimal minFee,
+      @JsonProperty("maxfee") BigDecimal maxFee,
+      @JsonProperty("nextfee") BigDecimal nextFee,
+      @JsonProperty("nextvolume") BigDecimal nextVolume,
       @JsonProperty("tiervolume") BigDecimal tierVolume) {
 
     this.fee = fee;
@@ -68,8 +71,18 @@ public class KrakenVolumeFee {
   @Override
   public String toString() {
 
-    return "KrakenVolumeFee [fee=" + fee + ", minFee=" + minFee + ", maxFee=" + maxFee + ", nextFee=" + nextFee + ", nextVolume=" + nextVolume
-        + ", tierVolume=" + tierVolume + "]";
+    return "KrakenVolumeFee [fee="
+        + fee
+        + ", minFee="
+        + minFee
+        + ", maxFee="
+        + maxFee
+        + ", nextFee="
+        + nextFee
+        + ", nextVolume="
+        + nextVolume
+        + ", tierVolume="
+        + tierVolume
+        + "]";
   }
-
 }

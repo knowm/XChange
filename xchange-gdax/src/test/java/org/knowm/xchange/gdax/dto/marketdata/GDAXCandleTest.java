@@ -2,13 +2,10 @@ package org.knowm.xchange.gdax.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonObjectMapperFactory;
 
@@ -20,7 +17,10 @@ public class GDAXCandleTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/marketdata/example-historical-candles.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/gdax/dto/marketdata/example-historical-candles.json");
     GDAXCandle[] candles = mapper.readValue(is, GDAXCandle[].class);
 
     assertThat(candles).hasSize(10);

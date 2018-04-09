@@ -3,7 +3,6 @@ package org.knowm.xchange.kraken.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -16,9 +15,9 @@ import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.Params;
-import org.knowm.xchange.utils.Assert;
 
-public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implements MarketDataService {
+public class KrakenMarketDataService extends KrakenMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -37,13 +36,14 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   }
 
   @Override
-  public List<Ticker> getTickers(Params params, Object... args) throws IOException {
-    Assert.isTrue(params instanceof CurrencyPairsParam, "You need to provide the currency pairs to get the tickers.");
+  public List<Ticker> getTickers(Params params) throws IOException {
+    if (!(params instanceof CurrencyPairsParam)) {
+      throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
+    }
     Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
-
-    return KrakenAdapters.adaptTickers(getKrakenTickers(pairs));
+    CurrencyPair[] pair = pairs.toArray(new CurrencyPair[pairs.size()]);
+    return KrakenAdapters.adaptTickers(getKrakenTickers(pair));
   }
-
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -81,7 +81,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
     }
 
     KrakenPublicTrades krakenTrades = getKrakenTrades(currencyPair, since);
-    return KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currencyPair, krakenTrades.getLast());
+    return KrakenAdapters.adaptTrades(
+        krakenTrades.getTrades(), currencyPair, krakenTrades.getLast());
   }
-
 }

@@ -1,13 +1,9 @@
 package org.knowm.xchange.cexio.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: veken0m
- */
-
+/** Author: veken0m */
 public class GHashIOWorker {
 
   private final BigDecimal last5m;
@@ -31,9 +27,15 @@ public class GHashIOWorker {
    * @param prev1d
    * @param rejected
    */
-  public GHashIOWorker(@JsonProperty("last5m") BigDecimal last5m, @JsonProperty("last15m") BigDecimal last15m,
-      @JsonProperty("last1h") BigDecimal last1h, @JsonProperty("last1d") BigDecimal last1d, @JsonProperty("prev5m") BigDecimal prev5m,
-      @JsonProperty("prev15m") BigDecimal prev15m, @JsonProperty("prev1h") BigDecimal prev1h, @JsonProperty("prev1d") BigDecimal prev1d,
+  public GHashIOWorker(
+      @JsonProperty("last5m") BigDecimal last5m,
+      @JsonProperty("last15m") BigDecimal last15m,
+      @JsonProperty("last1h") BigDecimal last1h,
+      @JsonProperty("last1d") BigDecimal last1d,
+      @JsonProperty("prev5m") BigDecimal prev5m,
+      @JsonProperty("prev15m") BigDecimal prev15m,
+      @JsonProperty("prev1h") BigDecimal prev1h,
+      @JsonProperty("prev1d") BigDecimal prev1d,
       @JsonProperty("rejected") GHashIORejected rejected) {
 
     this.last5m = last5m;
@@ -91,5 +93,4 @@ public class GHashIOWorker {
 
     return rejected;
   }
-
 }

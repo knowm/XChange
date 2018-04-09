@@ -8,7 +8,9 @@ public class BitZOrders {
   private final BitZPublicOrder[] bids;
   private final long timestamp;
 
-  public BitZOrders(@JsonProperty("asks") BitZPublicOrder[] asks, @JsonProperty("bids") BitZPublicOrder[] bids,
+  public BitZOrders(
+      @JsonProperty("asks") BitZPublicOrder[] asks,
+      @JsonProperty("bids") BitZPublicOrder[] bids,
       @JsonProperty("date") long timestamp) {
 
     this.asks = asks;

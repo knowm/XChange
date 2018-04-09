@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -32,7 +31,8 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
@@ -44,8 +44,11 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
       livecoinWithdrawParams = (LivecoinWithdrawParams) params;
     } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      livecoinWithdrawParams = new CryptoWithdrawParams(defaultWithdrawFundsParams.amount, defaultWithdrawFundsParams.currency,
-          defaultWithdrawFundsParams.address);
+      livecoinWithdrawParams =
+          new CryptoWithdrawParams(
+              defaultWithdrawFundsParams.getAmount(),
+              defaultWithdrawFundsParams.getCurrency(),
+              defaultWithdrawFundsParams.getAddress());
     } else {
       throw new IllegalStateException("Don't understand " + params);
     }
@@ -98,9 +101,10 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
     }
 
     @Override
-    public LivecoinResponse<Map> withdraw(Livecoin service, String apiKey, LivecoinDigest signatureCreator) throws IOException {
-      return service.paymentOutCoin(apiKey, signatureCreator, currency.getCurrencyCode(), amount, wallet);
+    public LivecoinResponse<Map> withdraw(
+        Livecoin service, String apiKey, LivecoinDigest signatureCreator) throws IOException {
+      return service.paymentOutCoin(
+          apiKey, signatureCreator, currency.getCurrencyCode(), amount, wallet);
     }
   }
-
 }

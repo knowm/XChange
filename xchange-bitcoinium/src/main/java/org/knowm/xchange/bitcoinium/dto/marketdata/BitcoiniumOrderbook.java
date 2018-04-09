@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitcoinium.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing Orderbook from Bitcoinium WebService
- */
+/** Data object representing Orderbook from Bitcoinium WebService */
 public final class BitcoiniumOrderbook {
 
   private final BitcoiniumTicker bitcoiniumTicker;
@@ -20,7 +17,9 @@ public final class BitcoiniumOrderbook {
    * @param bids
    * @param asks
    */
-  public BitcoiniumOrderbook(@JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker, @JsonProperty("bids") CondensedOrder[] bids,
+  public BitcoiniumOrderbook(
+      @JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker,
+      @JsonProperty("bids") CondensedOrder[] bids,
       @JsonProperty("asks") CondensedOrder[] asks) {
 
     this.bitcoiniumTicker = bitcoiniumTicker;
@@ -44,7 +43,8 @@ public final class BitcoiniumOrderbook {
   }
 
   /**
-   * This class represents not just a single order in the orderbook, but a bunch of them condensed into one.
+   * This class represents not just a single order in the orderbook, but a bunch of them condensed
+   * into one.
    */
   public static final class CondensedOrder {
 
@@ -57,7 +57,8 @@ public final class BitcoiniumOrderbook {
      * @param price
      * @param volume
      */
-    public CondensedOrder(@JsonProperty("p") BigDecimal price, @JsonProperty("v") BigDecimal volume) {
+    public CondensedOrder(
+        @JsonProperty("p") BigDecimal price, @JsonProperty("v") BigDecimal volume) {
 
       this.price = price;
       this.volume = volume;

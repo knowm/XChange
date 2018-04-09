@@ -7,12 +7,13 @@ public class AbucoinsCryptoDeposit {
 
   String tag;
 
-  /**
-   * Error codes
-   */
+  /** Error codes */
   String message;
 
-  public AbucoinsCryptoDeposit(@JsonProperty("address") String address, @JsonProperty("tag") String tag, @JsonProperty("message") String message) {
+  public AbucoinsCryptoDeposit(
+      @JsonProperty("address") String address,
+      @JsonProperty("tag") String tag,
+      @JsonProperty("message") String message) {
     this.address = address;
     this.tag = tag;
     this.message = message;

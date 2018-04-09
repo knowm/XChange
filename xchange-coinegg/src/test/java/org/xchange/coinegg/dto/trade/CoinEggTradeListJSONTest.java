@@ -2,16 +2,14 @@ package org.xchange.coinegg.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.xchange.coinegg.dto.CoinEggResult;
 import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinEggTradeListJSONTest {
 
@@ -19,12 +17,14 @@ public class CoinEggTradeListJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinEggTradeListJSONTest.class.getResourceAsStream("/trade/example-trade-list-data.json");
+    InputStream is =
+        CoinEggTradeListJSONTest.class.getResourceAsStream(
+            "/org/xchange/coinegg/dto/trade/example-trade-list-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();
-    CoinEggResult<CoinEggTradeList[]> coinEggResult = mapper.readValue(is, new TypeReference<CoinEggResult<CoinEggTradeList[]>>() {
-    });
+    CoinEggResult<CoinEggTradeList[]> coinEggResult =
+        mapper.readValue(is, new TypeReference<CoinEggResult<CoinEggTradeList[]>>() {});
 
     CoinEggTradeList[] coinEggTradeLists = coinEggResult.getData();
     CoinEggTradeList coinEggTradeList = coinEggTradeLists[0];

@@ -1,20 +1,17 @@
 package org.knowm.xchange.campbx.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.knowm.xchange.campbx.dto.CampBXOrder;
 import org.knowm.xchange.campbx.dto.CampBXResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public final class MyOpenOrders extends CampBXResponse {
 
   @JsonProperty("Buy")
   private List<CampBXOrder> buy = new ArrayList<>();
+
   @JsonProperty("Sell")
   private List<CampBXOrder> sell = new ArrayList<>();
 
@@ -41,8 +38,16 @@ public final class MyOpenOrders extends CampBXResponse {
   @Override
   public String toString() {
 
-    return "MyOpenOrders [buy=" + buy + ", sell=" + sell + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()="
-        + getError() + "]";
+    return "MyOpenOrders [buy="
+        + buy
+        + ", sell="
+        + sell
+        + ", getSuccess()="
+        + getSuccess()
+        + ", getInfo()="
+        + getInfo()
+        + ", getError()="
+        + getError()
+        + "]";
   }
-
 }

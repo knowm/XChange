@@ -6,9 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-/**
- * A central place for shared Vaultoro properties
- */
+/** A central place for shared Vaultoro properties */
 public final class VaultoroUtils {
 
   private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -25,5 +23,4 @@ public final class VaultoroUtils {
       return null;
     }
   }
-
 }

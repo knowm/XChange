@@ -1,11 +1,8 @@
 package org.knowm.xchange.poloniex.service;
 
 import java.math.BigInteger;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
 public class PoloniexDigest extends BaseParamsDigest {
@@ -14,7 +11,8 @@ public class PoloniexDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param secretKeyBase64
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded
+   *     key is invalid).
    */
   private PoloniexDigest(String secretKeyBase64) {
 

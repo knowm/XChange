@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
@@ -19,9 +18,7 @@ import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.utils.Assert;
 
-/**
- * Author: brox Since: 2/6/14
- */
+/** Author: brox Since: 2/6/14 */
 public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements MarketDataService {
 
   /**
@@ -35,11 +32,16 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   }
 
   @Override
-  public List<Ticker> getTickers(Params params, Object... args) throws IOException {
-    // TODO replace getAllCexIOTickers() for getCexIOTickers(Set<CurrencyPair>). Cannot do that now since ResCU doesn't support adding an unknown number of path params, see CexIO#getAllTickers javadoc
-    Assert.isTrue(params instanceof CurrencyPairsParam, "You need to provide the currency pairs to get the tickers.");
+  public List<Ticker> getTickers(Params params) throws IOException {
+    // TODO replace getAllCexIOTickers() for getCexIOTickers(Set<CurrencyPair>). Cannot do that now
+    // since ResCU doesn't support adding an unknown number of path params, see CexIO#getAllTickers
+    // javadoc
+    Assert.isTrue(
+        params instanceof CurrencyPairsParam,
+        "You need to provide the currency pairs to get the tickers.");
     Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
-    return getAllCexIOTickers().stream()
+    return getAllCexIOTickers()
+        .stream()
         .map(CexIOAdapters::adaptTicker)
         .filter(ticker -> pairs.contains(ticker.getCurrencyPair()))
         .collect(Collectors.toList());
@@ -57,8 +59,12 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
     CexIODepth cexIODepth = getCexIOOrderBook(currencyPair);
 
     if (cexIODepth.getError() != null) {
-      //eg: 'Rate limit exceeded'
-      throw new ExchangeException("CexIO getOrderBook request for " + currencyPair + " failed with: " + cexIODepth.getError());
+      // eg: 'Rate limit exceeded'
+      throw new ExchangeException(
+          "CexIO getOrderBook request for "
+              + currencyPair
+              + " failed with: "
+              + cexIODepth.getError());
     }
 
     return CexIOAdapters.adaptOrderBook(cexIODepth, currencyPair);
@@ -82,5 +88,4 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
 
     return CexIOAdapters.adaptTrades(trades, currencyPair);
   }
-
 }

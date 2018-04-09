@@ -5,9 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.itbit.v1.ItBitExchange;
 
-/**
- * Created by joseph on 6/15/17.
- */
+/** Created by joseph on 6/15/17. */
 public class ItBitDemoUtils {
   public static Exchange createExchange() {
     ExchangeSpecification exSpec = new ItBitExchange().getDefaultExchangeSpecification();

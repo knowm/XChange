@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.dsx.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,9 +11,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.CertHelper;
 
-/**
- * @author Mikhail Wall
- */
+/** @author Mikhail Wall */
 public class DSXTickerDemo {
 
   public static void main(String[] args) throws Exception {
@@ -42,7 +39,8 @@ public class DSXTickerDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    DSXMarketDataServiceRaw marketDataService = (DSXMarketDataServiceRaw) exchange.getMarketDataService();
+    DSXMarketDataServiceRaw marketDataService =
+        (DSXMarketDataServiceRaw) exchange.getMarketDataService();
 
     DSXTickerWrapper ticker = marketDataService.getDSXTicker("btcusd", "LIVE");
     System.out.println(ticker.toString());

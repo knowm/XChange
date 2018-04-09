@@ -1,9 +1,8 @@
 package org.knowm.xchange.kraken.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenTrade {
 
@@ -52,13 +51,27 @@ public class KrakenTrade {
    * @param netDifference
    * @param tradeIds
    */
-  public KrakenTrade(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") double unixTimestamp,
-      @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
-      @JsonProperty("margin") BigDecimal margin, @JsonProperty("misc") String miscellaneous, @JsonProperty("closing") String closing,
-      @JsonProperty("posstatus") String positionStatus, @JsonProperty("cprice") BigDecimal averageClosePrice,
-      @JsonProperty("ccost") BigDecimal closeCost, @JsonProperty("cfee") BigDecimal closeFee, @JsonProperty("cvol") BigDecimal closeVolume,
-      @JsonProperty("cmargin") BigDecimal closeMargin, @JsonProperty("net") BigDecimal netDifference, @JsonProperty("trades") List<String> tradeIds) {
+  public KrakenTrade(
+      @JsonProperty("ordertxid") String orderTxId,
+      @JsonProperty("pair") String assetPair,
+      @JsonProperty("time") double unixTimestamp,
+      @JsonProperty("type") KrakenType type,
+      @JsonProperty("ordertype") KrakenOrderType orderType,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("cost") BigDecimal cost,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("vol") BigDecimal volume,
+      @JsonProperty("margin") BigDecimal margin,
+      @JsonProperty("misc") String miscellaneous,
+      @JsonProperty("closing") String closing,
+      @JsonProperty("posstatus") String positionStatus,
+      @JsonProperty("cprice") BigDecimal averageClosePrice,
+      @JsonProperty("ccost") BigDecimal closeCost,
+      @JsonProperty("cfee") BigDecimal closeFee,
+      @JsonProperty("cvol") BigDecimal closeVolume,
+      @JsonProperty("cmargin") BigDecimal closeMargin,
+      @JsonProperty("net") BigDecimal netDifference,
+      @JsonProperty("trades") List<String> tradeIds) {
 
     this.orderTxId = orderTxId;
     this.assetPair = assetPair;
@@ -185,11 +198,46 @@ public class KrakenTrade {
   @Override
   public String toString() {
 
-    return "KrakenTrade [orderTxId=" + orderTxId + ", assetPair=" + assetPair + ", unixTimestamp=" + unixTimestamp + ", type=" + type + ", orderType="
-        + orderType + ", price=" + price + ", cost=" + cost + ", fee=" + fee + ", volume=" + volume + ", margin=" + margin + ", miscellaneous="
-        + miscellaneous + ", closing=" + closing + ", positionStatus=" + positionStatus + ", averageClosePrice=" + averageClosePrice + ", closeCost="
-        + closeCost + ", closeFee=" + closeFee + ", closeVolume=" + closeVolume + ", closeMargin=" + closeMargin + ", netDifference=" + netDifference
-        + ", tradeIds=" + tradeIds + "]";
+    return "KrakenTrade [orderTxId="
+        + orderTxId
+        + ", assetPair="
+        + assetPair
+        + ", unixTimestamp="
+        + unixTimestamp
+        + ", type="
+        + type
+        + ", orderType="
+        + orderType
+        + ", price="
+        + price
+        + ", cost="
+        + cost
+        + ", fee="
+        + fee
+        + ", volume="
+        + volume
+        + ", margin="
+        + margin
+        + ", miscellaneous="
+        + miscellaneous
+        + ", closing="
+        + closing
+        + ", positionStatus="
+        + positionStatus
+        + ", averageClosePrice="
+        + averageClosePrice
+        + ", closeCost="
+        + closeCost
+        + ", closeFee="
+        + closeFee
+        + ", closeVolume="
+        + closeVolume
+        + ", closeMargin="
+        + closeMargin
+        + ", netDifference="
+        + netDifference
+        + ", tradeIds="
+        + tradeIds
+        + "]";
   }
-
 }

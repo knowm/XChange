@@ -8,7 +8,9 @@ public class CCEXCancelResponse {
   private String message;
   private String result;
 
-  public CCEXCancelResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+  public CCEXCancelResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("message") String message,
       @JsonProperty("result") String result) {
     super();
     this.success = success;
@@ -42,7 +44,12 @@ public class CCEXCancelResponse {
 
   @Override
   public String toString() {
-    return "CCEXCancelResponse [success=" + success + ", message=" + message + ", result=" + result + "]";
+    return "CCEXCancelResponse [success="
+        + success
+        + ", message="
+        + message
+        + ", result="
+        + result
+        + "]";
   }
-
 }

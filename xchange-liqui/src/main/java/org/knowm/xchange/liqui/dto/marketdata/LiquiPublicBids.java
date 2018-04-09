@@ -1,8 +1,7 @@
 package org.knowm.xchange.liqui.dto.marketdata;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.List;
 
 public class LiquiPublicBids {
 

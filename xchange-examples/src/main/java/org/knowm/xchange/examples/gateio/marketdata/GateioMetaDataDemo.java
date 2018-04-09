@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.gateio.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -18,7 +17,5 @@ public class GateioMetaDataDemo {
     System.out.println(exchange.getExchangeSpecification().isShouldLoadRemoteMetaData());
     System.out.println(exchange.getExchangeMetaData().toString());
     System.out.println(exchange.getExchangeSymbols());
-
   }
-
 }

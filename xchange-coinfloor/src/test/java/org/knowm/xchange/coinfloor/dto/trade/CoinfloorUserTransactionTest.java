@@ -2,22 +2,24 @@ package org.knowm.xchange.coinfloor.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class CoinfloorUserTransactionTest {
   @Test
   public void unmarshalTest() throws IOException {
-    InputStream is = getClass().getResourceAsStream("/trade/example-user-transactions.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/coinfloor/dto/trade/example-user-transactions.json");
     ObjectMapper mapper = new ObjectMapper();
-    CoinfloorUserTransaction[] transactions = mapper.readValue(is, CoinfloorUserTransaction[].class);
+    CoinfloorUserTransaction[] transactions =
+        mapper.readValue(is, CoinfloorUserTransaction[].class);
 
     assertThat(transactions).hasSize(4);
 
@@ -38,7 +40,8 @@ public class CoinfloorUserTransactionTest {
 
     CoinfloorUserTransaction gbpWithdrawal = transactions[1];
     assertThat(gbpWithdrawal.getDateTime()).isEqualTo("2017-04-04 20:21:42");
-    assertThat(gbpWithdrawal.getType()).isEqualTo(CoinfloorUserTransaction.TransactionType.WITHDRAWAL);
+    assertThat(gbpWithdrawal.getType())
+        .isEqualTo(CoinfloorUserTransaction.TransactionType.WITHDRAWAL);
     assertThat(gbpWithdrawal.isDeposit()).isFalse();
     assertThat(gbpWithdrawal.isWithdrawal()).isTrue();
     assertThat(gbpWithdrawal.isTrade()).isFalse();

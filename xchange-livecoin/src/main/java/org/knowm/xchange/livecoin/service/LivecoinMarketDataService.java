@@ -1,7 +1,6 @@
 package org.knowm.xchange.livecoin.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -11,7 +10,8 @@ import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw implements MarketDataService {
+public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw
+    implements MarketDataService {
 
   public LivecoinMarketDataService(Exchange exchange) {
     super(exchange);
@@ -33,12 +33,12 @@ public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw impl
       }
     }
 
-    return LivecoinAdapters.adaptOrderBook(getOrderBookRaw(currencyPair, depth, Boolean.TRUE), currencyPair);
+    return LivecoinAdapters.adaptOrderBook(
+        getOrderBookRaw(currencyPair, depth, Boolean.TRUE), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     return LivecoinAdapters.adaptTrades(getTrades(currencyPair), currencyPair);
   }
-
 }

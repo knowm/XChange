@@ -2,16 +2,12 @@ package org.knowm.xchange.lakebtc.dto.trade;
 
 import org.knowm.xchange.lakebtc.dto.LakeBTCRequest;
 
-/**
- * Created by cristian.lucaci on 12/19/2014.
- */
+/** Created by cristian.lucaci on 12/19/2014. */
 public class LakeBTCSellOrderRequest extends LakeBTCRequest {
 
   private static final String METHOD_NAME = "sellOrder";
 
-  /**
-   * Constructor
-   */
+  /** Constructor */
   public LakeBTCSellOrderRequest() {
 
     method = METHOD_NAME;
@@ -26,6 +22,7 @@ public class LakeBTCSellOrderRequest extends LakeBTCRequest {
 
   @Override
   public String toString() {
-    return String.format("LakeBTCSellOrderRequest{id=%d, method=%s, params=%s}", id, method, params);
+    return String.format(
+        "LakeBTCSellOrderRequest{id=%d, method=%s, params=%s}", id, method, params);
   }
 }

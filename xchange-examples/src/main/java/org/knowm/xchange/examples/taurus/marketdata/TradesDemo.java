@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.taurus.marketdata;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -14,9 +13,7 @@ import org.knowm.xchange.taurus.TaurusExchange;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTransaction;
 import org.knowm.xchange.taurus.service.TaurusMarketDataServiceRaw;
 
-/**
- * Demonstrate requesting Trades at Taurus
- */
+/** Demonstrate requesting Trades at Taurus */
 public class TradesDemo {
 
   public static void main(String[] args) throws IOException {

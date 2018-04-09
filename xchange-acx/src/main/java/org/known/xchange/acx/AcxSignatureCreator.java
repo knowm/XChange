@@ -6,19 +6,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
 public class AcxSignatureCreator extends BaseParamsDigest {
   private static final String PLACEHOLDER = "ACX_PLACEHOLDER";
-  private static final char[] DIGITS = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+  private static final char[] DIGITS =
+      new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
   private final Field invocationUrlField;
 
   public AcxSignatureCreator(String secretKey) {
@@ -46,9 +44,17 @@ public class AcxSignatureCreator extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
     String method = restInvocation.getHttpMethod();
     String path = stripParams(restInvocation.getPath());
-    String query = Stream.of(restInvocation.getParamsMap().get(PathParam.class), restInvocation.getParamsMap().get(FormParam.class))
-                         .map(Params::asHttpHeaders).map(Map::entrySet).flatMap(Collection::stream).filter(e -> !"signature".equals(e.getKey()))
-                         .sorted(Entry.comparingByKey()).map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining("&"));
+    String query =
+        Stream.of(
+                restInvocation.getParamsMap().get(PathParam.class),
+                restInvocation.getParamsMap().get(FormParam.class))
+            .map(Params::asHttpHeaders)
+            .map(Map::entrySet)
+            .flatMap(Collection::stream)
+            .filter(e -> !"signature".equals(e.getKey()))
+            .sorted(Entry.comparingByKey())
+            .map(e -> e.getKey() + "=" + e.getValue())
+            .collect(Collectors.joining("&"));
     String toSign = String.format("%s|/api/v2/%s|%s", method, path, query);
     Mac sha256hmac = getMac();
     byte[] signed = sha256hmac.doFinal(toSign.getBytes());

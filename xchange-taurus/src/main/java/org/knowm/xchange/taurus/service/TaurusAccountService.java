@@ -3,7 +3,6 @@ package org.knowm.xchange.taurus.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -16,9 +15,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.taurus.TaurusAdapters;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class TaurusAccountService extends TaurusAccountServiceRaw implements AccountService {
 
   public TaurusAccountService(Exchange exchange) {
@@ -27,11 +24,13 @@ public class TaurusAccountService extends TaurusAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return TaurusAdapters.adaptAccountInfo(getTaurusBalance(), exchange.getExchangeSpecification().getUserName());
+    return TaurusAdapters.adaptAccountInfo(
+        getTaurusBalance(), exchange.getExchangeSpecification().getUserName());
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdrawTaurusFunds(amount, address);
   }
 
@@ -39,7 +38,8 @@ public class TaurusAccountService extends TaurusAccountServiceRaw implements Acc
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }

@@ -1,11 +1,11 @@
 package org.knowm.xchange.exceptions;
 
 /**
- * <p>
  * Exception to provide the following to API:
- * </p>
+ *
  * <ul>
- * <li>Indication that the exchange supports the requested function or data, but it's not yet been implemented</li>
+ *   <li>Indication that the exchange supports the requested function or data, but it's not yet been
+ *       implemented
  * </ul>
  */
 public class NotYetImplementedForExchangeException extends UnsupportedOperationException {
@@ -20,12 +20,9 @@ public class NotYetImplementedForExchangeException extends UnsupportedOperationE
     super(message);
   }
 
-  /**
-   * Constructor
-   */
+  /** Constructor */
   public NotYetImplementedForExchangeException() {
 
     this("Feature not yet implemented for exchange.");
   }
-
 }

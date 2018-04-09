@@ -1,15 +1,15 @@
 package org.knowm.xchange.itbit.v1.dto.marketdata;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class ItBitTrades {
 
   private final int count;
   private final ItBitTrade[] trades;
 
-  public ItBitTrades(@JsonProperty("count") int count, @JsonProperty("recentTrades") ItBitTrade[] trades) {
+  public ItBitTrades(
+      @JsonProperty("count") int count, @JsonProperty("recentTrades") ItBitTrade[] trades) {
 
     this.count = count;
     this.trades = trades;

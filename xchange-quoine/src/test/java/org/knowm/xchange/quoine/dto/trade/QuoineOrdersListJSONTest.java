@@ -2,24 +2,22 @@ package org.knowm.xchange.quoine.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test QuoineOrderDetailsResponse JSON parsing
- */
+/** Test QuoineOrderDetailsResponse JSON parsing */
 public class QuoineOrdersListJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = QuoineOrdersListJSONTest.class.getResourceAsStream("/trade/example-orders-list.json");
+    InputStream is =
+        QuoineOrdersListJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/trade/example-orders-list.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -30,6 +28,5 @@ public class QuoineOrdersListJSONTest {
     assertThat(quoineOrdersList.getModels()[0].getId()).isEqualTo("52364");
     assertThat(quoineOrdersList.getModels()[0].getPrice()).isEqualTo(new BigDecimal("200.0"));
     assertThat(quoineOrdersList.getModels()[0].getStatus()).isEqualTo("filled");
-
   }
 }

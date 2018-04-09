@@ -2,11 +2,11 @@ package org.knowm.xchange.quoine.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -24,15 +24,15 @@ import org.knowm.xchange.quoine.dto.marketdata.QuoineTickerJSONTest;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersListJSONTest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class QuoineAdaptersTest {
 
   @Test
   public void testAdaptTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = QuoineTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        QuoineTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -51,7 +51,9 @@ public class QuoineAdaptersTest {
   public void testAdaptOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = QuoineOrdersListJSONTest.class.getResourceAsStream("/trade/example-orders-list.json");
+    InputStream is =
+        QuoineOrdersListJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/trade/example-orders-list.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -61,15 +63,19 @@ public class QuoineAdaptersTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(openOrders.getOpenOrders().size()).isEqualTo(6);
     assertThat(openOrders.getOpenOrders().get(0).getId()).isEqualTo("52362");
-    assertThat(openOrders.getOpenOrders().get(0).getLimitPrice()).isEqualTo(new BigDecimal("250.0"));
-    assertThat(openOrders.getOpenOrders().get(0).getTimestamp()).isEqualTo(new Date(1429953404000L));
+    assertThat(openOrders.getOpenOrders().get(0).getLimitPrice())
+        .isEqualTo(new BigDecimal("250.0"));
+    assertThat(openOrders.getOpenOrders().get(0).getTimestamp())
+        .isEqualTo(new Date(1429953404000L));
   }
 
   @Test
   public void testAdaptOrderBook() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = QuoineOrderBookJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is =
+        QuoineOrderBookJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -88,7 +94,9 @@ public class QuoineAdaptersTest {
   public void testAdaptAccountinfo() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = QuoineWalletJSONTest.class.getResourceAsStream("/account/example-account-data.json");
+    InputStream is =
+        QuoineWalletJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/account/example-account-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -102,5 +110,4 @@ public class QuoineAdaptersTest {
     assertThat(wallet.getBalance(Currency.JPY).getCurrency()).isEqualTo(Currency.JPY);
     assertThat(wallet.getBalance(Currency.JPY).getTotal()).isEqualTo(new BigDecimal("12546.36144"));
   }
-
 }

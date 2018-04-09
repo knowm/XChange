@@ -1,15 +1,14 @@
 package org.knowm.xchange.bitcoinde.dto.account;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"data", "errors", "credits"})
@@ -17,18 +16,17 @@ public class BitcoindeAccountWrapper {
 
   @JsonProperty("data")
   private BitcoindeData data;
+
   @JsonProperty("errors")
   private List<Object> errors = null;
+
   @JsonProperty("credits")
   private Integer credits;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public BitcoindeAccountWrapper() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public BitcoindeAccountWrapper() {}
 
   /**
    * @param errors
@@ -81,5 +79,4 @@ public class BitcoindeAccountWrapper {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }

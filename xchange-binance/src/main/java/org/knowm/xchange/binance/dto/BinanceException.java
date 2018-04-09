@@ -12,5 +12,4 @@ public class BinanceException extends RuntimeException {
     this.code = code;
     this.msg = msg;
   }
-
 }

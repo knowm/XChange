@@ -1,8 +1,7 @@
 package org.knowm.xchange.paymium.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public final class PaymiumTicker {
 
@@ -33,10 +32,18 @@ public final class PaymiumTicker {
    * @param variation
    * @param currency
    */
-  public PaymiumTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("midpoint") BigDecimal midpoint,
-      @JsonProperty("at") long at, @JsonProperty("price") BigDecimal price, @JsonProperty("vwap") BigDecimal vwap,
-      @JsonProperty("variation") BigDecimal variation, @JsonProperty("currency") String currency) {
+  public PaymiumTicker(
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("midpoint") BigDecimal midpoint,
+      @JsonProperty("at") long at,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("variation") BigDecimal variation,
+      @JsonProperty("currency") String currency) {
 
     this.high = high;
     this.low = low;
@@ -49,7 +56,6 @@ public final class PaymiumTicker {
     this.vwap = vwap;
     this.variation = variation;
     this.currency = currency;
-
   }
 
   public BigDecimal getHigh() {
@@ -110,7 +116,30 @@ public final class PaymiumTicker {
   @Override
   public String toString() {
 
-    return "PaymiumTicker{" + "high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", midpoint=" + midpoint
-        + ", at=" + at + ", price=" + price + ", vwap=" + vwap + ", variation=" + variation + ", currency='" + currency + '\'' + '}';
+    return "PaymiumTicker{"
+        + "high="
+        + high
+        + ", low="
+        + low
+        + ", volume="
+        + volume
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", midpoint="
+        + midpoint
+        + ", at="
+        + at
+        + ", price="
+        + price
+        + ", vwap="
+        + vwap
+        + ", variation="
+        + variation
+        + ", currency='"
+        + currency
+        + '\''
+        + '}';
   }
 }

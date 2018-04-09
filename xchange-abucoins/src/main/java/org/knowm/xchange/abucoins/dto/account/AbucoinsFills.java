@@ -1,15 +1,11 @@
 package org.knowm.xchange.abucoins.dto.account;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Arrays;
-
 import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /fills</code> endpoint.</p>
- * Example:
+ * POJO representing the output JSON for the Abucoins <code>GET /fills</code> endpoint. Example:
  * <code><pre>
  * [
  *   {
@@ -55,12 +51,13 @@ public class AbucoinsFills {
   }
 
   /**
-   * Deserializer handles the success case (array json) as well as the error case
-   * (json object with <em>message</em> field).
+   * Deserializer handles the success case (array json) as well as the error case (json object with
+   * <em>message</em> field).
    *
    * @author bryant_harris
    */
-  static class AbucoinsFillsDeserializer extends AbucoinsArrayOrMessageDeserializer<AbucoinsFill, AbucoinsFills> {
+  static class AbucoinsFillsDeserializer
+      extends AbucoinsArrayOrMessageDeserializer<AbucoinsFill, AbucoinsFills> {
     public AbucoinsFillsDeserializer() {
       super(AbucoinsFill.class, AbucoinsFills.class);
     }
