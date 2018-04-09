@@ -3,6 +3,7 @@ package org.knowm.xchange.livecoin;
 import static org.knowm.xchange.currency.Currency.getInstance;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -213,16 +214,23 @@ public class LivecoinAdapters {
     Currency ccyA = Currency.getInstance(map.get("fixedCurrency").toString());
     Currency ccyB = Currency.getInstance(map.get("variableCurrency").toString());
 
+    BigDecimal amountA = new BigDecimal(map.get("amount").toString());
+    BigDecimal amountB = new BigDecimal(map.get("variableAmount").toString());
+    int scale = Math.max(amountA.scale(), amountB.scale());
+    BigDecimal price = amountB.divide(amountA, scale, RoundingMode.HALF_UP);
+
+    String id = map.get("id").toString();
+
     return new UserTrade(
-        type,
-        new BigDecimal(map.get("amount").toString()),
-        new CurrencyPair(ccyA, ccyB),
-        new BigDecimal(map.get("variableAmount").toString()),
-        DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
-        map.get("id").toString(),
-        map.get("externalKey").toString(),
-        new BigDecimal(map.get("fee").toString()),
-        getInstance(map.get("taxCurrency").toString()));
+            type,
+            amountA,
+            new CurrencyPair(ccyA, ccyB),
+            price,
+            DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
+            id,
+            map.get("externalKey").toString(),
+            new BigDecimal(map.get("fee").toString()),
+            getInstance(map.get("taxCurrency").toString()));
   }
 
   public static FundingRecord adaptFundingRecord(Map map) {
