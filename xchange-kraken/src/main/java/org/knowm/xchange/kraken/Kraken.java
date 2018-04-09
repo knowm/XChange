@@ -1,6 +1,7 @@
 package org.knowm.xchange.kraken;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -28,6 +29,10 @@ public interface Kraken {
   @GET
   @Path("public/Ticker")
   KrakenTickerResult getTicker(@QueryParam("pair") String currencyPairs);
+
+  @GET
+  @Path("public/Ticker")
+  KrakenTickerResult getTickers(@QueryParam("pair") List<String> currencyPairs);
 
   @GET
   @Path("public/OHLC")
