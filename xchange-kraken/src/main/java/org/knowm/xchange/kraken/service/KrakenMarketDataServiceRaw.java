@@ -1,7 +1,10 @@
 package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -48,6 +51,14 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
     KrakenTickerResult tickerResult = kraken.getTicker(krakenCurrencyPair);
 
     return checkResult(tickerResult).get(krakenCurrencyPair);
+  }
+
+  List<KrakenTicker> getKrakenTickers(Collection<CurrencyPair> currencyPairs) throws IOException {
+
+    List<String> krakenCurrencyPairs = KrakenUtils.createKrakenCurrencyPairs(currencyPairs);
+    KrakenTickerResult tickerResult = kraken.getTickers(krakenCurrencyPairs);
+
+    return null; //checkResult(tickerResult).get(krakenCurrencyPair);
   }
 
   public Map<String, KrakenTicker> getKrakenTicker(CurrencyPair... currencyPairs) throws IOException {

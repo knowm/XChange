@@ -16,6 +16,7 @@ public class CexIOTicker {
   private final BigDecimal bid;
   private final BigDecimal ask;
   private final long timestamp;
+  private final String pair;
 
   /**
    * Constructor
@@ -26,10 +27,11 @@ public class CexIOTicker {
    * @param volume
    * @param bid
    * @param ask
+   * @param pair the currency pair
    */
   public CexIOTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
       @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("timestamp") long timestamp) {
+      @JsonProperty("timestamp") long timestamp, @JsonProperty("pair") String pair) {
 
     this.last = last;
     this.high = high;
@@ -38,6 +40,7 @@ public class CexIOTicker {
     this.bid = bid;
     this.ask = ask;
     this.timestamp = timestamp;
+    this.pair = pair;
   }
 
   public BigDecimal getLast() {
@@ -75,11 +78,16 @@ public class CexIOTicker {
     return timestamp;
   }
 
+  public String getPair() {
+
+    return pair;
+  }
+
   @Override
   public String toString() {
 
     return "CexIOTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp="
-        + timestamp + "]";
+        + timestamp + ", pair=" + pair + "]";
   }
 
 }

@@ -1,6 +1,8 @@
 package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,6 +14,9 @@ import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.Params;
+import org.knowm.xchange.utils.Assert;
 
 public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implements MarketDataService {
 
@@ -30,6 +35,15 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
 
     return KrakenAdapters.adaptTicker(getKrakenTicker(currencyPair), currencyPair);
   }
+
+  @Override
+  public List<Ticker> getTickers(Params params, Object... args) throws IOException {
+    Assert.isTrue(params instanceof CurrencyPairsParam, "You need to provide the currency pairs to get the tickers.");
+    Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
+
+    return KrakenAdapters.adaptTickers(getKrakenTickers(pairs));
+  }
+
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {

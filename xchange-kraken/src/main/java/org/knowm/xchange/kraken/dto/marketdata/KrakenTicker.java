@@ -19,6 +19,7 @@ public class KrakenTicker {
   private final BigDecimal[] low; // low array(<today>, <last 24 hours>),
   private final BigDecimal[] high; // high array(<today>, <last 24 hours>),
   private final BigDecimal open; // today's opening price
+  //private final String pair; // pair name
 
   /**
    * Constructor

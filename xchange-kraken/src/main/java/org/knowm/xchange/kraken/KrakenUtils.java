@@ -1,7 +1,8 @@
 package org.knowm.xchange.kraken;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -51,6 +52,13 @@ public class KrakenUtils {
 
   public static String createKrakenCurrencyPair(CurrencyPair currencyPair) {
     return assetPairMapReverse.get(currencyPair);
+  }
+
+  public static List<String> createKrakenCurrencyPairs(Collection<CurrencyPair> currencyPair) {
+    return assetPairMapReverse.entrySet().stream()
+        .filter(entry -> currencyPair.contains(entry.getKey()))
+        .map(Map.Entry::getValue)
+        .collect(Collectors.toList());
   }
 
   public static CurrencyPair translateKrakenCurrencyPair(String currencyPairIn) {

@@ -1,6 +1,7 @@
 package org.knowm.xchange.cexio.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIO;
@@ -29,6 +30,10 @@ public class CexIOMarketDataServiceRaw extends CexIOBaseService {
     super(exchange);
 
     this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+  }
+
+  List<CexIOTicker> getAllCexIOTickers() throws IOException {
+    return cexio.getAllTickers().getData();
   }
 
   public CexIOTicker getCexIOTicker(CurrencyPair currencyPair) throws IOException {
