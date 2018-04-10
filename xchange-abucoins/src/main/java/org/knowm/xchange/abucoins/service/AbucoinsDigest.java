@@ -1,22 +1,20 @@
 package org.knowm.xchange.abucoins.service;
 
-import java.io.IOException;
-import java.util.Base64;
-import javax.crypto.Mac;
 import org.knowm.xchange.abucoins.Abucoins;
 import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
+import javax.crypto.Mac;
+import java.io.IOException;
+import java.util.Base64;
+
 /** @author bryant_harris */
 public class AbucoinsDigest extends BaseParamsDigest {
-  static AbucoinsDigest instance;
-  long timeDiffFromServer = 0;
+  private final long timeDiffFromServer;
 
-  private AbucoinsDigest(Abucoins abucoins, String secretKeyBase64)
-      throws IllegalArgumentException {
-    super(
-        secretKeyBase64 == null ? null : Base64.getDecoder().decode(secretKeyBase64), HMAC_SHA_256);
+  private AbucoinsDigest(Abucoins abucoins, String secretKeyBase64) throws IllegalArgumentException {
+    super(secretKeyBase64 == null ? null : Base64.getDecoder().decode(secretKeyBase64), HMAC_SHA_256);
 
     try {
       AbucoinsServerTime serverTime = abucoins.getTime();
@@ -29,9 +27,7 @@ public class AbucoinsDigest extends BaseParamsDigest {
   }
 
   public static AbucoinsDigest createInstance(Abucoins abucoins, String secretKeyBase64) {
-    if (instance == null)
-      instance = secretKeyBase64 == null ? null : new AbucoinsDigest(abucoins, secretKeyBase64);
-    return instance;
+    return secretKeyBase64 == null ? null : new AbucoinsDigest(abucoins, secretKeyBase64);
   }
 
   @Override
