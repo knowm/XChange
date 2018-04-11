@@ -20,18 +20,8 @@ public class ZaifMarketDataService extends ZaifMarketDataServiceRaw implements M
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return ZaifAdapters.adaptOrderBook(this.getZaifFullBook(currencyPair), currencyPair);
-  }
-
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public ExchangeMetaData getMetadata() throws IOException {

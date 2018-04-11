@@ -40,11 +40,6 @@ public class OkCoinFuturesAccountService extends OkCoinAccountServiceRaw impleme
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
@@ -55,8 +50,4 @@ public class OkCoinFuturesAccountService extends OkCoinAccountServiceRaw impleme
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

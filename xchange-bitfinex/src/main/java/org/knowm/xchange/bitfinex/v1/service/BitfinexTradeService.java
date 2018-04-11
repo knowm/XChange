@@ -109,11 +109,6 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     return cancelBitfinexOrder(orderId);

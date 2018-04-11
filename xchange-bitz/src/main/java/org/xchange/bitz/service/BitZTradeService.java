@@ -23,41 +23,6 @@ public class BitZTradeService extends BitZTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrders getOpenOrders() throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public boolean cancelOrder(String orderId) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public TradeHistoryParams createTradeHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }

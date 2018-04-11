@@ -33,20 +33,9 @@ public class VircurexAccountService extends VircurexAccountServiceRaw implements
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -55,8 +44,4 @@ public class VircurexAccountService extends VircurexAccountServiceRaw implements
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

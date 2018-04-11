@@ -52,11 +52,6 @@ public class YoBitAccountService extends YoBitAccountServiceRaw {
   }
 
   @Override
-  public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
