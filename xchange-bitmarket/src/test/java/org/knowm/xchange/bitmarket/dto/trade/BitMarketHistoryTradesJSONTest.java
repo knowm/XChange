@@ -4,19 +4,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.bitmarket.dto.BitMarketDtoTestSupport;
 
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class BitMarketHistoryTradesJSONTest extends BitMarketDtoTestSupport {
 
   @Test
   public void testUnmarshal() throws IOException {
     // when
-    BitMarketHistoryTradesResponse response = parse("trade/example-history-trades-data", BitMarketHistoryTradesResponse.class);
+    BitMarketHistoryTradesResponse response =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/trade/example-history-trades-data",
+            BitMarketHistoryTradesResponse.class);
 
     // then
     BitMarketHistoryTrades trades = response.getData();

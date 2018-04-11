@@ -2,7 +2,6 @@ package org.knowm.xchange.btcc.service;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcc.BTCC;
 import org.knowm.xchange.btcc.BTCCAdapters;
@@ -44,5 +43,4 @@ public class BTCCMarketDataService extends BTCCBaseService<BTCC> implements Mark
     Map<String, BTCCTicker> response = btcc.getMarketTicker(symbol);
     return response.get("ticker");
   }
-
 }

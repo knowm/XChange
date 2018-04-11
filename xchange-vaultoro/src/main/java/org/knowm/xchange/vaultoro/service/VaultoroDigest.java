@@ -1,11 +1,8 @@
 package org.knowm.xchange.vaultoro.service;
 
 import java.math.BigInteger;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
 public class VaultoroDigest extends BaseParamsDigest {
@@ -29,5 +26,4 @@ public class VaultoroDigest extends BaseParamsDigest {
 
     return String.format("%040x", new BigInteger(1, mac.doFinal()));
   }
-
 }

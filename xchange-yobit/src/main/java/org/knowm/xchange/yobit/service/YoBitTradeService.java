@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -113,17 +112,18 @@ public class YoBitTradeService extends YoBitTradeServiceRaw {
       TradeHistoryParamsIdSpan tradeHistoryParamsIdSpan = (TradeHistoryParamsIdSpan) params;
 
       String startId = tradeHistoryParamsIdSpan.getStartId();
-      if (startId != null)
-        fromTransactionId = Long.valueOf(startId);
+      if (startId != null) fromTransactionId = Long.valueOf(startId);
 
       String endId = tradeHistoryParamsIdSpan.getEndId();
-      if (endId != null)
-        endTransactionId = Long.valueOf(endId);
+      if (endId != null) endTransactionId = Long.valueOf(endId);
     }
 
     String order = "DESC";
     if (params instanceof TradeHistoryParamsSorted) {
-      order = ((TradeHistoryParamsSorted) params).getOrder().equals(TradeHistoryParamsSorted.Order.desc) ? "DESC" : "ASC";
+      order =
+          ((TradeHistoryParamsSorted) params).getOrder().equals(TradeHistoryParamsSorted.Order.desc)
+              ? "DESC"
+              : "ASC";
     }
 
     Long fromTimestamp = null;
@@ -132,15 +132,22 @@ public class YoBitTradeService extends YoBitTradeServiceRaw {
       TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) params;
 
       Date startTime = tradeHistoryParamsTimeSpan.getStartTime();
-      if (startTime != null)
-        fromTimestamp = DateUtils.toUnixTimeNullSafe(startTime);
+      if (startTime != null) fromTimestamp = DateUtils.toUnixTimeNullSafe(startTime);
 
       Date endTime = tradeHistoryParamsTimeSpan.getEndTime();
-      if (endTime != null)
-        toTimestamp = DateUtils.toUnixTimeNullSafe(endTime);
+      if (endTime != null) toTimestamp = DateUtils.toUnixTimeNullSafe(endTime);
     }
 
-    BaseYoBitResponse response = tradeHistory(count, offset, market, fromTransactionId, endTransactionId, order, fromTimestamp, toTimestamp);
+    BaseYoBitResponse response =
+        tradeHistory(
+            count,
+            offset,
+            market,
+            fromTransactionId,
+            endTransactionId,
+            order,
+            fromTimestamp,
+            toTimestamp);
 
     List<UserTrade> trades = new ArrayList<>();
 
@@ -153,5 +160,4 @@ public class YoBitTradeService extends YoBitTradeServiceRaw {
 
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
-
 }

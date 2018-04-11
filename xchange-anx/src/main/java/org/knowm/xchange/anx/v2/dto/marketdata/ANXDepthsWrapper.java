@@ -1,8 +1,7 @@
 package org.knowm.xchange.anx.v2.dto.marketdata;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 public class ANXDepthsWrapper {
 
@@ -10,7 +9,9 @@ public class ANXDepthsWrapper {
   private final Map<String, ANXDepth> anxDepths;
   private final String error;
 
-  public ANXDepthsWrapper(@JsonProperty("result") String result, @JsonProperty("data") Map<String, ANXDepth> anxDepth,
+  public ANXDepthsWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") Map<String, ANXDepth> anxDepth,
       @JsonProperty("error") String error) {
 
     this.result = result;
@@ -32,5 +33,4 @@ public class ANXDepthsWrapper {
 
     return error;
   }
-
 }

@@ -1,20 +1,16 @@
 package org.knowm.xchange.bitmarket;
 
 import java.io.IOException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 
-/**
- * @author kpysniak
- */
+/** @author kpysniak */
 @Path("json")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BitMarket {

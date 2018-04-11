@@ -7,7 +7,8 @@ import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 
-public class KucoinFundingHistoryParams implements TradeHistoryParamPaging, TradeHistoryParamCurrency, HistoryParamsFundingType {
+public class KucoinFundingHistoryParams
+    implements TradeHistoryParamPaging, TradeHistoryParamCurrency, HistoryParamsFundingType {
 
   private Integer pageLength;
   private Integer pageNumber;
@@ -60,5 +61,4 @@ public class KucoinFundingHistoryParams implements TradeHistoryParamPaging, Trad
 
     this.currency = currency;
   }
-
 }

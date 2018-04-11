@@ -2,9 +2,7 @@ package org.knowm.xchange.kucoin.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Jan Akerman
- */
+/** @author Jan Akerman */
 public class KucoinResponse<T> {
 
   private boolean success;
@@ -13,8 +11,12 @@ public class KucoinResponse<T> {
   private Long timestamp;
   private T data;
 
-  public KucoinResponse(@JsonProperty("success") boolean success, @JsonProperty("code") String code, @JsonProperty("msg") String message,
-      @JsonProperty("timestamp") Long timestamp, @JsonProperty("data") T data) {
+  public KucoinResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("code") String code,
+      @JsonProperty("msg") String message,
+      @JsonProperty("timestamp") Long timestamp,
+      @JsonProperty("data") T data) {
     this.success = success;
     this.code = code;
     this.message = message;
@@ -44,19 +46,14 @@ public class KucoinResponse<T> {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
     KucoinResponse<?> that = (KucoinResponse<?>) o;
 
-    if (success != that.success)
-      return false;
-    if (code != null ? !code.equals(that.code) : that.code != null)
-      return false;
-    if (message != null ? !message.equals(that.message) : that.message != null)
-      return false;
+    if (success != that.success) return false;
+    if (code != null ? !code.equals(that.code) : that.code != null) return false;
+    if (message != null ? !message.equals(that.message) : that.message != null) return false;
     if (timestamp != null ? !timestamp.equals(that.timestamp) : that.timestamp != null)
       return false;
     return data != null ? data.equals(that.data) : that.data == null;
@@ -74,7 +71,19 @@ public class KucoinResponse<T> {
 
   @Override
   public String toString() {
-    return "KucoinResponse{" + "success=" + success + ", code='" + code + '\'' + ", message='" + message + '\'' + ", timestamp=" + timestamp
-        + ", data=" + data + '}';
+    return "KucoinResponse{"
+        + "success="
+        + success
+        + ", code='"
+        + code
+        + '\''
+        + ", message='"
+        + message
+        + '\''
+        + ", timestamp="
+        + timestamp
+        + ", data="
+        + data
+        + '}';
   }
 }

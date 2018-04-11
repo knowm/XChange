@@ -14,7 +14,8 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class MarketDataServiceIntegration {
 
-  private static final Exchange KUCOIN = ExchangeFactory.INSTANCE.createExchange(KucoinExchange.class.getName());
+  private static final Exchange KUCOIN =
+      ExchangeFactory.INSTANCE.createExchange(KucoinExchange.class.getName());
   private static final CurrencyPair XRB_BTC = new CurrencyPair("XRB", "BTC");
 
   @Test

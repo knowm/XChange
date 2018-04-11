@@ -31,5 +31,4 @@ public class BitzTickerFetchIntegration {
 
     // TODO: Logical Verification Of Values
   }
-
 }

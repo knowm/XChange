@@ -1,23 +1,25 @@
 package org.knowm.xchange.abucoins.service;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 
 /**
- * <p>For several of the Abucoins APIs a JSON array is returned.  If there is an error however, the json is
- * a json object not an array.  To handle this case we have this generic JsonDeserializer that can handle an array or
- * a json object being returned.</p>
+ * For several of the Abucoins APIs a JSON array is returned. If there is an error however, the json
+ * is a json object not an array. To handle this case we have this generic JsonDeserializer that can
+ * handle an array or a json object being returned.
+ *
  * <h2>Assumptions</h2>
+ *
  * <ul>
- * <li>The type <em>T</em> represents a POJO that includes a <em>message</em> field to handle the error case.</li>
- * <li>The type <em>C</em> supplies a constructor that accepts and array of type T.
+ *   <li>The type <em>T</em> represents a POJO that includes a <em>message</em> field to handle the
+ *       error case.
+ *   <li>The type <em>C</em> supplies a constructor that accepts and array of type T.
  * </ul>
  *
  * @param <T> The individual array element type.
@@ -30,7 +32,8 @@ public abstract class AbucoinsArrayOrMessageDeserializer<T, C> extends JsonDeser
   Class<C> classC;
   boolean useCollectionClassForMessage = false;
 
-  public AbucoinsArrayOrMessageDeserializer(Class<T> classT, Class<C> classC, boolean collectionHasMessageFlag) {
+  public AbucoinsArrayOrMessageDeserializer(
+      Class<T> classT, Class<C> classC, boolean collectionHasMessageFlag) {
     this.classT = classT;
     this.classC = classC;
     useCollectionClassForMessage = collectionHasMessageFlag;
@@ -45,11 +48,14 @@ public abstract class AbucoinsArrayOrMessageDeserializer<T, C> extends JsonDeser
 
   @Override
   @SuppressWarnings("unchecked")
-  public C deserialize(JsonParser jsonParser, DeserializationContext ctx) throws IOException, JsonProcessingException {
+  public C deserialize(JsonParser jsonParser, DeserializationContext ctx)
+      throws IOException, JsonProcessingException {
     try {
       if (jsonParser.isExpectedStartArrayToken()) {
         T[] array = (T[]) jsonParser.readValueAs(TarrayClass);
-        return classC.getConstructor(new Class<?>[]{TarrayClass}).newInstance(new Object[]{array});
+        return classC
+            .getConstructor(new Class<?>[] {TarrayClass})
+            .newInstance(new Object[] {array});
       }
 
       if (useCollectionClassForMessage) {
@@ -75,7 +81,9 @@ public abstract class AbucoinsArrayOrMessageDeserializer<T, C> extends JsonDeser
 
         T[] array = (T[]) Array.newInstance(classT, 1);
         array[0] = singleInstance;
-        return classC.getConstructor(new Class<?>[]{TarrayClass}).newInstance(new Object[]{array});
+        return classC
+            .getConstructor(new Class<?>[] {TarrayClass})
+            .newInstance(new Object[] {array});
       }
     } catch (IOException e) {
       throw e;

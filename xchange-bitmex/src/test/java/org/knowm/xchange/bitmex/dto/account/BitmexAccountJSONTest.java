@@ -2,23 +2,21 @@ package org.knowm.xchange.bitmex.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test BitstampTicker JSON parsing
- */
+/** Test BitstampTicker JSON parsing */
 public class BitmexAccountJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexAccountJSONTest.class.getResourceAsStream("/account/example-account.json");
+    InputStream is =
+        BitmexAccountJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitmex/dto/account/example-account.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexAccount bitmexAccount = mapper.readValue(is, BitmexAccount.class);
@@ -32,5 +30,4 @@ public class BitmexAccountJSONTest {
     assertThat(bitmexAccount.getUsername()).isEqualTo("string");
     assertThat(bitmexAccount.getPhone()).isEqualTo("string");
   }
-
 }

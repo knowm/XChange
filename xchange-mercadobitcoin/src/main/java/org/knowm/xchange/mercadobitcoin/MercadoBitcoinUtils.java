@@ -5,18 +5,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 
-/**
- * @author Felipe Micaroni Lalli
- */
+/** @author Felipe Micaroni Lalli */
 public final class MercadoBitcoinUtils {
 
-  private MercadoBitcoinUtils() {
+  private MercadoBitcoinUtils() {}
 
-  }
-
-  /**
-   * Return something like <code>btc_brl:83948239</code>
-   */
+  /** Return something like <code>btc_brl:83948239</code> */
   public static String makeMercadoBitcoinOrderId(CurrencyPair currencyPair, String orderId) {
 
     String pair;
@@ -32,9 +26,7 @@ public final class MercadoBitcoinUtils {
     return pair + ":" + orderId;
   }
 
-  /**
-   * @see #makeMercadoBitcoinOrderId(org.knowm.xchange.currency.CurrencyPair, String)
-   */
+  /** @see #makeMercadoBitcoinOrderId(org.knowm.xchange.currency.CurrencyPair, String) */
   public static String makeMercadoBitcoinOrderId(LimitOrder limitOrder) {
 
     return makeMercadoBitcoinOrderId(limitOrder.getCurrencyPair(), limitOrder.getId());

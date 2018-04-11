@@ -19,7 +19,7 @@ import si.mazi.rescu.RestProxyFactory;
 public class BinanceBaseService extends BaseExchangeService implements BaseService {
 
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
-  
+
   protected final String apiKey;
   protected final BinanceAuthenticated binance;
   protected final ParamsDigest signatureCreator;
@@ -33,7 +33,7 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
   }
 
   public long getTimestamp() throws IOException {
-    
+
     long deltaServerTime = ((BinanceExchange) exchange).deltaServerTime();
     Date systemTime = new Date(System.currentTimeMillis());
     Date serverTime = new Date(systemTime.getTime() + deltaServerTime);
@@ -42,9 +42,16 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
     return serverTime.getTime();
   }
 
+  /**
+   * After period of time, the deltaServerTime may not accurate again. Need to catch the "Timestamp for this request was 1000ms ahead" exception and
+   * refresh the deltaServerTime.
+   */
+  public void refreshTimestamp() {
+    ((BinanceExchange) exchange).clearDeltaServerTime();
+  }
+
   public BinanceExchangeInfo getExchangeInfo() throws IOException {
 
     return binance.exchangeInfo();
   }
-
 }

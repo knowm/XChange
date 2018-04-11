@@ -19,5 +19,4 @@ public abstract class AbstractTheRockTradeServiceIntegration {
     exchange.applySpecification(exchange.getExchangeSpecification());
     return exchange;
   }
-
 }

@@ -1,12 +1,9 @@
 package org.knowm.xchange.anx.v2.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXTradesWrapper {
 
   private final String result;
@@ -20,7 +17,9 @@ public class ANXTradesWrapper {
    * @param anxTrades
    * @param error
    */
-  public ANXTradesWrapper(@JsonProperty("result") String result, @JsonProperty("data") List<ANXTrade> anxTrades,
+  public ANXTradesWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") List<ANXTrade> anxTrades,
       @JsonProperty("error") String error) {
 
     this.result = result;
@@ -42,5 +41,4 @@ public class ANXTradesWrapper {
 
     return error;
   }
-
 }

@@ -2,7 +2,6 @@ package org.knowm.xchange.liqui;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -13,7 +12,6 @@ import org.knowm.xchange.liqui.service.LiquiMarketDataService;
 import org.knowm.xchange.liqui.service.LiquiMarketDataServiceRaw;
 import org.knowm.xchange.liqui.service.LiquiTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class LiquiExchange extends BaseExchange implements Exchange {
@@ -21,8 +19,7 @@ public class LiquiExchange extends BaseExchange implements Exchange {
   // TODO do we need this?
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
 
-  public LiquiExchange() {
-  }
+  public LiquiExchange() {}
 
   @Override
   protected void initServices() {
@@ -49,8 +46,8 @@ public class LiquiExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-    final Map<String, LiquiPairInfo> infos = ((LiquiMarketDataServiceRaw) marketDataService).getInfo();
+    final Map<String, LiquiPairInfo> infos =
+        ((LiquiMarketDataServiceRaw) marketDataService).getInfo();
     exchangeMetaData = LiquiAdapters.adaptToExchangeMetaData(infos);
-
   }
 }

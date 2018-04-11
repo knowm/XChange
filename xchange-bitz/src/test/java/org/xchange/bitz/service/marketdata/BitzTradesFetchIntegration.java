@@ -18,9 +18,8 @@ public class BitzTradesFetchIntegration {
     Trades trades = marketDataService.getTrades(new CurrencyPair("LTC", "BTC"));
 
     // Verify Not Null Values
-    //assertThat(trades).isNotNull();
+    // assertThat(trades).isNotNull();
 
     // TODO: Logical Verification Of Values
   }
-
 }

@@ -1,20 +1,20 @@
 package org.knowm.xchange.gdax.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Created by Yingzhe on 4/6/2015.
- */
+/** Created by Yingzhe on 4/6/2015. */
 public class GDAXProductBook {
 
   private final Long sequence;
   private final GDAXProductBookEntry[] bids;
   private final GDAXProductBookEntry[] asks;
 
-  public GDAXProductBook(@JsonProperty("sequence") Long sequence, @JsonProperty("bids") Object[][] bids, @JsonProperty("asks") Object[][] asks) {
+  public GDAXProductBook(
+      @JsonProperty("sequence") Long sequence,
+      @JsonProperty("bids") Object[][] bids,
+      @JsonProperty("asks") Object[][] asks) {
 
     this.sequence = sequence;
 
@@ -50,7 +50,6 @@ public class GDAXProductBook {
         int numberOfOrders = (Integer) dataObject[2];
         return new GDAXProductBookEntryLevel1or2(price, volume, numberOfOrders);
       }
-
     }
     return null;
   }
@@ -76,7 +75,6 @@ public class GDAXProductBook {
       return this.getBids()[0];
     }
     return null;
-
   }
 
   public GDAXProductBookEntry getBestAsk() {
@@ -89,7 +87,12 @@ public class GDAXProductBook {
 
   @Override
   public String toString() {
-    return "GDAXProductBook [sequence=" + sequence + ", bids=" + Arrays.toString(bids) + ", asks=" + Arrays.toString(asks) + "]";
+    return "GDAXProductBook [sequence="
+        + sequence
+        + ", bids="
+        + Arrays.toString(bids)
+        + ", asks="
+        + Arrays.toString(asks)
+        + "]";
   }
-
 }

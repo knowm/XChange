@@ -1,41 +1,32 @@
 package org.knowm.xchange.abucoins.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.Side;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.TimeInForce;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class AbucoinsCreateLimitOrderRequest extends AbucoinsBaseCreateOrderRequest {
-  /**
-   * price per one asset
-   */
+  /** price per one asset */
   BigDecimal price;
 
-  /**
-   * amount of assets to buy or sell
-   */
+  /** amount of assets to buy or sell */
   BigDecimal size;
 
-  /**
-   * GTC       [optional] GTC, GTT, IOC or FOK
-   */
+  /** GTC [optional] GTC, GTT, IOC or FOK */
   @JsonInclude(JsonInclude.Include.NON_NULL)
   @JsonProperty("time_in_force")
   AbucoinsOrder.TimeInForce timeInForce;
 
-  /**
-   * [optional]* min, hour, day.  * Requires only with GTT
-   */
+  /** [optional]* min, hour, day. * Requires only with GTT */
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("cancel_after")
   String cancelAfter;
 
   /**
-   * [optional]** create order only if maker - true, false.  ** Invalid when time_in_force is IOC or FOK
+   * [optional]** create order only if maker - true, false. ** Invalid when time_in_force is IOC or
+   * FOK
    */
   @JsonInclude(JsonInclude.Include.NON_NULL)
   @JsonProperty("post_only")
@@ -49,7 +40,8 @@ public class AbucoinsCreateLimitOrderRequest extends AbucoinsBaseCreateOrderRequ
    * @param price
    * @param size
    */
-  public AbucoinsCreateLimitOrderRequest(Side side, String product_id, BigDecimal price, BigDecimal size) {
+  public AbucoinsCreateLimitOrderRequest(
+      Side side, String product_id, BigDecimal price, BigDecimal size) {
     super(side, product_id);
     this.type = AbucoinsOrder.Type.limit; // optional but being explicit.
     this.price = price;
@@ -70,8 +62,16 @@ public class AbucoinsCreateLimitOrderRequest extends AbucoinsBaseCreateOrderRequ
    * @param cancel_after
    * @param postOnly
    */
-  public AbucoinsCreateLimitOrderRequest(Side side, String product_id, String stp, Boolean hidden, BigDecimal price, BigDecimal size,
-      TimeInForce timeInForce, String cancel_after, Boolean postOnly) {
+  public AbucoinsCreateLimitOrderRequest(
+      Side side,
+      String product_id,
+      String stp,
+      Boolean hidden,
+      BigDecimal price,
+      BigDecimal size,
+      TimeInForce timeInForce,
+      String cancel_after,
+      Boolean postOnly) {
     super(AbucoinsOrder.Type.limit, side, product_id, stp, hidden);
     this.price = price;
     this.size = size;
@@ -88,7 +88,8 @@ public class AbucoinsCreateLimitOrderRequest extends AbucoinsBaseCreateOrderRequ
       case IOC:
       case FOK:
         if (postOnly != null)
-          throw new IllegalArgumentException("post_only invalid if time_in_force is IOK OR FOK, use null.");
+          throw new IllegalArgumentException(
+              "post_only invalid if time_in_force is IOK OR FOK, use null.");
         // falls through to default checks intentionally
 
       default:
@@ -119,7 +120,26 @@ public class AbucoinsCreateLimitOrderRequest extends AbucoinsBaseCreateOrderRequ
 
   @Override
   public String toString() {
-    return "AbucoinsCreateLimitOrderRequest [price=" + price + ", size=" + size + ", timeInForce=" + timeInForce + ", cancelAfter=" + cancelAfter
-        + ", postOnly=" + postOnly + ", type=" + type + ", side=" + side + ", productID=" + productID + ", stp=" + stp + ", hidden=" + hidden + "]";
+    return "AbucoinsCreateLimitOrderRequest [price="
+        + price
+        + ", size="
+        + size
+        + ", timeInForce="
+        + timeInForce
+        + ", cancelAfter="
+        + cancelAfter
+        + ", postOnly="
+        + postOnly
+        + ", type="
+        + type
+        + ", side="
+        + side
+        + ", productID="
+        + productID
+        + ", stp="
+        + stp
+        + ", hidden="
+        + hidden
+        + "]";
   }
 }

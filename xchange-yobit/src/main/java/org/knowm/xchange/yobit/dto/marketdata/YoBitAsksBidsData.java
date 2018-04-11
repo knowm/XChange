@@ -15,16 +15,12 @@ public class YoBitAsksBidsData {
     this.rate = rate;
   }
 
-  /**
-   * @return The quantity
-   */
+  /** @return The quantity */
   public BigDecimal getQuantity() {
     return quantity;
   }
 
-  /**
-   * @return The rate
-   */
+  /** @return The rate */
   public BigDecimal getRate() {
     return rate;
   }

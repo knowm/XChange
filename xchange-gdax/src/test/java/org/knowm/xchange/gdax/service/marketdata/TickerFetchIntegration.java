@@ -10,9 +10,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.gdax.GDAXExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Created by Yingzhe on 4/12/2015.
- */
+/** Created by Yingzhe on 4/12/2015. */
 public class TickerFetchIntegration {
 
   @Test

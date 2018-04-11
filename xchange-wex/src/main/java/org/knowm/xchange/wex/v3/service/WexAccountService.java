@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -19,9 +18,7 @@ import org.knowm.xchange.wex.v3.WexAdapters;
 import org.knowm.xchange.wex.v3.dto.account.WexAccountInfo;
 import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryResult;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class WexAccountService extends WexAccountServiceRaw implements AccountService {
 
   /**
@@ -42,7 +39,8 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdraw(currency.toString(), amount, address);
   }
 
@@ -50,7 +48,8 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
@@ -77,5 +76,4 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
 
     return WexAdapters.adaptFundingRecords(map);
   }
-
 }

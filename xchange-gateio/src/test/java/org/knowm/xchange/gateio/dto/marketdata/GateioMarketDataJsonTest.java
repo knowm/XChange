@@ -2,20 +2,18 @@ package org.knowm.xchange.gateio.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GateioMarketDataJsonTest {
 
@@ -23,7 +21,9 @@ public class GateioMarketDataJsonTest {
   public void testDeserializeMarketInfo() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GateioMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-market-info-data.json");
+    InputStream is =
+        GateioMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gateio/dto/marketdata/example-market-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -44,7 +44,9 @@ public class GateioMarketDataJsonTest {
   public void testDeserializeCurrencyPairs() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GateioMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-pairs-data.json");
+    InputStream is =
+        GateioMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gateio/dto/marketdata/example-pairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -60,7 +62,9 @@ public class GateioMarketDataJsonTest {
   public void testDeserializeDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GateioMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is =
+        GateioMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gateio/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -80,7 +84,9 @@ public class GateioMarketDataJsonTest {
   public void testDeserializeTrades() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = GateioMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is =
+        GateioMarketDataJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gateio/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

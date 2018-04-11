@@ -1,14 +1,5 @@
 package org.knowm.xchange.kraken.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.knowm.xchange.kraken.dto.marketdata.KrakenSpreads.KrakenSpreadsDeserializer;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -16,6 +7,13 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenSpreads.KrakenSpreadsDeserializer;
 
 @JsonDeserialize(using = KrakenSpreadsDeserializer.class)
 public class KrakenSpreads {
@@ -48,7 +46,8 @@ public class KrakenSpreads {
   static class KrakenSpreadsDeserializer extends JsonDeserializer<KrakenSpreads> {
 
     @Override
-    public KrakenSpreads deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public KrakenSpreads deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
 
       List<KrakenSpread> krakenTrades = new ArrayList<>();
       long last = 0;
@@ -73,6 +72,5 @@ public class KrakenSpreads {
       }
       return new KrakenSpreads(krakenTrades, last);
     }
-
   }
 }

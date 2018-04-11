@@ -20,5 +20,4 @@ public class VircurexPlaceOrderReturn {
 
     return orderId;
   }
-
 }

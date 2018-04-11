@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -87,8 +86,10 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
       response = sell(limitOrder);
     }
 
-    // The return value contains details of any trades that have been immediately executed as a result  
-    // of this order. Make these available to the application if it has provided a PoloniexLimitOrder. 
+    // The return value contains details of any trades that have been immediately executed as a
+    // result
+    // of this order. Make these available to the application if it has provided a
+    // PoloniexLimitOrder.
     if (limitOrder instanceof PoloniexLimitOrder) {
       PoloniexLimitOrder raw = (PoloniexLimitOrder) limitOrder;
       raw.setResponse(response);
@@ -118,8 +119,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   /**
-   * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
-   *               types will be ignored.
+   * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link
+   *     TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -135,7 +136,10 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
       startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
     }
-    return getTradeHistory(currencyPair, DateUtils.toUnixTimeNullSafe(startTime), DateUtils.toUnixTimeNullSafe(endTime));
+    return getTradeHistory(
+        currencyPair,
+        DateUtils.toUnixTimeNullSafe(startTime),
+        DateUtils.toUnixTimeNullSafe(endTime));
   }
 
   public BigDecimal getMakerFee() throws IOException {
@@ -148,11 +152,13 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     return new BigDecimal(value);
   }
 
-  private UserTrades getTradeHistory(CurrencyPair currencyPair, final Long startTime, final Long endTime) throws IOException {
+  private UserTrades getTradeHistory(
+      CurrencyPair currencyPair, final Long startTime, final Long endTime) throws IOException {
 
     List<UserTrade> trades = new ArrayList<>();
     if (currencyPair == null) {
-      HashMap<String, PoloniexUserTrade[]> poloniexUserTrades = returnTradeHistory(startTime, endTime);
+      HashMap<String, PoloniexUserTrade[]> poloniexUserTrades =
+          returnTradeHistory(startTime, endTime);
       if (poloniexUserTrades != null) {
         for (Map.Entry<String, PoloniexUserTrade[]> mapEntry : poloniexUserTrades.entrySet()) {
           currencyPair = PoloniexUtils.toCurrencyPair(mapEntry.getKey());
@@ -174,9 +180,9 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   /**
-   * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link TradeHistoryParamCurrencyPair}.
+   * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link
+   * TradeHistoryParamCurrencyPair}.
    */
-
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
@@ -190,9 +196,10 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    //we need to get the open orders
+    // we need to get the open orders
     // for what is not an open order, we need to query one by one.
-    // but this returns fills by order, that we need need to calculate the remaining quantity, average fill price, and order type (in adapter).
+    // but this returns fills by order, that we need need to calculate the remaining quantity,
+    // average fill price, and order type (in adapter).
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -215,7 +222,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static class PoloniexTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan {
+  public static class PoloniexTradeHistoryParams
+      implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan {
 
     private final TradeHistoryParamsAll all = new TradeHistoryParamsAll();
 
@@ -255,5 +263,4 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
       all.setEndTime(value);
     }
   }
-
 }

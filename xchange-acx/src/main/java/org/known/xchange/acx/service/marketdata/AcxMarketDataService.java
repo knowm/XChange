@@ -4,7 +4,6 @@ import static org.known.xchange.acx.utils.AcxUtils.getAcxMarket;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -47,5 +46,4 @@ public class AcxMarketDataService implements MarketDataService {
     List<AcxTrade> trades = api.getTrades(getAcxMarket(currencyPair));
     return mapper.mapTrades(currencyPair, trades);
   }
-
 }

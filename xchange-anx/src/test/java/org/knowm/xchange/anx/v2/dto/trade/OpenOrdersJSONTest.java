@@ -1,25 +1,22 @@
 package org.knowm.xchange.anx.v2.dto.trade;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test ANXOpenOrders JSON parsing
- */
+/** Test ANXOpenOrders JSON parsing */
 public class OpenOrdersJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = OpenOrdersJSONTest.class.getResourceAsStream("/v2/trade/example-openorders-data.json");
+    InputStream is =
+        OpenOrdersJSONTest.class.getResourceAsStream("/v2/trade/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

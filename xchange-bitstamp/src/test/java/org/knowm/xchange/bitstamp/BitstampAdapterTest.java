@@ -2,12 +2,12 @@ package org.knowm.xchange.bitstamp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-
 import org.junit.Test;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
@@ -24,18 +24,16 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.UserTrades;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Tests the BitstampAdapter class
- */
+/** Tests the BitstampAdapter class */
 public class BitstampAdapterTest {
 
   @Test
   public void testAccountInfoAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+    InputStream is =
+        BitstampAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -44,15 +42,19 @@ public class BitstampAdapterTest {
     AccountInfo accountInfo = BitstampAdapters.adaptAccountInfo(bitstampBalance, "Joe Mama");
     assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
     assertThat(accountInfo.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
-    assertThat(accountInfo.getWallet().getBalance(Currency.USD).getCurrency()).isEqualTo(Currency.USD);
+    assertThat(accountInfo.getWallet().getBalance(Currency.USD).getCurrency())
+        .isEqualTo(Currency.USD);
     assertThat(accountInfo.getWallet().getBalance(Currency.USD).getTotal()).isEqualTo("172.87");
     assertThat(accountInfo.getWallet().getBalance(Currency.USD).getAvailable()).isEqualTo("0.00");
     assertThat(accountInfo.getWallet().getBalance(Currency.USD).getFrozen()).isEqualTo("172.87");
-    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getCurrency()).isEqualTo(Currency.BTC);
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getCurrency())
+        .isEqualTo(Currency.BTC);
     assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getTotal()).isEqualTo("6.99990000");
-    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getAvailable()).isEqualTo("6.99990000");
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getAvailable())
+        .isEqualTo("6.99990000");
     assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getFrozen()).isEqualTo("0");
-    assertThat(accountInfo.getWallet().getBalance(Currency.XRP).getCurrency()).isEqualTo(Currency.XRP);
+    assertThat(accountInfo.getWallet().getBalance(Currency.XRP).getCurrency())
+        .isEqualTo(Currency.XRP);
     assertThat(accountInfo.getWallet().getBalance(Currency.XRP).getTotal()).isEqualTo("7771.05654");
   }
 
@@ -60,7 +62,9 @@ public class BitstampAdapterTest {
   public void testOrderBookAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-full-depth-data.json");
+    InputStream is =
+        BitstampAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/marketdata/example-full-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -72,7 +76,8 @@ public class BitstampAdapterTest {
     // verify all fields filled
     assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("123.09");
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
-    assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("0.16248274"));
+    assertThat(orderBook.getBids().get(0).getOriginalAmount())
+        .isEqualTo(new BigDecimal("0.16248274"));
     assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -84,7 +89,9 @@ public class BitstampAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is =
+        BitstampAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -103,7 +110,9 @@ public class BitstampAdapterTest {
   public void testTradesAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is =
+        BitstampAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -116,7 +125,8 @@ public class BitstampAdapterTest {
     assertThat(trades.getTrades().get(0).getId()).isEqualTo("121984");
     assertThat(trades.getTrades().get(0).getPrice().toString()).isEqualTo("13.14");
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
-    assertThat(trades.getTrades().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("10.11643836"));
+    assertThat(trades.getTrades().get(0).getOriginalAmount())
+        .isEqualTo(new BigDecimal("10.11643836"));
     assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
@@ -124,7 +134,9 @@ public class BitstampAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        BitstampAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -146,11 +158,14 @@ public class BitstampAdapterTest {
   public void testUserTradeHistoryAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/trade/example-user-transactions.json");
+    InputStream is =
+        BitstampAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/trade/example-user-transactions.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitstampUserTransaction[] bitstampUserTransactions = mapper.readValue(is, BitstampUserTransaction[].class);
+    BitstampUserTransaction[] bitstampUserTransactions =
+        mapper.readValue(is, BitstampUserTransaction[].class);
 
     UserTrades userTradeHistory = BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
 

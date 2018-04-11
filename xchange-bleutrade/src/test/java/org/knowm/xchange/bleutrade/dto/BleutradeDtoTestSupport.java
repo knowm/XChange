@@ -2,12 +2,10 @@ package org.knowm.xchange.bleutrade.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.knowm.xchange.bleutrade.BleutradeTestData;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BleutradeDtoTestSupport extends BleutradeTestData {
 
@@ -15,7 +13,7 @@ public class BleutradeDtoTestSupport extends BleutradeTestData {
 
   protected static <E> E parse(Class<E> type) throws IOException {
     String coreName = getBaseFileName(type);
-    return parse(coreName, type);
+    return parse("org/knowm/xchange/bleutrade/dto/" + coreName, type);
   }
 
   protected static <E> String getBaseFileName(Class<E> type) {
@@ -36,5 +34,4 @@ public class BleutradeDtoTestSupport extends BleutradeTestData {
   protected static InputStream getStream(String baseName) {
     return BleutradeDtoTest.class.getResourceAsStream(String.format("/%s.json", baseName));
   }
-
 }

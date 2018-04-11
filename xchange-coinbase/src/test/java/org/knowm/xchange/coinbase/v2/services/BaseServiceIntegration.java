@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
@@ -19,7 +18,9 @@ public class BaseServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = (CoinbaseExchange) ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    exchange =
+        (CoinbaseExchange)
+            ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
     baseService = (CoinbaseBaseService) exchange.getMarketDataService();
   }
 

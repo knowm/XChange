@@ -7,9 +7,7 @@ import org.knowm.xchange.bitso.BitsoExchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class BitsoDemoUtils {
   private static final Logger log = LoggerFactory.getLogger(BitsoDemoUtils.class);
 

@@ -4,26 +4,28 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitfinexTradeDataJSONTest {
 
   /**
-   * This test will currently fail since the JSON field "order_id" cannot be matched to a field in BitfinexOrderStatusResponse.
+   * This test will currently fail since the JSON field "order_id" cannot be matched to a field in
+   * BitfinexOrderStatusResponse.
    *
    * @throws IOException
    */
   @Test
   public void testPlaceOrder() throws IOException {
 
-    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-place-order-data.json");
-    BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
+    InputStream resourceAsStream =
+        BitfinexTradeDataJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitfinex/v1/dto/trade/example-place-order-data.json");
+    BitfinexOrderStatusResponse response =
+        new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
     assertEquals(4003264, response.getId());
     assertEquals("btcusd", response.getSymbol());
@@ -43,8 +45,11 @@ public class BitfinexTradeDataJSONTest {
   @Test
   public void testCancelOrder() throws IOException {
 
-    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-cancel-order-data.json");
-    BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
+    InputStream resourceAsStream =
+        BitfinexTradeDataJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitfinex/v1/dto/trade/example-cancel-order-data.json");
+    BitfinexOrderStatusResponse response =
+        new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
     assertEquals(4003242, response.getId());
     assertEquals("btcusd", response.getSymbol());
@@ -64,8 +69,11 @@ public class BitfinexTradeDataJSONTest {
   @Test
   public void testOpenOrders() throws IOException {
 
-    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-open-orders-data.json");
-    BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
+    InputStream resourceAsStream =
+        BitfinexTradeDataJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitfinex/v1/dto/trade/example-open-orders-data.json");
+    BitfinexOrderStatusResponse response =
+        new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
     assertEquals(4003242, response.getId());
     assertEquals("btcusd", response.getSymbol());
@@ -85,8 +93,11 @@ public class BitfinexTradeDataJSONTest {
   @Test
   public void testPastTrades() throws IOException {
 
-    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-past-trades-data.json");
-    BitfinexTradeResponse[] responses = new ObjectMapper().readValue(resourceAsStream, BitfinexTradeResponse[].class);
+    InputStream resourceAsStream =
+        BitfinexTradeDataJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitfinex/v1/dto/trade/example-past-trades-data.json");
+    BitfinexTradeResponse[] responses =
+        new ObjectMapper().readValue(resourceAsStream, BitfinexTradeResponse[].class);
 
     assertEquals(new BigDecimal("854.01"), responses[0].getPrice());
     assertEquals(new BigDecimal("0.0072077"), responses[0].getAmount());

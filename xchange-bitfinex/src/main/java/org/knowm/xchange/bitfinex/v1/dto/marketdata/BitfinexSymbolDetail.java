@@ -1,8 +1,7 @@
 package org.knowm.xchange.bitfinex.v1.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * <code>[
@@ -41,10 +40,15 @@ public class BitfinexSymbolDetail {
   private final String expiration;
   private final boolean margin;
 
-  public BitfinexSymbolDetail(@JsonProperty("pair") String pair, @JsonProperty("price_precision") int price_precision,
-      @JsonProperty("initial_margin") BigDecimal initial_margin, @JsonProperty("minimum_margin") BigDecimal minimum_margin,
-      @JsonProperty("maximum_order_size") BigDecimal maximum_order_size, @JsonProperty("minimum_order_size") BigDecimal minimum_order_size,
-      @JsonProperty("expiration") String expiration, @JsonProperty("margin") boolean margin) {
+  public BitfinexSymbolDetail(
+      @JsonProperty("pair") String pair,
+      @JsonProperty("price_precision") int price_precision,
+      @JsonProperty("initial_margin") BigDecimal initial_margin,
+      @JsonProperty("minimum_margin") BigDecimal minimum_margin,
+      @JsonProperty("maximum_order_size") BigDecimal maximum_order_size,
+      @JsonProperty("minimum_order_size") BigDecimal minimum_order_size,
+      @JsonProperty("expiration") String expiration,
+      @JsonProperty("margin") boolean margin) {
     this.pair = pair;
     this.price_precision = price_precision;
     this.initial_margin = initial_margin;

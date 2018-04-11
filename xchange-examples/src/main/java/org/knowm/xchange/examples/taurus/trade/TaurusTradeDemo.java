@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.taurus.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -14,12 +13,11 @@ import org.knowm.xchange.taurus.dto.trade.TaurusOrder;
 import org.knowm.xchange.taurus.service.TaurusTradeServiceRaw;
 
 /**
- * <p>
  * Example showing the following:
- * </p>
+ *
  * <ul>
- * <li>Connect to Taurus exchange with authentication</li>
- * <li>Enter, review and cancel limit orders</li>
+ *   <li>Connect to Taurus exchange with authentication
+ *   <li>Enter, review and cancel limit orders
  * </ul>
  */
 public class TaurusTradeDemo {
@@ -38,7 +36,14 @@ public class TaurusTradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit sell order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".01"), CurrencyPair.BTC_CAD, null, null, new BigDecimal("400.00"));
+    LimitOrder limitOrder =
+        new LimitOrder(
+            (OrderType.ASK),
+            new BigDecimal(".01"),
+            CurrencyPair.BTC_CAD,
+            null,
+            null,
+            new BigDecimal("400.00"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
@@ -62,7 +67,8 @@ public class TaurusTradeDemo {
     printRawOpenOrders(tradeService);
 
     // place a limit sell order
-    TaurusOrder order = tradeService.sellTaurusOrder(new BigDecimal("0.01"), new BigDecimal("400.00"));
+    TaurusOrder order =
+        tradeService.sellTaurusOrder(new BigDecimal("0.01"), new BigDecimal("400.00"));
     System.out.println("TaurusOrder return value: " + order);
 
     printRawOpenOrders(tradeService);

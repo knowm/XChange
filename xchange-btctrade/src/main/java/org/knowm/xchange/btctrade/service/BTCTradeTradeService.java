@@ -3,7 +3,6 @@ package org.knowm.xchange.btctrade.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.BTCTradeAdapters;
 import org.knowm.xchange.btctrade.dto.BTCTradeResult;
@@ -90,10 +89,10 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
 
   /**
    * Optional parameters: start time (default 0 = all) of {@link TradeHistoryParamsTimeSpan}
-   * <p/>
-   * Required parameters: none
-   * <p/>
-   * Note this method makes 1+N remote calls, where N is the number of returned trades
+   *
+   * <p>Required parameters: none
+   *
+   * <p>Note this method makes 1+N remote calls, where N is the number of returned trades
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -108,9 +107,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
     return BTCTradeAdapters.adaptTrades(orders, orderDetails);
   }
 
-  /**
-   * @return an instance of {@link TradeHistoryParamsTimeSpan}
-   */
+  /** @return an instance of {@link TradeHistoryParamsTimeSpan} */
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new DefaultTradeHistoryParamsTimeSpan(new Date(0));
@@ -125,5 +122,4 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-
 }

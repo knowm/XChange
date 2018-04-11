@@ -1,13 +1,11 @@
 package org.knowm.xchange.liqui.dto.trade.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
-
 import org.knowm.xchange.liqui.dto.LiquiStat;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiResult;
 import org.knowm.xchange.liqui.dto.trade.LiquiOrderInfo;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LiquiOrderInfoResult extends LiquiResult<Map<Long, LiquiOrderInfo>> {
@@ -15,8 +13,11 @@ public class LiquiOrderInfoResult extends LiquiResult<Map<Long, LiquiOrderInfo>>
   private final boolean success;
   private final LiquiStat stat;
 
-  public LiquiOrderInfoResult(@JsonProperty("success") final boolean success, @JsonProperty("return") final Map<Long, LiquiOrderInfo> result,
-      @JsonProperty("stat") final LiquiStat stat, @JsonProperty("error") final String error) {
+  public LiquiOrderInfoResult(
+      @JsonProperty("success") final boolean success,
+      @JsonProperty("return") final Map<Long, LiquiOrderInfo> result,
+      @JsonProperty("stat") final LiquiStat stat,
+      @JsonProperty("error") final String error) {
     super(result, error);
     this.success = success;
     this.stat = stat;

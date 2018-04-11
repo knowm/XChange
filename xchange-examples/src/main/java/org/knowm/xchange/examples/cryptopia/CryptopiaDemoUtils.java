@@ -8,7 +8,8 @@ import org.knowm.xchange.cryptopia.CryptopiaExchange;
 public class CryptopiaDemoUtils {
 
   public static Exchange createExchange() {
-    ExchangeSpecification exchangeSpecification = new CryptopiaExchange().getDefaultExchangeSpecification();
+    ExchangeSpecification exchangeSpecification =
+        new CryptopiaExchange().getDefaultExchangeSpecification();
     exchangeSpecification.setApiKey(null);
     exchangeSpecification.setSecretKey(null);
 

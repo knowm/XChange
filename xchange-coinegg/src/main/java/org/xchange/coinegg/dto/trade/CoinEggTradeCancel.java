@@ -19,5 +19,4 @@ public class CoinEggTradeCancel {
   public int getID() {
     return id;
   }
-
 }

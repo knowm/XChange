@@ -2,7 +2,6 @@ package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexChartData;
@@ -44,11 +43,11 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     } else {
       throw new ExchangeException(response.getMessage());
     }
-
   }
 
   public BittrexTicker getBittrexTicker(CurrencyPair currencyPair) throws IOException {
-    BittrexTickerResponse response = bittrexAuthenticated.getTicker(BittrexUtils.toPairString(currencyPair));
+    BittrexTickerResponse response =
+        bittrexAuthenticated.getTicker(BittrexUtils.toPairString(currencyPair));
 
     if (response.getSuccess()) {
       return response.getTicker();
@@ -66,7 +65,6 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     } else {
       throw new ExchangeException(response.getMessage());
     }
-
   }
 
   public BittrexMarketSummary getBittrexMarketSummary(String pair) throws IOException {
@@ -78,7 +76,6 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     } else {
       throw new ExchangeException(response.getMessage());
     }
-
   }
 
   public ArrayList<BittrexMarketSummary> getBittrexMarketSummaries() throws IOException {
@@ -90,7 +87,6 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     } else {
       throw new ExchangeException(response.getMessage());
     }
-
   }
 
   public BittrexDepth getBittrexOrderBook(String pair, int depth) throws IOException {
@@ -106,9 +102,9 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     }
   }
 
-  public BittrexTrade[] getBittrexTrades(String pair, int count) throws IOException {
+  public BittrexTrade[] getBittrexTrades(String pair) throws IOException {
 
-    BittrexTradesResponse response = bittrexAuthenticated.getTrades(pair, count);
+    BittrexTradesResponse response = bittrexAuthenticated.getTrades(pair);
 
     if (response.getSuccess()) {
 
@@ -119,9 +115,11 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     }
   }
 
-  public ArrayList<BittrexChartData> getBittrexChartData(CurrencyPair currencyPair, BittrexChartDataPeriodType periodType) throws IOException {
+  public ArrayList<BittrexChartData> getBittrexChartData(
+      CurrencyPair currencyPair, BittrexChartDataPeriodType periodType) throws IOException {
 
-    BittrexChartDataResponse response = bittrexV2.getChartData(BittrexUtils.toPairString(currencyPair), periodType.getPeriod());
+    BittrexChartDataResponse response =
+        bittrexV2.getChartData(BittrexUtils.toPairString(currencyPair), periodType.getPeriod());
 
     if (response.getSuccess()) {
       return response.getChartData();
@@ -130,9 +128,12 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     }
   }
 
-  public ArrayList<BittrexChartData> getBittrexLatestTick(CurrencyPair currencyPair, BittrexChartDataPeriodType periodType, Long timeStamp)
+  public ArrayList<BittrexChartData> getBittrexLatestTick(
+      CurrencyPair currencyPair, BittrexChartDataPeriodType periodType, Long timeStamp)
       throws IOException {
-    BittrexChartDataResponse response = bittrexV2.getLatestTick(BittrexUtils.toPairString(currencyPair), periodType.getPeriod(), timeStamp);
+    BittrexChartDataResponse response =
+        bittrexV2.getLatestTick(
+            BittrexUtils.toPairString(currencyPair), periodType.getPeriod(), timeStamp);
     if (response.getSuccess()) {
       return response.getChartData();
     } else {
