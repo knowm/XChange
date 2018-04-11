@@ -105,11 +105,6 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     WexCancelOrderResult ret = cancelBTCEOrder(Long.parseLong(orderId));

@@ -118,11 +118,6 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, tif);
   }
 
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   private String placeOrder(
       OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
       throws IOException {

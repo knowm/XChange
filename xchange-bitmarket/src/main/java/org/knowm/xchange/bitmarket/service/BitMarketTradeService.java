@@ -59,11 +59,6 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String id) throws IOException {
 
     cancelBitMarketOrder(id);
@@ -98,8 +93,4 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

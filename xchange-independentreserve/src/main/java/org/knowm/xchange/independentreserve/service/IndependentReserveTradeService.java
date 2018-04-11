@@ -52,27 +52,12 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     return independentReservePlaceLimitOrder(
         limitOrder.getCurrencyPair(),
         limitOrder.getType(),
         limitOrder.getLimitPrice(),
         limitOrder.getOriginalAmount());
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

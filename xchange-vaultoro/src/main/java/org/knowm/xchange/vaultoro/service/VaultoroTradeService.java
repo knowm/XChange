@@ -94,11 +94,6 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeMarketOrder(MarketOrder arg0) throws IOException {
 
     VaultoroNewOrderResponse response =

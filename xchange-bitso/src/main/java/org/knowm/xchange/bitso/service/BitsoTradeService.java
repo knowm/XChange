@@ -93,11 +93,6 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException, BitsoException {
 
     return cancelBitsoOrder(orderId);
@@ -138,8 +133,4 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

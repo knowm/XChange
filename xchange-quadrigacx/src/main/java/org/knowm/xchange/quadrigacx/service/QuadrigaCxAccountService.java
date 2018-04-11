@@ -71,8 +71,4 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

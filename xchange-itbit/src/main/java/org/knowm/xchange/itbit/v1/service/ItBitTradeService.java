@@ -80,11 +80,6 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     cancelItBitOrder(orderId);
@@ -138,11 +133,6 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   @Override
   public ItBitOpenOrdersParams createOpenOrdersParams() {
     return new ItBitOpenOrdersParams();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging
