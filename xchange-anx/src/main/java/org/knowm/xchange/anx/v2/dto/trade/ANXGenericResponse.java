@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Data object representing a response message from ANX after placing and order
- */
+/** Data object representing a response message from ANX after placing and order */
 public final class ANXGenericResponse {
 
   private final String result;
@@ -18,7 +16,10 @@ public final class ANXGenericResponse {
    * @param data
    * @param error
    */
-  public ANXGenericResponse(@JsonProperty("result") String result, @JsonProperty("data") Object data, @JsonProperty("error") String error) {
+  public ANXGenericResponse(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") Object data,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.data = data;
@@ -50,5 +51,4 @@ public final class ANXGenericResponse {
 
     return "ANXGenericResponse [result=" + result + ", data=" + data + ", error=" + error + "]";
   }
-
 }

@@ -1,9 +1,5 @@
 package org.knowm.xchange.coinbase.dto.marketdata;
 
-import java.io.IOException;
-
-import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseCurrency.CoinbaseCurrencyDeserializer;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -11,10 +7,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseCurrency.CoinbaseCurrencyDeserializer;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 @JsonDeserialize(using = CoinbaseCurrencyDeserializer.class)
 public class CoinbaseCurrency {
 
@@ -46,7 +42,8 @@ public class CoinbaseCurrency {
   static class CoinbaseCurrencyDeserializer extends JsonDeserializer<CoinbaseCurrency> {
 
     @Override
-    public CoinbaseCurrency deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseCurrency deserialize(JsonParser jp, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);

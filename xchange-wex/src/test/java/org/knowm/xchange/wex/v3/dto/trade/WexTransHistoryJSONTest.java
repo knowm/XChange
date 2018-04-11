@@ -2,25 +2,23 @@ package org.knowm.xchange.wex.v3.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author Peter N. Steinmetz Date: 4/2/15 Time: 3:44 PM
- */
+/** @author Peter N. Steinmetz Date: 4/2/15 Time: 3:44 PM */
 public class WexTransHistoryJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WexTransHistoryJSONTest.class.getResourceAsStream("/v3/trade/example-trans-history-data.json");
+    InputStream is =
+        WexTransHistoryJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/wex/v3/trade/example-trans-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -37,5 +35,4 @@ public class WexTransHistoryJSONTest {
     assertThat(firstEntry.getValue().getStatus()).isEqualTo(WexTransHistoryResult.Status.complete);
     assertThat(firstEntry.getValue().getTimestamp()).isEqualTo(1342448420L);
   }
-
 }

@@ -2,7 +2,6 @@ package org.knowm.xchange.bitmarket.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmarket.BitMarketAdapters;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
@@ -22,12 +21,9 @@ import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
 import si.mazi.rescu.IRestProxyFactory;
 
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class BitMarketTradeService extends BitMarketTradeServiceRaw implements TradeService {
   /**
    * Constructor
@@ -106,5 +102,4 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-
 }

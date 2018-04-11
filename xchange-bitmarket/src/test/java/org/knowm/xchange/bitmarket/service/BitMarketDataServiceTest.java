@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +25,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
 
@@ -35,20 +33,18 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
 
   private BitMarketDataService dataService;
 
-  @Mock
-  private Exchange exchange;
+  @Mock private Exchange exchange;
 
-  @Mock
-  private IRestProxyFactory restProxyFactory;
+  @Mock private IRestProxyFactory restProxyFactory;
 
-  @Mock
-  private BitMarket bitMarket;
+  @Mock private BitMarket bitMarket;
 
   @Before
   public void setUp() {
     when(exchange.getExchangeSpecification()).thenReturn(createExchangeSpecification());
 
-    when(restProxyFactory.createProxy(eq(BitMarket.class), any(String.class), any(ClientConfig.class)))
+    when(restProxyFactory.createProxy(
+            eq(BitMarket.class), any(String.class), any(ClientConfig.class)))
         .thenReturn(bitMarket);
 
     dataService = new BitMarketDataService(exchange, restProxyFactory);
@@ -62,7 +58,10 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
   @Test
   public void shouldGetTicker() throws IOException {
     // given
-    BitMarketTicker response = parse("marketdata/example-ticker-data", BitMarketTicker.class);
+    BitMarketTicker response =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-ticker-data",
+            BitMarketTicker.class);
 
     when(bitMarket.getTicker("BTCAUD")).thenReturn(response);
 
@@ -77,7 +76,10 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
   public void shouldGetTrades() throws IOException {
     // given
     final Trade[] expectedTrades = expectedTrades();
-    BitMarketTrade[] response = parse("marketdata/example-trades-data", BitMarketTrade[].class);
+    BitMarketTrade[] response =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-trades-data",
+            BitMarketTrade[].class);
 
     when(bitMarket.getTrades("BTCAUD")).thenReturn(response);
 
@@ -95,7 +97,10 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
   @Test
   public void shouldGetOrderBook() throws IOException {
     // given
-    BitMarketOrderBook response = parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
+    BitMarketOrderBook response =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-order-book-data",
+            BitMarketOrderBook.class);
 
     when(bitMarket.getOrderBook("BTCAUD")).thenReturn(response);
 

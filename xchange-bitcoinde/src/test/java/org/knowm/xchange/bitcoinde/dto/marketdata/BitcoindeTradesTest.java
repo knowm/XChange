@@ -2,27 +2,29 @@ package org.knowm.xchange.bitcoinde.dto.marketdata;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import org.junit.Test;
 
 public class BitcoindeTradesTest {
 
   @Test
-  public void testBitcoindeOrderBook() throws JsonParseException, JsonMappingException, IOException {
+  public void testBitcoindeOrderBook()
+      throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoindeTradesTest.class.getResourceAsStream("/trades.json");
+    InputStream is =
+        BitcoindeTradesTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcoinde/dto/trades.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoindeTradesWrapper bitcoindeTradesWrapper = mapper.readValue(is, BitcoindeTradesWrapper.class);
+    BitcoindeTradesWrapper bitcoindeTradesWrapper =
+        mapper.readValue(is, BitcoindeTradesWrapper.class);
     System.out.println("bitcoindeTradesWrapper = " + bitcoindeTradesWrapper);
 
     // Make sure trade values are correct

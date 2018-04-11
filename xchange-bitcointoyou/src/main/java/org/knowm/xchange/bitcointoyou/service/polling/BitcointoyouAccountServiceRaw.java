@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitcointoyou.service.polling;
 
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdapters;
 import org.knowm.xchange.bitcointoyou.BitcointoyouException;
@@ -30,11 +29,12 @@ class BitcointoyouAccountServiceRaw extends BitcointoyouBasePollingService {
   List<Balance> getWallets() {
 
     try {
-      BitcointoyouBalance response = bitcointoyouAuthenticated.returnBalances(apiKey, exchange.getNonceFactory(), signatureCreator);
+      BitcointoyouBalance response =
+          bitcointoyouAuthenticated.returnBalances(
+              apiKey, exchange.getNonceFactory(), signatureCreator);
       return BitcointoyouAdapters.adaptBitcointoyouBalances(response);
     } catch (BitcointoyouException e) {
       throw new ExchangeException(e.getError());
     }
   }
-
 }

@@ -1,8 +1,7 @@
 package org.knowm.xchange.anx.v2.dto.marketdata;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 public class ANXTickersWrapper {
 
@@ -10,7 +9,9 @@ public class ANXTickersWrapper {
   private final Map<String, ANXTicker> anxTickers;
   private final String error;
 
-  public ANXTickersWrapper(@JsonProperty("result") String result, @JsonProperty("data") Map<String, ANXTicker> anxTickers,
+  public ANXTickersWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") Map<String, ANXTicker> anxTickers,
       @JsonProperty("error") String error) {
 
     this.result = result;

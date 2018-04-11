@@ -2,10 +2,7 @@ package org.knowm.xchange.cryptofacilities.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-/**
- * @author Jean-Christophe Laruelle
- */
-
+/** @author Jean-Christophe Laruelle */
 public class CryptoFacilitiesResult {
 
   private final String result;
@@ -41,9 +38,7 @@ public class CryptoFacilitiesResult {
   @Override
   public String toString() {
 
-    if (isSuccess())
-      return result;
-    else
-      return result + " : " + error;
+    if (isSuccess()) return result;
+    else return result + " : " + error;
   }
 }

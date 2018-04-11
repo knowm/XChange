@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.hitbtc.v2.BaseServiceTest;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
@@ -17,7 +16,8 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 public class HitbtcMarketDataServiceRawIntegration extends BaseServiceTest {
 
   private MarketDataService marketDataService = exchange().getMarketDataService();
-  private HitbtcMarketDataServiceRaw marketDataServiceRaw = (HitbtcMarketDataServiceRaw) marketDataService;
+  private HitbtcMarketDataServiceRaw marketDataServiceRaw =
+      (HitbtcMarketDataServiceRaw) marketDataService;
 
   @Test
   public void testGetHitbtcSymbols() throws IOException {
@@ -36,5 +36,4 @@ public class HitbtcMarketDataServiceRawIntegration extends BaseServiceTest {
     assertThat(tickers).isNotEmpty();
     assertThat(tickers.get("BTCUSD")).isNotNull();
   }
-
 }

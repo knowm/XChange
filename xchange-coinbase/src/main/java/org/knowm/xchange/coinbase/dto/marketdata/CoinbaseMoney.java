@@ -1,14 +1,10 @@
 package org.knowm.xchange.coinbase.dto.marketdata;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 @JsonDeserialize(using = CoinbaseMoneyDeserializer.class)
 public class CoinbaseMoney {
 
@@ -36,5 +32,4 @@ public class CoinbaseMoney {
 
     return "CoinbaseMoney [currency=" + currency + ", amount=" + amount + "]";
   }
-
 }

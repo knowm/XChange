@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -46,7 +45,8 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
@@ -56,7 +56,8 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
       throw new ExchangeException("Need DefaultWithdrawFundsParams to apply for withdrawal!");
     }
     DefaultWithdrawFundsParams defParams = (DefaultWithdrawFundsParams) params;
-    return withdrawalApply(defParams.getCurrency(), defParams.getAmount(), defParams.getAddress()).getCode();
+    return withdrawalApply(defParams.getCurrency(), defParams.getAmount(), defParams.getAddress())
+        .getCode();
   }
 
   @Override
@@ -73,8 +74,10 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
-    if (!(params instanceof TradeHistoryParamPaging) && !(params instanceof TradeHistoryParamCurrency)) {
-      throw new ExchangeException("You need to provide paging information and currency to get the trade history.");
+    if (!(params instanceof TradeHistoryParamPaging)
+        && !(params instanceof TradeHistoryParamCurrency)) {
+      throw new ExchangeException(
+          "You need to provide paging information and currency to get the trade history.");
     }
 
     TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
@@ -82,11 +85,18 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
 
     Type type = null;
     if (params instanceof HistoryParamsFundingType) {
-      type = ((HistoryParamsFundingType) params).getType();
+      HistoryParamsFundingType fundingType = (HistoryParamsFundingType) params;
+      if (fundingType.getType() != null) {
+        type = fundingType.getType();
+      }
     }
     // Paging params are 0-based, Kucoin account balances pages are 1-based
-    KucoinSimpleResponse<KucoinWalletRecords> response = walletRecords(curParams.getCurrency(), type, pagingParams.getPageLength(),
-        pagingParams.getPageNumber() + 1);
+    KucoinSimpleResponse<KucoinWalletRecords> response =
+        walletRecords(
+            curParams.getCurrency(),
+            type,
+            pagingParams.getPageLength(),
+            pagingParams.getPageNumber() != null ? pagingParams.getPageNumber() + 1 : null);
     return KucoinAdapters.adaptFundingHistory(response.getData().getRecords());
   }
 }

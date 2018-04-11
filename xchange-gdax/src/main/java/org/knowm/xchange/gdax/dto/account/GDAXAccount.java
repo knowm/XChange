@@ -1,8 +1,7 @@
 package org.knowm.xchange.gdax.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class GDAXAccount {
   private final String id;
@@ -12,8 +11,13 @@ public class GDAXAccount {
   private final BigDecimal hold;
   private final BigDecimal available;
 
-  public GDAXAccount(@JsonProperty("id") String id, @JsonProperty("currency") String currency, @JsonProperty("profile_id") String profile_id,
-      @JsonProperty("balance") BigDecimal balance, @JsonProperty("hold") BigDecimal hold, @JsonProperty("available") BigDecimal available) {
+  public GDAXAccount(
+      @JsonProperty("id") String id,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("profile_id") String profile_id,
+      @JsonProperty("balance") BigDecimal balance,
+      @JsonProperty("hold") BigDecimal hold,
+      @JsonProperty("available") BigDecimal available) {
     this.id = id;
     this.currency = currency;
     this.profile_id = profile_id;

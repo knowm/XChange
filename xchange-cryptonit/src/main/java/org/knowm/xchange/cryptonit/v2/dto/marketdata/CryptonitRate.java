@@ -1,12 +1,9 @@
 package org.knowm.xchange.cryptonit.v2.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing Rate from Cryptonit
- */
+/** Data object representing Rate from Cryptonit */
 public final class CryptonitRate {
 
   private final BigDecimal last;
@@ -22,8 +19,12 @@ public final class CryptonitRate {
    * @param ask
    * @param last
    */
-  public CryptonitRate(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("ask") BigDecimal ask, @JsonProperty("last") BigDecimal last) {
+  public CryptonitRate(
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("last") BigDecimal last) {
 
     this.high = high;
     this.low = low;
@@ -60,8 +61,16 @@ public final class CryptonitRate {
   @Override
   public String toString() {
 
-    return "CryptonitRate [last=" + last + ", high=" + high + ", low=" + low + ", bid=" + bid + ", ask=" + ask + "]";
-
+    return "CryptonitRate [last="
+        + last
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + "]";
   }
-
 }

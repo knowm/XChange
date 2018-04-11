@@ -15,5 +15,4 @@ public class KucoinExamplesUtils {
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
-
 }

@@ -6,7 +6,6 @@ import org.knowm.xchange.okcoin.OkCoin;
 import org.knowm.xchange.okcoin.OkCoinDigest;
 import org.knowm.xchange.okcoin.OkCoinUtils;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinErrorResult;
-
 import si.mazi.rescu.RestProxyFactory;
 
 public class OKCoinBaseTradeService extends OkCoinBaseService {
@@ -25,7 +24,9 @@ public class OKCoinBaseTradeService extends OkCoinBaseService {
 
     super(exchange);
 
-    okCoin = RestProxyFactory.createProxy(OkCoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    okCoin =
+        RestProxyFactory.createProxy(
+            OkCoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     apikey = exchange.getExchangeSpecification().getApiKey();
     secretKey = exchange.getExchangeSpecification().getSecretKey();
 
@@ -40,5 +41,4 @@ public class OKCoinBaseTradeService extends OkCoinBaseService {
       throw new ExchangeException(OkCoinUtils.getErrorMessage(t.getErrorCode()));
     }
   }
-
 }

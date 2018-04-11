@@ -6,10 +6,11 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,17 +23,12 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.service.account.AccountService;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import si.mazi.rescu.IRestProxyFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FundingRecordTest {
 
-  @Mock
-  private ANXV2 anxv2;
+  @Mock private ANXV2 anxv2;
 
   private AccountService accountService;
 
@@ -56,10 +52,14 @@ public class FundingRecordTest {
 
   @Test
   public void testGetFundingHistory() throws IOException {
-    InputStream is = getClass().getResourceAsStream("/v2/account/example-wallethistory-response.json");
-    ANXWalletHistoryWrapper walletHistoryWrapper = mapper.readValue(is, ANXWalletHistoryWrapper.class);
-    when(anxv2.getWalletHistory(any(), any(), any(), any(), any(), any(), any())).thenReturn(walletHistoryWrapper);
-    List<FundingRecord> fundingRecords = accountService.getFundingHistory(accountService.createFundingHistoryParams());
+    InputStream is =
+        getClass().getResourceAsStream("/v2/account/example-wallethistory-response.json");
+    ANXWalletHistoryWrapper walletHistoryWrapper =
+        mapper.readValue(is, ANXWalletHistoryWrapper.class);
+    when(anxv2.getWalletHistory(any(), any(), any(), any(), any(), any(), any()))
+        .thenReturn(walletHistoryWrapper);
+    List<FundingRecord> fundingRecords =
+        accountService.getFundingHistory(accountService.createFundingHistoryParams());
     assertThat(fundingRecords.size()).isGreaterThan(0);
     assertThat(fundingRecords.get(0).getFee()).isNotNull();
   }

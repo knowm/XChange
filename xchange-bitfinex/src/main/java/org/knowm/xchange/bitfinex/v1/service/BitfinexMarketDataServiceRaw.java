@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
@@ -18,11 +17,10 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
- * <p>
  * Implementation of the market data service for Bitfinex
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
 public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
@@ -47,7 +45,8 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
     }
   }
 
-  public BitfinexDepth getBitfinexOrderBook(String pair, Integer limitBids, Integer limitAsks) throws IOException {
+  public BitfinexDepth getBitfinexOrderBook(String pair, Integer limitBids, Integer limitAsks)
+      throws IOException {
 
     try {
       BitfinexDepth bitfinexDepth;
@@ -62,7 +61,8 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
     }
   }
 
-  public BitfinexLendDepth getBitfinexLendBook(String currency, int limitBids, int limitAsks) throws IOException {
+  public BitfinexLendDepth getBitfinexLendBook(String currency, int limitBids, int limitAsks)
+      throws IOException {
 
     try {
       BitfinexLendDepth bitfinexLendDepth = bitfinex.getLendBook(currency, limitBids, limitAsks);
@@ -82,7 +82,8 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
     }
   }
 
-  public BitfinexLend[] getBitfinexLends(String currency, long sinceTimestamp, int limitTrades) throws IOException {
+  public BitfinexLend[] getBitfinexLends(String currency, long sinceTimestamp, int limitTrades)
+      throws IOException {
 
     try {
       BitfinexLend[] bitfinexLends = bitfinex.getLends(currency, sinceTimestamp, limitTrades);

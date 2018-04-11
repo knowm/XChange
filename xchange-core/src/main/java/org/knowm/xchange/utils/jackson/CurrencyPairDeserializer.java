@@ -1,15 +1,13 @@
 package org.knowm.xchange.utils.jackson;
 
-import java.io.IOException;
-
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.io.IOException;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 
 public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
 
@@ -22,7 +20,8 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     /*
      * Preserve case if exchange is sending mixed-case, otherwise toUpperCase()
      */
-    final boolean isMixedCase = currencyPairString.matches(".*[a-z]+.*") && currencyPairString.matches(".*[A-Z]+.*");
+    final boolean isMixedCase =
+        currencyPairString.matches(".*[a-z]+.*") && currencyPairString.matches(".*[A-Z]+.*");
     if (!isMixedCase) {
       currencyPairString = currencyPairString.toUpperCase();
     }
@@ -50,7 +49,8 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     int bestGuess = currencyPairString.length() / 2;
     int bestLength = 0;
     for (int i = 1; i < currencyPairString.length() - 1; ++i) {
-      final Currency tradeCurrency = Currency.getInstanceNoCreate(currencyPairString.substring(0, i));
+      final Currency tradeCurrency =
+          Currency.getInstanceNoCreate(currencyPairString.substring(0, i));
       final Currency priceCurrency = Currency.getInstanceNoCreate(currencyPairString.substring(i));
       if (tradeCurrency != null) {
         if (priceCurrency != null) {
@@ -70,7 +70,8 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
   }
 
   @Override
-  public CurrencyPair deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException {
+  public CurrencyPair deserialize(JsonParser jsonParser, final DeserializationContext ctxt)
+      throws IOException {
 
     final ObjectCodec oc = jsonParser.getCodec();
     final JsonNode node = oc.readTree(jsonParser);

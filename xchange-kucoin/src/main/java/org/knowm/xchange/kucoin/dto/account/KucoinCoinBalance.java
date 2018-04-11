@@ -1,17 +1,15 @@
 package org.knowm.xchange.kucoin.dto.account;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -20,18 +18,17 @@ public class KucoinCoinBalance {
 
   @JsonProperty("coinType")
   private String coinType;
+
   @JsonProperty("balance")
   private BigDecimal balance;
+
   @JsonProperty("freezeBalance")
   private BigDecimal freezeBalance;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public KucoinCoinBalance() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public KucoinCoinBalance() {}
 
   /**
    * @param coinType
@@ -45,49 +42,37 @@ public class KucoinCoinBalance {
     this.freezeBalance = freezeBalance;
   }
 
-  /**
-   * @return The coinType
-   */
+  /** @return The coinType */
   @JsonProperty("coinType")
   public String getCoinType() {
     return coinType;
   }
 
-  /**
-   * @param coinType The coinType
-   */
+  /** @param coinType The coinType */
   @JsonProperty("coinType")
   public void setCoinType(String coinType) {
     this.coinType = coinType;
   }
 
-  /**
-   * @return The balance
-   */
+  /** @return The balance */
   @JsonProperty("balance")
   public BigDecimal getBalance() {
     return balance;
   }
 
-  /**
-   * @param balance The balance
-   */
+  /** @param balance The balance */
   @JsonProperty("balance")
   public void setBalance(BigDecimal balance) {
     this.balance = balance;
   }
 
-  /**
-   * @return The freezeBalance
-   */
+  /** @return The freezeBalance */
   @JsonProperty("freezeBalance")
   public BigDecimal getFreezeBalance() {
     return freezeBalance;
   }
 
-  /**
-   * @param freezeBalance The freezeBalance
-   */
+  /** @param freezeBalance The freezeBalance */
   @JsonProperty("freezeBalance")
   public void setFreezeBalance(BigDecimal freezeBalance) {
     this.freezeBalance = freezeBalance;
@@ -102,5 +87,4 @@ public class KucoinCoinBalance {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }

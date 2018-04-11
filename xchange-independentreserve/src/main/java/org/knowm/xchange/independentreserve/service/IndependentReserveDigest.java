@@ -4,19 +4,14 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import si.mazi.rescu.RestInvocation;
 
-/**
- * Author: Kamil Zbikowski Date: 4/10/15
- */
+/** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveDigest extends BaseParamsDigest {
 
   private final Logger logger = LoggerFactory.getLogger(IndependentReserveDigest.class);
@@ -30,16 +25,21 @@ public class IndependentReserveDigest extends BaseParamsDigest {
     this.sslUri = sslUri;
   }
 
-  public static IndependentReserveDigest createInstance(String secretKeyBase64, String apiKey, String sslUri) {
-    return secretKeyBase64 == null ? null : new IndependentReserveDigest(secretKeyBase64, apiKey, sslUri);
+  public static IndependentReserveDigest createInstance(
+      String secretKeyBase64, String apiKey, String sslUri) {
+    return secretKeyBase64 == null
+        ? null
+        : new IndependentReserveDigest(secretKeyBase64, apiKey, sslUri);
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-    throw new IllegalStateException("For Independent Reserve one should use digestParamsToString method instead");
+    throw new IllegalStateException(
+        "For Independent Reserve one should use digestParamsToString method instead");
   }
 
-  public String digestParamsToString(ExchangeEndpoint endpoint, Long nonce, Map<String, Object> parameters) {
+  public String digestParamsToString(
+      ExchangeEndpoint endpoint, Long nonce, Map<String, Object> parameters) {
     Mac mac256 = getMac();
 
     String url = ExchangeEndpoint.getUrlBasingOnEndpoint(sslUri, endpoint) + ",";
@@ -80,7 +80,8 @@ public class IndependentReserveDigest extends BaseParamsDigest {
       for (String namedParameter : namedParameters) {
         joinedNamedParameters.append(namedParameter).append(",");
       }
-      joinedNamedParameters = new StringBuilder(joinedNamedParameters.substring(0, joinedNamedParameters.length() - 1));
+      joinedNamedParameters =
+          new StringBuilder(joinedNamedParameters.substring(0, joinedNamedParameters.length() - 1));
       if (!joinedNamedParameters.toString().equals("")) {
         joinedNamedParameters.insert(0, ",");
         mac256.update(joinedNamedParameters.toString().getBytes());

@@ -3,8 +3,8 @@ package org.knowm.xchange.exceptions;
 import org.knowm.xchange.currency.CurrencyPair;
 
 /**
- * Exception indicating that a request was made with a {@link CurrencyPair}
- * that is not supported on this exchange.
+ * Exception indicating that a request was made with a {@link CurrencyPair} that is not supported on
+ * this exchange.
  *
  * @author bryant_harris
  */
@@ -43,9 +43,7 @@ public class CurrencyPairNotValidException extends ExchangeException {
     this.currencyPair = currencyPair;
   }
 
-  /**
-   * @return The currency pair that caused the exception.
-   */
+  /** @return The currency pair that caused the exception. */
   public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }

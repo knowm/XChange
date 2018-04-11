@@ -3,11 +3,11 @@ package org.knowm.xchange.kraken.dto.trading;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.junit.Test;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
@@ -23,20 +23,21 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class KrakenTradeJsonTest {
 
   @Test
   public void testOrderUnmarshall() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-openorders-data.json");
+    InputStream is =
+        KrakenTradeJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenOpenOrdersResult krakenResult = mapper.readValue(is, KrakenOpenOrdersResult.class);
-    Entry<String, KrakenOrder> openOrderEntry = krakenResult.getResult().getOrders().entrySet().iterator().next();
+    Entry<String, KrakenOrder> openOrderEntry =
+        krakenResult.getResult().getOrders().entrySet().iterator().next();
     KrakenOrder order = openOrderEntry.getValue();
 
     // Verify that the example data was unmarshalled correctly
@@ -49,19 +50,21 @@ public class KrakenTradeJsonTest {
     KrakenOrderDescription orderDescription = order.getOrderDescription();
     assertThat(orderDescription.getAssetPair()).isEqualTo("XRPXBT");
     assertThat(orderDescription.getLeverage()).isEqualTo("none");
-    assertThat(orderDescription.getOrderDescription()).isEqualTo("buy 1000.00000000 XRPXBT @ limit 0.00001000");
+    assertThat(orderDescription.getOrderDescription())
+        .isEqualTo("buy 1000.00000000 XRPXBT @ limit 0.00001000");
     assertThat(orderDescription.getOrderType()).isEqualTo(KrakenOrderType.LIMIT);
     assertThat(orderDescription.getType()).isEqualTo(KrakenType.BUY);
     assertThat(orderDescription.getPrice()).isEqualTo("0.00001000");
     assertThat(orderDescription.getSecondaryPrice()).isEqualTo("0");
-
   }
 
   @Test
   public void testTradeHistoryUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-tradehistory-data.json");
+    InputStream is =
+        KrakenTradeJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -87,7 +90,9 @@ public class KrakenTradeJsonTest {
   public void testCancelOrderUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-cancelorder-data.json");
+    InputStream is =
+        KrakenTradeJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-cancelorder-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -102,14 +107,17 @@ public class KrakenTradeJsonTest {
   public void testAddOrderResponseUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-addorder-response-data.json");
+    InputStream is =
+        KrakenTradeJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-addorder-response-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenOrderResult krakenResult = mapper.readValue(is, KrakenOrderResult.class);
     KrakenOrderResponse orderResponse = krakenResult.getResult();
 
-    assertThat(orderResponse.getDescription().getOrderDescription()).isEqualTo("sell 0.01000000 XBTLTC @ limit 45.25000");
+    assertThat(orderResponse.getDescription().getOrderDescription())
+        .isEqualTo("sell 0.01000000 XBTLTC @ limit 45.25000");
     assertThat(orderResponse.getTransactionIds().get(0)).isEqualTo("OWQJ5O-ZWYC7-5R7POQ");
   }
 }

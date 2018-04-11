@@ -2,15 +2,13 @@ package org.knowm.xchange.kraken.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test KrakenTicker JSON parsing
@@ -23,7 +21,9 @@ public class KrakenTickerJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        KrakenTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

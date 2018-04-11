@@ -1,11 +1,9 @@
 package org.knowm.xchange.bitflyer.service;
 
 import javax.crypto.Mac;
-
 import org.knowm.xchange.bitflyer.Bitflyer;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
-
 import si.mazi.rescu.RestInvocation;
 
 public class BitflyerDigest extends BaseParamsDigest {
@@ -16,7 +14,8 @@ public class BitflyerDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param secretKeyBase64
-   * @param apiKey          @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or
+   *     the decoded key is invalid).
    */
   private BitflyerDigest(String secretKeyBase64, String apiKey) {
     super(secretKeyBase64, HMAC_SHA_256);
@@ -44,13 +43,13 @@ public class BitflyerDigest extends BaseParamsDigest {
     String requestBody = restInvocation.getRequestBody();
     String nonce = restInvocation.getHttpHeadersFromParams().get(Bitflyer.ACCESS_TIMESTAMP);
 
-    //ACCESS-SIGN is the resulting HMAC-SHA256 signature done with the API secret path using the ACCESS-TIMESTAMP, HTTP method, request path, and
-    //request body linked together as a character string.
+    // ACCESS-SIGN is the resulting HMAC-SHA256 signature done with the API secret path using the
+    // ACCESS-TIMESTAMP, HTTP method, request path, and
+    // request body linked together as a character string.
     String hmac_data = String.format("%s%s%s%s", nonce, httpMethod, uri, requestBody);
     Mac mac256 = getMac();
     mac256.update(hmac_data.getBytes());
 
     return DigestUtils.bytesToHex(mac256.doFinal()).trim();
-
   }
 }

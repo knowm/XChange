@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.btctrade.account;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -42,7 +41,8 @@ public class AccountInfoDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCTradeAccountServiceRaw accountService = (BTCTradeAccountServiceRaw) exchange.getAccountService();
+    BTCTradeAccountServiceRaw accountService =
+        (BTCTradeAccountServiceRaw) exchange.getAccountService();
     BTCTradeBalance balance = accountService.getBTCTradeBalance();
 
     System.out.println("Balance result: " + balance.getResult());
@@ -55,5 +55,4 @@ public class AccountInfoDemo {
     BTCTradeWallet wallet = accountService.getBTCTradeWallet();
     System.out.println("Wallet address: " + wallet.getAddress());
   }
-
 }

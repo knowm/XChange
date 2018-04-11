@@ -1,9 +1,8 @@
 package org.knowm.xchange.paymium.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PaymiumTrade {
 
@@ -15,9 +14,14 @@ public class PaymiumTrade {
   private final BigDecimal price;
   private final long created_at_int;
 
-  public PaymiumTrade(@JsonProperty("uuid") UUID uuid, @JsonProperty("traded_btc") BigDecimal traded_btc,
-      @JsonProperty("traded_currency") BigDecimal traded_currency, @JsonProperty("created_at") String created_at,
-      @JsonProperty("currency") String currency, @JsonProperty("price") BigDecimal price, @JsonProperty("created_at_int") long created_at_int) {
+  public PaymiumTrade(
+      @JsonProperty("uuid") UUID uuid,
+      @JsonProperty("traded_btc") BigDecimal traded_btc,
+      @JsonProperty("traded_currency") BigDecimal traded_currency,
+      @JsonProperty("created_at") String created_at,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("created_at_int") long created_at_int) {
 
     this.uuid = uuid;
     this.traded_btc = traded_btc;
@@ -66,7 +70,23 @@ public class PaymiumTrade {
   @Override
   public String toString() {
 
-    return "PaymiumTrade{" + "uuid=" + uuid + ", traded_btc=" + traded_btc + ", traded_currency=" + traded_currency + ", created_at='" + created_at
-        + '\'' + ", currency='" + currency + '\'' + ", price=" + price + ", created_at_int=" + created_at_int + '}';
+    return "PaymiumTrade{"
+        + "uuid="
+        + uuid
+        + ", traded_btc="
+        + traded_btc
+        + ", traded_currency="
+        + traded_currency
+        + ", created_at='"
+        + created_at
+        + '\''
+        + ", currency='"
+        + currency
+        + '\''
+        + ", price="
+        + price
+        + ", created_at_int="
+        + created_at_int
+        + '}';
   }
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.quoine.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.quoine.QuoineExchange;
@@ -10,7 +9,8 @@ import org.knowm.xchange.quoine.service.QuoineMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * Demonstrate requesting Ticker at Quoine. You can access both the raw data from Quoine or the XChange generic DTO data format.
+ * Demonstrate requesting Ticker at Quoine. You can access both the raw data from Quoine or the
+ * XChange generic DTO data format.
  */
 public class QuoineProductsDemo {
 
@@ -31,7 +31,5 @@ public class QuoineProductsDemo {
     for (QuoineProduct quoineProduct : quoineProducts) {
       System.out.println(quoineProduct.toString());
     }
-
   }
-
 }

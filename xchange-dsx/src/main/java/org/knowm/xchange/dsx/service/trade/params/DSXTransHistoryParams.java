@@ -1,7 +1,6 @@
 package org.knowm.xchange.dsx.service.trade.params;
 
 import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
@@ -11,7 +10,11 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class DSXTransHistoryParams
-    implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrency, TradeHistoryParamsSorted, TradeHistoryParamLimit {
+    implements TradeHistoryParamsIdSpan,
+        TradeHistoryParamsTimeSpan,
+        TradeHistoryParamCurrency,
+        TradeHistoryParamsSorted,
+        TradeHistoryParamLimit {
 
   private DSXTransHistoryResult.Status status;
   private DSXTransHistoryResult.Type type;

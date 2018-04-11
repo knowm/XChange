@@ -1,5 +1,7 @@
 package org.knowm.xchange.dsx.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DSXAdapters;
@@ -13,13 +15,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-import java.io.IOException;
-import java.util.List;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXMarketDataService extends DSXMarketDataServiceRaw implements MarketDataService {
 
   /**
@@ -63,7 +59,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
    * Get market depth from exchange
    *
    * @param currencyPair Currency pair for getting info about
-   * @param args         Optional arguments. Exchange-specific
+   * @param args Optional arguments. Exchange-specific
    * @return The OrderBook
    * @throws IOException
    */
@@ -85,10 +81,8 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
     DSXOrderbook orderbook = dsxOrderbookWrapper.getOrderbook(marketName);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = DSXAdapters
-        .adaptOrders(orderbook.getAsks(), currencyPair, "ask", "");
-    List<LimitOrder> bids = DSXAdapters
-        .adaptOrders(orderbook.getBids(), currencyPair, "bid", "");
+    List<LimitOrder> asks = DSXAdapters.adaptOrders(orderbook.getAsks(), currencyPair, "ask", "");
+    List<LimitOrder> bids = DSXAdapters.adaptOrders(orderbook.getBids(), currencyPair, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
@@ -97,7 +91,8 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
    * Get recent trades from exchange
    *
    * @param currencyPair
-   * @param args         Optional arguments. Exchange-specific. This implementation assumes args[0] is integer value
+   * @param args Optional arguments. Exchange-specific. This implementation assumes args[0] is
+   *     integer value
    * @return Trades object
    * @throws IOException
    */
@@ -109,7 +104,10 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
     int numberOfItems = -1;
     try {
       if (args != null) {
-        numberOfItems = (Integer) args[0]; //can this really be args[0] if we are also using args[0] as a string below??
+        numberOfItems =
+            (Integer)
+                args[0]; // can this really be args[0] if we are also using args[0] as a string//
+        // below??
       }
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no argument given.

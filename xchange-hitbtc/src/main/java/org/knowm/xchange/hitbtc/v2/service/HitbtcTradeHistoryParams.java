@@ -5,7 +5,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 
-public class HitbtcTradeHistoryParams implements TradeHistoryParamLimit, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
+public class HitbtcTradeHistoryParams
+    implements TradeHistoryParamLimit, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
 
   private CurrencyPair pair;
   private Integer limit;

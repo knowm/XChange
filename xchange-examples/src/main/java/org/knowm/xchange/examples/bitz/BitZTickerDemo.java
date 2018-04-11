@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.bitz;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,8 +10,8 @@ import org.xchange.bitz.BitZUtils;
 import org.xchange.bitz.service.BitZMarketDataServiceRaw;
 
 /**
- * Demonstrate requesting Ticker at Bit-Z.
- * You can access both the raw data from Bit-Z or the XChange generic DTO data format.
+ * Demonstrate requesting Ticker at Bit-Z. You can access both the raw data from Bit-Z or the
+ * XChange generic DTO data format.
  */
 public class BitZTickerDemo {
 

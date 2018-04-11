@@ -4,16 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.knowm.xchange.dto.Order;
 
 /**
- * <p>
  * DTO representing open orders
- * </p>
- * <p>
- * Open orders are orders that you have placed with the exchange that have not yet been matched to a counter-party.
- * </p>
+ *
+ * <p>Open orders are orders that you have placed with the exchange that have not yet been matched
+ * to a counter-party.
  */
 public final class OpenOrders implements Serializable {
 
@@ -33,7 +30,7 @@ public final class OpenOrders implements Serializable {
   /**
    * Constructor
    *
-   * @param openOrders   The list of open orders
+   * @param openOrders The list of open orders
    * @param hiddenOrders The list of orders which are active but hidden from the order book.
    */
   public OpenOrders(List<LimitOrder> openOrders, List<Order> hiddenOrders) {
@@ -41,25 +38,19 @@ public final class OpenOrders implements Serializable {
     this.hiddenOrders = hiddenOrders;
   }
 
-  /**
-   * @return LimitOrders which are shown on the order book.
-   */
+  /** @return LimitOrders which are shown on the order book. */
   public List<LimitOrder> getOpenOrders() {
     return openOrders;
   }
 
-  /**
-   * @return All Orders which are shown on the order book.
-   */
+  /** @return All Orders which are shown on the order book. */
   public List<Order> getAllOpenOrders() {
     List<Order> allOpenOrders = new ArrayList<>(openOrders);
     allOpenOrders.addAll(hiddenOrders);
     return allOpenOrders;
   }
 
-  /**
-   * @return Orders which are not shown on the order book, such as untriggered stop orders.
-   */
+  /** @return Orders which are not shown on the order book, such as untriggered stop orders. */
   public List<? extends Order> getHiddenOrders() {
     return hiddenOrders;
   }

@@ -2,7 +2,6 @@ package org.knowm.xchange.coinbase.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.CoinbaseAdapters;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer;
@@ -24,9 +23,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implements TradeService {
 
   /**
@@ -52,9 +49,10 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, IOException {
 
-    final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ?
-        super.buy(marketOrder.getOriginalAmount()) :
-        super.sell(marketOrder.getOriginalAmount());
+    final CoinbaseTransfer transfer =
+        marketOrder.getType().equals(OrderType.BID)
+            ? super.buy(marketOrder.getOriginalAmount())
+            : super.sell(marketOrder.getOriginalAmount());
     return transfer.getId();
   }
 
@@ -81,9 +79,11 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   }
 
   /**
-   * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in descending order by creation date.
+   * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in
+   * descending order by creation date.
    *
-   * @see <a href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
+   * @see <a
+   *     href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -117,5 +117,4 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
-
 }

@@ -4,9 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
-/**
- * @author semihunaldi
- */
+/** @author semihunaldi */
 public class ParibuBaseService extends BaseExchangeService implements BaseService {
 
   /**

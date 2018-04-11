@@ -29,19 +29,17 @@ import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class CoinmateBaseService extends BaseExchangeService implements BaseService {
 
   public CoinmateBaseService(Exchange exchange) {
     super(exchange);
   }
 
-  protected static void throwExceptionIfError(CoinmateBaseResponse response) throws CoinmateException {
+  protected static void throwExceptionIfError(CoinmateBaseResponse response)
+      throws CoinmateException {
     if (response.isError()) {
       throw new CoinmateException(response.getErrorMessage());
     }
   }
-
 }

@@ -10,7 +10,6 @@ import org.knowm.xchange.exceptions.InternalServerException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -27,9 +26,13 @@ public class BitmexBaseService extends BaseExchangeService implements BaseServic
   public BitmexBaseService(Exchange exchange) {
 
     super(exchange);
-    bitmex = RestProxyFactory.createProxy(BitmexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-    signatureCreator = BitmexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-
+    bitmex =
+        RestProxyFactory.createProxy(
+            BitmexAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+    signatureCreator =
+        BitmexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   protected ExchangeException handleError(BitmexException exception) {

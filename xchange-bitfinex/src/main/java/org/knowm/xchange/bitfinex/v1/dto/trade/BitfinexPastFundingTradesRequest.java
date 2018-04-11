@@ -1,9 +1,8 @@
 package org.knowm.xchange.bitfinex.v1.dto.trade;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
 
 public class BitfinexPastFundingTradesRequest {
 
@@ -16,9 +15,7 @@ public class BitfinexPastFundingTradesRequest {
   @JsonProperty("symbol")
   protected String symbol;
 
-  /**
-   * Trades made after this timestamp won’t be returned.
-   */
+  /** Trades made after this timestamp won’t be returned. */
   @JsonProperty("until")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   protected Date until;
@@ -27,7 +24,8 @@ public class BitfinexPastFundingTradesRequest {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   protected Integer limitTrades;
 
-  public BitfinexPastFundingTradesRequest(String nonce, String symbol, Date until, Integer limitTrades) {
+  public BitfinexPastFundingTradesRequest(
+      String nonce, String symbol, Date until, Integer limitTrades) {
 
     this.request = "/v1/mytrades_funding";
     this.nonce = nonce;

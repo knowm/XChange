@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitso.service;
 
 import java.math.BigInteger;
-
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
 public class BitsoDigest extends BaseParamsDigest {

@@ -6,10 +6,13 @@ public class ItBitPlaceOrderRequest {
 
   @JsonProperty("type")
   protected String type;
+
   @JsonProperty("currency")
   protected String baseCurrency;
+
   @JsonProperty("side")
   private String side;
+
   @JsonProperty("amount")
   private String amount;
 
@@ -19,7 +22,13 @@ public class ItBitPlaceOrderRequest {
   @JsonProperty("instrument")
   private String instrument;
 
-  public ItBitPlaceOrderRequest(String side, String type, String baseCurrency, String amount, String price, String instrument) {
+  public ItBitPlaceOrderRequest(
+      String side,
+      String type,
+      String baseCurrency,
+      String amount,
+      String price,
+      String instrument) {
 
     super();
     this.side = side;

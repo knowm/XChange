@@ -8,7 +8,9 @@ public class BittrexTickerResponse {
   private final String message;
   private final BittrexTicker ticker;
 
-  public BittrexTickerResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+  public BittrexTickerResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("message") String message,
       @JsonProperty("result") BittrexTicker result) {
 
     this.success = success;
@@ -34,7 +36,12 @@ public class BittrexTickerResponse {
   @Override
   public String toString() {
 
-    return "BittrexTickerResponse [success=" + success + ", message=" + message + ", ticker=" + ticker + "]";
+    return "BittrexTickerResponse [success="
+        + success
+        + ", message="
+        + message
+        + ", ticker="
+        + ticker
+        + "]";
   }
-
 }

@@ -1,18 +1,16 @@
 package org.knowm.xchange.bittrex.dto.trade;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -21,12 +19,14 @@ public class BittrexTradeHistoryResponse {
 
   @JsonProperty("success")
   private Boolean success;
+
   @JsonProperty("message")
   private String message;
+
   @JsonProperty("result")
   private List<BittrexUserTrade> result = new ArrayList<BittrexUserTrade>();
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   @JsonProperty("success")
   public Boolean getSuccess() {
@@ -75,5 +75,4 @@ public class BittrexTradeHistoryResponse {
 
     this.additionalProperties.put(name, value);
   }
-
 }
