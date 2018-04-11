@@ -70,7 +70,7 @@
     },
     "EOS/BTC": {
       "price_scale": 6,
-      "min_amount": 2.0000000
+      "min_amount": 2.00000000
     },
     "EOS/ETH": {
       "price_scale": 6,
