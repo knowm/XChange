@@ -71,8 +71,4 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

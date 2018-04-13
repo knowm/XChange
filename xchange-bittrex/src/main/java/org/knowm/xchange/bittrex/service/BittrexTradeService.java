@@ -55,11 +55,6 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
   }

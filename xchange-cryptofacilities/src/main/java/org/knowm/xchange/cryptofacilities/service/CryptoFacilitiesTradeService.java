@@ -55,11 +55,6 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(
@@ -92,8 +87,4 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

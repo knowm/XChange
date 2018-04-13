@@ -57,8 +57,4 @@ public class BitflyerMarketDataService extends BitflyerMarketDataServiceRaw
     return new OrderBook(null, asks, bids);
   }
 
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

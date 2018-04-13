@@ -131,11 +131,6 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException, QuadrigaCxException {
 
     return cancelQuadrigaCxOrder(orderId);
@@ -203,8 +198,4 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

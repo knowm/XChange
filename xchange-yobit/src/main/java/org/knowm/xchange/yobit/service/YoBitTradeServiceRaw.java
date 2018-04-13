@@ -114,26 +114,6 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
   }
 
   @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(LimitOrder limitOrder) {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(MarketOrder marketOrder) {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
 
     List<Order> orders = new ArrayList<>();

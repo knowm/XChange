@@ -28,41 +28,6 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws IOException {
-    throw new UnsupportedOperationException("Not implemented yet");
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    throw new UnsupportedOperationException("Not implemented yet");
-  }
-
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new UnsupportedOperationException("Not implemented yet");
-  }
-
-  @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    throw new UnsupportedOperationException("Not implemented yet");
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new UnsupportedOperationException("Not implemented yet");
-  }
-
-  @Override
-  public boolean cancelOrder(String orderId) throws IOException {
-    throw new UnsupportedOperationException("Not implemented yet");
-  }
-
-  @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    throw new UnsupportedOperationException("Not implemented yet");
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     BitbayUserTradesQuery query = new BitbayUserTradesQuery();
     if (params instanceof TradeHistoryParamNextPageCursor) {
@@ -76,18 +41,4 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
     return BitbayAdapters.adaptUserTrades(response);
   }
 
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    return new BitbayTradeHistoryParams();
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) {
-    throw new NotAvailableFromExchangeException();
-  }
 }
