@@ -110,11 +110,6 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     return cancelDSXOrder(Long.parseLong(orderId));
   }
@@ -195,11 +190,6 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
   public OpenOrdersParams createOpenOrdersParams() {
 
     return new DefaultOpenOrdersParamCurrencyPair();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public Map<Long, DSXTransHistoryResult> getTransHistory(DSXTransHistoryParams params)

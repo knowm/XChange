@@ -65,11 +65,6 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     BitcoinAccount[] quoineCryptoAccountInfo = getQuoineCryptoAccountInfo();
     for (BitcoinAccount bitcoinAccount : quoineCryptoAccountInfo) {

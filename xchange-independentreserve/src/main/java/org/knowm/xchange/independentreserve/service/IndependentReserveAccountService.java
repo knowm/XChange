@@ -53,17 +53,8 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

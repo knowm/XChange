@@ -64,11 +64,6 @@ public class BleutradeTradeService extends BleutradeTradeServiceRaw implements T
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     return cancel(orderId);
@@ -103,8 +98,4 @@ public class BleutradeTradeService extends BleutradeTradeServiceRaw implements T
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

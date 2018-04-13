@@ -29,16 +29,6 @@ public class BTCCMarketDataService extends BTCCBaseService<BTCC> implements Mark
     return btccTicker != null ? BTCCAdapters.adaptTicker(btccTicker, currencyPair) : null;
   }
 
-  @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   private BTCCTicker getBTCCTicker(String symbol) throws IOException {
     Map<String, BTCCTicker> response = btcc.getMarketTicker(symbol);
     return response.get("ticker");

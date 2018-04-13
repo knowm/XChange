@@ -33,26 +33,6 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
   }
 
   @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrders getOpenOrders() throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     BigDecimal amount = limitOrder.getOriginalAmount();
@@ -61,11 +41,6 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
     String coin = CoinEggUtils.toBaseCoin(limitOrder.getCurrencyPair());
 
     return CoinEggAdapters.adaptTradeAdd(getCoinEggTradeAdd(amount, price, type, coin));
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -104,11 +79,6 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
     }
 
     throw new ExchangeException("Incorrect TradeHistoryParams!");
-  }
-
-  @Override
-  public void verifyOrder(LimitOrder limitOrder) {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

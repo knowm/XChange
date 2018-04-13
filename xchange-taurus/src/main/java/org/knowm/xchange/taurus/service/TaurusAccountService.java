@@ -54,8 +54,4 @@ public class TaurusAccountService extends TaurusAccountServiceRaw implements Acc
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

@@ -107,11 +107,6 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     GatecoinCancelOrderResult response = null;
@@ -167,11 +162,6 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public static class GatecoinTradeHistoryParams
