@@ -1,37 +1,38 @@
 package org.knowm.xchange.coinone.service;
 
 import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBook;
+import org.knowm.xchange.coinone.dto.marketdata.CoinoneTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * Implementation of the market data service for Korbit
- *
+ * <p>
  * <ul>
- *   <li>Provides access to various market data values
+ * <li>Provides access to various market data values
  * </ul>
  */
 public class CoinoneMarketDataServiceRaw extends CoinoneBaseService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
-  public CoinoneMarketDataServiceRaw(Exchange exchange) {
+    /**
+     * Constructor
+     *
+     * @param exchange
+     */
+    public CoinoneMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchange);
-  }
-
-  public CoinoneOrderBook getCoinoneOrderBook(CurrencyPair currencyPair) throws IOException {
-
-    try {
-      return coinone.getOrderBook(currencyPair.base.toString().toLowerCase());
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new ExchangeException(e);
+        super(exchange);
     }
-  }
+
+    public CoinoneTicker getTicker(CurrencyPair currencyPair) throws IOException {
+        return coinone.getTicker(currencyPair.base.getSymbol());
+
+    }
+
+    public CoinoneOrderBook getCoinoneOrderBook(CurrencyPair currencyPair) throws IOException {
+        return coinone.getOrderBook(currencyPair.base.getSymbol());
+    }
 }

@@ -13,7 +13,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinoneExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
-  private String coinioneAuthNumber;
 
   @Override
   protected void initServices() {
@@ -27,8 +26,7 @@ public class CoinoneExchange extends BaseExchange implements Exchange {
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.coinone.co.kr");
-    exchangeSpecification.setHost("coinone.co.kr");
-    exchangeSpecification.setPort(80);
+    exchangeSpecification.setHost("www.coinone.co.kr");
     exchangeSpecification.setExchangeName("Coinone");
     exchangeSpecification.setExchangeDescription("Coinone is a block chain exchange.");
 
@@ -42,12 +40,4 @@ public class CoinoneExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {}
-
-  public String getCoinioneAuthNumber() {
-    return coinioneAuthNumber;
-  }
-
-  public void setCoinioneAuthNumber(String coinioneAuthNumber) {
-    this.coinioneAuthNumber = coinioneAuthNumber;
-  }
 }
