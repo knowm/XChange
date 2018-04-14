@@ -81,11 +81,6 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     Assert.notNull(orderId, "orderId cannot be null");
@@ -140,8 +135,4 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

@@ -76,11 +76,6 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     return super.cancelOrder(orderId);
@@ -117,8 +112,4 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

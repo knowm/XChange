@@ -61,11 +61,6 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(final String orderId) throws IOException {
     try {
       final LiquiCancelOrder liquiCancelOrder = cancelOrder(Long.parseLong(orderId));

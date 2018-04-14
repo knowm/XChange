@@ -58,8 +58,4 @@ public class EmpoExAccountService extends EmpoExAccountServiceRaw implements Acc
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

@@ -36,11 +36,6 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Trade
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     final LakeBTCOrderResponse response = placeLakeBTCMarketOrder(marketOrder);
     return response.getId();
@@ -50,11 +45,6 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Trade
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     final LakeBTCOrderResponse response = placeLakeBTCLimitOrder(limitOrder);
     return response.getId();
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -73,22 +63,8 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Trade
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

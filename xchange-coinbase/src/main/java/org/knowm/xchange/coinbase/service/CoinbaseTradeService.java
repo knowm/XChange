@@ -100,11 +100,6 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
     DefaultTradeHistoryParamPaging params = new DefaultTradeHistoryParamPaging();

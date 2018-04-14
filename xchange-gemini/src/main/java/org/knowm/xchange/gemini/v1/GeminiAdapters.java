@@ -371,7 +371,7 @@ public final class GeminiAdapters {
     for (GeminiTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
-      final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount().negate();
+      final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount();
       pastTrades.add(
           new UserTrade(
               orderType,

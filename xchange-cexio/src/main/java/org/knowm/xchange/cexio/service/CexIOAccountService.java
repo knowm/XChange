@@ -60,8 +60,4 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }
