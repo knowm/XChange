@@ -160,11 +160,6 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
   }
 
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   /** Liquidate long or short contract using a limit order */
   public String liquidateLimitOrder(LimitOrder limitOrder) throws IOException {
 

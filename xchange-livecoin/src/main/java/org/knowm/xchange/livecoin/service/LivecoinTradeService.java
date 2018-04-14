@@ -36,11 +36,6 @@ public class LivecoinTradeService extends LivecoinTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     Date start = new Date(0);
     Date end = new Date();

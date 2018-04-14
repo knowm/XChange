@@ -57,11 +57,6 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     return super.cancelKrakenOrder(orderId).getCount() > 0;

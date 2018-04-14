@@ -53,11 +53,6 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
     return RippleAdapters.adaptOpenOrders(getOpenAccountOrders(), ripple.getRoundingScale());
   }
 
-  @Override
-  public String placeMarketOrder(final MarketOrder order) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   /**
    * @param order this should be a RippleLimitOrder object with the base and counter counterparties
    *     populated for any currency other than XRP.
@@ -70,11 +65,6 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
       throw new IllegalArgumentException(
           "order must be of type: " + RippleLimitOrder.class.getName());
     }
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -146,11 +136,6 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
         params,
         (RippleAccountService) exchange.getAccountService(),
         ripple.getRoundingScale());
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

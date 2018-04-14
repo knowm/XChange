@@ -94,7 +94,7 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     return binance.depositAddress(
         BinanceAdapters.toSymbol(currency),
         recvWindow,
-        System.currentTimeMillis(),
+        getTimestamp(),
         apiKey,
         super.signatureCreator);
   }

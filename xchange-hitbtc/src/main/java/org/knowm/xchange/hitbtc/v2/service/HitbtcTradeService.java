@@ -54,11 +54,6 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     HitbtcOrder cancelOrderRaw = cancelOrderRaw(orderId);
     return "canceled".equals(cancelOrderRaw.status);
@@ -125,15 +120,4 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     return orders;
   }
 
-  @Override
-  public void verifyOrder(LimitOrder limitOrder) {
-
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(MarketOrder marketOrder) {
-
-    throw new NotYetImplementedForExchangeException();
-  }
 }

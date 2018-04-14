@@ -52,13 +52,4 @@ public class CoinfloorAccountService extends CoinfloorAccountServiceRaw implemen
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

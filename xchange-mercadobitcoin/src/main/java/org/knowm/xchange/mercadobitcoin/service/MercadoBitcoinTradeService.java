@@ -72,11 +72,6 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     throw new NotAvailableFromExchangeException();
@@ -114,11 +109,6 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
 
     return MercadoBitcoinUtils.makeMercadoBitcoinOrderId(
         limitOrder.getCurrencyPair(), newOrderResult.getTheReturn().keySet().iterator().next());
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   /**

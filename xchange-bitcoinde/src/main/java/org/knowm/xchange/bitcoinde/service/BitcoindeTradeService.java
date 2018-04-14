@@ -30,29 +30,9 @@ public class BitcoindeTradeService extends BitcoindeTradeServiceRaw implements T
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     BitcoindeIdResponse response = bitcoindePlaceLimitOrder(limitOrder);
     return response.getId();
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public boolean cancelOrder(String orderId) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -64,23 +44,4 @@ public class BitcoindeTradeService extends BitcoindeTradeServiceRaw implements T
     return true;
   }
 
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }
