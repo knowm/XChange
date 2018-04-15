@@ -72,14 +72,6 @@
       "min_amount": 0.10000,
       "price_scale": 8
     },
-    "FST/BTC": {
-      "min_amount": 500.00000000,
-      "price_scale": 8
-    },
-    "SCN/BTC": {
-      "min_amount": 10.00000000,
-      "price_scale": 8
-    },
     "ETH/BTC": {
       "min_amount": 0.01000000,
       "price_scale": 8
@@ -136,16 +128,8 @@
       "min_amount": 10.00000000,
       "price_scale": 8
     },
-    "ASAFE/BTC": {
-      "min_amount": 100.00000000,
-      "price_scale": 8
-    },
     "BURST/BTC": {
       "min_amount": 1.00000000,
-      "price_scale": 8
-    },
-    "STEEM/BTC": {
-      "min_amount": 0.10000000,
       "price_scale": 8
     },
     "DOGE/USD": {
@@ -162,10 +146,6 @@
     },
     "KRB/BTC": {
       "min_amount": 1.00000000,
-      "price_scale": 8
-    },
-    "LTC/EUR": {
-      "min_amount": 0.10000,
       "price_scale": 8
     },
     "DASH/USD": {
@@ -218,10 +198,6 @@
     },
     "MOJO/BTC": {
       "min_amount": 500.00000000,
-      "price_scale": 8
-    },
-    "MAID/BTC": {
-      "min_amount": 1.00000000,
       "price_scale": 8
     },
     "XAB/BTC": {
@@ -359,13 +335,11 @@
       "scale": 8
     },
     "SYS": {},
-    "STEEM": {},
     "ATX": {},
     "RUR": {},
     "NMC": {},
     "NXT": {},
     "MOJO": {},
-    "ASAFE": {},
     "VRM": {},
     "BSD": {},
     "BLK": {},
@@ -406,11 +380,9 @@
     "XAB": {},
     "BLU": {},
     "ADZ": {},
-    "SCN": {},
     "VOX": {},
     "COVAL": {},
     "CLOAK": {},
-    "MAID": {},
     "ENT": {},
     "MONA": {},
     "CRBIT": {},
