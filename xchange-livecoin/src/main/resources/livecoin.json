@@ -56,10 +56,6 @@
       "min_amount": 10.00000000,
       "price_scale": 8
     },
-    "REE/BTC": {
-      "min_amount": 10.00000000,
-      "price_scale": 8
-    },
     "LSK/USD": {
       "min_amount": 1.00000000,
       "price_scale": 8
@@ -170,10 +166,6 @@
     },
     "CLOAK/BTC": {
       "min_amount": 1.00000000,
-      "price_scale": 8
-    },
-    "DBIC/BTC": {
-      "min_amount": 10.00000000,
       "price_scale": 8
     },
     "ADZ/USD": {
@@ -347,7 +339,6 @@
     "PPC": {},
     "TX": {},
     "XMR": {},
-    "DBIC": {},
     "BURST": {},
     "GYC": {},
     "RBIES": {},
@@ -358,7 +349,6 @@
     "GAME": {},
     "EMC": {},
     "ARC": {},
-    "REE": {},
     "SIB": {},
     "SHIFT": {},
     "MOIN": {},
