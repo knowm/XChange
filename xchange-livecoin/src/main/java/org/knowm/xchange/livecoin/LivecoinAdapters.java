@@ -64,6 +64,9 @@ public class LivecoinAdapters {
   private static List<LimitOrder> toLimitOrderList(
       LivecoinAsksBidsData[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
+    if (levels == null || levels.length == 0) {
+      return Collections.EMPTY_LIST;
+    }
     List<LimitOrder> allLevels = new ArrayList<>(levels.length);
     for (LivecoinAsksBidsData ask : levels) {
       allLevels.add(
