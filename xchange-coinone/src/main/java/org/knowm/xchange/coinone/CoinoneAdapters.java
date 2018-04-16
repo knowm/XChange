@@ -5,9 +5,7 @@ import java.util.*;
 
 import org.knowm.xchange.coinone.dto.CoinoneException;
 import org.knowm.xchange.coinone.dto.account.CoinoneBalancesResponse;
-import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBook;
-import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBookData;
-import org.knowm.xchange.coinone.dto.marketdata.CoinoneTicker;
+import org.knowm.xchange.coinone.dto.marketdata.*;
 import org.knowm.xchange.coinone.dto.trade.CoinoneOrderInfo;
 import org.knowm.xchange.coinone.dto.trade.CoinoneOrderInfoResponse;
 import org.knowm.xchange.currency.Currency;
@@ -19,7 +17,10 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,5 +150,26 @@ public final class CoinoneAdapters {
                 .open(ticker.getFirst())
                 .timestamp(date)
                 .build();
+    }
+
+    public static Trades adaptTrades(CoinoneTrades trades, CurrencyPair currencyPair) {
+        if (!"0".equals(trades.getErrorCode())) {
+            throw new CoinoneException(trades.getResult());
+        }
+        List<Trade> tradeList = new ArrayList<>(trades.getCompleteOrders().length);
+        for (CoinoneTradeData trade : trades.getCompleteOrders()) {
+            tradeList.add(adaptTrade(trade, currencyPair));
+        }
+        return new Trades(tradeList, 0, Trades.TradeSortType.SortByTimestamp);
+    }
+
+    private static Trade adaptTrade(CoinoneTradeData trade, CurrencyPair currencyPair) {
+        return new Trade(
+                null,
+                trade.getQty(),
+                currencyPair,
+                trade.getPrice(),
+                DateUtils.fromMillisUtc(Long.valueOf(trade.getTimestamp()) * 1000),
+                "");
     }
 }
