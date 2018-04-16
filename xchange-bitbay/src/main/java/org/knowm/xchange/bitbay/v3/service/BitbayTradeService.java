@@ -1,24 +1,15 @@
 package org.knowm.xchange.bitbay.v3.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.v3.BitbayAdapters;
 import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTrades;
 import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTradesQuery;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /** @author walec51 */
 public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeService {
@@ -41,4 +32,8 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
     return BitbayAdapters.adaptUserTrades(response);
   }
 
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+    return new BitbayTradeHistoryParams();
+  }
 }
