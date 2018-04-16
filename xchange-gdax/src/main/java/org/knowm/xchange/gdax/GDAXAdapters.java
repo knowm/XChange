@@ -436,7 +436,8 @@ public class GDAXAdapters {
         .productId(adaptProductID(marketOrder.getCurrencyPair()))
         .type(GDAXPlaceOrder.Type.market)
         .side(adaptSide(marketOrder.getType()))
-        .size(marketOrder.getOriginalAmount())
+        .size(marketOrder.getType().equals(OrderType.BID) ? null : marketOrder.getOriginalAmount())
+        .funds(marketOrder.getType().equals(OrderType.ASK) ? null : marketOrder.getOriginalAmount())
         .build();
   }
 
@@ -453,7 +454,8 @@ public class GDAXAdapters {
         .productId(adaptProductID(stopOrder.getCurrencyPair()))
         .type(GDAXPlaceOrder.Type.market)
         .side(adaptSide(stopOrder.getType()))
-        .size(stopOrder.getOriginalAmount())
+        .size(stopOrder.getType().equals(OrderType.BID) ? null : stopOrder.getOriginalAmount())
+        .funds(stopOrder.getType().equals(OrderType.ASK) ? null : stopOrder.getOriginalAmount())
         .stop(adaptStop(stopOrder.getType()))
         .stopPrice(stopOrder.getStopPrice())
         .build();
