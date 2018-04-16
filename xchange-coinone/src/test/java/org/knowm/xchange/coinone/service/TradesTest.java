@@ -1,13 +1,11 @@
 package org.knowm.xchange.coinone.service;
 
-import com.google.gson.Gson;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinone.CoinoneExchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -20,7 +18,6 @@ public class TradesTest {
 		Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
 		MarketDataService marketDataService = exchange.getMarketDataService();
 		Trades trades = marketDataService.getTrades(CurrencyPair.ETH_BTC, CoinoneExchange.period.hour);
-		System.out.println(new Gson().toJson(trades));
 		assertThat(trades).isNotNull();
 	}
 }

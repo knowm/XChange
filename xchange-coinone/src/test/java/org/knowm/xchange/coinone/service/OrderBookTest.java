@@ -1,6 +1,5 @@
 package org.knowm.xchange.coinone.service;
 
-import com.google.gson.Gson;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -19,8 +18,6 @@ public class OrderBookTest {
         Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
         MarketDataService marketDataService = exchange.getMarketDataService();
         OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.ETH_BTC);
-        System.out.println(orderBook.getTimeStamp());
-        System.out.println(new Gson().toJson(orderBook));
         assertThat(orderBook).isNotNull();
     }
 }
