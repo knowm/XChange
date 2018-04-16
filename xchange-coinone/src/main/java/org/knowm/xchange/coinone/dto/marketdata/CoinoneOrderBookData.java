@@ -1,35 +1,38 @@
 package org.knowm.xchange.coinone.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
-/** @author interwater */
+/**
+ * @author interwater
+ */
 public class CoinoneOrderBookData {
 
-  private final BigDecimal price;
-  private final BigDecimal qty;
-  /**
-   * @param asks
-   * @param bids
-   * @param timestamp
-   */
-  public CoinoneOrderBookData(
-      @JsonProperty("price") String price, @JsonProperty("qty") String qty) {
-    this.price = new BigDecimal(price);
-    this.qty = new BigDecimal(qty);
-  }
+    private final BigDecimal price;
+    private final BigDecimal qty;
 
-  public BigDecimal getPrice() {
-    return price;
-  }
+    /**
+     * @param price
+     * @param qty
+     */
+    public CoinoneOrderBookData(
+            @JsonProperty("price") String price, @JsonProperty("qty") String qty) {
+        this.price = new BigDecimal(price);
+        this.qty = new BigDecimal(qty);
+    }
 
-  public BigDecimal getQty() {
-    return qty;
-  }
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-  @Override
-  public String toString() {
+    public BigDecimal getQty() {
+        return qty;
+    }
 
-    return "CoinoneOrderBook{" + "price=" + price + ", qty=" + qty + "}";
-  }
+    @Override
+    public String toString() {
+
+        return "CoinoneOrderBook{" + "price=" + price + ", qty=" + qty + "}";
+    }
 }
