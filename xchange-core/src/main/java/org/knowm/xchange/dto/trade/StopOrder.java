@@ -158,6 +158,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     return stopPrice;
   }
 
+  /** @return The limit price */
+  public BigDecimal getLimitPrice() {
+
+    return limitPrice;
+  }
+
   @Override
   public String toString() {
 
@@ -233,6 +239,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       if (order instanceof StopOrder) {
         StopOrder stopOrder = (StopOrder) order;
         builder.stopPrice(stopOrder.getStopPrice());
+        builder.limitPrice(stopOrder.getLimitPrice());
       }
       return builder;
     }

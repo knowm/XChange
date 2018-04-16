@@ -90,7 +90,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
   /** @deprecated Use {@link #placeGDAXOrder} */
   public GDAXIdResponse placeGDAXStopOrder(StopOrder stopOrder) throws IOException {
-    GDAXPlaceMarketOrder gdaxStopOrder = GDAXAdapters.adaptGDAXPlaceMarketOrder(stopOrder);
+    GDAXPlaceOrder gdaxStopOrder = GDAXAdapters.adaptGDAXStopOrder(stopOrder);
     return placeGDAXOrder(gdaxStopOrder);
   }
 
