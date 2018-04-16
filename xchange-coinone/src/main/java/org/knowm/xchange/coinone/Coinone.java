@@ -23,6 +23,7 @@ public interface Coinone {
 
   @GET
   @Path("trades")
-  CoinoneTrades getTrades(@QueryParam("currency") String currency, @QueryParam("currency") String period)
-          throws IOException, CoinoneException;
+  CoinoneTrades getTrades(
+      @QueryParam("currency") String currency, @QueryParam("currency") String period)
+      throws IOException, CoinoneException;
 }

@@ -17,7 +17,6 @@ public class CoinoneTrades {
 	private final String currency;
 	private final CoinoneTradeData[] completeOrders;
 
-
 	/**
 	 * @param result
 	 * @param errorCode
