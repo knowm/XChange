@@ -58,11 +58,6 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
         BTCMarketsOrder.Type.Limit);
   }
 
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   private String placeOrder(
       CurrencyPair currencyPair,
       Order.OrderType orderSide,
@@ -137,11 +132,6 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return new DefaultOpenOrdersParamCurrencyPair(null);
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public static class HistoryParams

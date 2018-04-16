@@ -65,11 +65,6 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, TaurusException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, TaurusException {
     TaurusOrder taurusOrder =
         limitOrder.getType() == BID
@@ -77,11 +72,6 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements TradeSe
             : sellTaurusOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
 
     return taurusOrder.getId();
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -128,8 +118,4 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements TradeSe
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

@@ -38,27 +38,8 @@ public class AcxAccountService implements AccountService {
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public String withdrawFunds(WithdrawFundsParams params) {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public String requestDepositAddress(Currency currency, String... args) {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

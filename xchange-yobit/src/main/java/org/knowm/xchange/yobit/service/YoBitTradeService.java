@@ -70,11 +70,6 @@ public class YoBitTradeService extends YoBitTradeServiceRaw {
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     return cancelOrderById(orderId).success;
   }

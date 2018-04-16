@@ -48,11 +48,6 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     String currencyCode = currency.getCurrencyCode();
 
@@ -65,13 +60,4 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     return requestDepositAddress(currencyCode);
   }
 
-  @Override
-  public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

@@ -101,11 +101,6 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException, BitstampException {
 
     return cancelBitstampOrder(Integer.parseInt(orderId));

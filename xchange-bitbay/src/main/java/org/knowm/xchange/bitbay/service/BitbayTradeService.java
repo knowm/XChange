@@ -59,11 +59,6 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     cancelBitbayOrder(Long.parseLong(orderId));
     return true;

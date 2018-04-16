@@ -57,11 +57,6 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     return cancel(orderId);
   }

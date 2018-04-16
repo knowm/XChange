@@ -108,26 +108,6 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
 
     String filter = "{\"orderID\": [\"" + String.join("\",\"", orderIds) + "\"]}";
