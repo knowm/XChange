@@ -121,11 +121,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (!(orderParams instanceof CancelOrderByIdParams)
         || !(orderParams instanceof CancelOrderByCurrencyPair)) {
@@ -238,11 +233,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return new DefaultOpenOrdersParamCurrencyPair();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public static class OkCoinTradeHistoryParams extends DefaultTradeHistoryParamPaging

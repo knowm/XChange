@@ -24,11 +24,6 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
     throw new NotYetImplementedForExchangeException();
@@ -44,11 +39,6 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
           defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
-  }
-
-  @Override
-  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

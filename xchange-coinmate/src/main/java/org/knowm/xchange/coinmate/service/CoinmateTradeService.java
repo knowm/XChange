@@ -115,11 +115,6 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     CoinmateCancelOrderResponse response = cancelCoinmateOrder(orderId);
 
@@ -166,11 +161,6 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   @Override
   public CoinmateOpenOrdersParams createOpenOrdersParams() {
     return new CoinmateOpenOrdersParams();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public static class CoinmateTradeHistoryHistoryParams

@@ -64,11 +64,6 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
     return placedOrder.getId().toString();
   }
 
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   /**
    * Not available from exchange since TheRock needs currency pair in order to return open orders
    */
@@ -177,11 +172,6 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
         getTheRockUserTrades(
             pairParams.getCurrencyPair(), sinceTradeId, after, before, pageLength, page),
         pairParams.getCurrencyPair());
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

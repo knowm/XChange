@@ -40,11 +40,6 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws NotAvailableFromExchangeException {
 
     throw new NotAvailableFromExchangeException();
@@ -75,10 +70,6 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
    * @see <a
    *     href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
    */
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 
   @Override
   public Collection<Order> getOrder(String... orderIds)

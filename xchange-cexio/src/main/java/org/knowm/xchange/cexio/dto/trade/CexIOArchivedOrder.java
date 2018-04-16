@@ -93,7 +93,6 @@ import java.util.regex.Pattern;
     "orderId": "5241152072"
   },
 
-
   status - "d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
   ta:USD/tta:USD – total amount in current currency (Maker/Taker)
   fa:USD/tfa:USD – fee amount in current currency (Maker/Taker)
