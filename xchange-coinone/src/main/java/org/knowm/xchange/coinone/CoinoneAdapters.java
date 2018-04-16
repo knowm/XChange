@@ -33,7 +33,6 @@ public final class CoinoneAdapters {
 
     public static OrderBook adaptOrderBook(
             CoinoneOrderBook coinoneOrderBook, CurrencyPair currencyPair) {
-
         if (!"0".equals(coinoneOrderBook.getErrorCode())) {
             throw new CoinoneException(coinoneOrderBook.getResult());
         }
@@ -43,14 +42,13 @@ public final class CoinoneAdapters {
         List<LimitOrder> bids =
                 adaptMarketOrderToLimitOrder(coinoneOrderBook.getBids(), OrderType.BID, currencyPair);
 
-        return new OrderBook(new Date(coinoneOrderBook.getTimestamp()), asks, bids);
+        return new OrderBook(DateUtils.fromMillisUtc(Long.valueOf(coinoneOrderBook.getTimestamp()) * 1000), asks, bids);
     }
 
     private static List<LimitOrder> adaptMarketOrderToLimitOrder(
             CoinoneOrderBookData[] coinoneOrders, OrderType orderType, CurrencyPair currencyPair) {
 
         List<LimitOrder> orders = new ArrayList<>(coinoneOrders.length);
-
         for (int i = 0; i < coinoneOrders.length; i++) {
             CoinoneOrderBookData coinoneOrder = coinoneOrders[i];
             BigDecimal price = coinoneOrder.getPrice();
@@ -139,7 +137,8 @@ public final class CoinoneAdapters {
     }
 
     public static Ticker adaptTicker(CoinoneTicker ticker) {
-        CurrencyPair currencyPair = new CurrencyPair(Currency.getInstance(ticker.getCurrency()), Currency.KRW);
+        CurrencyPair currencyPair =
+                new CurrencyPair(Currency.getInstance(ticker.getCurrency()), Currency.KRW);
         final Date date = DateUtils.fromMillisUtc(Long.valueOf(ticker.getTimestamp()) * 1000);
         return new Ticker.Builder()
                 .currencyPair(currencyPair)
