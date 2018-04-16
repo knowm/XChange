@@ -169,14 +169,14 @@ public final class GateioAdapters {
 
     List<Balance> balances = new ArrayList<>();
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
-      Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
+      Currency currency = Currency.valueOf(funds.getKey().toUpperCase());
       BigDecimal amount = funds.getValue();
       BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency.toString());
 
       balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
     }
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getLockedFunds().entrySet()) {
-      Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
+      Currency currency = Currency.valueOf(funds.getKey().toUpperCase());
       if (balances.stream().noneMatch(balance -> balance.getCurrency().equals(currency))) {
         BigDecimal amount = funds.getValue();
         balances.add(new Balance(currency, null, BigDecimal.ZERO, amount));

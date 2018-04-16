@@ -91,7 +91,7 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
             new FundingRecord(
                 address,
                 dateFormat.parse(record.timestamp),
-                Currency.getInstance(record.coin),
+                Currency.valueOf(record.coin),
                 amount,
                 record.id,
                 record.transactionId,
@@ -107,7 +107,7 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
             new FundingRecord(
                 null,
                 dateFormat.parse(record.timestamp),
-                Currency.getInstance(record.coin),
+                Currency.valueOf(record.coin),
                 record.amount,
                 record.id,
                 null,

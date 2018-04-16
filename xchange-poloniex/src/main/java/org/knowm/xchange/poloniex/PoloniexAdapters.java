@@ -146,7 +146,7 @@ public class PoloniexAdapters {
 
     for (Map.Entry<String, PoloniexBalance> item : poloniexBalances.entrySet()) {
 
-      Currency currency = Currency.getInstance(item.getKey());
+      Currency currency = Currency.valueOf(item.getKey());
       balances.add(
           new Balance(
               currency, null, item.getValue().getAvailable(), item.getValue().getOnOrders()));
@@ -243,7 +243,7 @@ public class PoloniexAdapters {
         tradeId,
         orderId,
         feeAmount,
-        Currency.getInstance(feeCurrencyCode));
+        Currency.valueOf(feeCurrencyCode));
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
@@ -256,7 +256,7 @@ public class PoloniexAdapters {
 
     for (Map.Entry<String, PoloniexCurrencyInfo> entry : poloniexCurrencyInfo.entrySet()) {
 
-      Currency ccy = Currency.getInstance(entry.getKey());
+      Currency ccy = Currency.valueOf(entry.getKey());
 
       if (!currencyMetaDataMap.containsKey(ccy)) currencyMetaDataMap.put(ccy, currencyArchetype);
     }
@@ -282,7 +282,7 @@ public class PoloniexAdapters {
           new FundingRecord(
               d.getAddress(),
               d.getTimestamp(),
-              Currency.getInstance(d.getCurrency()),
+              Currency.valueOf(d.getCurrency()),
               d.getAmount(),
               null,
               d.getTxid(),
@@ -301,7 +301,7 @@ public class PoloniexAdapters {
           new FundingRecord(
               w.getAddress(),
               w.getTimestamp(),
-              Currency.getInstance(w.getCurrency()),
+              Currency.valueOf(w.getCurrency()),
               w.getAmount(),
               String.valueOf(w.getWithdrawalNumber()),
               externalId,

@@ -82,8 +82,7 @@ public class QuoineAdapters {
     for (int i = 0; i < quoineWallet.length; i++) {
       QuoineTradingAccountInfo info = quoineWallet[i];
 
-      balances.add(
-          new Balance(Currency.getInstance(info.getFundingCurrency()), info.getFreeMargin()));
+      balances.add(new Balance(Currency.valueOf(info.getFundingCurrency()), info.getFreeMargin()));
     }
 
     return new Wallet(balances);
@@ -96,7 +95,7 @@ public class QuoineAdapters {
     for (FiatAccount fiatAccount : fiatAccounts) {
       Balance fiatBalance =
           new Balance(
-              Currency.getInstance(fiatAccount.getCurrency()),
+              Currency.valueOf(fiatAccount.getCurrency()),
               fiatAccount.getBalance(),
               fiatAccount.getBalance());
       balances.add(fiatBalance);
@@ -112,7 +111,7 @@ public class QuoineAdapters {
     // Adapt to XChange DTOs
     Balance btcBalance =
         new Balance(
-            Currency.getInstance(quoineWallet.getBitcoinAccount().getCurrency()),
+            Currency.valueOf(quoineWallet.getBitcoinAccount().getCurrency()),
             quoineWallet.getBitcoinAccount().getBalance(),
             quoineWallet.getBitcoinAccount().getFreeBalance());
     balances.add(btcBalance);
@@ -120,7 +119,7 @@ public class QuoineAdapters {
     for (FiatAccount fiatAccount : quoineWallet.getFiatAccounts()) {
       Balance fiatBalance =
           new Balance(
-              Currency.getInstance(fiatAccount.getCurrency()),
+              Currency.valueOf(fiatAccount.getCurrency()),
               fiatAccount.getBalance(),
               fiatAccount.getBalance());
       balances.add(fiatBalance);
@@ -167,8 +166,7 @@ public class QuoineAdapters {
     List<Wallet> res = new ArrayList<>();
     for (FiatAccount nativeBalance : balances) {
       Balance balance =
-          new Balance(
-              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance());
+          new Balance(Currency.valueOf(nativeBalance.getCurrency()), nativeBalance.getBalance());
       res.add(new Wallet(String.valueOf(nativeBalance.getId()), balance));
     }
     return res;
@@ -178,8 +176,7 @@ public class QuoineAdapters {
     List<Wallet> res = new ArrayList<>();
     for (BitcoinAccount nativeBalance : balances) {
       Balance balance =
-          new Balance(
-              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance());
+          new Balance(Currency.valueOf(nativeBalance.getCurrency()), nativeBalance.getBalance());
       res.add(new Wallet(String.valueOf(nativeBalance.getId()), balance));
     }
     return res;

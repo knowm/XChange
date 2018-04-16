@@ -130,7 +130,7 @@ public class CexIOAdapters {
     List<Balance> balances = new ArrayList<>();
     for (String ccyName : cexIOBalanceInfo.getBalances().keySet()) {
       CexIOBalance cexIOBalance = cexIOBalanceInfo.getBalances().get(ccyName);
-      balances.add(adaptBalance(Currency.getInstance(ccyName), cexIOBalance));
+      balances.add(adaptBalance(Currency.valueOf(ccyName), cexIOBalance));
     }
 
     return new Wallet(balances);
@@ -206,9 +206,7 @@ public class CexIOAdapters {
       String orderId = cexIOArchivedOrder.orderId;
 
       Currency feeCcy =
-          cexIOArchivedOrder.feeCcy == null
-              ? null
-              : Currency.getInstance(cexIOArchivedOrder.feeCcy);
+          cexIOArchivedOrder.feeCcy == null ? null : Currency.valueOf(cexIOArchivedOrder.feeCcy);
       BigDecimal fee = cexIOArchivedOrder.feeValue;
 
       return new UserTrade(

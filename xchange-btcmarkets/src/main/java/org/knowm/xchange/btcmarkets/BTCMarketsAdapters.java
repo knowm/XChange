@@ -46,7 +46,7 @@ public final class BTCMarketsAdapters {
   public static Wallet adaptWallet(List<BTCMarketsBalance> balances) {
     List<Balance> wallets = new ArrayList<>(balances.size());
     for (BTCMarketsBalance blc : balances) {
-      final Currency currency = Currency.getInstance(blc.getCurrency());
+      final Currency currency = Currency.valueOf(blc.getCurrency());
       wallets.add(new Balance(currency, blc.getBalance(), blc.getAvailable()));
     }
     return new Wallet(wallets);
@@ -106,7 +106,7 @@ public final class BTCMarketsAdapters {
         tradeId,
         String.valueOf(orderId),
         trade.getFee(),
-        Currency.getInstance(feeCurrency));
+        Currency.valueOf(feeCurrency));
   }
 
   public static Order.OrderType adaptOrderType(BTCMarketsOrder.Side orderType) {

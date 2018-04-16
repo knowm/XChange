@@ -121,7 +121,7 @@ public class BleutradeAdapters {
     for (BleutradeBalance bleutradeBalance : bleutradeBalances) {
       balances.add(
           new Balance(
-              Currency.getInstance(bleutradeBalance.getCurrency()),
+              Currency.valueOf(bleutradeBalance.getCurrency()),
               bleutradeBalance.getBalance(),
               bleutradeBalance.getAvailable(),
               bleutradeBalance.getPending()));
@@ -160,7 +160,7 @@ public class BleutradeAdapters {
     for (BleutradeCurrency bleutradeCurrency : bleutradeCurrencies) {
       // the getTxFee parameter is the withdrawal charge in the currency in question
       currencyMetaDataMap.put(
-          Currency.getInstance(bleutradeCurrency.getCurrency()), new CurrencyMetaData(8, null));
+          Currency.valueOf(bleutradeCurrency.getCurrency()), new CurrencyMetaData(8, null));
     }
 
     // https://bleutrade.com/help/fees_and_deadlines 11/25/2015 all == 0.25%

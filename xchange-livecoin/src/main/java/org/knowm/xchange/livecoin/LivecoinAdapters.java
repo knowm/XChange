@@ -1,6 +1,6 @@
 package org.knowm.xchange.livecoin;
 
-import static org.knowm.xchange.currency.Currency.getInstance;
+import static org.knowm.xchange.currency.Currency.valueOf;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -183,8 +183,8 @@ public class LivecoinAdapters {
 
     String ccyPair = map.get("currencyPair").toString();
     String[] pair = ccyPair.split("/");
-    Currency ccyA = getInstance(pair[0]);
-    Currency ccyB = getInstance(pair[1]);
+    Currency ccyA = valueOf(pair[0]);
+    Currency ccyB = valueOf(pair[1]);
 
     BigDecimal startingQuantity = new BigDecimal(map.get("quantity").toString());
     BigDecimal remainingQuantity = new BigDecimal(map.get("remainingQuantity").toString());
@@ -211,8 +211,8 @@ public class LivecoinAdapters {
     OrderType type = OrderType.BID;
     if (map.get("type").toString().equals("SELL")) type = OrderType.ASK;
 
-    Currency ccyA = Currency.getInstance(map.get("fixedCurrency").toString());
-    Currency ccyB = Currency.getInstance(map.get("variableCurrency").toString());
+    Currency ccyA = Currency.valueOf(map.get("fixedCurrency").toString());
+    Currency ccyB = Currency.valueOf(map.get("variableCurrency").toString());
 
     BigDecimal amountA = new BigDecimal(map.get("amount").toString());
     BigDecimal amountB = new BigDecimal(map.get("variableAmount").toString());
@@ -222,15 +222,15 @@ public class LivecoinAdapters {
     String id = map.get("id").toString();
 
     return new UserTrade(
-            type,
-            amountA,
-            new CurrencyPair(ccyA, ccyB),
-            price,
-            DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
-            id,
-            map.get("externalKey").toString(),
-            new BigDecimal(map.get("fee").toString()),
-            getInstance(map.get("taxCurrency").toString()));
+        type,
+        amountA,
+        new CurrencyPair(ccyA, ccyB),
+        price,
+        DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
+        id,
+        map.get("externalKey").toString(),
+        new BigDecimal(map.get("fee").toString()),
+        valueOf(map.get("taxCurrency").toString()));
   }
 
   public static FundingRecord adaptFundingRecord(Map map) {
@@ -240,7 +240,7 @@ public class LivecoinAdapters {
     return new FundingRecord(
         map.get("externalKey").toString(),
         DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
-        getInstance(map.get("fixedCurrency").toString()),
+        valueOf(map.get("fixedCurrency").toString()),
         new BigDecimal(map.get("amount").toString()),
         map.get("id").toString(),
         null,
@@ -258,7 +258,7 @@ public class LivecoinAdapters {
       String ccy = balance.get("currency").toString();
       String value = balance.get("value").toString();
 
-      Currency curr = getInstance(ccy);
+      Currency curr = valueOf(ccy);
 
       WalletBuilder builder = wallets.get(curr);
       if (builder == null) {

@@ -44,8 +44,8 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
           String[] currencyPairStringSplit = currencyPairString.split("_");
           CurrencyPair currencyPair =
               new CurrencyPair(
-                  Currency.getInstance(currencyPairStringSplit[0].toUpperCase()),
-                  Currency.getInstance(currencyPairStringSplit[1].toUpperCase()));
+                  Currency.valueOf(currencyPairStringSplit[0].toUpperCase()),
+                  Currency.valueOf(currencyPairStringSplit[1].toUpperCase()));
           adaptedTickers.put(currencyPair, GateioAdapters.adaptTicker(currencyPair, gateioTicker));
         });
 
@@ -60,8 +60,8 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
           String[] currencyPairStringSplit = currencyPairString.split("_");
           CurrencyPair currencyPair =
               new CurrencyPair(
-                  Currency.getInstance(currencyPairStringSplit[0].toUpperCase()),
-                  Currency.getInstance(currencyPairStringSplit[1].toUpperCase()));
+                  Currency.valueOf(currencyPairStringSplit[0].toUpperCase()),
+                  Currency.valueOf(currencyPairStringSplit[1].toUpperCase()));
           adaptedDepths.put(currencyPair, gateioDepth);
         });
     return adaptedDepths;

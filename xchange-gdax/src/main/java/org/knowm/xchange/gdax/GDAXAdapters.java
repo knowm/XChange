@@ -162,7 +162,7 @@ public class GDAXAdapters {
       GDAXAccount gdaxAccount = gdaxAccounts[i];
       balances.add(
           new Balance(
-              Currency.getInstance(gdaxAccount.getCurrency()),
+              Currency.valueOf(gdaxAccount.getCurrency()),
               gdaxAccount.getBalance(),
               gdaxAccount.getAvailable(),
               gdaxAccount.getHold()));

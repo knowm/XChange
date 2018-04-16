@@ -29,7 +29,7 @@ public class LunoUtil {
       default:
         in = c;
     }
-    return Currency.getInstance(in);
+    return Currency.valueOf(in);
   }
 
   /**

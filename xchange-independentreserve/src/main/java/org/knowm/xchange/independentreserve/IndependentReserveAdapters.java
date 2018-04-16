@@ -100,7 +100,7 @@ public class IndependentReserveAdapters {
 
     for (IndependentReserveAccount balanceAccount :
         independentReserveBalance.getIndependentReserveAccounts()) {
-      Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
+      Currency currency = Currency.valueOf(balanceAccount.getCurrencyCode().toUpperCase());
       balances.add(
           new Balance(
               currency.getCommonlyUsedCurrency(),

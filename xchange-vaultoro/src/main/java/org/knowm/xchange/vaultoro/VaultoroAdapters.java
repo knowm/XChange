@@ -93,7 +93,7 @@ public final class VaultoroAdapters {
   public static Balance adaptVaultoroBalance(VaultoroBalance vaultoroBalance) {
 
     return new Balance(
-        Currency.getInstance(vaultoroBalance.getCurrencyCode()), vaultoroBalance.getCash());
+        Currency.valueOf(vaultoroBalance.getCurrencyCode()), vaultoroBalance.getCash());
   }
 
   public static OpenOrders adaptVaultoroOpenOrders(Map<String, List<VaultoroOpenOrder>> orders) {

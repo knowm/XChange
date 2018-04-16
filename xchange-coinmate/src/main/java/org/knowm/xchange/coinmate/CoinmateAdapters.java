@@ -136,7 +136,7 @@ public class CoinmateAdapters {
     List<Balance> balances = new ArrayList<>(funds.size());
 
     for (String lcCurrency : funds.keySet()) {
-      Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
+      Currency currency = Currency.valueOf(lcCurrency.toUpperCase());
       Balance balance =
           new Balance(
               currency,
@@ -180,7 +180,7 @@ public class CoinmateAdapters {
               Long.toString(entry.getTransactionId()),
               Long.toString(entry.getOrderId()),
               entry.getFee(),
-              Currency.getInstance(entry.getFeeCurrency()));
+              Currency.valueOf(entry.getFeeCurrency()));
       trades.add(trade);
     }
 
@@ -244,7 +244,7 @@ public class CoinmateAdapters {
           new FundingRecord(
               null,
               new Date(entry.getTimestamp()),
-              Currency.getInstance(entry.getAmountCurrency()),
+              Currency.valueOf(entry.getAmountCurrency()),
               entry.getAmount(),
               transactionId,
               externalId,

@@ -178,7 +178,7 @@ public final class BitsoAdapters {
                 tradeId,
                 orderId,
                 feeAmount,
-                Currency.getInstance(feeCurrency));
+                Currency.valueOf(feeCurrency));
         trades.add(trade);
       }
     }

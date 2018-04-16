@@ -59,7 +59,7 @@ public final class BitstampAdapters {
         bitstampBalance.getBalances()) {
       Balance xchangeBalance =
           new Balance(
-              Currency.getInstance(b.getCurrency().toUpperCase()),
+              Currency.valueOf(b.getCurrency().toUpperCase()),
               b.getBalance(),
               b.getAvailable(),
               b.getReserved(),
@@ -226,7 +226,7 @@ public final class BitstampAdapters {
               Long.toString(tradeId),
               Long.toString(t.getOrderId()),
               t.getFee(),
-              Currency.getInstance(t.getFeeCurrency().toUpperCase()));
+              Currency.valueOf(t.getFeeCurrency().toUpperCase()));
       trades.add(trade);
     }
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
@@ -255,7 +255,7 @@ public final class BitstampAdapters {
             new FundingRecord(
                 null,
                 trans.getDatetime(),
-                Currency.getInstance(amount.getKey()),
+                Currency.valueOf(amount.getKey()),
                 amount.getValue().abs(),
                 String.valueOf(trans.getId()),
                 null,

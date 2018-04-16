@@ -147,7 +147,7 @@ public final class BitcointoyouAdapters {
       Map<String, BigDecimal> balancesMap = bitcointoyouBalances.getoReturn().get(0);
       for (Map.Entry<String, BigDecimal> balance : balancesMap.entrySet()) {
 
-        Currency currency = Currency.getInstance(balance.getKey());
+        Currency currency = Currency.valueOf(balance.getKey());
         balances.add(new Balance(currency, balance.getValue()));
       }
     }

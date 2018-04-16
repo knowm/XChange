@@ -143,7 +143,7 @@ public class LakeBTCAdapters {
               tradeId,
               null,
               null,
-              Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+              Currency.valueOf(currencyPair.counter.getCurrencyCode()));
       trades.add(userTrade);
     }
 

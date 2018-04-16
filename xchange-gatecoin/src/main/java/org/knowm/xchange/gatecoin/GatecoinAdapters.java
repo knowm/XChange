@@ -46,7 +46,7 @@ public final class GatecoinAdapters {
     ArrayList<Balance> balances = new ArrayList<>();
 
     for (GatecoinBalance balance : gatecoinBalances) {
-      Currency ccy = Currency.getInstance(balance.getCurrency());
+      Currency ccy = Currency.valueOf(balance.getCurrency());
       balances.add(
           new Balance.Builder()
               .currency(ccy)
@@ -200,7 +200,7 @@ public final class GatecoinAdapters {
                 tradeId,
                 orderId,
                 feeAmount,
-                Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+                Currency.valueOf(currencyPair.counter.getCurrencyCode()));
         trades.add(trade);
       }
     }

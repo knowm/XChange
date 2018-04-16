@@ -72,7 +72,7 @@ public final class BitcoinChartsAdapters {
               ticker.getHigh());
       int scale = anyPrice != null ? anyPrice.scale() : 0;
       pairs.put(
-          new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())),
+          new CurrencyPair(Currency.BTC, Currency.valueOf(ticker.getSymbol())),
           new CurrencyPairMetaData(null, null, null, scale));
     }
 

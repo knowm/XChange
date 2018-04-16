@@ -56,7 +56,7 @@ public final class VircurexAdapters {
     Map<String, Map<String, BigDecimal>> funds = vircurexAccountInfo.getAvailableFunds();
 
     for (String lcCurrency : funds.keySet()) {
-      Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
+      Currency currency = Currency.valueOf(lcCurrency.toUpperCase());
       // TODO does vircurex offer total balance as well? the api page lists two output keys
       balances.add(new Balance(currency, null, funds.get(lcCurrency).get("availablebalance")));
     }

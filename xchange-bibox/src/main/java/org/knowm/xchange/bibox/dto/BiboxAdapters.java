@@ -67,7 +67,7 @@ public class BiboxAdapters {
 
   private static Balance adaptBalance(BiboxCoin coin) {
     return new Balance.Builder()
-        .currency(Currency.getInstance(coin.getSymbol()))
+        .currency(Currency.valueOf(coin.getSymbol()))
         .available(coin.getBalance())
         .frozen(coin.getFreeze())
         .total(coin.getTotalBalance())
@@ -148,7 +148,7 @@ public class BiboxAdapters {
         .originalAmount(order.getAmount())
         .timestamp(new Date(order.getCreatedAt()))
         .type(order.getOrderSide().getOrderType())
-        .feeCurrency(Currency.getInstance(order.getFeeSymbol()))
+        .feeCurrency(Currency.valueOf(order.getFeeSymbol()))
         .feeAmount(order.getFee())
         .build();
   }

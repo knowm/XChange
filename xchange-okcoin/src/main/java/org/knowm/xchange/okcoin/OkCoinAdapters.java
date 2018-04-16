@@ -115,14 +115,14 @@ public final class OkCoinAdapters {
       builders.put(
           available.getKey(),
           new Balance.Builder()
-              .currency(Currency.getInstance(available.getKey()))
+              .currency(Currency.valueOf(available.getKey()))
               .available(available.getValue()));
     }
 
     for (Map.Entry<String, BigDecimal> frozen : funds.getFreezed().entrySet()) {
       Balance.Builder builder = builders.get(frozen.getKey());
       if (builder == null) {
-        builder = new Balance.Builder().currency(Currency.getInstance(frozen.getKey()));
+        builder = new Balance.Builder().currency(Currency.valueOf(frozen.getKey()));
       }
       builders.put(frozen.getKey(), builder.frozen(frozen.getValue()));
     }
@@ -130,7 +130,7 @@ public final class OkCoinAdapters {
     for (Map.Entry<String, BigDecimal> borrowed : funds.getBorrow().entrySet()) {
       Balance.Builder builder = builders.get(borrowed.getKey());
       if (builder == null) {
-        builder = new Balance.Builder().currency(Currency.getInstance(borrowed.getKey()));
+        builder = new Balance.Builder().currency(Currency.valueOf(borrowed.getKey()));
       }
       builders.put(borrowed.getKey(), builder.borrowed(borrowed.getValue()));
     }
@@ -368,7 +368,7 @@ public final class OkCoinAdapters {
               tradeId,
               orderId,
               feeAmont,
-              Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+              Currency.valueOf(currencyPair.counter.getCurrencyCode()));
       trades.add(trade);
     }
 
@@ -385,7 +385,7 @@ public final class OkCoinAdapters {
     if (okCoinAccountRecordsList != null && okCoinAccountRecordsList.length > 0) {
       final OkCoinAccountRecords depositRecord = okCoinAccountRecordsList[0];
       if (depositRecord != null) {
-        final Currency depositCurrency = Currency.getInstance(depositRecord.getSymbol());
+        final Currency depositCurrency = Currency.valueOf(depositRecord.getSymbol());
         for (OkCoinRecords okCoinRecordEntry : depositRecord.getRecords()) {
 
           FundingRecord.Status status = null;
@@ -414,7 +414,7 @@ public final class OkCoinAdapters {
       }
       final OkCoinAccountRecords withdrawalRecord = okCoinAccountRecordsList[1];
       if (withdrawalRecord != null) {
-        final Currency withdrawalCurrency = Currency.getInstance(withdrawalRecord.getSymbol());
+        final Currency withdrawalCurrency = Currency.valueOf(withdrawalRecord.getSymbol());
         for (OkCoinRecords okCoinRecordEntry : withdrawalRecord.getRecords()) {
 
           FundingRecord.Status status = null;

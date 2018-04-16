@@ -17,7 +17,7 @@ import org.knowm.xchange.currency.Currency;
 public final class Wallet implements Serializable {
 
   /** The keys represent the currency of the wallet. */
-  private final Map<Currency, Balance> balances;
+  private final Map<org.knowm.xchange.currency.Currency, Balance> balances;
   /** A unique identifier for this wallet */
   private String id;
   /** A descriptive name for this wallet. Defaults to {@link #id} */
@@ -100,7 +100,7 @@ public final class Wallet implements Serializable {
   /**
    * Returns the balance for the specified currency.
    *
-   * @param currency a {@link Currency}.
+   * @param currency a {@link org.knowm.xchange.currency.Currency}.
    * @return the balance of the specified currency, or a zero balance if currency not present
    */
   public Balance getBalance(Currency currency) {

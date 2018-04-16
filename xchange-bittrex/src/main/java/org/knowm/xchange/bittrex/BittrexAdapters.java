@@ -215,7 +215,7 @@ public final class BittrexAdapters {
     for (BittrexBalance balance : balances) {
       wallets.add(
           new Balance(
-              Currency.getInstance(balance.getCurrency().toUpperCase()),
+              Currency.valueOf(balance.getCurrency().toUpperCase()),
               balance.getBalance(),
               balance.getAvailable(),
               balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
@@ -230,7 +230,7 @@ public final class BittrexAdapters {
 
   public static Balance adaptBalance(BittrexBalance balance) {
     return new Balance(
-        Currency.getInstance(balance.getCurrency().toUpperCase()),
+        Currency.valueOf(balance.getCurrency().toUpperCase()),
         balance.getBalance(),
         balance.getAvailable(),
         balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
@@ -310,7 +310,7 @@ public final class BittrexAdapters {
             new FundingRecord(
                 f.getCryptoAddress(),
                 f.getLastUpdated(),
-                Currency.getInstance(f.getCurrency()),
+                Currency.valueOf(f.getCurrency()),
                 f.getAmount(),
                 String.valueOf(f.getId()),
                 f.getTxId(),
@@ -343,7 +343,7 @@ public final class BittrexAdapters {
             new FundingRecord(
                 f.getAddress(),
                 f.getOpened(),
-                Currency.getInstance(f.getCurrency()),
+                Currency.valueOf(f.getCurrency()),
                 f.getAmount(),
                 f.getPaymentUuid(),
                 f.getTxId(),

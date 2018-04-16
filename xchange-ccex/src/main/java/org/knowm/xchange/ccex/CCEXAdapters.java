@@ -150,7 +150,7 @@ public class CCEXAdapters {
     for (CCEXBalance balance : balances) {
       wallets.add(
           new Balance(
-              Currency.getInstance(balance.getCurrency().toUpperCase()),
+              Currency.valueOf(balance.getCurrency().toUpperCase()),
               balance.getBalance(),
               balance.getAvailable(),
               balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),

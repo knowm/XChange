@@ -12,7 +12,6 @@ import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 
@@ -55,9 +54,8 @@ public final class BitcoinAverageAdapters {
       if (!currency.startsWith("BTC")) {
         throw new IllegalStateException("Unsupported currency: " + currency);
       }
-      currencyPairs.put(new CurrencyPair(BTC, Currency.getInstance(currency.substring(3))), null);
+      currencyPairs.put(new CurrencyPair(BTC, Currency.valueOf(currency.substring(3))), null);
     }
-    return new ExchangeMetaData(
-        currencyPairs, Collections.<Currency, CurrencyMetaData>emptyMap(), null, null, null);
+    return new ExchangeMetaData(currencyPairs, Collections.emptyMap(), null, null, null);
   }
 }

@@ -74,7 +74,7 @@ public class CoinbaseAdapterTest {
             "52f4411767c71baf9000003f",
             "52f4411667c71baf9000003c",
             new BigDecimal("9.05"),
-            Currency.getInstance("USD"));
+            Currency.valueOf("USD"));
 
     // Read in the JSON from the example resources
     InputStream is =

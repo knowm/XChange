@@ -40,8 +40,8 @@ public class HuobiUtils {
 
   public static void setHuobiAssets(HuobiAsset[] huobiAssets) {
     for (HuobiAsset entry : huobiAssets) {
-      assetMap.put(entry.getAsset(), Currency.getInstance(entry.getAsset()));
-      assetMapReverse.put(Currency.getInstance(entry.getAsset()), entry.getAsset());
+      assetMap.put(entry.getAsset(), Currency.valueOf(entry.getAsset()));
+      assetMapReverse.put(Currency.valueOf(entry.getAsset()), entry.getAsset());
     }
   }
 
@@ -68,21 +68,21 @@ public class HuobiUtils {
     CurrencyPair pair = assetPairMap.get(currencyPairIn);
     if (pair == null) {
       if (currencyPairIn.length() == 6) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 3));
+        Currency base = Currency.valueOf(currencyPairIn.substring(0, 3));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(3, 6));
+        Currency counter = Currency.valueOf(currencyPairIn.substring(3, 6));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
         pair = new CurrencyPair(base, counter);
       } else if (currencyPairIn.length() == 7) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 4));
+        Currency base = Currency.valueOf(currencyPairIn.substring(0, 4));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(4, 7));
+        Currency counter = Currency.valueOf(currencyPairIn.substring(4, 7));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }

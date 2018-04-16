@@ -30,7 +30,7 @@ public class BleutradeTestData {
           new BigDecimal("40.00000000"),
           new BigDecimal("60.00000000")),
       new Balance(
-          Currency.getInstance("BLEU"),
+          Currency.valueOf("BLEU"),
           new BigDecimal("160.00000000"),
           new BigDecimal("70.00000000"),
           new BigDecimal("90.00000000")),

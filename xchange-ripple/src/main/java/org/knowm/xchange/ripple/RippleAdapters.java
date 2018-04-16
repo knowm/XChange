@@ -73,7 +73,7 @@ public abstract class RippleAdapters {
       }
       balances
           .get(walletId)
-          .add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue()));
+          .add(new Balance(Currency.valueOf(balance.getCurrency()), balance.getValue()));
     }
 
     final List<Wallet> accountInfo = new ArrayList<>(balances.size());
@@ -298,18 +298,16 @@ public abstract class RippleAdapters {
     }
 
     final RippleAmount base, counter;
-    if (preferredBase.contains(Currency.getInstance(balanceChanges.get(0).getCurrency()))) {
+    if (preferredBase.contains(Currency.valueOf(balanceChanges.get(0).getCurrency()))) {
       base = balanceChanges.get(0);
       counter = balanceChanges.get(1);
-    } else if (preferredBase.contains(Currency.getInstance(balanceChanges.get(1).getCurrency()))) {
+    } else if (preferredBase.contains(Currency.valueOf(balanceChanges.get(1).getCurrency()))) {
       base = balanceChanges.get(1);
       counter = balanceChanges.get(0);
-    } else if (preferredCounter.contains(
-        Currency.getInstance(balanceChanges.get(0).getCurrency()))) {
+    } else if (preferredCounter.contains(Currency.valueOf(balanceChanges.get(0).getCurrency()))) {
       counter = balanceChanges.get(0);
       base = balanceChanges.get(1);
-    } else if (preferredCounter.contains(
-        Currency.getInstance(balanceChanges.get(1).getCurrency()))) {
+    } else if (preferredCounter.contains(Currency.valueOf(balanceChanges.get(1).getCurrency()))) {
       counter = balanceChanges.get(1);
       base = balanceChanges.get(0);
 

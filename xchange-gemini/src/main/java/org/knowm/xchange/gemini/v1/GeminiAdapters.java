@@ -318,7 +318,7 @@ public final class GeminiAdapters {
       BigDecimal[] balanceDetail = entry.getValue();
       BigDecimal balanceTotal = balanceDetail[0];
       BigDecimal balanceAvailable = balanceDetail[1];
-      balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
+      balances.add(new Balance(Currency.valueOf(currencyName), balanceTotal, balanceAvailable));
     }
 
     return new Wallet(balances);
@@ -382,7 +382,7 @@ public final class GeminiAdapters {
               trade.getTradeId(),
               trade.getOrderId(),
               fee,
-              Currency.getInstance(trade.getFeeCurrency())));
+              Currency.valueOf(trade.getFeeCurrency())));
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);

@@ -150,7 +150,7 @@ public final class ANXAdapters {
       return null; // an account maybe doesn't contain a ANXWallet
     } else {
       return new Balance(
-          Currency.getInstance(anxWallet.getBalance().getCurrency()),
+          Currency.valueOf(anxWallet.getBalance().getCurrency()),
           anxWallet.getBalance().getValue(),
           anxWallet.getAvailableBalance().getValue());
     }
@@ -373,7 +373,7 @@ public final class ANXAdapters {
     Date date = DateUtils.fromMillisUtc(rawDate + eightHours);
 
     ANXValue value = entry.getValue();
-    Currency currency = Currency.getInstance(value.getCurrency());
+    Currency currency = Currency.valueOf(value.getCurrency());
     ANXValue balance = entry.getBalance();
 
     return new FundingRecord(

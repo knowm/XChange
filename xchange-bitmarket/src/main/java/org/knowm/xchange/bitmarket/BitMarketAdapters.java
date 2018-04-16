@@ -45,7 +45,7 @@ public class BitMarketAdapters {
     List<Balance> balances = new ArrayList<>(balance.getAvailable().size());
 
     for (Map.Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
-      Currency currency = Currency.getInstance(entry.getKey());
+      Currency currency = Currency.valueOf(entry.getKey());
       BigDecimal frozen =
           balance.getBlocked().containsKey(entry.getKey())
               ? balance.getBlocked().get(entry.getKey())
@@ -201,6 +201,6 @@ public class BitMarketAdapters {
         String.valueOf(trade.getId()),
         tradeOperation != null ? String.valueOf(tradeOperation.getId()) : null,
         tradeOperation != null ? tradeOperation.getCommission() : null,
-        Currency.getInstance(commissionCurrency));
+        Currency.valueOf(commissionCurrency));
   }
 }

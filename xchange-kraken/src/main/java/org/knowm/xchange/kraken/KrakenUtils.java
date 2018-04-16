@@ -39,8 +39,8 @@ public class KrakenUtils {
   public static void setKrakenAssets(Map<String, KrakenAsset> assetSource) {
     if (assetsMap.isEmpty()) {
       for (Map.Entry<String, KrakenAsset> entry : assetSource.entrySet()) {
-        assetsMap.put(entry.getKey(), Currency.getInstance(entry.getValue().getAltName()));
-        assetsMapReverse.put(Currency.getInstance(entry.getValue().getAltName()), entry.getKey());
+        assetsMap.put(entry.getKey(), Currency.valueOf(entry.getValue().getAltName()));
+        assetsMapReverse.put(Currency.valueOf(entry.getValue().getAltName()), entry.getKey());
       }
     }
   }
@@ -54,21 +54,21 @@ public class KrakenUtils {
     if (pair == null) {
       // kraken can give short pairs back from open orders ?
       if (currencyPairIn.length() == 6) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 3));
+        Currency base = Currency.valueOf(currencyPairIn.substring(0, 3));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(3, 6));
+        Currency counter = Currency.valueOf(currencyPairIn.substring(3, 6));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
         pair = new CurrencyPair(base, counter);
       } else if (currencyPairIn.length() == 7) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 4));
+        Currency base = Currency.valueOf(currencyPairIn.substring(0, 4));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(4, 7));
+        Currency counter = Currency.valueOf(currencyPairIn.substring(4, 7));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }

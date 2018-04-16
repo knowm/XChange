@@ -1,11 +1,7 @@
 package org.knowm.xchange.bitflyer;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerBalance;
@@ -58,7 +54,7 @@ public class BitflyerAdapters {
     for (BitflyerBalance balance : balances) {
       adaptedBalances.add(
           new Balance(
-              Currency.getInstance(balance.getCurrencyCode()),
+              Currency.valueOf(balance.getCurrencyCode()),
               balance.getAmount(),
               balance.getAvailable()));
     }
@@ -111,7 +107,7 @@ public class BitflyerAdapters {
       BitflyerCoinHistory history, FundingRecord.Type type) {
     return new FundingRecord.Builder()
         .setDate(BitflyerUtils.parseDate(history.getEventDate()))
-        .setCurrency(new Currency(history.getCurrencyCode()))
+        .setCurrency(Currency.valueOf(history.getCurrencyCode()))
         .setAmount(history.getAmount())
         .setAddress(history.getAddress())
         .setInternalId(history.getID())
@@ -126,7 +122,7 @@ public class BitflyerAdapters {
       BitflyerDepositOrWithdrawal history, FundingRecord.Type type) {
     return new FundingRecord.Builder()
         .setDate(BitflyerUtils.parseDate(history.getEventDate()))
-        .setCurrency(new Currency(history.getCurrencyCode()))
+        .setCurrency(Currency.valueOf(history.getCurrencyCode()))
         .setAmount(history.getAmount())
         .setInternalId(history.getID())
         .setType(type)

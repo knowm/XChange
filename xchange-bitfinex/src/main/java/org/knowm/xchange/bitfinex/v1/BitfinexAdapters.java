@@ -301,8 +301,7 @@ public final class BitfinexAdapters {
         BigDecimal[] balanceDetail = entry.getValue();
         BigDecimal balanceTotal = balanceDetail[0];
         BigDecimal balanceAvailable = balanceDetail[1];
-        balances.add(
-            new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
+        balances.add(new Balance(Currency.valueOf(currencyName), balanceTotal, balanceAvailable));
       }
       wallets.add(new Wallet(walletData.getKey(), balances));
     }
@@ -357,7 +356,7 @@ public final class BitfinexAdapters {
               trade.getTradeId(),
               trade.getOrderId(),
               fee,
-              Currency.getInstance(trade.getFeeCurrency())));
+              Currency.valueOf(trade.getFeeCurrency())));
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
@@ -482,7 +481,7 @@ public final class BitfinexAdapters {
         bitfinexDepositWithdrawalHistoryResponses) {
       String address = responseEntry.getAddress();
       String description = responseEntry.getDescription();
-      Currency currency = Currency.getInstance(responseEntry.getCurrency());
+      Currency currency = Currency.valueOf(responseEntry.getCurrency());
 
       FundingRecord.Status status = FundingRecord.Status.resolveStatus(responseEntry.getStatus());
       if (status == null

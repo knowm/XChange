@@ -133,7 +133,7 @@ public final class CryptopiaAdapters {
 
     for (CryptopiaCurrency cryptopiaCurrency : cryptopiaCurrencies) {
       currencyMetaDataMap.put(
-          Currency.getInstance(cryptopiaCurrency.getSymbol()), new CurrencyMetaData(8, null));
+          Currency.valueOf(cryptopiaCurrency.getSymbol()), new CurrencyMetaData(8, null));
     }
 
     for (CryptopiaTradePair cryptopiaTradePair : tradePairs) {

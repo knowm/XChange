@@ -129,7 +129,7 @@ public class DSXAdapters {
       if (available == null) {
         available = total;
       }
-      balances.add(new Balance(Currency.getInstance(currency), total, available));
+      balances.add(new Balance(Currency.valueOf(currency), total, available));
     }
 
     return new Wallet(balances);
@@ -199,7 +199,7 @@ public class DSXAdapters {
   }
 
   public static Currency adaptCurrency(String dsxCurrency) {
-    return Currency.getInstance(dsxCurrency.toUpperCase());
+    return Currency.valueOf(dsxCurrency.toUpperCase());
   }
 
   public static List<CurrencyPair> adaptCurrencyPair(Iterable<String> dsxPairs) {

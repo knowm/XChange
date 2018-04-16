@@ -44,7 +44,7 @@ public final class TheRockAdapters {
   public static AccountInfo adaptAccountInfo(List<TheRockBalance> trBalances, String userName) {
     ArrayList<Balance> balances = new ArrayList<>(trBalances.size());
     for (TheRockBalance blc : trBalances) {
-      Currency currency = Currency.getInstance(blc.getCurrency());
+      Currency currency = Currency.valueOf(blc.getCurrency());
       balances.add(new Balance(currency, blc.getBalance(), blc.getTradingBalance()));
     }
     return new AccountInfo(userName, new Wallet(balances));
@@ -119,7 +119,7 @@ public final class TheRockAdapters {
         .type(trade.getSide() == Side.buy ? OrderType.BID : OrderType.ASK)
         .feeAmount(trade.getFeeAmount())
         .feeCurrency(
-            trade.getFeeCurrency() == null ? null : Currency.getInstance(trade.getFeeCurrency()))
+            trade.getFeeCurrency() == null ? null : Currency.valueOf(trade.getFeeCurrency()))
         .build();
   }
 

@@ -22,12 +22,10 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -109,8 +107,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     if (orderFlags.size() == 1) {
       IOrderFlags orderFlag = orderFlags.iterator().next();
       Assert.isTrue(
-          orderFlag instanceof TimeInForce,
-          "Order flag should be instance of TimeInForce.");
+          orderFlag instanceof TimeInForce, "Order flag should be instance of TimeInForce.");
       tif = (TimeInForce) orderFlag;
     } else {
       tif = TimeInForce.GTC;
@@ -238,7 +235,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         Long.toString(t.id),
                         Long.toString(t.orderId),
                         t.commission,
-                        Currency.getInstance(t.commissionAsset)))
+                        Currency.valueOf(t.commissionAsset)))
             .collect(Collectors.toList());
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }

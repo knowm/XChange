@@ -144,7 +144,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
    * @param clientOrderId client order id
    * @return list of orders
    * @throws IOException throw in case IO problems
-   * @throws HitbtcException  throw in case internal HITBTC problems
+   * @throws HitbtcException throw in case internal HITBTC problems
    */
   @GET
   @Path("history/order")

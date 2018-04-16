@@ -32,7 +32,7 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
 
     List<Balance> balances = new ArrayList<>();
     for (Map datum : response.getData()) {
-      Currency symbol = Currency.getInstance(datum.get("Symbol").toString());
+      Currency symbol = Currency.valueOf(datum.get("Symbol").toString());
       BigDecimal total = new BigDecimal(datum.get("Total").toString());
       BigDecimal available = new BigDecimal(datum.get("Available").toString());
       BigDecimal heldForTrades = new BigDecimal(datum.get("HeldForTrades").toString());
@@ -88,7 +88,7 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
     List<FundingRecord> results = new ArrayList<>();
     for (Map map : response.getData()) {
       Date timeStamp = CryptopiaAdapters.convertTimestamp(map.get("Timestamp").toString());
-      Currency currency = Currency.getInstance(map.get("Currency").toString());
+      Currency currency = Currency.valueOf(map.get("Currency").toString());
       FundingRecord.Type fundingType =
           map.get("Type")
                   .toString()

@@ -223,7 +223,7 @@ public class HitbtcAdapters {
               id,
               hitbtcOwnTrade.getClientOrderId(),
               hitbtcOwnTrade.getFee(),
-              Currency.getInstance(pair.counter.getCurrencyCode()));
+              Currency.valueOf(pair.counter.getCurrencyCode()));
 
       trades.add(trade);
     }
@@ -236,7 +236,7 @@ public class HitbtcAdapters {
     List<Balance> balances = new ArrayList<>(hitbtcBalances.size());
 
     for (HitbtcBalance balanceRaw : hitbtcBalances) {
-      Currency currency = Currency.getInstance(balanceRaw.getCurrency());
+      Currency currency = Currency.valueOf(balanceRaw.getCurrency());
       Balance balance =
           new Balance(currency, null, balanceRaw.getAvailable(), balanceRaw.getReserved());
       balances.add(balance);
@@ -297,7 +297,7 @@ public class HitbtcAdapters {
 
     return new FundingRecord.Builder()
         .setAddress(transaction.getAddress())
-        .setCurrency(Currency.getInstance(transaction.getCurrency()))
+        .setCurrency(Currency.valueOf(transaction.getCurrency()))
         .setAmount(transaction.getAmount())
         .setType(convertType(transaction.getType()))
         .setFee(transaction.getFee())

@@ -133,7 +133,7 @@ public class BitbayAdapters {
 
     for (Map.Entry<String, BitbayBalance> entry :
         bitbayAccountInfo.getBitbayBalances().entrySet()) {
-      Currency currency = Currency.getInstance(entry.getKey());
+      Currency currency = Currency.valueOf(entry.getKey());
       BitbayBalance balance = entry.getValue();
 
       balances.add(
@@ -234,7 +234,7 @@ public class BitbayAdapters {
 
         String[] parts = market.split("-");
         CurrencyPair pair =
-            new CurrencyPair(Currency.getInstance(parts[0]), Currency.getInstance(parts[1]));
+            new CurrencyPair(Currency.valueOf(parts[0]), Currency.valueOf(parts[1]));
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = map.get("date").toString();
         Date timestamp = formatter.parse(date);

@@ -228,9 +228,7 @@ public final class ItBitAdapters {
       BigDecimal totalQuantity = BigDecimal.ZERO;
       BigDecimal totalFee = BigDecimal.ZERO;
 
-      for (ItBitUserTrade trade :
-          tradesByOrderId.get(
-              orderId)) {
+      for (ItBitUserTrade trade : tradesByOrderId.get(orderId)) {
         // can have multiple trades for same order, so add them all up here to
         // get the average price and total fee
         // we have to do this because there is no trade id
@@ -279,7 +277,7 @@ public final class ItBitAdapters {
   public static Currency adaptCcy(String ccy) {
     if (ccy.toUpperCase().equals("XBT")) return Currency.BTC;
 
-    return Currency.getInstance(ccy);
+    return Currency.valueOf(ccy);
   }
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, ItBitTicker itBitTicker) {

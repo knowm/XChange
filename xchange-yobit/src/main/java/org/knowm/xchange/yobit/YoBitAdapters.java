@@ -41,7 +41,7 @@ public class YoBitAdapters {
   }
 
   public static Currency adaptCurrency(String ccy) {
-    return Currency.getInstance(ccy.toUpperCase());
+    return Currency.valueOf(ccy.toUpperCase());
   }
 
   public static OrderBook adaptOrderBook(YoBitOrderBook book, CurrencyPair currencyPair) {

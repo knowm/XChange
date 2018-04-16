@@ -175,7 +175,7 @@ public final class WexAdapters {
       if (lcCurrency.equals("dsh")) {
         lcCurrency = "dash";
       }
-      Currency currency = Currency.getInstance(lcCurrency);
+      Currency currency = Currency.valueOf(lcCurrency);
       balances.add(new Balance(currency, fund));
     }
     return new Wallet(balances);
@@ -399,7 +399,7 @@ public final class WexAdapters {
           new FundingRecord(
               null,
               date,
-              Currency.getInstance(result.getCurrency()),
+              Currency.valueOf(result.getCurrency()),
               result.getAmount(),
               String.valueOf(key),
               null,

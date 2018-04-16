@@ -114,8 +114,7 @@ public final class EmpoExAdapters {
     for (EmpoExBalance empoExBalance : raw) {
 
       BigDecimal balance = new BigDecimal(empoExBalance.getAmount().replace(",", ""));
-      balances.add(
-          new Balance(Currency.getInstance(empoExBalance.getCoin().toUpperCase()), balance));
+      balances.add(new Balance(Currency.valueOf(empoExBalance.getCoin().toUpperCase()), balance));
     }
 
     return new Wallet(null, balances);

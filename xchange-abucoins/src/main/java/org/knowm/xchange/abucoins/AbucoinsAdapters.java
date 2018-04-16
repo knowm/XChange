@@ -208,7 +208,7 @@ public class AbucoinsAdapters {
    * @return The account info
    */
   public static Balance adaptBalance(AbucoinsAccount account) {
-    Currency currency = Currency.getInstance(account.getCurrency());
+    Currency currency = Currency.valueOf(account.getCurrency());
     return new Balance(currency, account.getBalance(), account.getAvailable(), account.getHold());
   }
 
@@ -422,7 +422,7 @@ public class AbucoinsAdapters {
     return new FundingRecord.Builder()
         .setDescription(history.getUrl())
         .setAmount(history.getAmount())
-        .setCurrency(Currency.getInstance(history.getCurrency()))
+        .setCurrency(Currency.valueOf(history.getCurrency()))
         .setDate(parseDate(history.getDate()))
         .setFee(history.getFee())
         .setStatus(adaptFundingStatus(history.getStatus()));

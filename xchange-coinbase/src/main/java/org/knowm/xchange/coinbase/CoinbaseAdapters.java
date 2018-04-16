@@ -35,8 +35,7 @@ public final class CoinbaseAdapters {
 
     final String username = user.getEmail();
     final CoinbaseMoney money = user.getBalance();
-    final Balance balance =
-        new Balance(Currency.getInstance(money.getCurrency()), money.getAmount());
+    final Balance balance = new Balance(Currency.valueOf(money.getCurrency()), money.getAmount());
 
     final AccountInfo accountInfoTemporaryName = new AccountInfo(username, new Wallet(balance));
     return accountInfoTemporaryName;
@@ -76,7 +75,7 @@ public final class CoinbaseAdapters {
         id,
         transferId,
         feeAmount,
-        Currency.getInstance(feeCurrency));
+        Currency.valueOf(feeCurrency));
   }
 
   public static OrderType adaptOrderType(CoinbaseTransferType transferType) {
