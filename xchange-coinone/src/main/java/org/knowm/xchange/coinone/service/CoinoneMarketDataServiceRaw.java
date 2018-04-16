@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBook;
 import org.knowm.xchange.coinone.dto.marketdata.CoinoneTicker;
+import org.knowm.xchange.coinone.dto.marketdata.CoinoneTrades;
 import org.knowm.xchange.currency.CurrencyPair;
 
 /**
@@ -33,5 +34,9 @@ public class CoinoneMarketDataServiceRaw extends CoinoneBaseService {
 
   public CoinoneOrderBook getCoinoneOrderBook(CurrencyPair currencyPair) throws IOException {
     return coinone.getOrderBook(currencyPair.base.getSymbol());
+  }
+
+  public CoinoneTrades getTrades(CurrencyPair currencyPair, String period) throws IOException {
+    return coinone.getTrades(currencyPair.base.getSymbol(), period);
   }
 }
