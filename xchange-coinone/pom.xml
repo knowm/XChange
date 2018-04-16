@@ -26,11 +26,6 @@
     <!-- Parent provides default configuration for dependencies -->
     <dependencies>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.6.2</version>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
