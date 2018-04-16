@@ -1,5 +1,7 @@
 package org.knowm.xchange.coinone.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -8,8 +10,6 @@ import org.knowm.xchange.coinone.CoinoneExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TradesTest {
 	@Test

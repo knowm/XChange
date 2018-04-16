@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinone.CoinoneAdapters;
 import org.knowm.xchange.coinone.CoinoneExchange;
-import org.knowm.xchange.coinone.dto.marketdata.CoinoneOrderBook;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;

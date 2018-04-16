@@ -19,7 +19,9 @@ public class CoinoneTradeData {
 	 * @param timestamp
 	 */
 	public CoinoneTradeData(
-			@JsonProperty("price") String price, @JsonProperty("qty") String qty, @JsonProperty("timestamp") String timestamp) {
+			@JsonProperty("price") String price,
+			@JsonProperty("qty") String qty,
+			@JsonProperty("timestamp") String timestamp) {
 		this.price = new BigDecimal(price);
 		this.qty = new BigDecimal(qty);
 		this.timestamp = timestamp;
