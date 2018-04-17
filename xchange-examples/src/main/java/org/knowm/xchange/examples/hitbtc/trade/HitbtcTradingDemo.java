@@ -36,10 +36,14 @@ public class HitbtcTradingDemo {
     List<HitbtcOwnTrade> trades = tradeService.getTradeHistoryRaw("TRXBTC", 100, 0L);
     System.out.println(Arrays.toString(trades.toArray()));
 
-    trades = tradeService.getTradeHistoryRaw("LTCBTC", HitbtcSort.SORT_ASCENDING, new Date(0), null, Integer.MAX_VALUE, 0L);
+    trades =
+        tradeService.getTradeHistoryRaw(
+            "LTCBTC", HitbtcSort.SORT_ASCENDING, new Date(0), null, Integer.MAX_VALUE, 0L);
     System.out.println(Arrays.toString(trades.toArray()));
 
-    trades = tradeService.getTradeHistoryRaw("LTCBTC", HitbtcSort.SORT_DESCENDING, 0L, null, Integer.MAX_VALUE, 0L);
+    trades =
+        tradeService.getTradeHistoryRaw(
+            "LTCBTC", HitbtcSort.SORT_DESCENDING, 0L, null, Integer.MAX_VALUE, 0L);
     System.out.println(Arrays.toString(trades.toArray()));
   }
 }
