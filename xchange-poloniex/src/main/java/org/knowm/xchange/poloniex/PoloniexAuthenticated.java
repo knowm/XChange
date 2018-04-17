@@ -18,6 +18,7 @@ import org.knowm.xchange.poloniex.dto.account.TransferResponse;
 import org.knowm.xchange.poloniex.dto.account.WithdrawalResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexAccountBalance;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexGenerateNewAddressResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginAccountResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
@@ -56,6 +57,15 @@ public interface PoloniexAuthenticated {
       @HeaderParam("Key") String apiKey,
       @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
+  PoloniexGenerateNewAddressResponse generateNewAddress(
+      @HeaderParam("Key") String apiKey,
+      @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("currency") String currency)
       throws PoloniexException, IOException;
 
   @POST

@@ -17,6 +17,7 @@ import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.account.PoloniexWallet;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexGenerateNewAddressResponse;
 import org.knowm.xchange.utils.DateUtils;
 
 /** @author Zach Holmes */
@@ -78,7 +79,14 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
     if (response.containsKey(currency)) {
       return response.get(currency);
     } else {
-      throw new ExchangeException("Poloniex did not return a deposit address for " + currency);
+      PoloniexGenerateNewAddressResponse newAddressResponse =
+          poloniexAuthenticated.generateNewAddress(
+              apiKey, signatureCreator, exchange.getNonceFactory(), currency);
+      if (newAddressResponse.success()) {
+        return newAddressResponse.getAddress();
+      } else {
+        throw new ExchangeException("Failed to get Poloniex deposit address for " + currency);
+      }
     }
   }
 

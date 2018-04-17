@@ -42,19 +42,20 @@ public class KucoinAdapters {
     return pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
   }
 
-  public static Ticker adaptTicker(KucoinResponse<KucoinTicker> tickResponse, CurrencyPair pair) {
+  public static Ticker adaptTicker(KucoinTicker ticker) {
 
-    KucoinTicker kcTick = tickResponse.getData();
     return new Ticker.Builder()
-        .currencyPair(pair)
-        .bid(kcTick.getBuy())
-        .ask(kcTick.getSell())
-        .high(kcTick.getHigh())
-        .low(kcTick.getLow())
-        .last(kcTick.getLastDealPrice())
-        .volume(kcTick.getVol())
-        .quoteVolume(kcTick.getVolValue())
-        .timestamp(new Date(kcTick.getDatetime()))
+        .currencyPair(
+            new CurrencyPair(
+                Currency.valueOf(ticker.getCoinType()), Currency.valueOf(ticker.getCoinTypePair())))
+        .bid(ticker.getBuy())
+        .ask(ticker.getSell())
+        .high(ticker.getHigh())
+        .low(ticker.getLow())
+        .last(ticker.getLastDealPrice())
+        .volume(ticker.getVol())
+        .quoteVolume(ticker.getVolValue())
+        .timestamp(new Date(ticker.getDatetime()))
         .build();
   }
 

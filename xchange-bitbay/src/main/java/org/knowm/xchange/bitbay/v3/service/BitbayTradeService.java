@@ -31,4 +31,9 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
     BitbayUserTrades response = getBitbayTransactions(query);
     return BitbayAdapters.adaptUserTrades(response);
   }
+
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+    return new BitbayTradeHistoryParams();
+  }
 }
