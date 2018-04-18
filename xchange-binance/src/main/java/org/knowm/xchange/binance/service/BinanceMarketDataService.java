@@ -7,6 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
+import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -17,6 +18,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     implements MarketDataService {
@@ -59,6 +61,11 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
   public Ticker getTicker(CurrencyPair pair, Object... args) throws IOException {
 
     return ticker24h(pair).toTicker();
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return ticker24h().stream().map(BinanceTicker24h::toTicker).collect(Collectors.toList());
   }
 
   /**
