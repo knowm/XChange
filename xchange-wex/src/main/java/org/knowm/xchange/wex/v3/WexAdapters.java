@@ -10,11 +10,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -25,6 +26,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -61,7 +63,10 @@ public final class WexAdapters {
    * @return
    */
   public static List<LimitOrder> adaptOrders(
-      List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
+      List<BigDecimal[]> bTCEOrders,
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      String orderTypeString,
+      String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -86,7 +91,7 @@ public final class WexAdapters {
   public static LimitOrder adaptOrder(
       BigDecimal amount,
       BigDecimal price,
-      CurrencyPair currencyPair,
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
       OrderType orderType,
       String id) {
 
@@ -100,7 +105,8 @@ public final class WexAdapters {
    * @param currencyPair the currency pair
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(WexTrade bTCETrade, CurrencyPair currencyPair) {
+  public static Trade adaptTrade(
+      WexTrade bTCETrade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     OrderType orderType =
         bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -119,7 +125,8 @@ public final class WexAdapters {
    * @param currencyPair the currency pair
    * @return The trades
    */
-  public static Trades adaptTrades(WexTrade[] bTCETrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(
+      WexTrade[] bTCETrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
@@ -140,7 +147,8 @@ public final class WexAdapters {
    * @param bTCETicker
    * @return
    */
-  public static Ticker adaptTicker(WexTicker bTCETicker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      WexTicker bTCETicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     BigDecimal last = bTCETicker.getLast();
     BigDecimal bid = bTCETicker.getSell();
@@ -176,25 +184,30 @@ public final class WexAdapters {
         lcCurrency = "dash";
       }
       Currency currency = Currency.valueOf(lcCurrency);
-      balances.add(new Balance(currency, fund));
+      balances.add(new Balance.Builder().setCurrency(currency).setTotal(fund).createBalance());
     }
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   public static OpenOrders adaptOrders(Map<Long, WexOrder> btceOrderMap) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
-    for (Long id : btceOrderMap.keySet()) {
-      WexOrder bTCEOrder = btceOrderMap.get(id);
+    for (Entry<Long, WexOrder> longWexOrderEntry : btceOrderMap.entrySet()) {
+      WexOrder bTCEOrder = longWexOrderEntry.getValue();
       OrderType orderType =
           bTCEOrder.getType() == WexOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = bTCEOrder.getRate();
       Date timestamp = DateUtils.fromMillisUtc(bTCEOrder.getTimestampCreated() * 1000L);
-      CurrencyPair currencyPair = adaptCurrencyPair(bTCEOrder.getPair());
+      org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(bTCEOrder.getPair());
 
       limitOrders.add(
           new LimitOrder(
-              orderType, bTCEOrder.getAmount(), currencyPair, Long.toString(id), timestamp, price));
+              orderType,
+              bTCEOrder.getAmount(),
+              currencyPair,
+              Long.toString(longWexOrderEntry.getKey()),
+              timestamp,
+              price));
     }
     return new OpenOrders(limitOrders);
   }
@@ -211,7 +224,7 @@ public final class WexAdapters {
       Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
-      CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
+      org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
       trades.add(
           new UserTrade(
               type,
@@ -240,7 +253,7 @@ public final class WexAdapters {
         orderInfo.getType() == WexOrderInfoResult.Type.buy ? OrderType.BID : OrderType.ASK;
     BigDecimal price = orderInfo.getRate();
     Date timestamp = DateUtils.fromMillisUtc(orderInfo.getTimestampCreated() * 1000L);
-    CurrencyPair currencyPair = adaptCurrencyPair(orderInfo.getPair());
+    org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(orderInfo.getPair());
     OrderStatus orderStatus = null;
     switch (orderInfo.getStatus()) {
       case 0:
@@ -272,7 +285,7 @@ public final class WexAdapters {
         orderStatus);
   }
 
-  public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
+  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
 
     String[] currencies = btceCurrencyPair.split("_");
     /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
@@ -282,12 +295,14 @@ public final class WexAdapters {
     if (currencies[1].equals("dsh")) {
       currencies[1] = "dash";
     }
-    return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
+    return org.knowm.xchange.currency.CurrencyPair.build(
+        currencies[0].toUpperCase(), currencies[1].toUpperCase());
   }
 
-  public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
+  public static List<org.knowm.xchange.currency.CurrencyPair> adaptCurrencyPairs(
+      Iterable<String> btcePairs) {
 
-    List<CurrencyPair> pairs = new ArrayList<>();
+    List<org.knowm.xchange.currency.CurrencyPair> pairs = new ArrayList<>();
     for (String btcePair : btcePairs) {
       pairs.add(adaptCurrencyPair(btcePair));
     }
@@ -297,17 +312,18 @@ public final class WexAdapters {
 
   public static ExchangeMetaData toMetaData(
       WexExchangeInfo wexExchangeInfo, WexMetaData wexMetaData) {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     if (wexExchangeInfo != null) {
       for (Entry<String, WexPairInfo> e : wexExchangeInfo.getPairs().entrySet()) {
-        CurrencyPair pair = adaptCurrencyPair(e.getKey());
+        org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(e.getKey());
         CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue(), wexMetaData);
         currencyPairs.put(pair, marketMetaData);
 
-        addCurrencyMetaData(pair.base, currencies, wexMetaData);
-        addCurrencyMetaData(pair.counter, currencies, wexMetaData);
+        addCurrencyMetaData(pair.getBase(), currencies, wexMetaData);
+        addCurrencyMetaData(pair.getCounter(), currencies, wexMetaData);
       }
     }
 
@@ -347,16 +363,16 @@ public final class WexAdapters {
     }
   }
 
-  public static String getPair(CurrencyPair currencyPair) {
+  public static String getPair(org.knowm.xchange.currency.CurrencyPair currencyPair) {
     /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
-    String base = currencyPair.base.getCurrencyCode();
-    String counter = currencyPair.counter.getCurrencyCode();
+    String base = currencyPair.getBase().getCurrencyCode();
+    String counter = currencyPair.getCounter().getCurrencyCode();
     if (base.equals("DASH")) {
       base = "DSH";
     } else if (counter.equals("DASH")) {
       counter = "DSH";
     }
-    return (base + "_" + counter).toLowerCase();
+    return (base + '_' + counter).toLowerCase();
   }
 
   public static LimitOrder createLimitOrder(
@@ -367,31 +383,30 @@ public final class WexAdapters {
         marketOrder.getType() == OrderType.BID
             ? wexPairInfo.getMaxPrice()
             : wexPairInfo.getMinPrice();
-    return LimitOrder.Builder.from(marketOrder).limitPrice(limitPrice).build();
+    return Builder.from(marketOrder).limitPrice(limitPrice).build();
   }
 
   public static List<FundingRecord> adaptFundingRecords(Map<Long, WexTransHistoryResult> map) {
     List<FundingRecord> fundingRecords = new ArrayList<>();
 
-    for (Long key : map.keySet()) {
-      WexTransHistoryResult result = map.get(key);
+    for (Entry<Long, WexTransHistoryResult> longWexTransHistoryResultEntry : map.entrySet()) {
+      WexTransHistoryResult result = longWexTransHistoryResultEntry.getValue();
 
-      FundingRecord.Status status = FundingRecord.Status.COMPLETE;
+      Status status = Status.COMPLETE;
 
       if (result
           .getStatus()
           .equals(
               WexTransHistoryResult.Status
                   .entered)) // looks like the enum has the wrong name maybe?
-      status = FundingRecord.Status.FAILED;
+      status = Status.FAILED;
       else if (result.getStatus().equals(WexTransHistoryResult.Status.waiting))
-        status = FundingRecord.Status.PROCESSING;
+        status = Status.PROCESSING;
 
-      FundingRecord.Type type; // todo
-      if (result.getType().equals(WexTransHistoryResult.Type.BTC_deposit))
-        type = FundingRecord.Type.DEPOSIT;
+      Type type; // todo
+      if (result.getType().equals(WexTransHistoryResult.Type.BTC_deposit)) type = Type.DEPOSIT;
       else if (result.getType().equals(WexTransHistoryResult.Type.BTC_withdrawal))
-        type = FundingRecord.Type.WITHDRAWAL;
+        type = Type.WITHDRAWAL;
       else continue;
 
       Date date = DateUtils.fromUnixTime(result.getTimestamp());
@@ -401,7 +416,7 @@ public final class WexAdapters {
               date,
               Currency.valueOf(result.getCurrency()),
               result.getAmount(),
-              String.valueOf(key),
+              String.valueOf(longWexTransHistoryResultEntry.getKey()),
               null,
               type,
               status,

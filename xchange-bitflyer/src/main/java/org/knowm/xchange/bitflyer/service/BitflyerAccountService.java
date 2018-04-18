@@ -31,7 +31,7 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(BitflyerAdapters.adaptAccountInfo(getBitflyerBalances()));
+    return AccountInfo.build(BitflyerAdapters.adaptAccountInfo(getBitflyerBalances()));
   }
 
   @Override

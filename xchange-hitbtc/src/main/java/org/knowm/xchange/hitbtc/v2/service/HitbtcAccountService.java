@@ -27,7 +27,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(
+    return AccountInfo.build(
         HitbtcAdapters.adaptWallet("Main", getMainBalance()),
         HitbtcAdapters.adaptWallet("Trading", getTradingBalance()));
   }

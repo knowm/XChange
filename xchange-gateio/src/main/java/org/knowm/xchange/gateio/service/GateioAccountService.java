@@ -26,7 +26,7 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(GateioAdapters.adaptWallet(super.getGateioAccountInfo()));
+    return AccountInfo.build(GateioAdapters.adaptWallet(super.getGateioAccountInfo()));
   }
 
   @Override

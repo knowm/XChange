@@ -1,19 +1,19 @@
 package org.knowm.xchange.gatecoin;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -48,16 +48,16 @@ public final class GatecoinAdapters {
     for (GatecoinBalance balance : gatecoinBalances) {
       Currency ccy = Currency.valueOf(balance.getCurrency());
       balances.add(
-          new Balance.Builder()
-              .currency(ccy)
-              .total(balance.getBalance())
-              .available(balance.getAvailableBalance())
-              .frozen(balance.getOpenOrder().negate())
-              .withdrawing(balance.getPendingOutgoing().negate())
-              .depositing(balance.getPendingIncoming().negate())
-              .build());
+          new org.knowm.xchange.dto.account.Balance.Builder()
+              .setCurrency(ccy)
+              .setTotal(balance.getBalance())
+              .setAvailable(balance.getAvailableBalance())
+              .setFrozen(balance.getOpenOrder().negate())
+              .setWithdrawing(balance.getPendingOutgoing().negate())
+              .setDepositing(balance.getPendingIncoming().negate())
+              .createBalance());
     }
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   /**
@@ -69,18 +69,22 @@ public final class GatecoinAdapters {
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(
-      GatecoinDepthResult gatecoinDepthResult, CurrencyPair currencyPair, int timeScale) {
+      GatecoinDepthResult gatecoinDepthResult,
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      int timeScale) {
 
     List<LimitOrder> asks =
-        createOrders(currencyPair, Order.OrderType.ASK, gatecoinDepthResult.getAsks());
+        createOrders(currencyPair, OrderType.ASK, gatecoinDepthResult.getAsks());
     List<LimitOrder> bids =
-        createOrders(currencyPair, Order.OrderType.BID, gatecoinDepthResult.getBids());
+        createOrders(currencyPair, OrderType.BID, gatecoinDepthResult.getBids());
     Date date = new Date();
     return new OrderBook(date, asks, bids);
   }
 
   public static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair, Order.OrderType orderType, GatecoinDepth[] orders) {
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      OrderType orderType,
+      GatecoinDepth[] orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (GatecoinDepth priceVolume : orders) {
@@ -91,7 +95,9 @@ public final class GatecoinAdapters {
   }
 
   public static LimitOrder createOrder(
-      CurrencyPair currencyPair, GatecoinDepth priceAndAmount, Order.OrderType orderType) {
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      GatecoinDepth priceAndAmount,
+      OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.getVolume(), currencyPair, "", null, priceAndAmount.getPrice());
@@ -104,7 +110,8 @@ public final class GatecoinAdapters {
     }
   }
 
-  public static Trades adaptTrades(GatecoinTransaction[] transactions, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(
+      GatecoinTransaction[] transactions, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
@@ -125,7 +132,8 @@ public final class GatecoinAdapters {
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static Ticker adaptTicker(GatecoinTicker[] gatecoinTickers, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      GatecoinTicker[] gatecoinTickers, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     String ccyPair = currencyPair.toString().replace('/', ' ').replaceAll("\\s", "");
     for (GatecoinTicker ticker : gatecoinTickers) {
@@ -140,7 +148,7 @@ public final class GatecoinAdapters {
         BigDecimal volume = ticker.getVolume();
         Date timestamp = new Date(ticker.getTimestamp() * 1000L);
 
-        return new Ticker.Builder()
+        return new Builder()
             .currencyPair(currencyPair)
             .last(last)
             .bid(bid)
@@ -184,10 +192,10 @@ public final class GatecoinAdapters {
             isAsk ? gatecoinUserTrade.getAskOrderID() : gatecoinUserTrade.getBidOrderID();
         final BigDecimal feeRate = gatecoinUserTrade.getFeeRate();
         final BigDecimal feeAmount =
-            feeRate.multiply(originalAmount).multiply(price).setScale(8, BigDecimal.ROUND_CEILING);
+            feeRate.multiply(originalAmount).multiply(price).setScale(8, RoundingMode.CEILING);
 
-        final CurrencyPair currencyPair =
-            new CurrencyPair(
+        final org.knowm.xchange.currency.CurrencyPair currencyPair =
+            org.knowm.xchange.currency.CurrencyPair.build(
                 gatecoinUserTrade.getCurrencyPair().substring(0, 3),
                 gatecoinUserTrade.getCurrencyPair().substring(3, 6));
         UserTrade trade =
@@ -200,7 +208,7 @@ public final class GatecoinAdapters {
                 tradeId,
                 orderId,
                 feeAmount,
-                Currency.valueOf(currencyPair.counter.getCurrencyCode()));
+                Currency.valueOf(currencyPair.getCounter().getCurrencyCode()));
         trades.add(trade);
       }
     }

@@ -18,13 +18,12 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -41,6 +40,7 @@ import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrades;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade.Direction;
 import org.knowm.xchange.utils.DateUtils;
 
 public final class ItBitAdapters {
@@ -94,7 +94,8 @@ public final class ItBitAdapters {
     return parse;
   }
 
-  public static Trades adaptTrades(ItBitTrades trades, CurrencyPair currencyPair)
+  public static Trades adaptTrades(
+      ItBitTrades trades, org.knowm.xchange.currency.CurrencyPair currencyPair)
       throws InvalidFormatException {
 
     List<Trade> tradesList = new ArrayList<>(trades.getCount());
@@ -108,7 +109,8 @@ public final class ItBitAdapters {
     return new Trades(tradesList, lastMatchNumber, TradeSortType.SortByID);
   }
 
-  public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair)
+  public static Trade adaptTrade(
+      ItBitTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair)
       throws InvalidFormatException {
     String timestamp = trade.getTimestamp();
 
@@ -116,7 +118,7 @@ public final class ItBitAdapters {
     Matcher matcher = TIMESTAMP_PATTERN.matcher(timestamp);
     // truncate sub-millisecond zeros
     if (matcher.matches()) {
-      timestamp = matcher.group(1) + "Z";
+      timestamp = matcher.group(1) + 'Z';
     }
     Date date = DateUtils.fromISODateString(timestamp);
     final String matchNumber = String.valueOf(trade.getMatchNumber());
@@ -125,7 +127,9 @@ public final class ItBitAdapters {
   }
 
   public static List<LimitOrder> adaptOrders(
-      List<BigDecimal[]> orders, CurrencyPair currencyPair, OrderType orderType) {
+      List<BigDecimal[]> orders,
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      OrderType orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
@@ -141,7 +145,7 @@ public final class ItBitAdapters {
   private static LimitOrder adaptOrder(
       BigDecimal amount,
       BigDecimal price,
-      CurrencyPair currencyPair,
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
       String orderId,
       OrderType orderType,
       Date timestamp) {
@@ -154,33 +158,34 @@ public final class ItBitAdapters {
     List<Wallet> wallets = new ArrayList<>(info.length);
     String userId = "";
 
-    for (int i = 0; i < info.length; i++) {
-      ItBitAccountInfoReturn itBitAccountInfoReturn = info[i];
+    for (ItBitAccountInfoReturn itBitAccountInfoReturn : info) {
       ItBitAccountBalance[] balances = itBitAccountInfoReturn.getBalances();
 
       userId = itBitAccountInfoReturn.getUserId();
 
       List<Balance> walletContent = new ArrayList<>(balances.length);
 
-      for (int j = 0; j < balances.length; j++) {
-        ItBitAccountBalance itBitAccountBalance = balances[j];
-
+      for (ItBitAccountBalance itBitAccountBalance : balances) {
         Currency currency = adaptCcy(itBitAccountBalance.getCurrency());
+        BigDecimal total = itBitAccountBalance.getTotalBalance();
+        BigDecimal available = itBitAccountBalance.getAvailableBalance();
         Balance balance =
-            new Balance(
-                currency,
-                itBitAccountBalance.getTotalBalance(),
-                itBitAccountBalance.getAvailableBalance());
+            new Balance.Builder()
+                .setCurrency(currency)
+                .setTotal(total)
+                .setAvailable(available)
+                .setFrozen(total.add(available.negate()))
+                .createBalance();
         walletContent.add(balance);
       }
 
       Wallet wallet =
-          new Wallet(
+          Wallet.build(
               itBitAccountInfoReturn.getId(), itBitAccountInfoReturn.getName(), walletContent);
       wallets.add(wallet);
     }
 
-    return new AccountInfo(userId, wallets);
+    return AccountInfo.build(userId, wallets);
   }
 
   public static OpenOrders adaptPrivateOrders(ItBitOrder[] orders) {
@@ -191,12 +196,12 @@ public final class ItBitAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
-    for (int i = 0; i < orders.length; i++) {
-      ItBitOrder itBitOrder = orders[i];
+    for (ItBitOrder itBitOrder : orders) {
       String instrument = itBitOrder.getInstrument();
 
-      CurrencyPair currencyPair =
-          new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
+      org.knowm.xchange.currency.CurrencyPair currencyPair =
+          org.knowm.xchange.currency.CurrencyPair.build(
+              instrument.substring(0, 3), instrument.substring(3, 6));
       OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
       Date timestamp = parseDate(itBitOrder.getCreatedTime());
       limitOrders.add(
@@ -238,15 +243,14 @@ public final class ItBitAdapters {
       }
 
       BigDecimal volumeWeightedAveragePrice =
-          totalValue.divide(totalQuantity, 8, BigDecimal.ROUND_HALF_UP);
+          totalValue.divide(totalQuantity, 8, RoundingMode.HALF_UP);
 
       ItBitUserTrade itBitTrade = tradesByOrderId.get(orderId).get(0);
       OrderType orderType =
-          itBitTrade.getDirection().equals(ItBitUserTrade.Direction.buy)
-              ? OrderType.BID
-              : OrderType.ASK;
+          itBitTrade.getDirection().equals(Direction.buy) ? OrderType.BID : OrderType.ASK;
 
-      CurrencyPair currencyPair = adaptCcyPair(itBitTrade.getInstrument());
+      org.knowm.xchange.currency.CurrencyPair currencyPair =
+          adaptCcyPair(itBitTrade.getInstrument());
       Currency feeCcy = adaptCcy(itBitTrade.getCommissionCurrency());
 
       UserTrade userTrade =
@@ -268,10 +272,10 @@ public final class ItBitAdapters {
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static CurrencyPair adaptCcyPair(String instrument) {
+  public static org.knowm.xchange.currency.CurrencyPair adaptCcyPair(String instrument) {
     Currency base = adaptCcy(instrument.substring(0, 3));
     Currency counter = adaptCcy(instrument.substring(3, 6));
-    return new CurrencyPair(base, counter);
+    return org.knowm.xchange.currency.CurrencyPair.build(base, counter);
   }
 
   public static Currency adaptCcy(String ccy) {
@@ -280,7 +284,8 @@ public final class ItBitAdapters {
     return Currency.valueOf(ccy);
   }
 
-  public static Ticker adaptTicker(CurrencyPair currencyPair, ItBitTicker itBitTicker) {
+  public static Ticker adaptTicker(
+      org.knowm.xchange.currency.CurrencyPair currencyPair, ItBitTicker itBitTicker) {
 
     BigDecimal bid = itBitTicker.getBid();
     BigDecimal ask = itBitTicker.getAsk();
@@ -291,7 +296,7 @@ public final class ItBitAdapters {
     Date timestamp =
         itBitTicker.getTimestamp() != null ? parseDate(itBitTicker.getTimestamp()) : null;
 
-    return new Ticker.Builder()
+    return new Builder()
         .currencyPair(currencyPair)
         .last(last)
         .bid(bid)
@@ -313,9 +318,11 @@ public final class ItBitAdapters {
     return getCryptoFormat().format(amount);
   }
 
-  public static CurrencyPair adaptCurrencyPairToExchange(CurrencyPair currencyPair) {
-    return new CurrencyPair(
-        adaptCurrencyToExchange(currencyPair.base), adaptCurrencyToExchange(currencyPair.counter));
+  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPairToExchange(
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+    return org.knowm.xchange.currency.CurrencyPair.build(
+        adaptCurrencyToExchange(currencyPair.getBase()),
+        adaptCurrencyToExchange(currencyPair.getCounter()));
   }
 
   public static Currency adaptCurrencyToExchange(Currency currency) {
@@ -332,14 +339,12 @@ public final class ItBitAdapters {
     try {
       Date date = dateFormat.parse(itBitFunding.time);
 
-      FundingRecord.Type type =
-          itBitFunding.transactionType.equalsIgnoreCase("Deposit")
-              ? FundingRecord.Type.DEPOSIT
-              : FundingRecord.Type.WITHDRAWAL;
+      Type type =
+          itBitFunding.transactionType.equalsIgnoreCase("Deposit") ? Type.DEPOSIT : Type.WITHDRAWAL;
 
-      FundingRecord.Status status = FundingRecord.Status.PROCESSING;
-      if (itBitFunding.status.equals("cancelled")) status = FundingRecord.Status.CANCELLED;
-      if (itBitFunding.status.equals("completed")) status = FundingRecord.Status.COMPLETE;
+      Status status = Status.PROCESSING;
+      if (itBitFunding.status.equals("cancelled")) status = Status.CANCELLED;
+      if (itBitFunding.status.equals("completed")) status = Status.COMPLETE;
 
       Currency currency = adaptCcy(itBitFunding.currency);
 

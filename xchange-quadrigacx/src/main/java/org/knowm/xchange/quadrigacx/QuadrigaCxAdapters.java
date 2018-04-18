@@ -7,8 +7,9 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -23,6 +24,7 @@ import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxOrderBook;
 import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxTicker;
 import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxTransaction;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxUserTransaction;
+import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxUserTransaction.TransactionType;
 import org.knowm.xchange.utils.DateUtils;
 
 public final class QuadrigaCxAdapters {
@@ -50,23 +52,24 @@ public final class QuadrigaCxAdapters {
     List<Balance> balances = new ArrayList<>();
     for (Currency currency : currencies) {
       balances.add(
-          new Balance(
-              currency,
-              quadrigacxBalance.getCurrencyBalance(currency),
-              quadrigacxBalance.getCurrencyAvailable(currency),
-              quadrigacxBalance.getCurrencyReserved(currency)));
+          new Builder()
+              .setCurrency(currency)
+              .setTotal(quadrigacxBalance.getCurrencyBalance(currency))
+              .setAvailable(quadrigacxBalance.getCurrencyAvailable(currency))
+              .setFrozen(quadrigacxBalance.getCurrencyReserved(currency))
+              .createBalance());
     }
 
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   public static OrderBook adaptOrderBook(
       QuadrigaCxOrderBook quadrigacxOrderBook, CurrencyPair currencyPair, int timeScale) {
 
     List<LimitOrder> asks =
-        createOrders(currencyPair, Order.OrderType.ASK, quadrigacxOrderBook.getAsks());
+        createOrders(currencyPair, OrderType.ASK, quadrigacxOrderBook.getAsks());
     List<LimitOrder> bids =
-        createOrders(currencyPair, Order.OrderType.BID, quadrigacxOrderBook.getBids());
+        createOrders(currencyPair, OrderType.BID, quadrigacxOrderBook.getBids());
     Date date =
         new Date(
             quadrigacxOrderBook.getTimestamp()
@@ -75,7 +78,7 @@ public final class QuadrigaCxAdapters {
   }
 
   public static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
@@ -87,7 +90,7 @@ public final class QuadrigaCxAdapters {
   }
 
   public static LimitOrder createOrder(
-      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
@@ -106,13 +109,13 @@ public final class QuadrigaCxAdapters {
     List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (QuadrigaCxTransaction tx : transactions) {
-      Order.OrderType type;
+      OrderType type;
       switch (tx.getSide()) {
         case "buy":
-          type = Order.OrderType.ASK;
+          type = OrderType.ASK;
           break;
         case "sell":
-          type = Order.OrderType.BID;
+          type = OrderType.BID;
           break;
         default:
           type = null;
@@ -149,9 +152,7 @@ public final class QuadrigaCxAdapters {
     for (QuadrigaCxUserTransaction quadrigacxUserTransaction : quadrigacxUserTransactions) {
       if (quadrigacxUserTransaction
           .getType()
-          .equals(
-              QuadrigaCxUserTransaction.TransactionType
-                  .trade)) { // skip account deposits and withdrawals.
+          .equals(TransactionType.trade)) { // skip account deposits and withdrawals.
         UserTrade trade = adaptTrade(currencyPair, quadrigacxUserTransaction);
         trades.add(trade);
       }
@@ -163,22 +164,22 @@ public final class QuadrigaCxAdapters {
   public static UserTrade adaptTrade(
       CurrencyPair currencyPair, QuadrigaCxUserTransaction quadrigacxUserTransaction) {
     BigDecimal counterAmount =
-        quadrigacxUserTransaction.getCurrencyAmount(currencyPair.counter.getCurrencyCode());
+        quadrigacxUserTransaction.getCurrencyAmount(currencyPair.getCounter().getCurrencyCode());
     BigDecimal originalAmount =
-        quadrigacxUserTransaction.getCurrencyAmount(currencyPair.base.getCurrencyCode());
+        quadrigacxUserTransaction.getCurrencyAmount(currencyPair.getBase().getCurrencyCode());
 
-    Order.OrderType orderType; // sometimes very small fills end up with zero value in one currency
+    OrderType orderType; // sometimes very small fills end up with zero value in one currency
     if (counterAmount.compareTo(BigDecimal.ZERO) != 0) {
-      orderType = counterAmount.doubleValue() > 0.0 ? Order.OrderType.ASK : Order.OrderType.BID;
+      orderType = counterAmount.doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
     } else {
-      orderType = originalAmount.doubleValue() > 0.0 ? Order.OrderType.BID : Order.OrderType.ASK;
+      orderType = originalAmount.doubleValue() > 0.0 ? OrderType.BID : OrderType.ASK;
     }
 
     BigDecimal feeAmount = quadrigacxUserTransaction.getFee();
 
     // fee has been deducted to give a net value but we want a gross value (as the fee is reported
     // on its own)
-    if (orderType.equals(Order.OrderType.BID)) originalAmount = originalAmount.add(feeAmount);
+    if (orderType.equals(OrderType.BID)) originalAmount = originalAmount.add(feeAmount);
 
     BigDecimal price = quadrigacxUserTransaction.getPrice().abs();
     Date timestamp = QuadrigaCxUtils.parseDate(quadrigacxUserTransaction.getDatetime());
@@ -188,9 +189,9 @@ public final class QuadrigaCxAdapters {
     String orderId = String.valueOf(quadrigacxUserTransaction.getOrderId());
 
     String feeCurrency =
-        orderType.equals(Order.OrderType.ASK)
-            ? currencyPair.counter.getCurrencyCode()
-            : currencyPair.base.getCurrencyCode();
+        orderType.equals(OrderType.ASK)
+            ? currencyPair.getCounter().getCurrencyCode()
+            : currencyPair.getBase().getCurrencyCode();
 
     return new UserTrade(
         orderType,

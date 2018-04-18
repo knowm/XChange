@@ -25,7 +25,7 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw
   public AccountInfo getAccountInfo() throws IOException {
 
     QuadrigaCxBalance quadrigaCxBalance = getQuadrigaCxBalance();
-    return new AccountInfo(
+    return AccountInfo.build(
         exchange.getExchangeSpecification().getUserName(),
         quadrigaCxBalance.getFee(),
         QuadrigaCxAdapters.adaptWallet(quadrigaCxBalance));

@@ -23,7 +23,7 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(
+    return AccountInfo.build(
         exchange.getExchangeSpecification().getUserName(),
         BTCMarketsAdapters.adaptWallet(getBTCMarketsBalance()));
   }

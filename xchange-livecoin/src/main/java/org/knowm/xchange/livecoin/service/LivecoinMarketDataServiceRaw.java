@@ -24,7 +24,7 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
 
   public LivecoinTicker getLivecoinTicker(CurrencyPair currencyPair) throws IOException {
     return service.getTicker(
-        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
   }
 
   public List<LivecoinTicker> getAllTickers() throws IOException {
@@ -38,8 +38,8 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
     }
 
     return service.getOrderBook(
-        currencyPair.base.getCurrencyCode().toUpperCase(),
-        currencyPair.counter.getCurrencyCode().toUpperCase(),
+        currencyPair.getBase().getCurrencyCode().toUpperCase(),
+        currencyPair.getCounter().getCurrencyCode().toUpperCase(),
         depth,
         groupByPrice.toString());
   }
@@ -53,10 +53,10 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
   public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-          && cp.counter
+      if (cp.getBase().getCurrencyCode().equalsIgnoreCase(currencyPair.getBase().getCurrencyCode())
+          && cp.getCounter()
               .getCurrencyCode()
-              .equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+              .equalsIgnoreCase(currencyPair.getCounter().getCurrencyCode())) {
         currencyPairSupported = true;
         break;
       }
@@ -67,6 +67,6 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
 
   public LivecoinTrade[] getTrades(CurrencyPair currencyPair) throws IOException {
     return service.getTrades(
-        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
   }
 }

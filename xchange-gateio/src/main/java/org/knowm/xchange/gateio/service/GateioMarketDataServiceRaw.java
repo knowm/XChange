@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
@@ -27,23 +26,24 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     super(exchange);
   }
 
-  public Map<CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo> getBTERMarketInfo()
-      throws IOException {
+  public Map<org.knowm.xchange.currency.CurrencyPair, GateioMarketInfoWrapper.GateioMarketInfo>
+      getBTERMarketInfo() throws IOException {
 
     GateioMarketInfoWrapper bterMarketInfo = bter.getMarketInfo();
 
     return bterMarketInfo.getMarketInfoMap();
   }
 
-  public Map<CurrencyPair, Ticker> getBTERTickers() throws IOException {
+  public Map<org.knowm.xchange.currency.CurrencyPair, Ticker> getBTERTickers() throws IOException {
 
     Map<String, GateioTicker> gateioTickers = bter.getTickers();
-    Map<CurrencyPair, Ticker> adaptedTickers = new HashMap<>(gateioTickers.size());
+    Map<org.knowm.xchange.currency.CurrencyPair, Ticker> adaptedTickers =
+        new HashMap<>(gateioTickers.size());
     gateioTickers.forEach(
         (currencyPairString, gateioTicker) -> {
           String[] currencyPairStringSplit = currencyPairString.split("_");
-          CurrencyPair currencyPair =
-              new CurrencyPair(
+          org.knowm.xchange.currency.CurrencyPair currencyPair =
+              org.knowm.xchange.currency.CurrencyPair.build(
                   Currency.valueOf(currencyPairStringSplit[0].toUpperCase()),
                   Currency.valueOf(currencyPairStringSplit[1].toUpperCase()));
           adaptedTickers.put(currencyPair, GateioAdapters.adaptTicker(currencyPair, gateioTicker));
@@ -52,14 +52,16 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     return adaptedTickers;
   }
 
-  public Map<CurrencyPair, GateioDepth> getGateioDepths() throws IOException {
+  public Map<org.knowm.xchange.currency.CurrencyPair, GateioDepth> getGateioDepths()
+      throws IOException {
     Map<String, GateioDepth> depths = bter.getDepths();
-    Map<CurrencyPair, GateioDepth> adaptedDepths = new HashMap<>(depths.size());
+    Map<org.knowm.xchange.currency.CurrencyPair, GateioDepth> adaptedDepths =
+        new HashMap<>(depths.size());
     depths.forEach(
         (currencyPairString, gateioDepth) -> {
           String[] currencyPairStringSplit = currencyPairString.split("_");
-          CurrencyPair currencyPair =
-              new CurrencyPair(
+          org.knowm.xchange.currency.CurrencyPair currencyPair =
+              org.knowm.xchange.currency.CurrencyPair.build(
                   Currency.valueOf(currencyPairStringSplit[0].toUpperCase()),
                   Currency.valueOf(currencyPairStringSplit[1].toUpperCase()));
           adaptedDepths.put(currencyPair, gateioDepth);
@@ -101,9 +103,10 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     return handleResponse(tradeHistory);
   }
 
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+  public List<org.knowm.xchange.currency.CurrencyPair> getExchangeSymbols() throws IOException {
 
-    List<CurrencyPair> currencyPairs = new ArrayList<>(bter.getPairs().getPairs());
+    List<org.knowm.xchange.currency.CurrencyPair> currencyPairs =
+        new ArrayList<>(bter.getPairs().getPairs());
     return currencyPairs;
   }
 }

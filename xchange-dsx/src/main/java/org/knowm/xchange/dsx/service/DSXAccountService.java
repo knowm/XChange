@@ -51,7 +51,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
   public AccountInfo getAccountInfo() throws IOException {
 
     DSXAccountInfo info = getDSXAccountInfo();
-    return new AccountInfo(DSXAdapters.adaptWallet(info));
+    return AccountInfo.build(DSXAdapters.adaptWallet(info));
   }
 
   @Override

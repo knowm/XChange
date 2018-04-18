@@ -27,7 +27,7 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(
+    return AccountInfo.build(
         exchange.getExchangeSpecification().getUserName(),
         IndependentReserveAdapters.adaptWallet(getIndependentReserveBalance()));
   }

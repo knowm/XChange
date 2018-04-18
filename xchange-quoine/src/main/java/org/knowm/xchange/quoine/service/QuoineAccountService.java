@@ -52,7 +52,7 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
     all.addAll(fiatBalances);
     all.addAll(cryptoWallets);
 
-    return new AccountInfo(all);
+    return AccountInfo.build(all);
   }
 
   @Override

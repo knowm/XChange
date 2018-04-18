@@ -19,7 +19,7 @@ public class CCEXAccountService extends CCEXAccountServiceRaw implements Account
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(CCEXAdapters.adaptWallet(getCCEXAccountInfo()));
+    return AccountInfo.build(CCEXAdapters.adaptWallet(getCCEXAccountInfo()));
   }
 
   @Override

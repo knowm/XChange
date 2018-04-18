@@ -34,7 +34,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(GDAXAdapters.adaptAccountInfo(getGDAXAccountInfo()));
+    return AccountInfo.build(GDAXAdapters.adaptAccountInfo(getGDAXAccountInfo()));
   }
 
   @Override

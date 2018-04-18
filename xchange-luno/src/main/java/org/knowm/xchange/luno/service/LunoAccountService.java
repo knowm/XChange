@@ -6,12 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -51,13 +49,18 @@ public class LunoAccountService extends LunoBaseService implements AccountServic
     List<Wallet> wallets = new ArrayList<>();
     for (org.knowm.xchange.luno.dto.account.LunoBalance.Balance lb : lunoBalance.getBalance()) {
       List<Balance> balances = new ArrayList<>();
+      BigDecimal available = lb.balance.subtract(lb.reserved);
       balances.add(
-          new Balance(
-              LunoUtil.fromLunoCurrency(lb.asset), lb.balance, lb.balance.subtract(lb.reserved)));
-      wallets.add(new Wallet(lb.accountId, lb.name, balances));
+          new Builder()
+              .setCurrency(LunoUtil.fromLunoCurrency(lb.asset))
+              .setTotal(lb.balance)
+              .setAvailable(available)
+              .setFrozen(lb.balance.add(available.negate()))
+              .createBalance());
+      wallets.add(Wallet.build(lb.accountId, lb.name, balances));
     }
 
-    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), wallets);
+    return AccountInfo.build(exchange.getExchangeSpecification().getUserName(), wallets);
   }
 
   @Override

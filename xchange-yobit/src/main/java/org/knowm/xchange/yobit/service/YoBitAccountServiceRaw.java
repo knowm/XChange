@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -45,27 +46,29 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit>
 
     Collection<Wallet> wallets = new ArrayList<>();
 
-    for (Object key : funds.keySet()) {
-      Currency currency = YoBitAdapters.adaptCurrency(key.toString());
+    for (Object o : funds.entrySet()) {
+      Currency currency = YoBitAdapters.adaptCurrency((((Entry) o).getKey()).toString());
 
-      BigDecimal amountAvailable = new BigDecimal(funds.get(key).toString());
-      BigDecimal amountIncludingOrders = new BigDecimal(fundsIncludingOrders.get(key).toString());
+      BigDecimal amountAvailable = new BigDecimal(((Entry) o).getValue().toString());
+      BigDecimal amountIncludingOrders =
+          new BigDecimal(fundsIncludingOrders.get(((Entry) o).getKey()).toString());
 
-      Balance balance =
-          new Balance(
-              currency,
-              amountIncludingOrders,
-              amountAvailable,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO);
+      org.knowm.xchange.dto.account.Balance balance =
+          new Builder()
+              .setCurrency(currency)
+              .setTotal(amountIncludingOrders)
+              .setAvailable(amountAvailable)
+              .setFrozen(BigDecimal.ZERO)
+              .setBorrowed(BigDecimal.ZERO)
+              .setLoaned(BigDecimal.ZERO)
+              .setWithdrawing(BigDecimal.ZERO)
+              .setDepositing(BigDecimal.ZERO)
+              .createBalance();
 
-      wallets.add(new Wallet(currency.getCurrencyCode(), balance));
+      wallets.add(Wallet.build(currency.getCurrencyCode(), balance));
     }
 
-    return new AccountInfo(wallets);
+    return AccountInfo.build(wallets);
   }
 
   public BaseYoBitResponse withdrawCoinsToAddress(DefaultWithdrawFundsParams params)

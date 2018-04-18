@@ -34,10 +34,14 @@ public class CoinbaseAdapterTest {
   @Test
   public void testAdaptAccountInfo() throws IOException {
 
-    Balance balance = new Balance(Currency.BTC, new BigDecimal("7.10770000"));
+    org.knowm.xchange.dto.account.Balance balance =
+        new org.knowm.xchange.dto.account.Balance.Builder()
+            .setCurrency(Currency.BTC)
+            .setTotal(new BigDecimal("7.10770000"))
+            .createBalance();
     List<Balance> balances = new ArrayList<>();
     balances.add(balance);
-    AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", new Wallet(balances));
+    AccountInfo expectedAccountInfo = AccountInfo.build("demo@demo.com", Wallet.build(balances));
 
     // Read in the JSON from the example resources
     InputStream is =

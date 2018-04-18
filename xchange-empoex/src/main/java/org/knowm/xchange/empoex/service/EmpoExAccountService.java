@@ -28,7 +28,7 @@ public class EmpoExAccountService extends EmpoExAccountServiceRaw implements Acc
 
     // TODO empoex also provides "pending" and "held" balances; perhaps they are depositing and
     // frozen?
-    return new AccountInfo(
+    return AccountInfo.build(
         EmpoExAdapters.adaptBalances(super.getEmpoExBalances().get("available")));
   }
 

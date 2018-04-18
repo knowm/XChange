@@ -60,7 +60,7 @@ public class AcxTradeService implements TradeService {
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     long tonce = System.currentTimeMillis();
     String market = getAcxMarket(limitOrder.getCurrencyPair());
-    String side = mapper.getOrderType(limitOrder.getType());
+    String side = AcxMapper.getOrderType(limitOrder.getType());
     String volume =
         limitOrder.getOriginalAmount().setScale(2, BigDecimal.ROUND_DOWN).toPlainString();
     String price = limitOrder.getLimitPrice().setScale(4, BigDecimal.ROUND_DOWN).toPlainString();

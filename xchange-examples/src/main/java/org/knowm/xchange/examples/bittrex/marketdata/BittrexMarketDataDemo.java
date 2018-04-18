@@ -18,7 +18,6 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.service.BittrexChartDataPeriodType;
 import org.knowm.xchange.bittrex.service.BittrexMarketDataServiceRaw;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -43,7 +42,8 @@ public class BittrexMarketDataDemo {
 
     System.out.println("----------GENERIC---------");
 
-    CurrencyPair pair = new CurrencyPair("ETH", "BTC");
+    org.knowm.xchange.currency.CurrencyPair pair =
+        org.knowm.xchange.currency.CurrencyPair.build("ETH", "BTC");
     System.out.println("Market data for " + pair + ":");
     Ticker ticker = marketDataService.getTicker(pair);
     System.out.println(ticker);
@@ -65,7 +65,7 @@ public class BittrexMarketDataDemo {
     ArrayList<BittrexSymbol> symbols = marketDataService.getBittrexSymbols();
     System.out.println(symbols);
 
-    CurrencyPair pair =
+    org.knowm.xchange.currency.CurrencyPair pair =
         exchange
             .getExchangeSymbols()
             .get(new Random().nextInt(exchange.getExchangeSymbols().size()));
@@ -89,12 +89,14 @@ public class BittrexMarketDataDemo {
 
     List<BittrexChartData> chartData =
         marketDataService.getBittrexChartData(
-            CurrencyPair.ETH_BTC, BittrexChartDataPeriodType.ONE_DAY);
+            org.knowm.xchange.currency.CurrencyPair.ETH_BTC, BittrexChartDataPeriodType.ONE_DAY);
     System.out.println(chartData);
 
     List<BittrexChartData> latestTick =
         marketDataService.getBittrexLatestTick(
-            CurrencyPair.ETH_BTC, BittrexChartDataPeriodType.ONE_DAY, 1500915289434L);
+            org.knowm.xchange.currency.CurrencyPair.ETH_BTC,
+            BittrexChartDataPeriodType.ONE_DAY,
+            1500915289434L);
     System.out.println(latestTick);
   }
 }

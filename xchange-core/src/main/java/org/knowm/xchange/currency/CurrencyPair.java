@@ -1,376 +1,240 @@
 package org.knowm.xchange.currency;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 
-/**
- * Value object to provide the following to API:
- *
- * <ul>
- *   <li>Provision of major currency symbol pairs (EUR/USD, GBP/USD etc)
- *   <li>Provision of arbitrary symbol pairs for exchange index trading, notional currencies etc
- * </ul>
- *
- * <p>Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with
- * 1.25 USD
- */
-@JsonSerialize(using = CustomCurrencyPairSerializer.class)
-public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
-
+// @JsonSerialize(using = CustomCurrencyPairSerializer.class)
+public interface CurrencyPair extends Comparable<CurrencyPair>, Serializable {
   // Provide some standard major symbols
-  public static final CurrencyPair EUR_USD = new CurrencyPair(Currency.EUR, Currency.USD);
-  public static final CurrencyPair GBP_USD = new CurrencyPair(Currency.GBP, Currency.USD);
-  public static final CurrencyPair USD_JPY = new CurrencyPair(Currency.USD, Currency.JPY);
-  public static final CurrencyPair JPY_USD = new CurrencyPair(Currency.JPY, Currency.USD);
-  public static final CurrencyPair USD_CHF = new CurrencyPair(Currency.USD, Currency.CHF);
-  public static final CurrencyPair USD_AUD = new CurrencyPair(Currency.USD, Currency.AUD);
-  public static final CurrencyPair USD_CAD = new CurrencyPair(Currency.USD, Currency.CAD);
-  public static final CurrencyPair USD_RUR = new CurrencyPair(Currency.USD, Currency.RUR);
-  public static final CurrencyPair EUR_RUR = new CurrencyPair(Currency.EUR, Currency.RUR);
-  public static final CurrencyPair USD_XRP = new CurrencyPair(Currency.USD, Currency.XRP);
-  public static final CurrencyPair EUR_XRP = new CurrencyPair(Currency.EUR, Currency.XRP);
-  public static final CurrencyPair USD_XVN = new CurrencyPair(Currency.USD, Currency.XVN);
-  public static final CurrencyPair EUR_XVN = new CurrencyPair(Currency.EUR, Currency.XVN);
-  public static final CurrencyPair KRW_XRP = new CurrencyPair(Currency.KRW, Currency.XRP);
-
+  CurrencyPair EUR_USD = build(Currency.EUR, Currency.USD);
+  CurrencyPair GBP_USD = build(Currency.GBP, Currency.USD);
+  CurrencyPair USD_JPY = build(Currency.USD, Currency.JPY);
+  CurrencyPair JPY_USD = build(Currency.JPY, Currency.USD);
+  CurrencyPair USD_CHF = build(Currency.USD, Currency.CHF);
+  CurrencyPair USD_AUD = build(Currency.USD, Currency.AUD);
+  CurrencyPair USD_CAD = build(Currency.USD, Currency.CAD);
+  CurrencyPair USD_RUR = build(Currency.USD, Currency.RUR);
+  CurrencyPair EUR_RUR = build(Currency.EUR, Currency.RUR);
+  CurrencyPair USD_XRP = build(Currency.USD, Currency.XRP);
+  CurrencyPair EUR_XRP = build(Currency.EUR, Currency.XRP);
+  CurrencyPair USD_XVN = build(Currency.USD, Currency.XVN);
+  CurrencyPair EUR_XVN = build(Currency.EUR, Currency.XVN);
+  CurrencyPair KRW_XRP = build(Currency.KRW, Currency.XRP);
   // Provide some courtesy BTC major symbols
-  public static final CurrencyPair BTC_USD = new CurrencyPair(Currency.BTC, Currency.USD);
-  public static final CurrencyPair BTC_GBP = new CurrencyPair(Currency.BTC, Currency.GBP);
-  public static final CurrencyPair BTC_EUR = new CurrencyPair(Currency.BTC, Currency.EUR);
-  public static final CurrencyPair BTC_JPY = new CurrencyPair(Currency.BTC, Currency.JPY);
-  public static final CurrencyPair BTC_CHF = new CurrencyPair(Currency.BTC, Currency.CHF);
-  public static final CurrencyPair BTC_AUD = new CurrencyPair(Currency.BTC, Currency.AUD);
-  public static final CurrencyPair BTC_CAD = new CurrencyPair(Currency.BTC, Currency.CAD);
-  public static final CurrencyPair BTC_CNY = new CurrencyPair(Currency.BTC, Currency.CNY);
-  public static final CurrencyPair BTC_DKK = new CurrencyPair(Currency.BTC, Currency.DKK);
-  public static final CurrencyPair BTC_HKD = new CurrencyPair(Currency.BTC, Currency.HKD);
-  public static final CurrencyPair BTC_MXN = new CurrencyPair(Currency.BTC, Currency.MXN);
-  public static final CurrencyPair BTC_NZD = new CurrencyPair(Currency.BTC, Currency.NZD);
-  public static final CurrencyPair BTC_PLN = new CurrencyPair(Currency.BTC, Currency.PLN);
-  public static final CurrencyPair BTC_RUB = new CurrencyPair(Currency.BTC, Currency.RUB);
-  public static final CurrencyPair BTC_SEK = new CurrencyPair(Currency.BTC, Currency.SEK);
-  public static final CurrencyPair BTC_SGD = new CurrencyPair(Currency.BTC, Currency.SGD);
-  public static final CurrencyPair BTC_NOK = new CurrencyPair(Currency.BTC, Currency.NOK);
-  public static final CurrencyPair BTC_THB = new CurrencyPair(Currency.BTC, Currency.THB);
-  public static final CurrencyPair BTC_RUR = new CurrencyPair(Currency.BTC, Currency.RUR);
-  public static final CurrencyPair BTC_ZAR = new CurrencyPair(Currency.BTC, Currency.ZAR);
-  public static final CurrencyPair BTC_BRL = new CurrencyPair(Currency.BTC, Currency.BRL);
-  public static final CurrencyPair BTC_CZK = new CurrencyPair(Currency.BTC, Currency.CZK);
-  public static final CurrencyPair BTC_ILS = new CurrencyPair(Currency.BTC, Currency.ILS);
-  public static final CurrencyPair BTC_KRW = new CurrencyPair(Currency.BTC, Currency.KRW);
-  public static final CurrencyPair BTC_LTC = new CurrencyPair(Currency.BTC, Currency.LTC);
-  public static final CurrencyPair BTC_XRP = new CurrencyPair(Currency.BTC, Currency.XRP);
-  public static final CurrencyPair BTC_NMC = new CurrencyPair(Currency.BTC, Currency.NMC);
-  public static final CurrencyPair BTC_XVN = new CurrencyPair(Currency.BTC, Currency.XVN);
-  public static final CurrencyPair BTC_IDR = new CurrencyPair(Currency.BTC, Currency.IDR);
-  public static final CurrencyPair BTC_PHP = new CurrencyPair(Currency.BTC, Currency.PHP);
-  public static final CurrencyPair BTC_STR = new CurrencyPair(Currency.BTC, Currency.STR);
-  public static final CurrencyPair BTC_INR = new CurrencyPair(Currency.BTC, Currency.INR);
-  public static final CurrencyPair BTC_XAUR = new CurrencyPair(Currency.BTC, Currency.XAUR);
-  public static final CurrencyPair BTC_IOC = new CurrencyPair(Currency.BTC, Currency.IOC);
-  public static final CurrencyPair BTC_TRY = new CurrencyPair(Currency.BTC, Currency.TRY);
-  public static final CurrencyPair ETH_TRY = new CurrencyPair(Currency.ETH, Currency.TRY);
-
-  public static final CurrencyPair BCH_USD = new CurrencyPair(Currency.BCH, Currency.USD);
-  public static final CurrencyPair BCH_AUD = new CurrencyPair(Currency.BCH, Currency.AUD);
-  public static final CurrencyPair BCH_CAD = new CurrencyPair(Currency.BCH, Currency.CAD);
-  public static final CurrencyPair BCH_GBP = new CurrencyPair(Currency.BCH, Currency.GBP);
-  public static final CurrencyPair BCH_EUR = new CurrencyPair(Currency.BCH, Currency.EUR);
-  public static final CurrencyPair BCH_BTC = new CurrencyPair(Currency.BCH, Currency.BTC);
-  public static final CurrencyPair BCH_ETH = new CurrencyPair(Currency.BCH, Currency.ETH);
-
-  public static final CurrencyPair ETH_BTC = new CurrencyPair(Currency.ETH, Currency.BTC);
-  public static final CurrencyPair ETH_GBP = new CurrencyPair(Currency.ETH, Currency.GBP);
-  public static final CurrencyPair ETH_USD = new CurrencyPair(Currency.ETH, Currency.USD);
-  public static final CurrencyPair ETH_EUR = new CurrencyPair(Currency.ETH, Currency.EUR);
-  public static final CurrencyPair ETH_JPY = new CurrencyPair(Currency.ETH, Currency.JPY);
-  public static final CurrencyPair ETH_CNY = new CurrencyPair(Currency.ETH, Currency.CNY);
-  public static final CurrencyPair ETH_AUD = new CurrencyPair(Currency.ETH, Currency.AUD);
-  public static final CurrencyPair ETH_NZD = new CurrencyPair(Currency.ETH, Currency.NZD);
-
-  public static final CurrencyPair XAUR_BTC = new CurrencyPair(Currency.XAUR, Currency.BTC);
-
-  public static final CurrencyPair XDC_BTC = new CurrencyPair(Currency.XDC, Currency.BTC);
-
-  public static final CurrencyPair SC_BTC = new CurrencyPair(Currency.SC, Currency.BTC);
-
-  public static final CurrencyPair DCR_BTC = new CurrencyPair(Currency.DCR, Currency.BTC);
-
-  public static final CurrencyPair XRP_BTC = new CurrencyPair(Currency.XRP, Currency.BTC);
-  public static final CurrencyPair XRP_EUR = new CurrencyPair(Currency.XRP, Currency.EUR);
-  public static final CurrencyPair XRP_USD = new CurrencyPair(Currency.XRP, Currency.USD);
-  public static final CurrencyPair XRP_USDT = new CurrencyPair(Currency.XRP, Currency.USDT);
-  public static final CurrencyPair XRP_GBP = new CurrencyPair(Currency.XRP, Currency.GBP);
-
-  public static final CurrencyPair LTC_AUD = new CurrencyPair(Currency.LTC, Currency.AUD);
-  public static final CurrencyPair LTC_GBP = new CurrencyPair(Currency.LTC, Currency.GBP);
-  public static final CurrencyPair LTC_USD = new CurrencyPair(Currency.LTC, Currency.USD);
-  public static final CurrencyPair LTC_KRW = new CurrencyPair(Currency.LTC, Currency.KRW);
-  public static final CurrencyPair LTC_CNY = new CurrencyPair(Currency.LTC, Currency.CNY);
-  public static final CurrencyPair LTC_RUR = new CurrencyPair(Currency.LTC, Currency.RUR);
-  public static final CurrencyPair LTC_EUR = new CurrencyPair(Currency.LTC, Currency.EUR);
-  public static final CurrencyPair LTC_BTC = new CurrencyPair(Currency.LTC, Currency.BTC);
-  public static final CurrencyPair LTC_XRP = new CurrencyPair(Currency.LTC, Currency.XRP);
-  public static final CurrencyPair LTC_TRY = new CurrencyPair(Currency.LTC, Currency.TRY);
-
-  public static final CurrencyPair NMC_USD = new CurrencyPair(Currency.NMC, Currency.USD);
-  public static final CurrencyPair NMC_CNY = new CurrencyPair(Currency.NMC, Currency.CNY);
-  public static final CurrencyPair NMC_EUR = new CurrencyPair(Currency.NMC, Currency.EUR);
-  public static final CurrencyPair NMC_KRW = new CurrencyPair(Currency.NMC, Currency.KRW);
-  public static final CurrencyPair NMC_BTC = new CurrencyPair(Currency.NMC, Currency.BTC);
-  public static final CurrencyPair NMC_LTC = new CurrencyPair(Currency.NMC, Currency.LTC);
-  public static final CurrencyPair NMC_XRP = new CurrencyPair(Currency.NMC, Currency.XRP);
-
-  public static final CurrencyPair NVC_USD = new CurrencyPair(Currency.NVC, Currency.USD);
-  public static final CurrencyPair NVC_BTC = new CurrencyPair(Currency.NVC, Currency.BTC);
-
-  public static final CurrencyPair TRC_BTC = new CurrencyPair(Currency.TRC, Currency.BTC);
-
-  public static final CurrencyPair PPC_USD = new CurrencyPair(Currency.PPC, Currency.USD);
-  public static final CurrencyPair PPC_BTC = new CurrencyPair(Currency.PPC, Currency.BTC);
-  public static final CurrencyPair PPC_LTC = new CurrencyPair(Currency.PPC, Currency.LTC);
-
-  public static final CurrencyPair FTC_USD = new CurrencyPair(Currency.FTC, Currency.USD);
-  public static final CurrencyPair FTC_CNY = new CurrencyPair(Currency.FTC, Currency.CNY);
-  public static final CurrencyPair FTC_BTC = new CurrencyPair(Currency.FTC, Currency.BTC);
-  public static final CurrencyPair FTC_LTC = new CurrencyPair(Currency.FTC, Currency.LTC);
-
-  public static final CurrencyPair XEM_USD = new CurrencyPair(Currency.XEM, Currency.USD);
-  public static final CurrencyPair XEM_USDT = new CurrencyPair(Currency.XEM, Currency.USDT);
-  public static final CurrencyPair XEM_KRW = new CurrencyPair(Currency.XEM, Currency.KRW);
-  public static final CurrencyPair XEM_JPY = new CurrencyPair(Currency.XEM, Currency.JPY);
-  public static final CurrencyPair XEM_BTC = new CurrencyPair(Currency.XEM, Currency.BTC);
-  public static final CurrencyPair XEM_ETH = new CurrencyPair(Currency.XEM, Currency.ETH);
-  public static final CurrencyPair XEM_EUR = new CurrencyPair(Currency.XEM, Currency.EUR);
-
-  public static final CurrencyPair XMR_BTC = new CurrencyPair(Currency.XMR, Currency.BTC);
-  public static final CurrencyPair XMR_ETH = new CurrencyPair(Currency.XMR, Currency.ETH);
-  public static final CurrencyPair XMR_USD = new CurrencyPair(Currency.XMR, Currency.USD);
-
-  public static final CurrencyPair XPM_USD = new CurrencyPair(Currency.XPM, Currency.USD);
-  public static final CurrencyPair XPM_CNY = new CurrencyPair(Currency.XPM, Currency.CNY);
-  public static final CurrencyPair XPM_BTC = new CurrencyPair(Currency.XPM, Currency.BTC);
-  public static final CurrencyPair XPM_LTC = new CurrencyPair(Currency.XPM, Currency.LTC);
-  public static final CurrencyPair XPM_PPC = new CurrencyPair(Currency.XPM, Currency.PPC);
-
-  public static final CurrencyPair XVN_XRP = new CurrencyPair(Currency.XVN, Currency.XRP);
-
-  public static final CurrencyPair STEEM_BTC = new CurrencyPair(Currency.STEEM, Currency.BTC);
-  public static final CurrencyPair STEEM_USD = new CurrencyPair(Currency.STEEM, Currency.USD);
-  public static final CurrencyPair STEEM_USDT = new CurrencyPair(Currency.STEEM, Currency.USDT);
-  public static final CurrencyPair STEEM_ETH = new CurrencyPair(Currency.STEEM, Currency.ETH);
-  public static final CurrencyPair STEEM_BNB = new CurrencyPair(Currency.STEEM, Currency.BNB);
-  public static final CurrencyPair STEEM_KRW = new CurrencyPair(Currency.STEEM, Currency.KRW);
-
+  CurrencyPair BTC_USD = build(Currency.BTC, Currency.USD);
+  CurrencyPair BTC_GBP = build(Currency.BTC, Currency.GBP);
+  CurrencyPair BTC_EUR = build(Currency.BTC, Currency.EUR);
+  CurrencyPair BTC_JPY = build(Currency.BTC, Currency.JPY);
+  CurrencyPair BTC_CHF = build(Currency.BTC, Currency.CHF);
+  CurrencyPair BTC_AUD = build(Currency.BTC, Currency.AUD);
+  CurrencyPair BTC_CAD = build(Currency.BTC, Currency.CAD);
+  CurrencyPair BTC_CNY = build(Currency.BTC, Currency.CNY);
+  CurrencyPair BTC_DKK = build(Currency.BTC, Currency.DKK);
+  CurrencyPair BTC_HKD = build(Currency.BTC, Currency.HKD);
+  CurrencyPair BTC_MXN = build(Currency.BTC, Currency.MXN);
+  CurrencyPair BTC_NZD = build(Currency.BTC, Currency.NZD);
+  CurrencyPair BTC_PLN = build(Currency.BTC, Currency.PLN);
+  CurrencyPair BTC_RUB = build(Currency.BTC, Currency.RUB);
+  CurrencyPair BTC_SEK = build(Currency.BTC, Currency.SEK);
+  CurrencyPair BTC_SGD = build(Currency.BTC, Currency.SGD);
+  CurrencyPair BTC_NOK = build(Currency.BTC, Currency.NOK);
+  CurrencyPair BTC_THB = build(Currency.BTC, Currency.THB);
+  CurrencyPair BTC_RUR = build(Currency.BTC, Currency.RUR);
+  CurrencyPair BTC_ZAR = build(Currency.BTC, Currency.ZAR);
+  CurrencyPair BTC_BRL = build(Currency.BTC, Currency.BRL);
+  CurrencyPair BTC_CZK = build(Currency.BTC, Currency.CZK);
+  CurrencyPair BTC_ILS = build(Currency.BTC, Currency.ILS);
+  CurrencyPair BTC_KRW = build(Currency.BTC, Currency.KRW);
+  CurrencyPair BTC_LTC = build(Currency.BTC, Currency.LTC);
+  CurrencyPair BTC_XRP = build(Currency.BTC, Currency.XRP);
+  CurrencyPair BTC_NMC = build(Currency.BTC, Currency.NMC);
+  CurrencyPair BTC_XVN = build(Currency.BTC, Currency.XVN);
+  CurrencyPair BTC_IDR = build(Currency.BTC, Currency.IDR);
+  CurrencyPair BTC_PHP = build(Currency.BTC, Currency.PHP);
+  CurrencyPair BTC_STR = build(Currency.BTC, Currency.STR);
+  CurrencyPair BTC_INR = build(Currency.BTC, Currency.INR);
+  CurrencyPair BTC_XAUR = build(Currency.BTC, Currency.XAUR);
+  CurrencyPair BTC_IOC = build(Currency.BTC, Currency.IOC);
+  CurrencyPair BTC_TRY = build(Currency.BTC, Currency.TRY);
+  CurrencyPair ETH_TRY = build(Currency.ETH, Currency.TRY);
+  CurrencyPair BCH_USD = build(Currency.BCH, Currency.USD);
+  CurrencyPair BCH_AUD = build(Currency.BCH, Currency.AUD);
+  CurrencyPair BCH_CAD = build(Currency.BCH, Currency.CAD);
+  CurrencyPair BCH_GBP = build(Currency.BCH, Currency.GBP);
+  CurrencyPair BCH_EUR = build(Currency.BCH, Currency.EUR);
+  CurrencyPair BCH_BTC = build(Currency.BCH, Currency.BTC);
+  CurrencyPair BCH_ETH = build(Currency.BCH, Currency.ETH);
+  CurrencyPair ETH_BTC = build(Currency.ETH, Currency.BTC);
+  CurrencyPair ETH_GBP = build(Currency.ETH, Currency.GBP);
+  CurrencyPair ETH_USD = build(Currency.ETH, Currency.USD);
+  CurrencyPair ETH_EUR = build(Currency.ETH, Currency.EUR);
+  CurrencyPair ETH_JPY = build(Currency.ETH, Currency.JPY);
+  CurrencyPair ETH_CNY = build(Currency.ETH, Currency.CNY);
+  CurrencyPair ETH_AUD = build(Currency.ETH, Currency.AUD);
+  CurrencyPair ETH_NZD = build(Currency.ETH, Currency.NZD);
+  CurrencyPair XAUR_BTC = build(Currency.XAUR, Currency.BTC);
+  CurrencyPair XDC_BTC = build(Currency.XDC, Currency.BTC);
+  CurrencyPair SC_BTC = build(Currency.SC, Currency.BTC);
+  CurrencyPair DCR_BTC = build(Currency.DCR, Currency.BTC);
+  CurrencyPair XRP_BTC = build(Currency.XRP, Currency.BTC);
+  CurrencyPair XRP_EUR = build(Currency.XRP, Currency.EUR);
+  CurrencyPair XRP_USD = build(Currency.XRP, Currency.USD);
+  CurrencyPair XRP_USDT = build(Currency.XRP, Currency.USDT);
+  CurrencyPair XRP_GBP = build(Currency.XRP, Currency.GBP);
+  CurrencyPair LTC_AUD = build(Currency.LTC, Currency.AUD);
+  CurrencyPair LTC_GBP = build(Currency.LTC, Currency.GBP);
+  CurrencyPair LTC_USD = build(Currency.LTC, Currency.USD);
+  CurrencyPair LTC_KRW = build(Currency.LTC, Currency.KRW);
+  CurrencyPair LTC_CNY = build(Currency.LTC, Currency.CNY);
+  CurrencyPair LTC_RUR = build(Currency.LTC, Currency.RUR);
+  CurrencyPair LTC_EUR = build(Currency.LTC, Currency.EUR);
+  CurrencyPair LTC_BTC = build(Currency.LTC, Currency.BTC);
+  CurrencyPair LTC_XRP = build(Currency.LTC, Currency.XRP);
+  CurrencyPair LTC_TRY = build(Currency.LTC, Currency.TRY);
+  CurrencyPair NMC_USD = build(Currency.NMC, Currency.USD);
+  CurrencyPair NMC_CNY = build(Currency.NMC, Currency.CNY);
+  CurrencyPair NMC_EUR = build(Currency.NMC, Currency.EUR);
+  CurrencyPair NMC_KRW = build(Currency.NMC, Currency.KRW);
+  CurrencyPair NMC_BTC = build(Currency.NMC, Currency.BTC);
+  CurrencyPair NMC_LTC = build(Currency.NMC, Currency.LTC);
+  CurrencyPair NMC_XRP = build(Currency.NMC, Currency.XRP);
+  CurrencyPair NVC_USD = build(Currency.NVC, Currency.USD);
+  CurrencyPair NVC_BTC = build(Currency.NVC, Currency.BTC);
+  CurrencyPair TRC_BTC = build(Currency.TRC, Currency.BTC);
+  CurrencyPair PPC_USD = build(Currency.PPC, Currency.USD);
+  CurrencyPair PPC_BTC = build(Currency.PPC, Currency.BTC);
+  CurrencyPair PPC_LTC = build(Currency.PPC, Currency.LTC);
+  CurrencyPair FTC_USD = build(Currency.FTC, Currency.USD);
+  CurrencyPair FTC_CNY = build(Currency.FTC, Currency.CNY);
+  CurrencyPair FTC_BTC = build(Currency.FTC, Currency.BTC);
+  CurrencyPair FTC_LTC = build(Currency.FTC, Currency.LTC);
+  CurrencyPair XEM_USD = build(Currency.XEM, Currency.USD);
+  CurrencyPair XEM_USDT = build(Currency.XEM, Currency.USDT);
+  CurrencyPair XEM_KRW = build(Currency.XEM, Currency.KRW);
+  CurrencyPair XEM_JPY = build(Currency.XEM, Currency.JPY);
+  CurrencyPair XEM_BTC = build(Currency.XEM, Currency.BTC);
+  CurrencyPair XEM_ETH = build(Currency.XEM, Currency.ETH);
+  CurrencyPair XEM_EUR = build(Currency.XEM, Currency.EUR);
+  CurrencyPair XMR_BTC = build(Currency.XMR, Currency.BTC);
+  CurrencyPair XMR_ETH = build(Currency.XMR, Currency.ETH);
+  CurrencyPair XMR_USD = build(Currency.XMR, Currency.USD);
+  CurrencyPair XPM_USD = build(Currency.XPM, Currency.USD);
+  CurrencyPair XPM_CNY = build(Currency.XPM, Currency.CNY);
+  CurrencyPair XPM_BTC = build(Currency.XPM, Currency.BTC);
+  CurrencyPair XPM_LTC = build(Currency.XPM, Currency.LTC);
+  CurrencyPair XPM_PPC = build(Currency.XPM, Currency.PPC);
+  CurrencyPair XVN_XRP = build(Currency.XVN, Currency.XRP);
+  CurrencyPair STEEM_BTC = build(Currency.STEEM, Currency.BTC);
+  CurrencyPair STEEM_USD = build(Currency.STEEM, Currency.USD);
+  CurrencyPair STEEM_USDT = build(Currency.STEEM, Currency.USDT);
+  CurrencyPair STEEM_ETH = build(Currency.STEEM, Currency.ETH);
+  CurrencyPair STEEM_BNB = build(Currency.STEEM, Currency.BNB);
+  CurrencyPair STEEM_KRW = build(Currency.STEEM, Currency.KRW);
   // start of extra ANX supported pair
   // BTC
-  public static final CurrencyPair BTC_XDC = new CurrencyPair(Currency.BTC, Currency.XDC);
-  public static final CurrencyPair BTC_PPC = new CurrencyPair(Currency.BTC, Currency.PPC);
-  public static final CurrencyPair STR_BTC = new CurrencyPair(Currency.STR, Currency.BTC);
-
+  CurrencyPair BTC_XDC = build(Currency.BTC, Currency.XDC);
+  CurrencyPair BTC_PPC = build(Currency.BTC, Currency.PPC);
+  CurrencyPair STR_BTC = build(Currency.STR, Currency.BTC);
   // LTC
-  public static final CurrencyPair LTC_HKD = new CurrencyPair(Currency.LTC, Currency.HKD);
-  public static final CurrencyPair LTC_XDC = new CurrencyPair(Currency.LTC, Currency.XDC);
-  public static final CurrencyPair LTC_NMC = new CurrencyPair(Currency.LTC, Currency.NMC);
-  public static final CurrencyPair LTC_PPC = new CurrencyPair(Currency.LTC, Currency.PPC);
-
+  CurrencyPair LTC_HKD = build(Currency.LTC, Currency.HKD);
+  CurrencyPair LTC_XDC = build(Currency.LTC, Currency.XDC);
+  CurrencyPair LTC_NMC = build(Currency.LTC, Currency.NMC);
+  CurrencyPair LTC_PPC = build(Currency.LTC, Currency.PPC);
   // DOGE
-  public static final CurrencyPair DOGE_HKD = new CurrencyPair(Currency.DOGE, Currency.HKD);
-  public static final CurrencyPair DOGE_BTC = new CurrencyPair(Currency.DOGE, Currency.BTC);
-  public static final CurrencyPair DOGE_LTC = new CurrencyPair(Currency.DOGE, Currency.LTC);
-  public static final CurrencyPair DOGE_NMC = new CurrencyPair(Currency.DOGE, Currency.NMC);
-  public static final CurrencyPair DOGE_PPC = new CurrencyPair(Currency.DOGE, Currency.PPC);
-  public static final CurrencyPair DOGE_USD = new CurrencyPair(Currency.DOGE, Currency.USD);
-  public static final CurrencyPair DOGE_TRY = new CurrencyPair(Currency.DOGE, Currency.TRY);
-
-  public static final CurrencyPair XDC_HKD = new CurrencyPair(Currency.XDC, Currency.HKD);
-  public static final CurrencyPair XDC_LTC = new CurrencyPair(Currency.XDC, Currency.LTC);
-  public static final CurrencyPair XDC_NMC = new CurrencyPair(Currency.XDC, Currency.NMC);
-  public static final CurrencyPair XDC_PPC = new CurrencyPair(Currency.XDC, Currency.PPC);
-  public static final CurrencyPair XDC_USD = new CurrencyPair(Currency.XDC, Currency.USD);
-
+  CurrencyPair DOGE_HKD = build(Currency.DOGE, Currency.HKD);
+  CurrencyPair DOGE_BTC = build(Currency.DOGE, Currency.BTC);
+  CurrencyPair DOGE_LTC = build(Currency.DOGE, Currency.LTC);
+  CurrencyPair DOGE_NMC = build(Currency.DOGE, Currency.NMC);
+  CurrencyPair DOGE_PPC = build(Currency.DOGE, Currency.PPC);
+  CurrencyPair DOGE_USD = build(Currency.DOGE, Currency.USD);
+  CurrencyPair DOGE_TRY = build(Currency.DOGE, Currency.TRY);
+  CurrencyPair XDC_HKD = build(Currency.XDC, Currency.HKD);
+  CurrencyPair XDC_LTC = build(Currency.XDC, Currency.LTC);
+  CurrencyPair XDC_NMC = build(Currency.XDC, Currency.NMC);
+  CurrencyPair XDC_PPC = build(Currency.XDC, Currency.PPC);
+  CurrencyPair XDC_USD = build(Currency.XDC, Currency.USD);
   // NMC
-  public static final CurrencyPair NMC_HKD = new CurrencyPair(Currency.NMC, Currency.HKD);
-  public static final CurrencyPair NMC_XDC = new CurrencyPair(Currency.NMC, Currency.XDC);
-  public static final CurrencyPair NMC_PPC = new CurrencyPair(Currency.NMC, Currency.PPC);
-
+  CurrencyPair NMC_HKD = build(Currency.NMC, Currency.HKD);
+  CurrencyPair NMC_XDC = build(Currency.NMC, Currency.XDC);
+  CurrencyPair NMC_PPC = build(Currency.NMC, Currency.PPC);
   // PPC
-  public static final CurrencyPair PPC_HKD = new CurrencyPair(Currency.PPC, Currency.HKD);
-  public static final CurrencyPair PPC_XDC = new CurrencyPair(Currency.PPC, Currency.XDC);
-  public static final CurrencyPair PPC_NMC = new CurrencyPair(Currency.PPC, Currency.NMC);
-  // end
-
+  CurrencyPair PPC_HKD = build(Currency.PPC, Currency.HKD);
+  CurrencyPair PPC_XDC = build(Currency.PPC, Currency.XDC);
+  CurrencyPair PPC_NMC = build(Currency.PPC, Currency.NMC);
   // IOTA
-  public static final CurrencyPair IOTA_USD = new CurrencyPair(Currency.IOT, Currency.USD);
-  public static final CurrencyPair IOTA_BTC = new CurrencyPair(Currency.IOT, Currency.BTC);
-  public static final CurrencyPair IOTA_ETH = new CurrencyPair(Currency.IOT, Currency.ETH);
-  // end
-
+  CurrencyPair IOTA_USD = build(Currency.IOT, Currency.USD);
+  CurrencyPair IOTA_BTC = build(Currency.IOT, Currency.BTC);
+  CurrencyPair IOTA_ETH = build(Currency.IOT, Currency.ETH);
   // OMG
-  public static final CurrencyPair OMG_USD = new CurrencyPair(Currency.OMG, Currency.USD);
-  public static final CurrencyPair OMG_BTC = new CurrencyPair(Currency.OMG, Currency.BTC);
-  public static final CurrencyPair OMG_ETH = new CurrencyPair(Currency.OMG, Currency.ETH);
-
+  CurrencyPair OMG_USD = build(Currency.OMG, Currency.USD);
+  CurrencyPair OMG_BTC = build(Currency.OMG, Currency.BTC);
+  CurrencyPair OMG_ETH = build(Currency.OMG, Currency.ETH);
   // not real currencies, but tradable commodities (GH/s)
-  public static final CurrencyPair GHs_BTC = new CurrencyPair(Currency.GHs, Currency.BTC);
-  public static final CurrencyPair GHs_NMC = new CurrencyPair(Currency.GHs, Currency.NMC);
-
-  public static final CurrencyPair CNC_BTC = new CurrencyPair(Currency.CNC, Currency.BTC);
-
-  public static final CurrencyPair WDC_USD = new CurrencyPair(Currency.WDC, Currency.USD);
-  public static final CurrencyPair WDC_BTC = new CurrencyPair(Currency.WDC, Currency.BTC);
-  public static final CurrencyPair DVC_BTC = new CurrencyPair(Currency.DVC, Currency.BTC);
-
-  public static final CurrencyPair DGC_BTC = new CurrencyPair(Currency.DGC, Currency.BTC);
-
-  public static final CurrencyPair UTC_USD = new CurrencyPair(Currency.UTC, Currency.USD);
-  public static final CurrencyPair UTC_EUR = new CurrencyPair(Currency.UTC, Currency.EUR);
-  public static final CurrencyPair UTC_BTC = new CurrencyPair(Currency.UTC, Currency.BTC);
-  public static final CurrencyPair UTC_LTC = new CurrencyPair(Currency.UTC, Currency.LTC);
-
+  CurrencyPair GHs_BTC = build(Currency.GHs, Currency.BTC);
+  CurrencyPair GHs_NMC = build(Currency.GHs, Currency.NMC);
+  CurrencyPair CNC_BTC = build(Currency.CNC, Currency.BTC);
+  CurrencyPair WDC_USD = build(Currency.WDC, Currency.USD);
+  CurrencyPair WDC_BTC = build(Currency.WDC, Currency.BTC);
+  CurrencyPair DVC_BTC = build(Currency.DVC, Currency.BTC);
+  CurrencyPair DGC_BTC = build(Currency.DGC, Currency.BTC);
+  CurrencyPair UTC_USD = build(Currency.UTC, Currency.USD);
+  CurrencyPair UTC_EUR = build(Currency.UTC, Currency.EUR);
+  CurrencyPair UTC_BTC = build(Currency.UTC, Currency.BTC);
+  CurrencyPair UTC_LTC = build(Currency.UTC, Currency.LTC);
   // Kraken additional pairs
-  public static final CurrencyPair ETC_BTC = new CurrencyPair(Currency.ETC, Currency.BTC);
-  public static final CurrencyPair ETC_EUR = new CurrencyPair(Currency.ETC, Currency.EUR);
-  public static final CurrencyPair ETC_ETH = new CurrencyPair(Currency.ETC, Currency.ETH);
-  public static final CurrencyPair ETC_USD = new CurrencyPair(Currency.ETC, Currency.USD);
-
-  public static final CurrencyPair ICN_BTC = new CurrencyPair(Currency.ICN, Currency.BTC);
-  public static final CurrencyPair ICN_ETH = new CurrencyPair(Currency.ICN, Currency.ETH);
-
-  public static final CurrencyPair DASH_USD = new CurrencyPair(Currency.DASH, Currency.USD);
-  public static final CurrencyPair DASH_EUR = new CurrencyPair(Currency.DASH, Currency.EUR);
-  public static final CurrencyPair DASH_BTC = new CurrencyPair(Currency.DASH, Currency.BTC);
-  public static final CurrencyPair DASH_TRY = new CurrencyPair(Currency.DASH, Currency.TRY);
-
-  public static final CurrencyPair MLN_ETH = new CurrencyPair(Currency.MLN, Currency.ETH);
-  public static final CurrencyPair MLN_BTC = new CurrencyPair(Currency.MLN, Currency.BTC);
-
-  public static final CurrencyPair ZEC_EUR = new CurrencyPair(Currency.ZEC, Currency.EUR);
-  public static final CurrencyPair ZEC_USD = new CurrencyPair(Currency.ZEC, Currency.USD);
-  public static final CurrencyPair ZEC_BTC = new CurrencyPair(Currency.ZEC, Currency.BTC);
-
-  public static final CurrencyPair GNO_ETH = new CurrencyPair(Currency.GNO, Currency.ETH);
-  public static final CurrencyPair GNO_BTC = new CurrencyPair(Currency.GNO, Currency.BTC);
-
-  public static final CurrencyPair EOS_ETH = new CurrencyPair(Currency.EOS, Currency.ETH);
-  public static final CurrencyPair EOS_BTC = new CurrencyPair(Currency.EOS, Currency.BTC);
-
-  public static final CurrencyPair BCC_USD = new CurrencyPair(Currency.BCC, Currency.USD);
-  public static final CurrencyPair BCC_BTC = new CurrencyPair(Currency.BCC, Currency.BTC);
-
-  public static final CurrencyPair BAT_USD = new CurrencyPair(Currency.BAT, Currency.USD);
-  public static final CurrencyPair BAT_BTC = new CurrencyPair(Currency.BAT, Currency.BTC);
-
+  CurrencyPair ETC_BTC = build(Currency.ETC, Currency.BTC);
+  CurrencyPair ETC_EUR = build(Currency.ETC, Currency.EUR);
+  CurrencyPair ETC_ETH = build(Currency.ETC, Currency.ETH);
+  CurrencyPair ETC_USD = build(Currency.ETC, Currency.USD);
+  CurrencyPair ICN_BTC = build(Currency.ICN, Currency.BTC);
+  CurrencyPair ICN_ETH = build(Currency.ICN, Currency.ETH);
+  CurrencyPair DASH_USD = build(Currency.DASH, Currency.USD);
+  CurrencyPair DASH_EUR = build(Currency.DASH, Currency.EUR);
+  CurrencyPair DASH_BTC = build(Currency.DASH, Currency.BTC);
+  CurrencyPair DASH_TRY = build(Currency.DASH, Currency.TRY);
+  CurrencyPair MLN_ETH = build(Currency.MLN, Currency.ETH);
+  CurrencyPair MLN_BTC = build(Currency.MLN, Currency.BTC);
+  CurrencyPair ZEC_EUR = build(Currency.ZEC, Currency.EUR);
+  CurrencyPair ZEC_USD = build(Currency.ZEC, Currency.USD);
+  CurrencyPair ZEC_BTC = build(Currency.ZEC, Currency.BTC);
+  CurrencyPair GNO_ETH = build(Currency.GNO, Currency.ETH);
+  CurrencyPair GNO_BTC = build(Currency.GNO, Currency.BTC);
+  CurrencyPair EOS_ETH = build(Currency.EOS, Currency.ETH);
+  CurrencyPair EOS_BTC = build(Currency.EOS, Currency.BTC);
+  CurrencyPair BCC_USD = build(Currency.BCC, Currency.USD);
+  CurrencyPair BCC_BTC = build(Currency.BCC, Currency.BTC);
+  CurrencyPair BAT_USD = build(Currency.BAT, Currency.USD);
+  CurrencyPair BAT_BTC = build(Currency.BAT, Currency.BTC);
   // Tether Pairs
-  public static final CurrencyPair BTC_USDT = new CurrencyPair(Currency.BTC, Currency.USDT);
-
+  CurrencyPair BTC_USDT = build(Currency.BTC, Currency.USDT);
   // UAH pairs
-  public static final CurrencyPair BTC_UAH = new CurrencyPair(Currency.BTC, Currency.UAH);
-  public static final CurrencyPair ETH_UAH = new CurrencyPair(Currency.ETH, Currency.UAH);
-  public static final CurrencyPair BCH_UAH = new CurrencyPair(Currency.BCH, Currency.UAH);
+  CurrencyPair BTC_UAH = build(Currency.BTC, Currency.UAH);
+  CurrencyPair ETH_UAH = build(Currency.ETH, Currency.UAH);
+  CurrencyPair BCH_UAH = build(Currency.BCH, Currency.UAH);
+  CurrencyPair ETC_7D = build(Currency.ETC, Currency.valueOf("7D"));
 
-  public static final CurrencyPair ETC_7D = new CurrencyPair(Currency.ETC, Currency.valueOf("7D"));
-
-  public final Currency base;
-  public final Currency counter;
-
-  /**
-   * Full constructor In general the CurrencyPair.base is what you're wanting to buy/sell. The
-   * CurrencyPair.counter is what currency you want to use to pay/receive for your purchase/sale.
-   *
-   * @param base The base currency is what you're wanting to buy/sell
-   * @param counter The counter currency is what currency you want to use to pay/receive for your
-   *     purchase/sale.
-   */
-  public CurrencyPair(Currency base, Currency counter) {
-
-    this.base = base;
-    this.counter = counter;
-  }
-
-  /**
-   * String constructor In general the CurrencyPair.base is what you're wanting to buy/sell. The
-   * CurrencyPair.counter is what currency you want to use to pay/receive for your purchase/sale.
-   *
-   * @param baseSymbol The base symbol is what you're wanting to buy/sell
-   * @param counterSymbol The counter symbol is what currency you want to use to pay/receive for
-   *     your purchase/sale.
-   */
-  public CurrencyPair(String baseSymbol, String counterSymbol) {
-
-    this(Currency.valueOf(baseSymbol), Currency.valueOf(counterSymbol));
-  }
-
-  /**
-   * Parse currency pair from a string in the same format as returned by toString() method - ABC/XYZ
-   */
-  public CurrencyPair(String currencyPair) {
-
-    int split = currencyPair.indexOf('/');
-    if (split < 1) {
-      throw new IllegalArgumentException(
-          "Could not parse currency pair from '" + currencyPair + "'");
-    }
-    String base = currencyPair.substring(0, split);
-    String counter = currencyPair.substring(split + 1);
-
-    this.base = Currency.valueOf(base);
-    this.counter = Currency.valueOf(counter);
-  }
-
-  @Override
-  public String toString() {
-
+  static String getOutput(Currency base, Currency counter) {
     return base + "/" + counter;
   }
 
-  public boolean contains(Currency currency) {
-    return base.equals(currency) || counter.equals(currency);
+  static CurrencyPair valueOf(String in) {
+    String[] split = in.split("/");
+    return build(split[0], split[1]);
   }
 
-  @Override
-  public int hashCode() {
-
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((base == null) ? 0 : base.hashCode());
-    result = prime * result + ((counter == null) ? 0 : counter.hashCode());
-    return result;
+  static org.knowm.xchange.currency.impl.CurrencyPair build(Currency base, Currency counter) {
+    return new org.knowm.xchange.currency.impl.CurrencyPair(base, counter);
   }
 
-  @Override
-  public boolean equals(Object obj) {
-
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    CurrencyPair other = (CurrencyPair) obj;
-    if (base == null) {
-      if (other.base != null) {
-        return false;
-      }
-    } else if (!base.equals(other.base)) {
-      return false;
-    }
-    if (counter == null) {
-      if (other.counter != null) {
-        return false;
-      }
-    } else if (!counter.equals(other.counter)) {
-      return false;
-    }
-    return true;
+  static org.knowm.xchange.currency.impl.CurrencyPair build(
+      String baseSymbol, String counterSymbol) {
+    return new org.knowm.xchange.currency.impl.CurrencyPair(baseSymbol, counterSymbol);
   }
 
-  @Override
-  public int compareTo(CurrencyPair o) {
-
-    return (base.compareTo(o.base) << 16) + counter.compareTo(o.counter);
+  static org.knowm.xchange.currency.impl.CurrencyPair build(String currencyPair) {
+    return new org.knowm.xchange.currency.impl.CurrencyPair(currencyPair);
   }
+
+  Currency getBase();
+
+  Currency getCounter();
 }

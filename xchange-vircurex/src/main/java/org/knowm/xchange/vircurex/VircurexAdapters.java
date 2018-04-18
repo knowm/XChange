@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
@@ -29,7 +30,7 @@ public final class VircurexAdapters {
   public static LimitOrder adaptOrder(
       BigDecimal amount,
       BigDecimal price,
-      CurrencyPair currencyPair,
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
       OrderType orderType,
       String id) {
 
@@ -38,7 +39,10 @@ public final class VircurexAdapters {
   }
 
   public static List<LimitOrder> adaptOrders(
-      List<BigDecimal[]> someOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
+      List<BigDecimal[]> someOrders,
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      String orderTypeString,
+      String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -55,12 +59,19 @@ public final class VircurexAdapters {
     List<Balance> balances = new ArrayList<>();
     Map<String, Map<String, BigDecimal>> funds = vircurexAccountInfo.getAvailableFunds();
 
-    for (String lcCurrency : funds.keySet()) {
-      Currency currency = Currency.valueOf(lcCurrency.toUpperCase());
+    for (Entry<String, Map<String, BigDecimal>> stringMapEntry : funds.entrySet()) {
+      Currency currency = Currency.valueOf((stringMapEntry.getKey()).toUpperCase());
       // TODO does vircurex offer total balance as well? the api page lists two output keys
-      balances.add(new Balance(currency, null, funds.get(lcCurrency).get("availablebalance")));
+      BigDecimal available = stringMapEntry.getValue().get("availablebalance");
+      balances.add(
+          new Builder()
+              .setCurrency(currency)
+              .setTotal(null)
+              .setAvailable(available)
+              .setFrozen(((BigDecimal) null).add(available.negate()))
+              .createBalance());
     }
-    return new AccountInfo(new Wallet(balances));
+    return AccountInfo.build(Wallet.build(balances));
   }
 
   public static List<LimitOrder> adaptOpenOrders(List<VircurexOpenOrder> openOrders) {
@@ -86,7 +97,7 @@ public final class VircurexAdapters {
           new LimitOrder(
               orderType,
               BigDecimal.ONE,
-              new CurrencyPair(
+              org.knowm.xchange.currency.CurrencyPair.build(
                   vircurexOpenOrder.getBaseCurrency(), vircurexOpenOrder.getCounterCurrency()),
               vircurexOpenOrder.getOrderId(),
               timeStamp,

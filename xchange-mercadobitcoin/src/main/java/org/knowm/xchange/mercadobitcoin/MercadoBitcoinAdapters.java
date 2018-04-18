@@ -8,19 +8,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrade.Builder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
@@ -141,7 +142,7 @@ public final class MercadoBitcoinAdapters {
               String.valueOf(tradeId)));
     }
 
-    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
+    return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
 
   /**
@@ -155,11 +156,23 @@ public final class MercadoBitcoinAdapters {
       MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo, String userName) {
 
     // Adapt to XChange DTOs
-    Balance brlBalance = new Balance(Currency.BRL, accountInfo.getTheReturn().getFunds().getBrl());
-    Balance btcBalance = new Balance(Currency.BTC, accountInfo.getTheReturn().getFunds().getBtc());
-    Balance ltcBalance = new Balance(Currency.LTC, accountInfo.getTheReturn().getFunds().getLtc());
+    org.knowm.xchange.dto.account.Balance brlBalance =
+        new org.knowm.xchange.dto.account.Balance.Builder()
+            .setCurrency(Currency.BRL)
+            .setTotal(accountInfo.getTheReturn().getFunds().getBrl())
+            .createBalance();
+    org.knowm.xchange.dto.account.Balance btcBalance =
+        new org.knowm.xchange.dto.account.Balance.Builder()
+            .setCurrency(Currency.BTC)
+            .setTotal(accountInfo.getTheReturn().getFunds().getBtc())
+            .createBalance();
+    org.knowm.xchange.dto.account.Balance ltcBalance =
+        new org.knowm.xchange.dto.account.Balance.Builder()
+            .setCurrency(Currency.LTC)
+            .setTotal(accountInfo.getTheReturn().getFunds().getLtc())
+            .createBalance();
 
-    return new AccountInfo(userName, new Wallet(brlBalance, btcBalance, ltcBalance));
+    return AccountInfo.build(userName, Wallet.build(brlBalance, btcBalance, ltcBalance));
   }
 
   public static List<LimitOrder> adaptOrders(
@@ -169,7 +182,7 @@ public final class MercadoBitcoinAdapters {
 
     MercadoBitcoinUserOrders orders = input.getTheReturn();
 
-    for (Map.Entry<String, MercadoBitcoinUserOrdersEntry> entry : orders.entrySet()) {
+    for (Entry<String, MercadoBitcoinUserOrdersEntry> entry : orders.entrySet()) {
       limitOrders.add(processOrderEntry(entry, currencyPair));
     }
 
@@ -177,7 +190,7 @@ public final class MercadoBitcoinAdapters {
   }
 
   private static LimitOrder processOrderEntry(
-      Map.Entry<String, MercadoBitcoinUserOrdersEntry> entry, CurrencyPair currencyPair) {
+      Entry<String, MercadoBitcoinUserOrdersEntry> entry, CurrencyPair currencyPair) {
 
     String id = entry.getKey();
     MercadoBitcoinUserOrdersEntry userOrdersEntry = entry.getValue();
@@ -195,21 +208,22 @@ public final class MercadoBitcoinAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return (pair.base.getCurrencyCode() + "_" + pair.counter.getCurrencyCode()).toLowerCase();
+    return (pair.getBase().getCurrencyCode() + '_' + pair.getCounter().getCurrencyCode())
+        .toLowerCase();
   }
 
   public static UserTrades toUserTrades(
       CurrencyPair pair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> orders) {
     List<UserTrade> result = new LinkedList<>();
-    for (Map.Entry<String, MercadoBitcoinUserOrdersEntry> e : orders.getTheReturn().entrySet()) {
+    for (Entry<String, MercadoBitcoinUserOrdersEntry> e : orders.getTheReturn().entrySet()) {
       String orderId = e.getKey();
       MercadoBitcoinUserOrdersEntry order = e.getValue();
       OrderType type = toOrderType(order.getType());
-      for (Map.Entry<String, OperationEntry> f : order.getOperations().entrySet()) {
+      for (Entry<String, OperationEntry> f : order.getOperations().entrySet()) {
         String txId = f.getKey();
         OperationEntry op = f.getValue();
         result.add(
-            new UserTrade.Builder()
+            new Builder()
                 .currencyPair(pair)
                 .id(txId)
                 .orderId(orderId)
@@ -221,6 +235,6 @@ public final class MercadoBitcoinAdapters {
       }
     }
     // TODO verify sortType
-    return new UserTrades(result, Trades.TradeSortType.SortByID);
+    return new UserTrades(result, TradeSortType.SortByID);
   }
 }

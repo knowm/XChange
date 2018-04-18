@@ -31,7 +31,7 @@ public class GatecoinAccountService extends GatecoinAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(
+    return AccountInfo.build(
         exchange.getExchangeSpecification().getUserName(),
         GatecoinAdapters.adaptWallet(getGatecoinBalance().getBalances()));
   }

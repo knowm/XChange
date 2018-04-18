@@ -9,10 +9,10 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -24,26 +24,30 @@ import org.knowm.xchange.taurus.dto.marketdata.TaurusOrderBook;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTicker;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTransaction;
 import org.knowm.xchange.taurus.dto.trade.TaurusUserTransaction;
+import org.knowm.xchange.taurus.dto.trade.TaurusUserTransaction.TransactionType;
 
 public final class TaurusAdapters {
 
   private TaurusAdapters() {}
 
   public static AccountInfo adaptAccountInfo(TaurusBalance taurusBalance, String userName) {
-    Balance cadBalance =
-        new Balance(
-            Currency.CAD,
-            taurusBalance.getCadBalance(),
-            taurusBalance.getCadAvailable(),
-            taurusBalance.getCadReserved());
-    Balance btcBalance =
-        new Balance(
-            Currency.BTC,
-            taurusBalance.getBtcBalance(),
-            taurusBalance.getBtcAvailable(),
-            taurusBalance.getBtcReserved());
+    org.knowm.xchange.dto.account.Balance cadBalance =
+        new org.knowm.xchange.dto.account.Balance.Builder()
+            .setCurrency(Currency.CAD)
+            .setTotal(taurusBalance.getCadBalance())
+            .setAvailable(taurusBalance.getCadAvailable())
+            .setFrozen(taurusBalance.getCadReserved())
+            .createBalance();
+    org.knowm.xchange.dto.account.Balance btcBalance =
+        new org.knowm.xchange.dto.account.Balance.Builder()
+            .setCurrency(Currency.BTC)
+            .setTotal(taurusBalance.getBtcBalance())
+            .setAvailable(taurusBalance.getBtcAvailable())
+            .setFrozen(taurusBalance.getBtcReserved())
+            .createBalance();
 
-    return new AccountInfo(userName, taurusBalance.getFee(), new Wallet(cadBalance, btcBalance));
+    return AccountInfo.build(
+        userName, taurusBalance.getFee(), Wallet.build(cadBalance, btcBalance));
   }
 
   public static OrderBook adaptOrderBook(
@@ -105,7 +109,7 @@ public final class TaurusAdapters {
 
   public static Ticker adaptTicker(TaurusTicker tt, CurrencyPair currencyPair) {
 
-    return new Ticker.Builder()
+    return new Builder()
         .currencyPair(currencyPair)
         .last(tt.getLast())
         .bid(tt.getBid())
@@ -124,9 +128,7 @@ public final class TaurusAdapters {
     for (TaurusUserTransaction taurusUserTransaction : taurusUserTransactions) {
       if (taurusUserTransaction
           .getType()
-          .equals(
-              TaurusUserTransaction.TransactionType
-                  .trade)) { // skip account deposits and withdrawals.
+          .equals(TransactionType.trade)) { // skip account deposits and withdrawals.
         OrderType orderType =
             taurusUserTransaction.getCad().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
         BigDecimal originalAmount = taurusUserTransaction.getBtc();
@@ -140,7 +142,8 @@ public final class TaurusAdapters {
         final String orderId = taurusUserTransaction.getOrderId();
         final BigDecimal feeAmount = taurusUserTransaction.getFee();
         final CurrencyPair pair = CurrencyPair.BTC_CAD;
-        final Currency feeCurrency = orderType == OrderType.BID ? pair.base : pair.counter;
+        final Currency feeCurrency =
+            orderType == OrderType.BID ? pair.getBase() : pair.getCounter();
         trades.add(
             new UserTrade(
                 orderType,

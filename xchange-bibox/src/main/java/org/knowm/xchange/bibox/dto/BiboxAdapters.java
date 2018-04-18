@@ -13,7 +13,6 @@ import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBookEntry;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrders;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -26,22 +25,24 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrade.Builder;
 import org.knowm.xchange.dto.trade.UserTrades;
 
 /** @author odrotleff */
 public class BiboxAdapters {
 
-  public static String toBiboxPair(CurrencyPair pair) {
+  public static String toBiboxPair(org.knowm.xchange.currency.CurrencyPair pair) {
 
-    return pair.base.getCurrencyCode() + "_" + pair.counter.getCurrencyCode();
+    return pair.getBase().getCurrencyCode() + '_' + pair.getCounter().getCurrencyCode();
   }
 
-  private static CurrencyPair adaptCurrencyPair(String biboxPair) {
+  private static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String biboxPair) {
     String[] split = biboxPair.split("_");
-    return new CurrencyPair(split[0], split[1]);
+    return org.knowm.xchange.currency.CurrencyPair.build(split[0], split[1]);
   }
 
-  public static Ticker adaptTicker(BiboxTicker ticker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      BiboxTicker ticker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
     return new Ticker.Builder()
         .currencyPair(currencyPair)
         .ask(ticker.getSell())
@@ -56,25 +57,26 @@ public class BiboxAdapters {
 
   public static AccountInfo adaptAccountInfo(List<BiboxCoin> coins) {
     Wallet wallet = adaptWallet(coins);
-    return new AccountInfo(wallet);
+    return AccountInfo.build(wallet);
   }
 
   private static Wallet adaptWallet(List<BiboxCoin> coins) {
     List<Balance> balances =
         coins.stream().map(BiboxAdapters::adaptBalance).collect(Collectors.toList());
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
-  private static Balance adaptBalance(BiboxCoin coin) {
-    return new Balance.Builder()
-        .currency(Currency.valueOf(coin.getSymbol()))
-        .available(coin.getBalance())
-        .frozen(coin.getFreeze())
-        .total(coin.getTotalBalance())
-        .build();
+  private static org.knowm.xchange.dto.account.Balance adaptBalance(BiboxCoin coin) {
+    return new org.knowm.xchange.dto.account.Balance.Builder()
+        .setCurrency(Currency.valueOf(coin.getSymbol()))
+        .setAvailable(coin.getBalance())
+        .setFrozen(coin.getFreeze())
+        .setTotal(coin.getTotalBalance())
+        .createBalance();
   }
 
-  public static OrderBook adaptOrderBook(BiboxOrderBook orderBook, CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(
+      BiboxOrderBook orderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
     return new OrderBook(
         new Date(orderBook.getUpdateTime()),
         orderBook
@@ -90,7 +92,9 @@ public class BiboxAdapters {
   }
 
   public static LimitOrder adaptOrderBookOrder(
-      BiboxOrderBookEntry entry, OrderType orderType, CurrencyPair currencyPair) {
+      BiboxOrderBookEntry entry,
+      OrderType orderType,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
     return new LimitOrder.Builder(orderType, currencyPair)
         .limitPrice(entry.getPrice())
         .originalAmount(entry.getVolume())
@@ -107,8 +111,9 @@ public class BiboxAdapters {
   }
 
   private static LimitOrder adaptLimitOpenOrder(BiboxOrder biboxOrder) {
-    CurrencyPair currencyPair =
-        new CurrencyPair(biboxOrder.getCoinSymbol(), biboxOrder.getCurrencySymbol());
+    org.knowm.xchange.currency.CurrencyPair currencyPair =
+        org.knowm.xchange.currency.CurrencyPair.build(
+            biboxOrder.getCoinSymbol(), biboxOrder.getCurrencySymbol());
     return new LimitOrder.Builder(biboxOrder.getOrderSide().getOrderType(), currencyPair)
         .id(String.valueOf(biboxOrder.getId()))
         .timestamp(new Date(biboxOrder.getCreatedAt()))
@@ -121,10 +126,11 @@ public class BiboxAdapters {
   }
 
   public static ExchangeMetaData adaptMetadata(List<BiboxMarket> markets) {
-    Map<CurrencyPair, CurrencyPairMetaData> pairMeta = new HashMap<>();
+    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> pairMeta = new HashMap<>();
     for (BiboxMarket biboxMarket : markets) {
       pairMeta.put(
-          new CurrencyPair(biboxMarket.getCoinSymbol(), biboxMarket.getCurrencySymbol()),
+          org.knowm.xchange.currency.CurrencyPair.build(
+              biboxMarket.getCoinSymbol(), biboxMarket.getCurrencySymbol()),
           new CurrencyPairMetaData(null, null, null, null));
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
@@ -141,9 +147,11 @@ public class BiboxAdapters {
   }
 
   private static UserTrade adaptUserTrade(BiboxOrder order) {
-    return new UserTrade.Builder()
+    return new Builder()
         .id(Long.toString(order.getId()))
-        .currencyPair(new CurrencyPair(order.getCoinSymbol(), order.getCurrencySymbol()))
+        .currencyPair(
+            org.knowm.xchange.currency.CurrencyPair.build(
+                order.getCoinSymbol(), order.getCurrencySymbol()))
         .price(order.getPrice())
         .originalAmount(order.getAmount())
         .timestamp(new Date(order.getCreatedAt()))

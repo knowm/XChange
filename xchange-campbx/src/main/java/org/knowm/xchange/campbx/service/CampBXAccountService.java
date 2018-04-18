@@ -7,7 +7,7 @@ import org.knowm.xchange.campbx.dto.CampBXResponse;
 import org.knowm.xchange.campbx.dto.account.MyFunds;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
@@ -42,11 +42,17 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Acc
     if (!myFunds.isError()) {
       // TODO move to adapter class
       // TODO: what does MyFunds.liquid* mean? means available amount of the wallet?
-      return new AccountInfo(
+      return AccountInfo.build(
           exchange.getExchangeSpecification().getUserName(),
-          new Wallet(
-              new Balance(Currency.BTC, myFunds.getTotalBTC()),
-              new Balance(Currency.USD, myFunds.getTotalUSD())));
+          Wallet.build(
+              new Builder()
+                  .setCurrency(Currency.BTC)
+                  .setTotal(myFunds.getTotalBTC())
+                  .createBalance(),
+              new Builder()
+                  .setCurrency(Currency.USD)
+                  .setTotal(myFunds.getTotalUSD())
+                  .createBalance()));
     } else {
       throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
     }

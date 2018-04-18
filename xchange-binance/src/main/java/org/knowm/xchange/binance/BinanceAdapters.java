@@ -8,7 +8,6 @@ import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.binance.service.BinanceTradeService.BinanceOrderFlags;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -20,11 +19,11 @@ public class BinanceAdapters {
 
   private BinanceAdapters() {}
 
-  public static String toSymbol(CurrencyPair pair) {
-    if (pair.equals(CurrencyPair.IOTA_BTC)) {
+  public static String toSymbol(org.knowm.xchange.currency.CurrencyPair pair) {
+    if (pair.equals(org.knowm.xchange.currency.CurrencyPair.IOTA_BTC)) {
       return "IOTABTC";
     }
-    return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+    return pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode();
   }
 
   public static String toSymbol(Currency currency) {
@@ -89,19 +88,20 @@ public class BinanceAdapters {
     return isBuyer ? OrderType.BID : OrderType.ASK;
   }
 
-  public static CurrencyPair adaptSymbol(String symbol) {
+  public static org.knowm.xchange.currency.CurrencyPair adaptSymbol(String symbol) {
     int pairLength = symbol.length();
     if (symbol.endsWith("USDT")) {
-      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDT");
+      return org.knowm.xchange.currency.CurrencyPair.build(
+          symbol.substring(0, pairLength - 4), "USDT");
     } else {
-      return new CurrencyPair(
+      return org.knowm.xchange.currency.CurrencyPair.build(
           symbol.substring(0, pairLength - 3), symbol.substring(pairLength - 3));
     }
   }
 
   public static Order adaptOrder(BinanceOrder order) {
     OrderType type = convert(order.side);
-    CurrencyPair currencyPair = adaptSymbol(order.symbol);
+    org.knowm.xchange.currency.CurrencyPair currencyPair = adaptSymbol(order.symbol);
 
     Order.OrderStatus orderStatus = adaptOrderStatus(order.status);
     final BigDecimal averagePrice;

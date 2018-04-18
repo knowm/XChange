@@ -28,7 +28,7 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(GeminiAdapters.adaptWallet(getGeminiAccountInfo()));
+    return AccountInfo.build(GeminiAdapters.adaptWallet(getGeminiAccountInfo()));
   }
 
   /**

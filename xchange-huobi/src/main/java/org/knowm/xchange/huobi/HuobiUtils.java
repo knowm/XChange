@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
@@ -15,15 +14,17 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class HuobiUtils {
 
-  private static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
-  private static Map<CurrencyPair, String> assetPairMapReverse =
-      new HashMap<CurrencyPair, String>();
+  private static Map<String, org.knowm.xchange.currency.CurrencyPair> assetPairMap =
+      new HashMap<String, org.knowm.xchange.currency.CurrencyPair>();
+  private static Map<org.knowm.xchange.currency.CurrencyPair, String> assetPairMapReverse =
+      new HashMap<org.knowm.xchange.currency.CurrencyPair, String>();
   private static Map<String, Currency> assetMap = new HashMap<String, Currency>();
   private static Map<Currency, String> assetMapReverse = new HashMap<Currency, String>();
 
   private HuobiUtils() {}
 
-  public static String createHuobiCurrencyPair(CurrencyPair currencyPair) {
+  public static String createHuobiCurrencyPair(
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
     String pair = assetPairMapReverse.get(currencyPair);
     if ((pair == null) || (pair.length() == 0)) {
       throw new ExchangeException(
@@ -47,8 +48,8 @@ public class HuobiUtils {
 
   public static void setHuobiAssetPairs(HuobiAssetPair[] huobiAssetPairs) {
     for (HuobiAssetPair entry : huobiAssetPairs) {
-      CurrencyPair pair =
-          new CurrencyPair(
+      org.knowm.xchange.currency.CurrencyPair pair =
+          org.knowm.xchange.currency.CurrencyPair.build(
               translateHuobiCurrencyCode(entry.getBaseCurrency()),
               translateHuobiCurrencyCode(entry.getQuoteCurrency()));
       assetPairMap.put(entry.getKey(), pair);
@@ -64,8 +65,9 @@ public class HuobiUtils {
     return currencyOut.getCommonlyUsedCurrency();
   }
 
-  public static CurrencyPair translateHuobiCurrencyPair(String currencyPairIn) {
-    CurrencyPair pair = assetPairMap.get(currencyPairIn);
+  public static org.knowm.xchange.currency.CurrencyPair translateHuobiCurrencyPair(
+      String currencyPairIn) {
+    org.knowm.xchange.currency.CurrencyPair pair = assetPairMap.get(currencyPairIn);
     if (pair == null) {
       if (currencyPairIn.length() == 6) {
         Currency base = Currency.valueOf(currencyPairIn.substring(0, 3));
@@ -76,7 +78,7 @@ public class HuobiUtils {
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
-        pair = new CurrencyPair(base, counter);
+        pair = org.knowm.xchange.currency.CurrencyPair.build(base, counter);
       } else if (currencyPairIn.length() == 7) {
         Currency base = Currency.valueOf(currencyPairIn.substring(0, 4));
         if (base.getCommonlyUsedCurrency() != null) {
@@ -86,7 +88,7 @@ public class HuobiUtils {
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
-        pair = new CurrencyPair(base, counter);
+        pair = org.knowm.xchange.currency.CurrencyPair.build(base, counter);
       }
     }
     return pair;

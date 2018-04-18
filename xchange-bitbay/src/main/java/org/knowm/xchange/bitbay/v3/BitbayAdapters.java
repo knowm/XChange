@@ -6,7 +6,6 @@ import java.util.List;
 import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTrade;
 import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTrades;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -32,7 +31,9 @@ public class BitbayAdapters {
 
       String market = trade.getMarket();
       String[] parts = market.split("-");
-      CurrencyPair pair = new CurrencyPair(Currency.valueOf(parts[0]), Currency.valueOf(parts[1]));
+      org.knowm.xchange.currency.CurrencyPair pair =
+          org.knowm.xchange.currency.CurrencyPair.build(
+              Currency.valueOf(parts[0]), Currency.valueOf(parts[1]));
       Date timestamp = new Date(trade.getTime());
       trades.add(
           new UserTrade.Builder()

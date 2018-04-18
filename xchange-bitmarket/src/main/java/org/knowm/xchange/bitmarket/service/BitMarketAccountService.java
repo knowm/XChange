@@ -28,7 +28,7 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   public AccountInfo getAccountInfo() throws IOException {
 
     BitMarketAccountInfo accountInfo = getBitMarketAccountInfo().getData();
-    return new AccountInfo(
+    return AccountInfo.build(
         exchange.getExchangeSpecification().getUserName(),
         BitMarketAdapters.adaptWallet(accountInfo.getBalance()));
   }

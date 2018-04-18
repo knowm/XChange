@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketBalance;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTicker;
@@ -15,14 +16,15 @@ import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryTrade;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryTrades;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketOrder;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -44,17 +46,23 @@ public class BitMarketAdapters {
 
     List<Balance> balances = new ArrayList<>(balance.getAvailable().size());
 
-    for (Map.Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
+    for (Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
       Currency currency = Currency.valueOf(entry.getKey());
       BigDecimal frozen =
           balance.getBlocked().containsKey(entry.getKey())
               ? balance.getBlocked().get(entry.getKey())
               : new BigDecimal("0");
       BigDecimal available = entry.getValue();
-      balances.add(new Balance(currency, available.add(frozen), available, frozen));
+      balances.add(
+          new org.knowm.xchange.dto.account.Balance.Builder()
+              .setCurrency(currency)
+              .setTotal(available.add(frozen))
+              .setAvailable(available)
+              .setFrozen(frozen)
+              .createBalance());
     }
 
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   /**
@@ -64,7 +72,8 @@ public class BitMarketAdapters {
    * @param currencyPair
    * @return
    */
-  public static Ticker adaptTicker(BitMarketTicker bitMarketTicker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      BitMarketTicker bitMarketTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     BigDecimal bid = bitMarketTicker.getBid();
     BigDecimal ask = bitMarketTicker.getAsk();
@@ -74,7 +83,7 @@ public class BitMarketAdapters {
     BigDecimal vwap = bitMarketTicker.getVwap();
     BigDecimal last = bitMarketTicker.getLast();
 
-    return new Ticker.Builder()
+    return new Builder()
         .currencyPair(currencyPair)
         .last(last)
         .bid(bid)
@@ -87,7 +96,9 @@ public class BitMarketAdapters {
   }
 
   private static List<LimitOrder> transformArrayToLimitOrders(
-      BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
+      BigDecimal[][] orders,
+      OrderType orderType,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
@@ -100,7 +111,7 @@ public class BitMarketAdapters {
   }
 
   public static OrderBook adaptOrderBook(
-      BitMarketOrderBook bitMarketOrderBook, CurrencyPair currencyPair) {
+      BitMarketOrderBook bitMarketOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     OrderBook orderBook =
         new OrderBook(
@@ -111,7 +122,8 @@ public class BitMarketAdapters {
     return orderBook;
   }
 
-  public static Trades adaptTrades(BitMarketTrade[] bitMarketTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(
+      BitMarketTrade[] bitMarketTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<>();
 
@@ -129,7 +141,7 @@ public class BitMarketAdapters {
       tradeList.add(trade);
     }
 
-    Trades trades = new Trades(tradeList, Trades.TradeSortType.SortByTimestamp);
+    Trades trades = new Trades(tradeList, TradeSortType.SortByTimestamp);
     return trades;
   }
 
@@ -138,8 +150,8 @@ public class BitMarketAdapters {
 
     List<LimitOrder> orders = new ArrayList<>();
 
-    for (Map.Entry<String, Map<String, List<BitMarketOrder>>> rootEntry : ordersMap.entrySet()) {
-      for (Map.Entry<String, List<BitMarketOrder>> entry : rootEntry.getValue().entrySet()) {
+    for (Entry<String, Map<String, List<BitMarketOrder>>> rootEntry : ordersMap.entrySet()) {
+      for (Entry<String, List<BitMarketOrder>> entry : rootEntry.getValue().entrySet()) {
         for (BitMarketOrder bitMarketOrder : entry.getValue()) {
           orders.add(createOrder(bitMarketOrder));
         }
@@ -169,7 +181,7 @@ public class BitMarketAdapters {
       trades.add(createHistoryTrade(trade, historyOperations));
     }
 
-    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
   private static UserTrade createHistoryTrade(
@@ -195,7 +207,8 @@ public class BitMarketAdapters {
     return new UserTrade(
         BitMarketUtils.bitMarketOrderTypeToOrderType(trade.getType()),
         trade.getAmountCrypto(),
-        new CurrencyPair(trade.getCurrencyCrypto(), trade.getCurrencyFiat()),
+        org.knowm.xchange.currency.CurrencyPair.build(
+            trade.getCurrencyCrypto(), trade.getCurrencyFiat()),
         trade.getRate(),
         trade.getTimestamp(),
         String.valueOf(trade.getId()),

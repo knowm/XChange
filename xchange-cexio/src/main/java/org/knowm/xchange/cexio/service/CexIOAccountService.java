@@ -29,7 +29,7 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     CexIOBalanceInfo cexIOAccountInfo = getCexIOAccountInfo();
-    return new AccountInfo(
+    return AccountInfo.build(
         exchange.getExchangeSpecification().getUserName(),
         CexIOAdapters.adaptWallet(cexIOAccountInfo));
   }

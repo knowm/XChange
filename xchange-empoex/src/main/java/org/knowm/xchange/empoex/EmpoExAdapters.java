@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -18,6 +19,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.empoex.dto.account.EmpoExBalance;
 import org.knowm.xchange.empoex.dto.marketdata.EmpoExLevel;
@@ -87,7 +89,7 @@ public final class EmpoExAdapters {
       BigDecimal amount = new BigDecimal(ask.getAmount().replace(",", ""));
       BigDecimal price = new BigDecimal(ask.getPrice().replace(",", ""));
       asks.add(
-          new LimitOrder.Builder(OrderType.ASK, currencyPair)
+          new Builder(OrderType.ASK, currencyPair)
               .originalAmount(amount)
               .limitPrice(price)
               .build());
@@ -98,7 +100,7 @@ public final class EmpoExAdapters {
       BigDecimal amount = new BigDecimal(bid.getAmount().replace(",", ""));
       BigDecimal price = new BigDecimal(bid.getPrice().replace(",", ""));
       bids.add(
-          new LimitOrder.Builder(OrderType.BID, currencyPair)
+          new Builder(OrderType.BID, currencyPair)
               .originalAmount(amount)
               .limitPrice(price)
               .build());
@@ -114,20 +116,24 @@ public final class EmpoExAdapters {
     for (EmpoExBalance empoExBalance : raw) {
 
       BigDecimal balance = new BigDecimal(empoExBalance.getAmount().replace(",", ""));
-      balances.add(new Balance(Currency.valueOf(empoExBalance.getCoin().toUpperCase()), balance));
+      balances.add(
+          new org.knowm.xchange.dto.account.Balance.Builder()
+              .setCurrency(Currency.valueOf(empoExBalance.getCoin().toUpperCase()))
+              .setTotal(balance)
+              .createBalance());
     }
 
-    return new Wallet(null, balances);
+    return Wallet.build(null, balances);
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, List<EmpoExOpenOrder>> raw) {
 
     List<LimitOrder> openOrders = new ArrayList<>();
 
-    for (String pairString : raw.keySet()) {
+    for (Entry<String, List<EmpoExOpenOrder>> stringListEntry : raw.entrySet()) {
 
-      CurrencyPair currencyPair = EmpoExUtils.toCurrencyPair(pairString);
-      List<EmpoExOpenOrder> pairOrders = raw.get(pairString);
+      CurrencyPair currencyPair = EmpoExUtils.toCurrencyPair(stringListEntry.getKey());
+      List<EmpoExOpenOrder> pairOrders = stringListEntry.getValue();
 
       for (EmpoExOpenOrder order : pairOrders) {
 
@@ -145,7 +151,7 @@ public final class EmpoExAdapters {
     BigDecimal price = new BigDecimal(raw.getValue().replace(",", ""));
     OrderType type = raw.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
-    return new LimitOrder.Builder(type, currencyPair)
+    return new Builder(type, currencyPair)
         .id(orderId)
         .originalAmount(amount)
         .limitPrice(price)
