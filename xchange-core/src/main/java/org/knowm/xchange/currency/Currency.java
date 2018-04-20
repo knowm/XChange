@@ -131,7 +131,7 @@ public interface Currency extends Comparable<Currency>, Serializable {
   Currency LKR = createCurrency("LKR", "Sri Lankan Rupee", null);
   Currency LRD = createCurrency("LRD", "Liberian Dollar", null);
   Currency LSL = createCurrency("LSL", "Lesotho Loti", null);
-  Currency LTC = createCurrency("LTC", "Litecoin", "XLT");
+  Currency LTC = createCurrency("LTC", "Litecoin", null, "XLT");
   Currency XLT = valueOf("XLT");
   Currency LTL = createCurrency("LTL", "Lithuanian Litas", null);
   Currency LVL = createCurrency("LVL", "Latvian Lats", null);
