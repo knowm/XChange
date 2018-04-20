@@ -38,8 +38,15 @@
     "DASH/EUR": {"min_amount": 0.00000001, "price_scale": 2},
     "DASH/PLN": {"min_amount": 0.00000001, "price_scale": 2},
     "DASH/USD": {"min_amount": 0.00000001, "price_scale": 2},
-    "DASH/BTC": {"min_amount": 0.00000001, "price_scale": 8}
+    "DASH/BTC": {"min_amount": 0.00000001, "price_scale": 8},
 
+    "XRP/EUR": {"min_amount": 0.00000001, "price_scale": 2},
+    "XRP/PLN": {"min_amount": 0.00000001, "price_scale": 2},
+    "XRP/USD": {"min_amount": 0.00000001, "price_scale": 2},
+    "XRP/BTC": {"min_amount": 0.00000001, "price_scale": 8},
+
+    "KZC/BTC": {"min_amount": 0.00000001, "price_scale": 8},
+    "XIN/BTC": {"min_amount": 0.00000001, "price_scale": 8}
   },
   "currencies": {
     "BTC": {
@@ -64,6 +71,15 @@
       "scale": 8
     },
     "DASH": {
+      "scale": 8
+    },
+    "XRP": {
+      "scale": 8
+    },
+    "KZC": {
+      "scale": 8
+    },
+    "XIN": {
       "scale": 8
     },
     "EUR": {
