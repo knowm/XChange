@@ -145,7 +145,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency LKR = createCurrency("LKR", "Sri Lankan Rupee", null);
   public static final Currency LRD = createCurrency("LRD", "Liberian Dollar", null);
   public static final Currency LSL = createCurrency("LSL", "Lesotho Loti", null);
-  public static final Currency LTC = createCurrency("LTC", "Litecoin", "XLT");
+  public static final Currency LTC = createCurrency("LTC", "Litecoin", null, "XLT");
   public static final Currency XLT = getInstance("XLT");
   public static final Currency LTL = createCurrency("LTL", "Lithuanian Litas", null);
   public static final Currency LVL = createCurrency("LVL", "Latvian Lats", null);
