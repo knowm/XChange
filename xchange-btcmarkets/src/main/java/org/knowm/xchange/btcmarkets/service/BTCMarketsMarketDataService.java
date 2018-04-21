@@ -30,8 +30,4 @@ public class BTCMarketsMarketDataService extends BTCMarketsMarketDataServiceRaw
     return BTCMarketsAdapters.adaptOrderBook(getBTCMarketsOrderBook(currencyPair), currencyPair);
   }
 
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

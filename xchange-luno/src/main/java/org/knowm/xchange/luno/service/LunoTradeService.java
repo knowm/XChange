@@ -118,11 +118,6 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
     return postLimitOrder.orderId;
   }
 
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   private org.knowm.xchange.luno.dto.trade.OrderType convertForLimit(OrderType type) {
     switch (type) {
       case ASK:

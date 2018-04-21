@@ -67,11 +67,6 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     BTCTradeResult result = cancelBTCTradeOrder(orderId);
@@ -118,8 +113,4 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

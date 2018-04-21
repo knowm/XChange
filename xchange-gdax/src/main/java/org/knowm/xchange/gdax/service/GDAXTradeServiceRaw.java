@@ -42,7 +42,8 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
     String orderId = null;
     String productId = null;
-    Integer startingOrderId = null;
+    Integer afterTradeId = null;
+    Integer beforeTradeId = null;
 
     if (tradeHistoryParams instanceof GdaxTradeHistoryParams) {
       GdaxTradeHistoryParams historyParams = (GdaxTradeHistoryParams) tradeHistoryParams;
@@ -51,7 +52,8 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
       if (currencyPair != null) {
         productId = GDAXAdapters.adaptProductID(currencyPair);
       }
-      startingOrderId = historyParams.paginationOrderId;
+      afterTradeId = historyParams.afterTradeId;
+      beforeTradeId = historyParams.beforeTradeId;
     } else if (tradeHistoryParams instanceof TradeHistoryParamTransactionId) {
       TradeHistoryParamTransactionId tnxIdParams =
           (TradeHistoryParamTransactionId) tradeHistoryParams;
@@ -66,7 +68,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
     }
     try {
       return gdax.getFills(
-          apiKey, digest, nonceFactory, passphrase, startingOrderId, orderId, productId);
+          apiKey, digest, nonceFactory, passphrase, afterTradeId, beforeTradeId, orderId, productId);
     } catch (GDAXException e) {
       throw handleError(e);
     }
@@ -88,7 +90,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
   /** @deprecated Use {@link #placeGDAXOrder} */
   public GDAXIdResponse placeGDAXStopOrder(StopOrder stopOrder) throws IOException {
-    GDAXPlaceMarketOrder gdaxStopOrder = GDAXAdapters.adaptGDAXPlaceMarketOrder(stopOrder);
+    GDAXPlaceOrder gdaxStopOrder = GDAXAdapters.adaptGDAXStopOrder(stopOrder);
     return placeGDAXOrder(gdaxStopOrder);
   }
 
@@ -124,17 +126,26 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
     private CurrencyPair currencyPair;
     private String txId;
-    private Integer paginationOrderId;
+    private Integer afterTradeId;
+    private Integer beforeTradeId;
 
-    public Integer getPaginationOrderId() {
-      return paginationOrderId;
+    public Integer getAfterTradeId() {
+      return afterTradeId;
     }
 
-    public void setPaginationOrderId(Integer startingOrderId) {
-      this.paginationOrderId = startingOrderId;
+    public void setAfterTradeId(Integer startingOrderId) {
+      this.afterTradeId = startingOrderId;
     }
 
-    @Override
+      public Integer getBeforeTradeId() {
+          return beforeTradeId;
+      }
+
+      public void setBeforeTradeId(Integer beforeTradeId) {
+          this.beforeTradeId = beforeTradeId;
+      }
+
+      @Override
     public CurrencyPair getCurrencyPair() {
       return currencyPair;
     }

@@ -74,11 +74,6 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     QuoineOrderResponse quoineOrderResponse = cancelQuoineOrder(orderId);
@@ -118,11 +113,6 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
 
     return new UserTrades(
         QuoineAdapters.adapt(executions, currencyPair), Trades.TradeSortType.SortByTimestamp);
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

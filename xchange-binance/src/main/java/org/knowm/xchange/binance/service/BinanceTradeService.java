@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -26,7 +27,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -103,12 +103,39 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeLimitOrder(LimitOrder lo) throws IOException {
-    return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, TimeInForce.GTC);
+    TimeInForce tif;
+    Set<IOrderFlags> orderFlags = lo.getOrderFlags();
+    if (orderFlags.size() == 1) {
+      IOrderFlags orderFlag = orderFlags.iterator().next();
+      Assert.isTrue(
+          orderFlag instanceof TimeInForce,
+          "Order flag should be instance of TimeInForce.");
+      tif = (TimeInForce) orderFlag;
+    } else {
+      tif = TimeInForce.GTC;
+    }
+    return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, tif);
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+  public String placeStopOrder(StopOrder so) throws IOException {
+    TimeInForce tif;
+    Set<IOrderFlags> orderFlags = so.getOrderFlags();
+    if (orderFlags.size() == 1) {
+      IOrderFlags orderFlag = orderFlags.iterator().next();
+      Assert.isTrue(
+          orderFlag instanceof TimeInForce, "Order flag should be instance of TimeInForce.");
+      tif = (TimeInForce) orderFlag;
+    } else {
+      tif = TimeInForce.GTC;
+    }
+    OrderType orderType;
+    if (so.getType().equals(Order.OrderType.BID)) {
+      orderType = so.getLimitPrice() == null ? OrderType.TAKE_PROFIT : OrderType.TAKE_PROFIT_LIMIT;
+    } else {
+      orderType = so.getLimitPrice() == null ? OrderType.STOP_LOSS : OrderType.STOP_LOSS_LIMIT;
+    }
+    return placeOrder(orderType, so, so.getLimitPrice(), so.getStopPrice(), tif);
   }
 
   private String placeOrder(

@@ -38,11 +38,6 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String requestDepositAddress(Currency currency, String... args)
       throws ExchangeException, NotAvailableFromExchangeException,
           NotYetImplementedForExchangeException {
@@ -54,8 +49,4 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

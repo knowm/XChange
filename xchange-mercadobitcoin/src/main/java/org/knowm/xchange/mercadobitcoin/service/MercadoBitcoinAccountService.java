@@ -58,8 +58,4 @@ public class MercadoBitcoinAccountService extends MercadoBitcoinAccountServiceRa
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

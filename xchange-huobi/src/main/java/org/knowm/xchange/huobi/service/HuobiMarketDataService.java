@@ -21,13 +21,4 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
     return HuobiAdapters.adaptTicker(getHuobiTicker(currencyPair), currencyPair);
   }
 
-  @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

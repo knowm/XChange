@@ -126,11 +126,6 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     CampBXResponse campBXResponse = cancelCampBXOrder(orderId);
@@ -181,8 +176,4 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

@@ -2,16 +2,14 @@ package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcAddress;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransferType;
+import org.knowm.xchange.hitbtc.v2.dto.*;
 import si.mazi.rescu.HttpStatusIOException;
 
 public class HitbtcAccountServiceRaw extends HitbtcBaseService {
@@ -76,6 +74,27 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
 
   public List<HitbtcTransaction> getTransactions(String currency, Integer limit, Integer offset)
       throws HttpStatusIOException {
-    return hitbtc.transactions(currency, limit, offset);
+    return hitbtc.transactions(currency, null, null, null, null, limit, offset);
+  }
+
+  public List<HitbtcTransaction> getTransactions(
+      String currency, HitbtcSort sort, Date from, Date till, Integer limit, Integer offset)
+      throws HttpStatusIOException {
+
+    String sortValue = sort != null ? sort.toString().toUpperCase() : null;
+    String fromValue = from != null ? Instant.ofEpochMilli(from.getTime()).toString() : null;
+    String tillValue = till != null ? Instant.ofEpochMilli(till.getTime()).toString() : null;
+    return hitbtc.transactions(
+        currency, sortValue, "timestamp", fromValue, tillValue, limit, offset);
+  }
+
+  public List<HitbtcTransaction> getTransactions(String currency, HitbtcSort sort, Long fromIndex,Long tillIndex,
+      Integer limit, Integer offset)
+      throws HttpStatusIOException {
+
+    String sortValue = sort != null ? sort.toString().toUpperCase() : null;
+    String fromValue = fromIndex != null ? fromIndex.toString() : null;
+    String tillValue = fromIndex != null ? tillIndex.toString() : null;
+    return hitbtc.transactions(currency, sortValue, "index", fromValue, tillValue, limit, offset);
   }
 }

@@ -49,17 +49,8 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

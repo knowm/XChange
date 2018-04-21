@@ -240,12 +240,11 @@ public class BitbayAdapters {
         Date timestamp = formatter.parse(date);
         BigDecimal amount = new BigDecimal(map.get("amount").toString());
         BigDecimal price = new BigDecimal(map.get("rate").toString());
-        BigDecimal fee = new BigDecimal(map.get("price").toString());
 
         // there's no id - create a synthetic one
         String id = (type + "_" + date + "_" + market).replaceAll("\\s+", "");
 
-        trades.add(new UserTrade(orderType, amount, pair, price, timestamp, id, null, fee, null));
+        trades.add(new UserTrade(orderType, amount, pair, price, timestamp, id, null, null, null));
       } catch (ParseException e) {
         throw new IllegalStateException("Cannot parse " + map);
       }
