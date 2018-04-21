@@ -7,11 +7,12 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 
-public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
+public class CurrencyPairDeserializer
+    extends JsonDeserializer<org.knowm.xchange.currency.CurrencyPair> {
 
-  public static CurrencyPair getCurrencyPairFromString(String currencyPairString) {
+  public static org.knowm.xchange.currency.CurrencyPair getCurrencyPairFromString(
+      String currencyPairString) {
 
     if (currencyPairString == null || currencyPairString.isEmpty()) {
       return null;
@@ -21,7 +22,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
      * Preserve case if exchange is sending mixed-case, otherwise toUpperCase()
      */
     final boolean isMixedCase =
-        currencyPairString.matches(".*[a-z]+.*") && currencyPairString.matches(".*[A-Z]+.*");
+        currencyPairString.matches(".*[a-z].*") && currencyPairString.matches(".*[A-Z].*");
     if (!isMixedCase) {
       currencyPairString = currencyPairString.toUpperCase();
     }
@@ -31,7 +32,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
      */
     final String symbols[] = currencyPairString.split("[^a-zA-Z0-9]");
     if (symbols.length == 2) {
-      return new CurrencyPair(symbols[0], symbols[1]);
+      return org.knowm.xchange.currency.CurrencyPair.build(symbols[0], symbols[1]);
     }
 
     /*
@@ -40,7 +41,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     if (currencyPairString.length() == 6) {
       final String tradeCurrency = currencyPairString.substring(0, 3);
       final String priceCurrency = currencyPairString.substring(3);
-      return new CurrencyPair(tradeCurrency, priceCurrency);
+      return org.knowm.xchange.currency.CurrencyPair.build(tradeCurrency, priceCurrency);
     }
 
     /*
@@ -54,7 +55,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
       final Currency priceCurrency = Currency.getInstanceNoCreate(currencyPairString.substring(i));
       if (tradeCurrency != null) {
         if (priceCurrency != null) {
-          return new CurrencyPair(tradeCurrency, priceCurrency);
+          return org.knowm.xchange.currency.CurrencyPair.build(tradeCurrency, priceCurrency);
         } else if (i > bestLength) {
           bestLength = i;
           bestGuess = i;
@@ -66,12 +67,12 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     }
     final String tradeCurrency = currencyPairString.substring(0, bestGuess);
     final String priceCurrency = currencyPairString.substring(bestGuess);
-    return new CurrencyPair(tradeCurrency, priceCurrency);
+    return org.knowm.xchange.currency.CurrencyPair.build(tradeCurrency, priceCurrency);
   }
 
   @Override
-  public CurrencyPair deserialize(JsonParser jsonParser, final DeserializationContext ctxt)
-      throws IOException {
+  public org.knowm.xchange.currency.CurrencyPair deserialize(
+      JsonParser jsonParser, final DeserializationContext ctxt) throws IOException {
 
     final ObjectCodec oc = jsonParser.getCodec();
     final JsonNode node = oc.readTree(jsonParser);

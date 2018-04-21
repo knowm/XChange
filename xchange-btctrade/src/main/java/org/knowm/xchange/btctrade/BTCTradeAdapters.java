@@ -22,6 +22,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -155,36 +156,41 @@ public final class BTCTradeAdapters {
 
     List<Balance> balances = new ArrayList<>(5);
     balances.add(
-        new Balance(
-            Currency.BTC,
-            nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()),
-            zeroIfNull(balance.getBtcBalance()),
-            zeroIfNull(balance.getBtcReserved())));
+        new Builder()
+            .setCurrency(Currency.BTC)
+            .setTotal(nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()))
+            .setAvailable(zeroIfNull(balance.getBtcBalance()))
+            .setFrozen(zeroIfNull(balance.getBtcReserved()))
+            .createBalance());
     balances.add(
-        new Balance(
-            Currency.LTC,
-            nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()),
-            zeroIfNull(balance.getLtcBalance()),
-            zeroIfNull(balance.getLtcReserved())));
+        new Builder()
+            .setCurrency(Currency.LTC)
+            .setTotal(nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()))
+            .setAvailable(zeroIfNull(balance.getLtcBalance()))
+            .setFrozen(zeroIfNull(balance.getLtcReserved()))
+            .createBalance());
     balances.add(
-        new Balance(
-            Currency.DOGE,
-            nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()),
-            zeroIfNull(balance.getDogeBalance()),
-            zeroIfNull(balance.getDogeReserved())));
+        new Builder()
+            .setCurrency(Currency.DOGE)
+            .setTotal(nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()))
+            .setAvailable(zeroIfNull(balance.getDogeBalance()))
+            .setFrozen(zeroIfNull(balance.getDogeReserved()))
+            .createBalance());
     balances.add(
-        new Balance(
-            Currency.YBC,
-            nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved()),
-            zeroIfNull(balance.getYbcBalance()),
-            zeroIfNull(balance.getYbcReserved())));
+        new Builder()
+            .setCurrency(Currency.YBC)
+            .setTotal(nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved()))
+            .setAvailable(zeroIfNull(balance.getYbcBalance()))
+            .setFrozen(zeroIfNull(balance.getYbcReserved()))
+            .createBalance());
     balances.add(
-        new Balance(
-            Currency.CNY,
-            nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()),
-            zeroIfNull(balance.getCnyBalance()),
-            zeroIfNull(balance.getCnyReserved())));
-    return new Wallet(balances);
+        new Builder()
+            .setCurrency(Currency.CNY)
+            .setTotal(nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()))
+            .setAvailable(zeroIfNull(balance.getCnyBalance()))
+            .setFrozen(zeroIfNull(balance.getCnyReserved()))
+            .createBalance());
+    return Wallet.build(balances);
   }
 
   static BigDecimal nullSafeSum(BigDecimal a, BigDecimal b) {

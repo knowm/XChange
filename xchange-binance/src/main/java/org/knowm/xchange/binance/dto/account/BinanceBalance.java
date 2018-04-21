@@ -14,7 +14,7 @@ public final class BinanceBalance {
       @JsonProperty("asset") String asset,
       @JsonProperty("free") BigDecimal free,
       @JsonProperty("locked") BigDecimal locked) {
-    this.currency = Currency.getInstance(asset);
+    this.currency = Currency.valueOf(asset);
     this.locked = locked;
     this.free = free;
   }

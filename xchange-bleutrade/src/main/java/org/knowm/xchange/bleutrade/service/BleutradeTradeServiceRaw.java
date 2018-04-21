@@ -31,7 +31,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
   }
 
   private static String toMarket(CurrencyPair currencyPair) {
-    return currencyPair.base + "_" + currencyPair.counter;
+    return currencyPair.getBase() + "_" + currencyPair.getCounter();
   }
 
   public String buyLimit(LimitOrder limitOrder) throws IOException {

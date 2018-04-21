@@ -3,7 +3,6 @@ package org.knowm.xchange.abucoins.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
@@ -55,7 +54,7 @@ public class AbucoinsBaseService extends BaseExchangeService implements BaseServ
     signatureCreator =
         AbucoinsDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
 
-    if(timeDiffFromServer == null) {
+    if (timeDiffFromServer == null) {
       try {
         AbucoinsServerTime serverTime = abucoins.getTime();
 

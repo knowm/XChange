@@ -5,7 +5,6 @@ import static org.knowm.xchange.currency.Currency.TRY;
 
 import java.math.BigDecimal;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.paribu.dto.marketdata.BTC_TL;
@@ -23,8 +22,9 @@ public final class ParibuAdapters {
    * @param currencyPair
    * @return The ticker
    */
-  public static Ticker adaptTicker(ParibuTicker paribuTicker, CurrencyPair currencyPair) {
-    if (!currencyPair.equals(new CurrencyPair(BTC, TRY))) {
+  public static Ticker adaptTicker(
+      ParibuTicker paribuTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+    if (!currencyPair.equals(org.knowm.xchange.currency.CurrencyPair.build(BTC, TRY))) {
       throw new NotAvailableFromExchangeException();
     }
     BTC_TL btcTL = paribuTicker.getBtcTL();
@@ -36,7 +36,7 @@ public final class ParibuAdapters {
       BigDecimal high24hr = btcTL.getHigh24hr();
       BigDecimal low24hr = btcTL.getLow24hr();
       return new Ticker.Builder()
-          .currencyPair(new CurrencyPair(BTC, Currency.TRY))
+          .currencyPair(org.knowm.xchange.currency.CurrencyPair.build(BTC, Currency.TRY))
           .last(last)
           .bid(highestBid)
           .ask(lowestAsk)

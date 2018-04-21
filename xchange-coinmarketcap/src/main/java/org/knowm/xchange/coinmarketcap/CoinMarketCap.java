@@ -69,8 +69,8 @@ public interface CoinMarketCap {
           ? ""
           : String.format(
               "%s%s",
-              pair.base.getCurrencyCode().toLowerCase(),
-              pair.counter.getCurrencyCode().toLowerCase());
+              pair.getBase().getCurrencyCode().toLowerCase(),
+              pair.getCounter().getCurrencyCode().toLowerCase());
     }
   }
 }

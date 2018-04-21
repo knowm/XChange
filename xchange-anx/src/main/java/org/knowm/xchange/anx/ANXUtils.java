@@ -44,7 +44,8 @@ public final class ANXUtils {
 
   public static int getMaxPriceScale(CurrencyPair currencyPair) {
 
-    if (currencyPair.base.equals(Currency.BTC) || currencyPair.base.equals(Currency.LTC)) {
+    if (currencyPair.getBase().equals(Currency.BTC)
+        || currencyPair.getBase().equals(Currency.LTC)) {
       return 5;
     } else {
       return 8;

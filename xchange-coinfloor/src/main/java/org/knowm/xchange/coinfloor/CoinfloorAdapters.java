@@ -106,8 +106,8 @@ public class CoinfloorAdapters {
         }
       }
     }
-    Wallet wallet = new Wallet(balances);
-    return new AccountInfo(wallet);
+    Wallet wallet = Wallet.build(balances);
+    return AccountInfo.build(wallet);
   }
 
   public static UserTrades adaptTradeHistory(Collection<CoinfloorUserTransaction> transactions) {
@@ -138,7 +138,7 @@ public class CoinfloorAdapters {
               tradeId,
               orderId,
               feeAmount,
-              transaction.getCurrencyPair().counter);
+              transaction.getCurrencyPair().getCounter());
       trades.add(trade);
     }
 

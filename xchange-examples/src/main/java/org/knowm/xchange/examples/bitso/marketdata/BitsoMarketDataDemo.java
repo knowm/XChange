@@ -9,7 +9,6 @@ import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
 import org.knowm.xchange.bitso.service.BitsoMarketDataServiceRaw;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -35,7 +34,8 @@ public class BitsoMarketDataDemo {
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
-    CurrencyPair cp = new CurrencyPair(Currency.BTC, Currency.MXN);
+    org.knowm.xchange.currency.CurrencyPair cp =
+        org.knowm.xchange.currency.CurrencyPair.build(Currency.BTC, Currency.MXN);
     Ticker ticker = marketDataService.getTicker(cp);
     System.out.println("Ticker: " + ticker);
 
@@ -66,11 +66,13 @@ public class BitsoMarketDataDemo {
   }
 
   private static void raw(BitsoMarketDataServiceRaw marketDataService) throws IOException {
-    BitsoTicker ticker = marketDataService.getBitsoTicker(CurrencyPair.BTC_MXN);
+    BitsoTicker ticker =
+        marketDataService.getBitsoTicker(org.knowm.xchange.currency.CurrencyPair.BTC_MXN);
     System.out.println("Ticker: " + ticker);
 
     // Get the latest order book data for BTCMXN
-    BitsoOrderBook orderBook = marketDataService.getBitsoOrderBook(CurrencyPair.BTC_MXN);
+    BitsoOrderBook orderBook =
+        marketDataService.getBitsoOrderBook(org.knowm.xchange.currency.CurrencyPair.BTC_MXN);
 
     System.out.println(
         "Current Order Book size for BTC / MXN: "

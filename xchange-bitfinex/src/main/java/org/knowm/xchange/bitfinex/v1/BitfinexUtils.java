@@ -19,8 +19,8 @@ public final class BitfinexUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return adaptXchangeCurrency(currencyPair.base.toString())
-        + adaptXchangeCurrency(currencyPair.counter.toString());
+    return adaptXchangeCurrency(currencyPair.getBase().toString())
+        + adaptXchangeCurrency(currencyPair.getCounter().toString());
   }
 
   /**

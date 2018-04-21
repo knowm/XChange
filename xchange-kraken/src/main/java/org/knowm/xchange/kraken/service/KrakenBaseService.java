@@ -125,12 +125,12 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
     return null;
   }
 
-  protected String delimitAssetPairs(CurrencyPair[] currencyPairs) throws IOException {
+  protected String delimitAssetPairs(CurrencyPair... currencyPairs) throws IOException {
 
     String assetPairsString = null;
     if (currencyPairs != null && currencyPairs.length > 0) {
       StringBuilder delimitStringBuilder = null;
-      for (CurrencyPair currencyPair : currencyPairs) {
+      for (org.knowm.xchange.currency.CurrencyPair currencyPair : currencyPairs) {
         String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
         if (delimitStringBuilder == null) {
           delimitStringBuilder = new StringBuilder(krakenAssetPair);

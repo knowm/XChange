@@ -38,7 +38,7 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
       throw new ExchangeException("Account is not recognized.");
     }
     String accountID = String.valueOf(accounts[0].getId());
-    return new AccountInfo(
+    return AccountInfo.build(
         accountID,
         HuobiAdapters.adaptWallet(
             HuobiAdapters.adaptBalance(getHuobiBalance(accountID).getList())));
