@@ -77,11 +77,6 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     return cancel(orderId);
@@ -96,10 +91,6 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
    * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link
    *     TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 
   /**
    * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link

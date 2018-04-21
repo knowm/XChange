@@ -41,22 +41,8 @@ public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements A
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

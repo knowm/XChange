@@ -38,43 +38,9 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     return placeVircurexLimitOrder(limitOrder);
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public boolean cancelOrder(String orderId) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -82,8 +48,4 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Tra
     return null;
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

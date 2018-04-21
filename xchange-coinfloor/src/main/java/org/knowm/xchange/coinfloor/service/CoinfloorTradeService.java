@@ -181,11 +181,6 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeMarketOrder(MarketOrder order) throws IOException {
     placeMarketOrder(order.getCurrencyPair(), order.getType(), order.getOriginalAmount());
     return ""; // coinfloor does not return an id for market orders
@@ -208,18 +203,4 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
     }
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(LimitOrder limitOrder) throws NotYetImplementedForExchangeException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(MarketOrder marketOrder) throws NotYetImplementedForExchangeException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

@@ -41,8 +41,7 @@ public interface Bittrex {
 
   @GET
   @Path("public/getmarkethistory/")
-  BittrexTradesResponse getTrades(
-      @QueryParam("market") String market, @QueryParam("count") int count) throws IOException;
+  BittrexTradesResponse getTrades(@QueryParam("market") String market) throws IOException;
 
   @GET
   @Path("public/getmarkets")

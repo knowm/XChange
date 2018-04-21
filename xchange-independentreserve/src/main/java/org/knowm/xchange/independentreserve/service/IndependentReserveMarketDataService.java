@@ -36,8 +36,4 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
             currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()));
   }
 
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new UnsupportedOperationException();
-  }
 }
