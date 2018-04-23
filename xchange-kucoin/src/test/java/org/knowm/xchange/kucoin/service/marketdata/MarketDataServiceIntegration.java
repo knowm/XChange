@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -16,7 +15,8 @@ public class MarketDataServiceIntegration {
 
   private static final Exchange KUCOIN =
       ExchangeFactory.INSTANCE.createExchange(KucoinExchange.class.getName());
-  private static final CurrencyPair XRB_BTC = new CurrencyPair("XRB", "BTC");
+  private static final org.knowm.xchange.currency.CurrencyPair XRB_BTC =
+      org.knowm.xchange.currency.CurrencyPair.build("XRB", "BTC");
 
   @Test
   public void testGetTicker() throws Exception {

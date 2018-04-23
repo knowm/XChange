@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
@@ -23,15 +24,16 @@ import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
+import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.Side;
+import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.TimeInForce;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.FundingRecord.Builder;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -63,7 +65,7 @@ public class AbucoinsAdapters {
           modified = rawDate.substring(0, 21) + "00";
           break;
         case 23:
-          modified = rawDate.substring(0, 22) + "0";
+          modified = rawDate.substring(0, 22) + '0';
           break;
         default:
           modified = rawDate;
@@ -78,7 +80,7 @@ public class AbucoinsAdapters {
           modified = rawDate + "00";
           break;
         case 22:
-          modified = rawDate + "0";
+          modified = rawDate + '0';
           break;
         default:
           modified = rawDate;
@@ -102,7 +104,8 @@ public class AbucoinsAdapters {
    * @param currencyPair trade currencies
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(AbucoinsTrade trade, CurrencyPair currencyPair) {
+  public static Trade adaptTrade(
+      AbucoinsTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     BigDecimal amount = trade.getSize();
     BigDecimal price = trade.getPrice();
@@ -118,7 +121,8 @@ public class AbucoinsAdapters {
    * @param currencyPair trade currencies
    * @return The trades
    */
-  public static Trades adaptTrades(AbucoinsTrade[] abucoinsTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(
+      AbucoinsTrade[] abucoinsTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
@@ -134,7 +138,8 @@ public class AbucoinsAdapters {
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The ticker
    */
-  public static Ticker adaptTicker(AbucoinsTicker ticker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      AbucoinsTicker ticker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     BigDecimal last = ticker.getPrice();
     BigDecimal bid = ticker.getBid();
@@ -171,7 +176,7 @@ public class AbucoinsAdapters {
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(
-      AbucoinsOrderBook abucoinsOrderBook, CurrencyPair currencyPair) {
+      AbucoinsOrderBook abucoinsOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, abucoinsOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, abucoinsOrderBook.getBids());
@@ -183,22 +188,19 @@ public class AbucoinsAdapters {
     // group account balances by profileID
     Map<Long, List<Balance>> mapByProfileID = new HashMap<>();
     for (AbucoinsAccount account : accounts) {
-      List<Balance> balances = mapByProfileID.get(account.getProfileID());
-      if (balances == null) {
-        balances = new ArrayList<>();
-        mapByProfileID.put(account.getProfileID(), balances);
-      }
+      List<Balance> balances =
+          mapByProfileID.computeIfAbsent(account.getProfileID(), k -> new ArrayList<>());
       balances.add(adaptBalance(account));
     }
 
     // create a wallet for each profileID
     List<Wallet> wallets = new ArrayList<>();
-    for (Long profileID : mapByProfileID.keySet()) {
-      List<Balance> balances = mapByProfileID.get(profileID);
-      wallets.add(new Wallet(String.valueOf(profileID), balances));
+    for (Entry<Long, List<Balance>> longListEntry : mapByProfileID.entrySet()) {
+      List<Balance> balances = longListEntry.getValue();
+      wallets.add(Wallet.build(String.valueOf(longListEntry.getKey()), balances));
     }
 
-    return new AccountInfo("", wallets);
+    return AccountInfo.build("", wallets);
   }
 
   /**
@@ -207,13 +209,20 @@ public class AbucoinsAdapters {
    * @param account AbucoinsAccount balance
    * @return The account info
    */
-  public static Balance adaptBalance(AbucoinsAccount account) {
-    Currency currency = Currency.getInstance(account.getCurrency());
-    return new Balance(currency, account.getBalance(), account.getAvailable(), account.getHold());
+  public static org.knowm.xchange.dto.account.Balance adaptBalance(AbucoinsAccount account) {
+    Currency currency = Currency.valueOf(account.getCurrency());
+    return new org.knowm.xchange.dto.account.Balance.Builder()
+        .setCurrency(currency)
+        .setTotal(account.getBalance())
+        .setAvailable(account.getAvailable())
+        .setFrozen(account.getHold())
+        .createBalance();
   }
 
   public static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair, OrderType orderType, AbucoinsOrderBook.LimitOrder[] orders) {
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      OrderType orderType,
+      AbucoinsOrderBook.LimitOrder[] orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     if (orders == null) return limitOrders;
@@ -225,7 +234,9 @@ public class AbucoinsAdapters {
   }
 
   public static LimitOrder createOrder(
-      CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      AbucoinsOrderBook.LimitOrder priceAndAmount,
+      OrderType orderType) {
     return new LimitOrder.Builder(orderType, currencyPair)
         .averagePrice(priceAndAmount.getPrice())
         .limitPrice(priceAndAmount.getPrice())
@@ -284,7 +295,7 @@ public class AbucoinsAdapters {
         .build();
   }
 
-  public static OrderType adaptOrderType(AbucoinsOrder.Side side) {
+  public static OrderType adaptOrderType(Side side) {
     switch (side) {
       case buy:
         return OrderType.BID;
@@ -298,13 +309,13 @@ public class AbucoinsAdapters {
     }
   }
 
-  public static AbucoinsOrder.Side adaptAbucoinsSide(OrderType orderType) {
+  public static Side adaptAbucoinsSide(OrderType orderType) {
     switch (orderType) {
       case BID:
-        return AbucoinsOrder.Side.buy;
+        return Side.buy;
 
       case ASK:
-        return AbucoinsOrder.Side.sell;
+        return Side.sell;
 
       default:
         logger.warn("Unrecognized OrderType " + orderType + " returning null for Side");
@@ -337,16 +348,18 @@ public class AbucoinsAdapters {
     }
   }
 
-  public static String adaptCurrencyPairToProductID(CurrencyPair currencyPair) {
+  public static String adaptCurrencyPairToProductID(
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
     return currencyPair == null ? null : currencyPair.toString().replace('/', '-');
   }
 
-  public static CurrencyPair adaptCurrencyPair(String abucoinsProductID) {
+  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(
+      String abucoinsProductID) {
     int indexOf = abucoinsProductID.indexOf('-');
     String base = abucoinsProductID.substring(0, indexOf);
     String counter = abucoinsProductID.substring(indexOf + 1);
-    return new CurrencyPair(
-        Currency.getInstanceNoCreate(base), Currency.getInstanceNoCreate(counter));
+    return org.knowm.xchange.currency.CurrencyPair.build(
+        Currency.valueOf(base), Currency.valueOf(counter));
   }
 
   public static AbucoinsCreateMarketOrderRequest adaptAbucoinsCreateMarketOrderRequest(
@@ -367,7 +380,7 @@ public class AbucoinsAdapters {
         null,
         limitOrder.getLimitPrice(),
         limitOrder.getOriginalAmount(),
-        AbucoinsOrder.TimeInForce.GTC,
+        TimeInForce.GTC,
         null,
         null);
   }
@@ -376,7 +389,7 @@ public class AbucoinsAdapters {
     List<UserTrade> userTrades = new ArrayList<>();
     for (AbucoinsFill fill : fills) userTrades.add(adaptUserTrade(fill));
 
-    return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
+    return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
   }
 
   public static UserTrade adaptUserTrade(AbucoinsFill fill) {
@@ -407,28 +420,28 @@ public class AbucoinsAdapters {
   public static FundingRecord adaptFundingRecord(AbucoinsDepositHistory history) {
     return fundingRecordBuilder(history)
         .setInternalId(history.getDepositID())
-        .setType(FundingRecord.Type.DEPOSIT)
+        .setType(Type.DEPOSIT)
         .build();
   }
 
   public static FundingRecord adaptFundingRecord(AbucoinsWithdrawalHistory history) {
     return fundingRecordBuilder(history)
         .setInternalId(history.getWithdrawID())
-        .setType(FundingRecord.Type.WITHDRAWAL)
+        .setType(Type.WITHDRAWAL)
         .build();
   }
 
-  static FundingRecord.Builder fundingRecordBuilder(AbucoinsHistory history) {
-    return new FundingRecord.Builder()
+  static Builder fundingRecordBuilder(AbucoinsHistory history) {
+    return new Builder()
         .setDescription(history.getUrl())
         .setAmount(history.getAmount())
-        .setCurrency(Currency.getInstance(history.getCurrency()))
+        .setCurrency(Currency.valueOf(history.getCurrency()))
         .setDate(parseDate(history.getDate()))
         .setFee(history.getFee())
         .setStatus(adaptFundingStatus(history.getStatus()));
   }
 
-  public static FundingRecord.Status adaptFundingStatus(AbucoinsHistory.Status abucoinsStatus) {
+  public static Status adaptFundingStatus(AbucoinsHistory.Status abucoinsStatus) {
     switch (abucoinsStatus) {
       case unknown: // reminder unknown is our own placeholder for cases where we cannot parse the
         // status
@@ -436,12 +449,12 @@ public class AbucoinsAdapters {
       default:
       case awaitingEmailConfirmation:
       case pending:
-        return FundingRecord.Status.PROCESSING;
+        return Status.PROCESSING;
 
       case sent:
       case complete:
       case completed:
-        return FundingRecord.Status.COMPLETE;
+        return Status.COMPLETE;
     }
   }
 

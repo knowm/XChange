@@ -23,6 +23,6 @@ public class LakeBTCUtil {
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode().toLowerCase();
+    return currencyPair.getBase().getCurrencyCode().toLowerCase();
   }
 }

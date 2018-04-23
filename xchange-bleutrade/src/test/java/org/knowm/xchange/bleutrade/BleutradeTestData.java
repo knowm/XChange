@@ -5,9 +5,7 @@ import static org.knowm.xchange.bleutrade.BleutradeUtils.toDate;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -15,37 +13,46 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class BleutradeTestData {
 
-  protected static final CurrencyPair BLEU_BTC_CP = new CurrencyPair("BLEU", "BTC");
+  protected static final org.knowm.xchange.currency.CurrencyPair BLEU_BTC_CP =
+      org.knowm.xchange.currency.CurrencyPair.build("BLEU", "BTC");
 
-  protected static Balance[] expectedAccountBalances() {
-    return new Balance[] {
-      new Balance(
-          Currency.AUD,
-          new BigDecimal("40.00000000"),
-          new BigDecimal("10.00000000"),
-          new BigDecimal("30.00000000")),
-      new Balance(
-          Currency.BTC,
-          new BigDecimal("100.00000000"),
-          new BigDecimal("40.00000000"),
-          new BigDecimal("60.00000000")),
-      new Balance(
-          Currency.getInstance("BLEU"),
-          new BigDecimal("160.00000000"),
-          new BigDecimal("70.00000000"),
-          new BigDecimal("90.00000000")),
+  protected static org.knowm.xchange.dto.account.Balance[] expectedAccountBalances() {
+    return new org.knowm.xchange.dto.account.Balance[] {
+      new org.knowm.xchange.dto.account.Balance.Builder()
+          .setCurrency(Currency.AUD)
+          .setTotal(new BigDecimal("40.00000000"))
+          .setAvailable(new BigDecimal("10.00000000"))
+          .setFrozen(new BigDecimal("30.00000000"))
+          .createBalance(),
+      new org.knowm.xchange.dto.account.Balance.Builder()
+          .setCurrency(Currency.BTC)
+          .setTotal(new BigDecimal("100.00000000"))
+          .setAvailable(new BigDecimal("40.00000000"))
+          .setFrozen(new BigDecimal("60.00000000"))
+          .createBalance(),
+      new org.knowm.xchange.dto.account.Balance.Builder()
+          .setCurrency(Currency.valueOf("BLEU"))
+          .setTotal(new BigDecimal("160.00000000"))
+          .setAvailable(new BigDecimal("70.00000000"))
+          .setFrozen(new BigDecimal("90.00000000"))
+          .createBalance(),
     };
   }
 
-  protected static Balance[] expectedBalances() {
-    return new Balance[] {
-      new Balance(
-          Currency.DOGE, new BigDecimal("0E-8"), new BigDecimal("0E-8"), new BigDecimal("0E-8")),
-      new Balance(
-          Currency.BTC,
-          new BigDecimal("15.49843675"),
-          new BigDecimal("13.98901996"),
-          new BigDecimal("0E-8")),
+  protected static org.knowm.xchange.dto.account.Balance[] expectedBalances() {
+    return new org.knowm.xchange.dto.account.Balance[] {
+      new org.knowm.xchange.dto.account.Balance.Builder()
+          .setCurrency(Currency.DOGE)
+          .setTotal(new BigDecimal("0E-8"))
+          .setAvailable(new BigDecimal("0E-8"))
+          .setFrozen(new BigDecimal("0E-8"))
+          .createBalance(),
+      new org.knowm.xchange.dto.account.Balance.Builder()
+          .setCurrency(Currency.BTC)
+          .setTotal(new BigDecimal("15.49843675"))
+          .setAvailable(new BigDecimal("13.98901996"))
+          .setFrozen(new BigDecimal("0E-8"))
+          .createBalance(),
     };
   }
 
@@ -54,14 +61,14 @@ public class BleutradeTestData {
       new Trade(
           Order.OrderType.BID,
           new BigDecimal("654971.69417461"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           new BigDecimal("0.00000055"),
           new Date(1406657280000L),
           null),
       new Trade(
           Order.OrderType.ASK,
           new BigDecimal("120.00000000"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           new BigDecimal("0.00006600"),
           new Date(1406657555000L),
           null),
@@ -73,14 +80,14 @@ public class BleutradeTestData {
       new LimitOrder(
           Order.OrderType.BID,
           new BigDecimal("10.00000000"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           "",
           null,
           new BigDecimal("1.1")),
       new LimitOrder(
           Order.OrderType.ASK,
           new BigDecimal("20.00000000"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           "",
           null,
           new BigDecimal("2.2"))
@@ -93,7 +100,7 @@ public class BleutradeTestData {
           Order.OrderType.BID,
           new BigDecimal("20.00000000"),
           new BigDecimal("15.00000000"),
-          CurrencyPair.LTC_BTC,
+          org.knowm.xchange.currency.CurrencyPair.LTC_BTC,
           "65489",
           toDate("2014-08-03 13:55:20"),
           new BigDecimal("0.01268311")),
@@ -101,7 +108,7 @@ public class BleutradeTestData {
           Order.OrderType.ASK,
           new BigDecimal("150491.98700000"),
           (new BigDecimal("150491.98700000")).subtract(new BigDecimal("795.00000000")),
-          CurrencyPair.DOGE_BTC,
+          org.knowm.xchange.currency.CurrencyPair.DOGE_BTC,
           "65724",
           toDate("2014-07-29 18:45:17"),
           new BigDecimal("0.00000055")),
@@ -113,14 +120,14 @@ public class BleutradeTestData {
       new LimitOrder(
           Order.OrderType.BID,
           new BigDecimal("4.99400000"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           null,
           null,
           new BigDecimal("3.00650900")),
       new LimitOrder(
           Order.OrderType.BID,
           new BigDecimal("50.00000000"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           null,
           null,
           new BigDecimal("3.50000000"))
@@ -132,28 +139,28 @@ public class BleutradeTestData {
       new LimitOrder(
           Order.OrderType.ASK,
           new BigDecimal("12.44147454"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           null,
           null,
           new BigDecimal("5.13540000")),
       new LimitOrder(
           Order.OrderType.ASK,
           new BigDecimal("100.00000000"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           null,
           null,
           new BigDecimal("6.25500000")),
       new LimitOrder(
           Order.OrderType.ASK,
           new BigDecimal("30.00000000"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           null,
           null,
           new BigDecimal("6.75500001")),
       new LimitOrder(
           Order.OrderType.ASK,
           new BigDecimal("13.49989999"),
-          CurrencyPair.BTC_AUD,
+          org.knowm.xchange.currency.CurrencyPair.BTC_AUD,
           null,
           null,
           new BigDecimal("6.76260099"))

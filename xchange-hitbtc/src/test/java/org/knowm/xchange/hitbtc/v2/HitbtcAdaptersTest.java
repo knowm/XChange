@@ -24,7 +24,7 @@ public class HitbtcAdaptersTest {
       trading.add(new HitbtcBalance("BTC", new BigDecimal("0.111"), BigDecimal.ZERO));
 
       AccountInfo accountInfo =
-          new AccountInfo(
+          AccountInfo.build(
               HitbtcAdapters.adaptWallet("Main", main),
               HitbtcAdapters.adaptWallet("Trading", trading));
 

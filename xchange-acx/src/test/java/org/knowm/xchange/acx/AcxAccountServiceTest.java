@@ -1,9 +1,7 @@
 package org.knowm.xchange.acx;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -13,7 +11,6 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
 import org.known.xchange.acx.AcxApi;
 import org.known.xchange.acx.AcxMapper;
@@ -42,14 +39,13 @@ public class AcxAccountServiceTest {
     when(api.getAccountInfo(eq(accessKey), anyLong(), any()))
         .thenReturn(read("/account/account_info.json", AcxAccountInfo.class));
 
-    AccountInfo accountInfo = service.getAccountInfo();
-
-    assertEquals("Satoshi Nakamoto", accountInfo.getUsername());
+    assertEquals("Satoshi Nakamoto", service.getAccountInfo().getUsername());
     assertEquals(
-        new BigDecimal("2159091.0"), accountInfo.getWallet().getBalance(Currency.BTC).getTotal());
+        new BigDecimal("2159091.0"),
+        service.getAccountInfo().getWallet().getBalance(Currency.BTC).getTotal());
     assertEquals(
         new BigDecimal("2159090.0"),
-        accountInfo.getWallet().getBalance(Currency.BTC).getAvailable());
+        service.getAccountInfo().getWallet().getBalance(Currency.BTC).getAvailable());
   }
 
   private <T> T read(String path, Class<T> clz) throws IOException {

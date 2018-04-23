@@ -34,7 +34,7 @@ public class CoinoneAccountService extends CoinoneAccountServiceRaw implements A
   public AccountInfo getAccountInfo()
       throws ExchangeException, NotAvailableFromExchangeException,
           NotYetImplementedForExchangeException, IOException {
-    return new AccountInfo(CoinoneAdapters.adaptWallet(super.getWallet()));
+    return AccountInfo.build(CoinoneAdapters.adaptWallet(super.getWallet()));
   }
 
   @Override

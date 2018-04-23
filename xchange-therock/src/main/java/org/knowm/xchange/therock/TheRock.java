@@ -64,7 +64,8 @@ public interface TheRock {
 
     @Override
     public String toString() {
-      return String.format("%s%s", pair.base.getCurrencyCode(), pair.counter.getCurrencyCode());
+      return String.format(
+          "%s%s", pair.getBase().getCurrencyCode(), pair.getCounter().getCurrencyCode());
     }
   }
 }

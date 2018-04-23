@@ -141,7 +141,7 @@ public class BitMarketTradeServiceRaw extends BitMarketBaseService {
             apiKey,
             sign,
             exchange.getNonceFactory(),
-            currencyPair.base.getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
             count,
             offset);
 
@@ -150,7 +150,7 @@ public class BitMarketTradeServiceRaw extends BitMarketBaseService {
             apiKey,
             sign,
             exchange.getNonceFactory(),
-            currencyPair.counter.getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
             count,
             offset);
 

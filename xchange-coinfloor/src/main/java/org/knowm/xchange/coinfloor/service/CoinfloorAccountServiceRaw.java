@@ -12,6 +12,6 @@ public class CoinfloorAccountServiceRaw extends CoinfloorAuthenticatedService {
   }
 
   public CoinfloorBalance getCoinfloorBalance(CurrencyPair pair) throws IOException {
-    return coinfloor.getBalance(normalise(pair.base), normalise(pair.counter));
+    return coinfloor.getBalance(normalise(pair.getBase()), normalise(pair.getCounter()));
   }
 }

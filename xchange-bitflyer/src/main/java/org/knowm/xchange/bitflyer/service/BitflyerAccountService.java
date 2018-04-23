@@ -18,7 +18,6 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BitflyerAccountService extends BitflyerAccountServiceRaw implements AccountService {
   /**
@@ -32,7 +31,7 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(BitflyerAdapters.adaptAccountInfo(getBitflyerBalances()));
+    return AccountInfo.build(BitflyerAdapters.adaptAccountInfo(getBitflyerBalances()));
   }
 
   @Override

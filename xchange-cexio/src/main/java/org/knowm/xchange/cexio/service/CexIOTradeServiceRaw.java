@@ -38,8 +38,8 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
     List<CexIOOrder> cexIOOrderList = new ArrayList<>();
 
-    String tradableIdentifier = currencyPair.base.getCurrencyCode();
-    String transactionCurrency = currencyPair.counter.getCurrencyCode();
+    String tradableIdentifier = currencyPair.getBase().getCurrencyCode();
+    String transactionCurrency = currencyPair.getCounter().getCurrencyCode();
 
     CexIOOpenOrders openOrders =
         cexIOAuthenticated.getOpenOrders(
@@ -69,8 +69,8 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     CexIOOrder order =
         cexIOAuthenticated.placeOrder(
             signatureCreator,
-            limitOrder.getCurrencyPair().base.getCurrencyCode(),
-            limitOrder.getCurrencyPair().counter.getCurrencyCode(),
+            limitOrder.getCurrencyPair().getBase().getCurrencyCode(),
+            limitOrder.getCurrencyPair().getCounter().getCurrencyCode(),
             new PlaceOrderRequest(
                 (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell),
                 limitOrder.getLimitPrice(),
@@ -91,8 +91,8 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
       throws IOException {
     return cexIOAuthenticated.cancelAllOrders(
         signatureCreator,
-        currencyPair.base.getCurrencyCode(),
-        currencyPair.counter.getCurrencyCode(),
+        currencyPair.getBase().getCurrencyCode(),
+        currencyPair.getCounter().getCurrencyCode(),
         new CexIORequest());
   }
 
@@ -111,8 +111,8 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
       CexIOTradeHistoryParams params = (CexIOTradeHistoryParams) tradeHistoryParams;
 
       CurrencyPair currencyPair = params.currencyPair;
-      baseCcy = currencyPair == null ? null : currencyPair.base.getCurrencyCode();
-      counterCcy = currencyPair == null ? null : currencyPair.counter.getCurrencyCode();
+      baseCcy = currencyPair == null ? null : currencyPair.getBase().getCurrencyCode();
+      counterCcy = currencyPair == null ? null : currencyPair.getCounter().getCurrencyCode();
       limit = params.limit;
       dateTo = params.dateTo;
       dateFrom = params.dateFrom;
@@ -136,8 +136,8 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
         CurrencyPair currencyPair =
             ((TradeHistoryParamCurrencyPair) tradeHistoryParams).getCurrencyPair();
 
-        baseCcy = currencyPair == null ? null : currencyPair.base.getCurrencyCode();
-        counterCcy = currencyPair == null ? null : currencyPair.counter.getCurrencyCode();
+        baseCcy = currencyPair == null ? null : currencyPair.getBase().getCurrencyCode();
+        counterCcy = currencyPair == null ? null : currencyPair.getCounter().getCurrencyCode();
       }
 
       if (tradeHistoryParams instanceof TradeHistoryParamLimit) {

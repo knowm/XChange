@@ -27,7 +27,8 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     try {
       GDAXProductTicker tickerReturn =
           this.gdax.getProductTicker(
-              currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+              currencyPair.getBase().getCurrencyCode(),
+              currencyPair.getCounter().getCurrencyCode());
       return tickerReturn;
     } catch (GDAXException e) {
       throw handleError(e);
@@ -42,7 +43,8 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     try {
       GDAXProductStats statsReturn =
           this.gdax.getProductStats(
-              currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+              currencyPair.getBase().getCurrencyCode(),
+              currencyPair.getCounter().getCurrencyCode());
       return statsReturn;
     } catch (GDAXException e) {
       throw handleError(e);
@@ -58,7 +60,9 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     try {
       GDAXProductBook book =
           this.gdax.getProductOrderBook(
-              currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "1");
+              currencyPair.getBase().getCurrencyCode(),
+              currencyPair.getCounter().getCurrencyCode(),
+              "1");
       return book;
     } catch (GDAXException e) {
       throw handleError(e);
@@ -71,8 +75,8 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
     try {
       GDAXProductBook book =
           this.gdax.getProductOrderBook(
-              currencyPair.base.getCurrencyCode(),
-              currencyPair.counter.getCurrencyCode(),
+              currencyPair.getBase().getCurrencyCode(),
+              currencyPair.getCounter().getCurrencyCode(),
               String.valueOf(level));
       return book;
     } catch (GDAXException e) {
@@ -84,7 +88,7 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
 
     try {
       return this.gdax.getTrades(
-          currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+          currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
 
     } catch (GDAXException e) {
       throw handleError(e);
@@ -96,8 +100,8 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
 
     try {
       return this.gdax.getHistoricalCandles(
-          currencyPair.base.getCurrencyCode(),
-          currencyPair.counter.getCurrencyCode(),
+          currencyPair.getBase().getCurrencyCode(),
+          currencyPair.getCounter().getCurrencyCode(),
           start,
           end,
           granularity);
@@ -110,10 +114,10 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
 
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-          && cp.counter
+      if (cp.getBase().getCurrencyCode().equalsIgnoreCase(currencyPair.getBase().getCurrencyCode())
+          && cp.getCounter()
               .getCurrencyCode()
-              .equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+              .equalsIgnoreCase(currencyPair.getCounter().getCurrencyCode())) {
         currencyPairSupported = true;
         break;
       }
