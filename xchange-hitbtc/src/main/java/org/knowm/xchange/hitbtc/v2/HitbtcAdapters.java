@@ -236,7 +236,12 @@ public class HitbtcAdapters {
     List<Balance> balances = new ArrayList<>(hitbtcBalances.size());
 
     for (HitbtcBalance balanceRaw : hitbtcBalances) {
-      Currency currency = Currency.getInstance(balanceRaw.getCurrency());
+      String ccy = balanceRaw.getCurrency();
+      // Hitbtc uses the symbol USD to refer to Tether USDT
+      if (ccy.equals("USD")) {
+        ccy = "USDT";
+      }
+      Currency currency = Currency.getInstance(ccy);
       Balance balance =
           new Balance(currency, null, balanceRaw.getAvailable(), balanceRaw.getReserved());
       balances.add(balance);
