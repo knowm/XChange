@@ -14,12 +14,11 @@ import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransferType;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfers;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -35,10 +34,13 @@ public final class CoinbaseAdapters {
 
     final String username = user.getEmail();
     final CoinbaseMoney money = user.getBalance();
-    final Balance balance =
-        new Balance(Currency.getInstance(money.getCurrency()), money.getAmount());
+    final org.knowm.xchange.dto.account.Balance balance =
+        new org.knowm.xchange.dto.account.Balance.Builder()
+            .setCurrency(Currency.valueOf(money.getCurrency()))
+            .setTotal(money.getAmount())
+            .createBalance();
 
-    final AccountInfo accountInfoTemporaryName = new AccountInfo(username, new Wallet(balance));
+    final AccountInfo accountInfoTemporaryName = AccountInfo.build(username, Wallet.build(balance));
     return accountInfoTemporaryName;
   }
 
@@ -70,13 +72,13 @@ public final class CoinbaseAdapters {
     return new UserTrade(
         orderType,
         originalAmount,
-        new CurrencyPair(tradableIdentifier, transactionCurrency),
+        org.knowm.xchange.currency.CurrencyPair.build(tradableIdentifier, transactionCurrency),
         price,
         timestamp,
         id,
         transferId,
         feeAmount,
-        Currency.getInstance(feeCurrency));
+        Currency.valueOf(feeCurrency));
   }
 
   public static OrderType adaptOrderType(CoinbaseTransferType transferType) {
@@ -91,14 +93,14 @@ public final class CoinbaseAdapters {
   }
 
   public static Ticker adaptTicker(
-      CurrencyPair currencyPair,
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
       final CoinbasePrice buyPrice,
       final CoinbasePrice sellPrice,
       final CoinbaseMoney spotRate,
       final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
 
-    final Ticker.Builder tickerBuilder =
-        new Ticker.Builder()
+    final Builder tickerBuilder =
+        new Builder()
             .currencyPair(currencyPair)
             .ask(buyPrice.getSubTotal().getAmount())
             .bid(sellPrice.getSubTotal().getAmount())

@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinmate.CoinmateExchange;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -43,7 +42,8 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
+    Ticker ticker =
+        marketDataService.getTicker(org.knowm.xchange.currency.CurrencyPair.build("BTC", "EUR"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
@@ -53,7 +53,8 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "CZK"));
+    Ticker ticker =
+        marketDataService.getTicker(org.knowm.xchange.currency.CurrencyPair.build("BTC", "CZK"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
@@ -63,7 +64,7 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.LTC_BTC);
+    Ticker ticker = marketDataService.getTicker(org.knowm.xchange.currency.CurrencyPair.LTC_BTC);
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
@@ -73,7 +74,8 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
+    OrderBook orderBook =
+        marketDataService.getOrderBook(org.knowm.xchange.currency.CurrencyPair.BTC_EUR);
     System.out.println(orderBook.toString());
     assertThat(orderBook).isNotNull();
   }
@@ -83,7 +85,8 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CZK);
+    OrderBook orderBook =
+        marketDataService.getOrderBook(org.knowm.xchange.currency.CurrencyPair.BTC_CZK);
     System.out.println(orderBook.toString());
     assertThat(orderBook).isNotNull();
   }
@@ -93,7 +96,8 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_BTC);
+    OrderBook orderBook =
+        marketDataService.getOrderBook(org.knowm.xchange.currency.CurrencyPair.LTC_BTC);
     System.out.println(orderBook.toString());
     assertThat(orderBook).isNotNull();
   }
@@ -103,7 +107,7 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
+    Trades trades = marketDataService.getTrades(org.knowm.xchange.currency.CurrencyPair.BTC_EUR);
     System.out.println(trades.getTrades().toString());
     assertThat(trades).isNotNull();
   }
@@ -113,7 +117,7 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CZK);
+    Trades trades = marketDataService.getTrades(org.knowm.xchange.currency.CurrencyPair.BTC_CZK);
     System.out.println(trades.getTrades().toString());
     assertThat(trades).isNotNull();
   }
@@ -123,7 +127,7 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Trades trades = marketDataService.getTrades(CurrencyPair.LTC_BTC);
+    Trades trades = marketDataService.getTrades(org.knowm.xchange.currency.CurrencyPair.LTC_BTC);
     System.out.println(trades.getTrades().toString());
     assertThat(trades).isNotNull();
   }

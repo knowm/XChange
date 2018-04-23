@@ -49,7 +49,7 @@ public class MarketDataServiceIntegration {
 
     List<BinanceTicker24h> tickers = new ArrayList<>();
     for (CurrencyPair cp : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
-      if (cp.counter == Currency.USDT) {
+      if (cp.getCounter() == Currency.USDT) {
         tickers.add(getBinanceTicker24h(cp));
       }
     }

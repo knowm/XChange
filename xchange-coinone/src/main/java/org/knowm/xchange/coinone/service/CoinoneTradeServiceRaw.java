@@ -22,7 +22,7 @@ public class CoinoneTradeServiceRaw extends CoinoneBaseService {
             exchange.getNonceFactory().createValue(),
             limitOrder.getLimitPrice().doubleValue(),
             limitOrder.getOriginalAmount().doubleValue(),
-            limitOrder.getCurrencyPair().base.getSymbol().toLowerCase());
+            limitOrder.getCurrencyPair().getBase().getSymbol().toLowerCase());
     if (limitOrder.getType().equals(OrderType.ASK)) {
       return coinone.limitSell(payloadCreator, signatureCreator, request);
     } else {
@@ -46,7 +46,7 @@ public class CoinoneTradeServiceRaw extends CoinoneBaseService {
             apiKey,
             exchange.getNonceFactory().createValue(),
             orderId,
-            currencyPair.base.getSymbol().toLowerCase());
+            currencyPair.getBase().getSymbol().toLowerCase());
     return coinone.getOrder(payloadCreator, signatureCreator, request);
   }
 }

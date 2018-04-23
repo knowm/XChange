@@ -16,11 +16,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfo;
-import org.knowm.xchange.anx.v2.dto.marketdata.ANXDepth;
-import org.knowm.xchange.anx.v2.dto.marketdata.ANXTicker;
-import org.knowm.xchange.anx.v2.dto.marketdata.ANXTrade;
-import org.knowm.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
-import org.knowm.xchange.anx.v2.dto.marketdata.TickerJSONTest;
+import org.knowm.xchange.anx.v2.dto.marketdata.*;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.knowm.xchange.anx.v2.dto.trade.ANXOpenOrder;
 import org.knowm.xchange.currency.Currency;
@@ -55,8 +51,35 @@ public class ANXAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     ANXAccountInfo anxAccountInfo = mapper.readValue(is, ANXAccountInfo.class);
+    AccountInfo a = ANXAdapters.adaptAccountInfo(anxAccountInfo);
+    AccountInfo accountInfo = a; /*
+        new AccountInfo() {
+          @Override
+          public Map<String, Wallet> getWallets() {
+            return a.getWallets();
+          }
 
-    AccountInfo accountInfo = ANXAdapters.adaptAccountInfo(anxAccountInfo);
+          @Override
+          public Wallet getWallet() {
+            return a.getWallet();
+          }
+
+          @Override
+          public Wallet getWallet(String id) {
+            return a.getWallet();
+          }
+
+          @Override
+          public String getUsername() {
+            return a.getUsername();
+          }
+
+          @Override
+          public BigDecimal getTradingFee() {
+            return a.getTradingFee();
+          }
+        };
+*/
     assertThat(accountInfo.getUsername()).isEqualTo("test@anxpro.com");
 
     assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getTotal())
@@ -90,8 +113,8 @@ public class ANXAdapterTest {
     Assert.assertEquals(new BigDecimal("412.34567"), openorders.get(0).getLimitPrice());
     Assert.assertEquals(new BigDecimal("10.00000000"), openorders.get(0).getOriginalAmount());
 
-    Assert.assertEquals("BTC", openorders.get(0).getCurrencyPair().base.getCurrencyCode());
-    Assert.assertEquals("HKD", openorders.get(0).getCurrencyPair().counter.getCurrencyCode());
+    Assert.assertEquals("BTC", openorders.get(0).getCurrencyPair().getBase().getCurrencyCode());
+    Assert.assertEquals("HKD", openorders.get(0).getCurrencyPair().getCounter().getCurrencyCode());
 
     Assert.assertEquals(new Date(1393411075000L), openorders.get(0).getTimestamp());
   }
@@ -118,21 +141,23 @@ public class ANXAdapterTest {
     Assert.assertEquals(new BigDecimal("16.00000000"), asks.get(0).getOriginalAmount());
     Assert.assertEquals(new BigDecimal("3260.40000"), asks.get(0).getLimitPrice());
 
-    Assert.assertEquals("BTC", asks.get(0).getCurrencyPair().base.getCurrencyCode());
-    Assert.assertEquals("USD", asks.get(0).getCurrencyPair().counter.getCurrencyCode());
+    Assert.assertEquals("BTC", asks.get(0).getCurrencyPair().getBase().getCurrencyCode());
+    Assert.assertEquals("USD", asks.get(0).getCurrencyPair().getCounter().getCurrencyCode());
   }
 
   @Test
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is =
-        TickerJSONTest.class.getResourceAsStream("/v2/marketdata/example-trades-data.json");
+    ANXTradesWrapper anxTradesWrapper;
+    try (InputStream is =
+        this.getClass().getResourceAsStream("/v2/marketdata/example-trades-data.json")) {
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
+      // Use Jackson to parse it
+      ObjectMapper mapper = new ObjectMapper();
 
-    ANXTradesWrapper anxTradesWrapper = mapper.readValue(is, ANXTradesWrapper.class);
+      anxTradesWrapper = mapper.readValue(is, ANXTradesWrapper.class);
+    }
     List<ANXTrade> anxTrades = anxTradesWrapper.getANXTrades();
 
     Trades trades = ANXAdapters.adaptTrades(anxTrades);
@@ -167,22 +192,36 @@ public class ANXAdapterTest {
         ANXAdapters.adaptWallet(anxAccountInfo.getWallets()).getBalances().values();
     Assert.assertEquals(22, balances.size());
 
+    BigDecimal total2 = new BigDecimal("100000.00000");
+    BigDecimal available2 = new BigDecimal("100000.00000");
     Assert.assertTrue(
         balances.contains(
-            new Balance(
-                Currency.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
+            new Balance.Builder()
+                .setCurrency(Currency.CAD)
+                .setTotal(total2)
+                .setAvailable(available2)
+                .setFrozen(total2.add(available2.negate()))
+                .createBalance()));
+    BigDecimal total1 = new BigDecimal("100000.01988000");
+    BigDecimal available1 = new BigDecimal("100000.01988000");
     Assert.assertTrue(
         balances.contains(
-            new Balance(
-                Currency.BTC,
-                new BigDecimal("100000.01988000"),
-                new BigDecimal("100000.01988000"))));
+            new Balance.Builder()
+                .setCurrency(Currency.BTC)
+                .setTotal(total1)
+                .setAvailable(available1)
+                .setFrozen(total1.add(available1.negate()))
+                .createBalance()));
+    BigDecimal total = new BigDecimal("9999781.09457936");
+    BigDecimal available = new BigDecimal("9914833.52608521");
     Assert.assertTrue(
         balances.contains(
-            new Balance(
-                Currency.DOGE,
-                new BigDecimal("9999781.09457936"),
-                new BigDecimal("9914833.52608521"))));
+            new Balance.Builder()
+                .setCurrency(Currency.DOGE)
+                .setTotal(total)
+                .setAvailable(available)
+                .setFrozen(total.add(available.negate()))
+                .createBalance()));
   }
 
   @Test

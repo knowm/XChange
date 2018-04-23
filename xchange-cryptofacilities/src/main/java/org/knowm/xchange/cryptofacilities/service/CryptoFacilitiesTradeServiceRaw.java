@@ -27,7 +27,7 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBaseService
 
   public CryptoFacilitiesOrder sendCryptoFacilitiesLimitOrder(LimitOrder order) throws IOException {
     String orderType = "lmt";
-    String symbol = order.getCurrencyPair().base.toString();
+    String symbol = order.getCurrencyPair().getBase().toString();
     String side = "buy";
     if (order.getType().equals(OrderType.ASK)) {
       side = "sell";

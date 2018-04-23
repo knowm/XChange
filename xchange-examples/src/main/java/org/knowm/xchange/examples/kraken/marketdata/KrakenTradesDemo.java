@@ -35,7 +35,8 @@ public class KrakenTradesDemo {
 
     // Get the latest trade data for BTC_USD for the past 12 hours (note:
     // doesn't account for time zone differences, should use UTC instead)
-    //    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, (long) (System.nanoTime() - (12
+    //    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, (long) (System.nanoTime() -
+    // (12
     // * 60 * 60 * Math.pow(10, 9))));
     //    System.out.println(trades);
     //    System.out.println("Trades size: " + trades.getTrades().size());

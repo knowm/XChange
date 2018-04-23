@@ -5,6 +5,7 @@ import java.util.Date;
 import org.knowm.xchange.btcc.dto.marketdata.BTCCTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 
 public class BTCCAdapters {
 
@@ -18,7 +19,7 @@ public class BTCCAdapters {
     BigDecimal volume = btccTicker.getVolume();
     Date timestamp = new Date(btccTicker.getTimestamp());
 
-    return new Ticker.Builder()
+    return new Builder()
         .currencyPair(currencyPair)
         .last(last)
         .high(high)

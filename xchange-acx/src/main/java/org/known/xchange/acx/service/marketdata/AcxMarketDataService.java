@@ -30,7 +30,7 @@ public class AcxMarketDataService implements MarketDataService {
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     AcxMarket tickerData = api.getTicker(getAcxMarket(currencyPair));
-    return mapper.mapTicker(currencyPair, tickerData);
+    return AcxMapper.mapTicker(currencyPair, tickerData);
   }
 
   @Override

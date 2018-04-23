@@ -4,7 +4,6 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
@@ -35,7 +34,8 @@ public class DepthDemo {
 
     // Get the latest order book data for LTC/BRL
     OrderBook orderBook =
-        marketDataService.getOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));
+        marketDataService.getOrderBook(
+            org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL));
 
     System.out.println(
         "Current Order Book size for LTC / BRL: "
@@ -56,7 +56,8 @@ public class DepthDemo {
 
     // Get the latest order book data for LTC/BRL
     MercadoBitcoinOrderBook orderBook =
-        marketDataService.getMercadoBitcoinOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));
+        marketDataService.getMercadoBitcoinOrderBook(
+            org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL));
 
     System.out.println(
         "Current Order Book size for LTC / BRL: "

@@ -24,7 +24,6 @@ public class MarketDataTest {
     Map<String, BTCCTicker> response =
         mapper.readValue(is, t.constructMapType(Map.class, String.class, BTCCTicker.class));
     BTCCTicker btccTicker = response.get("ticker");
-
     Ticker ticker = BTCCAdapters.adaptTicker(btccTicker, CurrencyPair.BTC_USD);
 
     assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("1730"));

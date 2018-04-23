@@ -21,11 +21,11 @@ public class BTCMarketsMarketDataServiceRaw extends BTCMarketsBaseService {
 
   public BTCMarketsTicker getBTCMarketsTicker(CurrencyPair currencyPair) throws IOException {
     return btcmarkets.getTicker(
-        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
   }
 
   public BTCMarketsOrderBook getBTCMarketsOrderBook(CurrencyPair currencyPair) throws IOException {
     return btcmarkets.getOrderBook(
-        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+        currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
   }
 }

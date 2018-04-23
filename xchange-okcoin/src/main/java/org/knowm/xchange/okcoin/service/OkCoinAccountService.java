@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -50,7 +49,8 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
             .equals(true);
     String currencySymbol =
         OkCoinAdapters.adaptSymbol(
-            new CurrencyPair(currency, useIntl ? Currency.USD : Currency.CNY));
+            org.knowm.xchange.currency.CurrencyPair.build(
+                currency, useIntl ? Currency.USD : Currency.CNY));
 
     // Defualt withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw
     // for internal withdraw
@@ -78,7 +78,8 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    return new OkCoinFundingHistoryParams(null, null, null, CurrencyPair.BTC_CNY);
+    return new OkCoinFundingHistoryParams(
+        null, null, null, org.knowm.xchange.currency.CurrencyPair.BTC_CNY);
   }
 
   @Override
@@ -126,13 +127,13 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
       implements TradeHistoryParamCurrency, TradeHistoryParamCurrencyPair {
 
     private Currency currency;
-    private CurrencyPair currencyPair;
+    private org.knowm.xchange.currency.CurrencyPair currencyPair;
 
     public OkCoinFundingHistoryParams(
         final Integer pageNumber,
         final Integer pageLength,
         final Currency currency,
-        final CurrencyPair currencyPair) {
+        final org.knowm.xchange.currency.CurrencyPair currencyPair) {
       super(pageLength, pageNumber);
       this.currency = currency;
       this.currencyPair = currencyPair;
@@ -149,12 +150,12 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public org.knowm.xchange.currency.CurrencyPair getCurrencyPair() {
       return this.currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
+    public void setCurrencyPair(org.knowm.xchange.currency.CurrencyPair currencyPair) {
       this.currencyPair = currencyPair;
     }
   }
