@@ -8,7 +8,6 @@ import org.knowm.xchange.bitcoinium.BitcoiniumExchange;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import org.knowm.xchange.bitcoinium.service.BitcoiniumMarketDataServiceRaw;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -35,7 +34,8 @@ public class BitcoiniumMarketDataDemo {
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker =
-        bitcoiniumGenericMarketDataService.getTicker(new CurrencyPair("BTC", "BITSTAMP_USD"));
+        bitcoiniumGenericMarketDataService.getTicker(
+            org.knowm.xchange.currency.CurrencyPair.build("BTC", "BITSTAMP_USD"));
 
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Bid: " + ticker.getBid());
@@ -45,7 +45,7 @@ public class BitcoiniumMarketDataDemo {
     // Get the latest order book data for BTC/USD
     OrderBook orderBook =
         bitcoiniumGenericMarketDataService.getOrderBook(
-            new CurrencyPair("BTC", "BITSTAMP_USD"), "TEN_PERCENT");
+            org.knowm.xchange.currency.CurrencyPair.build("BTC", "BITSTAMP_USD"), "TEN_PERCENT");
 
     System.out.println("Order book: " + orderBook);
   }

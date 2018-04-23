@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.kucoin.trade;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.kucoin.KucoinExamplesUtils;
@@ -17,7 +16,8 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 
 public class KucoinTradeDemo {
 
-  private static final CurrencyPair PAIR = new CurrencyPair("DRGN", "BTC");
+  private static final org.knowm.xchange.currency.CurrencyPair PAIR =
+      org.knowm.xchange.currency.CurrencyPair.build("DRGN", "BTC");
   private static final OrderType ORDER_TYPE = OrderType.ASK;
 
   public static void main(String[] args) throws IOException {

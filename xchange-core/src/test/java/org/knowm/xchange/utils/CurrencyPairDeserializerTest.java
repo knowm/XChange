@@ -20,21 +20,21 @@ public class CurrencyPairDeserializerTest {
     assertThat(currencyPair).isEqualTo(CurrencyPair.DOGE_HKD);
 
     currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString("BTCUSD");
-    assertThat(currencyPair.base).isEqualTo(Currency.BTC);
-    assertThat(currencyPair.counter).isEqualTo(Currency.USD);
+    assertThat(currencyPair.getBase()).isEqualTo(Currency.BTC);
+    assertThat(currencyPair.getCounter()).isEqualTo(Currency.USD);
 
     currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString("BCBTC");
-    assertThat(currencyPair.base).isEqualTo(Currency.BC);
-    assertThat(currencyPair.counter).isEqualTo(Currency.BTC);
+    assertThat(currencyPair.getBase()).isEqualTo(Currency.BC);
+    assertThat(currencyPair.getCounter()).isEqualTo(Currency.BTC);
 
     currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString("DOGEBTC");
-    assertThat(currencyPair.base).isEqualTo(Currency.DOGE);
-    assertThat(currencyPair.counter).isEqualTo(Currency.BTC);
+    assertThat(currencyPair.getBase()).isEqualTo(Currency.DOGE);
+    assertThat(currencyPair.getCounter()).isEqualTo(Currency.BTC);
 
     // Current heuristic: CurrencyPairDeserializer takes the end which gives the longer match to a
     // real currency
     currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString("USDEHQXYVBC");
-    assertThat(currencyPair.base).isEqualTo(Currency.USDE);
-    assertThat(currencyPair.counter.getCurrencyCode()).isEqualTo("HQXYVBC");
+    assertThat(currencyPair.getBase()).isEqualTo(Currency.USDE);
+    assertThat(currencyPair.getCounter().getCurrencyCode()).isEqualTo("HQXYVBC");
   }
 }

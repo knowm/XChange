@@ -16,8 +16,7 @@ public class LiquiAccountFunds {
         .entrySet()
         .forEach(
             entry ->
-                this.funds.put(
-                    Currency.getInstance(entry.getKey()), new BigDecimal(entry.getValue())));
+                this.funds.put(Currency.valueOf(entry.getKey()), new BigDecimal(entry.getValue())));
   }
 
   public Map<Currency, BigDecimal> getFunds() {

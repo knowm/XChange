@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gdax.service.GDAXMarketDataServiceRaw;
 
 public class GDAXExchangeIntegration {
@@ -22,6 +21,6 @@ public class GDAXExchangeIntegration {
     ex.remoteInit();
     Assert.assertTrue(
         ((GDAXMarketDataServiceRaw) ex.getMarketDataService())
-            .checkProductExists(new CurrencyPair("ETH", "USD")));
+            .checkProductExists(org.knowm.xchange.currency.CurrencyPair.build("ETH", "USD")));
   }
 }

@@ -26,7 +26,7 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBaseSe
       throws IOException {
 
     CryptoFacilitiesTicker ticker =
-        getCryptoFacilitiesTickers().getTicker(currencyPair.base.toString());
+        getCryptoFacilitiesTickers().getTicker(currencyPair.getBase().toString());
 
     return ticker;
   }
@@ -57,7 +57,7 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBaseSe
       throws IOException {
 
     CryptoFacilitiesOrderBook orderBook =
-        cryptoFacilities.getOrderBook(currencyPair.base.toString());
+        cryptoFacilities.getOrderBook(currencyPair.getBase().toString());
 
     if (orderBook.isSuccess()) {
       orderBook.setCurrencyPair(currencyPair);

@@ -36,9 +36,9 @@ public class CoinmateUtils {
     if (currencyPair == null) {
       return null;
     }
-    return currencyPair.base.getCurrencyCode().toUpperCase()
+    return currencyPair.getBase().getCurrencyCode().toUpperCase()
         + "_"
-        + currencyPair.counter.getCurrencyCode().toUpperCase();
+        + currencyPair.getCounter().getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair getPair(String currencyPair) {

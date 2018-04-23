@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.service.BittrexTradeServiceRaw;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.bittrex.BittrexExamplesUtils;
@@ -24,7 +23,8 @@ public class BittrexTradeDemo {
 
   private static void generic(TradeService tradeService) throws IOException {
 
-    CurrencyPair pair = new CurrencyPair("ZET", "BTC");
+    org.knowm.xchange.currency.CurrencyPair pair =
+        org.knowm.xchange.currency.CurrencyPair.build("ZET", "BTC");
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, pair)
             .limitPrice(new BigDecimal("0.00001000"))
@@ -61,7 +61,8 @@ public class BittrexTradeDemo {
 
   private static void raw(BittrexTradeServiceRaw tradeService) throws IOException {
 
-    CurrencyPair pair = new CurrencyPair("ZET", "BTC");
+    org.knowm.xchange.currency.CurrencyPair pair =
+        org.knowm.xchange.currency.CurrencyPair.build("ZET", "BTC");
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, pair)
             .limitPrice(new BigDecimal("0.00001000"))

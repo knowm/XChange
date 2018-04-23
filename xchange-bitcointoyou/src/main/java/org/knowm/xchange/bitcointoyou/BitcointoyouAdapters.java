@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.knowm.xchange.bitcointoyou.dto.account.BitcointoyouBalance;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouLevel;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouMarketData;
@@ -18,7 +19,6 @@ import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouTicker;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderInfo;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderResponse;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -28,6 +28,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -44,13 +45,14 @@ public final class BitcointoyouAdapters {
   }
 
   public static Ticker adaptBitcointoyouTicker(
-      BitcointoyouTicker bitcointoyouTicker, CurrencyPair currencyPair) {
+      BitcointoyouTicker bitcointoyouTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     return adaptBitcointoyouTicker(bitcointoyouTicker.getBitcointoyouMarketData(), currencyPair);
   }
 
   static Ticker adaptBitcointoyouTicker(
-      BitcointoyouMarketData bitcointoyouMarketData, CurrencyPair currencyPair) {
+      BitcointoyouMarketData bitcointoyouMarketData,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     BigDecimal last = bitcointoyouMarketData.getLast();
     BigDecimal bid = bitcointoyouMarketData.getBuy();
@@ -72,7 +74,7 @@ public final class BitcointoyouAdapters {
   }
 
   public static OrderBook adaptBitcointoyouOrderBook(
-      BitcointoyouOrderBook depth, CurrencyPair currencyPair) {
+      BitcointoyouOrderBook depth, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     List<LimitOrder> asks =
         adaptBitcointoyouPublicOrders(depth.getAsks(), OrderType.ASK, currencyPair);
@@ -83,7 +85,9 @@ public final class BitcointoyouAdapters {
   }
 
   static List<LimitOrder> adaptBitcointoyouPublicOrders(
-      List<List<BigDecimal>> list, OrderType orderType, CurrencyPair currencyPair) {
+      List<List<BigDecimal>> list,
+      OrderType orderType,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     List<BitcointoyouLevel> levels = new ArrayList<>();
 
@@ -95,7 +99,7 @@ public final class BitcointoyouAdapters {
 
     for (BitcointoyouLevel level : levels) {
       LimitOrder limitOrder =
-          new LimitOrder.Builder(orderType, currencyPair)
+          new Builder(orderType, currencyPair)
               .originalAmount(level.getAmount())
               .limitPrice(level.getLimit())
               .build();
@@ -110,7 +114,8 @@ public final class BitcointoyouAdapters {
   }
 
   public static Trades adaptBitcointoyouPublicTrades(
-      BitcointoyouPublicTrade[] bitcointoyouPublicTrades, CurrencyPair currencyPair) {
+      BitcointoyouPublicTrade[] bitcointoyouPublicTrades,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
 
@@ -122,7 +127,8 @@ public final class BitcointoyouAdapters {
   }
 
   private static Trade adaptBitcointoyouPublicTrade(
-      BitcointoyouPublicTrade bitcointoyouTrade, CurrencyPair currencyPair) {
+      BitcointoyouPublicTrade bitcointoyouTrade,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     OrderType type =
         bitcointoyouTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
@@ -145,10 +151,14 @@ public final class BitcointoyouAdapters {
         && bitcointoyouBalances.getoReturn() != null
         && bitcointoyouBalances.getoReturn().size() > 0) {
       Map<String, BigDecimal> balancesMap = bitcointoyouBalances.getoReturn().get(0);
-      for (Map.Entry<String, BigDecimal> balance : balancesMap.entrySet()) {
+      for (Entry<String, BigDecimal> balance : balancesMap.entrySet()) {
 
-        Currency currency = Currency.getInstance(balance.getKey());
-        balances.add(new Balance(currency, balance.getValue()));
+        Currency currency = Currency.valueOf(balance.getKey());
+        balances.add(
+            new org.knowm.xchange.dto.account.Balance.Builder()
+                .setCurrency(currency)
+                .setTotal(balance.getValue())
+                .createBalance());
       }
     }
 
@@ -166,8 +176,9 @@ public final class BitcointoyouAdapters {
       if (ordersInfo != null && !ordersInfo.isEmpty()) {
         for (BitcointoyouOrderInfo orderInfo : ordersInfo) {
           if (orderInfo.getAsset() != null && orderInfo.getCurrency() != null) {
-            CurrencyPair currencyPair =
-                new CurrencyPair(orderInfo.getAsset(), orderInfo.getCurrency());
+            org.knowm.xchange.currency.CurrencyPair currencyPair =
+                org.knowm.xchange.currency.CurrencyPair.build(
+                    orderInfo.getAsset(), orderInfo.getCurrency());
 
             openOrders.add(adaptBitcointoyouOpenOrder(bitcointoyouOpenOrders, currencyPair));
           }
@@ -179,7 +190,7 @@ public final class BitcointoyouAdapters {
   }
 
   private static LimitOrder adaptBitcointoyouOpenOrder(
-      BitcointoyouOrderResponse openOrder, CurrencyPair currencyPair) {
+      BitcointoyouOrderResponse openOrder, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     if (openOrder != null
         && openOrder.getOrderList() != null
@@ -193,9 +204,11 @@ public final class BitcointoyouAdapters {
   }
 
   private static LimitOrder adaptBitcointoyouSingleOpenOrder(
-      BitcointoyouOrderInfo orderInfo, CurrencyPair currencyPair, Date orderDate) {
+      BitcointoyouOrderInfo orderInfo,
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      Date orderDate) {
     OrderType type = orderInfo.getAction().equals("buy") ? OrderType.BID : OrderType.ASK;
-    return new LimitOrder.Builder(type, currencyPair)
+    return new Builder(type, currencyPair)
         .limitPrice(orderInfo.getPrice())
         .originalAmount(orderInfo.getAmount())
         .id(orderInfo.getId())

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -74,17 +76,18 @@ public class HuobiAdapters {
 
   public static Wallet adaptWallet(Map<String, HuobiBalanceSum> huobiWallet) {
     List<Balance> balances = new ArrayList<>(huobiWallet.size());
-    for (Map.Entry<String, HuobiBalanceSum> record : huobiWallet.entrySet()) {
+    for (Entry<String, HuobiBalanceSum> record : huobiWallet.entrySet()) {
       Currency currency = adaptCurrency(record.getKey());
-      Balance balance =
-          new Balance(
-              currency,
-              record.getValue().getTotal(),
-              record.getValue().getAvailable(),
-              record.getValue().getFrozen());
+      org.knowm.xchange.dto.account.Balance balance =
+          new Builder()
+              .setCurrency(currency)
+              .setTotal(record.getValue().getTotal())
+              .setAvailable(record.getValue().getAvailable())
+              .setFrozen(record.getValue().getFrozen())
+              .createBalance();
       balances.add(balance);
     }
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   public static Map<String, HuobiBalanceSum> adaptBalance(HuobiBalanceRecord[] huobiBalance) {

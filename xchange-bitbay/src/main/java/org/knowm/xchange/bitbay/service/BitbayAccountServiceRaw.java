@@ -106,7 +106,7 @@ public class BitbayAccountServiceRaw extends BitbayBaseService {
             new FundingRecord(
                 null,
                 dateFormat.parse(map.get("time").toString()),
-                Currency.getInstance(map.get("currency").toString()),
+                Currency.valueOf(map.get("currency").toString()),
                 new BigDecimal(map.get("amount").toString()),
                 map.get("id").toString(),
                 null,

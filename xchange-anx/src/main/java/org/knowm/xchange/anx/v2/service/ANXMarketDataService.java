@@ -72,15 +72,15 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
     List<LimitOrder> asks =
         ANXAdapters.adaptOrders(
             anxDepthWrapper.getAnxDepth().getAsks(),
-            currencyPair.base.getCurrencyCode(),
-            currencyPair.counter.getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
             "ask",
             "");
     List<LimitOrder> bids =
         ANXAdapters.adaptOrders(
             anxDepthWrapper.getAnxDepth().getBids(),
-            currencyPair.base.getCurrencyCode(),
-            currencyPair.counter.getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
             "bid",
             "");
     Date date = new Date(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);

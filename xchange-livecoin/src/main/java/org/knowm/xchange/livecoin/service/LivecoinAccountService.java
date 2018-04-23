@@ -27,7 +27,7 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(balances(null));
+    return AccountInfo.build(balances(null));
   }
 
   @Override

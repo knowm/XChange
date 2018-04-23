@@ -5,10 +5,8 @@ import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -70,7 +68,6 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
    * @see <a
    *     href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
    */
-
   @Override
   public Collection<Order> getOrder(String... orderIds)
       throws ExchangeException, NotAvailableFromExchangeException,

@@ -86,8 +86,8 @@ public interface Liqui {
         builder.append(
             String.format(
                 "%s_%s",
-                currencyPairs.get(i).base.getCurrencyCode().toLowerCase(),
-                currencyPairs.get(i).counter.getCurrencyCode().toLowerCase()));
+                currencyPairs.get(i).getBase().getCurrencyCode().toLowerCase(),
+                currencyPairs.get(i).getCounter().getCurrencyCode().toLowerCase()));
 
         if (i < currencyPairs.size() - 1) {
           builder.append("-");

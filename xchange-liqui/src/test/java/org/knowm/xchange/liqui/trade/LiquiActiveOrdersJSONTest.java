@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
 import org.junit.Test;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.liqui.dto.LiquiTradeType;
 import org.knowm.xchange.liqui.dto.trade.LiquiOrderInfo;
 import org.knowm.xchange.liqui.dto.trade.result.LiquiActiveOrdersResult;
@@ -30,7 +29,8 @@ public class LiquiActiveOrdersJSONTest {
     final LiquiOrderInfo order = orders.get(108998425L);
     assertThat(order).isNotNull();
 
-    assertThat(order.getPair()).isEqualTo(new CurrencyPair("trx", "btc"));
+    assertThat(order.getPair())
+        .isEqualTo(org.knowm.xchange.currency.CurrencyPair.build("trx", "btc"));
     assertThat(order.getType()).isEqualTo(LiquiTradeType.SELL);
     assertThat(order.getAmount()).isEqualTo(new BigDecimal("1.0"));
     assertThat(order.getRate()).isEqualTo(new BigDecimal("0.0001"));

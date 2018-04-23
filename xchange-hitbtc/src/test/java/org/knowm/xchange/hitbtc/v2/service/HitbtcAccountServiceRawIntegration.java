@@ -38,7 +38,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
 
     Map<Currency, HitbtcBalance> balanceMap = new HashMap<>();
     for (HitbtcBalance hitbtcBalance : balance) {
-      balanceMap.put(Currency.getInstance(hitbtcBalance.getCurrency()), hitbtcBalance);
+      balanceMap.put(Currency.valueOf(hitbtcBalance.getCurrency()), hitbtcBalance);
     }
 
     Assert.assertNotNull(balance);
@@ -53,7 +53,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
 
     Map<Currency, HitbtcBalance> balanceMap = new HashMap<>();
     for (HitbtcBalance hitbtcBalance : balance) {
-      balanceMap.put(Currency.getInstance(hitbtcBalance.getCurrency()), hitbtcBalance);
+      balanceMap.put(Currency.valueOf(hitbtcBalance.getCurrency()), hitbtcBalance);
     }
 
     Assert.assertNotNull(balance);
@@ -81,15 +81,31 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
   public void testGetTransactions() throws IOException {
     List<HitbtcTransaction> transactions;
 
-    transactions = service.getTransactions(null, HitbtcSort.SORT_ASCENDING, new Date(1520949577579L), new Date(), 100, null);
+    transactions =
+        service.getTransactions(
+            null, HitbtcSort.SORT_ASCENDING, new Date(1520949577579L), new Date(), 100, null);
     Assert.assertTrue(!transactions.isEmpty());
     Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
 
-    transactions = service.getTransactions(Currency.LTC.getCurrencyCode(), HitbtcSort.SORT_DESCENDING, new Date(0), new Date(), 100,null);
+    transactions =
+        service.getTransactions(
+            Currency.LTC.getCurrencyCode(),
+            HitbtcSort.SORT_DESCENDING,
+            new Date(0),
+            new Date(),
+            100,
+            null);
     Assert.assertTrue(!transactions.isEmpty());
     Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
 
-    transactions = service.getTransactions(Currency.LTC.getCurrencyCode(), HitbtcSort.SORT_DESCENDING, new Date(0), new Date(), 100, null);
+    transactions =
+        service.getTransactions(
+            Currency.LTC.getCurrencyCode(),
+            HitbtcSort.SORT_DESCENDING,
+            new Date(0),
+            new Date(),
+            100,
+            null);
     Assert.assertTrue(!transactions.isEmpty());
     Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
 

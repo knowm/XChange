@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -24,10 +23,11 @@ public final class BitcoinChartsAdapters {
    * @return
    */
   public static Ticker adaptTicker(
-      BitcoinChartsTicker[] bitcoinChartsTickers, CurrencyPair currencyPair) {
+      BitcoinChartsTicker[] bitcoinChartsTickers,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     for (int i = 0; i < bitcoinChartsTickers.length; i++) {
-      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.counter.getCurrencyCode())) {
+      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.getCounter().getCurrencyCode())) {
 
         BigDecimal last =
             bitcoinChartsTickers[i].getClose() != null ? bitcoinChartsTickers[i].getClose() : null;
@@ -60,7 +60,7 @@ public final class BitcoinChartsAdapters {
   public static ExchangeMetaData adaptMetaData(
       ExchangeMetaData exchangeMetaData, BitcoinChartsTicker[] tickers) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
 
     for (BitcoinChartsTicker ticker : tickers) {
       BigDecimal anyPrice =
@@ -72,7 +72,8 @@ public final class BitcoinChartsAdapters {
               ticker.getHigh());
       int scale = anyPrice != null ? anyPrice.scale() : 0;
       pairs.put(
-          new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())),
+          org.knowm.xchange.currency.CurrencyPair.build(
+              Currency.BTC, Currency.valueOf(ticker.getSymbol())),
           new CurrencyPairMetaData(null, null, null, scale));
     }
 

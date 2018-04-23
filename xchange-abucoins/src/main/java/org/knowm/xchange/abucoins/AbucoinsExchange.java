@@ -3,15 +3,11 @@ package org.knowm.xchange.abucoins;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
 import org.knowm.xchange.abucoins.service.AbucoinsAccountService;
 import org.knowm.xchange.abucoins.service.AbucoinsMarketDataService;
 import org.knowm.xchange.abucoins.service.AbucoinsTradeService;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
 
 public class AbucoinsExchange extends BaseExchange implements Exchange {
 

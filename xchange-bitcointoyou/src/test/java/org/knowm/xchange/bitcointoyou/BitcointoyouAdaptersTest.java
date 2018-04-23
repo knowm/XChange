@@ -174,11 +174,26 @@ public class BitcointoyouAdaptersTest {
     softly
         .assertThat(balances)
         .contains(
-            new Balance(Currency.BRL, new BigDecimal("8657.531311027634275")),
-            new Balance(Currency.BTC, new BigDecimal("35.460074025529646")),
-            new Balance(Currency.LTC, new BigDecimal("9.840918628667236")),
-            new Balance(Currency.DOGE, new BigDecimal("5419.490003406479187")),
-            new Balance(Currency.DRK, new BigDecimal("0.121461143982142")));
+            new org.knowm.xchange.dto.account.Balance.Builder()
+                .setCurrency(Currency.BRL)
+                .setTotal(new BigDecimal("8657.531311027634275"))
+                .createBalance(),
+            new org.knowm.xchange.dto.account.Balance.Builder()
+                .setCurrency(Currency.BTC)
+                .setTotal(new BigDecimal("35.460074025529646"))
+                .createBalance(),
+            new org.knowm.xchange.dto.account.Balance.Builder()
+                .setCurrency(Currency.LTC)
+                .setTotal(new BigDecimal("9.840918628667236"))
+                .createBalance(),
+            new org.knowm.xchange.dto.account.Balance.Builder()
+                .setCurrency(Currency.DOGE)
+                .setTotal(new BigDecimal("5419.490003406479187"))
+                .createBalance(),
+            new org.knowm.xchange.dto.account.Balance.Builder()
+                .setCurrency(Currency.DRK)
+                .setTotal(new BigDecimal("0.121461143982142"))
+                .createBalance());
 
     softly.assertAll();
   }
