@@ -24,8 +24,8 @@ public class VircurexMarketDataServiceRaw extends VircurexBaseService {
 
     VircurexLastTrade vircurexLastTrade =
         vircurexAuthenticated.getLastTrade(
-            currencyPair.base.getCurrencyCode().toLowerCase(),
-            currencyPair.counter.getCurrencyCode().toLowerCase());
+            currencyPair.getBase().getCurrencyCode().toLowerCase(),
+            currencyPair.getCounter().getCurrencyCode().toLowerCase());
 
     return vircurexLastTrade;
   }
@@ -36,8 +36,8 @@ public class VircurexMarketDataServiceRaw extends VircurexBaseService {
 
     VircurexDepth vircurexDepth =
         vircurexAuthenticated.getFullDepth(
-            currencyPair.base.getCurrencyCode().toLowerCase(),
-            currencyPair.counter.getCurrencyCode().toLowerCase());
+            currencyPair.getBase().getCurrencyCode().toLowerCase(),
+            currencyPair.getCounter().getCurrencyCode().toLowerCase());
 
     return vircurexDepth;
   }

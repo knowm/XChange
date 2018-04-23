@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.zaif.service.ZaifMarketDataServiceRaw;
 
 public class ZaifExchangeIntegration {
@@ -22,6 +21,6 @@ public class ZaifExchangeIntegration {
 
     Assert.assertTrue(
         ((ZaifMarketDataServiceRaw) ex.getMarketDataService())
-            .checkProductExists(new CurrencyPair("BITCRYSTALS/JPY")));
+            .checkProductExists(org.knowm.xchange.currency.CurrencyPair.build("BITCRYSTALS/JPY")));
   }
 }

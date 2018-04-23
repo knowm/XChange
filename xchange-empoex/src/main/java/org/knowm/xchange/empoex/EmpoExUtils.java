@@ -1,19 +1,20 @@
 package org.knowm.xchange.empoex;
 
 import java.util.Date;
-import org.knowm.xchange.currency.CurrencyPair;
 
 public final class EmpoExUtils {
 
-  public static String toPairString(CurrencyPair currencyPair) {
+  public static String toPairString(org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
-    return currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
+    return currencyPair.getBase().getCurrencyCode()
+        + "-"
+        + currencyPair.getCounter().getCurrencyCode();
   }
 
-  public static CurrencyPair toCurrencyPair(String pairString) {
+  public static org.knowm.xchange.currency.CurrencyPair toCurrencyPair(String pairString) {
 
     String[] currencies = pairString.split("-");
-    return new CurrencyPair(currencies[0], currencies[1]);
+    return org.knowm.xchange.currency.CurrencyPair.build(currencies[0], currencies[1]);
   }
 
   public static Date toDate(long unix) {

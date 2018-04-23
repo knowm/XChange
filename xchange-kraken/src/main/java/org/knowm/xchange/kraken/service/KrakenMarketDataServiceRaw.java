@@ -31,18 +31,21 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
     super(exchange);
   }
 
-  public KrakenOHLCs getKrakenOHLC(CurrencyPair currencyPair) throws IOException {
+  public KrakenOHLCs getKrakenOHLC(org.knowm.xchange.currency.CurrencyPair currencyPair)
+      throws IOException {
     return getKrakenOHLC(currencyPair, null, null);
   }
 
-  public KrakenOHLCs getKrakenOHLC(CurrencyPair currencyPair, Integer interval, Long since)
+  public KrakenOHLCs getKrakenOHLC(
+      org.knowm.xchange.currency.CurrencyPair currencyPair, Integer interval, Long since)
       throws IOException {
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
     KrakenOHLCResult OHLCResult = kraken.getOHLC(krakenCurrencyPair, interval, since);
     return checkResult(OHLCResult);
   }
 
-  public KrakenTicker getKrakenTicker(CurrencyPair currencyPair) throws IOException {
+  public KrakenTicker getKrakenTicker(org.knowm.xchange.currency.CurrencyPair currencyPair)
+      throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
     KrakenTickerResult tickerResult = kraken.getTicker(krakenCurrencyPair);
@@ -58,7 +61,8 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
     return checkResult(tickerResult);
   }
 
-  public KrakenDepth getKrakenDepth(CurrencyPair currencyPair, long count) throws IOException {
+  public KrakenDepth getKrakenDepth(
+      org.knowm.xchange.currency.CurrencyPair currencyPair, long count) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
     KrakenDepthResult result = kraken.getDepth(krakenCurrencyPair, count);
@@ -66,13 +70,14 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
     return checkResult(result).get(krakenCurrencyPair);
   }
 
-  public KrakenPublicTrades getKrakenTrades(CurrencyPair currencyPair) throws IOException {
+  public KrakenPublicTrades getKrakenTrades(org.knowm.xchange.currency.CurrencyPair currencyPair)
+      throws IOException {
 
     return getKrakenTrades(currencyPair, null);
   }
 
-  public KrakenPublicTrades getKrakenTrades(CurrencyPair currencyPair, Long since)
-      throws IOException {
+  public KrakenPublicTrades getKrakenTrades(
+      org.knowm.xchange.currency.CurrencyPair currencyPair, Long since) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
     KrakenPublicTradesResult result = kraken.getTrades(krakenCurrencyPair, since);

@@ -76,11 +76,11 @@ public class GeminiTicker {
     }
 
     public BigDecimal getBaseVolume(CurrencyPair currencyPair) {
-      return new BigDecimal((String) valueMap.get(currencyPair.base.toString()));
+      return new BigDecimal((String) valueMap.get(currencyPair.getBase().toString()));
     }
 
     public BigDecimal getCounterVolume(CurrencyPair currencyPair) {
-      return new BigDecimal((String) valueMap.get(currencyPair.counter.toString()));
+      return new BigDecimal((String) valueMap.get(currencyPair.getCounter().toString()));
     }
   }
 }

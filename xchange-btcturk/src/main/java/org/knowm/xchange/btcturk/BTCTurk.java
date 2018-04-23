@@ -64,7 +64,8 @@ public interface BTCTurk {
     public String toString() {
       return pair == null
           ? ""
-          : String.format("%s%s", pair.base.getCurrencyCode(), pair.counter.getCurrencyCode());
+          : String.format(
+              "%s%s", pair.getBase().getCurrencyCode(), pair.getCounter().getCurrencyCode());
     }
   }
 }

@@ -23,21 +23,21 @@ public class BitMarketDataServiceRaw extends BitMarketBaseService {
   public BitMarketTicker getBitMarketTicker(CurrencyPair currencyPair) throws IOException {
 
     return bitMarket.getTicker(
-        currencyPair.base.getCurrencyCode().toUpperCase()
-            + currencyPair.counter.getCurrencyCode().toUpperCase());
+        currencyPair.getBase().getCurrencyCode().toUpperCase()
+            + currencyPair.getCounter().getCurrencyCode().toUpperCase());
   }
 
   public BitMarketOrderBook getBitMarketOrderBook(CurrencyPair currencyPair) throws IOException {
 
     return bitMarket.getOrderBook(
-        currencyPair.base.getCurrencyCode().toUpperCase()
-            + currencyPair.counter.getCurrencyCode().toUpperCase());
+        currencyPair.getBase().getCurrencyCode().toUpperCase()
+            + currencyPair.getCounter().getCurrencyCode().toUpperCase());
   }
 
   public BitMarketTrade[] getBitMarketTrades(CurrencyPair currencyPair) throws IOException {
 
     return bitMarket.getTrades(
-        currencyPair.base.getCurrencyCode().toUpperCase()
-            + currencyPair.counter.getCurrencyCode().toUpperCase());
+        currencyPair.getBase().getCurrencyCode().toUpperCase()
+            + currencyPair.getCounter().getCurrencyCode().toUpperCase());
   }
 }

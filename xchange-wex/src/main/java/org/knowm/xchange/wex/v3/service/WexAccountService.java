@@ -35,7 +35,7 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
   public AccountInfo getAccountInfo() throws IOException {
 
     WexAccountInfo info = getBTCEAccountInfo();
-    return new AccountInfo(WexAdapters.adaptWallet(info));
+    return AccountInfo.build(WexAdapters.adaptWallet(info));
   }
 
   @Override

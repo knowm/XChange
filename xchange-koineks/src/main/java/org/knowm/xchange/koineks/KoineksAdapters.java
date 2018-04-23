@@ -3,7 +3,6 @@ package org.knowm.xchange.koineks;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.koineks.dto.marketdata.BaseKoineksTicker;
@@ -22,18 +21,19 @@ public final class KoineksAdapters {
    * @param currencyPair
    * @return The ticker
    */
-  public static Ticker adaptTicker(KoineksTicker koineksTicker, CurrencyPair currencyPair) {
-    switch (currencyPair.base.getCurrencyCode()) {
+  public static Ticker adaptTicker(
+      KoineksTicker koineksTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+    switch (currencyPair.getBase().getCurrencyCode()) {
       case KoineksCurrency.BTC:
-        return getTickerOf(koineksTicker.getKoineksBTCTicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksBTCTicker(), currencyPair.getBase());
       case KoineksCurrency.ETH:
-        return getTickerOf(koineksTicker.getKoineksETHTicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksETHTicker(), currencyPair.getBase());
       case KoineksCurrency.LTC:
-        return getTickerOf(koineksTicker.getKoineksLTCTicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksLTCTicker(), currencyPair.getBase());
       case KoineksCurrency.DASH:
-        return getTickerOf(koineksTicker.getKoineksDASHTicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksDASHTicker(), currencyPair.getBase());
       case KoineksCurrency.DOGE:
-        return getTickerOf(koineksTicker.getKoineksDOGETicker(), currencyPair.base);
+        return getTickerOf(koineksTicker.getKoineksDOGETicker(), currencyPair.getBase());
       default:
         throw new NotAvailableFromExchangeException();
     }
@@ -50,7 +50,7 @@ public final class KoineksAdapters {
       String timestampStr = koineksTicker.getTimestamp();
       Date timestamp = new Date(Long.valueOf(timestampStr));
       return new Ticker.Builder()
-          .currencyPair(new CurrencyPair(currency, Currency.TRY))
+          .currencyPair(org.knowm.xchange.currency.CurrencyPair.build(currency, Currency.TRY))
           .last(last)
           .bid(highestBid)
           .ask(lowestAsk)

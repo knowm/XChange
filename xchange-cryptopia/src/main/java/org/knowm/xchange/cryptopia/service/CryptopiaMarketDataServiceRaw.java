@@ -139,6 +139,6 @@ public class CryptopiaMarketDataServiceRaw extends CryptopiaBaseService {
   }
 
   private String getPair(CurrencyPair pair) {
-    return pair.base.getCurrencyCode() + "_" + pair.counter.getCurrencyCode();
+    return pair.getBase().getCurrencyCode() + "_" + pair.getCounter().getCurrencyCode();
   }
 }

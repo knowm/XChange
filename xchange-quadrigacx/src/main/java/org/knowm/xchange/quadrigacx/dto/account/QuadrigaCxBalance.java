@@ -31,7 +31,7 @@ public final class QuadrigaCxBalance {
   public void setCurrencyAmount(String currencyBalance, BigDecimal amount) {
 
     String[] parts = currencyBalance.split("_");
-    Currency currency = Currency.getInstance(parts[0].toUpperCase());
+    Currency currency = Currency.valueOf(parts[0].toUpperCase());
 
     if (parts.length > 1) {
       switch (parts[1]) {

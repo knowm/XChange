@@ -11,8 +11,8 @@ public final class GeminiUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.base.toString().toLowerCase()
-        + currencyPair.counter.toString().toLowerCase();
+    return currencyPair.getBase().toString().toLowerCase()
+        + currencyPair.getCounter().toString().toLowerCase();
   }
 
   /**

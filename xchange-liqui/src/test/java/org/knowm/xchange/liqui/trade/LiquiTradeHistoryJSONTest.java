@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
 import org.junit.Test;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.liqui.dto.LiquiTradeType;
 import org.knowm.xchange.liqui.dto.trade.LiquiUserTrade;
 import org.knowm.xchange.liqui.dto.trade.result.LiquiTradeHistoryResult;
@@ -29,7 +28,8 @@ public class LiquiTradeHistoryJSONTest {
     final Map<Long, LiquiUserTrade> history = tradeHistoryResult.getResult().getHistory();
     final LiquiUserTrade trade = history.get(37225796L);
 
-    assertThat(trade.getPair()).isEqualTo(new CurrencyPair("trx", "btc"));
+    assertThat(trade.getPair())
+        .isEqualTo(org.knowm.xchange.currency.CurrencyPair.build("trx", "btc"));
     assertThat(trade.getOrderId()).isEqualTo(110486609L);
     assertThat(trade.getTradeId()).isEqualTo(37225796L);
     assertThat(trade.getType()).isEqualTo(LiquiTradeType.SELL);
