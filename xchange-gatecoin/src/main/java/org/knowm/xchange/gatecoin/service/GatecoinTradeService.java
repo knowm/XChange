@@ -5,18 +5,13 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gatecoin.GatecoinAdapters;
 import org.knowm.xchange.gatecoin.dto.trade.GatecoinOrder;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
@@ -58,8 +53,8 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
       OrderType orderType = gatecoinOrder.getSide() == 0 ? OrderType.BID : OrderType.ASK;
       String id = gatecoinOrder.getClOrderId();
       BigDecimal price = gatecoinOrder.getPrice();
-      CurrencyPair ccyPair =
-          new CurrencyPair(
+      org.knowm.xchange.currency.CurrencyPair ccyPair =
+          org.knowm.xchange.currency.CurrencyPair.build(
               gatecoinOrder.getCode().substring(0, 3), gatecoinOrder.getCode().substring(3, 6));
       limitOrders.add(
           new LimitOrder(

@@ -15,7 +15,6 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -170,10 +169,10 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
       final Currency feeCurrency;
       if (t.feeBase.compareTo(BigDecimal.ZERO) > 0) {
         feeAmount = t.feeBase;
-        feeCurrency = pair.base;
+        feeCurrency = pair.getBase();
       } else {
         feeAmount = t.feeCounter;
-        feeCurrency = pair.counter;
+        feeCurrency = pair.getCounter();
       }
       trades.add(
           new UserTrade(

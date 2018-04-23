@@ -5,10 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -23,7 +20,7 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   public AccountInfo getAccountInfo() throws IOException {
     List<Balance> balances = getBalances();
 
-    return new AccountInfo(new Wallet(balances));
+    return AccountInfo.build(Wallet.build(balances));
   }
 
   @Override

@@ -118,11 +118,11 @@ public class GateioAdapterTest {
     assertThat(wallet.getBalance(Currency.BTC).getFrozen()).isEqualTo(new BigDecimal("0.0002"));
     assertThat(wallet.getBalance(Currency.LTC).getAvailable()).isEqualTo(new BigDecimal("94.364"));
     assertThat(wallet.getBalance(Currency.LTC).getFrozen()).isEqualTo(BigDecimal.ZERO);
-    assertThat(wallet.getBalance(Currency.getInstance("YAC")).getFrozen())
+    assertThat(wallet.getBalance(Currency.valueOf("YAC")).getFrozen())
         .isEqualTo(new BigDecimal("10.01"));
-    assertThat(wallet.getBalance(Currency.getInstance("YAC")).getTotal())
+    assertThat(wallet.getBalance(Currency.valueOf("YAC")).getTotal())
         .isEqualTo(new BigDecimal("10.01"));
-    assertThat(wallet.getBalance(Currency.getInstance("YAC")).getAvailable())
+    assertThat(wallet.getBalance(Currency.valueOf("YAC")).getAvailable())
         .isEqualTo(BigDecimal.ZERO);
   }
 

@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -40,13 +40,14 @@ public class IndependentReserveAdapters {
       base = "BTC";
     }
 
-    CurrencyPair currencyPair =
-        new CurrencyPair(base, independentReserveOrderBook.getSecondaryCurrencyCode());
+    org.knowm.xchange.currency.CurrencyPair currencyPair =
+        org.knowm.xchange.currency.CurrencyPair.build(
+            base, independentReserveOrderBook.getSecondaryCurrencyCode());
 
     List<LimitOrder> bids =
-        adaptOrders(independentReserveOrderBook.getBuyOrders(), Order.OrderType.BID, currencyPair);
+        adaptOrders(independentReserveOrderBook.getBuyOrders(), OrderType.BID, currencyPair);
     List<LimitOrder> asks =
-        adaptOrders(independentReserveOrderBook.getSellOrders(), Order.OrderType.ASK, currencyPair);
+        adaptOrders(independentReserveOrderBook.getSellOrders(), OrderType.ASK, currencyPair);
     Date timestamp = independentReserveOrderBook.getCreatedTimestamp();
 
     return new OrderBook(timestamp, asks, bids);
@@ -60,7 +61,8 @@ public class IndependentReserveAdapters {
    * @return The ticker
    */
   public static Ticker adaptTicker(
-      IndependentReserveTicker independentReserveTicker, CurrencyPair currencyPair) {
+      IndependentReserveTicker independentReserveTicker,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     BigDecimal last = independentReserveTicker.getLast();
     BigDecimal bid = independentReserveTicker.getBid();
@@ -85,7 +87,9 @@ public class IndependentReserveAdapters {
   }
 
   private static List<LimitOrder> adaptOrders(
-      List<OrderBookOrder> buyOrders, Order.OrderType type, CurrencyPair currencyPair) {
+      List<OrderBookOrder> buyOrders,
+      OrderType type,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
     final List<LimitOrder> orders = new ArrayList<>();
     for (OrderBookOrder obo : buyOrders) {
       LimitOrder limitOrder =
@@ -100,14 +104,18 @@ public class IndependentReserveAdapters {
 
     for (IndependentReserveAccount balanceAccount :
         independentReserveBalance.getIndependentReserveAccounts()) {
-      Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
+      Currency currency = Currency.valueOf(balanceAccount.getCurrencyCode().toUpperCase());
+      BigDecimal total = balanceAccount.getTotalBalance();
+      BigDecimal available = balanceAccount.getAvailableBalance();
       balances.add(
-          new Balance(
-              currency.getCommonlyUsedCurrency(),
-              balanceAccount.getTotalBalance(),
-              balanceAccount.getAvailableBalance()));
+          new Builder()
+              .setCurrency(currency.getCommonlyUsedCurrency())
+              .setTotal(total)
+              .setAvailable(available)
+              .setFrozen(total.add(available.negate()))
+              .createBalance());
     }
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   public static OpenOrders adaptOpenOrders(
@@ -117,12 +125,12 @@ public class IndependentReserveAdapters {
         independentReserveOrders.getIndependentReserveOrders();
     for (IndependentReserveOpenOrder order : independentReserveOrdersList) {
       String orderType = order.getOrderType();
-      Order.OrderType type;
+      OrderType type;
 
       if (orderType.equals("LimitOffer")) {
-        type = Order.OrderType.ASK;
+        type = OrderType.ASK;
       } else if (orderType.equals("LimitBid")) {
-        type = Order.OrderType.BID;
+        type = OrderType.BID;
       } else {
         throw new IllegalStateException("Unknown order found in Independent Reserve");
       }
@@ -135,7 +143,8 @@ public class IndependentReserveAdapters {
 
       Currency primary = Currency.getInstanceNoCreate(primaryAlias);
       Currency secondary = Currency.getInstanceNoCreate(order.getSecondaryCurrencyCode());
-      CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
+      org.knowm.xchange.currency.CurrencyPair currencyPair =
+          org.knowm.xchange.currency.CurrencyPair.build(primary, secondary);
 
       LimitOrder limitOrder =
           new LimitOrder(
@@ -155,12 +164,12 @@ public class IndependentReserveAdapters {
     List<UserTrade> userTrades = new ArrayList<>();
     for (IndependentReserveTrade trade :
         independentReserveTradeHistoryResponse.getIndependentReserveTrades()) {
-      Order.OrderType type;
+      OrderType type;
       String orderType = trade.getOrderType();
       if (orderType.equals("LimitOffer") || orderType.equals("MarketOffer")) {
-        type = Order.OrderType.ASK;
+        type = OrderType.ASK;
       } else if (orderType.equals("LimitBid") || orderType.equals("MarketBid")) {
-        type = Order.OrderType.BID;
+        type = OrderType.BID;
       } else {
         throw new IllegalStateException("Unknown order found in Independent Reserve");
       }
@@ -181,7 +190,8 @@ public class IndependentReserveAdapters {
                 + trade.getSecondaryCurrencyCode());
       }
 
-      CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
+      org.knowm.xchange.currency.CurrencyPair currencyPair =
+          org.knowm.xchange.currency.CurrencyPair.build(primary, secondary);
 
       UserTrade ut =
           new UserTrade(
@@ -197,6 +207,6 @@ public class IndependentReserveAdapters {
 
       userTrades.add(ut);
     }
-    return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
+    return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
   }
 }

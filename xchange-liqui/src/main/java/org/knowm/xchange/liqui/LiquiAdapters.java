@@ -6,18 +6,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -39,7 +42,8 @@ import org.knowm.xchange.liqui.dto.trade.LiquiUserTrade;
 
 public class LiquiAdapters {
 
-  public static Ticker adaptTicker(final LiquiTicker ticker, final CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      final LiquiTicker ticker, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
     final Ticker.Builder builder = new Ticker.Builder();
     builder.bid(ticker.getBuy());
     builder.ask(ticker.getSell());
@@ -55,7 +59,7 @@ public class LiquiAdapters {
   }
 
   public static OrderBook adaptOrderBook(
-      final LiquiDepth liquiDepth, final CurrencyPair currencyPair) {
+      final LiquiDepth liquiDepth, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
     return new OrderBook(
         null,
         LiquiAdapters.adaptAsks(liquiDepth.getAsks(), currencyPair),
@@ -63,36 +67,42 @@ public class LiquiAdapters {
   }
 
   public static List<LimitOrder> adaptAsks(
-      final List<LiquiPublicAsk> orders, final CurrencyPair currencyPair) {
+      final List<LiquiPublicAsk> orders,
+      final org.knowm.xchange.currency.CurrencyPair currencyPair) {
     return orders.stream().map(ask -> adaptOrder(ask, currencyPair)).collect(Collectors.toList());
   }
 
   public static List<LimitOrder> adaptBids(
-      final List<LiquiPublicBid> orders, final CurrencyPair currencyPair) {
+      final List<LiquiPublicBid> orders,
+      final org.knowm.xchange.currency.CurrencyPair currencyPair) {
     return orders.stream().map(ask -> adaptOrder(ask, currencyPair)).collect(Collectors.toList());
   }
 
-  public static LimitOrder adaptOrder(final LiquiPublicAsk order, final CurrencyPair currencyPair) {
+  public static LimitOrder adaptOrder(
+      final LiquiPublicAsk order, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
     final BigDecimal volume = order.getVolume();
     return new LimitOrder(OrderType.ASK, volume, currencyPair, "", null, order.getPrice());
   }
 
-  public static LimitOrder adaptOrder(final LiquiPublicBid order, final CurrencyPair currencyPair) {
+  public static LimitOrder adaptOrder(
+      final LiquiPublicBid order, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
     final BigDecimal volume = order.getVolume();
     return new LimitOrder(OrderType.BID, volume, currencyPair, "", null, order.getPrice());
   }
 
   public static Trades adaptTrades(
-      final List<LiquiPublicTrade> liquiTrades, final CurrencyPair currencyPair) {
+      final List<LiquiPublicTrade> liquiTrades,
+      final org.knowm.xchange.currency.CurrencyPair currencyPair) {
     final List<Trade> trades = new ArrayList<>();
     for (final LiquiPublicTrade trade : liquiTrades) {
       trades.add(adaptTrade(trade, currencyPair));
     }
 
-    return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
+    return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static Trade adaptTrade(final LiquiPublicTrade trade, final CurrencyPair currencyPair) {
+  public static Trade adaptTrade(
+      final LiquiPublicTrade trade, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
     final OrderType type = adaptOrderType(trade.getType());
     final BigDecimal originalAmount = trade.getAmount();
     final Date timestamp = new Date((long) (trade.getTimestamp() * 1000L));
@@ -114,7 +124,7 @@ public class LiquiAdapters {
   public static OpenOrders adaptActiveOrders(final Map<Long, LiquiOrderInfo> orders) {
 
     final List<LimitOrder> openOrders = new ArrayList<>();
-    for (final Map.Entry<Long, LiquiOrderInfo> entry : orders.entrySet()) {
+    for (final Entry<Long, LiquiOrderInfo> entry : orders.entrySet()) {
       openOrders.add(adaptActiveOrder(entry.getValue(), entry.getKey()));
     }
 
@@ -127,10 +137,10 @@ public class LiquiAdapters {
 
     final BigDecimal originalAmount = orderInfo.getStartAmount();
     final BigDecimal filledAmount = orderInfo.getStartAmount().subtract(orderInfo.getAmount());
-    final CurrencyPair pair = orderInfo.getPair();
+    final org.knowm.xchange.currency.CurrencyPair pair = orderInfo.getPair();
     final Date timestamp = new Date(orderInfo.getTimestampCreated() * 1000L);
 
-    final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
+    final OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
 
     return new LimitOrder(
         type,
@@ -145,33 +155,33 @@ public class LiquiAdapters {
         status);
   }
 
-  public static Order.OrderStatus adaptOrderStatus(final String status) {
+  public static OrderStatus adaptOrderStatus(final String status) {
     switch (status) {
       case "0":
-        return Order.OrderStatus.NEW;
+        return OrderStatus.NEW;
       case "1":
-        return Order.OrderStatus.FILLED;
+        return OrderStatus.FILLED;
       case "2":
-        return Order.OrderStatus.CANCELED;
+        return OrderStatus.CANCELED;
       case "3":
-        return Order.OrderStatus.PARTIALLY_FILLED;
+        return OrderStatus.PARTIALLY_FILLED;
     }
     throw new RuntimeException("Unknown order status");
   }
 
   public static UserTrades adaptTradesHistory(final Map<Long, LiquiUserTrade> liquiTrades) {
     final List<UserTrade> trades = new ArrayList<>();
-    for (final Map.Entry<Long, LiquiUserTrade> entry : liquiTrades.entrySet()) {
+    for (final Entry<Long, LiquiUserTrade> entry : liquiTrades.entrySet()) {
       trades.add(adaptTrade(entry.getValue(), entry.getKey()));
     }
 
-    return new UserTrades(trades, Trades.TradeSortType.SortByID);
+    return new UserTrades(trades, TradeSortType.SortByID);
   }
 
   public static UserTrade adaptTrade(final LiquiUserTrade liquiTrade, final Long tradeId) {
     final OrderType orderType = adaptOrderType(liquiTrade.getType());
     final BigDecimal originalAmount = liquiTrade.getAmount();
-    final CurrencyPair pair = liquiTrade.getPair();
+    final org.knowm.xchange.currency.CurrencyPair pair = liquiTrade.getPair();
     final Date timestamp = new Date(liquiTrade.getTimestamp() * 1000L);
     final BigDecimal price = liquiTrade.getRate();
 
@@ -189,7 +199,7 @@ public class LiquiAdapters {
 
   public static Order adaptOrderInfo(final LiquiOrderInfo info) {
     final OrderType orderType = adaptOrderType(info.getType());
-    final CurrencyPair pair = info.getPair();
+    final org.knowm.xchange.currency.CurrencyPair pair = info.getPair();
     final BigDecimal amount = info.getStartAmount().subtract(info.getAmount());
     final BigDecimal startAmount = info.getStartAmount();
     final BigDecimal rate = info.getRate();
@@ -199,11 +209,12 @@ public class LiquiAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(final Map<String, LiquiPairInfo> infos) {
-    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    final Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        new HashMap<>();
     final Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
-    for (final Map.Entry<String, LiquiPairInfo> entry : infos.entrySet()) {
-      final CurrencyPair pair = adaptCurrencyPair(entry.getKey());
+    for (final Entry<String, LiquiPairInfo> entry : infos.entrySet()) {
+      final org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(entry.getKey());
       final BigDecimal fee = entry.getValue().getFee();
       final BigDecimal minAmount = entry.getValue().getMinAmount();
       final BigDecimal maxAmount = entry.getValue().getMaxAmount();
@@ -211,17 +222,17 @@ public class LiquiAdapters {
 
       currencyPairs.put(pair, new CurrencyPairMetaData(fee, minAmount, maxAmount, priceScale));
 
-      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
+      if (!currencies.containsKey(pair.getBase())) currencies.put(pair.getBase(), null);
 
-      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
+      if (!currencies.containsKey(pair.getCounter())) currencies.put(pair.getCounter(), null);
     }
 
     return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
-  public static CurrencyPair adaptCurrencyPair(final String pair) {
+  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(final String pair) {
     final String[] split = pair.split("_");
-    return new CurrencyPair(split[0], split[1]);
+    return org.knowm.xchange.currency.CurrencyPair.build(split[0], split[1]);
   }
 
   public static AccountInfo adaptAccountInfo(final LiquiAccountInfo info) {
@@ -230,11 +241,16 @@ public class LiquiAdapters {
         funds
             .entrySet()
             .stream()
-            .map(entry -> new Balance(entry.getKey(), entry.getValue()))
+            .map(
+                entry ->
+                    new Builder()
+                        .setCurrency(entry.getKey())
+                        .setTotal(entry.getValue())
+                        .createBalance())
             .collect(Collectors.toList());
 
-    final Wallet wallet = new Wallet("Liqui wallet", balances);
+    final Wallet wallet = Wallet.build("Liqui wallet", balances);
 
-    return new AccountInfo(wallet);
+    return AccountInfo.build(wallet);
   }
 }

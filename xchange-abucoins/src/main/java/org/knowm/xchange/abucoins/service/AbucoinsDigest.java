@@ -1,16 +1,16 @@
 package org.knowm.xchange.abucoins.service;
 
+import java.util.Base64;
+import javax.crypto.Mac;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
-import java.util.Base64;
 
 /** @author bryant_harris */
 public class AbucoinsDigest extends BaseParamsDigest {
 
   private AbucoinsDigest(String secretKeyBase64) throws IllegalArgumentException {
-    super(secretKeyBase64 == null ? null : Base64.getDecoder().decode(secretKeyBase64), HMAC_SHA_256);
+    super(
+        secretKeyBase64 == null ? null : Base64.getDecoder().decode(secretKeyBase64), HMAC_SHA_256);
   }
 
   public static AbucoinsDigest createInstance(String secretKeyBase64) {

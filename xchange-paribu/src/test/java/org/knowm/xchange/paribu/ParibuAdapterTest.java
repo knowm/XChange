@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.paribu.dto.marketdata.ParibuTicker;
 
@@ -24,7 +23,9 @@ public class ParibuAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     ParibuTicker paribuTicker = mapper.readValue(is, ParibuTicker.class);
 
-    Ticker ticker = ParibuAdapters.adaptTicker(paribuTicker, new CurrencyPair("BTC", "TRY"));
+    Ticker ticker =
+        ParibuAdapters.adaptTicker(
+            paribuTicker, org.knowm.xchange.currency.CurrencyPair.build("BTC", "TRY"));
     assertThat(ticker).isNotNull();
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("41400"));
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("41450.89"));

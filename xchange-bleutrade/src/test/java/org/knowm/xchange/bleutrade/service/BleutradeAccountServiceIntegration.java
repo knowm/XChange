@@ -157,7 +157,7 @@ public class BleutradeAccountServiceIntegration extends BleutradeServiceTestSupp
     BleutradeAssert.assertEquals(balances.get(Currency.AUD), expectedAccountBalances[0]);
     BleutradeAssert.assertEquals(balances.get(Currency.BTC), expectedAccountBalances[1]);
     BleutradeAssert.assertEquals(
-        balances.get(Currency.getInstance("BLEU")), expectedAccountBalances[2]);
+        balances.get(Currency.valueOf("BLEU")), expectedAccountBalances[2]);
   }
 
   @Test(expected = ExchangeException.class)

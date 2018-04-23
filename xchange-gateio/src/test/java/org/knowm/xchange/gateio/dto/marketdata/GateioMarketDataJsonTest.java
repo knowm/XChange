@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
 
@@ -29,10 +28,12 @@ public class GateioMarketDataJsonTest {
     ObjectMapper mapper = new ObjectMapper();
     GateioMarketInfoWrapper marketInfoWrapper = mapper.readValue(is, GateioMarketInfoWrapper.class);
 
-    Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketInfoWrapper.getMarketInfoMap();
+    Map<org.knowm.xchange.currency.CurrencyPair, GateioMarketInfo> marketInfoMap =
+        marketInfoWrapper.getMarketInfoMap();
     assertThat(marketInfoMap).hasSize(2);
 
-    CurrencyPair pair = new CurrencyPair("LTC", "CNY");
+    org.knowm.xchange.currency.CurrencyPair pair =
+        org.knowm.xchange.currency.CurrencyPair.build("LTC", "CNY");
     GateioMarketInfo marketInfo = marketInfoMap.get(pair);
     assertThat(marketInfo.getCurrencyPair()).isEqualTo(pair);
     assertThat(marketInfo.getDecimalPlaces()).isEqualTo(2);
@@ -52,10 +53,11 @@ public class GateioMarketDataJsonTest {
     ObjectMapper mapper = new ObjectMapper();
     GateioCurrencyPairs currencyPairs = mapper.readValue(is, GateioCurrencyPairs.class);
 
-    Collection<CurrencyPair> pairs = currencyPairs.getPairs();
+    Collection<org.knowm.xchange.currency.CurrencyPair> pairs = currencyPairs.getPairs();
     assertThat(pairs).hasSize(83);
 
-    assertThat(pairs.contains(new CurrencyPair("TIPS", "CNY"))).isTrue();
+    assertThat(pairs.contains(org.knowm.xchange.currency.CurrencyPair.build("TIPS", "CNY")))
+        .isTrue();
   }
 
   @Test

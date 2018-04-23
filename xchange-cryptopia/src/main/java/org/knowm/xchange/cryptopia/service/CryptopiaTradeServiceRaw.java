@@ -11,7 +11,6 @@ import org.knowm.xchange.cryptopia.CryptopiaAdapters;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -32,8 +31,8 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     return map.get("Type").toString().equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK;
   }
 
-  public List<LimitOrder> getOpenOrders(CurrencyPair currencyPair, Integer count)
-      throws IOException {
+  public List<LimitOrder> getOpenOrders(
+      org.knowm.xchange.currency.CurrencyPair currencyPair, Integer count) throws IOException {
 
     CryptopiaBaseResponse<List<Map>> response =
         cryptopia.getOpenOrders(
@@ -61,7 +60,8 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
       BigDecimal cumulativeAmount = originalAmount.subtract(remaining);
       Order.OrderStatus status = Order.OrderStatus.PENDING_NEW;
 
-      CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
+      org.knowm.xchange.currency.CurrencyPair pair =
+          org.knowm.xchange.currency.CurrencyPair.build(map.get("Market").toString());
       results.add(
           new LimitOrder(
               type,
@@ -80,7 +80,10 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
   }
 
   public String submitTrade(
-      CurrencyPair currencyPair, LimitOrder.OrderType type, BigDecimal price, BigDecimal amount)
+      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      LimitOrder.OrderType type,
+      BigDecimal price,
+      BigDecimal amount)
       throws IOException {
     String rawType = type.equals(Order.OrderType.BID) ? "Buy" : "Sell";
 
@@ -111,7 +114,8 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     return !response.getData().isEmpty();
   }
 
-  public boolean cancelAll(CurrencyPair currencyPair) throws IOException {
+  public boolean cancelAll(org.knowm.xchange.currency.CurrencyPair currencyPair)
+      throws IOException {
     Long marketId = currencyPair == null ? null : exchange.tradePairId(currencyPair);
     CryptopiaBaseResponse<List> response =
         cryptopia.cancelTrade(
@@ -122,7 +126,8 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     return !response.getData().isEmpty();
   }
 
-  public List<UserTrade> tradeHistory(CurrencyPair currencyPair, Integer count) throws IOException {
+  public List<UserTrade> tradeHistory(
+      org.knowm.xchange.currency.CurrencyPair currencyPair, Integer count) throws IOException {
     CryptopiaBaseResponse<List<Map>> response =
         cryptopia.getTradeHistory(
             signatureCreator,
@@ -142,8 +147,9 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
       BigDecimal fee = new BigDecimal(map.get("Fee").toString());
       String orderId = id;
 
-      CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
-      Currency feeCcy = pair.counter;
+      org.knowm.xchange.currency.CurrencyPair pair =
+          org.knowm.xchange.currency.CurrencyPair.build(map.get("Market").toString());
+      Currency feeCcy = pair.getCounter();
       results.add(new UserTrade(type, amount, pair, price, timestamp, id, orderId, fee, feeCcy));
     }
 
