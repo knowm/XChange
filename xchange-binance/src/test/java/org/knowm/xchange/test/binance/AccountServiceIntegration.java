@@ -71,7 +71,7 @@ public class AccountServiceIntegration {
       Balance bal = entry.getValue();
       if (0 < bal.getAvailable().doubleValue()) {
         Assert.assertSame(curr, bal.getCurrency());
-        Assert.assertSame(Currency.getInstance(curr.getCurrencyCode()), bal.getCurrency());
+        Assert.assertSame(Currency.valueOf(curr.getCurrencyCode()), bal.getCurrency());
       }
     }
   }

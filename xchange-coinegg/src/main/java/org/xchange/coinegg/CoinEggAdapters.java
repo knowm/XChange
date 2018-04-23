@@ -12,7 +12,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -20,6 +19,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrade.Builder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.xchange.coinegg.dto.accounts.CoinEggBalance;
 import org.xchange.coinegg.dto.marketdata.CoinEggOrders;
@@ -106,27 +106,33 @@ public class CoinEggAdapters {
 
     String userName = exchange.getExchangeSpecification().getUserName();
     Wallet btcWallet =
-        new Wallet(
+        Wallet.build(
             Currency.BTC.getCurrencyCode(),
-            new Balance(Currency.BTC, coinEggBalance.getBTCBalance()));
+            new org.knowm.xchange.dto.account.Balance.Builder()
+                .setCurrency(Currency.BTC)
+                .setTotal(coinEggBalance.getBTCBalance())
+                .createBalance());
     Wallet ethWallet =
-        new Wallet(
+        Wallet.build(
             Currency.ETH.getCurrencyCode(),
-            new Balance(Currency.ETH, coinEggBalance.getETHBalance()));
+            new org.knowm.xchange.dto.account.Balance.Builder()
+                .setCurrency(Currency.ETH)
+                .setTotal(coinEggBalance.getETHBalance())
+                .createBalance());
     // Wallet xasWallet = new Wallet(new Balance(Currency.XAS, coinEggBalance.getXASBalance()));
 
-    Set<Wallet> wallets = new HashSet<Wallet>();
+    Set<Wallet> wallets = new HashSet<>();
     wallets.add(btcWallet);
     wallets.add(ethWallet);
     // wallets.add(xasWallet);
 
-    return new AccountInfo(userName, null, wallets);
+    return AccountInfo.build(userName, null, wallets);
   }
 
   // TODO: Cleanup Code
   // TODO: Make Use Of Adapt Trade
   public static UserTrades adaptTradeHistory(CoinEggTradeView coinEggTradeView) {
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     Trade trade =
         new Trade.Builder()
             // .currencyPair(null)
@@ -137,7 +143,7 @@ public class CoinEggAdapters {
             .timestamp(coinEggTradeView.getDateTime())
             .build();
 
-    trades.add((UserTrade) UserTrade.Builder.from(trade).build());
+    trades.add((UserTrade) Builder.from(trade).build());
 
     return new UserTrades(trades, null);
   }

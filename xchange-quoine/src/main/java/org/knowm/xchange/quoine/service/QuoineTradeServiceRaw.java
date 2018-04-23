@@ -59,7 +59,7 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
                 originalAmount,
                 price,
                 leverageLevel,
-                currencyPair.counter.getCurrencyCode())
+                currencyPair.getCounter().getCurrencyCode())
             : new QuoineNewOrderRequest("limit", productId, type, originalAmount, price);
     try {
       return quoine.placeOrder(
@@ -86,7 +86,7 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
                 originalAmount,
                 null,
                 leverageLevel,
-                currencyPair.counter.getCurrencyCode())
+                currencyPair.getCounter().getCurrencyCode())
             : new QuoineNewOrderRequest("market", productId, type, originalAmount, null);
     try {
       return quoine.placeOrder(

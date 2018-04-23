@@ -7,7 +7,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.cexio.service.CexIOTradeServiceRaw;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -39,7 +38,7 @@ public class TradeDemo {
         new LimitOrder(
             Order.OrderType.BID,
             BigDecimal.ONE,
-            new CurrencyPair(Currency.GHs, Currency.BTC),
+            org.knowm.xchange.currency.CurrencyPair.build(Currency.GHs, Currency.BTC),
             "",
             null,
             new BigDecimal("0.00015600"));
@@ -62,7 +61,9 @@ public class TradeDemo {
 
   private static void raw(CexIOTradeServiceRaw tradeService) throws IOException {
 
-    List<CexIOOrder> openOrders = tradeService.getCexIOOpenOrders(new CurrencyPair("NMC", "BTC"));
+    List<CexIOOrder> openOrders =
+        tradeService.getCexIOOpenOrders(
+            org.knowm.xchange.currency.CurrencyPair.build("NMC", "BTC"));
     System.out.println(openOrders);
   }
 

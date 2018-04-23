@@ -9,9 +9,10 @@ import org.knowm.xchange.currency.CurrencyPair;
  * @author bryant_harris
  */
 public class CurrencyPairNotValidException extends ExchangeException {
-  private CurrencyPair currencyPair;
+  private org.knowm.xchange.currency.CurrencyPair currencyPair;
 
-  public CurrencyPairNotValidException(String message, Throwable cause, CurrencyPair currencyPair) {
+  public CurrencyPairNotValidException(
+      String message, Throwable cause, org.knowm.xchange.currency.CurrencyPair currencyPair) {
     super(message, cause);
     this.currencyPair = currencyPair;
   }
@@ -24,7 +25,8 @@ public class CurrencyPairNotValidException extends ExchangeException {
     super(message);
   }
 
-  public CurrencyPairNotValidException(String message, CurrencyPair currencyPair) {
+  public CurrencyPairNotValidException(
+      String message, org.knowm.xchange.currency.CurrencyPair currencyPair) {
     super(message);
     this.currencyPair = currencyPair;
   }
@@ -33,18 +35,19 @@ public class CurrencyPairNotValidException extends ExchangeException {
     super(cause);
   }
 
-  public CurrencyPairNotValidException(Throwable cause, CurrencyPair currencyPair) {
+  public CurrencyPairNotValidException(
+      Throwable cause, org.knowm.xchange.currency.CurrencyPair currencyPair) {
     super(currencyPair + " Is not valid for this exchange", cause);
     this.currencyPair = currencyPair;
   }
 
-  public CurrencyPairNotValidException(CurrencyPair currencyPair) {
+  public CurrencyPairNotValidException(org.knowm.xchange.currency.CurrencyPair currencyPair) {
     this(currencyPair + " Is not valid for this exchange");
     this.currencyPair = currencyPair;
   }
 
   /** @return The currency pair that caused the exception. */
-  public CurrencyPair getCurrencyPair() {
+  public org.knowm.xchange.currency.CurrencyPair getCurrencyPair() {
     return currencyPair;
   }
 }

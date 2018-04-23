@@ -23,7 +23,6 @@ import static org.knowm.xchange.currency.Currency.START;
 import static org.knowm.xchange.currency.Currency.STR;
 import static org.knowm.xchange.currency.Currency.USD;
 import static org.knowm.xchange.currency.Currency.XRP;
-import static org.knowm.xchange.currency.CurrencyPair.DOGE_BTC;
 import static org.knowm.xchange.currency.CurrencyPair.LTC_BTC;
 import static org.knowm.xchange.currency.CurrencyPair.STR_BTC;
 import static org.knowm.xchange.currency.CurrencyPair.XRP_BTC;
@@ -44,7 +43,6 @@ import java.util.TreeMap;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMarketMetaData;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 
@@ -61,14 +59,16 @@ public class ANXGenerator {
   // counter currencies for STARTCoin - all fiats but CNY
   static Currency[] fiatsStart = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY};
 
-  static CurrencyPair[] pairsOther = {LTC_BTC, DOGE_BTC, STR_BTC, XRP_BTC};
+  static org.knowm.xchange.currency.CurrencyPair[] pairsOther = {
+    LTC_BTC, org.knowm.xchange.currency.CurrencyPair.DOGE_BTC, STR_BTC, XRP_BTC
+  };
 
   // base currency -> min order size
   static Map<Currency, BigDecimal> minAmount = new HashMap<>();
   static Map<Currency, BigDecimal> maxAmount = new HashMap<>();
   static Map<Currency, CurrencyMetaData> currencyMap = new TreeMap<>();
 
-  static Set<CurrencyPair> pairs = new HashSet<>();
+  static Set<org.knowm.xchange.currency.CurrencyPair> pairs = new HashSet<>();
   static BigDecimal fee = new BigDecimal(".006");
 
   static {
@@ -109,12 +109,12 @@ public class ANXGenerator {
 
     for (Currency base : Arrays.asList(BTC, EGD)) {
       for (Currency counter : fiats) {
-        pairs.add(new CurrencyPair(base, counter));
+        pairs.add(org.knowm.xchange.currency.CurrencyPair.build(base, counter));
       }
     }
 
     for (Currency counter : fiatsStart) {
-      pairs.add(new CurrencyPair(START, counter));
+      pairs.add(org.knowm.xchange.currency.CurrencyPair.build(START, counter));
     }
   }
 
@@ -124,9 +124,9 @@ public class ANXGenerator {
 
   private void run() throws IOException {
 
-    Map<CurrencyPair, CurrencyPairMetaData> map = new TreeMap<>();
+    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> map = new TreeMap<>();
 
-    for (CurrencyPair pair : pairs) {
+    for (org.knowm.xchange.currency.CurrencyPair pair : pairs) {
       handleCurrencyPair(map, pair);
     }
     // TODO add RateLimits, fees
@@ -138,12 +138,13 @@ public class ANXGenerator {
   }
 
   private void handleCurrencyPair(
-      Map<CurrencyPair, CurrencyPairMetaData> map, CurrencyPair currencyPair) {
+      Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> map,
+      org.knowm.xchange.currency.CurrencyPair currencyPair) {
     int amountScale = amountScale(currencyPair);
     BigDecimal minimumAmount =
-        scaled(minAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
+        scaled(minAmount.get(currencyPair.getBase().getCurrencyCode()), amountScale);
     BigDecimal maximumAmount =
-        scaled(maxAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
+        scaled(maxAmount.get(currencyPair.getBase().getCurrencyCode()), amountScale);
     ANXMarketMetaData mmd =
         new ANXMarketMetaData(fee, minimumAmount, maximumAmount, priceScale(currencyPair));
     map.put(currencyPair, mmd);
@@ -153,14 +154,14 @@ public class ANXGenerator {
     return value == null ? null : value.setScale(scale, RoundingMode.UNNECESSARY);
   }
 
-  private int amountScale(CurrencyPair currencyPair) {
-    return currencyMap.get(currencyPair.base.getCurrencyCode()).getScale();
+  private int amountScale(org.knowm.xchange.currency.CurrencyPair currencyPair) {
+    return currencyMap.get(currencyPair.getBase().getCurrencyCode()).getScale();
   }
 
-  int priceScale(CurrencyPair pair) {
+  int priceScale(org.knowm.xchange.currency.CurrencyPair pair) {
     if (LTC_BTC.equals(pair)
-        || (BTC.equals(pair.base.getCurrencyCode())
-            && !cryptos.contains(pair.counter.getCurrencyCode()))) {
+        || (BTC.equals(pair.getBase().getCurrencyCode())
+            && !cryptos.contains(pair.getCounter().getCurrencyCode()))) {
       return 5;
     } else {
       return 8;

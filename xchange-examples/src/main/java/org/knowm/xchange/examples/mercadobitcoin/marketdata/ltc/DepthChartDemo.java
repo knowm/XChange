@@ -8,7 +8,6 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
@@ -40,7 +39,8 @@ public class DepthChartDemo {
 
     // Get the current orderbook
     OrderBook orderBook =
-        marketDataService.getOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));
+        marketDataService.getOrderBook(
+            org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL));
 
     System.out.println("received data.");
 

@@ -36,7 +36,7 @@ public class BinanceMarketDataDemo {
 
     List<BinanceTicker24h> tickers = new ArrayList<>();
     for (CurrencyPair cp : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
-      if (cp.counter == Currency.USDT) {
+      if (cp.getCounter() == Currency.USDT) {
         tickers.add(marketDataService.ticker24h(cp));
       }
     }
