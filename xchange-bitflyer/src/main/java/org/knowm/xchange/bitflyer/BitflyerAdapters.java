@@ -1,11 +1,7 @@
 package org.knowm.xchange.bitflyer;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerBalance;
@@ -14,9 +10,11 @@ import org.knowm.xchange.bitflyer.dto.account.BitflyerDepositOrWithdrawal;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Builder;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -27,23 +25,26 @@ public class BitflyerAdapters {
   private static Pattern CURRENCY_PATTERN = Pattern.compile("[A-Z]{3}");
 
   public static ExchangeMetaData adaptMetaData(List<BitflyerMarket> markets) {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (BitflyerMarket market : markets) {
-      CurrencyPair pair = adaptCurrencyPair(market.getProductCode());
+      org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(market.getProductCode());
       currencyPairs.put(pair, null);
     }
     return new ExchangeMetaData(currencyPairs, currencies, null, null, false);
   }
 
-  public static CurrencyPair adaptCurrencyPair(String productCode) {
+  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String productCode) {
     Matcher matcher = CURRENCY_PATTERN.matcher(productCode);
     List<String> currencies = new ArrayList<>();
     while (matcher.find()) {
       currencies.add(matcher.group());
     }
-    return currencies.size() >= 2 ? new CurrencyPair(currencies.get(0), currencies.get(1)) : null;
+    return currencies.size() >= 2
+        ? org.knowm.xchange.currency.CurrencyPair.build(currencies.get(0), currencies.get(1))
+        : null;
   }
 
   /**
@@ -56,14 +57,18 @@ public class BitflyerAdapters {
     List<Balance> adaptedBalances = new ArrayList<>(balances.size());
 
     for (BitflyerBalance balance : balances) {
+      BigDecimal total = balance.getAmount();
+      BigDecimal available = balance.getAvailable();
       adaptedBalances.add(
-          new Balance(
-              Currency.getInstance(balance.getCurrencyCode()),
-              balance.getAmount(),
-              balance.getAvailable()));
+          new org.knowm.xchange.dto.account.Balance.Builder()
+              .setCurrency(Currency.valueOf(balance.getCurrencyCode()))
+              .setTotal(total)
+              .setAvailable(available)
+              .setFrozen(total.add(available.negate()))
+              .createBalance());
     }
 
-    return new Wallet(adaptedBalances);
+    return Wallet.build(adaptedBalances);
   }
 
   /**
@@ -73,7 +78,8 @@ public class BitflyerAdapters {
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
    */
-  public static Ticker adaptTicker(BitflyerTicker ticker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      BitflyerTicker ticker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
 
     BigDecimal bid = ticker.getBestBid();
     BigDecimal ask = ticker.getBestAsk();
@@ -91,7 +97,7 @@ public class BitflyerAdapters {
   }
 
   public static List<FundingRecord> adaptFundingRecordsFromCoinHistory(
-      List<BitflyerCoinHistory> coinHistory, FundingRecord.Type type) {
+      List<BitflyerCoinHistory> coinHistory, Type type) {
     List<FundingRecord> retVal = new ArrayList<>();
     for (BitflyerCoinHistory history : coinHistory) retVal.add(adaptFundingRecord(history, type));
 
@@ -99,7 +105,7 @@ public class BitflyerAdapters {
   }
 
   public static List<FundingRecord> adaptFundingRecordsFromDepositHistory(
-      List<BitflyerDepositOrWithdrawal> depositWithdrawls, FundingRecord.Type type) {
+      List<BitflyerDepositOrWithdrawal> depositWithdrawls, Type type) {
     List<FundingRecord> retVal = new ArrayList<>();
     for (BitflyerDepositOrWithdrawal history : depositWithdrawls)
       retVal.add(adaptFundingRecord(history, type));
@@ -107,11 +113,10 @@ public class BitflyerAdapters {
     return retVal;
   }
 
-  public static FundingRecord adaptFundingRecord(
-      BitflyerCoinHistory history, FundingRecord.Type type) {
-    return new FundingRecord.Builder()
+  public static FundingRecord adaptFundingRecord(BitflyerCoinHistory history, Type type) {
+    return new Builder()
         .setDate(BitflyerUtils.parseDate(history.getEventDate()))
-        .setCurrency(new Currency(history.getCurrencyCode()))
+        .setCurrency(Currency.valueOf(history.getCurrencyCode()))
         .setAmount(history.getAmount())
         .setAddress(history.getAddress())
         .setInternalId(history.getID())
@@ -122,11 +127,10 @@ public class BitflyerAdapters {
         .build();
   }
 
-  public static FundingRecord adaptFundingRecord(
-      BitflyerDepositOrWithdrawal history, FundingRecord.Type type) {
-    return new FundingRecord.Builder()
+  public static FundingRecord adaptFundingRecord(BitflyerDepositOrWithdrawal history, Type type) {
+    return new Builder()
         .setDate(BitflyerUtils.parseDate(history.getEventDate()))
-        .setCurrency(new Currency(history.getCurrencyCode()))
+        .setCurrency(Currency.valueOf(history.getCurrencyCode()))
         .setAmount(history.getAmount())
         .setInternalId(history.getID())
         .setType(type)
@@ -135,12 +139,12 @@ public class BitflyerAdapters {
         .build();
   }
 
-  private static FundingRecord.Status adaptStatus(String status) {
-    if (status.equals("COMPLETED")) return FundingRecord.Status.COMPLETE;
-    if (status.equals("PENDING")) return FundingRecord.Status.PROCESSING;
+  private static Status adaptStatus(String status) {
+    if (status.equals("COMPLETED")) return Status.COMPLETE;
+    if (status.equals("PENDING")) return Status.PROCESSING;
 
     // ??
-    return FundingRecord.Status.FAILED;
+    return Status.FAILED;
   }
 
   private static BigDecimal add(BigDecimal a, BigDecimal b) {

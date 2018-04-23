@@ -30,7 +30,7 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBaseService {
     // Request data
     CryptonitTicker cryptonitTicker =
         cryptonit.getTicker(
-            currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode());
+            currencyPair.getCounter().getCurrencyCode(), currencyPair.getBase().getCurrencyCode());
 
     // Adapt to XChange DTOs
     return cryptonitTicker;
@@ -41,8 +41,8 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBaseService {
     // Request data
     CryptonitOrders cryptonitDepth =
         cryptonit.getOrders(
-            currencyPair.base.getCurrencyCode(),
-            currencyPair.counter.getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
             "placed",
             String.valueOf(limit));
 
@@ -54,8 +54,8 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBaseService {
     // Request data
     CryptonitOrders cryptonitDepth =
         cryptonit.getOrders(
-            currencyPair.counter.getCurrencyCode(),
-            currencyPair.base.getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
             "placed",
             String.valueOf(limit));
 
@@ -68,8 +68,8 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBaseService {
     // Request data
     CryptonitOrders cryptonitTrades =
         cryptonit.getOrders(
-            currencyPair.base.getCurrencyCode(),
-            currencyPair.counter.getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
             "filled",
             String.valueOf(limit));
 

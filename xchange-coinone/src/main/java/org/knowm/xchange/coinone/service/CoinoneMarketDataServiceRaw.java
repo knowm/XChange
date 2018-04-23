@@ -33,14 +33,14 @@ public class CoinoneMarketDataServiceRaw extends CoinoneBaseService {
   }
 
   public CoinoneTicker getTicker(CurrencyPair currencyPair) throws IOException {
-    return coinone.getTicker(currencyPair.base.getSymbol());
+    return coinone.getTicker(currencyPair.getBase().getSymbol());
   }
 
   public CoinoneOrderBook getCoinoneOrderBook(CurrencyPair currencyPair) throws IOException {
-    return coinone.getOrderBook(currencyPair.base.getSymbol());
+    return coinone.getOrderBook(currencyPair.getBase().getSymbol());
   }
 
   public CoinoneTrades getTrades(CurrencyPair currencyPair, String period) throws IOException {
-    return coinone.getTrades(currencyPair.base.getSymbol(), period);
+    return coinone.getTrades(currencyPair.getBase().getSymbol(), period);
   }
 }

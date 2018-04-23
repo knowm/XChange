@@ -5,7 +5,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.cexio.CexIOExchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -22,7 +21,8 @@ public class DepthDemo {
 
     // Get the latest order book data for GHs/BTC
     OrderBook orderBook =
-        marketDataService.getOrderBook(new CurrencyPair(Currency.GHs, Currency.BTC));
+        marketDataService.getOrderBook(
+            org.knowm.xchange.currency.CurrencyPair.build(Currency.GHs, Currency.BTC));
 
     System.out.println(
         "Current Order Book size for GHS/BTC: "

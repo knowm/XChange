@@ -93,7 +93,8 @@ public class AllIntegration {
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     assertThat(exchangeMetaData).isNotNull();
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
+    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> marketMetaDataMap =
+        exchangeMetaData.getCurrencyPairs();
     assertThat(marketMetaDataMap).isNotEmpty();
 
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();
@@ -172,7 +173,8 @@ public class AllIntegration {
   }
 
   // Returns collection of currency pairs
-  private Collection<CurrencyPair> getCurrencyPairs() throws IOException {
+  private Collection<org.knowm.xchange.currency.CurrencyPair> getCurrencyPairs()
+      throws IOException {
 
     exchange.remoteInit();
 

@@ -6,10 +6,7 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
@@ -38,7 +35,7 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   public AccountInfo getAccountInfo() throws IOException {
 
     List<Balance> balances = getExchangeWallet();
-    return new AccountInfo(new Wallet(balances));
+    return AccountInfo.build(Wallet.build(balances));
   }
 
   @Override

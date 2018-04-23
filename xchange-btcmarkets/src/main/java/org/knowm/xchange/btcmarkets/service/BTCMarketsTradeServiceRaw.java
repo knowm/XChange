@@ -47,8 +47,8 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBaseService {
         new BTCMarketsOrder(
             amount,
             price,
-            currencyPair.counter.getCurrencyCode(),
-            currencyPair.base.getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
             side,
             type,
             newReqId()));
@@ -58,8 +58,8 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBaseService {
       CurrencyPair currencyPair, Integer limit, Long since) throws IOException {
     BTCMarketsOpenOrdersAndTradeHistoryRequest request =
         new BTCMarketsOpenOrdersAndTradeHistoryRequest(
-            currencyPair.counter.getCurrencyCode(),
-            currencyPair.base.getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
             limit,
             since);
     return btcm.getOpenOrders(
@@ -78,8 +78,8 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBaseService {
       CurrencyPair currencyPair, Integer limit, Long since) throws IOException {
     BTCMarketsOpenOrdersAndTradeHistoryRequest request =
         new BTCMarketsOpenOrdersAndTradeHistoryRequest(
-            currencyPair.counter.getCurrencyCode(),
-            currencyPair.base.getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
             limit,
             since);
     return btcm.getTradeHistory(
