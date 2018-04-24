@@ -25,10 +25,4 @@ public class BitcoindeAccountService extends BitcoindeAccountServiceRaw implemen
     return BitcoindeAdapters.adaptAccountInfo(getBitcoindeAccount());
   }
 
-  @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
 }

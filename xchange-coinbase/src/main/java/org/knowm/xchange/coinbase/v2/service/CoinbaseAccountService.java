@@ -24,12 +24,6 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String withdrawFunds(WithdrawFundsParams params)
       throws ExchangeException, NotAvailableFromExchangeException,
           NotYetImplementedForExchangeException, IOException {
@@ -44,12 +38,5 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 }
