@@ -83,8 +83,8 @@ Looking for streaming API? Use library [xchange-stream](https://github.com/bitri
 
 ## Continuous Integration
 
-[![Build Status](https://travis-ci.org/timmolter/XChange.png?branch=develop)](https://travis-ci.org/timmolter/XChange.png)  
-[Build History](https://travis-ci.org/timmolter/XChange/builds)  
+[![Build Status](https://travis-ci.org/knowm/XChange.png?branch=develop)](https://travis-ci.org/knowm/XChange.png)
+[Build History](https://travis-ci.org/knowm/XChange/builds)
 
 ## Getting Started
 
@@ -136,7 +136,7 @@ install in local Maven repo: `mvn clean install`
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
 check for dependency updates: `mvn versions:display-dependency-updates`
-code format: `mvn com.coveo:fmt-maven-plugin:format`
+code format: `mvn com.coveo:fmt-maven-plugin:format`  
 
 ## Bugs
 
