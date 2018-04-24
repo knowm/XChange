@@ -1,7 +1,6 @@
 package org.knowm.xchange.huobi.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.huobi.HuobiUtils;

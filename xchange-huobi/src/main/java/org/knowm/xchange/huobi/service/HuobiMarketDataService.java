@@ -3,7 +3,6 @@ package org.knowm.xchange.huobi.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -40,10 +39,26 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
       }
     }
     HuobiDepth depth = getHuobiDepth(currencyPair, depthType);
-    List<LimitOrder> bids = depth.getBids().entrySet().stream()
-        .map(e -> new LimitOrder(OrderType.BID, e.getValue(), currencyPair, null, null, e.getKey())).collect(Collectors.toList());
-    List<LimitOrder> asks = depth.getAsks().entrySet().stream()
-        .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), currencyPair, null, null, e.getKey())).collect(Collectors.toList());
+    List<LimitOrder> bids =
+        depth
+            .getBids()
+            .entrySet()
+            .stream()
+            .map(
+                e ->
+                    new LimitOrder(
+                        OrderType.BID, e.getValue(), currencyPair, null, null, e.getKey()))
+            .collect(Collectors.toList());
+    List<LimitOrder> asks =
+        depth
+            .getAsks()
+            .entrySet()
+            .stream()
+            .map(
+                e ->
+                    new LimitOrder(
+                        OrderType.ASK, e.getValue(), currencyPair, null, null, e.getKey()))
+            .collect(Collectors.toList());
     return new OrderBook(null, asks, bids);
   }
 }
