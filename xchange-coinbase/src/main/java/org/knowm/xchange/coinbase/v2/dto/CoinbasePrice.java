@@ -17,7 +17,7 @@ public class CoinbasePrice {
   @JsonCreator
   public CoinbasePrice(
       @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency) {
-    this(amount, Currency.getInstance(currency));
+    this(amount, Currency.valueOf(currency));
   }
 
   public CoinbasePrice(BigDecimal amount, Currency currency) {

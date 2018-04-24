@@ -2,13 +2,10 @@ package org.knowm.xchange.gemini.v1.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
 import org.knowm.xchange.service.account.AccountService;
@@ -31,7 +28,7 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(GeminiAdapters.adaptWallet(getGeminiAccountInfo()));
+    return AccountInfo.build(GeminiAdapters.adaptWallet(getGeminiAccountInfo()));
   }
 
   /**
@@ -70,5 +67,4 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
-
 }

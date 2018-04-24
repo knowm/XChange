@@ -1,19 +1,17 @@
 package org.knowm.xchange.bitbay.v3;
 
-import org.knowm.xchange.bitbay.v3.dto.BitbayBalances;
-import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTrades;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
+import java.io.IOException;
+import java.util.UUID;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.Map;
-import java.util.UUID;
+import org.knowm.xchange.bitbay.v3.dto.BitbayBalances;
+import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTrades;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author walec51 */
 @SuppressWarnings("rawtypes")

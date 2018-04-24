@@ -4,7 +4,6 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
@@ -34,7 +33,9 @@ public class TickerDemo {
 
   private static void generic(MarketDataService marketDataService) throws IOException {
 
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currency.LTC, Currency.BRL));
+    Ticker ticker =
+        marketDataService.getTicker(
+            org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL));
 
     System.out.println(ticker.toString());
   }
@@ -42,7 +43,8 @@ public class TickerDemo {
   private static void raw(MercadoBitcoinMarketDataServiceRaw marketDataService) throws IOException {
 
     MercadoBitcoinTicker mercadoBitcoinTicker =
-        marketDataService.getMercadoBitcoinTicker(new CurrencyPair(Currency.LTC, Currency.BRL));
+        marketDataService.getMercadoBitcoinTicker(
+            org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL));
 
     System.out.println(mercadoBitcoinTicker.toString());
   }

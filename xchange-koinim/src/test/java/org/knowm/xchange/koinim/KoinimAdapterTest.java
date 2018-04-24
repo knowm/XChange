@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
 
@@ -24,7 +23,9 @@ public class KoinimAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     KoinimTicker koinimTicker = mapper.readValue(is, KoinimTicker.class);
 
-    Ticker ticker = KoinimAdapters.adaptTicker(koinimTicker, new CurrencyPair("BTC", "TRY"));
+    Ticker ticker =
+        KoinimAdapters.adaptTicker(
+            koinimTicker, org.knowm.xchange.currency.CurrencyPair.build("BTC", "TRY"));
     assertThat(ticker).isNotNull();
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("63500.02000000"));
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("63500.02000000"));

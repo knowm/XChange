@@ -36,9 +36,9 @@ public class VircurexTradeServiceRaw extends VircurexBaseService {
             "create_order",
             type,
             limitOrder.getOriginalAmount().floatValue() + "",
-            limitOrder.getCurrencyPair().counter.getCurrencyCode().toLowerCase(),
+            limitOrder.getCurrencyPair().getCounter().getCurrencyCode().toLowerCase(),
             limitOrder.getLimitPrice().floatValue() + "",
-            limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase());
+            limitOrder.getCurrencyPair().getBase().getCurrencyCode().toLowerCase());
 
     VircurexPlaceOrderReturn ret =
         vircurexAuthenticated.trade(
@@ -48,9 +48,9 @@ public class VircurexTradeServiceRaw extends VircurexBaseService {
             timestamp,
             type,
             limitOrder.getOriginalAmount().floatValue() + "",
-            limitOrder.getCurrencyPair().counter.getCurrencyCode().toLowerCase(),
+            limitOrder.getCurrencyPair().getCounter().getCurrencyCode().toLowerCase(),
             limitOrder.getLimitPrice().floatValue() + "",
-            limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase());
+            limitOrder.getCurrencyPair().getBase().getCurrencyCode().toLowerCase());
 
     timestamp = VircurexUtils.getUtcTimestamp();
     nonce = exchange.getNonceFactory().createValue();

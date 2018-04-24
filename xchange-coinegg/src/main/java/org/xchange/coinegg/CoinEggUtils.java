@@ -18,7 +18,7 @@ public class CoinEggUtils {
   }
 
   public static String toBaseCoin(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode().toLowerCase();
+    return currencyPair.getBase().getCurrencyCode().toLowerCase();
   }
 
   public static String toHexString(byte[] data) {

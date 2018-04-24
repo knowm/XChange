@@ -17,7 +17,6 @@ import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.utils.AuthUtils;
@@ -72,7 +71,8 @@ public class BinanceExchange extends BaseExchange {
   public void remoteInit() {
     try {
       // populate currency pair keys only, exchange does not provide any other metadata for download
-      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+      Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
+          exchangeMetaData.getCurrencyPairs();
       Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
       BinanceMarketDataService marketDataService =
@@ -81,7 +81,9 @@ public class BinanceExchange extends BaseExchange {
 
       for (Symbol symbol : exchangeInfo.getSymbols()) {
 
-        CurrencyPair pair = new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset());
+        org.knowm.xchange.currency.CurrencyPair pair =
+            org.knowm.xchange.currency.CurrencyPair.build(
+                symbol.getBaseAsset(), symbol.getQuoteAsset());
         // defaults
         BigDecimal tradingFee = BigDecimal.ZERO;
         BigDecimal minAmount = BigDecimal.ZERO;
@@ -120,15 +122,16 @@ public class BinanceExchange extends BaseExchange {
 
         currencyPairs.put(pair, pairMetaData);
 
-        CurrencyMetaData baseMetaData = currencies.get(pair.base);
+        CurrencyMetaData baseMetaData = currencies.get(pair.getBase());
         if (baseMetaData == null) {
           Integer basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
-          currencies.put(pair.base, new CurrencyMetaData(basePrecision, BigDecimal.ZERO));
+          currencies.put(pair.getBase(), new CurrencyMetaData(basePrecision, BigDecimal.ZERO));
         }
-        CurrencyMetaData counterMetaData = currencies.get(pair.base);
+        CurrencyMetaData counterMetaData = currencies.get(pair.getBase());
         if (counterMetaData == null) {
           Integer counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
-          currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, BigDecimal.ZERO));
+          currencies.put(
+              pair.getCounter(), new CurrencyMetaData(counterPrecision, BigDecimal.ZERO));
         }
       }
     } catch (Exception e) {

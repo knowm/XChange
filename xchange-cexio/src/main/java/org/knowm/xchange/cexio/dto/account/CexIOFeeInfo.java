@@ -7,15 +7,16 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.util.Map;
 import org.knowm.xchange.cexio.dto.CexIOApiResponse;
-import org.knowm.xchange.currency.CurrencyPair;
 
 /** @author ujjwal on 14/02/18. */
-public class CexIOFeeInfo extends CexIOApiResponse<Map<CurrencyPair, CexIOFeeInfo.FeeDetails>> {
+public class CexIOFeeInfo
+    extends CexIOApiResponse<
+        Map<org.knowm.xchange.currency.CurrencyPair, CexIOFeeInfo.FeeDetails>> {
 
   public CexIOFeeInfo(
       @JsonProperty("e") String e,
       @JsonProperty("data") @JsonDeserialize(keyUsing = CurrencyPairKeyDeserializer.class)
-          Map<CurrencyPair, FeeDetails> data,
+          Map<org.knowm.xchange.currency.CurrencyPair, FeeDetails> data,
       @JsonProperty("ok") String ok,
       @JsonProperty("error") String error) {
     super(e, data, ok, error);
@@ -23,10 +24,10 @@ public class CexIOFeeInfo extends CexIOApiResponse<Map<CurrencyPair, CexIOFeeInf
 
   public static class CurrencyPairKeyDeserializer extends KeyDeserializer {
     @Override
-    public CurrencyPair deserializeKey(
+    public org.knowm.xchange.currency.CurrencyPair deserializeKey(
         String value, DeserializationContext deserializationContext) {
       String[] currencies = value.split(":");
-      return new CurrencyPair(currencies[0], currencies[1]);
+      return org.knowm.xchange.currency.CurrencyPair.build(currencies[0], currencies[1]);
     }
   }
 

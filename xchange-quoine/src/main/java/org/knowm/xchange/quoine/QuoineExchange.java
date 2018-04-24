@@ -6,7 +6,6 @@ import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.quoine.service.QuoineAccountService;
@@ -18,7 +17,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class QuoineExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
-  private Map<CurrencyPair, Integer> products;
+  private Map<org.knowm.xchange.currency.CurrencyPair, Integer> products;
 
   @Override
   protected void initServices() {
@@ -56,18 +55,19 @@ public class QuoineExchange extends BaseExchange implements Exchange {
 
     QuoineProduct[] quoineProducts =
         ((QuoineMarketDataService) marketDataService).getQuoineProducts();
-    Map<CurrencyPair, Integer> products = new HashMap<>();
+    Map<org.knowm.xchange.currency.CurrencyPair, Integer> products = new HashMap<>();
     for (QuoineProduct quoineProduct : quoineProducts) {
       int id = quoineProduct.getId();
       String baseCurrency = quoineProduct.getBaseCurrency();
       String quotedCurrency = quoineProduct.getQuotedCurrency();
-      CurrencyPair currencyPair = new CurrencyPair(baseCurrency, quotedCurrency);
+      org.knowm.xchange.currency.CurrencyPair currencyPair =
+          org.knowm.xchange.currency.CurrencyPair.build(baseCurrency, quotedCurrency);
       products.put(currencyPair, id);
     }
     this.products = products;
   }
 
-  public Integer getProductId(CurrencyPair currencyPair) {
+  public Integer getProductId(org.knowm.xchange.currency.CurrencyPair currencyPair) {
     return products.get(currencyPair);
   }
 }

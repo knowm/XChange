@@ -22,12 +22,12 @@ public class BitmexContract implements Comparable<BitmexContract>, Serializable 
   @Override
   public String toString() {
 
-    return pair.base + "/" + pair.counter + "/" + prompt;
+    return pair.getBase() + "/" + pair.getCounter() + "/" + prompt;
   }
 
   public boolean contains(Currency currency) {
 
-    return pair.base.equals(currency) || pair.counter.equals(currency);
+    return pair.getBase().equals(currency) || pair.getCounter().equals(currency);
   }
 
   @Override
@@ -35,8 +35,8 @@ public class BitmexContract implements Comparable<BitmexContract>, Serializable 
 
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((pair.base == null) ? 0 : pair.base.hashCode());
-    result = prime * result + ((pair.counter == null) ? 0 : pair.counter.hashCode());
+    result = prime * result + ((pair.getBase() == null) ? 0 : pair.getBase().hashCode());
+    result = prime * result + ((pair.getCounter() == null) ? 0 : pair.getCounter().hashCode());
     result = prime * result + ((prompt == null) ? 0 : prompt.hashCode());
     return result;
   }
@@ -54,18 +54,18 @@ public class BitmexContract implements Comparable<BitmexContract>, Serializable 
       return false;
     }
     BitmexContract other = (BitmexContract) obj;
-    if (pair.base == null) {
-      if (other.pair.base != null) {
+    if (pair.getBase() == null) {
+      if (other.pair.getBase() != null) {
         return false;
       }
-    } else if (!pair.base.equals(other.pair.base)) {
+    } else if (!pair.getBase().equals(other.pair.getBase())) {
       return false;
     }
-    if (pair.counter == null) {
-      if (other.pair.counter != null) {
+    if (pair.getCounter() == null) {
+      if (other.pair.getCounter() != null) {
         return false;
       }
-    } else if (!pair.counter.equals(other.pair.counter)) {
+    } else if (!pair.getCounter().equals(other.pair.getCounter())) {
       return false;
     }
     if (prompt == null) {
@@ -81,8 +81,8 @@ public class BitmexContract implements Comparable<BitmexContract>, Serializable 
   @Override
   public int compareTo(BitmexContract o) {
 
-    return (pair.base.compareTo(o.pair.base) << 16)
-        + pair.counter.compareTo(o.pair.counter)
+    return (pair.getBase().compareTo(o.pair.getBase()) << 16)
+        + pair.getCounter().compareTo(o.pair.getCounter())
         + prompt.compareTo(o.prompt);
   }
 }

@@ -85,8 +85,8 @@ public class ANXTradeServiceRaw extends ANXBaseService {
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory(),
-              marketOrder.getCurrencyPair().base.getCurrencyCode(),
-              marketOrder.getCurrencyPair().counter.getCurrencyCode(),
+              marketOrder.getCurrencyPair().getBase().getCurrencyCode(),
+              marketOrder.getCurrencyPair().getCounter().getCurrencyCode(),
               marketOrder.getType().equals(Order.OrderType.BID) ? "bid" : "ask",
               marketOrder.getOriginalAmount(),
               null);
@@ -109,8 +109,8 @@ public class ANXTradeServiceRaw extends ANXBaseService {
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory(),
-              currencyPair.base.getCurrencyCode(),
-              currencyPair.counter.getCurrencyCode(),
+              currencyPair.getBase().getCurrencyCode(),
+              currencyPair.getCounter().getCurrencyCode(),
               type,
               amount,
               price);

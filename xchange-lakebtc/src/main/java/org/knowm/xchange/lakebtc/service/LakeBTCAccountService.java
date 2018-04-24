@@ -2,18 +2,15 @@ package org.knowm.xchange.lakebtc.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.lakebtc.LakeBTCAdapters;
 import org.knowm.xchange.lakebtc.dto.account.LakeBTCAccountInfoResponse;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /** @author cristian.lucaci */
 public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements AccountService {
@@ -44,5 +41,4 @@ public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements A
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
-
 }
