@@ -24,7 +24,7 @@ public class BittrexTradeDemo {
 
   private static void generic(TradeService tradeService) throws IOException {
 
-    CurrencyPair pair = new CurrencyPair("ZET", "BTC");
+    CurrencyPair pair = CurrencyPair.build("ZET", "BTC");
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, pair)
             .limitPrice(new BigDecimal("0.00001000"))
@@ -61,7 +61,7 @@ public class BittrexTradeDemo {
 
   private static void raw(BittrexTradeServiceRaw tradeService) throws IOException {
 
-    CurrencyPair pair = new CurrencyPair("ZET", "BTC");
+    CurrencyPair pair = CurrencyPair.build("ZET", "BTC");
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, pair)
             .limitPrice(new BigDecimal("0.00001000"))

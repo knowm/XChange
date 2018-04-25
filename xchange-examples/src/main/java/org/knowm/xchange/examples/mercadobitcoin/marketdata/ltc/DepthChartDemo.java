@@ -40,7 +40,7 @@ public class DepthChartDemo {
 
     // Get the current orderbook
     OrderBook orderBook =
-        marketDataService.getOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));
+        marketDataService.getOrderBook(CurrencyPair.build(Currency.LTC, Currency.BRL));
 
     System.out.println("received data.");
 

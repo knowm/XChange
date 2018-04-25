@@ -1,6 +1,7 @@
 package org.knowm.xchange.anx.v2;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,11 +19,11 @@ import org.knowm.xchange.anx.v2.dto.trade.ANXTradeResult;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -49,7 +50,7 @@ public final class ANXAdapters {
 
     // Adapt to XChange DTOs
     AccountInfo accountInfo =
-        new AccountInfo(
+        AccountInfo.build(
             anxAccountInfo.getLogin(),
             percentToFactor(anxAccountInfo.getTradeFee()),
             ANXAdapters.adaptWallet(anxAccountInfo.getWallets()));
@@ -149,10 +150,14 @@ public final class ANXAdapters {
         == null) { // use the presence of a currency String to indicate existing wallet at ANX
       return null; // an account maybe doesn't contain a ANXWallet
     } else {
-      return new Balance(
-          Currency.getInstance(anxWallet.getBalance().getCurrency()),
-          anxWallet.getBalance().getValue(),
-          anxWallet.getAvailableBalance().getValue());
+      BigDecimal total = anxWallet.getBalance().getValue();
+      BigDecimal available = anxWallet.getAvailableBalance().getValue();
+      return new Balance.Builder()
+          .setCurrency(Currency.valueOf(anxWallet.getBalance().getCurrency()))
+          .setTotal(total)
+          .setAvailable(available)
+          .setFrozen(total.add(available.negate()))
+          .createBalance();
     }
   }
 
@@ -172,7 +177,7 @@ public final class ANXAdapters {
         balances.add(balance);
       }
     }
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   // public static OrderBookUpdate adaptDepthUpdate(ANXDepthUpdate anxDepthUpdate) {
@@ -249,7 +254,7 @@ public final class ANXAdapters {
     CurrencyPair currencyPair =
         adaptCurrencyPair(anxTicker.getVol().getCurrency(), anxTicker.getAvg().getCurrency());
 
-    return new Ticker.Builder()
+    return new Builder()
         .currencyPair(currencyPair)
         .last(last)
         .bid(bid)
@@ -263,7 +268,7 @@ public final class ANXAdapters {
 
   public static CurrencyPair adaptCurrencyPair(String tradeCurrency, String priceCurrency) {
 
-    return new CurrencyPair(tradeCurrency, priceCurrency);
+    return CurrencyPair.build(tradeCurrency, priceCurrency);
   }
 
   public static UserTrades adaptUserTrades(ANXTradeResult[] anxTradeResults, ANXMetaData meta) {
@@ -285,7 +290,7 @@ public final class ANXAdapters {
     BigDecimal price =
         aNXTradeResult
             .getSettlementCurrencyFillAmount()
-            .divide(tradedCurrencyFillAmount, priceScale, BigDecimal.ROUND_HALF_EVEN);
+            .divide(tradedCurrencyFillAmount, priceScale, RoundingMode.HALF_EVEN);
     OrderType type = adaptSide(aNXTradeResult.getSide());
     // for fees, getWalletHistory should be used.
     return new UserTrade(
@@ -305,11 +310,11 @@ public final class ANXAdapters {
     if ("DOGEBTC".equalsIgnoreCase(currencyPairRaw)) {
       return CurrencyPair.DOGE_BTC;
     } else if ("STARTBTC".equalsIgnoreCase(currencyPairRaw)) {
-      return new CurrencyPair(Currency.START, Currency.BTC);
+      return CurrencyPair.build(Currency.START, Currency.BTC);
     } else if (currencyPairRaw.length() != 6) {
       throw new IllegalArgumentException("Unrecognized currency pair " + currencyPairRaw);
     } else {
-      return new CurrencyPair(currencyPairRaw.substring(0, 3), currencyPairRaw.substring(3));
+      return CurrencyPair.build(currencyPairRaw.substring(0, 3), currencyPairRaw.substring(3));
     }
   }
 
@@ -351,9 +356,9 @@ public final class ANXAdapters {
 
     String entryType = entry.getType();
 
-    FundingRecord.Type type;
-    if (entryType.equalsIgnoreCase("deposit")) type = FundingRecord.Type.DEPOSIT;
-    else if (entryType.equalsIgnoreCase("withdraw")) type = FundingRecord.Type.WITHDRAWAL;
+    Type type;
+    if (entryType.equalsIgnoreCase("deposit")) type = Type.DEPOSIT;
+    else if (entryType.equalsIgnoreCase("withdraw")) type = Type.WITHDRAWAL;
     else throw new IllegalStateException("should not get here");
 
     BigDecimal fee = null;
@@ -373,7 +378,7 @@ public final class ANXAdapters {
     Date date = DateUtils.fromMillisUtc(rawDate + eightHours);
 
     ANXValue value = entry.getValue();
-    Currency currency = Currency.getInstance(value.getCurrency());
+    Currency currency = Currency.valueOf(value.getCurrency());
     ANXValue balance = entry.getBalance();
 
     return new FundingRecord(
@@ -384,7 +389,7 @@ public final class ANXAdapters {
         entry.getTransactionId(),
         null,
         type,
-        FundingRecord.Status.COMPLETE,
+        Status.COMPLETE,
         balance == null ? null : balance.getValue(),
         fee,
         null);

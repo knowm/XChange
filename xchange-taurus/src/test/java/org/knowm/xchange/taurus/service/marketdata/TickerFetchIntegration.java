@@ -18,7 +18,7 @@ public class TickerFetchIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TaurusExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "CAD"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("BTC", "CAD"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

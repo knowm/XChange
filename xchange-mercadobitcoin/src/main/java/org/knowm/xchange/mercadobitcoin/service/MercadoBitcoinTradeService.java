@@ -4,7 +4,6 @@ import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -14,10 +13,8 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdapters;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils;
 import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
@@ -66,7 +63,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
         MercadoBitcoinAdapters.adaptOrders(CurrencyPair.BTC_BRL, openOrdersBitcoinResult));
     limitOrders.addAll(
         MercadoBitcoinAdapters.adaptOrders(
-            new CurrencyPair(Currency.LTC, Currency.BRL), openOrdersLitecoinResult));
+            CurrencyPair.build(Currency.LTC, Currency.BRL), openOrdersLitecoinResult));
 
     return new OpenOrders(limitOrders);
   }
@@ -89,7 +86,9 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
 
     if (limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_BRL)) {
       pair = "btc_brl";
-    } else if (limitOrder.getCurrencyPair().equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
+    } else if (limitOrder
+        .getCurrencyPair()
+        .equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
       pair = "ltc_brl";
     } else {
       throw new NotAvailableFromExchangeException();

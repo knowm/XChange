@@ -38,7 +38,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
 
     Map<Currency, HitbtcBalance> balanceMap = new HashMap<>();
     for (HitbtcBalance hitbtcBalance : balance) {
-      balanceMap.put(Currency.getInstance(hitbtcBalance.getCurrency()), hitbtcBalance);
+      balanceMap.put(Currency.valueOf(hitbtcBalance.getCurrency()), hitbtcBalance);
     }
 
     Assert.assertNotNull(balance);
@@ -53,7 +53,7 @@ public class HitbtcAccountServiceRawIntegration extends BaseAuthenticatedService
 
     Map<Currency, HitbtcBalance> balanceMap = new HashMap<>();
     for (HitbtcBalance hitbtcBalance : balance) {
-      balanceMap.put(Currency.getInstance(hitbtcBalance.getCurrency()), hitbtcBalance);
+      balanceMap.put(Currency.valueOf(hitbtcBalance.getCurrency()), hitbtcBalance);
     }
 
     Assert.assertNotNull(balance);

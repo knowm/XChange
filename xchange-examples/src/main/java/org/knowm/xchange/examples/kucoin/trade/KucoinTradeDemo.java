@@ -17,7 +17,7 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 
 public class KucoinTradeDemo {
 
-  private static final CurrencyPair PAIR = new CurrencyPair("DRGN", "BTC");
+  private static final CurrencyPair PAIR = CurrencyPair.build("DRGN", "BTC");
   private static final OrderType ORDER_TYPE = OrderType.ASK;
 
   public static void main(String[] args) throws IOException {

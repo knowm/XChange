@@ -43,7 +43,7 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("BTC", "EUR"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
@@ -53,7 +53,7 @@ public class CoinmateBaseServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "CZK"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("BTC", "CZK"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

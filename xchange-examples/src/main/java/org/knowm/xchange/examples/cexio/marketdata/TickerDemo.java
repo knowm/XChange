@@ -21,7 +21,7 @@ public class TickerDemo {
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currency.BTC, Currency.USD));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build(Currency.BTC, Currency.USD));
 
     System.out.println("Pair: " + ticker.getCurrencyPair());
     System.out.println("Last: " + ticker.getLast());

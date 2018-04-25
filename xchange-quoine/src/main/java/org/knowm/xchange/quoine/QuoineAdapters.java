@@ -5,11 +5,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.knowm.xchange.currency.*;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -79,14 +82,15 @@ public class QuoineAdapters {
   public static Wallet adaptTradingWallet(QuoineTradingAccountInfo[] quoineWallet) {
     List<Balance> balances = new ArrayList<>(quoineWallet.length);
 
-    for (int i = 0; i < quoineWallet.length; i++) {
-      QuoineTradingAccountInfo info = quoineWallet[i];
-
+    for (QuoineTradingAccountInfo info : quoineWallet) {
       balances.add(
-          new Balance(Currency.getInstance(info.getFundingCurrency()), info.getFreeMargin()));
+          new Builder()
+              .setCurrency(Currency.valueOf(info.getFundingCurrency()))
+              .setTotal(info.getFreeMargin())
+              .createBalance());
     }
 
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   public static Wallet adaptFiatAccountWallet(FiatAccount[] fiatAccounts) {
@@ -94,15 +98,19 @@ public class QuoineAdapters {
     List<Balance> balances = new ArrayList<>();
 
     for (FiatAccount fiatAccount : fiatAccounts) {
+      BigDecimal total = fiatAccount.getBalance();
+      BigDecimal available = fiatAccount.getBalance();
       Balance fiatBalance =
-          new Balance(
-              Currency.getInstance(fiatAccount.getCurrency()),
-              fiatAccount.getBalance(),
-              fiatAccount.getBalance());
+          new Builder()
+              .setCurrency(Currency.valueOf(fiatAccount.getCurrency()))
+              .setTotal(total)
+              .setAvailable(available)
+              .setFrozen(total.add(available.negate()))
+              .createBalance();
       balances.add(fiatBalance);
     }
 
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   public static Wallet adaptWallet(QuoineAccountInfo quoineWallet) {
@@ -110,23 +118,31 @@ public class QuoineAdapters {
     List<Balance> balances = new ArrayList<>();
 
     // Adapt to XChange DTOs
+    BigDecimal total1 = quoineWallet.getBitcoinAccount().getBalance();
+    BigDecimal available1 = quoineWallet.getBitcoinAccount().getFreeBalance();
     Balance btcBalance =
-        new Balance(
-            Currency.getInstance(quoineWallet.getBitcoinAccount().getCurrency()),
-            quoineWallet.getBitcoinAccount().getBalance(),
-            quoineWallet.getBitcoinAccount().getFreeBalance());
+        new Builder()
+            .setCurrency(Currency.valueOf(quoineWallet.getBitcoinAccount().getCurrency()))
+            .setTotal(total1)
+            .setAvailable(available1)
+            .setFrozen(total1.add(available1.negate()))
+            .createBalance();
     balances.add(btcBalance);
 
     for (FiatAccount fiatAccount : quoineWallet.getFiatAccounts()) {
+      BigDecimal total = fiatAccount.getBalance();
+      BigDecimal available = fiatAccount.getBalance();
       Balance fiatBalance =
-          new Balance(
-              Currency.getInstance(fiatAccount.getCurrency()),
-              fiatAccount.getBalance(),
-              fiatAccount.getBalance());
+          new Builder()
+              .setCurrency(Currency.valueOf(fiatAccount.getCurrency()))
+              .setTotal(total)
+              .setAvailable(available)
+              .setFrozen(total.add(available.negate()))
+              .createBalance();
       balances.add(fiatBalance);
     }
 
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   public static OpenOrders adapteOpenOrders(QuoineOrdersList quoineOrdersList) {
@@ -136,9 +152,9 @@ public class QuoineAdapters {
       if (model.getStatus().equals("live")) {
 
         // currencey pair
-        String baseSymbol = model.getCurrencyPairCode().replace(model.getFundingCurrency(),"");
-        String counterSymbol = model.getFundingCurrency();
-        CurrencyPair currencyPair = new CurrencyPair(baseSymbol, counterSymbol);
+        String baseSymbol = model.getCurrencyPairCode().substring(0, 3);
+        String counterSymbol = model.getCurrencyPairCode().substring(3, 6);
+        CurrencyPair currencyPair = CurrencyPair.build(baseSymbol, counterSymbol);
 
         // OrderType
         OrderType orderType = model.getSide().equals("sell") ? OrderType.ASK : OrderType.BID;
@@ -167,9 +183,11 @@ public class QuoineAdapters {
     List<Wallet> res = new ArrayList<>();
     for (FiatAccount nativeBalance : balances) {
       Balance balance =
-          new Balance(
-              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance());
-      res.add(new Wallet(String.valueOf(nativeBalance.getId()), balance));
+          new Builder()
+              .setCurrency(Currency.valueOf(nativeBalance.getCurrency()))
+              .setTotal(nativeBalance.getBalance())
+              .createBalance();
+      res.add(Wallet.build(String.valueOf(nativeBalance.getId()), balance));
     }
     return res;
   }
@@ -178,9 +196,11 @@ public class QuoineAdapters {
     List<Wallet> res = new ArrayList<>();
     for (BitcoinAccount nativeBalance : balances) {
       Balance balance =
-          new Balance(
-              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance());
-      res.add(new Wallet(String.valueOf(nativeBalance.getId()), balance));
+          new Builder()
+              .setCurrency(Currency.valueOf(nativeBalance.getCurrency()))
+              .setTotal(nativeBalance.getBalance())
+              .createBalance();
+      res.add(Wallet.build(String.valueOf(nativeBalance.getId()), balance));
     }
     return res;
   }
@@ -204,11 +224,11 @@ public class QuoineAdapters {
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+    return currencyPair.getBase().getCurrencyCode() + currencyPair.getCounter().getCurrencyCode();
   }
 
   public static FundingRecord adaptFunding(
-      Currency currency, QuoineTransaction transaction, FundingRecord.Type deposit) {
+      Currency currency, QuoineTransaction transaction, Type deposit) {
     BigDecimal fee = null;
     if (transaction.exchange_fee != null) fee = transaction.exchange_fee;
 
@@ -224,7 +244,7 @@ public class QuoineAdapters {
         transaction.id,
         transaction.transaction_hash,
         deposit,
-        FundingRecord.Status.COMPLETE,
+        Status.COMPLETE,
         null,
         fee,
         transaction.notes);

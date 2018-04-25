@@ -40,8 +40,8 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, final Object... args) throws IOException {
-    Currency b = currencyPair.base;
-    Currency c = currencyPair.counter;
+    Currency b = currencyPair.getBase();
+    Currency c = currencyPair.getCounter();
 
     if (!tickers.containsKey(b.getCurrencyCode()) && b.getCurrencyCode().compareTo("USD") != 0)
       throw new IOException("unsupported ISO 4217 Currency: " + b.getCurrencyCode());
@@ -57,11 +57,11 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
     BigDecimal volume;
 
     if (c.getCurrencyCode().compareTo("USD") == 0) {
-      pair = new CurrencyPair(cmcB.getIsoCode(), "USD");
+      pair = CurrencyPair.build(cmcB.getIsoCode(), "USD");
       price = cmcB.getPriceUSD();
       volume = cmcB.getVolume24hUSD();
     } else if (c.getCurrencyCode().compareTo("BTC") == 0) {
-      pair = new CurrencyPair(cmcB.getIsoCode(), "BTC");
+      pair = CurrencyPair.build(cmcB.getIsoCode(), "BTC");
       price = cmcB.getPriceBTC();
 
       // TODO move to conversion function
@@ -70,7 +70,7 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
       volume = null;
     } else {
       CoinMarketCapTicker cmcC = tickers.get(c.getCurrencyCode());
-      pair = new CurrencyPair(cmcB.getIsoCode(), cmcC.getIsoCode());
+      pair = CurrencyPair.build(cmcB.getIsoCode(), cmcC.getIsoCode());
 
       // TODO move to conversion function
       // price = new BigDecimal(cmcB.getPriceBTC().doubleValue() /

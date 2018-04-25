@@ -21,7 +21,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
      * Preserve case if exchange is sending mixed-case, otherwise toUpperCase()
      */
     final boolean isMixedCase =
-        currencyPairString.matches(".*[a-z]+.*") && currencyPairString.matches(".*[A-Z]+.*");
+        currencyPairString.matches(".*[a-z].*") && currencyPairString.matches(".*[A-Z].*");
     if (!isMixedCase) {
       currencyPairString = currencyPairString.toUpperCase();
     }
@@ -31,7 +31,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
      */
     final String symbols[] = currencyPairString.split("[^a-zA-Z0-9]");
     if (symbols.length == 2) {
-      return new CurrencyPair(symbols[0], symbols[1]);
+      return CurrencyPair.build(symbols[0], symbols[1]);
     }
 
     /*
@@ -40,7 +40,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     if (currencyPairString.length() == 6) {
       final String tradeCurrency = currencyPairString.substring(0, 3);
       final String priceCurrency = currencyPairString.substring(3);
-      return new CurrencyPair(tradeCurrency, priceCurrency);
+      return CurrencyPair.build(tradeCurrency, priceCurrency);
     }
 
     /*
@@ -54,7 +54,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
       final Currency priceCurrency = Currency.getInstanceNoCreate(currencyPairString.substring(i));
       if (tradeCurrency != null) {
         if (priceCurrency != null) {
-          return new CurrencyPair(tradeCurrency, priceCurrency);
+          return CurrencyPair.build(tradeCurrency, priceCurrency);
         } else if (i > bestLength) {
           bestLength = i;
           bestGuess = i;
@@ -66,7 +66,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     }
     final String tradeCurrency = currencyPairString.substring(0, bestGuess);
     final String priceCurrency = currencyPairString.substring(bestGuess);
-    return new CurrencyPair(tradeCurrency, priceCurrency);
+    return CurrencyPair.build(tradeCurrency, priceCurrency);
   }
 
   @Override

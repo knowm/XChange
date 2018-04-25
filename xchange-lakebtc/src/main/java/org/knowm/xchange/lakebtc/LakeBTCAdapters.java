@@ -9,11 +9,13 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -92,7 +94,7 @@ public class LakeBTCAdapters {
               trade.getId()));
     }
 
-    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
+    return new Trades(trades, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
   /**
@@ -143,11 +145,11 @@ public class LakeBTCAdapters {
               tradeId,
               null,
               null,
-              Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+              Currency.valueOf(currencyPair.getCounter().getCurrencyCode()));
       trades.add(userTrade);
     }
 
-    return new UserTrades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
   /**
@@ -161,11 +163,14 @@ public class LakeBTCAdapters {
     // Adapt to XChange DTOs
     LakeBTCProfile profile = lakeBTCAccount.getProfile();
     LakeBTCBalance balance = lakeBTCAccount.getBalance();
-    Balance usdBalance = new Balance(Currency.USD, balance.getUSD());
-    Balance cnyWBalance = new Balance(Currency.CNY, balance.getCNY());
-    Balance btcBalance = new Balance(Currency.BTC, balance.getBTC());
+    Balance usdBalance =
+        new Builder().setCurrency(Currency.USD).setTotal(balance.getUSD()).createBalance();
+    Balance cnyWBalance =
+        new Builder().setCurrency(Currency.CNY).setTotal(balance.getCNY()).createBalance();
+    Balance btcBalance =
+        new Builder().setCurrency(Currency.BTC).setTotal(balance.getBTC()).createBalance();
 
-    return new AccountInfo(profile.getId(), new Wallet(usdBalance, btcBalance, cnyWBalance));
+    return AccountInfo.build(profile.getId(), Wallet.build(usdBalance, btcBalance, cnyWBalance));
   }
 
   /**
@@ -175,7 +180,7 @@ public class LakeBTCAdapters {
    * @return A string suitable for looking up ticker information.
    */
   public static String adaptCurrencyPair(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode().toLowerCase()
-        + currencyPair.counter.getCurrencyCode().toLowerCase();
+    return currencyPair.getBase().getCurrencyCode().toLowerCase()
+        + currencyPair.getCounter().getCurrencyCode().toLowerCase();
   }
 }

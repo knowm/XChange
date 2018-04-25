@@ -13,6 +13,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -32,6 +33,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMar
 import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory.GateioPublicTrade;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
@@ -46,7 +48,7 @@ public final class GateioAdapters {
   public static CurrencyPair adaptCurrencyPair(String pair) {
 
     final String[] currencies = pair.toUpperCase().split("_");
-    return new CurrencyPair(currencies[0], currencies[1]);
+    return CurrencyPair.build(currencies[0], currencies[1]);
   }
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, GateioTicker gateioTicker) {
@@ -105,7 +107,7 @@ public final class GateioAdapters {
       GateioOpenOrder order, Collection<CurrencyPair> currencyPairs) {
 
     String[] currencyPairSplit = order.getCurrencyPair().split("_");
-    CurrencyPair currencyPair = new CurrencyPair(currencyPairSplit[0], currencyPairSplit[1]);
+    CurrencyPair currencyPair = CurrencyPair.build(currencyPairSplit[0], currencyPairSplit[1]);
     return new LimitOrder(
         order.getType().equals("sell") ? OrderType.ASK : OrderType.BID,
         order.getAmount(),
@@ -131,8 +133,7 @@ public final class GateioAdapters {
     return (cryptoTradeOrderType.equals(GateioOrderType.BUY)) ? OrderType.BID : OrderType.ASK;
   }
 
-  public static Trade adaptTrade(
-      GateioTradeHistory.GateioPublicTrade trade, CurrencyPair currencyPair) {
+  public static Trade adaptTrade(GateioPublicTrade trade, CurrencyPair currencyPair) {
 
     OrderType orderType = adaptOrderType(trade.getType());
     Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
@@ -150,7 +151,7 @@ public final class GateioAdapters {
 
     List<Trade> tradeList = new ArrayList<>();
     long lastTradeId = 0;
-    for (GateioTradeHistory.GateioPublicTrade trade : tradeHistory.getTrades()) {
+    for (GateioPublicTrade trade : tradeHistory.getTrades()) {
       String tradeIdString = trade.getTradeId();
       if (!tradeIdString.isEmpty()) {
         long tradeId = Long.valueOf(tradeIdString);
@@ -169,21 +170,33 @@ public final class GateioAdapters {
 
     List<Balance> balances = new ArrayList<>();
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
-      Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
+      Currency currency = Currency.valueOf(funds.getKey().toUpperCase());
       BigDecimal amount = funds.getValue();
       BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency.toString());
 
-      balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
+      balances.add(
+          new Builder()
+              .setCurrency(currency)
+              .setTotal(null)
+              .setAvailable(amount)
+              .setFrozen(locked == null ? BigDecimal.ZERO : locked)
+              .createBalance());
     }
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getLockedFunds().entrySet()) {
-      Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
+      Currency currency = Currency.valueOf(funds.getKey().toUpperCase());
       if (balances.stream().noneMatch(balance -> balance.getCurrency().equals(currency))) {
         BigDecimal amount = funds.getValue();
-        balances.add(new Balance(currency, null, BigDecimal.ZERO, amount));
+        balances.add(
+            new Builder()
+                .setCurrency(currency)
+                .setTotal(null)
+                .setAvailable(BigDecimal.ZERO)
+                .setFrozen(amount)
+                .createBalance());
       }
     }
 
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   public static UserTrades adaptUserTrades(List<GateioTrade> userTrades) {

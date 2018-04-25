@@ -44,7 +44,7 @@ public class VaultoroMarketDataServiceRaw extends VaultoroBaseService {
     // TODO put this in the vautoro.json file in resources and call a real endpoint for the data in
     // addition
     List<CurrencyPair> pairs = new ArrayList<>();
-    pairs.add(new CurrencyPair("GLD", "BTC"));
+    pairs.add(CurrencyPair.build("GLD", "BTC"));
     return pairs;
   }
 }

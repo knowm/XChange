@@ -39,7 +39,7 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw
     // Request data
     BitcoiniumTicker bitcoiniumTicker =
         getBitcoiniumTicker(
-            currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+            currencyPair.getBase().getCurrencyCode(), currencyPair.getCounter().getCurrencyCode());
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptTicker(bitcoiniumTicker, currencyPair);
@@ -64,8 +64,8 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw
     // Request data
     BitcoiniumOrderbook bitcoiniumOrderbook =
         getBitcoiniumOrderbook(
-            currencyPair.base.getCurrencyCode(),
-            currencyPair.counter.getCurrencyCode(),
+            currencyPair.getBase().getCurrencyCode(),
+            currencyPair.getCounter().getCurrencyCode(),
             priceWindow);
 
     // Adapt to XChange DTOs

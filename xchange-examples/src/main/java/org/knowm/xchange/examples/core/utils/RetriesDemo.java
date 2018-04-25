@@ -24,7 +24,7 @@ public class RetriesDemo {
   public static void main(String[] args) throws Exception {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class.getName());
     MarketDataService service = exchange.getMarketDataService();
-    CurrencyPair cp = new CurrencyPair("BTC", "MXN");
+    CurrencyPair cp = CurrencyPair.build("BTC", "MXN");
 
     try {
       getMarketDataTooFastWithoutRetries(service, cp);

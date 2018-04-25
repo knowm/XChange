@@ -27,7 +27,7 @@ import org.knowm.xchange.utils.CertHelper;
 /** @author Zach Holmes */
 public class PoloniexTradeDemo {
 
-  private static final CurrencyPair REP_ETH = new CurrencyPair("REP", "ETH");
+  private static final CurrencyPair REP_ETH = CurrencyPair.build("REP", "ETH");
 
   private static CurrencyPair currencyPair;
   private static BigDecimal xmrBuyRate;
@@ -37,7 +37,7 @@ public class PoloniexTradeDemo {
 
     Exchange poloniex = PoloniexExamplesUtils.getExchange();
     TradeService tradeService = poloniex.getTradeService();
-    currencyPair = new CurrencyPair(Currency.XMR, Currency.BTC);
+    currencyPair = CurrencyPair.build(Currency.XMR, Currency.BTC);
 
     /*
      * Make sure this is below the current market rate!!

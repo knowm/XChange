@@ -35,7 +35,7 @@ public class BitsoMarketDataDemo {
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
-    CurrencyPair cp = new CurrencyPair(Currency.BTC, Currency.MXN);
+    CurrencyPair cp = CurrencyPair.build(Currency.BTC, Currency.MXN);
     Ticker ticker = marketDataService.getTicker(cp);
     System.out.println("Ticker: " + ticker);
 

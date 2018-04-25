@@ -53,7 +53,7 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(CoinmateAdapters.adaptWallet(getCoinmateBalance()));
+    return AccountInfo.build(CoinmateAdapters.adaptWallet(getCoinmateBalance()));
   }
 
   @Override

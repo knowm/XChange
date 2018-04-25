@@ -34,7 +34,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(GDAXAdapters.adaptAccountInfo(getGDAXAccountInfo()));
+    return AccountInfo.build(GDAXAdapters.adaptAccountInfo(getGDAXAccountInfo()));
   }
 
   @Override
@@ -85,7 +85,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
     GDAXCoinbaseAccount depositAccount = null;
 
     for (GDAXCoinbaseAccount account : coinbaseAccounts) {
-      Currency accountCurrency = Currency.getInstance(account.getCurrency());
+      Currency accountCurrency = Currency.valueOf(account.getCurrency());
       if (account.isActive()
           && account.getType().equals("wallet")
           && accountCurrency.equals(currency)) {
@@ -116,7 +116,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
     List<FundingRecord> fundingHistory = new ArrayList<>();
 
     for (GDAXAccount gdaxAccount : getGDAXAccountInfo()) {
-      Currency currency = Currency.getInstance(gdaxAccount.getCurrency());
+      Currency currency = Currency.valueOf(gdaxAccount.getCurrency());
 
       if (params instanceof TradeHistoryParamCurrency) {
         Currency desiredCurrency = ((TradeHistoryParamCurrency) params).getCurrency();

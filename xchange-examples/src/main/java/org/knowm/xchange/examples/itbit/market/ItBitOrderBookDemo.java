@@ -28,7 +28,7 @@ public class ItBitOrderBookDemo {
     System.out.println(orderBook.toString());
 
     OrderBook orderBookAsXBT =
-        marketDataService.getOrderBook(new CurrencyPair(Currency.XBT, Currency.USD));
+        marketDataService.getOrderBook(CurrencyPair.build(Currency.XBT, Currency.USD));
     System.out.println(orderBookAsXBT.toString());
   }
 

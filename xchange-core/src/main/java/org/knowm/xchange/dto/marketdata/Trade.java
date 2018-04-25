@@ -31,8 +31,8 @@ public class Trade implements Serializable {
 
   /**
    * This constructor is called to create a public Trade object in {@link
-   * MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)}
-   * implementations) since it's missing the orderId and fee parameters.
+   * MarketDataService#getTrades(CurrencyPair, Object...)} implementations) since it's missing the
+   * orderId and fee parameters.
    *
    * @param type The trade type (BID side or ASK side)
    * @param originalAmount The depth of this trade

@@ -30,10 +30,10 @@ public class BitmexUtils {
     for (BitmexTicker ticker : tickers) {
       String quote = ticker.getQuoteCurrency();
       String base = ticker.getRootSymbol();
-      Currency baseCurrencyCode = Currency.getInstance(base);
-      Currency quoteCurrencyCode = Currency.getInstance(quote);
+      Currency baseCurrencyCode = Currency.valueOf(base);
+      Currency quoteCurrencyCode = Currency.valueOf(quote);
 
-      CurrencyPair pair = new CurrencyPair(base, quote);
+      CurrencyPair pair = CurrencyPair.build(base, quote);
       if (!assetPairMap.containsKey(ticker.getSymbol()) && !assetPairMap.containsValue(pair))
         assetPairMap.put(ticker.getSymbol(), pair);
       if (!assetsMap.containsKey(quote) && !assetsMap.containsValue(quoteCurrencyCode))
@@ -54,25 +54,25 @@ public class BitmexUtils {
     if (pair == null) {
       // bitmex can give short pairs back from open orders ?
       if (currencyPairIn.length() == 6) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 3));
+        Currency base = Currency.valueOf(currencyPairIn.substring(0, 3));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(3, 6));
+        Currency counter = Currency.valueOf(currencyPairIn.substring(3, 6));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
-        pair = new CurrencyPair(base, counter);
+        pair = CurrencyPair.build(base, counter);
       } else if (currencyPairIn.length() == 7) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 4));
+        Currency base = Currency.valueOf(currencyPairIn.substring(0, 4));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(4, 7));
+        Currency counter = Currency.valueOf(currencyPairIn.substring(4, 7));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
-        pair = new CurrencyPair(base, counter);
+        pair = CurrencyPair.build(base, counter);
       }
     }
     return pair;

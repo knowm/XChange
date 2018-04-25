@@ -22,7 +22,7 @@ public class TradesDemo {
 
     // Get the latest trade data for GHs/BTC since tid=5635556
     Trades trades =
-        marketDataService.getTrades(new CurrencyPair(Currency.GHs, Currency.BTC), 5909107);
+        marketDataService.getTrades(CurrencyPair.build(Currency.GHs, Currency.BTC), 5909107);
     System.out.println("Trades Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }

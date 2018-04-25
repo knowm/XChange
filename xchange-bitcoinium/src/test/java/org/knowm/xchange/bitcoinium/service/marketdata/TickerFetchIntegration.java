@@ -24,7 +24,7 @@ public class TickerFetchIntegration {
     System.out.println(exchangeSpecification.toString());
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "BITSTAMP_USD"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("BTC", "BITSTAMP_USD"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

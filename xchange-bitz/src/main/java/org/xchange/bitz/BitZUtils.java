@@ -9,8 +9,8 @@ public class BitZUtils {
   public static String toPairString(CurrencyPair currency) {
     return String.format(
         "%s_%s",
-        currency.base.getCurrencyCode().toLowerCase(),
-        currency.counter.getCurrencyCode().toLowerCase());
+        currency.getBase().getCurrencyCode().toLowerCase(),
+        currency.getCounter().getCurrencyCode().toLowerCase());
   }
 
   public static CurrencyPair toCurrencyPair(String pairstring) {
@@ -21,7 +21,7 @@ public class BitZUtils {
       Currency counter = Currency.getInstanceNoCreate(parts[1]);
 
       if (base != null && counter != null) {
-        return new CurrencyPair(base, counter);
+        return CurrencyPair.build(base, counter);
       }
     }
 

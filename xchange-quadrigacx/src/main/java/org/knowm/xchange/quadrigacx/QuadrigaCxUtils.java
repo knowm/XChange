@@ -39,8 +39,8 @@ public final class QuadrigaCxUtils {
   }
 
   public static String currencyPairToBook(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode().toLowerCase()
+    return currencyPair.getBase().getCurrencyCode().toLowerCase()
         + "_"
-        + currencyPair.counter.getCurrencyCode().toLowerCase();
+        + currencyPair.getCounter().getCurrencyCode().toLowerCase();
   }
 }

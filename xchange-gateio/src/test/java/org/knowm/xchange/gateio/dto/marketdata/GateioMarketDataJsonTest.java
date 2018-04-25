@@ -32,7 +32,7 @@ public class GateioMarketDataJsonTest {
     Map<CurrencyPair, GateioMarketInfo> marketInfoMap = marketInfoWrapper.getMarketInfoMap();
     assertThat(marketInfoMap).hasSize(2);
 
-    CurrencyPair pair = new CurrencyPair("LTC", "CNY");
+    CurrencyPair pair = CurrencyPair.build("LTC", "CNY");
     GateioMarketInfo marketInfo = marketInfoMap.get(pair);
     assertThat(marketInfo.getCurrencyPair()).isEqualTo(pair);
     assertThat(marketInfo.getDecimalPlaces()).isEqualTo(2);
@@ -55,7 +55,7 @@ public class GateioMarketDataJsonTest {
     Collection<CurrencyPair> pairs = currencyPairs.getPairs();
     assertThat(pairs).hasSize(83);
 
-    assertThat(pairs.contains(new CurrencyPair("TIPS", "CNY"))).isTrue();
+    assertThat(pairs.contains(CurrencyPair.build("TIPS", "CNY"))).isTrue();
   }
 
   @Test

@@ -61,7 +61,7 @@ public class QuoineExchange extends BaseExchange implements Exchange {
       int id = quoineProduct.getId();
       String baseCurrency = quoineProduct.getBaseCurrency();
       String quotedCurrency = quoineProduct.getQuotedCurrency();
-      CurrencyPair currencyPair = new CurrencyPair(baseCurrency, quotedCurrency);
+      CurrencyPair currencyPair = CurrencyPair.build(baseCurrency, quotedCurrency);
       products.put(currencyPair, id);
     }
     this.products = products;

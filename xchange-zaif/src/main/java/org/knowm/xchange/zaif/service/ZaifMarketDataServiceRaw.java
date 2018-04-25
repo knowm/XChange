@@ -18,8 +18,8 @@ public class ZaifMarketDataServiceRaw extends ZaifBaseService {
   public ZaifFullBook getZaifFullBook(CurrencyPair currencyPair) throws IOException {
     try {
       return this.zaif.getDepth(
-          currencyPair.base.toString().toLowerCase(),
-          currencyPair.counter.toString().toLowerCase());
+          currencyPair.getBase().toString().toLowerCase(),
+          currencyPair.getCounter().toString().toLowerCase());
     } catch (ZaifException e) {
       throw new ExchangeException(e.getMessage());
     }
@@ -37,10 +37,10 @@ public class ZaifMarketDataServiceRaw extends ZaifBaseService {
 
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-          && cp.counter
+      if (cp.getBase().getCurrencyCode().equalsIgnoreCase(currencyPair.getBase().getCurrencyCode())
+          && cp.getCounter()
               .getCurrencyCode()
-              .equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+              .equalsIgnoreCase(currencyPair.getCounter().getCurrencyCode())) {
         currencyPairSupported = true;
         break;
       }

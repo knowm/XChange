@@ -26,7 +26,7 @@ public class CexIOFeeInfo extends CexIOApiResponse<Map<CurrencyPair, CexIOFeeInf
     public CurrencyPair deserializeKey(
         String value, DeserializationContext deserializationContext) {
       String[] currencies = value.split(":");
-      return new CurrencyPair(currencies[0], currencies[1]);
+      return CurrencyPair.build(currencies[0], currencies[1]);
     }
   }
 

@@ -23,8 +23,8 @@ public class QuadrigaCxMarketDataServiceRaw extends QuadrigaCxBaseService {
 
   public QuadrigaCxOrderBook getQuadrigaCxOrderBook(CurrencyPair currencyPair) throws IOException {
     return quadrigacx.getOrderBook(
-        currencyPair.base.getCurrencyCode().toLowerCase(),
-        currencyPair.counter.getCurrencyCode().toLowerCase());
+        currencyPair.getBase().getCurrencyCode().toLowerCase(),
+        currencyPair.getCounter().getCurrencyCode().toLowerCase());
   }
 
   public QuadrigaCxTransaction[] getQuadrigaCxTransactions(
@@ -35,17 +35,17 @@ public class QuadrigaCxMarketDataServiceRaw extends QuadrigaCxBaseService {
     if (args.length == 0) {
       transactions =
           quadrigacx.getTransactions(
-              currencyPair.base.getCurrencyCode().toLowerCase(),
+              currencyPair.getBase().getCurrencyCode().toLowerCase(),
               currencyPair
-                  .counter
+                  .getCounter()
                   .getCurrencyCode()
                   .toLowerCase()); // default values: offset=0, limit=100
     } else if (args.length == 1) {
       QuadrigaCxTime quadrigacxTime = QuadrigaCxTime.valueOf(((String) args[0]).toUpperCase());
       transactions =
           quadrigacx.getTransactions(
-              currencyPair.base.getCurrencyCode(),
-              currencyPair.counter.getCurrencyCode(),
+              currencyPair.getBase().getCurrencyCode(),
+              currencyPair.getCounter().getCurrencyCode(),
               quadrigacxTime.toString().toLowerCase()); // default values: limit=100
     } else {
       throw new ExchangeException("Invalid argument length. Must be 0, or 1.");
@@ -55,8 +55,8 @@ public class QuadrigaCxMarketDataServiceRaw extends QuadrigaCxBaseService {
 
   public QuadrigaCxTicker getQuadrigaCxTicker(CurrencyPair currencyPair) throws IOException {
     return quadrigacx.getTicker(
-        currencyPair.base.getCurrencyCode().toLowerCase(),
-        currencyPair.counter.getCurrencyCode().toLowerCase());
+        currencyPair.getBase().getCurrencyCode().toLowerCase(),
+        currencyPair.getCounter().getCurrencyCode().toLowerCase());
   }
 
   public enum QuadrigaCxTime {

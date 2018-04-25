@@ -166,53 +166,59 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
 
   public static Balance[] expectedInfoBalances() {
     return new Balance[] {
-      new Balance(
-          Currency.LTC,
-          new BigDecimal("10.390000000000"),
-          new BigDecimal("10.301000000000"),
-          new BigDecimal("0.089"),
-          new BigDecimal("0"),
-          new BigDecimal("0"),
-          new BigDecimal("0"),
-          new BigDecimal("0")),
-      new Balance(
-          Currency.PLN,
-          new BigDecimal("63.566000000000"),
-          new BigDecimal("4.166000000000"),
-          new BigDecimal("59.4"),
-          new BigDecimal("0"),
-          new BigDecimal("0"),
-          new BigDecimal("0"),
-          new BigDecimal("0")),
-      new Balance(
-          Currency.BTC,
-          new BigDecimal("0.029140000000"),
-          new BigDecimal("0.029140000000"),
-          new BigDecimal("0"),
-          new BigDecimal("0"),
-          new BigDecimal("0"),
-          new BigDecimal("0"),
-          new BigDecimal("0"))
+      new Balance.Builder()
+          .setCurrency(Currency.LTC)
+          .setTotal(new BigDecimal("10.390000000000"))
+          .setAvailable(new BigDecimal("10.301000000000"))
+          .setFrozen(new BigDecimal("0.089"))
+          .setBorrowed(new BigDecimal("0"))
+          .setLoaned(new BigDecimal("0"))
+          .setWithdrawing(new BigDecimal("0"))
+          .setDepositing(new BigDecimal("0"))
+          .createBalance(),
+      new Balance.Builder()
+          .setCurrency(Currency.PLN)
+          .setTotal(new BigDecimal("63.566000000000"))
+          .setAvailable(new BigDecimal("4.166000000000"))
+          .setFrozen(new BigDecimal("59.4"))
+          .setBorrowed(new BigDecimal("0"))
+          .setLoaned(new BigDecimal("0"))
+          .setWithdrawing(new BigDecimal("0"))
+          .setDepositing(new BigDecimal("0"))
+          .createBalance(),
+      new Balance.Builder()
+          .setCurrency(Currency.BTC)
+          .setTotal(new BigDecimal("0.029140000000"))
+          .setAvailable(new BigDecimal("0.029140000000"))
+          .setFrozen(new BigDecimal("0"))
+          .setBorrowed(new BigDecimal("0"))
+          .setLoaned(new BigDecimal("0"))
+          .setWithdrawing(new BigDecimal("0"))
+          .setDepositing(new BigDecimal("0"))
+          .createBalance()
     };
   }
 
   public static Balance[] expectedBalances() {
     return new Balance[] {
-      new Balance(
-          Currency.BTC,
-          new BigDecimal("20.00000000"),
-          new BigDecimal("10.00000000"),
-          new BigDecimal("10.00000000")),
-      new Balance(
-          Currency.AUD,
-          new BigDecimal("40.00000000"),
-          new BigDecimal("20.00000000"),
-          new BigDecimal("20.00000000")),
-      new Balance(
-          Currency.PLN,
-          new BigDecimal("60.00000000"),
-          new BigDecimal("30.00000000"),
-          new BigDecimal("30.00000000")),
+      new Balance.Builder()
+          .setCurrency(Currency.BTC)
+          .setTotal(new BigDecimal("20.00000000"))
+          .setAvailable(new BigDecimal("10.00000000"))
+          .setFrozen(new BigDecimal("10.00000000"))
+          .createBalance(),
+      new Balance.Builder()
+          .setCurrency(Currency.AUD)
+          .setTotal(new BigDecimal("40.00000000"))
+          .setAvailable(new BigDecimal("20.00000000"))
+          .setFrozen(new BigDecimal("20.00000000"))
+          .createBalance(),
+      new Balance.Builder()
+          .setCurrency(Currency.PLN)
+          .setTotal(new BigDecimal("60.00000000"))
+          .setAvailable(new BigDecimal("30.00000000"))
+          .setFrozen(new BigDecimal("30.00000000"))
+          .createBalance(),
     };
   }
 

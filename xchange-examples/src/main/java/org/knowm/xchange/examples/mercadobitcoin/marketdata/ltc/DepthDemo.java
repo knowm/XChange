@@ -35,7 +35,7 @@ public class DepthDemo {
 
     // Get the latest order book data for LTC/BRL
     OrderBook orderBook =
-        marketDataService.getOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));
+        marketDataService.getOrderBook(CurrencyPair.build(Currency.LTC, Currency.BRL));
 
     System.out.println(
         "Current Order Book size for LTC / BRL: "
@@ -56,7 +56,8 @@ public class DepthDemo {
 
     // Get the latest order book data for LTC/BRL
     MercadoBitcoinOrderBook orderBook =
-        marketDataService.getMercadoBitcoinOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));
+        marketDataService.getMercadoBitcoinOrderBook(
+            CurrencyPair.build(Currency.LTC, Currency.BRL));
 
     System.out.println(
         "Current Order Book size for LTC / BRL: "

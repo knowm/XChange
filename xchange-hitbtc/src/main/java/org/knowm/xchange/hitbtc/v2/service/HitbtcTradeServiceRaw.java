@@ -30,8 +30,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   public HitbtcOrder placeMarketOrderRaw(MarketOrder marketOrder) throws IOException {
 
     String symbol =
-        marketOrder.getCurrencyPair().base.getCurrencyCode()
-            + marketOrder.getCurrencyPair().counter.getCurrencyCode();
+        marketOrder.getCurrencyPair().getBase().getCurrencyCode()
+            + marketOrder.getCurrencyPair().getCounter().getCurrencyCode();
     String side = HitbtcAdapters.getSide(marketOrder.getType()).toString();
 
     String clientOrderId = StringUtils.isBlank(marketOrder.getId()) ? null : marketOrder.getId();

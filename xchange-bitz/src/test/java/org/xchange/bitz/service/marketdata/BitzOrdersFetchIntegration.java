@@ -17,7 +17,7 @@ public class BitzOrdersFetchIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    OrderBook orders = marketDataService.getOrderBook(new CurrencyPair("LTC", "BTC"));
+    OrderBook orders = marketDataService.getOrderBook(CurrencyPair.build("LTC", "BTC"));
 
     // Verify Not Null Values
     assertThat(orders).isNotNull();

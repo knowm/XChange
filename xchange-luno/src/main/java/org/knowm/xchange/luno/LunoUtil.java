@@ -7,7 +7,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 public class LunoUtil {
 
   public static String toLunoPair(CurrencyPair pair) {
-    return toLunoCurrency(pair.base) + toLunoCurrency(pair.counter);
+    return toLunoCurrency(pair.getBase()) + toLunoCurrency(pair.getCounter());
   }
 
   public static String toLunoCurrency(Currency c) {
@@ -29,7 +29,7 @@ public class LunoUtil {
       default:
         in = c;
     }
-    return Currency.getInstance(in);
+    return Currency.valueOf(in);
   }
 
   /**
@@ -63,7 +63,7 @@ public class LunoUtil {
    * @return
    */
   public static CurrencyPair fromLunoPair(String lunoPair) {
-    return new CurrencyPair(
+    return CurrencyPair.build(
         fromLunoCurrency(lunoPair.substring(0, 3)), fromLunoCurrency(lunoPair.substring(3)));
   }
 }

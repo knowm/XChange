@@ -27,7 +27,7 @@ public final class BitcoinChartsAdapters {
       BitcoinChartsTicker[] bitcoinChartsTickers, CurrencyPair currencyPair) {
 
     for (int i = 0; i < bitcoinChartsTickers.length; i++) {
-      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.counter.getCurrencyCode())) {
+      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.getCounter().getCurrencyCode())) {
 
         BigDecimal last =
             bitcoinChartsTickers[i].getClose() != null ? bitcoinChartsTickers[i].getClose() : null;
@@ -72,7 +72,7 @@ public final class BitcoinChartsAdapters {
               ticker.getHigh());
       int scale = anyPrice != null ? anyPrice.scale() : 0;
       pairs.put(
-          new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())),
+          CurrencyPair.build(Currency.BTC, Currency.valueOf(ticker.getSymbol())),
           new CurrencyPairMetaData(null, null, null, scale));
     }
 

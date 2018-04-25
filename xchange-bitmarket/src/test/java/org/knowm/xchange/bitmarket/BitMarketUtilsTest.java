@@ -15,7 +15,7 @@ public class BitMarketUtilsTest {
     assertThat(BitMarketUtils.bitMarketCurrencyPairToCurrencyPair("BTCEUR"))
         .isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(BitMarketUtils.bitMarketCurrencyPairToCurrencyPair("LTCPLN"))
-        .isEqualTo(new CurrencyPair("LTC", "PLN"));
+        .isEqualTo(CurrencyPair.build("LTC", "PLN"));
     assertThat(BitMarketUtils.bitMarketCurrencyPairToCurrencyPair("LTCBTC"))
         .isEqualTo(CurrencyPair.LTC_BTC);
     //    assertThat(BitMarketUtils.BitMarketCurrencyPairToCurrencyPair("LiteMineXBTC"))
@@ -28,7 +28,7 @@ public class BitMarketUtilsTest {
         .isEqualTo("BTCPLN");
     assertThat(BitMarketUtils.currencyPairToBitMarketCurrencyPair(CurrencyPair.BTC_EUR))
         .isEqualTo("BTCEUR");
-    assertThat(BitMarketUtils.currencyPairToBitMarketCurrencyPair(new CurrencyPair("LTC", "PLN")))
+    assertThat(BitMarketUtils.currencyPairToBitMarketCurrencyPair(CurrencyPair.build("LTC", "PLN")))
         .isEqualTo("LTCPLN");
     assertThat(BitMarketUtils.currencyPairToBitMarketCurrencyPair(CurrencyPair.LTC_BTC))
         .isEqualTo("LTCBTC");

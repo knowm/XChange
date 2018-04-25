@@ -29,7 +29,7 @@ public class LiquiOrderInfoJSONTest {
     final LiquiOrderInfo order = orders.get(108998425L);
     assertThat(order).isNotNull();
 
-    assertThat(order.getPair()).isEqualTo(new CurrencyPair("trx", "btc"));
+    assertThat(order.getPair()).isEqualTo(CurrencyPair.build("trx", "btc"));
     assertThat(order.getType()).isEqualTo(LiquiTradeType.SELL);
     assertThat(order.getAmount()).isEqualTo(new BigDecimal("1.0"));
     assertThat(order.getStartAmount()).isEqualTo(new BigDecimal("1.0"));

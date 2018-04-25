@@ -18,7 +18,7 @@ public class OrderBookFetchIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("XBT", "USD"));
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.build("XBT", "USD"));
     //    System.out.println(orderBook.toString());
     assertThat(orderBook).isNotNull();
   }

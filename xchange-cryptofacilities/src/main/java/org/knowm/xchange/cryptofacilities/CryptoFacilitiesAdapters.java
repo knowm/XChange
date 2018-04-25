@@ -19,11 +19,11 @@ import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrderBo
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -57,7 +57,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static Currency adaptCurrency(String code) {
-    return Currency.getInstance(code);
+    return Currency.valueOf(code);
   }
 
   public static AccountInfo adaptAccount(
@@ -70,18 +70,23 @@ public class CryptoFacilitiesAdapters {
       if (balancePair.getKey().equalsIgnoreCase("xbt")) {
         // For xbt balance we construct both total=deposited xbt and available=total - margin
         // balances
+        BigDecimal total = balancePair.getValue();
+        BigDecimal available = cryptoFacilitiesAccount.getAuxiliary().get("af");
         balance =
-            new Balance(
-                Currency.BTC,
-                balancePair.getValue(),
-                cryptoFacilitiesAccount.getAuxiliary().get("af"));
+            new Builder()
+                .setCurrency(Currency.BTC)
+                .setTotal(total)
+                .setAvailable(available)
+                .setFrozen(total.add(available.negate()))
+                .createBalance();
       } else {
         Currency currency = adaptCurrency(balancePair.getKey());
-        balance = new Balance(currency, balancePair.getValue());
+        balance =
+            new Builder().setCurrency(currency).setTotal(balancePair.getValue()).createBalance();
       }
       balances.add(balance);
     }
-    return new AccountInfo(username, new Wallet(balances));
+    return AccountInfo.build(username, Wallet.build(balances));
   }
 
   public static AccountInfo adaptAccounts(
@@ -90,30 +95,43 @@ public class CryptoFacilitiesAdapters {
     Map<String, CryptoFacilitiesAccountInfo> accounts = cryptoFacilitiesAccounts.getAccounts();
     List<Wallet> wallets = new ArrayList<>();
 
-    for (String accountName : accounts.keySet()) {
-      List<Balance> balances = new ArrayList<>(accounts.get(accountName).getBalances().size());
+    for (Entry<String, CryptoFacilitiesAccountInfo> stringCryptoFacilitiesAccountInfoEntry :
+        accounts.entrySet()) {
+      List<Balance> balances =
+          new ArrayList<>(stringCryptoFacilitiesAccountInfoEntry.getValue().getBalances().size());
       Balance balance;
 
       for (Entry<String, BigDecimal> balancePair :
-          accounts.get(accountName).getBalances().entrySet()) {
-        if (!accountName.equalsIgnoreCase("cash") && balancePair.getKey().equalsIgnoreCase("xbt")) {
+          stringCryptoFacilitiesAccountInfoEntry.getValue().getBalances().entrySet()) {
+        if (!(stringCryptoFacilitiesAccountInfoEntry.getKey()).equalsIgnoreCase("cash")
+            && balancePair.getKey().equalsIgnoreCase("xbt")) {
           // For xbt balance we construct both total=deposited xbt and available=total - margin
           // balances
+          BigDecimal total = balancePair.getValue();
+          BigDecimal available =
+              stringCryptoFacilitiesAccountInfoEntry.getValue().getAuxiliary().get("af");
           balance =
-              new Balance(
-                  Currency.BTC,
-                  balancePair.getValue(),
-                  accounts.get(accountName).getAuxiliary().get("af"));
+              new Builder()
+                  .setCurrency(Currency.BTC)
+                  .setTotal(total)
+                  .setAvailable(available)
+                  .setFrozen(total.add(available.negate()))
+                  .createBalance();
         } else {
           Currency currency = adaptCurrency(balancePair.getKey());
-          balance = new Balance(currency, balancePair.getValue());
+          balance =
+              new Builder().setCurrency(currency).setTotal(balancePair.getValue()).createBalance();
         }
         balances.add(balance);
       }
 
-      wallets.add(new Wallet(accountName, accountName, balances));
+      wallets.add(
+          Wallet.build(
+              stringCryptoFacilitiesAccountInfoEntry.getKey(),
+              (String) stringCryptoFacilitiesAccountInfoEntry.getKey(),
+              balances));
     }
-    return new AccountInfo(username, wallets);
+    return AccountInfo.build(username, wallets);
   }
 
   public static String adaptOrderId(CryptoFacilitiesOrder order) {
@@ -141,7 +159,7 @@ public class CryptoFacilitiesAdapters {
     return new LimitOrder(
         adaptOrderType(ord.getDirection()),
         ord.getQuantity(),
-        new CurrencyPair(ord.getSymbol(), ord.getSymbol().substring(6, 9)),
+        CurrencyPair.build(ord.getSymbol(), ord.getSymbol().substring(6, 9)),
         ord.getId(),
         ord.getTimestamp(),
         ord.getLimitPrice(),
@@ -171,7 +189,7 @@ public class CryptoFacilitiesAdapters {
     return new UserTrade(
         adaptOrderType(fill.getSide()),
         fill.getSize(),
-        new CurrencyPair(fill.getSymbol(), fill.getSymbol().substring(6, 9)),
+        CurrencyPair.build(fill.getSymbol(), fill.getSymbol().substring(6, 9)),
         fill.getPrice(),
         fill.getFillTime(),
         fill.getFillId(),
@@ -197,18 +215,18 @@ public class CryptoFacilitiesAdapters {
     List<LimitOrder> asks =
         createOrders(
             cryptoFacilitiesOrderBook.getCurrencyPair(),
-            Order.OrderType.ASK,
+            OrderType.ASK,
             cryptoFacilitiesOrderBook.getAsks());
     List<LimitOrder> bids =
         createOrders(
             cryptoFacilitiesOrderBook.getCurrencyPair(),
-            Order.OrderType.BID,
+            OrderType.BID,
             cryptoFacilitiesOrderBook.getBids());
     return new OrderBook(cryptoFacilitiesOrderBook.getServerTime(), asks, bids);
   }
 
   public static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
@@ -220,7 +238,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static LimitOrder createOrder(
-      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));

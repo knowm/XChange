@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 
 public class CoinfloorBalance {
   @JsonProperty("gbp_balance")
@@ -103,21 +104,61 @@ public class CoinfloorBalance {
 
   public Balance getBalance(Currency currency) {
     if (currency.equals(Currency.XBT)) {
-      return new Balance(currency, btcBalance, btcAvailable, btcReserved);
+      return new Builder()
+          .setCurrency(currency)
+          .setTotal(btcBalance)
+          .setAvailable(btcAvailable)
+          .setFrozen(btcReserved)
+          .createBalance();
     } else if (currency.equals(Currency.GBP)) {
-      return new Balance(currency, gbpBalance, gbpAvailable, gbpReserved);
+      return new Builder()
+          .setCurrency(currency)
+          .setTotal(gbpBalance)
+          .setAvailable(gbpAvailable)
+          .setFrozen(gbpReserved)
+          .createBalance();
     } else if (currency.equals(Currency.EUR)) {
-      return new Balance(currency, eurBalance, eurAvailable, eurReserved);
+      return new Builder()
+          .setCurrency(currency)
+          .setTotal(eurBalance)
+          .setAvailable(eurAvailable)
+          .setFrozen(eurReserved)
+          .createBalance();
     } else if (currency.equals(Currency.USD)) {
-      return new Balance(currency, usdBalance, usdAvailable, usdReserved);
+      return new Builder()
+          .setCurrency(currency)
+          .setTotal(usdBalance)
+          .setAvailable(usdAvailable)
+          .setFrozen(usdReserved)
+          .createBalance();
     } else if (currency.equals(Currency.BCH)) {
-      return new Balance(currency, bchBalance, bchAvailable, bchReserved);
+      return new Builder()
+          .setCurrency(currency)
+          .setTotal(bchBalance)
+          .setAvailable(bchAvailable)
+          .setFrozen(bchReserved)
+          .createBalance();
     } else if (currency.equals(Currency.XRP)) {
-      return new Balance(currency, xrpBalance, xrpAvailable, xrpReserved);
+      return new Builder()
+          .setCurrency(currency)
+          .setTotal(xrpBalance)
+          .setAvailable(xrpAvailable)
+          .setFrozen(xrpReserved)
+          .createBalance();
     } else if (currency.equals(Currency.LTC)) {
-      return new Balance(currency, ltcBalance, ltcAvailable, ltcReserved);
+      return new Builder()
+          .setCurrency(currency)
+          .setTotal(ltcBalance)
+          .setAvailable(ltcAvailable)
+          .setFrozen(ltcReserved)
+          .createBalance();
     } else if (currency.equals(Currency.ETH)) {
-      return new Balance(currency, ethBalance, ethAvailable, ethReserved);
+      return new Builder()
+          .setCurrency(currency)
+          .setTotal(ethBalance)
+          .setAvailable(ethAvailable)
+          .setFrozen(ethReserved)
+          .createBalance();
     } else {
       throw new IllegalArgumentException("Unsupported currency: " + currency);
     }

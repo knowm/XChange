@@ -25,12 +25,12 @@ public class BitcoinChartsTickerDemo {
     MarketDataService marketDataService = bitcoinChartsExchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC/bitstampUSD
-    CurrencyPair currencyPair = new CurrencyPair("BTC", "bitstampUSD");
+    CurrencyPair currencyPair = CurrencyPair.build("BTC", "bitstampUSD");
     Ticker ticker = marketDataService.getTicker(currencyPair);
 
     double value = ticker.getLast().doubleValue();
 
-    String currency = ticker.getCurrencyPair().counter.getCurrencyCode();
+    String currency = ticker.getCurrencyPair().getCounter().getCurrencyCode();
     System.out.println("bitstampUSD Last: " + currency + "-" + value);
     System.out.println("bitstampUSD Last: " + ticker.getLast().toString());
   }

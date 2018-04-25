@@ -91,7 +91,7 @@ public class HuobiPrivateApiIntegration {
         new LimitOrder(
             OrderType.BID,
             new BigDecimal("0.001"),
-            new CurrencyPair("BTC", "USDT"),
+            CurrencyPair.build("BTC", "USDT"),
             String.valueOf(accounts[0].getId()),
             null,
             new BigDecimal("10000"));
@@ -111,7 +111,7 @@ public class HuobiPrivateApiIntegration {
         new MarketOrder(
             OrderType.BID,
             new BigDecimal("0.001"),
-            new CurrencyPair("BTC", "USDT"),
+            CurrencyPair.build("BTC", "USDT"),
             String.valueOf(accounts[0].getId()),
             null);
     String orderId = tradeService.placeMarketOrder(marketOrder);

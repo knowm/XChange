@@ -10,15 +10,15 @@ public final class BleutradeUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.base.getCurrencyCode().toUpperCase()
+    return currencyPair.getBase().getCurrencyCode().toUpperCase()
         + "_"
-        + currencyPair.counter.getCurrencyCode().toUpperCase();
+        + currencyPair.getCounter().getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair toCurrencyPair(String pairString) {
 
     String[] currencies = pairString.split("_");
-    return new CurrencyPair(currencies[0], currencies[1]);
+    return CurrencyPair.build(currencies[0], currencies[1]);
   }
 
   public static Date toDate(String timeStamp) {

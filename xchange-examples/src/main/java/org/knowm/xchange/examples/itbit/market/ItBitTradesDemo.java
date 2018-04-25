@@ -25,7 +25,7 @@ public class ItBitTradesDemo {
     System.out.println(trades.toString());
 
     Trades tradesAsXBT =
-        marketDataService.getTrades(new CurrencyPair(Currency.XBT, Currency.USD), 22233);
+        marketDataService.getTrades(CurrencyPair.build(Currency.XBT, Currency.USD), 22233);
     System.out.println(tradesAsXBT.toString());
   }
 }

@@ -15,37 +15,45 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class BleutradeTestData {
 
-  protected static final CurrencyPair BLEU_BTC_CP = new CurrencyPair("BLEU", "BTC");
+  protected static final CurrencyPair BLEU_BTC_CP = CurrencyPair.build("BLEU", "BTC");
 
   protected static Balance[] expectedAccountBalances() {
     return new Balance[] {
-      new Balance(
-          Currency.AUD,
-          new BigDecimal("40.00000000"),
-          new BigDecimal("10.00000000"),
-          new BigDecimal("30.00000000")),
-      new Balance(
-          Currency.BTC,
-          new BigDecimal("100.00000000"),
-          new BigDecimal("40.00000000"),
-          new BigDecimal("60.00000000")),
-      new Balance(
-          Currency.getInstance("BLEU"),
-          new BigDecimal("160.00000000"),
-          new BigDecimal("70.00000000"),
-          new BigDecimal("90.00000000")),
+      new Balance.Builder()
+          .setCurrency(Currency.AUD)
+          .setTotal(new BigDecimal("40.00000000"))
+          .setAvailable(new BigDecimal("10.00000000"))
+          .setFrozen(new BigDecimal("30.00000000"))
+          .createBalance(),
+      new Balance.Builder()
+          .setCurrency(Currency.BTC)
+          .setTotal(new BigDecimal("100.00000000"))
+          .setAvailable(new BigDecimal("40.00000000"))
+          .setFrozen(new BigDecimal("60.00000000"))
+          .createBalance(),
+      new Balance.Builder()
+          .setCurrency(Currency.valueOf("BLEU"))
+          .setTotal(new BigDecimal("160.00000000"))
+          .setAvailable(new BigDecimal("70.00000000"))
+          .setFrozen(new BigDecimal("90.00000000"))
+          .createBalance(),
     };
   }
 
   protected static Balance[] expectedBalances() {
     return new Balance[] {
-      new Balance(
-          Currency.DOGE, new BigDecimal("0E-8"), new BigDecimal("0E-8"), new BigDecimal("0E-8")),
-      new Balance(
-          Currency.BTC,
-          new BigDecimal("15.49843675"),
-          new BigDecimal("13.98901996"),
-          new BigDecimal("0E-8")),
+      new Balance.Builder()
+          .setCurrency(Currency.DOGE)
+          .setTotal(new BigDecimal("0E-8"))
+          .setAvailable(new BigDecimal("0E-8"))
+          .setFrozen(new BigDecimal("0E-8"))
+          .createBalance(),
+      new Balance.Builder()
+          .setCurrency(Currency.BTC)
+          .setTotal(new BigDecimal("15.49843675"))
+          .setAvailable(new BigDecimal("13.98901996"))
+          .setFrozen(new BigDecimal("0E-8"))
+          .createBalance(),
     };
   }
 

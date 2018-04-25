@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -18,10 +17,10 @@ import org.knowm.xchange.bitcoinde.trade.BitcoindeMyOpenOrdersWrapper;
 import org.knowm.xchange.bitcoinde.trade.BitcoindeMyOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -36,19 +35,9 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 public final class BitcoindeAdapters {
 
   public static final Comparator<LimitOrder> ASK_COMPARATOR =
-      new Comparator<LimitOrder>() {
-        @Override
-        public int compare(LimitOrder o1, LimitOrder o2) {
-          return o1.getLimitPrice().compareTo(o2.getLimitPrice());
-        }
-      };
+      (o1, o2) -> o1.getLimitPrice().compareTo(o2.getLimitPrice());
   public static final Comparator<LimitOrder> BID_COMPARATOR =
-      new Comparator<LimitOrder>() {
-        @Override
-        public int compare(LimitOrder o1, LimitOrder o2) {
-          return o2.getLimitPrice().compareTo(o1.getLimitPrice());
-        }
-      };
+      (o1, o2) -> o2.getLimitPrice().compareTo(o1.getLimitPrice());
 
   /** Private constructor. */
   private BitcoindeAdapters() {}
@@ -70,17 +59,13 @@ public final class BitcoindeAdapters {
 
     List<LimitOrder> asks =
         createOrders(
-            currencyPair,
-            Order.OrderType.ASK,
-            bitcoindeOrderbookWrapper.getBitcoindeOrders().getAsks());
+            currencyPair, OrderType.ASK, bitcoindeOrderbookWrapper.getBitcoindeOrders().getAsks());
     List<LimitOrder> bids =
         createOrders(
-            currencyPair,
-            Order.OrderType.BID,
-            bitcoindeOrderbookWrapper.getBitcoindeOrders().getBids());
+            currencyPair, OrderType.BID, bitcoindeOrderbookWrapper.getBitcoindeOrders().getBids());
 
-    Collections.sort(bids, BID_COMPARATOR);
-    Collections.sort(asks, ASK_COMPARATOR);
+    bids.sort(BID_COMPARATOR);
+    asks.sort(ASK_COMPARATOR);
     return new OrderBook(null, asks, bids);
   }
 
@@ -98,18 +83,20 @@ public final class BitcoindeAdapters {
     BitcoindeBalance eth = bitcoindeAccount.getData().getBalances().getEth();
     BigDecimal eur = bitcoindeAccount.getData().getFidorReservation().getAvailableAmount();
 
-    Balance btcBalance = new Balance(Currency.BTC, btc.getAvailableAmount());
-    Balance ethBalance = new Balance(Currency.ETH, eth.getAvailableAmount());
-    Balance eurBalance = new Balance(Currency.EUR, eur);
+    Balance btcBalance =
+        new Builder().setCurrency(Currency.BTC).setTotal(btc.getAvailableAmount()).createBalance();
+    Balance ethBalance =
+        new Builder().setCurrency(Currency.ETH).setTotal(eth.getAvailableAmount()).createBalance();
+    Balance eurBalance = new Builder().setCurrency(Currency.EUR).setTotal(eur).createBalance();
 
-    Wallet wallet = new Wallet(btcBalance, ethBalance, eurBalance);
+    Wallet wallet = Wallet.build(btcBalance, ethBalance, eurBalance);
 
-    return new AccountInfo(wallet);
+    return AccountInfo.build(wallet);
   }
 
   /** Create a list of orders from a list of asks or bids. */
   public static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair, Order.OrderType orderType, BitcoindeOrder[] orders) {
+      CurrencyPair currencyPair, OrderType orderType, BitcoindeOrder[] orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (BitcoindeOrder order : orders) {
@@ -122,7 +109,7 @@ public final class BitcoindeAdapters {
   public static LimitOrder createOrder(
       CurrencyPair currencyPair,
       BitcoindeOrder bitcoindeOrder,
-      Order.OrderType orderType,
+      OrderType orderType,
       String orderId,
       Date timeStamp) {
 

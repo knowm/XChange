@@ -38,17 +38,17 @@ public class TradesDemo {
   private static void generic(Long now, MarketDataService marketDataService) throws IOException {
 
     // Get the latest trade data for LTC/BRL
-    Trades trades = marketDataService.getTrades(new CurrencyPair(Currency.LTC, Currency.BRL));
+    Trades trades = marketDataService.getTrades(CurrencyPair.build(Currency.LTC, Currency.BRL));
     System.out.println("Trades, default. Size= " + trades.getTrades().size());
 
     trades =
         marketDataService.getTrades(
-            new CurrencyPair(Currency.LTC, Currency.BRL), now - (24L * 60L * 60L * 1000L));
+            CurrencyPair.build(Currency.LTC, Currency.BRL), now - (24L * 60L * 60L * 1000L));
     System.out.println("Trades, last 24h= " + trades.getTrades().size());
 
     trades =
         marketDataService.getTrades(
-            new CurrencyPair(Currency.LTC, Currency.BRL), 1406851200000L, 1409529600000L);
+            CurrencyPair.build(Currency.LTC, Currency.BRL), 1406851200000L, 1409529600000L);
     System.out.println("Trades, since Aug 2014 to Sep 2014= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }
@@ -59,17 +59,17 @@ public class TradesDemo {
     // Get the latest trade data for LTC/BRL
     MercadoBitcoinTransaction[] trades =
         marketDataService.getMercadoBitcoinTransactions(
-            new CurrencyPair(Currency.LTC, Currency.BRL));
+            CurrencyPair.build(Currency.LTC, Currency.BRL));
     System.out.println("Trades, default. Size= " + trades.length);
 
     trades =
         marketDataService.getMercadoBitcoinTransactions(
-            new CurrencyPair(Currency.LTC, Currency.BRL), now - (24L * 60L * 60L * 1000L));
+            CurrencyPair.build(Currency.LTC, Currency.BRL), now - (24L * 60L * 60L * 1000L));
     System.out.println("Trades, last 24h= " + trades.length);
 
     trades =
         marketDataService.getMercadoBitcoinTransactions(
-            new CurrencyPair(Currency.LTC, Currency.BRL), 1406851200000L, 1409529600000L);
+            CurrencyPair.build(Currency.LTC, Currency.BRL), 1406851200000L, 1409529600000L);
     System.out.println("Trades, since Aug 2014 to Sep 2014= " + trades.length);
     System.out.println(Arrays.toString(trades));
   }

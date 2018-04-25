@@ -148,7 +148,8 @@ public final class CryptonitAdapters {
     BigDecimal low = rate.getLow();
     BigDecimal bid = rate.getBid();
     BigDecimal ask = rate.getAsk();
-    BigDecimal volume = cryptonitTicker.getVolume().getVolume(currencyPair.base.getCurrencyCode());
+    BigDecimal volume =
+        cryptonitTicker.getVolume().getVolume(currencyPair.getBase().getCurrencyCode());
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -166,7 +167,7 @@ public final class CryptonitAdapters {
     Set<CurrencyPair> currencyPairs = new HashSet<>();
     for (List<String> tradingPair : tradingPairs) {
       if (tradingPair.size() == 2) {
-        CurrencyPair currencyPair = new CurrencyPair(tradingPair.get(1), tradingPair.get(0));
+        CurrencyPair currencyPair = CurrencyPair.build(tradingPair.get(1), tradingPair.get(0));
         currencyPairs.add(currencyPair);
       }
     }

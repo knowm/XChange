@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -25,7 +26,7 @@ import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
 import org.known.xchange.acx.dto.marketdata.AcxTicker;
 
 public class AcxMapper {
-  public Ticker mapTicker(CurrencyPair currencyPair, AcxMarket tickerData) {
+  public static Ticker mapTicker(CurrencyPair currencyPair, AcxMarket tickerData) {
     AcxTicker ticker = tickerData.ticker;
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -63,7 +64,7 @@ public class AcxMapper {
         .build();
   }
 
-  private OrderType mapOrderType(AcxOrder order) {
+  private static OrderType mapOrderType(AcxOrder order) {
     switch (order.side) {
       case "sell":
         return OrderType.ASK;
@@ -73,7 +74,7 @@ public class AcxMapper {
     return null;
   }
 
-  private OrderStatus mapOrderStatus(String state) {
+  private static OrderStatus mapOrderStatus(String state) {
     switch (state) {
       case "wait":
         return OrderStatus.PENDING_NEW;
@@ -102,7 +103,7 @@ public class AcxMapper {
         .build();
   }
 
-  private OrderType mapTradeType(String side) {
+  private static OrderType mapTradeType(String side) {
     if ("sell".equals(side)) {
       return OrderType.ASK;
     } else if ("buy".equals(side)) {
@@ -112,18 +113,22 @@ public class AcxMapper {
   }
 
   public AccountInfo mapAccountInfo(AcxAccountInfo accountInfo) {
-    return new AccountInfo(
+    return AccountInfo.build(
         accountInfo.name,
-        new Wallet(
-            accountInfo.accounts.stream().map(this::mapBalance).collect(Collectors.toList())));
+        Wallet.build(
+            accountInfo.accounts.stream().map(AcxMapper::mapBalance).collect(Collectors.toList())));
   }
 
-  private Balance mapBalance(AcxAccount acc) {
-    return new Balance(
-        Currency.getInstance(acc.currency), acc.balance.add(acc.locked), acc.balance, acc.locked);
+  private static Balance mapBalance(AcxAccount acc) {
+    return new Builder()
+        .setCurrency(Currency.valueOf(acc.currency))
+        .setTotal(acc.balance.add(acc.locked))
+        .setAvailable(acc.balance)
+        .setFrozen(acc.locked)
+        .createBalance();
   }
 
-  public String getOrderType(OrderType type) {
+  public static String getOrderType(OrderType type) {
     switch (type) {
       case BID:
         return "buy";

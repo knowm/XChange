@@ -45,7 +45,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
       Order.OrderType type =
           order.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
-      CurrencyPair pair = new CurrencyPair(order.getCurrency(), order.getSettleCurrency());
+      CurrencyPair pair = CurrencyPair.build(order.getCurrency(), order.getSettleCurrency());
 
       LimitOrder limitOrder =
           new LimitOrder(
@@ -72,8 +72,8 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     String symbol =
-        marketOrder.getCurrencyPair().base.getCurrencyCode()
-            + marketOrder.getCurrencyPair().counter.getCurrencyCode();
+        marketOrder.getCurrencyPair().getBase().getCurrencyCode()
+            + marketOrder.getCurrencyPair().getCounter().getCurrencyCode();
     BitmexPrivateOrder order = placeMarketOrder(symbol, marketOrder.getOriginalAmount(), null);
     return order.getId();
   }
@@ -81,8 +81,8 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     String symbol =
-        limitOrder.getCurrencyPair().base.getCurrencyCode()
-            + limitOrder.getCurrencyPair().counter.getCurrencyCode();
+        limitOrder.getCurrencyPair().getBase().getCurrencyCode()
+            + limitOrder.getCurrencyPair().getCounter().getCurrencyCode();
     BitmexPrivateOrder order =
         placeLimitOrder(symbol, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), null);
     return order.getId();
@@ -91,8 +91,8 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
     String symbol =
-        stopOrder.getCurrencyPair().base.getCurrencyCode()
-            + stopOrder.getCurrencyPair().counter.getCurrencyCode();
+        stopOrder.getCurrencyPair().getBase().getCurrencyCode()
+            + stopOrder.getCurrencyPair().getCounter().getCurrencyCode();
     BitmexPrivateOrder order =
         placeStopOrder(symbol, stopOrder.getOriginalAmount(), stopOrder.getStopPrice(), null);
     return order.getId();
@@ -116,7 +116,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
       Order.OrderType type =
           privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
       CurrencyPair pair =
-          new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
+          CurrencyPair.build(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
 
       orders.add(
           new LimitOrder(

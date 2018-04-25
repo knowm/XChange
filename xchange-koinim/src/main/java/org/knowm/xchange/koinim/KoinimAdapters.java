@@ -23,13 +23,13 @@ public final class KoinimAdapters {
    */
   public static Ticker adaptTicker(KoinimTicker koinimTicker, CurrencyPair currencyPair) {
 
-    if (!currencyPair.equals(new CurrencyPair(BTC, TRY))) {
+    if (!currencyPair.equals(CurrencyPair.build(BTC, TRY))) {
       throw new NotAvailableFromExchangeException();
     }
 
     if (koinimTicker != null) {
       return new Ticker.Builder()
-          .currencyPair(new CurrencyPair(BTC, Currency.TRY))
+          .currencyPair(CurrencyPair.build(BTC, Currency.TRY))
           .last(koinimTicker.getSell())
           .bid(koinimTicker.getBid())
           .ask(koinimTicker.getAsk())

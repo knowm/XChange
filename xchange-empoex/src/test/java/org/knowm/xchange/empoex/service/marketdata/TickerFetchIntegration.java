@@ -18,7 +18,7 @@ public class TickerFetchIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(EmpoExExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("DOGE", "BTC"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("DOGE", "BTC"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

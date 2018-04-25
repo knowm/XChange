@@ -39,7 +39,7 @@ public class TradeDemo {
         new LimitOrder(
             Order.OrderType.BID,
             BigDecimal.ONE,
-            new CurrencyPair(Currency.GHs, Currency.BTC),
+            CurrencyPair.build(Currency.GHs, Currency.BTC),
             "",
             null,
             new BigDecimal("0.00015600"));
@@ -62,7 +62,7 @@ public class TradeDemo {
 
   private static void raw(CexIOTradeServiceRaw tradeService) throws IOException {
 
-    List<CexIOOrder> openOrders = tradeService.getCexIOOpenOrders(new CurrencyPair("NMC", "BTC"));
+    List<CexIOOrder> openOrders = tradeService.getCexIOOpenOrders(CurrencyPair.build("NMC", "BTC"));
     System.out.println(openOrders);
   }
 

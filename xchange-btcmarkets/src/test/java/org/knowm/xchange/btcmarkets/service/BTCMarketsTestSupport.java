@@ -30,8 +30,20 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
   protected static final String SPECIFICATION_SECRET_KEY =
       Base64.getEncoder().encodeToString("secretKey".getBytes());
 
-  protected static final Balance EXPECTED_BALANCE =
-      new Balance(Currency.BTC, new BigDecimal("3.0E-7"), new BigDecimal("2.0E-7"));
+  protected static final Balance EXPECTED_BALANCE;
+
+  static {
+    BigDecimal total = new BigDecimal("3.0E-7");
+    BigDecimal available = new BigDecimal("2.0E-7");
+    EXPECTED_BALANCE =
+        new Balance.Builder()
+            .setCurrency(Currency.BTC)
+            .setTotal(total)
+            .setAvailable(available)
+            .setFrozen(total.add(available.negate()))
+            .createBalance();
+  }
+
   protected static final Ticker EXPECTED_TICKER =
       new Ticker.Builder()
           .bid(new BigDecimal("137.00"))

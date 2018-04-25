@@ -1,6 +1,6 @@
 package org.knowm.xchange.livecoin;
 
-import static org.knowm.xchange.currency.Currency.getInstance;
+import static org.knowm.xchange.currency.Currency.valueOf;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,14 +11,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -50,7 +53,7 @@ public class LivecoinAdapters {
 
   public static CurrencyPair adaptCurrencyPair(LivecoinRestriction product) {
     String[] data = product.getCurrencyPair().split("\\/");
-    return new CurrencyPair(data[0], data[1]);
+    return CurrencyPair.build(data[0], data[1]);
   }
 
   public static OrderBook adaptOrderBook(LivecoinOrderBook book, CurrencyPair currencyPair) {
@@ -65,7 +68,7 @@ public class LivecoinAdapters {
       LivecoinAsksBidsData[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
     if (levels == null || levels.length == 0) {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
     List<LimitOrder> allLevels = new ArrayList<>(levels.length);
     for (LivecoinAsksBidsData ask : levels) {
@@ -79,11 +82,11 @@ public class LivecoinAdapters {
   public static Map<CurrencyPair, LivecoinOrderBook> adaptToCurrencyPairKeysMap(
       Map<String, LivecoinOrderBook> orderBooksRaw) {
 
-    Set<Map.Entry<String, LivecoinOrderBook>> entries = orderBooksRaw.entrySet();
+    Set<Entry<String, LivecoinOrderBook>> entries = orderBooksRaw.entrySet();
     Map<CurrencyPair, LivecoinOrderBook> converted = new HashMap<>(entries.size());
-    for (Map.Entry<String, LivecoinOrderBook> entry : entries) {
+    for (Entry<String, LivecoinOrderBook> entry : entries) {
       String[] currencyPairSplit = entry.getKey().split("/");
-      CurrencyPair currencyPair = new CurrencyPair(currencyPairSplit[0], currencyPairSplit[1]);
+      CurrencyPair currencyPair = CurrencyPair.build(currencyPairSplit[0], currencyPairSplit[1]);
       converted.put(currencyPair, entry.getValue());
     }
     return converted;
@@ -97,7 +100,7 @@ public class LivecoinAdapters {
     for (LivecoinRestriction product : products) {
       BigDecimal minSize =
           product.getMinLimitQuantity() == null ? BigDecimal.ZERO : product.getMinLimitQuantity();
-      minSize = minSize.setScale(product.getPriceScale(), BigDecimal.ROUND_UNNECESSARY);
+      minSize = minSize.setScale(product.getPriceScale(), RoundingMode.UNNECESSARY);
 
       CurrencyPair pair = adaptCurrencyPair(product);
 
@@ -114,9 +117,9 @@ public class LivecoinAdapters {
         currencyPairs.put(pair, new CurrencyPairMetaData(null, minSize, null, priceScale));
       }
 
-      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
+      if (!currencies.containsKey(pair.getBase())) currencies.put(pair.getBase(), null);
 
-      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
+      if (!currencies.containsKey(pair.getCounter())) currencies.put(pair.getCounter(), null);
     }
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
@@ -124,7 +127,7 @@ public class LivecoinAdapters {
   public static Trades adaptTrades(LivecoinTrade[] nativeTrades, CurrencyPair currencyPair) {
 
     if (nativeTrades.length == 0) {
-      return new Trades(Collections.EMPTY_LIST);
+      return new Trades(Collections.<Trade>emptyList());
     }
     List<Trade> trades = new ArrayList<>(nativeTrades.length);
 
@@ -190,21 +193,21 @@ public class LivecoinAdapters {
 
     String ccyPair = map.get("currencyPair").toString();
     String[] pair = ccyPair.split("/");
-    Currency ccyA = getInstance(pair[0]);
-    Currency ccyB = getInstance(pair[1]);
+    Currency ccyA = valueOf(pair[0]);
+    Currency ccyB = valueOf(pair[1]);
 
     BigDecimal startingQuantity = new BigDecimal(map.get("quantity").toString());
     BigDecimal remainingQuantity = new BigDecimal(map.get("remainingQuantity").toString());
 
-    Order.OrderStatus status =
+    OrderStatus status =
         remainingQuantity.compareTo(startingQuantity) < 0
-            ? Order.OrderStatus.PARTIALLY_FILLED
-            : Order.OrderStatus.PENDING_NEW;
+            ? OrderStatus.PARTIALLY_FILLED
+            : OrderStatus.PENDING_NEW;
 
     return new LimitOrder(
         type,
         remainingQuantity,
-        new CurrencyPair(ccyA, ccyB),
+        CurrencyPair.build(ccyA, ccyB),
         map.get("id").toString(),
         DateUtils.fromUnixTime(Double.valueOf(map.get("issueTime").toString()).longValue()),
         new BigDecimal(map.get("price").toString()),
@@ -218,8 +221,8 @@ public class LivecoinAdapters {
     OrderType type = OrderType.BID;
     if (map.get("type").toString().equals("SELL")) type = OrderType.ASK;
 
-    Currency ccyA = Currency.getInstance(map.get("fixedCurrency").toString());
-    Currency ccyB = Currency.getInstance(map.get("variableCurrency").toString());
+    Currency ccyA = valueOf(map.get("fixedCurrency").toString());
+    Currency ccyB = valueOf(map.get("variableCurrency").toString());
 
     BigDecimal amountA = new BigDecimal(map.get("amount").toString());
     BigDecimal amountB = new BigDecimal(map.get("variableAmount").toString());
@@ -231,28 +234,28 @@ public class LivecoinAdapters {
     return new UserTrade(
         type,
         amountA,
-        new CurrencyPair(ccyA, ccyB),
+        CurrencyPair.build(ccyA, ccyB),
         price,
         DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
         id,
         map.get("externalKey").toString(),
         new BigDecimal(map.get("fee").toString()),
-        getInstance(map.get("taxCurrency").toString()));
+        valueOf(map.get("taxCurrency").toString()));
   }
 
   public static FundingRecord adaptFundingRecord(Map map) {
-    FundingRecord.Type type = FundingRecord.Type.WITHDRAWAL;
-    if (map.get("type").toString().equals("DEPOSIT")) type = FundingRecord.Type.DEPOSIT;
+    Type type = Type.WITHDRAWAL;
+    if (map.get("type").toString().equals("DEPOSIT")) type = Type.DEPOSIT;
 
     return new FundingRecord(
         map.get("externalKey").toString(),
         DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
-        getInstance(map.get("fixedCurrency").toString()),
+        valueOf(map.get("fixedCurrency").toString()),
         new BigDecimal(map.get("amount").toString()),
         map.get("id").toString(),
         null,
         type,
-        FundingRecord.Status.COMPLETE,
+        Status.COMPLETE,
         null,
         new BigDecimal(map.get("fee").toString()),
         null);
@@ -265,7 +268,7 @@ public class LivecoinAdapters {
       String ccy = balance.get("currency").toString();
       String value = balance.get("value").toString();
 
-      Currency curr = getInstance(ccy);
+      Currency curr = valueOf(ccy);
 
       WalletBuilder builder = wallets.get(curr);
       if (builder == null) {
@@ -293,17 +296,18 @@ public class LivecoinAdapters {
     }
 
     public Wallet build() {
-      return new Wallet(
+      return Wallet.build(
           currency.getCurrencyCode(),
-          new Balance(
-              currency,
-              map.get("total"),
-              map.get("available"),
-              map.get("trade"),
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO));
+          new Builder()
+              .setCurrency(currency)
+              .setTotal(map.get("total"))
+              .setAvailable(map.get("available"))
+              .setFrozen(map.get("trade"))
+              .setBorrowed(BigDecimal.ZERO)
+              .setLoaned(BigDecimal.ZERO)
+              .setWithdrawing(BigDecimal.ZERO)
+              .setDepositing(BigDecimal.ZERO)
+              .createBalance());
     }
 
     public void add(String type, String value) {

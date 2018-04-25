@@ -7,13 +7,15 @@ public final class EmpoExUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
+    return currencyPair.getBase().getCurrencyCode()
+        + "-"
+        + currencyPair.getCounter().getCurrencyCode();
   }
 
   public static CurrencyPair toCurrencyPair(String pairString) {
 
     String[] currencies = pairString.split("-");
-    return new CurrencyPair(currencies[0], currencies[1]);
+    return CurrencyPair.build(currencies[0], currencies[1]);
   }
 
   public static Date toDate(long unix) {

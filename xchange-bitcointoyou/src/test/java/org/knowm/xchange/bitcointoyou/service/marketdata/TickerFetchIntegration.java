@@ -28,7 +28,7 @@ public class TickerFetchIntegration {
         ExchangeFactory.INSTANCE.createExchange(BitcointoyouExchange.class.getName());
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();
-    ticker = marketDataService.getTicker(new CurrencyPair(Currency.BTC, Currency.BRL));
+    ticker = marketDataService.getTicker(CurrencyPair.build(Currency.BTC, Currency.BRL));
   }
 
   @Test

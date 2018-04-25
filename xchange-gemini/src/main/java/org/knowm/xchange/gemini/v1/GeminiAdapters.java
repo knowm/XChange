@@ -14,6 +14,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -62,12 +63,12 @@ public final class GeminiAdapters {
 
     String tradableIdentifier = GeminiSymbol.substring(0, 3).toUpperCase();
     String transactionCurrency = GeminiSymbol.substring(3).toUpperCase();
-    return new CurrencyPair(tradableIdentifier, transactionCurrency);
+    return CurrencyPair.build(tradableIdentifier, transactionCurrency);
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
 
-    return (pair.base.getCurrencyCode() + pair.counter.getCurrencyCode()).toLowerCase();
+    return (pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode()).toLowerCase();
   }
 
   public static OrderBook adaptOrderBook(GeminiDepth btceDepth, CurrencyPair currencyPair) {
@@ -318,10 +319,16 @@ public final class GeminiAdapters {
       BigDecimal[] balanceDetail = entry.getValue();
       BigDecimal balanceTotal = balanceDetail[0];
       BigDecimal balanceAvailable = balanceDetail[1];
-      balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
+      balances.add(
+          new Builder()
+              .setCurrency(Currency.valueOf(currencyName))
+              .setTotal(balanceTotal)
+              .setAvailable(balanceAvailable)
+              .setFrozen(balanceTotal.add(balanceAvailable.negate()))
+              .createBalance());
     }
 
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   public static OpenOrders adaptOrders(GeminiOrderStatusResponse[] activeOrders) {
@@ -336,7 +343,7 @@ public final class GeminiAdapters {
       OrderStatus status = OrderStatus.NEW;
 
       if (order.isCancelled()) {
-        status = Order.OrderStatus.CANCELED;
+        status = OrderStatus.CANCELED;
       } else if (order.getExecutedAmount().signum() > 0
           && order.getExecutedAmount().compareTo(order.getOriginalAmount()) < 0) {
         status = OrderStatus.PARTIALLY_FILLED;
@@ -382,7 +389,7 @@ public final class GeminiAdapters {
               trade.getTradeId(),
               trade.getOrderId(),
               fee,
-              Currency.getInstance(trade.getFeeCurrency())));
+              Currency.valueOf(trade.getFeeCurrency())));
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
@@ -402,11 +409,11 @@ public final class GeminiAdapters {
       if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }
-      if (!currenciesMap.containsKey(c.base)) {
-        currenciesMap.put(c.base, null);
+      if (!currenciesMap.containsKey(c.getBase())) {
+        currenciesMap.put(c.getBase(), null);
       }
-      if (!currenciesMap.containsKey(c.counter)) {
-        currenciesMap.put(c.counter, null);
+      if (!currenciesMap.containsKey(c.getCounter())) {
+        currenciesMap.put(c.getCounter(), null);
       }
     }
 

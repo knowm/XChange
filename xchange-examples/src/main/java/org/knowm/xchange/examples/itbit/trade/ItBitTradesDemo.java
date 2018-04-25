@@ -35,7 +35,7 @@ public class ItBitTradesDemo {
             new LimitOrder(
                 OrderType.BID,
                 BigDecimal.valueOf(0.001),
-                new CurrencyPair("XBT", "USD"),
+                CurrencyPair.build("XBT", "USD"),
                 "0",
                 new Date(),
                 BigDecimal.valueOf(300)));
@@ -44,7 +44,7 @@ public class ItBitTradesDemo {
             new LimitOrder(
                 OrderType.BID,
                 BigDecimal.valueOf(0.001),
-                new CurrencyPair("BTC", "USD"),
+                CurrencyPair.build("BTC", "USD"),
                 "0",
                 new Date(),
                 BigDecimal.valueOf(360)));

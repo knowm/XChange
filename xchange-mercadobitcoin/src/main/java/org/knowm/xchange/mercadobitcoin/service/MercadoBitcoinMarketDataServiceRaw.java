@@ -38,7 +38,7 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
 
     if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       return mercadoBitcoin.getOrderBookBTC();
-    } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
+    } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
       return mercadoBitcoin.getOrderBookLTC();
     } else {
       throw new NotAvailableFromExchangeException();
@@ -50,7 +50,7 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
 
     if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       return mercadoBitcoin.getTickerBTC();
-    } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
+    } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
       return mercadoBitcoin.getTickerLTC();
     } else {
       throw new NotAvailableFromExchangeException();
@@ -65,7 +65,7 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
     if (args.length == 0) {
       if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
         transactions = mercadoBitcoin.getTransactionsBTC(); // default values: offset=0, limit=100
-      } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
+      } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
         transactions = mercadoBitcoin.getTransactionsLTC();
       } else {
         throw new NotAvailableFromExchangeException();
@@ -75,7 +75,7 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
 
       if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
         transactions = mercadoBitcoin.getTransactionsBTC(time.longValue() / 1000L);
-      } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
+      } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
         transactions = mercadoBitcoin.getTransactionsLTC(time.longValue() / 1000L);
       } else {
         throw new NotAvailableFromExchangeException();
@@ -89,7 +89,7 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
         transactions =
             mercadoBitcoin.getTransactionsBTC(
                 timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);
-      } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
+      } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
         transactions =
             mercadoBitcoin.getTransactionsLTC(
                 timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);

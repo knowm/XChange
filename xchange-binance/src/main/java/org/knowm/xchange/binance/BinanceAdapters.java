@@ -24,7 +24,7 @@ public class BinanceAdapters {
     if (pair.equals(CurrencyPair.IOTA_BTC)) {
       return "IOTABTC";
     }
-    return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+    return pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode();
   }
 
   public static String toSymbol(Currency currency) {
@@ -92,9 +92,9 @@ public class BinanceAdapters {
   public static CurrencyPair adaptSymbol(String symbol) {
     int pairLength = symbol.length();
     if (symbol.endsWith("USDT")) {
-      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDT");
+      return CurrencyPair.build(symbol.substring(0, pairLength - 4), "USDT");
     } else {
-      return new CurrencyPair(
+      return CurrencyPair.build(
           symbol.substring(0, pairLength - 3), symbol.substring(pairLength - 3));
     }
   }

@@ -18,7 +18,7 @@ public class TickerFetchIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USDT"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("BTC", "USDT"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

@@ -21,7 +21,7 @@ public class TickerFetchIntegration {
         ExchangeFactory.INSTANCE.createExchange(CoinMarketCapExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    CurrencyPair NEO_BTC = new CurrencyPair("NEO", "BTC");
+    CurrencyPair NEO_BTC = CurrencyPair.build("NEO", "BTC");
     Ticker ticker0 = marketDataService.getTicker(NEO_BTC);
     // System.out.println(ticker.toString());
     assertThat(ticker0).isNotNull();

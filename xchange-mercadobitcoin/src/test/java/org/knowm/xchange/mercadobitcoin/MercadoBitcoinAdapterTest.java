@@ -151,7 +151,8 @@ public class MercadoBitcoinAdapterTest {
             is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {});
 
     List<LimitOrder> orders =
-        MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currency.LTC, Currency.BRL), apiResult);
+        MercadoBitcoinAdapters.adaptOrders(
+            CurrencyPair.build(Currency.LTC, Currency.BRL), apiResult);
 
     Map<String, LimitOrder> orderById = new HashMap<>();
 
@@ -164,6 +165,6 @@ public class MercadoBitcoinAdapterTest {
     assertThat(orderById.get("1212").getLimitPrice()).isEqualTo(new BigDecimal("6.00000"));
     assertThat(orderById.get("1212").getOriginalAmount()).isEqualTo(new BigDecimal("165.47309607"));
     assertThat(orderById.get("1212").getCurrencyPair())
-        .isEqualTo(new CurrencyPair(Currency.LTC, Currency.BRL));
+        .isEqualTo(CurrencyPair.build(Currency.LTC, Currency.BRL));
   }
 }

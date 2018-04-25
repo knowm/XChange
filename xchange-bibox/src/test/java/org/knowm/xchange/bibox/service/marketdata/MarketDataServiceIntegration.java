@@ -17,7 +17,7 @@ public class MarketDataServiceIntegration {
 
   private static final Exchange BIBOX =
       ExchangeFactory.INSTANCE.createExchange(BiboxExchange.class.getName());
-  private static final CurrencyPair BIX_BTC = new CurrencyPair("BIX", "BTC");
+  private static final CurrencyPair BIX_BTC = CurrencyPair.build("BIX", "BTC");
 
   @Test
   public void testGetTicker() throws Exception {

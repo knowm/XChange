@@ -25,7 +25,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -72,7 +74,7 @@ public final class BitfinexAdapters {
 
     String tradableIdentifier = adaptBitfinexCurrency(bitfinexSymbol.substring(0, 3));
     String transactionCurrency = adaptBitfinexCurrency(bitfinexSymbol.substring(3));
-    return new CurrencyPair(tradableIdentifier, transactionCurrency);
+    return CurrencyPair.build(tradableIdentifier, transactionCurrency);
   }
 
   public static OrderStatus adaptOrderStatus(BitfinexOrderStatusResponse order) {
@@ -88,7 +90,7 @@ public final class BitfinexAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
 
-    return (pair.base.getCurrencyCode() + pair.counter.getCurrencyCode()).toLowerCase();
+    return (pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode()).toLowerCase();
   }
 
   public static OrderBook adaptOrderBook(BitfinexDepth btceDepth, CurrencyPair currencyPair) {
@@ -302,9 +304,14 @@ public final class BitfinexAdapters {
         BigDecimal balanceTotal = balanceDetail[0];
         BigDecimal balanceAvailable = balanceDetail[1];
         balances.add(
-            new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
+            new Builder()
+                .setCurrency(Currency.valueOf(currencyName))
+                .setTotal(balanceTotal)
+                .setAvailable(balanceAvailable)
+                .setFrozen(balanceTotal.add(balanceAvailable.negate()))
+                .createBalance());
       }
-      wallets.add(new Wallet(walletData.getKey(), balances));
+      wallets.add(Wallet.build(walletData.getKey(), balances));
     }
 
     return wallets;
@@ -357,7 +364,7 @@ public final class BitfinexAdapters {
               trade.getTradeId(),
               trade.getOrderId(),
               fee,
-              Currency.getInstance(trade.getFeeCurrency())));
+              Currency.valueOf(trade.getFeeCurrency())));
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
@@ -378,11 +385,11 @@ public final class BitfinexAdapters {
       if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }
-      if (!currenciesMap.containsKey(c.base)) {
-        currenciesMap.put(c.base, null);
+      if (!currenciesMap.containsKey(c.getBase())) {
+        currenciesMap.put(c.getBase(), null);
       }
-      if (!currenciesMap.containsKey(c.counter)) {
-        currenciesMap.put(c.counter, null);
+      if (!currenciesMap.containsKey(c.getCounter())) {
+        currenciesMap.put(c.getCounter(), null);
       }
     }
 
@@ -482,17 +489,17 @@ public final class BitfinexAdapters {
         bitfinexDepositWithdrawalHistoryResponses) {
       String address = responseEntry.getAddress();
       String description = responseEntry.getDescription();
-      Currency currency = Currency.getInstance(responseEntry.getCurrency());
+      Currency currency = Currency.valueOf(responseEntry.getCurrency());
 
-      FundingRecord.Status status = FundingRecord.Status.resolveStatus(responseEntry.getStatus());
+      Status status = Status.resolveStatus(responseEntry.getStatus());
       if (status == null
           && responseEntry
               .getStatus()
               .equalsIgnoreCase("CANCELED")) // there's a spelling mistake in the protocol
-      status = FundingRecord.Status.CANCELLED;
+      status = Status.CANCELLED;
 
       String txnId = null;
-      if (status == null || !status.equals(FundingRecord.Status.CANCELLED)) {
+      if (status == null || !status.equals(Status.CANCELLED)) {
         /*
         sometimes the description looks like this (with the txn hash in it):
         "description":"a9d387cf5d9df58ff2ac4a338e0f050fd3857cf78d1dbca4f33619dc4ccdac82","address":"1Enx...

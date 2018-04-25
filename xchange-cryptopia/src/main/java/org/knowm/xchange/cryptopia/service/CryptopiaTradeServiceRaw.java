@@ -61,7 +61,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
       BigDecimal cumulativeAmount = originalAmount.subtract(remaining);
       Order.OrderStatus status = Order.OrderStatus.PENDING_NEW;
 
-      CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
+      CurrencyPair pair = CurrencyPair.build(map.get("Market").toString());
       results.add(
           new LimitOrder(
               type,
@@ -142,8 +142,8 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
       BigDecimal fee = new BigDecimal(map.get("Fee").toString());
       String orderId = id;
 
-      CurrencyPair pair = new CurrencyPair(map.get("Market").toString());
-      Currency feeCcy = pair.counter;
+      CurrencyPair pair = CurrencyPair.build(map.get("Market").toString());
+      Currency feeCcy = pair.getCounter();
       results.add(new UserTrade(type, amount, pair, price, timestamp, id, orderId, fee, feeCcy));
     }
 

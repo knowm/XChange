@@ -22,6 +22,6 @@ public class ZaifExchangeIntegration {
 
     Assert.assertTrue(
         ((ZaifMarketDataServiceRaw) ex.getMarketDataService())
-            .checkProductExists(new CurrencyPair("BITCRYSTALS/JPY")));
+            .checkProductExists(CurrencyPair.build("BITCRYSTALS/JPY")));
   }
 }

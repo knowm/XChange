@@ -25,7 +25,7 @@ public class LiquiOrderInfo {
       @JsonProperty("timestamp_created") final long timestampCreated) {
     this.status = status;
     final String[] split = pair.split("_");
-    this.pair = new CurrencyPair(split[0], split[1]);
+    this.pair = CurrencyPair.build(split[0], split[1]);
     this.type = type;
     this.startAmount = new BigDecimal(startAmount != null ? startAmount : "0");
     this.amount = new BigDecimal(amount);

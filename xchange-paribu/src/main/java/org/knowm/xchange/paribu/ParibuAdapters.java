@@ -24,7 +24,7 @@ public final class ParibuAdapters {
    * @return The ticker
    */
   public static Ticker adaptTicker(ParibuTicker paribuTicker, CurrencyPair currencyPair) {
-    if (!currencyPair.equals(new CurrencyPair(BTC, TRY))) {
+    if (!currencyPair.equals(CurrencyPair.build(BTC, TRY))) {
       throw new NotAvailableFromExchangeException();
     }
     BTC_TL btcTL = paribuTicker.getBtcTL();
@@ -36,7 +36,7 @@ public final class ParibuAdapters {
       BigDecimal high24hr = btcTL.getHigh24hr();
       BigDecimal low24hr = btcTL.getLow24hr();
       return new Ticker.Builder()
-          .currencyPair(new CurrencyPair(BTC, Currency.TRY))
+          .currencyPair(CurrencyPair.build(BTC, Currency.TRY))
           .last(last)
           .bid(highestBid)
           .ask(lowestAsk)

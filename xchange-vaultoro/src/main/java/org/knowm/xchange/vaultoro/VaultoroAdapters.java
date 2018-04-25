@@ -17,6 +17,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.vaultoro.dto.account.VaultoroBalance;
 import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroOrder;
@@ -42,7 +43,7 @@ public final class VaultoroAdapters {
 
     for (VaultoroOrder vaultoroOrder : vaultoroAsks) {
       asks.add(
-          new LimitOrder.Builder(OrderType.ASK, currencyPair)
+          new Builder(OrderType.ASK, currencyPair)
               .limitPrice(vaultoroOrder.getGoldPrice())
               .originalAmount(vaultoroOrder.getGoldAmount())
               .build());
@@ -52,7 +53,7 @@ public final class VaultoroAdapters {
 
     for (VaultoroOrder vaultoroOrder : vaultoroBids) {
       bids.add(
-          new LimitOrder.Builder(OrderType.BID, currencyPair)
+          new Builder(OrderType.BID, currencyPair)
               .limitPrice(vaultoroOrder.getGoldPrice())
               .originalAmount(vaultoroOrder.getGoldAmount())
               .build());
@@ -87,13 +88,15 @@ public final class VaultoroAdapters {
       balances.add(adaptVaultoroBalance(vaultoroBalance));
     }
 
-    return new AccountInfo(new Wallet(balances));
+    return AccountInfo.build(Wallet.build(balances));
   }
 
   public static Balance adaptVaultoroBalance(VaultoroBalance vaultoroBalance) {
 
-    return new Balance(
-        Currency.getInstance(vaultoroBalance.getCurrencyCode()), vaultoroBalance.getCash());
+    return new Balance.Builder()
+        .setCurrency(Currency.valueOf(vaultoroBalance.getCurrencyCode()))
+        .setTotal(vaultoroBalance.getCash())
+        .createBalance();
   }
 
   public static OpenOrders adaptVaultoroOpenOrders(Map<String, List<VaultoroOpenOrder>> orders) {
@@ -117,7 +120,7 @@ public final class VaultoroAdapters {
 
   public static LimitOrder adaptVaultoroOrder(VaultoroOpenOrder o, OrderType orderType) {
 
-    return new LimitOrder.Builder(orderType, new CurrencyPair("GLD", "BTC"))
+    return new Builder(orderType, CurrencyPair.build("GLD", "BTC"))
         .id(o.getOrderID())
         .limitPrice(o.getGoldPrice())
         .originalAmount(o.getGoldAmount())

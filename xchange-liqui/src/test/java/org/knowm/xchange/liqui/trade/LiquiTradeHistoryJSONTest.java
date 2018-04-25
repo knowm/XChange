@@ -29,7 +29,7 @@ public class LiquiTradeHistoryJSONTest {
     final Map<Long, LiquiUserTrade> history = tradeHistoryResult.getResult().getHistory();
     final LiquiUserTrade trade = history.get(37225796L);
 
-    assertThat(trade.getPair()).isEqualTo(new CurrencyPair("trx", "btc"));
+    assertThat(trade.getPair()).isEqualTo(CurrencyPair.build("trx", "btc"));
     assertThat(trade.getOrderId()).isEqualTo(110486609L);
     assertThat(trade.getTradeId()).isEqualTo(37225796L);
     assertThat(trade.getType()).isEqualTo(LiquiTradeType.SELL);

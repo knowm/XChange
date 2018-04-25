@@ -22,7 +22,7 @@ public class DepthDemo {
 
     // Get the latest order book data for GHs/BTC
     OrderBook orderBook =
-        marketDataService.getOrderBook(new CurrencyPair(Currency.GHs, Currency.BTC));
+        marketDataService.getOrderBook(CurrencyPair.build(Currency.GHs, Currency.BTC));
 
     System.out.println(
         "Current Order Book size for GHS/BTC: "

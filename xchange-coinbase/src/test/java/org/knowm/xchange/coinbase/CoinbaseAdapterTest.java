@@ -34,10 +34,14 @@ public class CoinbaseAdapterTest {
   @Test
   public void testAdaptAccountInfo() throws IOException {
 
-    Balance balance = new Balance(Currency.BTC, new BigDecimal("7.10770000"));
+    Balance balance =
+        new Balance.Builder()
+            .setCurrency(Currency.BTC)
+            .setTotal(new BigDecimal("7.10770000"))
+            .createBalance();
     List<Balance> balances = new ArrayList<>();
     balances.add(balance);
-    AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", new Wallet(balances));
+    AccountInfo expectedAccountInfo = AccountInfo.build("demo@demo.com", Wallet.build(balances));
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -74,7 +78,7 @@ public class CoinbaseAdapterTest {
             "52f4411767c71baf9000003f",
             "52f4411667c71baf9000003c",
             new BigDecimal("9.05"),
-            Currency.getInstance("USD"));
+            Currency.valueOf("USD"));
 
     // Read in the JSON from the example resources
     InputStream is =

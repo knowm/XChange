@@ -20,12 +20,12 @@ import org.knowm.xchange.ccex.dto.trade.CCEXOpenorder;
 import org.knowm.xchange.ccex.dto.trade.CCEXOrderhistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -77,16 +77,14 @@ public class CCEXAdapters {
   public static OrderBook adaptOrderBook(
       CCEXGetorderbook ccexOrderBook, CurrencyPair currencyPair) {
 
-    List<LimitOrder> asks =
-        createOrders(currencyPair, Order.OrderType.ASK, ccexOrderBook.getAsks());
-    List<LimitOrder> bids =
-        createOrders(currencyPair, Order.OrderType.BID, ccexOrderBook.getBids());
+    List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, ccexOrderBook.getAsks());
+    List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, ccexOrderBook.getBids());
     Date date = new Date();
     return new OrderBook(date, asks, bids);
   }
 
   public static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair, Order.OrderType orderType, List<CCEXBuySellData> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<CCEXBuySellData> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     if (orders == null) {
@@ -99,14 +97,14 @@ public class CCEXAdapters {
   }
 
   public static LimitOrder createOrder(
-      CurrencyPair currencyPair, CCEXBuySellData priceAndAmount, Order.OrderType orderType) {
+      CurrencyPair currencyPair, CCEXBuySellData priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.getQuantity(), currencyPair, "", null, priceAndAmount.getRate());
   }
 
   public static CurrencyPair adaptCurrencyPair(CCEXMarket product) {
-    return new CurrencyPair(product.getBaseCurrency(), product.getMarketCurrency());
+    return CurrencyPair.build(product.getBaseCurrency(), product.getMarketCurrency());
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
@@ -119,8 +117,8 @@ public class CCEXAdapters {
       CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, null, 0);
       CurrencyPair pair = adaptCurrencyPair(product);
       currencyPairs.put(pair, cpmd);
-      currencies.put(pair.base, null);
-      currencies.put(pair.counter, null);
+      currencies.put(pair.getBase(), null);
+      currencies.put(pair.getCounter(), null);
     }
 
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
@@ -129,7 +127,7 @@ public class CCEXAdapters {
   public static CurrencyPair adaptCurrencyPair(String pair) {
 
     final String[] currencies = pair.toUpperCase().split("-");
-    return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
+    return CurrencyPair.build(currencies[0].toUpperCase(), currencies[1].toUpperCase());
   }
 
   public static Date stringToDate(String dateString) {
@@ -149,18 +147,23 @@ public class CCEXAdapters {
 
     for (CCEXBalance balance : balances) {
       wallets.add(
-          new Balance(
-              Currency.getInstance(balance.getCurrency().toUpperCase()),
-              balance.getBalance(),
-              balance.getAvailable(),
-              balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              balance.getPending()));
+          new Balance.Builder()
+              .setCurrency(Currency.valueOf(balance.getCurrency().toUpperCase()))
+              .setTotal(balance.getBalance())
+              .setAvailable(balance.getAvailable())
+              .setFrozen(
+                  balance
+                      .getBalance()
+                      .subtract(balance.getAvailable())
+                      .subtract(balance.getPending()))
+              .setBorrowed(BigDecimal.ZERO)
+              .setLoaned(BigDecimal.ZERO)
+              .setWithdrawing(BigDecimal.ZERO)
+              .setDepositing(balance.getPending())
+              .createBalance());
     }
 
-    return new Wallet(wallets);
+    return Wallet.build(wallets);
   }
 
   public static List<LimitOrder> adaptOpenOrders(List<CCEXOpenorder> cCexOpenOrders) {
@@ -179,7 +182,7 @@ public class CCEXAdapters {
     OrderType type =
         cCEXOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
     String[] currencies = cCEXOpenOrder.getExchange().split("-");
-    CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
+    CurrencyPair pair = CurrencyPair.build(currencies[1], currencies[0]);
 
     return new LimitOrder(
         type,
@@ -203,7 +206,7 @@ public class CCEXAdapters {
   public static UserTrade adaptUserTrade(CCEXOrderhistory trade) {
 
     String[] currencies = trade.getExchange().split("-");
-    CurrencyPair currencyPair = new CurrencyPair(currencies[1], currencies[0]);
+    CurrencyPair currencyPair = CurrencyPair.build(currencies[1], currencies[0]);
 
     OrderType orderType =
         trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
@@ -226,7 +229,7 @@ public class CCEXAdapters {
         orderId,
         orderId,
         trade.getCommission(),
-        currencyPair.counter);
+        currencyPair.getCounter());
   }
 
   public static Ticker adaptTicker(CCEXPriceResponse cCEXTicker, CurrencyPair currencyPair) {
@@ -240,7 +243,7 @@ public class CCEXAdapters {
 
     Date timestamp = new Date(cCEXTicker.getUpdated());
 
-    return new Ticker.Builder()
+    return new Builder()
         .currencyPair(currencyPair)
         .last(last)
         .bid(bid)

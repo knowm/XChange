@@ -23,7 +23,6 @@ import static org.knowm.xchange.currency.Currency.START;
 import static org.knowm.xchange.currency.Currency.STR;
 import static org.knowm.xchange.currency.Currency.USD;
 import static org.knowm.xchange.currency.Currency.XRP;
-import static org.knowm.xchange.currency.CurrencyPair.DOGE_BTC;
 import static org.knowm.xchange.currency.CurrencyPair.LTC_BTC;
 import static org.knowm.xchange.currency.CurrencyPair.STR_BTC;
 import static org.knowm.xchange.currency.CurrencyPair.XRP_BTC;
@@ -61,7 +60,7 @@ public class ANXGenerator {
   // counter currencies for STARTCoin - all fiats but CNY
   static Currency[] fiatsStart = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY};
 
-  static CurrencyPair[] pairsOther = {LTC_BTC, DOGE_BTC, STR_BTC, XRP_BTC};
+  static CurrencyPair[] pairsOther = {LTC_BTC, CurrencyPair.DOGE_BTC, STR_BTC, XRP_BTC};
 
   // base currency -> min order size
   static Map<Currency, BigDecimal> minAmount = new HashMap<>();
@@ -109,12 +108,12 @@ public class ANXGenerator {
 
     for (Currency base : Arrays.asList(BTC, EGD)) {
       for (Currency counter : fiats) {
-        pairs.add(new CurrencyPair(base, counter));
+        pairs.add(CurrencyPair.build(base, counter));
       }
     }
 
     for (Currency counter : fiatsStart) {
-      pairs.add(new CurrencyPair(START, counter));
+      pairs.add(CurrencyPair.build(START, counter));
     }
   }
 
@@ -141,9 +140,9 @@ public class ANXGenerator {
       Map<CurrencyPair, CurrencyPairMetaData> map, CurrencyPair currencyPair) {
     int amountScale = amountScale(currencyPair);
     BigDecimal minimumAmount =
-        scaled(minAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
+        scaled(minAmount.get(currencyPair.getBase().getCurrencyCode()), amountScale);
     BigDecimal maximumAmount =
-        scaled(maxAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
+        scaled(maxAmount.get(currencyPair.getBase().getCurrencyCode()), amountScale);
     ANXMarketMetaData mmd =
         new ANXMarketMetaData(fee, minimumAmount, maximumAmount, priceScale(currencyPair));
     map.put(currencyPair, mmd);
@@ -154,13 +153,13 @@ public class ANXGenerator {
   }
 
   private int amountScale(CurrencyPair currencyPair) {
-    return currencyMap.get(currencyPair.base.getCurrencyCode()).getScale();
+    return currencyMap.get(currencyPair.getBase().getCurrencyCode()).getScale();
   }
 
   int priceScale(CurrencyPair pair) {
     if (LTC_BTC.equals(pair)
-        || (BTC.equals(pair.base.getCurrencyCode())
-            && !cryptos.contains(pair.counter.getCurrencyCode()))) {
+        || (BTC.equals(pair.getBase().getCurrencyCode())
+            && !cryptos.contains(pair.getCounter().getCurrencyCode()))) {
       return 5;
     } else {
       return 8;

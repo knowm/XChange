@@ -24,7 +24,7 @@ public class CCEXTradeDemo {
 
   private static void generic(TradeService tradeService) throws IOException {
 
-    CurrencyPair pair = new CurrencyPair("DASH", "BTC");
+    CurrencyPair pair = CurrencyPair.build("DASH", "BTC");
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, pair)
             .limitPrice(new BigDecimal("0.00001000"))
@@ -61,7 +61,7 @@ public class CCEXTradeDemo {
 
   private static void raw(CCEXTradeServiceRaw tradeService) throws IOException {
 
-    CurrencyPair pair = new CurrencyPair("DASH", "BTC");
+    CurrencyPair pair = CurrencyPair.build("DASH", "BTC");
     LimitOrder limitOrder =
         new LimitOrder.Builder(OrderType.BID, pair)
             .limitPrice(new BigDecimal("0.00001000"))

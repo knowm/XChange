@@ -26,7 +26,7 @@ public class LiquiUserTrade {
       @JsonProperty("timestamp") final long timestamp,
       @JsonProperty("trade_id") final long tradeId) {
     final String[] split = pair.split("_");
-    this.pair = new CurrencyPair(split[0], split[1]);
+    this.pair = CurrencyPair.build(split[0], split[1]);
     this.type = type;
     this.amount = new BigDecimal(amount);
     this.rate = new BigDecimal(rate);

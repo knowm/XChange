@@ -9,12 +9,10 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -34,7 +32,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   }
 
   /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */
-  private static FundingRecord.Status withdrawStatus(int status) {
+  private static Status withdrawStatus(int status) {
     switch (status) {
       case 0:
       case 2:
@@ -53,7 +51,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   }
 
   /** (0:pending,1:success) */
-  private static FundingRecord.Status depositStatus(int status) {
+  private static Status depositStatus(int status) {
     switch (status) {
       case 0:
         return Status.PROCESSING;
@@ -68,20 +66,30 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   public AccountInfo getAccountInfo() throws IOException {
     Long recvWindow =
         (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    BinanceAccountInformation acc = super.account(recvWindow, getTimestamp());
+    BinanceAccountInformation acc = account(recvWindow, getTimestamp());
     List<Balance> balances =
         acc.balances
             .stream()
-            .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
+            .map(
+                b -> {
+                  BigDecimal total = b.getTotal();
+                  BigDecimal available = b.getAvailable();
+                  return new Builder()
+                      .setCurrency(b.getCurrency())
+                      .setTotal(total)
+                      .setAvailable(available)
+                      .setFrozen(total.add(available.negate()))
+                      .createBalance();
+                })
             .collect(Collectors.toList());
-    return new AccountInfo(new Wallet(balances));
+    return AccountInfo.build(Wallet.build(balances));
   }
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws ExchangeException, NotAvailableFromExchangeException,
           NotYetImplementedForExchangeException, IOException {
-    return super.withdraw(currency.getCurrencyCode(), address, amount);
+    return withdraw(currency.getCurrencyCode(), address, amount);
   }
 
   @Override
@@ -96,21 +104,21 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       RippleWithdrawFundsParams rippleParams = null;
       rippleParams = (RippleWithdrawFundsParams) params;
       id =
-          super.withdraw(
+          withdraw(
               rippleParams.getCurrency().getCurrencyCode(),
               rippleParams.getAddress(),
               rippleParams.getTag(),
               rippleParams.getAmount());
     } else {
       DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-      id = super.withdraw(p.getCurrency().getCurrencyCode(), p.getAddress(), p.getAmount());
+      id = withdraw(p.getCurrency().getCurrencyCode(), p.getAddress(), p.getAmount());
     }
     return id;
   }
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    return super.requestDepositAddress(currency).address;
+    return requestDepositAddress(currency).address;
   }
 
   @Override
@@ -155,43 +163,41 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
     List<FundingRecord> result = new ArrayList<>();
     if (withdrawals) {
-      super.withdrawHistory(asset, startTime, endTime, recvWindow, getTimestamp())
+      withdrawHistory(asset, startTime, endTime, recvWindow, getTimestamp())
           .forEach(
-              w -> {
-                result.add(
-                    new FundingRecord(
-                        w.address,
-                        new Date(w.applyTime),
-                        Currency.getInstance(w.asset),
-                        w.amount,
-                        w.id,
-                        w.txId,
-                        Type.WITHDRAWAL,
-                        withdrawStatus(w.status),
-                        null,
-                        null,
-                        null));
-              });
+              w ->
+                  result.add(
+                      new FundingRecord(
+                          w.address,
+                          new Date(w.applyTime),
+                          Currency.valueOf(w.asset),
+                          w.amount,
+                          w.id,
+                          w.txId,
+                          Type.WITHDRAWAL,
+                          withdrawStatus(w.status),
+                          null,
+                          null,
+                          null)));
     }
 
     if (deposits) {
-      super.depositHistory(asset, startTime, endTime, recvWindow, getTimestamp())
+      depositHistory(asset, startTime, endTime, recvWindow, getTimestamp())
           .forEach(
-              d -> {
-                result.add(
-                    new FundingRecord(
-                        d.address,
-                        new Date(d.insertTime),
-                        Currency.getInstance(d.asset),
-                        d.amount,
-                        null,
-                        d.txId,
-                        Type.DEPOSIT,
-                        depositStatus(d.status),
-                        null,
-                        null,
-                        null));
-              });
+              d ->
+                  result.add(
+                      new FundingRecord(
+                          d.address,
+                          new Date(d.insertTime),
+                          Currency.valueOf(d.asset),
+                          d.amount,
+                          null,
+                          d.txId,
+                          Type.DEPOSIT,
+                          depositStatus(d.status),
+                          null,
+                          null,
+                          null)));
     }
 
     return result;

@@ -52,7 +52,7 @@ public class CexIOExchange extends BaseExchange implements Exchange {
         getExchangeMetaData().getCurrencyPairs();
 
     for (CexIOCurrencyLimits.Pair pair : currencyLimits.getData().getPairs()) {
-      CurrencyPair currencyPair = new CurrencyPair(pair.getSymbol1(), pair.getSymbol2());
+      CurrencyPair currencyPair = CurrencyPair.build(pair.getSymbol1(), pair.getSymbol2());
       CurrencyPairMetaData metaData =
           new CurrencyPairMetaData(null, pair.getMinLotSize(), pair.getMaxLotSize(), null);
       currencyPairs.merge(

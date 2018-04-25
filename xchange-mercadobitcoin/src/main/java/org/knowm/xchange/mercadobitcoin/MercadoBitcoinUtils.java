@@ -17,7 +17,7 @@ public final class MercadoBitcoinUtils {
 
     if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       pair = "btc_brl";
-    } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
+    } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
       pair = "ltc_brl";
     } else {
       throw new NotAvailableFromExchangeException();
@@ -26,7 +26,7 @@ public final class MercadoBitcoinUtils {
     return pair + ":" + orderId;
   }
 
-  /** @see #makeMercadoBitcoinOrderId(org.knowm.xchange.currency.CurrencyPair, String) */
+  /** @see #makeMercadoBitcoinOrderId(CurrencyPair, String) */
   public static String makeMercadoBitcoinOrderId(LimitOrder limitOrder) {
 
     return makeMercadoBitcoinOrderId(limitOrder.getCurrencyPair(), limitOrder.getId());

@@ -22,6 +22,6 @@ public class GDAXExchangeIntegration {
     ex.remoteInit();
     Assert.assertTrue(
         ((GDAXMarketDataServiceRaw) ex.getMarketDataService())
-            .checkProductExists(new CurrencyPair("ETH", "USD")));
+            .checkProductExists(CurrencyPair.build("ETH", "USD")));
   }
 }

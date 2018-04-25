@@ -1,6 +1,7 @@
 package org.knowm.xchange.gatecoin;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,12 +9,12 @@ import java.util.List;
 import java.util.Objects;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -46,18 +47,18 @@ public final class GatecoinAdapters {
     ArrayList<Balance> balances = new ArrayList<>();
 
     for (GatecoinBalance balance : gatecoinBalances) {
-      Currency ccy = Currency.getInstance(balance.getCurrency());
+      Currency ccy = Currency.valueOf(balance.getCurrency());
       balances.add(
           new Balance.Builder()
-              .currency(ccy)
-              .total(balance.getBalance())
-              .available(balance.getAvailableBalance())
-              .frozen(balance.getOpenOrder().negate())
-              .withdrawing(balance.getPendingOutgoing().negate())
-              .depositing(balance.getPendingIncoming().negate())
-              .build());
+              .setCurrency(ccy)
+              .setTotal(balance.getBalance())
+              .setAvailable(balance.getAvailableBalance())
+              .setFrozen(balance.getOpenOrder().negate())
+              .setWithdrawing(balance.getPendingOutgoing().negate())
+              .setDepositing(balance.getPendingIncoming().negate())
+              .createBalance());
     }
-    return new Wallet(balances);
+    return Wallet.build(balances);
   }
 
   /**
@@ -72,15 +73,15 @@ public final class GatecoinAdapters {
       GatecoinDepthResult gatecoinDepthResult, CurrencyPair currencyPair, int timeScale) {
 
     List<LimitOrder> asks =
-        createOrders(currencyPair, Order.OrderType.ASK, gatecoinDepthResult.getAsks());
+        createOrders(currencyPair, OrderType.ASK, gatecoinDepthResult.getAsks());
     List<LimitOrder> bids =
-        createOrders(currencyPair, Order.OrderType.BID, gatecoinDepthResult.getBids());
+        createOrders(currencyPair, OrderType.BID, gatecoinDepthResult.getBids());
     Date date = new Date();
     return new OrderBook(date, asks, bids);
   }
 
   public static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair, Order.OrderType orderType, GatecoinDepth[] orders) {
+      CurrencyPair currencyPair, OrderType orderType, GatecoinDepth[] orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (GatecoinDepth priceVolume : orders) {
@@ -91,7 +92,7 @@ public final class GatecoinAdapters {
   }
 
   public static LimitOrder createOrder(
-      CurrencyPair currencyPair, GatecoinDepth priceAndAmount, Order.OrderType orderType) {
+      CurrencyPair currencyPair, GatecoinDepth priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.getVolume(), currencyPair, "", null, priceAndAmount.getPrice());
@@ -140,7 +141,7 @@ public final class GatecoinAdapters {
         BigDecimal volume = ticker.getVolume();
         Date timestamp = new Date(ticker.getTimestamp() * 1000L);
 
-        return new Ticker.Builder()
+        return new Builder()
             .currencyPair(currencyPair)
             .last(last)
             .bid(bid)
@@ -184,10 +185,10 @@ public final class GatecoinAdapters {
             isAsk ? gatecoinUserTrade.getAskOrderID() : gatecoinUserTrade.getBidOrderID();
         final BigDecimal feeRate = gatecoinUserTrade.getFeeRate();
         final BigDecimal feeAmount =
-            feeRate.multiply(originalAmount).multiply(price).setScale(8, BigDecimal.ROUND_CEILING);
+            feeRate.multiply(originalAmount).multiply(price).setScale(8, RoundingMode.CEILING);
 
         final CurrencyPair currencyPair =
-            new CurrencyPair(
+            CurrencyPair.build(
                 gatecoinUserTrade.getCurrencyPair().substring(0, 3),
                 gatecoinUserTrade.getCurrencyPair().substring(3, 6));
         UserTrade trade =
@@ -200,7 +201,7 @@ public final class GatecoinAdapters {
                 tradeId,
                 orderId,
                 feeAmount,
-                Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+                Currency.valueOf(currencyPair.getCounter().getCurrencyCode()));
         trades.add(trade);
       }
     }

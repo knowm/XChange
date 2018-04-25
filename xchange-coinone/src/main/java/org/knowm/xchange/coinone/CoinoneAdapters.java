@@ -16,8 +16,10 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Ticker.Builder;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
@@ -48,8 +50,7 @@ public final class CoinoneAdapters {
       CoinoneOrderBookData[] coinoneOrders, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<>(coinoneOrders.length);
-    for (int i = 0; i < coinoneOrders.length; i++) {
-      CoinoneOrderBookData coinoneOrder = coinoneOrders[i];
+    for (CoinoneOrderBookData coinoneOrder : coinoneOrders) {
       BigDecimal price = coinoneOrder.getPrice();
       BigDecimal amount = coinoneOrder.getQty();
       LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, null, null, price);
@@ -60,7 +61,7 @@ public final class CoinoneAdapters {
   }
 
   public static Order adaptOrderInfo(CoinoneOrderInfoResponse coinoneOrderInfoResponse) {
-    ArrayList<Order> orders = new ArrayList<Order>();
+    ArrayList<Order> orders = new ArrayList<>();
     OrderStatus status = OrderStatus.NEW;
     if (coinoneOrderInfoResponse.getStatus().equals("live")) status = OrderStatus.NEW;
     else if (coinoneOrderInfoResponse.getStatus().equals("filled")) status = OrderStatus.FILLED;
@@ -71,7 +72,7 @@ public final class CoinoneAdapters {
     OrderType type = orderInfo.getType().equals("ask") ? OrderType.ASK : OrderType.BID;
     BigDecimal originalAmount = orderInfo.getQty();
     CurrencyPair currencyPair =
-        new CurrencyPair(new Currency(orderInfo.getCurrency().toUpperCase()), Currency.KRW);
+        CurrencyPair.build(Currency.valueOf(orderInfo.getCurrency().toUpperCase()), Currency.KRW);
     String orderId = orderInfo.getOrderId();
     BigDecimal cumulativeAmount = orderInfo.getQty().subtract(orderInfo.getRemainQty());
     BigDecimal price = orderInfo.getPrice();
@@ -97,49 +98,77 @@ public final class CoinoneAdapters {
       throw new CoinoneException(coninoneResponse.getResult());
     }
     List<Balance> balances = new ArrayList<>();
+    BigDecimal total6 = new BigDecimal(coninoneResponse.getKrw().getBalance());
+    BigDecimal available6 = new BigDecimal(coninoneResponse.getKrw().getAvail());
     balances.add(
-        new Balance(
-            Currency.getInstance("KRW"),
-            new BigDecimal(coninoneResponse.getKrw().getBalance()),
-            new BigDecimal(coninoneResponse.getKrw().getAvail())));
+        new Balance.Builder()
+            .setCurrency(Currency.valueOf("KRW"))
+            .setTotal(total6)
+            .setAvailable(available6)
+            .setFrozen(total6.add(available6.negate()))
+            .createBalance());
+    BigDecimal total5 = new BigDecimal(coninoneResponse.getBch().getBalance());
+    BigDecimal available5 = new BigDecimal(coninoneResponse.getBch().getAvail());
     balances.add(
-        new Balance(
-            Currency.getInstance("BCH"),
-            new BigDecimal(coninoneResponse.getBch().getBalance()),
-            new BigDecimal(coninoneResponse.getBch().getAvail())));
+        new Balance.Builder()
+            .setCurrency(Currency.valueOf("BCH"))
+            .setTotal(total5)
+            .setAvailable(available5)
+            .setFrozen(total5.add(available5.negate()))
+            .createBalance());
+    BigDecimal total4 = new BigDecimal(coninoneResponse.getBtc().getBalance());
+    BigDecimal available4 = new BigDecimal(coninoneResponse.getBtc().getAvail());
     balances.add(
-        new Balance(
-            Currency.getInstance("BTC"),
-            new BigDecimal(coninoneResponse.getBtc().getBalance()),
-            new BigDecimal(coninoneResponse.getBtc().getAvail())));
+        new Balance.Builder()
+            .setCurrency(Currency.valueOf("BTC"))
+            .setTotal(total4)
+            .setAvailable(available4)
+            .setFrozen(total4.add(available4.negate()))
+            .createBalance());
+    BigDecimal total3 = new BigDecimal(coninoneResponse.getEtc().getBalance());
+    BigDecimal available3 = new BigDecimal(coninoneResponse.getEtc().getAvail());
     balances.add(
-        new Balance(
-            Currency.getInstance("ETC"),
-            new BigDecimal(coninoneResponse.getEtc().getBalance()),
-            new BigDecimal(coninoneResponse.getEtc().getAvail())));
+        new Balance.Builder()
+            .setCurrency(Currency.valueOf("ETC"))
+            .setTotal(total3)
+            .setAvailable(available3)
+            .setFrozen(total3.add(available3.negate()))
+            .createBalance());
+    BigDecimal total2 = new BigDecimal(coninoneResponse.getEth().getBalance());
+    BigDecimal available2 = new BigDecimal(coninoneResponse.getEth().getAvail());
     balances.add(
-        new Balance(
-            Currency.getInstance("ETH"),
-            new BigDecimal(coninoneResponse.getEth().getBalance()),
-            new BigDecimal(coninoneResponse.getEth().getAvail())));
+        new Balance.Builder()
+            .setCurrency(Currency.valueOf("ETH"))
+            .setTotal(total2)
+            .setAvailable(available2)
+            .setFrozen(total2.add(available2.negate()))
+            .createBalance());
+    BigDecimal total1 = new BigDecimal(coninoneResponse.getQtum().getBalance());
+    BigDecimal available1 = new BigDecimal(coninoneResponse.getQtum().getAvail());
     balances.add(
-        new Balance(
-            Currency.getInstance("QTUM"),
-            new BigDecimal(coninoneResponse.getQtum().getBalance()),
-            new BigDecimal(coninoneResponse.getQtum().getAvail())));
+        new Balance.Builder()
+            .setCurrency(Currency.valueOf("QTUM"))
+            .setTotal(total1)
+            .setAvailable(available1)
+            .setFrozen(total1.add(available1.negate()))
+            .createBalance());
+    BigDecimal total = new BigDecimal(coninoneResponse.getXrp().getBalance());
+    BigDecimal available = new BigDecimal(coninoneResponse.getXrp().getAvail());
     balances.add(
-        new Balance(
-            Currency.getInstance("XRP"),
-            new BigDecimal(coninoneResponse.getXrp().getBalance()),
-            new BigDecimal(coninoneResponse.getXrp().getAvail())));
-    return new Wallet(balances);
+        new Balance.Builder()
+            .setCurrency(Currency.valueOf("XRP"))
+            .setTotal(total)
+            .setAvailable(available)
+            .setFrozen(total.add(available.negate()))
+            .createBalance());
+    return Wallet.build(balances);
   }
 
   public static Ticker adaptTicker(CoinoneTicker ticker) {
     CurrencyPair currencyPair =
-        new CurrencyPair(Currency.getInstance(ticker.getCurrency()), Currency.KRW);
+        CurrencyPair.build(Currency.valueOf(ticker.getCurrency()), Currency.KRW);
     final Date date = DateUtils.fromMillisUtc(Long.valueOf(ticker.getTimestamp()) * 1000);
-    return new Ticker.Builder()
+    return new Builder()
         .currencyPair(currencyPair)
         .high(ticker.getHigh())
         .low(ticker.getLow())
@@ -158,7 +187,7 @@ public final class CoinoneAdapters {
     for (CoinoneTradeData trade : trades.getCompleteOrders()) {
       tradeList.add(adaptTrade(trade, currencyPair));
     }
-    return new Trades(tradeList, 0, Trades.TradeSortType.SortByTimestamp);
+    return new Trades(tradeList, 0, TradeSortType.SortByTimestamp);
   }
 
   private static Trade adaptTrade(CoinoneTradeData trade, CurrencyPair currencyPair) {

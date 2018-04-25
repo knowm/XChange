@@ -24,7 +24,7 @@ public class KoinimAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     KoinimTicker koinimTicker = mapper.readValue(is, KoinimTicker.class);
 
-    Ticker ticker = KoinimAdapters.adaptTicker(koinimTicker, new CurrencyPair("BTC", "TRY"));
+    Ticker ticker = KoinimAdapters.adaptTicker(koinimTicker, CurrencyPair.build("BTC", "TRY"));
     assertThat(ticker).isNotNull();
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("63500.02000000"));
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("63500.02000000"));

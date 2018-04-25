@@ -16,7 +16,7 @@ public class MarketDataServiceIntegration {
 
   private static final Exchange KUCOIN =
       ExchangeFactory.INSTANCE.createExchange(KucoinExchange.class.getName());
-  private static final CurrencyPair XRB_BTC = new CurrencyPair("XRB", "BTC");
+  private static final CurrencyPair XRB_BTC = CurrencyPair.build("XRB", "BTC");
 
   @Test
   public void testGetTicker() throws Exception {

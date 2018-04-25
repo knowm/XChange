@@ -43,8 +43,8 @@ public class CryptonitAdapterTest {
     assertEquals(new BigDecimal("604.449"), asks.get(0).getLimitPrice().stripTrailingZeros());
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
     assertEquals(new BigDecimal("0.16029"), asks.get(0).getOriginalAmount().stripTrailingZeros());
-    assertThat(asks.get(0).getCurrencyPair().base.getCurrencyCode()).isEqualTo("BTC");
-    assertThat(asks.get(0).getCurrencyPair().counter.getCurrencyCode()).isEqualTo("USD");
+    assertThat(asks.get(0).getCurrencyPair().getBase().getCurrencyCode()).isEqualTo("BTC");
+    assertThat(asks.get(0).getCurrencyPair().getCounter().getCurrencyCode()).isEqualTo("USD");
   }
 
   @Test
@@ -66,7 +66,7 @@ public class CryptonitAdapterTest {
     assertThat(trades.getlastID()).isEqualTo(268133L);
     assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 605.997);
     assertThat(trades.getTrades().get(0).getOriginalAmount().doubleValue() == 1.189100000);
-    assertThat(trades.getTrades().get(0).getCurrencyPair().base.getCurrencyCode() == "BTC");
+    assertThat(trades.getTrades().get(0).getCurrencyPair().getBase().getCurrencyCode() == "BTC");
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))
         .isEqualTo("2014-06-20 00:09:10 GMT");
   }
@@ -90,7 +90,7 @@ public class CryptonitAdapterTest {
     assertThat(ticker.getHigh().toString()).isEqualTo("610.00000000");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("8.28600851"));
 
-    assertThat(ticker.getCurrencyPair().base.getCurrencyCode()).isEqualTo("BTC");
+    assertThat(ticker.getCurrencyPair().getBase().getCurrencyCode()).isEqualTo("BTC");
   }
 
   @Test

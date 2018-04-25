@@ -94,8 +94,8 @@ public class CoinMarketCapExchange extends BaseExchange implements Exchange {
 
     List<CurrencyPair> pairs = new ArrayList<>();
     for (Currency currency : currencies) {
-      pairs.add(new CurrencyPair(currency, Currency.USD));
-      pairs.add(new CurrencyPair(currency, Currency.BTC));
+      pairs.add(CurrencyPair.build(currency, Currency.USD));
+      pairs.add(CurrencyPair.build(currency, Currency.BTC));
     }
     return pairs;
   }

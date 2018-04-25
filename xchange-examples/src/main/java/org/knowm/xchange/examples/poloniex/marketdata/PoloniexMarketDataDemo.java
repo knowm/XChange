@@ -22,7 +22,7 @@ public class PoloniexMarketDataDemo {
 
     poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
     MarketDataService dataService = poloniex.getMarketDataService();
-    currencyPair = new CurrencyPair("BTC", "USDT");
+    currencyPair = CurrencyPair.build("BTC", "USDT");
     //    currencyPair = new CurrencyPair("ETH", "BTC");
 
     generic(dataService);

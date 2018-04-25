@@ -18,7 +18,7 @@ public class TickerFetchIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(PaymiumExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("BTC", "EUR"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

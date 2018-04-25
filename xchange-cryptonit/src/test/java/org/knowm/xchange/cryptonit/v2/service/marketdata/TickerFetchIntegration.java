@@ -18,7 +18,7 @@ public class TickerFetchIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CryptonitExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "LTC"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("BTC", "LTC"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

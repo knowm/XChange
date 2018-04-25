@@ -7,19 +7,23 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Builder;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -48,16 +52,16 @@ public class HitbtcAdapters {
     String counter =
         counters
             .stream()
-            .filter(cnt -> symbol.endsWith(cnt))
+            .filter(symbol::endsWith)
             .findAny()
             .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
     String base = symbol.substring(0, symbol.length() - counter.length());
-    return new CurrencyPair(base, counter);
+    return CurrencyPair.build(base, counter);
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
 
-    return new CurrencyPair(hitbtcSymbol.getBaseCurrency(), hitbtcSymbol.getQuoteCurrency());
+    return CurrencyPair.build(hitbtcSymbol.getBaseCurrency(), hitbtcSymbol.getQuoteCurrency());
   }
 
   public static Ticker adaptTicker(HitbtcTicker hitbtcTicker, CurrencyPair currencyPair) {
@@ -86,7 +90,7 @@ public class HitbtcAdapters {
 
     List<Ticker> tickers = new ArrayList<>(hitbtcTickers.size());
 
-    for (Map.Entry<String, HitbtcTicker> ticker : hitbtcTickers.entrySet()) {
+    for (Entry<String, HitbtcTicker> ticker : hitbtcTickers.entrySet()) {
 
       tickers.add(adaptTicker(ticker.getValue(), adaptSymbol(ticker.getKey())));
     }
@@ -142,9 +146,7 @@ public class HitbtcAdapters {
 
     List<Trade> trades = new ArrayList<>(allHitbtcTrades.size());
     long lastTradeId = 0;
-    for (int i = 0; i < allHitbtcTrades.size(); i++) {
-      HitbtcTrade hitbtcTrade = allHitbtcTrades.get(i);
-
+    for (HitbtcTrade hitbtcTrade : allHitbtcTrades) {
       Date timestamp = hitbtcTrade.getTimestamp();
       BigDecimal price = hitbtcTrade.getPrice();
       BigDecimal amount = hitbtcTrade.getQuantity();
@@ -158,7 +160,7 @@ public class HitbtcAdapters {
       trades.add(trade);
     }
 
-    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
+    return new Trades(trades, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
   public static LimitOrder adaptOrder(HitbtcOrder hitbtcOrder) {
@@ -223,12 +225,12 @@ public class HitbtcAdapters {
               id,
               hitbtcOwnTrade.getClientOrderId(),
               hitbtcOwnTrade.getFee(),
-              Currency.getInstance(pair.counter.getCurrencyCode()));
+              Currency.valueOf(pair.getCounter().getCurrencyCode()));
 
       trades.add(trade);
     }
 
-    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
   public static Wallet adaptWallet(String name, List<HitbtcBalance> hitbtcBalances) {
@@ -236,17 +238,24 @@ public class HitbtcAdapters {
     List<Balance> balances = new ArrayList<>(hitbtcBalances.size());
 
     for (HitbtcBalance balanceRaw : hitbtcBalances) {
-      Currency currency = Currency.getInstance(balanceRaw.getCurrency());
+      Currency currency = Currency.valueOf(balanceRaw.getCurrency());
       Balance balance =
-          new Balance(currency, null, balanceRaw.getAvailable(), balanceRaw.getReserved());
+          new Balance.Builder()
+              .setCurrency(currency)
+              .setTotal(null)
+              .setAvailable(balanceRaw.getAvailable())
+              .setFrozen(balanceRaw.getReserved())
+              .createBalance();
       balances.add(balance);
     }
-    return new Wallet(name, name, balances);
+    return Wallet.build(name, name, balances);
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
 
-    return pair == null ? null : pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+    return pair == null
+        ? null
+        : pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode();
   }
 
   public static HitbtcSide getSide(OrderType type) {
@@ -287,7 +296,7 @@ public class HitbtcAdapters {
 
   public static FundingRecord adapt(HitbtcTransaction transaction) {
 
-    String description = transaction.getType() + " " + transaction.getStatus();
+    String description = transaction.getType() + ' ' + transaction.getStatus();
     if (transaction.getIndex() != null) {
       description += ", index: " + transaction.getIndex();
     }
@@ -295,9 +304,9 @@ public class HitbtcAdapters {
       description += ", paymentId: " + transaction.getPaymentId();
     }
 
-    return new FundingRecord.Builder()
+    return new Builder()
         .setAddress(transaction.getAddress())
-        .setCurrency(Currency.getInstance(transaction.getCurrency()))
+        .setCurrency(Currency.valueOf(transaction.getCurrency()))
         .setAmount(transaction.getAmount())
         .setType(convertType(transaction.getType()))
         .setFee(transaction.getFee())
@@ -335,15 +344,15 @@ public class HitbtcAdapters {
    * @see https://api.hitbtc.com/api/2/explore/ Transaction Model possible statusses: created,
    *     pending, failed, success
    */
-  private static FundingRecord.Status convertStatus(String status) {
+  private static Status convertStatus(String status) {
     switch (status) {
       case "created":
       case "pending":
-        return FundingRecord.Status.PROCESSING;
+        return Status.PROCESSING;
       case "failed":
-        return FundingRecord.Status.FAILED;
+        return Status.FAILED;
       case "success":
-        return FundingRecord.Status.COMPLETE;
+        return Status.COMPLETE;
       default:
         throw new RuntimeException("Unknown HitBTC transaction status: " + status);
     }
@@ -356,20 +365,20 @@ public class HitbtcAdapters {
    * @see https://api.hitbtc.com/#order-model Order Model possible statuses: new, suspended,
    *     partiallyFilled, filled, canceled, expired
    */
-  private static Order.OrderStatus convertOrderStatus(String status) {
+  private static OrderStatus convertOrderStatus(String status) {
     switch (status) {
       case "new":
-        return Order.OrderStatus.NEW;
+        return OrderStatus.NEW;
       case "suspended":
-        return Order.OrderStatus.STOPPED;
+        return OrderStatus.STOPPED;
       case "partiallyFilled":
-        return Order.OrderStatus.PARTIALLY_FILLED;
+        return OrderStatus.PARTIALLY_FILLED;
       case "filled":
-        return Order.OrderStatus.FILLED;
+        return OrderStatus.FILLED;
       case "canceled":
-        return Order.OrderStatus.CANCELED;
+        return OrderStatus.CANCELED;
       case "expired":
-        return Order.OrderStatus.EXPIRED;
+        return OrderStatus.EXPIRED;
       default:
         throw new RuntimeException("Unknown HitBTC transaction status: " + status);
     }
