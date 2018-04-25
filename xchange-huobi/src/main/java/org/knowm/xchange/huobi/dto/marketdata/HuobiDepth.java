@@ -21,11 +21,9 @@ public final class HuobiDepth {
       @JsonProperty("asks") List<BigDecimal[]> asksJson) {
     this.id = id;
 
-    BiConsumer<Object[], Map<BigDecimal, BigDecimal>> entryProcessor =
+    BiConsumer<BigDecimal[], Map<BigDecimal, BigDecimal>> entryProcessor =
         (obj, col) -> {
-          BigDecimal price = new BigDecimal(obj[0].toString());
-          BigDecimal qty = new BigDecimal(obj[1].toString());
-          col.put(price, qty);
+          col.put(obj[0], obj[1]);
         };
 
     TreeMap<BigDecimal, BigDecimal> bids = new TreeMap<>((k1, k2) -> -k1.compareTo(k2));
