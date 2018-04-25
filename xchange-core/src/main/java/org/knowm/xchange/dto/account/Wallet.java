@@ -39,7 +39,7 @@ public interface Wallet extends Serializable {
   /**
    * Returns the balance for the specified currency.
    *
-   * @param currency a {@link org.knowm.xchange.currency.Currency}.
+   * @param currency a {@link Currency}.
    * @return the balance of the specified currency, or a zero balance if currency not present
    */
   default Balance getBalance(Currency currency) {

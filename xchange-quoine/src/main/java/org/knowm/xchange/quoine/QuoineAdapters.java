@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.knowm.xchange.currency.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -29,7 +30,7 @@ import org.knowm.xchange.quoine.dto.trade.QuoineExecution;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
 import org.knowm.xchange.utils.DateUtils;
-import org.knowm.xchange.currency.*;
+
 public class QuoineAdapters {
 
   public static Ticker adaptTicker(
@@ -155,11 +156,10 @@ public class QuoineAdapters {
     for (Model model : quoineOrdersList.getModels()) {
       if (model.getStatus().equals("live")) {
 
-        // currencey pair 
+        // currencey pair
         String baseSymbol = model.getCurrencyPairCode().substring(0, 3);
         String counterSymbol = model.getCurrencyPairCode().substring(3, 6);
         CurrencyPair currencyPair = CurrencyPair.build(baseSymbol, counterSymbol);
- 
 
         // OrderType
         OrderType orderType = model.getSide().equals("sell") ? OrderType.ASK : OrderType.BID;

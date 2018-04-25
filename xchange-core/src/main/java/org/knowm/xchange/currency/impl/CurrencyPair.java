@@ -15,8 +15,8 @@ import org.knowm.xchange.currency.Currency;
  */
 public class CurrencyPair implements org.knowm.xchange.currency.CurrencyPair {
 
-  private final org.knowm.xchange.currency.Currency base;
-  private final org.knowm.xchange.currency.Currency counter;
+  private final Currency base;
+  private final Currency counter;
 
   /**
    * Full constructor In general the CurrencyPair.base is what you're wanting to buy/sell. The
@@ -26,8 +26,7 @@ public class CurrencyPair implements org.knowm.xchange.currency.CurrencyPair {
    * @param counter The counter currency is what currency you want to use to pay/receive for your
    *     purchase/sale.
    */
-  public CurrencyPair(
-      org.knowm.xchange.currency.Currency base, org.knowm.xchange.currency.Currency counter) {
+  public CurrencyPair(Currency base, Currency counter) {
 
     this.base = base;
     this.counter = counter;
@@ -43,9 +42,7 @@ public class CurrencyPair implements org.knowm.xchange.currency.CurrencyPair {
    */
   public CurrencyPair(String baseSymbol, String counterSymbol) {
 
-    this(
-        org.knowm.xchange.currency.Currency.valueOf(baseSymbol),
-        org.knowm.xchange.currency.Currency.valueOf(counterSymbol));
+    this(Currency.valueOf(baseSymbol), Currency.valueOf(counterSymbol));
   }
 
   /**
@@ -61,8 +58,8 @@ public class CurrencyPair implements org.knowm.xchange.currency.CurrencyPair {
     String base = currencyPair.substring(0, split);
     String counter = currencyPair.substring(split + 1);
 
-    this.base = org.knowm.xchange.currency.Currency.valueOf(base);
-    this.counter = org.knowm.xchange.currency.Currency.valueOf(counter);
+    this.base = Currency.valueOf(base);
+    this.counter = Currency.valueOf(counter);
   }
 
   @Override
@@ -70,7 +67,7 @@ public class CurrencyPair implements org.knowm.xchange.currency.CurrencyPair {
     return org.knowm.xchange.currency.CurrencyPair.getOutput(getBase(), getCounter());
   }
 
-  public boolean contains(org.knowm.xchange.currency.Currency currency) {
+  public boolean contains(Currency currency) {
     return getBase().equals(currency) || getCounter().equals(currency);
   }
 
@@ -121,7 +118,7 @@ public class CurrencyPair implements org.knowm.xchange.currency.CurrencyPair {
   }
 
   @Override
-  public org.knowm.xchange.currency.Currency getBase() {
+  public Currency getBase() {
     return base;
   }
 

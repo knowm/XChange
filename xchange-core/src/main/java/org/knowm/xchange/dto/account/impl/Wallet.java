@@ -12,8 +12,7 @@ import org.knowm.xchange.currency.Currency;
  */
 public final class Wallet implements org.knowm.xchange.dto.account.Wallet {
 
-  private final Map<org.knowm.xchange.currency.Currency, org.knowm.xchange.dto.account.Balance>
-      balances;
+  private final Map<Currency, org.knowm.xchange.dto.account.Balance> balances;
   private String id;
   private String name;
 

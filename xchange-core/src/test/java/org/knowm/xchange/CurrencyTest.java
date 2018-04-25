@@ -3,13 +3,11 @@ package org.knowm.xchange;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.util.Objects;
 import org.apache.commons.lang3.SerializationUtils;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyAttributes;
-
-import java.util.Objects;
-import java.util.Set;
 
 public class CurrencyTest {
 
@@ -44,7 +42,7 @@ public class CurrencyTest {
     assertEquals(Currency.XBT, btc);
     assertNotEquals(Currency.LTC, btc);
 
-    String someStackVariable="BTC";
+    String someStackVariable = "BTC";
     Currency avoidXBT =
         new Currency() {
 
@@ -66,12 +64,11 @@ public class CurrencyTest {
               ret = Objects.equals(currency.getCode(), someStackVariable);
               //
             }
-          return ret;}
+            return ret;
+          }
         };
-    assertEquals(avoidXBT,Currency.BTC );
+    assertEquals(avoidXBT, Currency.BTC);
     assertNotEquals(Currency.XBT, avoidXBT);
     assertNotEquals(Currency.LTC, avoidXBT);
   }
-
-
 }
