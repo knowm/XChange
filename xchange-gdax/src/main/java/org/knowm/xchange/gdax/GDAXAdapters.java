@@ -13,6 +13,7 @@ import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -109,9 +110,7 @@ public class GDAXAdapters {
   }
 
   public static Ticker adaptTicker(
-      GDAXProductTicker ticker,
-      GDAXProductStats stats,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      GDAXProductTicker ticker, GDAXProductStats stats, CurrencyPair currencyPair) {
 
     BigDecimal last = ticker.getPrice();
     BigDecimal open = stats.getOpen();
@@ -135,8 +134,7 @@ public class GDAXAdapters {
         .build();
   }
 
-  public static OrderBook adaptOrderBook(
-      GDAXProductBook book, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(GDAXProductBook book, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = toLimitOrderList(book.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = toLimitOrderList(book.getBids(), OrderType.BID, currencyPair);
@@ -145,9 +143,7 @@ public class GDAXAdapters {
   }
 
   private static List<LimitOrder> toLimitOrderList(
-      GDAXProductBookEntry[] levels,
-      OrderType orderType,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      GDAXProductBookEntry[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>();
 
@@ -191,8 +187,7 @@ public class GDAXAdapters {
 
   public static Order adaptOrder(GDAXOrder order) {
     OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(order.getProductId().replace('-', '/'));
+    CurrencyPair currencyPair = CurrencyPair.build(order.getProductId().replace('-', '/'));
 
     Date createdAt = parseDate(order.getCreatedAt());
 
@@ -302,8 +297,7 @@ public class GDAXAdapters {
     for (GDAXFill fill : coinbaseExFills) {
       OrderType type = fill.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
 
-      org.knowm.xchange.currency.CurrencyPair currencyPair =
-          org.knowm.xchange.currency.CurrencyPair.build(fill.getProductId().replace('-', '/'));
+      CurrencyPair currencyPair = CurrencyPair.build(fill.getProductId().replace('-', '/'));
 
       UserTrade t =
           new UserTrade(
@@ -322,8 +316,7 @@ public class GDAXAdapters {
     return new UserTrades(trades, TradeSortType.SortByID);
   }
 
-  public static Trades adaptTrades(
-      GDAXTrade[] coinbaseExTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(GDAXTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);
 
@@ -345,23 +338,21 @@ public class GDAXAdapters {
     return new Trades(trades, coinbaseExTrades[0].getTradeId(), TradeSortType.SortByID);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(GDAXProduct product) {
-    return org.knowm.xchange.currency.CurrencyPair.build(
-        product.getBaseCurrency(), product.getTargetCurrency());
+  public static CurrencyPair adaptCurrencyPair(GDAXProduct product) {
+    return CurrencyPair.build(product.getBaseCurrency(), product.getTargetCurrency());
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
       ExchangeMetaData exchangeMetaData, GDAXProduct[] products) {
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchangeMetaData.getCurrencyPairs();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (GDAXProduct product : products) {
 
       BigDecimal minSize = product.getBaseMinSize();
       BigDecimal maxSize = product.getBaseMaxSize();
 
-      org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(product);
+      CurrencyPair pair = adaptCurrencyPair(product);
 
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
       int priceScale = staticMetaData == null ? 8 : staticMetaData.getPriceScale();
@@ -379,7 +370,7 @@ public class GDAXAdapters {
         true);
   }
 
-  public static String adaptProductID(org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String adaptProductID(CurrencyPair currencyPair) {
     return currencyPair.getBase().getCurrencyCode()
         + '-'
         + currencyPair.getCounter().getCurrencyCode();

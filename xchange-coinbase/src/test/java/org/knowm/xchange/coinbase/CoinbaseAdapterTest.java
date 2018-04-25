@@ -34,8 +34,8 @@ public class CoinbaseAdapterTest {
   @Test
   public void testAdaptAccountInfo() throws IOException {
 
-    org.knowm.xchange.dto.account.Balance balance =
-        new org.knowm.xchange.dto.account.Balance.Builder()
+    Balance balance =
+        new Balance.Builder()
             .setCurrency(Currency.BTC)
             .setTotal(new BigDecimal("7.10770000"))
             .createBalance();

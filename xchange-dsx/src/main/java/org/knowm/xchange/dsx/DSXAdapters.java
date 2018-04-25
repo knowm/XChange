@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
 import org.knowm.xchange.dsx.dto.account.DSXCurrencyAmount;
 import org.knowm.xchange.dsx.dto.marketdata.DSXExchangeInfo;
@@ -49,10 +50,7 @@ public class DSXAdapters {
   private DSXAdapters() {}
 
   public static List<LimitOrder> adaptOrders(
-      List<BigDecimal[]> dSXOrders,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      String orderTypeString,
-      String id) {
+      List<BigDecimal[]> dSXOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -67,15 +65,14 @@ public class DSXAdapters {
   public static LimitOrder adaptOrders(
       BigDecimal amount,
       BigDecimal price,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       OrderType orderType,
       String id) {
 
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }
 
-  public static Trade adaptTrade(
-      DSXTrade dSXTrade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(DSXTrade dSXTrade, CurrencyPair currencyPair) {
 
     OrderType orderType =
         dSXTrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -87,8 +84,7 @@ public class DSXAdapters {
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
-  public static Trades adaptTrades(
-      DSXTrade[] dSXTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(DSXTrade[] dSXTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
@@ -103,8 +99,7 @@ public class DSXAdapters {
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static Ticker adaptTicker(
-      DSXTicker dSXTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(DSXTicker dSXTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = dSXTicker.getLast();
     BigDecimal bid = dSXTicker.getSell();
@@ -138,7 +133,7 @@ public class DSXAdapters {
         available = total;
       }
       balances.add(
-          new org.knowm.xchange.dto.account.Balance.Builder()
+          new Balance.Builder()
               .setCurrency(Currency.valueOf(currency))
               .setTotal(total)
               .setAvailable(available)
@@ -156,7 +151,7 @@ public class DSXAdapters {
       DSXOrder dsxOrder = longDSXOrderEntry.getValue();
       OrderType orderType = dsxOrder.getType() == DSXOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = dsxOrder.getRate();
-      org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(dsxOrder.getPair());
+      CurrencyPair currencyPair = adaptCurrencyPair(dsxOrder.getPair());
       Date timestamp = DateUtils.fromUnixTime(Long.valueOf(dsxOrder.getTimestampCreated()));
 
       limitOrders.add(
@@ -183,7 +178,7 @@ public class DSXAdapters {
       Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
-      org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
+      CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
       BigDecimal feeAmount = result.getCommission();
       Currency feeCurrency = adaptCurrency(result.getCommissionCurrency());
       trades.add(
@@ -201,25 +196,23 @@ public class DSXAdapters {
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String dsxCurrencyPair) {
+  public static CurrencyPair adaptCurrencyPair(String dsxCurrencyPair) {
     String currencyOne = dsxCurrencyPair.substring(0, 3);
     if (currencyOne.equalsIgnoreCase("bcc")) currencyOne = "bch";
 
     String currencyTwo = dsxCurrencyPair.substring(3, 6);
     if (currencyTwo.equalsIgnoreCase("bcc")) currencyTwo = "bch";
 
-    return org.knowm.xchange.currency.CurrencyPair.build(
-        currencyOne.toUpperCase(), currencyTwo.toUpperCase());
+    return CurrencyPair.build(currencyOne.toUpperCase(), currencyTwo.toUpperCase());
   }
 
   public static Currency adaptCurrency(String dsxCurrency) {
     return Currency.valueOf(dsxCurrency.toUpperCase());
   }
 
-  public static List<org.knowm.xchange.currency.CurrencyPair> adaptCurrencyPair(
-      Iterable<String> dsxPairs) {
+  public static List<CurrencyPair> adaptCurrencyPair(Iterable<String> dsxPairs) {
 
-    List<org.knowm.xchange.currency.CurrencyPair> pairs = new ArrayList<>();
+    List<CurrencyPair> pairs = new ArrayList<>();
     for (String dsxPair : dsxPairs) {
       pairs.add(adaptCurrencyPair(dsxPair));
     }
@@ -227,8 +220,7 @@ public class DSXAdapters {
     return pairs;
   }
 
-  public static String currencyPairToMarketName(
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String currencyPairToMarketName(CurrencyPair currencyPair) {
 
     String base = currencyPair.getBase().getCurrencyCode();
     String counter = currencyPair.getCounter().getCurrencyCode();
@@ -241,15 +233,14 @@ public class DSXAdapters {
   public static ExchangeMetaData toMetaData(
       DSXExchangeInfo dsxExchangeInfo, DSXMetaData dsxMetaData) {
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     if (dsxExchangeInfo != null) {
       for (Entry<String, DSXPairInfo> e : dsxExchangeInfo.getPairs().entrySet()) {
         String marketName = e.getKey();
 
-        org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(marketName);
+        CurrencyPair pair = adaptCurrencyPair(marketName);
         CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue());
         currencyPairs.put(pair, marketMetaData);
 

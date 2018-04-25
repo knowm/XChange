@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -95,7 +96,7 @@ public abstract class RippleAdapters {
   public static OrderBook adaptOrderBook(
       final RippleOrderBook rippleOrderBook,
       final RippleMarketDataParams params,
-      final org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      final CurrencyPair currencyPair) {
     final String orderBook =
         rippleOrderBook.getOrderBook(); // e.g. XRP/BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B
     final String[] splitPair = orderBook.split("/");
@@ -160,7 +161,7 @@ public abstract class RippleAdapters {
   }
 
   public static List<LimitOrder> createOrders(
-      final org.knowm.xchange.currency.CurrencyPair currencyPair,
+      final CurrencyPair currencyPair,
       final OrderType orderType,
       final List<RippleOrder> orders,
       final String baseCounterparty,
@@ -233,8 +234,7 @@ public abstract class RippleAdapters {
               .getValue()
               .divide(baseAmount.getValue(), scale, RoundingMode.HALF_UP)
               .stripTrailingZeros();
-      final org.knowm.xchange.currency.CurrencyPair pair =
-          org.knowm.xchange.currency.CurrencyPair.build(baseSymbol, counterSymbol);
+      final CurrencyPair pair = CurrencyPair.build(baseSymbol, counterSymbol);
 
       final RippleLimitOrder xchangeOrder =
           (RippleLimitOrder)
@@ -315,8 +315,7 @@ public abstract class RippleAdapters {
     } else if ((params instanceof TradeHistoryParamCurrencyPair)
         && (((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null)) {
       // Searching for a specific currency pair - use this direction
-      final org.knowm.xchange.currency.CurrencyPair pair =
-          ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      final CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
       if (pair.getBase().getCurrencyCode().equals(balanceChanges.get(0).getCurrency())
           && pair.getCounter().getCurrencyCode().equals(balanceChanges.get(1).getCurrency())) {
         base = balanceChanges.get(0);
@@ -347,7 +346,7 @@ public abstract class RippleAdapters {
     }
 
     final String currencyPairString = base.getCurrency() + '/' + counter.getCurrency();
-    final org.knowm.xchange.currency.CurrencyPair currencyPair =
+    final CurrencyPair currencyPair =
         CurrencyPairDeserializer.getCurrencyPairFromString(currencyPairString);
 
     // Ripple has 2 types of fee.

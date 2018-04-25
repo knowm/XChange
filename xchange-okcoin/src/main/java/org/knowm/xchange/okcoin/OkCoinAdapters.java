@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.*;
@@ -52,12 +53,12 @@ import org.knowm.xchange.utils.DateUtils;
 
 public final class OkCoinAdapters {
 
-  private static final org.knowm.xchange.dto.account.Balance zeroUsdBalance =
+  private static final Balance zeroUsdBalance =
       new Builder().setCurrency(USD).setTotal(BigDecimal.ZERO).createBalance();
 
   private OkCoinAdapters() {}
 
-  public static String adaptSymbol(org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String adaptSymbol(CurrencyPair currencyPair) {
 
     return (currencyPair.getBase().getCurrencyCode()
             + '_'
@@ -70,14 +71,13 @@ public final class OkCoinAdapters {
     return currency.getCurrencyCode().toLowerCase();
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptSymbol(String symbol) {
+  public static CurrencyPair adaptSymbol(String symbol) {
 
     String[] currencies = symbol.toUpperCase().split("_");
-    return org.knowm.xchange.currency.CurrencyPair.build(currencies[0], currencies[1]);
+    return CurrencyPair.build(currencies[0], currencies[1]);
   }
 
-  public static Ticker adaptTicker(
-      OkCoinTickerResponse tickerResponse, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
     final Date date = adaptDate(tickerResponse.getDate());
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -91,8 +91,7 @@ public final class OkCoinAdapters {
         .build();
   }
 
-  public static OrderBook adaptOrderBook(
-      OkCoinDepth depth, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {
     Stream<LimitOrder> asks =
         adaptLimitOrders(OrderType.ASK, depth.getAsks(), depth.getTimestamp(), currencyPair)
             .sorted();
@@ -102,8 +101,7 @@ public final class OkCoinAdapters {
     return new OrderBook(depth.getTimestamp(), asks, bids);
   }
 
-  public static Trades adaptTrades(
-      OkCoinTrade[] trades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(OkCoinTrade[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<>(trades.length);
     for (OkCoinTrade trade : trades) {
@@ -158,11 +156,11 @@ public final class OkCoinAdapters {
     OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
     OkcoinFuturesFundsCross bchFunds = info.getBchFunds();
 
-    org.knowm.xchange.dto.account.Balance btcBalance =
+    Balance btcBalance =
         new Builder().setCurrency(BTC).setTotal(btcFunds.getAccountRights()).createBalance();
-    org.knowm.xchange.dto.account.Balance ltcBalance =
+    Balance ltcBalance =
         new Builder().setCurrency(LTC).setTotal(ltcFunds.getAccountRights()).createBalance();
-    org.knowm.xchange.dto.account.Balance bchBalance =
+    Balance bchBalance =
         new Builder().setCurrency(BCH).setTotal(bchFunds.getAccountRights()).createBalance();
 
     return AccountInfo.build(Wallet.build(zeroUsdBalance, btcBalance, ltcBalance, bchBalance));
@@ -223,26 +221,18 @@ public final class OkCoinAdapters {
   }
 
   private static Stream<LimitOrder> adaptLimitOrders(
-      OrderType type,
-      BigDecimal[][] list,
-      Date timestamp,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      OrderType type, BigDecimal[][] list, Date timestamp, CurrencyPair currencyPair) {
     return Arrays.stream(list)
         .map(data -> adaptLimitOrder(type, data, currencyPair, null, timestamp));
   }
 
   private static LimitOrder adaptLimitOrder(
-      OrderType type,
-      BigDecimal[] data,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      String id,
-      Date timestamp) {
+      OrderType type, BigDecimal[] data, CurrencyPair currencyPair, String id, Date timestamp) {
 
     return new LimitOrder(type, data[1], currencyPair, id, timestamp, data[0]);
   }
 
-  private static Trade adaptTrade(
-      OkCoinTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  private static Trade adaptTrade(OkCoinTrade trade, CurrencyPair currencyPair) {
 
     return new Trade(
         trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK,
@@ -374,8 +364,7 @@ public final class OkCoinAdapters {
       }
       final String tradeId = String.valueOf(transactionId);
       final String orderId = String.valueOf(okCoinFuturesTrade.getId());
-      final org.knowm.xchange.currency.CurrencyPair currencyPair =
-          org.knowm.xchange.currency.CurrencyPair.BTC_USD;
+      final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
       BigDecimal feeAmont = BigDecimal.ZERO;
       UserTrade trade =

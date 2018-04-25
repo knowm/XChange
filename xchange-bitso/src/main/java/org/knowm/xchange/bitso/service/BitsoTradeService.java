@@ -11,6 +11,7 @@ import org.knowm.xchange.bitso.BitsoAdapters;
 import org.knowm.xchange.bitso.dto.BitsoException;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -57,7 +58,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
           new LimitOrder(
               orderType,
               bitsoOrder.getAmount(),
-              org.knowm.xchange.currency.CurrencyPair.build(Currency.BTC, Currency.MXN),
+              CurrencyPair.build(Currency.BTC, Currency.MXN),
               id,
               bitsoOrder.getTime(),
               price));

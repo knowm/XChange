@@ -1,11 +1,12 @@
 package org.knowm.xchange.luno;
 
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class LunoUtil {
 
-  public static String toLunoPair(org.knowm.xchange.currency.CurrencyPair pair) {
+  public static String toLunoPair(CurrencyPair pair) {
     return toLunoCurrency(pair.getBase()) + toLunoCurrency(pair.getCounter());
   }
 
@@ -61,8 +62,8 @@ public class LunoUtil {
    * @param lunoPair
    * @return
    */
-  public static org.knowm.xchange.currency.CurrencyPair fromLunoPair(String lunoPair) {
-    return org.knowm.xchange.currency.CurrencyPair.build(
+  public static CurrencyPair fromLunoPair(String lunoPair) {
+    return CurrencyPair.build(
         fromLunoCurrency(lunoPair.substring(0, 3)), fromLunoCurrency(lunoPair.substring(3)));
   }
 }

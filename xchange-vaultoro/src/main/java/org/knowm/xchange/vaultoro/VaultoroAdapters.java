@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -33,7 +34,7 @@ public final class VaultoroAdapters {
   }
 
   public static OrderBook adaptVaultoroOrderBook(
-      VaultoroOrderBook vaultoroOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      VaultoroOrderBook vaultoroOrderBook, CurrencyPair currencyPair) {
 
     List<VaultoroOrder> vaultoroBids = vaultoroOrderBook.getBuys();
     List<VaultoroOrder> vaultoroAsks = vaultoroOrderBook.getSells();
@@ -62,8 +63,7 @@ public final class VaultoroAdapters {
   }
 
   public static Trades adaptVaultoroTransactions(
-      List<VaultoroTrade> vaultoroTransactions,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      List<VaultoroTrade> vaultoroTransactions, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
 
@@ -120,7 +120,7 @@ public final class VaultoroAdapters {
 
   public static LimitOrder adaptVaultoroOrder(VaultoroOpenOrder o, OrderType orderType) {
 
-    return new Builder(orderType, org.knowm.xchange.currency.CurrencyPair.build("GLD", "BTC"))
+    return new Builder(orderType, CurrencyPair.build("GLD", "BTC"))
         .id(o.getOrderID())
         .limitPrice(o.getGoldPrice())
         .originalAmount(o.getGoldAmount())

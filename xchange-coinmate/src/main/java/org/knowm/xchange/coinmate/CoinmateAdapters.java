@@ -143,7 +143,7 @@ public class CoinmateAdapters {
         funds.entrySet()) {
       Currency currency =
           Currency.valueOf((stringCoinmateBalanceDataEntryEntry.getKey()).toUpperCase());
-      org.knowm.xchange.dto.account.Balance balance =
+      Balance balance =
           new Builder()
               .setCurrency(currency)
               .setTotal(stringCoinmateBalanceDataEntryEntry.getValue().getBalance())

@@ -8,6 +8,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinmarketcap.service.CoinMarketCapMarketDataService;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -88,13 +89,13 @@ public class CoinMarketCapExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public List<org.knowm.xchange.currency.CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() {
     List<Currency> currencies = marketDataService.getCurrencies();
 
-    List<org.knowm.xchange.currency.CurrencyPair> pairs = new ArrayList<>();
+    List<CurrencyPair> pairs = new ArrayList<>();
     for (Currency currency : currencies) {
-      pairs.add(org.knowm.xchange.currency.CurrencyPair.build(currency, Currency.USD));
-      pairs.add(org.knowm.xchange.currency.CurrencyPair.build(currency, Currency.BTC));
+      pairs.add(CurrencyPair.build(currency, Currency.USD));
+      pairs.add(CurrencyPair.build(currency, Currency.BTC));
     }
     return pairs;
   }

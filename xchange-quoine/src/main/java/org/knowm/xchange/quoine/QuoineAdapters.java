@@ -33,8 +33,7 @@ import org.knowm.xchange.utils.DateUtils;
 
 public class QuoineAdapters {
 
-  public static Ticker adaptTicker(
-      QuoineProduct quoineTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(QuoineProduct quoineTicker, CurrencyPair currencyPair) {
 
     Ticker.Builder builder = new Ticker.Builder();
     builder.ask(quoineTicker.getMarketAsk());
@@ -46,7 +45,7 @@ public class QuoineAdapters {
   }
 
   public static OrderBook adaptOrderBook(
-      QuoineOrderBook quoineOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      QuoineOrderBook quoineOrderBook, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks =
         createOrders(currencyPair, OrderType.ASK, quoineOrderBook.getSellPriceLevels());
@@ -56,9 +55,7 @@ public class QuoineAdapters {
   }
 
   public static List<LimitOrder> createOrders(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType,
-      List<BigDecimal[]> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<BigDecimal[]> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (BigDecimal[] ask : orders) {
@@ -70,9 +67,7 @@ public class QuoineAdapters {
   }
 
   public static LimitOrder createOrder(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      BigDecimal[] priceAndAmount,
-      OrderType orderType) {
+      CurrencyPair currencyPair, BigDecimal[] priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(orderType, priceAndAmount[1], currencyPair, "", null, priceAndAmount[0]);
   }
@@ -105,7 +100,7 @@ public class QuoineAdapters {
     for (FiatAccount fiatAccount : fiatAccounts) {
       BigDecimal total = fiatAccount.getBalance();
       BigDecimal available = fiatAccount.getBalance();
-      org.knowm.xchange.dto.account.Balance fiatBalance =
+      Balance fiatBalance =
           new Builder()
               .setCurrency(Currency.valueOf(fiatAccount.getCurrency()))
               .setTotal(total)
@@ -125,7 +120,7 @@ public class QuoineAdapters {
     // Adapt to XChange DTOs
     BigDecimal total1 = quoineWallet.getBitcoinAccount().getBalance();
     BigDecimal available1 = quoineWallet.getBitcoinAccount().getFreeBalance();
-    org.knowm.xchange.dto.account.Balance btcBalance =
+    Balance btcBalance =
         new Builder()
             .setCurrency(Currency.valueOf(quoineWallet.getBitcoinAccount().getCurrency()))
             .setTotal(total1)
@@ -137,7 +132,7 @@ public class QuoineAdapters {
     for (FiatAccount fiatAccount : quoineWallet.getFiatAccounts()) {
       BigDecimal total = fiatAccount.getBalance();
       BigDecimal available = fiatAccount.getBalance();
-      org.knowm.xchange.dto.account.Balance fiatBalance =
+      Balance fiatBalance =
           new Builder()
               .setCurrency(Currency.valueOf(fiatAccount.getCurrency()))
               .setTotal(total)
@@ -187,7 +182,7 @@ public class QuoineAdapters {
   public static List<Wallet> adapt(FiatAccount[] balances) {
     List<Wallet> res = new ArrayList<>();
     for (FiatAccount nativeBalance : balances) {
-      org.knowm.xchange.dto.account.Balance balance =
+      Balance balance =
           new Builder()
               .setCurrency(Currency.valueOf(nativeBalance.getCurrency()))
               .setTotal(nativeBalance.getBalance())
@@ -200,7 +195,7 @@ public class QuoineAdapters {
   public static List<Wallet> adapt(BitcoinAccount[] balances) {
     List<Wallet> res = new ArrayList<>();
     for (BitcoinAccount nativeBalance : balances) {
-      org.knowm.xchange.dto.account.Balance balance =
+      Balance balance =
           new Builder()
               .setCurrency(Currency.valueOf(nativeBalance.getCurrency()))
               .setTotal(nativeBalance.getBalance())
@@ -210,8 +205,7 @@ public class QuoineAdapters {
     return res;
   }
 
-  public static List<UserTrade> adapt(
-      List<QuoineExecution> executions, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static List<UserTrade> adapt(List<QuoineExecution> executions, CurrencyPair currencyPair) {
     List<UserTrade> res = new ArrayList<>();
     for (QuoineExecution execution : executions) {
       res.add(
@@ -229,7 +223,7 @@ public class QuoineAdapters {
     return res;
   }
 
-  public static String toPairString(org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String toPairString(CurrencyPair currencyPair) {
     return currencyPair.getBase().getCurrencyCode() + currencyPair.getCounter().getCurrencyCode();
   }
 

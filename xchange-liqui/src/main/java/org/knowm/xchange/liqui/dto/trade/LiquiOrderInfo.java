@@ -2,11 +2,12 @@ package org.knowm.xchange.liqui.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.liqui.dto.LiquiTradeType;
 
 public class LiquiOrderInfo {
 
-  private final org.knowm.xchange.currency.CurrencyPair pair;
+  private final CurrencyPair pair;
   private final LiquiTradeType type;
   private final BigDecimal amount;
   private final BigDecimal rate;
@@ -24,7 +25,7 @@ public class LiquiOrderInfo {
       @JsonProperty("timestamp_created") final long timestampCreated) {
     this.status = status;
     final String[] split = pair.split("_");
-    this.pair = org.knowm.xchange.currency.CurrencyPair.build(split[0], split[1]);
+    this.pair = CurrencyPair.build(split[0], split[1]);
     this.type = type;
     this.startAmount = new BigDecimal(startAmount != null ? startAmount : "0");
     this.amount = new BigDecimal(amount);
@@ -40,7 +41,7 @@ public class LiquiOrderInfo {
     return status;
   }
 
-  public org.knowm.xchange.currency.CurrencyPair getPair() {
+  public CurrencyPair getPair() {
     return pair;
   }
 

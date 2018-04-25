@@ -21,6 +21,7 @@ import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction.TransactionType;
 import org.knowm.xchange.bitstamp.order.dto.BitstampGenericOrder;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.*;
@@ -58,8 +59,8 @@ public final class BitstampAdapters {
     List<Balance> balances = new ArrayList<>();
     for (org.knowm.xchange.bitstamp.dto.account.BitstampBalance.Balance b :
         bitstampBalance.getBalances()) {
-      org.knowm.xchange.dto.account.Balance xchangeBalance =
-          new org.knowm.xchange.dto.account.Balance.Builder()
+      Balance xchangeBalance =
+          new Balance.Builder()
               .setCurrency(Currency.valueOf(b.getCurrency().toUpperCase()))
               .setTotal(b.getBalance())
               .setAvailable(b.getAvailable())
@@ -82,16 +83,14 @@ public final class BitstampAdapters {
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(
-      BitstampOrderBook bitstampOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair) {
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, bitstampOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, bitstampOrderBook.getBids());
     return new OrderBook(bitstampOrderBook.getTimestamp(), asks, bids);
   }
 
   public static List<LimitOrder> createOrders(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType,
-      List<List<BigDecimal>> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
@@ -103,9 +102,7 @@ public final class BitstampAdapters {
   }
 
   public static LimitOrder createOrder(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      List<BigDecimal> priceAndAmount,
-      OrderType orderType) {
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
@@ -125,8 +122,7 @@ public final class BitstampAdapters {
    * @param currencyPair (e.g. BTC/USD)
    * @return The XChange Trades
    */
-  public static Trades adaptTrades(
-      BitstampTransaction[] transactions, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(BitstampTransaction[] transactions, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
@@ -149,8 +145,7 @@ public final class BitstampAdapters {
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(
-      BitstampTransaction tx, org.knowm.xchange.currency.CurrencyPair currencyPair, int timeScale) {
+  public static Trade adaptTrade(BitstampTransaction tx, CurrencyPair currencyPair, int timeScale) {
 
     OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = String.valueOf(tx.getTid());
@@ -168,8 +163,7 @@ public final class BitstampAdapters {
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
    */
-  public static Ticker adaptTicker(
-      BitstampTicker bitstampTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(BitstampTicker bitstampTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = bitstampTicker.getLast();
     BigDecimal bid = bitstampTicker.getBid();
@@ -218,8 +212,8 @@ public final class BitstampAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      final org.knowm.xchange.currency.CurrencyPair pair =
-          org.knowm.xchange.currency.CurrencyPair.build(
+      final CurrencyPair pair =
+          CurrencyPair.build(
               t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
       UserTrade trade =
           new UserTrade(
@@ -274,56 +268,40 @@ public final class BitstampAdapters {
     return fundingRecords;
   }
 
-  private static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(
-      BitstampOrderTransaction transaction) {
+  private static CurrencyPair adaptCurrencyPair(BitstampOrderTransaction transaction) {
 
     // USD section
-    if (transaction.getBtc() != null && transaction.getUsd() != null)
-      return org.knowm.xchange.currency.CurrencyPair.BTC_USD;
+    if (transaction.getBtc() != null && transaction.getUsd() != null) return CurrencyPair.BTC_USD;
 
-    if (transaction.getLtc() != null && transaction.getUsd() != null)
-      return org.knowm.xchange.currency.CurrencyPair.LTC_USD;
+    if (transaction.getLtc() != null && transaction.getUsd() != null) return CurrencyPair.LTC_USD;
 
-    if (transaction.getEth() != null && transaction.getUsd() != null)
-      return org.knowm.xchange.currency.CurrencyPair.ETH_USD;
+    if (transaction.getEth() != null && transaction.getUsd() != null) return CurrencyPair.ETH_USD;
 
-    if (transaction.getXrp() != null && transaction.getUsd() != null)
-      return org.knowm.xchange.currency.CurrencyPair.XRP_USD;
+    if (transaction.getXrp() != null && transaction.getUsd() != null) return CurrencyPair.XRP_USD;
 
-    if (transaction.getBch() != null && transaction.getUsd() != null)
-      return org.knowm.xchange.currency.CurrencyPair.BCH_USD;
+    if (transaction.getBch() != null && transaction.getUsd() != null) return CurrencyPair.BCH_USD;
 
     // EUR section
-    if (transaction.getBtc() != null && transaction.getEur() != null)
-      return org.knowm.xchange.currency.CurrencyPair.BTC_EUR;
+    if (transaction.getBtc() != null && transaction.getEur() != null) return CurrencyPair.BTC_EUR;
 
-    if (transaction.getLtc() != null && transaction.getEur() != null)
-      return org.knowm.xchange.currency.CurrencyPair.LTC_EUR;
+    if (transaction.getLtc() != null && transaction.getEur() != null) return CurrencyPair.LTC_EUR;
 
-    if (transaction.getEth() != null && transaction.getEur() != null)
-      return org.knowm.xchange.currency.CurrencyPair.ETH_EUR;
+    if (transaction.getEth() != null && transaction.getEur() != null) return CurrencyPair.ETH_EUR;
 
-    if (transaction.getXrp() != null && transaction.getEur() != null)
-      return org.knowm.xchange.currency.CurrencyPair.XRP_EUR;
+    if (transaction.getXrp() != null && transaction.getEur() != null) return CurrencyPair.XRP_EUR;
 
-    if (transaction.getBch() != null && transaction.getEur() != null)
-      return org.knowm.xchange.currency.CurrencyPair.BCH_EUR;
+    if (transaction.getBch() != null && transaction.getEur() != null) return CurrencyPair.BCH_EUR;
 
     // BTC section
-    if (transaction.getLtc() != null && transaction.getBtc() != null)
-      return org.knowm.xchange.currency.CurrencyPair.LTC_BTC;
+    if (transaction.getLtc() != null && transaction.getBtc() != null) return CurrencyPair.LTC_BTC;
 
-    if (transaction.getEth() != null && transaction.getBtc() != null)
-      return org.knowm.xchange.currency.CurrencyPair.ETH_BTC;
+    if (transaction.getEth() != null && transaction.getBtc() != null) return CurrencyPair.ETH_BTC;
 
-    if (transaction.getXrp() != null && transaction.getBtc() != null)
-      return org.knowm.xchange.currency.CurrencyPair.XRP_BTC;
+    if (transaction.getXrp() != null && transaction.getBtc() != null) return CurrencyPair.XRP_BTC;
 
-    if (transaction.getBch() != null && transaction.getBtc() != null)
-      return org.knowm.xchange.currency.CurrencyPair.BCH_BTC;
+    if (transaction.getBch() != null && transaction.getBtc() != null) return CurrencyPair.BCH_BTC;
 
-    if (transaction.getBch() != null && transaction.getBtc() != null)
-      return org.knowm.xchange.currency.CurrencyPair.BCH_BTC;
+    if (transaction.getBch() != null && transaction.getBtc() != null) return CurrencyPair.BCH_BTC;
 
     throw new NotYetImplementedForExchangeException();
   }
@@ -331,7 +309,7 @@ public final class BitstampAdapters {
   private static BigDecimal getBaseCurrencyAmountFromBitstampTransaction(
       BitstampOrderTransaction bitstampTransaction) {
 
-    org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(bitstampTransaction);
+    CurrencyPair currencyPair = adaptCurrencyPair(bitstampTransaction);
 
     if (currencyPair.getBase().equals(Currency.LTC)) return bitstampTransaction.getLtc();
 
@@ -372,8 +350,7 @@ public final class BitstampAdapters {
     // Use only the first transaction, because we assume that for a single order id all transactions
     // will
     // be of the same currency pair
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        adaptCurrencyPair(bitstampTransactions[0]);
+    CurrencyPair currencyPair = adaptCurrencyPair(bitstampTransactions[0]);
     Date date = bitstampTransactions[0].getDatetime();
 
     BigDecimal averagePrice =

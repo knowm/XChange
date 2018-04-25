@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Balance.Builder;
@@ -44,14 +45,13 @@ public final class GateioAdapters {
   /** private Constructor */
   private GateioAdapters() {}
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String pair) {
+  public static CurrencyPair adaptCurrencyPair(String pair) {
 
     final String[] currencies = pair.toUpperCase().split("_");
-    return org.knowm.xchange.currency.CurrencyPair.build(currencies[0], currencies[1]);
+    return CurrencyPair.build(currencies[0], currencies[1]);
   }
 
-  public static Ticker adaptTicker(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, GateioTicker gateioTicker) {
+  public static Ticker adaptTicker(CurrencyPair currencyPair, GateioTicker gateioTicker) {
 
     BigDecimal ask = gateioTicker.getLowestAsk();
     BigDecimal bid = gateioTicker.getHighestBid();
@@ -75,17 +75,13 @@ public final class GateioAdapters {
   }
 
   public static LimitOrder adaptOrder(
-      GateioPublicOrder order,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType) {
+      GateioPublicOrder order, CurrencyPair currencyPair, OrderType orderType) {
 
     return new LimitOrder(orderType, order.getAmount(), currencyPair, "", null, order.getPrice());
   }
 
   public static List<LimitOrder> adaptOrders(
-      List<GateioPublicOrder> orders,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType) {
+      List<GateioPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
@@ -96,8 +92,7 @@ public final class GateioAdapters {
     return limitOrders;
   }
 
-  public static OrderBook adaptOrderBook(
-      GateioDepth depth, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(GateioDepth depth, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks =
         GateioAdapters.adaptOrders(depth.getAsks(), currencyPair, OrderType.ASK);
@@ -109,11 +104,10 @@ public final class GateioAdapters {
   }
 
   public static LimitOrder adaptOrder(
-      GateioOpenOrder order, Collection<org.knowm.xchange.currency.CurrencyPair> currencyPairs) {
+      GateioOpenOrder order, Collection<CurrencyPair> currencyPairs) {
 
     String[] currencyPairSplit = order.getCurrencyPair().split("_");
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(currencyPairSplit[0], currencyPairSplit[1]);
+    CurrencyPair currencyPair = CurrencyPair.build(currencyPairSplit[0], currencyPairSplit[1]);
     return new LimitOrder(
         order.getType().equals("sell") ? OrderType.ASK : OrderType.BID,
         order.getAmount(),
@@ -124,8 +118,7 @@ public final class GateioAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(
-      GateioOpenOrders openOrders,
-      Collection<org.knowm.xchange.currency.CurrencyPair> currencyPairs) {
+      GateioOpenOrders openOrders, Collection<CurrencyPair> currencyPairs) {
 
     List<LimitOrder> adaptedOrders = new ArrayList<>();
     for (GateioOpenOrder openOrder : openOrders.getOrders()) {
@@ -140,8 +133,7 @@ public final class GateioAdapters {
     return (cryptoTradeOrderType.equals(GateioOrderType.BUY)) ? OrderType.BID : OrderType.ASK;
   }
 
-  public static Trade adaptTrade(
-      GateioPublicTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(GateioPublicTrade trade, CurrencyPair currencyPair) {
 
     OrderType orderType = adaptOrderType(trade.getType());
     Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
@@ -155,8 +147,7 @@ public final class GateioAdapters {
         trade.getTradeId());
   }
 
-  public static Trades adaptTrades(
-      GateioTradeHistory tradeHistory, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(GateioTradeHistory tradeHistory, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<>();
     long lastTradeId = 0;
@@ -222,7 +213,7 @@ public final class GateioAdapters {
 
     OrderType orderType = adaptOrderType(gateioTrade.getType());
     Date timestamp = DateUtils.fromMillisUtc(gateioTrade.getTimeUnix() * 1000);
-    org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(gateioTrade.getPair());
+    CurrencyPair currencyPair = adaptCurrencyPair(gateioTrade.getPair());
 
     return new UserTrade(
         orderType,
@@ -237,16 +228,13 @@ public final class GateioAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
-      Map<org.knowm.xchange.currency.CurrencyPair, GateioMarketInfo>
-          currencyPair2BTERMarketInfoMap) {
+      Map<CurrencyPair, GateioMarketInfo> currencyPair2BTERMarketInfoMap) {
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
 
-    for (Entry<org.knowm.xchange.currency.CurrencyPair, GateioMarketInfo> entry :
-        currencyPair2BTERMarketInfoMap.entrySet()) {
+    for (Entry<CurrencyPair, GateioMarketInfo> entry : currencyPair2BTERMarketInfoMap.entrySet()) {
 
-      org.knowm.xchange.currency.CurrencyPair currencyPair = entry.getKey();
+      CurrencyPair currencyPair = entry.getKey();
       GateioMarketInfo btermarketInfo = entry.getValue();
 
       CurrencyPairMetaData currencyPairMetaData =

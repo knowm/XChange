@@ -152,7 +152,7 @@ public class PoloniexAdapters {
 
       Currency currency = Currency.valueOf(item.getKey());
       balances.add(
-          new org.knowm.xchange.dto.account.Balance.Builder()
+          new Balance.Builder()
               .setCurrency(currency)
               .setTotal(null)
               .setAvailable(item.getValue().getAvailable())

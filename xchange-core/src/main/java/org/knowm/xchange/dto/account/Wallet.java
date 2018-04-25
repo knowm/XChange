@@ -43,7 +43,7 @@ public interface Wallet extends Serializable {
    * @return the balance of the specified currency, or a zero balance if currency not present
    */
   default Balance getBalance(Currency currency) {
-    org.knowm.xchange.dto.account.Balance balance = this.getBalances().get(currency);
+    Balance balance = this.getBalances().get(currency);
     return balance == null ? Balance.valueOf(currency) : balance;
   }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Objects;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Balance.Builder;
 
 public class CoinfloorBalance {
@@ -101,7 +102,7 @@ public class CoinfloorBalance {
     }
   }
 
-  public org.knowm.xchange.dto.account.Balance getBalance(Currency currency) {
+  public Balance getBalance(Currency currency) {
     if (currency.equals(Currency.XBT)) {
       return new Builder()
           .setCurrency(currency)

@@ -9,6 +9,7 @@ import org.knowm.xchange.cexio.dto.marketdata.CexIOCurrencyLimits;
 import org.knowm.xchange.cexio.service.CexIOAccountService;
 import org.knowm.xchange.cexio.service.CexIOMarketDataService;
 import org.knowm.xchange.cexio.service.CexIOTradeService;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
@@ -47,12 +48,11 @@ public class CexIOExchange extends BaseExchange implements Exchange {
     final CexIOCurrencyLimits currencyLimits =
         ((CexIOMarketDataService) this.marketDataService).getCurrencyLimits();
     // Working with the live map so the changes reflect
-    final Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
+    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         getExchangeMetaData().getCurrencyPairs();
 
     for (CexIOCurrencyLimits.Pair pair : currencyLimits.getData().getPairs()) {
-      org.knowm.xchange.currency.CurrencyPair currencyPair =
-          org.knowm.xchange.currency.CurrencyPair.build(pair.getSymbol1(), pair.getSymbol2());
+      CurrencyPair currencyPair = CurrencyPair.build(pair.getSymbol1(), pair.getSymbol2());
       CurrencyPairMetaData metaData =
           new CurrencyPairMetaData(null, pair.getMinLotSize(), pair.getMaxLotSize(), null);
       currencyPairs.merge(

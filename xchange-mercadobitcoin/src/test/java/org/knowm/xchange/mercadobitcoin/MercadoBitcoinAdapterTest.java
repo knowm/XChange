@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -47,16 +48,14 @@ public class MercadoBitcoinAdapterTest {
         mapper.readValue(is, MercadoBitcoinOrderBook.class);
 
     OrderBook orderBook =
-        MercadoBitcoinAdapters.adaptOrderBook(
-            mercadoBitcoinOrderBook, org.knowm.xchange.currency.CurrencyPair.BTC_BRL);
+        MercadoBitcoinAdapters.adaptOrderBook(mercadoBitcoinOrderBook, CurrencyPair.BTC_BRL);
     assertThat(orderBook.getBids().size()).isEqualTo(127);
 
     // verify all fields filled
     assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("1004.16826");
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("0.16614"));
-    assertThat(orderBook.getBids().get(0).getCurrencyPair())
-        .isEqualTo(org.knowm.xchange.currency.CurrencyPair.BTC_BRL);
+    assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_BRL);
   }
 
   @Test
@@ -72,9 +71,7 @@ public class MercadoBitcoinAdapterTest {
     MercadoBitcoinTransaction[] transactions =
         mapper.readValue(is, MercadoBitcoinTransaction[].class);
 
-    Trades trades =
-        MercadoBitcoinAdapters.adaptTrades(
-            transactions, org.knowm.xchange.currency.CurrencyPair.BTC_BRL);
+    Trades trades = MercadoBitcoinAdapters.adaptTrades(transactions, CurrencyPair.BTC_BRL);
     assertThat(trades.getTrades().size()).isEqualTo(1000);
     assertThat(trades.getlastID()).isEqualTo(99518);
     // verify all fields filled
@@ -82,8 +79,7 @@ public class MercadoBitcoinAdapterTest {
     assertThat(trades.getTrades().get(0).getPrice().toString()).isEqualTo("1015");
     assertThat(trades.getTrades().get(0).getType() == OrderType.BID);
     assertThat(trades.getTrades().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("1"));
-    assertThat(trades.getTrades().get(0).getCurrencyPair())
-        .isEqualTo(org.knowm.xchange.currency.CurrencyPair.BTC_BRL);
+    assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_BRL);
   }
 
   @Test
@@ -98,9 +94,7 @@ public class MercadoBitcoinAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     MercadoBitcoinTicker mercadoBitcoinTicker = mapper.readValue(is, MercadoBitcoinTicker.class);
 
-    Ticker ticker =
-        MercadoBitcoinAdapters.adaptTicker(
-            mercadoBitcoinTicker, org.knowm.xchange.currency.CurrencyPair.BTC_BRL);
+    Ticker ticker = MercadoBitcoinAdapters.adaptTicker(mercadoBitcoinTicker, CurrencyPair.BTC_BRL);
 
     assertThat(ticker.getLast().toString()).isEqualTo("1019.99999");
     assertThat(ticker.getBid().toString()).isEqualTo("1019.99999");
@@ -158,7 +152,7 @@ public class MercadoBitcoinAdapterTest {
 
     List<LimitOrder> orders =
         MercadoBitcoinAdapters.adaptOrders(
-            org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL), apiResult);
+            CurrencyPair.build(Currency.LTC, Currency.BRL), apiResult);
 
     Map<String, LimitOrder> orderById = new HashMap<>();
 
@@ -171,6 +165,6 @@ public class MercadoBitcoinAdapterTest {
     assertThat(orderById.get("1212").getLimitPrice()).isEqualTo(new BigDecimal("6.00000"));
     assertThat(orderById.get("1212").getOriginalAmount()).isEqualTo(new BigDecimal("165.47309607"));
     assertThat(orderById.get("1212").getCurrencyPair())
-        .isEqualTo(org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL));
+        .isEqualTo(CurrencyPair.build(Currency.LTC, Currency.BRL));
   }
 }

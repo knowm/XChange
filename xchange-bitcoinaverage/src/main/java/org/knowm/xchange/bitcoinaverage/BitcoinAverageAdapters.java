@@ -10,6 +10,7 @@ import java.util.Map;
 import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -27,8 +28,7 @@ public final class BitcoinAverageAdapters {
    * @return Ticker
    */
   public static Ticker adaptTicker(
-      BitcoinAverageTicker bitcoinAverageTicker,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      BitcoinAverageTicker bitcoinAverageTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = bitcoinAverageTicker.getLast();
     BigDecimal bid = bitcoinAverageTicker.getBid();
@@ -49,16 +49,12 @@ public final class BitcoinAverageAdapters {
   public static ExchangeMetaData adaptMetaData(
       BitcoinAverageTickers tickers, ExchangeMetaData bAMetaData) {
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     for (String currency : tickers.getTickers().keySet()) {
       if (!currency.startsWith("BTC")) {
         throw new IllegalStateException("Unsupported currency: " + currency);
       }
-      currencyPairs.put(
-          org.knowm.xchange.currency.CurrencyPair.build(
-              BTC, Currency.valueOf(currency.substring(3))),
-          null);
+      currencyPairs.put(CurrencyPair.build(BTC, Currency.valueOf(currency.substring(3))), null);
     }
     return new ExchangeMetaData(currencyPairs, Collections.emptyMap(), null, null, null);
   }

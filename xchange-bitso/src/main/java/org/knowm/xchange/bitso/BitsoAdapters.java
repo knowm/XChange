@@ -12,7 +12,9 @@ import org.knowm.xchange.bitso.dto.marketdata.BitsoTransaction;
 import org.knowm.xchange.bitso.dto.trade.BitsoUserTransaction;
 import org.knowm.xchange.bitso.dto.trade.BitsoUserTransaction.TransactionType;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -29,8 +31,7 @@ public final class BitsoAdapters {
 
   private BitsoAdapters() {}
 
-  public static Ticker adaptTicker(
-      BitsoTicker t, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(BitsoTicker t, CurrencyPair currencyPair) {
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -47,14 +48,14 @@ public final class BitsoAdapters {
 
   public static Wallet adaptWallet(BitsoBalance bitsoBalance) {
     // Adapt to XChange DTOs
-    org.knowm.xchange.dto.account.Balance mxnBalance =
+    Balance mxnBalance =
         new Builder()
             .setCurrency(Currency.MXN)
             .setTotal(bitsoBalance.getMxnBalance())
             .setAvailable(bitsoBalance.getMxnAvailable())
             .setFrozen(bitsoBalance.getMxnReserved())
             .createBalance();
-    org.knowm.xchange.dto.account.Balance btcBalance =
+    Balance btcBalance =
         new Builder()
             .setCurrency(Currency.BTC)
             .setTotal(bitsoBalance.getBtcBalance())
@@ -66,9 +67,7 @@ public final class BitsoAdapters {
   }
 
   public static OrderBook adaptOrderBook(
-      BitsoOrderBook bitsoOrderBook,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      int timeScale) {
+      BitsoOrderBook bitsoOrderBook, CurrencyPair currencyPair, int timeScale) {
 
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, bitsoOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, bitsoOrderBook.getBids());
@@ -80,9 +79,7 @@ public final class BitsoAdapters {
   }
 
   public static List<LimitOrder> createOrders(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType,
-      List<List<BigDecimal>> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
@@ -94,9 +91,7 @@ public final class BitsoAdapters {
   }
 
   public static LimitOrder createOrder(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      List<BigDecimal> priceAndAmount,
-      OrderType orderType) {
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
@@ -109,8 +104,7 @@ public final class BitsoAdapters {
    * @param currencyPair (e.g. BTC/MXN)
    * @return The XChange Trades
    */
-  public static Trades adaptTrades(
-      BitsoTransaction[] transactions, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(BitsoTransaction[] transactions, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
@@ -170,8 +164,7 @@ public final class BitsoAdapters {
         final String tradeId = String.valueOf(transactionId);
         final String orderId = String.valueOf(bitsoUserTransaction.getOrderId());
         final BigDecimal feeAmount = bitsoUserTransaction.getFee();
-        final org.knowm.xchange.currency.CurrencyPair currencyPair =
-            org.knowm.xchange.currency.CurrencyPair.build(Currency.BTC, Currency.MXN);
+        final CurrencyPair currencyPair = CurrencyPair.build(Currency.BTC, Currency.MXN);
 
         String feeCurrency =
             sell

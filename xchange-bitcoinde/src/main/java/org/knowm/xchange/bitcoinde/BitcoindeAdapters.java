@@ -19,6 +19,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -82,12 +83,11 @@ public final class BitcoindeAdapters {
     BitcoindeBalance eth = bitcoindeAccount.getData().getBalances().getEth();
     BigDecimal eur = bitcoindeAccount.getData().getFidorReservation().getAvailableAmount();
 
-    org.knowm.xchange.dto.account.Balance btcBalance =
+    Balance btcBalance =
         new Builder().setCurrency(Currency.BTC).setTotal(btc.getAvailableAmount()).createBalance();
-    org.knowm.xchange.dto.account.Balance ethBalance =
+    Balance ethBalance =
         new Builder().setCurrency(Currency.ETH).setTotal(eth.getAvailableAmount()).createBalance();
-    org.knowm.xchange.dto.account.Balance eurBalance =
-        new Builder().setCurrency(Currency.EUR).setTotal(eur).createBalance();
+    Balance eurBalance = new Builder().setCurrency(Currency.EUR).setTotal(eur).createBalance();
 
     Wallet wallet = Wallet.build(btcBalance, ethBalance, eurBalance);
 

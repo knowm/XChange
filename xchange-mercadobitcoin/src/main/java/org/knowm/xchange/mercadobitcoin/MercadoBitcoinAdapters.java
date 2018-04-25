@@ -13,6 +13,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -156,18 +157,18 @@ public final class MercadoBitcoinAdapters {
       MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo, String userName) {
 
     // Adapt to XChange DTOs
-    org.knowm.xchange.dto.account.Balance brlBalance =
-        new org.knowm.xchange.dto.account.Balance.Builder()
+    Balance brlBalance =
+        new Balance.Builder()
             .setCurrency(Currency.BRL)
             .setTotal(accountInfo.getTheReturn().getFunds().getBrl())
             .createBalance();
-    org.knowm.xchange.dto.account.Balance btcBalance =
-        new org.knowm.xchange.dto.account.Balance.Builder()
+    Balance btcBalance =
+        new Balance.Builder()
             .setCurrency(Currency.BTC)
             .setTotal(accountInfo.getTheReturn().getFunds().getBtc())
             .createBalance();
-    org.knowm.xchange.dto.account.Balance ltcBalance =
-        new org.knowm.xchange.dto.account.Balance.Builder()
+    Balance ltcBalance =
+        new Balance.Builder()
             .setCurrency(Currency.LTC)
             .setTotal(accountInfo.getTheReturn().getFunds().getLtc())
             .createBalance();

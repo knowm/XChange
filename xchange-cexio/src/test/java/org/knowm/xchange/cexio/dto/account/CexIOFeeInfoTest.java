@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
 
 /** @author ujjwal on 14/02/18. */
 public class CexIOFeeInfoTest {
@@ -26,8 +27,7 @@ public class CexIOFeeInfoTest {
     assertThat(cexIOFeeInfo.getOk()).isEqualToIgnoringCase("ok");
     assertThat(cexIOFeeInfo.getData())
         .isNotEmpty()
-        .containsKeys(
-            ETH_USD, BCH_GBP, ZEC_BTC, org.knowm.xchange.currency.CurrencyPair.build(ZEC, GBP));
+        .containsKeys(ETH_USD, BCH_GBP, ZEC_BTC, CurrencyPair.build(ZEC, GBP));
     final CexIOFeeInfo.FeeDetails feeDetails = cexIOFeeInfo.getData().get(ETH_USD);
     assertThat(feeDetails).isNotNull();
     assertThat(feeDetails.getBuy()).isNotNull();

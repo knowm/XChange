@@ -17,6 +17,7 @@ import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.utils.AuthUtils;
@@ -71,8 +72,7 @@ public class BinanceExchange extends BaseExchange {
   public void remoteInit() {
     try {
       // populate currency pair keys only, exchange does not provide any other metadata for download
-      Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-          exchangeMetaData.getCurrencyPairs();
+      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
       Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
       BinanceMarketDataService marketDataService =
@@ -81,9 +81,7 @@ public class BinanceExchange extends BaseExchange {
 
       for (Symbol symbol : exchangeInfo.getSymbols()) {
 
-        org.knowm.xchange.currency.CurrencyPair pair =
-            org.knowm.xchange.currency.CurrencyPair.build(
-                symbol.getBaseAsset(), symbol.getQuoteAsset());
+        CurrencyPair pair = CurrencyPair.build(symbol.getBaseAsset(), symbol.getQuoteAsset());
         // defaults
         BigDecimal tradingFee = BigDecimal.ZERO;
         BigDecimal minAmount = BigDecimal.ZERO;

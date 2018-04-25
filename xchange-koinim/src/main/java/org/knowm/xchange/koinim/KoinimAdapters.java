@@ -4,6 +4,7 @@ import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.TRY;
 
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
@@ -20,16 +21,15 @@ public final class KoinimAdapters {
    * @param currencyPair
    * @return The ticker
    */
-  public static Ticker adaptTicker(
-      KoinimTicker koinimTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(KoinimTicker koinimTicker, CurrencyPair currencyPair) {
 
-    if (!currencyPair.equals(org.knowm.xchange.currency.CurrencyPair.build(BTC, TRY))) {
+    if (!currencyPair.equals(CurrencyPair.build(BTC, TRY))) {
       throw new NotAvailableFromExchangeException();
     }
 
     if (koinimTicker != null) {
       return new Ticker.Builder()
-          .currencyPair(org.knowm.xchange.currency.CurrencyPair.build(BTC, Currency.TRY))
+          .currencyPair(CurrencyPair.build(BTC, Currency.TRY))
           .last(koinimTicker.getSell())
           .bid(koinimTicker.getBid())
           .ask(koinimTicker.getAsk())

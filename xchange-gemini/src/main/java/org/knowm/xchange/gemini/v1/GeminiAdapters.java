@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -49,30 +50,28 @@ public final class GeminiAdapters {
 
   private GeminiAdapters() {}
 
-  public static List<org.knowm.xchange.currency.CurrencyPair> adaptCurrencyPairs(
-      Collection<String> GeminiSymbol) {
+  public static List<CurrencyPair> adaptCurrencyPairs(Collection<String> GeminiSymbol) {
 
-    List<org.knowm.xchange.currency.CurrencyPair> currencyPairs = new ArrayList<>();
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
     for (String symbol : GeminiSymbol) {
       currencyPairs.add(adaptCurrencyPair(symbol));
     }
     return currencyPairs;
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String GeminiSymbol) {
+  public static CurrencyPair adaptCurrencyPair(String GeminiSymbol) {
 
     String tradableIdentifier = GeminiSymbol.substring(0, 3).toUpperCase();
     String transactionCurrency = GeminiSymbol.substring(3).toUpperCase();
-    return org.knowm.xchange.currency.CurrencyPair.build(tradableIdentifier, transactionCurrency);
+    return CurrencyPair.build(tradableIdentifier, transactionCurrency);
   }
 
-  public static String adaptCurrencyPair(org.knowm.xchange.currency.CurrencyPair pair) {
+  public static String adaptCurrencyPair(CurrencyPair pair) {
 
     return (pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode()).toLowerCase();
   }
 
-  public static OrderBook adaptOrderBook(
-      GeminiDepth btceDepth, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(GeminiDepth btceDepth, CurrencyPair currencyPair) {
 
     OrdersContainer asksOrdersContainer =
         adaptOrders(btceDepth.getAsks(), currencyPair, OrderType.ASK);
@@ -86,9 +85,7 @@ public final class GeminiAdapters {
   }
 
   public static OrdersContainer adaptOrders(
-      GeminiLevel[] GeminiLevels,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType) {
+      GeminiLevel[] GeminiLevels, CurrencyPair currencyPair, OrderType orderType) {
 
     BigDecimal maxTimestamp = new BigDecimal(Long.MIN_VALUE);
     List<LimitOrder> limitOrders = new ArrayList<>(GeminiLevels.length);
@@ -111,8 +108,7 @@ public final class GeminiAdapters {
   public static Order adaptOrder(GeminiOrderStatusResponse geminiOrderStatusResponse) {
 
     Long id = geminiOrderStatusResponse.getId();
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        adaptCurrencyPair(geminiOrderStatusResponse.getSymbol());
+    CurrencyPair currencyPair = adaptCurrencyPair(geminiOrderStatusResponse.getSymbol());
     BigDecimal averageExecutionPrice = geminiOrderStatusResponse.getAvgExecutionPrice();
     BigDecimal executedAmount = geminiOrderStatusResponse.getExecutedAmount();
     BigDecimal originalAmount = geminiOrderStatusResponse.getOriginalAmount();
@@ -170,7 +166,7 @@ public final class GeminiAdapters {
   public static LimitOrder adaptOrder(
       BigDecimal amount,
       BigDecimal price,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       OrderType orderType,
       Date timestamp) {
 
@@ -255,8 +251,7 @@ public final class GeminiAdapters {
     return new FloatingRateLoanOrder(orderType, currency, amount, dayPeriod, id, null, rate);
   }
 
-  public static Trade adaptTrade(
-      GeminiTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(GeminiTrade trade, CurrencyPair currencyPair) {
 
     OrderType orderType = trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getAmount();
@@ -267,8 +262,7 @@ public final class GeminiAdapters {
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
-  public static Trades adaptTrades(
-      GeminiTrade[] trades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(GeminiTrade[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>(trades.length);
     long lastTradeId = 0;
@@ -282,8 +276,7 @@ public final class GeminiAdapters {
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static Ticker adaptTicker(
-      GeminiTicker GeminiTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(GeminiTicker GeminiTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = GeminiTicker.getLast();
     BigDecimal bid = GeminiTicker.getBid();
@@ -344,7 +337,7 @@ public final class GeminiAdapters {
 
     for (GeminiOrderStatusResponse order : activeOrders) {
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
-      org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
+      CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(new BigDecimal(order.getTimestamp()));
 
       OrderStatus status = OrderStatus.NEW;
@@ -380,7 +373,7 @@ public final class GeminiAdapters {
   public static UserTrades adaptTradeHistory(GeminiTradeResponse[] trades, String symbol) {
 
     List<UserTrade> pastTrades = new ArrayList<>(trades.length);
-    org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(symbol);
+    CurrencyPair currencyPair = adaptCurrencyPair(symbol);
 
     for (GeminiTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
@@ -408,12 +401,11 @@ public final class GeminiAdapters {
   }
 
   public static ExchangeMetaData adaptMetaData(
-      List<org.knowm.xchange.currency.CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
+      List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> pairsMap =
-        metaData.getCurrencyPairs();
+    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
-    for (org.knowm.xchange.currency.CurrencyPair c : currencyPairs) {
+    for (CurrencyPair c : currencyPairs) {
       if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }

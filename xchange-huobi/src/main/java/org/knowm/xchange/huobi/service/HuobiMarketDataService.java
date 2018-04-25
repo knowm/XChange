@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair; 
- 
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
- 
 import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiDepth;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -26,7 +24,7 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return HuobiAdapters.adaptTicker(getHuobiTicker(currencyPair), currencyPair);
   }
- 
+
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
@@ -62,5 +60,5 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
                         OrderType.ASK, e.getValue(), currencyPair, null, null, e.getKey()))
             .collect(Collectors.toList());
     return new OrderBook(null, asks, bids);
-  } 
+  }
 }

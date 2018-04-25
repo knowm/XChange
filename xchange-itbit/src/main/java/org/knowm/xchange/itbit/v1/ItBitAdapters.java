@@ -18,6 +18,7 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
@@ -94,8 +95,7 @@ public final class ItBitAdapters {
     return parse;
   }
 
-  public static Trades adaptTrades(
-      ItBitTrades trades, org.knowm.xchange.currency.CurrencyPair currencyPair)
+  public static Trades adaptTrades(ItBitTrades trades, CurrencyPair currencyPair)
       throws InvalidFormatException {
 
     List<Trade> tradesList = new ArrayList<>(trades.getCount());
@@ -109,8 +109,7 @@ public final class ItBitAdapters {
     return new Trades(tradesList, lastMatchNumber, TradeSortType.SortByID);
   }
 
-  public static Trade adaptTrade(
-      ItBitTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair)
+  public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair)
       throws InvalidFormatException {
     String timestamp = trade.getTimestamp();
 
@@ -127,9 +126,7 @@ public final class ItBitAdapters {
   }
 
   public static List<LimitOrder> adaptOrders(
-      List<BigDecimal[]> orders,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType) {
+      List<BigDecimal[]> orders, CurrencyPair currencyPair, OrderType orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
@@ -145,7 +142,7 @@ public final class ItBitAdapters {
   private static LimitOrder adaptOrder(
       BigDecimal amount,
       BigDecimal price,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       String orderId,
       OrderType orderType,
       Date timestamp) {
@@ -199,9 +196,8 @@ public final class ItBitAdapters {
     for (ItBitOrder itBitOrder : orders) {
       String instrument = itBitOrder.getInstrument();
 
-      org.knowm.xchange.currency.CurrencyPair currencyPair =
-          org.knowm.xchange.currency.CurrencyPair.build(
-              instrument.substring(0, 3), instrument.substring(3, 6));
+      CurrencyPair currencyPair =
+          CurrencyPair.build(instrument.substring(0, 3), instrument.substring(3, 6));
       OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
       Date timestamp = parseDate(itBitOrder.getCreatedTime());
       limitOrders.add(
@@ -249,8 +245,7 @@ public final class ItBitAdapters {
       OrderType orderType =
           itBitTrade.getDirection().equals(Direction.buy) ? OrderType.BID : OrderType.ASK;
 
-      org.knowm.xchange.currency.CurrencyPair currencyPair =
-          adaptCcyPair(itBitTrade.getInstrument());
+      CurrencyPair currencyPair = adaptCcyPair(itBitTrade.getInstrument());
       Currency feeCcy = adaptCcy(itBitTrade.getCommissionCurrency());
 
       UserTrade userTrade =
@@ -272,10 +267,10 @@ public final class ItBitAdapters {
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCcyPair(String instrument) {
+  public static CurrencyPair adaptCcyPair(String instrument) {
     Currency base = adaptCcy(instrument.substring(0, 3));
     Currency counter = adaptCcy(instrument.substring(3, 6));
-    return org.knowm.xchange.currency.CurrencyPair.build(base, counter);
+    return CurrencyPair.build(base, counter);
   }
 
   public static Currency adaptCcy(String ccy) {
@@ -284,8 +279,7 @@ public final class ItBitAdapters {
     return Currency.valueOf(ccy);
   }
 
-  public static Ticker adaptTicker(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, ItBitTicker itBitTicker) {
+  public static Ticker adaptTicker(CurrencyPair currencyPair, ItBitTicker itBitTicker) {
 
     BigDecimal bid = itBitTicker.getBid();
     BigDecimal ask = itBitTicker.getAsk();
@@ -318,9 +312,8 @@ public final class ItBitAdapters {
     return getCryptoFormat().format(amount);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPairToExchange(
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
-    return org.knowm.xchange.currency.CurrencyPair.build(
+  public static CurrencyPair adaptCurrencyPairToExchange(CurrencyPair currencyPair) {
+    return CurrencyPair.build(
         adaptCurrencyToExchange(currencyPair.getBase()),
         adaptCurrencyToExchange(currencyPair.getCounter()));
   }

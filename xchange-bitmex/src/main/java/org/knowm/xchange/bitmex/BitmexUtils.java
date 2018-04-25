@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /** @author timmolter */
 public class BitmexUtils {
 
   protected static final HashBiMap<String, Currency> assetsMap = HashBiMap.create();
-  protected static Map<String, org.knowm.xchange.currency.CurrencyPair> assetPairMap =
-      new HashMap<String, org.knowm.xchange.currency.CurrencyPair>();
+  protected static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
   protected static BiMap<String, BitmexContract> bitmexContracts = HashBiMap.create();
   protected static BiMap<Currency, String> bitmexCurrencies = HashBiMap.create();
 
@@ -33,8 +33,7 @@ public class BitmexUtils {
       Currency baseCurrencyCode = Currency.valueOf(base);
       Currency quoteCurrencyCode = Currency.valueOf(quote);
 
-      org.knowm.xchange.currency.CurrencyPair pair =
-          org.knowm.xchange.currency.CurrencyPair.build(base, quote);
+      CurrencyPair pair = CurrencyPair.build(base, quote);
       if (!assetPairMap.containsKey(ticker.getSymbol()) && !assetPairMap.containsValue(pair))
         assetPairMap.put(ticker.getSymbol(), pair);
       if (!assetsMap.containsKey(quote) && !assetsMap.containsValue(quoteCurrencyCode))
@@ -49,10 +48,9 @@ public class BitmexUtils {
     return bitmexContracts.inverse().get(contract);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair translateBitmexCurrencyPair(
-      String currencyPairIn) {
+  public static CurrencyPair translateBitmexCurrencyPair(String currencyPairIn) {
 
-    org.knowm.xchange.currency.CurrencyPair pair = assetPairMap.get(currencyPairIn);
+    CurrencyPair pair = assetPairMap.get(currencyPairIn);
     if (pair == null) {
       // bitmex can give short pairs back from open orders ?
       if (currencyPairIn.length() == 6) {
@@ -64,7 +62,7 @@ public class BitmexUtils {
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
-        pair = org.knowm.xchange.currency.CurrencyPair.build(base, counter);
+        pair = CurrencyPair.build(base, counter);
       } else if (currencyPairIn.length() == 7) {
         Currency base = Currency.valueOf(currencyPairIn.substring(0, 4));
         if (base.getCommonlyUsedCurrency() != null) {
@@ -74,7 +72,7 @@ public class BitmexUtils {
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
-        pair = org.knowm.xchange.currency.CurrencyPair.build(base, counter);
+        pair = CurrencyPair.build(base, counter);
       }
     }
     return pair;

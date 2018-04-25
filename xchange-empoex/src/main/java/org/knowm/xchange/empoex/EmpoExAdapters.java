@@ -117,7 +117,7 @@ public final class EmpoExAdapters {
 
       BigDecimal balance = new BigDecimal(empoExBalance.getAmount().replace(",", ""));
       balances.add(
-          new org.knowm.xchange.dto.account.Balance.Builder()
+          new Balance.Builder()
               .setCurrency(Currency.valueOf(empoExBalance.getCoin().toUpperCase()))
               .setTotal(balance)
               .createBalance());

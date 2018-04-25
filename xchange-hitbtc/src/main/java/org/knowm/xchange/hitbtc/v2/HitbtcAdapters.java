@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -47,7 +48,7 @@ public class HitbtcAdapters {
   private static final Set<String> counters =
       new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH", "USDT"));
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptSymbol(String symbol) {
+  public static CurrencyPair adaptSymbol(String symbol) {
     String counter =
         counters
             .stream()
@@ -55,17 +56,15 @@ public class HitbtcAdapters {
             .findAny()
             .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
     String base = symbol.substring(0, symbol.length() - counter.length());
-    return org.knowm.xchange.currency.CurrencyPair.build(base, counter);
+    return CurrencyPair.build(base, counter);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
+  public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
 
-    return org.knowm.xchange.currency.CurrencyPair.build(
-        hitbtcSymbol.getBaseCurrency(), hitbtcSymbol.getQuoteCurrency());
+    return CurrencyPair.build(hitbtcSymbol.getBaseCurrency(), hitbtcSymbol.getQuoteCurrency());
   }
 
-  public static Ticker adaptTicker(
-      HitbtcTicker hitbtcTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(HitbtcTicker hitbtcTicker, CurrencyPair currencyPair) {
 
     BigDecimal bid = hitbtcTicker.getBid();
     BigDecimal ask = hitbtcTicker.getAsk();
@@ -100,7 +99,7 @@ public class HitbtcAdapters {
   }
 
   public static OrderBook adaptOrderBook(
-      HitbtcOrderBook hitbtcOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      HitbtcOrderBook hitbtcOrderBook, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks =
         adaptMarketOrderToLimitOrder(hitbtcOrderBook.getAsks(), OrderType.ASK, currencyPair);
@@ -111,9 +110,7 @@ public class HitbtcAdapters {
   }
 
   private static List<LimitOrder> adaptMarketOrderToLimitOrder(
-      HitbtcOrderLimit[] hitbtcOrders,
-      OrderType orderType,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      HitbtcOrderLimit[] hitbtcOrders, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<>(hitbtcOrders.length);
 
@@ -145,8 +142,7 @@ public class HitbtcAdapters {
   }
 
   public static Trades adaptTrades(
-      List<? extends HitbtcTrade> allHitbtcTrades,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      List<? extends HitbtcTrade> allHitbtcTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>(allHitbtcTrades.size());
     long lastTradeId = 0;
@@ -212,7 +208,7 @@ public class HitbtcAdapters {
     for (HitbtcOwnTrade hitbtcOwnTrade : tradeHistoryRaw) {
       OrderType type = adaptOrderType(hitbtcOwnTrade.getSide().getValue());
 
-      org.knowm.xchange.currency.CurrencyPair pair = adaptSymbol(hitbtcOwnTrade.symbol);
+      CurrencyPair pair = adaptSymbol(hitbtcOwnTrade.symbol);
 
       BigDecimal originalAmount = hitbtcOwnTrade.getQuantity();
       Date timestamp = hitbtcOwnTrade.getTimestamp();
@@ -243,8 +239,8 @@ public class HitbtcAdapters {
 
     for (HitbtcBalance balanceRaw : hitbtcBalances) {
       Currency currency = Currency.valueOf(balanceRaw.getCurrency());
-      org.knowm.xchange.dto.account.Balance balance =
-          new org.knowm.xchange.dto.account.Balance.Builder()
+      Balance balance =
+          new Balance.Builder()
               .setCurrency(currency)
               .setTotal(null)
               .setAvailable(balanceRaw.getAvailable())
@@ -255,7 +251,7 @@ public class HitbtcAdapters {
     return Wallet.build(name, name, balances);
   }
 
-  public static String adaptCurrencyPair(org.knowm.xchange.currency.CurrencyPair pair) {
+  public static String adaptCurrencyPair(CurrencyPair pair) {
 
     return pair == null
         ? null
@@ -270,10 +266,10 @@ public class HitbtcAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(
       List<HitbtcSymbol> symbols,
       Map<Currency, CurrencyMetaData> currencies,
-      Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs) {
+      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs) {
     if (symbols != null) {
       for (HitbtcSymbol symbol : symbols) {
-        org.knowm.xchange.currency.CurrencyPair pair = adaptSymbol(symbol);
+        CurrencyPair pair = adaptSymbol(symbol);
         BigDecimal tickSize = symbol.getTickSize();
         int priceScale = tickSize.scale(); // not 100% sure this is correct
         // also, we need to take into account the quantityIncrement

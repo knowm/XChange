@@ -3,6 +3,7 @@ package org.knowm.xchange.koineks;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.koineks.dto.marketdata.BaseKoineksTicker;
@@ -21,8 +22,7 @@ public final class KoineksAdapters {
    * @param currencyPair
    * @return The ticker
    */
-  public static Ticker adaptTicker(
-      KoineksTicker koineksTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(KoineksTicker koineksTicker, CurrencyPair currencyPair) {
     switch (currencyPair.getBase().getCurrencyCode()) {
       case KoineksCurrency.BTC:
         return getTickerOf(koineksTicker.getKoineksBTCTicker(), currencyPair.getBase());
@@ -50,7 +50,7 @@ public final class KoineksAdapters {
       String timestampStr = koineksTicker.getTimestamp();
       Date timestamp = new Date(Long.valueOf(timestampStr));
       return new Ticker.Builder()
-          .currencyPair(org.knowm.xchange.currency.CurrencyPair.build(currency, Currency.TRY))
+          .currencyPair(CurrencyPair.build(currency, Currency.TRY))
           .last(last)
           .bid(highestBid)
           .ask(lowestAsk)

@@ -19,6 +19,7 @@ import org.knowm.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -163,9 +164,9 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
     };
   }
 
-  public static org.knowm.xchange.dto.account.Balance[] expectedInfoBalances() {
-    return new org.knowm.xchange.dto.account.Balance[] {
-      new org.knowm.xchange.dto.account.Balance.Builder()
+  public static Balance[] expectedInfoBalances() {
+    return new Balance[] {
+      new Balance.Builder()
           .setCurrency(Currency.LTC)
           .setTotal(new BigDecimal("10.390000000000"))
           .setAvailable(new BigDecimal("10.301000000000"))
@@ -175,7 +176,7 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
           .setWithdrawing(new BigDecimal("0"))
           .setDepositing(new BigDecimal("0"))
           .createBalance(),
-      new org.knowm.xchange.dto.account.Balance.Builder()
+      new Balance.Builder()
           .setCurrency(Currency.PLN)
           .setTotal(new BigDecimal("63.566000000000"))
           .setAvailable(new BigDecimal("4.166000000000"))
@@ -185,7 +186,7 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
           .setWithdrawing(new BigDecimal("0"))
           .setDepositing(new BigDecimal("0"))
           .createBalance(),
-      new org.knowm.xchange.dto.account.Balance.Builder()
+      new Balance.Builder()
           .setCurrency(Currency.BTC)
           .setTotal(new BigDecimal("0.029140000000"))
           .setAvailable(new BigDecimal("0.029140000000"))
@@ -198,21 +199,21 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
     };
   }
 
-  public static org.knowm.xchange.dto.account.Balance[] expectedBalances() {
-    return new org.knowm.xchange.dto.account.Balance[] {
-      new org.knowm.xchange.dto.account.Balance.Builder()
+  public static Balance[] expectedBalances() {
+    return new Balance[] {
+      new Balance.Builder()
           .setCurrency(Currency.BTC)
           .setTotal(new BigDecimal("20.00000000"))
           .setAvailable(new BigDecimal("10.00000000"))
           .setFrozen(new BigDecimal("10.00000000"))
           .createBalance(),
-      new org.knowm.xchange.dto.account.Balance.Builder()
+      new Balance.Builder()
           .setCurrency(Currency.AUD)
           .setTotal(new BigDecimal("40.00000000"))
           .setAvailable(new BigDecimal("20.00000000"))
           .setFrozen(new BigDecimal("20.00000000"))
           .createBalance(),
-      new org.knowm.xchange.dto.account.Balance.Builder()
+      new Balance.Builder()
           .setCurrency(Currency.PLN)
           .setTotal(new BigDecimal("60.00000000"))
           .setAvailable(new BigDecimal("30.00000000"))

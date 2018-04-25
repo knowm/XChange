@@ -44,7 +44,7 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
       BigDecimal heldForTrades = new BigDecimal(datum.get("HeldForTrades").toString());
       BigDecimal pendingWithdraw = new BigDecimal(datum.get("PendingWithdraw").toString());
       BigDecimal unconfirmed = new BigDecimal(datum.get("Unconfirmed").toString());
-      org.knowm.xchange.dto.account.Balance balance =
+      Balance balance =
           new Builder()
               .setCurrency(symbol)
               .setTotal(total)

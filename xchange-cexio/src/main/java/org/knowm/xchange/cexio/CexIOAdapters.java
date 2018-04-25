@@ -18,6 +18,7 @@ import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder.Type;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -46,8 +47,7 @@ public class CexIOAdapters {
    * @param currencyPair trade currencies
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(
-      CexIOTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(CexIOTrade trade, CurrencyPair currencyPair) {
 
     BigDecimal amount = trade.getAmount();
     BigDecimal price = trade.getPrice();
@@ -63,8 +63,7 @@ public class CexIOAdapters {
    * @param currencyPair trade currencies
    * @return The trades
    */
-  public static Trades adaptTrades(
-      CexIOTrade[] cexioTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(CexIOTrade[] cexioTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
@@ -86,8 +85,7 @@ public class CexIOAdapters {
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The ticker
    */
-  public static Ticker adaptTicker(
-      CexIOTicker ticker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(CexIOTicker ticker, CurrencyPair currencyPair) {
 
     BigDecimal last = ticker.getLast();
     BigDecimal bid = ticker.getBid();
@@ -116,8 +114,7 @@ public class CexIOAdapters {
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(
-      CexIODepth depth, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(CexIODepth depth, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, depth.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, depth.getBids());
@@ -142,8 +139,7 @@ public class CexIOAdapters {
     return Wallet.build(balances);
   }
 
-  public static org.knowm.xchange.dto.account.Balance adaptBalance(
-      Currency currency, CexIOBalance balance) {
+  public static Balance adaptBalance(Currency currency, CexIOBalance balance) {
     BigDecimal inOrders = balance.getOrders();
     BigDecimal frozen = inOrders == null ? BigDecimal.ZERO : inOrders;
     return new Builder()
@@ -155,9 +151,7 @@ public class CexIOAdapters {
   }
 
   public static List<LimitOrder> createOrders(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType,
-      List<List<BigDecimal>> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     if (orders == null) return limitOrders;
@@ -171,9 +165,7 @@ public class CexIOAdapters {
   }
 
   public static LimitOrder createOrder(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      List<BigDecimal> priceAndAmount,
-      OrderType orderType) {
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
@@ -198,7 +190,7 @@ public class CexIOAdapters {
               orderType,
               cexIOOrder.getAmount(),
               cexIOOrder.getAmount().subtract(cexIOOrder.getPending()),
-              org.knowm.xchange.currency.CurrencyPair.build(
+              CurrencyPair.build(
                   cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()),
               id,
               DateUtils.fromMillisUtc(cexIOOrder.getTime()),
@@ -214,9 +206,8 @@ public class CexIOAdapters {
 
       OrderType orderType = cexIOArchivedOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
       BigDecimal originalAmount = cexIOArchivedOrder.amount;
-      org.knowm.xchange.currency.CurrencyPair currencyPair =
-          org.knowm.xchange.currency.CurrencyPair.build(
-              cexIOArchivedOrder.symbol1, cexIOArchivedOrder.symbol2);
+      CurrencyPair currencyPair =
+          CurrencyPair.build(cexIOArchivedOrder.symbol1, cexIOArchivedOrder.symbol2);
       BigDecimal price = cexIOArchivedOrder.price;
       String id = cexIOArchivedOrder.id;
       String orderId = cexIOArchivedOrder.orderId;
@@ -235,8 +226,7 @@ public class CexIOAdapters {
   public static Order adaptOrder(CexIOOpenOrder cexIOOrder) {
     OrderType orderType = cexIOOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
     BigDecimal originalAmount = new BigDecimal(cexIOOrder.amount);
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(cexIOOrder.symbol1, cexIOOrder.symbol2);
+    CurrencyPair currencyPair = CurrencyPair.build(cexIOOrder.symbol1, cexIOOrder.symbol2);
     Date timestamp = new Date(cexIOOrder.time);
     BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
     OrderStatus status = adaptOrderStatus(cexIOOrder);

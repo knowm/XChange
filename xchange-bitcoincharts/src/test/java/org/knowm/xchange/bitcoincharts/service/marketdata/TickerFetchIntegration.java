@@ -7,6 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoincharts.BitcoinChartsExchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -21,9 +22,7 @@ public class TickerFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker =
-        marketDataService.getTicker(
-            org.knowm.xchange.currency.CurrencyPair.build("BTC", "bitstampUSD"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("BTC", "bitstampUSD"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

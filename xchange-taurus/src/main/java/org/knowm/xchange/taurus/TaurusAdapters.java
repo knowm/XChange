@@ -9,6 +9,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -31,15 +32,15 @@ public final class TaurusAdapters {
   private TaurusAdapters() {}
 
   public static AccountInfo adaptAccountInfo(TaurusBalance taurusBalance, String userName) {
-    org.knowm.xchange.dto.account.Balance cadBalance =
-        new org.knowm.xchange.dto.account.Balance.Builder()
+    Balance cadBalance =
+        new Balance.Builder()
             .setCurrency(Currency.CAD)
             .setTotal(taurusBalance.getCadBalance())
             .setAvailable(taurusBalance.getCadAvailable())
             .setFrozen(taurusBalance.getCadReserved())
             .createBalance();
-    org.knowm.xchange.dto.account.Balance btcBalance =
-        new org.knowm.xchange.dto.account.Balance.Builder()
+    Balance btcBalance =
+        new Balance.Builder()
             .setCurrency(Currency.BTC)
             .setTotal(taurusBalance.getBtcBalance())
             .setAvailable(taurusBalance.getBtcAvailable())

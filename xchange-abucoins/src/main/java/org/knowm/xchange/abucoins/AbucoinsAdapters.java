@@ -27,6 +27,7 @@ import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.Side;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.TimeInForce;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -104,8 +105,7 @@ public class AbucoinsAdapters {
    * @param currencyPair trade currencies
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(
-      AbucoinsTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(AbucoinsTrade trade, CurrencyPair currencyPair) {
 
     BigDecimal amount = trade.getSize();
     BigDecimal price = trade.getPrice();
@@ -121,8 +121,7 @@ public class AbucoinsAdapters {
    * @param currencyPair trade currencies
    * @return The trades
    */
-  public static Trades adaptTrades(
-      AbucoinsTrade[] abucoinsTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(AbucoinsTrade[] abucoinsTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
@@ -138,8 +137,7 @@ public class AbucoinsAdapters {
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The ticker
    */
-  public static Ticker adaptTicker(
-      AbucoinsTicker ticker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(AbucoinsTicker ticker, CurrencyPair currencyPair) {
 
     BigDecimal last = ticker.getPrice();
     BigDecimal bid = ticker.getBid();
@@ -176,7 +174,7 @@ public class AbucoinsAdapters {
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(
-      AbucoinsOrderBook abucoinsOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      AbucoinsOrderBook abucoinsOrderBook, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, abucoinsOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, abucoinsOrderBook.getBids());
@@ -209,9 +207,9 @@ public class AbucoinsAdapters {
    * @param account AbucoinsAccount balance
    * @return The account info
    */
-  public static org.knowm.xchange.dto.account.Balance adaptBalance(AbucoinsAccount account) {
+  public static Balance adaptBalance(AbucoinsAccount account) {
     Currency currency = Currency.valueOf(account.getCurrency());
-    return new org.knowm.xchange.dto.account.Balance.Builder()
+    return new Balance.Builder()
         .setCurrency(currency)
         .setTotal(account.getBalance())
         .setAvailable(account.getAvailable())
@@ -220,9 +218,7 @@ public class AbucoinsAdapters {
   }
 
   public static List<LimitOrder> createOrders(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType,
-      AbucoinsOrderBook.LimitOrder[] orders) {
+      CurrencyPair currencyPair, OrderType orderType, AbucoinsOrderBook.LimitOrder[] orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     if (orders == null) return limitOrders;
@@ -234,9 +230,7 @@ public class AbucoinsAdapters {
   }
 
   public static LimitOrder createOrder(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      AbucoinsOrderBook.LimitOrder priceAndAmount,
-      OrderType orderType) {
+      CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
     return new LimitOrder.Builder(orderType, currencyPair)
         .averagePrice(priceAndAmount.getPrice())
         .limitPrice(priceAndAmount.getPrice())
@@ -348,18 +342,15 @@ public class AbucoinsAdapters {
     }
   }
 
-  public static String adaptCurrencyPairToProductID(
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String adaptCurrencyPairToProductID(CurrencyPair currencyPair) {
     return currencyPair == null ? null : currencyPair.toString().replace('/', '-');
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(
-      String abucoinsProductID) {
+  public static CurrencyPair adaptCurrencyPair(String abucoinsProductID) {
     int indexOf = abucoinsProductID.indexOf('-');
     String base = abucoinsProductID.substring(0, indexOf);
     String counter = abucoinsProductID.substring(indexOf + 1);
-    return org.knowm.xchange.currency.CurrencyPair.build(
-        Currency.valueOf(base), Currency.valueOf(counter));
+    return CurrencyPair.build(Currency.valueOf(base), Currency.valueOf(counter));
   }
 
   public static AbucoinsCreateMarketOrderRequest adaptAbucoinsCreateMarketOrderRequest(

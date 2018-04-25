@@ -3,6 +3,7 @@ package org.knowm.xchange.bitmarket;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
 public class BitMarketUtilsTest {
@@ -10,34 +11,26 @@ public class BitMarketUtilsTest {
   @Test
   public void shouldConvertStringToCurrencyPair() {
     assertThat(BitMarketUtils.bitMarketCurrencyPairToCurrencyPair("BTCPLN"))
-        .isEqualTo(org.knowm.xchange.currency.CurrencyPair.BTC_PLN);
+        .isEqualTo(CurrencyPair.BTC_PLN);
     assertThat(BitMarketUtils.bitMarketCurrencyPairToCurrencyPair("BTCEUR"))
-        .isEqualTo(org.knowm.xchange.currency.CurrencyPair.BTC_EUR);
+        .isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(BitMarketUtils.bitMarketCurrencyPairToCurrencyPair("LTCPLN"))
-        .isEqualTo(org.knowm.xchange.currency.CurrencyPair.build("LTC", "PLN"));
+        .isEqualTo(CurrencyPair.build("LTC", "PLN"));
     assertThat(BitMarketUtils.bitMarketCurrencyPairToCurrencyPair("LTCBTC"))
-        .isEqualTo(org.knowm.xchange.currency.CurrencyPair.LTC_BTC);
+        .isEqualTo(CurrencyPair.LTC_BTC);
     //    assertThat(BitMarketUtils.BitMarketCurrencyPairToCurrencyPair("LiteMineXBTC"))
     //      .isEqualTo(new CurrencyPair("LiteMineX", "BTC"));
   }
 
   @Test
   public void shouldConvertCurrencyPairToString() {
-    assertThat(
-            BitMarketUtils.currencyPairToBitMarketCurrencyPair(
-                org.knowm.xchange.currency.CurrencyPair.BTC_PLN))
+    assertThat(BitMarketUtils.currencyPairToBitMarketCurrencyPair(CurrencyPair.BTC_PLN))
         .isEqualTo("BTCPLN");
-    assertThat(
-            BitMarketUtils.currencyPairToBitMarketCurrencyPair(
-                org.knowm.xchange.currency.CurrencyPair.BTC_EUR))
+    assertThat(BitMarketUtils.currencyPairToBitMarketCurrencyPair(CurrencyPair.BTC_EUR))
         .isEqualTo("BTCEUR");
-    assertThat(
-            BitMarketUtils.currencyPairToBitMarketCurrencyPair(
-                org.knowm.xchange.currency.CurrencyPair.build("LTC", "PLN")))
+    assertThat(BitMarketUtils.currencyPairToBitMarketCurrencyPair(CurrencyPair.build("LTC", "PLN")))
         .isEqualTo("LTCPLN");
-    assertThat(
-            BitMarketUtils.currencyPairToBitMarketCurrencyPair(
-                org.knowm.xchange.currency.CurrencyPair.LTC_BTC))
+    assertThat(BitMarketUtils.currencyPairToBitMarketCurrencyPair(CurrencyPair.LTC_BTC))
         .isEqualTo("LTCBTC");
     //    assertThat(BitMarketUtils.CurrencyPairToBitMarketCurrencyPair(new
     // CurrencyPair("LiteMineX", "BTC")))

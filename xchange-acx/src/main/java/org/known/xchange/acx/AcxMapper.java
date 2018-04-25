@@ -8,6 +8,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -118,7 +119,7 @@ public class AcxMapper {
             accountInfo.accounts.stream().map(AcxMapper::mapBalance).collect(Collectors.toList())));
   }
 
-  private static org.knowm.xchange.dto.account.Balance mapBalance(AcxAccount acc) {
+  private static Balance mapBalance(AcxAccount acc) {
     return new Builder()
         .setCurrency(Currency.valueOf(acc.currency))
         .setTotal(acc.balance.add(acc.locked))

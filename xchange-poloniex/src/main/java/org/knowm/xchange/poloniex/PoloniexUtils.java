@@ -9,21 +9,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import org.knowm.xchange.currency.CurrencyPair;
 
 /** @author Zach Holmes */
 public class PoloniexUtils {
 
-  public static String toPairString(org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String toPairString(CurrencyPair currencyPair) {
 
     return currencyPair.getCounter().getCurrencyCode().toUpperCase()
         + "_"
         + currencyPair.getBase().getCurrencyCode().toUpperCase();
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair toCurrencyPair(String pair) {
+  public static CurrencyPair toCurrencyPair(String pair) {
 
     String[] currencies = pair.split("_");
-    return org.knowm.xchange.currency.CurrencyPair.build(currencies[1], currencies[0]);
+    return CurrencyPair.build(currencies[1], currencies[0]);
   }
 
   public static Date stringToDate(String dateString) {

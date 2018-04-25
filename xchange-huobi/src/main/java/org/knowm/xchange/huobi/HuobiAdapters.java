@@ -78,7 +78,7 @@ public class HuobiAdapters {
     List<Balance> balances = new ArrayList<>(huobiWallet.size());
     for (Entry<String, HuobiBalanceSum> record : huobiWallet.entrySet()) {
       Currency currency = adaptCurrency(record.getKey());
-      org.knowm.xchange.dto.account.Balance balance =
+      Balance balance =
           new Builder()
               .setCurrency(currency)
               .setTotal(record.getValue().getTotal())

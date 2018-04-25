@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -34,7 +35,7 @@ public class ItBitTradesDemo {
             new LimitOrder(
                 OrderType.BID,
                 BigDecimal.valueOf(0.001),
-                org.knowm.xchange.currency.CurrencyPair.build("XBT", "USD"),
+                CurrencyPair.build("XBT", "USD"),
                 "0",
                 new Date(),
                 BigDecimal.valueOf(300)));
@@ -43,7 +44,7 @@ public class ItBitTradesDemo {
             new LimitOrder(
                 OrderType.BID,
                 BigDecimal.valueOf(0.001),
-                org.knowm.xchange.currency.CurrencyPair.build("BTC", "USD"),
+                CurrencyPair.build("BTC", "USD"),
                 "0",
                 new Date(),
                 BigDecimal.valueOf(360)));

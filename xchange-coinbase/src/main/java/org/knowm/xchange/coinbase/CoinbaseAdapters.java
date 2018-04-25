@@ -14,8 +14,10 @@ import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransferType;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfers;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Ticker.Builder;
@@ -34,8 +36,8 @@ public final class CoinbaseAdapters {
 
     final String username = user.getEmail();
     final CoinbaseMoney money = user.getBalance();
-    final org.knowm.xchange.dto.account.Balance balance =
-        new org.knowm.xchange.dto.account.Balance.Builder()
+    final Balance balance =
+        new Balance.Builder()
             .setCurrency(Currency.valueOf(money.getCurrency()))
             .setTotal(money.getAmount())
             .createBalance();
@@ -72,7 +74,7 @@ public final class CoinbaseAdapters {
     return new UserTrade(
         orderType,
         originalAmount,
-        org.knowm.xchange.currency.CurrencyPair.build(tradableIdentifier, transactionCurrency),
+        CurrencyPair.build(tradableIdentifier, transactionCurrency),
         price,
         timestamp,
         id,
@@ -93,7 +95,7 @@ public final class CoinbaseAdapters {
   }
 
   public static Ticker adaptTicker(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       final CoinbasePrice buyPrice,
       final CoinbasePrice sellPrice,
       final CoinbaseMoney spotRate,

@@ -121,7 +121,7 @@ public class BleutradeAdapters {
 
     for (BleutradeBalance bleutradeBalance : bleutradeBalances) {
       balances.add(
-          new org.knowm.xchange.dto.account.Balance.Builder()
+          new Balance.Builder()
               .setCurrency(Currency.valueOf(bleutradeBalance.getCurrency()))
               .setTotal(bleutradeBalance.getBalance())
               .setAvailable(bleutradeBalance.getAvailable())

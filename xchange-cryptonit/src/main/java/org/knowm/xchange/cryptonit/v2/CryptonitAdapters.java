@@ -13,6 +13,7 @@ import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitOrder;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitRate;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitTicker;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -39,7 +40,7 @@ public final class CryptonitAdapters {
   public static LimitOrder adaptOrder(
       BigDecimal amount,
       BigDecimal price,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       String orderTypeString,
       Date date,
       String id) {
@@ -59,10 +60,7 @@ public final class CryptonitAdapters {
    * @return
    */
   public static List<LimitOrder> adaptOrders(
-      CryptonitOrders cryptonitOrders,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      String orderType,
-      String id) {
+      CryptonitOrders cryptonitOrders, CurrencyPair currencyPair, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
@@ -100,9 +98,7 @@ public final class CryptonitAdapters {
    * @return The XChange Trade
    */
   public static Trade adaptTrade(
-      String tradeId,
-      CryptonitOrder cryptonitTrade,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      String tradeId, CryptonitOrder cryptonitTrade, CurrencyPair currencyPair) {
 
     BigDecimal amount = cryptonitTrade.getBidAmount();
     BigDecimal price = cryptonitTrade.getBidRate();
@@ -122,8 +118,7 @@ public final class CryptonitAdapters {
    * @param cryptonitTrades The Cryptonit trade data
    * @return The trades
    */
-  public static Trades adaptTrades(
-      CryptonitOrders cryptonitTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(CryptonitOrders cryptonitTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>();
 
@@ -144,8 +139,7 @@ public final class CryptonitAdapters {
    * @param cryptonitTicker
    * @return
    */
-  public static Ticker adaptTicker(
-      CryptonitTicker cryptonitTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(CryptonitTicker cryptonitTicker, CurrencyPair currencyPair) {
 
     CryptonitRate rate = cryptonitTicker.getRate();
 
@@ -168,14 +162,12 @@ public final class CryptonitAdapters {
         .build();
   }
 
-  public static Collection<org.knowm.xchange.currency.CurrencyPair> adaptCurrencyPairs(
-      List<List<String>> tradingPairs) {
+  public static Collection<CurrencyPair> adaptCurrencyPairs(List<List<String>> tradingPairs) {
 
-    Set<org.knowm.xchange.currency.CurrencyPair> currencyPairs = new HashSet<>();
+    Set<CurrencyPair> currencyPairs = new HashSet<>();
     for (List<String> tradingPair : tradingPairs) {
       if (tradingPair.size() == 2) {
-        org.knowm.xchange.currency.CurrencyPair currencyPair =
-            org.knowm.xchange.currency.CurrencyPair.build(tradingPair.get(1), tradingPair.get(0));
+        CurrencyPair currencyPair = CurrencyPair.build(tradingPair.get(1), tradingPair.get(0));
         currencyPairs.add(currencyPair);
       }
     }

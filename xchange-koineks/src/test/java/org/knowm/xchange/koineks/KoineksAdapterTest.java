@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.koineks.dto.marketdata.KoineksTicker;
 
@@ -23,9 +24,7 @@ public class KoineksAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     KoineksTicker paribuTicker = mapper.readValue(is, KoineksTicker.class);
 
-    Ticker ticker =
-        KoineksAdapters.adaptTicker(
-            paribuTicker, org.knowm.xchange.currency.CurrencyPair.build("BTC", "TRY"));
+    Ticker ticker = KoineksAdapters.adaptTicker(paribuTicker, CurrencyPair.build("BTC", "TRY"));
     assertThat(ticker).isNotNull();
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("47423.00"));
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("47400.00"));

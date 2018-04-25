@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoin;
@@ -32,26 +33,24 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
             getClientConfig());
   }
 
-  public MercadoBitcoinOrderBook getMercadoBitcoinOrderBook(
-      org.knowm.xchange.currency.CurrencyPair currencyPair) throws IOException {
+  public MercadoBitcoinOrderBook getMercadoBitcoinOrderBook(CurrencyPair currencyPair)
+      throws IOException {
 
-    if (currencyPair.equals(org.knowm.xchange.currency.CurrencyPair.BTC_BRL)) {
+    if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       return mercadoBitcoin.getOrderBookBTC();
-    } else if (currencyPair.equals(
-        org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL))) {
+    } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
       return mercadoBitcoin.getOrderBookLTC();
     } else {
       throw new NotAvailableFromExchangeException();
     }
   }
 
-  public MercadoBitcoinTicker getMercadoBitcoinTicker(
-      org.knowm.xchange.currency.CurrencyPair currencyPair) throws IOException {
+  public MercadoBitcoinTicker getMercadoBitcoinTicker(CurrencyPair currencyPair)
+      throws IOException {
 
-    if (currencyPair.equals(org.knowm.xchange.currency.CurrencyPair.BTC_BRL)) {
+    if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       return mercadoBitcoin.getTickerBTC();
-    } else if (currencyPair.equals(
-        org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL))) {
+    } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
       return mercadoBitcoin.getTickerLTC();
     } else {
       throw new NotAvailableFromExchangeException();
@@ -59,15 +58,14 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
   }
 
   public MercadoBitcoinTransaction[] getMercadoBitcoinTransactions(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, Object... args) throws IOException {
+      CurrencyPair currencyPair, Object... args) throws IOException {
 
     MercadoBitcoinTransaction[] transactions;
 
     if (args.length == 0) {
-      if (currencyPair.equals(org.knowm.xchange.currency.CurrencyPair.BTC_BRL)) {
+      if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
         transactions = mercadoBitcoin.getTransactionsBTC(); // default values: offset=0, limit=100
-      } else if (currencyPair.equals(
-          org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL))) {
+      } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
         transactions = mercadoBitcoin.getTransactionsLTC();
       } else {
         throw new NotAvailableFromExchangeException();
@@ -75,10 +73,9 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
     } else if (args.length == 1) {
       BigDecimal time = new BigDecimal((Long) args[0]);
 
-      if (currencyPair.equals(org.knowm.xchange.currency.CurrencyPair.BTC_BRL)) {
+      if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
         transactions = mercadoBitcoin.getTransactionsBTC(time.longValue() / 1000L);
-      } else if (currencyPair.equals(
-          org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL))) {
+      } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
         transactions = mercadoBitcoin.getTransactionsLTC(time.longValue() / 1000L);
       } else {
         throw new NotAvailableFromExchangeException();
@@ -88,12 +85,11 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBaseServic
       BigDecimal timeStart = new BigDecimal((Long) args[0]);
       BigDecimal timeEnd = new BigDecimal((Long) args[1]);
 
-      if (currencyPair.equals(org.knowm.xchange.currency.CurrencyPair.BTC_BRL)) {
+      if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
         transactions =
             mercadoBitcoin.getTransactionsBTC(
                 timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);
-      } else if (currencyPair.equals(
-          org.knowm.xchange.currency.CurrencyPair.build(Currency.LTC, Currency.BRL))) {
+      } else if (currencyPair.equals(CurrencyPair.build(Currency.LTC, Currency.BRL))) {
         transactions =
             mercadoBitcoin.getTransactionsLTC(
                 timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);

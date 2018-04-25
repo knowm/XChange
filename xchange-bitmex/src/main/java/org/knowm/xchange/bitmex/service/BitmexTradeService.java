@@ -9,6 +9,7 @@ import java.util.Set;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -44,9 +45,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
       Order.OrderType type =
           order.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
-      org.knowm.xchange.currency.CurrencyPair pair =
-          org.knowm.xchange.currency.CurrencyPair.build(
-              order.getCurrency(), order.getSettleCurrency());
+      CurrencyPair pair = CurrencyPair.build(order.getCurrency(), order.getSettleCurrency());
 
       LimitOrder limitOrder =
           new LimitOrder(
@@ -116,9 +115,8 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     for (BitmexPrivateOrder privateOrder : privateOrders) {
       Order.OrderType type =
           privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
-      org.knowm.xchange.currency.CurrencyPair pair =
-          org.knowm.xchange.currency.CurrencyPair.build(
-              privateOrder.getCurrency(), privateOrder.getSettleCurrency());
+      CurrencyPair pair =
+          CurrencyPair.build(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
 
       orders.add(
           new LimitOrder(

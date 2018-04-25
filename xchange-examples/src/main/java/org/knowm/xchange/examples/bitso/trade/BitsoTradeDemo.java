@@ -6,6 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
 import org.knowm.xchange.bitso.service.BitsoTradeServiceRaw;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -42,7 +43,7 @@ public class BitsoTradeDemo {
         new LimitOrder(
             (OrderType.ASK),
             new BigDecimal("0.01"),
-            org.knowm.xchange.currency.CurrencyPair.build(Currency.BTC, Currency.MXN),
+            CurrencyPair.build(Currency.BTC, Currency.MXN),
             "",
             null,
             new BigDecimal("5000.00"));

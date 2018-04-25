@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.itbit.v1.ItBitExchange;
 import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitDepth;
@@ -23,20 +24,17 @@ public class ItBitOrderBookDemo {
 
   private static void generic(MarketDataService marketDataService) throws IOException {
 
-    OrderBook orderBook =
-        marketDataService.getOrderBook(org.knowm.xchange.currency.CurrencyPair.BTC_USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook.toString());
 
     OrderBook orderBookAsXBT =
-        marketDataService.getOrderBook(
-            org.knowm.xchange.currency.CurrencyPair.build(Currency.XBT, Currency.USD));
+        marketDataService.getOrderBook(CurrencyPair.build(Currency.XBT, Currency.USD));
     System.out.println(orderBookAsXBT.toString());
   }
 
   private static void raw(ItBitMarketDataServiceRaw marketDataService) throws IOException {
 
-    ItBitDepth orderBook =
-        marketDataService.getItBitDepth(org.knowm.xchange.currency.CurrencyPair.BTC_USD);
+    ItBitDepth orderBook = marketDataService.getItBitDepth(CurrencyPair.BTC_USD);
     System.out.println(orderBook.toString());
   }
 }

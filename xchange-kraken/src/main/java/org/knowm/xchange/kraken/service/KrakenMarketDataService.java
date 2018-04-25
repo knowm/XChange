@@ -30,8 +30,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw
   }
 
   @Override
-  public Ticker getTicker(org.knowm.xchange.currency.CurrencyPair currencyPair, Object... args)
-      throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     return KrakenAdapters.adaptTicker(getKrakenTicker(currencyPair), currencyPair);
   }
@@ -41,15 +40,13 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw
     if (!(params instanceof CurrencyPairsParam)) {
       throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
     }
-    Collection<org.knowm.xchange.currency.CurrencyPair> pairs =
-        ((CurrencyPairsParam) params).getCurrencyPairs();
+    Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
     CurrencyPair[] pair = pairs.toArray(new CurrencyPair[pairs.size()]);
     return KrakenAdapters.adaptTickers(getKrakenTickers(pair));
   }
 
   @Override
-  public OrderBook getOrderBook(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     long count = Long.MAX_VALUE;
 
@@ -70,8 +67,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw
   }
 
   @Override
-  public Trades getTrades(org.knowm.xchange.currency.CurrencyPair currencyPair, Object... args)
-      throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     Long since = null;
 

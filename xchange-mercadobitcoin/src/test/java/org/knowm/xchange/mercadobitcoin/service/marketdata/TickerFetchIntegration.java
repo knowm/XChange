@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -18,8 +19,7 @@ public class TickerFetchIntegration {
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker =
-        marketDataService.getTicker(org.knowm.xchange.currency.CurrencyPair.build("BTC", "BRL"));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build("BTC", "BRL"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

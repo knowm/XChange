@@ -19,6 +19,7 @@ import org.knowm.xchange.ccex.dto.ticker.CCEXPriceResponse;
 import org.knowm.xchange.ccex.dto.trade.CCEXOpenorder;
 import org.knowm.xchange.ccex.dto.trade.CCEXOrderhistory;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -38,8 +39,7 @@ public class CCEXAdapters {
 
   private CCEXAdapters() {}
 
-  public static Trades adaptTrades(
-      CCEXTrades cCEXTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(CCEXTrades cCEXTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
     List<CCEXTrade> cCEXTradestmp = cCEXTrades.getResult();
@@ -51,8 +51,7 @@ public class CCEXAdapters {
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static Trade adaptCCEXPublicTrade(
-      CCEXTrade cCEXTrade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptCCEXPublicTrade(CCEXTrade cCEXTrade, CurrencyPair currencyPair) {
 
     OrderType type =
         cCEXTrade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
@@ -76,7 +75,7 @@ public class CCEXAdapters {
    * @return The C-Cex OrderBook
    */
   public static OrderBook adaptOrderBook(
-      CCEXGetorderbook ccexOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      CCEXGetorderbook ccexOrderBook, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, ccexOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, ccexOrderBook.getBids());
@@ -85,9 +84,7 @@ public class CCEXAdapters {
   }
 
   public static List<LimitOrder> createOrders(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType,
-      List<CCEXBuySellData> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<CCEXBuySellData> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     if (orders == null) {
@@ -100,29 +97,25 @@ public class CCEXAdapters {
   }
 
   public static LimitOrder createOrder(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      CCEXBuySellData priceAndAmount,
-      OrderType orderType) {
+      CurrencyPair currencyPair, CCEXBuySellData priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.getQuantity(), currencyPair, "", null, priceAndAmount.getRate());
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(CCEXMarket product) {
-    return org.knowm.xchange.currency.CurrencyPair.build(
-        product.getBaseCurrency(), product.getMarketCurrency());
+  public static CurrencyPair adaptCurrencyPair(CCEXMarket product) {
+    return CurrencyPair.build(product.getBaseCurrency(), product.getMarketCurrency());
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
       ExchangeMetaData exchangeMetaData, List<CCEXMarket> products) {
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (CCEXMarket product : products) {
       BigDecimal minSize = product.getMinTradeSize();
       CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, null, 0);
-      org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(product);
+      CurrencyPair pair = adaptCurrencyPair(product);
       currencyPairs.put(pair, cpmd);
       currencies.put(pair.getBase(), null);
       currencies.put(pair.getCounter(), null);
@@ -131,11 +124,10 @@ public class CCEXAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String pair) {
+  public static CurrencyPair adaptCurrencyPair(String pair) {
 
     final String[] currencies = pair.toUpperCase().split("-");
-    return org.knowm.xchange.currency.CurrencyPair.build(
-        currencies[0].toUpperCase(), currencies[1].toUpperCase());
+    return CurrencyPair.build(currencies[0].toUpperCase(), currencies[1].toUpperCase());
   }
 
   public static Date stringToDate(String dateString) {
@@ -155,7 +147,7 @@ public class CCEXAdapters {
 
     for (CCEXBalance balance : balances) {
       wallets.add(
-          new org.knowm.xchange.dto.account.Balance.Builder()
+          new Balance.Builder()
               .setCurrency(Currency.valueOf(balance.getCurrency().toUpperCase()))
               .setTotal(balance.getBalance())
               .setAvailable(balance.getAvailable())
@@ -190,8 +182,7 @@ public class CCEXAdapters {
     OrderType type =
         cCEXOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
     String[] currencies = cCEXOpenOrder.getExchange().split("-");
-    org.knowm.xchange.currency.CurrencyPair pair =
-        org.knowm.xchange.currency.CurrencyPair.build(currencies[1], currencies[0]);
+    CurrencyPair pair = CurrencyPair.build(currencies[1], currencies[0]);
 
     return new LimitOrder(
         type,
@@ -215,8 +206,7 @@ public class CCEXAdapters {
   public static UserTrade adaptUserTrade(CCEXOrderhistory trade) {
 
     String[] currencies = trade.getExchange().split("-");
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(currencies[1], currencies[0]);
+    CurrencyPair currencyPair = CurrencyPair.build(currencies[1], currencies[0]);
 
     OrderType orderType =
         trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
@@ -242,8 +232,7 @@ public class CCEXAdapters {
         currencyPair.getCounter());
   }
 
-  public static Ticker adaptTicker(
-      CCEXPriceResponse cCEXTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(CCEXPriceResponse cCEXTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = cCEXTicker.getLastbuy();
     BigDecimal bid = cCEXTicker.getBuy();

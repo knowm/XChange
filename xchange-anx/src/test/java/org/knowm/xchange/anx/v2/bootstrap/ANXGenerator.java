@@ -43,6 +43,7 @@ import java.util.TreeMap;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMarketMetaData;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 
@@ -59,16 +60,14 @@ public class ANXGenerator {
   // counter currencies for STARTCoin - all fiats but CNY
   static Currency[] fiatsStart = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY};
 
-  static org.knowm.xchange.currency.CurrencyPair[] pairsOther = {
-    LTC_BTC, org.knowm.xchange.currency.CurrencyPair.DOGE_BTC, STR_BTC, XRP_BTC
-  };
+  static CurrencyPair[] pairsOther = {LTC_BTC, CurrencyPair.DOGE_BTC, STR_BTC, XRP_BTC};
 
   // base currency -> min order size
   static Map<Currency, BigDecimal> minAmount = new HashMap<>();
   static Map<Currency, BigDecimal> maxAmount = new HashMap<>();
   static Map<Currency, CurrencyMetaData> currencyMap = new TreeMap<>();
 
-  static Set<org.knowm.xchange.currency.CurrencyPair> pairs = new HashSet<>();
+  static Set<CurrencyPair> pairs = new HashSet<>();
   static BigDecimal fee = new BigDecimal(".006");
 
   static {
@@ -109,12 +108,12 @@ public class ANXGenerator {
 
     for (Currency base : Arrays.asList(BTC, EGD)) {
       for (Currency counter : fiats) {
-        pairs.add(org.knowm.xchange.currency.CurrencyPair.build(base, counter));
+        pairs.add(CurrencyPair.build(base, counter));
       }
     }
 
     for (Currency counter : fiatsStart) {
-      pairs.add(org.knowm.xchange.currency.CurrencyPair.build(START, counter));
+      pairs.add(CurrencyPair.build(START, counter));
     }
   }
 
@@ -124,9 +123,9 @@ public class ANXGenerator {
 
   private void run() throws IOException {
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> map = new TreeMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> map = new TreeMap<>();
 
-    for (org.knowm.xchange.currency.CurrencyPair pair : pairs) {
+    for (CurrencyPair pair : pairs) {
       handleCurrencyPair(map, pair);
     }
     // TODO add RateLimits, fees
@@ -138,8 +137,7 @@ public class ANXGenerator {
   }
 
   private void handleCurrencyPair(
-      Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> map,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      Map<CurrencyPair, CurrencyPairMetaData> map, CurrencyPair currencyPair) {
     int amountScale = amountScale(currencyPair);
     BigDecimal minimumAmount =
         scaled(minAmount.get(currencyPair.getBase().getCurrencyCode()), amountScale);
@@ -154,11 +152,11 @@ public class ANXGenerator {
     return value == null ? null : value.setScale(scale, RoundingMode.UNNECESSARY);
   }
 
-  private int amountScale(org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  private int amountScale(CurrencyPair currencyPair) {
     return currencyMap.get(currencyPair.getBase().getCurrencyCode()).getScale();
   }
 
-  int priceScale(org.knowm.xchange.currency.CurrencyPair pair) {
+  int priceScale(CurrencyPair pair) {
     if (LTC_BTC.equals(pair)
         || (BTC.equals(pair.getBase().getCurrencyCode())
             && !cryptos.contains(pair.getCounter().getCurrencyCode()))) {

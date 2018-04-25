@@ -31,20 +31,18 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitTrade;
 
 public class YoBitAdapters {
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String pair) {
+  public static CurrencyPair adaptCurrencyPair(String pair) {
     String[] currencies = pair.toUpperCase().split("_");
     if (currencies.length != 2)
       throw new IllegalStateException("Cannot parse currency pair: " + pair);
-    return org.knowm.xchange.currency.CurrencyPair.build(
-        adaptCurrency(currencies[0]), adaptCurrency(currencies[1]));
+    return CurrencyPair.build(adaptCurrency(currencies[0]), adaptCurrency(currencies[1]));
   }
 
   public static Currency adaptCurrency(String ccy) {
     return Currency.valueOf(ccy.toUpperCase());
   }
 
-  public static OrderBook adaptOrderBook(
-      YoBitOrderBook book, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(YoBitOrderBook book, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = toLimitOrderList(book.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = toLimitOrderList(book.getBids(), OrderType.BID, currencyPair);
@@ -54,15 +52,14 @@ public class YoBitAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(
       ExchangeMetaData exchangeMetaData, YoBitInfo products) {
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchangeMetaData.getCurrencyPairs();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
     YoBitPairs pairs = products.getPairs();
-    Map<org.knowm.xchange.currency.CurrencyPair, YoBitPair> price = pairs.getPrice();
+    Map<CurrencyPair, YoBitPair> price = pairs.getPrice();
 
-    for (Entry<org.knowm.xchange.currency.CurrencyPair, YoBitPair> entry : price.entrySet()) {
-      org.knowm.xchange.currency.CurrencyPair pair = entry.getKey();
+    for (Entry<CurrencyPair, YoBitPair> entry : price.entrySet()) {
+      CurrencyPair pair = entry.getKey();
       YoBitPair value = entry.getValue();
 
       BigDecimal minSize = value.getMin_amount();
@@ -90,9 +87,7 @@ public class YoBitAdapters {
   }
 
   private static List<LimitOrder> toLimitOrderList(
-      List<YoBitAsksBidsData> levels,
-      OrderType orderType,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      List<YoBitAsksBidsData> levels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
     for (int i = 0; i < levels.size(); i++) {
@@ -106,8 +101,7 @@ public class YoBitAdapters {
     return allLevels;
   }
 
-  public static Trades adaptTrades(
-      List<YoBitTrade> ctrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<YoBitTrade> ctrades, CurrencyPair currencyPair) {
     List<Trade> trades = new ArrayList<>(ctrades.size());
 
     int lastTrade = 0;
@@ -136,8 +130,7 @@ public class YoBitAdapters {
     return new Date(rawDateLong * 1000);
   }
 
-  public static Ticker adaptTicker(
-      YoBitTicker ticker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(YoBitTicker ticker, CurrencyPair currencyPair) {
     Ticker.Builder builder = new Ticker.Builder();
 
     builder.currencyPair(currencyPair);
@@ -160,8 +153,7 @@ public class YoBitAdapters {
     return stringJoiner.toString();
   }
 
-  public static String adaptCcyPairToUrlFormat(
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String adaptCcyPairToUrlFormat(CurrencyPair currencyPair) {
     return currencyPair.getBase().getCurrencyCode().toLowerCase()
         + "_"
         + currencyPair.getCounter().getCurrencyCode().toLowerCase();

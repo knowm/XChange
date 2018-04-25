@@ -16,6 +16,7 @@ import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -42,8 +43,7 @@ public class BitbayAdapters {
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
    */
-  public static Ticker adaptTicker(
-      BitbayTicker bitbayTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(BitbayTicker bitbayTicker, CurrencyPair currencyPair) {
 
     BigDecimal ask = bitbayTicker.getAsk();
     BigDecimal bid = bitbayTicker.getBid();
@@ -70,9 +70,7 @@ public class BitbayAdapters {
    * @return
    */
   private static List<LimitOrder> transformArrayToLimitOrders(
-      BigDecimal[][] orders,
-      OrderType orderType,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
@@ -92,7 +90,7 @@ public class BitbayAdapters {
    * @return
    */
   public static OrderBook adaptOrderBook(
-      BitbayOrderBook bitbayOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      BitbayOrderBook bitbayOrderBook, CurrencyPair currencyPair) {
 
     OrderBook orderBook =
         new OrderBook(
@@ -110,8 +108,7 @@ public class BitbayAdapters {
    * @param currencyPair
    * @return
    */
-  public static Trades adaptTrades(
-      BitbayTrade[] bitbayTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(BitbayTrade[] bitbayTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<>();
 
@@ -180,9 +177,8 @@ public class BitbayAdapters {
   }
 
   private static LimitOrder createOrder(BitbayOrder bitbayOrder) {
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(
-            bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
+    CurrencyPair currencyPair =
+        CurrencyPair.build(bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
     OrderType type = "ask".equals(bitbayOrder.getType()) ? OrderType.ASK : OrderType.BID;
 
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -203,9 +199,8 @@ public class BitbayAdapters {
   }
 
   private static UserTrade createUserTrade(BitbayOrder bitbayOrder) {
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(
-            bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
+    CurrencyPair currencyPair =
+        CurrencyPair.build(bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
     OrderType type = "ask".equals(bitbayOrder.getType()) ? OrderType.ASK : OrderType.BID;
 
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -243,9 +238,8 @@ public class BitbayAdapters {
         String market = map.get("market").toString();
 
         String[] parts = market.split("-");
-        org.knowm.xchange.currency.CurrencyPair pair =
-            org.knowm.xchange.currency.CurrencyPair.build(
-                Currency.valueOf(parts[0]), Currency.valueOf(parts[1]));
+        CurrencyPair pair =
+            CurrencyPair.build(Currency.valueOf(parts[0]), Currency.valueOf(parts[1]));
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = map.get("date").toString();
         Date timestamp = formatter.parse(date);

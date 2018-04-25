@@ -11,6 +11,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmarketcap.dto.marketdata.CoinMarketCapCurrency;
 import org.knowm.xchange.coinmarketcap.dto.marketdata.CoinMarketCapTicker;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -38,9 +39,7 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
   }
 
   @Override
-  public Ticker getTicker(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, final Object... args)
-      throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, final Object... args) throws IOException {
     Currency b = currencyPair.getBase();
     Currency c = currencyPair.getCounter();
 
@@ -53,16 +52,16 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
 
     CoinMarketCapTicker cmcB = tickers.get(b.getCurrencyCode());
 
-    org.knowm.xchange.currency.CurrencyPair pair;
+    CurrencyPair pair;
     BigDecimal price;
     BigDecimal volume;
 
     if (c.getCurrencyCode().compareTo("USD") == 0) {
-      pair = org.knowm.xchange.currency.CurrencyPair.build(cmcB.getIsoCode(), "USD");
+      pair = CurrencyPair.build(cmcB.getIsoCode(), "USD");
       price = cmcB.getPriceUSD();
       volume = cmcB.getVolume24hUSD();
     } else if (c.getCurrencyCode().compareTo("BTC") == 0) {
-      pair = org.knowm.xchange.currency.CurrencyPair.build(cmcB.getIsoCode(), "BTC");
+      pair = CurrencyPair.build(cmcB.getIsoCode(), "BTC");
       price = cmcB.getPriceBTC();
 
       // TODO move to conversion function
@@ -71,7 +70,7 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
       volume = null;
     } else {
       CoinMarketCapTicker cmcC = tickers.get(c.getCurrencyCode());
-      pair = org.knowm.xchange.currency.CurrencyPair.build(cmcB.getIsoCode(), cmcC.getIsoCode());
+      pair = CurrencyPair.build(cmcB.getIsoCode(), cmcC.getIsoCode());
 
       // TODO move to conversion function
       // price = new BigDecimal(cmcB.getPriceBTC().doubleValue() /
@@ -95,9 +94,7 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
         .build();
   }
 
-  public Ticker getTickerFresh(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, final Object... args)
-      throws IOException {
+  public Ticker getTickerFresh(CurrencyPair currencyPair, final Object... args) throws IOException {
     tickers = getNewTickers();
     return getTicker(currencyPair, args);
   }
@@ -112,13 +109,12 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
   }
 
   @Override
-  public OrderBook getOrderBook(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, Object... objects) {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(org.knowm.xchange.currency.CurrencyPair currencyPair, Object... objects) {
+  public Trades getTrades(CurrencyPair currencyPair, Object... objects) {
     throw new NotAvailableFromExchangeException();
   }
 

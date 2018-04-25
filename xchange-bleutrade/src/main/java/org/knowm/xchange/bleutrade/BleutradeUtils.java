@@ -4,20 +4,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import org.knowm.xchange.currency.CurrencyPair;
 
 public final class BleutradeUtils {
 
-  public static String toPairString(org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String toPairString(CurrencyPair currencyPair) {
 
     return currencyPair.getBase().getCurrencyCode().toUpperCase()
         + "_"
         + currencyPair.getCounter().getCurrencyCode().toUpperCase();
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair toCurrencyPair(String pairString) {
+  public static CurrencyPair toCurrencyPair(String pairString) {
 
     String[] currencies = pairString.split("_");
-    return org.knowm.xchange.currency.CurrencyPair.build(currencies[0], currencies[1]);
+    return CurrencyPair.build(currencies[0], currencies[1]);
   }
 
   public static Date toDate(String timeStamp) {

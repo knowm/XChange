@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance.Builder;
@@ -50,14 +51,12 @@ public class LivecoinAdapters {
 
   private LivecoinAdapters() {}
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(
-      LivecoinRestriction product) {
+  public static CurrencyPair adaptCurrencyPair(LivecoinRestriction product) {
     String[] data = product.getCurrencyPair().split("\\/");
-    return org.knowm.xchange.currency.CurrencyPair.build(data[0], data[1]);
+    return CurrencyPair.build(data[0], data[1]);
   }
 
-  public static OrderBook adaptOrderBook(
-      LivecoinOrderBook book, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(LivecoinOrderBook book, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = toLimitOrderList(book.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = toLimitOrderList(book.getBids(), OrderType.BID, currencyPair);
@@ -66,9 +65,7 @@ public class LivecoinAdapters {
   }
 
   private static List<LimitOrder> toLimitOrderList(
-      LivecoinAsksBidsData[] levels,
-      OrderType orderType,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      LivecoinAsksBidsData[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
     if (levels == null || levels.length == 0) {
       return Collections.emptyList();
@@ -82,16 +79,14 @@ public class LivecoinAdapters {
     return allLevels;
   }
 
-  public static Map<org.knowm.xchange.currency.CurrencyPair, LivecoinOrderBook>
-      adaptToCurrencyPairKeysMap(Map<String, LivecoinOrderBook> orderBooksRaw) {
+  public static Map<CurrencyPair, LivecoinOrderBook> adaptToCurrencyPairKeysMap(
+      Map<String, LivecoinOrderBook> orderBooksRaw) {
 
     Set<Entry<String, LivecoinOrderBook>> entries = orderBooksRaw.entrySet();
-    Map<org.knowm.xchange.currency.CurrencyPair, LivecoinOrderBook> converted =
-        new HashMap<>(entries.size());
+    Map<CurrencyPair, LivecoinOrderBook> converted = new HashMap<>(entries.size());
     for (Entry<String, LivecoinOrderBook> entry : entries) {
       String[] currencyPairSplit = entry.getKey().split("/");
-      org.knowm.xchange.currency.CurrencyPair currencyPair =
-          org.knowm.xchange.currency.CurrencyPair.build(currencyPairSplit[0], currencyPairSplit[1]);
+      CurrencyPair currencyPair = CurrencyPair.build(currencyPairSplit[0], currencyPairSplit[1]);
       converted.put(currencyPair, entry.getValue());
     }
     return converted;
@@ -100,15 +95,14 @@ public class LivecoinAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(
       ExchangeMetaData exchangeMetaData, List<LivecoinRestriction> products) {
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchangeMetaData.getCurrencyPairs();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (LivecoinRestriction product : products) {
       BigDecimal minSize =
           product.getMinLimitQuantity() == null ? BigDecimal.ZERO : product.getMinLimitQuantity();
       minSize = minSize.setScale(product.getPriceScale(), RoundingMode.UNNECESSARY);
 
-      org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(product);
+      CurrencyPair pair = adaptCurrencyPair(product);
 
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
       int priceScale = staticMetaData == null ? 8 : staticMetaData.getPriceScale();
@@ -130,8 +124,7 @@ public class LivecoinAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
 
-  public static Trades adaptTrades(
-      LivecoinTrade[] nativeTrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(LivecoinTrade[] nativeTrades, CurrencyPair currencyPair) {
 
     if (nativeTrades.length == 0) {
       return new Trades(Collections.<Trade>emptyList());
@@ -158,8 +151,7 @@ public class LivecoinAdapters {
     return new Date(rawDateLong * 1000);
   }
 
-  public static Ticker adaptTicker(
-      LivecoinTicker ticker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(LivecoinTicker ticker, CurrencyPair currencyPair) {
     BigDecimal last = ticker.getLast();
     BigDecimal bid = ticker.getBestBid();
     BigDecimal ask = ticker.getBestAsk();
@@ -215,7 +207,7 @@ public class LivecoinAdapters {
     return new LimitOrder(
         type,
         remainingQuantity,
-        org.knowm.xchange.currency.CurrencyPair.build(ccyA, ccyB),
+        CurrencyPair.build(ccyA, ccyB),
         map.get("id").toString(),
         DateUtils.fromUnixTime(Double.valueOf(map.get("issueTime").toString()).longValue()),
         new BigDecimal(map.get("price").toString()),
@@ -242,7 +234,7 @@ public class LivecoinAdapters {
     return new UserTrade(
         type,
         amountA,
-        org.knowm.xchange.currency.CurrencyPair.build(ccyA, ccyB),
+        CurrencyPair.build(ccyA, ccyB),
         price,
         DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
         id,

@@ -18,6 +18,7 @@ import org.knowm.xchange.bittrex.dto.trade.BittrexLimitOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -44,22 +45,20 @@ public final class BittrexAdapters {
 
   private BittrexAdapters() {}
 
-  public static List<org.knowm.xchange.currency.CurrencyPair> adaptCurrencyPairs(
-      Collection<BittrexSymbol> bittrexSymbol) {
+  public static List<CurrencyPair> adaptCurrencyPairs(Collection<BittrexSymbol> bittrexSymbol) {
 
-    List<org.knowm.xchange.currency.CurrencyPair> currencyPairs = new ArrayList<>();
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
     for (BittrexSymbol symbol : bittrexSymbol) {
       currencyPairs.add(adaptCurrencyPair(symbol));
     }
     return currencyPairs;
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(
-      BittrexSymbol bittrexSymbol) {
+  public static CurrencyPair adaptCurrencyPair(BittrexSymbol bittrexSymbol) {
 
     String baseSymbol = bittrexSymbol.getMarketCurrency();
     String counterSymbol = bittrexSymbol.getBaseCurrency();
-    return org.knowm.xchange.currency.CurrencyPair.build(baseSymbol, counterSymbol);
+    return CurrencyPair.build(baseSymbol, counterSymbol);
   }
 
   public static List<LimitOrder> adaptOpenOrders(List<BittrexOpenOrder> bittrexOpenOrders) {
@@ -80,8 +79,7 @@ public final class BittrexAdapters {
             ? OrderType.ASK
             : OrderType.BID;
     String[] currencies = bittrexOpenOrder.getExchange().split("-");
-    org.knowm.xchange.currency.CurrencyPair pair =
-        org.knowm.xchange.currency.CurrencyPair.build(currencies[1], currencies[0]);
+    CurrencyPair pair = CurrencyPair.build(currencies[1], currencies[0]);
 
     return new BittrexLimitOrder(
         type,
@@ -96,10 +94,7 @@ public final class BittrexAdapters {
   }
 
   public static List<LimitOrder> adaptOrders(
-      BittrexLevel[] orders,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      String orderType,
-      String id) {
+      BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
 
     if (orders == null) {
       return new ArrayList<>();
@@ -117,7 +112,7 @@ public final class BittrexAdapters {
   public static LimitOrder adaptOrder(
       BigDecimal amount,
       BigDecimal price,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       String orderTypeString,
       String id) {
 
@@ -129,8 +124,7 @@ public final class BittrexAdapters {
   public static LimitOrder adaptOrder(BittrexOrder order) {
     OrderType type = order.getType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
     String[] currencies = order.getExchange().split("-");
-    org.knowm.xchange.currency.CurrencyPair pair =
-        org.knowm.xchange.currency.CurrencyPair.build(currencies[1], currencies[0]);
+    CurrencyPair pair = CurrencyPair.build(currencies[1], currencies[0]);
 
     OrderStatus status = OrderStatus.NEW;
 
@@ -169,8 +163,7 @@ public final class BittrexAdapters {
         status);
   }
 
-  public static Trade adaptTrade(
-      BittrexTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(BittrexTrade trade, CurrencyPair currencyPair) {
 
     OrderType orderType =
         trade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
@@ -181,8 +174,7 @@ public final class BittrexAdapters {
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
-  public static Trades adaptTrades(
-      BittrexTrade[] trades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(BittrexTrade[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>(trades.length);
     long lastTradeId = 0;
@@ -196,8 +188,7 @@ public final class BittrexAdapters {
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static Ticker adaptTicker(
-      BittrexMarketSummary marketSummary, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(BittrexMarketSummary marketSummary, CurrencyPair currencyPair) {
 
     BigDecimal last = marketSummary.getLast();
     BigDecimal bid = marketSummary.getBid();
@@ -245,7 +236,7 @@ public final class BittrexAdapters {
     return Wallet.build(wallets);
   }
 
-  public static org.knowm.xchange.dto.account.Balance adaptBalance(BittrexBalance balance) {
+  public static Balance adaptBalance(BittrexBalance balance) {
     return new Builder()
         .setCurrency(Currency.valueOf(balance.getCurrency().toUpperCase()))
         .setTotal(balance.getBalance())
@@ -272,8 +263,7 @@ public final class BittrexAdapters {
   public static UserTrade adaptUserTrade(BittrexUserTrade trade) {
 
     String[] currencies = trade.getExchange().split("-");
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(currencies[1], currencies[0]);
+    CurrencyPair currencyPair = CurrencyPair.build(currencies[1], currencies[0]);
 
     OrderType orderType =
         trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
@@ -302,13 +292,11 @@ public final class BittrexAdapters {
   public static ExchangeMetaData adaptMetaData(
       List<BittrexSymbol> rawSymbols, ExchangeMetaData metaData) {
 
-    List<org.knowm.xchange.currency.CurrencyPair> currencyPairs =
-        BittrexAdapters.adaptCurrencyPairs(rawSymbols);
+    List<CurrencyPair> currencyPairs = BittrexAdapters.adaptCurrencyPairs(rawSymbols);
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> pairsMap =
-        metaData.getCurrencyPairs();
+    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
-    for (org.knowm.xchange.currency.CurrencyPair c : currencyPairs) {
+    for (CurrencyPair c : currencyPairs) {
       if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }

@@ -22,7 +22,7 @@ import org.knowm.xchange.utils.ObjectMapperHelper;
 public class ExchangeMetaData implements Serializable {
 
   @JsonProperty("currency_pairs")
-  private Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs;
+  private Map<CurrencyPair, CurrencyPairMetaData> currencyPairs;
 
   @JsonProperty("currencies")
   private Map<Currency, CurrencyMetaData> currencies;
@@ -80,7 +80,7 @@ public class ExchangeMetaData implements Serializable {
     return result;
   }
 
-  public Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> getCurrencyPairs() {
+  public Map<CurrencyPair, CurrencyPairMetaData> getCurrencyPairs() {
     return currencyPairs;
   }
 

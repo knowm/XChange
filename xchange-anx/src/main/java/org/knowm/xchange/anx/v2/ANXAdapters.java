@@ -17,6 +17,7 @@ import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.knowm.xchange.anx.v2.dto.trade.ANXOpenOrder;
 import org.knowm.xchange.anx.v2.dto.trade.ANXTradeResult;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
@@ -78,8 +79,7 @@ public final class ANXAdapters {
 
     // place a limit order
     OrderType orderType = adaptSide(orderTypeString);
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        adaptCurrencyPair(tradedCurrency, transactionCurrency);
+    CurrencyPair currencyPair = adaptCurrencyPair(tradedCurrency, transactionCurrency);
 
     LimitOrder limitOrder =
         new LimitOrder(orderType, originalAmount, currencyPair, id, timestamp, price);
@@ -144,7 +144,7 @@ public final class ANXAdapters {
    * @param anxWallet
    * @return
    */
-  public static org.knowm.xchange.dto.account.Balance adaptBalance(ANXWallet anxWallet) {
+  public static Balance adaptBalance(ANXWallet anxWallet) {
 
     if (anxWallet
         == null) { // use the presence of a currency String to indicate existing wallet at ANX
@@ -172,7 +172,7 @@ public final class ANXAdapters {
     List<Balance> balances = new ArrayList<>();
 
     for (ANXWallet anxWallet : anxWallets.values()) {
-      org.knowm.xchange.dto.account.Balance balance = adaptBalance(anxWallet);
+      Balance balance = adaptBalance(anxWallet);
       if (balance != null) {
         balances.add(balance);
       }
@@ -234,8 +234,7 @@ public final class ANXAdapters {
     OrderType orderType = adaptSide(anxTrade.getTradeType());
     BigDecimal amount = anxTrade.getAmount();
     BigDecimal price = anxTrade.getPrice();
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        adaptCurrencyPair(anxTrade.getItem(), anxTrade.getPriceCurrency());
+    CurrencyPair currencyPair = adaptCurrencyPair(anxTrade.getItem(), anxTrade.getPriceCurrency());
     Date dateTime = DateUtils.fromMillisUtc(anxTrade.getTid());
     final String tradeId = String.valueOf(anxTrade.getTid());
 
@@ -252,7 +251,7 @@ public final class ANXAdapters {
     BigDecimal low = anxTicker.getLow().getValue();
     Date timestamp = new Date(anxTicker.getNow() / 1000);
 
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
+    CurrencyPair currencyPair =
         adaptCurrencyPair(anxTicker.getVol().getCurrency(), anxTicker.getAvg().getCurrency());
 
     return new Builder()
@@ -267,10 +266,9 @@ public final class ANXAdapters {
         .build();
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(
-      String tradeCurrency, String priceCurrency) {
+  public static CurrencyPair adaptCurrencyPair(String tradeCurrency, String priceCurrency) {
 
-    return org.knowm.xchange.currency.CurrencyPair.build(tradeCurrency, priceCurrency);
+    return CurrencyPair.build(tradeCurrency, priceCurrency);
   }
 
   public static UserTrades adaptUserTrades(ANXTradeResult[] anxTradeResults, ANXMetaData meta) {
@@ -287,8 +285,7 @@ public final class ANXAdapters {
   private static UserTrade adaptUserTrade(ANXTradeResult aNXTradeResult, ANXMetaData meta) {
 
     BigDecimal tradedCurrencyFillAmount = aNXTradeResult.getTradedCurrencyFillAmount();
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        adaptCurrencyPair(aNXTradeResult.getCurrencyPair());
+    CurrencyPair currencyPair = adaptCurrencyPair(aNXTradeResult.getCurrencyPair());
     int priceScale = meta.getCurrencyPairs().get(currencyPair).getPriceScale();
     BigDecimal price =
         aNXTradeResult
@@ -308,17 +305,16 @@ public final class ANXAdapters {
         null);
   }
 
-  private static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String currencyPairRaw) {
+  private static CurrencyPair adaptCurrencyPair(String currencyPairRaw) {
 
     if ("DOGEBTC".equalsIgnoreCase(currencyPairRaw)) {
-      return org.knowm.xchange.currency.CurrencyPair.DOGE_BTC;
+      return CurrencyPair.DOGE_BTC;
     } else if ("STARTBTC".equalsIgnoreCase(currencyPairRaw)) {
-      return org.knowm.xchange.currency.CurrencyPair.build(Currency.START, Currency.BTC);
+      return CurrencyPair.build(Currency.START, Currency.BTC);
     } else if (currencyPairRaw.length() != 6) {
       throw new IllegalArgumentException("Unrecognized currency pair " + currencyPairRaw);
     } else {
-      return org.knowm.xchange.currency.CurrencyPair.build(
-          currencyPairRaw.substring(0, 3), currencyPairRaw.substring(3));
+      return CurrencyPair.build(currencyPairRaw.substring(0, 3), currencyPairRaw.substring(3));
     }
   }
 

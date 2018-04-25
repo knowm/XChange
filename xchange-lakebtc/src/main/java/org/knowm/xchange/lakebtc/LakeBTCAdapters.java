@@ -8,6 +8,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -162,11 +163,11 @@ public class LakeBTCAdapters {
     // Adapt to XChange DTOs
     LakeBTCProfile profile = lakeBTCAccount.getProfile();
     LakeBTCBalance balance = lakeBTCAccount.getBalance();
-    org.knowm.xchange.dto.account.Balance usdBalance =
+    Balance usdBalance =
         new Builder().setCurrency(Currency.USD).setTotal(balance.getUSD()).createBalance();
-    org.knowm.xchange.dto.account.Balance cnyWBalance =
+    Balance cnyWBalance =
         new Builder().setCurrency(Currency.CNY).setTotal(balance.getCNY()).createBalance();
-    org.knowm.xchange.dto.account.Balance btcBalance =
+    Balance btcBalance =
         new Builder().setCurrency(Currency.BTC).setTotal(balance.getBTC()).createBalance();
 
     return AccountInfo.build(profile.getId(), Wallet.build(usdBalance, btcBalance, cnyWBalance));

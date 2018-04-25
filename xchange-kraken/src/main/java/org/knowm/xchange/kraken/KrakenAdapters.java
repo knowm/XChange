@@ -203,7 +203,7 @@ public class KrakenAdapters {
     List<Balance> balances = new ArrayList<>(krakenWallet.size());
     for (Entry<String, BigDecimal> balancePair : krakenWallet.entrySet()) {
       Currency currency = adaptCurrency(balancePair.getKey());
-      org.knowm.xchange.dto.account.Balance balance =
+      Balance balance =
           new Builder().setCurrency(currency).setTotal(balancePair.getValue()).createBalance();
       balances.add(balance);
     }

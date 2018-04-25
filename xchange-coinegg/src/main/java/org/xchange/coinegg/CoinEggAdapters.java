@@ -12,6 +12,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -108,14 +109,14 @@ public class CoinEggAdapters {
     Wallet btcWallet =
         Wallet.build(
             Currency.BTC.getCurrencyCode(),
-            new org.knowm.xchange.dto.account.Balance.Builder()
+            new Balance.Builder()
                 .setCurrency(Currency.BTC)
                 .setTotal(coinEggBalance.getBTCBalance())
                 .createBalance());
     Wallet ethWallet =
         Wallet.build(
             Currency.ETH.getCurrencyCode(),
-            new org.knowm.xchange.dto.account.Balance.Builder()
+            new Balance.Builder()
                 .setCurrency(Currency.ETH)
                 .setTotal(coinEggBalance.getETHBalance())
                 .createBalance());

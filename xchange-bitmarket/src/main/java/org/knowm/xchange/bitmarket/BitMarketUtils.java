@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitmarket;
 
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
 /** @author kfonal */
 public class BitMarketUtils {
 
-  public static String currencyPairToBitMarketCurrencyPair(
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String currencyPairToBitMarketCurrencyPair(CurrencyPair currencyPair) {
     if (currencyPair.getBase().getCurrencyCode().equals("LiteMineX")
         && currencyPair.getCounter().getCurrencyCode().equals("BTC")) {
       return "LiteMineXBTC";
@@ -16,15 +16,13 @@ public class BitMarketUtils {
     }
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair bitMarketCurrencyPairToCurrencyPair(
-      String currencyPair) {
+  public static CurrencyPair bitMarketCurrencyPairToCurrencyPair(String currencyPair) {
     if (currencyPair.equals("LiteMineXBTC")) {
-      return org.knowm.xchange.currency.CurrencyPair.build("LiteMineX", "BTC");
+      return CurrencyPair.build("LiteMineX", "BTC");
     } else if (currencyPair.length() == 6) {
       String ccyA = currencyPair.substring(0, 3);
       String ccyB = currencyPair.substring(3);
-      return org.knowm.xchange.currency.CurrencyPair.build(
-          Currency.valueOf(ccyA), Currency.valueOf(ccyB));
+      return CurrencyPair.build(Currency.valueOf(ccyA), Currency.valueOf(ccyB));
     } else {
       throw new IllegalStateException("Cannot convert '" + currencyPair + "' into a CurrencyPair");
     }

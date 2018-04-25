@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -30,7 +31,7 @@ public final class VircurexAdapters {
   public static LimitOrder adaptOrder(
       BigDecimal amount,
       BigDecimal price,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       OrderType orderType,
       String id) {
 
@@ -39,10 +40,7 @@ public final class VircurexAdapters {
   }
 
   public static List<LimitOrder> adaptOrders(
-      List<BigDecimal[]> someOrders,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      String orderTypeString,
-      String id) {
+      List<BigDecimal[]> someOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -97,7 +95,7 @@ public final class VircurexAdapters {
           new LimitOrder(
               orderType,
               BigDecimal.ONE,
-              org.knowm.xchange.currency.CurrencyPair.build(
+              CurrencyPair.build(
                   vircurexOpenOrder.getBaseCurrency(), vircurexOpenOrder.getCounterCurrency()),
               vircurexOpenOrder.getOrderId(),
               timeStamp,

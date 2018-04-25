@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 import org.knowm.xchange.poloniex.service.PoloniexMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -13,7 +14,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 public class PoloniexMarketDataDemo {
 
   private static Exchange poloniex;
-  private static org.knowm.xchange.currency.CurrencyPair currencyPair;
+  private static CurrencyPair currencyPair;
 
   public static void main(String[] args) throws Exception {
 
@@ -21,7 +22,7 @@ public class PoloniexMarketDataDemo {
 
     poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
     MarketDataService dataService = poloniex.getMarketDataService();
-    currencyPair = org.knowm.xchange.currency.CurrencyPair.build("BTC", "USDT");
+    currencyPair = CurrencyPair.build("BTC", "USDT");
     //    currencyPair = new CurrencyPair("ETH", "BTC");
 
     generic(dataService);

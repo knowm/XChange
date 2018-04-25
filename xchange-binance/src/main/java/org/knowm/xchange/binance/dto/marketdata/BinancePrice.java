@@ -23,7 +23,7 @@ public final class BinancePrice implements Comparable<BinancePrice> {
     this.price = price;
   }
 
-  public org.knowm.xchange.currency.CurrencyPair getCurrencyPair() {
+  public CurrencyPair getCurrencyPair() {
     return pair;
   }
 

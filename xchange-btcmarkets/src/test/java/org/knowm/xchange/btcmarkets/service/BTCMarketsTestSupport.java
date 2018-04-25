@@ -15,6 +15,7 @@ import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -29,13 +30,13 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
   protected static final String SPECIFICATION_SECRET_KEY =
       Base64.getEncoder().encodeToString("secretKey".getBytes());
 
-  protected static final org.knowm.xchange.dto.account.Balance EXPECTED_BALANCE;
+  protected static final Balance EXPECTED_BALANCE;
 
   static {
     BigDecimal total = new BigDecimal("3.0E-7");
     BigDecimal available = new BigDecimal("2.0E-7");
     EXPECTED_BALANCE =
-        new org.knowm.xchange.dto.account.Balance.Builder()
+        new Balance.Builder()
             .setCurrency(Currency.BTC)
             .setTotal(total)
             .setAvailable(available)

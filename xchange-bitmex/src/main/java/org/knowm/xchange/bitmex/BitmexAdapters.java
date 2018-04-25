@@ -23,6 +23,7 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.bitmex.dto.trade.BitmexTrade;
 import org.knowm.xchange.bitmex.dto.trade.BitmexUserTrade;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -43,8 +44,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 
 public class BitmexAdapters {
 
-  public static OrderBook adaptOrderBook(
-      BitmexDepth bitmexDepth, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(BitmexDepth bitmexDepth, CurrencyPair currencyPair) {
 
     OrdersContainer asksOrdersContainer =
         adaptOrders(bitmexDepth.getAsks(), currencyPair, OrderType.ASK);
@@ -57,8 +57,7 @@ public class BitmexAdapters {
         bidsOrdersContainer.getLimitOrders());
   }
 
-  public static BitmexDepth adaptDepth(
-      BitmexPublicOrder[] orders, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static BitmexDepth adaptDepth(BitmexPublicOrder[] orders, CurrencyPair currencyPair) {
 
     BitmexDepth bitmexDepth = new BitmexDepth(new ArrayList<>(), new ArrayList<>());
 
@@ -72,9 +71,7 @@ public class BitmexAdapters {
   }
 
   public static OrdersContainer adaptOrders(
-      List<BitmexPublicOrder> orders,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType) {
+      List<BitmexPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
 
     // bitmex does not provide timestamps on order book
     long maxTimestamp = System.currentTimeMillis();
@@ -87,8 +84,7 @@ public class BitmexAdapters {
     return new OrdersContainer(maxTimestamp, limitOrders);
   }
 
-  public static Trades adaptTrades(
-      List<BitmexPublicTrade> trades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<BitmexPublicTrade> trades, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<>(trades.size());
     for (BitmexPublicTrade trade : trades) {
@@ -100,17 +96,14 @@ public class BitmexAdapters {
   }
 
   public static LimitOrder adaptOrder(
-      BitmexPublicOrder order,
-      OrderType orderType,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      BitmexPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {
 
     BigDecimal volume = order.getVolume();
 
     return new LimitOrder(orderType, volume, currencyPair, "", null, order.getPrice());
   }
 
-  public static Ticker adaptTicker(
-      BitmexTicker bitmexTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(BitmexTicker bitmexTicker, CurrencyPair currencyPair) {
 
     Ticker.Builder builder = new Ticker.Builder();
     builder.open(bitmexTicker.getPrevClosePrice());
@@ -125,8 +118,7 @@ public class BitmexAdapters {
     return builder.build();
   }
 
-  public static Trade adaptTrade(
-      BitmexPublicTrade bitmexPublicTrade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(BitmexPublicTrade bitmexPublicTrade, CurrencyPair currencyPair) {
 
     OrderType type = adaptOrderType(bitmexPublicTrade.getSide());
     BigDecimal originalAmount = bitmexPublicTrade.getSize();
@@ -148,19 +140,18 @@ public class BitmexAdapters {
     List<Balance> balances = new ArrayList<>(bitmexWallet.size());
     for (Entry<String, BigDecimal> balancePair : bitmexWallet.entrySet()) {
       Currency currency = adaptCurrency(balancePair.getKey());
-      org.knowm.xchange.dto.account.Balance balance =
+      Balance balance =
           new Builder().setCurrency(currency).setTotal(balancePair.getValue()).createBalance();
       balances.add(balance);
     }
     return Wallet.build(balances);
   }
 
-  public static Set<org.knowm.xchange.currency.CurrencyPair> adaptCurrencyPairs(
-      Collection<String> bitmexCurrencyPairs) {
+  public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> bitmexCurrencyPairs) {
 
-    Set<org.knowm.xchange.currency.CurrencyPair> currencyPairs = new HashSet<>();
+    Set<CurrencyPair> currencyPairs = new HashSet<>();
     for (String bitmexCurrencyPair : bitmexCurrencyPairs) {
-      org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(bitmexCurrencyPair);
+      CurrencyPair currencyPair = adaptCurrencyPair(bitmexCurrencyPair);
       if (currencyPair != null) {
         currencyPairs.add(currencyPair);
       }
@@ -173,8 +164,7 @@ public class BitmexAdapters {
     return BitmexUtils.translateBitmexCurrencyCode(bitmexCurrencyCode);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(
-      String bitmexCurrencyPair) {
+  public static CurrencyPair adaptCurrencyPair(String bitmexCurrencyPair) {
 
     return BitmexUtils.translateBitmexCurrencyPair(bitmexCurrencyPair);
   }
@@ -205,8 +195,7 @@ public class BitmexAdapters {
     BigDecimal originalAmount = bitmexOrder.getVolume();
     BigDecimal filledAmount = bitmexOrder.getVolumeExecuted();
     BigDecimal remainingAmount = originalAmount.min(filledAmount);
-    org.knowm.xchange.currency.CurrencyPair pair =
-        adaptCurrencyPair(orderDescription.getAssetPair());
+    CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (bitmexOrder.getOpenTimestamp() * 1000L));
 
     OrderStatus status = adaptOrderStatus(bitmexOrder.getStatus());
@@ -245,7 +234,7 @@ public class BitmexAdapters {
     OrderType orderType = adaptOrderType(bitmexTrade.getSide());
     BigDecimal originalAmount = bitmexTrade.getSize();
     String bitmexAssetPair = bitmexTrade.getSymbol();
-    org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(bitmexAssetPair);
+    CurrencyPair pair = adaptCurrencyPair(bitmexAssetPair);
     BigDecimal price = bitmexTrade.getPrice();
 
     return new BitmexUserTrade(
@@ -283,7 +272,7 @@ public class BitmexAdapters {
     // A bitmexContracts Map XMRZ17->XMR.BTC.MONTHLY
     BitmexUtils.setBitmexAssetPairs(tickers);
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> pairs =
+    Map<CurrencyPair, CurrencyPairMetaData> pairs =
         new HashMap<>(originalMetaData.getCurrencyPairs());
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>(originalMetaData.getCurrencies());
 
@@ -293,8 +282,7 @@ public class BitmexAdapters {
       Currency baseCurrencyCode = BitmexAdapters.adaptCurrency(base);
       Currency quoteCurrencyCode = BitmexAdapters.adaptCurrency(quote);
 
-      org.knowm.xchange.currency.CurrencyPair pair =
-          org.knowm.xchange.currency.CurrencyPair.build(baseCurrencyCode, quoteCurrencyCode);
+      CurrencyPair pair = CurrencyPair.build(baseCurrencyCode, quoteCurrencyCode);
       pairs.put(pair, adaptPair(ticker, pairs.get(adaptCurrencyPair(pair.toString()))));
       if (!BitmexUtils.bitmexCurrencies.containsKey(baseCurrencyCode)
           && !BitmexUtils.bitmexCurrencies.containsValue(base))
@@ -371,8 +359,7 @@ public class BitmexAdapters {
     }
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static CurrencyPair adaptCurrencyPair(CurrencyPair currencyPair) {
 
     return currencyPair;
   }

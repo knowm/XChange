@@ -10,6 +10,7 @@ import org.knowm.xchange.bitflyer.dto.account.BitflyerDepositOrWithdrawal;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Builder;
@@ -25,26 +26,23 @@ public class BitflyerAdapters {
   private static Pattern CURRENCY_PATTERN = Pattern.compile("[A-Z]{3}");
 
   public static ExchangeMetaData adaptMetaData(List<BitflyerMarket> markets) {
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (BitflyerMarket market : markets) {
-      org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(market.getProductCode());
+      CurrencyPair pair = adaptCurrencyPair(market.getProductCode());
       currencyPairs.put(pair, null);
     }
     return new ExchangeMetaData(currencyPairs, currencies, null, null, false);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String productCode) {
+  public static CurrencyPair adaptCurrencyPair(String productCode) {
     Matcher matcher = CURRENCY_PATTERN.matcher(productCode);
     List<String> currencies = new ArrayList<>();
     while (matcher.find()) {
       currencies.add(matcher.group());
     }
-    return currencies.size() >= 2
-        ? org.knowm.xchange.currency.CurrencyPair.build(currencies.get(0), currencies.get(1))
-        : null;
+    return currencies.size() >= 2 ? CurrencyPair.build(currencies.get(0), currencies.get(1)) : null;
   }
 
   /**
@@ -60,7 +58,7 @@ public class BitflyerAdapters {
       BigDecimal total = balance.getAmount();
       BigDecimal available = balance.getAvailable();
       adaptedBalances.add(
-          new org.knowm.xchange.dto.account.Balance.Builder()
+          new Balance.Builder()
               .setCurrency(Currency.valueOf(balance.getCurrencyCode()))
               .setTotal(total)
               .setAvailable(available)
@@ -78,8 +76,7 @@ public class BitflyerAdapters {
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
    */
-  public static Ticker adaptTicker(
-      BitflyerTicker ticker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(BitflyerTicker ticker, CurrencyPair currencyPair) {
 
     BigDecimal bid = ticker.getBestBid();
     BigDecimal ask = ticker.getBestAsk();

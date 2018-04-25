@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Balance.Builder;
@@ -40,9 +41,8 @@ public class IndependentReserveAdapters {
       base = "BTC";
     }
 
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(
-            base, independentReserveOrderBook.getSecondaryCurrencyCode());
+    CurrencyPair currencyPair =
+        CurrencyPair.build(base, independentReserveOrderBook.getSecondaryCurrencyCode());
 
     List<LimitOrder> bids =
         adaptOrders(independentReserveOrderBook.getBuyOrders(), OrderType.BID, currencyPair);
@@ -61,8 +61,7 @@ public class IndependentReserveAdapters {
    * @return The ticker
    */
   public static Ticker adaptTicker(
-      IndependentReserveTicker independentReserveTicker,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      IndependentReserveTicker independentReserveTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = independentReserveTicker.getLast();
     BigDecimal bid = independentReserveTicker.getBid();
@@ -87,9 +86,7 @@ public class IndependentReserveAdapters {
   }
 
   private static List<LimitOrder> adaptOrders(
-      List<OrderBookOrder> buyOrders,
-      OrderType type,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      List<OrderBookOrder> buyOrders, OrderType type, CurrencyPair currencyPair) {
     final List<LimitOrder> orders = new ArrayList<>();
     for (OrderBookOrder obo : buyOrders) {
       LimitOrder limitOrder =
@@ -143,8 +140,7 @@ public class IndependentReserveAdapters {
 
       Currency primary = Currency.getInstanceNoCreate(primaryAlias);
       Currency secondary = Currency.getInstanceNoCreate(order.getSecondaryCurrencyCode());
-      org.knowm.xchange.currency.CurrencyPair currencyPair =
-          org.knowm.xchange.currency.CurrencyPair.build(primary, secondary);
+      CurrencyPair currencyPair = CurrencyPair.build(primary, secondary);
 
       LimitOrder limitOrder =
           new LimitOrder(
@@ -190,8 +186,7 @@ public class IndependentReserveAdapters {
                 + trade.getSecondaryCurrencyCode());
       }
 
-      org.knowm.xchange.currency.CurrencyPair currencyPair =
-          org.knowm.xchange.currency.CurrencyPair.build(primary, secondary);
+      CurrencyPair currencyPair = CurrencyPair.build(primary, secondary);
 
       UserTrade ut =
           new UserTrade(

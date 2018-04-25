@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.*;
@@ -34,7 +35,7 @@ import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrder;
 
 public class KucoinAdapters {
 
-  public static String adaptCurrencyPair(org.knowm.xchange.currency.CurrencyPair pair) {
+  public static String adaptCurrencyPair(CurrencyPair pair) {
 
     return pair.getBase().getCurrencyCode() + '-' + pair.getCounter().getCurrencyCode();
   }
@@ -43,7 +44,7 @@ public class KucoinAdapters {
 
     return new Ticker.Builder()
         .currencyPair(
-            org.knowm.xchange.currency.CurrencyPair.build(
+            CurrencyPair.build(
                 Currency.valueOf(ticker.getCoinType()), Currency.valueOf(ticker.getCoinTypePair())))
         .bid(ticker.getBuy())
         .ask(ticker.getSell())
@@ -57,8 +58,7 @@ public class KucoinAdapters {
   }
 
   public static OrderBook adaptOrderBook(
-      KucoinResponse<KucoinOrderBook> response,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      KucoinResponse<KucoinOrderBook> response, CurrencyPair currencyPair) {
 
     KucoinOrderBook kcOrders = response.getData();
     Date timestamp = new Date(response.getTimestamp());
@@ -73,8 +73,7 @@ public class KucoinAdapters {
     return new OrderBook(timestamp, asks, bids);
   }
 
-  public static Trade adaptTrade(
-      KucoinDealOrder kucoinTrade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(KucoinDealOrder kucoinTrade, CurrencyPair currencyPair) {
 
     return new Trade(
         kucoinTrade.getOrderType().getOrderType(),
@@ -86,7 +85,7 @@ public class KucoinAdapters {
   }
 
   private static LimitOrder adaptLimitOrder(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       OrderType orderType,
       List<BigDecimal> kucoinLimitOrder,
       Date timestamp) {
@@ -95,8 +94,7 @@ public class KucoinAdapters {
         orderType, kucoinLimitOrder.get(1), currencyPair, null, timestamp, kucoinLimitOrder.get(0));
   }
 
-  public static OpenOrders adaptActiveOrders(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, KucoinActiveOrders data) {
+  public static OpenOrders adaptActiveOrders(CurrencyPair currencyPair, KucoinActiveOrders data) {
 
     List<LimitOrder> openOrders = new LinkedList<>();
     data.getBuy().forEach(order -> openOrders.add(adaptActiveOrder(currencyPair, order)));
@@ -104,8 +102,7 @@ public class KucoinAdapters {
     return new OpenOrders(openOrders);
   }
 
-  private static LimitOrder adaptActiveOrder(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, KucoinActiveOrder order) {
+  private static LimitOrder adaptActiveOrder(CurrencyPair currencyPair, KucoinActiveOrder order) {
 
     return new LimitOrder.Builder(order.getOrderType().getOrderType(), currencyPair)
         .timestamp(order.getTimestamp())
@@ -130,9 +127,7 @@ public class KucoinAdapters {
   private static UserTrade adaptUserTrade(KucoinDealtOrder order) {
 
     return new UserTrade.Builder()
-        .currencyPair(
-            org.knowm.xchange.currency.CurrencyPair.build(
-                order.getCoinType(), order.getCoinTypePair()))
+        .currencyPair(CurrencyPair.build(order.getCoinType(), order.getCoinTypePair()))
         .id(order.getOid())
         .orderId(order.getOrderOid())
         .originalAmount(order.getAmount())
@@ -152,8 +147,7 @@ public class KucoinAdapters {
 
     Map<String, KucoinCoin> coinMap =
         coins.stream().collect(Collectors.toMap(KucoinCoin::getCoin, c -> c));
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> pairMeta =
-        adaptCurrencyPairMap(tickers, coinMap);
+    Map<CurrencyPair, CurrencyPairMetaData> pairMeta = adaptCurrencyPairMap(tickers, coinMap);
     Map<Currency, CurrencyMetaData> coinMeta = adaptCurrencyMap(coins);
     return new ExchangeMetaData(pairMeta, coinMeta, null, null, null);
   }
@@ -171,16 +165,14 @@ public class KucoinAdapters {
     return new CurrencyMetaData(coin.getTradePrecision(), coin.getWithdrawMinFee());
   }
 
-  private static Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData>
-      adaptCurrencyPairMap(List<KucoinTicker> symbols, Map<String, KucoinCoin> coins) {
+  private static Map<CurrencyPair, CurrencyPairMetaData> adaptCurrencyPairMap(
+      List<KucoinTicker> symbols, Map<String, KucoinCoin> coins) {
 
     return symbols
         .stream()
         .collect(
             Collectors.toMap(
-                t ->
-                    org.knowm.xchange.currency.CurrencyPair.build(
-                        t.getCoinType(), t.getCoinTypePair()),
+                t -> CurrencyPair.build(t.getCoinType(), t.getCoinTypePair()),
                 t -> adaptCurrencyPairMetadata(t, coins.get(t.getCoinTypePair()))));
   }
 
@@ -198,12 +190,12 @@ public class KucoinAdapters {
             balances.stream().map(KucoinAdapters::adaptBalance).collect(Collectors.toList())));
   }
 
-  private static org.knowm.xchange.dto.account.Balance adaptBalance(KucoinCoinBalance balance) {
+  private static Balance adaptBalance(KucoinCoinBalance balance) {
 
     BigDecimal avail = balance.getBalance();
     BigDecimal freezeBalance = balance.getFreezeBalance();
     BigDecimal total = BigDecimal.ZERO.add(avail).add(freezeBalance);
-    return new org.knowm.xchange.dto.account.Balance.Builder()
+    return new Balance.Builder()
         .setCurrency(Currency.valueOf(balance.getCoinType()))
         .setTotal(total)
         .setAvailable(avail)

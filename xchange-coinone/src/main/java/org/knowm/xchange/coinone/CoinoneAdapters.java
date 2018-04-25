@@ -8,6 +8,7 @@ import org.knowm.xchange.coinone.dto.marketdata.*;
 import org.knowm.xchange.coinone.dto.trade.CoinoneOrderInfo;
 import org.knowm.xchange.coinone.dto.trade.CoinoneOrderInfoResponse;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -31,7 +32,7 @@ public final class CoinoneAdapters {
   private CoinoneAdapters() {}
 
   public static OrderBook adaptOrderBook(
-      CoinoneOrderBook coinoneOrderBook, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      CoinoneOrderBook coinoneOrderBook, CurrencyPair currencyPair) {
     if (!"0".equals(coinoneOrderBook.getErrorCode())) {
       throw new CoinoneException(coinoneOrderBook.getResult());
     }
@@ -46,9 +47,7 @@ public final class CoinoneAdapters {
   }
 
   private static List<LimitOrder> adaptMarketOrderToLimitOrder(
-      CoinoneOrderBookData[] coinoneOrders,
-      OrderType orderType,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      CoinoneOrderBookData[] coinoneOrders, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<>(coinoneOrders.length);
     for (CoinoneOrderBookData coinoneOrder : coinoneOrders) {
@@ -72,9 +71,8 @@ public final class CoinoneAdapters {
     CoinoneOrderInfo orderInfo = coinoneOrderInfoResponse.getInfo();
     OrderType type = orderInfo.getType().equals("ask") ? OrderType.ASK : OrderType.BID;
     BigDecimal originalAmount = orderInfo.getQty();
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(
-            Currency.valueOf(orderInfo.getCurrency().toUpperCase()), Currency.KRW);
+    CurrencyPair currencyPair =
+        CurrencyPair.build(Currency.valueOf(orderInfo.getCurrency().toUpperCase()), Currency.KRW);
     String orderId = orderInfo.getOrderId();
     BigDecimal cumulativeAmount = orderInfo.getQty().subtract(orderInfo.getRemainQty());
     BigDecimal price = orderInfo.getPrice();
@@ -103,7 +101,7 @@ public final class CoinoneAdapters {
     BigDecimal total6 = new BigDecimal(coninoneResponse.getKrw().getBalance());
     BigDecimal available6 = new BigDecimal(coninoneResponse.getKrw().getAvail());
     balances.add(
-        new org.knowm.xchange.dto.account.Balance.Builder()
+        new Balance.Builder()
             .setCurrency(Currency.valueOf("KRW"))
             .setTotal(total6)
             .setAvailable(available6)
@@ -112,7 +110,7 @@ public final class CoinoneAdapters {
     BigDecimal total5 = new BigDecimal(coninoneResponse.getBch().getBalance());
     BigDecimal available5 = new BigDecimal(coninoneResponse.getBch().getAvail());
     balances.add(
-        new org.knowm.xchange.dto.account.Balance.Builder()
+        new Balance.Builder()
             .setCurrency(Currency.valueOf("BCH"))
             .setTotal(total5)
             .setAvailable(available5)
@@ -121,7 +119,7 @@ public final class CoinoneAdapters {
     BigDecimal total4 = new BigDecimal(coninoneResponse.getBtc().getBalance());
     BigDecimal available4 = new BigDecimal(coninoneResponse.getBtc().getAvail());
     balances.add(
-        new org.knowm.xchange.dto.account.Balance.Builder()
+        new Balance.Builder()
             .setCurrency(Currency.valueOf("BTC"))
             .setTotal(total4)
             .setAvailable(available4)
@@ -130,7 +128,7 @@ public final class CoinoneAdapters {
     BigDecimal total3 = new BigDecimal(coninoneResponse.getEtc().getBalance());
     BigDecimal available3 = new BigDecimal(coninoneResponse.getEtc().getAvail());
     balances.add(
-        new org.knowm.xchange.dto.account.Balance.Builder()
+        new Balance.Builder()
             .setCurrency(Currency.valueOf("ETC"))
             .setTotal(total3)
             .setAvailable(available3)
@@ -139,7 +137,7 @@ public final class CoinoneAdapters {
     BigDecimal total2 = new BigDecimal(coninoneResponse.getEth().getBalance());
     BigDecimal available2 = new BigDecimal(coninoneResponse.getEth().getAvail());
     balances.add(
-        new org.knowm.xchange.dto.account.Balance.Builder()
+        new Balance.Builder()
             .setCurrency(Currency.valueOf("ETH"))
             .setTotal(total2)
             .setAvailable(available2)
@@ -148,7 +146,7 @@ public final class CoinoneAdapters {
     BigDecimal total1 = new BigDecimal(coninoneResponse.getQtum().getBalance());
     BigDecimal available1 = new BigDecimal(coninoneResponse.getQtum().getAvail());
     balances.add(
-        new org.knowm.xchange.dto.account.Balance.Builder()
+        new Balance.Builder()
             .setCurrency(Currency.valueOf("QTUM"))
             .setTotal(total1)
             .setAvailable(available1)
@@ -157,7 +155,7 @@ public final class CoinoneAdapters {
     BigDecimal total = new BigDecimal(coninoneResponse.getXrp().getBalance());
     BigDecimal available = new BigDecimal(coninoneResponse.getXrp().getAvail());
     balances.add(
-        new org.knowm.xchange.dto.account.Balance.Builder()
+        new Balance.Builder()
             .setCurrency(Currency.valueOf("XRP"))
             .setTotal(total)
             .setAvailable(available)
@@ -167,9 +165,8 @@ public final class CoinoneAdapters {
   }
 
   public static Ticker adaptTicker(CoinoneTicker ticker) {
-    org.knowm.xchange.currency.CurrencyPair currencyPair =
-        org.knowm.xchange.currency.CurrencyPair.build(
-            Currency.valueOf(ticker.getCurrency()), Currency.KRW);
+    CurrencyPair currencyPair =
+        CurrencyPair.build(Currency.valueOf(ticker.getCurrency()), Currency.KRW);
     final Date date = DateUtils.fromMillisUtc(Long.valueOf(ticker.getTimestamp()) * 1000);
     return new Builder()
         .currencyPair(currencyPair)
@@ -182,8 +179,7 @@ public final class CoinoneAdapters {
         .build();
   }
 
-  public static Trades adaptTrades(
-      CoinoneTrades trades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(CoinoneTrades trades, CurrencyPair currencyPair) {
     if (!"0".equals(trades.getErrorCode())) {
       throw new CoinoneException(trades.getResult());
     }
@@ -194,8 +190,7 @@ public final class CoinoneAdapters {
     return new Trades(tradeList, 0, TradeSortType.SortByTimestamp);
   }
 
-  private static Trade adaptTrade(
-      CoinoneTradeData trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  private static Trade adaptTrade(CoinoneTradeData trade, CurrencyPair currencyPair) {
     return new Trade(
         null,
         trade.getQty(),

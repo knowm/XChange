@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -26,10 +27,9 @@ import org.knowm.xchange.utils.CertHelper;
 /** @author Zach Holmes */
 public class PoloniexTradeDemo {
 
-  private static final org.knowm.xchange.currency.CurrencyPair REP_ETH =
-      org.knowm.xchange.currency.CurrencyPair.build("REP", "ETH");
+  private static final CurrencyPair REP_ETH = CurrencyPair.build("REP", "ETH");
 
-  private static org.knowm.xchange.currency.CurrencyPair currencyPair;
+  private static CurrencyPair currencyPair;
   private static BigDecimal xmrBuyRate;
 
   public static void main(String[] args) throws Exception {
@@ -37,7 +37,7 @@ public class PoloniexTradeDemo {
 
     Exchange poloniex = PoloniexExamplesUtils.getExchange();
     TradeService tradeService = poloniex.getTradeService();
-    currencyPair = org.knowm.xchange.currency.CurrencyPair.build(Currency.XMR, Currency.BTC);
+    currencyPair = CurrencyPair.build(Currency.XMR, Currency.BTC);
 
     /*
      * Make sure this is below the current market rate!!

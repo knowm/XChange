@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -63,10 +64,7 @@ public final class WexAdapters {
    * @return
    */
   public static List<LimitOrder> adaptOrders(
-      List<BigDecimal[]> bTCEOrders,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      String orderTypeString,
-      String id) {
+      List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -91,7 +89,7 @@ public final class WexAdapters {
   public static LimitOrder adaptOrder(
       BigDecimal amount,
       BigDecimal price,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       OrderType orderType,
       String id) {
 
@@ -105,8 +103,7 @@ public final class WexAdapters {
    * @param currencyPair the currency pair
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(
-      WexTrade bTCETrade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(WexTrade bTCETrade, CurrencyPair currencyPair) {
 
     OrderType orderType =
         bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -125,8 +122,7 @@ public final class WexAdapters {
    * @param currencyPair the currency pair
    * @return The trades
    */
-  public static Trades adaptTrades(
-      WexTrade[] bTCETrades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(WexTrade[] bTCETrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
@@ -147,8 +143,7 @@ public final class WexAdapters {
    * @param bTCETicker
    * @return
    */
-  public static Ticker adaptTicker(
-      WexTicker bTCETicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(WexTicker bTCETicker, CurrencyPair currencyPair) {
 
     BigDecimal last = bTCETicker.getLast();
     BigDecimal bid = bTCETicker.getSell();
@@ -198,7 +193,7 @@ public final class WexAdapters {
           bTCEOrder.getType() == WexOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = bTCEOrder.getRate();
       Date timestamp = DateUtils.fromMillisUtc(bTCEOrder.getTimestampCreated() * 1000L);
-      org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(bTCEOrder.getPair());
+      CurrencyPair currencyPair = adaptCurrencyPair(bTCEOrder.getPair());
 
       limitOrders.add(
           new LimitOrder(
@@ -224,7 +219,7 @@ public final class WexAdapters {
       Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
-      org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
+      CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
       trades.add(
           new UserTrade(
               type,
@@ -253,7 +248,7 @@ public final class WexAdapters {
         orderInfo.getType() == WexOrderInfoResult.Type.buy ? OrderType.BID : OrderType.ASK;
     BigDecimal price = orderInfo.getRate();
     Date timestamp = DateUtils.fromMillisUtc(orderInfo.getTimestampCreated() * 1000L);
-    org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(orderInfo.getPair());
+    CurrencyPair currencyPair = adaptCurrencyPair(orderInfo.getPair());
     OrderStatus orderStatus = null;
     switch (orderInfo.getStatus()) {
       case 0:
@@ -285,7 +280,7 @@ public final class WexAdapters {
         orderStatus);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
+  public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
 
     String[] currencies = btceCurrencyPair.split("_");
     /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
@@ -295,14 +290,12 @@ public final class WexAdapters {
     if (currencies[1].equals("dsh")) {
       currencies[1] = "dash";
     }
-    return org.knowm.xchange.currency.CurrencyPair.build(
-        currencies[0].toUpperCase(), currencies[1].toUpperCase());
+    return CurrencyPair.build(currencies[0].toUpperCase(), currencies[1].toUpperCase());
   }
 
-  public static List<org.knowm.xchange.currency.CurrencyPair> adaptCurrencyPairs(
-      Iterable<String> btcePairs) {
+  public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
 
-    List<org.knowm.xchange.currency.CurrencyPair> pairs = new ArrayList<>();
+    List<CurrencyPair> pairs = new ArrayList<>();
     for (String btcePair : btcePairs) {
       pairs.add(adaptCurrencyPair(btcePair));
     }
@@ -312,13 +305,12 @@ public final class WexAdapters {
 
   public static ExchangeMetaData toMetaData(
       WexExchangeInfo wexExchangeInfo, WexMetaData wexMetaData) {
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     if (wexExchangeInfo != null) {
       for (Entry<String, WexPairInfo> e : wexExchangeInfo.getPairs().entrySet()) {
-        org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(e.getKey());
+        CurrencyPair pair = adaptCurrencyPair(e.getKey());
         CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue(), wexMetaData);
         currencyPairs.put(pair, marketMetaData);
 
@@ -363,7 +355,7 @@ public final class WexAdapters {
     }
   }
 
-  public static String getPair(org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static String getPair(CurrencyPair currencyPair) {
     /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
     String base = currencyPair.getBase().getCurrencyCode();
     String counter = currencyPair.getCounter().getCurrencyCode();

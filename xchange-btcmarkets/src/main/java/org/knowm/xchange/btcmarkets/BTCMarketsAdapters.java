@@ -12,6 +12,7 @@ import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder.Side;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -40,7 +41,7 @@ public final class BTCMarketsAdapters {
       BigDecimal total = blc.getBalance();
       BigDecimal available = blc.getAvailable();
       wallets.add(
-          new org.knowm.xchange.dto.account.Balance.Builder()
+          new Balance.Builder()
               .setCurrency(currency)
               .setTotal(total)
               .setAvailable(available)
@@ -51,8 +52,7 @@ public final class BTCMarketsAdapters {
   }
 
   public static OrderBook adaptOrderBook(
-      BTCMarketsOrderBook btcmarketsOrderBook,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      BTCMarketsOrderBook btcmarketsOrderBook, CurrencyPair currencyPair) {
     List<LimitOrder> asks =
         createOrders(OrderType.ASK, btcmarketsOrderBook.getAsks(), currencyPair);
     List<LimitOrder> bids =
@@ -63,9 +63,7 @@ public final class BTCMarketsAdapters {
   }
 
   public static List<LimitOrder> createOrders(
-      OrderType orderType,
-      List<BigDecimal[]> orders,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      OrderType orderType, List<BigDecimal[]> orders, CurrencyPair currencyPair) {
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (BigDecimal[] o : orders) {
       limitOrders.add(new LimitOrder(orderType, o[1], currencyPair, null, null, o[0]));
@@ -77,15 +75,14 @@ public final class BTCMarketsAdapters {
     return new LimitOrder(
         adaptOrderType(o.getOrderSide()),
         o.getVolume(),
-        org.knowm.xchange.currency.CurrencyPair.build(o.getInstrument(), o.getCurrency()),
+        CurrencyPair.build(o.getInstrument(), o.getCurrency()),
         Long.toString(o.getId()),
         o.getCreationTime(),
         o.getPrice());
   }
 
   public static UserTrades adaptTradeHistory(
-      List<BTCMarketsUserTrade> btcmarketsUserTrades,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      List<BTCMarketsUserTrade> btcmarketsUserTrades, CurrencyPair currencyPair) {
     List<UserTrade> trades = new ArrayList<>();
     for (BTCMarketsUserTrade btcmarketsUserTrade : btcmarketsUserTrades) {
       trades.add(adaptTrade(btcmarketsUserTrade, currencyPair));
@@ -94,8 +91,7 @@ public final class BTCMarketsAdapters {
     return new UserTrades(trades, TradeSortType.SortByID);
   }
 
-  public static UserTrade adaptTrade(
-      BTCMarketsUserTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static UserTrade adaptTrade(BTCMarketsUserTrade trade, CurrencyPair currencyPair) {
     final OrderType type = adaptOrderType(trade.getSide());
     final String tradeId = Long.toString(trade.getId());
     final Long orderId = trade.getOrderId();
@@ -124,8 +120,7 @@ public final class BTCMarketsAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static Ticker adaptTicker(
-      org.knowm.xchange.currency.CurrencyPair currencyPair, BTCMarketsTicker t) {
+  public static Ticker adaptTicker(CurrencyPair currencyPair, BTCMarketsTicker t) {
     return new Builder()
         .currencyPair(currencyPair)
         .last(t.getLastPrice())

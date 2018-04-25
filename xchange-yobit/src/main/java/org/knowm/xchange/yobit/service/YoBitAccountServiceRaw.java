@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Balance.Builder;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -53,7 +54,7 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit>
       BigDecimal amountIncludingOrders =
           new BigDecimal(fundsIncludingOrders.get(((Entry) o).getKey()).toString());
 
-      org.knowm.xchange.dto.account.Balance balance =
+      Balance balance =
           new Builder()
               .setCurrency(currency)
               .setTotal(amountIncludingOrders)

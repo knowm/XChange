@@ -21,6 +21,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -60,21 +61,20 @@ public final class BitfinexAdapters {
     return currency;
   }
 
-  public static List<org.knowm.xchange.currency.CurrencyPair> adaptCurrencyPairs(
-      Collection<String> bitfinexSymbol) {
+  public static List<CurrencyPair> adaptCurrencyPairs(Collection<String> bitfinexSymbol) {
 
-    List<org.knowm.xchange.currency.CurrencyPair> currencyPairs = new ArrayList<>();
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
     for (String symbol : bitfinexSymbol) {
       currencyPairs.add(adaptCurrencyPair(symbol));
     }
     return currencyPairs;
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(String bitfinexSymbol) {
+  public static CurrencyPair adaptCurrencyPair(String bitfinexSymbol) {
 
     String tradableIdentifier = adaptBitfinexCurrency(bitfinexSymbol.substring(0, 3));
     String transactionCurrency = adaptBitfinexCurrency(bitfinexSymbol.substring(3));
-    return org.knowm.xchange.currency.CurrencyPair.build(tradableIdentifier, transactionCurrency);
+    return CurrencyPair.build(tradableIdentifier, transactionCurrency);
   }
 
   public static OrderStatus adaptOrderStatus(BitfinexOrderStatusResponse order) {
@@ -88,13 +88,12 @@ public final class BitfinexAdapters {
     else return null;
   }
 
-  public static String adaptCurrencyPair(org.knowm.xchange.currency.CurrencyPair pair) {
+  public static String adaptCurrencyPair(CurrencyPair pair) {
 
     return (pair.getBase().getCurrencyCode() + pair.getCounter().getCurrencyCode()).toLowerCase();
   }
 
-  public static OrderBook adaptOrderBook(
-      BitfinexDepth btceDepth, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(BitfinexDepth btceDepth, CurrencyPair currencyPair) {
 
     OrdersContainer asksOrdersContainer =
         adaptOrders(btceDepth.getAsks(), currencyPair, OrderType.ASK);
@@ -108,9 +107,7 @@ public final class BitfinexAdapters {
   }
 
   public static OrdersContainer adaptOrders(
-      BitfinexLevel[] bitfinexLevels,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType) {
+      BitfinexLevel[] bitfinexLevels, CurrencyPair currencyPair, OrderType orderType) {
 
     BigDecimal maxTimestamp = new BigDecimal(Long.MIN_VALUE);
     List<LimitOrder> limitOrders = new ArrayList<>(bitfinexLevels.length);
@@ -137,7 +134,7 @@ public final class BitfinexAdapters {
   public static LimitOrder adaptOrder(
       BigDecimal originalAmount,
       BigDecimal price,
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
+      CurrencyPair currencyPair,
       OrderType orderType,
       Date timestamp) {
 
@@ -222,8 +219,7 @@ public final class BitfinexAdapters {
     return new FloatingRateLoanOrder(orderType, currency, amount, dayPeriod, id, null, rate);
   }
 
-  public static Trade adaptTrade(
-      BitfinexTrade trade, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(BitfinexTrade trade, CurrencyPair currencyPair) {
 
     OrderType orderType = trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getAmount();
@@ -234,8 +230,7 @@ public final class BitfinexAdapters {
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
-  public static Trades adaptTrades(
-      BitfinexTrade[] trades, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trades adaptTrades(BitfinexTrade[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>(trades.length);
     long lastTradeId = 0;
@@ -249,8 +244,7 @@ public final class BitfinexAdapters {
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static Ticker adaptTicker(
-      BitfinexTicker bitfinexTicker, org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(BitfinexTicker bitfinexTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = bitfinexTicker.getLast_price();
     BigDecimal bid = bitfinexTicker.getBid();
@@ -331,7 +325,7 @@ public final class BitfinexAdapters {
 
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       OrderStatus status = adaptOrderStatus(order);
-      org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
+      CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
 
       limitOrders.add(
@@ -354,7 +348,7 @@ public final class BitfinexAdapters {
   public static UserTrades adaptTradeHistory(BitfinexTradeResponse[] trades, String symbol) {
 
     List<UserTrade> pastTrades = new ArrayList<>(trades.length);
-    org.knowm.xchange.currency.CurrencyPair currencyPair = adaptCurrencyPair(symbol);
+    CurrencyPair currencyPair = adaptCurrencyPair(symbol);
 
     for (BitfinexTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
@@ -383,12 +377,11 @@ public final class BitfinexAdapters {
   }
 
   public static ExchangeMetaData adaptMetaData(
-      List<org.knowm.xchange.currency.CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
+      List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
 
-    Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> pairsMap =
-        metaData.getCurrencyPairs();
+    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
-    for (org.knowm.xchange.currency.CurrencyPair c : currencyPairs) {
+    for (CurrencyPair c : currencyPairs) {
       if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }
@@ -413,14 +406,13 @@ public final class BitfinexAdapters {
    */
   public static ExchangeMetaData adaptMetaData(
       ExchangeMetaData exchangeMetaData, List<BitfinexSymbolDetail> symbolDetails) {
-    final Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
+    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchangeMetaData.getCurrencyPairs();
     symbolDetails
         .parallelStream()
         .forEach(
             bitfinexSymbolDetail -> {
-              final org.knowm.xchange.currency.CurrencyPair currencyPair =
-                  adaptCurrencyPair(bitfinexSymbolDetail.getPair());
+              final CurrencyPair currencyPair = adaptCurrencyPair(bitfinexSymbolDetail.getPair());
               if (currencyPairs.get(currencyPair) == null) {
                 CurrencyPairMetaData newMetaData =
                     new CurrencyPairMetaData(
@@ -464,7 +456,7 @@ public final class BitfinexAdapters {
 
   public static ExchangeMetaData adaptMetaData(
       BitfinexAccountInfosResponse[] bitfinexAccountInfos, ExchangeMetaData exchangeMetaData) {
-    final Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
+    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchangeMetaData.getCurrencyPairs();
 
     // lets go with the assumption that the trading fees are common across all trading pairs for

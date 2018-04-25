@@ -18,6 +18,7 @@ import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrderBook;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTicker;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -36,8 +37,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 public class CryptoFacilitiesAdapters {
 
   public static Ticker adaptTicker(
-      CryptoFacilitiesTicker cryptoFacilitiesTicker,
-      org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      CryptoFacilitiesTicker cryptoFacilitiesTicker, CurrencyPair currencyPair) {
 
     if (cryptoFacilitiesTicker != null) {
       Ticker.Builder builder = new Ticker.Builder();
@@ -64,7 +64,7 @@ public class CryptoFacilitiesAdapters {
       CryptoFacilitiesAccount cryptoFacilitiesAccount, String username) {
 
     List<Balance> balances = new ArrayList<>(cryptoFacilitiesAccount.getBalances().size());
-    org.knowm.xchange.dto.account.Balance balance;
+    Balance balance;
 
     for (Entry<String, BigDecimal> balancePair : cryptoFacilitiesAccount.getBalances().entrySet()) {
       if (balancePair.getKey().equalsIgnoreCase("xbt")) {
@@ -99,7 +99,7 @@ public class CryptoFacilitiesAdapters {
         accounts.entrySet()) {
       List<Balance> balances =
           new ArrayList<>(stringCryptoFacilitiesAccountInfoEntry.getValue().getBalances().size());
-      org.knowm.xchange.dto.account.Balance balance;
+      Balance balance;
 
       for (Entry<String, BigDecimal> balancePair :
           stringCryptoFacilitiesAccountInfoEntry.getValue().getBalances().entrySet()) {
@@ -159,8 +159,7 @@ public class CryptoFacilitiesAdapters {
     return new LimitOrder(
         adaptOrderType(ord.getDirection()),
         ord.getQuantity(),
-        org.knowm.xchange.currency.CurrencyPair.build(
-            ord.getSymbol(), ord.getSymbol().substring(6, 9)),
+        CurrencyPair.build(ord.getSymbol(), ord.getSymbol().substring(6, 9)),
         ord.getId(),
         ord.getTimestamp(),
         ord.getLimitPrice(),
@@ -190,8 +189,7 @@ public class CryptoFacilitiesAdapters {
     return new UserTrade(
         adaptOrderType(fill.getSide()),
         fill.getSize(),
-        org.knowm.xchange.currency.CurrencyPair.build(
-            fill.getSymbol(), fill.getSymbol().substring(6, 9)),
+        CurrencyPair.build(fill.getSymbol(), fill.getSymbol().substring(6, 9)),
         fill.getPrice(),
         fill.getFillTime(),
         fill.getFillId(),
@@ -228,9 +226,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static List<LimitOrder> createOrders(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      OrderType orderType,
-      List<List<BigDecimal>> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
@@ -242,9 +238,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static LimitOrder createOrder(
-      org.knowm.xchange.currency.CurrencyPair currencyPair,
-      List<BigDecimal> priceAndAmount,
-      OrderType orderType) {
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));

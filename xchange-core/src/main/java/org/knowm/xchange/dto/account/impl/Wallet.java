@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.Balance;
 
 /**
  * DTO representing a wallet
@@ -12,7 +13,7 @@ import org.knowm.xchange.currency.Currency;
  */
 public final class Wallet implements org.knowm.xchange.dto.account.Wallet {
 
-  private final Map<Currency, org.knowm.xchange.dto.account.Balance> balances;
+  private final Map<Currency, Balance> balances;
   private String id;
   private String name;
 
@@ -23,8 +24,7 @@ public final class Wallet implements org.knowm.xchange.dto.account.Wallet {
    * @param name a descriptive name for the wallet
    * @param balances the balances, the currencies of the balances should not be duplicated.
    */
-  public Wallet(
-      String id, String name, Collection<org.knowm.xchange.dto.account.Balance> balances) {
+  public Wallet(String id, String name, Collection<Balance> balances) {
     this.id = id;
     this.name = name == null ? id : name;
     this.balances =
@@ -32,25 +32,25 @@ public final class Wallet implements org.knowm.xchange.dto.account.Wallet {
   }
 
   /** @see #Wallet(String, String, Collection) */
-  public Wallet(String id, Collection<org.knowm.xchange.dto.account.Balance> balances) {
+  public Wallet(String id, Collection<Balance> balances) {
 
     this(id, null, balances);
   }
 
   /** @see #Wallet(String, String, Collection) */
-  public Wallet(String id, org.knowm.xchange.dto.account.Balance... balances) {
+  public Wallet(String id, Balance... balances) {
 
     this(id, null, Arrays.asList(balances));
   }
 
   /** @see #Wallet(String, String, Collection) */
-  public Wallet(Collection<org.knowm.xchange.dto.account.Balance> balances) {
+  public Wallet(Collection<Balance> balances) {
 
     this(null, null, balances);
   }
 
   /** @see #Wallet(String, String, Collection) */
-  public Wallet(org.knowm.xchange.dto.account.Balance... balances) {
+  public Wallet(Balance... balances) {
 
     this(null, balances);
   }
@@ -74,7 +74,7 @@ public final class Wallet implements org.knowm.xchange.dto.account.Wallet {
   /** The keys represent the currency of the wallet. */
   /** @return The available balances (amount and currency) */
   @Override
-  public Map<Currency, org.knowm.xchange.dto.account.Balance> getBalances() {
+  public Map<Currency, Balance> getBalances() {
     return Collections.unmodifiableMap(balances);
   }
 

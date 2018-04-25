@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -42,8 +43,7 @@ import org.knowm.xchange.liqui.dto.trade.LiquiUserTrade;
 
 public class LiquiAdapters {
 
-  public static Ticker adaptTicker(
-      final LiquiTicker ticker, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(final LiquiTicker ticker, final CurrencyPair currencyPair) {
     final Ticker.Builder builder = new Ticker.Builder();
     builder.bid(ticker.getBuy());
     builder.ask(ticker.getSell());
@@ -59,7 +59,7 @@ public class LiquiAdapters {
   }
 
   public static OrderBook adaptOrderBook(
-      final LiquiDepth liquiDepth, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      final LiquiDepth liquiDepth, final CurrencyPair currencyPair) {
     return new OrderBook(
         null,
         LiquiAdapters.adaptAsks(liquiDepth.getAsks(), currencyPair),
@@ -67,32 +67,27 @@ public class LiquiAdapters {
   }
 
   public static List<LimitOrder> adaptAsks(
-      final List<LiquiPublicAsk> orders,
-      final org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      final List<LiquiPublicAsk> orders, final CurrencyPair currencyPair) {
     return orders.stream().map(ask -> adaptOrder(ask, currencyPair)).collect(Collectors.toList());
   }
 
   public static List<LimitOrder> adaptBids(
-      final List<LiquiPublicBid> orders,
-      final org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      final List<LiquiPublicBid> orders, final CurrencyPair currencyPair) {
     return orders.stream().map(ask -> adaptOrder(ask, currencyPair)).collect(Collectors.toList());
   }
 
-  public static LimitOrder adaptOrder(
-      final LiquiPublicAsk order, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static LimitOrder adaptOrder(final LiquiPublicAsk order, final CurrencyPair currencyPair) {
     final BigDecimal volume = order.getVolume();
     return new LimitOrder(OrderType.ASK, volume, currencyPair, "", null, order.getPrice());
   }
 
-  public static LimitOrder adaptOrder(
-      final LiquiPublicBid order, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static LimitOrder adaptOrder(final LiquiPublicBid order, final CurrencyPair currencyPair) {
     final BigDecimal volume = order.getVolume();
     return new LimitOrder(OrderType.BID, volume, currencyPair, "", null, order.getPrice());
   }
 
   public static Trades adaptTrades(
-      final List<LiquiPublicTrade> liquiTrades,
-      final org.knowm.xchange.currency.CurrencyPair currencyPair) {
+      final List<LiquiPublicTrade> liquiTrades, final CurrencyPair currencyPair) {
     final List<Trade> trades = new ArrayList<>();
     for (final LiquiPublicTrade trade : liquiTrades) {
       trades.add(adaptTrade(trade, currencyPair));
@@ -101,8 +96,7 @@ public class LiquiAdapters {
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static Trade adaptTrade(
-      final LiquiPublicTrade trade, final org.knowm.xchange.currency.CurrencyPair currencyPair) {
+  public static Trade adaptTrade(final LiquiPublicTrade trade, final CurrencyPair currencyPair) {
     final OrderType type = adaptOrderType(trade.getType());
     final BigDecimal originalAmount = trade.getAmount();
     final Date timestamp = new Date((long) (trade.getTimestamp() * 1000L));
@@ -137,7 +131,7 @@ public class LiquiAdapters {
 
     final BigDecimal originalAmount = orderInfo.getStartAmount();
     final BigDecimal filledAmount = orderInfo.getStartAmount().subtract(orderInfo.getAmount());
-    final org.knowm.xchange.currency.CurrencyPair pair = orderInfo.getPair();
+    final CurrencyPair pair = orderInfo.getPair();
     final Date timestamp = new Date(orderInfo.getTimestampCreated() * 1000L);
 
     final OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
@@ -181,7 +175,7 @@ public class LiquiAdapters {
   public static UserTrade adaptTrade(final LiquiUserTrade liquiTrade, final Long tradeId) {
     final OrderType orderType = adaptOrderType(liquiTrade.getType());
     final BigDecimal originalAmount = liquiTrade.getAmount();
-    final org.knowm.xchange.currency.CurrencyPair pair = liquiTrade.getPair();
+    final CurrencyPair pair = liquiTrade.getPair();
     final Date timestamp = new Date(liquiTrade.getTimestamp() * 1000L);
     final BigDecimal price = liquiTrade.getRate();
 
@@ -199,7 +193,7 @@ public class LiquiAdapters {
 
   public static Order adaptOrderInfo(final LiquiOrderInfo info) {
     final OrderType orderType = adaptOrderType(info.getType());
-    final org.knowm.xchange.currency.CurrencyPair pair = info.getPair();
+    final CurrencyPair pair = info.getPair();
     final BigDecimal amount = info.getStartAmount().subtract(info.getAmount());
     final BigDecimal startAmount = info.getStartAmount();
     final BigDecimal rate = info.getRate();
@@ -209,12 +203,11 @@ public class LiquiAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(final Map<String, LiquiPairInfo> infos) {
-    final Map<org.knowm.xchange.currency.CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        new HashMap<>();
+    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     final Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (final Entry<String, LiquiPairInfo> entry : infos.entrySet()) {
-      final org.knowm.xchange.currency.CurrencyPair pair = adaptCurrencyPair(entry.getKey());
+      final CurrencyPair pair = adaptCurrencyPair(entry.getKey());
       final BigDecimal fee = entry.getValue().getFee();
       final BigDecimal minAmount = entry.getValue().getMinAmount();
       final BigDecimal maxAmount = entry.getValue().getMaxAmount();
@@ -230,9 +223,9 @@ public class LiquiAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
-  public static org.knowm.xchange.currency.CurrencyPair adaptCurrencyPair(final String pair) {
+  public static CurrencyPair adaptCurrencyPair(final String pair) {
     final String[] split = pair.split("_");
-    return org.knowm.xchange.currency.CurrencyPair.build(split[0], split[1]);
+    return CurrencyPair.build(split[0], split[1]);
   }
 
   public static AccountInfo adaptAccountInfo(final LiquiAccountInfo info) {

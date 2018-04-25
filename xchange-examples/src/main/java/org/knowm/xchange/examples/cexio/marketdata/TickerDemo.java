@@ -5,6 +5,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.cexio.CexIOExchange;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -20,9 +21,7 @@ public class TickerDemo {
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker =
-        marketDataService.getTicker(
-            org.knowm.xchange.currency.CurrencyPair.build(Currency.BTC, Currency.USD));
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.build(Currency.BTC, Currency.USD));
 
     System.out.println("Pair: " + ticker.getCurrencyPair());
     System.out.println("Last: " + ticker.getLast());
