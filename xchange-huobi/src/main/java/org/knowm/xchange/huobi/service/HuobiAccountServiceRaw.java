@@ -15,6 +15,7 @@ import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressWithTagResult;
 
 public class HuobiAccountServiceRaw extends HuobiBaseService {
+  private HuobiAccount[] accountCache = null;
 
   HuobiAccountServiceRaw(Exchange exchange) {
     super(exchange);
@@ -33,14 +34,18 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
   }
 
   public HuobiAccount[] getAccounts() throws IOException {
-    HuobiAccountResult huobiAccountResult =
-        huobi.getAccount(
-            exchange.getExchangeSpecification().getApiKey(),
-            HuobiDigest.HMAC_SHA_256,
-            2,
-            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
-            signatureCreator);
-    return checkResult(huobiAccountResult);
+    if (accountCache == null) {
+      HuobiAccountResult huobiAccountResult =
+          huobi.getAccount(
+              exchange.getExchangeSpecification().getApiKey(),
+              HuobiDigest.HMAC_SHA_256,
+              2,
+              HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+              signatureCreator);
+      accountCache = checkResult(huobiAccountResult);
+    }
+
+    return accountCache;
   }
 
   public String getDepositAddress(String currency) throws IOException {
