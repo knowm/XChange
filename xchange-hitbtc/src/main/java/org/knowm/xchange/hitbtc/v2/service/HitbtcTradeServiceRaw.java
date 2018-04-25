@@ -35,10 +35,18 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     String side = HitbtcAdapters.getSide(marketOrder.getType()).toString();
 
     String clientOrderId = StringUtils.isBlank(marketOrder.getId()) ? null : marketOrder.getId();
-    return hitbtc.postHitbtcNewOrder(clientOrderId, symbol, side, null, marketOrder.getOriginalAmount(), HitbtcOrderType.market, HitbtcTimeInForce.IOC);
+    return hitbtc.postHitbtcNewOrder(
+        clientOrderId,
+        symbol,
+        side,
+        null,
+        marketOrder.getOriginalAmount(),
+        HitbtcOrderType.market,
+        HitbtcTimeInForce.IOC);
   }
 
-  public HitbtcOrder placeLimitOrderRaw(LimitOrder limitOrder, HitbtcTimeInForce timeInForce) throws IOException {
+  public HitbtcOrder placeLimitOrderRaw(LimitOrder limitOrder, HitbtcTimeInForce timeInForce)
+      throws IOException {
     String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
     String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
     String clientOrderId = StringUtils.isBlank(limitOrder.getId()) ? null : limitOrder.getId();
