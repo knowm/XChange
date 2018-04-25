@@ -9,8 +9,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.huobi.dto.account.HuobiCreateWithdrawRequest;
 import org.knowm.xchange.huobi.dto.account.results.HuobiAccountResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiBalanceResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiCreateWithdrawResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressWithTagResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetPairsResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetsResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiDepthResult;
@@ -42,6 +46,40 @@ public interface Huobi {
   @GET
   @Path("v1/common/currencys")
   HuobiAssetsResult getAssets() throws IOException;
+
+  @GET
+  @Path("v1/dw/deposit-virtual/addresses")
+  HuobiDepositAddressResult getDepositAddress(
+      @QueryParam("currency") String currency,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
+
+  @GET
+  @Path("v1/dw/deposit-virtual/sharedAddressWithTag")
+  HuobiDepositAddressWithTagResult getDepositAddressWithTag(
+      @QueryParam("currency") String currency,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
+
+  @POST
+  @Path("/v1/dw/withdraw/api/create")
+  @Consumes(MediaType.APPLICATION_JSON)
+  HuobiCreateWithdrawResult createWithdraw(
+      HuobiCreateWithdrawRequest body,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
 
   @GET
   @Path("v1/account/accounts")
