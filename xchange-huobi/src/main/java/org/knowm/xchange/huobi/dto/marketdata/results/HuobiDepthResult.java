@@ -8,9 +8,6 @@ import org.knowm.xchange.huobi.dto.marketdata.HuobiDepth;
 
 public class HuobiDepthResult extends HuobiResult<HuobiDepth> {
 
-  private final Date ts;
-  private final String ch;
-
   @JsonCreator
   public HuobiDepthResult(
       @JsonProperty("status") String status,
@@ -20,16 +17,5 @@ public class HuobiDepthResult extends HuobiResult<HuobiDepth> {
       @JsonProperty("err-code") String errCode,
       @JsonProperty("err-msg") String errMsg) {
     super(status, errCode, errMsg, tick);
-    this.ts = ts;
-    this.ch = ch;
-    getResult().setTs(ts);
-  }
-
-  public Date getTs() {
-    return ts;
-  }
-
-  public String getCh() {
-    return ch;
   }
 }
