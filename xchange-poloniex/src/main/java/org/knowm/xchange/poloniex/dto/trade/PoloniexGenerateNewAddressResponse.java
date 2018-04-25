@@ -10,7 +10,8 @@ public class PoloniexGenerateNewAddressResponse {
   private String address;
 
   @JsonCreator
-  public PoloniexGenerateNewAddressResponse(@JsonProperty("success") Boolean success, @JsonProperty("response") String address) {
+  public PoloniexGenerateNewAddressResponse(
+      @JsonProperty("success") Boolean success, @JsonProperty("response") String address) {
     this.success = success;
     this.address = address;
   }

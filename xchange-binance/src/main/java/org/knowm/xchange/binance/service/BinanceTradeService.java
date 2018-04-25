@@ -108,8 +108,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     if (orderFlags.size() == 1) {
       IOrderFlags orderFlag = orderFlags.iterator().next();
       Assert.isTrue(
-          orderFlag instanceof TimeInForce,
-          "Order flag should be instance of TimeInForce.");
+          orderFlag instanceof TimeInForce, "Order flag should be instance of TimeInForce.");
       tif = (TimeInForce) orderFlag;
     } else {
       tif = TimeInForce.GTC;

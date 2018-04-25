@@ -88,8 +88,13 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
         currency, sortValue, "timestamp", fromValue, tillValue, limit, offset);
   }
 
-  public List<HitbtcTransaction> getTransactions(String currency, HitbtcSort sort, Long fromIndex,Long tillIndex,
-      Integer limit, Integer offset)
+  public List<HitbtcTransaction> getTransactions(
+      String currency,
+      HitbtcSort sort,
+      Long fromIndex,
+      Long tillIndex,
+      Integer limit,
+      Integer offset)
       throws HttpStatusIOException {
 
     String sortValue = sort != null ? sort.toString().toUpperCase() : null;

@@ -26,9 +26,8 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal bigDecimal, String s)
-      throws IOException {
-    return null;
+  public String withdrawFunds(Currency currency, BigDecimal amount, String s) throws IOException {
+    return String.valueOf(createWithdraw(currency.toString(), amount, null, s, null));
   }
 
   @Override
@@ -57,6 +56,6 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
 
   @Override
   public String requestDepositAddress(Currency currency, String... strings) throws IOException {
-    return null;
+    return getDepositAddress(currency.toString());
   }
 }
