@@ -9,6 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.abucoins.dto.AbucoinsBaseCreateOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCryptoDepositRequest;
@@ -156,7 +157,9 @@ public interface AbucoinsAuthenticated extends Abucoins {
       @HeaderParam("AC-ACCESS-KEY") String accessKey,
       @HeaderParam("AC-ACCESS-SIGN") ParamsDigest sign,
       @HeaderParam("AC-ACCESS-PASSPHRASE") String passphrase,
-      @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp)
+      @HeaderParam("AC-ACCESS-TIMESTAMP") String timestamp,
+      @QueryParam("after") String after,
+      @QueryParam("limit") Integer limit)
       throws IOException;
 
   @POST

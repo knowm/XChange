@@ -9,7 +9,7 @@ import org.knowm.xchange.abucoins.AbucoinsAdapters;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsFill;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsFills;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.dto.Order;
@@ -24,6 +24,8 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
@@ -105,7 +107,15 @@ public class AbucoinsTradeService extends AbucoinsTradeServiceRaw implements Tra
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    AbucoinsFill[] fills = getAbucoinsFills();
+    Integer limit = null;
+    if (params instanceof TradeHistoryParamLimit) {
+      limit = ((TradeHistoryParamLimit) params).getLimit();
+    }
+    String afterCursor = null;
+    if (params instanceof TradeHistoryParamNextPageCursor) {
+      afterCursor = ((TradeHistoryParamNextPageCursor) params).getNextPageCursor();
+    }
+    AbucoinsFills fills = getAbucoinsFills(afterCursor, limit);
     return AbucoinsAdapters.adaptUserTrades(fills);
   }
 
