@@ -15,6 +15,7 @@ import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositsHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsFill;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsFills;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalsHistory;
@@ -372,11 +373,15 @@ public class AbucoinsAdapters {
         null);
   }
 
-  public static UserTrades adaptUserTrades(AbucoinsFill[] fills) {
+  public static UserTrades adaptUserTrades(AbucoinsFills fills) {
     List<UserTrade> userTrades = new ArrayList<>();
     for (AbucoinsFill fill : fills) userTrades.add(adaptUserTrade(fill));
-
-    return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
+    List<String> afterCursorValues = fills.getResponseHeaders().get("ac-after");
+    String nextPageCursor = null;
+    if (afterCursorValues != null && !afterCursorValues.isEmpty()) {
+      nextPageCursor = afterCursorValues.get(0);
+    }
+    return new UserTrades(userTrades, 0L, Trades.TradeSortType.SortByTimestamp, nextPageCursor);
   }
 
   public static UserTrade adaptUserTrade(AbucoinsFill fill) {
