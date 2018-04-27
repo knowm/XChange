@@ -30,6 +30,15 @@ import si.mazi.rescu.RestProxyFactory;
 public class IdexMarketDataService implements MarketDataService {
 
   IdexExchange idexExchange;
+  private ReturnTickerApi returnTickerApi =
+      RestProxyFactory.createProxy(
+          ReturnTickerApi.class, idexExchange.getExchangeSpecification().getSslUri());
+  private ReturnOrderBookApi returnOrderBookApi =
+      RestProxyFactory.createProxy(
+          ReturnOrderBookApi.class, idexExchange.getDefaultExchangeSpecification().getSslUri());
+  private ReturnTradeHistoryApi returnTradeHistoryApi =
+      RestProxyFactory.createProxy(
+          ReturnTradeHistoryApi.class, idexExchange.getDefaultExchangeSpecification().getSslUri());;
 
   public IdexMarketDataService(IdexExchange idexExchange) {
     this.idexExchange = idexExchange;
@@ -38,9 +47,7 @@ public class IdexMarketDataService implements MarketDataService {
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) {
 
-    ReturnTickerApi proxy =
-        RestProxyFactory.createProxy(
-            ReturnTickerApi.class, idexExchange.getExchangeSpecification().getSslUri());
+    ReturnTickerApi proxy = returnTickerApi;
     Ticker ret = null;
 
     Market market = new Market();
@@ -71,13 +78,10 @@ public class IdexMarketDataService implements MarketDataService {
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) {
-    ReturnOrderBookApi proxy1 =
-        RestProxyFactory.createProxy(
-            ReturnOrderBookApi.class, idexExchange.getDefaultExchangeSpecification().getSslUri());
     OrderBook ret = null;
     try {
       ReturnOrderBookResponse returnOrderBookResponse =
-          proxy1.orderBook(
+          returnOrderBookApi.orderBook(
               new OrderBookReq().market(IdexExchange.Companion.getMarket(currencyPair)));
       ret =
           new OrderBook(
@@ -124,9 +128,7 @@ public class IdexMarketDataService implements MarketDataService {
     try {
       ret =
           new Trades(
-              RestProxyFactory.createProxy(
-                      ReturnTradeHistoryApi.class,
-                      idexExchange.getDefaultExchangeSpecification().getSslUri())
+              returnTradeHistoryApi
                   .tradeHistory(
                       new TradeHistoryReq().market(IdexExchange.Companion.getMarket(currencyPair)))
                   .stream()

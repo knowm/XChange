@@ -12,6 +12,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.idex.dto.*;
 import org.knowm.xchange.idex.service.ReturnCompleteBalancesApi;
@@ -23,17 +25,21 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import si.mazi.rescu.RestProxyFactory;
 
 public class IdexAccountService implements AccountService {
-  private final String apiKey;
-  private final IdexExchange idexExchange;
+  private IdexExchange idexExchange;
+  private String apiKey = idexExchange.getExchangeSpecification().getApiKey();
+  private ReturnCompleteBalancesApi returnCompleteBalancesApi =
+      RestProxyFactory.createProxy(
+          ReturnCompleteBalancesApi.class, idexExchange.getExchangeSpecification().getSslUri());
+  private ReturnDepositsWithdrawalsApi returnDepositsWithdrawalsApi =
+      RestProxyFactory.createProxy(
+          ReturnDepositsWithdrawalsApi.class,
+          idexExchange.getDefaultExchangeSpecification().getSslUri());
+  private WithdrawApi withdrawApi =
+      RestProxyFactory.createProxy(
+          WithdrawApi.class, idexExchange.getDefaultExchangeSpecification().getSslUri());
 
   public IdexAccountService(IdexExchange idexExchange) {
-    Intrinsics.checkParameterIsNotNull(idexExchange, "idexExchange");
     this.idexExchange = idexExchange;
-    apiKey = this.idexExchange.getExchangeSpecification().getApiKey();
-  }
-
-  public final String getApiKey() {
-    return apiKey;
   }
 
   public AccountInfo getAccountInfo() {
@@ -41,12 +47,10 @@ public class IdexAccountService implements AccountService {
     try {
       String apiKey = idexExchange.getExchangeSpecification().getApiKey();
       String s = apiKey.substring(0, 6) + "…";
-      ReturnCompleteBalancesApi proxy =
-          RestProxyFactory.createProxy(
-              ReturnCompleteBalancesApi.class, idexExchange.getExchangeSpecification().getSslUri());
       ReturnCompleteBalancesResponse returnBalancesPost;
       ret = null;
-      returnBalancesPost = proxy.completeBalances(new CompleteBalancesReq().address(apiKey));
+      returnBalancesPost =
+          returnCompleteBalancesApi.completeBalances(new CompleteBalancesReq().address(apiKey));
 
       ret =
           new AccountInfo(
@@ -56,19 +60,16 @@ public class IdexAccountService implements AccountService {
                       .entrySet()
                       .stream()
                       .map(
-                          entry -> {
-                            Balance balance =
-                                new Balance(
-                                    new Currency(entry.getKey()),
-                                    null,
-                                    entry.getValue().getAvailable(),
-                                    entry.getValue().getOnOrders());
-                            return balance;
-                          })
+                          entry ->
+                              new Balance(
+                                  new Currency(entry.getKey()),
+                                  null,
+                                  entry.getValue().getAvailable(),
+                                  entry.getValue().getOnOrders()))
                       .collect(Collectors.toList())));
 
-    } catch (Exception e) {
-
+    } catch (Exception ignored) {
+      ignored.printStackTrace();
     }
     return ret;
   }
@@ -87,10 +88,7 @@ public class IdexAccountService implements AccountService {
       try {
         ret =
             mutableList(
-                RestProxyFactory.createProxy(
-                        ReturnDepositsWithdrawalsApi.class,
-                        idexExchange.getDefaultExchangeSpecification().getSslUri())
-                    .fundingHistory((DepositsWithdrawalsReq) params));
+                returnDepositsWithdrawalsApi.fundingHistory((DepositsWithdrawalsReq) params));
       } catch (Exception e) {
 
       }
@@ -114,8 +112,8 @@ public class IdexAccountService implements AccountService {
                                 safeParse(fundingLedger.getAmount()),
                                 fundingLedger.getTransactionHash(),
                                 fundingLedger.getDepositNumber(),
-                                FundingRecord.Type.WITHDRAWAL,
-                                FundingRecord.Status.resolveStatus(fundingLedger.getStatus()),
+                                Type.WITHDRAWAL,
+                                Status.resolveStatus(fundingLedger.getStatus()),
                                 BigDecimal.ZERO,
                                 BigDecimal.ZERO,
                                 ""))
@@ -132,8 +130,8 @@ public class IdexAccountService implements AccountService {
                                 safeParse(fundingLedger1.getAmount()),
                                 fundingLedger1.getTransactionHash(),
                                 fundingLedger1.getDepositNumber(),
-                                FundingRecord.Type.WITHDRAWAL,
-                                FundingRecord.Status.resolveStatus(fundingLedger1.getStatus()),
+                                Type.WITHDRAWAL,
+                                Status.resolveStatus(fundingLedger1.getStatus()),
                                 BigDecimal.ZERO,
                                 BigDecimal.ZERO,
                                 ""))
@@ -150,16 +148,13 @@ public class IdexAccountService implements AccountService {
   public String withdrawFunds(WithdrawFundsParams w) {
     String ret = "error";
     if (w instanceof IdexWithdraw) {
+      WithdrawResponse withdraw = null;
       try {
-        WithdrawResponse withdraw =
-            RestProxyFactory.createProxy(
-                    WithdrawApi.class, idexExchange.getDefaultExchangeSpecification().getSslUri())
-                .withdraw((WithdrawReq) w);
-        ret = withdraw.toString();
+        withdraw = withdrawApi.withdraw((WithdrawReq) w);
       } catch (Exception e) {
-
+        e.printStackTrace();
       }
-
+      ret = withdraw.toString();
     } else {
       throw new Error(
           "withdraw method requires "
