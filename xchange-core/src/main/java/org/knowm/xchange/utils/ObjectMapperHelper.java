@@ -31,6 +31,10 @@ public class ObjectMapperHelper {
     }
   }
 
+  public static <T> T readValue(String value, Class<T> valueType) throws IOException {
+    return objectMapper.readValue(value, valueType);
+  }
+
   public static <T> String toJSON(T valueType) {
 
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
