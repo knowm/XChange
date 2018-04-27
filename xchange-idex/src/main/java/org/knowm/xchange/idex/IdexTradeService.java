@@ -18,18 +18,36 @@ import org.bouncycastle.util.encoders.Hex;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder.Builder;
+import org.knowm.xchange.idex.IdexExchange.Companion.IdexCurrencyMeta;
 import org.knowm.xchange.idex.dto.*;
 import org.knowm.xchange.idex.service.*;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.web3j.crypto.Sign;
+import org.web3j.crypto.Sign.SignatureData;
 import si.mazi.rescu.RestProxyFactory;
 
 public class IdexTradeService implements TradeService {
   private final IdexExchange idexExchange;
+  private final ReturnOpenOrdersApi returnOpenOrdersApi =
+      RestProxyFactory.createProxy(
+          ReturnOpenOrdersApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
+  private final CancelApi cancelApi =
+      RestProxyFactory.createProxy(
+          CancelApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
+  private final ReturnTradeHistoryApi returnTradeHistoryApi =
+      RestProxyFactory.createProxy(
+          ReturnTradeHistoryApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
+  private OrderApi orderApi =
+      RestProxyFactory.createProxy(
+          OrderApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
+  private ReturnContractAddressApi returnContractAddressApi =
+      RestProxyFactory.createProxy(
+          ReturnContractAddressApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
 
   public IdexTradeService(IdexExchange idexExchange) {
 
@@ -38,9 +56,7 @@ public class IdexTradeService implements TradeService {
 
   @Override
   public OpenOrders getOpenOrders() {
-    ReturnOpenOrdersApi proxy =
-        RestProxyFactory.createProxy(
-            ReturnOpenOrdersApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
+    ReturnOpenOrdersApi proxy = returnOpenOrdersApi;
 
     OpenOrders ret = null;
     try {
@@ -56,14 +72,14 @@ public class IdexTradeService implements TradeService {
                   .map(
                       responseInner -> {
                         CurrencyPair currencyPair;
-                        Order.OrderType orderType =
+                        OrderType orderType =
                             responseInner.getType() == IdexBuySell.BUY ? BID : ASK;
 
                         {
                           String market = responseInner.getMarket();
                           currencyPair = getCurrencyPair(market);
                         }
-                        return new LimitOrder.Builder(orderType, currencyPair)
+                        return new Builder(orderType, currencyPair)
                             .limitPrice(safeParse(responseInner.getPrice()))
                             .originalAmount(safeParse(responseInner.getAmount()))
                             .id(responseInner.getOrderHash())
@@ -78,48 +94,34 @@ public class IdexTradeService implements TradeService {
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams openOrdersParams) {
-    ReturnOpenOrdersApi proxy =
-        RestProxyFactory.createProxy(
-            ReturnOpenOrdersApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
-    return null;
+    return getOpenOrders();
   }
 
   @Override
   public boolean cancelOrder(String s) {
-    CancelApi proxy =
-        RestProxyFactory.createProxy(
-            CancelApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
-    return false;
+    throw new UnsupportedOperationException("Orders Api Unnavailable at this time");
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams cancelOrderParams) {
-    CancelApi proxy =
-        RestProxyFactory.createProxy(
-            CancelApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
-    return false;
+    throw new UnsupportedOperationException("Orders Api Unnavailable at this time");
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) {
-    ReturnTradeHistoryApi proxy =
-        RestProxyFactory.createProxy(
-            ReturnTradeHistoryApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
-    return null;
+    throw new UnsupportedOperationException("Orders Api Unnavailable at this time");
   }
 
   @Override
   public Collection<Order> getOrder(String... strings) {
-    ReturnOpenOrdersApi proxy =
-        RestProxyFactory.createProxy(
-            ReturnOpenOrdersApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
-    return null;
+    ReturnOpenOrdersApi proxy = returnOpenOrdersApi;
+    return Collections.emptyList();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
 
-    return null;
+    throw new UnsupportedOperationException("Orders Api Unnavailable at this time");
   }
 
   @Override
@@ -155,7 +157,7 @@ public class IdexTradeService implements TradeService {
    */
   @Override
   public String placeLimitOrder(LimitOrder placeOrder) {
-    Order.OrderType type = placeOrder.getType();
+    OrderType type = placeOrder.getType();
     Currency baseCurrency = placeOrder.getCurrencyPair().base;
     Currency counterCurrency = placeOrder.getCurrencyPair().counter;
     BigDecimal originalAmount = placeOrder.getOriginalAmount();
@@ -164,10 +166,8 @@ public class IdexTradeService implements TradeService {
         createNormalizedLimitOrderReq(
             baseCurrency, counterCurrency, type, limitPrice, originalAmount, null, null, null);
     try {
-      RestProxyFactory.createProxy(
-              OrderApi.class, getIdexExchange().getExchangeSpecification().getSslUri())
-          .order(orderReq)
-          .getOrderHash();
+
+      orderApi.order(orderReq).getOrderHash();
     } catch (Exception e) {
 
       e.printStackTrace();
@@ -178,7 +178,7 @@ public class IdexTradeService implements TradeService {
   public final OrderReq createNormalizedLimitOrderReq(
       Currency baseCurrency,
       Currency counterCurrency,
-      Order.OrderType type,
+      OrderType type,
       BigDecimal limitPrice,
       BigDecimal originalAmount,
       String contractAddress,
@@ -199,11 +199,11 @@ public class IdexTradeService implements TradeService {
       List<Currency> listOfCurrencies = asList(baseCurrency, /*OMG*/ counterCurrency /*ETH*/);
       if (type == BID) Collections.reverse(listOfCurrencies);
 
-      IdexExchange.Companion.IdexCurrencyMeta buy_currency =
-          (IdexExchange.Companion.IdexCurrencyMeta)
+      IdexCurrencyMeta buy_currency =
+          (IdexCurrencyMeta)
               getIdexExchange().getExchangeMetaData().getCurrencies().get(listOfCurrencies.get(0));
-      IdexExchange.Companion.IdexCurrencyMeta sell_currency =
-          (IdexExchange.Companion.IdexCurrencyMeta)
+      IdexCurrencyMeta sell_currency =
+          (IdexCurrencyMeta)
               getIdexExchange().getExchangeMetaData().getCurrencies().get(listOfCurrencies.get(1));
       BigDecimal divide = originalAmount.divide(limitPrice, MathContext.DECIMAL128);
       BigDecimal amount_buy =
@@ -225,7 +225,7 @@ public class IdexTradeService implements TradeService {
               asList("nonce", "" + nonce, "uint256"),
               asList("address", "" + getApiKey(), "address"));
 
-      Sign.SignatureData sig =
+      SignatureData sig =
           generateSignature(getIdexExchange().getExchangeSpecification().getSecretKey(), hash_data);
       byte v = sig.getV();
       byte[] r = sig.getR();
@@ -248,11 +248,8 @@ public class IdexTradeService implements TradeService {
 
   ReturnContractAddressResponse contractAddress() {
     try {
-      ReturnContractAddressApi proxy =
-          RestProxyFactory.createProxy(
-              ReturnContractAddressApi.class,
-              getIdexExchange().getExchangeSpecification().getSslUri());
-      return proxy.contractAddress();
+
+      return returnContractAddressApi.contractAddress();
     } catch (Exception e) {
       e.printStackTrace();
     }

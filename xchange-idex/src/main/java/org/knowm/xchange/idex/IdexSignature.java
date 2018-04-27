@@ -13,13 +13,14 @@ import java.util.List;
 import org.bouncycastle.util.encoders.Hex;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Sign;
+import org.web3j.crypto.Sign.SignatureData;
 
 public class IdexSignature {
-  static Boolean debugMe = true;
+  static Boolean debugMe = false;
 
   static
   /** Generate v, r, s values from payload */
-  Sign.SignatureData generateSignature(String apiSecret, List<List<String>> data) {
+  SignatureData generateSignature(String apiSecret, List<List<String>> data) {
     byte[] rawhash = null;
     byte[] saltBytes;
     byte[] bytes = null;
@@ -28,13 +29,13 @@ public class IdexSignature {
     ECKeyPair ecKeyPair;
     try (ByteArrayOutputStream sig_arr = new ByteArrayOutputStream()) {
 
-      if (IdexSignature.debugMe) {
+      if (debugMe) {
         System.err.println(data);
       }
       for (List<String> d : data) {
         String data1 = d.get(1);
         /* remove 0x prefix and convert to bytes*/
-        if (IdexSignature.debugMe)
+        if (debugMe)
           System.err.println("\n===\nsignature  for (len: " + d.get(1).length() + " ):" + d);
         byte[] segment = new byte[0];
         byte[] r = new byte[0];
@@ -68,7 +69,7 @@ public class IdexSignature {
 
         sig_arr.write(segment);
 
-        if (IdexSignature.debugMe) {
+        if (debugMe) {
           System.err.println(
               "signature: results: (len: "
                   + rlen
@@ -99,7 +100,7 @@ public class IdexSignature {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    if (IdexSignature.debugMe) {
+    if (debugMe) {
       System.err.println("\n== unsalted:\t" + Hex.toHexString(rawhash));
       System.err.println("== salt raw :\t" + Hex.toHexString(saltBytes));
       System.err.println("== salted raw :\t" + Hex.toHexString(bytes));
@@ -109,7 +110,7 @@ public class IdexSignature {
     apiSecret1 = new BigInteger(last[0], 16);
     ecKeyPair = ECKeyPair.create(apiSecret1);
 
-    Sign.SignatureData signatureData;
+    SignatureData signatureData;
     signatureData = Sign.signMessage(/* message = */ salted, /* keyPair=  */ ecKeyPair);
     return signatureData;
   }

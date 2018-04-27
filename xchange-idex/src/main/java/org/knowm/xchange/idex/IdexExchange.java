@@ -39,6 +39,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class IdexExchange extends BaseExchange {
   private ReturnCurrenciesResponse allCurrenciesStatic;
   CurrencyPairMetaData unavailableCPMeta = new CurrencyPairMetaData(ZERO, ZERO, ZERO, 0);
+  private ReturnNextNonceApi returnNextNonceApi =
+      RestProxyFactory.createProxy(ReturnNextNonceApi.class, exchangeSpecification.getSslUri());
 
   public final CurrencyPairMetaData getUnavailableCPMeta() {
     return unavailableCPMeta;
@@ -78,9 +80,9 @@ public class IdexExchange extends BaseExchange {
   public IdexExchange() {}
 
   public ReturnNextNonceApi getNextNonceApi() {
-    if (null == nextNonceApi)
-      nextNonceApi =
-          RestProxyFactory.createProxy(ReturnNextNonceApi.class, exchangeSpecification.getSslUri());
+    if (null == nextNonceApi) {
+      nextNonceApi = returnNextNonceApi;
+    }
     return nextNonceApi;
   }
 
