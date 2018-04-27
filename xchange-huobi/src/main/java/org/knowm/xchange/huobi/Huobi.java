@@ -70,7 +70,7 @@ public interface Huobi {
       throws IOException;
 
   @POST
-  @Path("/v1/dw/withdraw/api/create")
+  @Path("v1/dw/withdraw/api/create")
   @Consumes(MediaType.APPLICATION_JSON)
   HuobiCreateWithdrawResult createWithdraw(
       HuobiCreateWithdrawRequest body,

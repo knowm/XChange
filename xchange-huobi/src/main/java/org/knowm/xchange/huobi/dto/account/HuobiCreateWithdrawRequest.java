@@ -2,41 +2,41 @@ package org.knowm.xchange.huobi.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class HuobiCreateWithdrawRequest {
 
   @JsonProperty("address")
-  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private String address;
 
   @JsonProperty("amount")
-  @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  private String amount;
+  private BigDecimal amount;
 
   @JsonProperty("currency")
-  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private String currency;
 
   @JsonProperty("fee")
-  private String fee;
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  private BigDecimal fee;
 
   @JsonProperty("addr-tag")
-  private String addrTag;
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  private String addressTag;
 
   public HuobiCreateWithdrawRequest(
-      String address, String amount, String currency, String fee, String addrTag) {
+      String address, BigDecimal amount, String currency, BigDecimal fee, String addressTag) {
     this.address = address;
     this.amount = amount;
     this.currency = currency;
     this.fee = fee;
-    this.addrTag = addrTag;
+    this.addressTag = addressTag;
   }
 
   public String getAddress() {
     return address;
   }
 
-  public String getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
@@ -44,11 +44,11 @@ public class HuobiCreateWithdrawRequest {
     return currency;
   }
 
-  public String getFee() {
+  public BigDecimal getFee() {
     return fee;
   }
 
   public String getAddressTag() {
-    return addrTag;
+    return addressTag;
   }
 }
