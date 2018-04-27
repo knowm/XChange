@@ -1,17 +1,21 @@
 package org.knowm.xchange.abucoins.service;
 
 import java.io.IOException;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.AbucoinsAdapters;
 import org.knowm.xchange.abucoins.dto.AbucoinsBaseCreateOrderRequest;
+import org.knowm.xchange.abucoins.dto.AbucoinsError;
 import org.knowm.xchange.abucoins.dto.AbucoinsOrderRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsFills;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.ObjectMapperHelper;
+import si.mazi.rescu.HttpStatusIOException;
 
 /**
  * Class providing a 1:1 proxy for the Abucoins market related REST requests.
@@ -203,16 +207,26 @@ public class AbucoinsTradeServiceRaw extends AbucoinsBaseService {
    * @throws IOException
    */
   public AbucoinsFills getAbucoinsFills(String afterCursor, Integer limit) throws IOException {
-    AbucoinsFills fills =
-        abucoinsAuthenticated.getFills(
-            exchange.getExchangeSpecification().getApiKey(),
-            signatureCreator,
-            exchange.getExchangeSpecification().getPassword(),
-            timestamp(),
-            afterCursor,
-            limit);
-    if (fills.getMessage() != null) throw new ExchangeException(fills.getMessage());
-
-    return fills;
+    try {
+      AbucoinsFills fills =
+          abucoinsAuthenticated.getFills(
+              exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator,
+              exchange.getExchangeSpecification().getPassword(),
+              timestamp(),
+              afterCursor,
+              limit);
+      return fills;
+    } catch (HttpStatusIOException initialException) {
+      // in case of error Abucoins returns HTTP status 200 with a single property JSON
+      try {
+        AbucoinsError error =
+            ObjectMapperHelper.readValue(initialException.getHttpBody(), AbucoinsError.class);
+        throw new ExchangeException(error.getMessage());
+      } catch (IOException finalException) {
+        throw new ExportException(
+            "Response neither expected DTO nor error message", finalException);
+      }
+    }
   }
 }

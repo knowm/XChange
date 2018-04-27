@@ -37,8 +37,6 @@ import si.mazi.rescu.HttpResponseAware;
 public class AbucoinsFills extends ArrayList<AbucoinsFill> implements HttpResponseAware {
   private Map<String, List<String>> responseHeaders;
 
-  private String message;
-
   @Override
   public void setResponseHeaders(Map<String, List<String>> responseHeaders) {
     this.responseHeaders = responseHeaders;
@@ -47,13 +45,5 @@ public class AbucoinsFills extends ArrayList<AbucoinsFill> implements HttpRespon
   @Override
   public Map<String, List<String>> getResponseHeaders() {
     return responseHeaders;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
   }
 }
