@@ -91,6 +91,14 @@
     "XRP/USD": {
       "price_scale": 2,
       "min_amount": 1
+    },
+    "FLIXX/ETH": {
+      "price_scale": 8,
+      "min_amount": 10
+    },
+    "FLIXX/BTC": {
+      "price_scale": 8,
+      "min_amount": 10
     }
   },
   "currencies": {
@@ -117,6 +125,9 @@
     },
     "AUD": {
       "scale": 2
+    },
+    "FLIXX": {
+      "scale": 8
     }
   }
 }
