@@ -28,11 +28,12 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
+            <version>4.3.6-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.web3j</groupId>
             <artifactId>crypto</artifactId>
-            <version>3.2.0</version>
         </dependency>
 
     </dependencies>
