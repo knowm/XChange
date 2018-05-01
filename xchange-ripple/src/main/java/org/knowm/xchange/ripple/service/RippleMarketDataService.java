@@ -40,16 +40,4 @@ public class RippleMarketDataService extends RippleMarketDataServiceRaw
       throw new ExchangeException("RippleMarketDataParams is missing");
     }
   }
-
-  @Override
-  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Trades getTrades(final CurrencyPair currencyPair, final Object... args)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

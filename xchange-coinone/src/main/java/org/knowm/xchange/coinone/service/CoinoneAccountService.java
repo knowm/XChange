@@ -47,23 +47,4 @@ public class CoinoneAccountService extends CoinoneAccountServiceRaw implements A
   public String withdrawFunds(WithdrawFundsParams withdrawFundsParams) throws IOException {
     return null;
   }
-
-  @Override
-  public String requestDepositAddress(Currency currency, String... args)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 }

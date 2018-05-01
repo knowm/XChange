@@ -63,21 +63,6 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
     throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in
-   * descending order by creation date.
-   *
-   * @see <a
-   *     href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
-   */
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 

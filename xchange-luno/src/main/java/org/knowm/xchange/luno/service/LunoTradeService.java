@@ -195,13 +195,6 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
     return new LunoTradeHistoryParams();
   }
 
-  @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   public static class LunoTradeHistoryParams
       implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan, TradeHistoryParamLimit {
 
