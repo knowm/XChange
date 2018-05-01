@@ -18,7 +18,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
-import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -259,7 +259,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         t.commission,
                         Currency.getInstance(t.commissionAsset)))
             .collect(Collectors.toList());
-    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+    long lastId = binanceTrades.stream().map(t -> t.id).max(Long::compareTo).orElse(0L);
+    return new UserTrades(trades, lastId, Trades.TradeSortType.SortByTimestamp);
   }
 
   @Override
