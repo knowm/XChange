@@ -151,33 +151,6 @@ public class IdexExchange extends BaseExchange {
       return currencyPair;
     }
 
-    public static void main(String... args) throws IOException {
-      Exchange exchange = ExchangeFactory.INSTANCE.createExchange(IdexExchange.class);
-      CurrencyPair currencyPair = IdexExchange.Companion.getCurrencyPair("ETH_OMG");
-      MarketDataService marketDataService = exchange.getMarketDataService();
-      {
-        Ticker ticker;
-        ticker = marketDataService.getTicker(currencyPair);
-        System.out.println(ticker);
-      }
-      Trades trades = marketDataService.getTrades(currencyPair);
-      System.err.println(Arrays.deepToString(new Object[] {trades}));
-      if (args.length > 0) exchange.getExchangeSpecification().setApiKey(args[0]);
-      if (args.length > 1) exchange.getExchangeSpecification().setSecretKey(args[1]);
-      AccountInfo accountInfo = exchange.getAccountService().getAccountInfo();
-      System.err.println(accountInfo);
-      CurrencyPair kin = IdexExchange.Companion.getCurrencyPair("ETH_KIN");
-      Ticker ticker = exchange.getMarketDataService().getTicker(kin);
-      System.err.println(ticker);
-      String placeLimitOrder =
-          exchange
-              .getTradeService()
-              .placeLimitOrder(
-                  new LimitOrder(
-                      OrderType.ASK, BigDecimal.ONE, kin, null, null, new BigDecimal(42L)));
-      System.err.println((placeLimitOrder));
-    }
-
     public static class IdexExchangeSpecification extends ExchangeSpecification {
       public IdexExchangeSpecification() {
         super(IdexExchange.class);
