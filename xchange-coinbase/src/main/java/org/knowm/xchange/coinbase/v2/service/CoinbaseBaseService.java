@@ -20,7 +20,6 @@ import java.util.List;
 public class CoinbaseBaseService extends BaseExchangeService implements BaseService {
 
   protected final CoinbaseAuthenticated coinbase;
-  protected final ParamsDigest signatureCreator;
   protected final CoinbaseV2Digest signatureCreator2;
 
   protected CoinbaseBaseService(Exchange exchange) {
@@ -31,8 +30,6 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
             CoinbaseAuthenticated.class,
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
-    signatureCreator =
-        CoinbaseDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
 
     signatureCreator2 =
         CoinbaseV2Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
