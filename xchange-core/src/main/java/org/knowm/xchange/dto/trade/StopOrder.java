@@ -10,16 +10,16 @@ import org.knowm.xchange.dto.Order;
  * DTO representing a stop order
  *
  * <p>A stop order lets you set a minimum or maximum price before your trade will be treated by the
- * exchange as a {@link MarketOrder} unless a limit price is also set. There is no guarantee that your conditions will be met on the
- * exchange, so your order may not be executed.
+ * exchange as a {@link MarketOrder} unless a limit price is also set. There is no guarantee that
+ * your conditions will be met on the exchange, so your order may not be executed.
  */
 public class StopOrder extends Order implements Comparable<StopOrder> {
 
   /** The stop price */
   protected final BigDecimal stopPrice;
   /**
-   * The limit price this should be null if the stop order should be
-   * treated as a market order once the stop price is hit
+   * The limit price this should be null if the stop order should be treated as a market order once
+   * the stop price is hit
    */
   protected BigDecimal limitPrice = null;
   /**

@@ -19,18 +19,18 @@ public class BTCMarketsDigest extends BaseParamsDigest {
   }
 
   String digest(String url, String nonce, String requestBody) {
-    Mac mac256 = getMac();
+    Mac mac = getMac();
     if (!url.startsWith("/")) {
       url = "/" + url;
     }
-    mac256.update(url.getBytes());
-    mac256.update("\n".getBytes());
-    mac256.update(nonce.getBytes());
-    mac256.update("\n".getBytes());
+    mac.update(url.getBytes());
+    mac.update("\n".getBytes());
+    mac.update(nonce.getBytes());
+    mac.update("\n".getBytes());
     if (requestBody != null && !requestBody.isEmpty()) {
-      mac256.update(requestBody.getBytes());
+      mac.update(requestBody.getBytes());
     }
 
-    return Base64.getEncoder().encodeToString(mac256.doFinal());
+    return Base64.getEncoder().encodeToString(mac.doFinal());
   }
 }
