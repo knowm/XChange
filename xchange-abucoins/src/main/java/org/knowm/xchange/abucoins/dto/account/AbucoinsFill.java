@@ -62,8 +62,6 @@ public class AbucoinsFill {
   /** user side(buy or sell) */
   AbucoinsOrder.Side side;
 
-  String message;
-
   public AbucoinsFill(
       @JsonProperty("trade_id") String tradeID,
       @JsonProperty("product_id") String productID,
@@ -72,8 +70,7 @@ public class AbucoinsFill {
       @JsonProperty("order_id") String orderID,
       @JsonProperty("created_at") String createdAt,
       @JsonProperty("liquidity") Liquidity liquidity,
-      @JsonProperty("side") Side side,
-      @JsonProperty("message") String message) {
+      @JsonProperty("side") Side side) {
     this.tradeID = tradeID;
     this.productID = productID;
     this.price = price;
@@ -82,7 +79,6 @@ public class AbucoinsFill {
     this.createdAt = createdAt;
     this.liquidity = liquidity;
     this.side = side;
-    this.message = message;
   }
 
   public String getTradeID() {
@@ -117,10 +113,6 @@ public class AbucoinsFill {
     return side;
   }
 
-  public String getMessage() {
-    return message;
-  }
-
   @Override
   public String toString() {
     return "AbucoinsFill [tradeID="
@@ -139,8 +131,6 @@ public class AbucoinsFill {
         + liquidity
         + ", side="
         + side
-        + ", message="
-        + message
         + "]";
   }
 
