@@ -21,6 +21,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.dto.trade.LimitOrder.Builder;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.idex.IdexExchange.Companion.IdexCurrencyMeta;
 import org.knowm.xchange.idex.dto.*;
 import org.knowm.xchange.idex.service.*;
@@ -99,17 +100,17 @@ public class IdexTradeService implements TradeService {
 
   @Override
   public boolean cancelOrder(String s) {
-    throw new UnsupportedOperationException("Orders Api Unnavailable at this time");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams cancelOrderParams) {
-    throw new UnsupportedOperationException("Orders Api Unnavailable at this time");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) {
-    throw new UnsupportedOperationException("Orders Api Unnavailable at this time");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
@@ -121,17 +122,17 @@ public class IdexTradeService implements TradeService {
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
 
-    throw new UnsupportedOperationException("Orders Api Unnavailable at this time");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public void verifyOrder(LimitOrder limitOrder) {
-    throw new UnsupportedOperationException("Idex API doesn't support verify order");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public void verifyOrder(MarketOrder marketOrder) {
-    throw new UnsupportedOperationException("Idex API doesn't support verify order");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
@@ -142,13 +143,13 @@ public class IdexTradeService implements TradeService {
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) {
-    throw new UnsupportedOperationException("Idex API doesn't support market order");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) {
 
-    throw new UnsupportedOperationException("Idex API doesn't support stop order");
+    throw new NotAvailableFromExchangeException();
   }
 
   /**

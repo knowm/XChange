@@ -16,7 +16,6 @@ import org.web3j.crypto.Sign;
 import org.web3j.crypto.Sign.SignatureData;
 
 public class IdexSignature {
-  static Boolean debugMe = false;
 
   static
   /** Generate v, r, s values from payload */
@@ -29,14 +28,9 @@ public class IdexSignature {
     ECKeyPair ecKeyPair;
     try (ByteArrayOutputStream sig_arr = new ByteArrayOutputStream()) {
 
-      if (debugMe) {
-        System.err.println(data);
-      }
       for (List<String> d : data) {
         String data1 = d.get(1);
         /* remove 0x prefix and convert to bytes*/
-        if (debugMe)
-          System.err.println("\n===\nsignature  for (len: " + d.get(1).length() + " ):" + d);
         byte[] segment = new byte[0];
         byte[] r = new byte[0];
         last[0] = new LinkedList<>(asList(data1.toLowerCase().split("0x"))).getLast();
@@ -68,17 +62,6 @@ public class IdexSignature {
             min(segLen, rlen));
 
         sig_arr.write(segment);
-
-        if (debugMe) {
-          System.err.println(
-              "signature: results: (len: "
-                  + rlen
-                  + "->"
-                  + segLen
-                  + ") "
-                  + Hex.toHexString(segment));
-          System.err.println("signature: accumulated: " + Hex.toHexString(sig_arr.toByteArray()));
-        }
       }
       rawhash = sha3(sig_arr.toByteArray());
     } catch (IOException e) {
@@ -100,12 +83,7 @@ public class IdexSignature {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    if (debugMe) {
-      System.err.println("\n== unsalted:\t" + Hex.toHexString(rawhash));
-      System.err.println("== salt raw :\t" + Hex.toHexString(saltBytes));
-      System.err.println("== salted raw :\t" + Hex.toHexString(bytes));
-      System.err.println("== salted hash:\t" + Hex.toHexString(salted));
-    }
+
     last[0] = new LinkedList<>(asList(apiSecret.split("0x"))).getLast();
     apiSecret1 = new BigInteger(last[0], 16);
     ecKeyPair = ECKeyPair.create(apiSecret1);
