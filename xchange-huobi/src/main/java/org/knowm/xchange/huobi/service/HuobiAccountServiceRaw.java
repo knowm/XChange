@@ -76,12 +76,7 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
       String currency, BigDecimal amount, BigDecimal fee, String address, String addressTag)
       throws IOException {
     HuobiCreateWithdrawRequest createWithdrawRequest =
-        new HuobiCreateWithdrawRequest(
-            address,
-            amount.toPlainString(),
-            currency.toLowerCase(),
-            fee == null ? null : fee.toPlainString(),
-            addressTag);
+        new HuobiCreateWithdrawRequest(address, amount, currency.toLowerCase(), fee, addressTag);
     HuobiCreateWithdrawResult createWithdrawResult =
         huobi.createWithdraw(
             createWithdrawRequest,
