@@ -39,8 +39,4 @@ public class ExmoAccountService extends ExmoAccountServiceRaw implements Account
         throw new NotAvailableFromExchangeException();
     }
 
-    @Override
-    public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-        throw new NotAvailableFromExchangeException();
-    }
 }

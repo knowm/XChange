@@ -72,4 +72,9 @@ public interface Exmo {
     @Path("/deposit_address/")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     Map<String, String> depositAddress(@HeaderParam("Sign") ExmoDigest signatureCreator, @HeaderParam("Key") String publicKey, @FormParam("nonce") SynchronizedValueFactory<Long> nonceFactory);
+
+    @POST
+    @Path("/wallet_history/")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    Map<String, Object> walletHistory(@HeaderParam("Sign") ExmoDigest signatureCreator, @HeaderParam("Key") String publicKey, @FormParam("nonce") SynchronizedValueFactory<Long> nonceFactory, @FormParam("date") long date);
 }
