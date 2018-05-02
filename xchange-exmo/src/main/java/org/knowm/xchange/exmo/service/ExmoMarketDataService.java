@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class ExmoMarketDataService extends ExmoMarketDataServiceRaw implements MarketDataService {
-    protected ExmoMarketDataService(Exchange exchange) {
+    public ExmoMarketDataService(Exchange exchange) {
         super(exchange);
     }
 
