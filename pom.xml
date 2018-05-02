@@ -129,6 +129,7 @@
         <module>xchange-cryptopia</module>
         <module>xchange-dsx</module>
         <module>xchange-empoex</module>
+        <module>xchange-exmo</module>
         <module>xchange-examples</module>
         <module>xchange-gatecoin</module>
         <module>xchange-gateio</module>
