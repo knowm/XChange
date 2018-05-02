@@ -2,7 +2,6 @@ package org.knowm.xchange.exmo.service;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
@@ -13,9 +12,7 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ExmoAccountService extends ExmoAccountServiceRaw implements AccountService {
     public ExmoAccountService(ExmoExchange exmoExchange) {

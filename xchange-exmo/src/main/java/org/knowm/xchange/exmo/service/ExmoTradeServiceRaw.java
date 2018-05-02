@@ -5,6 +5,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.exmo.dto.trade.ExmoUserTrades;
 import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
@@ -49,10 +50,16 @@ public class ExmoTradeServiceRaw extends BaseExmoService {
         return openOrders;
     }
 
-    public List<UserTrade> orderTrades(String orderId) {
+    public ExmoUserTrades userTrades(String orderId) {
         Map<String, Object> map = exmo.orderTrades(signatureCreator, apiKey, exchange.getNonceFactory(), orderId);
 
         List<UserTrade> userTrades = new ArrayList<>();
+
+        Boolean result = (Boolean) map.get("result");
+        if(result != null && !result)
+            return null;
+
+        BigDecimal originalAmount = new BigDecimal(map.get("out_amount").toString());
 
         for (Map<String, Object> tradeDatum : (List<Map<String, Object>>) map.get("trades")) {
             CurrencyPair market = adaptMarket(tradeDatum.get("pair").toString());
@@ -63,7 +70,7 @@ public class ExmoTradeServiceRaw extends BaseExmoService {
             userTrades.add(ExmoAdapters.adaptTrade(bodge, market));
         }
 
-        return userTrades;
+        return new ExmoUserTrades(originalAmount, userTrades);
     }
 
     public List<UserTrade> trades(int limit, long offset, CurrencyPair currencyPair) {
