@@ -10,11 +10,14 @@ import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.join;
 
 public class ExmoTradeServiceRaw extends BaseExmoService {
     protected ExmoTradeServiceRaw(Exchange exchange) {
@@ -73,9 +76,14 @@ public class ExmoTradeServiceRaw extends BaseExmoService {
         return new ExmoUserTrades(originalAmount, userTrades);
     }
 
-    public List<UserTrade> trades(int limit, long offset, CurrencyPair currencyPair) {
+    public List<UserTrade> trades(Integer limit, Long offset, Collection<CurrencyPair> currencyPairs) {
+        List<String> markets = new ArrayList<>();
+        for (CurrencyPair currencyPair : currencyPairs) {
+            markets.add(format(currencyPair));
+        }
+
         Map<String, List<Map<String, String>>> map = exmo.userTrades(signatureCreator, apiKey, exchange.getNonceFactory(),
-                currencyPair == null ? null : format(currencyPair),
+                join(markets, ","),
                 offset,
                 limit
         );

@@ -80,13 +80,16 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
 
     @Override
     public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-        int limit = 10000;
-        long offset = 0;
-        CurrencyPair currencyPair = null;
+        Integer limit = 10000;
+        Long offset = 0L;
+        List<CurrencyPair> currencyPairs = new ArrayList<>();
 
-        if (params instanceof TradeHistoryParamCurrencyPair) {
+        if (params instanceof ExmoTradeHistoryParams) {
+            ExmoTradeHistoryParams exmoTradeHistoryParams = (ExmoTradeHistoryParams) params;
+            currencyPairs.addAll(exmoTradeHistoryParams.currencyPairs);
+        } else if (params instanceof TradeHistoryParamCurrencyPair) {
             TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair = (TradeHistoryParamCurrencyPair) params;
-            currencyPair = tradeHistoryParamCurrencyPair.getCurrencyPair();
+            currencyPairs.add(tradeHistoryParamCurrencyPair.getCurrencyPair());
         }
 
         if (params instanceof TradeHistoryParamLimit) {
@@ -97,9 +100,52 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
             offset = ((TradeHistoryParamOffset) params).getOffset();
         }
 
-        List<UserTrade> trades = trades(limit, offset, currencyPair);
+        List<UserTrade> trades = trades(limit, offset, currencyPairs);
 
         return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+    }
+
+    public static class ExmoTradeHistoryParams implements TradeHistoryParamLimit, TradeHistoryParamOffset {
+        private Integer limit = 1000;
+        private Long offset = 0L;
+        private Collection<CurrencyPair> currencyPairs = new ArrayList<>();
+
+        public ExmoTradeHistoryParams() {
+        }
+
+        public ExmoTradeHistoryParams(Integer limit, Long offset, Collection<CurrencyPair> currencyPairs) {
+            this.limit = limit;
+            this.offset = offset;
+            this.currencyPairs = currencyPairs;
+        }
+
+        public Collection<CurrencyPair> getCurrencyPairs() {
+            return currencyPairs;
+        }
+
+        public void setCurrencyPairs(Collection<CurrencyPair> currencyPairs) {
+            this.currencyPairs = currencyPairs;
+        }
+
+        @Override
+        public Integer getLimit() {
+            return limit;
+        }
+
+        @Override
+        public void setLimit(Integer limit) {
+            this.limit = limit;
+        }
+
+        @Override
+        public Long getOffset() {
+            return offset;
+        }
+
+        @Override
+        public void setOffset(Long offset) {
+            this.offset = offset;
+        }
     }
 
     @Override

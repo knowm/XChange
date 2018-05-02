@@ -60,7 +60,7 @@ public interface Exmo {
     @Path("/user_trades/")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     Map<String, List<Map<String, String>>> userTrades(@HeaderParam("Sign") ExmoDigest signatureCreator, @HeaderParam("Key") String publicKey, @FormParam("nonce") SynchronizedValueFactory<Long> nonceFactory,
-                                                      @FormParam("pair") String pair, @FormParam("offset") long offset, @FormParam("limit") long limit);
+                                                      @FormParam("pair") String pair, @FormParam("offset") Long offset, @FormParam("limit") Integer limit);
 
     @POST
     @Path("/order_trades/")
