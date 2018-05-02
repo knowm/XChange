@@ -4,6 +4,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -11,6 +12,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exmo.ExmoExchange;
+import org.knowm.xchange.exmo.dto.trade.ExmoUserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -19,8 +21,14 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -99,6 +107,72 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
         throw new NotAvailableFromExchangeException();
     }
 
-    //todo: place market order (if it's available??)
-    //todo: get order
+    @Override
+    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+        throw new NotAvailableFromExchangeException();//limit orders only
+    }
+
+    @Override
+    /**
+     * Warning: this make multiple api requests (one per parameter) so may result in you exceeding your api limits
+     */
+    public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+        List<Order> results = new ArrayList<>();
+
+        for (OrderQueryParams orderQueryParam : orderQueryParams) {
+            String orderId = orderQueryParam.getOrderId();
+
+            Order.OrderType type = null;
+            CurrencyPair currencyPair = null;
+            String id = null;
+            Date timestamp = null;
+            BigDecimal totalValue = BigDecimal.ZERO;
+            BigDecimal cumulativeAmount = BigDecimal.ZERO;
+            BigDecimal fee = BigDecimal.ZERO;
+            Order.OrderStatus status = Order.OrderStatus.UNKNOWN;
+
+            ExmoUserTrades exmoUserTrades = userTrades(orderId);
+            if (exmoUserTrades == null)
+                continue;
+
+            BigDecimal originalAmount = exmoUserTrades.getOriginalAmount();
+
+            for (UserTrade userTrade : exmoUserTrades.getUserTrades()) {
+                type = userTrade.getType();
+                currencyPair = userTrade.getCurrencyPair();
+                id = userTrade.getOrderId();
+
+                if (timestamp == null)
+                    timestamp = userTrade.getTimestamp();
+
+                if (timestamp.getTime() < userTrade.getTimestamp().getTime())//arbitarily use the timestmap from the most recent trade
+                    timestamp = userTrade.getTimestamp();
+
+                BigDecimal amountForFill = userTrade.getOriginalAmount();
+                BigDecimal priceForFill = userTrade.getPrice();
+                BigDecimal value = amountForFill.multiply(priceForFill);
+
+                cumulativeAmount = cumulativeAmount.add(amountForFill);
+                totalValue = totalValue.add(value);
+            }
+
+            BigDecimal averagePrice = totalValue.divide(cumulativeAmount, 8, RoundingMode.HALF_UP);
+
+            Order order = new MarketOrder(
+                    type,
+                    originalAmount,
+                    currencyPair,
+                    id,
+                    timestamp,
+                    averagePrice,
+                    cumulativeAmount,
+                    fee,
+                    status
+            );
+
+            results.add(order);
+        }
+
+        return results;
+    }
 }
