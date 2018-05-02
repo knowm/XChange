@@ -4,7 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.utils.DateUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -36,11 +36,8 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
         return results;
     }
 
-    /**
-     * NOT TESTED!!  Author doesn't have access to this API call so this has been implemented by following the spec and as such may not work
-     */
-    public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-        Map<String, Object> response = exmo.walletHistory(signatureCreator, apiKey, exchange.getNonceFactory(), new Date(0).getTime());
+    public List<FundingRecord> getFundingHistory(Date since) throws IOException {
+        Map<String, Object> response = exmo.walletHistory(signatureCreator, apiKey, exchange.getNonceFactory(), since.getTime() / 1000);
 
         List<FundingRecord> results = new ArrayList<>();
 
@@ -52,15 +49,30 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
             String amount = item.get("amount").toString();
             String account = item.get("account").toString();
 
+            String address = null;
+            if (account.startsWith(curr + ":")) {
+                address = account.replace(curr + ":", "").trim();
+            }
+
+            FundingRecord.Status statusEnum = FundingRecord.Status.FAILED;
+            if (status.equalsIgnoreCase("processing"))
+                statusEnum = FundingRecord.Status.PROCESSING;
+            else if (status.equalsIgnoreCase("paid"))
+                statusEnum = FundingRecord.Status.COMPLETE;
+            else if (status.equalsIgnoreCase("transferred"))
+                statusEnum = FundingRecord.Status.COMPLETE;
+            else if (status.equalsIgnoreCase("cancelled"))
+                statusEnum = FundingRecord.Status.CANCELLED;
+
             FundingRecord fundingRecord = new FundingRecord(
-                    null,
-                    new Date(time),
+                    address,
+                    DateUtils.fromUnixTime(Long.valueOf(time)),
                     Currency.getInstance(curr),
-                    new BigDecimal(amount),
+                    new BigDecimal(amount).abs(),
                     null,
                     null,
                     type.equalsIgnoreCase("deposit") ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL,
-                    status.equalsIgnoreCase("processing") ? FundingRecord.Status.PROCESSING : FundingRecord.Status.COMPLETE,
+                    statusEnum,
                     null,
                     null,
                     account

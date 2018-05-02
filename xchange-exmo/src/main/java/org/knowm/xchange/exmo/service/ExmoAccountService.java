@@ -6,12 +6,14 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exmo.ExmoExchange;
+import org.knowm.xchange.exmo.dto.account.ExmoFundingHistoryParams;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class ExmoAccountService extends ExmoAccountServiceRaw implements AccountService {
@@ -37,6 +39,16 @@ public class ExmoAccountService extends ExmoAccountServiceRaw implements Account
     @Override
     public String withdrawFunds(WithdrawFundsParams params) throws IOException {
         throw new NotAvailableFromExchangeException();
+    }
+
+    @Override
+    public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+        Date since = null;
+        if (params instanceof ExmoFundingHistoryParams) {
+            ExmoFundingHistoryParams thp = (ExmoFundingHistoryParams) params;
+            since = thp.getDay();
+        }
+        return getFundingHistory(since);
     }
 
 }
