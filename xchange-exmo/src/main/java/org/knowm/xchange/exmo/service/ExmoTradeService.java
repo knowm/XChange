@@ -10,6 +10,7 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.exmo.ExmoExchange;
 import org.knowm.xchange.service.trade.TradeService;
@@ -100,4 +101,12 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
 
         return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
     }
+
+    @Override
+    public String placeStopOrder(StopOrder stopOrder) throws IOException {
+        throw new NotAvailableFromExchangeException();
+    }
+
+    //todo: place market order (if it's available??)
+    //todo: get order
 }
