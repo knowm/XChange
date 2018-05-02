@@ -24,24 +24,12 @@ public class ExmoAccountService extends ExmoAccountServiceRaw implements Account
 
     @Override
     public AccountInfo getAccountInfo() throws IOException {
-        Map map = exmo.userInfo(signatureCreator, apiKey, exchange.getNonceFactory());
-
-        Map<String, String> balances = (Map<String, String>) map.get("balances");
-        Map<String, String> reserved = (Map<String, String>) map.get("reserved");
-
-        List<Balance> results = new ArrayList<>();
-        for (String ccy : balances.keySet()) {
-            Balance balance = ExmoAdapters.adaptBalance(balances, reserved, ccy);
-            results.add(balance);
-        }
-
-        return new AccountInfo(new Wallet(results));
+        return new AccountInfo(new Wallet(balances()));
     }
 
     @Override
     public String requestDepositAddress(Currency currency, String... args) throws IOException {
-        Map<String, String> map = exmo.depositAddress(signatureCreator, apiKey, exchange.getNonceFactory());
-        return map.get(currency.getCurrencyCode());
+        return depositAddresses().get(currency.getCurrencyCode());
     }
 
     @Override

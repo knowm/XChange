@@ -5,7 +5,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
@@ -38,5 +37,16 @@ public class ExmoMarketDataService extends ExmoMarketDataServiceRaw implements M
         return orderBook(currencyPair);
     }
 
-    //todo: get trades
+    @Override
+    public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+        List<CurrencyPair> pairs = new ArrayList<>();
+        pairs.add(currencyPair);
+        for (Object arg : args) {
+            if (arg instanceof CurrencyPair) {
+                pairs.add((CurrencyPair) arg);
+            }
+        }
+
+        return super.trades(pairs);
+    }
 }

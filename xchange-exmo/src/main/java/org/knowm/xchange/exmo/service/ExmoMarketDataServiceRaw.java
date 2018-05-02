@@ -6,6 +6,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -13,9 +15,15 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.join;
 
 public class ExmoMarketDataServiceRaw extends BaseExmoService {
     protected ExmoMarketDataServiceRaw(Exchange exchange) {
@@ -82,4 +90,48 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
         }
     }
 
+    public Trades trades(CurrencyPair... currencyPairs) {
+        return trades(Arrays.asList(currencyPairs));
+    }
+
+    public Trades trades(Collection<CurrencyPair> currencyPairs) {
+        Map<String, CurrencyPair> markets = new HashMap<>();
+        for (CurrencyPair currencyPair : currencyPairs) {
+            String market = currencyPair.base + "_" + currencyPair.counter;
+            markets.put(market, currencyPair);
+        }
+        String marketNames = join(markets.keySet(), ",");
+
+        List<Trade> results = new ArrayList<>();
+
+        Map<String, List<Map>> tradesMap = exmo.trades(marketNames);
+        for (String key : tradesMap.keySet()) {
+            CurrencyPair currencyPair = markets.get(key);
+
+            List<Map> trades = tradesMap.get(key);
+            for (Map tradeData : trades) {
+                String id = tradeData.get("trade_id").toString();
+                String type = tradeData.get("type").toString();
+                String price = tradeData.get("price").toString();
+
+                //which one??
+                String quantity = tradeData.get("quantity").toString();
+                String amount = tradeData.get("amount").toString();
+
+                String date = tradeData.get("date").toString();
+
+                results.add(new Trade(
+                                type.equalsIgnoreCase("sell") ? Order.OrderType.ASK : Order.OrderType.BID,
+                                new BigDecimal(quantity),
+                                currencyPair,
+                                new BigDecimal(price),
+                                new Date(Long.valueOf(date)),
+                                id
+                        )
+                );
+            }
+        }
+
+        return new Trades(results);
+    }
 }

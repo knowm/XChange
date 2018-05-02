@@ -4,6 +4,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,6 +17,10 @@ import java.util.Map;
 
 @Path("v1")
 public interface Exmo {
+
+    @GET
+    @Path("/trades")
+    Map<String, List<Map>> trades(@QueryParam("pair") String pair);
 
     @POST
     @Path("/ticker")
