@@ -49,22 +49,17 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
     }
 
     @Override
+    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+        String type = marketOrder.getType().equals(Order.OrderType.BID) ? "market_buy" : "market_sell";
+
+        return placeOrder(type, BigDecimal.ZERO, marketOrder.getCurrencyPair(), marketOrder.getOriginalAmount());
+    }
+
+    @Override
     public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
         String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
 
-        Map map = exmo.orderCreate(
-                signatureCreator, apiKey, exchange.getNonceFactory(),
-                ExmoAdapters.format(limitOrder.getCurrencyPair()),
-                limitOrder.getOriginalAmount(),
-                limitOrder.getLimitPrice(),
-                type
-        );
-
-        Boolean result = (Boolean) map.get("result");
-        if (!result)
-            throw new ExchangeException("Failed to place order: " + map.get("error"));
-
-        return map.get("order_id").toString();
+        return placeOrder(type, limitOrder.getLimitPrice(), limitOrder.getCurrencyPair(), limitOrder.getOriginalAmount());
     }
 
     @Override
@@ -109,11 +104,6 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
     @Override
     public String placeStopOrder(StopOrder stopOrder) throws IOException {
         throw new NotAvailableFromExchangeException();
-    }
-
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-        throw new NotAvailableFromExchangeException();//limit orders only
     }
 
     @Override
