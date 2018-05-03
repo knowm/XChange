@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.hitbtc;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.hitbtc.dto.HitbtcWebSocketBaseParams;
@@ -7,6 +9,9 @@ import info.bitrich.xchangestream.hitbtc.dto.HitbtcWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,16 +31,24 @@ public class HitbtcStreamingService extends JsonNettyStreamingService {
     private static final String JSON_SYMBOL = "symbol";
     private static final String JSON_PARAMS = "params";
     private static final String JSON_RESULT = "result";
+    private static final String JSON_ERROR = "error";
+    private static final String JSON_ID = "id";
 
     private static final String OP_SNAPSHOT = "snapshot";
     private static final String OP_UPDATE = "update";
 
-    private final Map<Integer, HitbtcWebSocketSubscriptionMessage> requests = new HashMap<>();
+    /**
+     * Map request Id to Chanel Name and HitBTC method pair
+     */
+    private final Map<Integer, Pair <String, String>> requests = new HashMap<>();
+    private final ObjectMapper objectMapper;
 
-    private static final String REQUEST_ID = "id";
 
     public HitbtcStreamingService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
+
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override
@@ -45,6 +58,13 @@ public class HitbtcStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+
+        if (message.has(JSON_ID)) {
+            int requestId = message.get(JSON_ID).asInt();
+            if (requests.containsKey(requestId)) {
+                return requests.get(requestId).getKey();
+            }
+        }
 
         if (message.has(JSON_METHOD)) {
             String method = message.get(JSON_METHOD).asText();
@@ -65,20 +85,29 @@ public class HitbtcStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected void handleMessage(JsonNode message) {
-        if (message.has(REQUEST_ID)) {
-            int requestId = message.get(REQUEST_ID).asInt();
+        if (message.has(JSON_ID)) {
+            int requestId = message.get(JSON_ID).asInt();
             if (requests.containsKey(requestId)) {
-                boolean result = message.get(JSON_RESULT).asBoolean();
-                HitbtcWebSocketSubscriptionMessage subscriptionMessage = requests.get(requestId);
-                if (!result) {
-                    LOG.error("Executing HitBTC method '{}' has been failed", subscriptionMessage.getMethod());
+
+                String subscriptionMethod = requests.get(requestId).getLeft();
+
+                if (message.has(JSON_ERROR)) {
+                    try {
+                        HitbtcException exception = objectMapper.treeToValue(message, HitbtcException.class);
+                        super.handleError(message, exception);
+                    } catch (JsonProcessingException e) {
+                        super.handleError(message, e);
+                    }
                 } else {
-                    LOG.info("Executing HitBTC method '{}' successfully completed", subscriptionMessage.getMethod());
+                    boolean result = message.get(JSON_RESULT).asBoolean();
+                    LOG.info("HitBTC returned {} as result of '{}' method", result, subscriptionMethod);
                 }
+
                 requests.remove(requestId);
                 return;
+
             } else {
-                LOG.error("Not requested result received with ID {}", requestId);
+                LOG.error("Unknown request ID {}", requestId);
             }
         }
 
@@ -95,9 +124,8 @@ public class HitbtcStreamingService extends JsonNettyStreamingService {
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         HitbtcWebSocketSubscriptionMessage subscribeMessage = generateSubscribeMessage(channelName, "subscribe");
-        requests.put(subscribeMessage.getId(), subscribeMessage);
+        requests.put(subscribeMessage.getId(), ImmutablePair.of(channelName, subscribeMessage.getMethod()));
 
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 
@@ -105,9 +133,8 @@ public class HitbtcStreamingService extends JsonNettyStreamingService {
     public String getUnsubscribeMessage(String channelName) throws IOException {
 
         HitbtcWebSocketSubscriptionMessage subscribeMessage = generateSubscribeMessage(channelName, "unsubscribe");
-        requests.put(subscribeMessage.getId(), subscribeMessage);
+        requests.put(subscribeMessage.getId(), ImmutablePair.of(channelName, subscribeMessage.getMethod()));
 
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
 
     }
