@@ -5,6 +5,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exmo.dto.trade.ExmoUserTrades;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -22,6 +23,22 @@ import static org.apache.commons.lang3.StringUtils.join;
 public class ExmoTradeServiceRaw extends BaseExmoService {
     protected ExmoTradeServiceRaw(Exchange exchange) {
         super(exchange);
+    }
+
+    protected String placeOrder(String type, BigDecimal price, CurrencyPair currencyPair, BigDecimal originalAmount) {
+        Map map = exmo.orderCreate(
+                signatureCreator, apiKey, exchange.getNonceFactory(),
+                ExmoAdapters.format(currencyPair),
+                originalAmount,
+                price,
+                type
+        );
+
+        Boolean result = (Boolean) map.get("result");
+        if (!result)
+            throw new ExchangeException("Failed to place order: " + map.get("error"));
+
+        return map.get("order_id").toString();
     }
 
     public List<LimitOrder> openOrders() {
