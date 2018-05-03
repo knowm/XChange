@@ -40,11 +40,9 @@ public class BitfinexBaseService extends BaseExchangeService implements BaseServ
     this.payloadCreator = new BitfinexPayloadDigest();
   }
 
-
   public ExchangeException handleException(BitfinexException exception) {
 
-
-    if(exception.getMessage() != null) {
+    if (exception.getMessage() != null) {
       if (exception.getMessage().toLowerCase().contains("nonce")) {
         return new NonceException(exception.getMessage());
       } else if (exception.getMessage().toLowerCase().contains("not enough exchange balance")) {

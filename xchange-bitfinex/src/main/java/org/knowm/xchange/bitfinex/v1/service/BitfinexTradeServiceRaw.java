@@ -41,7 +41,6 @@ import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
@@ -510,17 +509,17 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
     try {
       BitfinexWithdrawalResponse[] withdrawRepsonse =
-              bitfinex.withdraw(
-                      apiKey,
-                      payloadCreator,
-                      signatureCreator,
-                      new BitfinexWithdrawalRequest(
-                              String.valueOf(exchange.getNonceFactory().createValue()),
-                              withdrawType,
-                              walletSelected,
-                              amount,
-                              address,
-                              paymentId));
+          bitfinex.withdraw(
+              apiKey,
+              payloadCreator,
+              signatureCreator,
+              new BitfinexWithdrawalRequest(
+                  String.valueOf(exchange.getNonceFactory().createValue()),
+                  withdrawType,
+                  walletSelected,
+                  amount,
+                  address,
+                  paymentId));
       return withdrawRepsonse[0].getWithdrawalId();
     } catch (BitfinexException e) {
       throw handleException(e);
