@@ -208,10 +208,6 @@
       "min_amount": 1.00000000,
       "price_scale": 8
     },
-    "WARP/BTC": {
-      "min_amount": -10.00000000,
-      "price_scale": 8
-    },
     "NMC/BTC": {
       "min_amount": 0.10000000,
       "price_scale": 8
@@ -225,10 +221,6 @@
       "price_scale": 8
     },
     "NXT/BTC": {
-      "min_amount": 1.00000000,
-      "price_scale": 8
-    },
-    "TAO/BTC": {
       "min_amount": 1.00000000,
       "price_scale": 8
     },
@@ -270,14 +262,6 @@
     },
     "XMR/BTC": {
       "min_amount": 0.05000000,
-      "price_scale": 8
-    },
-    "COVAL/BTC": {
-      "min_amount": 1.00000000,
-      "price_scale": 8
-    },
-    "VOX/BTC": {
-      "min_amount": 1.00000000,
       "price_scale": 8
     },
     "TX/BTC": {
@@ -357,8 +341,6 @@
     "HNC": {},
     "LEO": {},
     "DGB": {},
-    "WARP": {},
-    "TAO": {},
     "BTA": {},
     "POST": {},
     "DASH": {},
@@ -370,8 +352,6 @@
     "XAB": {},
     "BLU": {},
     "ADZ": {},
-    "VOX": {},
-    "COVAL": {},
     "CLOAK": {},
     "ENT": {},
     "MONA": {},
