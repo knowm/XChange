@@ -61,4 +61,8 @@ public class ExmoAdapters {
                 .timestamp(DateUtils.fromMillisUtc(Long.valueOf(data.get("updated"))))
                 .build();
     }
+
+    public static String format(CurrencyPair currencyPair) {
+        return currencyPair.base.getCurrencyCode() + "_" + currencyPair.counter.getCurrencyCode();
+    }
 }

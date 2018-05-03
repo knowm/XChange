@@ -12,6 +12,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exmo.ExmoExchange;
+import org.knowm.xchange.exmo.dto.trade.ExmoTradeHistoryParams;
 import org.knowm.xchange.exmo.dto.trade.ExmoUserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -53,7 +54,7 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
 
         Map map = exmo.orderCreate(
                 signatureCreator, apiKey, exchange.getNonceFactory(),
-                format(limitOrder.getCurrencyPair()),
+                ExmoAdapters.format(limitOrder.getCurrencyPair()),
                 limitOrder.getOriginalAmount(),
                 limitOrder.getLimitPrice(),
                 type
@@ -86,7 +87,7 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
 
         if (params instanceof ExmoTradeHistoryParams) {
             ExmoTradeHistoryParams exmoTradeHistoryParams = (ExmoTradeHistoryParams) params;
-            currencyPairs.addAll(exmoTradeHistoryParams.currencyPairs);
+            currencyPairs.addAll(exmoTradeHistoryParams.getCurrencyPairs());
         } else if (params instanceof TradeHistoryParamCurrencyPair) {
             TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair = (TradeHistoryParamCurrencyPair) params;
             currencyPairs.add(tradeHistoryParamCurrencyPair.getCurrencyPair());
@@ -103,49 +104,6 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
         List<UserTrade> trades = trades(limit, offset, currencyPairs);
 
         return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
-    }
-
-    public static class ExmoTradeHistoryParams implements TradeHistoryParamLimit, TradeHistoryParamOffset {
-        private Integer limit = 1000;
-        private Long offset = 0L;
-        private Collection<CurrencyPair> currencyPairs = new ArrayList<>();
-
-        public ExmoTradeHistoryParams() {
-        }
-
-        public ExmoTradeHistoryParams(Integer limit, Long offset, Collection<CurrencyPair> currencyPairs) {
-            this.limit = limit;
-            this.offset = offset;
-            this.currencyPairs = currencyPairs;
-        }
-
-        public Collection<CurrencyPair> getCurrencyPairs() {
-            return currencyPairs;
-        }
-
-        public void setCurrencyPairs(Collection<CurrencyPair> currencyPairs) {
-            this.currencyPairs = currencyPairs;
-        }
-
-        @Override
-        public Integer getLimit() {
-            return limit;
-        }
-
-        @Override
-        public void setLimit(Integer limit) {
-            this.limit = limit;
-        }
-
-        @Override
-        public Long getOffset() {
-            return offset;
-        }
-
-        @Override
-        public void setOffset(Long offset) {
-            this.offset = offset;
-        }
     }
 
     @Override
@@ -220,5 +178,10 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
         }
 
         return results;
+    }
+
+    @Override
+    public TradeHistoryParams createTradeHistoryParams() {
+        return new ExmoTradeHistoryParams();
     }
 }
