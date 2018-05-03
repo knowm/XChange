@@ -23,6 +23,7 @@ public class BinanceManualExample {
                 .addTicker(CurrencyPair.ETH_BTC)
                 .addTicker(CurrencyPair.LTC_BTC)
                 .addOrderbook(CurrencyPair.LTC_BTC)
+                .addTrades(CurrencyPair.BTC_USDT)
                 .build();
 
         exchange.connect(subscription).blockingAwait();
@@ -38,5 +39,11 @@ public class BinanceManualExample {
                 .subscribe(orderBook -> {
                     LOG.info("Order Book: {}", orderBook);
                 }, throwable -> LOG.error("ERROR in getting order book: ", throwable));
+
+        exchange.getStreamingMarketDataService()
+                .getTrades(CurrencyPair.BTC_USDT)
+                .subscribe(trade -> {
+                    LOG.info("Trade: {}", trade);
+                });
     }
 }
