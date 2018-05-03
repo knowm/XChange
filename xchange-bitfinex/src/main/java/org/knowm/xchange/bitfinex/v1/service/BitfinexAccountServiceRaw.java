@@ -155,5 +155,4 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         new BitfinexNonceOnlyRequest(
             "/v1/account_fees", String.valueOf(exchange.getNonceFactory().createValue())));
   }
-
 }
