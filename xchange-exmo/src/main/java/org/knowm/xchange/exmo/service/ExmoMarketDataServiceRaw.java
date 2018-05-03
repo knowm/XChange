@@ -45,7 +45,7 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
     }
 
     public OrderBook orderBook(CurrencyPair currencyPair) throws IOException {
-        String market = format(currencyPair);
+        String market = ExmoAdapters.format(currencyPair);
 
         Map<String, Map<String, Object>> map = exmo.orderBook(market);
         Map<String, Object> orderBookData = map.get(market);

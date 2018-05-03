@@ -79,7 +79,7 @@ public class ExmoTradeServiceRaw extends BaseExmoService {
     public List<UserTrade> trades(Integer limit, Long offset, Collection<CurrencyPair> currencyPairs) {
         List<String> markets = new ArrayList<>();
         for (CurrencyPair currencyPair : currencyPairs) {
-            markets.add(format(currencyPair));
+            markets.add(ExmoAdapters.format(currencyPair));
         }
 
         Map<String, List<Map<String, String>>> map = exmo.userTrades(signatureCreator, apiKey, exchange.getNonceFactory(),
