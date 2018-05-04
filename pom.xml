@@ -5,7 +5,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.3.6-SNAPSHOT</version>
+    <version>4.3.7-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -136,6 +136,7 @@
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
         <module>xchange-huobi</module>
+        <module>xchange-idex</module>
         <module>xchange-independentreserve</module>
         <module>xchange-itbit</module>
         <module>xchange-koineks</module>
@@ -255,6 +256,13 @@
                 <artifactId>logback-classic</artifactId>
                 <version>${version.qos.logback}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.web3j</groupId>
+                <artifactId>crypto</artifactId>
+                <version>3.2.0</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

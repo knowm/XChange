@@ -412,10 +412,11 @@ public class GDAXAdapters {
   }
 
   /**
-   * Creates a 'stop' order. Stop limit order converts to a limit order when the stop amount
-   * is triggered. The limit order can have a different price than the stop price.
+   * Creates a 'stop' order. Stop limit order converts to a limit order when the stop amount is
+   * triggered. The limit order can have a different price than the stop price.
    *
-   * If the stop order has no limit price it will execute as a market order once the stop price is broken
+   * <p>If the stop order has no limit price it will execute as a market order once the stop price
+   * is broken
    *
    * @param stopOrder
    * @return
