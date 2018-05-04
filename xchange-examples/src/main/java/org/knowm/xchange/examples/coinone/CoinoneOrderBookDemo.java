@@ -1,14 +1,12 @@
 package org.knowm.xchange.examples.coinone;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinone.CoinoneExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.xchange.coinegg.CoinEggExchange;
-
-import java.io.IOException;
 
 /** Demonstrate requesting Ticker at CoinEgg */
 public class CoinoneOrderBookDemo {

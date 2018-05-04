@@ -13,8 +13,6 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 /** @author interwater */
@@ -35,19 +33,6 @@ public class CoinoneTradeService extends CoinoneTradeServiceRaw implements Trade
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder)
-      throws IOException, NotYetImplementedForExchangeException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeLimitOrder(LimitOrder limitOrder)
       throws IOException, NotAvailableFromExchangeException {
     CoinoneTradeResponse response = super.placeLimitOrderRaw(limitOrder);
@@ -60,32 +45,6 @@ public class CoinoneTradeService extends CoinoneTradeServiceRaw implements Trade
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
     return null;
-  }
-
-  public boolean cancelOrder(String orderId) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

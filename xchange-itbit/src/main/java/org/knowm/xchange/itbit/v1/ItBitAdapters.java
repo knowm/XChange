@@ -228,9 +228,7 @@ public final class ItBitAdapters {
       BigDecimal totalQuantity = BigDecimal.ZERO;
       BigDecimal totalFee = BigDecimal.ZERO;
 
-      for (ItBitUserTrade trade :
-          tradesByOrderId.get(
-              orderId)) {
+      for (ItBitUserTrade trade : tradesByOrderId.get(orderId)) {
         // can have multiple trades for same order, so add them all up here to
         // get the average price and total fee
         // we have to do this because there is no trade id

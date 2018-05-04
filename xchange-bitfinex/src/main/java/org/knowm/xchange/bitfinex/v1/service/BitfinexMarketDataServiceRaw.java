@@ -14,7 +14,6 @@ import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * Implementation of the market data service for Bitfinex
@@ -41,7 +40,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       BitfinexTicker bitfinexTicker = bitfinex.getTicker(pair);
       return bitfinexTicker;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -57,7 +56,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       }
       return bitfinexDepth;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -68,7 +67,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       BitfinexLendDepth bitfinexLendDepth = bitfinex.getLendBook(currency, limitBids, limitAsks);
       return bitfinexLendDepth;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error", e);
+      throw handleException(e);
     }
   }
 
@@ -78,7 +77,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       BitfinexTrade[] bitfinexTrades = bitfinex.getTrades(pair, sinceTimestamp);
       return bitfinexTrades;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error", e);
+      throw handleException(e);
     }
   }
 
@@ -89,7 +88,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       BitfinexLend[] bitfinexLends = bitfinex.getLends(currency, sinceTimestamp, limitTrades);
       return bitfinexLends;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error", e);
+      throw handleException(e);
     }
   }
 
@@ -98,7 +97,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
     try {
       return bitfinex.getSymbols();
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error", e);
+      throw handleException(e);
     }
   }
 
