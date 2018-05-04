@@ -45,7 +45,9 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    return getKucoinTickers().getData().stream()
+    return getKucoinTickers()
+        .getData()
+        .stream()
         .map(KucoinAdapters::adaptTicker)
         .collect(Collectors.toList());
   }
