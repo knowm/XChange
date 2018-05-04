@@ -48,6 +48,8 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
             String status = item.get("status").toString();
             String amount = item.get("amount").toString();
             String account = item.get("account").toString();
+            String provider = item.get("provider").toString();
+            String description = (account + " " + provider).trim();
 
             String address = null;
             if (account.startsWith(curr + ":")) {
@@ -75,7 +77,7 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
                     statusEnum,
                     null,
                     null,
-                    account
+                    description
             );
 
             results.add(fundingRecord);

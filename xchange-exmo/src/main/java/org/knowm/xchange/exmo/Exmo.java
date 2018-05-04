@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+//todo: strongly type the returned values
+
 @Path("v1")
 public interface Exmo {
 
@@ -77,4 +79,10 @@ public interface Exmo {
     @Path("/wallet_history/")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     Map<String, Object> walletHistory(@HeaderParam("Sign") ExmoDigest signatureCreator, @HeaderParam("Key") String publicKey, @FormParam("nonce") SynchronizedValueFactory<Long> nonceFactory, @QueryParam("date") long date);
+
+    @POST
+    @Path("/withdraw_crypt/")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    Map<String, Object> withdrawCrypt(@HeaderParam("Sign") ExmoDigest signatureCreator, @HeaderParam("Key") String publicKey, @FormParam("nonce") SynchronizedValueFactory<Long> nonceFactory,
+                                      @QueryParam("amount") BigDecimal amount, @QueryParam("currency") String currency, @QueryParam("address") String address, @QueryParam("invoice") String invoice);
 }
