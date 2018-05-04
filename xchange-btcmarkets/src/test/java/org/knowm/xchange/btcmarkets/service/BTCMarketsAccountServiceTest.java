@@ -76,18 +76,19 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
   @Test
   public void withdrawFundsShouldRetrnTheStatus() throws IOException {
 
-    String status = "the-status";//maybe the id would be more useful?
-    BTCMarketsWithdrawCryptoResponse response = new BTCMarketsWithdrawCryptoResponse(true, null, null, status, "id", "desc", "ccy", BigDecimal.ONE, BigDecimal.ONE, 0L);
+    String status = "the-status"; // maybe the id would be more useful?
+    BTCMarketsWithdrawCryptoResponse response =
+        new BTCMarketsWithdrawCryptoResponse(
+            true, null, null, status, "id", "desc", "ccy", BigDecimal.ONE, BigDecimal.ONE, 0L);
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
     PowerMockito.when(
             btcm.withdrawCrypto(
-                    Mockito.eq(SPECIFICATION_API_KEY),
-                    Mockito.any(SynchronizedValueFactory.class),
-                    Mockito.any(BTCMarketsDigest.class),
-                    Mockito.any(BTCMarketsWithdrawCryptoRequest.class)
-            ))
-            .thenReturn(response);
+                Mockito.eq(SPECIFICATION_API_KEY),
+                Mockito.any(SynchronizedValueFactory.class),
+                Mockito.any(BTCMarketsDigest.class),
+                Mockito.any(BTCMarketsWithdrawCryptoRequest.class)))
+        .thenReturn(response);
     Whitebox.setInternalState(accountService, "btcm", btcm);
 
     // when

@@ -52,7 +52,7 @@ public final class Model {
       @JsonProperty("status") String status,
       @JsonProperty("bitcoin_account_id") String bitcoinAccountId,
       @JsonProperty("leverage_level") Integer leverageLevel,
-      @JsonProperty("funding_currency") String fundingCurrency){
+      @JsonProperty("funding_currency") String fundingCurrency) {
     this.id = id;
     this.orderType = orderType;
     this.quantity = quantity;
@@ -125,7 +125,6 @@ public final class Model {
     return fundingCurrency;
   }
 
-
   @Override
   public String toString() {
     return "Model [id="
@@ -154,9 +153,8 @@ public final class Model {
         + bitcoinAccountId
         + ", leverageLevel="
         + leverageLevel
-            + ",fundingCurrency="
-            +fundingCurrency
-            + "]";
+        + ",fundingCurrency="
+        + fundingCurrency
+        + "]";
   }
-
 }
