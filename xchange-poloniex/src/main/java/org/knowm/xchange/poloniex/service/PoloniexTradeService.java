@@ -1,13 +1,5 @@
 package org.knowm.xchange.poloniex.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -31,6 +23,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -38,6 +31,15 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements TradeService {
 
@@ -130,10 +132,19 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
       startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
     }
+
+    Integer limit = 500;
+    if (params instanceof TradeHistoryParamLimit) {
+        TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
+        limit = tradeHistoryParamLimit.getLimit();
+    }
+
     return getTradeHistory(
         currencyPair,
         DateUtils.toUnixTimeNullSafe(startTime),
-        DateUtils.toUnixTimeNullSafe(endTime));
+        DateUtils.toUnixTimeNullSafe(endTime),
+        limit
+    );
   }
 
   public BigDecimal getMakerFee() throws IOException {
@@ -147,12 +158,12 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   private UserTrades getTradeHistory(
-      CurrencyPair currencyPair, final Long startTime, final Long endTime) throws IOException {
+      CurrencyPair currencyPair, final Long startTime, final Long endTime, Integer limit) throws IOException {
 
     List<UserTrade> trades = new ArrayList<>();
     if (currencyPair == null) {
       HashMap<String, PoloniexUserTrade[]> poloniexUserTrades =
-          returnTradeHistory(startTime, endTime);
+          returnTradeHistory(startTime, endTime, limit);
       if (poloniexUserTrades != null) {
         for (Map.Entry<String, PoloniexUserTrade[]> mapEntry : poloniexUserTrades.entrySet()) {
           currencyPair = PoloniexUtils.toCurrencyPair(mapEntry.getKey());
@@ -162,7 +173,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
         }
       }
     } else {
-      PoloniexUserTrade[] poloniexUserTrades = returnTradeHistory(currencyPair, startTime, endTime);
+      PoloniexUserTrade[] poloniexUserTrades = returnTradeHistory(currencyPair, startTime, endTime, limit);
       if (poloniexUserTrades != null) {
         for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
           trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
