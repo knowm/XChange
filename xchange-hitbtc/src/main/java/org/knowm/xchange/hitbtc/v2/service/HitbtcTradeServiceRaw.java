@@ -90,13 +90,13 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     return hitbtc.getHitbtcRecentOrders();
   }
 
-  public List<HitbtcOwnTrade> getTradeHistoryRaw(String symbol, long limit, long offset)
+  public List<HitbtcOwnTrade> getTradeHistoryRaw(String symbol, Integer limit, long offset)
       throws IOException {
     return hitbtc.getHitbtcTrades(symbol, null, null, null, null, limit, offset);
   }
 
   public List<HitbtcOwnTrade> getTradeHistoryRaw(
-      String symbol, HitbtcSort sort, Date from, Date till, long limit, long offset)
+      String symbol, HitbtcSort sort, Date from, Date till, Integer limit, long offset)
       throws IOException {
     String sortValue = sort != null ? sort.toString().toUpperCase() : null;
     String fromValue = from != null ? Instant.ofEpochMilli(from.getTime()).toString() : null;
@@ -106,7 +106,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   }
 
   public List<HitbtcOwnTrade> getTradeHistoryRaw(
-      String symbol, HitbtcSort sort, Long fromId, Date tillId, long limit, long offset)
+      String symbol, HitbtcSort sort, Long fromId, Date tillId, Integer limit, long offset)
       throws IOException {
     String sortValue = sort != null ? sort.toString().toUpperCase() : null;
     String fromValue = fromId != null ? fromId.toString() : null;

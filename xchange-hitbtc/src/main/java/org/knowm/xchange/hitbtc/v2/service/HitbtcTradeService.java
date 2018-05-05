@@ -70,7 +70,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    long limit = 1000;
+    Integer limit = 1000;
     long offset = 0;
 
     if (params instanceof TradeHistoryParamLimit) {
