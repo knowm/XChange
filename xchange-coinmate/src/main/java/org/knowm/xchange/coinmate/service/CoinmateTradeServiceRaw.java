@@ -56,7 +56,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getExchangeSpecification().getApiKey());
   }
 
-  public CoinmateTransactionHistory getCoinmateTradeHistory(int offset, int limit, String sort)
+  public CoinmateTransactionHistory getCoinmateTradeHistory(int offset, Integer limit, String sort)
       throws IOException {
     CoinmateTransactionHistory tradeHistory =
         coinmateAuthenticated.getTransactionHistory(

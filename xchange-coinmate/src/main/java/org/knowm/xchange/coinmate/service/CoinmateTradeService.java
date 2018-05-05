@@ -130,7 +130,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     TradeHistoryParamsSorted.Order order = TradeHistoryParamsSorted.Order.asc;
-    int limit = 1000;
+    Integer limit = 1000;
     int offset = 0;
 
     if (params instanceof TradeHistoryParamOffset) {
