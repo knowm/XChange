@@ -1,11 +1,5 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -15,6 +9,13 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 public class HitbtcTradeServiceRaw extends HitbtcBaseService {
 
@@ -113,8 +114,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     return hitbtc.getHitbtcTrades(symbol, sortValue, "id", fromValue, tillValue, limit, offset);
   }
 
-  public HitbtcOrder getHitbtcOrder(String symbol, String orderId) throws IOException {
-    List<HitbtcOrder> orders = hitbtc.getHitbtcOrder(symbol, orderId);
+  public HitbtcOrder getHitbtcOrder(String symbol, String clientOrderId) throws IOException {
+    List<HitbtcOrder> orders = hitbtc.getHitbtcOrder(symbol, clientOrderId);
 
     if (orders == null || orders.size() == 0) {
       return null;
