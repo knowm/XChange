@@ -82,6 +82,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair ETH_BTC = new CurrencyPair(Currency.ETH, Currency.BTC);
   public static final CurrencyPair ETH_GBP = new CurrencyPair(Currency.ETH, Currency.GBP);
   public static final CurrencyPair ETH_USD = new CurrencyPair(Currency.ETH, Currency.USD);
+  public static final CurrencyPair ETH_USDT = new CurrencyPair(Currency.ETH, Currency.USDT);
   public static final CurrencyPair ETH_EUR = new CurrencyPair(Currency.ETH, Currency.EUR);
   public static final CurrencyPair ETH_JPY = new CurrencyPair(Currency.ETH, Currency.JPY);
   public static final CurrencyPair ETH_CNY = new CurrencyPair(Currency.ETH, Currency.CNY);
@@ -210,6 +211,14 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair OMG_USD = new CurrencyPair(Currency.OMG, Currency.USD);
   public static final CurrencyPair OMG_BTC = new CurrencyPair(Currency.OMG, Currency.BTC);
   public static final CurrencyPair OMG_ETH = new CurrencyPair(Currency.OMG, Currency.ETH);
+  //end
+  
+  // NEO
+  public static final CurrencyPair NEO_USD = new CurrnecyPair(Currency.NEO, Currency.USD);
+  public static final CurrencyPair NEO_USDT = new CurrnecyPair(Currency.NEO, Currency.USDT);
+  public static final CurrencyPair NEO_BTC = new CurrnecyPair(Currency.NEO, Currency.BTC);
+  public static final CurrencyPair NEO_ETH = new CurrnecyPair(Currency.NEO, Currency.ETH);
+  //end
 
   // not real currencies, but tradable commodities (GH/s)
   public static final CurrencyPair GHs_BTC = new CurrencyPair(Currency.GHs, Currency.BTC);
