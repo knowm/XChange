@@ -1,13 +1,5 @@
 package org.knowm.xchange.hitbtc.v2;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -37,6 +29,19 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class HitbtcAdapters {
 
@@ -169,7 +174,7 @@ public class HitbtcAdapters {
             type,
             hitbtcOrder.quantity,
             adaptSymbol(hitbtcOrder.symbol),
-            hitbtcOrder.clientOrderId,
+            hitbtcOrder.id,
             hitbtcOrder.getCreatedAt(),
             hitbtcOrder.price,
             null, // exchange does not provide average price
@@ -212,7 +217,6 @@ public class HitbtcAdapters {
       Date timestamp = hitbtcOwnTrade.getTimestamp();
 
       String id = Long.toString(hitbtcOwnTrade.getId());
-
       UserTrade trade =
           new UserTrade(
               type,
@@ -221,7 +225,7 @@ public class HitbtcAdapters {
               hitbtcOwnTrade.getPrice(),
               timestamp,
               id,
-              hitbtcOwnTrade.getClientOrderId(),
+              String.valueOf(hitbtcOwnTrade.getOrderId()),
               hitbtcOwnTrade.getFee(),
               Currency.getInstance(pair.counter.getCurrencyCode()));
 
