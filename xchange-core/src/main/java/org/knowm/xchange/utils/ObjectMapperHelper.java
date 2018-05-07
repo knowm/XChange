@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,9 +37,18 @@ public class ObjectMapperHelper {
   }
 
   public static <T> String toJSON(T valueType) {
+    return toJSON(valueType, SerializationFeature.INDENT_OUTPUT);
+  }
 
+  public static <T> String toCompactJSON(T valueType) {
+    return toJSON(valueType);
+  }
+
+  private static <T> String toJSON(T valueType, SerializationFeature... features) {
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    for (SerializationFeature feature : features) {
+      objectMapper.enable(feature);
+    }
     String json = "Problem serializing " + valueType.getClass();
     try {
       json = objectMapper.writeValueAsString(valueType);

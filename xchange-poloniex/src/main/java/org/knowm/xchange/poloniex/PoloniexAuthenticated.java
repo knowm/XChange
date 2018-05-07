@@ -103,7 +103,8 @@ public interface PoloniexAuthenticated {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("currencyPair") String currencyPair,
       @FormParam("start") Long startTime,
-      @FormParam("end") Long endTime)
+      @FormParam("end") Long endTime,
+      @FormParam("limit") Integer limit)
       throws PoloniexException, IOException;
 
   @POST
@@ -141,6 +142,7 @@ public interface PoloniexAuthenticated {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("start") Long startTime,
       @FormParam("end") Long endTime,
+      @FormParam("limit") Integer limit,
       @FormParam("ignore") String overload)
       throws PoloniexException, IOException;
 

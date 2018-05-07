@@ -124,7 +124,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     }
   }
 
-  public GeminiTradeResponse[] getGeminiTradeHistory(String symbol, long timestamp, int limit)
+  public GeminiTradeResponse[] getGeminiTradeHistory(String symbol, long timestamp, Integer limit)
       throws IOException {
 
     try {
