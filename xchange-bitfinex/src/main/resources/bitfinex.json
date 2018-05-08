@@ -6,7 +6,8 @@
     },
     "BTG/USD": {
       "price_scale": 2,
-      "min_amount": 0.01000000
+      "min_amount": 0.01000000,
+      "trading_fee": 0.002
     },
     "BTC/EUR": {
       "price_scale": 2,
@@ -14,7 +15,8 @@
     },
     "BTC/GBP": {
       "price_scale": 2,
-      "min_amount": 0.01000000
+      "min_amount": 0.01000000,
+      "trading_fee": 0.002
     },
     "LTC/USD": {
       "price_scale": 4,
@@ -34,11 +36,13 @@
     },
     "ETH/EUR": {
       "price_scale": 4,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "ETH/GBP": {
       "price_scale": 4,
-      "min_amount": 0.10000000
+      "min_amount": 0.10000000,
+      "trading_fee": 0.002
     },
     "ETH/BTC": {
       "price_scale": 6,
