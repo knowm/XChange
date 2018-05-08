@@ -10,9 +10,7 @@ import org.knowm.xchange.dsx.DSXExchange;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author Mikhail Wall
- */
+/** @author Mikhail Wall */
 public class TickerFetchIntegration {
 
   @Test

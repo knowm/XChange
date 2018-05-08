@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitmarket.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketBalance;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class BitMarketTrade {
 
   private final long id;
@@ -20,7 +17,9 @@ public class BitMarketTrade {
    * @param order
    * @param balance
    */
-  public BitMarketTrade(@JsonProperty("id") long id, @JsonProperty("order") BitMarketOrder order,
+  public BitMarketTrade(
+      @JsonProperty("id") long id,
+      @JsonProperty("order") BitMarketOrder order,
       @JsonProperty("balances") BitMarketBalance balance) {
 
     this.id = id;

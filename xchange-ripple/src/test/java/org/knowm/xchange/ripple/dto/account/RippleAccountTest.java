@@ -2,14 +2,12 @@ package org.knowm.xchange.ripple.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RippleAccountTest {
 
@@ -50,7 +48,10 @@ public class RippleAccountTest {
   @Test
   public void unmarshalSettingsTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/account/example-account-settings-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/account/example-account-settings-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleSettings settings = mapper.readValue(is, RippleAccountSettings.class).getSettings();
 

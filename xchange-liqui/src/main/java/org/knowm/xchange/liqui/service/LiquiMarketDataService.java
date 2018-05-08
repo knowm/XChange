@@ -1,7 +1,6 @@
 package org.knowm.xchange.liqui.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -16,17 +15,20 @@ public class LiquiMarketDataService extends LiquiMarketDataServiceRaw implements
   }
 
   @Override
-  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args) throws IOException {
+  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args)
+      throws IOException {
     return LiquiAdapters.adaptTicker(getTicker(currencyPair), currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args) throws IOException {
+  public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args)
+      throws IOException {
     return LiquiAdapters.adaptOrderBook(getDepth(currencyPair, 2000), currencyPair);
   }
 
   @Override
-  public Trades getTrades(final CurrencyPair currencyPair, final Object... args) throws IOException {
+  public Trades getTrades(final CurrencyPair currencyPair, final Object... args)
+      throws IOException {
     return LiquiAdapters.adaptTrades(getTrades(currencyPair, 2000), currencyPair);
   }
 }

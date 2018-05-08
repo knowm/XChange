@@ -7,11 +7,11 @@ import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
 
 public class BTCMarketsExampleUtils {
 
-  private BTCMarketsExampleUtils() {
-  }
+  private BTCMarketsExampleUtils() {}
 
   public static Exchange createTestExchange() {
-    Exchange btcMarketsExchange = ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getName());
+    Exchange btcMarketsExchange =
+        ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getName());
     ExchangeSpecification spec = btcMarketsExchange.getExchangeSpecification();
 
     // Set your actual credentials here for the demos to work.

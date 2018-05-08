@@ -3,10 +3,9 @@ package org.knowm.xchange.coinmarketcap.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @author allenday
- */
-public class CoinMarketCapHistoricalSpotPrice implements Comparable<CoinMarketCapHistoricalSpotPrice> {
+/** @author allenday */
+public class CoinMarketCapHistoricalSpotPrice
+    implements Comparable<CoinMarketCapHistoricalSpotPrice> {
 
   private final Date timestamp;
   private final BigDecimal spotRate;
@@ -34,5 +33,4 @@ public class CoinMarketCapHistoricalSpotPrice implements Comparable<CoinMarketCa
 
     return this.timestamp.compareTo(o.timestamp);
   }
-
 }

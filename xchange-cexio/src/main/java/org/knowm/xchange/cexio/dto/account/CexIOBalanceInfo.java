@@ -1,16 +1,15 @@
 package org.knowm.xchange.cexio.dto.account;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @JsonDeserialize(using = CexIOBalanceInfo.Deserializer.class)
 public class CexIOBalanceInfo {
@@ -20,7 +19,8 @@ public class CexIOBalanceInfo {
   private final String username;
   private final Map<String, CexIOBalance> balances;
 
-  public CexIOBalanceInfo(String error, Long timestamp, String username, Map<String, CexIOBalance> balances) {
+  public CexIOBalanceInfo(
+      String error, Long timestamp, String username, Map<String, CexIOBalance> balances) {
     this.error = error;
     this.timestamp = timestamp;
     this.username = username;
@@ -46,7 +46,8 @@ public class CexIOBalanceInfo {
   static class Deserializer extends JsonDeserializer<CexIOBalanceInfo> {
 
     @Override
-    public CexIOBalanceInfo deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException {
+    public CexIOBalanceInfo deserialize(JsonParser jsonParser, DeserializationContext context)
+        throws IOException {
       Long timestamp = null;
       String username = null;
       String error = null;
@@ -67,8 +68,10 @@ public class CexIOBalanceInfo {
         } else if (key.equalsIgnoreCase("error")) {
           error = node.asText();
         } else if (node.isObject()) {
-          BigDecimal available = node.has("available") ? new BigDecimal(node.get("available").asText()) : null;
-          BigDecimal orders = node.has("orders") ? new BigDecimal(node.get("orders").asText()) : null;
+          BigDecimal available =
+              node.has("available") ? new BigDecimal(node.get("available").asText()) : null;
+          BigDecimal orders =
+              node.has("orders") ? new BigDecimal(node.get("orders").asText()) : null;
           BigDecimal bonus = node.has("bonus") ? new BigDecimal(node.get("bonus").asText()) : null;
           balances.put(key, new CexIOBalance(available, orders, bonus));
         }
@@ -77,5 +80,4 @@ public class CexIOBalanceInfo {
       return new CexIOBalanceInfo(error, timestamp, username, balances);
     }
   }
-
 }

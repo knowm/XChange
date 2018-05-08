@@ -27,5 +27,4 @@ public class EmpoExException extends RuntimeException {
   public void setMessage(String message) {
     this.message = message;
   }
-
 }

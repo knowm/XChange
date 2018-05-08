@@ -1,8 +1,6 @@
 package org.knowm.xchange.koineks.dto.marketdata;
 
-/**
- * Created by semihunaldi on 05/12/2017
- */
+/** Created by semihunaldi on 05/12/2017 */
 public class KoineksCurrency {
   public static final String BTC = "BTC";
   public static final String ETH = "ETH";

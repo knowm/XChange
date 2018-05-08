@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeBalance;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeWallet;
@@ -28,8 +28,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class BTCTradeAdaptersTest {
 
   private final ObjectMapper mapper = new ObjectMapper();
@@ -37,7 +35,9 @@ public class BTCTradeAdaptersTest {
   @Test
   public void testAdaptTicker() throws IOException {
 
-    BTCTradeTicker btcTradeTicker = mapper.readValue(getClass().getResource("dto/marketdata/ticker.json"), BTCTradeTicker.class);
+    BTCTradeTicker btcTradeTicker =
+        mapper.readValue(
+            getClass().getResource("dto/marketdata/ticker.json"), BTCTradeTicker.class);
     Ticker ticker = BTCTradeAdapters.adaptTicker(btcTradeTicker, CurrencyPair.BTC_CNY);
     assertEquals(new BigDecimal("3760"), ticker.getHigh());
     assertEquals(new BigDecimal("3658"), ticker.getLow());
@@ -50,7 +50,8 @@ public class BTCTradeAdaptersTest {
   @Test
   public void testAdaptOrderBook() throws IOException {
 
-    BTCTradeDepth btcTradeDepth = mapper.readValue(getClass().getResource("dto/marketdata/depth.json"), BTCTradeDepth.class);
+    BTCTradeDepth btcTradeDepth =
+        mapper.readValue(getClass().getResource("dto/marketdata/depth.json"), BTCTradeDepth.class);
     OrderBook orderBook = BTCTradeAdapters.adaptOrderBook(btcTradeDepth, CurrencyPair.BTC_CNY);
     assertEquals(50, orderBook.getAsks().size());
     assertEquals(50, orderBook.getBids().size());
@@ -81,7 +82,9 @@ public class BTCTradeAdaptersTest {
   @Test
   public void testAdaptTradesBTCTradeTradeArrayCurrencyPair() throws IOException {
 
-    BTCTradeTrade[] btcTradeTrades = mapper.readValue(getClass().getResource("dto/marketdata/trades.json"), BTCTradeTrade[].class);
+    BTCTradeTrade[] btcTradeTrades =
+        mapper.readValue(
+            getClass().getResource("dto/marketdata/trades.json"), BTCTradeTrade[].class);
 
     Trades trades = BTCTradeAdapters.adaptTrades(btcTradeTrades, CurrencyPair.BTC_CNY);
     List<Trade> tradeList = trades.getTrades();
@@ -100,22 +103,24 @@ public class BTCTradeAdaptersTest {
 
     assertEquals(new Date(1403428819L * 1000L), tradeList.get(tradeList.size() - 2).getTimestamp());
     assertEquals(new BigDecimal("3740.01"), tradeList.get(tradeList.size() - 2).getPrice());
-    assertEquals(new BigDecimal("0.01000000000"), tradeList.get(tradeList.size() - 2).getOriginalAmount());
+    assertEquals(
+        new BigDecimal("0.01000000000"), tradeList.get(tradeList.size() - 2).getOriginalAmount());
     assertEquals("2896235", tradeList.get(tradeList.size() - 2).getId());
     assertEquals(OrderType.ASK, tradeList.get(tradeList.size() - 2).getType());
 
     assertEquals(new Date(1403428797L * 1000L), tradeList.get(tradeList.size() - 1).getTimestamp());
     assertEquals(new BigDecimal("3752"), tradeList.get(tradeList.size() - 1).getPrice());
-    assertEquals(new BigDecimal("16.70000000000"), tradeList.get(tradeList.size() - 1).getOriginalAmount());
+    assertEquals(
+        new BigDecimal("16.70000000000"), tradeList.get(tradeList.size() - 1).getOriginalAmount());
     assertEquals("2896239", tradeList.get(tradeList.size() - 1).getId());
     assertEquals(OrderType.BID, tradeList.get(tradeList.size() - 1).getType());
-
   }
 
   @Test
   public void testAdaptAccountInfo() throws IOException {
 
-    BTCTradeBalance balance = mapper.readValue(getClass().getResource("dto/account/balance.json"), BTCTradeBalance.class);
+    BTCTradeBalance balance =
+        mapper.readValue(getClass().getResource("dto/account/balance.json"), BTCTradeBalance.class);
 
     Wallet wallet = BTCTradeAdapters.adaptWallet(balance);
     assertNull(wallet.getId());
@@ -134,7 +139,10 @@ public class BTCTradeAdaptersTest {
   @Test
   public void testAdaptAccountInfoError() throws IOException {
 
-    BTCTradeBalance balance = mapper.readValue(getClass().getResource("dto/account/balance-signature-error.json"), BTCTradeBalance.class);
+    BTCTradeBalance balance =
+        mapper.readValue(
+            getClass().getResource("dto/account/balance-signature-error.json"),
+            BTCTradeBalance.class);
 
     try {
       BTCTradeAdapters.adaptWallet(balance);
@@ -147,7 +155,8 @@ public class BTCTradeAdaptersTest {
   @Test
   public void testAdaptDepositAddress() throws IOException {
 
-    BTCTradeWallet wallet = mapper.readValue(getClass().getResource("dto/account/wallet.json"), BTCTradeWallet.class);
+    BTCTradeWallet wallet =
+        mapper.readValue(getClass().getResource("dto/account/wallet.json"), BTCTradeWallet.class);
 
     String depositAddress = BTCTradeAdapters.adaptDepositAddress(wallet);
     assertEquals("MASKED ADDRESS", depositAddress);
@@ -156,7 +165,9 @@ public class BTCTradeAdaptersTest {
   @Test
   public void testAdaptOpenOrders() throws IOException {
 
-    BTCTradeOrder[] btcTradeOrders = mapper.readValue(getClass().getResource("dto/trade/orders-open.json"), BTCTradeOrder[].class);
+    BTCTradeOrder[] btcTradeOrders =
+        mapper.readValue(
+            getClass().getResource("dto/trade/orders-open.json"), BTCTradeOrder[].class);
 
     OpenOrders openOrders = BTCTradeAdapters.adaptOpenOrders(btcTradeOrders);
     List<LimitOrder> openOrderList = openOrders.getOpenOrders();
@@ -187,7 +198,8 @@ public class BTCTradeAdaptersTest {
     assertEquals(BTCTradeAdapters.zeroIfNull(new BigDecimal(0)), BigDecimal.ZERO);
     assertEquals(BTCTradeAdapters.zeroIfNull(null), BigDecimal.ZERO);
 
-    assertEquals(BTCTradeAdapters.nullSafeSum(BigDecimal.ONE, new BigDecimal(2)), new BigDecimal(3));
+    assertEquals(
+        BTCTradeAdapters.nullSafeSum(BigDecimal.ONE, new BigDecimal(2)), new BigDecimal(3));
     assertEquals(BTCTradeAdapters.nullSafeSum(BigDecimal.ONE, null), BigDecimal.ONE);
     assertEquals(BTCTradeAdapters.nullSafeSum(null, new BigDecimal(2)), new BigDecimal(2));
     assertEquals(BTCTradeAdapters.nullSafeSum(null, null), BigDecimal.ZERO);

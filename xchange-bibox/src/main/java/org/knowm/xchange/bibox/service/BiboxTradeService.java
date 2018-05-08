@@ -3,7 +3,6 @@ package org.knowm.xchange.bibox.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.dto.Order;
@@ -20,9 +19,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeService {
 
   public BiboxTradeService(Exchange exchange) {
@@ -76,21 +73,25 @@ public class BiboxTradeService extends BiboxTradeServiceRaw implements TradeServ
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    throw new NotYetImplementedForExchangeException(
+        "This operation is not yet implemented for this exchange");
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    throw new NotYetImplementedForExchangeException(
+        "This operation is not yet implemented for this exchange");
   }
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    throw new NotYetImplementedForExchangeException(
+        "This operation is not yet implemented for this exchange");
   }
 
   @Override
   public String placeStopOrder(StopOrder arg0) throws IOException {
-    throw new NotYetImplementedForExchangeException("This operation is not yet implemented for this exchange");
+    throw new NotYetImplementedForExchangeException(
+        "This operation is not yet implemented for this exchange");
   }
 }

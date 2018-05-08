@@ -1,31 +1,22 @@
 package org.knowm.xchange.poloniex.dto;
 
 import java.util.List;
-
 import org.knowm.xchange.dto.LoanOrder;
 
-/**
- * <p>
- * DTO representing loan information
- * </p>
- */
+/** DTO representing loan information */
 public final class LoanInfo {
 
-  /**
-   * Provided loans
-   */
+  /** Provided loans */
   private final List<LoanOrder> providedLoans;
 
-  /**
-   * Used loans
-   */
+  /** Used loans */
   private final List<LoanOrder> usedLoans;
 
   /**
    * Constructs an {@link LoanInfo}.
    *
    * @param providedLoans provided loans.
-   * @param usedLoans     used loans.
+   * @param usedLoans used loans.
    */
   public LoanInfo(List<LoanOrder> providedLoans, List<LoanOrder> usedLoans) {
     this.providedLoans = providedLoans;
@@ -39,5 +30,4 @@ public final class LoanInfo {
   public List<LoanOrder> getUsedLoans() {
     return usedLoans;
   }
-
 }

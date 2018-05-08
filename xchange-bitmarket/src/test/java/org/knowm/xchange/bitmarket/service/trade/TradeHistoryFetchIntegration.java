@@ -9,9 +9,7 @@ import org.knowm.xchange.bitmarket.ExchangeUtils;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class TradeHistoryFetchIntegration {
   private Exchange exchange;
 
@@ -24,14 +22,15 @@ public class TradeHistoryFetchIntegration {
   @Test
   public void fetchOpenOrdersTest() throws Exception {
 
-    if (exchange.getExchangeSpecification().getApiKey() == null || exchange.getExchangeSpecification().getSecretKey() == null) {
+    if (exchange.getExchangeSpecification().getApiKey() == null
+        || exchange.getExchangeSpecification().getSecretKey() == null) {
       return; // forces pass if there is no keys passed
     }
 
     TradeService service = exchange.getTradeService();
     assertNotNull(service);
 
-    //verify history info exists
+    // verify history info exists
     UserTrades trades = service.getTradeHistory(service.createTradeHistoryParams());
     assertNotNull(trades);
   }

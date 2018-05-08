@@ -2,15 +2,13 @@ package org.knowm.xchange.bitstamp.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest.Status;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest.Type;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class WithdrawalsJSONTest {
 
@@ -22,7 +20,10 @@ public class WithdrawalsJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    List<WithdrawalRequest> withdrawals = mapper.readValue(is, mapper.getTypeFactory().constructCollectionType(List.class, WithdrawalRequest.class));
+    List<WithdrawalRequest> withdrawals =
+        mapper.readValue(
+            is,
+            mapper.getTypeFactory().constructCollectionType(List.class, WithdrawalRequest.class));
 
     assertThat(withdrawals.size()).isEqualTo(4);
     assertThat(withdrawals.get(0).getType()).isEqualTo(Type.bitcoin);

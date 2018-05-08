@@ -3,7 +3,6 @@ package org.knowm.xchange.poloniex.service;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -58,7 +57,6 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
     }
-
   }
 
   public PoloniexTicker getPoloniexTicker(CurrencyPair currencyPair) throws IOException {
@@ -136,7 +134,8 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair) throws IOException {
+  public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair)
+      throws IOException {
 
     String command = "returnTradeHistory";
     String pairString = PoloniexUtils.toPairString(currencyPair);
@@ -149,7 +148,8 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
+  public PoloniexPublicTrade[] getPoloniexPublicTrades(
+      CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
 
     String command = "returnTradeHistory";
     String pairString = PoloniexUtils.toPairString(currencyPair);
@@ -162,14 +162,16 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexChartData[] getPoloniexChartData(CurrencyPair currencyPair, Long startTime, Long endTime, PoloniexChartDataPeriodType period)
+  public PoloniexChartData[] getPoloniexChartData(
+      CurrencyPair currencyPair, Long startTime, Long endTime, PoloniexChartDataPeriodType period)
       throws IOException {
 
     String command = "returnChartData";
     String pairString = PoloniexUtils.toPairString(currencyPair);
 
     try {
-      PoloniexChartData[] chartData = poloniex.getChartData(command, pairString, startTime, endTime, period.getPeriod());
+      PoloniexChartData[] chartData =
+          poloniex.getChartData(command, pairString, startTime, endTime, period.getPeriod());
       return chartData;
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);

@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.coinbase.account.merchant;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseOrder;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseOrders;
@@ -11,9 +10,7 @@ import org.knowm.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
 import org.knowm.xchange.coinbase.service.CoinbaseAccountService;
 import org.knowm.xchange.examples.coinbase.CoinbaseDemoUtils;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseMerchantDemo {
 
   public static void main(String[] args) throws IOException {

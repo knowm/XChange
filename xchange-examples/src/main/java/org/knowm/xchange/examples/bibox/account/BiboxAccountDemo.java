@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.bibox.account;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
 import org.knowm.xchange.bibox.service.BiboxAccountServiceRaw;
@@ -30,7 +29,6 @@ public class BiboxAccountDemo {
 
     Map<Currency, Balance> balances = accountService.getAccountInfo().getWallet().getBalances();
     System.out.println(balances);
-
   }
 
   private static void raw(BiboxAccountServiceRaw accountService) throws IOException {

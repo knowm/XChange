@@ -1,18 +1,17 @@
 package org.knowm.xchange.independentreserve.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: Kamil Zbikowski Date: 4/10/15
- */
+/** Author: Kamil Zbikowski Date: 4/10/15 */
 public class OrderBookOrder {
   private final String orderType;
   private final BigDecimal price;
   private final BigDecimal volume;
 
-  public OrderBookOrder(@JsonProperty("OrderType") String orderType, @JsonProperty("Price") BigDecimal price,
+  public OrderBookOrder(
+      @JsonProperty("OrderType") String orderType,
+      @JsonProperty("Price") BigDecimal price,
       @JsonProperty("Volume") BigDecimal volume) {
     this.orderType = orderType;
     this.price = price;
@@ -33,6 +32,14 @@ public class OrderBookOrder {
 
   @Override
   public String toString() {
-    return "OrderBookOrder{" + "orderType='" + orderType + '\'' + ", price=" + price + ", volume=" + volume + '}';
+    return "OrderBookOrder{"
+        + "orderType='"
+        + orderType
+        + '\''
+        + ", price="
+        + price
+        + ", volume="
+        + volume
+        + '}';
   }
 }

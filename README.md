@@ -7,7 +7,7 @@ consistent interface for trading and accessing market data.
 
 ## Important!
 
-The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Knowm's Twitter page](https://twitter.com/knowmorg). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). There are also most likely some open [bounties](http://knowm.org/open-source/) to be had as well.
+The world of Bitcoin changes quickly and XChange is no exception. For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). 
 
 ## Description
 
@@ -79,6 +79,7 @@ Looking for streaming API? Use library [xchange-stream](https://github.com/bitri
 * [New Implementation Best Practices](https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices)
 * [Installing SSL Certificates into TrustStore](https://github.com/timmolter/XChange/wiki/Installing-SSL-Certificates-into-TrustStore)
 * [Getting Started with XChange for Noobies](https://github.com/timmolter/XChange/wiki/Getting-Started-with-XChange-for-Noobies)
+* [Code Style](https://github.com/timmolter/XChange/wiki/Code-Style)
 
 ## Continuous Integration
 
@@ -102,17 +103,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>4.3.4</version>
+      <version>4.3.5</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>4.3.4</version>
+      <version>4.3.5</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
-      <version>4.3.4</version>
+      <version>4.3.5</version>
     </dependency>
 
 For snapshots, add the following repository to your pom.xml file.
@@ -125,7 +126,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.3.5-SNAPSHOT
+    4.3.6-SNAPSHOT
     
 ## Building with Maven
 
@@ -135,6 +136,7 @@ install in local Maven repo: `mvn clean install`
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
 check for dependency updates: `mvn versions:display-dependency-updates`
+code format: `mvn com.coveo:fmt-maven-plugin:format`
 
 ## Bugs
 
@@ -146,6 +148,3 @@ If you'd like to submit a new implementation for another exchange, please take a
 
 For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/timmolter/XChange/wiki). 
 
-## Donations
-
-All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/xchart/issues?state=open). Donation addresses, open bounties and bounties paid thus far can be found on Knowm's [bounties](http://knowm.org/open-source/) page.

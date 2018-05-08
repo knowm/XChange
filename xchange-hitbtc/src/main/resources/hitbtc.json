@@ -3,20 +3,11 @@
     "LTC/BTC": {
       "price_scale": 8
     },
-    "LTC/EUR": {
-      "price_scale": 8
-    },
     "ETH/BTC": {
       "price_scale": 8
     },
     "DOGE/BTC": {
       "price_scale": 9
-    },
-    "BTC/EUR": {
-      "price_scale": 4
-    },
-    "ETH/EUR": {
-      "price_scale": 4
     },
     "XMR/BTC": {
       "price_scale": 8
@@ -117,6 +108,5 @@
       "scale": 8,
       "withdrawal_fee": 0.01
     }
-
   }
 }

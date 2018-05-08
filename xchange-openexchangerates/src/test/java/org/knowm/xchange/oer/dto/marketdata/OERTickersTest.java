@@ -2,17 +2,13 @@ package org.knowm.xchange.oer.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import org.junit.Test;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class OERTickersTest {
 
   @Test

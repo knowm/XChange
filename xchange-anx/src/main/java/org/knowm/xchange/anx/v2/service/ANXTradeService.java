@@ -3,7 +3,6 @@ package org.knowm.xchange.anx.v2.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXAdapters;
@@ -26,10 +25,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.Assert;
 import org.knowm.xchange.utils.DateUtils;
+import si.mazi.rescu.IRestProxyFactory;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXTradeService extends ANXTradeServiceRaw implements TradeService {
 
   /**
@@ -37,9 +35,9 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
    *
    * @param baseExchange
    */
-  public ANXTradeService(BaseExchange baseExchange) {
+  public ANXTradeService(BaseExchange baseExchange, IRestProxyFactory restProxyFactory) {
 
-    super(baseExchange);
+    super(baseExchange, restProxyFactory);
   }
 
   @Override
@@ -69,7 +67,8 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
       throw new IllegalArgumentException("originalAmount scale exceeds max");
     }
 
-    if (limitOrder.getLimitPrice().scale() > ANXUtils.getMaxPriceScale(limitOrder.getCurrencyPair())) {
+    if (limitOrder.getLimitPrice().scale()
+        > ANXUtils.getMaxPriceScale(limitOrder.getCurrencyPair())) {
       throw new IllegalArgumentException("price scale exceeds max");
     }
 
@@ -112,12 +111,11 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
       throw new IllegalStateException(error);
     }
 
-    return ANXAdapters.adaptUserTrades(rawTrades.getAnxTradeResults(), ((ANXExchange) exchange).getANXMetaData());
+    return ANXAdapters.adaptUserTrades(
+        rawTrades.getAnxTradeResults(), ((ANXExchange) exchange).getANXMetaData());
   }
 
-  /**
-   * Supported parameter types: {@link TradeHistoryParamsTimeSpan}
-   */
+  /** Supported parameter types: {@link TradeHistoryParamsTimeSpan} */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
@@ -146,5 +144,4 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
-
 }

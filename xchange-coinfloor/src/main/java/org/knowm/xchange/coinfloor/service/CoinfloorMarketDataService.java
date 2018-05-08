@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinfloor.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinfloor.CoinfloorAdapters;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorOrderBook;
@@ -13,7 +12,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class CoinfloorMarketDataService extends CoinfloorMarketDataServiceRaw implements MarketDataService {
+public class CoinfloorMarketDataService extends CoinfloorMarketDataServiceRaw
+    implements MarketDataService {
   public CoinfloorMarketDataService(Exchange exchange) {
     super(exchange);
   }

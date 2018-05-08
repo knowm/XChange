@@ -4,18 +4,15 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.lakebtc.LakeBTCExchange;
 
-/**
- * Created by cristian.lucaci on 12/19/2014.
- */
+/** Created by cristian.lucaci on 12/19/2014. */
 public class LakeBTCExamplesUtils {
 
-  private LakeBTCExamplesUtils() {
-
-  }
+  private LakeBTCExamplesUtils() {}
 
   public static Exchange createTestExchange() {
 
-    Exchange lakeBtcExchange = ExchangeFactory.INSTANCE.createExchange(LakeBTCExchange.class.getName());
+    Exchange lakeBtcExchange =
+        ExchangeFactory.INSTANCE.createExchange(LakeBTCExchange.class.getName());
 
     //    lakeBtcExchange.getExchangeSpecification().setSslUri("https://www.LakeBTC.com");
     //    lakeBtcExchange.getExchangeSpecification().setHost("https://lakebtc.com");

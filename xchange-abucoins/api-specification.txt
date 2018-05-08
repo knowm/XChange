@@ -1,4 +1,4 @@
-Cex.io Exchange API specification
+Abucoins Exchange API specification
 ================================
 
 Public API

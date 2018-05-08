@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -39,7 +38,15 @@ public final class EmpoExAdapters {
     BigDecimal counterVolume = new BigDecimal(raw.getBaseVolume24hr().replace(",", ""));
     BigDecimal volume = counterVolume.divide(last, new MathContext(8, RoundingMode.HALF_UP));
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(bid).ask(ask).volume(volume).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .high(high)
+        .low(low)
+        .bid(bid)
+        .ask(ask)
+        .volume(volume)
+        .build();
   }
 
   public static Trades adaptEmpoExTrades(List<EmpoExTrade> raw, CurrencyPair currencyPair) {
@@ -53,13 +60,21 @@ public final class EmpoExAdapters {
       BigDecimal amount = new BigDecimal(trade.getAmount().replace(",", ""));
       BigDecimal price = new BigDecimal(trade.getPrice().replace(",", ""));
 
-      trades.add(new Trade.Builder().currencyPair(currencyPair).price(price).originalAmount(amount).timestamp(date).type(type).build());
+      trades.add(
+          new Trade.Builder()
+              .currencyPair(currencyPair)
+              .price(price)
+              .originalAmount(amount)
+              .timestamp(date)
+              .type(type)
+              .build());
     }
 
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static OrderBook adaptEmpoExDepth(Map<String, List<EmpoExLevel>> raw, CurrencyPair currencyPair) {
+  public static OrderBook adaptEmpoExDepth(
+      Map<String, List<EmpoExLevel>> raw, CurrencyPair currencyPair) {
 
     List<EmpoExLevel> rawAsks = raw.get("sell");
     List<EmpoExLevel> rawBids = raw.get("buy");
@@ -71,14 +86,22 @@ public final class EmpoExAdapters {
 
       BigDecimal amount = new BigDecimal(ask.getAmount().replace(",", ""));
       BigDecimal price = new BigDecimal(ask.getPrice().replace(",", ""));
-      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).originalAmount(amount).limitPrice(price).build());
+      asks.add(
+          new LimitOrder.Builder(OrderType.ASK, currencyPair)
+              .originalAmount(amount)
+              .limitPrice(price)
+              .build());
     }
 
     for (EmpoExLevel bid : rawBids) {
 
       BigDecimal amount = new BigDecimal(bid.getAmount().replace(",", ""));
       BigDecimal price = new BigDecimal(bid.getPrice().replace(",", ""));
-      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).originalAmount(amount).limitPrice(price).build());
+      bids.add(
+          new LimitOrder.Builder(OrderType.BID, currencyPair)
+              .originalAmount(amount)
+              .limitPrice(price)
+              .build());
     }
 
     return new OrderBook(null, asks, bids);
@@ -91,7 +114,8 @@ public final class EmpoExAdapters {
     for (EmpoExBalance empoExBalance : raw) {
 
       BigDecimal balance = new BigDecimal(empoExBalance.getAmount().replace(",", ""));
-      balances.add(new Balance(Currency.getInstance(empoExBalance.getCoin().toUpperCase()), balance));
+      balances.add(
+          new Balance(Currency.getInstance(empoExBalance.getCoin().toUpperCase()), balance));
     }
 
     return new Wallet(null, balances);
@@ -122,7 +146,10 @@ public final class EmpoExAdapters {
     BigDecimal price = new BigDecimal(raw.getValue().replace(",", ""));
     OrderType type = raw.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
-    return new LimitOrder.Builder(type, currencyPair).id(orderId).originalAmount(amount).limitPrice(price).build();
+    return new LimitOrder.Builder(type, currencyPair)
+        .id(orderId)
+        .originalAmount(amount)
+        .limitPrice(price)
+        .build();
   }
-
 }

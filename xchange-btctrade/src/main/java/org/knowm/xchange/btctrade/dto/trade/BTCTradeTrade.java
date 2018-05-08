@@ -1,8 +1,7 @@
 package org.knowm.xchange.btctrade.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BTCTradeTrade {
 
@@ -12,8 +11,12 @@ public class BTCTradeTrade {
   private final String datetime;
   private final BigDecimal fee;
 
-  public BTCTradeTrade(@JsonProperty("trade_id") String tradeId, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("datetime") String datetime, @JsonProperty("fee") BigDecimal fee) {
+  public BTCTradeTrade(
+      @JsonProperty("trade_id") String tradeId,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("datetime") String datetime,
+      @JsonProperty("fee") BigDecimal fee) {
 
     this.tradeId = tradeId;
     this.amount = amount;
@@ -46,5 +49,4 @@ public class BTCTradeTrade {
 
     return fee;
   }
-
 }

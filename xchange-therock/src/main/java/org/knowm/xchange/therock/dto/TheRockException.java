@@ -1,18 +1,15 @@
 package org.knowm.xchange.therock.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class TheRockException extends HttpStatusExceptionSupport {
 
   private List<Error> errors;
 
-  protected TheRockException() {
-  }
+  protected TheRockException() {}
 
   public TheRockException(@JsonProperty("errors") List<Error> errors) {
     super(getFirstMessage(errors));

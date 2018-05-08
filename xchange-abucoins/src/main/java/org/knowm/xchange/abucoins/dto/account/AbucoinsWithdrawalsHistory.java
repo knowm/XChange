@@ -1,13 +1,14 @@
 package org.knowm.xchange.abucoins.dto.account;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /withdrawals/history</code> endpoint.</p>
- * Example: <p/>
+ * POJO representing the output JSON for the Abucoins <code>GET /withdrawals/history</code>
+ * endpoint. Example:
+ *
+ * <p>
+ *
  * <table>
  * <thead>
  * <th><td>Field</td><td>Description</td></th>
@@ -38,13 +39,14 @@ public class AbucoinsWithdrawalsHistory {
   }
 
   /**
-   * Deserializer handles the success case (array json) as well as the error case
-   * (json object with <em>message</em> field).
+   * Deserializer handles the success case (array json) as well as the error case (json object with
+   * <em>message</em> field).
    *
    * @author bryant_harris
    */
   static class AbucoinsWithdrawalsHistoryDeserializer
-      extends AbucoinsArrayOrMessageDeserializer<AbucoinsWithdrawalHistory, AbucoinsWithdrawalsHistory> {
+      extends AbucoinsArrayOrMessageDeserializer<
+          AbucoinsWithdrawalHistory, AbucoinsWithdrawalsHistory> {
     public AbucoinsWithdrawalsHistoryDeserializer() {
       super(AbucoinsWithdrawalHistory.class, AbucoinsWithdrawalsHistory.class);
     }

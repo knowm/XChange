@@ -1,19 +1,18 @@
 package org.knowm.xchange.binance.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.Assert;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class BinancePrice implements Comparable<BinancePrice> {
 
   private final CurrencyPair pair;
   private final BigDecimal price;
 
-  public BinancePrice(@JsonProperty("symbol") String symbol, @JsonProperty("price") BigDecimal price) {
+  public BinancePrice(
+      @JsonProperty("symbol") String symbol, @JsonProperty("price") BigDecimal price) {
     this(CurrencyPairDeserializer.getCurrencyPairFromString(symbol), price);
   }
 
@@ -34,8 +33,7 @@ public final class BinancePrice implements Comparable<BinancePrice> {
 
   @Override
   public int compareTo(BinancePrice o) {
-    if (pair.compareTo(o.pair) == 0)
-      return price.compareTo(o.price);
+    if (pair.compareTo(o.pair) == 0) return price.compareTo(o.price);
     return pair.compareTo(o.pair);
   }
 
@@ -49,10 +47,8 @@ public final class BinancePrice implements Comparable<BinancePrice> {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (!(obj instanceof BinancePrice))
-      return false;
+    if (this == obj) return true;
+    if (!(obj instanceof BinancePrice)) return false;
     BinancePrice other = (BinancePrice) obj;
     return pair.equals(other.pair) && price.equals(other.price);
   }

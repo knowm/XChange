@@ -2,7 +2,6 @@ package org.xchange.bitz.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -23,17 +22,20 @@ public class BitZMarketDataService extends BitZMarketDataServiceRaw implements M
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BitZAdapters.adaptTicker(getBitZTicker(BitZUtils.toPairString(currencyPair)), currencyPair);
+    return BitZAdapters.adaptTicker(
+        getBitZTicker(BitZUtils.toPairString(currencyPair)), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BitZAdapters.adaptOrders(getBitZOrders(BitZUtils.toPairString(currencyPair)), currencyPair);
+    return BitZAdapters.adaptOrders(
+        getBitZOrders(BitZUtils.toPairString(currencyPair)), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BitZAdapters.adaptTrades(getBitZTrades(BitZUtils.toPairString(currencyPair)), currencyPair);
+    return BitZAdapters.adaptTrades(
+        getBitZTrades(BitZUtils.toPairString(currencyPair)), currencyPair);
   }
 
   // Exchange Specific Services

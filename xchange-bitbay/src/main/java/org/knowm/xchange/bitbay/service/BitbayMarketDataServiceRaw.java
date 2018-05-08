@@ -1,16 +1,13 @@
 package org.knowm.xchange.bitbay.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/**
- * @author kpysniak
- */
+/** @author kpysniak */
 public class BitbayMarketDataServiceRaw extends BitbayBaseService {
 
   /**
@@ -25,15 +22,18 @@ public class BitbayMarketDataServiceRaw extends BitbayBaseService {
 
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayTicker(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode());
+    return bitbay.getBitbayTicker(
+        currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode());
   }
 
   public BitbayOrderBook getBitbayOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode());
+    return bitbay.getBitbayOrderBook(
+        currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode());
   }
 
-  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair, Object[] args) throws IOException {
+  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair, Object[] args)
+      throws IOException {
     long since = 0;
     if (args.length >= 1 && args[0] != null) {
       since = ((Number) args[0]).longValue();
@@ -42,7 +42,9 @@ public class BitbayMarketDataServiceRaw extends BitbayBaseService {
     if (args.length == 2) {
       sort = (String) args[1];
     }
-    return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode(), since, sort);
+    return bitbay.getBitbayTrades(
+        currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode(),
+        since,
+        sort);
   }
-
 }
