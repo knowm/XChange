@@ -7,7 +7,6 @@ import org.knowm.xchange.utils.nonce.CurrentTime250NonceFactory;
 import org.knowm.xchange.vircurex.service.VircurexAccountService;
 import org.knowm.xchange.vircurex.service.VircurexMarketDataService;
 import org.knowm.xchange.vircurex.service.VircurexTradeService;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class VircurexExchange extends BaseExchange implements Exchange {
@@ -24,7 +23,8 @@ public class VircurexExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.vircurex.com");
     exchangeSpecification.setExchangeName("Vircurex");
 

@@ -1,14 +1,11 @@
 package org.knowm.xchange.wex.v3.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class WexPlaceOrderResult {
 
   private final long orderId; // 0 if order completely filled, initial order_id otherwise
@@ -24,8 +21,11 @@ public class WexPlaceOrderResult {
    * @param remains
    * @param funds
    */
-  public WexPlaceOrderResult(@JsonProperty("order_id") long orderId, @JsonProperty("received") BigDecimal received,
-      @JsonProperty("remains") BigDecimal remains, @JsonProperty("funds") Map<String, BigDecimal> funds) {
+  public WexPlaceOrderResult(
+      @JsonProperty("order_id") long orderId,
+      @JsonProperty("received") BigDecimal received,
+      @JsonProperty("remains") BigDecimal remains,
+      @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
     this.orderId = orderId;
     this.received = received;
@@ -56,6 +56,8 @@ public class WexPlaceOrderResult {
   @Override
   public String toString() {
 
-    return MessageFormat.format("WexPlaceOrderResult[orderId={0}, received={1}, remains={2}, funds={3}]", orderId, received, remains, funds);
+    return MessageFormat.format(
+        "WexPlaceOrderResult[orderId={0}, received={1}, remains={2}, funds={3}]",
+        orderId, received, remains, funds);
   }
 }

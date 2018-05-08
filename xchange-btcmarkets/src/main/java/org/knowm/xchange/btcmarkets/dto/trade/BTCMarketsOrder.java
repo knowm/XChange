@@ -1,21 +1,27 @@
 package org.knowm.xchange.btcmarkets.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import org.knowm.xchange.utils.jackson.BtcToSatoshi;
-import org.knowm.xchange.utils.jackson.MillisecTimestampDeserializer;
-import org.knowm.xchange.utils.jackson.SatoshiToBtc;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import org.knowm.xchange.utils.jackson.BtcToSatoshi;
+import org.knowm.xchange.utils.jackson.MillisecTimestampDeserializer;
+import org.knowm.xchange.utils.jackson.SatoshiToBtc;
 
-@JsonPropertyOrder({"currency", "instrument", "price", "volume", "orderSide", "ordertype", "clientRequestId"})
-//@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+  "currency",
+  "instrument",
+  "price",
+  "volume",
+  "orderSide",
+  "ordertype",
+  "clientRequestId"
+})
+// @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BTCMarketsOrder {
 
   @JsonSerialize(using = BtcToSatoshi.class)
@@ -50,10 +56,15 @@ public class BTCMarketsOrder {
 
   private List<BTCMarketsUserTrade> trades;
 
-  protected BTCMarketsOrder() {
-  }
+  protected BTCMarketsOrder() {}
 
-  public BTCMarketsOrder(BigDecimal volume, BigDecimal price, String currency, String instrument, Side orderSide, Type ordertype,
+  public BTCMarketsOrder(
+      BigDecimal volume,
+      BigDecimal price,
+      String currency,
+      String instrument,
+      Side orderSide,
+      Type ordertype,
       String clientRequestId) {
     this.volume = volume;
     this.price = price;
@@ -162,14 +173,28 @@ public class BTCMarketsOrder {
   public String toString() {
     return String.format(
         "BTCMarketsOrder{volume=%s, price=%s, currency='%s', instrument='%s', orderSide=%s, ordertype=%s, clientRequestId='%s', id=%d, creationTime=%s, status='%s', errorMessage='%s', openVolume=%s, trades=%s}",
-        volume, price, currency, instrument, orderSide, ordertype, clientRequestId, id, creationTime, status, errorMessage, openVolume, trades);
+        volume,
+        price,
+        currency,
+        instrument,
+        orderSide,
+        ordertype,
+        clientRequestId,
+        id,
+        creationTime,
+        status,
+        errorMessage,
+        openVolume,
+        trades);
   }
 
   public enum Side {
-    Bid, Ask
+    Bid,
+    Ask
   }
 
   public enum Type {
-    Limit, Market
+    Limit,
+    Market
   }
 }

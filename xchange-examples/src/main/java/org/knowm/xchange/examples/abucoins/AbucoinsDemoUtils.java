@@ -5,10 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.abucoins.AbucoinsExchange;
 
-/**
- * Author: bryant_harris
- */
-
+/** Author: bryant_harris */
 public class AbucoinsDemoUtils {
 
   public static Exchange createExchange() {
@@ -20,5 +17,4 @@ public class AbucoinsDemoUtils {
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
-
 }

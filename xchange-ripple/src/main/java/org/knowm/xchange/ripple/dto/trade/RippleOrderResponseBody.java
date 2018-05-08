@@ -1,8 +1,7 @@
 package org.knowm.xchange.ripple.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class RippleOrderResponseBody extends RippleOrderEntryRequestBody {
   @JsonProperty("account")
@@ -97,7 +96,16 @@ public class RippleOrderResponseBody extends RippleOrderEntryRequestBody {
   public String toString() {
     return String.format(
         "%s [type=%s, taker_pays=%s, taker_gets=%s, account=%s fee=%s, sequence=%d, cancel_sequence=%s, passive=%b, immediate_or_cancel=%b, fill_or_kill=%b]",
-        getClass().getSimpleName(), getType(), getTakerPays(), getTakerGets(), account, fee, sequence, cancelSequence, passive, immediateOrCancel,
+        getClass().getSimpleName(),
+        getType(),
+        getTakerPays(),
+        getTakerGets(),
+        account,
+        fee,
+        sequence,
+        cancelSequence,
+        passive,
+        immediateOrCancel,
         fillOrKill);
   }
 }

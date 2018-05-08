@@ -2,14 +2,13 @@ package org.knowm.xchange.therock.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * https://api.therocktrading.com/doc/v1/index.html#api-Trading_API-Trades
- */
+/** https://api.therocktrading.com/doc/v1/index.html#api-Trading_API-Trades */
 public class TheRockUserTrades {
 
   private final TheRockUserTrade[] trades;
 
-  public TheRockUserTrades(@JsonProperty("trades") TheRockUserTrade[] trades, @JsonProperty("meta") Object ignored) {
+  public TheRockUserTrades(
+      @JsonProperty("trades") TheRockUserTrade[] trades, @JsonProperty("meta") Object ignored) {
     this.trades = trades;
   }
 
@@ -20,5 +19,4 @@ public class TheRockUserTrades {
   public TheRockUserTrade[] getTrades() {
     return trades;
   }
-
 }

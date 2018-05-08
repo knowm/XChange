@@ -16,7 +16,7 @@ public class CoinbaseExchangeRateData {
     this.data = data;
   }
 
-  static public class CoinbaseExchangeRates {
+  public static class CoinbaseExchangeRates {
 
     private String currency;
     private Map<String, BigDecimal> rates;
@@ -30,4 +30,3 @@ public class CoinbaseExchangeRateData {
     }
   }
 }
-

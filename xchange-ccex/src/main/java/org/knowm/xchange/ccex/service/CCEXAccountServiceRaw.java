@@ -2,7 +2,6 @@ package org.knowm.xchange.ccex.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ccex.dto.account.CCEXBalance;
 import org.knowm.xchange.ccex.dto.account.CCEXBalanceResponse;
@@ -17,7 +16,8 @@ public class CCEXAccountServiceRaw extends CCEXBaseService {
 
   public List<CCEXBalance> getCCEXAccountInfo() throws IOException {
 
-    CCEXBalancesResponse response = cCEXAuthenticated.balances(apiKey, signatureCreator, exchange.getNonceFactory());
+    CCEXBalancesResponse response =
+        cCEXAuthenticated.balances(apiKey, signatureCreator, exchange.getNonceFactory());
 
     if (response.isSuccess()) {
       return response.getResult();
@@ -28,7 +28,9 @@ public class CCEXAccountServiceRaw extends CCEXBaseService {
 
   public String getCCEXDepositAddress(String currency) throws IOException {
 
-    CCEXBalanceResponse response = cCEXAuthenticated.getdepositaddress(apiKey, signatureCreator, exchange.getNonceFactory(), currency);
+    CCEXBalanceResponse response =
+        cCEXAuthenticated.getdepositaddress(
+            apiKey, signatureCreator, exchange.getNonceFactory(), currency);
 
     if (response.isSuccess()) {
       return response.getResult().getCryptoAddress();

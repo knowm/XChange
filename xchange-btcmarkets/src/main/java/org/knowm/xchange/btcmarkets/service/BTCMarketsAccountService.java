@@ -3,7 +3,6 @@ package org.knowm.xchange.btcmarkets.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.currency.Currency;
@@ -16,10 +15,9 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/**
- * @author Matija Mazi
- */
-public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw implements AccountService {
+/** @author Matija Mazi */
+public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
+    implements AccountService {
 
   public BTCMarketsAccountService(Exchange exchange) {
     super(exchange);
@@ -27,11 +25,14 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw implem
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), BTCMarketsAdapters.adaptWallet(getBTCMarketsBalance()));
+    return new AccountInfo(
+        exchange.getExchangeSpecification().getUserName(),
+        BTCMarketsAdapters.adaptWallet(getBTCMarketsBalance()));
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -39,7 +40,10 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw implem
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      return withdrawCrypto(defaultWithdrawFundsParams.getAddress(), defaultWithdrawFundsParams.getAmount(), defaultWithdrawFundsParams.getCurrency());
+      return withdrawCrypto(
+          defaultWithdrawFundsParams.getAddress(),
+          defaultWithdrawFundsParams.getAmount(),
+          defaultWithdrawFundsParams.getCurrency());
     }
     throw new IllegalStateException("Cannot process " + params);
   }

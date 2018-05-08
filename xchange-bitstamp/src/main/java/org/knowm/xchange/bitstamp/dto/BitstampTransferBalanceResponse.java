@@ -7,7 +7,8 @@ public class BitstampTransferBalanceResponse {
   private final String status;
   private String reason;
 
-  protected BitstampTransferBalanceResponse(@JsonProperty("status") String status, @JsonProperty("reason") String reason) {
+  protected BitstampTransferBalanceResponse(
+      @JsonProperty("status") String status, @JsonProperty("reason") String reason) {
     this.status = status;
     this.reason = reason;
   }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitcoinde.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcoinde.BitcoindeAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,10 +10,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author matthewdowney
- */
-public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw implements MarketDataService {
+/** @author matthewdowney */
+public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -47,7 +45,8 @@ public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw im
       if (args[0] instanceof Integer) {
         since = (Integer) args[0];
       } else {
-        throw new IllegalArgumentException("Extra argument #1,  'since', must be an int (was " + args[0].getClass() + ")");
+        throw new IllegalArgumentException(
+            "Extra argument #1,  'since', must be an int (was " + args[0].getClass() + ")");
       }
     }
 

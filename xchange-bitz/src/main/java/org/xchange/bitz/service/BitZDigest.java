@@ -4,9 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.ws.rs.FormParam;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
@@ -38,8 +36,15 @@ public class BitZDigest implements ParamsDigest {
 
     // TODO: Find More Elegant Solution To Remove Sign
     // Order By Key Alphabetically, Concancecate Values
-    byte[] unsigned = params.entrySet().stream().sorted(Map.Entry.<String, String>comparingByKey()).filter(e -> !e.getKey().equalsIgnoreCase("sign"))
-                            .map(e -> e.getValue()).collect(Collectors.joining()).getBytes();
+    byte[] unsigned =
+        params
+            .entrySet()
+            .stream()
+            .sorted(Map.Entry.<String, String>comparingByKey())
+            .filter(e -> !e.getKey().equalsIgnoreCase("sign"))
+            .map(e -> e.getValue())
+            .collect(Collectors.joining())
+            .getBytes();
 
     // TODO: Determine Charceter Encoding
     return String.valueOf(md5.digest(unsigned));

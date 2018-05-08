@@ -2,10 +2,10 @@ package org.xchange.bitz;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -15,15 +15,14 @@ import org.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
 import org.xchange.bitz.dto.marketdata.result.BitZTickerResult;
 import org.xchange.bitz.dto.marketdata.result.BitZTradesResult;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class BitZAdapterTest {
 
   @Test
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitZAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        BitZAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -46,7 +45,8 @@ public class BitZAdapterTest {
   @Test
   public void testOrdersAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = BitZAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is =
+        BitZAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -69,7 +69,8 @@ public class BitZAdapterTest {
   @Test
   public void testTradesAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = BitZAdapterTest.class.getResourceAsStream("/marketdata/example-orders-data.json");
+    InputStream is =
+        BitZAdapterTest.class.getResourceAsStream("/marketdata/example-orders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

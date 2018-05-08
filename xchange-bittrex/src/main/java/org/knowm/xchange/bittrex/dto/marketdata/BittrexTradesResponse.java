@@ -1,8 +1,7 @@
 package org.knowm.xchange.bittrex.dto.marketdata;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class BittrexTradesResponse {
 
@@ -10,7 +9,9 @@ public class BittrexTradesResponse {
   private final String message;
   private final BittrexTrade[] trades;
 
-  public BittrexTradesResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+  public BittrexTradesResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("message") String message,
       @JsonProperty("result") BittrexTrade[] trades) {
 
     super();
@@ -37,7 +38,12 @@ public class BittrexTradesResponse {
   @Override
   public String toString() {
 
-    return "BittrexTradesResponse [success=" + success + ", message=" + message + ", trades=" + Arrays.toString(trades) + "]";
+    return "BittrexTradesResponse [success="
+        + success
+        + ", message="
+        + message
+        + ", trades="
+        + Arrays.toString(trades)
+        + "]";
   }
-
 }

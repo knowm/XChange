@@ -7,12 +7,9 @@ import org.knowm.xchange.taurus.service.TaurusAccountService;
 import org.knowm.xchange.taurus.service.TaurusMarketDataService;
 import org.knowm.xchange.taurus.service.TaurusTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class TaurusExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -26,7 +23,8 @@ public class TaurusExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.taurusexchange.com");
     exchangeSpecification.setHost("www.taurusexchange.com");
     exchangeSpecification.setPort(80);

@@ -1,7 +1,6 @@
 package org.knowm.xchange.empoex;
 
 import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
 
 public final class EmpoExUtils {

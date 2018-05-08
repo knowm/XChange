@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -34,10 +33,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/**
- * @author Felipe Micaroni Lalli
- */
-public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw implements TradeService {
+/** @author Felipe Micaroni Lalli */
+public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
+    implements TradeService {
 
   /**
    * Constructor
@@ -57,15 +55,18 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     // TODO use currency pair param
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersBitcoinResult = getMercadoBitcoinUserOrders("btc_brl", null, "active", null,
-        null, null, null);
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersLitecoinResult = getMercadoBitcoinUserOrders("ltc_brl", null, "active", null,
-        null, null, null);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersBitcoinResult =
+        getMercadoBitcoinUserOrders("btc_brl", null, "active", null, null, null, null);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersLitecoinResult =
+        getMercadoBitcoinUserOrders("ltc_brl", null, "active", null, null, null, null);
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
-    limitOrders.addAll(MercadoBitcoinAdapters.adaptOrders(CurrencyPair.BTC_BRL, openOrdersBitcoinResult));
-    limitOrders.addAll(MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currency.LTC, Currency.BRL), openOrdersLitecoinResult));
+    limitOrders.addAll(
+        MercadoBitcoinAdapters.adaptOrders(CurrencyPair.BTC_BRL, openOrdersBitcoinResult));
+    limitOrders.addAll(
+        MercadoBitcoinAdapters.adaptOrders(
+            new CurrencyPair(Currency.LTC, Currency.BRL), openOrdersLitecoinResult));
 
     return new OpenOrders(limitOrders);
   }
@@ -82,8 +83,9 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   /**
-   * The result is not the pure order id. It is a composition with the currency pair and the order id (the same format used as parameter of
-   * {@link #cancelOrder}). Please see {@link org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils#makeMercadoBitcoinOrderId} .
+   * The result is not the pure order id. It is a composition with the currency pair and the order
+   * id (the same format used as parameter of {@link #cancelOrder}). Please see {@link
+   * org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils#makeMercadoBitcoinOrderId} .
    */
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
@@ -106,10 +108,12 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
       type = "sell";
     }
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> newOrderResult = mercadoBitcoinPlaceLimitOrder(pair, type,
-        limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> newOrderResult =
+        mercadoBitcoinPlaceLimitOrder(
+            pair, type, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
 
-    return MercadoBitcoinUtils.makeMercadoBitcoinOrderId(limitOrder.getCurrencyPair(), newOrderResult.getTheReturn().keySet().iterator().next());
+    return MercadoBitcoinUtils.makeMercadoBitcoinOrderId(
+        limitOrder.getCurrencyPair(), newOrderResult.getTheReturn().keySet().iterator().next());
   }
 
   @Override
@@ -118,8 +122,9 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   /**
-   * The ID is composed by the currency pair and the id number separated by colon, like: <code>btc_brl:3498</code> Please see and use
-   * {@link org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils#makeMercadoBitcoinOrderId} .
+   * The ID is composed by the currency pair and the id number separated by colon, like: <code>
+   * btc_brl:3498</code> Please see and use {@link
+   * org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils#makeMercadoBitcoinOrderId} .
    */
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
@@ -141,8 +146,8 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   /**
-   * @param params Required parameter types: {@link TradeHistoryParamCurrencyPair}. Supported types: {@link TradeHistoryParamsIdSpan},
-   *               {@link TradeHistoryParamsTimeSpan}.
+   * @param params Required parameter types: {@link TradeHistoryParamCurrencyPair}. Supported types:
+   *     {@link TradeHistoryParamsIdSpan}, {@link TradeHistoryParamsTimeSpan}.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -164,9 +169,15 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
       toDate = toUnixTimeNullSafe(paramsTimeSpan.getEndTime());
     }
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> orders = getMercadoBitcoinUserOrders(MercadoBitcoinAdapters.adaptCurrencyPair(pair),
-        null, /* all */
-        null, fromId, toId, fromDate, toDate);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> orders =
+        getMercadoBitcoinUserOrders(
+            MercadoBitcoinAdapters.adaptCurrencyPair(pair),
+            null, /* all */
+            null,
+            fromId,
+            toId,
+            fromDate,
+            toDate);
 
     return MercadoBitcoinAdapters.toUserTrades(pair, orders);
   }
@@ -232,5 +243,4 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
       this.endTime = endTime;
     }
   }
-
 }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -74,9 +73,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     }
   }
 
-  /**
-   * Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair}
-   */
+  /** Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair} */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
@@ -122,8 +119,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     for (String orderId : orderIds) {
       HitbtcOrder rawOrder = getHitbtcOrder("BTCUSD", orderId);
 
-      if (rawOrder != null)
-        orders.add(HitbtcAdapters.adaptOrder(rawOrder));
+      if (rawOrder != null) orders.add(HitbtcAdapters.adaptOrder(rawOrder));
     }
 
     return orders;

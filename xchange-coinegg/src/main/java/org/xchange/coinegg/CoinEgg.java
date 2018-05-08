@@ -1,13 +1,11 @@
 package org.xchange.coinegg;
 
 import java.io.IOException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import org.xchange.coinegg.dto.marketdata.CoinEggOrders;
 import org.xchange.coinegg.dto.marketdata.CoinEggTicker;
 import org.xchange.coinegg.dto.marketdata.CoinEggTrade;
@@ -27,5 +25,4 @@ public interface CoinEgg {
   @GET
   @Path("depth?coin={symbol}")
   CoinEggOrders getOrders(@PathParam("symbol") String symbol) throws IOException;
-
 }

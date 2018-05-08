@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.acx;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -41,5 +40,4 @@ public class AcxMarketServiceDemo {
     System.out.println("First: " + trades.getTrades().get(0));
     System.out.println("Last: " + trades.getTrades().get(trades.getTrades().size() - 1));
   }
-
 }

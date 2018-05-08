@@ -1,8 +1,7 @@
 package org.knowm.xchange.gdax.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class GDAXTrade {
 
@@ -19,8 +18,12 @@ public class GDAXTrade {
    * @param size
    * @param side
    */
-  public GDAXTrade(@JsonProperty("time") String timestamp, @JsonProperty("trade_id") long tradeId, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("size") BigDecimal size, @JsonProperty("side") String side) {
+  public GDAXTrade(
+      @JsonProperty("time") String timestamp,
+      @JsonProperty("trade_id") long tradeId,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("side") String side) {
 
     this.timestamp = timestamp;
     this.tradeId = tradeId;
@@ -51,7 +54,16 @@ public class GDAXTrade {
 
   @Override
   public String toString() {
-    return "GDAXTrade [timestamp=" + timestamp + ", tradeId=" + tradeId + ", price=" + price + ", size=" + size + ", side=" + side + "]";
+    return "GDAXTrade [timestamp="
+        + timestamp
+        + ", tradeId="
+        + tradeId
+        + ", price="
+        + price
+        + ", size="
+        + size
+        + ", side="
+        + side
+        + "]";
   }
-
 }

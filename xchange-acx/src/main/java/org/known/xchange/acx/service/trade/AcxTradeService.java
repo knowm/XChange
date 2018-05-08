@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -34,7 +33,8 @@ public class AcxTradeService implements TradeService {
   private final AcxSignatureCreator signatureCreator;
   private final String accessKey;
 
-  public AcxTradeService(AcxApi api, AcxMapper mapper, AcxSignatureCreator signatureCreator, String accessKey) {
+  public AcxTradeService(
+      AcxApi api, AcxMapper mapper, AcxSignatureCreator signatureCreator, String accessKey) {
     this.api = api;
     this.mapper = mapper;
     this.signatureCreator = signatureCreator;
@@ -51,7 +51,8 @@ public class AcxTradeService implements TradeService {
     long tonce = System.currentTimeMillis();
     OpenOrdersParamCurrencyPair param = ArgUtils.tryCast(params, OpenOrdersParamCurrencyPair.class);
     CurrencyPair currencyPair = param.getCurrencyPair();
-    List<AcxOrder> orders = api.getOrders(accessKey, tonce, getAcxMarket(currencyPair), signatureCreator);
+    List<AcxOrder> orders =
+        api.getOrders(accessKey, tonce, getAcxMarket(currencyPair), signatureCreator);
     return new OpenOrders(mapper.mapOrders(currencyPair, orders));
   }
 
@@ -65,9 +66,11 @@ public class AcxTradeService implements TradeService {
     long tonce = System.currentTimeMillis();
     String market = getAcxMarket(limitOrder.getCurrencyPair());
     String side = mapper.getOrderType(limitOrder.getType());
-    String volume = limitOrder.getOriginalAmount().setScale(2, BigDecimal.ROUND_DOWN).toPlainString();
+    String volume =
+        limitOrder.getOriginalAmount().setScale(2, BigDecimal.ROUND_DOWN).toPlainString();
     String price = limitOrder.getLimitPrice().setScale(4, BigDecimal.ROUND_DOWN).toPlainString();
-    AcxOrder order = api.createOrder(accessKey, tonce, market, side, volume, price, "limit", signatureCreator);
+    AcxOrder order =
+        api.createOrder(accessKey, tonce, market, side, volume, price, "limit", signatureCreator);
     return order.id;
   }
 

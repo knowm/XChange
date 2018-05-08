@@ -1,12 +1,9 @@
 package org.knowm.xchange.vircurex.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Created by David Henry on 2/20/14.
- */
+/** Created by David Henry on 2/20/14. */
 public class VircurexOpenOrder {
 
   private final String orderId;
@@ -19,10 +16,15 @@ public class VircurexOpenOrder {
   private final String lastChangedDate;
   private final String releaseDate;
 
-  public VircurexOpenOrder(@JsonProperty("orderid") String orderId, @JsonProperty("ordertype") String orderType,
-      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("openquantity") BigDecimal openQuantity,
-      @JsonProperty("currency1") String baseCurrency, @JsonProperty("unitprice") BigDecimal unitPrice,
-      @JsonProperty("currency2") String counterCurrency, @JsonProperty("lastchangedat") String lastChangedDate,
+  public VircurexOpenOrder(
+      @JsonProperty("orderid") String orderId,
+      @JsonProperty("ordertype") String orderType,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("openquantity") BigDecimal openQuantity,
+      @JsonProperty("currency1") String baseCurrency,
+      @JsonProperty("unitprice") BigDecimal unitPrice,
+      @JsonProperty("currency2") String counterCurrency,
+      @JsonProperty("lastchangedat") String lastChangedDate,
       @JsonProperty("releasedat") String releaseDate) {
 
     this.orderId = orderId;

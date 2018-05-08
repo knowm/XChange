@@ -29,5 +29,4 @@ public class CoinEggTickerFetchIntegration {
     assertThat(ticker.getLow()).isNotNull();
     assertThat(ticker.getVolume()).isNotNull();
   }
-
 }

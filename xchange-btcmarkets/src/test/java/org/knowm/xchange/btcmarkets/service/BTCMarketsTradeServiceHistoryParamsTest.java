@@ -28,7 +28,8 @@ public class BTCMarketsTradeServiceHistoryParamsTest {
     historyParams.getPageNumber();
 
     // then
-    fail("BTCMarketsTradeService.HistoryParams should throw UnsupportedOperationException when call getPageNumber");
+    fail(
+        "BTCMarketsTradeService.HistoryParams should throw UnsupportedOperationException when call getPageNumber");
   }
 
   @Test(expected = UnsupportedOperationException.class)
@@ -40,6 +41,7 @@ public class BTCMarketsTradeServiceHistoryParamsTest {
     historyParams.setPageNumber(1);
 
     // then
-    fail("BTCMarketsTradeService.HistoryParams should throw UnsupportedOperationException when call setPageNumber");
+    fail(
+        "BTCMarketsTradeService.HistoryParams should throw UnsupportedOperationException when call setPageNumber");
   }
 }

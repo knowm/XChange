@@ -2,7 +2,6 @@ package org.knowm.xchange.service.trade.params.orders;
 
 import java.util.Collection;
 import java.util.Collections;
-
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class DefaultOpenOrdersParamMultiCurrencyPair implements OpenOrdersParamMultiCurrencyPair {

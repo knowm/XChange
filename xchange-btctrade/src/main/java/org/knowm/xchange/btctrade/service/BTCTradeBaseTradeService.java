@@ -1,9 +1,7 @@
 package org.knowm.xchange.btctrade.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
-
 import si.mazi.rescu.ParamsDigest;
 
 public class BTCTradeBaseTradeService extends BTCTradeBaseService {
@@ -34,5 +32,4 @@ public class BTCTradeBaseTradeService extends BTCTradeBaseService {
 
     return session.getSignatureCreator();
   }
-
 }

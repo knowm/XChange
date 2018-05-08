@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.junit.Test;
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
 import org.knowm.xchange.bleutrade.BleutradeAssert;
@@ -69,7 +68,8 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     final Trade[] expectedTrades = expectedTrades();
 
     // when
-    Trades trades = BleutradeAdapters.adaptBleutradeMarketHistory(response.getResult(), CurrencyPair.BTC_AUD);
+    Trades trades =
+        BleutradeAdapters.adaptBleutradeMarketHistory(response.getResult(), CurrencyPair.BTC_AUD);
 
     // then
     assertThat(trades.getlastID()).isEqualTo(0);
@@ -108,7 +108,8 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     final LimitOrder[] expectedAsks = expectedAsks();
 
     // when
-    OrderBook orderBook = BleutradeAdapters.adaptBleutradeOrderBook(response.getResult(), CurrencyPair.BTC_AUD);
+    OrderBook orderBook =
+        BleutradeAdapters.adaptBleutradeOrderBook(response.getResult(), CurrencyPair.BTC_AUD);
 
     // then
     List<LimitOrder> bids = orderBook.getBids();
@@ -148,7 +149,9 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     final String[] expectedMetaDataStr = expectedMetaDataStr();
 
     // when
-    ExchangeMetaData exchangeMetaData = BleutradeAdapters.adaptToExchangeMetaData(currenciesResponse.getResult(), marketsResponse.getResult());
+    ExchangeMetaData exchangeMetaData =
+        BleutradeAdapters.adaptToExchangeMetaData(
+            currenciesResponse.getResult(), marketsResponse.getResult());
 
     // then
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();
@@ -160,8 +163,10 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     assertThat(marketMetaDataMap).hasSize(2);
 
     // there is no reliable information about valid tradingFee calculation formula
-    BleutradeAssert.assertEquals(marketMetaDataMap.get(CurrencyPair.DOGE_BTC), expectedMetaDataList[0]);
-    assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo(expectedMetaDataStr[0]);
+    BleutradeAssert.assertEquals(
+        marketMetaDataMap.get(CurrencyPair.DOGE_BTC), expectedMetaDataList[0]);
+    assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
+        .isEqualTo(expectedMetaDataStr[0]);
 
     BleutradeAssert.assertEquals(marketMetaDataMap.get(BLEU_BTC_CP), expectedMetaDataList[1]);
     assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo(expectedMetaDataStr[1]);

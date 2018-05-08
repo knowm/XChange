@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -51,5 +50,4 @@ public class KrakenBaseServiceTest {
   private enum OtherExchangeFlags implements IOrderFlags {
     OTHER
   }
-
 }

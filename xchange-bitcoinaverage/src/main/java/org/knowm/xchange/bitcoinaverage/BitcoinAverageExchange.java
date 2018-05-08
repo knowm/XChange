@@ -2,7 +2,6 @@ package org.knowm.xchange.bitcoinaverage;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -11,7 +10,6 @@ import org.knowm.xchange.bitcoinaverage.service.BitcoinAverageMarketDataService;
 import org.knowm.xchange.bitcoinaverage.service.BitcoinAverageMarketDataServiceRaw;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitcoinAverageExchange extends BaseExchange implements Exchange {
@@ -25,13 +23,14 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://apiv2.bitcoinaverage.com");
     exchangeSpecification.setHost("bitcoinaverage.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin Average");
-    exchangeSpecification
-        .setExchangeDescription("Bitcoin Average provides a more accurate price of bitcoin using weighted average for multiple exchanges.");
+    exchangeSpecification.setExchangeDescription(
+        "Bitcoin Average provides a more accurate price of bitcoin using weighted average for multiple exchanges.");
 
     return exchangeSpecification;
   }
@@ -46,7 +45,9 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-    BitcoinAverageTickers tickers = ((BitcoinAverageMarketDataServiceRaw) marketDataService).getBitcoinAverageShortTickers("BTC");
+    BitcoinAverageTickers tickers =
+        ((BitcoinAverageMarketDataServiceRaw) marketDataService)
+            .getBitcoinAverageShortTickers("BTC");
     exchangeMetaData = BitcoinAverageAdapters.adaptMetaData(tickers, exchangeMetaData);
     // String json = ObjectMapperHelper.toJSON(exchangeMetaData);
     // System.out.println("json: " + json);

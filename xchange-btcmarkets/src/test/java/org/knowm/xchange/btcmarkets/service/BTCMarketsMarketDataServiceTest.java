@@ -6,7 +6,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +33,9 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
 
   @Before
   public void setUp() {
-    BTCMarketsExchange exchange = (BTCMarketsExchange) ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
+    BTCMarketsExchange exchange =
+        (BTCMarketsExchange)
+            ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
     ExchangeSpecification specification = exchange.getExchangeSpecification();
     specification.setUserName(SPECIFICATION_USERNAME);
     specification.setApiKey(SPECIFICATION_API_KEY);
@@ -94,7 +95,7 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
     marketDataService.getTrades(CurrencyPair.BTC_AUD);
 
     // then
-    fail("BTCMarketsMarketDataService should throw NotYetImplementedForExchangeException when call getTrades");
+    fail(
+        "BTCMarketsMarketDataService should throw NotYetImplementedForExchangeException when call getTrades");
   }
-
 }

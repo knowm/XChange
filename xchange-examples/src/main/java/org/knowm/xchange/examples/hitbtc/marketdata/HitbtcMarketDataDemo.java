@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.hitbtc.marketdata;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -21,13 +20,13 @@ public class HitbtcMarketDataDemo {
     Exchange hitbtcExchange = HitbtcExampleUtils.createExchange();
 
     hitbtcExchange.remoteInit();
-    System.out.println("Market metadata: " + hitbtcExchange.getExchangeMetaData().getCurrencyPairs().toString());
+    System.out.println(
+        "Market metadata: " + hitbtcExchange.getExchangeMetaData().getCurrencyPairs().toString());
 
     MarketDataService marketDataService = hitbtcExchange.getMarketDataService();
 
     generic(marketDataService);
     raw((HitbtcMarketDataServiceRaw) marketDataService);
-
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
@@ -38,7 +37,9 @@ public class HitbtcMarketDataDemo {
     // Get the latest order book data for BTC/USD
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
 
-    System.out.println("Current Order Book size for BTC/USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    System.out.println(
+        "Current Order Book size for BTC/USD: "
+            + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
 
@@ -49,7 +50,6 @@ public class HitbtcMarketDataDemo {
     // Get the latest trade data for BTC/USD
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println("Trades, default. Size=" + trades.getTrades().size());
-
   }
 
   private static void raw(HitbtcMarketDataServiceRaw marketDataService) throws IOException {
@@ -63,10 +63,10 @@ public class HitbtcMarketDataDemo {
     // Get the latest order book data for BTC/USD
     HitbtcOrderBook orderBook = marketDataService.getHitbtcOrderBook(CurrencyPair.BTC_USD);
 
-    System.out.println("Current Order Book size for BTC/USD: " + (orderBook.getAsks().length + orderBook.getBids().length));
+    System.out.println(
+        "Current Order Book size for BTC/USD: "
+            + (orderBook.getAsks().length + orderBook.getBids().length));
 
     System.out.println(orderBook);
-
   }
-
 }

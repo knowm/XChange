@@ -15,8 +15,7 @@ public class Util {
     DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
   }
 
-  private Util() {
-  }
+  private Util() {}
 
   /**
    * Format a date String for IR
@@ -25,13 +24,13 @@ public class Util {
    * @return formatted date for Independent Reserve
    */
   public static String formatDate(Date d) {
-    synchronized (DATE_FORMAT) {       // SimpleDateFormat is not thread safe, therefore synchronize it
+    synchronized (DATE_FORMAT) { // SimpleDateFormat is not thread safe, therefore synchronize it
       return d == null ? null : DATE_FORMAT.format(d);
     }
   }
 
-  public static Date toDate(String date) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public static Date toDate(String date)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     return org.knowm.xchange.utils.DateUtils.fromISO8601DateString(date);
   }
-
 }

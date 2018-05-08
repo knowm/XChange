@@ -3,7 +3,6 @@ package org.known.xchange.acx.service.account;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -23,7 +22,8 @@ public class AcxAccountService implements AccountService {
   private final AcxSignatureCreator signatureCreator;
   private final String accessKey;
 
-  public AcxAccountService(AcxApi api, AcxMapper mapper, AcxSignatureCreator signatureCreator, String accessKey) {
+  public AcxAccountService(
+      AcxApi api, AcxMapper mapper, AcxSignatureCreator signatureCreator, String accessKey) {
     this.api = api;
     this.mapper = mapper;
     this.signatureCreator = signatureCreator;

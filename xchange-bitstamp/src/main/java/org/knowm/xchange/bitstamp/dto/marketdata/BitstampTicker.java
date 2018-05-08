@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitstamp.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public final class BitstampTicker {
 
   private final BigDecimal last;
@@ -29,9 +26,15 @@ public final class BitstampTicker {
    * @param bid
    * @param ask
    */
-  public BitstampTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("ask") BigDecimal ask, @JsonProperty("timestamp") long timestamp) {
+  public BitstampTicker(
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("timestamp") long timestamp) {
 
     this.last = last;
     this.high = high;
@@ -41,7 +44,6 @@ public final class BitstampTicker {
     this.bid = bid;
     this.ask = ask;
     this.timestamp = timestamp;
-
   }
 
   public BigDecimal getLast() {
@@ -87,8 +89,22 @@ public final class BitstampTicker {
   @Override
   public String toString() {
 
-    return "BitstampTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid + ", ask="
-        + ask + ", timestamp=" + timestamp + "]";
+    return "BitstampTicker [last="
+        + last
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", vwap="
+        + vwap
+        + ", volume="
+        + volume
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", timestamp="
+        + timestamp
+        + "]";
   }
-
 }

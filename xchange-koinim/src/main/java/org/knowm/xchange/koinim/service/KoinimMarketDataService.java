@@ -1,7 +1,6 @@
 package org.knowm.xchange.koinim.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -11,10 +10,9 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.koinim.KoinimAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author ahmetoz
- */
-public class KoinimMarketDataService extends KoinimMarketDataServiceRaw implements MarketDataService {
+/** @author ahmetoz */
+public class KoinimMarketDataService extends KoinimMarketDataServiceRaw
+    implements MarketDataService {
 
   public KoinimMarketDataService(Exchange exchange) {
     super(exchange);

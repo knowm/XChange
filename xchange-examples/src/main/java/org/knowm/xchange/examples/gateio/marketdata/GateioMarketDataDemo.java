@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -46,7 +45,8 @@ public class GateioMarketDataDemo {
     List<Trade> trades = tradeHistory.getTrades();
     if (trades.size() > 1) {
       Trade trade = trades.get(trades.size() - 2);
-      tradeHistory = marketDataService.getTrades(CurrencyPair.BTC_USDT, Long.valueOf(trade.getId()));
+      tradeHistory =
+          marketDataService.getTrades(CurrencyPair.BTC_USDT, Long.valueOf(trade.getId()));
       System.out.println(tradeHistory);
     }
   }

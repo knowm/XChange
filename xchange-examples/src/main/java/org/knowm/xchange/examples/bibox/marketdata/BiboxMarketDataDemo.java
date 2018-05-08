@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.bibox.marketdata;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bibox.BiboxExchange;
@@ -30,7 +29,6 @@ public class BiboxMarketDataDemo {
 
     generic(marketDataService);
     raw((BiboxMarketDataServiceRaw) marketDataService);
-
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {

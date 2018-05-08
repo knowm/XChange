@@ -2,7 +2,6 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -36,7 +35,8 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
     return getKrakenOHLC(currencyPair, null, null);
   }
 
-  public KrakenOHLCs getKrakenOHLC(CurrencyPair currencyPair, Integer interval, Long since) throws IOException {
+  public KrakenOHLCs getKrakenOHLC(CurrencyPair currencyPair, Integer interval, Long since)
+      throws IOException {
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
     KrakenOHLCResult OHLCResult = kraken.getOHLC(krakenCurrencyPair, interval, since);
     return checkResult(OHLCResult);
@@ -50,7 +50,8 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
     return checkResult(tickerResult).get(krakenCurrencyPair);
   }
 
-  public Map<String, KrakenTicker> getKrakenTicker(CurrencyPair... currencyPairs) throws IOException {
+  public Map<String, KrakenTicker> getKrakenTickers(CurrencyPair... currencyPairs)
+      throws IOException {
 
     KrakenTickerResult tickerResult = kraken.getTicker(delimitAssetPairs(currencyPairs));
 
@@ -70,7 +71,8 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
     return getKrakenTrades(currencyPair, null);
   }
 
-  public KrakenPublicTrades getKrakenTrades(CurrencyPair currencyPair, Long since) throws IOException {
+  public KrakenPublicTrades getKrakenTrades(CurrencyPair currencyPair, Long since)
+      throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
     KrakenPublicTradesResult result = kraken.getTrades(krakenCurrencyPair, since);
@@ -78,12 +80,14 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
     return checkResult(result);
   }
 
-  public KrakenSpreads getKrakenSpreads(Currency tradableIdentifier, Currency currency) throws IOException {
+  public KrakenSpreads getKrakenSpreads(Currency tradableIdentifier, Currency currency)
+      throws IOException {
 
     return getKrakenSpreads(tradableIdentifier, currency, null);
   }
 
-  private KrakenSpreads getKrakenSpreads(Currency tradableIdentifier, Currency currency, Long since) throws IOException {
+  private KrakenSpreads getKrakenSpreads(Currency tradableIdentifier, Currency currency, Long since)
+      throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenSpreadsResult spreadsResult = kraken.getSpread(krakenCurrencyPair, since);
@@ -93,9 +97,9 @@ public class KrakenMarketDataServiceRaw extends KrakenBaseService {
 
   public KrakenAssetPairs getKrakenAssetPairs(CurrencyPair... currencyPairs) throws IOException {
 
-    KrakenAssetPairsResult assetPairsResult = kraken.getAssetPairs(delimitAssetPairs(currencyPairs));
+    KrakenAssetPairsResult assetPairsResult =
+        kraken.getAssetPairs(delimitAssetPairs(currencyPairs));
 
     return new KrakenAssetPairs(checkResult(assetPairsResult));
   }
-
 }

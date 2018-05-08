@@ -1,8 +1,6 @@
 package org.knowm.xchange.coinbase.dto;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public abstract class CoinbasePagedResult {
 
   private final int totalCount;
@@ -34,7 +32,12 @@ public abstract class CoinbasePagedResult {
   @Override
   public String toString() {
 
-    return "CoinbasePagedResult [totalCount=" + totalCount + ", numPages=" + numPages + ", currentPage=" + currentPage + "]";
+    return "CoinbasePagedResult [totalCount="
+        + totalCount
+        + ", numPages="
+        + numPages
+        + ", currentPage="
+        + currentPage
+        + "]";
   }
-
 }

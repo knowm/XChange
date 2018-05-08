@@ -1,22 +1,19 @@
 package org.knowm.xchange.bitcointoyou.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Generated;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * @author Jonathas Carrijo
@@ -29,25 +26,22 @@ public class BitcointoyouOrderBook {
 
   private final List<List<BigDecimal>> asks;
   private final List<List<BigDecimal>> bids;
-  @JsonIgnore
-  private final Map<String, Object> additionalProperties = new HashMap<>();
+  @JsonIgnore private final Map<String, Object> additionalProperties = new HashMap<>();
 
-  public BitcointoyouOrderBook(@JsonProperty("asks") List<List<BigDecimal>> asks, @JsonProperty("bids") List<List<BigDecimal>> bids) {
+  public BitcointoyouOrderBook(
+      @JsonProperty("asks") List<List<BigDecimal>> asks,
+      @JsonProperty("bids") List<List<BigDecimal>> bids) {
     this.asks = asks;
     this.bids = bids;
   }
 
-  /**
-   * @return The asks
-   */
+  /** @return The asks */
   public List<List<BigDecimal>> getAsks() {
 
     return asks;
   }
 
-  /**
-   * @return The bids
-   */
+  /** @return The bids */
   public List<List<BigDecimal>> getBids() {
 
     return bids;
@@ -70,7 +64,11 @@ public class BitcointoyouOrderBook {
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder().append(asks).append(bids).append(additionalProperties).toHashCode();
+    return new HashCodeBuilder()
+        .append(asks)
+        .append(bids)
+        .append(additionalProperties)
+        .toHashCode();
   }
 
   @Override
@@ -82,7 +80,10 @@ public class BitcointoyouOrderBook {
       return false;
     }
     BitcointoyouOrderBook rhs = ((BitcointoyouOrderBook) other);
-    return new EqualsBuilder().append(asks, rhs.asks).append(bids, rhs.bids).append(additionalProperties, rhs.additionalProperties).isEquals();
+    return new EqualsBuilder()
+        .append(asks, rhs.asks)
+        .append(bids, rhs.bids)
+        .append(additionalProperties, rhs.additionalProperties)
+        .isEquals();
   }
-
 }

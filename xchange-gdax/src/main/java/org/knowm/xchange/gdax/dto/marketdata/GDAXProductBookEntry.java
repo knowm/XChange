@@ -2,9 +2,7 @@ package org.knowm.xchange.gdax.dto.marketdata;
 
 import java.math.BigDecimal;
 
-/**
- * Created by Yingzhe on 4/6/2015.
- */
+/** Created by Yingzhe on 4/6/2015. */
 public abstract class GDAXProductBookEntry {
 
   private final BigDecimal price;
@@ -30,5 +28,4 @@ public abstract class GDAXProductBookEntry {
   public String toString() {
     return "GDAXProductBookEntry [price=" + price + ", volume=" + volume + "]";
   }
-
 }

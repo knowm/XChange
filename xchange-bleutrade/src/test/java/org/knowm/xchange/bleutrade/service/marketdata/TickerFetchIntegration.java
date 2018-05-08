@@ -11,9 +11,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.CertHelper;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class TickerFetchIntegration {
 
   @Test
@@ -24,10 +22,10 @@ public class TickerFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getName());
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();
-    CurrencyPair market = exchange.getExchangeMetaData().getCurrencyPairs().keySet().iterator().next();
+    CurrencyPair market =
+        exchange.getExchangeMetaData().getCurrencyPairs().keySet().iterator().next();
     Ticker ticker = marketDataService.getTicker(market);
-    System.out.println(ticker.toString());
+    //    System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
-
 }

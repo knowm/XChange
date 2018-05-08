@@ -2,13 +2,11 @@ package org.knowm.xchange.coinfloor.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
 import org.knowm.xchange.dto.Order.OrderType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinfloorOpenOrdersTest {
   @Test

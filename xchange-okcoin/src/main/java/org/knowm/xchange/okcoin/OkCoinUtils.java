@@ -7,7 +7,7 @@ import java.util.TimeZone;
 public class OkCoinUtils {
 
   public static Long toEpoch(Date dateTime, String timeZone) {
-    //Epoch of midnight in local time zone
+    // Epoch of midnight in local time zone
     Calendar timeOffset = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
     timeOffset.set(Calendar.MILLISECOND, 0);
     timeOffset.set(Calendar.SECOND, 0);

@@ -24,5 +24,4 @@ public class BitfinexCancelOrderMultiResponse {
   public String toString() {
     return "BitfinexCancelOrderMultiResponse [result=" + result + "]";
   }
-
 }

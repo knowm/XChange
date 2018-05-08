@@ -2,11 +2,11 @@ package org.knowm.xchange.btcmarkets.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
@@ -23,8 +23,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
   @Test
@@ -35,7 +33,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(response[2].getCurrency()).isEqualTo("LTC");
     assertThat(response[2].getBalance()).isEqualTo(new BigDecimal("10.00000000"));
     assertThat(response[2].getPendingFunds()).isEqualTo(new BigDecimal("0E-8"));
-    assertThat(response[2].toString()).isEqualTo("BTCMarketsBalance{pendingFunds=0E-8, balance=10.00000000, currency='LTC'}");
+    assertThat(response[2].toString())
+        .isEqualTo("BTCMarketsBalance{pendingFunds=0E-8, balance=10.00000000, currency='LTC'}");
   }
 
   @Test
@@ -44,7 +43,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     final BTCMarketsBalance[] expectedBtcMarketsBalances = expectedBtcMarketsBalances();
 
     // when
-    final BTCMarketsBalance[] response = parse("NullAvailabilityBalances", BTCMarketsBalance[].class);
+    final BTCMarketsBalance[] response =
+        parse("NullAvailabilityBalances", BTCMarketsBalance[].class);
 
     // then
     assertThat(response).hasSize(3);
@@ -65,7 +65,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   @Test
   public void shouldParseEmptyCancelOrderResponse() throws IOException {
     // when
-    final BTCMarketsCancelOrderResponse response = parse("EmptyCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
+    final BTCMarketsCancelOrderResponse response =
+        parse("EmptyCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
 
     // then
     assertThat(response.getSuccess()).isTrue();
@@ -76,7 +77,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   @Test
   public void shouldParseNullCancelOrderResponse() throws IOException {
     // when
-    final BTCMarketsCancelOrderResponse response = parse("NullCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
+    final BTCMarketsCancelOrderResponse response =
+        parse("NullCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
 
     // then
     assertThat(response.getSuccess()).isTrue();
@@ -150,17 +152,22 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(asks).hasSize(3);
 
     for (int i = 0; i < asks.size(); i++) {
-      BtcMarketsAssert.assertEquals(expectedAsks[i], Order.OrderType.ASK, CurrencyPair.BTC_AUD, asks.get(i));
+      BtcMarketsAssert.assertEquals(
+          expectedAsks[i], Order.OrderType.ASK, CurrencyPair.BTC_AUD, asks.get(i));
     }
 
     List<BigDecimal[]> bids = response.getBids();
     assertThat(bids).hasSize(2);
     for (int i = 0; i < bids.size(); i++) {
-      BtcMarketsAssert.assertEquals(expectedBids[i], Order.OrderType.BID, CurrencyPair.BTC_AUD, bids.get(i));
+      BtcMarketsAssert.assertEquals(
+          expectedBids[i], Order.OrderType.BID, CurrencyPair.BTC_AUD, bids.get(i));
     }
 
     assertThat(response.toString())
-        .isEqualTo(String.format("BTCMarketsOrderBook{currency='AUD', instrument='BTC', timestamp=%s, bids=2, asks=3}", new Date(1442997827000L)));
+        .isEqualTo(
+            String.format(
+                "BTCMarketsOrderBook{currency='AUD', instrument='BTC', timestamp=%s, bids=2, asks=3}",
+                new Date(1442997827000L)));
   }
 
   @Test
@@ -194,7 +201,9 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(response.getErrorMessage()).isNull();
     assertThat(response.getId()).isEqualTo(100);
     assertThat(response.getClientRequestId()).isEqualTo("abc-cdf-1000");
-    assertThat(response.toString()).isEqualTo("BTCMarketsPlaceOrderResponse{success=true, errorMessage='null', errorCode=null}");
+    assertThat(response.toString())
+        .isEqualTo(
+            "BTCMarketsPlaceOrderResponse{success=true, errorMessage='null', errorCode=null}");
   }
 
   @Test
@@ -209,7 +218,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   @Test
   public void shouldParseTradeHistory() throws IOException {
     // given
-    final List<BTCMarketsUserTrade> expectedParsedBtcMarketsUserTrades = expectedParsedBtcMarketsUserTrades();
+    final List<BTCMarketsUserTrade> expectedParsedBtcMarketsUserTrades =
+        expectedParsedBtcMarketsUserTrades();
 
     // when
     final BTCMarketsTradeHistory response = parse(BTCMarketsTradeHistory.class);
@@ -225,5 +235,4 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
       BtcMarketsAssert.assertEquals(userTrades.get(i), expectedParsedBtcMarketsUserTrades.get(i));
     }
   }
-
 }

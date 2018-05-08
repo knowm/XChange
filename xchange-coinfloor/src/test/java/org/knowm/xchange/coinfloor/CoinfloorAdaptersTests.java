@@ -2,10 +2,12 @@ package org.knowm.xchange.coinfloor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-
 import org.junit.Test;
 import org.knowm.xchange.coinfloor.dto.account.CoinfloorBalance;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorOrderBook;
@@ -27,10 +29,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinfloorAdaptersTests {
 
@@ -89,15 +87,18 @@ public class CoinfloorAdaptersTests {
   public void adaptAccountInfoTest() throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
 
-    InputStream btcgbpStream = getClass().getResourceAsStream("/account/example-balance-btcgbp.json");
+    InputStream btcgbpStream =
+        getClass().getResourceAsStream("/account/example-balance-btcgbp.json");
     CoinfloorBalance btcgbp = mapper.readValue(btcgbpStream, CoinfloorBalance.class);
 
-    InputStream btcusdStream = getClass().getResourceAsStream("/account/example-balance-btcusd.json");
+    InputStream btcusdStream =
+        getClass().getResourceAsStream("/account/example-balance-btcusd.json");
     CoinfloorBalance btcusd = mapper.readValue(btcusdStream, CoinfloorBalance.class);
 
     Currency[] currencies = {Currency.BTC, Currency.GBP, Currency.USD, Currency.EUR};
     CoinfloorBalance[] rawBalances = {btcgbp, btcusd};
-    AccountInfo info = CoinfloorAdapters.adaptAccountInfo(Arrays.asList(currencies), Arrays.asList(rawBalances));
+    AccountInfo info =
+        CoinfloorAdapters.adaptAccountInfo(Arrays.asList(currencies), Arrays.asList(rawBalances));
 
     assertThat(info.getWallet().getBalances()).hasSize(3);
 
@@ -121,7 +122,8 @@ public class CoinfloorAdaptersTests {
   public void adaptTradeHistoryTest() throws JsonParseException, JsonMappingException, IOException {
     InputStream is = getClass().getResourceAsStream("/trade/example-user-transactions.json");
     ObjectMapper mapper = new ObjectMapper();
-    CoinfloorUserTransaction[] transactions = mapper.readValue(is, CoinfloorUserTransaction[].class);
+    CoinfloorUserTransaction[] transactions =
+        mapper.readValue(is, CoinfloorUserTransaction[].class);
 
     UserTrades trades = CoinfloorAdapters.adaptTradeHistory(Arrays.asList(transactions));
 

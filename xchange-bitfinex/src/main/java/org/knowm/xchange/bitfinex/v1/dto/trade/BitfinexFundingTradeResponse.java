@@ -1,8 +1,7 @@
 package org.knowm.xchange.bitfinex.v1.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BitfinexFundingTradeResponse {
 
@@ -25,9 +24,14 @@ public class BitfinexFundingTradeResponse {
    * @param tradeId
    * @param offerId
    */
-  public BitfinexFundingTradeResponse(@JsonProperty("rate") final BigDecimal rate, @JsonProperty("period") final BigDecimal period,
-      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("timestamp") final BigDecimal timestamp, @JsonProperty("type") final String type,
-      @JsonProperty("tid") final String tradeId, @JsonProperty("offer_id") final String offerId) {
+  public BitfinexFundingTradeResponse(
+      @JsonProperty("rate") final BigDecimal rate,
+      @JsonProperty("period") final BigDecimal period,
+      @JsonProperty("amount") final BigDecimal amount,
+      @JsonProperty("timestamp") final BigDecimal timestamp,
+      @JsonProperty("type") final String type,
+      @JsonProperty("tid") final String tradeId,
+      @JsonProperty("offer_id") final String offerId) {
 
     this.rate = rate;
     this.amount = amount;
@@ -68,7 +72,20 @@ public class BitfinexFundingTradeResponse {
 
   @Override
   public String toString() {
-    return "BitfinexFundingTradeResponse [rate=" + rate + ", period=" + period + ", amount=" + amount + ", timestamp=" + timestamp + ", type=" + type
-        + ", tradeId=" + tradeId + ", offerId=" + offerId + "]";
+    return "BitfinexFundingTradeResponse [rate="
+        + rate
+        + ", period="
+        + period
+        + ", amount="
+        + amount
+        + ", timestamp="
+        + timestamp
+        + ", type="
+        + type
+        + ", tradeId="
+        + tradeId
+        + ", offerId="
+        + offerId
+        + "]";
   }
 }
