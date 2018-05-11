@@ -4,6 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -43,9 +44,12 @@ import java.util.Map;
 
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements TradeService {
 
-  public PoloniexTradeService(Exchange exchange) {
+  private PoloniexMarketDataService poloniexMarketDataService;
+
+  public PoloniexTradeService(Exchange exchange, PoloniexMarketDataService poloniexMarketDataService) {
 
     super(exchange);
+    this.poloniexMarketDataService = poloniexMarketDataService;
   }
 
   @Override
@@ -71,10 +75,37 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     return PoloniexAdapters.adaptPoloniexOpenOrders(poloniexOpenOrders);
   }
 
+  /** Poloniex does not support market orders directly, but will instantly fill
+   * limit orders with very low or high prices. So this is implementation has
+   * the same effect as a market order. Poloniex has maximums for each 'rate' (limit price) but does not
+   * provide them. So you must find the current market price and make it guaranteed to be filled
+   */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    Ticker ticker = poloniexMarketDataService.getTicker(marketOrder.getCurrencyPair());
+
+
+    BigDecimal price;
+    if(marketOrder.getType().equals(OrderType.BID)) {
+      price = ticker.getLast().multiply(new BigDecimal(10.0));
+
+    } else {
+      price = ticker.getLast().divide(new BigDecimal(10.0));
+    }
+
+
+    return placeLimitOrder(
+        new LimitOrder(
+          marketOrder.getType(),
+          marketOrder.getOriginalAmount(),
+          marketOrder.getCurrencyPair(),
+          marketOrder.getId(),
+          marketOrder.getTimestamp(),
+          price
+        )
+    );
+
   }
 
   @Override
