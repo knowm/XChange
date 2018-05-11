@@ -31,6 +31,9 @@ public final class Ticker implements Serializable {
   private final BigDecimal bidSize;
   private final BigDecimal askSize;
 
+  private final BigDecimal priceChange;
+  private final BigDecimal priceChangePercent;
+
   /**
    * Constructor
    *
@@ -47,6 +50,8 @@ public final class Ticker implements Serializable {
    *     provided
    * @param bidSize The instantaneous size at the bid price
    * @param askSize The instantaneous size at the ask price
+   * @param priceChange The asset price change last 24h
+   * @param priceChangePercent The asset price change percent last 24h
    */
   private Ticker(
       CurrencyPair currencyPair,
@@ -61,7 +66,9 @@ public final class Ticker implements Serializable {
       BigDecimal quoteVolume,
       Date timestamp,
       BigDecimal bidSize,
-      BigDecimal askSize) {
+      BigDecimal askSize,
+      BigDecimal priceChange,
+      BigDecimal priceChangePercent) {
     this.open = open;
     this.currencyPair = currencyPair;
     this.last = last;
@@ -75,6 +82,8 @@ public final class Ticker implements Serializable {
     this.timestamp = timestamp;
     this.bidSize = bidSize;
     this.askSize = askSize;
+    this.priceChange = priceChange;
+    this.priceChangePercent = priceChangePercent;
   }
 
   public CurrencyPair getCurrencyPair() {
@@ -142,6 +151,14 @@ public final class Ticker implements Serializable {
     return askSize;
   }
 
+  public BigDecimal getPriceChange() {
+    return priceChange;
+  }
+
+  public BigDecimal getPriceChangePercent() {
+    return priceChangePercent;
+  }
+
   @Override
   public String toString() {
 
@@ -171,6 +188,10 @@ public final class Ticker implements Serializable {
         + bidSize
         + ", askSize="
         + askSize
+        + ", priceChange="
+        + priceChange
+        + ", priceChangePercent="
+        + priceChangePercent
         + "]";
   }
 
@@ -196,6 +217,8 @@ public final class Ticker implements Serializable {
     private Date timestamp;
     private BigDecimal bidSize;
     private BigDecimal askSize;
+    private BigDecimal priceChange;
+    private BigDecimal priceChangePercent;
 
     // Prevent repeat builds
     private boolean isBuilt = false;
@@ -218,7 +241,9 @@ public final class Ticker implements Serializable {
               quoteVolume,
               timestamp,
               bidSize,
-              askSize);
+              askSize,
+              priceChange,
+              priceChangePercent);
 
       isBuilt = true;
 
@@ -305,6 +330,16 @@ public final class Ticker implements Serializable {
 
     public Builder askSize(BigDecimal askSize) {
       this.askSize = askSize;
+      return this;
+    }
+
+    public Builder priceChange(BigDecimal priceChange) {
+      this.priceChange = priceChange;
+      return this;
+    }
+
+    public Builder priceChangePercent(BigDecimal priceChangePercent) {
+      this.priceChangePercent = priceChangePercent;
       return this;
     }
   }

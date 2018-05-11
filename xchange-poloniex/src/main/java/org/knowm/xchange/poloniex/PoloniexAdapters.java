@@ -60,6 +60,7 @@ public class PoloniexAdapters {
     BigDecimal high = marketData.getHigh24hr();
     BigDecimal low = marketData.getLow24hr();
     BigDecimal volume = marketData.getQuoteVolume();
+    BigDecimal priceChangePercent = marketData.getPercentChange();
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -69,6 +70,7 @@ public class PoloniexAdapters {
         .high(high)
         .low(low)
         .volume(volume)
+        .priceChangePercent(priceChangePercent)
         .build();
   }
 

@@ -191,6 +191,8 @@ public final class BinanceTicker24h {
               .low(lowPrice)
               .volume(volume)
               .vwap(weightedAvgPrice)
+              .priceChange(priceChange)
+              .priceChangePercent(priceChangePercent)
               .build();
     }
     return ticker;
