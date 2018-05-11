@@ -1,11 +1,12 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcLimitOrder;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcMarketOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
@@ -24,18 +25,19 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   }
 
   public List<HitbtcOrder> getOpenOrdersRaw() throws IOException {
-
     return hitbtc.getHitbtcActiveOrders();
   }
 
   public HitbtcOrder placeMarketOrderRaw(MarketOrder marketOrder) throws IOException {
 
-    String symbol =
-        marketOrder.getCurrencyPair().base.getCurrencyCode()
-            + marketOrder.getCurrencyPair().counter.getCurrencyCode();
+    String symbol = HitbtcAdapters.adaptCurrencyPair(marketOrder.getCurrencyPair());
     String side = HitbtcAdapters.getSide(marketOrder.getType()).toString();
 
-    String clientOrderId = StringUtils.isBlank(marketOrder.getId()) ? null : marketOrder.getId();
+    String clientOrderId = null;
+    if (marketOrder instanceof HitbtcMarketOrder) {
+      clientOrderId = ((HitbtcMarketOrder) marketOrder).getClientOrderId();
+    }
+
     return hitbtc.postHitbtcNewOrder(
         clientOrderId,
         symbol,
@@ -50,7 +52,13 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
       throws IOException {
     String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
     String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
-    String clientOrderId = StringUtils.isBlank(limitOrder.getId()) ? null : limitOrder.getId();
+
+    String clientOrderId = null;
+    if (limitOrder instanceof HitbtcLimitOrder) {
+      HitbtcLimitOrder order = (HitbtcLimitOrder) limitOrder;
+      clientOrderId = order.getClientOrderId();
+    }
+
     return hitbtc.postHitbtcNewOrder(
         clientOrderId,
         symbol,
@@ -73,12 +81,10 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   }
 
   public HitbtcOrder cancelOrderRaw(String clientOrderId) throws IOException {
-
     return hitbtc.cancelSingleOrder(clientOrderId);
   }
 
   public List<HitbtcOrder> cancelAllOrdersRaw(String symbol) throws IOException {
-
     return hitbtc.cancelAllOrders(symbol);
   }
 
