@@ -18,7 +18,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
-import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -27,7 +27,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -118,8 +117,24 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+  public String placeStopOrder(StopOrder so) throws IOException {
+    TimeInForce tif;
+    Set<IOrderFlags> orderFlags = so.getOrderFlags();
+    if (orderFlags.size() == 1) {
+      IOrderFlags orderFlag = orderFlags.iterator().next();
+      Assert.isTrue(
+          orderFlag instanceof TimeInForce, "Order flag should be instance of TimeInForce.");
+      tif = (TimeInForce) orderFlag;
+    } else {
+      tif = TimeInForce.GTC;
+    }
+    OrderType orderType;
+    if (so.getType().equals(Order.OrderType.BID)) {
+      orderType = so.getLimitPrice() == null ? OrderType.TAKE_PROFIT : OrderType.TAKE_PROFIT_LIMIT;
+    } else {
+      orderType = so.getLimitPrice() == null ? OrderType.STOP_LOSS : OrderType.STOP_LOSS_LIMIT;
+    }
+    return placeOrder(orderType, so, so.getLimitPrice(), so.getStopPrice(), tif);
   }
 
   private String placeOrder(
@@ -244,7 +259,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                         t.commission,
                         Currency.getInstance(t.commissionAsset)))
             .collect(Collectors.toList());
-    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+    long lastId = binanceTrades.stream().map(t -> t.id).max(Long::compareTo).orElse(0L);
+    return new UserTrades(trades, lastId, Trades.TradeSortType.SortByTimestamp);
   }
 
   @Override

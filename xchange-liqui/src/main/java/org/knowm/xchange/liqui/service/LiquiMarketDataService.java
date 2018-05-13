@@ -23,7 +23,14 @@ public class LiquiMarketDataService extends LiquiMarketDataServiceRaw implements
   @Override
   public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args)
       throws IOException {
-    return LiquiAdapters.adaptOrderBook(getDepth(currencyPair, 2000), currencyPair);
+    Integer limit = 2000;
+
+    if (args != null && args.length > 0) {
+      if (args[0] instanceof Integer && (Integer) args[0] > 0) {
+        limit = (Integer) args[0];
+      }
+    }
+    return LiquiAdapters.adaptOrderBook(getDepth(currencyPair, limit), currencyPair);
   }
 
   @Override

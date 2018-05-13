@@ -4,7 +4,6 @@ import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -14,10 +13,8 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdapters;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils;
 import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
@@ -72,11 +69,6 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     throw new NotAvailableFromExchangeException();
@@ -114,11 +106,6 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
 
     return MercadoBitcoinUtils.makeMercadoBitcoinOrderId(
         limitOrder.getCurrencyPair(), newOrderResult.getTheReturn().keySet().iterator().next());
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   /**

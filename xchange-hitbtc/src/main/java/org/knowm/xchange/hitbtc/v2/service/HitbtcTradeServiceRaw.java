@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -33,22 +34,34 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
             + marketOrder.getCurrencyPair().counter.getCurrencyCode();
     String side = HitbtcAdapters.getSide(marketOrder.getType()).toString();
 
+    String clientOrderId = StringUtils.isBlank(marketOrder.getId()) ? null : marketOrder.getId();
     return hitbtc.postHitbtcNewOrder(
-        null, symbol, side, null, marketOrder.getOriginalAmount(), "market", "IOC");
+        clientOrderId,
+        symbol,
+        side,
+        null,
+        marketOrder.getOriginalAmount(),
+        HitbtcOrderType.market,
+        HitbtcTimeInForce.IOC);
   }
 
-  public HitbtcOrder placeLimitOrderRaw(LimitOrder limitOrder) throws IOException {
-
+  public HitbtcOrder placeLimitOrderRaw(LimitOrder limitOrder, HitbtcTimeInForce timeInForce)
+      throws IOException {
     String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
     String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
+    String clientOrderId = StringUtils.isBlank(limitOrder.getId()) ? null : limitOrder.getId();
     return hitbtc.postHitbtcNewOrder(
-        null,
+        clientOrderId,
         symbol,
         side,
         limitOrder.getLimitPrice(),
         limitOrder.getOriginalAmount(),
-        "limit",
-        "GTC");
+        HitbtcOrderType.limit,
+        timeInForce);
+  }
+
+  public HitbtcOrder placeLimitOrderRaw(LimitOrder limitOrder) throws IOException {
+    return placeLimitOrderRaw(limitOrder, HitbtcTimeInForce.GTC);
   }
 
   public HitbtcOrder updateMarketOrderRaw(

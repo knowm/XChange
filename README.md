@@ -83,8 +83,8 @@ Looking for streaming API? Use library [xchange-stream](https://github.com/bitri
 
 ## Continuous Integration
 
-[![Build Status](https://travis-ci.org/timmolter/XChange.png?branch=develop)](https://travis-ci.org/timmolter/XChange.png)  
-[Build History](https://travis-ci.org/timmolter/XChange/builds)  
+[![Build Status](https://travis-ci.org/knowm/XChange.png?branch=develop)](https://travis-ci.org/knowm/XChange.png)
+[Build History](https://travis-ci.org/knowm/XChange/builds)
 
 ## Getting Started
 
@@ -103,17 +103,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>4.3.5</version>
+      <version>4.3.6</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>4.3.5</version>
+      <version>4.3.6</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
-      <version>4.3.5</version>
+      <version>4.3.6</version>
     </dependency>
 
 For snapshots, add the following repository to your pom.xml file.
@@ -126,7 +126,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.3.6-SNAPSHOT
+    4.3.7-SNAPSHOT
     
 ## Building with Maven
 
@@ -136,7 +136,7 @@ install in local Maven repo: `mvn clean install`
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
 check for dependency updates: `mvn versions:display-dependency-updates`
-code format: `mvn com.coveo:fmt-maven-plugin:format`
+code format: `mvn com.coveo:fmt-maven-plugin:format`  
 
 ## Bugs
 

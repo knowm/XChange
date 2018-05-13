@@ -1,15 +1,10 @@
 package org.knowm.xchange.ripple.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.ripple.RippleAdapters;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.trade.IRippleTradeTransaction;
@@ -53,11 +48,6 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
     return RippleAdapters.adaptOpenOrders(getOpenAccountOrders(), ripple.getRoundingScale());
   }
 
-  @Override
-  public String placeMarketOrder(final MarketOrder order) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   /**
    * @param order this should be a RippleLimitOrder object with the base and counter counterparties
    *     populated for any currency other than XRP.
@@ -70,11 +60,6 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
       throw new IllegalArgumentException(
           "order must be of type: " + RippleLimitOrder.class.getName());
     }
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -146,11 +131,6 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
         params,
         (RippleAccountService) exchange.getAccountService(),
         ripple.getRoundingScale());
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
