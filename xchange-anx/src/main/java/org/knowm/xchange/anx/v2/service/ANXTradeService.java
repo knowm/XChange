@@ -2,20 +2,16 @@ package org.knowm.xchange.anx.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collection;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXAdapters;
 import org.knowm.xchange.anx.v2.ANXExchange;
 import org.knowm.xchange.anx.v2.dto.trade.ANXTradeResultWrapper;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -81,11 +77,6 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     Assert.notNull(orderId, "orderId cannot be null");
@@ -138,10 +129,5 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 }

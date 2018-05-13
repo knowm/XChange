@@ -8,15 +8,12 @@ import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.yobit.YoBit;
 import org.knowm.xchange.yobit.YoBitAdapters;
 import org.knowm.xchange.yobit.YoBitExchange;
@@ -111,26 +108,6 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
         fromTimestamp,
         toTimestamp,
         market);
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(LimitOrder limitOrder) {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(MarketOrder marketOrder) {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

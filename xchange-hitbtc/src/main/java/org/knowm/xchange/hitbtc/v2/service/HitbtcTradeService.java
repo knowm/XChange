@@ -10,9 +10,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
@@ -51,11 +49,6 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     return placeLimitOrderRaw(limitOrder).clientOrderId;
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -123,17 +116,5 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     }
 
     return orders;
-  }
-
-  @Override
-  public void verifyOrder(LimitOrder limitOrder) {
-
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(MarketOrder marketOrder) {
-
-    throw new NotYetImplementedForExchangeException();
   }
 }

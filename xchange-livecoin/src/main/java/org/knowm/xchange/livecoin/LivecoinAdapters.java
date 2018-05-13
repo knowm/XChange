@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +64,9 @@ public class LivecoinAdapters {
   private static List<LimitOrder> toLimitOrderList(
       LivecoinAsksBidsData[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
+    if (levels == null || levels.length == 0) {
+      return Collections.EMPTY_LIST;
+    }
     List<LimitOrder> allLevels = new ArrayList<>(levels.length);
     for (LivecoinAsksBidsData ask : levels) {
       allLevels.add(
@@ -119,6 +123,9 @@ public class LivecoinAdapters {
 
   public static Trades adaptTrades(LivecoinTrade[] nativeTrades, CurrencyPair currencyPair) {
 
+    if (nativeTrades.length == 0) {
+      return new Trades(Collections.EMPTY_LIST);
+    }
     List<Trade> trades = new ArrayList<>(nativeTrades.length);
 
     for (LivecoinTrade trade : nativeTrades) {

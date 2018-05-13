@@ -5,18 +5,13 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -65,11 +60,6 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, TaurusException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, TaurusException {
     TaurusOrder taurusOrder =
         limitOrder.getType() == BID
@@ -77,11 +67,6 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements TradeSe
             : sellTaurusOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
 
     return taurusOrder.getId();
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -126,10 +111,5 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements TradeSe
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 }

@@ -4,10 +4,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.ripple.RippleAdapters;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.marketdata.RippleOrderBook;
@@ -39,17 +36,5 @@ public class RippleMarketDataService extends RippleMarketDataServiceRaw
     } else {
       throw new ExchangeException("RippleMarketDataParams is missing");
     }
-  }
-
-  @Override
-  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Trades getTrades(final CurrencyPair currencyPair, final Object... args)
-      throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 }

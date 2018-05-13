@@ -3,19 +3,16 @@ package org.knowm.xchange.luno.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -118,11 +115,6 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
     return postLimitOrder.orderId;
   }
 
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   private org.knowm.xchange.luno.dto.trade.OrderType convertForLimit(OrderType type) {
     switch (type) {
       case ASK:
@@ -198,13 +190,6 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new LunoTradeHistoryParams();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public static class LunoTradeHistoryParams

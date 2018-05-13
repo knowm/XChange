@@ -10,15 +10,12 @@ import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAdapters;
 import org.knowm.xchange.quadrigacx.dto.QuadrigaCxException;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxOrder;
@@ -131,11 +128,6 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException, QuadrigaCxException {
 
     return cancelQuadrigaCxOrder(orderId);
@@ -201,10 +193,5 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 }
