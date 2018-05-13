@@ -145,14 +145,6 @@ public class KrakenAdapters {
     return new LimitOrder(orderType, volume, currencyPair, "", timeStamp, order.getPrice());
   }
 
-  public static List<Ticker> adaptTickers(List<KrakenTicker> krakenTickers) {
-    return null;
-    //    return krakenTickers.stream()
-    //        .map(krakenTicker -> adaptTicker(krakenTicker, krakenTicker.getPair())) // TODO addapt
-    // the currency pair
-    //        .collect(Collectors.toList());
-  }
-
   public static Ticker adaptTicker(KrakenTicker krakenTicker, CurrencyPair currencyPair) {
 
     Ticker.Builder builder = new Ticker.Builder();
