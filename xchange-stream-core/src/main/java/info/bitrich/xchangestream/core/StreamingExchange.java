@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.core;
 
 import io.reactivex.Completable;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public interface StreamingExchange extends Exchange {
     /**
@@ -30,6 +31,13 @@ public interface StreamingExchange extends Exchange {
      * Returns service that can be used to access market data.
      */
     StreamingMarketDataService getStreamingMarketDataService();
+
+    /**
+     * Returns service that can be used to access transaction data.
+     */
+    default StreamingTradeService getStreamingTrasactionDataService() {
+        throw new NotYetImplementedForExchangeException();
+    }
 
     /**
      * Set whether or not to enable compression handler.
