@@ -5,8 +5,11 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trade;
 
+
 public interface StreamingTradeService {
 
-    Observable<Order> getOxrders(CurrencyPair var1, Object... var2);
+    default Observable<Order> getOrders(CurrencyPair var1, Object... var2) {
+        throw new NotYetImplementedForExchangeException();
+    }
 
 }
