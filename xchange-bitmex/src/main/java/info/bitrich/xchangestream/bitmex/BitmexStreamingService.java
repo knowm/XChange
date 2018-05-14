@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
+import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +42,11 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         }
 
         super.handleMessage(message);
+    }
+
+    @Override
+    protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
+        return null;
     }
 
     public Observable<BitmexWebSocketTransaction> subscribeBitmexChannel(String channelName) {
