@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.coinone;
+package org.knowm.xchange.examples.coinone.marketdata;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;

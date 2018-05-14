@@ -20,9 +20,9 @@ public class CoinoneTradeServiceRaw extends CoinoneBaseService {
         new CoinoneTradeRequest(
             apiKey,
             exchange.getNonceFactory().createValue(),
-            limitOrder.getLimitPrice().doubleValue(),
-            limitOrder.getOriginalAmount().doubleValue(),
-            limitOrder.getCurrencyPair().base.getSymbol().toLowerCase());
+            limitOrder.getLimitPrice(),
+            limitOrder.getOriginalAmount(),
+            limitOrder.getCurrencyPair().base);
     if (limitOrder.getType().equals(OrderType.ASK)) {
       return coinone.limitSell(payloadCreator, signatureCreator, request);
     } else {
