@@ -45,6 +45,10 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                 orderbooks.put(currencyPair, orderbook);
             } else {
                 orderbook = orderbooks.get(currencyPair);
+                //ignore updates until first "partial"
+                if (orderbook == null) {
+                    return null;
+                }
                 BitmexLimitOrder[] levels = s.toBitmexOrderbookLevels();
                 orderbook.updateLevels(levels, action);
             }
