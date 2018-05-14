@@ -1,4 +1,6 @@
 # XChange-stream [![Build Status](https://travis-ci.org/bitrich-info/xchange-stream.svg?branch=master)](https://travis-ci.org/bitrich-info/xchange-stream)
+> **MAINTAINER WANTED:** If anyone would like contribute to this project and become a maintainer, let me know via message. This project would deserve more time than I have.
+
 XChange-stream is a Java library providing a simple and consistent streaming API for interacting with Bitcoin and other crypto currency exchanges via WebSocket protocol.
 
 It is build on top of the [XChange library](https://github.com/timmolter/XChange) providing new interfaces for the exchanges' streaming APIs. Users can subscribe for live updates via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
@@ -91,7 +93,7 @@ Listening for live updates of
 
 Exchange | order books | trades | tickers
 -------- | ----------- | ------ | -------
-**Binance** | :heavy_check_mark: | :construction: | :heavy_check_mark:
+**Binance** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Bitfinex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Bitflyer** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **BitMEX** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
