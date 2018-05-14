@@ -21,6 +21,10 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
         this.streamingService = new BitmexStreamingService(API_URI);
     }
 
+    protected BitmexStreamingExchange(BitmexStreamingService streamingService) {
+        this.streamingService = streamingService;
+    }
+
     @Override
     protected void initServices() {
         streamingMarketDataService = new BitmexStreamingMarketDataService(streamingService);
