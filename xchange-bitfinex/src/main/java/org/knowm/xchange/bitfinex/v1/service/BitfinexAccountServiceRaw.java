@@ -17,7 +17,7 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
-import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.*;
 
 public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
@@ -43,7 +43,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
                   String.valueOf(exchange.getNonceFactory().createValue())));
       return balances;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -59,7 +59,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
                   String.valueOf(exchange.getNonceFactory().createValue())));
       return marginInfos;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -76,7 +76,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
               limit);
       return bitfinex.depositWithdrawalHistory(apiKey, payloadCreator, signatureCreator, request);
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -143,7 +143,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         return null;
       }
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 

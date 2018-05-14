@@ -11,9 +11,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BitflyerMarketDataService extends BitflyerMarketDataServiceRaw
@@ -56,5 +54,4 @@ public class BitflyerMarketDataService extends BitflyerMarketDataServiceRaw
             .collect(Collectors.toList());
     return new OrderBook(null, asks, bids);
   }
-
 }

@@ -1,7 +1,5 @@
 package org.knowm.xchange.yobit;
 
-import static org.apache.commons.lang3.StringUtils.join;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -148,13 +146,11 @@ public class YoBitAdapters {
   }
 
   public static String adaptCcyPairsToUrlFormat(Iterable<CurrencyPair> currencyPairs) {
-    List<String> pairs = new ArrayList<>();
-
-    for (CurrencyPair currencyPair : currencyPairs) {
-      pairs.add(adaptCcyPairToUrlFormat(currencyPair));
-    }
-
-    return join(pairs, "-");
+    java.util.StringJoiner stringJoiner = new java.util.StringJoiner("-");
+    java.util.stream.StreamSupport.stream(currencyPairs.spliterator(), false)
+        .map(YoBitAdapters::adaptCcyPairToUrlFormat)
+        .forEach(stringJoiner::add);
+    return stringJoiner.toString();
   }
 
   public static String adaptCcyPairToUrlFormat(CurrencyPair currencyPair) {
