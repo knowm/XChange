@@ -20,7 +20,7 @@ public class OkCoinOrderbook {
 
     public OkCoinOrderbook() {
         asks = new TreeMap<>(java.util.Collections.reverseOrder()); //Because okcoin adapter uses reverse sort for asks!!!
-        bids = new TreeMap<>(java.util.Collections.reverseOrder());
+        bids = new TreeMap<>();
     }
 
     public OkCoinOrderbook(OkCoinDepth depth) {
