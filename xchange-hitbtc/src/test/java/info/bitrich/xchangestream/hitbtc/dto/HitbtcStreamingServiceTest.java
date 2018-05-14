@@ -5,16 +5,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.hitbtc.HitbtcStreamingService;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * Created by Pavel Chertalev on 15.03.2018.
+ */
 public class HitbtcStreamingServiceTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final HitbtcStreamingService streamingService = new HitbtcStreamingService("testUrl");
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void getChannelNameFromMessageTest() throws IOException, InvocationTargetException, IllegalAccessException {
@@ -36,15 +44,9 @@ public class HitbtcStreamingServiceTest {
         Assert.assertEquals("test-ETHBTC", method.invoke(streamingService, objectMapper.readTree(json)));
 
         json = "{ \"noMethod\": \"updateOrderbook\" } }";
-        Throwable exception = null;
-        try {
-            method.invoke(streamingService, objectMapper.readTree(json));
-        } catch (InvocationTargetException e) {
-            exception = e.getTargetException();
-        }
-        Assert.assertNotNull("Expected IOException because no method", exception);
-        Assert.assertEquals(IOException.class, exception.getClass());
 
+        thrown.expect(InvocationTargetException.class);
+        method.invoke(streamingService, objectMapper.readTree(json));
     }
 
 }

@@ -11,6 +11,7 @@ public class BaseBinanceWebSocketTransaction {
         TICKER_24_HR("24hrTicker"),
         KLINE("kline"),
         AGG_TRADE("aggTrade"),
+        TRADE("trade"),
         OUTBOUND_ACCOUNT_INFO("outboundAccountInfo");
 
         /**
