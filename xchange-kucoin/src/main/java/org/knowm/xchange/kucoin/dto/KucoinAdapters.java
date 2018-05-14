@@ -42,19 +42,21 @@ public class KucoinAdapters {
     return pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
   }
 
-  public static Ticker adaptTicker(KucoinResponse<KucoinTicker> tickResponse, CurrencyPair pair) {
+  public static Ticker adaptTicker(KucoinTicker ticker) {
 
-    KucoinTicker kcTick = tickResponse.getData();
     return new Ticker.Builder()
-        .currencyPair(pair)
-        .bid(kcTick.getBuy())
-        .ask(kcTick.getSell())
-        .high(kcTick.getHigh())
-        .low(kcTick.getLow())
-        .last(kcTick.getLastDealPrice())
-        .volume(kcTick.getVol())
-        .quoteVolume(kcTick.getVolValue())
-        .timestamp(new Date(kcTick.getDatetime()))
+        .currencyPair(
+            new CurrencyPair(
+                Currency.getInstance(ticker.getCoinType()),
+                Currency.getInstance(ticker.getCoinTypePair())))
+        .bid(ticker.getBuy())
+        .ask(ticker.getSell())
+        .high(ticker.getHigh())
+        .low(ticker.getLow())
+        .last(ticker.getLastDealPrice())
+        .volume(ticker.getVol())
+        .quoteVolume(ticker.getVolValue())
+        .timestamp(new Date(ticker.getDatetime()))
         .build();
   }
 
@@ -165,9 +167,7 @@ public class KucoinAdapters {
   }
 
   private static CurrencyMetaData adaptCurrencyMetadata(KucoinCoin coin) {
-
-    // Unfortunately the scale for the wallet is not available in the API, take 8 by default
-    return new CurrencyMetaData(8, coin.getWithdrawMinFee());
+    return new CurrencyMetaData(coin.getTradePrecision(), coin.getWithdrawMinFee());
   }
 
   private static Map<CurrencyPair, CurrencyPairMetaData> adaptCurrencyPairMap(

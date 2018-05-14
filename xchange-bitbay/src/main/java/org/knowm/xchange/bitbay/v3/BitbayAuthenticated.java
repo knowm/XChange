@@ -24,18 +24,30 @@ public interface BitbayAuthenticated {
   @GET
   @Path("trading/history/transactions")
   BitbayUserTrades getTransactionHistory(
-      @HeaderParam("API-Key") String apiKey,
-      @HeaderParam("API-Hash") ParamsDigest sign,
-      @HeaderParam("Request-Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("Operation-Id") UUID operationId,
-      @QueryParam("query") String query)
+          @HeaderParam("API-Key") String apiKey,
+          @HeaderParam("API-Hash") ParamsDigest sign,
+          @HeaderParam("Request-Timestamp") SynchronizedValueFactory<Long> timestamp,
+          @HeaderParam("Operation-Id") UUID operationId,
+          @QueryParam("query") String query)
       throws IOException;
 
   @GET
   @Path("balances/BITBAY/balance")
   BitbayBalances balance(
-      @HeaderParam("API-Key") String apiKey,
-      @HeaderParam("API-Hash") ParamsDigest sign,
-      @HeaderParam("Request-Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("Operation-Id") UUID operationId);
+          @HeaderParam("API-Key") String apiKey,
+          @HeaderParam("API-Hash") ParamsDigest sign,
+          @HeaderParam("Request-Timestamp") SynchronizedValueFactory<Long> timestamp,
+          @HeaderParam("Operation-Id") UUID operationId)
+      throws IOException;
+
+  @GET
+  @Path("balances/BITBAY/history")
+  Map balanceHistory(
+          @HeaderParam("API-Key") String apiKey,
+          @HeaderParam("API-Hash") ParamsDigest sign,
+          @HeaderParam("Request-Timestamp") SynchronizedValueFactory<Long> timestamp,
+          @HeaderParam("Operation-Id") UUID operationId,
+          @QueryParam("query") String query
+  )
+      throws IOException;
 }

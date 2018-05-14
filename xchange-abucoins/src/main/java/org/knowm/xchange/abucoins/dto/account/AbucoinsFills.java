@@ -1,8 +1,9 @@
 package org.knowm.xchange.abucoins.dto.account;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.util.Arrays;
-import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import si.mazi.rescu.HttpResponseAware;
 
 /**
  * POJO representing the output JSON for the Abucoins <code>GET /fills</code> endpoint. Example:
@@ -33,33 +34,16 @@ import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
  *
  * @author bryant_harris
  */
-@JsonDeserialize(using = AbucoinsFills.AbucoinsFillsDeserializer.class)
-public class AbucoinsFills {
-  AbucoinsFill[] fills;
+public class AbucoinsFills extends ArrayList<AbucoinsFill> implements HttpResponseAware {
+  private Map<String, List<String>> responseHeaders;
 
-  public AbucoinsFills(AbucoinsFill[] fills) {
-    this.fills = fills;
-  }
-
-  public AbucoinsFill[] getFills() {
-    return fills;
+  @Override
+  public void setResponseHeaders(Map<String, List<String>> responseHeaders) {
+    this.responseHeaders = responseHeaders;
   }
 
   @Override
-  public String toString() {
-    return "AbucoinsFills [fills=" + Arrays.toString(fills) + "]";
-  }
-
-  /**
-   * Deserializer handles the success case (array json) as well as the error case (json object with
-   * <em>message</em> field).
-   *
-   * @author bryant_harris
-   */
-  static class AbucoinsFillsDeserializer
-      extends AbucoinsArrayOrMessageDeserializer<AbucoinsFill, AbucoinsFills> {
-    public AbucoinsFillsDeserializer() {
-      super(AbucoinsFill.class, AbucoinsFills.class);
-    }
+  public Map<String, List<String>> getResponseHeaders() {
+    return responseHeaders;
   }
 }

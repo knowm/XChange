@@ -1,5 +1,9 @@
 package org.knowm.xchange.coinbase.v2.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated;
@@ -9,18 +13,11 @@ import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTim
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.HmacDigest;
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 public class CoinbaseBaseService extends BaseExchangeService implements BaseService {
 
   protected final CoinbaseAuthenticated coinbase;
-  protected final ParamsDigest signatureCreator;
   protected final CoinbaseV2Digest signatureCreator2;
 
   protected CoinbaseBaseService(Exchange exchange) {
@@ -31,8 +28,6 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
             CoinbaseAuthenticated.class,
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
-    signatureCreator =
-        CoinbaseDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
 
     signatureCreator2 =
         CoinbaseV2Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());

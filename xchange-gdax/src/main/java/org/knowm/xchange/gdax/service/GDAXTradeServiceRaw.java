@@ -68,7 +68,14 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
     }
     try {
       return gdax.getFills(
-          apiKey, digest, nonceFactory, passphrase, afterTradeId, beforeTradeId, orderId, productId);
+          apiKey,
+          digest,
+          nonceFactory,
+          passphrase,
+          afterTradeId,
+          beforeTradeId,
+          orderId,
+          productId);
     } catch (GDAXException e) {
       throw handleError(e);
     }
@@ -90,7 +97,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
   /** @deprecated Use {@link #placeGDAXOrder} */
   public GDAXIdResponse placeGDAXStopOrder(StopOrder stopOrder) throws IOException {
-    GDAXPlaceMarketOrder gdaxStopOrder = GDAXAdapters.adaptGDAXPlaceMarketOrder(stopOrder);
+    GDAXPlaceOrder gdaxStopOrder = GDAXAdapters.adaptGDAXStopOrder(stopOrder);
     return placeGDAXOrder(gdaxStopOrder);
   }
 
@@ -137,15 +144,15 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
       this.afterTradeId = startingOrderId;
     }
 
-      public Integer getBeforeTradeId() {
-          return beforeTradeId;
-      }
+    public Integer getBeforeTradeId() {
+      return beforeTradeId;
+    }
 
-      public void setBeforeTradeId(Integer beforeTradeId) {
-          this.beforeTradeId = beforeTradeId;
-      }
+    public void setBeforeTradeId(Integer beforeTradeId) {
+      this.beforeTradeId = beforeTradeId;
+    }
 
-      @Override
+    @Override
     public CurrencyPair getCurrencyPair() {
       return currencyPair;
     }

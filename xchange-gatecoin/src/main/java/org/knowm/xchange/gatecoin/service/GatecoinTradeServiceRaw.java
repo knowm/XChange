@@ -36,7 +36,8 @@ public class GatecoinTradeServiceRaw extends GatecoinBaseService {
 
   public GatecoinPlaceOrderResult placeGatecoinOrder(
       BigDecimal originalAmount, BigDecimal price, String way, String code) throws IOException {
-    GatecoinPlaceOrderRequest placeOrderRequest = new GatecoinPlaceOrderRequest(originalAmount, price, way, code);
+    GatecoinPlaceOrderRequest placeOrderRequest =
+        new GatecoinPlaceOrderRequest(originalAmount, price, way, code);
     return gatecoinAuthenticated.placeOrder(
         exchange.getExchangeSpecification().getApiKey(),
         signatureCreator,
