@@ -35,7 +35,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
 
     try {
       GeminiOrderStatusResponse[] activeOrders =
-          Gemini.activeOrders(
+          gemini.activeOrders(
               apiKey,
               payloadCreator,
               signatureCreator,
@@ -82,7 +82,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
 
     try {
       GeminiOrderStatusResponse newOrder =
-          Gemini.newOrder(apiKey, payloadCreator, signatureCreator, request);
+          gemini.newOrder(apiKey, payloadCreator, signatureCreator, request);
       return newOrder;
     } catch (GeminiException e) {
       throw handleException(e);
@@ -92,7 +92,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
   public boolean cancelGeminiOrder(String orderId) throws IOException {
 
     try {
-      Gemini.cancelOrders(
+      gemini.cancelOrders(
           apiKey,
           payloadCreator,
           signatureCreator,
@@ -112,7 +112,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
 
     try {
       GeminiOrderStatusResponse orderStatus =
-          Gemini.orderStatus(
+          gemini.orderStatus(
               apiKey,
               payloadCreator,
               signatureCreator,
@@ -129,7 +129,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
 
     try {
       GeminiTradeResponse[] trades =
-          Gemini.pastTrades(
+          gemini.pastTrades(
               apiKey,
               payloadCreator,
               signatureCreator,
