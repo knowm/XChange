@@ -22,8 +22,10 @@ public class BitmexManualExample {
 
         CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
         streamingMarketDataService.getOrderBook(xbtUsd).subscribe(orderBook -> {
-            LOG.info("First ask: {}", orderBook.getAsks().get(0));
-            LOG.info("First bid: {}", orderBook.getBids().get(0));
+            if(!orderBook.getAsks().isEmpty())
+            LOG.info("First ask: {}", orderBook.getAsks());
+            if(!orderBook.getBids().isEmpty())
+            LOG.info("First bid: {}", orderBook.getBids());
         }, throwable -> LOG.error("ERROR in getting order book: ", throwable));
 
         streamingMarketDataService.getRawTicker(xbtUsd).subscribe(ticker -> {
