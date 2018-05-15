@@ -90,9 +90,7 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
       Date timeStamp = CryptopiaAdapters.convertTimestamp(map.get("Timestamp").toString());
       Currency currency = Currency.getInstance(map.get("Currency").toString());
       FundingRecord.Type fundingType =
-          map.get("Type")
-                  .toString()
-                  .equals(CryptopiaAccountService.CryptopiaFundingHistoryParams.Type.Deposit.name())
+          map.get("Type").toString().equals(CryptopiaAccountService.CryptopiaType.Deposit.name())
               ? FundingRecord.Type.DEPOSIT
               : FundingRecord.Type.WITHDRAWAL;
 
