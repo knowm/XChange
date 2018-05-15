@@ -421,7 +421,14 @@ public final class GeminiAdapters {
     if(transfer.status.equals("Complete"))
       status = FundingRecord.Status.COMPLETE;
 
-    String description = (transfer.purpose + " " + transfer.method).trim();
+    String description = "";
+    if(transfer.purpose != null)
+      description = transfer.purpose;
+
+    if(transfer.method != null)
+      description += " " + transfer.method;
+
+    description = description.trim();
 
     FundingRecord.Type type = transfer.type.equals("Withdrawal") ? FundingRecord.Type.WITHDRAWAL : FundingRecord.Type.DEPOSIT;
 
