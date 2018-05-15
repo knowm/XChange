@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -113,20 +114,26 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     Set<Order> orders = new HashSet<>();
 
     for (BitmexPrivateOrder privateOrder : privateOrders) {
-      Order.OrderType type =
-          privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
-      CurrencyPair pair =
-          new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
+          Order.OrderType type =
+                  privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
+          Order.OrderStatus status = BitmexAdapters.adaptOrderStatus(privateOrder.getOrderStatus());
+          CurrencyPair pair =
+                  new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
 
-      orders.add(
-          new LimitOrder(
-              type,
-              privateOrder.getVolume(),
-              pair,
-              privateOrder.getId(),
-              privateOrder.getTimestamp(),
-              privateOrder.getPrice()));
-    }
+          orders.add(
+                  new LimitOrder(
+                          type,
+                          privateOrder.getVolume(),
+                          pair,
+                          privateOrder.getId(),
+                          privateOrder.getTimestamp(),
+                          privateOrder.getPrice(),
+                          null,
+                          null,
+                          null,
+                          status
+                  ));
+      }
 
     return orders;
   }
