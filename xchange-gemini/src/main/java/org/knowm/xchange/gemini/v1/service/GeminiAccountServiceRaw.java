@@ -35,7 +35,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
   public List<GeminiTransfersResponse.GeminiTransfer> transfers(Date from, Integer limit) throws IOException {
     SynchronizedValueFactory<Long> nonceFactory = exchange.getNonceFactory();
     GeminiTransfersRequest geminiTransfersRequest = GeminiTransfersRequest.create(from, limit, nonceFactory);
-    return Gemini.transfers(apiKey, payloadCreator, signatureCreator, geminiTransfersRequest);
+    return gemini.transfers(apiKey, payloadCreator, signatureCreator, geminiTransfersRequest);
   }
 
   public GeminiBalancesResponse[] getGeminiAccountInfo() throws IOException {
@@ -43,7 +43,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
       GeminiBalancesRequest request =
           new GeminiBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue()));
       GeminiBalancesResponse[] balances =
-          Gemini.balances(apiKey, payloadCreator, signatureCreator, request);
+          gemini.balances(apiKey, payloadCreator, signatureCreator, request);
       return balances;
     } catch (GeminiException e) {
       throw handleException(e);
@@ -59,7 +59,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
               String.valueOf(exchange.getNonceFactory().createValue()), ccy, amount, address);
 
       GeminiWithdrawalResponse withdrawRepsonse =
-          Gemini.withdraw(apiKey, payloadCreator, signatureCreator, ccy, request);
+          gemini.withdraw(apiKey, payloadCreator, signatureCreator, ccy, request);
 
       return withdrawRepsonse.txHash;
     } catch (GeminiException e) {
@@ -77,7 +77,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
               String.valueOf(this.exchange.getNonceFactory().createValue()), ccy, null);
 
       GeminiDepositAddressResponse requestDepositAddressResponse =
-          Gemini.requestNewAddress(apiKey, payloadCreator, signatureCreator, ccy, exchange);
+          gemini.requestNewAddress(apiKey, payloadCreator, signatureCreator, ccy, exchange);
       if (requestDepositAddressResponse != null) {
         return requestDepositAddressResponse;
       } else {
