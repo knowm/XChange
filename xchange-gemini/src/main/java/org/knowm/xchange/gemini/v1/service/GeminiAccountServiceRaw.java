@@ -1,9 +1,5 @@
 package org.knowm.xchange.gemini.v1.service;
 
-import static org.knowm.xchange.gemini.v1.GeminiUtils.convertToGeminiCcyName;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
@@ -11,8 +7,18 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
+import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+import static org.knowm.xchange.gemini.v1.GeminiUtils.convertToGeminiCcyName;
 
 public class GeminiAccountServiceRaw extends GeminiBaseService {
 
@@ -24,6 +30,12 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
   public GeminiAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
+  }
+
+  public List<GeminiTransfersResponse.GeminiTransfer> transfers(Date from, Integer limit) throws IOException {
+    SynchronizedValueFactory<Long> nonceFactory = exchange.getNonceFactory();
+    GeminiTransfersRequest geminiTransfersRequest = GeminiTransfersRequest.create(from, limit, nonceFactory);
+    return Gemini.transfers(apiKey, payloadCreator, signatureCreator, geminiTransfersRequest);
   }
 
   public GeminiBalancesResponse[] getGeminiAccountInfo() throws IOException {
