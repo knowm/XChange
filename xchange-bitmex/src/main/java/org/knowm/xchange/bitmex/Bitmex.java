@@ -1,24 +1,6 @@
 package org.knowm.xchange.bitmex;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.Nullable;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
-import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
-import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
-import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
-import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
+import org.knowm.xchange.bitmex.dto.account.*;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexKline;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
@@ -27,6 +9,14 @@ import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsRe
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import javax.annotation.Nullable;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 @Path("/api/v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -202,4 +192,13 @@ public interface Bitmex {
       @FormParam("currency") String currency,
       @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address);
+
+  @POST
+  @Path("position/leverage")
+  BitmexPosition updateLeveragePosition(
+      @HeaderParam("api-key") String apiKey,
+      @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest,
+      @FormParam("symbol") String symbol,
+      @FormParam("leverage") BigDecimal leverage);
 }
