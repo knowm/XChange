@@ -1,24 +1,15 @@
 package org.knowm.xchange.examples.coinone.trade;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinone.dto.trade.CoinoneTradeCancelRequest;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.coinone.CoinoneDemoUtils;
-import org.knowm.xchange.examples.gatecoin.GatecoinDemoUtils;
-import org.knowm.xchange.gatecoin.dto.trade.GatecoinOrder;
-import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
-import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
-import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
-import org.knowm.xchange.gatecoin.service.GatecoinTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 public class CoinoneOrderDemo {
 
@@ -36,7 +27,7 @@ public class CoinoneOrderDemo {
         new LimitOrder(
             (OrderType.BID),
             new BigDecimal("0.01"),
-             new CurrencyPair(Currency.ETH, Currency.KRW),
+            new CurrencyPair(Currency.ETH, Currency.KRW),
             null,
             null,
             new BigDecimal("500000.00"));
@@ -45,19 +36,20 @@ public class CoinoneOrderDemo {
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     // Cancel the added order
-    CoinoneTradeCancelRequest orderParams = new CoinoneTradeCancelRequest(limitOrderReturnValue, limitOrder);
+    CoinoneTradeCancelRequest orderParams =
+        new CoinoneTradeCancelRequest(limitOrderReturnValue, limitOrder);
     boolean cancelResult = tradeService.cancelOrder(orderParams);
     System.out.println("Canceling returned " + cancelResult);
 
     // place a limit sell order
     limitOrder =
-            new LimitOrder(
-                    (OrderType.ASK),
-                    new BigDecimal("0.01"),
-                    new CurrencyPair(Currency.ETH, Currency.KRW),
-                    null,
-                    null,
-                    new BigDecimal("1000000.00"));
+        new LimitOrder(
+            (OrderType.ASK),
+            new BigDecimal("0.01"),
+            new CurrencyPair(Currency.ETH, Currency.KRW),
+            null,
+            null,
+            new BigDecimal("1000000.00"));
     limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
 
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
@@ -67,6 +59,4 @@ public class CoinoneOrderDemo {
     cancelResult = tradeService.cancelOrder(orderParams);
     System.out.println("Canceling returned " + cancelResult);
   }
-
-
 }

@@ -25,7 +25,7 @@ public class BinanceMarketDataDemo {
 
     generic(exchange, marketDataService);
     raw((BinanceExchange) exchange, (BinanceMarketDataService) marketDataService);
-    rawAll((BinanceExchange) exchange, (BinanceMarketDataService) marketDataService);
+    // rawAll((BinanceExchange) exchange, (BinanceMarketDataService) marketDataService);
   }
 
   public static void generic(Exchange exchange, MarketDataService marketDataService)
@@ -59,6 +59,7 @@ public class BinanceMarketDataDemo {
                       + " => "
                       + String.format("%+.2f%%", t.getPriceChangePercent()));
             });
+    System.out.println("raw out end");
   }
 
   public static void rawAll(BinanceExchange exchange, BinanceMarketDataService marketDataService)
