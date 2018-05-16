@@ -115,4 +115,14 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         bitmex.cancelOrder(apiKey, exchange.getNonceFactory(), signatureCreator, orderID);
     return orders.get(0).getId().equals(orderID);
   }
+
+
+  public BitmexPosition updateLeveragePosition(String symbol, BigDecimal leverage) {
+    BitmexPosition order =
+        bitmex.updateLeveragePosition(apiKey, exchange.getNonceFactory(), signatureCreator, symbol,leverage);
+    return order;
+  }
+
+
+
 }
