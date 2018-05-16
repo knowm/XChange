@@ -20,9 +20,27 @@ public class GeminiExchange extends BaseExchange {
 
   @Override
   protected void initServices() {
+    concludeHostParams(exchangeSpecification);
     this.marketDataService = new GeminiMarketDataService(this);
     this.accountService = new GeminiAccountService(this);
     this.tradeService = new GeminiTradeService(this);
+  }
+
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+    super.applySpecification(exchangeSpecification);
+    concludeHostParams(exchangeSpecification);
+  }
+
+  /** Adjust host parameters depending on exchange specific parameters */
+  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+
+    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
+        exchangeSpecification.setSslUri("https://api.sandbox.gemini.com");
+        exchangeSpecification.setHost("api.sandbox.gemini.com");
+      }
+    }
   }
 
   @Override
@@ -35,6 +53,8 @@ public class GeminiExchange extends BaseExchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Gemini");
     exchangeSpecification.setExchangeDescription("Gemini is a bitcoin exchange.");
+
+    exchangeSpecification.setExchangeSpecificParametersItem("Use_Sandbox", false);
 
     return exchangeSpecification;
   }
