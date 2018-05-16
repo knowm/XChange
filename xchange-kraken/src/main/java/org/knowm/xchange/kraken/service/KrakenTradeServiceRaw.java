@@ -281,7 +281,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     return checkResult(result);
   }
 
-  protected Map<String, KrakenOrder> getOrders(String... orderIds) throws IOException {
+  public Map<String, KrakenOrder> getOrders(String... orderIds) throws IOException {
 
     String orderIdsString = String.join(",", orderIds);
 
