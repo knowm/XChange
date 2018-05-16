@@ -98,11 +98,15 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
-    return placeOrder(OrderType.MARKET, mo, null, null, null);
+    return Long.toString(placeOrder(OrderType.MARKET, mo, null, null, null).orderId);
   }
 
   @Override
   public String placeLimitOrder(LimitOrder lo) throws IOException {
+    return Long.toString(placeLimitOrder2(lo).orderId);
+  }
+
+  protected BinanceNewOrder placeLimitOrder2(LimitOrder lo) throws IOException {
     TimeInForce tif;
     Set<IOrderFlags> orderFlags = lo.getOrderFlags();
     if (orderFlags.size() == 1) {
@@ -134,10 +138,11 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } else {
       orderType = so.getLimitPrice() == null ? OrderType.STOP_LOSS : OrderType.STOP_LOSS_LIMIT;
     }
-    return placeOrder(orderType, so, so.getLimitPrice(), so.getStopPrice(), tif);
+    return Long.toString(
+        placeOrder(orderType, so, so.getLimitPrice(), so.getStopPrice(), tif).orderId);
   }
 
-  private String placeOrder(
+  private BinanceNewOrder placeOrder(
       OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
       throws IOException {
     Long recvWindow =
@@ -155,7 +160,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
             null,
             recvWindow,
             getTimestamp());
-    return Long.toString(newOrder.orderId);
+    return newOrder;
   }
 
   public void placeTestOrder(
