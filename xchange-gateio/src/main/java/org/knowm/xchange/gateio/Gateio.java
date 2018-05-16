@@ -46,13 +46,13 @@ public interface Gateio {
       throws IOException;
 
   @GET
-  @Path("trade/{ident}_{currency}")
+  @Path("tradeHistory/{ident}_{currency}")
   GateioTradeHistory getTradeHistory(
       @PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
       throws IOException;
 
   @GET
-  @Path("trade/{ident}_{currency}/{tradeId}")
+  @Path("tradeHistory/{ident}_{currency}/{tradeId}")
   GateioTradeHistory getTradeHistorySince(
       @PathParam("ident") String tradeableIdentifier,
       @PathParam("currency") String currency,
