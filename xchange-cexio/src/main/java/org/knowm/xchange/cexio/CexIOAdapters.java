@@ -238,21 +238,39 @@ public class CexIOAdapters {
         status);
   }
 
+  /**
+   * From CEX API <a href="https://cex.io/rest-api#/definitions/OrderStatus">documentation </a> <br>
+   * Order status can assume follow values ('d' = done, fully executed OR 'c' = canceled, not
+   * executed OR 'cd' = cancel-done, partially executed OR 'a' = active, created)
+   *
+   * @param cexIOOrder cex raw order
+   * @return OrderStatus
+   */
   private static Order.OrderStatus adaptOrderStatus(CexIOOpenOrder cexIOOrder) {
-
-    try {
-      BigDecimal remains = new BigDecimal(cexIOOrder.remains);
-      BigDecimal amount = new BigDecimal(cexIOOrder.amount);
-
-      if (remains.compareTo(BigDecimal.ZERO) > 0 && remains.compareTo(amount) < 0) {
-        return Order.OrderStatus.PARTIALLY_FILLED;
-      } else if (remains.compareTo(BigDecimal.ZERO) == 0) {
-        return Order.OrderStatus.FILLED;
-      } else {
+    if ("c".equalsIgnoreCase(cexIOOrder.status)) return Order.OrderStatus.CANCELED;
+    if ("d".equalsIgnoreCase(cexIOOrder.status)) return Order.OrderStatus.FILLED;
+    if ("a".equalsIgnoreCase(cexIOOrder.status)) {
+      try {
+        BigDecimal remains = new BigDecimal(cexIOOrder.remains);
+        BigDecimal amount = new BigDecimal(cexIOOrder.amount);
+        if (remains.compareTo(BigDecimal.ZERO) > 0 && remains.compareTo(amount) < 0)
+          return Order.OrderStatus.PARTIALLY_FILLED;
+        else return Order.OrderStatus.PENDING_NEW;
+      } catch (NumberFormatException ex) {
         return Order.OrderStatus.PENDING_NEW;
       }
-    } catch (NumberFormatException ex) {
-      return Order.OrderStatus.PENDING_NEW;
     }
+    if ("cd".equalsIgnoreCase(cexIOOrder.status)) {
+      try {
+        BigDecimal remains = new BigDecimal(cexIOOrder.remains);
+        BigDecimal amount = new BigDecimal(cexIOOrder.amount);
+        if (remains.compareTo(BigDecimal.ZERO) > 0 && remains.compareTo(amount) < 0)
+          return Order.OrderStatus.PARTIALLY_CANCELED;
+        else return Order.OrderStatus.CANCELED;
+      } catch (NumberFormatException ex) {
+        return Order.OrderStatus.CANCELED;
+      }
+    }
+    return Order.OrderStatus.UNKNOWN;
   }
 }
