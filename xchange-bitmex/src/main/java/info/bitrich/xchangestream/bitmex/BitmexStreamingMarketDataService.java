@@ -86,19 +86,4 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
         });
     }
 
-    @Override
-    public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
-        String channelName = String.format("trade:%s", instrument);
-
-        return streamingService.subscribeBitmexChannel(channelName).flatMapIterable(s -> {
-            BitmexTrade[] bitmexTrades = s.toBitmexTrades();
-            List<Trade> trades = new ArrayList<>(bitmexTrades.length);
-            for (BitmexTrade bitmexTrade : bitmexTrades) {
-                trades.add(bitmexTrade.toTrade());
-            }
-            return trades;
-        });
-    }
-
 }
