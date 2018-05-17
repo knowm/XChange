@@ -79,40 +79,40 @@ public class BitmexOrder extends BitmexMarketDataEvent {
             if (ordStatus.equals("Rejected") || ordStatus.equals("N/A")) {
                 return builder.orderStatus(Order.OrderStatus.REJECTED).build();
             }
-            return builder
+            return builder.build();
         }
-        builder.id(orderID)
-                .orderType(getOrderSide())
-                .limitPrice(price)
-                .
-
-        return new LimitOrder()
-
-        Order.Status status = Order.Status.fromName(ordStatus);
-        if (status == FAILED ||
-                status == UNKNOW) {
-            log.error("Got invalid order: {}", this.toString());
-            return Order.builder()
-                    .id(orderID)
-                    .clOrdID(clOrdID)
-                    .account(account)
-                    .status(status)
-                    .committedVol(committedVol)
-                    .build();
-        }
-        Order order = Order.builder()
-                .id(orderID)
-                .clOrdID(clOrdID)
-                .account(account)
-                .status(status)
-                .submittedVol(submittedVol)
-                .committedVol(committedVol)
-                .build();
-        if (status == Order.Status.NEW) {
-            order.price(price)
-                    .tradeSide(side.equals("Buy") ? Order.TradeSide.OPEN_LONG : Order.TradeSide.OPEN_SHORT)
-                    .type(Order.OrderType.fromName(ordType));
-        }
-        return order;
+//        builder.id(orderID)
+//                .orderType(getOrderSide())
+//                .limitPrice(price)
+//                .
+//
+//        return new LimitOrder()
+//
+//        Order.Status status = Order.Status.fromName(ordStatus);
+//        if (status == FAILED ||
+//                status == UNKNOW) {
+//            log.error("Got invalid order: {}", this.toString());
+//            return Order.builder()
+//                    .id(orderID)
+//                    .clOrdID(clOrdID)
+//                    .account(account)
+//                    .status(status)
+//                    .committedVol(committedVol)
+//                    .build();
+//        }
+//        Order order = Order.builder()
+//                .id(orderID)
+//                .clOrdID(clOrdID)
+//                .account(account)
+//                .status(status)
+//                .submittedVol(submittedVol)
+//                .committedVol(committedVol)
+//                .build();
+//        if (status == Order.Status.NEW) {
+//            order.price(price)
+//                    .tradeSide(side.equals("Buy") ? Order.TradeSide.OPEN_LONG : Order.TradeSide.OPEN_SHORT)
+//                    .type(Order.OrderType.fromName(ordType));
+//        }
+//        return order;
     }
 }
