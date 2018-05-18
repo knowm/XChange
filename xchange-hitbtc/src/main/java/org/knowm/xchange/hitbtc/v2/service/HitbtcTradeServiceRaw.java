@@ -1,5 +1,11 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -10,13 +16,6 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcMarketOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 public class HitbtcTradeServiceRaw extends HitbtcBaseService {
 

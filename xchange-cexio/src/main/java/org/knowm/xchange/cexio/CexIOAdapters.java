@@ -79,6 +79,19 @@ public class CexIOAdapters {
    * Adapts a CexIOTicker to a Ticker Object
    *
    * @param ticker The exchange specific ticker
+   * @return The ticker
+   */
+  public static Ticker adaptTicker(CexIOTicker ticker) {
+    if (ticker.getPair() == null) {
+      throw new IllegalArgumentException("Missing currency pair in ticker: " + ticker);
+    }
+    return adaptTicker(ticker, adaptCurrencyPair(ticker.getPair()));
+  }
+
+  /**
+   * Adapts a CexIOTicker to a Ticker Object
+   *
+   * @param ticker The exchange specific ticker
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The ticker
    */
@@ -272,5 +285,10 @@ public class CexIOAdapters {
       }
     }
     return Order.OrderStatus.UNKNOWN;
+  }
+
+  private static CurrencyPair adaptCurrencyPair(String pair) {
+    // Currency pair is in the format: "BCH:USD"
+    return new CurrencyPair(pair.replace(":", "/"));
   }
 }

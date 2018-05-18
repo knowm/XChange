@@ -248,7 +248,7 @@ public interface TradeService extends BaseService {
   default Collection<Order> getOrder(String... orderIds) throws IOException {
     return getOrder(toOrderQueryParams(orderIds));
   }
-  
+
   static OrderQueryParams[] toOrderQueryParams(String... orderIds) {
     OrderQueryParams[] res = new OrderQueryParams[orderIds.length];
     for (int i = 0; i < orderIds.length; i++) {

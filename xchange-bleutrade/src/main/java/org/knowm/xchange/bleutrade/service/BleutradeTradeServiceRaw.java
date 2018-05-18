@@ -1,5 +1,7 @@
 package org.knowm.xchange.bleutrade.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeException;
 import org.knowm.xchange.bleutrade.BleutradeUtils;
@@ -16,9 +18,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import si.mazi.rescu.IRestProxyFactory;
-
-import java.io.IOException;
-import java.util.List;
 
 public class BleutradeTradeServiceRaw extends BleutradeBaseService {
 
@@ -154,7 +153,13 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     try {
       BluetradeExecutedTradesWrapper response =
           bleutrade.getTrades(
-              apiKey, signatureCreator, exchange.getNonceFactory(), market, orderStatus, orderType, limit);
+              apiKey,
+              signatureCreator,
+              exchange.getNonceFactory(),
+              market,
+              orderStatus,
+              orderType,
+              limit);
 
       if (!response.success) {
         throw new ExchangeException(response.message);
@@ -166,7 +171,8 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     }
   }
 
-  public static class BleutradeTradeHistoryParams implements TradeHistoryParams, TradeHistoryParamLimit {
+  public static class BleutradeTradeHistoryParams
+      implements TradeHistoryParams, TradeHistoryParamLimit {
     public static final BleutradeTradeHistoryParams ALL =
         new BleutradeTradeHistoryParams("ALL", "OK", "ALL", 500);
 
@@ -179,9 +185,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     /** ALL, BUY, SELL */
     public final String orderType;
 
-    /**
-     * Max is 20000
-     */
+    /** Max is 20000 */
     public Integer limit = 500;
 
     public BleutradeTradeHistoryParams(
@@ -189,7 +193,8 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
       this(toMarket(currencyPair), orderStatus, orderType, limit);
     }
 
-    public BleutradeTradeHistoryParams(String market, String orderStatus, String orderType, Integer limit) {
+    public BleutradeTradeHistoryParams(
+        String market, String orderStatus, String orderType, Integer limit) {
       this.market = market;
       this.orderStatus = orderStatus;
       this.orderType = orderType;

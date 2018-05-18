@@ -170,6 +170,12 @@
             <artifactId>xchange-anx</artifactId>
             <version>${project.version}</version>
         </dependency>
+         <!-- XChange ItBit exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-huobi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- XChange ItBit exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
