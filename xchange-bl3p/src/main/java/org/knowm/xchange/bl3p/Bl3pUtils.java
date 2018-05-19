@@ -1,6 +1,7 @@
 package org.knowm.xchange.bl3p;
 
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 
 import java.math.BigDecimal;
 
@@ -20,5 +21,9 @@ public class Bl3pUtils {
 
     public static String toPairString(CurrencyPair currencyPair) {
         return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+    }
+
+    public static Order.OrderType fromBl3pStatus(String bl3pStatus) {
+        return bl3pStatus.equals("bid") ? Order.OrderType.BID : Order.OrderType.ASK;
     }
 }

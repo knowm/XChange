@@ -5,6 +5,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bl3p.service.Bl3pAccountService;
 import org.knowm.xchange.bl3p.service.Bl3pMarketDataService;
+import org.knowm.xchange.bl3p.service.Bl3pTradeService;
 import org.knowm.xchange.utils.AuthUtils;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -17,11 +18,7 @@ public class Bl3pExchange extends BaseExchange implements Exchange {
     protected void initServices() {
         this.marketDataService = new Bl3pMarketDataService(this);
         this.accountService = new Bl3pAccountService(this);
-
-        /*
-        TODO
         this.tradeService = new Bl3pTradeService(this);
-        */
     }
 
     @Override
