@@ -38,10 +38,6 @@ public class Bl3pAccountServiceIntegration {
     }
 
     @Test
-    public void createFundingHistoryParams() {
-    }
-
-    @Test
     public void getFundingHistory() throws IOException {
         try {
             List<FundingRecord> fundingRecords = accountService.getFundingHistory(accountService.createFundingHistoryParams());

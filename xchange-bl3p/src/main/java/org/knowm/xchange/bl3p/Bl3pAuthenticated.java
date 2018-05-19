@@ -3,13 +3,14 @@ package org.knowm.xchange.bl3p;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.dto.account.Bl3pNewDepositAddress;
 import org.knowm.xchange.bl3p.dto.account.Bl3pTransactionHistory;
+import org.knowm.xchange.bl3p.dto.trade.Bl3pOpenOrders;
+import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.Optional;
 
 /**
  * Defines methods which need authentication
@@ -72,5 +73,12 @@ public interface Bl3pAuthenticated extends Bl3p {
                                                  @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
                                                  @FormParam("currency") String currency,
                                                  @FormParam("page") int page) throws IOException;
+
+    @GET
+    @Path("/{currencyPair}/money/orders")
+    Bl3pOpenOrders getOpenOrders(@HeaderParam("Rest-Key") String restKey,
+                                 @HeaderParam("Rest-Sign") ParamsDigest restSign,
+                                 @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                                 @PathParam("currencyPair") String currencyPair);
 
 }
