@@ -1,7 +1,9 @@
 package info.bitrich.xchangestream.core;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public interface StreamingExchange extends Exchange {
     /**
@@ -25,6 +27,16 @@ public interface StreamingExchange extends Exchange {
      * @return true if connection is open, otherwise false.
      */
     boolean isAlive();
+
+    /**
+     * Observable for reconnection failure event.
+     * When this happens, it usually indicates that the server or the network is down.
+     *
+     * @return Observable with the exception during reconnection.
+     */
+    default Observable<Throwable> reconnectFailure() {
+        throw new NotYetImplementedForExchangeException();
+    }
 
     /**
      * Returns service that can be used to access market data.
