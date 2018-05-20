@@ -17,13 +17,17 @@
     },
     "ZEC/USD": {
       "price_scale": 2,
+      "min_amount": 0.001,
       "trading_fee": 0.01
     },
     "ZEC/BTC": {
       "price_scale": 5,
+      "min_amount": 0.001,
       "trading_fee": 0.01
     },
     "ZEC/ETH": {
+      "price_scale": 4,
+      "min_amount": 0.001,
       "trading_fee": 0.01
     }
   },
