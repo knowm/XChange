@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,6 +68,7 @@ public abstract class NettyStreamingService<T> {
     private final NioEventLoopGroup eventLoopGroup;
     protected Map<String, Subscription> channels = new ConcurrentHashMap<>();
     private boolean compressedMessages = false;
+    private List<ObservableEmitter<Throwable>> reconnFailEmitters = new LinkedList<>();
 
     public NettyStreamingService(String apiUrl) {
         this(apiUrl, 65536);
@@ -225,6 +227,10 @@ public abstract class NettyStreamingService<T> {
         }
     }
 
+    public Observable<Throwable> subscribeReconnectFailure() {
+        return Observable.<Throwable>create(observableEmitter -> reconnFailEmitters.add(observableEmitter));
+    }
+
     public Observable<T> subscribeChannel(String channelName, Object... args) {
         final String channelId = getSubscriptionUniqueId(channelName, args);
         LOG.info("Subscribing to channel {}", channelId);
@@ -326,7 +332,10 @@ public abstract class NettyStreamingService<T> {
                 super.channelInactive(ctx);
                 LOG.info("Reopening websocket because it was closed by the host");
                 final Completable c = connect()
-                        .doOnError(t -> LOG.warn("Problem with reconnect", t))
+                        .doOnError(t -> {
+                            LOG.warn("Problem with reconnect", t);
+                            reconnFailEmitters.stream().forEach(emitter -> emitter.onNext(t));
+                        })
                         .retryWhen(new RetryWithDelay(retryDuration.toMillis()))
                         .doOnComplete(() -> {
                             LOG.info("Resubscribing channels");
