@@ -3,17 +3,28 @@
     "BTC/USD": {
       "price_scale": 2,
       "min_amount": 0.00001,
-      "trading_fee": 0.0025
+      "trading_fee": 0.01
     },
     "ETH/USD": {
       "price_scale": 2,
       "min_amount": 0.001,
-      "trading_fee": 0.0025
+      "trading_fee": 0.01
     },
     "ETH/BTC": {
       "price_scale": 5,
       "min_amount": 0.001,
-      "trading_fee": 0.0025
+      "trading_fee": 0.01
+    },
+    "ZEC/USD": {
+      "price_scale": 2,
+      "trading_fee": 0.01
+    },
+    "ZEC/BTC": {
+      "price_scale": 5,
+      "trading_fee": 0.01
+    },
+    "ZEC/ETH": {
+      "trading_fee": 0.01
     }
   },
   "currencies": {
@@ -25,6 +36,8 @@
     },
     "ETH": {
       "scale": 6
+    },
+    "ZEC": {
     }
   }
 }
