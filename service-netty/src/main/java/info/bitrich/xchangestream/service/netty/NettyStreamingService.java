@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import io.netty.util.concurrent.Future;
 import io.reactivex.CompletableEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,11 +146,11 @@ public abstract class NettyStreamingService<T> {
                                 handlers.add(new HttpClientCodec());
                                 if (compressedMessages) handlers.add(WebSocketClientCompressionHandler.INSTANCE);
                                 handlers.add(new HttpObjectAggregator(8192));
-                                
+
                                 if (clientExtensionHandler != null) {
                                   handlers.add(clientExtensionHandler);
                                 }
-                                
+
                                 handlers.add(handler);
                                 p.addLast(handlers.toArray(new ChannelHandler[handlers.size()]));
                             }
@@ -299,7 +298,12 @@ public abstract class NettyStreamingService<T> {
 
 
     protected void handleChannelMessage(String channel, T message) {
-        ObservableEmitter<T> emitter = channels.get(channel).emitter;
+        NettyStreamingService<T>.Subscription subscription = channels.get(channel);
+        if (subscription == null) {
+            LOG.debug("Channel has been closed {}.", channel);
+            return;
+        }
+        ObservableEmitter<T> emitter = subscription.emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
             return;
@@ -309,7 +313,12 @@ public abstract class NettyStreamingService<T> {
     }
 
     protected void handleChannelError(String channel, Throwable t) {
-        ObservableEmitter<T> emitter = channels.get(channel).emitter;
+        NettyStreamingService<T>.Subscription subscription = channels.get(channel);
+        if (subscription == null) {
+            LOG.debug("Channel {} has been closed.", channel);
+            return;
+        }
+        ObservableEmitter<T> emitter = subscription.emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
             return;
