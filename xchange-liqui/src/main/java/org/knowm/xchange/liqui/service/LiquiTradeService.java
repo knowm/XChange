@@ -16,9 +16,7 @@ import org.knowm.xchange.liqui.LiquiAdapters;
 import org.knowm.xchange.liqui.dto.LiquiException;
 import org.knowm.xchange.liqui.dto.trade.LiquiCancelOrder;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -87,7 +85,7 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
         return LiquiAdapters.adaptTradesHistory(
             getTradeHistory(
                 ((LiquiTradeHistoryParams) params).getCurrencyPair(),
-                ((LiquiTradeHistoryParams) params).getAmount()));
+                ((LiquiTradeHistoryParams) params).getLimit()));
       }
     }
 
@@ -114,10 +112,12 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
     return orders;
   }
 
-  public static class LiquiTradeHistoryParams implements TradeHistoryParams {
+  public static class LiquiTradeHistoryParams
+      implements TradeHistoryParams, TradeHistoryParamCurrencyPair, TradeHistoryParamLimit {
 
     private CurrencyPair currencyPair = null;
-    private int amount = 1000;
+
+    private int limit = 1000;
 
     public LiquiTradeHistoryParams() {}
 
@@ -129,12 +129,14 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
       this.currencyPair = currencyPair;
     }
 
-    public int getAmount() {
-      return amount;
+    @Override
+    public Integer getLimit() {
+      return limit;
     }
 
-    public void setAmount(final int amount) {
-      this.amount = amount;
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
     }
   }
 }
