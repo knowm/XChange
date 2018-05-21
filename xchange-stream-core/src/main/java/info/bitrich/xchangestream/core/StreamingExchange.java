@@ -44,6 +44,13 @@ public interface StreamingExchange extends Exchange {
     StreamingMarketDataService getStreamingMarketDataService();
 
     /**
+     * Returns service that can be used to access transaction data.
+     */
+    default StreamingTradeService getStreamingTrasactionDataService() {
+        throw new NotYetImplementedForExchangeException();
+    }
+
+    /**
      * Set whether or not to enable compression handler.
      *
      * @param compressedMessages Defaults to false
