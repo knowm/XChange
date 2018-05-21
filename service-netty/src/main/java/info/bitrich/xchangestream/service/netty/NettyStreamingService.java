@@ -65,7 +65,7 @@ public abstract class NettyStreamingService<T> {
     private Channel webSocketChannel;
     private Duration retryDuration;
     private Duration connectionTimeout;
-    private final NioEventLoopGroup eventLoopGroup;
+    private volatile NioEventLoopGroup eventLoopGroup;
     protected Map<String, Subscription> channels = new ConcurrentHashMap<>();
     private boolean compressedMessages = false;
 
@@ -83,7 +83,6 @@ public abstract class NettyStreamingService<T> {
             this.retryDuration = retryDuration;
             this.connectionTimeout = connectionTimeout;
             this.uri = new URI(apiUrl);
-            this.eventLoopGroup = new NioEventLoopGroup(2);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("Error parsing URI " + apiUrl, e);
         }
@@ -130,6 +129,7 @@ public abstract class NettyStreamingService<T> {
                         this::messageHandler);
 
                 Bootstrap b = new Bootstrap();
+                eventLoopGroup = new NioEventLoopGroup(2);
                 b.group(eventLoopGroup)
                         .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, java.lang.Math.toIntExact(connectionTimeout.toMillis()))
                         .channel(NioSocketChannel.class)
@@ -195,9 +195,10 @@ public abstract class NettyStreamingService<T> {
                 CloseWebSocketFrame closeFrame = new CloseWebSocketFrame();
                 webSocketChannel.writeAndFlush(closeFrame).addListener(future -> {
                     channels = new ConcurrentHashMap<>();
-                    eventLoopGroup.shutdownGracefully();
-                    completable.onComplete();
+                    eventLoopGroup.shutdownGracefully().addListener(f -> completable.onComplete());
                 });
+            } else {
+              completable.onComplete();
             }
         });
     }
@@ -348,14 +349,16 @@ public abstract class NettyStreamingService<T> {
             } else {
                 super.channelInactive(ctx);
                 LOG.info("Reopening websocket because it was closed by the host");
-                final Completable c = connect()
+                eventLoopGroup.shutdownGracefully().addListener(f -> {
+                    final Completable c = connect()
                         .doOnError(t -> LOG.warn("Problem with reconnect", t))
                         .retryWhen(new RetryWithDelay(retryDuration.toMillis()))
                         .doOnComplete(() -> {
                             LOG.info("Resubscribing channels");
                             resubscribeChannels();
                         });
-                c.subscribe();
+                    c.subscribe();
+                });
             }
         }
     }
