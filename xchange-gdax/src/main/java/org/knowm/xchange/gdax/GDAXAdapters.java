@@ -128,12 +128,17 @@ public class GDAXAdapters {
         .build();
   }
 
-  public static OrderBook adaptOrderBook(GDAXProductBook book, CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(
+      GDAXProductBook book, CurrencyPair currencyPair, Date date) {
 
     List<LimitOrder> asks = toLimitOrderList(book.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = toLimitOrderList(book.getBids(), OrderType.BID, currencyPair);
 
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(date, asks, bids);
+  }
+
+  public static OrderBook adaptOrderBook(GDAXProductBook book, CurrencyPair currencyPair) {
+    return adaptOrderBook(book, currencyPair, null);
   }
 
   private static List<LimitOrder> toLimitOrderList(
