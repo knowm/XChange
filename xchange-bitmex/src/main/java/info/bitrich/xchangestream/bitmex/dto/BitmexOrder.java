@@ -2,16 +2,26 @@ package info.bitrich.xchangestream.bitmex.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.bitmex.BitmexUtils;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+
 
 import java.math.BigDecimal;
 
 
 public class BitmexOrder extends BitmexMarketDataEvent {
 
-    public static final String ASK_SIDE = "Sell";
-    public static final String BID_SIDE = "Buy";
+    public enum OrderStatus {
+        NEW,
+        PARTIALLYFILLED,
+        FILLED,
+        TBD,
+        CANCELED,
+        REJECTED,
+        UNKNOW
+    }
 
     private String orderID;
 
@@ -19,23 +29,25 @@ public class BitmexOrder extends BitmexMarketDataEvent {
 
     private String side;
 
-    private double price;
+    private BigDecimal price;
+
+    private BigDecimal avgPx;
 
     private String ordType;
 
-    private String ordStatus;
+    private OrderStatus ordStatus;
 
     private String clOrdID;
 
-    private long orderQty;
+    private BigDecimal orderQty;
 
-    private long cumQty;
+    private BigDecimal cumQty;
 
-    private boolean workingIndicator;
-
-    public boolean isNotWorking() {
+    public boolean isNotWorkingIndicator() {
         return !workingIndicator;
     }
+
+    private boolean workingIndicator;
 
     @JsonCreator
     public BitmexOrder(@JsonProperty("symbol") String symbol,
@@ -43,76 +55,70 @@ public class BitmexOrder extends BitmexMarketDataEvent {
                        @JsonProperty("orderID") String orderID,
                        @JsonProperty("account") int account,
                        @JsonProperty("side") String side,
-                       @JsonProperty("price") double price,
+                       @JsonProperty("price") BigDecimal price,
+                       @JsonProperty("avgPx") BigDecimal avgPx,
                        @JsonProperty("ordType") String ordType,
                        @JsonProperty("ordStatus") String ordStatus,
                        @JsonProperty("clOrdID") String clOrdID,
-                       @JsonProperty("orderQty") long orderQty,
-                       @JsonProperty("cumQty") long cumQty,
+                       @JsonProperty("orderQty") BigDecimal orderQty,
+                       @JsonProperty("cumQty") BigDecimal cumQty,
                        @JsonProperty("workingIndicator") boolean workingIndicator) {
         super(symbol, timestamp);
         this.orderID = orderID;
         this.account = account;
         this.side = side;
         this.price = price;
+        this.avgPx = avgPx;
         this.ordType = ordType;
-        this.ordStatus = ordStatus;
+        try {
+            this.ordStatus = OrderStatus.valueOf(ordStatus.toUpperCase());
+        } catch (Exception e) {
+            this.ordStatus = OrderStatus.UNKNOW;
+        }
         this.clOrdID = clOrdID;
         this.orderQty = orderQty;
         this.cumQty = cumQty;
         this.workingIndicator = workingIndicator;
     }
 
-    public Order.OrderType getOrderSide() {
-        return side.equals(ASK_SIDE) ? Order.OrderType.ASK : Order.OrderType.BID;
-    }
-
     public Order toOrder() {
-        if (ordType.equals("Limit")) {
-            LimitOrder.Builder builder = new LimitOrder.Builder();
-            builder.id(orderID)
-                    .orderType(getOrderSide())
-                    .limitPrice(new BigDecimal(price))
-                    .originalAmount(new BigDecimal(orderQty))
-                    .cumulativeAmount(new BigDecimal(cumQty))
-
-            if (ordStatus.equals("Rejected") || ordStatus.equals("N/A")) {
-                return builder.orderStatus(Order.OrderStatus.REJECTED).build();
-            }
-            return builder.build();
+        Order.Builder order;
+        if (ordType.equals("Market")) {
+            order = new MarketOrder.Builder(side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK, BitmexUtils.translateBitmexCurrencyPair(symbol));
+        } else {
+            order = new LimitOrder.Builder(side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK, BitmexUtils.translateBitmexCurrencyPair(symbol));
         }
-//        builder.id(orderID)
-//                .orderType(getOrderSide())
-//                .limitPrice(price)
-//                .
-//
-//        return new LimitOrder()
-//
-//        Order.Status status = Order.Status.fromName(ordStatus);
-//        if (status == FAILED ||
-//                status == UNKNOW) {
-//            log.error("Got invalid order: {}", this.toString());
-//            return Order.builder()
-//                    .id(orderID)
-//                    .clOrdID(clOrdID)
-//                    .account(account)
-//                    .status(status)
-//                    .committedVol(committedVol)
-//                    .build();
-//        }
-//        Order order = Order.builder()
-//                .id(orderID)
-//                .clOrdID(clOrdID)
-//                .account(account)
-//                .status(status)
-//                .submittedVol(submittedVol)
-//                .committedVol(committedVol)
-//                .build();
-//        if (status == Order.Status.NEW) {
-//            order.price(price)
-//                    .tradeSide(side.equals("Buy") ? Order.TradeSide.OPEN_LONG : Order.TradeSide.OPEN_SHORT)
-//                    .type(Order.OrderType.fromName(ordType));
-//        }
-//        return order;
+        order.id(orderID)
+                .averagePrice(avgPx)
+                .originalAmount(orderQty)
+                .cumulativeAmount(cumQty);
+
+        switch (ordStatus) {
+            case NEW:
+                order.orderStatus(Order.OrderStatus.NEW);
+                break;
+            case PARTIALLYFILLED:
+                order.orderStatus(Order.OrderStatus.PARTIALLY_FILLED);
+                break;
+            case FILLED:
+                order.orderStatus(Order.OrderStatus.FILLED);
+                break;
+            case TBD:
+                order.orderStatus(Order.OrderStatus.PENDING_CANCEL);
+                break;
+            case CANCELED:
+                order.orderStatus(Order.OrderStatus.CANCELED);
+                break;
+            case REJECTED:
+                order.orderStatus(Order.OrderStatus.REJECTED);
+            default:
+                order.orderStatus(Order.OrderStatus.UNKNOWN);
+                break;
+        }
+        if (ordType.equals("Market")) {
+            return ((MarketOrder.Builder) order).build();
+        } else {
+            return ((LimitOrder.Builder) order).build();
+        }
     }
 }
