@@ -101,4 +101,5 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
             return trades;
         });
     }
+
 }
