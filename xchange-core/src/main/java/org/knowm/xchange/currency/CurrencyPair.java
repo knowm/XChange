@@ -211,14 +211,14 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair OMG_USD = new CurrencyPair(Currency.OMG, Currency.USD);
   public static final CurrencyPair OMG_BTC = new CurrencyPair(Currency.OMG, Currency.BTC);
   public static final CurrencyPair OMG_ETH = new CurrencyPair(Currency.OMG, Currency.ETH);
-  //end
-  
+  // end
+
   // NEO
   public static final CurrencyPair NEO_USD = new CurrencyPair(Currency.NEO, Currency.USD);
   public static final CurrencyPair NEO_USDT = new CurrencyPair(Currency.NEO, Currency.USDT);
   public static final CurrencyPair NEO_BTC = new CurrencyPair(Currency.NEO, Currency.BTC);
   public static final CurrencyPair NEO_ETH = new CurrencyPair(Currency.NEO, Currency.ETH);
-  //end
+  // end
 
   // not real currencies, but tradable commodities (GH/s)
   public static final CurrencyPair GHs_BTC = new CurrencyPair(Currency.GHs, Currency.BTC);
