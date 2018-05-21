@@ -1,11 +1,10 @@
 package org.knowm.xchange.service.trade.params;
 
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.TradeService;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the
@@ -20,8 +19,7 @@ public class TradeHistoryParamsAll
         TradeHistoryParamOffset,
         TradeHistoryParamCurrencyPair,
         TradeHistoryParamMultiCurrencyPair,
-        TradeHistoryParamLimit
-{
+        TradeHistoryParamLimit {
 
   private Integer pageLength;
   private Integer pageNumber;
