@@ -37,7 +37,7 @@ public class Bl3pAdapters {
         List<LimitOrder> result = new ArrayList<>(bl3pOrders.length);
 
         for (Bl3pOpenOrders.Bl3pOpenOrder bl3pOrder : bl3pOrders) {
-            Order.OrderType orderType = Bl3pUtils.fromBl3pStatus(bl3pOrder.getStatus());
+            Order.OrderType orderType = Bl3pUtils.fromBl3pOrderType(bl3pOrder.getStatus());
             BigDecimal limitPrice = bl3pOrder.getPrice().value;
             BigDecimal originalAmount = bl3pOrder.getAmountFunds().value;
             BigDecimal executedAmount = bl3pOrder.getAmountExecuted().value;

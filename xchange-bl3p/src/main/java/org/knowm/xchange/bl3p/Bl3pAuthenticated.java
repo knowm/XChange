@@ -3,8 +3,9 @@ package org.knowm.xchange.bl3p;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.dto.account.Bl3pNewDepositAddress;
 import org.knowm.xchange.bl3p.dto.account.Bl3pTransactionHistory;
+import org.knowm.xchange.bl3p.dto.trade.Bl3pCancelOrder;
+import org.knowm.xchange.bl3p.dto.trade.Bl3pNewOrder;
 import org.knowm.xchange.bl3p.dto.trade.Bl3pOpenOrders;
-import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -74,6 +75,15 @@ public interface Bl3pAuthenticated extends Bl3p {
                                                  @FormParam("currency") String currency,
                                                  @FormParam("page") int page) throws IOException;
 
+    /**
+     * Get all open orders
+     *
+     * @param restKey
+     * @param restSign
+     * @param nonce
+     * @param currencyPair
+     * @return
+     */
     @GET
     @Path("/{currencyPair}/money/orders")
     Bl3pOpenOrders getOpenOrders(@HeaderParam("Rest-Key") String restKey,
@@ -81,4 +91,57 @@ public interface Bl3pAuthenticated extends Bl3p {
                                  @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
                                  @PathParam("currencyPair") String currencyPair);
 
+    /**
+     * Create a market order
+     *
+     * @param restKey
+     * @param restSign
+     * @param nonce
+     * @param currencyPair
+     * @param type
+     * @param amountInt
+     * @param feeCurrency
+     * @return
+     */
+    @POST
+    @Path("/{currencyPair}/money/order/add")
+    Bl3pNewOrder createMarketOrder(@HeaderParam("Rest-Key") String restKey,
+                                   @HeaderParam("Rest-Sign") ParamsDigest restSign,
+                                   @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                                   @PathParam("currencyPair") String currencyPair,
+                                   @FormParam("type") String type,
+                                   @FormParam("amount_int") long amountInt,
+                                   @FormParam("fee_currency") String feeCurrency);
+
+    /**
+     * Create a limit order
+     *
+     * @param restKey
+     * @param restSign
+     * @param nonce
+     * @param currencyPair
+     * @param type
+     * @param amountInt
+     * @param priceInt
+     * @param feeCurrency
+     * @return
+     */
+    @POST
+    @Path("/{currencyPair}/money/order/add")
+    Bl3pNewOrder createLimitOrder(@HeaderParam("Rest-Key") String restKey,
+                                  @HeaderParam("Rest-Sign") ParamsDigest restSign,
+                                  @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                                  @PathParam("currencyPair") String currencyPair,
+                                  @FormParam("type") String type,
+                                  @FormParam("amount_int") long amountInt,
+                                  @FormParam("price_int") long priceInt,
+                                  @FormParam("fee_currency") String feeCurrency);
+
+    @POST
+    @Path("/{currencyPair}/money/order/cancel")
+    Bl3pCancelOrder cancelOrder(@HeaderParam("Rest-Key") String restKey,
+                                @HeaderParam("Rest-Sign") ParamsDigest restSign,
+                                @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                                @PathParam("currencyPair") String currencyPair,
+                                @FormParam("order_id") String orderId);
 }
