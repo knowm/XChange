@@ -278,10 +278,9 @@ public class LivecoinAdapters {
       WalletBuilder builder = wallets.get(curr);
       if (builder == null) {
         builder = new WalletBuilder(curr);
+        wallets.put(curr, builder);
       }
       builder.add(type, value);
-
-      wallets.put(curr, builder);
     }
 
     List<Wallet> res = new ArrayList<>();
