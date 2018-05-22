@@ -325,7 +325,6 @@ public final class FundingRecord implements Serializable {
 		  .setCurrency(record.currency)
 		  .setAmount(record.amount)
 		  .setInternalId(record.internalId)
-		  .setExternalId(record.externalId)
 		  .setDescription(record.description)
 		  .setType(record.type)
 		  .setStatus(record.status)
