@@ -33,13 +33,13 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
       throws IOException {
 
     OkCoinTradeResult tradeResult =
-        okCoin.trade(apikey, symbol, type, rate, amount, signatureCreator);
+        okCoin.trade(apikey, symbol, type, rate, amount, signatureCreator());
     return returnOrThrow(tradeResult);
   }
 
   public OkCoinTradeResult cancelOrder(long orderId, String symbol) throws IOException {
 
-    OkCoinTradeResult tradeResult = okCoin.cancelOrder(apikey, orderId, symbol, signatureCreator);
+    OkCoinTradeResult tradeResult = okCoin.cancelOrder(apikey, orderId, symbol, signatureCreator());
     return returnOrThrow(tradeResult);
   }
 
@@ -48,12 +48,12 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
 
     String ids =
         orderIds.stream().map(Object::toString).collect(Collectors.joining(BATCH_DELIMITER));
-    return okCoin.cancelOrders(apikey, ids, symbol, signatureCreator);
+    return okCoin.cancelOrders(apikey, ids, symbol, signatureCreator());
   }
 
   public OkCoinOrderResult getOrder(long orderId, String symbol) throws IOException {
 
-    OkCoinOrderResult orderResult = okCoin.getOrder(apikey, orderId, symbol, signatureCreator);
+    OkCoinOrderResult orderResult = okCoin.getOrder(apikey, orderId, symbol, signatureCreator());
     return returnOrThrow(orderResult);
   }
 
@@ -61,7 +61,7 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
       String symbol, String status, String currentPage, String pageLength) throws IOException {
 
     OkCoinOrderResult orderResult =
-        okCoin.getOrderHistory(apikey, symbol, status, currentPage, pageLength, signatureCreator);
+        okCoin.getOrderHistory(apikey, symbol, status, currentPage, pageLength, signatureCreator());
     return returnOrThrow(orderResult);
   }
 
@@ -86,7 +86,7 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
             amount,
             matchPrice,
             leverRate,
-            signatureCreator);
+            signatureCreator());
     return returnOrThrow(tradeResult);
   }
 
@@ -94,7 +94,7 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
       throws IOException {
 
     OkCoinTradeResult tradeResult =
-        okCoin.futuresCancelOrder(apikey, orderId, symbol, contract.getName(), signatureCreator);
+        okCoin.futuresCancelOrder(apikey, orderId, symbol, contract.getName(), signatureCreator());
     return returnOrThrow(tradeResult);
   }
 
@@ -111,7 +111,7 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
             currentPage,
             pageLength,
             contract.getName(),
-            signatureCreator);
+            signatureCreator());
     return returnOrThrow(futuresOrder);
   }
 
@@ -134,7 +134,7 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
             currentPage,
             pageLength,
             contract.getName(),
-            signatureCreator);
+            signatureCreator());
     return returnOrThrow(futuresOrder);
   }
 
@@ -142,7 +142,7 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
       String orderIds, String symbol, FuturesContract contract) throws IOException {
 
     OkCoinFuturesOrderResult futuresOrder =
-        okCoin.getFuturesOrders(apikey, orderIds, symbol, contract.getName(), signatureCreator);
+        okCoin.getFuturesOrders(apikey, orderIds, symbol, contract.getName(), signatureCreator());
     return returnOrThrow(futuresOrder);
   }
 
@@ -150,14 +150,14 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
       String symbol, long since, String date) throws IOException {
 
     OkCoinFuturesTradeHistoryResult[] futuresHistory =
-        okCoin.getFuturesTradeHistory(apikey, since, symbol, date, signatureCreator);
+        okCoin.getFuturesTradeHistory(apikey, since, symbol, date, signatureCreator());
     return (futuresHistory);
   }
 
   public OkCoinPositionResult getFuturesPosition(String symbol, FuturesContract contract)
       throws IOException {
     OkCoinPositionResult futuresPositionsCross =
-        okCoin.getFuturesPositionsCross(apikey, symbol, contract.getName(), signatureCreator);
+        okCoin.getFuturesPositionsCross(apikey, symbol, contract.getName(), signatureCreator());
 
     return returnOrThrow(futuresPositionsCross);
   }
