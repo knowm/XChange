@@ -78,15 +78,28 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
 
   @Override
   public UserTrades getTradeHistory(final TradeHistoryParams params) throws IOException {
+
+    CurrencyPair currencyPair = null;
+    Long startTime = null;
+    Long endTime = null;
+    Integer limit = null;
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    }
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime().getTime();
+      endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime().getTime();
+    }
+
+    if (params instanceof TradeHistoryParamLimit) {
+      limit = ((TradeHistoryParamLimit) params).getLimit();
+    }
+
     if (params instanceof LiquiTradeHistoryParams) {
-      if (((LiquiTradeHistoryParams) params).getCurrencyPair() != null) {
-        return LiquiAdapters.adaptTradesHistory(getTradeHistory());
-      } else {
-        return LiquiAdapters.adaptTradesHistory(
-            getTradeHistory(
-                ((LiquiTradeHistoryParams) params).getCurrencyPair(),
-                ((LiquiTradeHistoryParams) params).getLimit()));
-      }
+      return LiquiAdapters.adaptTradesHistory(
+          getTradeHistory(currencyPair, null, null, limit, startTime, endTime));
     }
 
     throw new LiquiException("Unable to get trade history with the provided params: " + params);
@@ -113,21 +126,11 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
   }
 
   public static class LiquiTradeHistoryParams
-      implements TradeHistoryParams, TradeHistoryParamCurrencyPair, TradeHistoryParamLimit {
-
-    private CurrencyPair currencyPair = null;
+      implements TradeHistoryParams, TradeHistoryParamLimit {
 
     private int limit = 1000;
 
     public LiquiTradeHistoryParams() {}
-
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
-    }
-
-    public void setCurrencyPair(final CurrencyPair currencyPair) {
-      this.currencyPair = currencyPair;
-    }
 
     @Override
     public Integer getLimit() {
