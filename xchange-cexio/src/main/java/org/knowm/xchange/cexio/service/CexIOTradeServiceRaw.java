@@ -23,6 +23,7 @@ import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
@@ -100,15 +101,31 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
   }
 
   public CexIOCancelReplaceOrderResponse cancelReplaceCexIOOrder(
-      CurrencyPair currencyPair, String type, String orderId, BigDecimal amount, BigDecimal price)
+      CurrencyPair currencyPair,
+      Order.OrderType type,
+      String orderId,
+      BigDecimal amount,
+      BigDecimal price)
       throws ExchangeException, IOException {
+
+    String orderType;
+    switch (type) {
+      case BID:
+        orderType = "buy";
+        break;
+      case ASK:
+        orderType = "sell";
+        break;
+      default:
+        throw new IllegalArgumentException(String.format("Unexpected order type '%s'", type));
+    }
 
     CexIOCancelReplaceOrderResponse response =
         cexIOAuthenticated.cancelReplaceOrder(
             signatureCreator,
             currencyPair.base.getCurrencyCode(),
             currencyPair.counter.getCurrencyCode(),
-            new CexioCancelReplaceOrderRequest(orderId, type, amount, price));
+            new CexioCancelReplaceOrderRequest(orderId, orderType, amount, price));
 
     if (response.getError() != null) {
       throw new ExchangeException(response.getError());
