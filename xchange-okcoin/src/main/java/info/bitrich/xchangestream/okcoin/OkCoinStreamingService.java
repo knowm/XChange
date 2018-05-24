@@ -4,14 +4,42 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.okcoin.dto.WebSocketMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class OkCoinStreamingService extends JsonNettyStreamingService {
 
+    private Timer pingPongTimer = null;
+
     public OkCoinStreamingService(String apiUrl) {
         super(apiUrl);
+    }
+
+    @Override
+    public Completable connect() {
+        Completable conn = super.connect();
+        return conn.andThen((CompletableSource)(completable) -> {
+            try {
+                if (pingPongTimer != null) {
+                    pingPongTimer.cancel();
+                }
+                pingPongTimer = new Timer("OkexPingPong", false);
+                pingPongTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        OkCoinStreamingService.this.sendMessage("{\"event\":\"ping\"}");
+                    }
+                }, 15*1000, 15*1000);
+                completable.onComplete();
+            } catch (Exception e) {
+                completable.onError(e);
+            }
+        });
     }
 
     @Override
@@ -37,6 +65,10 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected void handleMessage(JsonNode message) {
+        if (message.get("event") != null && "pong".equals(message.get("event").asText()) ) {
+            // ignore pong message
+            return;
+        }
         if (message.get("data") != null) {
             if (message.get("data").has("result")) {
                 boolean success = message.get("data").get("result").asBoolean();
