@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
 import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
 import org.knowm.xchange.cexio.dto.CexioCryptoAddressRequest;
 import org.knowm.xchange.cexio.dto.CexioSingleIdRequest;
 import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
@@ -23,6 +24,7 @@ import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
 import org.knowm.xchange.cexio.dto.account.GHashIOWorkers;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOCancelAllOrdersResponse;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
@@ -65,6 +67,15 @@ public interface CexIOAuthenticated extends CexIO {
       @PathParam("currencyA") String currencyA,
       @PathParam("currencyB") String currencyB,
       CexIORequest request)
+      throws IOException;
+
+  @POST
+  @Path("cancel_replace_order/{currencyA}/{currencyB}/")
+  CexIOCancelReplaceOrderResponse cancelReplaceOrder(
+      @HeaderParam("signature") ParamsDigest signer,
+      @PathParam("currencyA") String currencyA,
+      @PathParam("currencyB") String currencyB,
+      CexioCancelReplaceOrderRequest request)
       throws IOException;
 
   @POST
