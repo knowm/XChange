@@ -4,6 +4,7 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,11 +12,13 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
 import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
 import org.knowm.xchange.cexio.dto.CexioSingleIdRequest;
 import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
 import org.knowm.xchange.cexio.dto.PlaceOrderRequest;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOCancelAllOrdersResponse;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
@@ -94,6 +97,24 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
         currencyPair.base.getCurrencyCode(),
         currencyPair.counter.getCurrencyCode(),
         new CexIORequest());
+  }
+
+  public CexIOCancelReplaceOrderResponse cancelReplaceCexIOOrder(
+      CurrencyPair currencyPair, String type, String orderId, BigDecimal amount, BigDecimal price)
+      throws ExchangeException, IOException {
+
+    CexIOCancelReplaceOrderResponse response =
+        cexIOAuthenticated.cancelReplaceOrder(
+            signatureCreator,
+            currencyPair.base.getCurrencyCode(),
+            currencyPair.counter.getCurrencyCode(),
+            new CexioCancelReplaceOrderRequest(orderId, type, amount, price));
+
+    if (response.getError() != null) {
+      throw new ExchangeException(response.getError());
+    }
+
+    return response;
   }
 
   public List<CexIOArchivedOrder> archivedOrders(TradeHistoryParams tradeHistoryParams)
