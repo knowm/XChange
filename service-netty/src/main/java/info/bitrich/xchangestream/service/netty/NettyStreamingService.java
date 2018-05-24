@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.CompletableEmitter;
 import org.slf4j.Logger;
@@ -195,9 +196,13 @@ public abstract class NettyStreamingService<T> {
                 CloseWebSocketFrame closeFrame = new CloseWebSocketFrame();
                 webSocketChannel.writeAndFlush(closeFrame).addListener(future -> {
                     channels = new ConcurrentHashMap<>();
-                    eventLoopGroup.shutdownGracefully().addListener(f -> completable.onComplete());
+                    eventLoopGroup.shutdownGracefully(2, 30, TimeUnit.SECONDS).addListener(f -> {
+                      LOG.info("Disconnected");
+                      completable.onComplete();
+                    });
                 });
             } else {
+              LOG.warn("Disconnect called but already disconnected");
               completable.onComplete();
             }
         });
@@ -349,7 +354,7 @@ public abstract class NettyStreamingService<T> {
             } else {
                 super.channelInactive(ctx);
                 LOG.info("Reopening websocket because it was closed by the host");
-                eventLoopGroup.shutdownGracefully().addListener(f -> {
+                eventLoopGroup.shutdownGracefully(2, 30, TimeUnit.SECONDS).addListener(f -> {
                     final Completable c = connect()
                         .doOnError(t -> LOG.warn("Problem with reconnect", t))
                         .retryWhen(new RetryWithDelay(retryDuration.toMillis()))
