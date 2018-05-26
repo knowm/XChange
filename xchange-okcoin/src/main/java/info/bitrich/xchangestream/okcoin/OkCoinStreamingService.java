@@ -74,6 +74,8 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
                 boolean success = message.get("data").get("result").asBoolean();
                 if (!success) {
                     super.handleError(message, new ExchangeException("Error code: " + message.get("errorcode").asText()));
+                } else {
+                    super.handleMessage(message);
                 }
                 return;
             }
