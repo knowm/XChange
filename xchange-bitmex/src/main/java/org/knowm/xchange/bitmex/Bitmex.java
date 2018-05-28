@@ -157,15 +157,34 @@ public interface Bitmex {
   @POST
   @Path("order")
   BitmexPrivateOrder placeOrder(
-      @HeaderParam("api-key") String apiKey,
-      @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
-      @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @FormParam("symbol") String symbol,
-      @FormParam("orderQty") int orderQuantity,
-      @FormParam("price") BigDecimal price,
-      @Nullable @FormParam("stopPx") BigDecimal stopPrice,
-      @Nullable @FormParam("ordType") String orderType,
-      @Nullable @FormParam("execInst") String executionInstructions);
+          @HeaderParam("api-key") String apiKey,
+          @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+          @HeaderParam("api-signature") ParamsDigest paramsDigest,
+          @FormParam("symbol") String symbol,
+          @Nullable @FormParam("side") String side,
+          @FormParam("orderQty") int orderQuantity,
+          @FormParam("price") BigDecimal price,
+          @Nullable @FormParam("stopPx") BigDecimal stopPrice,
+          @Nullable @FormParam("ordType") String orderType,
+          @Nullable @FormParam("clOrdID") String clOrdID,
+          @Nullable @FormParam("execInst") String executionInstructions);
+
+  @PUT
+  @Path("order")
+  //for some reason underlying library doesn't add contenty type for PUT requests automatically
+  @Consumes("application/x-www-form-urlencoded")
+  BitmexPrivateOrder replaceOrder(
+          @HeaderParam("api-key") String apiKey,
+          @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+          @HeaderParam("api-signature") ParamsDigest paramsDigest,
+          @FormParam("orderQty") int orderQuantity,
+          @Nullable @FormParam("price") BigDecimal price,
+          @Nullable @FormParam("stopPx") BigDecimal stopPrice,
+          @Nullable @FormParam("ordType") String orderType,
+          @Nullable @FormParam("orderID") String orderId,
+          @Nullable @FormParam("clOrdID") String clOrdId,
+          @Nullable @FormParam("origClOrdID") String origClOrdId,
+          @Nullable @FormParam("execInst") String executionInstructions);
 
   @DELETE
   @Path("order")
