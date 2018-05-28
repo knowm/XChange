@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.core;
 
+import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.Exchange;
@@ -27,6 +28,15 @@ public interface StreamingExchange extends Exchange {
      * @return true if connection is open, otherwise false.
      */
     boolean isAlive();
+
+    /**
+     * Observable for disconnection event.
+     *
+     * @return Observable with the exception during reconnection.
+     */
+    default Observable<ChannelHandlerContext> disconnectObservable() {
+        throw new NotYetImplementedForExchangeException();
+    }
 
     /**
      * Observable for reconnection failure event.

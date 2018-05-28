@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.okcoin;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.okcoin.OkCoinExchange;
@@ -45,6 +46,11 @@ public class OkCoinStreamingExchange extends OkCoinExchange implements Streaming
     @Override
     public Observable<Throwable> reconnectFailure() {
         return streamingService.subscribeReconnectFailure();
+    }
+
+    @Override
+    public Observable<ChannelHandlerContext> disconnectObservable() {
+        return streamingService.subscribeDisconnect();
     }
 
     @Override
