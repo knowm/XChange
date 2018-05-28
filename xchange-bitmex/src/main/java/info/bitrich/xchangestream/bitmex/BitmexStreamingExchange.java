@@ -4,6 +4,9 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -65,4 +68,11 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
 
     @Override
     public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
+
+    @Override
+    public Observable<Long> messageDelay() {
+        return Observable.create(delayEmitter -> {
+            streamingService.addDelayEmitter(delayEmitter);
+        });
+    }
 }
