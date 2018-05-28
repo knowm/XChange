@@ -85,7 +85,11 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public BitmexPrivateOrder placeLimitOrder(
-      String symbol, BigDecimal orderQuantity, BigDecimal price, String executionInstructions) {
+          String symbol,
+          BigDecimal orderQuantity,
+          BigDecimal price,
+          BitmexSide side, String clOrdId,
+          String executionInstructions) {
     return bitmex.placeOrder(
         apiKey,
         exchange.getNonceFactory(),

@@ -83,8 +83,14 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     String symbol =
         limitOrder.getCurrencyPair().base.getCurrencyCode()
             + limitOrder.getCurrencyPair().counter.getCurrencyCode();
+    BitmexSide side = getSide(limitOrder.getType());
     BitmexPrivateOrder order =
-        placeLimitOrder(symbol, limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(), null);
+        placeLimitOrder(
+            symbol,
+            limitOrder.getOriginalAmount(),
+            limitOrder.getLimitPrice(),
+                side,
+                limitOrder.getId(), null);
     return order.getId();
   }
 
