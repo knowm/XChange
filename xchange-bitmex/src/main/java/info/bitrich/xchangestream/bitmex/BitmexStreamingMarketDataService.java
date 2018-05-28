@@ -26,7 +26,7 @@ import java.util.TreeMap;
 public class BitmexStreamingMarketDataService implements StreamingMarketDataService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingMarketDataService.class);
 
-    private final BitmexStreamingService streamingService;
+    protected final BitmexStreamingService streamingService;
 
     private final SortedMap<String, BitmexOrderbook> orderbooks = new TreeMap<>();
 
