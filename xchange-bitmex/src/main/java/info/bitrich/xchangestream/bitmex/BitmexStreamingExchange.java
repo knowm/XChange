@@ -73,4 +73,11 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
 
     @Override
     public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
+
+    @Override
+    public Observable<Long> messageDelay() {
+        return Observable.create(delayEmitter -> {
+            streamingService.addDelayEmitter(delayEmitter);
+        });
+    }
 }
