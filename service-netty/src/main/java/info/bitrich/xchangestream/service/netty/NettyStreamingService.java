@@ -258,7 +258,9 @@ public abstract class NettyStreamingService<T> {
                 Subscription newSubscription = new Subscription(e, channelName, args);
                 channels.put(channelId, newSubscription);
                 try {
-                    sendMessage(getSubscribeMessage(channelName, args));
+                    if (args.length < 1 || !(args[0] instanceof String) || !(args[0].equals("NoMsg"))) {
+                        sendMessage(getSubscribeMessage(channelName, args));
+                    }
                 } catch (IOException throwable) {
                     e.onError(throwable);
                 }
@@ -269,6 +271,18 @@ public abstract class NettyStreamingService<T> {
                 channels.remove(channelId);
             }
         }).share();
+    }
+
+    public void unsubscribeChannel(String channelName, Object... args) {
+        final String channelId = getSubscriptionUniqueId(channelName, args);
+        LOG.info("Unsubscribing to channel {}", channelId);
+        if (channels.containsKey(channelId)) {
+            try {
+                sendMessage(getUnsubscribeMessage(channelId));
+            } catch (IOException e) {
+            }
+            channels.remove(channelId);
+        }
     }
 
     public void resubscribeChannels() {

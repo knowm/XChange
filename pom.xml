@@ -62,7 +62,7 @@
     <distributionManagement>
         <snapshotRepository>
             <id>hetang_upload</id>
-            <url>http://45.76.152.47/repository/hetang/</url>
+            <url>http://13.250.18.54/repository/hetang/</url>
         </snapshotRepository>
         <!--<snapshotRepository>-->
             <!--<id>ossrh</id>-->
