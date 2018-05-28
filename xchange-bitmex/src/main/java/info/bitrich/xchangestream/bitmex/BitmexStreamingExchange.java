@@ -80,4 +80,9 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
             streamingService.addDelayEmitter(delayEmitter);
         });
     }
+
+    @Override
+    public void resubscribeChannels() {
+        streamingService.resubscribeChannels();
+    }
 }
