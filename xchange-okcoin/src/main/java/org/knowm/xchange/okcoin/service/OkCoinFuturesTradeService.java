@@ -212,6 +212,29 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+      if (orderParams instanceof CancelOrderByIdParams && orderParams instanceof CancelOrderByCurrencyPair) {
+        boolean ret = false;
+        long id = Long.valueOf(((CancelOrderByIdParams)orderParams).getOrderId());
+
+        List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
+        List<FuturesContract> exchangeContracts = getExchangeContracts();
+
+            CurrencyPair symbol = ((CancelOrderByCurrencyPair)orderParams).getCurrencyPair();
+                try {
+                    OkCoinTradeResult cancelResult =
+                            futuresCancelOrder(id, OkCoinAdapters.adaptSymbol(symbol), futuresContract);
+
+                    if (id == cancelResult.getOrderId()) {
+                        ret = true;
+                    }
+                } catch (ExchangeException e) {
+                    if (e.getMessage().equals(OkCoinUtils.getErrorMessage(1009))
+                            || e.getMessage().equals(OkCoinUtils.getErrorMessage(20015))) {
+                        // order not found.
+                    }
+                }
+        return ret;
+    }
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
