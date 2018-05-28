@@ -61,4 +61,9 @@ public class OkCoinStreamingExchange extends OkCoinExchange implements Streaming
             streamingService.addDelayEmitter(delayEmitter);
         });
     }
+
+    @Override
+    public void resubscribeChannels() {
+        streamingService.resubscribeChannels();
+    }
 }

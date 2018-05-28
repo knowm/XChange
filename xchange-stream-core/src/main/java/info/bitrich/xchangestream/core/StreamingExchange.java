@@ -48,6 +48,10 @@ public interface StreamingExchange extends Exchange {
         throw new NotYetImplementedForExchangeException();
     }
 
+    default void resubscribeChannels() {
+        throw new NotYetImplementedForExchangeException();
+    }
+
     /**
      * Returns service that can be used to access market data.
      */

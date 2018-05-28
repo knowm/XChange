@@ -27,7 +27,7 @@ import java.util.*;
  */
 public class BitmexStreamingService extends JsonNettyStreamingService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
-    private final ObjectMapper mapper = new ObjectMapper();
+    protected final ObjectMapper mapper = new ObjectMapper();
     private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
     protected ExchangeSpecification exchangeSpecification;
