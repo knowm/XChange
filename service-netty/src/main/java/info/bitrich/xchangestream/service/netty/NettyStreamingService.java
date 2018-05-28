@@ -70,6 +70,7 @@ public abstract class NettyStreamingService<T> {
     protected Map<String, Subscription> channels = new ConcurrentHashMap<>();
     private boolean compressedMessages = false;
     private List<ObservableEmitter<Throwable>> reconnFailEmitters = new LinkedList<>();
+    private List<ObservableEmitter<ChannelHandlerContext>> disconnectEimitters = new LinkedList<>();
 
     public NettyStreamingService(String apiUrl) {
         this(apiUrl, 65536);
@@ -245,7 +246,11 @@ public abstract class NettyStreamingService<T> {
     }
 
     public Observable<Throwable> subscribeReconnectFailure() {
-        return Observable.<Throwable>create(observableEmitter -> reconnFailEmitters.add(observableEmitter));
+        return Observable.create(observableEmitter -> reconnFailEmitters.add(observableEmitter));
+    }
+
+    public Observable<ChannelHandlerContext> subscribeDisconnect() {
+        return Observable.create(observableEmitter -> disconnectEimitters.add(observableEmitter));
     }
 
     public Observable<T> subscribeChannel(String channelName, Object... args) {
@@ -371,6 +376,7 @@ public abstract class NettyStreamingService<T> {
                 isManualDisconnect = false;
             } else {
                 super.channelInactive(ctx);
+                disconnectEimitters.stream().forEach(emitter -> emitter.onNext(ctx));
                 LOG.info("Sleep for " + retryDuration.toMillis() + "ms before reopening websocket because it was closed by the host");
                 try {
                     Thread.sleep(retryDuration.toMillis());
