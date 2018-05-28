@@ -93,6 +93,9 @@ public abstract class NettyStreamingService<T> {
     public Completable connect() {
         return Completable.create(completable -> {
             try {
+                if (eventLoopGroup != null) {
+                    eventLoopGroup.shutdownGracefully();
+                }
                 LOG.info("Connecting to {}://{}:{}{}", uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath());
                 String scheme = uri.getScheme() == null ? "ws" : uri.getScheme();
 
