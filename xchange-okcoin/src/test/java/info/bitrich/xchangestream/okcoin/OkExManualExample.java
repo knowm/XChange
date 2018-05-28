@@ -17,6 +17,7 @@ public class OkExManualExample {
         StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkExStreamingExchange.class.getName());
         exchange.connect().blockingAwait();
 
+        exchange.messageDelay().subscribe(delay -> LOG.info("Delay time: " + delay));
         CurrencyPair btcUsdt = new CurrencyPair(new Currency("BTC"), new Currency("USDT"));
         exchange.getStreamingMarketDataService().getOrderBook(btcUsdt).subscribe(orderBook -> {
             LOG.info("First ask: {}", orderBook.getAsks().get(0));

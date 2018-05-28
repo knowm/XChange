@@ -1,11 +1,14 @@
 package info.bitrich.xchangestream.bitmex;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
+import io.reactivex.ObservableEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +27,7 @@ import io.reactivex.Observable;
 public class BitmexStreamingService extends JsonNettyStreamingService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
     private final ObjectMapper mapper = new ObjectMapper();
+    private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
     public BitmexStreamingService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
@@ -32,6 +36,28 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
 	 @Override
     protected void handleMessage(JsonNode message) {
+        if (!delayEmitters.isEmpty() && message.has("data")) {
+            JsonNode data = message.get("data");
+            if (data.getNodeType().equals(JsonNodeType.ARRAY)) {
+                Long current = System.currentTimeMillis();
+                SimpleDateFormat formatter;
+                formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+                for (JsonNode d : data) {
+                    if (d.has("timestamp")) {
+                        try {
+                            String timestamp = d.get("timestamp").asText();
+                            Date date = formatter.parse(timestamp);
+                            for (ObservableEmitter<Long> emitter : delayEmitters) {
+                                emitter.onNext(current - date.getTime());
+                            }
+                        } catch (ParseException e) {
+                            LOG.error("Parsing timestamp error: ", e);
+                        }
+                    }
+                }
+            }
+        }
         if (message.has("info") || message.has("success")) {
             return;
         }
@@ -77,4 +103,9 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
+
+    public void addDelayEmitter(ObservableEmitter<Long> delayEmitter) {
+        delayEmitters.add(delayEmitter);
+    }
+
 }

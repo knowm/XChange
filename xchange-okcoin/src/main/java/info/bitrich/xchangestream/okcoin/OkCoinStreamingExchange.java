@@ -4,6 +4,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.knowm.xchange.okcoin.OkCoinExchange;
 
 public class OkCoinStreamingExchange extends OkCoinExchange implements StreamingExchange {
@@ -48,4 +49,11 @@ public class OkCoinStreamingExchange extends OkCoinExchange implements Streaming
 
     @Override
     public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
+
+    @Override
+    public Observable<Long> messageDelay() {
+        return Observable.create(delayEmitter -> {
+            streamingService.addDelayEmitter(delayEmitter);
+        });
+    }
 }

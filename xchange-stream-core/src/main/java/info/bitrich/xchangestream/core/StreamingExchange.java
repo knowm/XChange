@@ -1,7 +1,9 @@
 package info.bitrich.xchangestream.core;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public interface StreamingExchange extends Exchange {
     /**
@@ -25,6 +27,16 @@ public interface StreamingExchange extends Exchange {
      * @return true if connection is open, otherwise false.
      */
     boolean isAlive();
+
+    /**
+     * Observable for message delay measure.
+     * Every time when the client received a message with a timestamp, the delay time is calculated and pushed to subscribers.
+     *
+     * @return Observable with the message delay measure.
+     */
+    default Observable<Long> messageDelay() {
+        throw new NotYetImplementedForExchangeException();
+    }
 
     /**
      * Returns service that can be used to access market data.
