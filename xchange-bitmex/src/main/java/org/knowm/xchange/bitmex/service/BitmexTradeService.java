@@ -1,11 +1,5 @@
 package org.knowm.xchange.bitmex.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -18,6 +12,9 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.util.*;
 
 public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeService {
 
@@ -75,7 +72,9 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     String symbol =
         marketOrder.getCurrencyPair().base.getCurrencyCode()
             + marketOrder.getCurrencyPair().counter.getCurrencyCode();
-    BitmexPrivateOrder order = placeMarketOrder(symbol, marketOrder.getOriginalAmount(), null);
+    BitmexSide side = getSide(marketOrder.getType());
+
+    BitmexPrivateOrder order = placeMarketOrder(symbol,side, marketOrder.getOriginalAmount(), null);
     return order.getId();
   }
 
@@ -89,13 +88,17 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     return order.getId();
   }
 
+  private static BitmexSide getSide(Order.OrderType type) {
+    return  type == null ? null : type == Order.OrderType.ASK ? BitmexSide.SELL : BitmexSide.BUY;
+  }
+
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
     String symbol =
         stopOrder.getCurrencyPair().base.getCurrencyCode()
             + stopOrder.getCurrencyPair().counter.getCurrencyCode();
     BitmexPrivateOrder order =
-        placeStopOrder(symbol, stopOrder.getOriginalAmount(), stopOrder.getStopPrice(), null);
+        placeStopOrder(symbol, getSide(stopOrder.getType()), stopOrder.getOriginalAmount(), stopOrder.getStopPrice(), null);
     return order.getId();
   }
 
