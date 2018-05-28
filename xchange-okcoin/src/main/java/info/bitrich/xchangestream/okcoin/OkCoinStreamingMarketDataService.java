@@ -31,7 +31,7 @@ import java.util.Map;
  * https://github.com/okcoin-okex/API-docs-OKEx.com/blob/master/API-For-Futures-EN/WebSocket%20API%20for%20FUTURES.md
  */
 public class OkCoinStreamingMarketDataService implements StreamingMarketDataService {
-    private final OkCoinStreamingService service;
+    protected final OkCoinStreamingService service;
 
     private final ObjectMapper mapper = new ObjectMapper();
     private final Map<CurrencyPair, OkCoinOrderbook> orderbooks = new HashMap<>();
