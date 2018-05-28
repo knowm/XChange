@@ -18,6 +18,8 @@ public class BitmexManualExample {
         StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
         exchange.connect().blockingAwait();
 
+        exchange.messageDelay().subscribe(delay -> LOG.info("Message delay: " + delay));
+
         final BitmexStreamingMarketDataService streamingMarketDataService = (BitmexStreamingMarketDataService) exchange.getStreamingMarketDataService();
 
         CurrencyPair xbtUsd = CurrencyPair.XBT_USD;

@@ -6,15 +6,21 @@ import info.bitrich.xchangestream.okcoin.dto.WebSocketMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
+import io.reactivex.ObservableEmitter;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class OkCoinStreamingService extends JsonNettyStreamingService {
 
     private Timer pingPongTimer = null;
+
+
+    private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
     public OkCoinStreamingService(String apiUrl) {
         super(apiUrl);
@@ -23,7 +29,7 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
     @Override
     public Completable connect() {
         Completable conn = super.connect();
-        return conn.andThen((CompletableSource)(completable) -> {
+        return conn.andThen((CompletableSource) (completable) -> {
             try {
                 if (pingPongTimer != null) {
                     pingPongTimer.cancel();
@@ -34,7 +40,7 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
                     public void run() {
                         OkCoinStreamingService.this.sendMessage("{\"event\":\"ping\"}");
                     }
-                }, 15*1000, 15*1000);
+                }, 15 * 1000, 15 * 1000);
                 completable.onComplete();
             } catch (Exception e) {
                 completable.onError(e);
@@ -65,21 +71,25 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected void handleMessage(JsonNode message) {
-        if (message.get("event") != null && "pong".equals(message.get("event").asText()) ) {
-            // ignore pong message
-            return;
-        }
-        if (message.get("data") != null) {
-            if (message.get("data").has("result")) {
-                boolean success = message.get("data").get("result").asBoolean();
+        JsonNode data = message.get("data");
+        if (data != null) {
+            if (data.has("result")) {
+                boolean success = data.get("result").asBoolean();
                 if (!success) {
-                    super.handleError(message, new ExchangeException("Error code: " + message.get("data").get("error_code").asText()));
-                } else {
-                    super.handleMessage(message);
+                    super.handleError(message, new ExchangeException("Error code: " + data.get("error_code").asText()));
                 }
                 return;
             }
+            if (data.has("timestamp")) {
+                for (ObservableEmitter<Long> emitter : delayEmitters) {
+                    emitter.onNext(System.currentTimeMillis() - data.get("timestamp").asLong());
+                }
+            }
         }
         super.handleMessage(message);
+    }
+
+    public void addDelayEmitter(ObservableEmitter<Long> delayEmitter) {
+        delayEmitters.add(delayEmitter);
     }
 }
