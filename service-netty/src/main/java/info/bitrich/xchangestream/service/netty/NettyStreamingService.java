@@ -94,7 +94,7 @@ public abstract class NettyStreamingService<T> {
     public Completable connect() {
         return Completable.create(completable -> {
             try {
-                if (eventLoopGroup != null) {
+                if (eventLoopGroup != null && !eventLoopGroup.isShutdown() && !eventLoopGroup.isShuttingDown()) {
                     eventLoopGroup.shutdownGracefully();
                 }
                 LOG.info("Connecting to {}://{}:{}{}", uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath());
@@ -376,7 +376,13 @@ public abstract class NettyStreamingService<T> {
                 isManualDisconnect = false;
             } else {
                 super.channelInactive(ctx);
-                disconnectEimitters.stream().forEach(emitter -> emitter.onNext(ctx));
+                if (!disconnectEimitters.isEmpty()) {
+                    disconnectEimitters.stream().forEach(emitter -> emitter.onNext(ctx));
+                    if (eventLoopGroup != null && !eventLoopGroup.isShutdown() && !eventLoopGroup.isShuttingDown()) {
+                        eventLoopGroup.shutdownGracefully();
+                    }
+                    return;
+                }
                 LOG.info("Sleep for " + retryDuration.toMillis() + "ms before reopening websocket because it was closed by the host");
                 try {
                     Thread.sleep(retryDuration.toMillis());
