@@ -371,7 +371,11 @@ public abstract class NettyStreamingService<T> {
                 isManualDisconnect = false;
             } else {
                 super.channelInactive(ctx);
-                LOG.info("Reopening websocket because it was closed by the host");
+                LOG.info("Sleep for " + retryDuration.toMillis() + "ms before reopening websocket because it was closed by the host");
+                try {
+                    Thread.sleep(retryDuration.toMillis());
+                } catch (InterruptedException e) {
+                }
                 final Completable c = connect()
                         .doOnError(t -> {
                             LOG.warn("Problem with reconnect", t);
