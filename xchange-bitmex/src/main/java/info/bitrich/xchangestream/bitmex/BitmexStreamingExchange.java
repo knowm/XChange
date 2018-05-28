@@ -15,7 +15,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class BitmexStreamingExchange extends BitmexExchange implements StreamingExchange {
     private static final String API_URI = "wss://www.bitmex.com/realtime";
 
-    private final BitmexStreamingService streamingService;
+    protected final BitmexStreamingService streamingService;
     private BitmexStreamingMarketDataService streamingMarketDataService;
 
     public BitmexStreamingExchange() {
