@@ -8,8 +8,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bibox.dto.BiboxMultipleResponses;
+import org.knowm.xchange.bibox.dto.BiboxPagedResponses;
 import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
+import org.knowm.xchange.bibox.dto.account.BiboxDeposit;
+import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrders;
 import si.mazi.rescu.ParamsDigest;
 
@@ -27,6 +30,42 @@ public interface BiboxAuthenticated extends Bibox {
   @POST
   @Path("transfer")
   BiboxSingleResponse<List<BiboxCoin>> coinList(
+      @FormParam(FORM_CMDS) String cmds,
+      @FormParam(FORM_APIKEY) String apiKey,
+      @FormParam(FORM_SIGNATURE) ParamsDigest signature);
+
+  /**
+   * Retrieve deposits
+   *
+   * @return list of deposits
+   */
+  @POST
+  @Path("transfer")
+  BiboxPagedResponses<BiboxDeposit> transferInList(
+      @FormParam(FORM_CMDS) String cmds,
+      @FormParam(FORM_APIKEY) String apiKey,
+      @FormParam(FORM_SIGNATURE) ParamsDigest signature);
+
+  /**
+   * Retrieve withdrawals
+   *
+   * @return list of withdrawals
+   */
+  @POST
+  @Path("transfer")
+  BiboxPagedResponses<BiboxWithdrawal> transferOutList(
+      @FormParam(FORM_CMDS) String cmds,
+      @FormParam(FORM_APIKEY) String apiKey,
+      @FormParam(FORM_SIGNATURE) ParamsDigest signature);
+
+  /**
+   * Execute withdrawals
+   *
+   * @return withdrawal id
+   */
+  @POST
+  @Path("transfer")
+  BiboxSingleResponse<String> transfer(
       @FormParam(FORM_CMDS) String cmds,
       @FormParam(FORM_APIKEY) String apiKey,
       @FormParam(FORM_SIGNATURE) ParamsDigest signature);
