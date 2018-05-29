@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.knowm.xchange.bibox.dto.account.BiboxDepositAddressCommandBody;
+import org.knowm.xchange.bibox.dto.account.BiboxFundsCommandBody;
+import org.knowm.xchange.bibox.dto.account.BiboxTransferCommandBody;
 
 /** @author odrotleff */
 public class BiboxCommands extends ArrayList<BiboxCommand<?>> {
@@ -25,6 +27,21 @@ public class BiboxCommands extends ArrayList<BiboxCommand<?>> {
     return BiboxCommands.of(
         new BiboxCommand<BiboxDepositAddressCommandBody>(
             "transfer/transferIn", new BiboxDepositAddressCommandBody(coinSymbol)));
+  }
+
+  public static BiboxCommands withdrawalsCommand(BiboxFundsCommandBody body) {
+    return BiboxCommands.of(
+        new BiboxCommand<BiboxFundsCommandBody>("transfer/transferOutList", body));
+  }
+
+  public static BiboxCommands depositsCommand(BiboxFundsCommandBody body) {
+    return BiboxCommands.of(
+        new BiboxCommand<BiboxFundsCommandBody>("transfer/transferInList", body));
+  }
+
+  public static BiboxCommands transferCommand(BiboxTransferCommandBody body) {
+    return BiboxCommands.of(
+        new BiboxCommand<BiboxTransferCommandBody>("transfer/transferOut", body));
   }
 
   public static BiboxCommands of(List<BiboxCommand<?>> commands) {

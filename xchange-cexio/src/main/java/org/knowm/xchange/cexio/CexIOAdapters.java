@@ -1,19 +1,13 @@
 package org.knowm.xchange.cexio;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
-
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOFullOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.Currency;
@@ -31,6 +25,15 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 /** Author: brox Since: 2/6/14 */
 public class CexIOAdapters {
@@ -238,6 +241,14 @@ public class CexIOAdapters {
     Date timestamp = new Date(cexIOOrder.time);
     BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
     Order.OrderStatus status = adaptOrderStatus(cexIOOrder);
+    BigDecimal cumulativeAmount = null;
+    try {
+      BigDecimal remains = new BigDecimal(cexIOOrder.remains);
+      cumulativeAmount = originalAmount.subtract(remains);
+    } catch (Exception e) {
+
+    }
+
     return new LimitOrder(
         orderType,
         originalAmount,
@@ -246,8 +257,45 @@ public class CexIOAdapters {
         timestamp,
         limitPrice,
         null,
+        cumulativeAmount,
         null,
-        null,
+        status);
+  }
+
+  public static LimitOrder adaptOrder(CexIOFullOrder cexIOOrder) {
+    OrderType orderType = cexIOOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
+    BigDecimal originalAmount = new BigDecimal(cexIOOrder.amount);
+    CurrencyPair currencyPair = new CurrencyPair(cexIOOrder.symbol1, cexIOOrder.symbol2);
+    Date timestamp = new Date(cexIOOrder.time);
+    BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
+    Order.OrderStatus status = adaptOrderStatus(cexIOOrder);
+    BigDecimal cumulativeAmount = null;
+
+    if (cexIOOrder.remains != null) {
+      BigDecimal remains = new BigDecimal(cexIOOrder.remains);
+      cumulativeAmount = originalAmount.subtract(remains);
+    }
+
+    String tradedAmount =
+        cexIOOrder.totalAmountMaker != null
+            ? cexIOOrder.totalAmountMaker
+            : cexIOOrder.totalAmountTaker;
+    BigDecimal averagePrice = null;
+    if (cumulativeAmount != null && tradedAmount != null) {
+      averagePrice = new BigDecimal(tradedAmount).divide(cumulativeAmount, 2, RoundingMode.HALF_UP);
+    }
+    String feeAmount = cexIOOrder.feeMaker != null ? cexIOOrder.feeMaker : cexIOOrder.feeTaker;
+    BigDecimal fee = feeAmount != null ? new BigDecimal(feeAmount) : null;
+    return new LimitOrder(
+        orderType,
+        originalAmount,
+        currencyPair,
+        cexIOOrder.orderId,
+        timestamp,
+        limitPrice,
+        averagePrice,
+        cumulativeAmount,
+        fee,
         status);
   }
 
