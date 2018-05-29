@@ -112,12 +112,12 @@ public interface GatecoinAuthenticated {
   @POST
   @Path("ElectronicWallet/Withdrawals/{DigiCurrency}")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  GatecoinWithdrawResult withdrawBitcoin(
+  GatecoinWithdrawResult withdrawCrypto(
       @HeaderParam("API_PUBLIC_KEY") String publicKey,
       @HeaderParam("API_REQUEST_SIGNATURE") ParamsDigest signature,
       @HeaderParam("API_REQUEST_DATE") String date,
-      @PathParam("DigiCurrency") String DigiCurrency,
-      @FormParam("AddressName") String AddressName,
-      @FormParam("Amount") BigDecimal Amount)
+      @PathParam("DigiCurrency") String digiCurrency,
+      @FormParam("AddressName") String addressName,
+      @FormParam("Amount") BigDecimal amount)
       throws IOException, GatecoinException;
 }
