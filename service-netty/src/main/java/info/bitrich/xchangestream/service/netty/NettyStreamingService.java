@@ -376,9 +376,6 @@ public abstract class NettyStreamingService<T> {
                 isManualDisconnect = false;
             } else {
                 super.channelInactive(ctx);
-                if (eventLoopGroup != null && !eventLoopGroup.isShutdown() && !eventLoopGroup.isShuttingDown()) {
-                    eventLoopGroup.shutdownGracefully();
-                }
                 if (!disconnectEimitters.isEmpty()) {
                     disconnectEimitters.stream().forEach(emitter -> emitter.onNext(ctx));
                     return;
