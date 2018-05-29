@@ -1,15 +1,14 @@
 package org.knowm.xchange.bitmex.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BitmexTradeServiceRaw extends BitmexBaseService {
 
@@ -71,108 +70,135 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public BitmexPrivateOrder placeMarketOrder(
-          String symbol, BitmexSide side, BigDecimal orderQuantity, String executionInstructions) {
-    return bitmex.placeOrder(
-        apiKey,
-        exchange.getNonceFactory(),
-        signatureCreator,
-        symbol, side == null ? null : side.toString(),
-            orderQuantity.intValue(),
-            null,
-            null,
-            "Market",
-            null, executionInstructions);
-  }
-
-  public BitmexPrivateOrder placeLimitOrder(
-          String symbol,
-          BigDecimal orderQuantity,
-          BigDecimal price,
-          BitmexSide side, String clOrdId,
-          String executionInstructions) {
-    return bitmex.placeOrder(
-        apiKey,
-        exchange.getNonceFactory(),
-        signatureCreator,
-            symbol,
-            side == null ? null : side.getCapitalized(),
-            orderQuantity.intValue(),
-            price,
-            null,
-            "Limit",
-            clOrdId, executionInstructions);
-  }
-
-  public BitmexPrivateOrder replaceLimitOrder(
-          String symbol,
-          BigDecimal orderQuantity,
-          BigDecimal price,
-          String orderId,
-          String clOrdId,
-          String origClOrdId,
-          String executionInstructions) {
-
-    return bitmex.replaceOrder(
-        apiKey,
-        exchange.getNonceFactory(),
-        signatureCreator,
-            orderQuantity.intValue(),
-        price,
-        null,
-        "Limit",
-      //if clOrdID is not null we should not send orderID
-      clOrdId != null ? null : orderId,
-      clOrdId, origClOrdId,
-       executionInstructions);
-  }
-
-  public BitmexPrivateOrder replaceStopOrder(
-          BigDecimal orderQuantity,
-          BigDecimal price,
-          String orderID, String clOrdId,
-          String origClOrdId,
-          String executionInstructions) {
-    return bitmex.replaceOrder(
-        apiKey,
-        exchange.getNonceFactory(),
-        signatureCreator,
-            orderQuantity.intValue(),
-        null,
-            price,
-        "Limit",
-            clOrdId != null ? null : orderID,
-            clOrdId,
-            origClOrdId, executionInstructions);
-  }
-
-  public BitmexPrivateOrder placeStopOrder(
-          String symbol, BitmexSide side, BigDecimal orderQuantity, BigDecimal stopPrice, String executionInstructions) {
+      String symbol, BitmexSide side, BigDecimal orderQuantity, String executionInstructions) {
     return bitmex.placeOrder(
         apiKey,
         exchange.getNonceFactory(),
         signatureCreator,
         symbol,
-            side == null ? null : side.getCapitalized(),
-            orderQuantity.intValue(),
-            null,
-            stopPrice,
-            "Stop",
-            null, executionInstructions);
+        side == null ? null : side.toString(),
+        orderQuantity.intValue(),
+        null,
+        null,
+        "Market",
+        null,
+        executionInstructions);
   }
 
-  public boolean cancelBitmexOrder(String orderID) {
+  public BitmexPrivateOrder placeLimitOrder(
+      String symbol,
+      BigDecimal orderQuantity,
+      BigDecimal price,
+      BitmexSide side,
+      String clOrdID,
+      String executionInstructions) {
+    return bitmex.placeOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        signatureCreator,
+        symbol,
+        side == null ? null : side.getCapitalized(),
+        orderQuantity.intValue(),
+        price,
+        null,
+        "Limit",
+        clOrdID,
+        executionInstructions);
+  }
+
+  public BitmexPrivateOrder replaceLimitOrder(
+      String symbol,
+      BigDecimal orderQuantity,
+      BigDecimal price,
+      String orderId,
+      String clOrdID,
+      String origClOrdID,
+      String executionInstructions) {
+
+    return bitmex.replaceOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        signatureCreator,
+        orderQuantity.intValue(),
+        price,
+        null,
+        "Limit",
+        // if clOrdID is not null we should not send orderID
+        clOrdID != null ? null : orderId,
+        clOrdID,
+        origClOrdID,
+        executionInstructions);
+  }
+
+  public BitmexPrivateOrder replaceStopOrder(
+      BigDecimal orderQuantity,
+      BigDecimal price,
+      String orderID,
+      String clOrdID,
+      String origClOrdId,
+      String executionInstructions) {
+    return bitmex.replaceOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        signatureCreator,
+        orderQuantity.intValue(),
+        null,
+        price,
+        "Limit",
+        clOrdID != null ? null : orderID,
+        clOrdID,
+        origClOrdId,
+        executionInstructions);
+  }
+
+  public BitmexPrivateOrder placeStopOrder(
+          String symbol,
+          BitmexSide side,
+          BigDecimal orderQuantity,
+          BigDecimal stopPrice,
+          String executionInstructions, String clOrdID) {
+    return bitmex.placeOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        signatureCreator,
+        symbol,
+        side == null ? null : side.getCapitalized(),
+        orderQuantity.intValue(),
+        null,
+        stopPrice,
+        "Stop",
+            clOrdID,
+        executionInstructions);
+  }
+
+  public List<BitmexPrivateOrder> cancelAllOrders() {
+    return cancelAllOrders(null, null, null);
+  }
+
+  public List<BitmexPrivateOrder> cancelAllOrders(String symbol, String filter, String text) {
+    return bitmex.cancelAllOrders(
+        apiKey, exchange.getNonceFactory(), signatureCreator, symbol, filter, text);
+  }
+
+  public List<BitmexPrivateOrder> cancelBitmexOrder(String orderID) {
+    return cancelBitmexOrder(orderID, null);
+  }
+
+  public List<BitmexPrivateOrder> cancelBitmexOrder(String orderID, String clOrdID) {
     List<BitmexPrivateOrder> orders =
-        bitmex.cancelOrder(apiKey, exchange.getNonceFactory(), signatureCreator, orderID);
-    return orders.get(0).getId().equals(orderID);
+        bitmex.cancelOrder(
+            apiKey,
+            exchange.getNonceFactory(),
+            signatureCreator,
+            clOrdID != null ? null : orderID,
+            clOrdID);
+    return orders;
   }
-
 
   public BitmexPosition updateLeveragePosition(String symbol, BigDecimal leverage) {
     BitmexPosition order =
-        bitmex.updateLeveragePosition(apiKey, exchange.getNonceFactory(), signatureCreator, symbol,leverage);
+        bitmex.updateLeveragePosition(
+            apiKey, exchange.getNonceFactory(), signatureCreator, symbol, leverage);
     return order;
   }
-
-
-
 }
