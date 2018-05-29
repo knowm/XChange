@@ -376,11 +376,11 @@ public abstract class NettyStreamingService<T> {
                 isManualDisconnect = false;
             } else {
                 super.channelInactive(ctx);
+                if (eventLoopGroup != null && !eventLoopGroup.isShutdown() && !eventLoopGroup.isShuttingDown()) {
+                    eventLoopGroup.shutdownGracefully();
+                }
                 if (!disconnectEimitters.isEmpty()) {
                     disconnectEimitters.stream().forEach(emitter -> emitter.onNext(ctx));
-                    if (eventLoopGroup != null && !eventLoopGroup.isShutdown() && !eventLoopGroup.isShuttingDown()) {
-                        eventLoopGroup.shutdownGracefully();
-                    }
                     return;
                 }
                 LOG.info("Sleep for " + retryDuration.toMillis() + "ms before reopening websocket because it was closed by the host");
