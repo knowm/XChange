@@ -21,25 +21,29 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
 
     @Override
     public void messageHandler(String message) {
-        LOG.debug("Received message: {}", message);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode;
-
-        // Parse incoming message to JSON
         try {
-            jsonNode = objectMapper.readTree(message);
-        } catch (IOException e) {
-            LOG.error("Error parsing incoming message to JSON: {}", message);
-            return;
-        }
+            LOG.debug("Received message: {}", message);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode;
 
-        // In case of array - handle every message separately.
-        if (jsonNode.getNodeType().equals(JsonNodeType.ARRAY)) {
-            for (JsonNode node : jsonNode) {
-                handleMessage(node);
+            // Parse incoming message to JSON
+            try {
+                jsonNode = objectMapper.readTree(message);
+            } catch (IOException e) {
+                LOG.error("Error parsing incoming message to JSON: {}", message);
+                return;
             }
-        } else {
-            handleMessage(jsonNode);
+
+            // In case of array - handle every message separately.
+            if (jsonNode.getNodeType().equals(JsonNodeType.ARRAY)) {
+                for (JsonNode node : jsonNode) {
+                    handleMessage(node);
+                }
+            } else {
+                handleMessage(jsonNode);
+            }
+        } catch (Exception exception) {
+            LOG.error("Error while handling message '{}': {}", message, exception);
         }
     }
 }
