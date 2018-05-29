@@ -71,6 +71,9 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected void handleMessage(JsonNode message) {
+        if (message.has("event") && message.get("event").equals("pong")) {
+            return;
+        }
         JsonNode data = message.get("data");
         if (data != null) {
             if (data.has("result")) {
