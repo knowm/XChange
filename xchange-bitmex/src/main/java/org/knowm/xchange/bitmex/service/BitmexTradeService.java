@@ -1,5 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
+import java.io.IOException;
+import java.util.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -12,9 +14,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.*;
 
 public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeService {
 
@@ -74,7 +73,8 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
             + marketOrder.getCurrencyPair().counter.getCurrencyCode();
     BitmexSide side = getSide(marketOrder.getType());
 
-    BitmexPrivateOrder order = placeMarketOrder(symbol,side, marketOrder.getOriginalAmount(), null);
+    BitmexPrivateOrder order =
+        placeMarketOrder(symbol, side, marketOrder.getOriginalAmount(), null);
     return order.getId();
   }
 
@@ -89,13 +89,14 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
             symbol,
             limitOrder.getOriginalAmount(),
             limitOrder.getLimitPrice(),
-                side,
-                limitOrder.getId(), null);
+            side,
+            limitOrder.getId(),
+            null);
     return order.getId();
   }
 
   private static BitmexSide getSide(Order.OrderType type) {
-    return  type == null ? null : type == Order.OrderType.ASK ? BitmexSide.SELL : BitmexSide.BUY;
+    return type == null ? null : type == Order.OrderType.ASK ? BitmexSide.SELL : BitmexSide.BUY;
   }
 
   @Override
@@ -104,13 +105,21 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
         stopOrder.getCurrencyPair().base.getCurrencyCode()
             + stopOrder.getCurrencyPair().counter.getCurrencyCode();
     BitmexPrivateOrder order =
-        placeStopOrder(symbol, getSide(stopOrder.getType()), stopOrder.getOriginalAmount(), stopOrder.getStopPrice(), null);
+        placeStopOrder(
+            symbol,
+            getSide(stopOrder.getType()),
+            stopOrder.getOriginalAmount(),
+            stopOrder.getStopPrice(),
+            null, stopOrder.getId());
     return order.getId();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    return cancelBitmexOrder(orderId);
+    List<BitmexPrivateOrder> orders = cancelBitmexOrder(orderId);
+
+    if (orders.isEmpty()) return true;
+    return orders.get(0).getId().equals(orderId);
   }
 
   @Override
@@ -123,26 +132,25 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     Set<Order> orders = new HashSet<>();
 
     for (BitmexPrivateOrder privateOrder : privateOrders) {
-          Order.OrderType type =
-                  privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
-          Order.OrderStatus status = BitmexAdapters.adaptOrderStatus(privateOrder.getOrderStatus());
-          CurrencyPair pair =
-                  new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
+      Order.OrderType type =
+          privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
+      Order.OrderStatus status = BitmexAdapters.adaptOrderStatus(privateOrder.getOrderStatus());
+      CurrencyPair pair =
+          new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
 
-          orders.add(
-                  new LimitOrder(
-                          type,
-                          privateOrder.getVolume(),
-                          pair,
-                          privateOrder.getId(),
-                          privateOrder.getTimestamp(),
-                          privateOrder.getPrice(),
-                          null,
-                          null,
-                          null,
-                          status
-                  ));
-      }
+      orders.add(
+          new LimitOrder(
+              type,
+              privateOrder.getVolume(),
+              pair,
+              privateOrder.getId(),
+              privateOrder.getTimestamp(),
+              privateOrder.getPrice(),
+              null,
+              null,
+              null,
+              status));
+    }
 
     return orders;
   }
