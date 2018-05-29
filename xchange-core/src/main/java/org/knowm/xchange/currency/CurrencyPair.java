@@ -79,6 +79,13 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair BCH_BTC = new CurrencyPair(Currency.BCH, Currency.BTC);
   public static final CurrencyPair BCH_ETH = new CurrencyPair(Currency.BCH, Currency.ETH);
 
+  public static final CurrencyPair BCA_USD = new CurrencyPair(Currency.BCA, Currency.USD);
+  public static final CurrencyPair BCA_EUR = new CurrencyPair(Currency.BCA, Currency.EUR);
+  public static final CurrencyPair BCA_CNY = new CurrencyPair(Currency.BCA, Currency.CNY);
+  public static final CurrencyPair BCA_JPY = new CurrencyPair(Currency.BCA, Currency.JPY);
+  public static final CurrencyPair BCA_BTC = new CurrencyPair(Currency.BCA, Currency.BTC);
+  public static final CurrencyPair BCA_ETH = new CurrencyPair(Currency.BCA, Currency.ETH);
+
   public static final CurrencyPair ETH_BTC = new CurrencyPair(Currency.ETH, Currency.BTC);
   public static final CurrencyPair ETH_GBP = new CurrencyPair(Currency.ETH, Currency.GBP);
   public static final CurrencyPair ETH_USD = new CurrencyPair(Currency.ETH, Currency.USD);

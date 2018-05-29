@@ -1,7 +1,14 @@
 package org.knowm.xchange.cexio.service;
 
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.cexio.dto.*;
+import org.knowm.xchange.cexio.dto.trade.*;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.trade.params.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -9,31 +16,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
-import org.knowm.xchange.cexio.dto.CexIORequest;
 import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
-import org.knowm.xchange.cexio.dto.CexioSingleIdRequest;
-import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
-import org.knowm.xchange.cexio.dto.PlaceOrderRequest;
-import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
-import org.knowm.xchange.cexio.dto.trade.CexIOCancelAllOrdersResponse;
 import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
-import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
-import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
-import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 public class CexIOTradeServiceRaw extends CexIOBaseService {
-
   public CexIOTradeServiceRaw(Exchange exchange) {
     super(exchange);
   }
@@ -196,6 +186,36 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
   public CexIOOpenOrder getOrderDetail(String orderId) throws IOException {
     return cexIOAuthenticated.getOrder(signatureCreator, new CexioSingleOrderIdRequest(orderId));
   }
+
+    public CexIOFullOrder getOrderFullDetail(String orderId) throws IOException {
+        Map orderRaw = cexIOAuthenticated.getOrderRaw(signatureCreator, new CexioSingleOrderIdRequest(orderId));
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        CexIOOpenOrder order = objectMapper.convertValue(orderRaw, CexIOOpenOrder.class);
+        return new CexIOFullOrder(
+                order.user,
+                order.type,
+                order.symbol1,
+                order.symbol2,
+                order.amount,
+                order.remains,
+                order.price,
+                order.time,
+                order.lastTxTime,
+                order.tradingFeeStrategy,
+                order.tradingFeeTaker,
+                order.tradingFeeMaker,
+                order.tradingFeeUserVolumeAmount,
+                order.lastTx,
+                order.status,
+                order.orderId,
+                order.id,
+                (String) orderRaw.get("ta:" + order.symbol2),
+                (String) orderRaw.get("tta:" + order.symbol2),
+                (String) orderRaw.get("fa:" + order.symbol2),
+                (String) orderRaw.get("tfa:" + order.symbol2)
+        );
+    }
 
   public Map getOrderTransactions(String orderId) throws IOException {
     return cexIOAuthenticated.getOrderTransactions(
