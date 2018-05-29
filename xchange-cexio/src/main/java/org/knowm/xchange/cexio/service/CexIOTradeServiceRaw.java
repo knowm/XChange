@@ -11,10 +11,14 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
+import org.knowm.xchange.dto.Order;
 
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
@@ -84,6 +88,40 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
         currencyPair.base.getCurrencyCode(),
         currencyPair.counter.getCurrencyCode(),
         new CexIORequest());
+  }
+
+  public CexIOCancelReplaceOrderResponse cancelReplaceCexIOOrder(
+      CurrencyPair currencyPair,
+      Order.OrderType type,
+      String orderId,
+      BigDecimal amount,
+      BigDecimal price)
+      throws ExchangeException, IOException {
+
+    String orderType;
+    switch (type) {
+      case BID:
+        orderType = "buy";
+        break;
+      case ASK:
+        orderType = "sell";
+        break;
+      default:
+        throw new IllegalArgumentException(String.format("Unexpected order type '%s'", type));
+    }
+
+    CexIOCancelReplaceOrderResponse response =
+        cexIOAuthenticated.cancelReplaceOrder(
+            signatureCreator,
+            currencyPair.base.getCurrencyCode(),
+            currencyPair.counter.getCurrencyCode(),
+            new CexioCancelReplaceOrderRequest(orderId, orderType, amount, price));
+
+    if (response.getError() != null) {
+      throw new ExchangeException(response.getError());
+    }
+
+    return response;
   }
 
   public List<CexIOArchivedOrder> archivedOrders(TradeHistoryParams tradeHistoryParams)

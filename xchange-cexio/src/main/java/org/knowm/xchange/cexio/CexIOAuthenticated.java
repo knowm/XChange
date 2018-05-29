@@ -10,6 +10,8 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
 
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -48,6 +50,15 @@ public interface CexIOAuthenticated extends CexIO {
       @PathParam("currencyA") String currencyA,
       @PathParam("currencyB") String currencyB,
       CexIORequest request)
+      throws IOException;
+
+  @POST
+  @Path("cancel_replace_order/{currencyA}/{currencyB}/")
+  CexIOCancelReplaceOrderResponse cancelReplaceOrder(
+      @HeaderParam("signature") ParamsDigest signer,
+      @PathParam("currencyA") String currencyA,
+      @PathParam("currencyB") String currencyB,
+      CexioCancelReplaceOrderRequest request)
       throws IOException;
 
   @POST
