@@ -18,18 +18,18 @@ public interface CexIOAuthenticated extends CexIO {
 
   @POST
   @Path("get_myfee")
-  CexIOFeeInfo getMyFee(@HeaderParam("signature") ParamsDigest signer, CexIORequest cexIORequest)
+  CexIOFeeInfo getMyFee(@HeaderParam("_ignored_") ParamsDigest signer, CexIORequest cexIORequest)
       throws IOException;
 
   @POST
   @Path("balance/")
   CexIOBalanceInfo getBalance(
-      @HeaderParam("signature") ParamsDigest signer, CexIORequest cexIORequest) throws IOException;
+      @HeaderParam("_ignored_") ParamsDigest signer, CexIORequest cexIORequest) throws IOException;
 
   @POST
   @Path("open_orders/{ident}/{currency}/")
   CexIOOpenOrders getOpenOrders(
-      @HeaderParam("signature") ParamsDigest signer,
+      @HeaderParam("_ignored_") ParamsDigest signer,
       @PathParam("ident") String tradeableIdentifier,
       @PathParam("currency") String currency,
       CexIORequest cexIORequest)
@@ -38,13 +38,13 @@ public interface CexIOAuthenticated extends CexIO {
   @POST
   @Path("cancel_order/")
   Object cancelOrder(
-      @HeaderParam("signature") ParamsDigest signer, CexioSingleOrderIdRequest request)
+      @HeaderParam("_ignored_") ParamsDigest signer, CexioSingleOrderIdRequest request)
       throws IOException;
 
   @POST
   @Path("cancel_orders/{currencyA}/{currencyB}/")
   CexIOCancelAllOrdersResponse cancelAllOrders(
-      @HeaderParam("signature") ParamsDigest signer,
+      @HeaderParam("_ignored_") ParamsDigest signer,
       @PathParam("currencyA") String currencyA,
       @PathParam("currencyB") String currencyB,
       CexIORequest request)
@@ -53,7 +53,7 @@ public interface CexIOAuthenticated extends CexIO {
   @POST
   @Path("place_order/{currencyA}/{currencyB}/")
   CexIOOrder placeOrder(
-      @HeaderParam("signature") ParamsDigest signer,
+      @HeaderParam("_ignored_") ParamsDigest signer,
       @PathParam("currencyA") String currencyA,
       @PathParam("currencyB") String currencyB,
       PlaceOrderRequest placeOrderRequest)
@@ -62,16 +62,16 @@ public interface CexIOAuthenticated extends CexIO {
   // GHash.IO calls
   @POST
   @Path("ghash.io/hashrate")
-  GHashIOHashrate getHashrate(@HeaderParam("signature") ParamsDigest signer) throws IOException;
+  GHashIOHashrate getHashrate(@HeaderParam("_ignored_") ParamsDigest signer) throws IOException;
 
   @POST
   @Path("ghash.io/workers")
-  GHashIOWorkers getWorkers(@HeaderParam("signature") ParamsDigest signer) throws IOException;
+  GHashIOWorkers getWorkers(@HeaderParam("_ignored_") ParamsDigest signer) throws IOException;
 
   @POST
   @Path("archived_orders/{baseCcy}/{counterCcy}")
   List<CexIOArchivedOrder> archivedOrders(
-      @HeaderParam("signature") ParamsDigest signer,
+      @HeaderParam("_ignored_") ParamsDigest signer,
       @PathParam("baseCcy") String baseCcy,
       @PathParam("counterCcy") String counterCcy,
       ArchivedOrdersRequest request)
@@ -80,7 +80,7 @@ public interface CexIOAuthenticated extends CexIO {
   @POST
   @Path("get_order/")
   CexIOOpenOrder getOrder(
-      @HeaderParam("signature") ParamsDigest signer, CexioSingleOrderIdRequest request)
+      @HeaderParam("_ignored_") ParamsDigest signer, CexioSingleOrderIdRequest request)
       throws IOException;
 
   @POST
@@ -91,12 +91,12 @@ public interface CexIOAuthenticated extends CexIO {
   @POST
   @Path("get_order_tx/")
   Map getOrderTransactions(
-      @HeaderParam("signature") ParamsDigest signer, CexioSingleIdRequest request)
+      @HeaderParam("_ignored_") ParamsDigest signer, CexioSingleIdRequest request)
       throws IOException;
 
   @POST
   @Path("get_address")
   CexIOCryptoAddress getCryptoAddress(
-      @HeaderParam("signature") ParamsDigest signer, CexioCryptoAddressRequest request)
+      @HeaderParam("_ignored_") ParamsDigest signer, CexioCryptoAddressRequest request)
       throws IOException;
 }
