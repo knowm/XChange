@@ -78,23 +78,28 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     @Override
     protected void handleMessage(JsonNode message) {
         if (!delayEmitters.isEmpty() && message.has("data")) {
+            String table = "";
+            if (message.has("table")) {
+                table = message.get("table").asText();
+            }
             JsonNode data = message.get("data");
             if (data.getNodeType().equals(JsonNodeType.ARRAY)) {
                 Long current = System.currentTimeMillis();
                 SimpleDateFormat formatter;
                 formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                 formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-                for (JsonNode d : data) {
-                    if (d.has("timestamp")) {
-                        try {
-                            String timestamp = d.get("timestamp").asText();
-                            Date date = formatter.parse(timestamp);
-                            for (ObservableEmitter<Long> emitter : delayEmitters) {
-                                emitter.onNext(current - date.getTime());
-                            }
-                        } catch (ParseException e) {
-                            LOG.error("Parsing timestamp error: ", e);
+                JsonNode d = data.get(0);
+                if (d != null && d.has("timestamp") &&
+                        (!"order".equals(table) || d.has("ordStatus") && "NEW".equals(d.get("ordStatus").asText()))) {
+                    try {
+                        String timestamp = d.get("timestamp").asText();
+                        Date date = formatter.parse(timestamp);
+                        long delay = current - date.getTime();
+                        for (ObservableEmitter<Long> emitter : delayEmitters) {
+                            emitter.onNext(delay);
                         }
+                    } catch (ParseException e) {
+                        LOG.error("Parsing timestamp error: ", e);
                     }
                 }
             }
