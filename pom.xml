@@ -69,9 +69,13 @@
             <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
         <!--</snapshotRepository>-->
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>hetang_upload</id>
+            <url>http://13.250.18.54/repository/hetang_release/</url>
         </repository>
+        <!--<repository>-->
+            <!--<id>ossrh</id>-->
+            <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+        <!--</repository>-->
     </distributionManagement>
 
     <repositories>
@@ -153,6 +157,13 @@
             <id>release</id>
             <build>
                 <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>2.5.3</version>
+                    </plugin>
+
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
