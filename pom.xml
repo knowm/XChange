@@ -53,9 +53,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:bitrich-info/xchange-stream.git</connection>
-        <developerConnection>scm:git:git@github.com:bitrich-info/xchange-stream.git</developerConnection>
-        <url>git@github.com:bitrich-info/xchange-stream.git</url>
+        <connection>scm:git:git@github.com:declan94/xchange-stream.git</connection>
+        <developerConnection>scm:git:git@github.com:declan94/xchange-stream.git</developerConnection>
+        <url>https://github.com/declan94/xchange-stream</url>
         <tag>HEAD</tag>
     </scm>
 
