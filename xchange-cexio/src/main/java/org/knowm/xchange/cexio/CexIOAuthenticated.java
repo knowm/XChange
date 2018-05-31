@@ -55,7 +55,7 @@ public interface CexIOAuthenticated extends CexIO {
   @POST
   @Path("cancel_replace_order/{currencyA}/{currencyB}/")
   CexIOCancelReplaceOrderResponse cancelReplaceOrder(
-      @HeaderParam("signature") ParamsDigest signer,
+      @HeaderParam("_ignored_") ParamsDigest signer,
       @PathParam("currencyA") String currencyA,
       @PathParam("currencyB") String currencyB,
       CexioCancelReplaceOrderRequest request)
