@@ -1,5 +1,12 @@
 package org.knowm.xchange.bitmex;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.Nullable;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitmex.dto.account.*;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexKline;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -9,14 +16,6 @@ import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsRe
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import javax.annotation.Nullable;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
 @Path("/api/v1")
 @Produces(MediaType.APPLICATION_JSON)

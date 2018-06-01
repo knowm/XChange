@@ -116,13 +116,10 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     return orders.get(0).getId().equals(orderID);
   }
 
-
   public BitmexPosition updateLeveragePosition(String symbol, BigDecimal leverage) {
     BitmexPosition order =
-        bitmex.updateLeveragePosition(apiKey, exchange.getNonceFactory(), signatureCreator, symbol,leverage);
+        bitmex.updateLeveragePosition(
+            apiKey, exchange.getNonceFactory(), signatureCreator, symbol, leverage);
     return order;
   }
-
-
-
 }

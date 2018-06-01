@@ -1,11 +1,11 @@
 package org.knowm.xchange.bibox.dto;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
 import org.knowm.xchange.bibox.dto.account.BiboxDeposit;
 import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
@@ -34,8 +34,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
-
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /** @author odrotleff */
 public class BiboxAdapters {

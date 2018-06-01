@@ -114,26 +114,25 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     Set<Order> orders = new HashSet<>();
 
     for (BitmexPrivateOrder privateOrder : privateOrders) {
-          Order.OrderType type =
-                  privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
-          Order.OrderStatus status = BitmexAdapters.adaptOrderStatus(privateOrder.getOrderStatus());
-          CurrencyPair pair =
-                  new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
+      Order.OrderType type =
+          privateOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
+      Order.OrderStatus status = BitmexAdapters.adaptOrderStatus(privateOrder.getOrderStatus());
+      CurrencyPair pair =
+          new CurrencyPair(privateOrder.getCurrency(), privateOrder.getSettleCurrency());
 
-          orders.add(
-                  new LimitOrder(
-                          type,
-                          privateOrder.getVolume(),
-                          pair,
-                          privateOrder.getId(),
-                          privateOrder.getTimestamp(),
-                          privateOrder.getPrice(),
-                          null,
-                          null,
-                          null,
-                          status
-                  ));
-      }
+      orders.add(
+          new LimitOrder(
+              type,
+              privateOrder.getVolume(),
+              pair,
+              privateOrder.getId(),
+              privateOrder.getTimestamp(),
+              privateOrder.getPrice(),
+              null,
+              null,
+              null,
+              status));
+    }
 
     return orders;
   }

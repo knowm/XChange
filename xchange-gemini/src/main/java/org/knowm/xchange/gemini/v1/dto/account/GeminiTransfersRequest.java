@@ -1,10 +1,9 @@
 package org.knowm.xchange.gemini.v1.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
 import org.knowm.xchange.utils.DateUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.util.Date;
 
 public class GeminiTransfersRequest {
 
@@ -26,12 +25,13 @@ public class GeminiTransfersRequest {
     this.timestamp = timestamp;
   }
 
-  public static GeminiTransfersRequest create(Date from, Integer limit, SynchronizedValueFactory<Long> nonceFactory) {
+  public static GeminiTransfersRequest create(
+      Date from, Integer limit, SynchronizedValueFactory<Long> nonceFactory) {
     Long timestamp = DateUtils.toMillisNullSafe(from);
     return new GeminiTransfersRequest(String.valueOf(nonceFactory.createValue()), limit, timestamp);
   }
 
-    public Long getTimestamp() {
+  public Long getTimestamp() {
     return timestamp;
   }
 

@@ -1,5 +1,8 @@
 package org.knowm.xchange.cryptopia.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
 import org.knowm.xchange.cryptopia.Cryptopia;
 import org.knowm.xchange.cryptopia.CryptopiaAdapters;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
@@ -8,10 +11,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
 
 public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
 
@@ -87,9 +86,9 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
       Date timeStamp = CryptopiaAdapters.convertTimestamp(map.get("Timestamp").toString());
       Currency currency = Currency.getInstance(map.get("Currency").toString());
       FundingRecord.Type fundingType =
-              map.get("Type")
-                      .toString()
-                      .equals(CryptopiaAccountService.CryptopiaFundingType.Deposit.name())
+          map.get("Type")
+                  .toString()
+                  .equals(CryptopiaAccountService.CryptopiaFundingType.Deposit.name())
               ? FundingRecord.Type.DEPOSIT
               : FundingRecord.Type.WITHDRAWAL;
 
