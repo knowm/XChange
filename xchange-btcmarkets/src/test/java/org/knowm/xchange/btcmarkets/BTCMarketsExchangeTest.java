@@ -149,7 +149,7 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
     assertThat(specification.getExchangeName()).isEqualTo("BTCMarkets");
     assertThat(specification.getSslUri()).isEqualTo("https://api.btcmarkets.net");
     assertThat(specification.getHost()).isEqualTo("btcmarkets.net");
-    assertThat(specification.getPort()).isEqualTo(80);
+    assertThat(specification.getPort()).isEqualTo(443);
     assertThat(specification.getApiKey()).isNull();
     assertThat(specification.getSecretKey()).isNull();
   }
