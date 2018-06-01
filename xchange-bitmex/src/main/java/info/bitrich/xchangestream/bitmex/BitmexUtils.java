@@ -149,12 +149,20 @@ public class BitmexUtils {
     }
 
     public static String translateBitmexContract(BitmexContract contractIn) {
-        String contractOut = (String)bitmexContracts.inverse().get(contractIn);
+        String contractOut = bitmexContracts.inverse().get(contractIn);
         if (contractOut == null) {
-            throw new ExchangeException("Bitmex does not support the contact " + contractIn);
-        } else {
-            return contractOut;
+            if (contractIn.prompt == BitmexPrompt.QUARTERLY) {
+                contractOut = bitmexContracts.inverse().get(new BitmexContract(contractIn.pair, BitmexPrompt.MONTHLY));
+                if (contractOut == null) {
+                    contractOut = bitmexContracts.inverse().get(new BitmexContract(contractIn.pair, BitmexPrompt.WEEKLY));
+                }
+            }
+            if (contractOut == null) {
+                throw new ExchangeException("Bitmex does not support the contact " + contractIn);
+            }
+
         }
+        return contractOut;
     }
 
     public static Currency translateBitmexCurrencyCode(String currencyIn) {
