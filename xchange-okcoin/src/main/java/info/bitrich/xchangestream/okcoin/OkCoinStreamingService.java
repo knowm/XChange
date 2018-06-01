@@ -38,7 +38,9 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
                 pingPongTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        OkCoinStreamingService.this.sendMessage("{\"event\":\"ping\"}");
+                        if (OkCoinStreamingService.this.isSocketOpen()) {
+                            OkCoinStreamingService.this.sendMessage("{\"event\":\"ping\"}");
+                        }
                     }
                 }, 15 * 1000, 15 * 1000);
                 completable.onComplete();
