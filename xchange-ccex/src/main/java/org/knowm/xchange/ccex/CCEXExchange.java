@@ -28,7 +28,6 @@ public class CCEXExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://c-cex.com");
     exchangeSpecification.setHost("c-cex.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("C-CEX");
     exchangeSpecification.setExchangeDescription(
         "C-CEX.com - Crypto-currency exchange / MultiWallet");

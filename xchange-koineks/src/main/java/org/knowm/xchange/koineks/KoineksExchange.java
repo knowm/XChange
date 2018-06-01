@@ -25,7 +25,6 @@ public class KoineksExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://koineks.com");
     exchangeSpecification.setHost("www.koineks.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Koineks");
     exchangeSpecification.setExchangeDescription(
         "Koineks is BTC, ETH, LTC, DASH and DOGE exchange registered in Turkey.");

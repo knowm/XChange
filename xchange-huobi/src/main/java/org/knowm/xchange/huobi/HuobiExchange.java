@@ -31,7 +31,6 @@ public class HuobiExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.huobi.pro");
     exchangeSpecification.setHost("api.huobi.pro");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Huobi");
     exchangeSpecification.setExchangeDescription(
         "Huobi is a Chinese digital currency trading platform and exchange based in Beijing");

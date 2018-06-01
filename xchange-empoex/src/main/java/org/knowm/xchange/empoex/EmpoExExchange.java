@@ -25,7 +25,6 @@ public class EmpoExExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.empoex.com/");
     exchangeSpecification.setHost("api.empoex.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("EmpoEX");
     exchangeSpecification.setExchangeDescription("EmpoEX is a bitcoin and altcoin exchange.");
 

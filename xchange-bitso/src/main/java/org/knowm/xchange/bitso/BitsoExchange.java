@@ -27,7 +27,6 @@ public class BitsoExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.bitso.com");
     exchangeSpecification.setHost("bitso.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitso");
     exchangeSpecification.setExchangeDescription(
         "A new hub for trade and remittance of Bitcoin in Mexico.");

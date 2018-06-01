@@ -47,7 +47,6 @@ public class DSXExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://dsx.uk");
     exchangeSpecification.setHost("dsx.uk");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("DSX");
     exchangeSpecification.setExchangeDescription(
         "DSX the UK first Digital Securities Exchange run by the FCA regulated ePayments.");

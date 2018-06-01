@@ -38,7 +38,6 @@ public class LiquiExchange extends BaseExchange implements Exchange {
     final ExchangeSpecification spec = new ExchangeSpecification(getClass().getCanonicalName());
     spec.setSslUri("https://api.liqui.io/");
     spec.setHost("api.liqui.io");
-    spec.setPort(80);
     spec.setExchangeName("Liqui.io");
     spec.setExchangeDescription("Liqui.io Exchange.");
     return spec;

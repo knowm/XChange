@@ -56,7 +56,6 @@ public class CoinmateExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://coinmate.io");
     exchangeSpecification.setHost("coinmate.io");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("CoinMate");
     exchangeSpecification.setExchangeDescription("Bitcoin trading made simple.");
 

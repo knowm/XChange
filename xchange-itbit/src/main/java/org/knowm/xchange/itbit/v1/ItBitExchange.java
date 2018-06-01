@@ -27,7 +27,6 @@ public class ItBitExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.itbit.com");
     exchangeSpecification.setHost("api.itbit.com");
-    exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("ItBit");
     exchangeSpecification.setExchangeDescription("ItBit Bitcoin Exchange");
     exchangeSpecification.setExchangeSpecificParametersItem("authHost", " https://api.itbit.com");

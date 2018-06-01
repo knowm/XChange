@@ -25,7 +25,6 @@ public class BTCTurkExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.btcturk.com");
     exchangeSpecification.setHost("www.btcturk.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCTurk");
     exchangeSpecification.setExchangeDescription(
         "BTCTurk is a Bitcoin & Etherium exchange registered in Turkey.");

@@ -28,7 +28,6 @@ public class YoBitExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://yobit.net");
     exchangeSpecification.setHost("yobit.net");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("YoBit");
     exchangeSpecification.setExchangeDescription("YoBit.Net - Ethereum (ETH) Exchange");
     return exchangeSpecification;

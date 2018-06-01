@@ -31,7 +31,6 @@ public class CoinEggExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.coinegg.com");
     exchangeSpecification.setHost("http://api.coinegg.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("CoinEgg");
     exchangeSpecification.setExchangeDescription(
         "CoinEgg is a Bitcoin exchange based in the United Kingdom.");

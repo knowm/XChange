@@ -30,7 +30,6 @@ public class LakeBTCExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.lakebtc.com/");
     exchangeSpecification.setHost("https://lakebtc.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("LakeBTC");
     exchangeSpecification.setExchangeDescription("LakeBTC is a Bitcoin exchange for USD and CNY.");
 

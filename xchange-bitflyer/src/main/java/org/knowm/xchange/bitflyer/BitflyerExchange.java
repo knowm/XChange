@@ -33,7 +33,6 @@ public class BitflyerExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.bitflyer.jp/");
     exchangeSpecification.setHost("api.bitflyer.jp");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BitFlyer");
 
     return exchangeSpecification;

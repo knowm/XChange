@@ -30,7 +30,6 @@ public class BTCCExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.btcc.com");
     exchangeSpecification.setHost("api.btcc.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCC");
     exchangeSpecification.setExchangeDescription("BTCC is an USD Crypto Exchange");
     // TODO market data URI is bounded to market symbol right now

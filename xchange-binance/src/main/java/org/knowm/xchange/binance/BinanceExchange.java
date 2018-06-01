@@ -57,7 +57,6 @@ public class BinanceExchange extends BaseExchange {
     ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
     spec.setSslUri("https://api.binance.com");
     spec.setHost("www.binance.com");
-    spec.setPort(80);
     spec.setExchangeName("Binance");
     spec.setExchangeDescription("Binance Exchange.");
     AuthUtils.setApiAndSecretKey(spec, "binance");

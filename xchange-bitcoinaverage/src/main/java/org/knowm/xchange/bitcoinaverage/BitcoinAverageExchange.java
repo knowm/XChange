@@ -27,7 +27,6 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://apiv2.bitcoinaverage.com");
     exchangeSpecification.setHost("bitcoinaverage.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin Average");
     exchangeSpecification.setExchangeDescription(
         "Bitcoin Average provides a more accurate price of bitcoin using weighted average for multiple exchanges.");

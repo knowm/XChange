@@ -30,7 +30,6 @@ public class KucoinExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.kucoin.com/");
     exchangeSpecification.setHost("kucoin.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Kucoin");
     exchangeSpecification.setExchangeDescription("Kucoin is a bitcoin and altcoin exchange.");
 

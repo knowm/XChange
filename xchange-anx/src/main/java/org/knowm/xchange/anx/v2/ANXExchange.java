@@ -33,7 +33,6 @@ public class ANXExchange extends BaseExchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://anxpro.com");
     exchangeSpecification.setHost("anxpro.com");
-    exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("ANXPRO");
     exchangeSpecification.setExchangeDescription(
         "Asia Nexgen is a Bitcoin exchange registered in Hong Kong.");

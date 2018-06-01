@@ -27,7 +27,6 @@ public class TaurusExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.taurusexchange.com");
     exchangeSpecification.setHost("www.taurusexchange.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Taurus");
     exchangeSpecification.setExchangeDescription("Taurus Exchange");
     return exchangeSpecification;

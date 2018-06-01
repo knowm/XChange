@@ -43,7 +43,6 @@ public class CryptopiaExchange extends BaseExchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.cryptopia.co.nz");
     exchangeSpecification.setHost("www.cryptopia.co.nz");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Cryptopia");
     exchangeSpecification.setExchangeDescription(
         "Cryptopia is a Bitcoin exchange registered in New Zealand");

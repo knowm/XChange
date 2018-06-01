@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.net.ssl.HttpsURLConnection;
 import org.apache.commons.io.IOUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -20,6 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class BaseExchange implements Exchange {
+
+  static {
+    HttpsURLConnection.setDefaultHostnameVerifier((s, sslSession) -> true);
+  }
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   protected ExchangeSpecification exchangeSpecification;

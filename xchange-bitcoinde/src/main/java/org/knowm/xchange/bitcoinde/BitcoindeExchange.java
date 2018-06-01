@@ -19,7 +19,6 @@ public class BitcoindeExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.bitcoin.de/v2/");
     exchangeSpecification.setHost("bitcoin.de");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin.de");
     exchangeSpecification.setExchangeDescription(
         "Bitcoin.de is the largest bitcoin marketplace in Europe. All servers are located in Germany.");

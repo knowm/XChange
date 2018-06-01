@@ -50,7 +50,6 @@ public class GeminiExchange extends BaseExchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.Gemini.com/");
     exchangeSpecification.setHost("api.Gemini.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Gemini");
     exchangeSpecification.setExchangeDescription("Gemini is a bitcoin exchange.");
 

@@ -36,7 +36,6 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.bitfinex.com/");
     exchangeSpecification.setHost("api.bitfinex.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BitFinex");
     exchangeSpecification.setExchangeDescription("BitFinex is a bitcoin exchange.");
 
