@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.cryptopia.Cryptopia;
 import org.knowm.xchange.cryptopia.CryptopiaAdapters;
+import org.knowm.xchange.cryptopia.CryptopiaErrorAdapter;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
 import org.knowm.xchange.currency.Currency;
@@ -40,8 +41,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
             signatureCreator,
             new Cryptopia.GetOpenOrdersRequest(
                 currencyPair == null ? null : currencyPair.toString(), count));
-    if (!response.isSuccess())
-      throw new ExchangeException("Failed to get open orders: " + response.toString());
+    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     List<LimitOrder> results = new ArrayList<>();
     for (Map map : response.getData()) {
@@ -88,8 +88,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
         cryptopia.submitTrade(
             signatureCreator,
             new Cryptopia.SubmitTradeRequest(currencyPair.toString(), rawType, price, amount));
-    if (!response.isSuccess())
-      throw new ExchangeException("Failed to submit order: " + response.toString());
+    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     List<Integer> filled = (List<Integer>) response.getData().get("FilledOrders");
     if (filled.isEmpty()) {
@@ -116,9 +115,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     CryptopiaBaseResponse<List> response =
         cryptopia.cancelTrade(
             signatureCreator, new Cryptopia.CancelTradeRequest("TradePair", null, marketId));
-    if (!response.isSuccess())
-      throw new ExchangeException(
-          "Failed to cancel orders for pair " + currencyPair + ": " + response.toString());
+    CryptopiaErrorAdapter.throwIfErrorResponse(response);
     return !response.getData().isEmpty();
   }
 
@@ -129,8 +126,7 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
             new Cryptopia.GetTradeHistoryRequest(
                 currencyPair == null ? null : currencyPair.toString(),
                 count == null ? 100 : count));
-    if (!response.isSuccess())
-      throw new ExchangeException("Failed to get trade history: " + response.toString());
+    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     List<UserTrade> results = new ArrayList<>();
     for (Map map : response.getData()) {
