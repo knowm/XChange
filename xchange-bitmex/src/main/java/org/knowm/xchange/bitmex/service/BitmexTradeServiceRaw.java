@@ -126,8 +126,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         // if clOrdID is not null we should not send orderID
         clOrdID != null ? null : orderId,
         clOrdID,
-        origClOrdID,
-        executionInstructions);
+        origClOrdID
+    );
   }
 
   public BitmexPrivateOrder replaceStopOrder(
@@ -147,8 +147,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         "Limit",
         clOrdID != null ? null : orderID,
         clOrdID,
-        origClOrdId,
-        executionInstructions);
+        origClOrdId
+    );
   }
 
   public BitmexPrivateOrder placeStopOrder(
