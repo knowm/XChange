@@ -35,7 +35,7 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     return bterMarketInfo.getMarketInfoMap();
   }
 
-  public Map<CurrencyPair, Ticker> getBTERTickers() throws IOException {
+  public Map<CurrencyPair, Ticker> getGateioTickers() throws IOException {
 
     Map<String, GateioTicker> gateioTickers = bter.getTickers();
     Map<CurrencyPair, Ticker> adaptedTickers = new HashMap<>(gateioTickers.size());
