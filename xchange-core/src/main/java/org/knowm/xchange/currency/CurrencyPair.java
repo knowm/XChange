@@ -265,6 +265,9 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair ZEC_USD = new CurrencyPair(Currency.ZEC, Currency.USD);
   public static final CurrencyPair ZEC_BTC = new CurrencyPair(Currency.ZEC, Currency.BTC);
 
+  public static final CurrencyPair ZEN_USD = new CurrencyPair(Currency.ZEN, Currency.USD);
+  public static final CurrencyPair ZEN_BTC = new CurrencyPair(Currency.ZEN, Currency.BTC);
+
   public static final CurrencyPair GNO_ETH = new CurrencyPair(Currency.GNO, Currency.ETH);
   public static final CurrencyPair GNO_BTC = new CurrencyPair(Currency.GNO, Currency.BTC);
 
