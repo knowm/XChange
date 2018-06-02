@@ -11,6 +11,7 @@ public class BitmexPrivateOrder {
   private final BigDecimal size;
   private final String symbol;
   private final String id;
+  private final String clOrdID;
   private final BitmexSide side;
   private final Date timestamp;
   private final OrderStatus orderStatus;
@@ -18,21 +19,23 @@ public class BitmexPrivateOrder {
   private final String settleCurrency;
 
   public BitmexPrivateOrder(
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("orderID") String id,
-      @JsonProperty("orderQty") BigDecimal size,
-      @JsonProperty("side") BitmexSide side,
-      @JsonProperty("symbol") String symbol,
-      @JsonProperty("timestamp") Date timestamp,
-      @JsonProperty("ordStatus") OrderStatus orderStatus,
-      @JsonProperty("currency") String currency,
-      @JsonProperty("settlCurrency") String settleCurrency) {
+          @JsonProperty("price") BigDecimal price,
+          @JsonProperty("orderID") String id,
+          @JsonProperty("orderQty") BigDecimal size,
+          @JsonProperty("side") BitmexSide side,
+          @JsonProperty("symbol") String symbol,
+          @JsonProperty("clOrdID") String clOrdID,
+          @JsonProperty("timestamp") Date timestamp,
+          @JsonProperty("ordStatus") OrderStatus orderStatus,
+          @JsonProperty("currency") String currency,
+          @JsonProperty("settlCurrency") String settleCurrency) {
 
     this.symbol = symbol;
     this.id = id;
     this.side = side;
     this.size = size;
     this.price = price;
+    this.clOrdID = clOrdID;
     this.timestamp = timestamp;
     this.orderStatus = orderStatus;
     this.currency = currency;

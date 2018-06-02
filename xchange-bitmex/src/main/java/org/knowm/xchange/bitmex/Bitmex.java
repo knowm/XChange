@@ -160,11 +160,29 @@ public interface Bitmex {
       @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @FormParam("symbol") String symbol,
+      @Nullable @FormParam("side") String side,
       @FormParam("orderQty") int orderQuantity,
       @FormParam("price") BigDecimal price,
       @Nullable @FormParam("stopPx") BigDecimal stopPrice,
       @Nullable @FormParam("ordType") String orderType,
+      @Nullable @FormParam("clOrdID") String clOrdID,
       @Nullable @FormParam("execInst") String executionInstructions);
+
+  @PUT
+  @Path("order")
+  // for some reason underlying library doesn't add contenty type for PUT requests automatically
+  @Consumes("application/x-www-form-urlencoded")
+  BitmexPrivateOrder replaceOrder(
+          @HeaderParam("api-key") String apiKey,
+          @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+          @HeaderParam("api-signature") ParamsDigest paramsDigest,
+          @FormParam("orderQty") int orderQuantity,
+          @Nullable @FormParam("price") BigDecimal price,
+          @Nullable @FormParam("stopPx") BigDecimal stopPrice,
+          @Nullable @FormParam("ordType") String orderType,
+          @Nullable @FormParam("orderID") String orderId,
+          @Nullable @FormParam("clOrdID") String clOrdID,
+          @Nullable @FormParam("origClOrdID") String origClOrdID);
 
   @DELETE
   @Path("order")
@@ -172,7 +190,18 @@ public interface Bitmex {
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @FormParam("orderID") String orderID);
+      @Nullable @FormParam("orderID") String orderID,
+      @Nullable @FormParam("clOrdID") String clOrdID);
+
+  @DELETE
+  @Path("order/all")
+  List<BitmexPrivateOrder> cancelAllOrders(
+      @HeaderParam("api-key") String apiKey,
+      @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest,
+      @Nullable @FormParam("symbol") String symbol,
+      @Nullable @FormParam("filter") String filter,
+      @Nullable @FormParam("text") String text);
 
   @GET
   @Path("user/depositAddress")
