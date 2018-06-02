@@ -31,6 +31,7 @@
         <dependency>
             <groupId>org.knowm.xchart</groupId>
             <artifactId>xchart</artifactId>
+            <version>3.5.1</version>
         </dependency>
 
         <dependency>
