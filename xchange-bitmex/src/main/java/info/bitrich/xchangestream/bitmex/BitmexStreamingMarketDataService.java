@@ -15,10 +15,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by Lukas Zaoralek on 13.11.17.
@@ -59,7 +56,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                 orderbook = orderbooks.get(instrument);
                 //ignore updates until first "partial"
                 if (orderbook == null) {
-                    return null;
+                    return new OrderBook(new Date(), Collections.emptyList(), Collections.emptyList());
                 }
                 BitmexLimitOrder[] levels = s.toBitmexOrderbookLevels();
                 orderbook.updateLevels(levels, action);
