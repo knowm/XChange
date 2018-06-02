@@ -127,7 +127,6 @@
         <module>xchange-cryptonit</module>
         <module>xchange-cryptopia</module>
         <module>xchange-dsx</module>
-        <!--<module>xchange-empoex</module>--> <!--closed-->
         <module>xchange-exmo</module>
         <module>xchange-examples</module>
         <module>xchange-gatecoin</module>
@@ -157,7 +156,6 @@
         <module>xchange-quadrigacx</module>
         <module>xchange-quoine</module>
         <module>xchange-ripple</module>
-        <!--<module>xchange-taurus</module>--> <!--closed-->
         <module>xchange-therock</module>
         <module>xchange-truefx</module>
         <module>xchange-vaultoro</module>
