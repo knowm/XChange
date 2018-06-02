@@ -11,6 +11,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
+import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
@@ -40,7 +41,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
               apiKey, signatureCreator, exchange.getNonceFactory(), null);
       return PoloniexAdapters.adaptPoloniexBalances(response);
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -52,7 +53,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
               apiKey, signatureCreator, exchange.getNonceFactory(), "all");
       return PoloniexAdapters.adaptPoloniexBalances(response);
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -63,7 +64,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
               apiKey, signatureCreator, exchange.getNonceFactory());
       return PoloniexAdapters.adaptPoloniexLoans(response);
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 

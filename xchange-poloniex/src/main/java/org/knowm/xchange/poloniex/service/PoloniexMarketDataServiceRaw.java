@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
+import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexChartData;
@@ -43,7 +44,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
       Map<String, PoloniexCurrencyInfo> currencyInfo = poloniex.getCurrencyInfo(command);
       return currencyInfo;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -55,7 +56,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
       Map<String, PoloniexMarketData> marketData = poloniex.getTicker(command);
       return marketData;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -69,7 +70,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
       try {
         TickermarketData = poloniex.getTicker(command);
       } catch (PoloniexException e) {
-        throw new ExchangeException(e.getError(), e);
+        throw PoloniexErrorAdapter.adapt(e);
       } finally {
         // also nice to take a short break on an error
         next_refresh = now + cache_delay;
@@ -78,7 +79,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
 
     PoloniexMarketData data = TickermarketData.get(pairString);
     if (data == null) {
-      throw new ExchangeException(currencyPair + " not available");
+      throw new CurrencyPairNotValidException(currencyPair);
     }
 
     return new PoloniexTicker(data, currencyPair);
@@ -93,7 +94,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
       PoloniexDepth depth = poloniex.getOrderBook(command, pairString);
       return depth;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -106,7 +107,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
       PoloniexDepth limitDepth = poloniex.getOrderBook(command, pairString, depth);
       return limitDepth;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -118,7 +119,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
       Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", null);
       return depths;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -130,7 +131,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
       Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", depth);
       return depths;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -144,7 +145,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
       PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, null, null);
       return trades;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -158,7 +159,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
       PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, startTime, endTime);
       return trades;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -174,7 +175,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
           poloniex.getChartData(command, pairString, startTime, endTime, period.getPeriod());
       return chartData;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 }
