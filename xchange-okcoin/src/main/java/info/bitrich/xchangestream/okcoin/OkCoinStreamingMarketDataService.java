@@ -34,7 +34,7 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
     protected final OkCoinStreamingService service;
 
     private final ObjectMapper mapper = new ObjectMapper();
-    private final Map<CurrencyPair, OkCoinOrderbook> orderbooks = new HashMap<>();
+    private final Map<String, OkCoinOrderbook> orderbooks = new HashMap<>();
 
     OkCoinStreamingMarketDataService(OkCoinStreamingService service) {
         this.service = service;
@@ -58,45 +58,49 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
         String channel = String.format("ok_sub_spot_%s_%s_depth", currencyPair.base.toString().toLowerCase(), currencyPair.counter.toString().toLowerCase());
-
+        boolean fullData = false;
         if (args.length > 0) {
             if (args[0] instanceof FuturesContract) {
                 FuturesContract contract = (FuturesContract) args[0];
                 channel = String.format("ok_sub_future%s_%s_depth_%s", currencyPair.counter.toString().toLowerCase(), currencyPair.base.toString().toLowerCase(), contract.getName());
                 if (args.length > 1) {
                     channel = channel + "_" + args[1];
+                    fullData = true;
                 }
             } else {
                 channel = channel + "_" + args[1];
+                fullData = true;
             }
         }
+        if (fullData) {
+            return this.service.subscribeChannel(channel).map((s) -> {
+                OkCoinDepth okCoinDepth = this.mapper.treeToValue(s.get("data"), OkCoinDepth.class);
+                return OkCoinAdapters.adaptOrderBook(okCoinDepth, currencyPair);
+            });
+        }
+        final String key = channel;
+        return this.service.subscribeChannel(channel).map((s) -> {
+            OkCoinOrderbook okCoinOrderbook;
+            if (!this.orderbooks.containsKey(key)) {
+                OkCoinDepth okCoinDepth = this.mapper.treeToValue(s.get("data"), OkCoinDepth.class);
+                okCoinOrderbook = new OkCoinOrderbook(okCoinDepth);
+                this.orderbooks.put(key, okCoinOrderbook);
+            } else {
+                okCoinOrderbook = this.orderbooks.get(key);
+                BigDecimal[][] bidLevels;
+                if (s.get("data").has("asks") && s.get("data").get("asks").size() > 0) {
+                    bidLevels = this.mapper.treeToValue(s.get("data").get("asks"), BigDecimal[][].class);
+                    okCoinOrderbook.updateLevels(bidLevels, Order.OrderType.ASK);
+                }
 
-        return service.subscribeChannel(channel)
-                .map(s -> {
-                    OkCoinOrderbook okCoinOrderbook;
-                    if (!orderbooks.containsKey(currencyPair)) {
-                        OkCoinDepth okCoinDepth = mapper.treeToValue(s.get("data"), OkCoinDepth.class);
-                        okCoinOrderbook = new OkCoinOrderbook(okCoinDepth);
-                        orderbooks.put(currencyPair, okCoinOrderbook);
-                    } else {
-                        okCoinOrderbook = orderbooks.get(currencyPair);
-                        if (s.get("data").has("asks")) {
-                            if (s.get("data").get("asks").size() > 0) {
-                                BigDecimal[][] askLevels = mapper.treeToValue(s.get("data").get("asks"), BigDecimal[][].class);
-                                okCoinOrderbook.updateLevels(askLevels, Order.OrderType.ASK);
-                            }
-                        }
+                if (s.get("data").has("bids") && s.get("data").get("bids").size() > 0) {
+                    bidLevels = this.mapper.treeToValue(s.get("data").get("bids"), BigDecimal[][].class);
+                    okCoinOrderbook.updateLevels(bidLevels, Order.OrderType.BID);
+                }
+            }
 
-                        if (s.get("data").has("bids")) {
-                            if (s.get("data").get("bids").size() > 0) {
-                                BigDecimal[][] bidLevels = mapper.treeToValue(s.get("data").get("bids"), BigDecimal[][].class);
-                                okCoinOrderbook.updateLevels(bidLevels, Order.OrderType.BID);
-                            }
-                        }
-                    }
-
-                    return OkCoinAdapters.adaptOrderBook(okCoinOrderbook.toOkCoinDepth(s.get("data").get("timestamp").asLong()), currencyPair);
-                });
+            return OkCoinAdapters.adaptOrderBook(okCoinOrderbook.toOkCoinDepth(s.get("data").get("timestamp").asLong()), currencyPair);
+        });
     }
 
     /**
