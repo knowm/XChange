@@ -2,13 +2,13 @@ package org.knowm.xchange.cryptopia;
 
 import org.junit.Test;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
+import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.InvalidCurrencyPairException;
 
 /** @author walec51 */
 public class CryptopiaErrorAdapterTest {
 
-  @Test(expected = InvalidCurrencyPairException.class)
+  @Test(expected = CurrencyPairNotValidException.class)
   public void throwIfErrorResponse_wrongMarket() {
     // Cryptopia actualy sets successful = true in this situation
     CryptopiaBaseResponse response =
@@ -26,6 +26,12 @@ public class CryptopiaErrorAdapterTest {
   @Test(expected = ExchangeException.class)
   public void throwIfErrorResponse_unsuccessfulWithoutErrorMessage() {
     CryptopiaBaseResponse response = new CryptopiaBaseResponse(false, null, null, null);
+    CryptopiaErrorAdapter.throwIfErrorResponse(response);
+  }
+
+  @Test
+  public void throwIfErrorResponse_successfulWithoutErrorMessage() {
+    CryptopiaBaseResponse response = new CryptopiaBaseResponse(true, null, null, null);
     CryptopiaErrorAdapter.throwIfErrorResponse(response);
   }
 }

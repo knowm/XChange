@@ -2,8 +2,8 @@ package org.knowm.xchange.cryptopia;
 
 import java.util.regex.Pattern;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
+import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.InvalidCurrencyPairException;
 
 /**
  * Maps an error response to an appropriate ExchangeException class.
@@ -27,7 +27,7 @@ public class CryptopiaErrorAdapter {
 
   private static void throwBasedOnErrorMessage(String message) {
     if (MARKET_NOT_FOUND_PATTERN.matcher(message).matches()) {
-      throw new InvalidCurrencyPairException(message);
+      throw new CurrencyPairNotValidException(message);
     }
     throw new ExchangeException(message);
   }
