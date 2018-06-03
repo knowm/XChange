@@ -8,6 +8,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
 import org.knowm.xchange.bitmex.BitmexContract;
 import org.knowm.xchange.bitmex.BitmexPrompt;
+import org.knowm.xchange.bitmex.BitmexUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
