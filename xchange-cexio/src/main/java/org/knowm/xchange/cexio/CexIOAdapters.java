@@ -339,9 +339,4 @@ public class CexIOAdapters {
     // Currency pair is in the format: "BCH:USD"
     return new CurrencyPair(pair.replace(":", "/"));
   }
-
-  private static CurrencyPair adaptCurrencyPair(String pair) {
-    // Currency pair is in the format: "BCH:USD"
-    return new CurrencyPair(pair.replace(":", "/"));
-  }
 }
