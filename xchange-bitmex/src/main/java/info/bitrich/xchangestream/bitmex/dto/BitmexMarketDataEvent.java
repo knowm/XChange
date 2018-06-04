@@ -6,6 +6,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by Lukas Zaoralek on 13.11.17.
@@ -36,6 +37,7 @@ public class BitmexMarketDataEvent {
     public Date getDate() {
         SimpleDateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {
             date = formatter.parse(timestamp);

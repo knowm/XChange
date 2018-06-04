@@ -1,8 +1,8 @@
 package info.bitrich.xchangestream.bitmex;
 
-import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import org.knowm.xchange.bitmex.BitmexPrompt;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +39,20 @@ public class BitmexManualExample {
         exchange.getStreamingMarketDataService().getTrades(xbtUsd)
                 .subscribe(trade -> LOG.info("TRADE: {}", trade),
                         throwable -> LOG.error("ERROR in getting trades: ", throwable));
+
+        // Quarterly Contract
+        streamingMarketDataService.getOrderBook(xbtUsd, BitmexPrompt.QUARTERLY).subscribe(orderBook -> {
+            LOG.info("Quarterly Contract First ask: {}", orderBook.getAsks().get(0));
+            LOG.info("Quarterly Contract First bid: {}", orderBook.getBids().get(0));
+        }, throwable -> LOG.error("ERROR in getting Quarterly Contract order book: ", throwable));
+
+        streamingMarketDataService.getTicker(xbtUsd, BitmexPrompt.QUARTERLY).subscribe(ticker -> {
+            LOG.info("Quarterly Contract TICKER: {}", ticker);
+        }, throwable -> LOG.error("ERROR in getting Quarterly Contract ticker: ", throwable));
+
+        exchange.getStreamingMarketDataService().getTrades(xbtUsd, BitmexPrompt.QUARTERLY)
+                .subscribe(trade -> LOG.info("Quarterly Contract TRADE: {}", trade),
+                        throwable -> LOG.error("ERROR in getting Quarterly Contract trades: ", throwable));
 
         try {
             Thread.sleep(100000);
