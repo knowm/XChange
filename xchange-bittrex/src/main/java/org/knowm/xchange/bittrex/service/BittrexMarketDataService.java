@@ -63,9 +63,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw
         .collect(Collectors.toList());
   }
 
-  /**
-   * @param args If an integer is provided, then it used as depth of order book
-   */
+  /** @param args If an integer is provided, then it used as depth of order book */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 

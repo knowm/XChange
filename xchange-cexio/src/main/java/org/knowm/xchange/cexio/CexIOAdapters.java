@@ -1,6 +1,14 @@
 package org.knowm.xchange.cexio;
 
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
+
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
@@ -25,15 +33,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 /** Author: brox Since: 2/6/14 */
 public class CexIOAdapters {
