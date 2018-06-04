@@ -62,7 +62,7 @@
     <distributionManagement>
         <snapshotRepository>
             <id>hetang_upload</id>
-            <url>http://13.250.18.54/repository/hetang/</url>
+            <url>http://repo.maven.fqt.fund/repository/hetang/</url>
         </snapshotRepository>
         <!--<snapshotRepository>-->
             <!--<id>ossrh</id>-->
@@ -70,7 +70,7 @@
         <!--</snapshotRepository>-->
         <repository>
             <id>hetang_upload</id>
-            <url>http://13.250.18.54/repository/hetang_release/</url>
+            <url>http://repo.maven.fqt.fund/repository/hetang_release/</url>
         </repository>
         <!--<repository>-->
             <!--<id>ossrh</id>-->
