@@ -6,6 +6,9 @@ import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
 import info.bitrich.xchangestream.bitmex.dto.BitmexTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
+import org.knowm.xchange.bitmex.BitmexContract;
+import org.knowm.xchange.bitmex.BitmexPrompt;
+import org.knowm.xchange.bitmex.BitmexUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -23,15 +26,25 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     private final BitmexStreamingService streamingService;
 
-    private final SortedMap<CurrencyPair, BitmexOrderbook> orderbooks = new TreeMap<>();
+    private final SortedMap<String, BitmexOrderbook> orderbooks = new TreeMap<>();
 
     public BitmexStreamingMarketDataService(BitmexStreamingService streamingService) {
         this.streamingService = streamingService;
     }
 
+    private String getBitmexSymbol(CurrencyPair currencyPair, Object... args) {
+        if (args.length > 0) {
+            BitmexPrompt prompt = (BitmexPrompt) args[0];
+            BitmexContract contract = new BitmexContract(currencyPair, prompt);
+            return BitmexUtils.translateBitmexContract(contract);
+        } else {
+            return currencyPair.base.toString() + currencyPair.counter.toString();
+        }
+    }
+
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
+        String instrument = getBitmexSymbol(currencyPair, args);
         String channelName = String.format("orderBookL2:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).map(s -> {
@@ -39,9 +52,9 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
             String action = s.getAction();
             if (action.equals("partial")) {
                 orderbook = s.toBitmexOrderbook();
-                orderbooks.put(currencyPair, orderbook);
+                orderbooks.put(instrument, orderbook);
             } else {
-                orderbook = orderbooks.get(currencyPair);
+                orderbook = orderbooks.get(instrument);
                 //ignore updates until first "partial"
                 if (orderbook == null) {
                     return new OrderBook(null, Collections.emptyList(), Collections.emptyList());
@@ -55,7 +68,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     }
 
     public Observable<BitmexTicker> getRawTicker(CurrencyPair currencyPair, Object... args) {
-        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
+        String instrument = getBitmexSymbol(currencyPair, args);
         String channelName = String.format("quote:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).map(s -> s.toBitmexTicker());
@@ -63,7 +76,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     @Override
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
+        String instrument = getBitmexSymbol(currencyPair, args);
         String channelName = String.format("quote:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).map(s -> {
@@ -74,7 +87,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
+        String instrument = getBitmexSymbol(currencyPair, args);
         String channelName = String.format("trade:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).flatMapIterable(s -> {
