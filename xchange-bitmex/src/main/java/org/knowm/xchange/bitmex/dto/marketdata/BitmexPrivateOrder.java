@@ -19,16 +19,16 @@ public class BitmexPrivateOrder {
   private final String settleCurrency;
 
   public BitmexPrivateOrder(
-          @JsonProperty("price") BigDecimal price,
-          @JsonProperty("orderID") String id,
-          @JsonProperty("orderQty") BigDecimal size,
-          @JsonProperty("side") BitmexSide side,
-          @JsonProperty("symbol") String symbol,
-          @JsonProperty("clOrdID") String clOrdID,
-          @JsonProperty("timestamp") Date timestamp,
-          @JsonProperty("ordStatus") OrderStatus orderStatus,
-          @JsonProperty("currency") String currency,
-          @JsonProperty("settlCurrency") String settleCurrency) {
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("orderID") String id,
+      @JsonProperty("orderQty") BigDecimal size,
+      @JsonProperty("side") BitmexSide side,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("clOrdID") String clOrdID,
+      @JsonProperty("timestamp") Date timestamp,
+      @JsonProperty("ordStatus") OrderStatus orderStatus,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("settlCurrency") String settleCurrency) {
 
     this.symbol = symbol;
     this.id = id;

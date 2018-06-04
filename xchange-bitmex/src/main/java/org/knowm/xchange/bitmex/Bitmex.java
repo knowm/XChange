@@ -173,16 +173,16 @@ public interface Bitmex {
   // for some reason underlying library doesn't add contenty type for PUT requests automatically
   @Consumes("application/x-www-form-urlencoded")
   BitmexPrivateOrder replaceOrder(
-          @HeaderParam("api-key") String apiKey,
-          @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
-          @HeaderParam("api-signature") ParamsDigest paramsDigest,
-          @FormParam("orderQty") int orderQuantity,
-          @Nullable @FormParam("price") BigDecimal price,
-          @Nullable @FormParam("stopPx") BigDecimal stopPrice,
-          @Nullable @FormParam("ordType") String orderType,
-          @Nullable @FormParam("orderID") String orderId,
-          @Nullable @FormParam("clOrdID") String clOrdID,
-          @Nullable @FormParam("origClOrdID") String origClOrdID);
+      @HeaderParam("api-key") String apiKey,
+      @HeaderParam("api-nonce") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest,
+      @FormParam("orderQty") int orderQuantity,
+      @Nullable @FormParam("price") BigDecimal price,
+      @Nullable @FormParam("stopPx") BigDecimal stopPrice,
+      @Nullable @FormParam("ordType") String orderType,
+      @Nullable @FormParam("orderID") String orderId,
+      @Nullable @FormParam("clOrdID") String clOrdID,
+      @Nullable @FormParam("origClOrdID") String origClOrdID);
 
   @DELETE
   @Path("order")

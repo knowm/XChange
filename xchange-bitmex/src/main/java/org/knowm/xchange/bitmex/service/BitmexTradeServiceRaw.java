@@ -126,8 +126,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         // if clOrdID is not null we should not send orderID
         clOrdID != null ? null : orderId,
         clOrdID,
-        origClOrdID
-    );
+        origClOrdID);
   }
 
   public BitmexPrivateOrder replaceStopOrder(
@@ -147,16 +146,16 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         "Limit",
         clOrdID != null ? null : orderID,
         clOrdID,
-        origClOrdId
-    );
+        origClOrdId);
   }
 
   public BitmexPrivateOrder placeStopOrder(
-          String symbol,
-          BitmexSide side,
-          BigDecimal orderQuantity,
-          BigDecimal stopPrice,
-          String executionInstructions, String clOrdID) {
+      String symbol,
+      BitmexSide side,
+      BigDecimal orderQuantity,
+      BigDecimal stopPrice,
+      String executionInstructions,
+      String clOrdID) {
     return bitmex.placeOrder(
         apiKey,
         exchange.getNonceFactory(),
@@ -167,7 +166,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         null,
         stopPrice,
         "Stop",
-            clOrdID,
+        clOrdID,
         executionInstructions);
   }
 
