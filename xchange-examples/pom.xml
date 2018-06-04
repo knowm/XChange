@@ -308,11 +308,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-empoex</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>xchange-vircurex</artifactId>
             <version>${project.version}</version>
         </dependency>
