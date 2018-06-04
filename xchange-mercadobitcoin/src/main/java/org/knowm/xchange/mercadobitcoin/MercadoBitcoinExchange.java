@@ -21,7 +21,6 @@ public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.mercadobitcoin.net");
     exchangeSpecification.setHost("www.mercadobitcoin.net");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Mercado Bitcoin");
     exchangeSpecification.setExchangeDescription(
         "Mercado Bitcoin is a Bitcoin and Litecoin exchange registered in Brazil.");

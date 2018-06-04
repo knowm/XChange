@@ -34,7 +34,6 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.btcmarkets.net");
     exchangeSpecification.setHost("btcmarkets.net");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCMarkets");
     return exchangeSpecification;
   }

@@ -31,6 +31,7 @@
         <dependency>
             <groupId>org.knowm.xchart</groupId>
             <artifactId>xchart</artifactId>
+            <version>3.5.1</version>
         </dependency>
 
         <dependency>
@@ -255,12 +256,6 @@
             <artifactId>xchange-bitso</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange Taurus exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-taurus</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-quoine</artifactId>
@@ -304,11 +299,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-coinone</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-empoex</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

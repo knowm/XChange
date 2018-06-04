@@ -26,7 +26,6 @@ public class BitbayExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.bitbay.net");
     exchangeSpecification.setHost("api.bitbay.net");
-    exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("Bitbay");
     exchangeSpecification.setExchangeDescription(
         "Bitbay is a Bitcoin exchange based in Katowice, Poland.");

@@ -21,7 +21,6 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://cryptonit.net");
     exchangeSpecification.setHost("cryptonit.net");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Cryptonit");
     exchangeSpecification.setExchangeDescription(
         "Cryptonit is a cryptocurrency market owned and operated by UK based company Cryptonit Solutions Ltd.");

@@ -32,7 +32,6 @@ public class KrakenExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.kraken.com");
     exchangeSpecification.setHost("api.kraken.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Kraken");
     exchangeSpecification.setExchangeDescription(
         "Kraken is a Bitcoin exchange operated by Payward, Inc.");

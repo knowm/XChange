@@ -36,7 +36,6 @@ public class TheRockExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.therocktrading.com");
     exchangeSpecification.setHost("api.therocktrading.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("The Rock Trading");
     return exchangeSpecification;
   }

@@ -33,7 +33,6 @@ public class BitZExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.bit-z.com");
     exchangeSpecification.setHost("http://www.bit-z.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bit-Z");
     exchangeSpecification.setExchangeDescription(
         "Bit-Z is a Bitcoin exchange registered in Hong Kong.");

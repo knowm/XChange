@@ -28,7 +28,6 @@ public class AbucoinsExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.abucoins.com");
     exchangeSpecification.setHost("api.abucoins.com");
-    exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("Abucoins");
     exchangeSpecification.setExchangeDescription(
         "Abucoins is a crypto currency exchange based in Poland.");

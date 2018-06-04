@@ -32,7 +32,6 @@ public class ZaifExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.zaif.jp/");
     exchangeSpecification.setHost("api.zaif.jp");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Zaif");
 
     return exchangeSpecification;

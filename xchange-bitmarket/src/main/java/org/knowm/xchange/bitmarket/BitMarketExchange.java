@@ -39,7 +39,6 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.bitmarket.pl/");
     exchangeSpecification.setHost("www.bitmarket.pl");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitmarket");
     exchangeSpecification.setExchangeDescription(
         "Bitmarket is a Bitcoin exchange based in Poland.");

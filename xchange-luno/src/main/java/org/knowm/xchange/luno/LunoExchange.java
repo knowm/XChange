@@ -27,7 +27,6 @@ public class LunoExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.mybitx.com");
     exchangeSpecification.setHost("api.mybitx.com");
-    exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("Luno");
     exchangeSpecification.setExchangeDescription("Luno is a bitcoin exchange.");
     return exchangeSpecification;

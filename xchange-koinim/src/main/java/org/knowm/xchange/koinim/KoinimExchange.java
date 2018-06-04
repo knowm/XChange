@@ -25,7 +25,6 @@ public class KoinimExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.koinim.com");
     exchangeSpecification.setHost("www.koinim.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Koinim");
     exchangeSpecification.setExchangeDescription(
         "Koinim is a Bitcoin exchange registered in Turkey.");

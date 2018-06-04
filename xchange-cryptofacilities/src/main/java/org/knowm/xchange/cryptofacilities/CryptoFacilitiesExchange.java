@@ -28,7 +28,6 @@ public class CryptoFacilitiesExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.cryptofacilities.com/derivatives");
     exchangeSpecification.setHost("www.cryptofacilities.com");
-    exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("CryptoFacilities");
     exchangeSpecification.setExchangeDescription(
         "CryptoFacilities is a bitcoin derivatives exchange operated by Crypto Facilities Ltd.");

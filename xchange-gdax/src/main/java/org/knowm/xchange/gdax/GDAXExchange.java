@@ -52,7 +52,6 @@ public class GDAXExchange extends BaseExchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.gdax.com");
     exchangeSpecification.setHost("api.gdax.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("GDAX");
     exchangeSpecification.setExchangeDescription(
         "GDAX Exchange is a Bitcoin exchange recently launched in January 2015");

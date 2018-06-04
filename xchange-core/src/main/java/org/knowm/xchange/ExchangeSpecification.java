@@ -262,6 +262,7 @@ public class ExchangeSpecification {
   public void setSslUri(String uri) {
 
     this.sslUri = uri;
+    this.port = 443;
   }
 
   /**

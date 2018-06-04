@@ -30,7 +30,6 @@
         <version.fasterxml>2.9.5</version.fasterxml>
         <version.github.mmazi>2.0.2</version.github.mmazi>
         <version.junit>4.12</version.junit>
-        <version.knowm.xchart>3.5.1</version.knowm.xchart>
         <version.powermock>1.7.3</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
@@ -128,7 +127,6 @@
         <module>xchange-cryptonit</module>
         <module>xchange-cryptopia</module>
         <module>xchange-dsx</module>
-        <module>xchange-empoex</module>
         <module>xchange-exmo</module>
         <module>xchange-examples</module>
         <module>xchange-gatecoin</module>
@@ -158,7 +156,6 @@
         <module>xchange-quadrigacx</module>
         <module>xchange-quoine</module>
         <module>xchange-ripple</module>
-        <module>xchange-taurus</module>
         <module>xchange-therock</module>
         <module>xchange-truefx</module>
         <module>xchange-vaultoro</module>
@@ -208,13 +205,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${version.commons.lang3}</version>
-            </dependency>
-
-            <!-- Charting -->
-            <dependency>
-                <groupId>org.knowm.xchart</groupId>
-                <artifactId>xchart</artifactId>
-                <version>${version.knowm.xchart}</version>
             </dependency>
 
             <!-- Reflections - java runtime metadata analysis for integration testing -->

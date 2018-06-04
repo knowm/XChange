@@ -25,7 +25,6 @@ public class ParibuExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.paribu.com");
     exchangeSpecification.setHost("www.paribu.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Paribu");
     exchangeSpecification.setExchangeDescription(
         "Paribu is a Bitcoin exchange registered in Turkey.");

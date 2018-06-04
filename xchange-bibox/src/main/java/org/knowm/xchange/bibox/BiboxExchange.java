@@ -28,7 +28,6 @@ public class BiboxExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.bibox.com/");
     exchangeSpecification.setHost("bibox.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bibox");
     exchangeSpecification.setExchangeDescription("AI ENHANCED ENCRYPTED DIGITAL ASSET EXCHANGE.");
 

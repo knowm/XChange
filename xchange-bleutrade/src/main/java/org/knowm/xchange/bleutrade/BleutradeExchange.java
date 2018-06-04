@@ -49,7 +49,6 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://bleutrade.com/api/");
     exchangeSpecification.setHost("bleutrade.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bleutrade");
     exchangeSpecification.setExchangeDescription("Bleutrade is a bitcoin and altcoin exchange.");
 

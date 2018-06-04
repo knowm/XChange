@@ -34,7 +34,6 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://poloniex.com/");
     exchangeSpecification.setHost("poloniex.com");
-    exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Poloniex");
     exchangeSpecification.setExchangeDescription("Poloniex is a bitcoin and altcoin exchange.");
 
