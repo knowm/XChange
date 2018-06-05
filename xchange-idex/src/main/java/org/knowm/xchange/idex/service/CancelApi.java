@@ -21,17 +21,15 @@ public interface CancelApi {
   @Consumes("application/json")
   @Produces("application/json")
   @ApiOperation(
-    value =
-        "Cancels an order associated with the address. JSON input must include the following properties",
-    notes = "",
-    tags = "trade"
-  )
+      value =
+          "Cancels an order associated with the address. JSON input must include the following properties",
+      notes = "",
+      tags = "trade")
   @ApiResponses(
       @ApiResponse(
-        code = 200,
-        message =
-            "To derive the signature for this API call, hash the following parameters in this orderorderHashnonceSalt and sign the hash as usual to prepare your payloadSample output:{ success: 1 }",
-        response = CancelResponse.class
-      ))
+          code = 200,
+          message =
+              "To derive the signature for this API call, hash the following parameters in this orderorderHashnonceSalt and sign the hash as usual to prepare your payloadSample output:{ success: 1 }",
+          response = CancelResponse.class))
   CancelResponse cancel(CancelReq cancelReq) throws Exception;
 }
