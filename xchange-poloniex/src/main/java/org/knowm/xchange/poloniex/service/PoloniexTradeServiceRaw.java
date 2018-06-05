@@ -1,5 +1,11 @@
 package org.knowm.xchange.poloniex.service;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -17,13 +23,6 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 /** @author Zach Holmes */
 public class PoloniexTradeServiceRaw extends PoloniexBaseService {
@@ -61,16 +60,22 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
         PoloniexUtils.toPairString(currencyPair),
         startTime,
         endTime,
-        limit
-    );
+        limit);
   }
 
-  public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(Long startTime, Long endTime, Integer limit)
-      throws IOException {
+  public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(
+      Long startTime, Long endTime, Integer limit) throws IOException {
 
     String ignore = null; // only used so PoloniexAuthenticated.returnTradeHistory can be overloaded
     return poloniexAuthenticated.returnTradeHistory(
-        apiKey, signatureCreator, exchange.getNonceFactory(), "all", startTime, endTime, limit, ignore);
+        apiKey,
+        signatureCreator,
+        exchange.getNonceFactory(),
+        "all",
+        startTime,
+        endTime,
+        limit,
+        ignore);
   }
 
   public PoloniexMarginAccountResponse returnMarginAccountSummary() throws IOException {

@@ -1,5 +1,13 @@
 package org.knowm.xchange.gemini.v1;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -36,15 +44,6 @@ import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public final class GeminiAdapters {
 
@@ -418,32 +417,33 @@ public final class GeminiAdapters {
 
   public static FundingRecord adapt(GeminiTransfersResponse.GeminiTransfer transfer) {
     FundingRecord.Status status = FundingRecord.Status.PROCESSING;
-    if(transfer.status.equals("Complete"))
-      status = FundingRecord.Status.COMPLETE;
+    if (transfer.status.equals("Complete")) status = FundingRecord.Status.COMPLETE;
 
     String description = "";
-    if(transfer.purpose != null)
-      description = transfer.purpose;
+    if (transfer.purpose != null) description = transfer.purpose;
 
-    if(transfer.method != null)
-      description += " " + transfer.method;
+    if (transfer.method != null) description += " " + transfer.method;
 
     description = description.trim();
 
-    FundingRecord.Type type = transfer.type.equals("Withdrawal") ? FundingRecord.Type.WITHDRAWAL : FundingRecord.Type.DEPOSIT;
+    FundingRecord.Type type =
+        transfer.type.equals("Withdrawal")
+            ? FundingRecord.Type.WITHDRAWAL
+            : FundingRecord.Type.DEPOSIT;
 
     return new FundingRecord.Builder()
-            .setStatus(status)
-            .setType(type)
-            .setInternalId(transfer.eid)
-            .setAddress(transfer.destination)
-            .setCurrency(Currency.getInstance(transfer.currency))
-            .setDate(DateUtils.fromMillisUtc(transfer.timestamp))
-            .setAmount(transfer.amount)
-            .setBlockchainTransactionHash(transfer.txnHash)
-            .setDescription(description)
-            .build();
+        .setStatus(status)
+        .setType(type)
+        .setInternalId(transfer.eid)
+        .setAddress(transfer.destination)
+        .setCurrency(Currency.getInstance(transfer.currency))
+        .setDate(DateUtils.fromMillisUtc(transfer.timestamp))
+        .setAmount(transfer.amount)
+        .setBlockchainTransactionHash(transfer.txnHash)
+        .setDescription(description)
+        .build();
   }
+
   public static class OrdersContainer {
 
     private final long timestamp;

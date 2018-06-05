@@ -2,11 +2,7 @@ package org.knowm.xchange.cryptopia.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.knowm.xchange.cryptopia.Cryptopia;
 import org.knowm.xchange.cryptopia.CryptopiaAdapters;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
@@ -92,7 +88,7 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
       FundingRecord.Type fundingType =
           map.get("Type")
                   .toString()
-                  .equals(CryptopiaAccountService.CryptopiaFundingHistoryParams.Type.Deposit.name())
+                  .equals(CryptopiaAccountService.CryptopiaFundingType.Deposit.name())
               ? FundingRecord.Type.DEPOSIT
               : FundingRecord.Type.WITHDRAWAL;
 

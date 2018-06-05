@@ -1,5 +1,13 @@
 package org.knowm.xchange.poloniex.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -12,7 +20,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexUtils;
@@ -33,20 +40,12 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements TradeService {
 
   private PoloniexMarketDataService poloniexMarketDataService;
 
-  public PoloniexTradeService(Exchange exchange, PoloniexMarketDataService poloniexMarketDataService) {
+  public PoloniexTradeService(
+      Exchange exchange, PoloniexMarketDataService poloniexMarketDataService) {
 
     super(exchange);
     this.poloniexMarketDataService = poloniexMarketDataService;
@@ -75,37 +74,33 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     return PoloniexAdapters.adaptPoloniexOpenOrders(poloniexOpenOrders);
   }
 
-  /** Poloniex does not support market orders directly, but will instantly fill
-   * limit orders with very low or high prices. So this is implementation has
-   * the same effect as a market order. Poloniex has maximums for each 'rate' (limit price) but does not
-   * provide them. So you must find the current market price and make it guaranteed to be filled
+  /**
+   * Poloniex does not support market orders directly, but will instantly fill limit orders with
+   * very low or high prices. So this is implementation has the same effect as a market order.
+   * Poloniex has maximums for each 'rate' (limit price) but does not provide them. So you must find
+   * the current market price and make it guaranteed to be filled
    */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     Ticker ticker = poloniexMarketDataService.getTicker(marketOrder.getCurrencyPair());
 
-
     BigDecimal price;
-    if(marketOrder.getType().equals(OrderType.BID)) {
+    if (marketOrder.getType().equals(OrderType.BID)) {
       price = ticker.getLast().multiply(new BigDecimal(10.0));
 
     } else {
       price = ticker.getLast().divide(new BigDecimal(10.0));
     }
 
-
     return placeLimitOrder(
         new LimitOrder(
-          marketOrder.getType(),
-          marketOrder.getOriginalAmount(),
-          marketOrder.getCurrencyPair(),
-          marketOrder.getId(),
-          marketOrder.getTimestamp(),
-          price
-        )
-    );
-
+            marketOrder.getType(),
+            marketOrder.getOriginalAmount(),
+            marketOrder.getCurrencyPair(),
+            marketOrder.getId(),
+            marketOrder.getTimestamp(),
+            price));
   }
 
   @Override
@@ -166,16 +161,15 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
     Integer limit = 500;
     if (params instanceof TradeHistoryParamLimit) {
-        TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
-        limit = tradeHistoryParamLimit.getLimit();
+      TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
+      limit = tradeHistoryParamLimit.getLimit();
     }
 
     return getTradeHistory(
         currencyPair,
         DateUtils.toUnixTimeNullSafe(startTime),
         DateUtils.toUnixTimeNullSafe(endTime),
-        limit
-    );
+        limit);
   }
 
   public BigDecimal getMakerFee() throws IOException {
@@ -189,7 +183,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   private UserTrades getTradeHistory(
-      CurrencyPair currencyPair, final Long startTime, final Long endTime, Integer limit) throws IOException {
+      CurrencyPair currencyPair, final Long startTime, final Long endTime, Integer limit)
+      throws IOException {
 
     List<UserTrade> trades = new ArrayList<>();
     if (currencyPair == null) {
@@ -204,7 +199,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
         }
       }
     } else {
-      PoloniexUserTrade[] poloniexUserTrades = returnTradeHistory(currencyPair, startTime, endTime, limit);
+      PoloniexUserTrade[] poloniexUserTrades =
+          returnTradeHistory(currencyPair, startTime, endTime, limit);
       if (poloniexUserTrades != null) {
         for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
           trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));

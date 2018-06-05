@@ -16,7 +16,6 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
-小田謙太郎
 =
 Achterhoeker
 Adam from WALCZAK.IT
@@ -28,6 +27,7 @@ Alexey Z
 Allen Day
 Alvin Singh
 Andraž
+Andrea Fossi
 André Reiter
 Anthony Tsang
 Arthurm1
@@ -48,6 +48,7 @@ Chris Rico
 Christian Strässle
 Cray Imperative
 Cristian Lucaci
+Cyril
 Daniel Cohen
 Danilo Guimarães
 Dave Seyb
@@ -133,7 +134,9 @@ Mikelle
 Mikhail Wall
 Miso Oprendek
 Muffon
+Nathan King
 Nicolas Pinot
+Nikita Belenkiy
 Niko Schmuck
 Norbert Sándor
 ObsessiveOrange
@@ -150,8 +153,8 @@ Peter N. Steinmetz
 Piotr Ladyzynski
 Piotr Ładyżyński
 Radu
-Rafał Krupiński
 Rafal Krupinski
+Rafał Krupiński
 Raphael Voellmy
 Richard Flint
 Robert Felker
@@ -164,10 +167,13 @@ Sebastiaan van Erk
 Sergey Belyakov
 Sergey Lukashevich
 Sergey Tselovalnikov
+Sergii Pogodin
 Sergio Rodriguez
 Sikerdebaard
+Snailz
 Stuart Low
 Sumedha Saxena
+Sylvain
 Sébastien Koch
 TM Lee
 The Gitter Badger
@@ -199,9 +205,11 @@ Zorge.R
 ahmetoz
 ajdev
 aleks-azen
+aleksazen@gmail.com
 alessandro luppi
 alobarev
 amjad1210
+anton
 anw
 apaygh
 artvel
@@ -236,11 +244,14 @@ gmorpheme
 godoorsun
 gpwclark
 hardsky
+hbwhyte
 henry
+huguanrui
 hurricup
 interwater
 ivan.kosianenko
 jamespedwards42
+jasonliu119
 jclaruelle
 jcuypers
 johndemic
@@ -276,6 +287,7 @@ perlboy
 piotr
 pnkwpk
 pozheg
+procyon
 seanrobb
 sebastienkoch
 semihunaldi
@@ -290,12 +302,17 @@ stephane-coulomb
 stevenuray
 suchac
 swiesend
+taoruifu
 tbosman
 tim
 timmolter
+trix
+trix13
 veken0m
 vulicevic
 will
 wvr
 ww3456
 zholmes
+陈晔
+小田謙太郎

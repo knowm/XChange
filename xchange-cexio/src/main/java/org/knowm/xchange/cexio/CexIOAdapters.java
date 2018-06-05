@@ -4,6 +4,7 @@ import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,7 @@ import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOFullOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.Currency;
@@ -73,6 +75,19 @@ public class CexIOAdapters {
       tradesList.add(0, adaptTrade(trade, currencyPair));
     }
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
+  }
+
+  /**
+   * Adapts a CexIOTicker to a Ticker Object
+   *
+   * @param ticker The exchange specific ticker
+   * @return The ticker
+   */
+  public static Ticker adaptTicker(CexIOTicker ticker) {
+    if (ticker.getPair() == null) {
+      throw new IllegalArgumentException("Missing currency pair in ticker: " + ticker);
+    }
+    return adaptTicker(ticker, adaptCurrencyPair(ticker.getPair()));
   }
 
   /**
@@ -225,6 +240,14 @@ public class CexIOAdapters {
     Date timestamp = new Date(cexIOOrder.time);
     BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
     Order.OrderStatus status = adaptOrderStatus(cexIOOrder);
+    BigDecimal cumulativeAmount = null;
+    try {
+      BigDecimal remains = new BigDecimal(cexIOOrder.remains);
+      cumulativeAmount = originalAmount.subtract(remains);
+    } catch (Exception e) {
+
+    }
+
     return new LimitOrder(
         orderType,
         originalAmount,
@@ -233,26 +256,86 @@ public class CexIOAdapters {
         timestamp,
         limitPrice,
         null,
-        null,
+        cumulativeAmount,
         null,
         status);
   }
 
-  private static Order.OrderStatus adaptOrderStatus(CexIOOpenOrder cexIOOrder) {
+  public static LimitOrder adaptOrder(CexIOFullOrder cexIOOrder) {
+    OrderType orderType = cexIOOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
+    BigDecimal originalAmount = new BigDecimal(cexIOOrder.amount);
+    CurrencyPair currencyPair = new CurrencyPair(cexIOOrder.symbol1, cexIOOrder.symbol2);
+    Date timestamp = new Date(cexIOOrder.time);
+    BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
+    Order.OrderStatus status = adaptOrderStatus(cexIOOrder);
+    BigDecimal cumulativeAmount = null;
 
-    try {
+    if (cexIOOrder.remains != null) {
       BigDecimal remains = new BigDecimal(cexIOOrder.remains);
-      BigDecimal amount = new BigDecimal(cexIOOrder.amount);
+      cumulativeAmount = originalAmount.subtract(remains);
+    }
 
-      if (remains.compareTo(BigDecimal.ZERO) > 0 && remains.compareTo(amount) < 0) {
-        return Order.OrderStatus.PARTIALLY_FILLED;
-      } else if (remains.compareTo(BigDecimal.ZERO) == 0) {
-        return Order.OrderStatus.FILLED;
-      } else {
+    String tradedAmount =
+        cexIOOrder.totalAmountMaker != null
+            ? cexIOOrder.totalAmountMaker
+            : cexIOOrder.totalAmountTaker;
+    BigDecimal averagePrice = null;
+    if (cumulativeAmount != null && tradedAmount != null) {
+      averagePrice = new BigDecimal(tradedAmount).divide(cumulativeAmount, 2, RoundingMode.HALF_UP);
+    }
+    String feeAmount = cexIOOrder.feeMaker != null ? cexIOOrder.feeMaker : cexIOOrder.feeTaker;
+    BigDecimal fee = feeAmount != null ? new BigDecimal(feeAmount) : null;
+    return new LimitOrder(
+        orderType,
+        originalAmount,
+        currencyPair,
+        cexIOOrder.orderId,
+        timestamp,
+        limitPrice,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status);
+  }
+
+  /**
+   * From CEX API <a href="https://cex.io/rest-api#/definitions/OrderStatus">documentation </a> <br>
+   * Order status can assume follow values ('d' = done, fully executed OR 'c' = canceled, not
+   * executed OR 'cd' = cancel-done, partially executed OR 'a' = active, created)
+   *
+   * @param cexIOOrder cex raw order
+   * @return OrderStatus
+   */
+  private static Order.OrderStatus adaptOrderStatus(CexIOOpenOrder cexIOOrder) {
+    if ("c".equalsIgnoreCase(cexIOOrder.status)) return Order.OrderStatus.CANCELED;
+    if ("d".equalsIgnoreCase(cexIOOrder.status)) return Order.OrderStatus.FILLED;
+    if ("a".equalsIgnoreCase(cexIOOrder.status)) {
+      try {
+        BigDecimal remains = new BigDecimal(cexIOOrder.remains);
+        BigDecimal amount = new BigDecimal(cexIOOrder.amount);
+        if (remains.compareTo(BigDecimal.ZERO) > 0 && remains.compareTo(amount) < 0)
+          return Order.OrderStatus.PARTIALLY_FILLED;
+        else return Order.OrderStatus.PENDING_NEW;
+      } catch (NumberFormatException ex) {
         return Order.OrderStatus.PENDING_NEW;
       }
-    } catch (NumberFormatException ex) {
-      return Order.OrderStatus.PENDING_NEW;
     }
+    if ("cd".equalsIgnoreCase(cexIOOrder.status)) {
+      try {
+        BigDecimal remains = new BigDecimal(cexIOOrder.remains);
+        BigDecimal amount = new BigDecimal(cexIOOrder.amount);
+        if (remains.compareTo(BigDecimal.ZERO) > 0 && remains.compareTo(amount) < 0)
+          return Order.OrderStatus.PARTIALLY_CANCELED;
+        else return Order.OrderStatus.CANCELED;
+      } catch (NumberFormatException ex) {
+        return Order.OrderStatus.CANCELED;
+      }
+    }
+    return Order.OrderStatus.UNKNOWN;
+  }
+
+  private static CurrencyPair adaptCurrencyPair(String pair) {
+    // Currency pair is in the format: "BCH:USD"
+    return new CurrencyPair(pair.replace(":", "/"));
   }
 }

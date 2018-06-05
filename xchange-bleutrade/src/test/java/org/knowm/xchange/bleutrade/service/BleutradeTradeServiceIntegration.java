@@ -380,8 +380,7 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
             Mockito.matches("ALL"),
             any(String.class),
             any(String.class),
-            any(Integer.class)
-    ))
+            any(Integer.class)))
         .thenReturn(response);
 
     // when
@@ -403,8 +402,7 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
             Mockito.matches("BTC_AUD"),
             Mockito.matches("status"),
             Mockito.matches("type"),
-            any(Integer.class)
-    ))
+            any(Integer.class)))
         .thenReturn(response);
 
     // when

@@ -87,7 +87,8 @@ public class PoloniexTradeDemo {
   private static void raw(PoloniexTradeServiceRaw tradeService)
       throws IOException, InterruptedException {
     System.out.println("------------RAW------------");
-    System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null, null)));
+    System.out.println(
+        Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null, null)));
     long startTime = (new Date().getTime() / 1000) - 8 * 60 * 60;
     System.out.println(
         Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, null, null)));
