@@ -3,7 +3,9 @@ package org.knowm.xchange.cryptopia.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import org.knowm.xchange.cryptopia.CryptopiaErrorAdapter;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
+import org.knowm.xchange.cryptopia.dto.CryptopiaException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -27,9 +29,12 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    List<Balance> balances = getBalances();
-
-    return new AccountInfo(new Wallet(balances));
+    try {
+      List<Balance> balances = getBalances();
+      return new AccountInfo(new Wallet(balances));
+    } catch (CryptopiaException e) {
+      throw CryptopiaErrorAdapter.adapt(e);
+    }
   }
 
   @Override
@@ -40,15 +45,19 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    if (params instanceof DefaultWithdrawFundsParams) {
-      DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      return submitWithdraw(
-          defaultWithdrawFundsParams.getCurrency(),
-          defaultWithdrawFundsParams.getAmount(),
-          defaultWithdrawFundsParams.getAddress(),
-          null);
-    } else {
-      throw new IllegalStateException("Don't understand " + params);
+    try {
+      if (params instanceof DefaultWithdrawFundsParams) {
+        DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
+        return submitWithdraw(
+            defaultWithdrawFundsParams.getCurrency(),
+            defaultWithdrawFundsParams.getAmount(),
+            defaultWithdrawFundsParams.getAddress(),
+            null);
+      } else {
+        throw new IllegalStateException("Don't understand " + params);
+      }
+    } catch (CryptopiaException e) {
+      throw CryptopiaErrorAdapter.adapt(e);
     }
   }
 
@@ -60,22 +69,28 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
-    String cryptopiaType = "";
-    Integer limit = DEFAULT_RESULTS_LIMIT;
+    try {
+      String cryptopiaType = "";
+      Integer limit = DEFAULT_RESULTS_LIMIT;
 
-    if (params instanceof HistoryParamsFundingType) {
-      final FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
-      cryptopiaType =
-          type == FundingRecord.Type.DEPOSIT
-              ? CryptopiaFundingType.Deposit.name()
-              : type == FundingRecord.Type.WITHDRAWAL ? CryptopiaFundingType.Withdraw.name() : null;
+      if (params instanceof HistoryParamsFundingType) {
+        final FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
+        cryptopiaType =
+            type == FundingRecord.Type.DEPOSIT
+                ? CryptopiaFundingType.Deposit.name()
+                : type == FundingRecord.Type.WITHDRAWAL
+                    ? CryptopiaFundingType.Withdraw.name()
+                    : null;
+      }
+
+      if (params instanceof TradeHistoryParamLimit) {
+        limit = ((TradeHistoryParamLimit) params).getLimit();
+      }
+
+      return getTransactions(cryptopiaType, limit);
+    } catch (CryptopiaException e) {
+      throw CryptopiaErrorAdapter.adapt(e);
     }
-
-    if (params instanceof TradeHistoryParamLimit) {
-      limit = ((TradeHistoryParamLimit) params).getLimit();
-    }
-
-    return getTransactions(cryptopiaType, limit);
   }
 
   public enum CryptopiaFundingType {
