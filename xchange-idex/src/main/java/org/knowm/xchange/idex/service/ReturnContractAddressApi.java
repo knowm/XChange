@@ -20,10 +20,9 @@ public interface ReturnContractAddressApi {
   @Consumes("application/json")
   @Produces("application/json")
   @ApiOperation(
-    value = "Returns the contract address used for depositing, withdrawing, and posting orders",
-    notes = "",
-    tags = "trade"
-  )
+      value = "Returns the contract address used for depositing, withdrawing, and posting orders",
+      notes = "",
+      tags = "trade")
   @ApiResponses(
       @ApiResponse(code = 200, message = "", response = ReturnContractAddressResponse.class))
   ReturnContractAddressResponse contractAddress() throws Exception;
