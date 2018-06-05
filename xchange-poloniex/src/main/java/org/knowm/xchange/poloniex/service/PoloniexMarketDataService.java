@@ -6,6 +6,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
@@ -34,6 +35,9 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
 
     try {
       PoloniexTicker poloniexTicker = getPoloniexTicker(currencyPair);
+      if (poloniexTicker == null) {
+        throw new CurrencyPairNotValidException(currencyPair);
+      }
       return PoloniexAdapters.adaptPoloniexTicker(poloniexTicker, currencyPair);
     } catch (PoloniexException e) {
       throw PoloniexErrorAdapter.adapt(e);
