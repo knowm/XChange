@@ -42,7 +42,7 @@ public class BitmexDigest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
-    String nonce = restInvocation.getParamValue(HeaderParam.class, "api-nonce").toString();
+    String nonce = restInvocation.getParamValue(HeaderParam.class, "api-expires").toString();
     String path = restInvocation.getInvocationUrl().split(restInvocation.getBaseUrl())[1];
     String payload =
         restInvocation.getHttpMethod() + "/" + path + nonce + restInvocation.getRequestBody();

@@ -11,13 +11,13 @@ import org.knowm.xchange.bitmex.service.BitmexAccountService;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataServiceRaw;
 import org.knowm.xchange.bitmex.service.BitmexTradeService;
-import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeSecNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitmexExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongIncrementalTime2013NonceFactory();
+      new CurrentTimeSecNonceFactory(30);
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
