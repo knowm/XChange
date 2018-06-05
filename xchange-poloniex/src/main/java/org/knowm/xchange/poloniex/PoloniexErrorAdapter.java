@@ -1,5 +1,6 @@
 package org.knowm.xchange.poloniex;
 
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
@@ -21,6 +22,9 @@ public class PoloniexErrorAdapter {
 
   private static ExchangeException adaptBasedOnErrorMessage(PoloniexException e) {
     String message = e.getError();
+    if (StringUtils.isEmpty(message)) {
+      return new ExchangeException("Operation failed without any error message");
+    }
     if (message.startsWith(INVALID_CURRENCY_MESSAGE_START)) {
       return new CurrencyPairNotValidException(message);
     }

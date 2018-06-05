@@ -15,7 +15,7 @@ public class PoloniexErrorAdapterTest {
   public void throwIfErrorResponse_invalidPair() {
     PoloniexException e = new PoloniexException();
     e.setError("Invalid currency pair");
-    // Poloniex actualy return 200 on this with an error
+    // Poloniex actualy returns 200 on this with an error
     e.setHttpStatusCode(200);
     ExchangeException adapted = PoloniexErrorAdapter.adapt(e);
     assertThat(adapted).isExactlyInstanceOf(CurrencyPairNotValidException.class);
