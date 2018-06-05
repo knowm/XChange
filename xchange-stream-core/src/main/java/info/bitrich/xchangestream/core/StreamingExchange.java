@@ -54,7 +54,7 @@ public interface StreamingExchange extends Exchange {
         }
 
         Boolean enable_logging_handler = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(ENABLE_LOGGING_HANDLER);
-        if (enable_logging_handler) {
+        if (accept_all_ceriticates != null && enable_logging_handler) {
             streamingService.setEnableLoggingHandler(true);
         }
     }
