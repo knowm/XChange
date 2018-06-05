@@ -1,11 +1,17 @@
 package info.bitrich.xchangestream.core;
 
+import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.ExchangeSpecification;
 
 public interface StreamingExchange extends Exchange {
+    String USE_SANDBOX = "Use_Sandbox";
+    String ACCEPT_ALL_CERITICATES = "Accept_All_Ceriticates";
+    String ENABLE_LOGGING_HANDLER = "Enable_Logging_Handler";
+
     /**
      * Connects to the WebSocket API of the exchange.
      *
@@ -49,5 +55,20 @@ public interface StreamingExchange extends Exchange {
      * @param compressedMessages Defaults to false
      */
     void useCompressedMessages(boolean compressedMessages);
+
+    default void applyStreamingSpecification(ExchangeSpecification exchangeSpec, NettyStreamingService streamingService){
+        streamingService.setSocksProxyHost(exchangeSpec.getProxyHost());
+        streamingService.setSocksProxyPort(exchangeSpec.getProxyPort());
+
+        Boolean accept_all_ceriticates = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(ACCEPT_ALL_CERITICATES);
+        if (accept_all_ceriticates != null && accept_all_ceriticates) {
+            streamingService.setAcceptAllCertificates(true);
+        }
+
+        Boolean enable_logging_handler = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(ENABLE_LOGGING_HANDLER);
+        if (enable_logging_handler) {
+            streamingService.setEnableLoggingHandler(true);
+        }
+    }
 
 }
