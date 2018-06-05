@@ -13,42 +13,42 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 
 public class LivecoinAdaptersTest {
-    @Test
-    public void liveCoinAdapterTest() {
-        List<Map> response = Arrays.asList(
-                responseItem("total", "USD", "16.45759873"),
-                responseItem("trade", "USD", "0.0"),
-                responseItem("available", "USD", "16.45759873"),
+  @Test
+  public void liveCoinAdapterTest() {
+    List<Map> response =
+        Arrays.asList(
+            responseItem("total", "USD", "16.45759873"),
+            responseItem("trade", "USD", "0.0"),
+            responseItem("available", "USD", "16.45759873"),
+            responseItem("total", "BTC", "0.00671945"),
+            responseItem("trade", "BTC", "0.1"),
+            responseItem("available", "BTC", "0.00671945"),
+            responseItem("total", "XBT", "0.0"),
+            responseItem("trade", "XBT", "0.0"),
+            responseItem("available", "XBT", "0.0"));
 
-                responseItem("total", "BTC", "0.00671945"),
-                responseItem("trade", "BTC", "0.1"),
-                responseItem("available", "BTC", "0.00671945"),
+    List<Wallet> wallets = LivecoinAdapters.adaptWallets(response);
 
-                responseItem("total", "XBT", "0.0"),
-                responseItem("trade", "XBT", "0.0"),
-                responseItem("available", "XBT", "0.0")
-        );
+    assertTrue(wallets.contains(wallet(Currency.USD, "16.45759873", "0.0", "16.45759873")));
+    assertTrue(wallets.contains(wallet(Currency.BTC, "0.00671945", "0.1", "0.00671945")));
+  }
 
-        List<Wallet> wallets = LivecoinAdapters.adaptWallets(response);
+  private static Map<String, String> responseItem(String type, String currency, String balance) {
+    HashMap<String, String> map = new HashMap<>();
+    map.put("type", type);
+    map.put("currency", currency);
+    map.put("value", balance);
+    return map;
+  }
 
-        assertTrue(wallets.contains(wallet(Currency.USD, "16.45759873", "0.0", "16.45759873")));
-        assertTrue(wallets.contains(wallet(Currency.BTC, "0.00671945", "0.1", "0.00671945")));
-    }
-
-    private static Map<String, String> responseItem(String type, String currency, String balance) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("type", type);
-        map.put("currency", currency);
-        map.put("value", balance);
-        return map;
-    }
-
-    private static Wallet wallet(Currency currency, String total, String trade, String available) {
-        return new Wallet(currency.getCurrencyCode(),
-                new Balance.Builder().currency(currency)
-                        .total(new BigDecimal(total))
-                        .available(new BigDecimal(available))
-                        .frozen(new BigDecimal(trade))
-                        .build());
-    }
+  private static Wallet wallet(Currency currency, String total, String trade, String available) {
+    return new Wallet(
+        currency.getCurrencyCode(),
+        new Balance.Builder()
+            .currency(currency)
+            .total(new BigDecimal(total))
+            .available(new BigDecimal(available))
+            .frozen(new BigDecimal(trade))
+            .build());
+  }
 }
