@@ -62,22 +62,19 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>hetang_upload</id>
+            <url>http://repo.maven.fqt.fund/repository/hetang/</url>
         </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>hetang_upload</id>
+            <url>http://repo.maven.fqt.fund/repository/hetang_release/</url>
         </repository>
-        <downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:git@github.com:knowm/XChange.git</connection>
-        <developerConnection>scm:git:git@github.com:knowm/XChange.git</developerConnection>
-        <url>git@github.com:knowm/XChange.git</url>
+        <connection>scm:git:git@github.com:declan94/XChange.git</connection>
+        <developerConnection>scm:git:git@github.com:declan94/XChange.git</developerConnection>
+        <url>git@github.com:declan94/XChange.git</url>
         <tag>HEAD</tag>
     </scm>
 
