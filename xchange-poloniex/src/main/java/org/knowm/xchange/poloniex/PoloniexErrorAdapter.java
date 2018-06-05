@@ -3,6 +3,7 @@ package org.knowm.xchange.poloniex;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.poloniex.dto.PoloniexException;
 
 /** @author walec51 */
 public class PoloniexErrorAdapter {

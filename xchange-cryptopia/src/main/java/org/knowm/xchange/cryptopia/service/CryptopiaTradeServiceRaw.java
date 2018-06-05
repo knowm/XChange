@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.cryptopia.Cryptopia;
 import org.knowm.xchange.cryptopia.CryptopiaAdapters;
-import org.knowm.xchange.cryptopia.CryptopiaErrorAdapter;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
 import org.knowm.xchange.currency.Currency;
@@ -16,7 +15,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
 
@@ -41,7 +39,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
             signatureCreator,
             new Cryptopia.GetOpenOrdersRequest(
                 currencyPair == null ? null : currencyPair.toString(), count));
-    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     List<LimitOrder> results = new ArrayList<>();
     for (Map map : response.getData()) {
@@ -88,7 +85,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
         cryptopia.submitTrade(
             signatureCreator,
             new Cryptopia.SubmitTradeRequest(currencyPair.toString(), rawType, price, amount));
-    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     List<Integer> filled = (List<Integer>) response.getData().get("FilledOrders");
     if (filled.isEmpty()) {
@@ -104,9 +100,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     CryptopiaBaseResponse<List> response =
         cryptopia.cancelTrade(
             signatureCreator, new Cryptopia.CancelTradeRequest("Trade", orderId, null));
-    if (!response.isSuccess())
-      throw new ExchangeException("Failed to cancel order " + orderId + ": " + response.toString());
-
     return !response.getData().isEmpty();
   }
 
@@ -115,7 +108,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     CryptopiaBaseResponse<List> response =
         cryptopia.cancelTrade(
             signatureCreator, new Cryptopia.CancelTradeRequest("TradePair", null, marketId));
-    CryptopiaErrorAdapter.throwIfErrorResponse(response);
     return !response.getData().isEmpty();
   }
 
@@ -126,7 +118,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
             new Cryptopia.GetTradeHistoryRequest(
                 currencyPair == null ? null : currencyPair.toString(),
                 count == null ? 100 : count));
-    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     List<UserTrade> results = new ArrayList<>();
     for (Map map : response.getData()) {

@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.*;
 import org.knowm.xchange.cryptopia.Cryptopia;
 import org.knowm.xchange.cryptopia.CryptopiaAdapters;
-import org.knowm.xchange.cryptopia.CryptopiaErrorAdapter;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
 import org.knowm.xchange.currency.Currency;
@@ -23,7 +22,6 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
 
     CryptopiaBaseResponse<List<Map>> response =
         cryptopia.getBalance(signatureCreator, new HashMap<>());
-    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     List<Balance> balances = new ArrayList<>();
     for (Map datum : response.getData()) {
@@ -57,7 +55,6 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
             signatureCreator,
             new Cryptopia.SubmitWithdrawRequest(
                 currency.getCurrencyCode(), address, paymentId, amount));
-    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     return String.valueOf(response.getData());
   }
@@ -66,7 +63,6 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
     CryptopiaBaseResponse<Map> response =
         cryptopia.getDepositAddress(
             signatureCreator, new Cryptopia.GetDepositAddressRequest(currency.getCurrencyCode()));
-    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     return response.getData().get("Address").toString();
   }
@@ -75,7 +71,6 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
     CryptopiaBaseResponse<List<Map>> response =
         cryptopia.getTransactions(
             signatureCreator, new Cryptopia.GetTransactionsRequest(type, count));
-    CryptopiaErrorAdapter.throwIfErrorResponse(response);
 
     List<FundingRecord> results = new ArrayList<>();
     for (Map map : response.getData()) {

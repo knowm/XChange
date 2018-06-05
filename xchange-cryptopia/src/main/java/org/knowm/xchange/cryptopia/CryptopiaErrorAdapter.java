@@ -1,7 +1,8 @@
 package org.knowm.xchange.cryptopia;
 
 import java.util.regex.Pattern;
-import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.cryptopia.dto.CryptopiaException;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -16,19 +17,14 @@ public class CryptopiaErrorAdapter {
 
   private static final Pattern MARKET_NOT_FOUND_PATTERN = Pattern.compile("^Market .*not found$");
 
-  public static void throwIfErrorResponse(CryptopiaBaseResponse response) {
-    if (response.getError() != null) {
-      throwBasedOnErrorMessage(response.getError());
+  public static ExchangeException adapt(CryptopiaException e) {
+    String message = e.getError();
+    if (StringUtils.isEmpty(message)) {
+      return new ExchangeException("Operation failed without any error message");
     }
-    if (!response.isSuccess()) {
-      throw new ExchangeException("Operation was unsuccessful for unknown reasons");
-    }
-  }
-
-  private static void throwBasedOnErrorMessage(String message) {
     if (MARKET_NOT_FOUND_PATTERN.matcher(message).matches()) {
-      throw new CurrencyPairNotValidException(message);
+      return new CurrencyPairNotValidException(message);
     }
-    throw new ExchangeException(message);
+    return new ExchangeException(message);
   }
 }

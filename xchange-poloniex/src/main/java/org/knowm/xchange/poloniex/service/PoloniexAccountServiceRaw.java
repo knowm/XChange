@@ -4,16 +4,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import javax.annotation.Nullable;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.poloniex.PoloniexAdapters;
-import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
-import org.knowm.xchange.poloniex.PoloniexException;
-import org.knowm.xchange.poloniex.dto.LoanInfo;
+import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.account.PoloniexWallet;
@@ -34,38 +28,20 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
     super(exchange);
   }
 
-  public List<Balance> getExchangeWallet() throws IOException {
-    try {
-      HashMap<String, PoloniexBalance> response =
-          poloniexAuthenticated.returnCompleteBalances(
-              apiKey, signatureCreator, exchange.getNonceFactory(), null);
-      return PoloniexAdapters.adaptPoloniexBalances(response);
-    } catch (PoloniexException e) {
-      throw PoloniexErrorAdapter.adapt(e);
-    }
+  public HashMap<String, PoloniexBalance> getExchangeWallet() throws IOException {
+    return poloniexAuthenticated.returnCompleteBalances(
+        apiKey, signatureCreator, exchange.getNonceFactory(), null);
   }
 
-  public List<Balance> getWallets() throws IOException {
-    try {
-      // using account="all" for margin + lending balances
-      HashMap<String, PoloniexBalance> response =
-          poloniexAuthenticated.returnCompleteBalances(
-              apiKey, signatureCreator, exchange.getNonceFactory(), "all");
-      return PoloniexAdapters.adaptPoloniexBalances(response);
-    } catch (PoloniexException e) {
-      throw PoloniexErrorAdapter.adapt(e);
-    }
+  public HashMap<String, PoloniexBalance> getWallets() throws IOException {
+    // using account="all" for margin + lending balances
+    return poloniexAuthenticated.returnCompleteBalances(
+        apiKey, signatureCreator, exchange.getNonceFactory(), "all");
   }
 
-  public LoanInfo getLoanInfo() throws IOException {
-    try {
-      HashMap<String, PoloniexLoan[]> response =
-          poloniexAuthenticated.returnActiveLoans(
-              apiKey, signatureCreator, exchange.getNonceFactory());
-      return PoloniexAdapters.adaptPoloniexLoans(response);
-    } catch (PoloniexException e) {
-      throw PoloniexErrorAdapter.adapt(e);
-    }
+  public HashMap<String, PoloniexLoan[]> getLoanInfo() throws IOException {
+    return poloniexAuthenticated.returnActiveLoans(
+        apiKey, signatureCreator, exchange.getNonceFactory());
   }
 
   public String getDepositAddress(String currency) throws IOException {
@@ -75,7 +51,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
             apiKey, signatureCreator, exchange.getNonceFactory());
 
     if (response.containsKey("error")) {
-      throw new ExchangeException(response.get("error"));
+      throw new PoloniexException(response.get("error"));
     }
     if (response.containsKey(currency)) {
       return response.get(currency);
@@ -86,7 +62,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
       if (newAddressResponse.success()) {
         return newAddressResponse.getAddress();
       } else {
-        throw new ExchangeException("Failed to get Poloniex deposit address for " + currency);
+        throw new PoloniexException("Failed to get Poloniex deposit address for " + currency);
       }
     }
   }
