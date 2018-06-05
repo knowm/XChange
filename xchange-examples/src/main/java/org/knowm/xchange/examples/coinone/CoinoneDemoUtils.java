@@ -4,7 +4,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinone.CoinoneExchange;
-import org.knowm.xchange.gatecoin.GatecoinExchange;
 
 /** @author sumdeha */
 public class CoinoneDemoUtils {

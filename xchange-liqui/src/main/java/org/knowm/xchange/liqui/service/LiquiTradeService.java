@@ -16,9 +16,7 @@ import org.knowm.xchange.liqui.LiquiAdapters;
 import org.knowm.xchange.liqui.dto.LiquiException;
 import org.knowm.xchange.liqui.dto.trade.LiquiCancelOrder;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -80,15 +78,28 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
 
   @Override
   public UserTrades getTradeHistory(final TradeHistoryParams params) throws IOException {
+
+    CurrencyPair currencyPair = null;
+    Long startTime = null;
+    Long endTime = null;
+    Integer limit = null;
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    }
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime().getTime();
+      endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime().getTime();
+    }
+
+    if (params instanceof TradeHistoryParamLimit) {
+      limit = ((TradeHistoryParamLimit) params).getLimit();
+    }
+
     if (params instanceof LiquiTradeHistoryParams) {
-      if (((LiquiTradeHistoryParams) params).getCurrencyPair() != null) {
-        return LiquiAdapters.adaptTradesHistory(getTradeHistory());
-      } else {
-        return LiquiAdapters.adaptTradesHistory(
-            getTradeHistory(
-                ((LiquiTradeHistoryParams) params).getCurrencyPair(),
-                ((LiquiTradeHistoryParams) params).getAmount()));
-      }
+      return LiquiAdapters.adaptTradesHistory(
+          getTradeHistory(currencyPair, null, null, limit, startTime, endTime));
     }
 
     throw new LiquiException("Unable to get trade history with the provided params: " + params);
@@ -114,27 +125,21 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
     return orders;
   }
 
-  public static class LiquiTradeHistoryParams implements TradeHistoryParams {
+  public static class LiquiTradeHistoryParams
+      implements TradeHistoryParams, TradeHistoryParamLimit {
 
-    private CurrencyPair currencyPair = null;
-    private int amount = 1000;
+    private int limit = 1000;
 
     public LiquiTradeHistoryParams() {}
 
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
+    @Override
+    public Integer getLimit() {
+      return limit;
     }
 
-    public void setCurrencyPair(final CurrencyPair currencyPair) {
-      this.currencyPair = currencyPair;
-    }
-
-    public int getAmount() {
-      return amount;
-    }
-
-    public void setAmount(final int amount) {
-      this.amount = amount;
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
     }
   }
 }

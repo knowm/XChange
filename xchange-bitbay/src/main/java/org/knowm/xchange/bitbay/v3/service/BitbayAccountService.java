@@ -1,5 +1,10 @@
 package org.knowm.xchange.bitbay.v3.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.bitbay.v3.BitbayExchange;
 import org.knowm.xchange.bitbay.v3.dto.BitbayBalances;
 import org.knowm.xchange.bitbay.v3.dto.trade.BitbayBalancesHistoryQuery;
@@ -13,14 +18,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class BitbayAccountService extends BitbayAccountServiceRaw implements AccountService {
   public BitbayAccountService(BitbayExchange bitbayExchange) {
@@ -57,7 +54,7 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
     }
 
     if (params instanceof TradeHistoryParamOffset) {
-        offset = ((TradeHistoryParamOffset) params).getOffset();
+      offset = ((TradeHistoryParamOffset) params).getOffset();
     }
 
     BitbayBalancesHistoryQuery query = new BitbayBalancesHistoryQuery();
@@ -74,26 +71,29 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
     List<FundingRecord> fundingRecords = new ArrayList<>();
 
     for (Map item : (List<Map>) map.get("items")) {
-        fundingRecords.add(adaptFundingRecord(item));
+      fundingRecords.add(adaptFundingRecord(item));
     }
 
     return fundingRecords;
   }
 
   private static FundingRecord adaptFundingRecord(Map item) {
-    FundingRecord.Type type = item.get("type").toString().equalsIgnoreCase("WITHDRAWAL_SUBTRACT_FUNDS") ? FundingRecord.Type.WITHDRAWAL : FundingRecord.Type.DEPOSIT;
+    FundingRecord.Type type =
+        item.get("type").toString().equalsIgnoreCase("WITHDRAWAL_SUBTRACT_FUNDS")
+            ? FundingRecord.Type.WITHDRAWAL
+            : FundingRecord.Type.DEPOSIT;
 
     return new FundingRecord.Builder()
-            .setType(type)
-            .setBlockchainTransactionHash(null)//not available in the API yet
-            .setAddress(null)//not available in the API yet
-            .setAmount(new BigDecimal(item.get("value").toString()).abs())
-            .setCurrency(Currency.getInstance(((Map)item.get("balance")).get("currency").toString()))
-            .setDate(DateUtils.fromMillisUtc(Long.valueOf(item.get("time").toString())))
-            .setInternalId(item.get("historyId").toString())//could be detailId maybe?
-            .setFee(null)//not available in the API yet
-            .setStatus(FundingRecord.Status.COMPLETE)
-            .setBalance(new BigDecimal(((Map)item.get("fundsAfter")).get("total").toString()))
-            .build();
+        .setType(type)
+        .setBlockchainTransactionHash(null) // not available in the API yet
+        .setAddress(null) // not available in the API yet
+        .setAmount(new BigDecimal(item.get("value").toString()).abs())
+        .setCurrency(Currency.getInstance(((Map) item.get("balance")).get("currency").toString()))
+        .setDate(DateUtils.fromMillisUtc(Long.valueOf(item.get("time").toString())))
+        .setInternalId(item.get("historyId").toString()) // could be detailId maybe?
+        .setFee(null) // not available in the API yet
+        .setStatus(FundingRecord.Status.COMPLETE)
+        .setBalance(new BigDecimal(((Map) item.get("fundsAfter")).get("total").toString()))
+        .build();
   }
 }

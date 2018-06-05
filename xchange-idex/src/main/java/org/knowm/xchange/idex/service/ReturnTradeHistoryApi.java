@@ -23,10 +23,9 @@ public interface ReturnTradeHistoryApi {
   @ApiOperation(value = "trade history", notes = "", tags = "market")
   @ApiResponses(
       @ApiResponse(
-        code = 200,
-        message = "",
-        response = TradeHistoryItem.class,
-        responseContainer = "List"
-      ))
+          code = 200,
+          message = "",
+          response = TradeHistoryItem.class,
+          responseContainer = "List"))
   java.util.List<TradeHistoryItem> tradeHistory(TradeHistoryReq tradeHistoryReq) throws Exception;
 }

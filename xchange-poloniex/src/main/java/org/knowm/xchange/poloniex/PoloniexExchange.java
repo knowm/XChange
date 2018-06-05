@@ -23,7 +23,8 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
   protected void initServices() {
     this.marketDataService = new PoloniexMarketDataService(this);
     this.accountService = new PoloniexAccountService(this);
-    this.tradeService = new PoloniexTradeService(this,(PoloniexMarketDataService) marketDataService);
+    this.tradeService =
+        new PoloniexTradeService(this, (PoloniexMarketDataService) marketDataService);
   }
 
   @Override

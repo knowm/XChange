@@ -59,7 +59,7 @@ public class GateioMarketDataDemo {
     Collection<CurrencyPair> pairs = marketDataService.getExchangeSymbols();
     System.out.println(pairs);
 
-    Map<CurrencyPair, Ticker> tickers = marketDataService.getBTERTickers();
+    Map<CurrencyPair, Ticker> tickers = marketDataService.getGateioTickers();
     System.out.println(tickers);
 
     GateioTicker ticker = marketDataService.getBTERTicker("BTC", "USDT");
