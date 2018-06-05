@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexUtils;
 import org.knowm.xchange.poloniex.dto.PoloniexException;
@@ -65,9 +64,8 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
 
     PoloniexMarketData data = TickermarketData.get(pairString);
     if (data == null) {
-      throw new CurrencyPairNotValidException(currencyPair);
+      return null;
     }
-
     return new PoloniexTicker(data, currencyPair);
   }
 
