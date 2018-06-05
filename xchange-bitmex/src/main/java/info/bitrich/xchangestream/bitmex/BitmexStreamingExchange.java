@@ -13,27 +13,33 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class BitmexStreamingExchange extends BitmexExchange implements StreamingExchange {
     private static final String API_URI = "wss://www.bitmex.com/realtime";
+    private static final String TESTNET_API_URI = "wss://testnet.bitmex.com/realtime";
 
-    private final BitmexStreamingService streamingService;
+    private BitmexStreamingService streamingService;
     private BitmexStreamingMarketDataService streamingMarketDataService;
 
     public BitmexStreamingExchange() {
-        this.streamingService = new BitmexStreamingService(API_URI);
-    }
-
-    protected BitmexStreamingExchange(BitmexStreamingService streamingService) {
-        this.streamingService = streamingService;
     }
 
     @Override
     protected void initServices() {
         super.initServices();
+        streamingService = createStreamingService();
         streamingMarketDataService = new BitmexStreamingMarketDataService(streamingService);
     }
 
     @Override
     public Completable connect(ProductSubscription... args) {
         return streamingService.connect();
+    }
+
+    private BitmexStreamingService createStreamingService() {
+        ExchangeSpecification exchangeSpec = getExchangeSpecification();
+        Boolean useSandbox = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(USE_SANDBOX);
+        String uri = useSandbox == null || !useSandbox ? API_URI : TESTNET_API_URI;
+        BitmexStreamingService streamingService = new BitmexStreamingService(uri);
+        applyStreamingSpecification(exchangeSpec, streamingService);
+        return streamingService;
     }
 
     @Override
