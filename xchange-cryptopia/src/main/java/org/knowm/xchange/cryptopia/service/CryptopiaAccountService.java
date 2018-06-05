@@ -1,5 +1,8 @@
 package org.knowm.xchange.cryptopia.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -9,21 +12,17 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.*;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implements AccountService {
 
   public CryptopiaAccountService(CryptopiaExchange exchange) {
     super(exchange);
   }
 
-    private static Integer DEFAULT_RESULTS_LIMIT = 100;
+  private static Integer DEFAULT_RESULTS_LIMIT = 100;
 
-    @Override
-    public TradeHistoryParams createFundingHistoryParams() {
-        return new CryptopiaFundingHistoryParams(null, DEFAULT_RESULTS_LIMIT);
+  @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    return new CryptopiaFundingHistoryParams(null, DEFAULT_RESULTS_LIMIT);
   }
 
   @Override
@@ -62,14 +61,14 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
     String cryptopiaType = "";
-      Integer limit = DEFAULT_RESULTS_LIMIT;
+    Integer limit = DEFAULT_RESULTS_LIMIT;
 
     if (params instanceof HistoryParamsFundingType) {
       final FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
       cryptopiaType =
           type == FundingRecord.Type.DEPOSIT
-                  ? CryptopiaFundingType.Deposit.name()
-                  : type == FundingRecord.Type.WITHDRAWAL ? CryptopiaFundingType.Withdraw.name() : null;
+              ? CryptopiaFundingType.Deposit.name()
+              : type == FundingRecord.Type.WITHDRAWAL ? CryptopiaFundingType.Withdraw.name() : null;
     }
 
     if (params instanceof TradeHistoryParamLimit) {
@@ -79,10 +78,10 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
     return getTransactions(cryptopiaType, limit);
   }
 
-    public enum CryptopiaFundingType {
-        Deposit,
-        Withdraw
-    }
+  public enum CryptopiaFundingType {
+    Deposit,
+    Withdraw
+  }
 
   public static class CryptopiaFundingHistoryParams
       implements TradeHistoryParams, HistoryParamsFundingType, TradeHistoryParamLimit {

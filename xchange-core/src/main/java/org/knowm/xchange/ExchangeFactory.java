@@ -46,7 +46,7 @@ public enum ExchangeFactory {
    * @return a new exchange instance configured with the default {@link
    *     org.knowm.xchange.ExchangeSpecification}
    */
-  public Exchange createExchange(Class<? extends Exchange> exchangeClass) {
+  public <T extends Exchange> T createExchange(Class<T> exchangeClass) {
 
     return createExchange(exchangeClass, null, null);
   }
@@ -93,14 +93,14 @@ public enum ExchangeFactory {
    * @return a new exchange instance configured with the default {@link
    *     org.knowm.xchange.ExchangeSpecification}
    */
-  public Exchange createExchange(
-      Class<? extends Exchange> exchangeClass, String apiKey, String secretKey) {
+  public <T extends Exchange> T createExchange(
+      Class<T> exchangeClass, String apiKey, String secretKey) {
 
     Assert.notNull(exchangeClass, "exchange cannot be null");
 
     log.debug("Creating default exchange from class name");
 
-    Exchange exchange = createExchangeWithoutSpecification(exchangeClass);
+    T exchange = createExchangeWithoutSpecification(exchangeClass);
 
     ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
     if (apiKey != null) defaultExchangeSpecification.setApiKey(apiKey);
@@ -174,7 +174,7 @@ public enum ExchangeFactory {
    * @return a new exchange instance configured with the default {@link
    *     org.knowm.xchange.ExchangeSpecification}
    */
-  public Exchange createExchangeWithoutSpecification(Class<? extends Exchange> exchangeClass) {
+  public <T extends Exchange> T createExchangeWithoutSpecification(Class<T> exchangeClass) {
 
     Assert.notNull(exchangeClass, "exchangeClassName cannot be null");
 
