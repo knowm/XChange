@@ -142,7 +142,7 @@ public abstract class NettyStreamingService<T> {
                 }
 
                 final WebSocketClientHandler handler = getWebSocketClientHandler(WebSocketClientHandshakerFactory.newHandshaker(
-                        uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders(), maxFramePayloadLength),
+                        uri, WebSocketVersion.V13, null, true, getCustomHeaders(), maxFramePayloadLength),
                         this::messageHandler);
 
                 Bootstrap b = new Bootstrap();
@@ -197,6 +197,10 @@ public abstract class NettyStreamingService<T> {
                 completable.onError(throwable);
             }
         });
+    }
+
+    protected DefaultHttpHeaders getCustomHeaders() {
+        return new DefaultHttpHeaders();
     }
 
     public Completable disconnect() {

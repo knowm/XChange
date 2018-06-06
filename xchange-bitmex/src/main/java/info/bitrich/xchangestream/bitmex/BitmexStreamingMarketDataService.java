@@ -21,6 +21,8 @@ import java.util.*;
 public class BitmexStreamingMarketDataService implements StreamingMarketDataService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingMarketDataService.class);
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     private final BitmexStreamingService streamingService;
 
     private final SortedMap<CurrencyPair, BitmexOrderbook> orderbooks = new TreeMap<>();
