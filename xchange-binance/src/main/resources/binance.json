@@ -3,7 +3,7 @@
   "currencies": {
     "BNB": {
       "scale": 8,
-      "withdrawal_fee": 0.21
+      "withdrawal_fee": 0.0
     },
     "BTC": {
       "scale": 8,
@@ -31,11 +31,11 @@
     },
     "SNT": {
       "scale": 8,
-      "withdrawal_fee": 28.0
+      "withdrawal_fee": 38.0
     },
     "BNT": {
       "scale": 8,
-      "withdrawal_fee": 1.0
+      "withdrawal_fee": 0.9
     },
     "GAS": {
       "scale": 8,
@@ -51,7 +51,7 @@
     },
     "USDT": {
       "scale": 8,
-      "withdrawal_fee": 7.0
+      "withdrawal_fee": 3.9
     },
     "HCC": {
       "scale": 8,
@@ -83,7 +83,7 @@
     },
     "OMG": {
       "scale": 8,
-      "withdrawal_fee": 0.27
+      "withdrawal_fee": 0.33
     },
     "WTC": {
       "scale": 8,
