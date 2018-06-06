@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.bitmex;
 import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import info.bitrich.xchangestream.util.BookSanityChecker;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.junit.After;
@@ -11,7 +12,11 @@ import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,11 +24,21 @@ import java.util.concurrent.TimeUnit;
  * 31/05/2018
  */
 public class BitmexTest {
+    private static final Logger LOG = LoggerFactory.getLogger(BitmexTest.class);
+
     private static final CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
     private static final int MIN_DATA_COUNT = 2;
 
     private StreamingExchange exchange;
     private BitmexStreamingMarketDataService streamingMarketDataService;
+
+    private void loadKeys() {
+        try {
+            FileOutputStream output = new FileOutputStream("secret.keys");
+        } catch (FileNotFoundException e) {
+            LOG.error("Please create secret.keys file from secret.keys.origin");
+        }
+    }
 
     @Before
     public void setup() {
@@ -76,5 +91,21 @@ public class BitmexTest {
     public void shouldReceiveTrades() {
         Observable<Ticker> orderBookObservable = streamingMarketDataService.getTicker(xbtUsd);
         awaitDataCount(orderBookObservable);
+    }
+
+    @Test
+    public void shouldHaveNoBookErrors() {
+        streamingMarketDataService.getOrderBook(xbtUsd)
+                .test()
+                .assertSubscribed()
+                .assertNoErrors()
+                .awaitCount(10)
+                .assertNever(book -> {
+                    String err = BookSanityChecker.hasErrors(book);
+                    LOG.info("err {}", err);
+                    return err != null;
+                })
+                .assertNoTimeout()
+                .dispose();
     }
 }
