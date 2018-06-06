@@ -1,9 +1,8 @@
 package info.bitrich.xchangestream.bitmex;
 
-import info.bitrich.xchangestream.bitmex.dto.BitmexLimitOrder;
-import info.bitrich.xchangestream.bitmex.dto.BitmexOrderbook;
-import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
-import info.bitrich.xchangestream.bitmex.dto.BitmexTrade;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.bitmex.dto.*;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,6 +25,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     private final BitmexStreamingService streamingService;
 
     private final SortedMap<CurrencyPair, BitmexOrderbook> orderbooks = new TreeMap<>();
+
 
     public BitmexStreamingMarketDataService(BitmexStreamingService streamingService) {
         this.streamingService = streamingService;
@@ -86,6 +86,18 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                 trades.add(bitmexTrade.toTrade());
             }
             return trades;
+        });
+    }
+
+
+    public Observable<BitmexExecution> getExecutions(String symbol) {
+        return streamingService.subscribeBitmexChannel("execution:" + symbol).flatMapIterable(s -> {
+            JsonNode executions = s.getData();
+            List<BitmexExecution> bitmexExecutions = new ArrayList<>(executions.size());
+            for (JsonNode execution : executions) {
+                bitmexExecutions.add(objectMapper.treeToValue(execution, BitmexExecution.class));
+            }
+            return bitmexExecutions;
         });
     }
 }
