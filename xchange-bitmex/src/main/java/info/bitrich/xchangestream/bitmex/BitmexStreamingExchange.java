@@ -26,6 +26,7 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     protected void initServices() {
         super.initServices();
         streamingService = createStreamingService();
+        ExchangeSpecification exchangeSpecification = getExchangeSpecification();
         streamingMarketDataService = new BitmexStreamingMarketDataService(streamingService);
     }
 
@@ -38,7 +39,7 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
         ExchangeSpecification exchangeSpec = getExchangeSpecification();
         Boolean useSandbox = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(USE_SANDBOX);
         String uri = useSandbox == null || !useSandbox ? API_URI : TESTNET_API_URI;
-        BitmexStreamingService streamingService = new BitmexStreamingService(uri);
+        BitmexStreamingService streamingService = new BitmexStreamingService(uri, exchangeSpec.getApiKey(), exchangeSpec.getSecretKey());
         applyStreamingSpecification(exchangeSpec, streamingService);
         return streamingService;
     }
