@@ -43,17 +43,18 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
    * Retrieves the set of orders with the given status.
    *
    * @param status
+   * @param instrument XBTEUR, XBTUSD ...
    * @return
    * @throws IOException
    */
-  public ItBitOrder[] getItBitOrders(String status) throws IOException {
+  public ItBitOrder[] getItBitOrders(String status,String instrument) throws IOException {
 
     ItBitOrder[] orders =
         itBitAuthenticated.getOrders(
             signatureCreator,
             new Date().getTime(),
             exchange.getNonceFactory(),
-            "XBTUSD",
+            instrument,
             "1",
             "1000",
             status,
