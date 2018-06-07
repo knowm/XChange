@@ -15,8 +15,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,14 +29,6 @@ public class BitmexTest {
 
     private StreamingExchange exchange;
     private BitmexStreamingMarketDataService streamingMarketDataService;
-
-    private void loadKeys() {
-        try {
-            FileOutputStream output = new FileOutputStream("secret.keys");
-        } catch (FileNotFoundException e) {
-            LOG.error("Please create secret.keys file from secret.keys.origin");
-        }
-    }
 
     @Before
     public void setup() {
