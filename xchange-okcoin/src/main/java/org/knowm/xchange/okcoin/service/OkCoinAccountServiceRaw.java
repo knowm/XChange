@@ -84,4 +84,32 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
 
     return returnOrThrow(accountRecords);
   }
+
+  public enum AccountType {
+    SPOT(1),
+    FUTURES(3),
+    MY_WALLET(6);
+    private final int value;
+
+    private AccountType(int value) {
+      this.value = value;
+    }
+
+    public int getValue() {
+      return value;
+    }
+  }
+
+  public boolean moveFunds(String symbol, BigDecimal amount, AccountType from, AccountType to)
+      throws IOException {
+    return okCoin
+        .fundsTransfer(
+            apikey,
+            symbol,
+            amount.toPlainString(),
+            from.getValue(),
+            to.getValue(),
+            signatureCreator)
+        .isResult();
+  }
 }
