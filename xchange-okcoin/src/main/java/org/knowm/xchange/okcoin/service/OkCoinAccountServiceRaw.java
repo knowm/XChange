@@ -109,7 +109,7 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
             amount.toPlainString(),
             from.getValue(),
             to.getValue(),
-            signatureCreator)
+            signatureCreator())
         .isResult();
   }
 }
