@@ -21,11 +21,10 @@ public interface ReturnCompleteBalancesApi {
   @Consumes("application/json")
   @Produces("application/json")
   @ApiOperation(
-    value =
-        "Returns your available balances along with the amount you have in open orders for each token, indexed by token symbol.",
-    notes = "",
-    tags = "account"
-  )
+      value =
+          "Returns your available balances along with the amount you have in open orders for each token, indexed by token symbol.",
+      notes = "",
+      tags = "account")
   @ApiResponses(
       @ApiResponse(code = 200, message = "", response = ReturnCompleteBalancesResponse.class))
   ReturnCompleteBalancesResponse completeBalances(CompleteBalancesReq completeBalancesReq)

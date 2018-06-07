@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 @JsonPropertyOrder(
-  value = {"pair", "timestamp", "bid", "bidBP", "ask", "askBP", "low", "high", "open"}
-)
+    value = {"pair", "timestamp", "bid", "bidBP", "ask", "askBP", "low", "high", "open"})
 public class TrueFxTicker {
   private static final BigDecimal BASIS_POINT_MULTIPLIER = new BigDecimal("0.00001");
 
