@@ -107,12 +107,12 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public BitmexPrivateOrder replaceLimitOrder(
-          String symbol,
-          BigDecimal orderQuantity,
-          BigDecimal price,
-          String orderId,
-          String clOrdID,
-          String origClOrdID) {
+      String symbol,
+      BigDecimal orderQuantity,
+      BigDecimal price,
+      String orderId,
+      String clOrdID,
+      String origClOrdID) {
 
     return bitmex.replaceOrder(
         apiKey,
@@ -129,11 +129,11 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public BitmexPrivateOrder replaceStopOrder(
-          BigDecimal orderQuantity,
-          BigDecimal price,
-          String orderID,
-          String clOrdID,
-          String origClOrdId) {
+      BigDecimal orderQuantity,
+      BigDecimal price,
+      String orderID,
+      String clOrdID,
+      String origClOrdId) {
     return bitmex.replaceOrder(
         apiKey,
         exchange.getNonceFactory(),

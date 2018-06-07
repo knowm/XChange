@@ -3,13 +3,14 @@ package org.knowm.xchange.bittrex;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
+import org.knowm.xchange.bittrex.dto.BittrexBaseReponse;
 import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
-import org.knowm.xchange.bittrex.dto.account.BittrexOrderResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -91,7 +92,11 @@ public class BittresAdaptersTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BittrexOrderResponse bittrexOrderResponse = mapper.readValue(is, BittrexOrderResponse.class);
+    JavaType responseType =
+        mapper
+            .getTypeFactory()
+            .constructParametricType(BittrexBaseReponse.class, BittrexOrder.class);
+    BittrexBaseReponse<BittrexOrder> bittrexOrderResponse = mapper.readValue(is, responseType);
 
     Order order = BittrexAdapters.adaptOrder(bittrexOrderResponse.getResult());
 
