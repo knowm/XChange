@@ -9,6 +9,8 @@ public interface StreamingExchange extends Exchange {
     String USE_SANDBOX = "Use_Sandbox";
     String ACCEPT_ALL_CERITICATES = "Accept_All_Ceriticates";
     String ENABLE_LOGGING_HANDLER = "Enable_Logging_Handler";
+    String SOCKS_PROXY_HOST = "SOCKS_Proxy_Host";
+    String SOCKS_PROXY_PORT = "SOCKS_Proxy_Port";
 
     /**
      * Connects to the WebSocket API of the exchange.
@@ -45,8 +47,8 @@ public interface StreamingExchange extends Exchange {
     void useCompressedMessages(boolean compressedMessages);
 
     default void applyStreamingSpecification(ExchangeSpecification exchangeSpec, NettyStreamingService streamingService){
-        streamingService.setSocksProxyHost(exchangeSpec.getProxyHost());
-        streamingService.setSocksProxyPort(exchangeSpec.getProxyPort());
+        streamingService.setSocksProxyHost((String) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_HOST));
+        streamingService.setSocksProxyPort((Integer) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_PORT));
 
         Boolean accept_all_ceriticates = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(ACCEPT_ALL_CERITICATES);
         if (accept_all_ceriticates != null && accept_all_ceriticates) {
