@@ -274,17 +274,25 @@ public class CexIOAdapters {
       BigDecimal remains = new BigDecimal(cexIOOrder.remains);
       cumulativeAmount = originalAmount.subtract(remains);
     }
-
-    String tradedAmount =
+    BigDecimal totalAmountMaker =
         cexIOOrder.totalAmountMaker != null
-            ? cexIOOrder.totalAmountMaker
-            : cexIOOrder.totalAmountTaker;
+            ? new BigDecimal(cexIOOrder.totalAmountMaker)
+            : BigDecimal.ZERO;
+    BigDecimal totalAmountTaker =
+        cexIOOrder.totalAmountTaker != null
+            ? new BigDecimal(cexIOOrder.totalAmountTaker)
+            : BigDecimal.ZERO;
+    BigDecimal tradedAmount = totalAmountMaker.add(totalAmountTaker);
+
     BigDecimal averagePrice = null;
-    if (cumulativeAmount != null && tradedAmount != null) {
-      averagePrice = new BigDecimal(tradedAmount).divide(cumulativeAmount, 2, RoundingMode.HALF_UP);
+    if (cumulativeAmount != null && tradedAmount.compareTo(BigDecimal.ZERO) > 0) {
+      averagePrice = tradedAmount.divide(cumulativeAmount, 2, RoundingMode.HALF_UP);
     }
-    String feeAmount = cexIOOrder.feeMaker != null ? cexIOOrder.feeMaker : cexIOOrder.feeTaker;
-    BigDecimal fee = feeAmount != null ? new BigDecimal(feeAmount) : null;
+    BigDecimal feeMaker =
+        cexIOOrder.feeMaker != null ? new BigDecimal(cexIOOrder.feeMaker) : BigDecimal.ZERO;
+    BigDecimal feeTaker =
+        cexIOOrder.feeTaker != null ? new BigDecimal(cexIOOrder.feeTaker) : BigDecimal.ZERO;
+    BigDecimal fee = feeMaker.add(feeTaker);
     return new LimitOrder(
         orderType,
         originalAmount,
@@ -294,7 +302,7 @@ public class CexIOAdapters {
         limitPrice,
         averagePrice,
         cumulativeAmount,
-        fee,
+        fee.compareTo(BigDecimal.ZERO) > 0 ? fee : null,
         status);
   }
 
