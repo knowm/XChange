@@ -76,6 +76,7 @@ public interface LiquiAuthenticated {
       @FormParam("method") String method,
       @FormParam("from") Long fromTrade,
       @FormParam("count") Integer amountOfTrades,
+      @FormParam("from_id") Long fromTradeId,
       @FormParam("end_id") Long toTradeId,
       @FormParam("order") String order,
       @FormParam("since") Long startTime,
