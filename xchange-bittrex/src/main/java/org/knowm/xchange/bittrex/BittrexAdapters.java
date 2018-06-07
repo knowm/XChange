@@ -171,9 +171,9 @@ public final class BittrexAdapters {
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
-  public static Trades adaptTrades(BittrexTrade[] trades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<BittrexTrade> trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<>(trades.length);
+    List<Trade> tradesList = new ArrayList<>(trades.size());
     long lastTradeId = 0;
     for (BittrexTrade trade : trades) {
       long tradeId = Long.valueOf(trade.getId());
