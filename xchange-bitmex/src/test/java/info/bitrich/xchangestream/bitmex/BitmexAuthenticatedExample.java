@@ -21,8 +21,8 @@ public class BitmexAuthenticatedExample {
         CertHelper.trustAllCerts();
         StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
         ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
-//        defaultExchangeSpecification.setProxyHost("localhost");
-//        defaultExchangeSpecification.setProxyPort(8889);
+        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_HOST, "localhost");
+        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_PORT, 8889);
 
         defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.USE_SANDBOX, true);
         defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ACCEPT_ALL_CERITICATES, true);
