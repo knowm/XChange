@@ -60,6 +60,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
               null,
               null);
       orders.addAll(orderResponse);
+      // Prevent loop when no orders found
+      if (orderResponse.size() == 0) break;
     }
 
     return orders;
@@ -78,6 +80,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         symbol,
         side == null ? null : side.toString(),
         orderQuantity.intValue(),
+        null,
         null,
         null,
         "Market",
@@ -99,6 +102,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         symbol,
         side == null ? null : side.getCapitalized(),
         orderQuantity.intValue(),
+        null,
         price,
         null,
         "Limit",
@@ -164,9 +168,42 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         side == null ? null : side.getCapitalized(),
         orderQuantity.intValue(),
         null,
+        null,
         stopPrice,
         "Stop",
         clOrdID,
+        executionInstructions);
+  }
+
+  /**
+   * @param symbol
+   * @param orderQuantity Order quantity in units of the instrument (i.e. contracts).
+   * @param side Order side. Valid options: Buy, Sell. Defaults to 'Buy' unless orderQty or
+   *     simpleOrderQty is negative.
+   * @param simpleOrderQuantity Order quantity in units of the underlying instrument (i.e. Bitcoin).
+   * @param price
+   * @param executionInstructions
+   * @return
+   */
+  public BitmexPrivateOrder placeLimitOrder(
+      String symbol,
+      BitmexSide side,
+      BigDecimal orderQuantity,
+      BigDecimal simpleOrderQuantity,
+      BigDecimal price,
+      String executionInstructions) {
+    return bitmex.placeOrder(
+        apiKey,
+        exchange.getNonceFactory(),
+        signatureCreator,
+        symbol,
+        side == null ? null : side.getCapitalized(),
+        orderQuantity != null ? orderQuantity.intValue() : null,
+        simpleOrderQuantity,
+        price,
+        null,
+        "Limit",
+        null,
         executionInstructions);
   }
 

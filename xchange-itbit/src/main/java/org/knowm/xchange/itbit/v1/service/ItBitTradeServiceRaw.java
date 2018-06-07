@@ -47,7 +47,7 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
    * @return
    * @throws IOException
    */
-  public ItBitOrder[] getItBitOrders(String status,String instrument) throws IOException {
+  public ItBitOrder[] getItBitOrders(String status, String instrument) throws IOException {
 
     ItBitOrder[] orders =
         itBitAuthenticated.getOrders(
