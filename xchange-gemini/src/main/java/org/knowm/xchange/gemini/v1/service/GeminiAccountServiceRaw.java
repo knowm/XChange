@@ -13,8 +13,8 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfer;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersRequest;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -31,7 +31,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
     super(exchange);
   }
 
-  public List<GeminiTransfersResponse.GeminiTransfer> transfers(Date from, Integer limit)
+  public List<GeminiTransfer> transfers(Date from, Integer limit)
       throws IOException {
     SynchronizedValueFactory<Long> nonceFactory = exchange.getNonceFactory();
     GeminiTransfersRequest geminiTransfersRequest =
