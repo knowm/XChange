@@ -13,7 +13,7 @@ public class GeminiTransfersResponse extends ArrayList<GeminiTransfersResponse.G
     public @JsonProperty("eid") String eid;
     public @JsonProperty("currency") String currency;
     public @JsonProperty("amount") BigDecimal amount;
-    public @JsonProperty("method") BigDecimal method;
+    public @JsonProperty("method") String method;
     public @JsonProperty("txHash") String txnHash;
     public @JsonProperty("outputIdx") Long outputIdx;
     public @JsonProperty("destination") String destination;
