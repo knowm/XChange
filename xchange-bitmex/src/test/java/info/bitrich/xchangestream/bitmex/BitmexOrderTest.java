@@ -34,6 +34,8 @@ public class BitmexOrderTest {
     private static final CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
     private static final Logger LOG = LoggerFactory.getLogger(BitmexTest.class);
 
+    private static final BigDecimal priceShift = new BigDecimal("1000");
+
     private BigDecimal testAskPrice;
     private BigDecimal testBidPrice;
 
@@ -68,11 +70,11 @@ public class BitmexOrderTest {
         Assert.assertTrue("Got empty order book", topPriceAsk != null || topPriceBid != null);
 
         if (topPriceAsk != null) {
-            testAskPrice = topPriceAsk.add(new BigDecimal("1000"));
-            testBidPrice = topPriceAsk.subtract(new BigDecimal("1000"));
+            testAskPrice = topPriceAsk.add(priceShift);
+            testBidPrice = topPriceAsk.subtract(priceShift);
         } else {
-            testAskPrice = topPriceBid.add(new BigDecimal("1000"));
-            testBidPrice = topPriceBid.subtract(new BigDecimal("1000"));
+            testAskPrice = topPriceBid.add(priceShift);
+            testBidPrice = topPriceBid.subtract(priceShift);
         }
 
         tradeService = (BitmexTradeService) exchange.getTradeService();
@@ -109,6 +111,7 @@ public class BitmexOrderTest {
                 tradeService.cancelBitmexOrder(null, nosOrdId);
         Assert.assertEquals(1, bitmexPrivateOrders.size());
         BitmexPrivateOrder order = bitmexPrivateOrders.get(0);
+        Assert.assertEquals(BitmexPrivateOrder.OrderStatus.Canceled, order.getOrderStatus());
         LOG.info("Order was cancelled = {}", order);
         return order;
     }
@@ -170,5 +173,21 @@ public class BitmexOrderTest {
 
         checkPrivateOrder(orderId, testAskPrice, "10", BitmexSide.SELL, bitmexPrivateOrders.get(0));
         checkPrivateOrder(orderId2, testBidPrice, "5", BitmexSide.BUY, bitmexPrivateOrders.get(1));
+    }
+
+    @Test
+    public void shouldFillPlacedOrder() throws Exception {
+        final String nosOrdId = generateOrderId();
+        String orderId = placeLimitOrder(nosOrdId,
+                testBidPrice.add(priceShift.multiply(new BigDecimal("2"))),
+                "10", Order.OrderType.BID);
+        Assert.assertNotNull(orderId);
+
+        List<BitmexPrivateOrder> bitmexPrivateOrders =
+                tradeService.cancelBitmexOrder(null, nosOrdId);
+        Assert.assertEquals(1, bitmexPrivateOrders.size());
+
+        BitmexPrivateOrder order = bitmexPrivateOrders.get(0);
+        Assert.assertEquals(BitmexPrivateOrder.OrderStatus.Filled, order.getOrderStatus());
     }
 }
