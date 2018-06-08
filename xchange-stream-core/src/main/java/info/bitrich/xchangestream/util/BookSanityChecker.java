@@ -33,7 +33,7 @@ public class BookSanityChecker {
         LimitOrder bestBid = null;
         if (!bids.isEmpty()) {
             bestBid = bids.get(0);
-            String bidCheck = hasErrors(ArrayUtils.descendingIterable(bids).iterator());
+            String bidCheck = hasErrors(CollectionUtils.descendingIterable(bids).iterator());
             if (bidCheck != null) return bidCheck;
         }
 

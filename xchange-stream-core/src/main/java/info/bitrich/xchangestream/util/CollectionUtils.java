@@ -8,7 +8,7 @@ import java.util.ListIterator;
  * @author Foat Akhmadeev
  * 05/06/2018
  */
-public class ArrayUtils {
+public class CollectionUtils {
     static <T> Iterable<T> descendingIterable(List<? extends T> list) {
         return () -> {
             ListIterator<? extends T> li = list.listIterator(list.size());
