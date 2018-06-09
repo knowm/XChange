@@ -11,6 +11,7 @@ public class OkExFuturesManualExample {
     private static final Logger LOG = LoggerFactory.getLogger(OkExManualExample.class);
 
     public static void main(String[] args) {
+
         StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkExStreamingExchange.class.getName());
         exchange.connect().blockingAwait();
 
