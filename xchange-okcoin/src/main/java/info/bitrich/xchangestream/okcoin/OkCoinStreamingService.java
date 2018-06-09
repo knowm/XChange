@@ -4,20 +4,26 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.okcoin.dto.WebSocketMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
+import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
+import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class OkCoinStreamingService extends JsonNettyStreamingService {
 
-    private Timer pingPongTimer = null;
+    private Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
+
+    private Disposable pingPongSubscription;
 
 
     private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
@@ -31,18 +37,12 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
         Completable conn = super.connect();
         return conn.andThen((CompletableSource) (completable) -> {
             try {
-                if (pingPongTimer != null) {
-                    pingPongTimer.cancel();
+                if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
+                    pingPongSubscription.dispose();
                 }
-                pingPongTimer = new Timer("OkexPingPong", false);
-                pingPongTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (OkCoinStreamingService.this.isSocketOpen()) {
-                            OkCoinStreamingService.this.sendMessage("{\"event\":\"ping\"}");
-                        }
-                    }
-                }, 15 * 1000, 15 * 1000);
+                pingPongSubscription = pingPongSrc.subscribe(o -> {
+                    this.sendMessage("{\"event\":\"ping\"}");
+                });
                 completable.onComplete();
             } catch (Exception e) {
                 completable.onError(e);
@@ -73,7 +73,7 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected void handleMessage(JsonNode message) {
-        if (message.get("event") != null && "pong".equals(message.get("event").asText()) ) {
+        if (message.get("event") != null && "pong".equals(message.get("event").asText())) {
             // ignore pong message
             return;
         }
@@ -98,5 +98,25 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
 
     public void addDelayEmitter(ObservableEmitter<Long> delayEmitter) {
         delayEmitters.add(delayEmitter);
+    }
+
+    @Override
+    protected WebSocketClientHandler getWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketClientHandler.WebSocketMessageHandler handler) {
+        return new OkCoinNettyWebSocketClientHandler(handshaker, handler);
+    }
+
+    protected class OkCoinNettyWebSocketClientHandler extends NettyWebSocketClientHandler {
+
+        protected OkCoinNettyWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+            super(handshaker, handler);
+        }
+
+        @Override
+        public void channelInactive(ChannelHandlerContext ctx) {
+            if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
+                pingPongSubscription.dispose();
+            }
+            super.channelInactive(ctx);
+        }
     }
 }
