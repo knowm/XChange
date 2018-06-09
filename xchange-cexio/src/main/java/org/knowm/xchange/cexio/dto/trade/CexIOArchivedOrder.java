@@ -229,7 +229,11 @@ public class CexIOArchivedOrder {
 
         if (amount.compareTo(BigDecimal.ZERO) == 0 && map.containsKey("amount2")) {
           // the 'amount' field changes name for market orders
-          amount = new BigDecimal(map.get("amount2"));
+          // and represents the amount in the counter ccy instead
+          // of the base ccy
+          BigDecimal amount2 = new BigDecimal(map.get("amount2"));
+
+          amount = amount2.divide(averageExecutionPrice, 8, RoundingMode.HALF_UP);
         }
 
         return new CexIOArchivedOrder(
