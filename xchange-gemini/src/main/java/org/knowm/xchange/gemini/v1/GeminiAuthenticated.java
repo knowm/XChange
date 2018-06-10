@@ -13,6 +13,8 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderRequest;
@@ -103,5 +105,14 @@ public interface GeminiAuthenticated extends Gemini {
       @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
       @PathParam("currency") String currency,
       GeminiDepositAddressRequest depositRequest)
+      throws IOException, GeminiException;
+
+  @POST
+  @Path("transfers")
+  GeminiTransfersResponse transfers(
+      @HeaderParam("X-GEMINI-APIKEY") String apiKey,
+      @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payloadCreator,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signatureCreator,
+      GeminiTransfersRequest request)
       throws IOException, GeminiException;
 }

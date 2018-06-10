@@ -1,15 +1,10 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -46,5 +41,4 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
-
 }

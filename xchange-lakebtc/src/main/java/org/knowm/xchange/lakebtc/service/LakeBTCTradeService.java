@@ -1,21 +1,15 @@
 package org.knowm.xchange.lakebtc.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCCancelResponse;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCOrderResponse;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements TradeService {
@@ -66,5 +60,4 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Trade
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
-
 }

@@ -24,7 +24,8 @@ public interface Coinbase {
 
   /**
    * All API calls should be made with a CB-VERSION header which guarantees that your call is using
-   * the correct API version. <a href="https://developers.coinbase.com/api/v2#versioning">developers.coinbase.com/api/v2#versioning</a>
+   * the correct API version. <a
+   * href="https://developers.coinbase.com/api/v2#versioning">developers.coinbase.com/api/v2#versioning</a>
    */
   final String CB_VERSION = "CB-VERSION";
 
