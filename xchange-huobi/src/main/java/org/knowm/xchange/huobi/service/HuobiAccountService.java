@@ -11,6 +11,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.account.HuobiAccount;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -21,13 +22,20 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams withdrawFundsParams) throws IOException {
-    return null;
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+	if (params instanceof DefaultWithdrawFundsParams) {
+	  DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+	    return withdrawFunds(
+	      defaultParams.getCurrency(), 
+	      defaultParams.getAmount(), 
+	      defaultParams.getAddress());
+	  }
+	throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String s) throws IOException {
-    return String.valueOf(createWithdraw(currency.toString(), amount, null, s, null));
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+    return String.valueOf(createWithdraw(currency.toString(), amount, null, address, null));
   }
 
   @Override
