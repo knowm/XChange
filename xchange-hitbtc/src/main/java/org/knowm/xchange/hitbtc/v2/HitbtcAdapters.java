@@ -28,6 +28,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcLimitOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderLimit;
@@ -37,6 +38,7 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcUserTrade;
 
 public class HitbtcAdapters {
 
@@ -164,20 +166,18 @@ public class HitbtcAdapters {
   public static LimitOrder adaptOrder(HitbtcOrder hitbtcOrder) {
     OrderType type = adaptOrderType(hitbtcOrder.side);
 
-    LimitOrder order =
-        new LimitOrder(
-            type,
-            hitbtcOrder.quantity,
-            adaptSymbol(hitbtcOrder.symbol),
-            hitbtcOrder.clientOrderId,
-            hitbtcOrder.getCreatedAt(),
-            hitbtcOrder.price,
-            null, // exchange does not provide average price
-            hitbtcOrder.cumQuantity,
-            null,
-            convertOrderStatus(hitbtcOrder.status));
-
-    return order;
+    return new HitbtcLimitOrder(
+        type,
+        hitbtcOrder.quantity,
+        adaptSymbol(hitbtcOrder.symbol),
+        hitbtcOrder.id,
+        hitbtcOrder.getCreatedAt(),
+        hitbtcOrder.price,
+        null, // exchange does not provide average price
+        hitbtcOrder.cumQuantity,
+        null,
+        convertOrderStatus(hitbtcOrder.status),
+        hitbtcOrder.clientOrderId);
   }
 
   public static List<LimitOrder> adaptOrders(List<HitbtcOrder> openOrdersRaw) {
@@ -199,31 +199,31 @@ public class HitbtcAdapters {
     return side.equals("buy") ? OrderType.BID : OrderType.ASK;
   }
 
-  public static UserTrades adaptTradeHistory(
-      List<HitbtcOwnTrade> tradeHistoryRaw, ExchangeMetaData metaData) {
+  public static UserTrades adaptTradeHistory(List<HitbtcOwnTrade> tradeHistoryRaw) {
 
     List<UserTrade> trades = new ArrayList<>(tradeHistoryRaw.size());
     for (HitbtcOwnTrade hitbtcOwnTrade : tradeHistoryRaw) {
+
       OrderType type = adaptOrderType(hitbtcOwnTrade.getSide().getValue());
-
       CurrencyPair pair = adaptSymbol(hitbtcOwnTrade.symbol);
-
       BigDecimal originalAmount = hitbtcOwnTrade.getQuantity();
       Date timestamp = hitbtcOwnTrade.getTimestamp();
-
       String id = Long.toString(hitbtcOwnTrade.getId());
+      String orderId = String.valueOf(hitbtcOwnTrade.getOrderId());
+      String clientOrderId = hitbtcOwnTrade.getClientOrderId();
 
       UserTrade trade =
-          new UserTrade(
+          new HitbtcUserTrade(
               type,
               originalAmount,
               pair,
               hitbtcOwnTrade.getPrice(),
               timestamp,
               id,
-              hitbtcOwnTrade.getClientOrderId(),
+              orderId,
               hitbtcOwnTrade.getFee(),
-              Currency.getInstance(pair.counter.getCurrencyCode()));
+              pair.counter,
+              clientOrderId);
 
       trades.add(trade);
     }

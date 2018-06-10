@@ -2,17 +2,17 @@ package org.knowm.xchange.cryptopia.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import org.knowm.xchange.cryptopia.CryptopiaErrorAdapter;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
+import org.knowm.xchange.cryptopia.dto.CryptopiaException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -35,11 +35,15 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    CurrencyPair currencyPair = null;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    try {
+      CurrencyPair currencyPair = null;
+      if (params instanceof OpenOrdersParamCurrencyPair) {
+        currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+      }
+      return new OpenOrders(getOpenOrders(currencyPair, null));
+    } catch (CryptopiaException e) {
+      throw CryptopiaErrorAdapter.adapt(e);
     }
-    return new OpenOrders(getOpenOrders(currencyPair, null));
   }
 
   @Override
@@ -49,42 +53,59 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return submitTrade(
-        limitOrder.getCurrencyPair(),
-        limitOrder.getType(),
-        limitOrder.getLimitPrice(),
-        limitOrder.getOriginalAmount());
+    try {
+      return submitTrade(
+          limitOrder.getCurrencyPair(),
+          limitOrder.getType(),
+          limitOrder.getLimitPrice(),
+          limitOrder.getOriginalAmount());
+    } catch (CryptopiaException e) {
+      throw CryptopiaErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    return cancel(orderId);
+    try {
+      return cancel(orderId);
+    } catch (CryptopiaException e) {
+      throw CryptopiaErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByIdParams) {
-      CancelOrderByIdParams params = (CancelOrderByIdParams) orderParams;
-      return cancel(params.getOrderId());
-    } else {
-      throw new IllegalStateException("Dont understand " + orderParams);
+    try {
+      if (orderParams instanceof CancelOrderByIdParams) {
+        CancelOrderByIdParams params = (CancelOrderByIdParams) orderParams;
+        return cancel(params.getOrderId());
+      } else {
+        throw new IllegalStateException("Dont understand " + orderParams);
+      }
+    } catch (CryptopiaException e) {
+      throw CryptopiaErrorAdapter.adapt(e);
     }
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    CurrencyPair currencyPair = null;
-    Integer limit = 100;
+    try {
+      CurrencyPair currencyPair = null;
+      Integer limit = 100;
 
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      if (params instanceof TradeHistoryParamCurrencyPair) {
+        currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      }
+
+      if (params instanceof TradeHistoryParamLimit) {
+        limit = ((TradeHistoryParamLimit) params).getLimit();
+      }
+
+      return new UserTrades(
+          tradeHistory(currencyPair, limit), Trades.TradeSortType.SortByTimestamp);
+    } catch (CryptopiaException e) {
+      throw CryptopiaErrorAdapter.adapt(e);
     }
-
-    if (params instanceof TradeHistoryParamLimit) {
-      limit = ((TradeHistoryParamLimit) params).getLimit();
-    }
-
-    return new UserTrades(tradeHistory(currencyPair, limit), Trades.TradeSortType.SortByTimestamp);
   }
 
   @Override

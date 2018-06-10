@@ -266,7 +266,7 @@ public class AbucoinsAdapters {
         .limitPrice(order.getPrice())
         .orderStatus(adaptOrderStatus(order.getStatus()))
         .originalAmount(order.getSize())
-        .remainingAmount(order.getFilledSize().subtract(order.getSize()))
+        .remainingAmount(order.getSize().subtract(order.getFilledSize()))
         .timestamp(parseDate(order.getCreatedAt()))
         .build();
   }

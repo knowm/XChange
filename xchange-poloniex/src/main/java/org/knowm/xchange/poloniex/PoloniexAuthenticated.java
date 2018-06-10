@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.account.TransferResponse;
@@ -103,7 +104,8 @@ public interface PoloniexAuthenticated {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("currencyPair") String currencyPair,
       @FormParam("start") Long startTime,
-      @FormParam("end") Long endTime)
+      @FormParam("end") Long endTime,
+      @FormParam("limit") Integer limit)
       throws PoloniexException, IOException;
 
   @POST
@@ -141,6 +143,7 @@ public interface PoloniexAuthenticated {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("start") Long startTime,
       @FormParam("end") Long endTime,
+      @FormParam("limit") Integer limit,
       @FormParam("ignore") String overload)
       throws PoloniexException, IOException;
 

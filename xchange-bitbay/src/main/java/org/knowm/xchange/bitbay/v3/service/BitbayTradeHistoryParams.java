@@ -7,7 +7,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
 public class BitbayTradeHistoryParams
     implements TradeHistoryParamLimit, TradeHistoryParamNextPageCursor {
 
-  public static final String START = "start";//special value that enables paging
+  public static final String START = "start"; // special value that enables paging
 
   public BitbayTradeHistoryParams() {
     this(START, 300);
@@ -18,9 +18,7 @@ public class BitbayTradeHistoryParams
     this.limit = limit;
   }
 
-  /**
-   * Use this factory method to enable paging.
-   */
+  /** Use this factory method to enable paging. */
   public static BitbayTradeHistoryParams startBitBayTradeHistoryParams(Integer limit) {
     return new BitbayTradeHistoryParams(START, limit);
   }
@@ -29,6 +27,7 @@ public class BitbayTradeHistoryParams
    * In order to get a cursor that enables paging you need initailly set this to the value 'start'
    */
   private String nextPageCursor;
+
   private Integer limit;
 
   @Override

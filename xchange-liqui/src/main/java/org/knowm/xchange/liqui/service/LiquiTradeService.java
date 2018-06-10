@@ -3,6 +3,7 @@ package org.knowm.xchange.liqui.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -10,17 +11,18 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.liqui.LiquiAdapters;
 import org.knowm.xchange.liqui.dto.LiquiException;
 import org.knowm.xchange.liqui.dto.trade.LiquiCancelOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -82,15 +84,32 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
 
   @Override
   public UserTrades getTradeHistory(final TradeHistoryParams params) throws IOException {
-    if (params instanceof LiquiTradeHistoryParams) {
-      if (((LiquiTradeHistoryParams) params).getCurrencyPair() != null) {
-        return LiquiAdapters.adaptTradesHistory(getTradeHistory());
-      } else {
-        return LiquiAdapters.adaptTradesHistory(
-            getTradeHistory(
-                ((LiquiTradeHistoryParams) params).getCurrencyPair(),
-                ((LiquiTradeHistoryParams) params).getAmount()));
+
+    CurrencyPair currencyPair = null;
+    Long startTime = null;
+    Long endTime = null;
+    Integer limit = null;
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    }
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      if (((TradeHistoryParamsTimeSpan) params).getStartTime() != null) {
+        startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime().getTime() / 1000;
       }
+      if (((TradeHistoryParamsTimeSpan) params).getEndTime() != null) {
+        endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime().getTime() / 1000;
+      }
+    }
+
+    if (params instanceof TradeHistoryParamLimit) {
+      limit = ((TradeHistoryParamLimit) params).getLimit();
+    }
+
+    if (params instanceof LiquiTradeHistoryParams) {
+      return LiquiAdapters.adaptTradesHistory(
+          getTradeHistory(currencyPair, null, null, limit, startTime, endTime));
     }
 
     throw new LiquiException("Unable to get trade history with the provided params: " + params);
@@ -116,27 +135,57 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
     return orders;
   }
 
-  public static class LiquiTradeHistoryParams implements TradeHistoryParams {
+  public static class LiquiTradeHistoryParams
+      implements TradeHistoryParams,
+      TradeHistoryParamLimit,
+      TradeHistoryParamsTimeSpan,
+      TradeHistoryParamCurrencyPair {
 
-    private CurrencyPair currencyPair = null;
-    private int amount = 1000;
+    private Integer limit = 1000;
+    private Date startTime;
+    private Date endTime;
+    private CurrencyPair currencyPair;
 
     public LiquiTradeHistoryParams() {}
 
+    @Override
+    public Integer getLimit() {
+      return limit;
+    }
+
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
+    }
+
+    @Override
+    public Date getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Date getEndTime() {
+      return endTime;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      this.endTime = endTime;
+    }
+
+    @Override
     public CurrencyPair getCurrencyPair() {
       return currencyPair;
     }
 
-    public void setCurrencyPair(final CurrencyPair currencyPair) {
-      this.currencyPair = currencyPair;
-    }
-
-    public int getAmount() {
-      return amount;
-    }
-
-    public void setAmount(final int amount) {
-      this.amount = amount;
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+      this.currencyPair = pair;
     }
   }
 }

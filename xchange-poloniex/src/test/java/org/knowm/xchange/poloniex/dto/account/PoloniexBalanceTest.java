@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
-import org.knowm.xchange.poloniex.PoloniexException;
+import org.knowm.xchange.poloniex.dto.PoloniexException;
 import si.mazi.rescu.InvocationResult;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestMethodMetadata;

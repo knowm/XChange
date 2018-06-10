@@ -17,7 +17,7 @@ public class BitcoinAverageTickerJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         BitcoinAverageTickerJSONTest.class.getResourceAsStream(
-                "/org/knowm/xchange/bitcoinaverage/dto/marketdata/example-ticker-data.json");
+            "/org/knowm/xchange/bitcoinaverage/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -75,65 +75,13 @@ public class LiquiTradeServiceRaw extends LiquiBaseService {
             orderId));
   }
 
-  public Map<Long, LiquiUserTrade> getTradeHistory() {
-    return checkResult(
-            liquiAuthenticated.tradeHistory(
-                exchange.getExchangeSpecification().getApiKey(),
-                signatureCreator,
-                exchange.getNonceFactory(),
-                "tradeHistory",
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null))
-        .getHistory();
-  }
-
-  public Map<Long, LiquiUserTrade> getTradeHistory(final CurrencyPair pair) {
-    return checkResult(
-            liquiAuthenticated.tradeHistory(
-                exchange.getExchangeSpecification().getApiKey(),
-                signatureCreator,
-                exchange.getNonceFactory(),
-                "tradeHistory",
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                new Liqui.Pairs(pair)))
-        .getHistory();
-  }
-
-  public Map<Long, LiquiUserTrade> getTradeHistory(
-      final CurrencyPair pair, final int amountOftrades) {
-    return checkResult(
-            liquiAuthenticated.tradeHistory(
-                exchange.getExchangeSpecification().getApiKey(),
-                signatureCreator,
-                exchange.getNonceFactory(),
-                "tradeHistory",
-                null,
-                amountOftrades,
-                null,
-                null,
-                null,
-                null,
-                new Liqui.Pairs(pair)))
-        .getHistory();
-  }
-
   public Map<Long, LiquiUserTrade> getTradeHistory(
       final CurrencyPair pair,
-      final long fromTrade,
-      final long toTrade,
-      final int amountOftrades,
-      final long startTime,
-      final long endTime) {
+      final Long fromTrade,
+      final Long toTrade,
+      final Integer amountOftrades,
+      final Long startTime,
+      final Long endTime) {
     return checkResult(
             liquiAuthenticated.tradeHistory(
                 exchange.getExchangeSpecification().getApiKey(),
@@ -142,11 +90,12 @@ public class LiquiTradeServiceRaw extends LiquiBaseService {
                 "tradeHistory",
                 fromTrade,
                 amountOftrades,
+                fromTrade,
                 toTrade,
                 null,
                 startTime,
                 endTime,
-                new Liqui.Pairs(pair)))
+                pair != null ? new Liqui.Pairs(pair) : null))
         .getHistory();
   }
 }

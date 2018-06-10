@@ -1,0 +1,241 @@
+{
+  "currency_pairs": {
+    "ETH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BTC/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BTC/EUR": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BTC/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BTC/UAH": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BTC/PLN": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BCH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BCH/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BCH/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BCH/ETH": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "DASH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "DASH/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "DASH/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETH/LTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETH/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETH/EUR": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETH/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETH/UAH": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETH/PLN": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETC/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETC/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETC/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "LTC/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "LTC/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "LTC/EUR": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "LTC/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ZEC/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ZEC/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ZEC/EUR": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ZEC/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "XRP/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "XRP/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "XRP/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "XMR/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "XMR/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "XMR/EUR": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "BTC/USDT": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "ETH/USDT": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "USDT/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "USDT/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "USD/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "DOGE/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "WAVES/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "WAVES/RUB": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "KICK/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    },
+    "KICK/ETH": {
+      "price_scale": 8,
+      "trading_fee": 0.002
+    }
+  },
+  "currencies": {
+    "USD": {
+      "scale": 2
+    },
+    "USDT": {
+      "scale": 2
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "RUB": {
+      "scale": 2
+    },
+    "PLN": {
+      "scale": 2
+    },
+    "KICK": {
+      "scale": 8
+    },
+    "WAVES": {
+      "scale": 8
+    },
+    "DOGE": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "BTC": {
+      "scale": 8
+    },
+    "XMR": {
+      "scale": 8
+    },
+    "XRP": {
+      "scale": 8
+    },
+    "ZEC": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "ETC": {
+      "scale": 8
+    },
+    "DASH": {
+      "scale": 8
+    },
+    "BCH": {
+      "scale": 8
+    }
+  }
+}
