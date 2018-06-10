@@ -12,7 +12,7 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfer;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
@@ -85,7 +85,7 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
 
     List<FundingRecord> results = new ArrayList<>();
 
-    for (GeminiTransfersResponse.GeminiTransfer transfer : transfers(since, limit)) {
+    for (GeminiTransfer transfer : transfers(since, limit)) {
       results.add(GeminiAdapters.adapt(transfer));
     }
 
