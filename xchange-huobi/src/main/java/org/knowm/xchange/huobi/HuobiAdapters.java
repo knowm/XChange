@@ -43,7 +43,7 @@ public class HuobiAdapters {
   }
 
   static ExchangeMetaData adaptToExchangeMetaData(
-      HuobiAssetPair[] assetPairs, HuobiAsset[] assets) {
+      HuobiAssetPair[] assetPairs, HuobiAsset[] assets, Map<Currency, CurrencyMetaData> currenciesMetaData) {
     HuobiUtils.setHuobiAssets(assets);
     HuobiUtils.setHuobiAssetPairs(assetPairs);
 
@@ -55,7 +55,9 @@ public class HuobiAdapters {
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     for (HuobiAsset asset : assets) {
       Currency currency = adaptCurrency(asset.getAsset());
-      currencies.put(currency, new CurrencyMetaData(0, null));
+      CurrencyMetaData metadata = currenciesMetaData.getOrDefault(currency, null);
+      BigDecimal withdrawalFee = metadata == null ? null : metadata.getWithdrawalFee();
+      currencies.put(currency, new CurrencyMetaData(0, withdrawalFee));
     }
 
     return new ExchangeMetaData(pairs, currencies, null, null, false);
