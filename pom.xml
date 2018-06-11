@@ -161,6 +161,7 @@
         <module>xchange-wex</module>
         <module>xchange-yobit</module>
         <module>xchange-zaif</module>
+        <module>xchange-fcoin</module>
     </modules>
 
     <repositories>
