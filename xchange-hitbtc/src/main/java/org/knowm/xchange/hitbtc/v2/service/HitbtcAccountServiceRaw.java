@@ -21,13 +21,15 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
   public String withdrawFundsRaw(
       Currency currency, BigDecimal amount, String address, String paymentId)
       throws HttpStatusIOException {
-    Map response = hitbtc.payout(amount, currency.getCurrencyCode(), address, paymentId);
 
-    /*
-     * todo: if there isn't enough money we get a 400 with body:
-     * {"error":{"code":20001,"message":"Insufficient funds","description":"Check that the funds are sufficient, given commissions"}} ...but currently
-     * 400 errors don't reach this code
-     */
+    return withdrawFundsRaw(currency, amount, address, paymentId, false);
+  }
+
+  public String withdrawFundsRaw(
+      Currency currency, BigDecimal amount, String address, String paymentId, Boolean includeFee)
+      throws HttpStatusIOException {
+    Map response =
+        hitbtc.payout(amount, currency.getCurrencyCode(), address, paymentId, includeFee);
 
     return response.get("id").toString();
   }
