@@ -65,7 +65,8 @@ public interface HitbtcAuthenticated extends Hitbtc {
       @FormParam("amount") BigDecimal amount,
       @FormParam("currency") String currency,
       @FormParam("address") String address,
-      @FormParam("paymentId") String paymentId)
+      @FormParam("paymentId") String paymentId,
+      @FormParam("includeFee") Boolean includeFee)
       throws HitbtcException, HttpStatusIOException;
 
   /** ********************** Tradding & Order APIs *********************** */
