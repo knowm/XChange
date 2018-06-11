@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcCandle;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcCurrency;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
@@ -19,6 +20,14 @@ public interface Hitbtc {
   @GET
   @Path("public/symbol")
   List<HitbtcSymbol> getSymbols() throws IOException;
+
+  @GET
+  @Path("public/currency")
+  List<HitbtcCurrency> getCurrencies() throws IOException;
+
+  @GET
+  @Path("public/currency/{currency}")
+  HitbtcCurrency getCurrency(@PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("public/ticker")

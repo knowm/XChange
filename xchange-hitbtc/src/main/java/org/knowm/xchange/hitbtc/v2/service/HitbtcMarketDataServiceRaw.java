@@ -8,6 +8,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcCandle;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcCurrency;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
@@ -23,6 +24,16 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   public List<HitbtcSymbol> getHitbtcSymbols() throws IOException {
 
     return hitbtc.getSymbols();
+  }
+
+  public List<HitbtcCurrency> getHitbtcCurrencies() throws IOException {
+
+    return hitbtc.getCurrencies();
+  }
+
+  public HitbtcCurrency getHitbtcCurrency(String currency) throws IOException {
+
+    return hitbtc.getCurrency(currency);
   }
 
   public Map<String, HitbtcTicker> getHitbtcTickers() throws IOException {

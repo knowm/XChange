@@ -153,6 +153,21 @@ public interface Bitmex {
       @Nullable @QueryParam("startTime") Date startTime,
       @Nullable @QueryParam("endTime") Date endTime);
 
+  /**
+   * @param apiKey
+   * @param nonce
+   * @param paramsDigest
+   * @param symbol
+   * @param side Order side. Valid options: Buy, Sell. Defaults to 'Buy' unless orderQty or
+   *     simpleOrderQty is negative.
+   * @param orderQuantity Order quantity in units of the instrument (i.e. contracts).
+   * @param simpleOrderQuantity Order quantity in units of the underlying instrument (i.e. Bitcoin).
+   * @param price
+   * @param stopPrice
+   * @param orderType
+   * @param executionInstructions
+   * @return
+   */
   @POST
   @Path("order")
   BitmexPrivateOrder placeOrder(
@@ -160,8 +175,9 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @FormParam("symbol") String symbol,
-      @Nullable @FormParam("side") String side,
-      @FormParam("orderQty") int orderQuantity,
+      @FormParam("side") String side,
+      @FormParam("orderQty") Integer orderQuantity,
+      @FormParam("simpleOrderQty") BigDecimal simpleOrderQuantity,
       @FormParam("price") BigDecimal price,
       @Nullable @FormParam("stopPx") BigDecimal stopPrice,
       @Nullable @FormParam("ordType") String orderType,
