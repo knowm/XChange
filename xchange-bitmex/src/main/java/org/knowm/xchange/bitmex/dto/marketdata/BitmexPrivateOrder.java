@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 
+/** see field description at http://www.onixs.biz/fix-dictionary/5.0.SP2/fields_by_name.html */
 public class BitmexPrivateOrder {
 
   private final BigDecimal price;
@@ -252,18 +253,90 @@ public class BitmexPrivateOrder {
 
   @Override
   public String toString() {
-
-    return "BitmexOrder [price="
+    return "BitmexPrivateOrder{"
+        + "price="
         + price
-        + ", volume="
+        + ", size="
         + size
-        + ", symbol="
+        + ", symbol='"
         + symbol
+        + '\''
+        + ", id='"
+        + id
+        + '\''
         + ", side="
         + side
         + ", timestamp="
         + timestamp
-        + "]";
+        + ", orderStatus="
+        + orderStatus
+        + ", currency='"
+        + currency
+        + '\''
+        + ", settleCurrency='"
+        + settleCurrency
+        + '\''
+        + ", clOrdID='"
+        + clOrdID
+        + '\''
+        + ", clOrdLinkID='"
+        + clOrdLinkID
+        + '\''
+        + ", simpleOrderQty="
+        + simpleOrderQty
+        + ", displayQty="
+        + displayQty
+        + ", stopPx="
+        + stopPx
+        + ", pegOffsetValue='"
+        + pegOffsetValue
+        + '\''
+        + ", pegPriceType='"
+        + pegPriceType
+        + '\''
+        + ", ordType='"
+        + ordType
+        + '\''
+        + ", timeInForce='"
+        + timeInForce
+        + '\''
+        + ", execInst='"
+        + execInst
+        + '\''
+        + ", contingencyType='"
+        + contingencyType
+        + '\''
+        + ", exDestination='"
+        + exDestination
+        + '\''
+        + ", triggered='"
+        + triggered
+        + '\''
+        + ", workingIndicator="
+        + workingIndicator
+        + ", ordRejReason='"
+        + ordRejReason
+        + '\''
+        + ", simpleLeavesQty="
+        + simpleLeavesQty
+        + ", leavesQty="
+        + leavesQty
+        + ", simpleCumQty="
+        + simpleCumQty
+        + ", cumQty="
+        + cumQty
+        + ", avgPx="
+        + avgPx
+        + ", multiLegReportingType='"
+        + multiLegReportingType
+        + '\''
+        + ", text='"
+        + text
+        + '\''
+        + ", transactTime='"
+        + transactTime
+        + '\''
+        + '}';
   }
 
   public enum OrderStatus {

@@ -33,7 +33,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfer;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendLevel;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
@@ -415,7 +415,7 @@ public final class GeminiAdapters {
     return metaData;
   }
 
-  public static FundingRecord adapt(GeminiTransfersResponse.GeminiTransfer transfer) {
+  public static FundingRecord adapt(GeminiTransfer transfer) {
     FundingRecord.Status status = FundingRecord.Status.PROCESSING;
     if (transfer.status.equals("Complete")) status = FundingRecord.Status.COMPLETE;
 
