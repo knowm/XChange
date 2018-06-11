@@ -1,14 +1,16 @@
 package info.bitrich.xchangestream.bitmex;
 
+import info.bitrich.xchangestream.bitmex.dto.BitmexExecution;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.util.LocalExchangeConfig;
 import info.bitrich.xchangestream.util.PropsLoader;
+import io.reactivex.Observable;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
@@ -24,6 +26,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
 
@@ -40,11 +46,12 @@ public class BitmexOrderTest {
     private BigDecimal testBidPrice;
 
     private BitmexTradeService tradeService;
+    private StreamingExchange exchange;
 
     @Before
     public void setup() throws IOException {
         LocalExchangeConfig localConfig = PropsLoader.loadKeys("secret.keys", "secret.keys.origin");
-        BitmexExchange exchange = ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class);
+        exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
         ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
 
         defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.USE_SANDBOX, true);
@@ -56,6 +63,7 @@ public class BitmexOrderTest {
         defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
 
         exchange.applySpecification(defaultExchangeSpecification);
+        exchange.connect().blockingAwait();
 
         BitmexMarketDataService marketDataService =
                 (BitmexMarketDataService) exchange.getMarketDataService();
@@ -80,13 +88,17 @@ public class BitmexOrderTest {
         tradeService = (BitmexTradeService) exchange.getTradeService();
     }
 
+    @After
+    public void tearDown() {
+        exchange.disconnect().blockingAwait();
+    }
+
     private BigDecimal getPrice(List<LimitOrder> side, int pos) {
         if (!side.isEmpty()) {
             return side.get(pos).getLimitPrice();
         }
         return null;
     }
-
 
     private String generateOrderId() {
         return System.currentTimeMillis() + "";
@@ -189,5 +201,29 @@ public class BitmexOrderTest {
 
         BitmexPrivateOrder order = bitmexPrivateOrders.get(0);
         Assert.assertEquals(BitmexPrivateOrder.OrderStatus.Filled, order.getOrderStatus());
+    }
+
+    @Test(expected = AssertionError.class)
+    public void shouldGetExecutionOnFill() {
+        final String nosOrdId = generateOrderId();
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.schedule(() -> {
+            try {
+                placeLimitOrder(nosOrdId,
+                        testBidPrice.add(priceShift.multiply(new BigDecimal("2"))),
+                        "10", Order.OrderType.BID);
+            } catch (Exception e) {
+                LOG.error(e.getMessage(), e);
+            }
+        }, 1, TimeUnit.SECONDS);
+
+        Observable<BitmexExecution> executionObservable = ((BitmexStreamingMarketDataService)
+                exchange.getStreamingMarketDataService()).getExecutions("XBTUSD");
+        executionObservable.test()
+                .awaitCount(5)
+                .assertNever(execution -> Objects.equals(execution.getClOrdID(), nosOrdId))
+                .dispose();
+
+        scheduler.shutdown();
     }
 }
