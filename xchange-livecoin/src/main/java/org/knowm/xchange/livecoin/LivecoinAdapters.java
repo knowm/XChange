@@ -30,6 +30,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinAllOrderBooks;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
@@ -77,9 +78,10 @@ public class LivecoinAdapters {
   }
 
   public static Map<CurrencyPair, LivecoinOrderBook> adaptToCurrencyPairKeysMap(
-      Map<String, LivecoinOrderBook> orderBooksRaw) {
+      LivecoinAllOrderBooks orderBooksRaw) {
 
-    Set<Map.Entry<String, LivecoinOrderBook>> entries = orderBooksRaw.entrySet();
+    Set<Map.Entry<String, LivecoinOrderBook>> entries =
+        orderBooksRaw.getOrderBooksByPair().entrySet();
     Map<CurrencyPair, LivecoinOrderBook> converted = new HashMap<>(entries.size());
     for (Map.Entry<String, LivecoinOrderBook> entry : entries) {
       String[] currencyPairSplit = entry.getKey().split("/");
@@ -121,14 +123,14 @@ public class LivecoinAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
 
-  public static Trades adaptTrades(LivecoinTrade[] nativeTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<LivecoinTrade> tradesRaw, CurrencyPair currencyPair) {
 
-    if (nativeTrades.length == 0) {
+    if (tradesRaw.isEmpty()) {
       return new Trades(Collections.EMPTY_LIST);
     }
-    List<Trade> trades = new ArrayList<>(nativeTrades.length);
+    List<Trade> trades = new ArrayList<>(tradesRaw.size());
 
-    for (LivecoinTrade trade : nativeTrades) {
+    for (LivecoinTrade trade : tradesRaw) {
       OrderType type = trade.getType().equals("SELL") ? OrderType.BID : OrderType.ASK;
       Trade t =
           new Trade(
@@ -141,7 +143,7 @@ public class LivecoinAdapters {
       trades.add(t);
     }
 
-    return new Trades(trades, nativeTrades[0].getId(), TradeSortType.SortByID);
+    return new Trades(trades, tradesRaw.get(0).getId(), TradeSortType.SortByID);
   }
 
   private static Date parseDate(Long rawDateLong) {
