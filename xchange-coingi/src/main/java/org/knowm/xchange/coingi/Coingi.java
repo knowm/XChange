@@ -1,0 +1,35 @@
+package org.knowm.xchange.coingi;
+
+import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderBook;
+import org.knowm.xchange.coingi.dto.marketdata.CoingiRollingAggregation;
+import org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
+
+@Path("current")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public interface Coingi {
+  @GET
+  @Path("order-book/{currencyPair}/{maxAskCount}/{maxBidCount}/{maxDepthRangeCount}")
+  CoingiOrderBook getOrderBook(
+      @PathParam("currencyPair") CoingiAuthenticated.Pair currencyPair,
+      @PathParam("maxAskCount") Integer maxAskCount,
+      @PathParam("maxBidCount") Integer maxBidCount,
+      @PathParam("maxDepthRangeCount") Integer maxDepthRangeCount)
+      throws IOException;
+
+  @GET
+  @Path("transactions/{currencyPair}/{maxCount}")
+  List<CoingiTransaction> getTransaction(
+      @PathParam("currencyPair") CoingiAuthenticated.Pair currencyPair,
+      @PathParam("maxCount") Integer maxCount)
+      throws IOException;
+
+  @GET
+  @Path("24hours-rolling-aggregation")
+  List<CoingiRollingAggregation> getTradeAggregations();
+}
