@@ -16,6 +16,9 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinExchange;
+import org.knowm.xchange.livecoin.dto.LivecoinPaginatedResponse;
+import org.knowm.xchange.livecoin.dto.trade.LivecoinCancelResponse;
+import org.knowm.xchange.livecoin.dto.trade.LivecoinOrderResponse;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -33,9 +36,9 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     LivecoinPaginatedResponse response = service.allClientOrders(apiKey, signatureCreator, "OPEN");
 
     List<LimitOrder> resp = new ArrayList<>();
-    if (response.data == null) return resp;
+    if (response.getResponse() == null) return resp;
 
-    for (Map map : response.data) {
+    for (Map map : response.getResponse()) {
       Object statusRaw = map.get("orderStatus");
       if (statusRaw != null
           && (statusRaw.toString().equals("OPEN")
@@ -58,10 +61,6 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
             limit,
             offset);
 
-    //        if (!response.success)
-    //            throw new ExchangeException("Failed to get trade history: " +
-    // response.errorMessage);
-
     List<UserTrade> resp = new ArrayList<>();
     for (Map map : response) {
       UserTrade fundingRecord = LivecoinAdapters.adaptUserTrade(map);
@@ -73,7 +72,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
   }
 
   public String makeMarketOrder(MarketOrder order) throws IOException {
-    Map response;
+    LivecoinOrderResponse response;
     if (order.getType().equals(Order.OrderType.BID)) {
       response =
           service.buyWithMarketOrder(
@@ -89,12 +88,11 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
               order.getCurrencyPair().toString(),
               order.getOriginalAmount());
     }
-
-    return response.get("orderId").toString();
+    return response.getOrderId();
   }
 
   public String makeLimitOrder(LimitOrder order) throws IOException {
-    Map response;
+    LivecoinOrderResponse response;
     if (order.getType().equals(Order.OrderType.BID)) {
       response =
           service.buyWithLimitOrder(
@@ -112,11 +110,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
               order.getLimitPrice(),
               order.getOriginalAmount());
     }
-
-    if (response.containsKey("success") && !Boolean.valueOf(response.get("success").toString()))
-      throw new ExchangeException("Failed to place order " + response);
-
-    return response.get("orderId").toString();
+    return response.getOrderId();
   }
 
   public boolean cancelOrder(String orderId)
@@ -140,17 +134,14 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
     CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
 
-    Map response =
+    LivecoinCancelResponse response =
         service.cancelLimitOrder(
             apiKey,
             signatureCreator,
             paramCurrencyPair.getCurrencyPair().toString(),
             Long.valueOf(paramId.getOrderId()));
 
-    if (response.containsKey("success") && !Boolean.valueOf(response.get("success").toString()))
-      throw new ExchangeException("Failed to cancel order " + response);
-
-    return Boolean.valueOf(response.get("cancelled").toString());
+    return response.isCancelled();
   }
 
   public static class LiveCoinCancelOrderParams
