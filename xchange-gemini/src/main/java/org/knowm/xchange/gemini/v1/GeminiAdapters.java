@@ -418,6 +418,7 @@ public final class GeminiAdapters {
   public static FundingRecord adapt(GeminiTransfer transfer) {
     FundingRecord.Status status = FundingRecord.Status.PROCESSING;
     if (transfer.status.equals("Complete")) status = FundingRecord.Status.COMPLETE;
+    if (transfer.status.equals("Advanced")) status = FundingRecord.Status.COMPLETE;
 
     String description = "";
     if (transfer.purpose != null) description = transfer.purpose;
