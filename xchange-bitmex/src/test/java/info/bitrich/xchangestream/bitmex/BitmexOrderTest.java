@@ -40,7 +40,7 @@ public class BitmexOrderTest {
     private static final CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
     private static final Logger LOG = LoggerFactory.getLogger(BitmexTest.class);
 
-    private static final BigDecimal priceShift = new BigDecimal("1000");
+    private static final BigDecimal priceShift = new BigDecimal("500");
 
     private BigDecimal testAskPrice;
     private BigDecimal testBidPrice;
@@ -50,7 +50,8 @@ public class BitmexOrderTest {
 
     @Before
     public void setup() throws IOException {
-        LocalExchangeConfig localConfig = PropsLoader.loadKeys("secret.keys", "secret.keys.origin");
+        LocalExchangeConfig localConfig = PropsLoader.loadKeys(
+                "bitmex.secret.keys", "bitmex.secret.keys.origin", "bitmex");
         exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
         ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
 
@@ -104,13 +105,13 @@ public class BitmexOrderTest {
         return System.currentTimeMillis() + "";
     }
 
-    private String placeLimitOrder(String nosOrdId, BigDecimal price, String size, Order.OrderType type) throws Exception {
+    private String placeLimitOrder(String clOrdId, BigDecimal price, String size, Order.OrderType type) throws Exception {
         LimitOrder limitOrder =
                 new LimitOrder(
                         type,
                         new BigDecimal(size),
                         xbtUsd,
-                        nosOrdId,
+                        clOrdId,
                         new Date(),
                         price);
         String orderId = tradeService.placeLimitOrder(limitOrder);
@@ -118,9 +119,9 @@ public class BitmexOrderTest {
         return orderId;
     }
 
-    private BitmexPrivateOrder cancelLimitOrder(String nosOrdId) {
+    private BitmexPrivateOrder cancelLimitOrder(String clOrdId) {
         List<BitmexPrivateOrder> bitmexPrivateOrders =
-                tradeService.cancelBitmexOrder(null, nosOrdId);
+                tradeService.cancelBitmexOrder(null, clOrdId);
         Assert.assertEquals(1, bitmexPrivateOrders.size());
         BitmexPrivateOrder order = bitmexPrivateOrders.get(0);
         Assert.assertEquals(BitmexPrivateOrder.OrderStatus.Canceled, order.getOrderStatus());
@@ -138,27 +139,27 @@ public class BitmexOrderTest {
 
     @Test
     public void shouldPlaceLimitOrder() throws Exception {
-        final String nosOrdId = generateOrderId();
-        String orderId = placeLimitOrder(nosOrdId, testAskPrice, "10", Order.OrderType.ASK);
+        final String clOrdId = generateOrderId();
+        String orderId = placeLimitOrder(clOrdId, testAskPrice, "10", Order.OrderType.ASK);
         Assert.assertNotNull(orderId);
-        cancelLimitOrder(nosOrdId);
+        cancelLimitOrder(clOrdId);
     }
 
     @Test
     public void shouldCancelOrder() throws Exception {
-        final String nosOrdId = generateOrderId();
-        String orderId = placeLimitOrder(nosOrdId, testAskPrice, "10", Order.OrderType.ASK);
-        BitmexPrivateOrder bitmexPrivateOrder = cancelLimitOrder(nosOrdId);
+        final String clOrdId = generateOrderId();
+        String orderId = placeLimitOrder(clOrdId, testAskPrice, "10", Order.OrderType.ASK);
+        BitmexPrivateOrder bitmexPrivateOrder = cancelLimitOrder(clOrdId);
 
         checkPrivateOrder(orderId, testAskPrice, "10", BitmexSide.SELL, bitmexPrivateOrder);
     }
 
     @Test
     public void shouldReplaceOrder() throws Exception {
-        final String nosOrdId = generateOrderId();
-        String orderId = placeLimitOrder(nosOrdId, testAskPrice, "10", Order.OrderType.ASK);
+        final String clOrdId = generateOrderId();
+        String orderId = placeLimitOrder(clOrdId, testAskPrice, "10", Order.OrderType.ASK);
 
-        final String replaceId = nosOrdId + "replace";
+        final String replaceId = clOrdId + "replace";
         BitmexPrivateOrder bitmexPrivateOrder =
                 tradeService.replaceLimitOrder(
                         "XBTUSD",
@@ -166,7 +167,7 @@ public class BitmexOrderTest {
                         null,
                         orderId,
                         replaceId,
-                        nosOrdId);
+                        clOrdId);
         LOG.info("Order was replaced = {}", bitmexPrivateOrder);
 
         checkPrivateOrder(orderId, testAskPrice, "5", BitmexSide.SELL, bitmexPrivateOrder);
@@ -175,10 +176,10 @@ public class BitmexOrderTest {
 
     @Test
     public void shouldCancelAllOrders() throws Exception {
-        final String nosOrdId = generateOrderId();
-        String orderId = placeLimitOrder(nosOrdId, testAskPrice, "10", Order.OrderType.ASK);
-        final String nosOrdId2 = generateOrderId();
-        String orderId2 = placeLimitOrder(nosOrdId2, testBidPrice, "5", Order.OrderType.BID);
+        final String clOrdId = generateOrderId();
+        String orderId = placeLimitOrder(clOrdId, testAskPrice, "10", Order.OrderType.ASK);
+        final String clOrdId2 = generateOrderId();
+        String orderId2 = placeLimitOrder(clOrdId2, testBidPrice, "5", Order.OrderType.BID);
 
         List<BitmexPrivateOrder> bitmexPrivateOrders = tradeService.cancelAllOrders();
         Assert.assertEquals(2, bitmexPrivateOrders.size());
@@ -189,14 +190,14 @@ public class BitmexOrderTest {
 
     @Test
     public void shouldFillPlacedOrder() throws Exception {
-        final String nosOrdId = generateOrderId();
-        String orderId = placeLimitOrder(nosOrdId,
+        final String clOrdId = generateOrderId();
+        String orderId = placeLimitOrder(clOrdId,
                 testBidPrice.add(priceShift.multiply(new BigDecimal("2"))),
                 "10", Order.OrderType.BID);
         Assert.assertNotNull(orderId);
 
         List<BitmexPrivateOrder> bitmexPrivateOrders =
-                tradeService.cancelBitmexOrder(null, nosOrdId);
+                tradeService.cancelBitmexOrder(null, clOrdId);
         Assert.assertEquals(1, bitmexPrivateOrders.size());
 
         BitmexPrivateOrder order = bitmexPrivateOrders.get(0);
@@ -205,11 +206,11 @@ public class BitmexOrderTest {
 
     @Test(expected = AssertionError.class)
     public void shouldGetExecutionOnFill() {
-        final String nosOrdId = generateOrderId();
+        final String clOrdId = generateOrderId();
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.schedule(() -> {
             try {
-                placeLimitOrder(nosOrdId,
+                placeLimitOrder(clOrdId,
                         testBidPrice.add(priceShift.multiply(new BigDecimal("2"))),
                         "10", Order.OrderType.BID);
             } catch (Exception e) {
@@ -221,7 +222,7 @@ public class BitmexOrderTest {
                 exchange.getStreamingMarketDataService()).getExecutions("XBTUSD");
         executionObservable.test()
                 .awaitCount(5)
-                .assertNever(execution -> Objects.equals(execution.getClOrdID(), nosOrdId))
+                .assertNever(execution -> Objects.equals(execution.getClOrdID(), clOrdId))
                 .dispose();
 
         scheduler.shutdown();
