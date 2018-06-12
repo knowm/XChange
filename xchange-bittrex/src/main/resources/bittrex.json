@@ -418,6 +418,10 @@
       "scale": 8,
       "withdrawal_fee": 0.02
     },
+    "BNT": {
+      "scale": 8,
+      "withdrawal_fee": 0.85
+    },
     "BTC": {
       "scale": 8,
       "withdrawal_fee": 0.001
