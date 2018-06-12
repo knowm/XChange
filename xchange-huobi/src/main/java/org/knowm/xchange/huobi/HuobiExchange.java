@@ -53,6 +53,6 @@ public class HuobiExchange extends BaseExchange implements Exchange {
         ((HuobiMarketDataServiceRaw) marketDataService).getHuobiAssetPairs();
     HuobiAsset[] assets = ((HuobiMarketDataServiceRaw) marketDataService).getHuobiAssets();
     
-    exchangeMetaData = HuobiAdapters.adaptToExchangeMetaData(assetPairs, assets, exchangeMetaData.getCurrencies());
+    exchangeMetaData = HuobiAdapters.adaptToExchangeMetaData(assetPairs, assets, exchangeMetaData);
   }
 }

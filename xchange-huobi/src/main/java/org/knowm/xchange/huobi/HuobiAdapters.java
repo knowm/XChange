@@ -43,21 +43,26 @@ public class HuobiAdapters {
   }
 
   static ExchangeMetaData adaptToExchangeMetaData(
-      HuobiAssetPair[] assetPairs, HuobiAsset[] assets, Map<Currency, CurrencyMetaData> currenciesMetaData) {
+      HuobiAssetPair[] assetPairs, HuobiAsset[] assets, ExchangeMetaData staticMetaData) {
+	
     HuobiUtils.setHuobiAssets(assets);
     HuobiUtils.setHuobiAssetPairs(assetPairs);
 
+    Map<CurrencyPair, CurrencyPairMetaData> pairsMetaData = staticMetaData.getCurrencyPairs();
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
-    for (HuobiAssetPair pair : assetPairs) {
-      pairs.put(adaptCurrencyPair(pair.getKey()), adaptPair(pair));
+    for (HuobiAssetPair assetPair : assetPairs) {
+    	CurrencyPair pair = adaptCurrencyPair(assetPair.getKey());
+      pairs.put(pair, adaptPair(assetPair, pairsMetaData.getOrDefault(pair, null)));
     }
 
+    Map<Currency, CurrencyMetaData> currenciesMetaData = staticMetaData.getCurrencies();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     for (HuobiAsset asset : assets) {
       Currency currency = adaptCurrency(asset.getAsset());
       CurrencyMetaData metadata = currenciesMetaData.getOrDefault(currency, null);
       BigDecimal withdrawalFee = metadata == null ? null : metadata.getWithdrawalFee();
-      currencies.put(currency, new CurrencyMetaData(0, withdrawalFee));
+      int scale = metadata == null ? 8 : metadata.getScale();
+      currencies.put(currency, new CurrencyMetaData(scale, withdrawalFee));
     }
 
     return new ExchangeMetaData(pairs, currencies, null, null, false);
@@ -67,8 +72,15 @@ public class HuobiAdapters {
     return HuobiUtils.translateHuobiCurrencyPair(currencyPair);
   }
 
-  private static CurrencyPairMetaData adaptPair(HuobiAssetPair pair) {
-    return new CurrencyPairMetaData(null, null, null, new Integer(pair.getPricePrecision()));
+  private static CurrencyPairMetaData adaptPair(HuobiAssetPair pair, CurrencyPairMetaData metadata) {
+    BigDecimal minQty = metadata == null ? null : metadata.getMinimumAmount();
+      
+    return new CurrencyPairMetaData(
+    		new BigDecimal("0.002"), // Trading fee at Huobi is 0.2 % 
+    		minQty, // Min amount
+    		null, // Max amount
+    		new Integer(pair.getPricePrecision()) // Price scale
+    		);
   }
 
   private static Currency adaptCurrency(String currency) {
