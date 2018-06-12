@@ -147,8 +147,8 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
               privateOrder.getId(),
               privateOrder.getTimestamp(),
               privateOrder.getPrice(),
-              null,
-              null,
+              privateOrder.getAvgPx(),
+              privateOrder.getCumQty(),
               null,
               status));
     }

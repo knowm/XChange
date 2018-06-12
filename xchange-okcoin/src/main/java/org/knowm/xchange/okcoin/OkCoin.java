@@ -18,6 +18,7 @@ import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTrade;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinBatchTradeResult;
+import org.knowm.xchange.okcoin.dto.trade.OkCoinErrorResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
@@ -258,6 +259,17 @@ public interface OkCoin {
       @FormParam("type") String type,
       @FormParam("current_page") String currentPage,
       @FormParam("page_length") String pageLength,
+      @FormParam("sign") ParamsDigest sign)
+      throws IOException;
+
+  @POST
+  @Path("funds_transfer.do")
+  OkCoinErrorResult fundsTransfer(
+      @FormParam("api_key") String apikey,
+      @FormParam("symbol") String symbol,
+      @FormParam("amount") String amount,
+      @FormParam("from") int from,
+      @FormParam("to") int to,
       @FormParam("sign") ParamsDigest sign)
       throws IOException;
 }

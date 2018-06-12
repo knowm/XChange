@@ -3,6 +3,7 @@ package org.knowm.xchange.liqui.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,7 +17,12 @@ import org.knowm.xchange.liqui.LiquiAdapters;
 import org.knowm.xchange.liqui.dto.LiquiException;
 import org.knowm.xchange.liqui.dto.trade.LiquiCancelOrder;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -89,8 +95,12 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
     }
 
     if (params instanceof TradeHistoryParamsTimeSpan) {
-      startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime().getTime();
-      endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime().getTime();
+      if (((TradeHistoryParamsTimeSpan) params).getStartTime() != null) {
+        startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime().getTime() / 1000;
+      }
+      if (((TradeHistoryParamsTimeSpan) params).getEndTime() != null) {
+        endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime().getTime() / 1000;
+      }
     }
 
     if (params instanceof TradeHistoryParamLimit) {
@@ -126,9 +136,15 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
   }
 
   public static class LiquiTradeHistoryParams
-      implements TradeHistoryParams, TradeHistoryParamLimit {
+      implements TradeHistoryParams,
+      TradeHistoryParamLimit,
+      TradeHistoryParamsTimeSpan,
+      TradeHistoryParamCurrencyPair {
 
-    private int limit = 1000;
+    private Integer limit = 1000;
+    private Date startTime;
+    private Date endTime;
+    private CurrencyPair currencyPair;
 
     public LiquiTradeHistoryParams() {}
 
@@ -140,6 +156,36 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
     @Override
     public void setLimit(Integer limit) {
       this.limit = limit;
+    }
+
+    @Override
+    public Date getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Date getEndTime() {
+      return endTime;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      this.endTime = endTime;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+      this.currencyPair = pair;
     }
   }
 }

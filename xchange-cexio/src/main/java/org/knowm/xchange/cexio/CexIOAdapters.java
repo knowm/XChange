@@ -1,14 +1,6 @@
 package org.knowm.xchange.cexio;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
-
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
@@ -33,6 +25,15 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 /** Author: brox Since: 2/6/14 */
 public class CexIOAdapters {
@@ -216,7 +217,7 @@ public class CexIOAdapters {
       BigDecimal originalAmount = cexIOArchivedOrder.amount;
       CurrencyPair currencyPair =
           new CurrencyPair(cexIOArchivedOrder.symbol1, cexIOArchivedOrder.symbol2);
-      BigDecimal price = cexIOArchivedOrder.price;
+      BigDecimal price = cexIOArchivedOrder.averageExecutionPrice;
       String id = cexIOArchivedOrder.id;
       String orderId = cexIOArchivedOrder.orderId;
 
@@ -274,17 +275,25 @@ public class CexIOAdapters {
       BigDecimal remains = new BigDecimal(cexIOOrder.remains);
       cumulativeAmount = originalAmount.subtract(remains);
     }
-
-    String tradedAmount =
+    BigDecimal totalAmountMaker =
         cexIOOrder.totalAmountMaker != null
-            ? cexIOOrder.totalAmountMaker
-            : cexIOOrder.totalAmountTaker;
+            ? new BigDecimal(cexIOOrder.totalAmountMaker)
+            : BigDecimal.ZERO;
+    BigDecimal totalAmountTaker =
+        cexIOOrder.totalAmountTaker != null
+            ? new BigDecimal(cexIOOrder.totalAmountTaker)
+            : BigDecimal.ZERO;
+    BigDecimal tradedAmount = totalAmountMaker.add(totalAmountTaker);
+
     BigDecimal averagePrice = null;
-    if (cumulativeAmount != null && tradedAmount != null) {
-      averagePrice = new BigDecimal(tradedAmount).divide(cumulativeAmount, 2, RoundingMode.HALF_UP);
+    if (cumulativeAmount != null && tradedAmount.compareTo(BigDecimal.ZERO) > 0) {
+      averagePrice = tradedAmount.divide(cumulativeAmount, 2, RoundingMode.HALF_UP);
     }
-    String feeAmount = cexIOOrder.feeMaker != null ? cexIOOrder.feeMaker : cexIOOrder.feeTaker;
-    BigDecimal fee = feeAmount != null ? new BigDecimal(feeAmount) : null;
+    BigDecimal feeMaker =
+        cexIOOrder.feeMaker != null ? new BigDecimal(cexIOOrder.feeMaker) : BigDecimal.ZERO;
+    BigDecimal feeTaker =
+        cexIOOrder.feeTaker != null ? new BigDecimal(cexIOOrder.feeTaker) : BigDecimal.ZERO;
+    BigDecimal fee = feeMaker.add(feeTaker);
     return new LimitOrder(
         orderType,
         originalAmount,
@@ -294,7 +303,7 @@ public class CexIOAdapters {
         limitPrice,
         averagePrice,
         cumulativeAmount,
-        fee,
+        fee.compareTo(BigDecimal.ZERO) > 0 ? fee : null,
         status);
   }
 
