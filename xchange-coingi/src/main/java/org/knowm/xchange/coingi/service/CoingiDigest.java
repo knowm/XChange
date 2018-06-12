@@ -35,13 +35,5 @@ public class CoingiDigest extends BaseParamsDigest {
 
   public String sign(Long nonce) {
     return provider.getSignature(nonce);
-    /*
-    // TODO: this implementation is wrong
-    Mac mac256 = getMac();
-    mac256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
-    mac256.update(clientId.getBytes());
-    mac256.update(apiKey.getBytes());
-
-    return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();*/
   }
 }
