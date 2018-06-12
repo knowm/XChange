@@ -90,6 +90,7 @@ public class LiquiTradeServiceRaw extends LiquiBaseService {
                 "tradeHistory",
                 fromTrade,
                 amountOftrades,
+                fromTrade,
                 toTrade,
                 null,
                 startTime,
