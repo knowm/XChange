@@ -1,8 +1,9 @@
-package org.knowm.xchange.coingi.dto.request;
+package org.knowm.xchange.coingi.dto.trade;
 
+import org.knowm.xchange.coingi.dto.CoingiAuthenticatedRequest;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class GetOrderHistoryRequest extends AuthenticatedRequest {
+public class CoingiGetOrderHistoryRequest extends CoingiAuthenticatedRequest {
   private int pageNumber;
   private int pageSize;
   private int type;
@@ -13,7 +14,7 @@ public class GetOrderHistoryRequest extends AuthenticatedRequest {
     return pageNumber;
   }
 
-  public GetOrderHistoryRequest setPageNumber(int pageNumber) {
+  public CoingiGetOrderHistoryRequest setPageNumber(int pageNumber) {
     this.pageNumber = pageNumber;
     return this;
   }
@@ -22,7 +23,7 @@ public class GetOrderHistoryRequest extends AuthenticatedRequest {
     return pageSize;
   }
 
-  public GetOrderHistoryRequest setPageSize(int pageSize) {
+  public CoingiGetOrderHistoryRequest setPageSize(int pageSize) {
     this.pageSize = pageSize;
     return this;
   }
@@ -31,7 +32,7 @@ public class GetOrderHistoryRequest extends AuthenticatedRequest {
     return type;
   }
 
-  public GetOrderHistoryRequest setType(Integer type) {
+  public CoingiGetOrderHistoryRequest setType(Integer type) {
     this.type = type;
     return this;
   }
@@ -40,7 +41,7 @@ public class GetOrderHistoryRequest extends AuthenticatedRequest {
     return currencyPair;
   }
 
-  public GetOrderHistoryRequest setCurrencyPair(CurrencyPair currencyPair) {
+  public CoingiGetOrderHistoryRequest setCurrencyPair(CurrencyPair currencyPair) {
     if (currencyPair != null)
       this.currencyPair = currencyPair.toString().replace('/', '-').toLowerCase();
 
@@ -51,7 +52,7 @@ public class GetOrderHistoryRequest extends AuthenticatedRequest {
     return status;
   }
 
-  public GetOrderHistoryRequest setStatus(Integer status) {
+  public CoingiGetOrderHistoryRequest setStatus(Integer status) {
     this.status = status;
     return this;
   }

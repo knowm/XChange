@@ -1,6 +1,8 @@
-package org.knowm.xchange.coingi.dto.request;
+package org.knowm.xchange.coingi.dto.trade;
 
-public class CancelOrderRequest extends AuthenticatedRequest {
+import org.knowm.xchange.coingi.dto.CoingiAuthenticatedRequest;
+
+public class CancelOrderRequest extends CoingiAuthenticatedRequest {
   private String orderId;
 
   public String getOrderId() {

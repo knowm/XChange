@@ -3,10 +3,10 @@ package org.knowm.xchange.coingi.dto.account;
 import java.util.*;
 
 /** Base class for result lists. */
-class ResultList<T> extends ArrayList<T> {
-  ResultList() {}
+class CoingiResultList<T> extends ArrayList<T> {
+  CoingiResultList() {}
 
-  ResultList(Collection<T> c) {
+  CoingiResultList(Collection<T> c) {
     super(c);
   }
 

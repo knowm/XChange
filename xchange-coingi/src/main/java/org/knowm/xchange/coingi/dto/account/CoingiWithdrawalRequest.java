@@ -1,8 +1,10 @@
-package org.knowm.xchange.coingi.dto.request;
+package org.knowm.xchange.coingi.dto.account;
+
+import org.knowm.xchange.coingi.dto.CoingiAuthenticatedRequest;
 
 import java.math.BigDecimal;
 
-public class WithdrawalRequest extends AuthenticatedRequest {
+public class CoingiWithdrawalRequest extends CoingiAuthenticatedRequest {
   private String currency;
   private BigDecimal amount;
   private String address;
@@ -11,7 +13,7 @@ public class WithdrawalRequest extends AuthenticatedRequest {
     return currency;
   }
 
-  public WithdrawalRequest setCurrency(String currency) {
+  public CoingiWithdrawalRequest setCurrency(String currency) {
     this.currency = currency;
     return this;
   }
@@ -20,7 +22,7 @@ public class WithdrawalRequest extends AuthenticatedRequest {
     return amount;
   }
 
-  public WithdrawalRequest setAmount(BigDecimal amount) {
+  public CoingiWithdrawalRequest setAmount(BigDecimal amount) {
     this.amount = amount;
     return this;
   }
@@ -29,7 +31,7 @@ public class WithdrawalRequest extends AuthenticatedRequest {
     return address;
   }
 
-  public WithdrawalRequest setAddress(String address) {
+  public CoingiWithdrawalRequest setAddress(String address) {
     this.address = address;
     return this;
   }

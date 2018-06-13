@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /** A single transaction */
-public class Transaction {
+public class CoingiUserTransaction {
   private String id;
   private long timestamp;
   private Map<String, String> currencyPair;
@@ -18,7 +18,7 @@ public class Transaction {
   private short orderType;
   private String orderId;
 
-  public Transaction(
+  public CoingiUserTransaction(
       @JsonProperty("id") String id,
       @JsonProperty("timestamp") long timestamp,
       @JsonProperty("currencyPair") Map<String, String> currencyPair,
@@ -42,7 +42,7 @@ public class Transaction {
     this.orderId = orderId;
   }
 
-  Transaction() {}
+  CoingiUserTransaction() {}
 
   public String getId() {
     return id;
@@ -94,7 +94,7 @@ public class Transaction {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    Transaction that = (Transaction) o;
+    CoingiUserTransaction that = (CoingiUserTransaction) o;
     return timestamp == that.timestamp
         && type == that.type
         && Objects.equals(id, that.id)

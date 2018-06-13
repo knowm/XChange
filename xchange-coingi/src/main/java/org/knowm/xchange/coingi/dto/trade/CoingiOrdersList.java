@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Orders list. */
-public class CoingiOrdersList extends PaginatedResultList<CoingiOrder> {
+public class CoingiOrdersList extends CoingiPaginatedResultList<CoingiOrder> {
   private List<CoingiOrder> orders;
 
   public CoingiOrdersList(

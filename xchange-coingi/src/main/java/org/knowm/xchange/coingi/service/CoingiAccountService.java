@@ -5,9 +5,9 @@ import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.CoingiErrorAdapter;
 import org.knowm.xchange.coingi.dto.CoingiException;
 import org.knowm.xchange.coingi.dto.account.CoingiBalances;
-import org.knowm.xchange.coingi.dto.account.TransactionList;
-import org.knowm.xchange.coingi.dto.request.TransactionHistoryRequest;
-import org.knowm.xchange.coingi.dto.request.WithdrawalRequest;
+import org.knowm.xchange.coingi.dto.account.CoingiUserTransactionList;
+import org.knowm.xchange.coingi.dto.trade.CoingiTransactionHistoryRequest;
+import org.knowm.xchange.coingi.dto.account.CoingiWithdrawalRequest;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -56,8 +56,8 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
       throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
     if (p instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams params = (DefaultWithdrawFundsParams) p;
-      WithdrawalRequest request =
-          new WithdrawalRequest()
+      CoingiWithdrawalRequest request =
+          new CoingiWithdrawalRequest()
               .setAddress(params.address)
               .setAmount(params.amount)
               .setCurrency(params.currency.getCurrencyCode().toUpperCase());
@@ -82,16 +82,16 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
     return new CoingiTradeHistoryParams(null, 1, 30, null, null);
   }
 
-  public TransactionList getTransactions(TradeHistoryParams p) throws IOException {
+  public CoingiUserTransactionList getTransactions(TradeHistoryParams p) throws IOException {
     CoingiTradeHistoryParams params = (CoingiTradeHistoryParams) p;
 
-    TransactionHistoryRequest request = new TransactionHistoryRequest();
+    CoingiTransactionHistoryRequest request = new CoingiTransactionHistoryRequest();
     request.setPageNumber(params.getPageNumber());
     request.setCurrencyPair(params.getCurrencyPair());
     request.setPageSize(params.getPageSize());
     request.setType(params.getType());
     request.setStatus(params.getStatus());
-    TransactionList transactions;
+    CoingiUserTransactionList transactions;
     try {
       transactions = getTransactions(request);
       return transactions;

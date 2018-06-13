@@ -2,10 +2,9 @@ package org.knowm.xchange.coingi;
 
 import org.knowm.xchange.coingi.dto.account.CoingiBalance;
 import org.knowm.xchange.coingi.dto.account.CoingiBalances;
-import org.knowm.xchange.coingi.dto.account.Transaction;
+import org.knowm.xchange.coingi.dto.account.CoingiUserTransaction;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderBook;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderGroup;
-import org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction;
 import org.knowm.xchange.coingi.dto.trade.CoingiOrder;
 import org.knowm.xchange.coingi.dto.trade.CoingiOrdersList;
 import org.knowm.xchange.currency.Currency;
@@ -157,7 +156,7 @@ public final class CoingiAdapters {
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(Transaction tx, CurrencyPair currencyPair, int timeScale) {
+  public static Trade adaptTrade(CoingiUserTransaction tx, CurrencyPair currencyPair, int timeScale) {
 
     OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = tx.getId();
@@ -168,7 +167,7 @@ public final class CoingiAdapters {
     return new Trade(orderType, tx.getBaseAmount(), currencyPair, tx.getPrice(), date, tradeId);
   }
 
-  public static Trade adaptTrade(CoingiTransaction tx, CurrencyPair currencyPair, int timeScale) {
+  public static Trade adaptTrade(org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction tx, CurrencyPair currencyPair, int timeScale) {
     OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = tx.getId();
     Date date = new Date(tx.getTimestamp());
@@ -204,12 +203,12 @@ public final class CoingiAdapters {
   }
 
   public static Trades adaptTrades(
-      List<CoingiTransaction> transactions, CurrencyPair currencyPair) {
+          List<org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction> coingiTransactions, CurrencyPair currencyPair) {
     List<Trade> trades = new ArrayList<>();
     long lastTradeId = System.currentTimeMillis() / 1000;
 
-    for (int i = 0; i < transactions.size(); ++i) {
-      CoingiTransaction tx = transactions.get(i);
+    for (int i = 0; i < coingiTransactions.size(); ++i) {
+      org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction tx = coingiTransactions.get(i);
       trades.add(adaptTrade(tx, currencyPair, 1000));
     }
 

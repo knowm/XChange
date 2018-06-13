@@ -12,15 +12,15 @@ public class CoingiOrderBook {
 
   private Collection<CoingiOrderGroup> bids;
 
-  private List<DepthRange> askDepthRange;
+  private List<CoingiDepthRange> askDepthRange;
 
-  private List<DepthRange> bidDepthRange;
+  private List<CoingiDepthRange> bidDepthRange;
 
   public CoingiOrderBook(
       @JsonProperty("asks") Collection<CoingiOrderGroup> asks,
       @JsonProperty("bids") Collection<CoingiOrderGroup> bids,
-      @JsonProperty("askDepthRange") List<DepthRange> askDepthRange,
-      @JsonProperty("bidDepthRange") List<DepthRange> bidDepthRange) {
+      @JsonProperty("askDepthRange") List<CoingiDepthRange> askDepthRange,
+      @JsonProperty("bidDepthRange") List<CoingiDepthRange> bidDepthRange) {
     this.asks = Objects.requireNonNull(asks);
     this.bids = Objects.requireNonNull(bids);
     this.askDepthRange = Objects.requireNonNull(askDepthRange);
@@ -35,11 +35,11 @@ public class CoingiOrderBook {
     return Collections.unmodifiableCollection(bids);
   }
 
-  public Collection<DepthRange> getAskDepthRange() {
+  public Collection<CoingiDepthRange> getAskDepthRange() {
     return Collections.unmodifiableCollection(askDepthRange);
   }
 
-  public Collection<DepthRange> getBidDepthRange() {
+  public Collection<CoingiDepthRange> getBidDepthRange() {
     return Collections.unmodifiableCollection(bidDepthRange);
   }
 
