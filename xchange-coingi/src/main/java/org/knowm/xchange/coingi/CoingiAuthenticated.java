@@ -1,13 +1,8 @@
 package org.knowm.xchange.coingi;
 
 import org.knowm.xchange.coingi.dto.CoingiException;
-import org.knowm.xchange.coingi.dto.account.CoingiBalances;
-import org.knowm.xchange.coingi.dto.account.TransactionList;
-import org.knowm.xchange.coingi.dto.account.WithdrawalResponse;
-import org.knowm.xchange.coingi.dto.request.*;
-import org.knowm.xchange.coingi.dto.trade.CoingiOrder;
-import org.knowm.xchange.coingi.dto.trade.CoingiOrdersList;
-import org.knowm.xchange.coingi.dto.trade.CoingiPlaceOrderResponse;
+import org.knowm.xchange.coingi.dto.account.*;
+import org.knowm.xchange.coingi.dto.trade.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -22,7 +17,7 @@ import java.io.IOException;
 public interface CoingiAuthenticated {
   @POST
   @Path("add-order")
-  CoingiPlaceOrderResponse placeLimitOrder(PlaceLimitOrderRequest request)
+  CoingiPlaceOrderResponse placeLimitOrder(CoingiPlaceLimitOrderRequest request)
       throws CoingiException, IOException;
 
   /** @return true if order has been canceled. */
@@ -32,24 +27,24 @@ public interface CoingiAuthenticated {
 
   @POST
   @Path("get-order")
-  CoingiOrder getOrderStatus(GetOrderRequest request) throws CoingiException, IOException;
+  CoingiOrder getOrderStatus(CoingiGetOrderRequest request) throws CoingiException, IOException;
 
   @POST
   @Path("orders")
-  CoingiOrdersList getOrderHistory(GetOrderHistoryRequest request)
+  CoingiOrdersList getOrderHistory(CoingiGetOrderHistoryRequest request)
       throws CoingiException, IOException;
 
   @POST
   @Path("balance")
-  CoingiBalances getUserBalance(BalanceRequest balanceRequest) throws CoingiException, IOException;
+  CoingiBalances getUserBalance(CoingiBalanceRequest balanceRequest) throws CoingiException, IOException;
 
   @POST
   @Path("transactions")
-  TransactionList getTransactionHistory(TransactionHistoryRequest request)
+  CoingiUserTransactionList getTransactionHistory(CoingiTransactionHistoryRequest request)
       throws CoingiException, IOException;
 
   @POST
   @Path("create-crypto-withdrawal")
-  WithdrawalResponse createWithdrawal(WithdrawalRequest request)
+  CoingiWithdrawalResponse createWithdrawal(CoingiWithdrawalRequest request)
       throws CoingiException, IOException;
 }

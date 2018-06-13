@@ -5,12 +5,12 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /** Depth range. */
-public class DepthRange {
+public class CoingiDepthRange {
   private BigDecimal price;
 
   private BigDecimal amount;
 
-  public DepthRange(
+  public CoingiDepthRange(
       @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
     this.price = Objects.requireNonNull(price);
     this.amount = Objects.requireNonNull(amount);
@@ -30,7 +30,7 @@ public class DepthRange {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    DepthRange that = (DepthRange) o;
+    CoingiDepthRange that = (CoingiDepthRange) o;
     return Objects.equals(price, that.price) && Objects.equals(amount, that.amount);
   }
 

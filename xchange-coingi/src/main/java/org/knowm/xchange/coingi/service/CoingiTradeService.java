@@ -4,10 +4,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.CoingiErrorAdapter;
 import org.knowm.xchange.coingi.dto.CoingiException;
-import org.knowm.xchange.coingi.dto.request.CancelOrderRequest;
-import org.knowm.xchange.coingi.dto.request.GetOrderHistoryRequest;
-import org.knowm.xchange.coingi.dto.request.GetOrderRequest;
-import org.knowm.xchange.coingi.dto.request.PlaceLimitOrderRequest;
+import org.knowm.xchange.coingi.dto.trade.CancelOrderRequest;
+import org.knowm.xchange.coingi.dto.trade.CoingiGetOrderHistoryRequest;
+import org.knowm.xchange.coingi.dto.trade.CoingiGetOrderRequest;
+import org.knowm.xchange.coingi.dto.trade.CoingiPlaceLimitOrderRequest;
 import org.knowm.xchange.coingi.dto.trade.CoingiOrder;
 import org.knowm.xchange.coingi.dto.trade.CoingiOrdersList;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -44,7 +44,7 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    GetOrderHistoryRequest orderHistoryRequest = new GetOrderHistoryRequest();
+    CoingiGetOrderHistoryRequest orderHistoryRequest = new CoingiGetOrderHistoryRequest();
     orderHistoryRequest.setStatus(0);
     orderHistoryRequest.setPageNumber(1);
     orderHistoryRequest.setPageSize(50);
@@ -69,8 +69,8 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
 
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException {
-    PlaceLimitOrderRequest request =
-        new PlaceLimitOrderRequest()
+    CoingiPlaceLimitOrderRequest request =
+        new CoingiPlaceLimitOrderRequest()
             .setCurrencyPair(CoingiAdapters.adaptCurrency(order.getCurrencyPair()))
             .setOrderType(order.getType().equals(BID) ? 0 : 1)
             .setPrice(order.getLimitPrice())
@@ -119,7 +119,7 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
     if (p instanceof CoingiTradeHistoryParams) {
       CoingiTradeHistoryParams params = (CoingiTradeHistoryParams) p;
 
-      GetOrderHistoryRequest request = new GetOrderHistoryRequest();
+      CoingiGetOrderHistoryRequest request = new CoingiGetOrderHistoryRequest();
 
       if (params.getCurrencyPair() != null) request.setCurrencyPair(params.getCurrencyPair());
 
@@ -156,7 +156,7 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     Collection<Order> orders = new ArrayList<>();
     for (String orderId : orderIds) {
-      GetOrderRequest request = new GetOrderRequest().setOrderId(orderId);
+      CoingiGetOrderRequest request = new CoingiGetOrderRequest().setOrderId(orderId);
       CoingiOrder coingiOrder;
       try {
         coingiOrder = getCoingiOrder(request);

@@ -8,7 +8,7 @@ import java.util.Objects;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-public class DefaultIdentityProvider {
+public class CoingiDefaultIdentityProvider {
   private static final String ALGO = "HmacSHA256";
 
   private static final Charset CHARSET = Charset.forName("US-ASCII");
@@ -23,7 +23,7 @@ public class DefaultIdentityProvider {
    * @param publicKey Public API key part
    * @param privateKey Private API key part
    */
-  public DefaultIdentityProvider(byte[] publicKey, byte[] privateKey) {
+  public CoingiDefaultIdentityProvider(byte[] publicKey, byte[] privateKey) {
     Objects.requireNonNull(publicKey, "No public key given.");
     if (publicKey.length == 0) {
       throw new IllegalArgumentException("Empty public key given.");

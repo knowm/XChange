@@ -1,39 +1,33 @@
-package org.knowm.xchange.coingi.dto.request;
+package org.knowm.xchange.coingi.dto;
 
-class AuthenticatedRequest implements AuthenticatedRequestInterface {
+public class CoingiAuthenticatedRequest {
   private String token;
   private Long nonce;
   private String signature;
 
-  @Override
   public String getToken() {
     return token;
   }
 
-  @Override
-  public AuthenticatedRequest setToken(String token) {
+  public CoingiAuthenticatedRequest setToken(String token) {
     this.token = token;
     return this;
   }
 
-  @Override
   public Long getNonce() {
     return nonce;
   }
 
-  @Override
-  public AuthenticatedRequest setNonce(Long nonce) {
+  public CoingiAuthenticatedRequest setNonce(Long nonce) {
     this.nonce = nonce;
     return this;
   }
 
-  @Override
   public String getSignature() {
     return signature;
   }
 
-  @Override
-  public AuthenticatedRequest setSignature(String signature) {
+  public CoingiAuthenticatedRequest setSignature(String signature) {
     this.signature = signature;
     return this;
   }

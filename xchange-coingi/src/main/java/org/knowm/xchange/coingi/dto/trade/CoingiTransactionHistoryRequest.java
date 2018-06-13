@@ -1,9 +1,10 @@
-package org.knowm.xchange.coingi.dto.request;
+package org.knowm.xchange.coingi.dto.trade;
 
 import org.knowm.xchange.coingi.CoingiAdapters;
+import org.knowm.xchange.coingi.dto.CoingiAuthenticatedRequest;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class TransactionHistoryRequest extends AuthenticatedRequest {
+public class CoingiTransactionHistoryRequest extends CoingiAuthenticatedRequest {
   private int pageNumber;
   private int pageSize;
   private int type;
@@ -14,7 +15,7 @@ public class TransactionHistoryRequest extends AuthenticatedRequest {
     return pageNumber;
   }
 
-  public TransactionHistoryRequest setPageNumber(int pageNumber) {
+  public CoingiTransactionHistoryRequest setPageNumber(int pageNumber) {
     this.pageNumber = pageNumber;
     return this;
   }
@@ -23,7 +24,7 @@ public class TransactionHistoryRequest extends AuthenticatedRequest {
     return pageSize;
   }
 
-  public TransactionHistoryRequest setPageSize(int pageSize) {
+  public CoingiTransactionHistoryRequest setPageSize(int pageSize) {
     this.pageSize = pageSize;
     return this;
   }
@@ -32,7 +33,7 @@ public class TransactionHistoryRequest extends AuthenticatedRequest {
     return type;
   }
 
-  public TransactionHistoryRequest setType(Integer type) {
+  public CoingiTransactionHistoryRequest setType(Integer type) {
     this.type = type;
     return this;
   }
@@ -41,7 +42,7 @@ public class TransactionHistoryRequest extends AuthenticatedRequest {
     return currencyPair;
   }
 
-  public TransactionHistoryRequest setCurrencyPair(CurrencyPair currencyPair) {
+  public CoingiTransactionHistoryRequest setCurrencyPair(CurrencyPair currencyPair) {
     if (currencyPair != null) this.currencyPair = CoingiAdapters.adaptCurrency(currencyPair);
 
     return this;
@@ -51,7 +52,7 @@ public class TransactionHistoryRequest extends AuthenticatedRequest {
     return status;
   }
 
-  public TransactionHistoryRequest setStatus(Integer status) {
+  public CoingiTransactionHistoryRequest setStatus(Integer status) {
     this.status = status;
     return this;
   }

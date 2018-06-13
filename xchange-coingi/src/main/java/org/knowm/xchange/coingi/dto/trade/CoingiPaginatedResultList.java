@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class PaginatedResultList<T> implements Iterable<T> {
+public abstract class CoingiPaginatedResultList<T> implements Iterable<T> {
   private boolean hasMore;
 
-  public PaginatedResultList(boolean hasMore) {
+  public CoingiPaginatedResultList(boolean hasMore) {
     this.hasMore = hasMore;
   }
 
@@ -33,7 +33,7 @@ public abstract class PaginatedResultList<T> implements Iterable<T> {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    PaginatedResultList<?> that = (PaginatedResultList<?>) o;
+    CoingiPaginatedResultList<?> that = (CoingiPaginatedResultList<?>) o;
     return hasMore == that.hasMore && Objects.equals(getResultsList(), that.getResultsList());
   }
 

@@ -6,7 +6,7 @@ import si.mazi.rescu.RestInvocation;
 public class CoingiDigest extends BaseParamsDigest {
   private final String clientId;
   private final String apiKey;
-  private final DefaultIdentityProvider provider;
+  private final CoingiDefaultIdentityProvider provider;
 
   /**
    * Constructor
@@ -18,7 +18,7 @@ public class CoingiDigest extends BaseParamsDigest {
    */
   private CoingiDigest(String secretKeyBase64, String clientId, String apiKey) {
     super(secretKeyBase64, HMAC_SHA_256);
-    provider = new DefaultIdentityProvider(apiKey.getBytes(), secretKeyBase64.getBytes());
+    provider = new CoingiDefaultIdentityProvider(apiKey.getBytes(), secretKeyBase64.getBytes());
     this.clientId = clientId;
     this.apiKey = apiKey;
   }
