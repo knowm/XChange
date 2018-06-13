@@ -20,6 +20,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -44,12 +45,18 @@ public final class CoingiAdapters {
   public static AccountInfo adaptAccountInfo(CoingiBalances coingiBalances, String userName) {
     List<Balance> balances = new ArrayList<>();
     for (CoingiBalance coingiBalance : coingiBalances.getList()) {
+      BigDecimal total = coingiBalance.getAvailable().add(coingiBalance.getBlocked()).add(coingiBalance.getWithdrawing()).add(coingiBalance.getDeposited());
       Balance xchangeBalance =
           new Balance(
               Currency.getInstance(coingiBalance.getCurrencyName().toUpperCase()),
-              coingiBalance.getDeposited(),
-              coingiBalance.getAvailable(),
-              coingiBalance.getBlocked());
+              total, // total = available + frozen - borrowed + loaned + withdrawing + depositing
+              coingiBalance.getAvailable(), // available
+              coingiBalance.getBlocked(),
+              BigDecimal.ZERO, // borrowed is always 0
+              BigDecimal.ZERO, // loaned is always 0
+              coingiBalance.getWithdrawing(),
+              coingiBalance.getDeposited());
+      
       balances.add(xchangeBalance);
     }
 
@@ -65,6 +72,7 @@ public final class CoingiAdapters {
       LimitOrder askLimit =
           createOrder(
               adaptCurrency(ask.getCurrencyPair()), priceAndAmount, adaptOrderType(ask.getType()));
+      askLimit.setOrderStatus(adaptOrderStatus(0));
       asks.add(askLimit);
     }
 
@@ -73,6 +81,7 @@ public final class CoingiAdapters {
       LimitOrder bidLimit =
           createOrder(
               adaptCurrency(bid.getCurrencyPair()), priceAndAmount, adaptOrderType(bid.getType()));
+      bidLimit.setOrderStatus(adaptOrderStatus(0));
       bids.add(bidLimit);
     }
 
@@ -87,6 +96,10 @@ public final class CoingiAdapters {
     String baseCurrency = currencyPair.get("base");
     String counterCurrency = currencyPair.get("counter");
     return new CurrencyPair(baseCurrency, counterCurrency);
+  }
+
+  public static String adaptCurrency(CurrencyPair pair) {
+    return pair.toString().replace('/', '-').toLowerCase();
   }
 
   public static List<LimitOrder> createOrders(
@@ -113,6 +126,24 @@ public final class CoingiAdapters {
     }
   }
 
+  public static OpenOrders adaptOpenOrders(CoingiOrdersList orders) {
+    List<LimitOrder> list = new ArrayList<>();
+    for (CoingiOrder order : orders) {
+      LimitOrder limitOrder = new LimitOrder(
+              order.getType() == 0 ? OrderType.BID : OrderType.ASK,
+              order.getOriginalBaseAmount(),
+              adaptCurrency(order.getCurrencyPair()),
+              order.getId(),
+              new Date(order.getTimestamp()),
+              order.getPrice()
+      );
+      limitOrder.setOrderStatus(adaptOrderStatus(order.getStatus()));
+      list.add(limitOrder);
+    }
+
+    return new OpenOrders(list);
+  }
+
   /**
    * Adapts a Transaction to a Trade Object
    *
@@ -135,43 +166,36 @@ public final class CoingiAdapters {
   public static Trade adaptTrade(CoingiTransaction tx, CurrencyPair currencyPair, int timeScale) {
     OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = tx.getId();
-    Date date =
-        DateUtils.fromMillisUtc(
-            tx.getTimestamp()
-                * timeScale); // polled order books provide a timestamp in seconds, stream in ms
+    Date date = new Date(tx.getTimestamp());
     return new Trade(orderType, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
   }
 
   public static UserTrades adaptTradeHistory(CoingiOrdersList ordersList) {
     List<UserTrade> trades = new ArrayList<>();
     for (CoingiOrder o : ordersList.getList()) {
-      final OrderType orderType;
-
-      if (o.getCounterAmount().doubleValue() == 0.0) {
-        orderType = o.getBaseAmount().doubleValue() < 0.0 ? OrderType.ASK : OrderType.BID;
-      } else {
-        orderType = o.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
-      }
+      final OrderType orderType = o.getType() == 0 ? OrderType.BID : OrderType.ASK;
 
       final CurrencyPair pair =
           new CurrencyPair(
               o.getCurrencyPair().get("base").toUpperCase(),
               o.getCurrencyPair().get("counter").toUpperCase());
+
       UserTrade trade =
           new UserTrade(
               orderType,
-              o.getBaseAmount().abs(),
+              o.getOriginalBaseAmount(),
               pair,
-              o.getPrice().abs(),
+              o.getPrice(),
               new Date(o.getTimestamp()),
               o.getId(),
               o.getId(),
-              o.getOriginalBaseAmount(),
-              Currency.getInstance(o.getCurrencyPair().get("base").toUpperCase()));
+              BigDecimal.valueOf(0),
+              null);
+
       trades.add(trade);
     }
 
-    return new UserTrades(trades, 0L, TradeSortType.SortByID);
+    return new UserTrades(trades, TradeSortType.SortByID);
   }
 
   public static Trades adaptTrades(

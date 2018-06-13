@@ -1,8 +1,7 @@
 package org.knowm.xchange.coingi.dto.account;
 
-import org.knowm.xchange.coingi.dto.trade.PaginatedResultList;
-
 import java.util.List;
+import org.knowm.xchange.coingi.dto.trade.PaginatedResultList;
 
 public class TransactionList extends PaginatedResultList<Transaction> {
   private List<Transaction> transactions;

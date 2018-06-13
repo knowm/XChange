@@ -1,8 +1,10 @@
 package org.knowm.xchange.coingi.dto.request;
 
+import java.math.BigDecimal;
+
 public class WithdrawalRequest extends AuthenticatedRequest {
   private String currency;
-  private double amount;
+  private BigDecimal amount;
   private String address;
 
   public String getCurrency() {
@@ -14,11 +16,11 @@ public class WithdrawalRequest extends AuthenticatedRequest {
     return this;
   }
 
-  public double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
-  public WithdrawalRequest setAmount(double amount) {
+  public WithdrawalRequest setAmount(BigDecimal amount) {
     this.amount = amount;
     return this;
   }

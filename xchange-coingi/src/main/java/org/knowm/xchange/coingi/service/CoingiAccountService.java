@@ -2,11 +2,15 @@ package org.knowm.xchange.coingi.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAdapters;
+import org.knowm.xchange.coingi.CoingiErrorAdapter;
+import org.knowm.xchange.coingi.dto.CoingiException;
+import org.knowm.xchange.coingi.dto.account.CoingiBalances;
+import org.knowm.xchange.coingi.dto.account.TransactionList;
+import org.knowm.xchange.coingi.dto.request.TransactionHistoryRequest;
 import org.knowm.xchange.coingi.dto.request.WithdrawalRequest;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -19,38 +23,45 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class CoingiAccountService extends CoingiAccountServiceRaw implements AccountService {
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public CoingiAccountService(Exchange exchange) {
     super(exchange);
   }
 
-  /** @throws IOException */
   @Override
   public AccountInfo getAccountInfo() throws IOException {
+    CoingiBalances coingiBalances;
+    try {
+      coingiBalances = getCoingiBalance();
+    } catch (CoingiException e) {
+      throw CoingiErrorAdapter.adapt(e);
+    }
+    
     return CoingiAdapters.adaptAccountInfo(
-        getCoingiBalance(), exchange.getExchangeSpecification().getUserName());
+        coingiBalances, exchange.getExchangeSpecification().getUserName());
   }
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+    String result;
+    try {
+      result = withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+    } catch (CoingiException e) {
+      throw CoingiErrorAdapter.adapt(e);
+    }
+
+    return result;
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams p)
-      throws ExchangeException, IOException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException {
+      throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
     if (p instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams params = (DefaultWithdrawFundsParams) p;
       WithdrawalRequest request =
           new WithdrawalRequest()
               .setAddress(params.address)
-              .setAmount(params.amount.doubleValue())
+              .setAmount(params.amount)
               .setCurrency(params.currency.getCurrencyCode().toUpperCase());
 
       return withdraw(request).toString();
@@ -60,8 +71,9 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
   }
 
   /**
-   * This returns the currently set deposit address. It will not generate a new address (ie.
-   * repeated calls will return the same address).
+   * This returns the current deposit address.
+   * It does not generate a new one!
+   * Repeated calls will return the same.
    */
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) {
@@ -73,23 +85,28 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
     return new CoingiTradeHistoryParams(null, 1, 30, null, null);
   }
 
-  /*
   public TransactionList getTransactions(TradeHistoryParams p) throws IOException {
-      CoingiTradeHistoryParams params = (CoingiTradeHistoryParams) p;
+    CoingiTradeHistoryParams params = (CoingiTradeHistoryParams) p;
 
-      TransactionHistoryRequest request = new TransactionHistoryRequest();
-      request.setPageNumber(params.getPageNumber());
-      request.setCurrencyPair(Optional.of(params.getCurrencyPair()));
-      request.setPageSize(params.getPageSize());
-      request.setType(Optional.of(params.getType()));
-      request.setStatus(Optional.of(params.getStatus()));
-      return getTransactions(request);
-  }*/
+    TransactionHistoryRequest request = new TransactionHistoryRequest();
+    request.setPageNumber(params.getPageNumber());
+    request.setCurrencyPair(params.getCurrencyPair());
+    request.setPageSize(params.getPageSize());
+    request.setType(params.getType());
+    request.setStatus(params.getStatus());
+    TransactionList transactions;
+    try {
+      transactions = getTransactions(request);
+    } catch (CoingiException e) {
+      throw CoingiErrorAdapter.adapt(e);
+    }
+
+    return transactions;
+  }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+      throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
     throw new NotYetImplementedForExchangeException();
   }
 }

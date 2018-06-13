@@ -1,16 +1,13 @@
 package org.knowm.xchange.coingi.dto.request;
 
-import org.knowm.xchange.coingi.CoingiAuthenticated;
 import org.knowm.xchange.currency.CurrencyPair;
-
-import java.util.Optional;
 
 public class GetOrderHistoryRequest extends AuthenticatedRequest {
   private int pageNumber;
   private int pageSize;
-  private Optional<Integer> type;
-  private Optional<CoingiAuthenticated.Pair> currencyPair;
-  private Optional<Integer> status;
+  private int type;
+  private String currencyPair;
+  private Integer status;
 
   public int getPageNumber() {
     return pageNumber;
@@ -30,31 +27,31 @@ public class GetOrderHistoryRequest extends AuthenticatedRequest {
     return this;
   }
 
-  public Optional<Integer> getType() {
+  public Integer getType() {
     return type;
   }
 
-  public GetOrderHistoryRequest setType(Optional<Integer> type) {
+  public GetOrderHistoryRequest setType(Integer type) {
     this.type = type;
     return this;
   }
 
-  public Optional<CoingiAuthenticated.Pair> getCurrencyPair() {
+  public String getCurrencyPair() {
     return currencyPair;
   }
 
-  public GetOrderHistoryRequest setCurrencyPair(Optional<CurrencyPair> currencyPair) {
-    if (currencyPair != null && currencyPair.isPresent())
-      this.currencyPair = Optional.of(new CoingiAuthenticated.Pair(currencyPair.get()));
+  public GetOrderHistoryRequest setCurrencyPair(CurrencyPair currencyPair) {
+    if (currencyPair != null)
+      this.currencyPair = currencyPair.toString().replace('/', '-').toLowerCase();
 
     return this;
   }
 
-  public Optional<Integer> getStatus() {
+  public Integer getStatus() {
     return status;
   }
 
-  public GetOrderHistoryRequest setStatus(Optional<Integer> status) {
+  public GetOrderHistoryRequest setStatus(Integer status) {
     this.status = status;
     return this;
   }

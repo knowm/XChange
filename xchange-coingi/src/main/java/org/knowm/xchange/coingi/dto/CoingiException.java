@@ -1,10 +1,9 @@
 package org.knowm.xchange.coingi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import java.util.List;
 import java.util.Map;
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class CoingiException extends HttpStatusExceptionSupport {
   private List<Map<String, Object>> errors;

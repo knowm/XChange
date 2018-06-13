@@ -24,6 +24,6 @@ public class TickerFetchIntegration {
     assertThat(ticker0).isNotNull();
 
     List<CurrencyPair> pairs = exchange.getExchangeSymbols();
-    assert (pairs.contains(pair));
+    assertThat(pairs).contains(pair);
   }
 }
