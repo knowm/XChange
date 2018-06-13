@@ -1,13 +1,16 @@
 package org.knowm.xchange.coingi.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.CoingiErrorAdapter;
 import org.knowm.xchange.coingi.dto.CoingiException;
 import org.knowm.xchange.coingi.dto.account.CoingiBalances;
 import org.knowm.xchange.coingi.dto.account.CoingiUserTransactionList;
-import org.knowm.xchange.coingi.dto.trade.CoingiTransactionHistoryRequest;
 import org.knowm.xchange.coingi.dto.account.CoingiWithdrawalRequest;
+import org.knowm.xchange.coingi.dto.trade.CoingiTransactionHistoryRequest;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -17,10 +20,6 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 public class CoingiAccountService extends CoingiAccountServiceRaw implements AccountService {
   public CoingiAccountService(Exchange exchange) {
@@ -33,7 +32,7 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
     try {
       coingiBalances = getCoingiBalance();
       return CoingiAdapters.adaptAccountInfo(
-              coingiBalances, exchange.getExchangeSpecification().getUserName());
+          coingiBalances, exchange.getExchangeSpecification().getUserName());
     } catch (CoingiException e) {
       throw CoingiErrorAdapter.adapt(e);
     }

@@ -1,8 +1,7 @@
 package org.knowm.xchange.coingi.dto.trade;
 
-import org.knowm.xchange.coingi.dto.CoingiAuthenticatedRequest;
-
 import java.math.BigDecimal;
+import org.knowm.xchange.coingi.dto.CoingiAuthenticatedRequest;
 
 public class CoingiPlaceLimitOrderRequest extends CoingiAuthenticatedRequest {
   private String currencyPair;

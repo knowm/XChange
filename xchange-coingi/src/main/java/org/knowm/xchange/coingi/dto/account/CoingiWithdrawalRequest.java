@@ -1,8 +1,7 @@
 package org.knowm.xchange.coingi.dto.account;
 
-import org.knowm.xchange.coingi.dto.CoingiAuthenticatedRequest;
-
 import java.math.BigDecimal;
+import org.knowm.xchange.coingi.dto.CoingiAuthenticatedRequest;
 
 public class CoingiWithdrawalRequest extends CoingiAuthenticatedRequest {
   private String currency;

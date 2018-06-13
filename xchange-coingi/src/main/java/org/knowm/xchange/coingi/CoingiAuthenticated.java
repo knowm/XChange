@@ -1,15 +1,14 @@
 package org.knowm.xchange.coingi;
 
-import org.knowm.xchange.coingi.dto.CoingiException;
-import org.knowm.xchange.coingi.dto.account.*;
-import org.knowm.xchange.coingi.dto.trade.*;
-
+import java.io.IOException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+import org.knowm.xchange.coingi.dto.CoingiException;
+import org.knowm.xchange.coingi.dto.account.*;
+import org.knowm.xchange.coingi.dto.trade.*;
 
 @Path("user")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -36,7 +35,8 @@ public interface CoingiAuthenticated {
 
   @POST
   @Path("balance")
-  CoingiBalances getUserBalance(CoingiBalanceRequest balanceRequest) throws CoingiException, IOException;
+  CoingiBalances getUserBalance(CoingiBalanceRequest balanceRequest)
+      throws CoingiException, IOException;
 
   @POST
   @Path("transactions")

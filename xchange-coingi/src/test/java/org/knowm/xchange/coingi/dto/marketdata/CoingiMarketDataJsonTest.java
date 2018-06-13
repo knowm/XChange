@@ -1,12 +1,11 @@
 package org.knowm.xchange.coingi.dto.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import org.junit.Test;
 
 public class CoingiMarketDataJsonTest {
 

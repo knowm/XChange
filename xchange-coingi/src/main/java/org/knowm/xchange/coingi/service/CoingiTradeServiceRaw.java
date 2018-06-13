@@ -3,13 +3,7 @@ package org.knowm.xchange.coingi.service;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAuthenticated;
-import org.knowm.xchange.coingi.dto.trade.CancelOrderRequest;
-import org.knowm.xchange.coingi.dto.trade.CoingiGetOrderHistoryRequest;
-import org.knowm.xchange.coingi.dto.trade.CoingiGetOrderRequest;
-import org.knowm.xchange.coingi.dto.trade.CoingiPlaceLimitOrderRequest;
-import org.knowm.xchange.coingi.dto.trade.CoingiOrder;
-import org.knowm.xchange.coingi.dto.trade.CoingiOrdersList;
-import org.knowm.xchange.coingi.dto.trade.CoingiPlaceOrderResponse;
+import org.knowm.xchange.coingi.dto.trade.*;
 import si.mazi.rescu.RestProxyFactory;
 
 public class CoingiTradeServiceRaw extends CoingiBaseService {
@@ -47,7 +41,8 @@ public class CoingiTradeServiceRaw extends CoingiBaseService {
     return coingiAuthenticated.getOrderStatus(request);
   }
 
-  public CoingiOrdersList getCoingiOrderHistory(CoingiGetOrderHistoryRequest request) throws IOException {
+  public CoingiOrdersList getCoingiOrderHistory(CoingiGetOrderHistoryRequest request)
+      throws IOException {
     handleAuthentication(request);
     return coingiAuthenticated.getOrderHistory(request);
   }
