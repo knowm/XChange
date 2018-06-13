@@ -87,13 +87,14 @@ public class PoloniexTradeDemo {
   private static void raw(PoloniexTradeServiceRaw tradeService)
       throws IOException, InterruptedException {
     System.out.println("------------RAW------------");
-    System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null)));
+    System.out.println(
+        Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null, null)));
     long startTime = (new Date().getTime() / 1000) - 8 * 60 * 60;
     System.out.println(
-        Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, null)));
+        Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, null, null)));
     long endTime = new Date().getTime() / 1000;
     System.out.println(
-        Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime)));
+        Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime, null)));
 
     LimitOrder order =
         new LimitOrder.Builder(OrderType.BID, currencyPair)

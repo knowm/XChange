@@ -121,7 +121,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
       timestamp = 0;
     }
 
-    int limit;
+    Integer limit;
     if (params instanceof TradeHistoryParamPaging) {
       TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
       Integer pageLength = pagingParams.getPageLength();
