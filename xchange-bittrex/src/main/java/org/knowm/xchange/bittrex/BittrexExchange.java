@@ -51,7 +51,8 @@ public class BittrexExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
     try {
-      BittrexMarketDataServiceRaw dataService = (BittrexMarketDataServiceRaw) this.marketDataService;
+      BittrexMarketDataServiceRaw dataService =
+          (BittrexMarketDataServiceRaw) this.marketDataService;
       List<BittrexSymbol> bittrexSymbols = dataService.getBittrexSymbols();
       exchangeMetaData = BittrexAdapters.adaptMetaData(bittrexSymbols, exchangeMetaData);
     } catch (BittrexException e) {
