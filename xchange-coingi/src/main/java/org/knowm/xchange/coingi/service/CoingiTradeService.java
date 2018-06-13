@@ -121,17 +121,14 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
 
       GetOrderHistoryRequest request = new GetOrderHistoryRequest();
 
-      if (params.getCurrencyPair() != null)
-        request.setCurrencyPair(params.getCurrencyPair());
+      if (params.getCurrencyPair() != null) request.setCurrencyPair(params.getCurrencyPair());
 
       request.setPageNumber(params.getPageNumber());
       request.setPageSize(params.getPageSize());
 
-      if (params.getStatus() != null)
-        request.setStatus(params.getStatus());
+      if (params.getStatus() != null) request.setStatus(params.getStatus());
 
-      if (params.getType() != null)
-        request.setType(params.getType());
+      if (params.getType() != null) request.setType(params.getType());
 
       try {
         orderList = getCoingiOrderHistory(request);
@@ -159,19 +156,26 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     Collection<Order> orders = new ArrayList<>();
     for (String orderId : orderIds) {
-        GetOrderRequest request = new GetOrderRequest().setOrderId(orderId);
-        CoingiOrder coingiOrder;
-        try {
-          coingiOrder = getCoingiOrder(request);
-        } catch (CoingiException e) {
-          throw CoingiErrorAdapter.adapt(e);
-        }
+      GetOrderRequest request = new GetOrderRequest().setOrderId(orderId);
+      CoingiOrder coingiOrder;
+      try {
+        coingiOrder = getCoingiOrder(request);
+      } catch (CoingiException e) {
+        throw CoingiErrorAdapter.adapt(e);
+      }
 
-        CurrencyPair currencyPair = CoingiAdapters.adaptCurrency(coingiOrder.getCurrencyPair());
-        Date date = new Date(coingiOrder.getTimestamp() * 1000);
-        Order order = new LimitOrder(coingiOrder.getType() == 0 ? Order.OrderType.BID : Order.OrderType.ASK, coingiOrder.getOriginalBaseAmount(), currencyPair, coingiOrder.getId(), date, coingiOrder.getPrice());
-        order.setOrderStatus(CoingiAdapters.adaptOrderStatus(coingiOrder.getStatus()));
-        orders.add(order);
+      CurrencyPair currencyPair = CoingiAdapters.adaptCurrency(coingiOrder.getCurrencyPair());
+      Date date = new Date(coingiOrder.getTimestamp() * 1000);
+      Order order =
+          new LimitOrder(
+              coingiOrder.getType() == 0 ? Order.OrderType.BID : Order.OrderType.ASK,
+              coingiOrder.getOriginalBaseAmount(),
+              currencyPair,
+              coingiOrder.getId(),
+              date,
+              coingiOrder.getPrice());
+      order.setOrderStatus(CoingiAdapters.adaptOrderStatus(coingiOrder.getStatus()));
+      orders.add(order);
     }
 
     return orders;

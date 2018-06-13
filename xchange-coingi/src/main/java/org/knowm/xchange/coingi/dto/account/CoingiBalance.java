@@ -1,9 +1,9 @@
 package org.knowm.xchange.coingi.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.Objects;
 
 public class CoingiBalance {
   private Map<String, Object> currency;
@@ -33,8 +33,6 @@ public class CoingiBalance {
     this.withdrawing = withdrawing;
     this.blocked = blocked;
   }
-
-  CoingiBalance() {}
 
   public Map<String, Object> getCurrency() {
     return currency;
@@ -66,25 +64,5 @@ public class CoingiBalance {
 
   public BigDecimal getBlocked() {
     return blocked;
-  }
-
-  @Override
-  public boolean equals(final Object o) {
-    if (this == o) return true;
-
-    if (o == null || getClass() != o.getClass()) return false;
-
-    CoingiBalance that = (CoingiBalance) o;
-    return Objects.equals(currency, that.currency)
-        && Objects.equals(available, that.available)
-        && Objects.equals(inOrders, that.inOrders)
-        && Objects.equals(deposited, that.deposited)
-        && Objects.equals(withdrawing, that.withdrawing)
-        && Objects.equals(blocked, that.blocked);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(currency, available, inOrders, deposited, withdrawing, blocked);
   }
 }

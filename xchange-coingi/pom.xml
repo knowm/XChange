@@ -17,8 +17,8 @@
     <inceptionYear>2016</inceptionYear>
 
     <organization>
-        <name>Coingi</name>
-        <url>http://coingi.com</url>
+        <name>Knowm Inc.</name>
+        <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
     <!-- Parent provides default configuration for dependencies -->
