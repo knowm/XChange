@@ -1,13 +1,12 @@
 package org.knowm.xchange.coingi;
 
+import java.io.IOException;
+import java.util.List;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderBook;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiRollingAggregation;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.List;
 
 @Path("current")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -16,7 +15,7 @@ public interface Coingi {
   @GET
   @Path("order-book/{currencyPair}/{maxAskCount}/{maxBidCount}/{maxDepthRangeCount}")
   CoingiOrderBook getOrderBook(
-      @PathParam("currencyPair") CoingiAuthenticated.Pair currencyPair,
+      @PathParam("currencyPair") String currencyPair,
       @PathParam("maxAskCount") Integer maxAskCount,
       @PathParam("maxBidCount") Integer maxBidCount,
       @PathParam("maxDepthRangeCount") Integer maxDepthRangeCount)
@@ -25,8 +24,7 @@ public interface Coingi {
   @GET
   @Path("transactions/{currencyPair}/{maxCount}")
   List<CoingiTransaction> getTransaction(
-      @PathParam("currencyPair") CoingiAuthenticated.Pair currencyPair,
-      @PathParam("maxCount") Integer maxCount)
+      @PathParam("currencyPair") String currencyPair, @PathParam("maxCount") Integer maxCount)
       throws IOException;
 
   @GET

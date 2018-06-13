@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.Map;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -34,15 +32,12 @@ public class CoingiMarketDataJsonTest {
     assertThat(bid).isNotNull();
     assertThat(ask).isNotNull();
 
-    Iterator<Map.Entry<String, String>> bidIterator = bid.getCurrencyPair().entrySet().iterator();
-    Iterator<Map.Entry<String, String>> askIterator = ask.getCurrencyPair().entrySet().iterator();
-
-    assertThat(bidIterator.next().getValue()).isEqualTo("btc"); // base
-    assertThat(bidIterator.next().getValue()).isEqualTo("eur"); // counter
+    assertThat(bid.getCurrencyPair().get("base")).isEqualTo("btc");
+    assertThat(bid.getCurrencyPair().get("counter")).isEqualTo("eur");
     assertThat(bid.getPrice().doubleValue()).isEqualTo(6694.207);
 
-    assertThat(askIterator.next().getValue()).isEqualTo("btc"); // base
-    assertThat(askIterator.next().getValue()).isEqualTo("eur"); // counter
+    assertThat(ask.getCurrencyPair().get("base")).isEqualTo("btc");
+    assertThat(ask.getCurrencyPair().get("counter")).isEqualTo("eur");
     assertThat(ask.getPrice().doubleValue()).isEqualTo(6847.153);
   }
 }

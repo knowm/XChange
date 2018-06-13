@@ -1,12 +1,14 @@
 package org.knowm.xchange.coingi.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /** Orders list. */
 public class CoingiOrdersList extends PaginatedResultList<CoingiOrder> {
   private List<CoingiOrder> orders;
 
-  public CoingiOrdersList(boolean hasMore, List<CoingiOrder> orders) {
+  public CoingiOrdersList(
+      @JsonProperty("hasMore") boolean hasMore, @JsonProperty("orders") List<CoingiOrder> orders) {
     super(hasMore);
     this.orders = orders;
   }

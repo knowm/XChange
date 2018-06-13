@@ -49,6 +49,7 @@ public class CoingiOrder {
     this.type = type;
     this.timestamp = timestamp;
     this.currencyPair = currencyPair;
+    this.price = price;
     this.baseAmount = baseAmount;
     this.counterAmount = counterAmount;
     this.originalBaseAmount = originalBaseAmount;

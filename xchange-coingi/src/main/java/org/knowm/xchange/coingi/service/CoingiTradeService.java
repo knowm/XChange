@@ -1,24 +1,21 @@
 package org.knowm.xchange.coingi.service;
 
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAdapters;
-import org.knowm.xchange.coingi.CoingiAuthenticated;
+import org.knowm.xchange.coingi.CoingiErrorAdapter;
 import org.knowm.xchange.coingi.dto.CoingiException;
 import org.knowm.xchange.coingi.dto.request.CancelOrderRequest;
 import org.knowm.xchange.coingi.dto.request.GetOrderHistoryRequest;
+import org.knowm.xchange.coingi.dto.request.GetOrderRequest;
 import org.knowm.xchange.coingi.dto.request.PlaceLimitOrderRequest;
+import org.knowm.xchange.coingi.dto.trade.CoingiOrder;
 import org.knowm.xchange.coingi.dto.trade.CoingiOrdersList;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -28,31 +25,39 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
 public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeService {
   public CoingiTradeService(Exchange exchange) {
     super(exchange);
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws IOException, CoingiException {
+  public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    GetOrderHistoryRequest orderHistoryRequest = new GetOrderHistoryRequest();
+    orderHistoryRequest.setStatus(0);
+    orderHistoryRequest.setPageNumber(1);
+    orderHistoryRequest.setPageSize(50);
+    try {
+      CoingiOrdersList list = getCoingiOrderHistory(orderHistoryRequest);
+      return CoingiAdapters.adaptOpenOrders(list);
+    } catch (CoingiException e) {
+      throw CoingiErrorAdapter.adapt(e);
+    }
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder order) throws IOException, CoingiException {
-    /*     int orderType = order.getType().equals(BID) ? 0 : 1;
-    CoingiPlaceOrderResponse coingiPlaceOrderResponse = placeCoingiMarketOrder(order.getCurrencyPair(), orderType, order.getOriginalAmount(), order.ge);
-    if (coingiPlaceOrderResponse. != null) {
-      throw new ExchangeException(coingiPlaceOrderResponse.getErrorMessage());
-    }
-    return Integer.toString(coingiPlaceOrderResponse.getId());
-          */
-
+  public String placeMarketOrder(MarketOrder order) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -63,24 +68,38 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder order) throws IOException, CoingiException {
+  public String placeLimitOrder(LimitOrder order) throws IOException {
     PlaceLimitOrderRequest request =
         new PlaceLimitOrderRequest()
-            .setCurrencyPair(new CoingiAuthenticated.Pair(order.getCurrencyPair()).toString())
+            .setCurrencyPair(CoingiAdapters.adaptCurrency(order.getCurrencyPair()))
             .setOrderType(order.getType().equals(BID) ? 0 : 1)
             .setPrice(order.getLimitPrice())
             .setVolume(order.getRemainingAmount());
 
-    return placeCoingiLimitOrder(request).getResult();
+    String response;
+    try {
+      response = placeCoingiLimitOrder(request).getResult();
+    } catch (CoingiException e) {
+      throw CoingiErrorAdapter.adapt(e);
+    }
+
+    return response;
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws IOException, CoingiException {
+  public boolean cancelOrder(String orderId) throws IOException {
     // if it doesn't return an error and CoingiOrder is returned, then the cancellation is
     // successful
     CancelOrderRequest request = new CancelOrderRequest();
     request.setOrderId(orderId);
-    return cancelCoingiOrder(request) != null;
+    CoingiOrder order;
+    try {
+      order = cancelCoingiOrder(request);
+    } catch (CoingiException e) {
+      throw CoingiErrorAdapter.adapt(e);
+    }
+
+    return order != null;
   }
 
   @Override
@@ -101,13 +120,25 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
       CoingiTradeHistoryParams params = (CoingiTradeHistoryParams) p;
 
       GetOrderHistoryRequest request = new GetOrderHistoryRequest();
-      request.setCurrencyPair(Optional.of(params.getCurrencyPair()));
+
+      if (params.getCurrencyPair() != null)
+        request.setCurrencyPair(params.getCurrencyPair());
+
       request.setPageNumber(params.getPageNumber());
       request.setPageSize(params.getPageSize());
-      request.setStatus(Optional.of(params.getStatus()));
-      request.setType(Optional.of(params.getType()));
 
-      orderList = getCoingiOrderHistory(request);
+      if (params.getStatus() != null)
+        request.setStatus(params.getStatus());
+
+      if (params.getType() != null)
+        request.setType(params.getType());
+
+      try {
+        orderList = getCoingiOrderHistory(request);
+      } catch (CoingiException e) {
+        throw CoingiErrorAdapter.adapt(e);
+      }
+
       return CoingiAdapters.adaptTradeHistory(orderList);
     }
 
@@ -126,15 +157,23 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    /*Collection<Order> orders = new ArrayList<>();
+    Collection<Order> orders = new ArrayList<>();
     for (String orderId : orderIds) {
         GetOrderRequest request = new GetOrderRequest().setOrderId(orderId);
-        CoingiOrder coingiOrder = getCoingiOrder(request);
-        CoingiAdapters.adapt
-        Order order = new LimitOrder(coingiOrder.getType() == 0 ? );
+        CoingiOrder coingiOrder;
+        try {
+          coingiOrder = getCoingiOrder(request);
+        } catch (CoingiException e) {
+          throw CoingiErrorAdapter.adapt(e);
+        }
+
+        CurrencyPair currencyPair = CoingiAdapters.adaptCurrency(coingiOrder.getCurrencyPair());
+        Date date = new Date(coingiOrder.getTimestamp() * 1000);
+        Order order = new LimitOrder(coingiOrder.getType() == 0 ? Order.OrderType.BID : Order.OrderType.ASK, coingiOrder.getOriginalBaseAmount(), currencyPair, coingiOrder.getId(), date, coingiOrder.getPrice());
+        order.setOrderStatus(CoingiAdapters.adaptOrderStatus(coingiOrder.getStatus()));
         orders.add(order);
     }
-    */
-    throw new NotYetImplementedForExchangeException();
+
+    return orders;
   }
 }
