@@ -45,7 +45,12 @@ public final class CoingiAdapters {
   public static AccountInfo adaptAccountInfo(CoingiBalances coingiBalances, String userName) {
     List<Balance> balances = new ArrayList<>();
     for (CoingiBalance coingiBalance : coingiBalances.getList()) {
-      BigDecimal total = coingiBalance.getAvailable().add(coingiBalance.getBlocked()).add(coingiBalance.getWithdrawing()).add(coingiBalance.getDeposited());
+      BigDecimal total =
+          coingiBalance
+              .getAvailable()
+              .add(coingiBalance.getBlocked())
+              .add(coingiBalance.getWithdrawing())
+              .add(coingiBalance.getDeposited());
       Balance xchangeBalance =
           new Balance(
               Currency.getInstance(coingiBalance.getCurrencyName().toUpperCase()),
@@ -56,7 +61,7 @@ public final class CoingiAdapters {
               BigDecimal.ZERO, // loaned is always 0
               coingiBalance.getWithdrawing(),
               coingiBalance.getDeposited());
-      
+
       balances.add(xchangeBalance);
     }
 
@@ -129,14 +134,14 @@ public final class CoingiAdapters {
   public static OpenOrders adaptOpenOrders(CoingiOrdersList orders) {
     List<LimitOrder> list = new ArrayList<>();
     for (CoingiOrder order : orders) {
-      LimitOrder limitOrder = new LimitOrder(
+      LimitOrder limitOrder =
+          new LimitOrder(
               order.getType() == 0 ? OrderType.BID : OrderType.ASK,
               order.getOriginalBaseAmount(),
               adaptCurrency(order.getCurrencyPair()),
               order.getId(),
               new Date(order.getTimestamp()),
-              order.getPrice()
-      );
+              order.getPrice());
       limitOrder.setOrderStatus(adaptOrderStatus(order.getStatus()));
       list.add(limitOrder);
     }

@@ -32,12 +32,11 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
     CoingiBalances coingiBalances;
     try {
       coingiBalances = getCoingiBalance();
+      return CoingiAdapters.adaptAccountInfo(
+              coingiBalances, exchange.getExchangeSpecification().getUserName());
     } catch (CoingiException e) {
       throw CoingiErrorAdapter.adapt(e);
     }
-    
-    return CoingiAdapters.adaptAccountInfo(
-        coingiBalances, exchange.getExchangeSpecification().getUserName());
   }
 
   @Override
@@ -46,11 +45,10 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
     String result;
     try {
       result = withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+      return result;
     } catch (CoingiException e) {
       throw CoingiErrorAdapter.adapt(e);
     }
-
-    return result;
   }
 
   @Override
@@ -71,9 +69,8 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
   }
 
   /**
-   * This returns the current deposit address.
-   * It does not generate a new one!
-   * Repeated calls will return the same.
+   * This returns the current deposit address. It does not generate a new one! Repeated calls will
+   * return the same.
    */
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) {
@@ -97,11 +94,10 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
     TransactionList transactions;
     try {
       transactions = getTransactions(request);
+      return transactions;
     } catch (CoingiException e) {
       throw CoingiErrorAdapter.adapt(e);
     }
-
-    return transactions;
   }
 
   @Override
