@@ -74,13 +74,11 @@ public class BinanceHmacDigest extends BaseParamsDigest {
       Mac mac = getMac();
       mac.update(input.getBytes("UTF-8"));
       String printBase64Binary = bytesToHex(mac.doFinal());
-      LOG.debug("value to sign: {},  signature: {}", input, printBase64Binary);
 
       // https://github.com/mmazi/rescu/issues/62
       // Seems rescu does not support ParamsDigest in QueryParam.
       // hack to replace the signature in the invocation URL.
       String invocationUrl = restInvocation.getInvocationUrl();
-      LOG.debug("old invocationUrl: {}", invocationUrl);
       // String newInvocationUrl = UriBuilder.fromUri(invocationUrl).replaceQueryParam("signature",
       // printBase64Binary).build().toString();
 
@@ -92,7 +90,6 @@ public class BinanceHmacDigest extends BaseParamsDigest {
       } catch (IllegalArgumentException | IllegalAccessException e) {
         throw new RuntimeException(e);
       }
-      LOG.debug("new invocationUrl: {}", restInvocation.getInvocationUrl());
 
       return printBase64Binary;
     } catch (UnsupportedEncodingException e) {

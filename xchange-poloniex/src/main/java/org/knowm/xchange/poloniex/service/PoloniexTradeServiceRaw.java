@@ -1,7 +1,6 @@
 package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -9,10 +8,9 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
-import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
+import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexAccountBalance;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginAccountResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
@@ -51,7 +49,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
   }
 
   public PoloniexUserTrade[] returnTradeHistory(
-      CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
+      CurrencyPair currencyPair, Long startTime, Long endTime, Integer limit) throws IOException {
 
     return poloniexAuthenticated.returnTradeHistory(
         apiKey,
@@ -59,15 +57,23 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
         exchange.getNonceFactory(),
         PoloniexUtils.toPairString(currencyPair),
         startTime,
-        endTime);
+        endTime,
+        limit);
   }
 
-  public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(Long startTime, Long endTime)
-      throws IOException {
+  public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(
+      Long startTime, Long endTime, Integer limit) throws IOException {
 
     String ignore = null; // only used so PoloniexAuthenticated.returnTradeHistory can be overloaded
     return poloniexAuthenticated.returnTradeHistory(
-        apiKey, signatureCreator, exchange.getNonceFactory(), "all", startTime, endTime, ignore);
+        apiKey,
+        signatureCreator,
+        exchange.getNonceFactory(),
+        "all",
+        startTime,
+        endTime,
+        limit,
+        ignore);
   }
 
   public PoloniexMarginAccountResponse returnMarginAccountSummary() throws IOException {
@@ -191,14 +197,8 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
                     postOnly);
         return response;
       }
-    } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
-    } catch (NoSuchMethodException
-        | SecurityException
-        | IllegalAccessException
-        | IllegalArgumentException
-        | InvocationTargetException e) {
-      throw new ExchangeException(e.getMessage(), e);
+    } catch (ReflectiveOperationException | SecurityException e) {
+      throw new IllegalStateException("Reflective code failed", e);
     }
   }
 
@@ -220,19 +220,15 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
       postOnly = null;
     }
 
-    try {
-      return poloniexAuthenticated.moveOrder(
-          apiKey,
-          signatureCreator,
-          exchange.getNonceFactory(),
-          orderId,
-          originalAmount.toPlainString(),
-          limitPrice.toPlainString(),
-          immediateOrCancel,
-          postOnly);
-    } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
-    }
+    return poloniexAuthenticated.moveOrder(
+        apiKey,
+        signatureCreator,
+        exchange.getNonceFactory(),
+        orderId,
+        originalAmount.toPlainString(),
+        limitPrice.toPlainString(),
+        immediateOrCancel,
+        postOnly);
   }
 
   public PoloniexMoveResponse move(String orderId, BigDecimal originalAmount, BigDecimal limitPrice)
@@ -246,7 +242,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
         poloniexAuthenticated.cancelOrder(
             apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
     if (response.containsKey("error")) {
-      throw new ExchangeException(response.get("error"));
+      throw new PoloniexException(response.get("error"));
     } else {
       return response.get("success").equals("1");
     }
@@ -256,7 +252,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     HashMap<String, String> response =
         poloniexAuthenticated.returnFeeInfo(apiKey, signatureCreator, exchange.getNonceFactory());
     if (response.containsKey("error")) {
-      throw new ExchangeException(response.get("error"));
+      throw new PoloniexException(response.get("error"));
     }
     return response;
   }

@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitbay.v3;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -35,5 +36,16 @@ public interface BitbayAuthenticated {
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Hash") ParamsDigest sign,
       @HeaderParam("Request-Timestamp") SynchronizedValueFactory<Long> timestamp,
-      @HeaderParam("Operation-Id") UUID operationId);
+      @HeaderParam("Operation-Id") UUID operationId)
+      throws IOException;
+
+  @GET
+  @Path("balances/BITBAY/history")
+  Map balanceHistory(
+      @HeaderParam("API-Key") String apiKey,
+      @HeaderParam("API-Hash") ParamsDigest sign,
+      @HeaderParam("Request-Timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam("Operation-Id") UUID operationId,
+      @QueryParam("query") String query)
+      throws IOException;
 }

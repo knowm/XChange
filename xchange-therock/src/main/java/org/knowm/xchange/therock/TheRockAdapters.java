@@ -4,7 +4,7 @@ import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -141,9 +141,12 @@ public final class TheRockAdapters {
     Date timestamp;
     try {
       timestamp = order.getDate() == null ? null : fromISODateString(order.getDate());
-    } catch (InvalidFormatException e) {
+    } catch (Exception e) {
       timestamp = null;
     }
+    BigDecimal amount = order.getAmount();
+    BigDecimal unfilled = order.getAmountUnfilled();
+    BigDecimal cumulative = (unfilled != null && amount != null) ? amount.subtract(unfilled) : null;
 
     return new LimitOrder(
         adaptOrderType(order.getSide()),
@@ -151,7 +154,11 @@ public final class TheRockAdapters {
         order.getFundId().pair,
         Long.toString(order.getId()),
         timestamp,
-        order.getPrice());
+        null,
+        order.getPrice(),
+        cumulative,
+        null,
+        adaptOrderStatus(order));
   }
 
   public static OrderType adaptOrderType(TheRockOrder.Side orderSide) {
@@ -166,6 +173,22 @@ public final class TheRockAdapters {
     }
 
     return new OpenOrders(orders);
+  }
+
+  /**
+   * The status from the {@link TheRock} object converted to xchange status By the API documentation
+   * available order states are the follow: (active|conditional|executed|deleted)
+   */
+  public static org.knowm.xchange.dto.Order.OrderStatus adaptOrderStatus(TheRockOrder order) {
+    if ("active".equalsIgnoreCase(order.getStatus())) {
+      return org.knowm.xchange.dto.Order.OrderStatus.NEW;
+    } else if ("conditional".equalsIgnoreCase(order.getStatus())) {
+      return org.knowm.xchange.dto.Order.OrderStatus.NEW;
+    } else if ("executed".equalsIgnoreCase(order.getStatus())) {
+      return org.knowm.xchange.dto.Order.OrderStatus.FILLED;
+    } else if ("deleted".equalsIgnoreCase(order.getStatus())) {
+      return org.knowm.xchange.dto.Order.OrderStatus.CANCELED;
+    } else return org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
   }
 
   /*

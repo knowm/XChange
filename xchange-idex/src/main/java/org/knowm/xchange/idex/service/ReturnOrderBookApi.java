@@ -21,11 +21,10 @@ public interface ReturnOrderBookApi {
   @Consumes("application/json")
   @Produces("application/json")
   @ApiOperation(
-    value =
-        "Returns the orderbook for a given market, or returns an object of the entire orderbook keyed by\\ market if the market parameter is omitted.",
-    notes = "",
-    tags = "market"
-  )
+      value =
+          "Returns the orderbook for a given market, or returns an object of the entire orderbook keyed by\\ market if the market parameter is omitted.",
+      notes = "",
+      tags = "market")
   @ApiResponses(@ApiResponse(code = 200, message = "", response = ReturnOrderBookResponse.class))
   ReturnOrderBookResponse orderBook(OrderBookReq orderBookReq) throws Exception;
 }

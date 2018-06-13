@@ -8,7 +8,6 @@ import org.knowm.xchange.coinone.dto.account.*;
 import org.knowm.xchange.coinone.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 
-// @Produces(MediaType.APPLICATION_JSON)
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

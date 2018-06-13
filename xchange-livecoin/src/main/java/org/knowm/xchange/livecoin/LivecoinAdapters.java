@@ -265,15 +265,24 @@ public class LivecoinAdapters {
       String ccy = balance.get("currency").toString();
       String value = balance.get("value").toString();
 
+      // Livecoin has a currency Bricktox (XBT) which is different from XChange Bitcoin (XBT). See
+      // Currency.XBT.
+      // The "get all currencies" call to Livecoin returns all currencies including those with 0
+      // balance.
+      // As a result, XBT overrides BTC, so BTC becomes 0 (in most cases).
+      // Excluding XBT.
+      if (ccy.equals("XBT")) {
+        continue;
+      }
+
       Currency curr = getInstance(ccy);
 
       WalletBuilder builder = wallets.get(curr);
       if (builder == null) {
         builder = new WalletBuilder(curr);
+        wallets.put(curr, builder);
       }
       builder.add(type, value);
-
-      wallets.put(curr, builder);
     }
 
     List<Wallet> res = new ArrayList<>();
