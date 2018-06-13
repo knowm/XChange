@@ -1,13 +1,12 @@
 package org.knowm.xchange.coingi.service;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAuthenticated;
 import org.knowm.xchange.coingi.dto.account.*;
 import org.knowm.xchange.coingi.dto.trade.CoingiTransactionHistoryRequest;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
 
 public class CoingiAccountServiceRaw extends CoingiBaseService {
   private final CoingiAuthenticated coingiAuthenticated;
@@ -38,7 +37,8 @@ public class CoingiAccountServiceRaw extends CoingiBaseService {
     return coingiAuthenticated.getUserBalance(balanceRequest);
   }
 
-  public CoingiUserTransactionList getTransactions(CoingiTransactionHistoryRequest request) throws IOException {
+  public CoingiUserTransactionList getTransactions(CoingiTransactionHistoryRequest request)
+      throws IOException {
     handleAuthentication(request);
     return coingiAuthenticated.getTransactionHistory(request);
   }

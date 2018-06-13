@@ -1,5 +1,7 @@
 package org.knowm.xchange.coingi.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.Coingi;
 import org.knowm.xchange.coingi.CoingiAdapters;
@@ -7,9 +9,6 @@ import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderBook;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
-import java.util.List;
 
 public class CoingiMarketDataServiceRaw extends CoingiBaseService {
   private final Coingi coingi;

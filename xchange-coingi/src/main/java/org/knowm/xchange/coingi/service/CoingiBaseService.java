@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Optional;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.coingi.dto.request.AuthenticatedRequestInterface;
+import org.knowm.xchange.coingi.dto.CoingiAuthenticatedRequest;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ClientConfig;
@@ -45,8 +45,8 @@ public class CoingiBaseService extends BaseExchangeService implements BaseServic
   }
 
   protected void handleAuthentication(Object obj) {
-    if (obj instanceof AuthenticatedRequestInterface) {
-      AuthenticatedRequestInterface request = (AuthenticatedRequestInterface) obj;
+    if (obj instanceof CoingiAuthenticatedRequest) {
+      CoingiAuthenticatedRequest request = (CoingiAuthenticatedRequest) obj;
       Long nonce = exchange.getNonceFactory().createValue();
       request.setToken(exchange.getExchangeSpecification().getApiKey());
       request.setNonce(nonce);
