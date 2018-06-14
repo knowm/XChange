@@ -22,7 +22,7 @@ public interface CoingiAuthenticated {
   /** @return true if order has been canceled. */
   @POST
   @Path("cancel-order")
-  CoingiOrder cancelOrder(CancelOrderRequest request) throws CoingiException, IOException;
+  CoingiOrder cancelOrder(CoingiCancelOrderRequest request) throws CoingiException, IOException;
 
   @POST
   @Path("get-order")

@@ -53,15 +53,19 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(WithdrawFundsParams p)
       throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-    if (p instanceof DefaultWithdrawFundsParams) {
-      DefaultWithdrawFundsParams params = (DefaultWithdrawFundsParams) p;
-      CoingiWithdrawalRequest request =
-          new CoingiWithdrawalRequest()
-              .setAddress(params.address)
-              .setAmount(params.amount)
-              .setCurrency(params.currency.getCurrencyCode().toUpperCase());
+    try {
+      if (p instanceof DefaultWithdrawFundsParams) {
+        DefaultWithdrawFundsParams params = (DefaultWithdrawFundsParams) p;
+        CoingiWithdrawalRequest request =
+            new CoingiWithdrawalRequest()
+                .setAddress(params.address)
+                .setAmount(params.amount)
+                .setCurrency(params.currency.getCurrencyCode().toUpperCase());
 
-      return withdraw(request).toString();
+        return withdraw(request).toString();
+      }
+    } catch (CoingiException e) {
+      throw CoingiErrorAdapter.adapt(e);
     }
 
     throw new NotYetImplementedForExchangeException();

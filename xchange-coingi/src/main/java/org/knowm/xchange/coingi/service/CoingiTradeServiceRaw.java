@@ -31,7 +31,7 @@ public class CoingiTradeServiceRaw extends CoingiBaseService {
     return coingiAuthenticated.placeLimitOrder(request);
   }
 
-  public CoingiOrder cancelCoingiOrder(CancelOrderRequest request) throws IOException {
+  public CoingiOrder cancelCoingiOrder(CoingiCancelOrderRequest request) throws IOException {
     handleAuthentication(request);
     return coingiAuthenticated.cancelOrder(request);
   }
