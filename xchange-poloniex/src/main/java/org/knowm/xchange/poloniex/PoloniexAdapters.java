@@ -367,7 +367,7 @@ public class PoloniexAdapters {
             averagePrice,
             amount,
             null, //fee
-            Order.OrderStatus.FILLED);
+            Order.OrderStatus.UNKNOWN);
 
 
   }
