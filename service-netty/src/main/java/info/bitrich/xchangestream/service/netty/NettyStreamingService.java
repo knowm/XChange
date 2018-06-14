@@ -335,6 +335,7 @@ public abstract class NettyStreamingService<T> {
         ObservableEmitter<T> emitter = subscription.emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
+            LOG.warn("Received unsubscribed message: {}", message);
             return;
         }
 
@@ -350,6 +351,7 @@ public abstract class NettyStreamingService<T> {
         ObservableEmitter<T> emitter = subscription.emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
+            LOG.error("Received unsubscribed error: {}", t);
             return;
         }
 
