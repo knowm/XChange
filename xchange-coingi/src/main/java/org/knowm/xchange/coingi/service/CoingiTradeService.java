@@ -1,5 +1,11 @@
 package org.knowm.xchange.coingi.service;
 
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.CoingiErrorAdapter;
@@ -19,13 +25,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
-import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeService {
   public CoingiTradeService(Exchange exchange) {
