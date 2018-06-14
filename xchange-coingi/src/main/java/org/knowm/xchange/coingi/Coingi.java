@@ -1,14 +1,13 @@
 package org.knowm.xchange.coingi;
 
+import java.io.IOException;
+import java.util.List;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coingi.dto.CoingiException;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderBook;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiRollingAggregation;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.List;
 
 @Path("current")
 @Consumes(MediaType.APPLICATION_JSON)

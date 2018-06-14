@@ -2,10 +2,9 @@ package org.knowm.xchange.coingi.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.util.Map;
 
 public class CoingiBalance {
-  private Map<String, Object> currency;
+  private CoingiCurrency currency;
 
   private BigDecimal available;
 
@@ -18,7 +17,7 @@ public class CoingiBalance {
   private BigDecimal blocked;
 
   public CoingiBalance(
-      @JsonProperty("currency") Map<String, Object> currency,
+      @JsonProperty("currency") CoingiCurrency currency,
       @JsonProperty("available") BigDecimal available,
       @JsonProperty("inOrders") BigDecimal inOrders,
       @JsonProperty("deposited") BigDecimal deposited,
@@ -33,16 +32,8 @@ public class CoingiBalance {
     this.blocked = blocked;
   }
 
-  public Map<String, Object> getCurrency() {
+  public CoingiCurrency getCurrency() {
     return currency;
-  }
-
-  public String getCurrencyName() {
-    return (String) currency.get("name");
-  }
-
-  public boolean getCurrencyCrypto() {
-    return (Boolean) currency.get("crypto");
   }
 
   public BigDecimal getAvailable() {

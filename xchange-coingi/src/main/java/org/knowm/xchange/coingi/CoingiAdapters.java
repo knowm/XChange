@@ -1,8 +1,5 @@
 package org.knowm.xchange.coingi;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.*;
 import org.knowm.xchange.coingi.dto.account.CoingiBalance;
 import org.knowm.xchange.coingi.dto.account.CoingiBalances;
 import org.knowm.xchange.coingi.dto.account.CoingiUserTransaction;
@@ -28,6 +25,10 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.utils.DateUtils;
 
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.*;
+
 /** Various adapters for converting from Coingi DTOs to XChange DTOs */
 public final class CoingiAdapters {
   /** private Constructor */
@@ -51,7 +52,7 @@ public final class CoingiAdapters {
               .add(coingiBalance.getDeposited());
       Balance xchangeBalance =
           new Balance(
-              Currency.getInstance(coingiBalance.getCurrencyName().toUpperCase()),
+              Currency.getInstance(coingiBalance.getCurrency().getName().toUpperCase()),
               total, // total = available + frozen - borrowed + loaned + withdrawing + depositing
               coingiBalance.getAvailable(), // available
               coingiBalance.getBlocked(),

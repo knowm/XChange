@@ -10,12 +10,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.CoingiErrorAdapter;
 import org.knowm.xchange.coingi.dto.CoingiException;
-import org.knowm.xchange.coingi.dto.trade.CancelOrderRequest;
-import org.knowm.xchange.coingi.dto.trade.CoingiGetOrderHistoryRequest;
-import org.knowm.xchange.coingi.dto.trade.CoingiGetOrderRequest;
-import org.knowm.xchange.coingi.dto.trade.CoingiOrder;
-import org.knowm.xchange.coingi.dto.trade.CoingiOrdersList;
-import org.knowm.xchange.coingi.dto.trade.CoingiPlaceLimitOrderRequest;
+import org.knowm.xchange.coingi.dto.trade.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -89,7 +84,7 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
   public boolean cancelOrder(String orderId) throws IOException {
     // if it doesn't return an error and CoingiOrder is returned, then the cancellation is
     // successful
-    CancelOrderRequest request = new CancelOrderRequest();
+    CoingiCancelOrderRequest request = new CoingiCancelOrderRequest();
     request.setOrderId(orderId);
     CoingiOrder order;
     try {

@@ -10,23 +10,23 @@ import org.junit.Test;
 public class CoingiMarketDataJsonTest {
 
   @Test
-  public void testDeserializeTicker() throws IOException {
+  public void testDeserializeOrderBook() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
         CoingiMarketDataJsonTest.class.getResourceAsStream(
-            "/org/knowm/xchange/coingi/dto/marketdata/example-ticker-data.json");
+            "/org/knowm/xchange/coingi/dto/marketdata/example-orderbook-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CoingiOrderBook ticker = mapper.readValue(is, CoingiOrderBook.class);
+    CoingiOrderBook orderBook = mapper.readValue(is, CoingiOrderBook.class);
 
-    assertThat(ticker).isNotNull();
+    assertThat(orderBook).isNotNull();
 
-    assertThat(ticker.getAsks()).isNotEmpty();
-    assertThat(ticker.getBids()).isNotEmpty();
+    assertThat(orderBook.getAsks()).isNotEmpty();
+    assertThat(orderBook.getBids()).isNotEmpty();
 
-    CoingiOrderGroup bid = ticker.getBids().iterator().next();
-    CoingiOrderGroup ask = ticker.getAsks().iterator().next();
+    CoingiOrderGroup bid = orderBook.getBids().iterator().next();
+    CoingiOrderGroup ask = orderBook.getAsks().iterator().next();
 
     assertThat(bid).isNotNull();
     assertThat(ask).isNotNull();
