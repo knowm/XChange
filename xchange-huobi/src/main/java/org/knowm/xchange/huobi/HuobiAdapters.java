@@ -1,7 +1,9 @@
 package org.knowm.xchange.huobi;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +15,15 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
@@ -171,6 +176,29 @@ public class HuobiAdapters {
     }
     return order;
   }
+  
+  /**
+   * Huobi currently doesn't have trade history API. We simulate it by using the orders history.
+   * @param order
+   * @return
+   */
+  private static UserTrade adaptTrade(LimitOrder order) {
+	BigDecimal feeAmount = order.getCumulativeAmount()
+	  .multiply(order.getLimitPrice())
+	  .multiply(fee)
+	  .setScale(8, RoundingMode.DOWN);
+	return new UserTrade(
+	  order.getType(),
+	  order.getCumulativeAmount(),
+	  order.getCurrencyPair(),
+	  order.getLimitPrice(),
+	  order.getTimestamp(),
+	  null, // Trade id
+	  order.getId(), // Original order id
+	  feeAmount,
+	  order.getCurrencyPair().counter
+	);
+  }
 
   private static OrderStatus adaptOrderStatus(String huobiStatus) {
     OrderStatus result = OrderStatus.UNKNOWN;
@@ -216,5 +244,14 @@ public class HuobiAdapters {
       orders.add(adaptOrder(order));
     }
     return orders;
+  }
+  
+  public static UserTrades adaptTradeHistory(HuobiOrder[] openOrders) {
+	OpenOrders orders = adaptOpenOrders(openOrders);
+	List<UserTrade> trades = new ArrayList<>();
+	for (LimitOrder order : orders.getOpenOrders()) {
+		trades.add(adaptTrade(order));
+	}
+	return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 }
