@@ -1,8 +1,5 @@
 package org.knowm.xchange.coingi.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.CoingiErrorAdapter;
@@ -21,6 +18,10 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 public class CoingiAccountService extends CoingiAccountServiceRaw implements AccountService {
   public CoingiAccountService(Exchange exchange) {
     super(exchange);
@@ -28,9 +29,8 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    CoingiBalances coingiBalances;
     try {
-      coingiBalances = getCoingiBalance();
+      CoingiBalances coingiBalances = getCoingiBalance();
       return CoingiAdapters.adaptAccountInfo(
           coingiBalances, exchange.getExchangeSpecification().getUserName());
     } catch (CoingiException e) {
@@ -41,10 +41,8 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    String result;
     try {
-      result = withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
-      return result;
+      return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
     } catch (CoingiException e) {
       throw CoingiErrorAdapter.adapt(e);
     }
@@ -64,11 +62,11 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
 
         return withdraw(request).toString();
       }
+
+      throw new NotYetImplementedForExchangeException();
     } catch (CoingiException e) {
       throw CoingiErrorAdapter.adapt(e);
     }
-
-    throw new NotYetImplementedForExchangeException();
   }
 
   /**
@@ -86,18 +84,15 @@ public class CoingiAccountService extends CoingiAccountServiceRaw implements Acc
   }
 
   public CoingiUserTransactionList getTransactions(TradeHistoryParams p) throws IOException {
-    CoingiTradeHistoryParams params = (CoingiTradeHistoryParams) p;
-
-    CoingiTransactionHistoryRequest request = new CoingiTransactionHistoryRequest();
-    request.setPageNumber(params.getPageNumber());
-    request.setCurrencyPair(params.getCurrencyPair());
-    request.setPageSize(params.getPageSize());
-    request.setType(params.getType());
-    request.setStatus(params.getStatus());
-    CoingiUserTransactionList transactions;
     try {
-      transactions = getTransactions(request);
-      return transactions;
+      CoingiTradeHistoryParams params = (CoingiTradeHistoryParams) p;
+      CoingiTransactionHistoryRequest request = new CoingiTransactionHistoryRequest();
+      request.setPageNumber(params.getPageNumber());
+      request.setCurrencyPair(params.getCurrencyPair());
+      request.setPageSize(params.getPageSize());
+      request.setType(params.getType());
+      request.setStatus(params.getStatus());
+      return getTransactions(request);
     } catch (CoingiException e) {
       throw CoingiErrorAdapter.adapt(e);
     }
