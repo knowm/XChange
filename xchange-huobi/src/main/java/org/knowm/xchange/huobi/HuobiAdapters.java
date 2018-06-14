@@ -126,13 +126,7 @@ public class HuobiAdapters {
     for (HuobiOrder openOrder : openOrders) {
       if (openOrder.isLimit()) {
     	    LimitOrder order = (LimitOrder) adaptOrder(openOrder);
-    	    // API returns orders history with all statuses. Add only completed orders...
-    	    if (order.getStatus() != OrderStatus.CANCELED &&
-    	    		order.getStatus() != OrderStatus.FILLED &&
-    	    		order.getStatus() != OrderStatus.REJECTED)
-    	    {
-    	    		limitOrders.add(order);
-    	    }
+    		limitOrders.add(order);
       }
     }
     return new OpenOrders(limitOrders);
