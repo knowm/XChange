@@ -24,7 +24,7 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
   }
 
   HuobiOrder[] getHuobiOpenOrders() throws IOException {
-    String states = "pre-submitted,submitted,partial-filled,partial-canceled,filled,canceled";
+    String states = "pre-submitted,submitted,partial-filled";
     HuobiOrdersResult result =
         huobi.getOpenOrders(
             states,
