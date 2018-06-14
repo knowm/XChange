@@ -4,6 +4,8 @@ import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
 import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +14,7 @@ import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.LoanOrder;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -312,5 +315,60 @@ public class PoloniexAdapters {
               w.getStatus()));
     }
     return fundingRecords;
+  }
+
+  public static Order adaptUserTradesToOrderStatus(PoloniexUserTrade[] poloniexUserTrades) {
+
+    if(poloniexUserTrades.length == 0)
+      return null;
+
+    Date date = null;
+    String id = null;
+    OrderType orderType = null;
+    CurrencyPair currencyPair = null;
+    BigDecimal amount = new BigDecimal(0);
+    BigDecimal fee = new BigDecimal(0);
+
+    List<BigDecimal> prices = new ArrayList<>();
+
+
+    //"2018-06-12 19:07:01"
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+    for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
+      id = poloniexUserTrade.getTradeID();
+      orderType = poloniexUserTrade.getType().equals("buy") ? OrderType.BID : OrderType.ASK; // what about others?
+
+      try {
+        date = format.parse(poloniexUserTrade.getDate());
+      } catch (ParseException e) {
+
+      }
+      amount = amount.add(poloniexUserTrade.getAmount());
+      fee = fee.add(poloniexUserTrade.getFee());
+
+      prices.add(poloniexUserTrade.getRate());
+
+    }
+
+
+
+    BigDecimal averagePrice = prices.stream().reduce(new BigDecimal(0), (a,b) -> a.add(b)).divide(new BigDecimal(poloniexUserTrades.length));
+
+
+
+    return new LimitOrder(
+            orderType,
+            null,
+            currencyPair,
+            id,
+            date,
+            null,
+            averagePrice,
+            amount,
+            null, //fee
+            Order.OrderStatus.FILLED);
+
+
   }
 }
