@@ -356,6 +356,8 @@ public class BitmexAdapters {
         return OrderStatus.CANCELED;
       case EXPIRED:
         return OrderStatus.EXPIRED;
+      case REJECTED:
+        return OrderStatus.REJECTED;
       default:
         return null;
     }
@@ -371,6 +373,8 @@ public class BitmexAdapters {
         return OrderStatus.FILLED;
       case Canceled:
         return OrderStatus.CANCELED;
+      case Rejected:
+        return OrderStatus.REJECTED;
       default:
         return null;
     }
