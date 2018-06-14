@@ -27,6 +27,8 @@ import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
 
 public class HuobiAdapters {
+  
+  private static BigDecimal fee = new BigDecimal("0.002"); // Trading fee at Huobi is 0.2 %  
 
   public static Ticker adaptTicker(HuobiTicker huobiTicker, CurrencyPair currencyPair) {
     Ticker.Builder builder = new Ticker.Builder();
@@ -76,7 +78,7 @@ public class HuobiAdapters {
     BigDecimal minQty = metadata == null ? null : metadata.getMinimumAmount();
       
     return new CurrencyPairMetaData(
-    		new BigDecimal("0.002"), // Trading fee at Huobi is 0.2 % 
+    		fee,
     		minQty, // Min amount
     		null, // Max amount
     		new Integer(pair.getPricePrecision()) // Price scale
