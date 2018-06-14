@@ -38,8 +38,13 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements TradeService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(PoloniexTradeService.class);
+
 
   private PoloniexMarketDataService poloniexMarketDataService;
 
@@ -267,27 +272,27 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
     OpenOrders openOrders = getOpenOrders();
     List<Order> returnValue = openOrders
-            .getOpenOrders()
-            .stream()
-            .filter( f-> orderIdList.contains(f.getId()))
-            .collect(Collectors.toList());
+      .getOpenOrders()
+      .stream()
+      .filter( f-> orderIdList.contains(f.getId()))
+      .collect(Collectors.toList());
 
     returnValue.addAll(
-            orderIdList.stream()
-                    .filter( f-> !returnValue.stream().filter( a-> a.getId().equals(f)).findFirst().isPresent())
-                    .map(
-                            f-> {
-                              try {
-                                return PoloniexAdapters.adaptUserTradesToOrderStatus(returnOrderTrades(f));
-                              } catch (IOException e) {
-                                e.printStackTrace();
-                              }
-                              return null;
+      orderIdList.stream()
+        .filter( f-> !returnValue.stream().filter( a-> a.getId().equals(f)).findFirst().isPresent())
+        .map(
+          f-> {
+            try {
+              return PoloniexAdapters.adaptUserTradesToOrderStatus(f,returnOrderTrades(f));
+            } catch (IOException e) {
+              LOG.error("Unable to find status for Poloniex order id: " + f,e);
+            }
+            return null;
 
-                            }
-                    )
-                    .filter( f-> f != null)
-                    .collect(Collectors.toList())
+          }
+        )
+        .filter( f-> f != null)
+        .collect(Collectors.toList())
     );
 
     return returnValue;
