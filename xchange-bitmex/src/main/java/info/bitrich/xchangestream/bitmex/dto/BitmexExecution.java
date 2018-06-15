@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.bitmex.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 
 import java.math.BigDecimal;
@@ -39,7 +40,7 @@ public class BitmexExecution {
     protected String execInst;
     protected String contingencyType;
     protected String exDestination;
-    protected String ordStatus;
+    protected BitmexPrivateOrder.OrderStatus ordStatus;
     protected String triggered;
     protected Boolean workingIndicator;
     protected String ordRejReason;
@@ -76,7 +77,7 @@ public class BitmexExecution {
                            @JsonProperty("ordType") String ordType, @JsonProperty("timeInForce") String timeInForce,
                            @JsonProperty("execInst") String execInst, @JsonProperty("contingencyType") String contingencyType,
                            @JsonProperty("exDestination") String exDestination,
-                           @JsonProperty("ordStatus") String ordStatus, @JsonProperty("triggered") String triggered,
+                           @JsonProperty("ordStatus") BitmexPrivateOrder.OrderStatus ordStatus, @JsonProperty("triggered") String triggered,
                            @JsonProperty("workingIndicator") boolean workingIndicator, @JsonProperty("ordRejReason") String ordRejReason,
                            @JsonProperty("simpleLeavesQty") BigDecimal simpleLeavesQty, @JsonProperty("leavesQty") Long leavesQty,
                            @JsonProperty("simpleCumQty") BigDecimal simpleCumQty, @JsonProperty("cumQty") BigDecimal cumQty,
@@ -245,7 +246,7 @@ public class BitmexExecution {
         return exDestination;
     }
 
-    public String getOrdStatus() {
+    public BitmexPrivateOrder.OrderStatus getOrdStatus() {
         return ordStatus;
     }
 
