@@ -135,7 +135,8 @@ run unit and integration tests: `mvn clean verify -DskipIntegrationTests=false`
 install in local Maven repo: `mvn clean install`  
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
-check for dependency updates: `mvn versions:display-dependency-updates`
+check for dependency updates: `mvn versions:display-dependency-updates`  
+check for plugin updates: `mvn versions:display-plugin-updates`  
 code format: `mvn com.coveo:fmt-maven-plugin:format`  
 
 ## Bugs
