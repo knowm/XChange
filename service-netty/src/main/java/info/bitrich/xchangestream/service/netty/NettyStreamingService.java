@@ -330,6 +330,7 @@ public abstract class NettyStreamingService<T> {
         NettyStreamingService<T>.Subscription subscription = channels.get(channel);
         if (subscription == null) {
             LOG.debug("Channel has been closed {}.", channel);
+            LOG.warn("Received unsubscribed message: {}", message);
             return;
         }
         ObservableEmitter<T> emitter = subscription.emitter;
@@ -346,6 +347,7 @@ public abstract class NettyStreamingService<T> {
         NettyStreamingService<T>.Subscription subscription = channels.get(channel);
         if (subscription == null) {
             LOG.debug("Channel has been closed {}.", channel);
+            LOG.error("Received unsubscribed error: {}", t);
             return;
         }
         ObservableEmitter<T> emitter = subscription.emitter;
