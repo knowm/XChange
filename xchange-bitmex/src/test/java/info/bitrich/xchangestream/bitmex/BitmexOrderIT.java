@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
@@ -36,11 +35,11 @@ import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
 /**
  * @author Nikita Belenkiy on 18/05/2018.
  */
-public class BitmexOrderTestIT {
+public class BitmexOrderIT {
     private static final CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
     private static final Logger LOG = LoggerFactory.getLogger(BitmexTest.class);
 
-    private static final BigDecimal priceShift = new BigDecimal("10");
+    private static final BigDecimal priceShift = new BigDecimal("50");
 
     private BigDecimal testAskPrice;
     private BigDecimal testBidPrice;
@@ -53,17 +52,9 @@ public class BitmexOrderTestIT {
         LocalExchangeConfig localConfig = PropsLoader.loadKeys(
                 "bitmex.secret.keys", "bitmex.secret.keys.origin", "bitmex");
         exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
-        ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
 
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.USE_SANDBOX, true);
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ACCEPT_ALL_CERITICATES, true);
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ENABLE_LOGGING_HANDLER, true);
-
-        defaultExchangeSpecification.setApiKey(localConfig.getApiKey());
-        defaultExchangeSpecification.setSecretKey(localConfig.getSecretKey());
-        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
-
-        exchange.applySpecification(defaultExchangeSpecification);
+        exchange.applySpecification(BitmexTestsCommons.getExchangeSpecification(localConfig,
+                exchange.getDefaultExchangeSpecification()));
         exchange.connect().blockingAwait();
 
         BitmexMarketDataService marketDataService =
