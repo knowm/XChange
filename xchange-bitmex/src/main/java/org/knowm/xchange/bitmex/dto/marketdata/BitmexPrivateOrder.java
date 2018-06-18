@@ -341,7 +341,7 @@ public class BitmexPrivateOrder {
 
   public enum OrderStatus {
     New,
-    Partially_filled,
+    PartiallyFilled,
     Filled,
     Canceled,
     Rejected
