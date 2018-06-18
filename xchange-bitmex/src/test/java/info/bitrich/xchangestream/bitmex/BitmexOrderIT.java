@@ -36,11 +36,11 @@ import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
 /**
  * @author Nikita Belenkiy on 18/05/2018.
  */
-public class BitmexOrderTestIT {
+public class BitmexOrderIT {
     private static final CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
     private static final Logger LOG = LoggerFactory.getLogger(BitmexTest.class);
 
-    private static final BigDecimal priceShift = new BigDecimal("10");
+    private static final BigDecimal priceShift = new BigDecimal("50");
 
     private BigDecimal testAskPrice;
     private BigDecimal testBidPrice;

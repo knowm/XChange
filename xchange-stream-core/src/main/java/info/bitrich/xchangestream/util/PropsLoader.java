@@ -37,4 +37,8 @@ public class PropsLoader {
             throw e;
         }
     }
+
+    public static String proxyExecLine() {
+        return System.getProperty("proxy.exec.line");
+    }
 }
