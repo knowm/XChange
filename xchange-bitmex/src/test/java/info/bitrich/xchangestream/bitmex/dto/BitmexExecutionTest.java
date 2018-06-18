@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.bitmex.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class BitmexExecutionTest {
         assertEquals(     "",                           bitmexExecution.execInst);
         assertEquals(     "",                           bitmexExecution.contingencyType);
         assertEquals(     "XBME",                       bitmexExecution.exDestination);
-        assertEquals(     "Filled",                     bitmexExecution.ordStatus);
+        assertEquals(     BitmexPrivateOrder.OrderStatus.Filled, bitmexExecution.ordStatus);
         assertEquals(     "",                           bitmexExecution.triggered);
         assertEquals(     false,                        bitmexExecution.workingIndicator);
         assertEquals(     "",                           bitmexExecution.ordRejReason);
