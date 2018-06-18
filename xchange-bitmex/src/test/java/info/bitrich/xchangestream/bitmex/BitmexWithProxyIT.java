@@ -32,20 +32,13 @@ public class BitmexWithProxyIT {
         LocalExchangeConfig localConfig = PropsLoader.loadKeys(
                 "bitmex.secret.keys", "bitmex.secret.keys.origin", "bitmex");
         exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
-        ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
 
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_HOST, "localhost");
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_PORT, 8889);
+        ExchangeSpecification exchangeSpecification = BitmexTestsCommons.getExchangeSpecification(localConfig,
+                exchange.getDefaultExchangeSpecification());
+        exchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_HOST, "localhost");
+        exchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_PORT, 8889);
 
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.USE_SANDBOX, true);
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ACCEPT_ALL_CERITICATES, true);
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ENABLE_LOGGING_HANDLER, true);
-
-        defaultExchangeSpecification.setApiKey(localConfig.getApiKey());
-        defaultExchangeSpecification.setSecretKey(localConfig.getSecretKey());
-        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
-
-        exchange.applySpecification(defaultExchangeSpecification);
+        exchange.applySpecification(exchangeSpecification);
         exchange.connect().blockingAwait();
     }
 

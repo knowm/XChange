@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
@@ -53,17 +52,9 @@ public class BitmexOrderIT {
         LocalExchangeConfig localConfig = PropsLoader.loadKeys(
                 "bitmex.secret.keys", "bitmex.secret.keys.origin", "bitmex");
         exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
-        ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
 
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.USE_SANDBOX, true);
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ACCEPT_ALL_CERITICATES, true);
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ENABLE_LOGGING_HANDLER, true);
-
-        defaultExchangeSpecification.setApiKey(localConfig.getApiKey());
-        defaultExchangeSpecification.setSecretKey(localConfig.getSecretKey());
-        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
-
-        exchange.applySpecification(defaultExchangeSpecification);
+        exchange.applySpecification(BitmexTestsCommons.getExchangeSpecification(localConfig,
+                exchange.getDefaultExchangeSpecification()));
         exchange.connect().blockingAwait();
 
         BitmexMarketDataService marketDataService =
