@@ -1,7 +1,6 @@
 package org.knowm.xchange.livecoin.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,7 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinExchange;
+import org.knowm.xchange.livecoin.dto.account.LivecoinBalance;
 import org.knowm.xchange.livecoin.dto.account.LivecoinPaymentOutResponse;
 import org.knowm.xchange.livecoin.dto.account.LivecoinWalletAddressResponse;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -20,10 +20,10 @@ public class LivecoinAccountServiceRaw extends LivecoinBaseService<Livecoin> {
     super(Livecoin.class, exchange);
   }
 
-  public Collection<Wallet> balances(String currency) throws IOException {
-    List<Map> response = service.balances(apiKey, signatureCreator, currency);
+  public Wallet balances(String currency) throws IOException {
+    List<LivecoinBalance> response = service.balances(apiKey, signatureCreator, currency);
 
-    return LivecoinAdapters.adaptWallets(response);
+    return LivecoinAdapters.adaptWallet(response);
   }
 
   public String withdraw(DefaultWithdrawFundsParams params) throws IOException {

@@ -11,8 +11,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinExchange;
@@ -30,15 +28,13 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     super(Livecoin.class, exchange);
   }
 
-  public List<LimitOrder> getAllOpenOrders()
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+  public List<LimitOrder> getAllOpenOrders() throws IOException {
     LivecoinPaginatedResponse response = service.allClientOrders(apiKey, signatureCreator, "OPEN");
 
     List<LimitOrder> resp = new ArrayList<>();
-    if (response.getResponse() == null) return resp;
+    if (response.getData() == null) return resp;
 
-    for (Map map : response.getResponse()) {
+    for (Map map : response.getData()) {
       Object statusRaw = map.get("orderStatus");
       if (statusRaw != null
           && (statusRaw.toString().equals("OPEN")
@@ -113,15 +109,11 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return response.getOrderId();
   }
 
-  public boolean cancelOrder(String orderId)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException {
+  public boolean cancelOrder(String orderId) {
     throw new ExchangeException("You need to provide the currency pair to cancel an order.");
   }
 
-  public boolean cancelOrder(CurrencyPair currencyPair, String orderId)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CurrencyPair currencyPair, String orderId) throws IOException {
     return cancelOrder(new LiveCoinCancelOrderParams(currencyPair, orderId));
   }
 

@@ -1,4 +1,4 @@
-package org.knowm.xchange.bittrex.service;
+package org.knowm.xchange.livecoin.service;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.*;
@@ -17,17 +17,17 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 /** @author walec51 */
 public class AccountMockedIntegrationTest extends BaseMockedIntegrationTest {
 
-  private static BittrexAccountService accountService;
+  private static LivecoinAccountService accountService;
 
   @Before
   public void setUp() {
-    accountService = (BittrexAccountService) createExchange().getAccountService();
+    accountService = (LivecoinAccountService) createExchange().getAccountService();
   }
 
   @Test
   public void accountInfoTest() throws Exception {
     stubFor(
-        get(urlPathEqualTo("/api/v1.1/account/getbalances"))
+        get(urlPathEqualTo("/payment/balances"))
             .willReturn(
                 aResponse()
                     .withStatus(200)
@@ -37,34 +37,28 @@ public class AccountMockedIntegrationTest extends BaseMockedIntegrationTest {
     assertThat(accountInfo).isNotNull();
     Wallet wallet = accountInfo.getWallet();
     assertThat(wallet).isNotNull();
-    Balance btcBalance = wallet.getBalance(Currency.BTC);
-    assertThat(btcBalance).isNotNull();
-    assertThat(btcBalance.getAvailable()).isNotNull().isPositive();
+    Balance usdBalance = wallet.getBalance(Currency.USD);
+    assertThat(usdBalance).isNotNull();
+    assertThat(usdBalance.getTotal()).isNotNull().isPositive();
+    assertThat(usdBalance.getAvailable()).isNotNull().isPositive();
   }
 
   @Test
   public void fundingHistoryTest() throws Exception {
     stubFor(
-        get(urlPathEqualTo("/api/v1.1/account/getdeposithistory"))
+        get(urlPathEqualTo("/payment/history/transactions"))
             .willReturn(
                 aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
-                    .withBodyFile("deposithistory.json")));
-    stubFor(
-        get(urlPathEqualTo("/api/v1.1/account/getwithdrawalhistory"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBodyFile("withdrawalhistory.json")));
+                    .withBodyFile("transactions_deposit.json")));
     TradeHistoryParams params = accountService.createFundingHistoryParams();
     List<FundingRecord> fundingHistory = accountService.getFundingHistory(params);
     assertThat(fundingHistory).isNotEmpty();
     FundingRecord record = fundingHistory.get(0);
     assertThat(record).isNotNull();
     assertThat(record.getType()).isEqualTo(DEPOSIT);
-    assertThat(record.getCurrency()).isEqualTo(Currency.BTC);
+    assertThat(record.getCurrency()).isEqualTo(Currency.RUR);
     assertThat(record.getAmount()).isNotNull().isPositive();
   }
 }

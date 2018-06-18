@@ -245,7 +245,9 @@ public final class BittrexAdapters {
     List<UserTrade> trades = new ArrayList<>();
 
     for (BittrexUserTrade bittrexTrade : bittrexUserTrades) {
-      trades.add(adaptUserTrade(bittrexTrade));
+      if (!isOrderWithoutTrade(bittrexTrade)) {
+        trades.add(adaptUserTrade(bittrexTrade));
+      }
     }
     return trades;
   }
@@ -355,5 +357,9 @@ public final class BittrexAdapters {
       }
     }
     return fundingRecords;
+  }
+
+  private static boolean isOrderWithoutTrade(BittrexUserTrade bittrexTrade) {
+    return bittrexTrade.getQuantity().compareTo(bittrexTrade.getQuantityRemaining()) == 0;
   }
 }

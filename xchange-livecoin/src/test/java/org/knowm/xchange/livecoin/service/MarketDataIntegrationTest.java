@@ -1,4 +1,4 @@
-package org.knowm.xchange.livecoin.service.marketdata;
+package org.knowm.xchange.livecoin.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -13,8 +13,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.livecoin.LivecoinExchange;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
-import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
-import org.knowm.xchange.livecoin.service.LivecoinMarketDataService;
 
 public class MarketDataIntegrationTest {
 
