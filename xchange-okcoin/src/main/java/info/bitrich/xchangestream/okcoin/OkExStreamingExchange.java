@@ -9,4 +9,8 @@ public class OkExStreamingExchange extends OkCoinStreamingExchange {
     public OkExStreamingExchange() {
         super(new OkCoinStreamingService(API_URI));
     }
+
+    public OkExStreamingExchange(String apiUrl) {
+        super(new OkCoinStreamingService(apiUrl));
+    }
 }
