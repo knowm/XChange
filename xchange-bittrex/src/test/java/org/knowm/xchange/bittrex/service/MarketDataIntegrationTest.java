@@ -1,16 +1,17 @@
-package org.knowm.xchange.bittrex.service.marketdata;
+package org.knowm.xchange.bittrex.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bittrex.BittrexExchange;
-import org.knowm.xchange.bittrex.service.BittrexMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 
 /** @author walec51 */
@@ -47,5 +48,15 @@ public class MarketDataIntegrationTest {
         catchThrowable(
             () -> marketDataService.getTrades(new CurrencyPair("NOT_EXISTING_CODE", "USD")));
     assertThat(excepton).isExactlyInstanceOf(CurrencyPairNotValidException.class);
+  }
+
+  @Test
+  public void orderBooksFetchTest() throws Exception {
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.ETH_BTC);
+    List<LimitOrder> asks = orderBook.getAsks();
+    assertThat(asks).isNotEmpty();
+    LimitOrder firstAsk = asks.get(0);
+    assertThat(firstAsk.getLimitPrice()).isNotNull().isPositive();
+    assertThat(firstAsk.getRemainingAmount()).isNotNull().isPositive();
   }
 }
