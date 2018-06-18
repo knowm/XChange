@@ -31,8 +31,7 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
     super(exchange);
   }
 
-  public List<GeminiTransfer> transfers(Date from, Integer limit)
-      throws IOException {
+  public List<GeminiTransfer> transfers(Date from, Integer limit) throws IOException {
     SynchronizedValueFactory<Long> nonceFactory = exchange.getNonceFactory();
     GeminiTransfersRequest geminiTransfersRequest =
         GeminiTransfersRequest.create(from, limit, nonceFactory);

@@ -21,7 +21,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CryptopiaExchange extends BaseExchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new AtomicLongCurrentTimeIncrementalNonceFactory();
   private Map<CurrencyPair, CryptopiaTradePair> lookupByCcyPair;
   private Map<Long, CryptopiaTradePair> lookupById;
 
