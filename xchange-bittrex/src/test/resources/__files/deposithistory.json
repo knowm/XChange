@@ -1,0 +1,30 @@
+{
+	"success" : true,
+	"message" : "",
+	"result" : [{
+			"PaymentUuid" : "554ec664-8842-4fe9-b491-06225becbd59",
+			"Currency" : "BTC",
+			"Amount" : 0.00156121,
+			"Address" : "1K37yQZaGrPKNTZ5KNP792xw8f7XbXxetE",
+			"Opened" : "2014-07-11T03:41:25.323",
+			"Authorized" : true,
+			"PendingPayment" : false,
+			"TxCost" : 0.00020000,
+			"TxId" : "70cf6fdccb9bd38e1a930e13e4ae6299d678ed6902da710fa3cc8d164f9be126",
+			"Canceled" : false,
+			"InvalidAddress" : false
+		}, {
+			"PaymentUuid" : "d3fdf168-3d8e-40b6-8fe4-f46e2a7035ea",
+			"Currency" : "BTC",
+			"Amount" : 0.11800000,
+			"Address" : "1Mrcar6715hjds34pdXuLqXcju6QgwHA31",
+			"Opened" : "2014-07-03T20:27:07.163",
+			"Authorized" : true,
+			"PendingPayment" : false,
+			"TxCost" : 0.00020000,
+			"TxId" : "3efd41b3a051433a888eed3ecc174c1d025a5e2b486eb418eaaec5efddda22de",
+			"Canceled" : false,
+			"InvalidAddress" : false
+		}
+    ]
+}
