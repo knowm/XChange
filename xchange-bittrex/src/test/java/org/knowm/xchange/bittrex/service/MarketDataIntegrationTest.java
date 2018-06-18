@@ -26,7 +26,7 @@ public class MarketDataIntegrationTest {
   }
 
   @Test
-  public void tickerFetchTest() throws Exception {
+  public void tickerTest() throws Exception {
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("LTC", "BTC"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
@@ -35,7 +35,7 @@ public class MarketDataIntegrationTest {
   }
 
   @Test
-  public void invalidCurrencyPairForTickerFetchTest() throws Exception {
+  public void invalidCurrencyPairForTickerTest() throws Exception {
     Throwable excepton =
         catchThrowable(
             () -> marketDataService.getTicker(new CurrencyPair("NOT_EXISTING_CODE", "USD")));
@@ -43,7 +43,7 @@ public class MarketDataIntegrationTest {
   }
 
   @Test
-  public void invalidCurrencyPairForTradesFetchTest() throws Exception {
+  public void invalidCurrencyPairForTradesTest() throws Exception {
     Throwable excepton =
         catchThrowable(
             () -> marketDataService.getTrades(new CurrencyPair("NOT_EXISTING_CODE", "USD")));
@@ -51,7 +51,7 @@ public class MarketDataIntegrationTest {
   }
 
   @Test
-  public void orderBooksFetchTest() throws Exception {
+  public void orderBooksTest() throws Exception {
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.ETH_BTC);
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).isNotEmpty();

@@ -243,6 +243,13 @@
 				<!-- <version>2.15.0</version> -->
 				<scope>test</scope>
 			</dependency>
+        
+                        <dependency>
+                            <groupId>com.github.tomakehurst</groupId>
+                            <artifactId>wiremock</artifactId>
+                            <version>2.18.0</version>
+                            <scope>test</scope>
+                        </dependency>
 
 			<!-- PowerMockito for unit tests -->
 			<!-- when removing powermock, please upgrade mockito -->

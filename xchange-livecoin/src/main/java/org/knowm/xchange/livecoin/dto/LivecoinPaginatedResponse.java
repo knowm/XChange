@@ -6,26 +6,26 @@ import java.util.Map;
 
 public class LivecoinPaginatedResponse extends LivecoinBaseResponse {
 
-  private final List<Map> response;
+  private final List<Map> data;
   private final int totalRows;
   private final int startRow;
   private final int endRow;
 
   public LivecoinPaginatedResponse(
       @JsonProperty("success") Boolean success,
-      @JsonProperty("response") List<Map> response,
+      @JsonProperty("data") List<Map> data,
       @JsonProperty("totalRows") int totalRows,
       @JsonProperty("startRow") int startRow,
       @JsonProperty("endRow") int endRow) {
     super(success);
-    this.response = response;
+    this.data = data;
     this.totalRows = totalRows;
     this.startRow = startRow;
     this.endRow = endRow;
   }
 
-  public List<Map> getResponse() {
-    return response;
+  public List<Map> getData() {
+    return data;
   }
 
   public int getTotalRows() {

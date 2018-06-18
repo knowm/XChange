@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinErrorAdapter;
 import org.knowm.xchange.livecoin.LivecoinExchange;
@@ -95,7 +94,48 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
   }
 
   @Override
-  public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+  public LivecoinFoundingHistoryParams createFundingHistoryParams() {
+    return new LivecoinFoundingHistoryParams();
+  }
+
+  public static final class LivecoinFoundingHistoryParams
+      implements TradeHistoryParamsTimeSpan, TradeHistoryParamOffset, TradeHistoryParamLimit {
+
+    private Date startTime = new Date(0);
+    private Date endTime = new Date();
+    private Integer limit = 100;
+    private Long offset = 0L;
+
+    public Date getStartTime() {
+      return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+      return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+      this.endTime = endTime;
+    }
+
+    public Integer getLimit() {
+      return limit;
+    }
+
+    public void setLimit(Integer limit) {
+      this.limit = limit;
+    }
+
+    public Long getOffset() {
+      return offset;
+    }
+
+    public void setOffset(Long offset) {
+      this.offset = offset;
+    }
   }
 }

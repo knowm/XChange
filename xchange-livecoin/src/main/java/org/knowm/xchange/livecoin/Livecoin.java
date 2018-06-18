@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.livecoin.dto.LivecoinException;
 import org.knowm.xchange.livecoin.dto.LivecoinPaginatedResponse;
 import org.knowm.xchange.livecoin.dto.LivecoinResponseWithDataMap;
+import org.knowm.xchange.livecoin.dto.account.LivecoinBalance;
 import org.knowm.xchange.livecoin.dto.account.LivecoinPaymentOutResponse;
 import org.knowm.xchange.livecoin.dto.account.LivecoinWalletAddressResponse;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinAllOrderBooks;
@@ -70,7 +71,7 @@ public interface Livecoin {
 
   @GET
   @Path("payment/balances")
-  List<Map> balances(
+  List<LivecoinBalance> balances(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @QueryParam("currency") String currency)
