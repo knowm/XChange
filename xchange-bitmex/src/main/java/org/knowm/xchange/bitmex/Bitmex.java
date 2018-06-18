@@ -1,7 +1,9 @@
 package org.knowm.xchange.bitmex;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -184,6 +186,46 @@ public interface Bitmex {
       @Nullable @FormParam("clOrdID") String clOrdID,
       @Nullable @FormParam("execInst") String executionInstructions);
 
+  @POST
+  @Path("order/bulk")
+  //  @Consumes("application/json")
+  //  @Produces("application/json")
+  List<BitmexPrivateOrder> placeOrderBulk(
+      @HeaderParam("api-key") String apiKey,
+      @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest,
+      @FormParam("orders") String orderCommands);
+
+  public static class PlaceOrderCommand {
+    private @JsonProperty("symbol") String symbol;
+    private @Nullable @JsonProperty("side") String side;
+    private @JsonProperty("orderQty") int orderQuantity;
+    private @JsonProperty("price") BigDecimal price;
+    private @Nullable @JsonProperty("stopPx") BigDecimal stopPrice;
+    private @Nullable @JsonProperty("ordType") String orderType;
+    private @Nullable @JsonProperty("clOrdID") String clOrdID;
+    private @Nullable @JsonProperty("execInst") String executionInstructions;
+
+    public PlaceOrderCommand(
+        String symbol,
+        @Nullable String side,
+        int orderQuantity,
+        BigDecimal price,
+        @Nullable BigDecimal stopPrice,
+        @Nullable String orderType,
+        @Nullable String clOrdID,
+        @Nullable String executionInstructions) {
+      this.symbol = symbol;
+      this.side = side;
+      this.orderQuantity = orderQuantity;
+      this.price = price;
+      this.stopPrice = stopPrice;
+      this.orderType = orderType;
+      this.clOrdID = clOrdID;
+      this.executionInstructions = executionInstructions;
+    }
+  }
+
   @PUT
   @Path("order")
   // for some reason underlying library doesn't add contenty type for PUT requests automatically
@@ -199,6 +241,26 @@ public interface Bitmex {
       @Nullable @FormParam("orderID") String orderId,
       @Nullable @FormParam("clOrdID") String clOrdID,
       @Nullable @FormParam("origClOrdID") String origClOrdID);
+
+  @PUT
+  @Path("order/bulk")
+  // for some reason underlying library doesn't add contenty type for PUT requests automatically
+  @Consumes("application/x-www-form-urlencoded")
+  BitmexPrivateOrder replaceOrderBulk(
+      @HeaderParam("api-key") String apiKey,
+      @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest,
+      @FormParam("orders") Collection<ReplaceOrderCommand> commands);
+
+  public static class ReplaceOrderCommand {
+    private @JsonProperty("orderQty") int orderQuantity;
+    private @Nullable @JsonProperty("price") BigDecimal price;
+    private @Nullable @JsonProperty("stopPx") BigDecimal stopPrice;
+    private @Nullable @JsonProperty("ordType") String orderType;
+    private @Nullable @JsonProperty("orderID") String orderId;
+    private @Nullable @JsonProperty("clOrdID") String clOrdID;
+    private @Nullable @JsonProperty("origClOrdID") String origClOrdID;
+  }
 
   @DELETE
   @Path("order")

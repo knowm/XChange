@@ -3,12 +3,15 @@ package org.knowm.xchange.bitmex.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class BitmexTradeServiceRaw extends BitmexBaseService {
 
@@ -108,6 +111,18 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         "Limit",
         clOrdID,
         executionInstructions);
+  }
+
+  public List<BitmexPrivateOrder> placeLimitOrderBulk(
+      Collection<Bitmex.PlaceOrderCommand> commands) {
+    String s = ObjectMapperHelper.toCompactJSON(commands);
+    return bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s);
+  }
+
+  public List<BitmexPrivateOrder> replaceLimitOrderBulk(
+      Collection<Bitmex.ReplaceOrderCommand> commands) {
+    String s = ObjectMapperHelper.toCompactJSON(commands);
+    return bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s);
   }
 
   public BitmexPrivateOrder replaceLimitOrder(
