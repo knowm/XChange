@@ -38,6 +38,7 @@ public class PropsLoader {
         }
     }
 
+    // e.g. "-Dproxy.exec.line=/Applications/Charles.app/Contents/MacOS/Charles -headless"
     public static String proxyExecLine() {
         return System.getProperty("proxy.exec.line");
     }
