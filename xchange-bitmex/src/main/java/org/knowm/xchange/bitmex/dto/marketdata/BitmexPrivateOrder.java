@@ -344,6 +344,7 @@ public class BitmexPrivateOrder {
     PartiallyFilled,
     Filled,
     Canceled,
-    Rejected
+    Rejected,
+    Replaced
   }
 }
