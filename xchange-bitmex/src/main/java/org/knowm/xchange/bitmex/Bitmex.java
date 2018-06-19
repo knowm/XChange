@@ -3,7 +3,6 @@ package org.knowm.xchange.bitmex;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -216,11 +215,11 @@ public interface Bitmex {
   @Path("order/bulk")
   // for some reason underlying library doesn't add contenty type for PUT requests automatically
   @Consumes("application/x-www-form-urlencoded")
-  BitmexPrivateOrder replaceOrderBulk(
+  List<BitmexPrivateOrder> replaceOrderBulk(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @FormParam("orders") Collection<ReplaceOrderCommand> commands);
+      @FormParam("orders") String orderCommands);
 
   @DELETE
   @Path("order")
