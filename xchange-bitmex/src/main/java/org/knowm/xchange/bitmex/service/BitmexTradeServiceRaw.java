@@ -125,7 +125,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   public List<BitmexPrivateOrder> replaceLimitOrderBulk(
       Collection<Bitmex.ReplaceOrderCommand> commands) {
     String s = ObjectMapperHelper.toCompactJSON(commands);
-    return bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s);
+    return bitmex.replaceOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s);
   }
 
   public BitmexPrivateOrder replaceLimitOrder(
