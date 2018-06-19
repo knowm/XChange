@@ -15,6 +15,9 @@ import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class BitmexTradeServiceRaw extends BitmexBaseService {
 
+  public static final String ORDER_TYPE_LIMIT = "Limit";
+  public static final String ORDER_TYPE_STOP = "Stop";
+
   /**
    * Constructor
    *
@@ -108,7 +111,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         null,
         price,
         null,
-        "Limit",
+        ORDER_TYPE_LIMIT,
         clOrdID,
         executionInstructions);
   }
@@ -140,7 +143,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         orderQuantity.intValue(),
         price,
         null,
-        "Limit",
+        ORDER_TYPE_LIMIT,
         // if clOrdID is not null we should not send orderID
         clOrdID != null ? null : orderId,
         clOrdID,
@@ -160,7 +163,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         orderQuantity.intValue(),
         null,
         price,
-        "Limit",
+        ORDER_TYPE_LIMIT,
         clOrdID != null ? null : orderID,
         clOrdID,
         origClOrdId);
@@ -183,7 +186,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         null,
         null,
         stopPrice,
-        "Stop",
+        ORDER_TYPE_STOP,
         clOrdID,
         executionInstructions);
   }
@@ -215,7 +218,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         simpleOrderQuantity,
         price,
         null,
-        "Limit",
+        ORDER_TYPE_LIMIT,
         null,
         executionInstructions);
   }
