@@ -196,36 +196,6 @@ public interface Bitmex {
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @FormParam("orders") String orderCommands);
 
-  public static class PlaceOrderCommand {
-    private @JsonProperty("symbol") String symbol;
-    private @Nullable @JsonProperty("side") String side;
-    private @JsonProperty("orderQty") int orderQuantity;
-    private @JsonProperty("price") BigDecimal price;
-    private @Nullable @JsonProperty("stopPx") BigDecimal stopPrice;
-    private @Nullable @JsonProperty("ordType") String orderType;
-    private @Nullable @JsonProperty("clOrdID") String clOrdID;
-    private @Nullable @JsonProperty("execInst") String executionInstructions;
-
-    public PlaceOrderCommand(
-        String symbol,
-        @Nullable String side,
-        int orderQuantity,
-        BigDecimal price,
-        @Nullable BigDecimal stopPrice,
-        @Nullable String orderType,
-        @Nullable String clOrdID,
-        @Nullable String executionInstructions) {
-      this.symbol = symbol;
-      this.side = side;
-      this.orderQuantity = orderQuantity;
-      this.price = price;
-      this.stopPrice = stopPrice;
-      this.orderType = orderType;
-      this.clOrdID = clOrdID;
-      this.executionInstructions = executionInstructions;
-    }
-  }
-
   @PUT
   @Path("order")
   // for some reason underlying library doesn't add contenty type for PUT requests automatically
@@ -251,16 +221,6 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @FormParam("orders") Collection<ReplaceOrderCommand> commands);
-
-  public static class ReplaceOrderCommand {
-    private @JsonProperty("orderQty") int orderQuantity;
-    private @Nullable @JsonProperty("price") BigDecimal price;
-    private @Nullable @JsonProperty("stopPx") BigDecimal stopPrice;
-    private @Nullable @JsonProperty("ordType") String orderType;
-    private @Nullable @JsonProperty("orderID") String orderId;
-    private @Nullable @JsonProperty("clOrdID") String clOrdID;
-    private @Nullable @JsonProperty("origClOrdID") String origClOrdID;
-  }
 
   @DELETE
   @Path("order")
@@ -307,4 +267,95 @@ public interface Bitmex {
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @FormParam("symbol") String symbol,
       @FormParam("leverage") BigDecimal leverage);
+
+  public static class PlaceOrderCommand {
+    @JsonProperty("symbol")
+    private final String symbol;
+
+    @JsonProperty("side")
+    private final String side;
+
+    @JsonProperty("orderQty")
+    private final int orderQuantity;
+
+    @JsonProperty("price")
+    private final BigDecimal price;
+
+    @JsonProperty("stopPx")
+    private final BigDecimal stopPrice;
+
+    @JsonProperty("ordType")
+    private final String orderType;
+
+    @JsonProperty("clOrdID")
+    private final String clOrdID;
+
+    @JsonProperty("execInst")
+    private final String executionInstructions;
+
+    public PlaceOrderCommand(
+        String symbol,
+        @Nullable String side,
+        int orderQuantity,
+        BigDecimal price,
+        @Nullable BigDecimal stopPrice,
+        @Nullable String orderType,
+        @Nullable String clOrdID,
+        @Nullable String executionInstructions) {
+      this.symbol = symbol;
+      this.side = side;
+      this.orderQuantity = orderQuantity;
+      this.price = price;
+      this.stopPrice = stopPrice;
+      this.orderType = orderType;
+      this.clOrdID = clOrdID;
+      this.executionInstructions = executionInstructions;
+    }
+  }
+
+  public static class ReplaceOrderCommand {
+    @JsonProperty("orderQty")
+    private final int orderQuantity;
+
+    @Nullable
+    @JsonProperty("price")
+    private final BigDecimal price;
+
+    @Nullable
+    @JsonProperty("stopPx")
+    private final BigDecimal stopPrice;
+
+    @Nullable
+    @JsonProperty("ordType")
+    private final String orderType;
+
+    @Nullable
+    @JsonProperty("orderID")
+    private final String orderId;
+
+    @Nullable
+    @JsonProperty("clOrdID")
+    private final String clOrdID;
+
+    @Nullable
+    @JsonProperty("origClOrdID")
+    private final String origClOrdID;
+
+    public ReplaceOrderCommand(
+        int orderQuantity,
+        @Nullable BigDecimal price,
+        @Nullable BigDecimal stopPrice,
+        @Nullable String orderType,
+        @Nullable String orderId,
+        @Nullable String clOrdID,
+        @Nullable String origClOrdID) {
+      this.orderQuantity = orderQuantity;
+      this.price = price;
+      this.stopPrice = stopPrice;
+      this.orderType = orderType;
+      this.orderId = orderId;
+      this.clOrdID = clOrdID;
+      this.origClOrdID = origClOrdID;
+    }
+  }
 }
