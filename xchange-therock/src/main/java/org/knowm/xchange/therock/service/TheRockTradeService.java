@@ -44,7 +44,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
         placeTheRockOrder(
             order.getCurrencyPair(),
             order.getOriginalAmount(),
-            null,
+            BigDecimal.ZERO,
             TheRockAdapters.adaptSide(order.getType()),
             TheRockOrder.Type.market);
     return placedOrder.getId().toString();
