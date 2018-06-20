@@ -13,12 +13,19 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.livecoin.dto.LivecoinException;
+import org.knowm.xchange.livecoin.dto.LivecoinPaginatedResponse;
+import org.knowm.xchange.livecoin.dto.LivecoinResponseWithDataMap;
+import org.knowm.xchange.livecoin.dto.account.LivecoinBalance;
+import org.knowm.xchange.livecoin.dto.account.LivecoinPaymentOutResponse;
+import org.knowm.xchange.livecoin.dto.account.LivecoinWalletAddressResponse;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinAllOrderBooks;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestrictions;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
-import org.knowm.xchange.livecoin.service.LivecoinPaginatedResponse;
-import org.knowm.xchange.livecoin.service.LivecoinResponse;
+import org.knowm.xchange.livecoin.dto.trade.LivecoinCancelResponse;
+import org.knowm.xchange.livecoin.dto.trade.LivecoinOrderResponse;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -26,7 +33,7 @@ public interface Livecoin {
 
   @GET
   @Path("exchange/restrictions")
-  LivecoinRestrictions getRestrictions() throws IOException;
+  LivecoinRestrictions getRestrictions() throws IOException, LivecoinException;
 
   @GET
   @Path(
@@ -36,39 +43,39 @@ public interface Livecoin {
       @PathParam("targetCurrency") String targetCurrency,
       @PathParam("depth") int depth,
       @PathParam("groupByPrice") String groupByPrice)
-      throws IOException;
+      throws IOException, LivecoinException;
 
   @GET
   @Path("exchange/all/order_book?depth={depth}&groupByPrice={groupByPrice}")
-  Map<String, LivecoinOrderBook> getAllOrderBooks(
+  LivecoinAllOrderBooks getAllOrderBooks(
       @PathParam("depth") int depth, @PathParam("groupByPrice") String groupByPrice)
-      throws IOException;
+      throws IOException, LivecoinException;
 
   @GET
   @Path("exchange/last_trades?currencyPair={baseCurrency}/{targetCurrency}")
-  LivecoinTrade[] getTrades(
+  List<LivecoinTrade> getTrades(
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency)
-      throws IOException;
+      throws IOException, LivecoinException;
 
   @GET
   @Path("exchange/ticker?currencyPair={baseCurrency}/{targetCurrency}")
   LivecoinTicker getTicker(
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency)
-      throws IOException;
+      throws IOException, LivecoinException;
 
   @GET
   @Path("exchange/ticker")
-  List<LivecoinTicker> getTicker() throws IOException;
+  List<LivecoinTicker> getTicker() throws IOException, LivecoinException;
 
   @GET
   @Path("payment/balances")
-  List<Map> balances(
+  List<LivecoinBalance> balances(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @QueryParam("currency") String currency)
-      throws IOException;
+      throws IOException, LivecoinException;
 
   @GET
   @Path("payment/history/transactions")
@@ -80,29 +87,29 @@ public interface Livecoin {
       @QueryParam("types") String types,
       @QueryParam("limit") Integer limit,
       @QueryParam("offset") Long offset)
-      throws IOException;
+      throws IOException, LivecoinException;
 
   @GET
   @Path("payment/get/address")
-  Map paymentAddress(
+  LivecoinWalletAddressResponse paymentAddress(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @QueryParam("currency") String currency)
-      throws IOException;
+      throws IOException, LivecoinException;
 
   @POST
   @Path("payment/out/coin")
-  LivecoinResponse<Map> paymentOutCoin(
+  LivecoinPaymentOutResponse paymentOutCoin(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currency") String currency,
       @FormParam("amount") BigDecimal amount,
       @FormParam("wallet") String wallet)
-      throws IOException;
+      throws IOException, LivecoinException;
 
   @POST
   @Path("payment/out/payeer")
-  LivecoinResponse<Map> paymentOutPayeer(
+  LivecoinResponseWithDataMap paymentOutPayeer(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currency") String currency,
@@ -115,7 +122,7 @@ public interface Livecoin {
 
   @POST
   @Path("payment/out/capitalist")
-  LivecoinResponse<Map> paymentOutCapitalist(
+  LivecoinResponseWithDataMap paymentOutCapitalist(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currency") String currency,
@@ -125,7 +132,7 @@ public interface Livecoin {
 
   @POST
   @Path("payment/out/card")
-  LivecoinResponse<Map> paymentOutCard(
+  LivecoinResponseWithDataMap paymentOutCard(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currency") String currency,
@@ -137,7 +144,7 @@ public interface Livecoin {
 
   @POST
   @Path("payment/out/okpay")
-  LivecoinResponse<Map> paymentOutOkPay(
+  LivecoinResponseWithDataMap paymentOutOkPay(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currency") String currency,
@@ -148,7 +155,7 @@ public interface Livecoin {
 
   @POST
   @Path("payment/out/perfectmoney")
-  LivecoinResponse<Map> paymentOutPerfectmoney(
+  LivecoinResponseWithDataMap paymentOutPerfectmoney(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currency") String currency,
@@ -181,7 +188,7 @@ public interface Livecoin {
 
   @POST
   @Path("exchange/buylimit")
-  Map buyWithLimitOrder(
+  LivecoinOrderResponse buyWithLimitOrder(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currencyPair") String currencyPair,
@@ -191,7 +198,7 @@ public interface Livecoin {
 
   @POST
   @Path("exchange/selllimit")
-  Map sellWithLimitOrder(
+  LivecoinOrderResponse sellWithLimitOrder(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currencyPair") String currencyPair,
@@ -201,7 +208,7 @@ public interface Livecoin {
 
   @POST
   @Path("exchange/buymarket")
-  Map buyWithMarketOrder(
+  LivecoinOrderResponse buyWithMarketOrder(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currencyPair") String currencyPair,
@@ -210,7 +217,7 @@ public interface Livecoin {
 
   @POST
   @Path("exchange/sellmarket")
-  Map sellWithMarketOrder(
+  LivecoinOrderResponse sellWithMarketOrder(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currencyPair") String currencyPair,
@@ -219,7 +226,7 @@ public interface Livecoin {
 
   @POST
   @Path("exchange/cancellimit")
-  Map cancelLimitOrder(
+  LivecoinCancelResponse cancelLimitOrder(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @FormParam("currencyPair") String currencyPair,
