@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -114,7 +115,8 @@ public class CexIOArchivedOrder {
   public final String symbol1;
   public final String symbol2;
   public final BigDecimal amount;
-  public final BigDecimal price;
+  public final BigDecimal orderPrice;
+  public final BigDecimal averageExecutionPrice;
   public final String remains;
   public final String tradingFeeMaker;
   public final String tradingFeeTaker;
@@ -134,7 +136,8 @@ public class CexIOArchivedOrder {
       String symbol1,
       String symbol2,
       BigDecimal amount,
-      BigDecimal price,
+      BigDecimal orderPrice,
+      BigDecimal averageExecutionPrice,
       String remains,
       String tradingFeeMaker,
       String tradingFeeTaker,
@@ -152,7 +155,8 @@ public class CexIOArchivedOrder {
     this.symbol1 = symbol1;
     this.symbol2 = symbol2;
     this.amount = amount;
-    this.price = price;
+    this.orderPrice = orderPrice;
+    this.averageExecutionPrice = averageExecutionPrice;
     this.remains = remains;
     this.tradingFeeMaker = tradingFeeMaker;
     this.tradingFeeTaker = tradingFeeTaker;
@@ -167,72 +171,93 @@ public class CexIOArchivedOrder {
     @Override
     public CexIOArchivedOrder deserialize(JsonParser jsonParser, DeserializationContext context)
         throws IOException {
-      Map<String, String> map = new HashMap<>();
-
       JsonNode jsonNode = jsonParser.getCodec().readTree(jsonParser);
-      Iterator<Map.Entry<String, JsonNode>> tradesResultIterator = jsonNode.fields();
-      while (tradesResultIterator.hasNext()) {
-        Map.Entry<String, JsonNode> entry = tradesResultIterator.next();
-        map.put(entry.getKey(), entry.getValue().asText());
-      }
 
-      BigDecimal feeValue = null;
-      String feeCcy = null;
-      Pattern pattern = Pattern.compile("([af])\\:(.*?)\\:cds");
+      try {
 
-      Map<String, BigDecimal> filled = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
 
-      for (String key : map.keySet()) {
-        Matcher matcher = pattern.matcher(key);
-        if (matcher.matches()) {
-          String feeOrAmount = matcher.group(1);
+        Iterator<Map.Entry<String, JsonNode>> tradesResultIterator = jsonNode.fields();
+        while (tradesResultIterator.hasNext()) {
+          Map.Entry<String, JsonNode> entry = tradesResultIterator.next();
+          map.put(entry.getKey(), entry.getValue().asText());
+        }
 
-          String ccy = matcher.group(2);
-          BigDecimal value = new BigDecimal(map.get(key));
+        BigDecimal feeValue = null;
+        String feeCcy = null;
+        Pattern pattern = Pattern.compile("([af])\\:(.*?)\\:cds");
 
-          if (feeOrAmount.equals("a")) {
-            filled.put(ccy, value);
-          } else if (feeOrAmount.equals("f")) {
-            feeValue = value;
-            feeCcy = ccy;
-          } else {
-            throw new IllegalStateException("Cannot parse " + key);
+        Map<String, BigDecimal> filled = new HashMap<>();
+
+        for (String key : map.keySet()) {
+          Matcher matcher = pattern.matcher(key);
+          if (matcher.matches()) {
+            String feeOrAmount = matcher.group(1);
+
+            String ccy = matcher.group(2);
+            BigDecimal value = new BigDecimal(map.get(key));
+
+            if (feeOrAmount.equals("a")) {
+              filled.put(ccy, value);
+            } else if (feeOrAmount.equals("f")) {
+              feeValue = value;
+              feeCcy = ccy;
+            } else {
+              throw new IllegalStateException("Cannot parse " + key);
+            }
           }
         }
+
+        String counter = map.get("symbol2");
+        String base = map.get("symbol1");
+
+        BigDecimal orderPrice = null;
+        // market orders don't have a price
+        if (map.containsKey("price")) orderPrice = new BigDecimal(map.get("price"));
+
+        int priceScale = 8; // todo: check if this is correct for all
+        BigDecimal counterAmount = filled.get(counter);
+        BigDecimal baseAmount = filled.get(base);
+
+        BigDecimal averageExecutionPrice = null;
+        if (baseAmount != null && baseAmount.compareTo(BigDecimal.ZERO) > 0)
+          averageExecutionPrice =
+              counterAmount.divide(baseAmount, priceScale, RoundingMode.HALF_UP);
+
+        BigDecimal amount = new BigDecimal(map.get("amount"));
+
+        if (amount.compareTo(BigDecimal.ZERO) == 0 && map.containsKey("amount2")) {
+          // the 'amount' field changes name for market orders
+          // and represents the amount in the counter ccy instead
+          // of the base ccy
+          BigDecimal amount2 = new BigDecimal(map.get("amount2"));
+
+          amount = amount2.divide(averageExecutionPrice, 8, RoundingMode.HALF_UP);
+        }
+
+        return new CexIOArchivedOrder(
+            map.get("id"),
+            map.get("type"),
+            map.get("time"),
+            map.get("lastTxTime"),
+            map.get("lastTx"),
+            map.get("pos"),
+            map.get("status"),
+            base,
+            counter,
+            amount,
+            orderPrice,
+            averageExecutionPrice,
+            map.get("remains"),
+            map.get("tradingFeeMaker"),
+            map.get("tradingFeeTaker"),
+            map.get("tradingFeeUserVolumeAmount"),
+            map.get("orderId"),
+            feeValue,
+            feeCcy);
+      } catch (Exception e) {
+        throw new IllegalStateException("Failed to parse " + jsonNode, e);
       }
-
-      String counter = map.get("symbol2");
-      String base = map.get("symbol1");
-
-      BigDecimal price = new BigDecimal(map.get("price"));
-
-      BigDecimal amount = new BigDecimal(map.get("amount"));
-      if (amount.compareTo(BigDecimal.ZERO) == 0)
-        amount =
-            new BigDecimal(
-                map.get(
-                    "amount2")); // madness - i think the 'amount' field changes name for market//
-      // orders
-
-      return new CexIOArchivedOrder(
-          map.get("id"),
-          map.get("type"),
-          map.get("time"),
-          map.get("lastTxTime"),
-          map.get("lastTx"),
-          map.get("pos"),
-          map.get("status"),
-          base,
-          counter,
-          amount,
-          price,
-          map.get("remains"),
-          map.get("tradingFeeMaker"),
-          map.get("tradingFeeTaker"),
-          map.get("tradingFeeUserVolumeAmount"),
-          map.get("orderId"),
-          feeValue,
-          feeCcy);
     }
   }
 }

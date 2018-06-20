@@ -137,9 +137,9 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
 
   public static class LiquiTradeHistoryParams
       implements TradeHistoryParams,
-      TradeHistoryParamLimit,
-      TradeHistoryParamsTimeSpan,
-      TradeHistoryParamCurrencyPair {
+          TradeHistoryParamLimit,
+          TradeHistoryParamsTimeSpan,
+          TradeHistoryParamCurrencyPair {
 
     private Integer limit = 1000;
     private Date startTime;
