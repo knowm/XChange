@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.hitbtc.dto.*;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -34,7 +35,7 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
         String pair = currencyPair.base.toString() + currencyPair.counter.toString();
         String channelName = getChannelName("orderbook", pair);
-        final ObjectMapper mapper = getObjectMapper();
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         Observable<JsonNode> jsonNodeObservable = service.subscribeChannel(channelName);
         return jsonNodeObservable
@@ -50,7 +51,7 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
         String pair = currencyPair.base.toString() + currencyPair.counter.toString();
         String channelName = getChannelName("trades", pair);
-        final ObjectMapper mapper = getObjectMapper();
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         return service.subscribeChannel(channelName)
                 .map(s -> mapper.readValue(s.toString(), HitbtcWebSocketTradesTransaction.class))
@@ -69,7 +70,7 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
         String pair = currencyPair.base.toString() + currencyPair.counter.toString();
         String channelName = getChannelName("ticker", pair);
-        final ObjectMapper mapper = getObjectMapper();
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         return service.subscribeChannel(channelName)
                 .map(s -> mapper.readValue(s.toString(), HitbtcWebSocketTickerTransaction.class))
@@ -80,9 +81,4 @@ public class HitbtcStreamingMarketDataService implements StreamingMarketDataServ
         return entityName + "-" + pair;
     }
 
-    private ObjectMapper getObjectMapper() {
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return mapper;
-    }
 }

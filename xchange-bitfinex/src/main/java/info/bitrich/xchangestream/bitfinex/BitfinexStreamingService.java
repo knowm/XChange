@@ -127,7 +127,6 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         }
         if (subscribeMessage == null) throw new IOException("SubscribeMessage: Insufficient arguments");
 
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 
