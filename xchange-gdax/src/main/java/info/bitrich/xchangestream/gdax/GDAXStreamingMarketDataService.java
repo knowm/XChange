@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gdax.dto.GDAXWebSocketTransaction;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -52,8 +53,8 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
 
         String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         final int maxDepth = (args.length > 0 && args[0] instanceof Integer) ? (int) args[0] : 0;
 
@@ -87,8 +88,8 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for ticker", currencyPair));
 
         String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         Observable<GDAXWebSocketTransaction> subscribedChannel = service.subscribeChannel(channelName)
                 .map(s -> mapper.readValue(s.toString(), GDAXWebSocketTransaction.class));
@@ -114,8 +115,8 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for ticker", currencyPair));
 
         String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         Observable<GDAXWebSocketTransaction> subscribedChannel = service.subscribeChannel(channelName)
                 .map(s -> mapper.readValue(s.toString(), GDAXWebSocketTransaction.class));
@@ -132,8 +133,8 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for trades", currencyPair));
 
         String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         Observable<GDAXWebSocketTransaction> subscribedChannel = service.subscribeChannel(channelName)
                 .map(s -> mapper.readValue(s.toString(), GDAXWebSocketTransaction.class));

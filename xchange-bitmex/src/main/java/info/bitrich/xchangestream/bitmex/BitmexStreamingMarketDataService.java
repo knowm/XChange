@@ -113,4 +113,14 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
             return bitmexExecutions;
         });
     }
+
+//    /**
+//     *
+//     * @param rate in milliseconds to send updated
+//     * @param timeout milliseconds from now after which orders will be cancelled
+//     */
+//    public void enableDeadManSwitch(long rate, long timeout) {
+//        streamingService.sendMessage();
+//    }
+
 }

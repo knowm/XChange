@@ -20,7 +20,6 @@ import java.io.IOException;
  */
 public class BitmexStreamingService extends JsonNettyStreamingService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
-    private final ObjectMapper mapper = new ObjectMapper();
     private final String apiKey;
     private final String secretKey;
 
@@ -28,7 +27,6 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         super(apiUrl, Integer.MAX_VALUE);
         this.apiKey = apiKey;
         this.secretKey = secretKey;
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
 	 @Override
@@ -52,7 +50,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
     public Observable<BitmexWebSocketTransaction> subscribeBitmexChannel(String channelName) {
         return subscribeChannel(channelName).map(s -> {
-            BitmexWebSocketTransaction transaction = mapper.readValue(s.toString(), BitmexWebSocketTransaction.class);
+            BitmexWebSocketTransaction transaction = objectMapper.treeToValue(s, BitmexWebSocketTransaction.class);
             return transaction;
         })
                 .share();
@@ -87,12 +85,13 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         BitmexWebSocketSubscriptionMessage subscribeMessage = new BitmexWebSocketSubscriptionMessage("subscribe", new String[]{channelName});
-        return mapper.writeValueAsString(subscribeMessage);
+        return objectMapper.writeValueAsString(subscribeMessage);
     }
 
     @Override
     public String getUnsubscribeMessage(String channelName) throws IOException {
         BitmexWebSocketSubscriptionMessage subscribeMessage = new BitmexWebSocketSubscriptionMessage("unsubscribe", new String[]{channelName});
-        return mapper.writeValueAsString(subscribeMessage);
+        return objectMapper.writeValueAsString(subscribeMessage);
     }
+
 }
