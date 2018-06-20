@@ -14,7 +14,7 @@ import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.livecoin.LivecoinExchange;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 
-public class MarketDataIntegrationTest {
+public class MarketDataIntegration {
 
   private static LivecoinMarketDataService marketDataService;
 
