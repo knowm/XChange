@@ -39,7 +39,6 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
 
     OkCoinStreamingMarketDataService(OkCoinStreamingService service) {
         this.service = service;
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitmex.dto.*;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.bitmex.BitmexContract;
 import org.knowm.xchange.bitmex.BitmexPrompt;
@@ -23,7 +24,7 @@ import java.util.*;
 public class BitmexStreamingMarketDataService implements StreamingMarketDataService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingMarketDataService.class);
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = StreamingObjectMapperHelper.getObjectMapper();
 
     private final BitmexStreamingService streamingService;
 
