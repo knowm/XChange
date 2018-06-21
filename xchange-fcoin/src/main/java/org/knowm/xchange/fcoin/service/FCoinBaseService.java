@@ -27,6 +27,5 @@ public class FCoinBaseService extends BaseExchangeService implements BaseService
             FCoin.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     signatureCreator =
         FCoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), apiKey);
-
   }
 }
