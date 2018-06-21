@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -152,6 +155,13 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
 
     return BitfinexAdapters.adaptFundingHistory(
         getDepositWithdrawalHistory(currency, null, startTime, endTime, limit));
+  }
+
+  @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    List<CurrencyPair> allCurrencyPairs = exchange.getExchangeSymbols();
+    return BitfinexAdapters.adaptDynamicTradingFees(
+        getBitfinexDynamicTradingFees(), allCurrencyPairs);
   }
 
   public static class BitfinexFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan

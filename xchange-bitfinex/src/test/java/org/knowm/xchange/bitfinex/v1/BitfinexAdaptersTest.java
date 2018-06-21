@@ -8,10 +8,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexFeesJSONTest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeeResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWalletJSONTest;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
@@ -21,6 +26,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -32,6 +38,47 @@ public class BitfinexAdaptersTest {
 
   private static final String MARKET = "bitfinex";
   private static final String SYMBOL = "BTCUSD";
+
+  @Test
+  public void shouldAdaptDynamicTradingFees() throws IOException {
+    InputStream is =
+        BitfinexFeesJSONTest.class.getResourceAsStream(
+            "/v1/account/example-account-info-fees.json");
+    ObjectMapper mapper = new ObjectMapper();
+    BitfinexTradingFeeResponse[] readValues =
+        mapper.readValue(is, BitfinexTradingFeeResponse[].class);
+    assertEquals(2, readValues.length);
+    List<CurrencyPair> currencyPairs =
+        new ArrayList<CurrencyPair>(
+            Arrays.asList(
+                new CurrencyPair[] {
+                  CurrencyPair.BTC_LTC,
+                  CurrencyPair.LTC_AUD,
+                  CurrencyPair.ETH_BTC,
+                  CurrencyPair.DGC_BTC,
+                  CurrencyPair.BTC_USD
+                }));
+    Map<CurrencyPair, Fee> feesPerPair =
+        BitfinexAdapters.adaptDynamicTradingFees(readValues, currencyPairs);
+    assertEquals(currencyPairs.size(), feesPerPair.size());
+
+    BigDecimal point1 = BigDecimal.ONE.divide(BigDecimal.TEN);
+    BigDecimal point2 = point1.multiply(new BigDecimal(2));
+    BigDecimal point025 = new BigDecimal(25).divide(new BigDecimal(1000));
+    BigDecimal point01 = BigDecimal.ONE.divide(new BigDecimal(100));
+
+    Fee btcLTCFee = feesPerPair.get(CurrencyPair.BTC_LTC);
+    Fee btcExpectedFee = new Fee(point1, point2);
+    assertEquals(btcExpectedFee, btcLTCFee);
+    Fee btcUSDFee = feesPerPair.get(CurrencyPair.BTC_USD);
+    assertEquals(btcExpectedFee, btcUSDFee);
+    Fee ltcFee = feesPerPair.get(CurrencyPair.LTC_AUD);
+    assertEquals(new Fee(point1, point2), ltcFee);
+    Fee ethFee = feesPerPair.get(CurrencyPair.ETH_BTC);
+    assertEquals(new Fee(point1, point2), ethFee);
+    Fee dgcFee = feesPerPair.get(CurrencyPair.DGC_BTC);
+    assertEquals(new Fee(point025, point01), dgcFee);
+  }
 
   @Test
   public void shouldAdaptBalances() throws IOException {

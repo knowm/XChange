@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeeResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendLevel;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
@@ -25,6 +26,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -50,6 +52,35 @@ public final class BitfinexAdapters {
   public static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
 
   private BitfinexAdapters() {}
+
+  /**
+   * Each element in the response array contains a set of currencies that are at a given fee tier.
+   * The API returns the fee per currency in each tier and does not make any promises that they are
+   * all the same, so this adapter will use the fee per currency instead of the fee per tier.
+   */
+  public static Map<CurrencyPair, Fee> adaptDynamicTradingFees(
+      BitfinexTradingFeeResponse[] responses, List<CurrencyPair> currencyPairs) {
+    Map<CurrencyPair, Fee> result = new HashMap<CurrencyPair, Fee>();
+    for (BitfinexTradingFeeResponse response : responses) {
+      BitfinexTradingFeeResponse.BitfinexTradingFeeResponseRow[] responseRows =
+          response.getTradingFees();
+      for (BitfinexTradingFeeResponse.BitfinexTradingFeeResponseRow responseRow : responseRows) {
+        Currency currency = Currency.getInstance(responseRow.getCurrency());
+        Fee fee = new Fee(responseRow.getMakerFee(), responseRow.getTakerFee());
+        for (CurrencyPair pair : currencyPairs) {
+          // Fee to trade for a currency is the fee to trade currency pairs with this base.
+          // Fee is typically assessed in units counter.
+          if (pair.base.equals(currency)) {
+            if (result.put(pair, fee) != null) {
+              throw new IllegalStateException(
+                  "Fee for currency pair " + pair + " is overspecified");
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
 
   public static String adaptBitfinexCurrency(String bitfinexSymbol) {
     String currency = bitfinexSymbol.toUpperCase();
