@@ -1380,6 +1380,10 @@
     "ZEC": {
       "scale": 8,
       "withdrawal_fee": 0.001
+    },
+    "ZRX": {
+      "scale": 8,
+      "withdrawal_fee": 5.0
     }
   },
   "private_rate_limits": [
