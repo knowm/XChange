@@ -135,6 +135,7 @@
 		<module>xchange-dsx</module>
 		<module>xchange-exmo</module>
 		<module>xchange-examples</module>
+		<module>xchange-fcoin</module>
 		<module>xchange-gatecoin</module>
 		<module>xchange-gateio</module>
 		<module>xchange-gdax</module>
