@@ -10,10 +10,8 @@ import org.knowm.xchange.fcoin.dto.trade.FCoinType;
 import org.knowm.xchange.fcoin.service.FCoinDigest;
 import si.mazi.rescu.*;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
