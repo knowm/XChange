@@ -1271,6 +1271,10 @@
       "scale": 8,
       "withdrawal_fee": 10.0
     },
+    "ADX": {
+      "scale": 8,
+      "withdrawal_fee": 0.5
+    },
     "AST": {
       "scale": 4,
       "withdrawal_fee": 5.0
