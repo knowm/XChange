@@ -398,6 +398,10 @@
       "scale": 8,
       "withdrawal_fee": 0.2
     },
+    "ADX": {
+      "scale": 8,
+      "withdrawal_fee": 3.0
+    },
     "AMP": {
       "scale": 8,
       "withdrawal_fee": 5.0
