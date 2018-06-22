@@ -16,6 +16,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -115,13 +116,19 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
         });
     }
 
-//    /**
-//     *
-//     * @param rate in milliseconds to send updated
-//     * @param timeout milliseconds from now after which orders will be cancelled
-//     */
-//    public void enableDeadManSwitch(long rate, long timeout) {
-//        streamingService.sendMessage();
-//    }
+    /**
+     * @param rate    in milliseconds to send updated
+     * @param timeout milliseconds from now after which orders will be cancelled
+     */
+    public void enableDeadManSwitch() throws IOException {
+        enableDeadManSwitch(BitmexStreamingService.DMS_RESUBSCRIBE, BitmexStreamingService.DMS_CANCEL_ALL_IN);
+    }
 
+    public void enableDeadManSwitch(long rate, long timeout) throws IOException {
+        streamingService.enableDeadMansSwitch(rate, timeout);
+    }
+
+    public boolean isDeadManSwitchEnabled() throws IOException {
+        return streamingService.isDeadMansSwitchEnabled();
+    }
 }
