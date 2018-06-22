@@ -131,4 +131,8 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     public boolean isDeadManSwitchEnabled() throws IOException {
         return streamingService.isDeadMansSwitchEnabled();
     }
+
+    public void disableDeadMansSwitch() throws IOException {
+        streamingService.disableDeadMansSwitch();
+    }
 }
