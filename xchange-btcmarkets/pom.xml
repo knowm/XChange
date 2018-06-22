@@ -27,7 +27,7 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.8-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- PowerMockito for unit tests -->
