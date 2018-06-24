@@ -3,6 +3,9 @@ package org.knowm.xchange.coinmarketcap.dto.marketdata;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.junit.Test;
 
 /** @author allenday */
@@ -14,28 +17,28 @@ public class CoinMarketCapMarketDataJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinMarketCapMarketDataJsonTest.class.getResourceAsStream(
-            "/org/knowm/xchange/coinmarketcap/dto/marketdata/example-ticker-data.json");
+            "/org/knowm/xchange/coinmarketcap/dto/marketdata/example-ticker-data-v2.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     // MapLikeType mapType = mapper.getTypeFactory().constructMapLikeType(HashMap.class,
     // String.class, String.class);
 
-    CoinMarketCapTicker[] tickers = mapper.readValue(is, CoinMarketCapTicker[].class);
+    List<CoinMarketCapTicker> tickers = mapper.readValue(is, CoinMarketCapArrayData.class).getData();
 
     CoinMarketCapTicker eth = null;
     CoinMarketCapTicker btc = null;
 
     for (CoinMarketCapTicker t : tickers) {
-      if (t.getIsoCode().compareTo("ETH") == 0) eth = t;
-      if (t.getIsoCode().compareTo("BTC") == 0) btc = t;
+      if (t.getSymbol().compareTo("ETH") == 0) eth = t;
+      if (t.getSymbol().compareTo("BTC") == 0) btc = t;
     }
 
-    assert (eth.getIsoCode().compareTo("ETH") == 0);
-    assert (btc.getIsoCode().compareTo("BTC") == 0);
-    assert (btc.getPriceUSD().doubleValue() == 4423.52);
-    assert (eth.getPriceUSD().doubleValue() == 298.777);
-    assert (eth.getPriceBTC().doubleValue() == 0.067607);
+    assert (eth.getSymbol().compareTo("ETH") == 0);
+    assert (btc.getSymbol().compareTo("BTC") == 0);
+    assert (btc.getQuotes().get("USD").getPrice().doubleValue() == 5947.06);
+    assert (eth.getQuotes().get("USD").getPrice().doubleValue() == 440.86);
+    assert (eth.getQuotes().get("BTC").getPrice().doubleValue() == 0.074130747);
 
     //    Map<String, BigDecimal> exchangeRates = mapper.readValue(is, mapType);
     //
