@@ -16,7 +16,9 @@ public class RippleNotificationTest {
   @Test
   public void notificationUnmarshalTest() throws IOException, ParseException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-notifications.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-notifications.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleNotifications response = mapper.readValue(is, RippleNotifications.class);
 

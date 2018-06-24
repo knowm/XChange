@@ -15,7 +15,8 @@ public class LakeBTCAccountJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        LakeBTCAccountJsonTest.class.getResourceAsStream("/account/example-account-data.json");
+        LakeBTCAccountJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/lakebtc/dto/account/example-account-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

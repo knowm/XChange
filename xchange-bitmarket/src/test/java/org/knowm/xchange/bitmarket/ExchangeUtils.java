@@ -15,7 +15,9 @@ public class ExchangeUtils {
   public static Exchange createExchangeFromProperties() {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BitMarketExchange.class);
-    InputStream is = ExchangeUtils.class.getResourceAsStream("/configuration.properties");
+    InputStream is =
+        ExchangeUtils.class.getResourceAsStream(
+            "/org/knowm/xchange/bitmarket/dto/configuration.properties");
     Properties props = new Properties();
 
     try {

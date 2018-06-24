@@ -18,7 +18,8 @@ public class BTCTurkTickerTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        BTCTurkTickerTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        BTCTurkTickerTest.class.getResourceAsStream(
+            "/org/knowm/xchange/btcturk/dto/marketdata/example-ticker-data.json");
     ObjectMapper mapper = new ObjectMapper();
     BTCTurkTicker btcTurkTicker = mapper.readValue(is, BTCTurkTicker.class);
 

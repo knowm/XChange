@@ -60,7 +60,9 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     HuobiOrderResult result =
         huobi.placeLimitOrder(
             new HuobiCreateOrderRequest(
-                limitOrder.getId(),
+                String.valueOf(
+                    ((HuobiAccountServiceRaw) exchange.getAccountService())
+                        .getAccounts()[0].getId()),
                 limitOrder.getOriginalAmount().toString(),
                 limitOrder.getLimitPrice().toString(),
                 HuobiUtils.createHuobiCurrencyPair(limitOrder.getCurrencyPair()),

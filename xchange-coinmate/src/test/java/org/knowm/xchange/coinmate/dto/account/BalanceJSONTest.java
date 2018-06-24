@@ -39,7 +39,9 @@ public class BalanceJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = OrderBookJSONTest.class.getResourceAsStream("/account/example-balance.json");
+    InputStream is =
+        OrderBookJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/account/example-balance.json");
 
     ObjectMapper mapper = new ObjectMapper();
     CoinmateBalance coinmateBalance = mapper.readValue(is, CoinmateBalance.class);

@@ -26,7 +26,8 @@ public class BitcointoyouMarketDataTest {
   private static BitcointoyouMarketData loadBitcointoyouTickerFromExampleData() throws IOException {
 
     InputStream is =
-        BitcointoyouAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        BitcointoyouAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcointoyou/dto/marketdata/example-ticker-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(is, BitcointoyouMarketData.class);

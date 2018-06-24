@@ -31,7 +31,8 @@ public class QuoineAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        QuoineTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        QuoineTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -51,7 +52,8 @@ public class QuoineAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        QuoineOrdersListJSONTest.class.getResourceAsStream("/trade/example-orders-list.json");
+        QuoineOrdersListJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/trade/example-orders-list.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -72,7 +74,8 @@ public class QuoineAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        QuoineOrderBookJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        QuoineOrderBookJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -92,7 +95,8 @@ public class QuoineAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        QuoineWalletJSONTest.class.getResourceAsStream("/account/example-account-data.json");
+        QuoineWalletJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/account/example-account-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

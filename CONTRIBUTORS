@@ -16,9 +16,9 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
-小田謙太郎
 =
 Achterhoeker
+Adam from WALCZAK.IT
 Alejandro Reyero
 Aleksey Baryshnikov
 Alex Nugent
@@ -27,10 +27,12 @@ Alexey Z
 Allen Day
 Alvin Singh
 Andraž
+Andrea Fossi
 André Reiter
 Anthony Tsang
 Arthurm1
 Artur
+Artur M
 Baffo32
 Benedict Wong
 Benedikt Bünz
@@ -46,6 +48,7 @@ Chris Rico
 Christian Strässle
 Cray Imperative
 Cristian Lucaci
+Cyril
 Daniel Cohen
 Danilo Guimarães
 Dave Seyb
@@ -131,12 +134,17 @@ Mikelle
 Mikhail Wall
 Miso Oprendek
 Muffon
+Nathan King
 Nicolas Pinot
+Nikita Belenkiy
+Niko Schmuck
 Norbert Sándor
 ObsessiveOrange
+Oleg Danilov
 Oleg Khomenko
 Oliver Drotleff
 Oscar Francia
+Pablo Lopez
 Pan, Xinyang
 Panchen
 Pavlo Pastushok
@@ -145,8 +153,8 @@ Peter N. Steinmetz
 Piotr Ladyzynski
 Piotr Ładyżyński
 Radu
-Rafał Krupiński
 Rafal Krupinski
+Rafał Krupiński
 Raphael Voellmy
 Richard Flint
 Robert Felker
@@ -157,11 +165,15 @@ Ryan Fox
 Ryan Sundberg
 Sebastiaan van Erk
 Sergey Belyakov
+Sergey Lukashevich
 Sergey Tselovalnikov
+Sergii Pogodin
 Sergio Rodriguez
 Sikerdebaard
+Snailz
 Stuart Low
 Sumedha Saxena
+Sylvain
 Sébastien Koch
 TM Lee
 The Gitter Badger
@@ -185,6 +197,7 @@ Wojciech Langiewicz
 Wyatt Endres
 Yang Yang
 Ying Zhe Chong
+Your Name
 Yuki INOUE
 Zach Holmes
 Zdenek Dolezal
@@ -192,8 +205,11 @@ Zorge.R
 ahmetoz
 ajdev
 aleks-azen
+aleksazen@gmail.com
 alessandro luppi
 alobarev
+amjad1210
+anton
 anw
 apaygh
 artvel
@@ -201,11 +217,14 @@ b00lean
 bharris
 bolo
 bolobox
+boppleton
 brilliantnut
 bronko
+bronoman
 brox
 cacofish
 cacofishadct
+caleb
 coinlover75
 cymp
 cyril
@@ -225,10 +244,14 @@ gmorpheme
 godoorsun
 gpwclark
 hardsky
+hbwhyte
 henry
+huguanrui
 hurricup
+interwater
 ivan.kosianenko
 jamespedwards42
+jasonliu119
 jclaruelle
 jcuypers
 johndemic
@@ -247,8 +270,10 @@ mazi
 mdeverdelhan
 mfarid
 mharris021
+michaelscheung
 miho
 mnapier
+moardm
 nakedpony
 nicostouch
 nimrood
@@ -257,10 +282,12 @@ nxtpool@gmail.com
 o
 odaken
 paul
+pchertalev
 perlboy
 piotr
 pnkwpk
 pozheg
+procyon
 seanrobb
 sebastienkoch
 semihunaldi
@@ -275,12 +302,17 @@ stephane-coulomb
 stevenuray
 suchac
 swiesend
+taoruifu
 tbosman
 tim
 timmolter
+trix
+trix13
 veken0m
 vulicevic
 will
 wvr
 ww3456
 zholmes
+陈晔
+小田謙太郎

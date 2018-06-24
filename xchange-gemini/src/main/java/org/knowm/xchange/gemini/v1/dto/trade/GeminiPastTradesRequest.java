@@ -17,7 +17,7 @@ public class GeminiPastTradesRequest {
   protected long timestamp;
 
   @JsonProperty("limit_trades")
-  protected int limitTrades;
+  protected Integer limitTrades;
 
   /**
    * Constructor
@@ -27,7 +27,7 @@ public class GeminiPastTradesRequest {
    * @param timestamp
    * @param limitTrades
    */
-  public GeminiPastTradesRequest(String nonce, String symbol, long timestamp, int limitTrades) {
+  public GeminiPastTradesRequest(String nonce, String symbol, long timestamp, Integer limitTrades) {
 
     this.request = "/v1/mytrades";
     this.nonce = nonce;

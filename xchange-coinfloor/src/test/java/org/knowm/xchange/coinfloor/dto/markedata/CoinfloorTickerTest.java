@@ -10,7 +10,9 @@ import org.junit.Test;
 public class CoinfloorTickerTest {
   @Test
   public void unmarshalTest() throws IOException {
-    InputStream is = getClass().getResourceAsStream("/marketdata/example-ticker.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream("/org/knowm/xchange/coinfloor/dto/marketdata/example-ticker.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinfloorTicker ticker = mapper.readValue(is, CoinfloorTicker.class);
 

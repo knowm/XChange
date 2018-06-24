@@ -64,7 +64,8 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
     final LimitOrder[] expectedAsks = expectedAsks();
     final LimitOrder[] expectedBids = expectedBids();
 
-    BTCMarketsOrderBook orderBookMock = parse("ShortOrderBook", BTCMarketsOrderBook.class);
+    BTCMarketsOrderBook orderBookMock =
+        parse("org/knowm/xchange/btcmarkets/dto/" + "ShortOrderBook", BTCMarketsOrderBook.class);
 
     BTCMarkets btcmarkets = mock(BTCMarkets.class);
     PowerMockito.when(btcmarkets.getOrderBook("BTC", "AUD")).thenReturn(orderBookMock);

@@ -39,7 +39,8 @@ public class TransactionsJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        TransactionsJSONTest.class.getResourceAsStream("/marketdata/example-transactions.json");
+        TransactionsJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/marketdata/example-transactions.json");
 
     ObjectMapper mapper = new ObjectMapper();
     CoinmateTransactions coinmateTransactions = mapper.readValue(is, CoinmateTransactions.class);

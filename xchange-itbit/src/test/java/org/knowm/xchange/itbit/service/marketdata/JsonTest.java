@@ -16,7 +16,9 @@ public class JsonTest {
 
   @Test
   public void testTradeHistory() throws IOException {
-    InputStream is = JsonTest.class.getResourceAsStream("/ItBitTradeHistory.json");
+    InputStream is =
+        JsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/itbit/service/marketdata/ItBitTradeHistory.json");
 
     ObjectMapper mapper = new ObjectMapper();
     ItBitTradeHistory tradeHistory = mapper.readValue(is, ItBitTradeHistory.class);

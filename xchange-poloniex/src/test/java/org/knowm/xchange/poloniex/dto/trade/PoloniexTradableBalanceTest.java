@@ -17,7 +17,8 @@ public class PoloniexTradableBalanceTest {
   public void testUnmarshal() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        PoloniexAccountBalanceTest.class.getResourceAsStream("/trade/trade-tradable-balances.json");
+        PoloniexAccountBalanceTest.class.getResourceAsStream(
+            "/org/knowm/xchange/poloniex/dto/trade/trade-tradable-balances.json");
     ObjectMapper mapper = new ObjectMapper();
     JavaType stringType = mapper.getTypeFactory().constructType(String.class, String.class);
     MapLikeType mapType =

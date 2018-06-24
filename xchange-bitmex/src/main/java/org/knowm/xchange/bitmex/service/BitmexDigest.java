@@ -42,11 +42,15 @@ public class BitmexDigest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
-    String nonce = restInvocation.getParamValue(HeaderParam.class, "api-nonce").toString();
+    String nonce = restInvocation.getParamValue(HeaderParam.class, "api-expires").toString();
     String path = restInvocation.getInvocationUrl().split(restInvocation.getBaseUrl())[1];
     String payload =
         restInvocation.getHttpMethod() + "/" + path + nonce + restInvocation.getRequestBody();
 
+    return digestString(payload);
+  }
+
+  public String digestString(String payload) {
     return DatatypeConverter.printHexBinary(getMac().doFinal(payload.getBytes())).toLowerCase();
   }
 }

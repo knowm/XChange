@@ -17,7 +17,6 @@
 package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
@@ -32,9 +31,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -115,11 +112,6 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
     CoinmateCancelOrderResponse response = cancelCoinmateOrder(orderId);
 
@@ -138,7 +130,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     TradeHistoryParamsSorted.Order order = TradeHistoryParamsSorted.Order.asc;
-    int limit = 1000;
+    Integer limit = 1000;
     int offset = 0;
 
     if (params instanceof TradeHistoryParamOffset) {
@@ -166,11 +158,6 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   @Override
   public CoinmateOpenOrdersParams createOpenOrdersParams() {
     return new CoinmateOpenOrdersParams();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public static class CoinmateTradeHistoryHistoryParams

@@ -17,7 +17,9 @@ public class BitcoindeTradesTest {
       throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoindeTradesTest.class.getResourceAsStream("/trades.json");
+    InputStream is =
+        BitcoindeTradesTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcoinde/dto/trades.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

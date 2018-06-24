@@ -42,6 +42,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency BC = createCurrency("BC", "BlackCoin", null, "BLK");
   public static final Currency BCC = createCurrency("BCC", "BitConnect", null);
   public static final Currency BCH = createCurrency("BCH", "BitcoinCash", null);
+  public static final Currency BCA = createCurrency("BCA", "BitcoinAtom", null);
   public static final Currency BLK = getInstance("BLK");
   public static final Currency BDT = createCurrency("BDT", "Bangladeshi Taka", null);
   public static final Currency BGC = createCurrency("BGC", "Aten 'Black Gold' Coin", null);
@@ -145,7 +146,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency LKR = createCurrency("LKR", "Sri Lankan Rupee", null);
   public static final Currency LRD = createCurrency("LRD", "Liberian Dollar", null);
   public static final Currency LSL = createCurrency("LSL", "Lesotho Loti", null);
-  public static final Currency LTC = createCurrency("LTC", "Litecoin", "XLT");
+  public static final Currency LTC = createCurrency("LTC", "Litecoin", null, "XLT");
   public static final Currency XLT = getInstance("XLT");
   public static final Currency LTL = createCurrency("LTL", "Lithuanian Litas", null);
   public static final Currency LVL = createCurrency("LVL", "Latvian Lats", null);
@@ -260,13 +261,15 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency YER = createCurrency("YER", "Yemeni Rial", null);
   public static final Currency ZAR = createCurrency("ZAR", "South African Rand", null);
   public static final Currency ZEC = createCurrency("ZEC", "Zcash", null);
+  public static final Currency ZEN = createCurrency("ZEN", "ZenCash", null);
   public static final Currency ZMK = createCurrency("ZMK", "Zambian Kwacha", null);
   public static final Currency ZRC = createCurrency("ZRC", "ziftrCOIN", null);
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
 
   // Bitmex futures settlement dates
-  public static final Currency H18 = createCurrency("H18", "March 30th, 2018", null);
-  public static final Currency M18 = createCurrency("M18", "June 30th, 2018", null);
+  public static final Currency H18 = createCurrency("H18", "March 30th", null);
+  public static final Currency M18 = createCurrency("M18", "June 29th", null);
+  public static final Currency U18 = createCurrency("U18", "September 28th", null);
 
   // Cryptos
   public static final Currency BNB = createCurrency("BNB", "Binance Coin", null);

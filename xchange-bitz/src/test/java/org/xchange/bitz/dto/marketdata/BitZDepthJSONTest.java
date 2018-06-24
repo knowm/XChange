@@ -16,7 +16,8 @@ public class BitZDepthJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        BitZDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        BitZDepthJSONTest.class.getResourceAsStream(
+            "/org/xchange/bitz/dto/marketdata/example-depth-data.json");
 
     // Parse JSON Example Using Jackson
     ObjectMapper mapper = new ObjectMapper();

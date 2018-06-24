@@ -119,13 +119,24 @@ public class HuobiAdapters {
     OrderType orderType = adaptOrderType(openOrder.getType());
     CurrencyPair currencyPair = adaptCurrencyPair(openOrder.getSymbol());
     if (openOrder.isMarket()) {
-      order = new MarketOrder(orderType, openOrder.getAmount(), currencyPair);
+      order =
+          new MarketOrder(
+              orderType,
+              openOrder.getAmount(),
+              currencyPair,
+              String.valueOf(openOrder.getId()),
+              openOrder.getCreatedAt(),
+              null,
+              openOrder.getFieldAmount(),
+              openOrder.getFieldFees(),
+              null);
     }
     if (openOrder.isLimit()) {
       order =
           new LimitOrder(
               orderType,
               openOrder.getAmount(),
+              openOrder.getFieldAmount(),
               currencyPair,
               String.valueOf(openOrder.getId()),
               openOrder.getCreatedAt(),
@@ -166,7 +177,13 @@ public class HuobiAdapters {
   }
 
   private static OrderType adaptOrderType(String orderType) {
-    return orderType.substring(1, 3).equals("buy") ? OrderType.BID : OrderType.ASK;
+    if (orderType.startsWith("buy")) {
+      return OrderType.BID;
+    }
+    if (orderType.startsWith("sell")) {
+      return OrderType.ASK;
+    }
+    return null;
   }
 
   public static List<Order> adaptOrders(List<HuobiOrder> huobiOrders) {

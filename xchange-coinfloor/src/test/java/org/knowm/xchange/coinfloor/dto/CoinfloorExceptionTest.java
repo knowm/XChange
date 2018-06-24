@@ -15,7 +15,10 @@ public class CoinfloorExceptionTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/trade/example-order-entry-reject.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/coinfloor/dto/trade/example-order-entry-reject.json");
     CoinfloorException exception = mapper.readValue(is, CoinfloorException.class);
     assertThat(exception.getMessage()).startsWith("You have insufficient funds.");
     assertThat(exception.getErrorCode()).isEqualTo(4);

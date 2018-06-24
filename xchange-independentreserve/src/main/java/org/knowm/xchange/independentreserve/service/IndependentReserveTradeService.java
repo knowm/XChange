@@ -1,16 +1,11 @@
 package org.knowm.xchange.independentreserve.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -52,27 +47,12 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     return independentReservePlaceLimitOrder(
         limitOrder.getCurrencyPair(),
         limitOrder.getType(),
         limitOrder.getLimitPrice(),
         limitOrder.getOriginalAmount());
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

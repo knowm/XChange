@@ -18,7 +18,8 @@ public enum BitmexOrderStatus {
   OPEN,
   CLOSED,
   CANCELED,
-  EXPIRED;
+  EXPIRED,
+  REJECTED;
 
   private static final Map<String, BitmexOrderStatus> fromString = new HashMap<>();
 

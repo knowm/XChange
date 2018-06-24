@@ -74,11 +74,6 @@
       "trading_fee": 0.0025,
       "price_scale": 8
     },
-    "NOTE/BTC": {
-      "min_amount": 0.00000001,
-      "trading_fee": 0.0025,
-      "price_scale": 8
-    },
     "STR/BTC": {
       "min_amount": 0.00000001,
       "trading_fee": 0.0025,
@@ -105,11 +100,6 @@
       "price_scale": 8
     },
     "LTC/USDT": {
-      "min_amount": 0.00000001,
-      "trading_fee": 0.0025,
-      "price_scale": 8
-    },
-    "SJCX/BTC": {
       "min_amount": 0.00000001,
       "trading_fee": 0.0025,
       "price_scale": 8
@@ -185,11 +175,6 @@
       "price_scale": 8
     },
     "DCR/BTC": {
-      "min_amount": 0.00000001,
-      "trading_fee": 0.0025,
-      "price_scale": 8
-    },
-    "NAUT/BTC": {
       "min_amount": 0.00000001,
       "trading_fee": 0.0025,
       "price_scale": 8

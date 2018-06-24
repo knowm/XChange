@@ -331,7 +331,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
 
       final List<RippleAmount> balanceChanges = trade.getBalanceChanges();
       if (balanceChanges.size() < 2 || balanceChanges.size() > 3) {
-        continue; // this is not a trade - a trade will change 2 or 3 (including XRP fee) currency
+        continue; // this is not a trade - a trade will change 2 or 3 (including XRP fee) currency//
         // balances
       }
 

@@ -49,6 +49,14 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
     return serverTime.getTime();
   }
 
+  /**
+   * After period of time, the deltaServerTime may not accurate again. Need to catch the "Timestamp
+   * for this request was 1000ms ahead" exception and refresh the deltaServerTime.
+   */
+  public void refreshTimestamp() {
+    ((BinanceExchange) exchange).clearDeltaServerTime();
+  }
+
   public BinanceExchangeInfo getExchangeInfo() throws IOException {
 
     return binance.exchangeInfo();

@@ -7,18 +7,18 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated;
+import org.knowm.xchange.coinbase.v2.CoinbaseV2Digest;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTime;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.HmacDigest;
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 public class CoinbaseBaseService extends BaseExchangeService implements BaseService {
 
   protected final CoinbaseAuthenticated coinbase;
-  protected final ParamsDigest signatureCreator;
+  protected final CoinbaseV2Digest signatureCreator2;
 
   protected CoinbaseBaseService(Exchange exchange) {
 
@@ -28,8 +28,9 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
             CoinbaseAuthenticated.class,
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
-    signatureCreator =
-        CoinbaseDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+
+    signatureCreator2 =
+        CoinbaseV2Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   /**
@@ -56,18 +57,10 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
     return coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData();
   }
 
-  protected String getSignature(BigDecimal timestamp, String path) {
-    return getSignature(timestamp, HttpMethod.GET, path, null);
-  }
-
   protected String getSignature(BigDecimal timestamp, HttpMethod method, String path, String body) {
     String secretKey = exchange.getExchangeSpecification().getSecretKey();
     String message = timestamp + method.toString() + path + (body != null ? body : "");
     return new HmacDigest("HmacSHA256", secretKey).hexDigest(message);
-  }
-
-  protected void showCurl(String apiKey, BigDecimal timestamp, String signature, String path) {
-    showCurl(HttpMethod.GET, apiKey, timestamp, signature, path, null);
   }
 
   protected void showCurl(

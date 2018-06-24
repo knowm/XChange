@@ -19,7 +19,9 @@ public class WexTradeDataJSONTest {
   public void testOpenOrders() throws IOException {
 
     WexOpenOrdersReturn result =
-        getResult("/v3/trade/example-open-orders-data.json", WexOpenOrdersReturn.class);
+        getResult(
+            "/org/knowm/xchange/wex/v3/trade/example-open-orders-data.json",
+            WexOpenOrdersReturn.class);
     // Verify that the example data was unmarshalled correctly
     Map<Long, WexOrder> rv = result.getReturnValue();
     assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
@@ -30,7 +32,9 @@ public class WexTradeDataJSONTest {
   public void testOrderInfo() throws IOException {
 
     WexOrderInfoReturn result =
-        getResult("/v3/trade/example-order-info-data.json", WexOrderInfoReturn.class);
+        getResult(
+            "/org/knowm/xchange/wex/v3/trade/example-order-info-data.json",
+            WexOrderInfoReturn.class);
     // Verify that the example data was unmarshalled correctly
     Map<Long, WexOrderInfoResult> rv = result.getReturnValue();
     assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
@@ -42,7 +46,9 @@ public class WexTradeDataJSONTest {
   public void testOwnTransactions() throws IOException {
 
     WexTradeHistoryReturn result =
-        getResult("/v3/trade/example-trade-history-data.json", WexTradeHistoryReturn.class);
+        getResult(
+            "/org/knowm/xchange/wex/v3/trade/example-trade-history-data.json",
+            WexTradeHistoryReturn.class);
     // Verify that the example data was unmarshalled correctly
     Map<Long, WexTradeHistoryResult> rv = result.getReturnValue();
     assertThat(rv.keySet()).containsAll(Arrays.asList(7258275L, 7160193L));
@@ -60,7 +66,9 @@ public class WexTradeDataJSONTest {
   public void testCancelOrder() throws IOException {
 
     WexCancelOrderReturn result =
-        getResult("/v3/trade/example-cancel-order-data.json", WexCancelOrderReturn.class);
+        getResult(
+            "/org/knowm/xchange/wex/v3/trade/example-cancel-order-data.json",
+            WexCancelOrderReturn.class);
     // Verify that the example data was unmarshalled correctly
     WexCancelOrderResult rv = result.getReturnValue();
     Map<String, BigDecimal> funds = rv.getFunds();
@@ -73,7 +81,9 @@ public class WexTradeDataJSONTest {
   public void testPlaceOrder() throws IOException {
 
     WexPlaceOrderReturn result =
-        getResult("/v3/trade/example-place-order-data.json", WexPlaceOrderReturn.class);
+        getResult(
+            "/org/knowm/xchange/wex/v3/trade/example-place-order-data.json",
+            WexPlaceOrderReturn.class);
     // Verify that the example data was unmarshalled correctly
     WexPlaceOrderResult rv = result.getReturnValue();
     Map<String, BigDecimal> funds = rv.getFunds();

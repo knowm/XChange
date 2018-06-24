@@ -17,7 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.gdax.dto.GDAXException;
-import org.knowm.xchange.gdax.dto.GdaxTransfer;
+import org.knowm.xchange.gdax.dto.GdaxTransfers;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
@@ -149,6 +149,19 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
       throws GDAXException, IOException;
 
+  /**
+   * @param apiKey
+   * @param signer
+   * @param nonce
+   * @param passphrase
+   * @param tradeIdAfter Return trades before this tradeId.
+   * @param tradeIdBefore Return trades after this tradeId.
+   * @param orderId
+   * @param productId
+   * @return
+   * @throws GDAXException
+   * @throws IOException
+   */
   @GET
   @Path("fills")
   GDAXFill[] getFills(
@@ -156,7 +169,8 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @QueryParam("after") Integer startingOrderId,
+      @QueryParam("after") Integer tradeIdAfter,
+      @QueryParam("before") Integer tradeIdBefore,
       @QueryParam("order_id") String orderId,
       @QueryParam("product_id") String productId)
       throws GDAXException, IOException;
@@ -188,7 +202,7 @@ public interface GDAX {
   @GET
   @Path("accounts/{account_id}/transfers")
   @Consumes(MediaType.APPLICATION_JSON)
-  List<GdaxTransfer> transfers(
+  GdaxTransfers transfers(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,

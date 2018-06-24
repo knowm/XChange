@@ -16,6 +16,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -47,7 +48,9 @@ public interface TradeService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  OpenOrders getOpenOrders() throws IOException;
+  default OpenOrders getOpenOrders() throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Gets the open orders
@@ -65,7 +68,9 @@ public interface TradeService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException;
+  default OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Place a market order
@@ -80,7 +85,9 @@ public interface TradeService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  String placeMarketOrder(MarketOrder marketOrder) throws IOException;
+  default String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Place a limit order
@@ -95,7 +102,9 @@ public interface TradeService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  String placeLimitOrder(LimitOrder limitOrder) throws IOException;
+  default String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Place a stop order
@@ -110,7 +119,9 @@ public interface TradeService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  String placeStopOrder(StopOrder stopOrder) throws IOException;
+  default String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * cancels order with matching orderId (conveniance method, typical just delegate to
@@ -143,7 +154,9 @@ public interface TradeService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  boolean cancelOrder(CancelOrderParams orderParams) throws IOException;
+  default boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Fetch the history of user trades.
@@ -180,7 +193,9 @@ public interface TradeService extends BaseService {
    * @see #createTradeHistoryParams()
    * @see TradeHistoryParamsAll
    */
-  UserTrades getTradeHistory(TradeHistoryParams params) throws IOException;
+  default UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Create {@link TradeHistoryParams} object specific to this exchange. Object created by this
@@ -188,7 +203,9 @@ public interface TradeService extends BaseService {
    * #getTradeHistory(TradeHistoryParams)} parameters and should be passed only to the method in the
    * same class as the createTradeHistoryParams that created the object.
    */
-  TradeHistoryParams createTradeHistoryParams();
+  default TradeHistoryParams createTradeHistoryParams() {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Create {@link OpenOrdersParams} object specific to this exchange. Object created by this method
@@ -196,19 +213,25 @@ public interface TradeService extends BaseService {
    * parameters and should be passed only to the method in the same class as the
    * createOpenOrdersParams that created the object.
    */
-  OpenOrdersParams createOpenOrdersParams();
+  default OpenOrdersParams createOpenOrdersParams() {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Verify the order against the exchange meta data. Most implementations will require that {@link
    * org.knowm.xchange.Exchange#remoteInit()} be called before this method
    */
-  void verifyOrder(LimitOrder limitOrder);
+  default void verifyOrder(LimitOrder limitOrder) {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Verify the order against the exchange meta data. Most implementations will require that {@link
    * org.knowm.xchange.Exchange#remoteInit()} be called before this method
    */
-  void verifyOrder(MarketOrder marketOrder);
+  default void verifyOrder(MarketOrder marketOrder) {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * get's the latest order form the order book that with matching orderId
@@ -222,7 +245,18 @@ public interface TradeService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Collection<Order> getOrder(String... orderIds) throws IOException;
+  default Collection<Order> getOrder(String... orderIds) throws IOException {
+    return getOrder(toOrderQueryParams(orderIds));
+  }
+
+  static OrderQueryParams[] toOrderQueryParams(String... orderIds) {
+    OrderQueryParams[] res = new OrderQueryParams[orderIds.length];
+    for (int i = 0; i < orderIds.length; i++) {
+      String orderId = orderIds[i];
+      res[i] = new DefaultQueryOrderParam(orderId);
+    }
+    return res;
+  }
 
   /**
    * get's the latest order form the order book that with matching orderQueryParams

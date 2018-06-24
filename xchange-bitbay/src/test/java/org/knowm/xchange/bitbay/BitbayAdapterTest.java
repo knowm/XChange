@@ -22,7 +22,9 @@ public class BitbayAdapterTest {
   @Test
   public void testAccountInfoAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = BitbayAdapterTest.class.getResourceAsStream("/account/example-info-data.json");
+    InputStream is =
+        BitbayAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitbay/account/example-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -47,7 +49,9 @@ public class BitbayAdapterTest {
   @Test
   public void testOpenOrdersAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = BitbayAdapterTest.class.getResourceAsStream("/trade/example-orders-data.json");
+    InputStream is =
+        BitbayAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitbay/trade/example-orders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

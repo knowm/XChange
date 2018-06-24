@@ -18,7 +18,7 @@ public class CryptoFacilitiesAccountJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         CryptoFacilitiesAccountJSONTest.class.getResourceAsStream(
-            "/marketdata/example-account-data.json");
+            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-account-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

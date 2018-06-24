@@ -12,7 +12,9 @@ public class DSXFeesJSONTest {
 
   @Test
   public void testGetFees() throws IOException {
-    InputStream is = DSXFeesJSONTest.class.getResourceAsStream("/trade/example-fees-data.json");
+    InputStream is =
+        DSXFeesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/trade/example-fees-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXFeesReturn fees = mapper.readValue(is, DSXFeesReturn.class);

@@ -22,7 +22,8 @@ public class BitZAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        BitZAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        BitZAdapterTest.class.getResourceAsStream(
+            "/org/xchange/bitz/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -46,7 +47,8 @@ public class BitZAdapterTest {
   public void testOrdersAdapter() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        BitZAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        BitZAdapterTest.class.getResourceAsStream(
+            "/org/xchange/bitz/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -70,7 +72,8 @@ public class BitZAdapterTest {
   public void testTradesAdapter() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-        BitZAdapterTest.class.getResourceAsStream("/marketdata/example-orders-data.json");
+        BitZAdapterTest.class.getResourceAsStream(
+            "/org/xchange/bitz/dto/marketdata/example-orders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

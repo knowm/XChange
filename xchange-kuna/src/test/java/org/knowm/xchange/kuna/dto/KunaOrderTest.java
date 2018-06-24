@@ -13,31 +13,35 @@ import static org.knowm.xchange.kuna.dto.enums.KunaSide.BUY;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.SELL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
 public class KunaOrderTest {
 
-  private static KunaOrder order;
+  //  private static KunaOrder order;
 
-  @BeforeClass
-  public static void init() throws IOException {
+  //  @BeforeClass/**/
+  public KunaOrder order() {
     ObjectMapper mapper = new ObjectMapper();
-    File file = new File("src/test/resources/mock/order.json");
-    order = mapper.readValue(file, KunaOrder.class);
+    try (InputStream file =
+        getClass().getClassLoader().getResourceAsStream("org/knowm/xchange/kuna/dto/order.json")) {
+
+      return mapper.readValue(file, mapper.constructType(KunaOrder.class));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Test
-  public void test_id() {
+  public void test_id() throws IOException {
     assertEquals(0, KunaOrder.builder().withId(0).build().getId());
     assertEquals(MIN_VALUE, KunaOrder.builder().withId(MIN_VALUE).build().getId());
     assertEquals(MAX_VALUE, KunaOrder.builder().withId(MAX_VALUE).build().getId());
 
-    assertThat(order.getId()).isEqualTo(2052694);
+    assertThat(order().getId()).isEqualTo(2052694);
   }
 
   @Test
@@ -52,7 +56,7 @@ public class KunaOrderTest {
     assertThat(KunaOrder.builder().withSide(SELL.name().toLowerCase()).build().getSide())
         .isEqualByComparingTo(SELL);
 
-    assertThat(order.getSide()).isEqualByComparingTo(SELL);
+    assertThat(order().getSide()).isEqualByComparingTo(SELL);
   }
 
   @Test
@@ -69,7 +73,7 @@ public class KunaOrderTest {
             KunaOrder.builder().withOrderType(MARKET.name().toLowerCase()).build().getOrderType())
         .isEqualByComparingTo(MARKET);
 
-    assertThat(order.getOrderType()).isEqualByComparingTo(LIMIT);
+    assertThat(order().getOrderType()).isEqualByComparingTo(LIMIT);
   }
 
   @Test
@@ -78,7 +82,7 @@ public class KunaOrderTest {
     assertEquals(ONE, KunaOrder.builder().withPrice(ONE).build().getPrice());
     assertEquals(TEN, KunaOrder.builder().withPrice(TEN).build().getPrice());
 
-    assertThat(order.getPrice()).isEqualByComparingTo("359995.0");
+    assertThat(order().getPrice()).isEqualByComparingTo("359995.0");
   }
 
   @Test
@@ -87,7 +91,7 @@ public class KunaOrderTest {
     assertEquals(ONE, KunaOrder.builder().withAveragePrice(ONE).build().getAveragePrice());
     assertEquals(TEN, KunaOrder.builder().withAveragePrice(TEN).build().getAveragePrice());
 
-    assertThat(order.getAveragePrice()).isEqualByComparingTo("359995.0");
+    assertThat(order().getAveragePrice()).isEqualByComparingTo("359995.0");
   }
 
   @Test
@@ -95,7 +99,7 @@ public class KunaOrderTest {
     assertThat(KunaOrder.builder().withState(null).build().getState()).isNull();
     assertThat(KunaOrder.builder().withState("").build().getState()).isEmpty();
 
-    assertThat(order.getState()).isEqualTo("wait");
+    assertThat(order().getState()).isEqualTo("wait");
   }
 
   @Test
@@ -103,7 +107,7 @@ public class KunaOrderTest {
     assertThat(KunaOrder.builder().withMarket(null).build().getMarket()).isNull();
     assertThat(KunaOrder.builder().withMarket("").build().getMarket()).isEmpty();
 
-    assertThat(order.getMarket()).isEqualTo("btcuah");
+    assertThat(order().getMarket()).isEqualTo("btcuah");
   }
 
   @Test
@@ -112,7 +116,8 @@ public class KunaOrderTest {
     assertThat(
             KunaOrder.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt())
         .isEqualToIgnoringSeconds(new Date());
-
+    // belongs in the adapter
+    //    assertThat(order().getCreatedAt()).isEqualTo("2018-01-16T09:28:05Z");
     // TODO fix this. somehow the local time zone is causing this to fail by a one-hour difference.
     //    assertThat(order.getCreatedAt()).isEqualTo("2018-01-16T09:28:05Z");
   }
@@ -123,7 +128,7 @@ public class KunaOrderTest {
     assertEquals(ONE, KunaOrder.builder().withVolume(ONE).build().getVolume());
     assertEquals(TEN, KunaOrder.builder().withVolume(TEN).build().getVolume());
 
-    assertThat(order.getVolume()).isEqualByComparingTo("0.021");
+    assertThat(order().getVolume()).isEqualByComparingTo("0.021");
   }
 
   @Test
@@ -132,7 +137,7 @@ public class KunaOrderTest {
     assertEquals(ONE, KunaOrder.builder().withRemainingVolume(ONE).build().getRemainingVolume());
     assertEquals(TEN, KunaOrder.builder().withRemainingVolume(TEN).build().getRemainingVolume());
 
-    assertThat(order.getRemainingVolume()).isEqualByComparingTo("0.014437");
+    assertThat(order().getRemainingVolume()).isEqualByComparingTo("0.014437");
   }
 
   @Test
@@ -141,7 +146,7 @@ public class KunaOrderTest {
     assertEquals(ONE, KunaOrder.builder().withExecutedVolume(ONE).build().getExecutedVolume());
     assertEquals(TEN, KunaOrder.builder().withExecutedVolume(TEN).build().getExecutedVolume());
 
-    assertThat(order.getExecutedVolume()).isEqualByComparingTo("0.006563");
+    assertThat(order().getExecutedVolume()).isEqualByComparingTo("0.006563");
   }
 
   @Test
@@ -152,6 +157,6 @@ public class KunaOrderTest {
     assertEquals(
         MAX_VALUE, KunaOrder.builder().withTradesCount(MAX_VALUE).build().getTradesCount());
 
-    assertThat(order.getTradesCount()).isEqualTo(1);
+    assertThat(order().getTradesCount()).isEqualTo(1);
   }
 }

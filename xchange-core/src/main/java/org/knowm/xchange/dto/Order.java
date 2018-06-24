@@ -28,8 +28,10 @@ public abstract class Order implements Serializable {
   private BigDecimal cumulativeAmount;
   /** Weighted Average price of the fills in the order */
   private BigDecimal averagePrice;
-  /** The total of the fees incured for all transactions related to this order */
+  /** The total of the fees incurred for all transactions related to this order */
   private BigDecimal fee;
+  /** The leverage to use for margin related to this order */
+  private String leverage = null;
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -187,6 +189,14 @@ public abstract class Order implements Serializable {
   public void setOrderStatus(OrderStatus status) {
 
     this.status = status;
+  }
+
+  public String getLeverage() {
+    return leverage;
+  }
+
+  public void setLeverage(String leverage) {
+    this.leverage = leverage;
   }
 
   @Override

@@ -29,7 +29,8 @@ public class GatecoinAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        GatecoinAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+        GatecoinAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gatecoin/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -47,7 +48,8 @@ public class GatecoinAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        GatecoinAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+        GatecoinAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gatecoin/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -68,7 +70,8 @@ public class GatecoinAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        GatecoinAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        GatecoinAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gatecoin/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -89,7 +92,8 @@ public class GatecoinAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        GatecoinAdapterTest.class.getResourceAsStream("/trade/example-user-trades.json");
+        GatecoinAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gatecoin/dto/trade/example-user-trades.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -22,7 +22,9 @@ public class RippleOrderTest {
   public void orderEntryResponseUnmarshalTest() throws IOException {
     // Read in the JSON from the example resources
     final InputStream is =
-        getClass().getResourceAsStream("/trade/example-order-entry-response.json");
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/ripple/dto/trade/example-order-entry-response.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderEntryResponse response = mapper.readValue(is, RippleOrderEntryResponse.class);
 
@@ -54,7 +56,9 @@ public class RippleOrderTest {
   public void orderCancelResponseUnmarshalTest() throws IOException {
     // Read in the JSON from the example resources
     final InputStream is =
-        getClass().getResourceAsStream("/trade/example-order-cancel-response.json");
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/ripple/dto/trade/example-order-cancel-response.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderCancelResponse response =
         mapper.readValue(is, RippleOrderCancelResponse.class);
@@ -75,7 +79,9 @@ public class RippleOrderTest {
   @Test
   public void accountOrdersUnmarshalTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-account-orders.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-account-orders.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleAccountOrders response = mapper.readValue(is, RippleAccountOrders.class);
 
@@ -119,7 +125,9 @@ public class RippleOrderTest {
   @Test
   public void orderTransactionUnmarshalTest() throws IOException, ParseException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-order-details.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream("/org/knowm/xchange/ripple/dto/trade/example-order-details.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderTransaction response = mapper.readValue(is, RippleOrderTransaction.class);
 

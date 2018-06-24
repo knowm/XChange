@@ -146,6 +146,10 @@ public class BinanceExchange extends BaseExchange {
     }
   }
 
+  public void clearDeltaServerTime() {
+    deltaServerTime = null;
+  }
+
   public long deltaServerTime() throws IOException {
 
     if (deltaServerTime == null || deltaServerTimeExpire <= System.currentTimeMillis()) {

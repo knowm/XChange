@@ -21,7 +21,7 @@ public class BitMarketDtoTestSupport {
   protected <T extends BitMarketBaseResponse> void verifyErrorResponse(Class<T> responseType)
       throws IOException {
     // when
-    T response = parse("example-error", responseType);
+    T response = parse("org/knowm/xchange/bitmarket/dto/example-error", responseType);
 
     // then
     assertThat(response.getSuccess()).isFalse();

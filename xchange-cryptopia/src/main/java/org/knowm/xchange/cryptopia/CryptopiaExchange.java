@@ -16,12 +16,13 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CryptopiaExchange extends BaseExchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new AtomicLongCurrentTimeIncrementalNonceFactory();
   private Map<CurrencyPair, CryptopiaTradePair> lookupByCcyPair;
   private Map<Long, CryptopiaTradePair> lookupById;
 

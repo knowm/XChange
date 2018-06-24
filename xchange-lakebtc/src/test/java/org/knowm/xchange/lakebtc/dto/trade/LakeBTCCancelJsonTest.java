@@ -16,7 +16,7 @@ public class LakeBTCCancelJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         LakeBTCPlaceOrderJsonTest.class.getResourceAsStream(
-            "/trade/example-cancel-order-data.json");
+            "/org/knowm/xchange/lakebtc/dto/trade/example-cancel-order-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

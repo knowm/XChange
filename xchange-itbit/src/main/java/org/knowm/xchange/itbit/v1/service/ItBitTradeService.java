@@ -3,19 +3,15 @@ package org.knowm.xchange.itbit.v1.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.itbit.v1.ItBitAdapters;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
@@ -80,11 +76,6 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     cancelItBitOrder(orderId);
@@ -138,11 +129,6 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   @Override
   public ItBitOpenOrdersParams createOpenOrdersParams() {
     return new ItBitOpenOrdersParams();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging

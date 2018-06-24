@@ -16,7 +16,8 @@ public class KrakenOHLCJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenOHLCJSONTest.class.getResourceAsStream("/marketdata/example-ohlc-data.json");
+        KrakenOHLCJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-ohlc-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -378,7 +378,9 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
   public Map<String, Map<String, List<BitMarketOrder>>> createOpenOrdersData() throws IOException {
     {
       BitMarketOrdersResponse response =
-          parse("trade/example-orders-data", BitMarketOrdersResponse.class);
+          parse(
+              "org/knowm/xchange/bitmarket/dto/trade/example-orders-data",
+              BitMarketOrdersResponse.class);
       return response.getData();
     }
   }

@@ -29,7 +29,7 @@ public interface Coinbase {
    */
   final String CB_VERSION = "CB-VERSION";
 
-  final String CB_VERSION_VALUE = "2017-11-26";
+  final String CB_VERSION_VALUE = "2018-04-08";
 
   @GET
   @Path("currencies")

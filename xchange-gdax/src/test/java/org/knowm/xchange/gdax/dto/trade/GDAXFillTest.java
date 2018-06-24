@@ -17,7 +17,8 @@ public class GDAXFillTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/trade/example-fills.json");
+    InputStream is =
+        getClass().getResourceAsStream("/org/knowm/xchange/gdax/dto/trade/example-fills.json");
     GDAXFill[] fills = mapper.readValue(is, GDAXFill[].class);
 
     assertThat(fills).hasSize(1);

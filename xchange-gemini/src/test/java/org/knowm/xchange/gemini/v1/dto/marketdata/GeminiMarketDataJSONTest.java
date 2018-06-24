@@ -19,7 +19,7 @@ public class GeminiMarketDataJSONTest {
 
     InputStream resourceAsStream =
         GeminiMarketDataJSONTest.class.getResourceAsStream(
-            "/v1/marketdata/example-marketdepth-lendbook-data.json");
+            "/org/knowm/xchange/gemini/v1/marketdata/example-marketdepth-lendbook-data.json");
     GeminiLendDepth lendDepth =
         new ObjectMapper().readValue(resourceAsStream, GeminiLendDepth.class);
 
@@ -32,7 +32,7 @@ public class GeminiMarketDataJSONTest {
 
     InputStream resourceAsStream =
         GeminiMarketDataJSONTest.class.getResourceAsStream(
-            "/v1/marketdata/example-marketdepth-data.json");
+            "/org/knowm/xchange/gemini/v1/marketdata/example-marketdepth-data.json");
     GeminiDepth depthRaw = new ObjectMapper().readValue(resourceAsStream, GeminiDepth.class);
     GeminiAdapters.OrdersContainer asksOrdersContainer =
         GeminiAdapters.adaptOrders(depthRaw.getAsks(), CurrencyPair.BTC_EUR, OrderType.ASK);

@@ -7,10 +7,7 @@ import org.knowm.xchange.btcc.BTCC;
 import org.knowm.xchange.btcc.BTCCAdapters;
 import org.knowm.xchange.btcc.dto.marketdata.BTCCTicker;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BTCCMarketDataService extends BTCCBaseService<BTCC> implements MarketDataService {
@@ -27,16 +24,6 @@ public class BTCCMarketDataService extends BTCCBaseService<BTCC> implements Mark
 
     // Adapt to XChange DTOs
     return btccTicker != null ? BTCCAdapters.adaptTicker(btccTicker, currencyPair) : null;
-  }
-
-  @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   private BTCCTicker getBTCCTicker(String symbol) throws IOException {
