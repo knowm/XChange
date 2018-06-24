@@ -106,7 +106,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
       if (args != null) {
         numberOfItems =
             (Integer)
-                args[0]; // can this really be args[0] if we are also using args[0] as a string
+                args[0]; // can this really be args[0] if we are also using args[0] as a string//
         // below??
       }
     } catch (ArrayIndexOutOfBoundsException e) {

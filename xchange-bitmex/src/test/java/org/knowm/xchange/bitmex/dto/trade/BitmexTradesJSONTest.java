@@ -15,7 +15,9 @@ public class BitmexTradesJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexTradesJSONTest.class.getResourceAsStream("/trade/example-trades.json");
+    InputStream is =
+        BitmexTradesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitmex/dto/trade/example-trades.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexTrade[] bitmexTrades = mapper.readValue(is, BitmexTrade[].class);

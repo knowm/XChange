@@ -46,7 +46,7 @@ public class GatecoinAccountServiceRaw extends GatecoinBaseService {
       String currency, BigDecimal amount, final String address) throws IOException {
 
     GatecoinWithdrawResult gatecoinWithdrawalResult =
-        gatecoinAuthenticated.withdrawBitcoin(
+        gatecoinAuthenticated.withdrawCrypto(
             exchange.getExchangeSpecification().getApiKey(),
             signatureCreator,
             getNow(),

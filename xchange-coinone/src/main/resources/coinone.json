@@ -1,0 +1,55 @@
+{
+  "currency_pairs": {
+    "BTC/KRW": {
+      "min_amount": 0.0001,
+      "price_scale": 0
+    },
+    "BCH/KRW": {
+      "min_amount": 0.001,
+      "price_scale": 0
+    },
+    "ETH/KRW": {
+      "min_amount": 0.01,
+      "price_scale": 0
+    },
+    "ETC/KRW": {
+      "min_amount": 0.01,
+      "price_scale": 0
+    },
+    "XRP/KRW": {
+      "min_amount": 1,
+      "price_scale": 0
+    },
+    "QTUM/KRW": {
+      "min_amount": 0.01,
+      "price_scale": 0
+    },
+    "IOTA/KRW": {
+      "min_amount": 0.1,
+      "price_scale": 0
+    },
+    "LTC/KRW": {
+      "min_amount": 0.1,
+      "price_scale": 0
+    },
+    "BTG/KRW": {
+      "min_amount": 0.01,
+      "price_scale": 0
+    }
+
+  },
+  "currencies": {},
+  "private_rate_limits": [
+    {
+      "calls": 20,
+      "time_unit": "seconds"
+    }
+  ],
+  "public_rate_limits": [
+    {
+      "calls": 10,
+      "time_unit": "seconds"
+    }
+  ],
+  "share_rate_limits": true
+}

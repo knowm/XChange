@@ -24,7 +24,9 @@ public class DSXTradeDataJSONTest {
   public void testOpenOrders() throws IOException {
 
     DSXActiveOrdersReturn result =
-        getResult("/trade/example-open-orders-data.json", DSXActiveOrdersReturn.class);
+        getResult(
+            "/org/knowm/xchange/dsx/dto/trade/example-open-orders-data.json",
+            DSXActiveOrdersReturn.class);
     Map<Long, DSXOrder> rv = result.getReturnValue();
     assertThat(rv.keySet()).containsAll(Collections.singletonList(956L));
   }
@@ -32,7 +34,9 @@ public class DSXTradeDataJSONTest {
   @Test
   public void testPlaceOrder() throws IOException {
 
-    DSXTradeReturn result = getResult("/trade/example-place-order-data.json", DSXTradeReturn.class);
+    DSXTradeReturn result =
+        getResult(
+            "/org/knowm/xchange/dsx/dto/trade/example-place-order-data.json", DSXTradeReturn.class);
 
     DSXTradeResult rv = result.getReturnValue();
     assertThat(rv.getFunds().keySet().containsAll(Arrays.asList("BTC", "USD", "EUR", "LTC")))
@@ -46,7 +50,9 @@ public class DSXTradeDataJSONTest {
   @Test
   public void testCancelOrder() throws IOException {
     DSXCancelOrderReturn result =
-        getResult("/trade/example-cancel-order-data.json", DSXCancelOrderReturn.class);
+        getResult(
+            "/org/knowm/xchange/dsx/dto/trade/example-cancel-order-data.json",
+            DSXCancelOrderReturn.class);
 
     DSXCancelOrderResult rv = result.getReturnValue();
     Map<String, DSXCurrencyAmount> funds = rv.getFunds();

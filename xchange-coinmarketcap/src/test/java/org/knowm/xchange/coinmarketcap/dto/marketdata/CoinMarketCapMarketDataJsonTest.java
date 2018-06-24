@@ -14,7 +14,7 @@ public class CoinMarketCapMarketDataJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         CoinMarketCapMarketDataJsonTest.class.getResourceAsStream(
-            "/marketdata/example-ticker-data.json");
+            "/org/knowm/xchange/coinmarketcap/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -12,8 +12,6 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -77,11 +75,6 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     return cancel(orderId);
@@ -96,10 +89,6 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
    * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link
    *     TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
 
   /**
    * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link

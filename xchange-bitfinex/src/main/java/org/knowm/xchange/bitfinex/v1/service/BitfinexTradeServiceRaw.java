@@ -13,6 +13,7 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelAllOrdersRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderMultiRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
@@ -41,7 +42,6 @@ import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
@@ -64,7 +64,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
           new BitfinexNonceOnlyRequest(
               "/v1/account_infos", String.valueOf(exchange.getNonceFactory().createValue())));
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -80,7 +80,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   "/v1/orders", String.valueOf(exchange.getNonceFactory().createValue())));
       return activeOrders;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -96,7 +96,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   String.valueOf(exchange.getNonceFactory().createValue()), limit));
       return orders;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -112,7 +112,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   "/v1/offers", String.valueOf(exchange.getNonceFactory().createValue())));
       return activeOffers;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -144,7 +144,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   null));
       return newOrder;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -209,7 +209,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       try {
         response = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, request);
       } catch (BitfinexException e) {
-        throw new ExchangeException(e);
+        throw handleException(e);
       }
 
     } else { // order amend
@@ -236,7 +236,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       try {
         response = bitfinex.replaceOrder(apiKey, payloadCreator, signatureCreator, request);
       } catch (BitfinexException e) {
-        throw new ExchangeException(e);
+        throw handleException(e);
       }
     }
 
@@ -294,7 +294,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
           bitfinex.newOrderMulti(apiKey, payloadCreator, signatureCreator, request);
       return response;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -318,7 +318,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -342,7 +342,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -360,7 +360,26 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       if (e.getMessage().equals("Order could not be cancelled.")) {
         return false;
       } else {
-        throw new ExchangeException(e);
+        throw handleException(e);
+      }
+    }
+  }
+
+  public boolean cancelAllBitfinexOrders() throws IOException {
+
+    try {
+      bitfinex.cancelAllOrders(
+          apiKey,
+          payloadCreator,
+          signatureCreator,
+          new BitfinexCancelAllOrdersRequest(
+              String.valueOf(exchange.getNonceFactory().createValue())));
+      return true;
+    } catch (BitfinexException e) {
+      if (e.getMessage().equals("Orders could not be cancelled.")) {
+        return false;
+      } else {
+        throw handleException(e);
       }
     }
   }
@@ -382,7 +401,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
               String.valueOf(exchange.getNonceFactory().createValue()), cancelOrderIds));
       return true;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -398,7 +417,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   String.valueOf(exchange.getNonceFactory().createValue()), Long.valueOf(offerId)));
       return cancelResponse;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -414,7 +433,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   String.valueOf(exchange.getNonceFactory().createValue()), Long.valueOf(orderId)));
       return orderStatus;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -431,7 +450,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   String.valueOf(exchange.getNonceFactory().createValue()), Long.valueOf(offerId)));
       return offerStatus;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -451,7 +470,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   limit_trades));
       return fundingTrades;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -474,7 +493,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   reverse));
       return trades;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -490,7 +509,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   String.valueOf(exchange.getNonceFactory().createValue())));
       return credits;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
@@ -508,19 +527,23 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       String paymentId)
       throws IOException {
 
-    BitfinexWithdrawalResponse[] withdrawRepsonse =
-        bitfinex.withdraw(
-            apiKey,
-            payloadCreator,
-            signatureCreator,
-            new BitfinexWithdrawalRequest(
-                String.valueOf(exchange.getNonceFactory().createValue()),
-                withdrawType,
-                walletSelected,
-                amount,
-                address,
-                paymentId));
-    return withdrawRepsonse[0].getWithdrawalId();
+    try {
+      BitfinexWithdrawalResponse[] withdrawRepsonse =
+          bitfinex.withdraw(
+              apiKey,
+              payloadCreator,
+              signatureCreator,
+              new BitfinexWithdrawalRequest(
+                  String.valueOf(exchange.getNonceFactory().createValue()),
+                  withdrawType,
+                  walletSelected,
+                  amount,
+                  address,
+                  paymentId));
+      return withdrawRepsonse[0].getWithdrawalId();
+    } catch (BitfinexException e) {
+      throw handleException(e);
+    }
   }
 
   public BitfinexActivePositionsResponse[] getBitfinexActivePositions() throws IOException {
@@ -535,7 +558,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                   "/v1/positions", String.valueOf(exchange.getNonceFactory().createValue())));
       return activePositions;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 }

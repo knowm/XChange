@@ -34,6 +34,7 @@ public interface Bitbay {
   BitbayTrade[] getBitbayTrades(
       @PathParam("currencyPair") String currencyPair,
       @QueryParam("since") long sinceId,
-      @QueryParam("sort") String sort)
+      @QueryParam("sort") String sort,
+      @QueryParam("limit") int limit)
       throws IOException;
 }

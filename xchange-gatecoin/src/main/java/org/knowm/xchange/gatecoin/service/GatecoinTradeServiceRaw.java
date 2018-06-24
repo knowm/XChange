@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.gatecoin.GatecoinAuthenticated;
+import org.knowm.xchange.gatecoin.dto.trade.GatecoinPlaceOrderRequest;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
@@ -35,14 +36,13 @@ public class GatecoinTradeServiceRaw extends GatecoinBaseService {
 
   public GatecoinPlaceOrderResult placeGatecoinOrder(
       BigDecimal originalAmount, BigDecimal price, String way, String code) throws IOException {
+    GatecoinPlaceOrderRequest placeOrderRequest =
+        new GatecoinPlaceOrderRequest(originalAmount, price, way, code);
     return gatecoinAuthenticated.placeOrder(
         exchange.getExchangeSpecification().getApiKey(),
         signatureCreator,
         getNow(),
-        originalAmount,
-        price,
-        way,
-        code);
+        placeOrderRequest);
   }
 
   public GatecoinCancelOrderResult cancelGatecoinOrder(String orderId) throws IOException {

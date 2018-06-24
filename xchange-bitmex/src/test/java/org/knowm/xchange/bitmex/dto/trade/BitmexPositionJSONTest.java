@@ -12,7 +12,9 @@ public class BitmexPositionJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexTradesJSONTest.class.getResourceAsStream("/trade/example-position.json");
+    InputStream is =
+        BitmexTradesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitmex/dto/trade/example-position.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexPosition position = mapper.readValue(is, BitmexPosition.class);

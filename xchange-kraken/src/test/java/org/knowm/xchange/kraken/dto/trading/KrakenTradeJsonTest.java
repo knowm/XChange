@@ -30,7 +30,8 @@ public class KrakenTradeJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-openorders-data.json");
+        KrakenTradeJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -62,7 +63,8 @@ public class KrakenTradeJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-tradehistory-data.json");
+        KrakenTradeJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -89,7 +91,8 @@ public class KrakenTradeJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-cancelorder-data.json");
+        KrakenTradeJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-cancelorder-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -106,7 +109,7 @@ public class KrakenTradeJsonTest {
     // Read in the JSON from the example resources
     InputStream is =
         KrakenTradeJsonTest.class.getResourceAsStream(
-            "/trading/example-addorder-response-data.json");
+            "/org/knowm/xchange/kraken/dto/trading/example-addorder-response-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

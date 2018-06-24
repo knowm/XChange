@@ -22,7 +22,8 @@ public class BiboxMarketdataUnmarshalTest {
   public void testTickerUnmarshal() throws IOException {
     BiboxResponse<BiboxTicker> response =
         BiboxTestUtils.getResponse(
-            new TypeReference<BiboxResponse<BiboxTicker>>() {}, "/marketdata/example-ticker.json");
+            new TypeReference<BiboxResponse<BiboxTicker>>() {},
+            "/org/knowm/xchange/bibox/dto/marketdata/example-ticker.json");
     assertThat(response.getCmd()).isEqualTo("ticker");
 
     BiboxTicker ticker = response.getResult();
@@ -43,7 +44,7 @@ public class BiboxMarketdataUnmarshalTest {
     BiboxResponse<BiboxOrderBook> response =
         BiboxTestUtils.getResponse(
             new TypeReference<BiboxResponse<BiboxOrderBook>>() {},
-            "/marketdata/example-order-book.json");
+            "/org/knowm/xchange/bibox/dto/marketdata/example-order-book.json");
     assertThat(response.getCmd()).isEqualTo("depth");
 
     BiboxOrderBook orderBook = response.getResult();
@@ -62,7 +63,7 @@ public class BiboxMarketdataUnmarshalTest {
     BiboxResponse<List<BiboxMarket>> response =
         BiboxTestUtils.getResponse(
             new TypeReference<BiboxResponse<List<BiboxMarket>>>() {},
-            "/marketdata/example-all-markets.json");
+            "/org/knowm/xchange/bibox/dto/marketdata/example-all-markets.json");
     assertThat(response.getCmd()).isEqualTo("marketAll");
 
     List<BiboxMarket> markets = response.getResult();

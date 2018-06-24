@@ -13,7 +13,9 @@ public class BitMarketOpenOrdersJSONTest extends BitMarketDtoTestSupport {
   public void testUnmarshal() throws IOException {
     // when
     BitMarketOrdersResponse response =
-        parse("trade/example-orders-data", BitMarketOrdersResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/trade/example-orders-data",
+            BitMarketOrdersResponse.class);
 
     // then
     BitMarketOrder buyOrderBTCPLN = response.getData().get("BTCPLN").get("buy").get(0);

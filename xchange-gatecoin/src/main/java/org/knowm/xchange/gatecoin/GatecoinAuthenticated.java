@@ -17,6 +17,7 @@ import org.knowm.xchange.gatecoin.dto.GatecoinException;
 import org.knowm.xchange.gatecoin.dto.account.Results.GatecoinBalanceResult;
 import org.knowm.xchange.gatecoin.dto.account.Results.GatecoinDepositAddressResult;
 import org.knowm.xchange.gatecoin.dto.account.Results.GatecoinWithdrawResult;
+import org.knowm.xchange.gatecoin.dto.trade.GatecoinPlaceOrderRequest;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
@@ -37,15 +38,12 @@ public interface GatecoinAuthenticated {
 
   @POST
   @Path("Trade/Orders")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @Consumes(MediaType.APPLICATION_JSON)
   GatecoinPlaceOrderResult placeOrder(
       @HeaderParam("API_PUBLIC_KEY") String publicKey,
       @HeaderParam("API_REQUEST_SIGNATURE") ParamsDigest signature,
       @HeaderParam("API_REQUEST_DATE") String date,
-      @FormParam("Amount") BigDecimal Amount,
-      @FormParam("Price") BigDecimal Price,
-      @FormParam("Way") String Way,
-      @FormParam("Code") String Code)
+      GatecoinPlaceOrderRequest placeOrderRequest)
       throws IOException, GatecoinException;
 
   @DELETE
@@ -114,12 +112,12 @@ public interface GatecoinAuthenticated {
   @POST
   @Path("ElectronicWallet/Withdrawals/{DigiCurrency}")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  GatecoinWithdrawResult withdrawBitcoin(
+  GatecoinWithdrawResult withdrawCrypto(
       @HeaderParam("API_PUBLIC_KEY") String publicKey,
       @HeaderParam("API_REQUEST_SIGNATURE") ParamsDigest signature,
       @HeaderParam("API_REQUEST_DATE") String date,
-      @PathParam("DigiCurrency") String DigiCurrency,
-      @FormParam("AddressName") String AddressName,
-      @FormParam("Amount") BigDecimal Amount)
+      @PathParam("DigiCurrency") String digiCurrency,
+      @FormParam("AddressName") String addressName,
+      @FormParam("Amount") BigDecimal amount)
       throws IOException, GatecoinException;
 }

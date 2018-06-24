@@ -17,7 +17,10 @@ public class GDAXCandleTest {
     JacksonObjectMapperFactory factory = new DefaultJacksonObjectMapperFactory();
     ObjectMapper mapper = factory.createObjectMapper();
 
-    InputStream is = getClass().getResourceAsStream("/marketdata/example-historical-candles.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/gdax/dto/marketdata/example-historical-candles.json");
     GDAXCandle[] candles = mapper.readValue(is, GDAXCandle[].class);
 
     assertThat(candles).hasSize(10);

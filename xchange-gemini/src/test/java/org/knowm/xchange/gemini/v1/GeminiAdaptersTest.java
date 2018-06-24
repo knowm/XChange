@@ -33,7 +33,7 @@ public class GeminiAdaptersTest {
     // Read in the JSON from the example resources
     InputStream is =
         GeminiWalletJSONTest.class.getResourceAsStream(
-            "/v1/account/example-account-info-balance.json");
+            "/org/knowm/xchange/gemini/v1/account/example-account-info-balance.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -239,7 +239,8 @@ public class GeminiAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        GeminiAdaptersTest.class.getResourceAsStream("/v1/order/example-limit-order-status.json");
+        GeminiAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gemini/v1/order/example-limit-order-status.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

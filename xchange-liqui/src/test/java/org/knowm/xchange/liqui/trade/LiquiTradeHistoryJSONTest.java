@@ -18,7 +18,8 @@ public class LiquiTradeHistoryJSONTest {
   @Test
   public void testUnmarshall() throws Exception {
     final InputStream is =
-        LiquiTickerJSONTest.class.getResourceAsStream("/trade/example-tradehistory-data.json");
+        LiquiTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/liqui/marketdata/example-tradehistory-data.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final LiquiTradeHistoryResult tradeHistoryResult =

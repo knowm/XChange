@@ -1,8 +1,11 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -13,6 +16,8 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class GateioMarketDataService extends GateioMarketDataServiceRaw
     implements MarketDataService {
@@ -35,6 +40,20 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
             currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
     return GateioAdapters.adaptTicker(currencyPair, ticker);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    final List<CurrencyPair> currencyPairs = new ArrayList<>();
+    if (params instanceof CurrencyPairsParam) {
+      currencyPairs.addAll(((CurrencyPairsParam) params).getCurrencyPairs());
+    }
+    return getGateioTickers()
+        .values()
+        .stream()
+        .filter(
+            ticker -> currencyPairs.size() == 0 || currencyPairs.contains(ticker.getCurrencyPair()))
+        .collect(Collectors.toList());
   }
 
   @Override

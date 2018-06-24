@@ -15,6 +15,11 @@ public class UserTrades extends Trades {
     super((List) trades, lastID, tradeSortType);
   }
 
+  public UserTrades(
+      List<UserTrade> trades, long lastID, TradeSortType tradeSortType, String nextPageCursor) {
+    super((List) trades, lastID, tradeSortType, nextPageCursor);
+  }
+
   public List<UserTrade> getUserTrades() {
 
     return (List) getTrades();

@@ -8,11 +8,11 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.livecoin.LivecoinErrorAdapter;
 import org.knowm.xchange.livecoin.LivecoinExchange;
+import org.knowm.xchange.livecoin.dto.LivecoinException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
@@ -27,46 +27,57 @@ public class LivecoinTradeService extends LivecoinTradeServiceRaw implements Tra
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    return makeMarketOrder(marketOrder);
+    try {
+      return makeMarketOrder(marketOrder);
+    } catch (LivecoinException e) {
+      throw LivecoinErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return makeLimitOrder(limitOrder);
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    try {
+      return makeLimitOrder(limitOrder);
+    } catch (LivecoinException e) {
+      throw LivecoinErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    Date start = new Date(0);
-    Date end = new Date();
-    if (params instanceof TradeHistoryParamsTimeSpan) {
-      TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) params;
-      start = tradeHistoryParamsTimeSpan.getStartTime();
-      end = tradeHistoryParamsTimeSpan.getEndTime();
-    }
+    try {
+      Date start = new Date(0);
+      Date end = new Date();
+      if (params instanceof TradeHistoryParamsTimeSpan) {
+        TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) params;
+        start = tradeHistoryParamsTimeSpan.getStartTime();
+        end = tradeHistoryParamsTimeSpan.getEndTime();
+      }
 
-    Long offset = 0L;
-    if (params instanceof TradeHistoryParamOffset) {
-      offset = ((TradeHistoryParamOffset) params).getOffset();
-    }
+      Long offset = 0L;
+      if (params instanceof TradeHistoryParamOffset) {
+        offset = ((TradeHistoryParamOffset) params).getOffset();
+      }
 
-    Integer limit = 100;
-    if (params instanceof TradeHistoryParamLimit) {
-      limit = ((TradeHistoryParamLimit) params).getLimit();
-    }
+      Integer limit = 100;
+      if (params instanceof TradeHistoryParamLimit) {
+        limit = ((TradeHistoryParamLimit) params).getLimit();
+      }
 
-    return new UserTrades(
-        tradeHistory(start, end, limit, offset), Trades.TradeSortType.SortByTimestamp);
+      return new UserTrades(
+          tradeHistory(start, end, limit, offset), Trades.TradeSortType.SortByTimestamp);
+    } catch (LivecoinException e) {
+      throw LivecoinErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    return new OpenOrders(getAllOpenOrders());
+    try {
+      return new OpenOrders(getAllOpenOrders());
+    } catch (LivecoinException e) {
+      throw LivecoinErrorAdapter.adapt(e);
+    }
   }
 
   @Override

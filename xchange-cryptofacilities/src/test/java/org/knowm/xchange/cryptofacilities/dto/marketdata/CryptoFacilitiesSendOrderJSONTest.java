@@ -16,7 +16,7 @@ public class CryptoFacilitiesSendOrderJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         CryptoFacilitiesCancelOrderJSONTest.class.getResourceAsStream(
-            "/marketdata/example-sendOrder-data.json");
+            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-sendOrder-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
