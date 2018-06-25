@@ -150,6 +150,7 @@ public class BiboxAdapters {
   private static UserTrade adaptUserTrade(BiboxOrder order) {
     return new UserTrade.Builder()
         .orderId(Long.toString(order.getId()))
+        .id(Long.toString(order.getId()))
         .currencyPair(new CurrencyPair(order.getCoinSymbol(), order.getCurrencySymbol()))
         .price(order.getPrice())
         .originalAmount(order.getAmount())
