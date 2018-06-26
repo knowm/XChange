@@ -6,10 +6,13 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.*;
 
 /** @author allenday */
 @JsonDeserialize(using = CoinMarketCapTicker.CoinMarketCapTickerDeserializer.class)
@@ -17,16 +20,13 @@ public final class CoinMarketCapTicker {
 
   private final String id;
   private final String name;
-  private final String isoCode;
-  private final BigDecimal priceUSD;
-  private final BigDecimal priceBTC;
-  private final BigDecimal volume24hUSD;
-  private final BigDecimal marketCapUSD;
-  private final BigDecimal availableSupply;
+  private final String symbol;
+  private final String websiteSlug;
+  private final BigDecimal rank;
+  private final BigDecimal circulatingSupply;
   private final BigDecimal totalSupply;
-  private final BigDecimal pctChange1h;
-  private final BigDecimal pctChange24h;
-  private final BigDecimal pctChange7d;
+  private final BigDecimal maxSupply;
+  private final Map<String, CoinMarketCapQuote> quotes;
   private final Date lastUpdated;
   private final CoinMarketCapCurrency baseCurrency;
 
@@ -34,29 +34,23 @@ public final class CoinMarketCapTicker {
       final String id,
       final String name,
       final String isoCode,
-      final BigDecimal priceUSD,
-      final BigDecimal priceBTC,
-      final BigDecimal volume24hUSD,
-      final BigDecimal marketCapUSD,
-      final BigDecimal availableSupply,
+      final String websiteSlug,
+      final BigDecimal rank,
+      final BigDecimal circulatingSupply,
       final BigDecimal totalSupply,
-      final BigDecimal pctChange1h,
-      final BigDecimal pctChange24h,
-      final BigDecimal pctChange7d,
+      final BigDecimal maxSupply,
+      final Map<String, CoinMarketCapQuote> quotes,
       final Date lastUpdated) {
     this.id = id;
     this.name = name;
     this.baseCurrency = new CoinMarketCapCurrency(isoCode);
-    this.isoCode = isoCode;
-    this.priceUSD = priceUSD;
-    this.priceBTC = priceBTC;
-    this.volume24hUSD = volume24hUSD;
-    this.marketCapUSD = marketCapUSD;
-    this.availableSupply = availableSupply;
+    this.symbol = isoCode;
+    this.websiteSlug = websiteSlug;
+    this.rank = rank;
+    this.circulatingSupply = circulatingSupply;
     this.totalSupply = totalSupply;
-    this.pctChange1h = pctChange1h;
-    this.pctChange24h = pctChange24h;
-    this.pctChange7d = pctChange7d;
+    this.maxSupply = maxSupply;
+    this.quotes = quotes;
     this.lastUpdated = lastUpdated;
   }
 
@@ -72,45 +66,23 @@ public final class CoinMarketCapTicker {
     return baseCurrency;
   }
 
-  public String getIsoCode() {
-    return isoCode;
-  }
+  public String getSymbol() { return symbol; }
 
-  public BigDecimal getPriceUSD() {
-    return priceUSD;
-  }
+  public String getWebsiteSlug() { return websiteSlug; }
 
-  public BigDecimal getPriceBTC() {
-    return priceBTC;
-  }
+  public BigDecimal getRank() { return rank; }
 
-  public BigDecimal getVolume24hUSD() {
-    return volume24hUSD;
-  }
-
-  public BigDecimal getMarketCapUSD() {
-    return marketCapUSD;
-  }
-
-  public BigDecimal getAvailableSupply() {
-    return availableSupply;
+  public BigDecimal getCirculatingSupply() {
+    return circulatingSupply;
   }
 
   public BigDecimal getTotalSupply() {
     return totalSupply;
   }
 
-  public BigDecimal getPctChange1h() {
-    return pctChange1h;
-  }
+  public BigDecimal getMaxSupply() { return maxSupply; }
 
-  public BigDecimal getPctChange24h() {
-    return pctChange24h;
-  }
-
-  public BigDecimal getPctChange7d() {
-    return pctChange7d;
-  }
+  public Map<String, CoinMarketCapQuote> getQuotes() { return quotes; }
 
   public Date getLastUpdated() {
     return lastUpdated;
@@ -119,7 +91,7 @@ public final class CoinMarketCapTicker {
   @Override
   public String toString() {
 
-    return "CoinMarketCapCurrency [name=" + name + ", isoCode=" + isoCode + "]";
+    return "CoinMarketCapCurrency [name=" + name + ", symbol=" + symbol + "]";
   }
 
   static class CoinMarketCapTickerDeserializer extends JsonDeserializer<CoinMarketCapTicker> {
@@ -135,35 +107,36 @@ public final class CoinMarketCapTicker {
         String id = node.get("id").asText();
         String name = node.get("name").asText();
         String symbol = node.get("symbol").asText();
+        String websiteSlug = node.get("website_slug").asText();
         Date lastUpdated = new Date(node.get("last_updated").asLong() * 1000);
         BigDecimal rank = new BigDecimal(node.get("rank").asInt());
-        BigDecimal priceUSD = new BigDecimal(node.get("price_usd").asDouble());
-        BigDecimal priceBTC = new BigDecimal(node.get("price_btc").asDouble());
-        BigDecimal volume24hUSD = new BigDecimal(node.get("24h_volume_usd").asDouble());
-        BigDecimal marketCapUSD = new BigDecimal(node.get("market_cap_usd").asDouble());
-        BigDecimal availableSupply = new BigDecimal(node.get("available_supply").asDouble());
+        BigDecimal circulatingSupply = new BigDecimal(node.get("circulating_supply").asDouble());
         BigDecimal totalSupply = new BigDecimal(node.get("total_supply").asDouble());
+        BigDecimal maxSupply = new BigDecimal(node.get("max_supply").asDouble());
 
-        // TODO use these to create CoinMarketCapHistoricalSpotPrice instances
-        BigDecimal pctChange1h = new BigDecimal(node.get("percent_change_1h").asDouble());
-        BigDecimal pctChange24h = new BigDecimal(node.get("percent_change_24h").asDouble());
-        BigDecimal pctChange7d = new BigDecimal(node.get("percent_change_7d").asDouble());
+        Map<String, CoinMarketCapQuote> quotes = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(CoinMarketCapQuote.class, new CoinMarketCapQuote.CoinMarketCapQuoteDeserializer());
+        mapper.registerModule(module);
+        Iterator<Map.Entry<String, JsonNode>> it = node.get("quotes").fields();
+        while(it.hasNext()) {
+          Map.Entry<String, JsonNode> pair = it.next();
+          quotes.put(pair.getKey(), mapper.treeToValue(pair.getValue(), CoinMarketCapQuote.class));
+        }
 
         CoinMarketCapTicker ticker =
-            new CoinMarketCapTicker(
-                id,
-                name,
-                symbol,
-                priceUSD,
-                priceBTC,
-                volume24hUSD,
-                marketCapUSD,
-                availableSupply,
-                totalSupply,
-                pctChange1h,
-                pctChange24h,
-                pctChange7d,
-                lastUpdated);
+          new CoinMarketCapTicker(
+            id,
+            name,
+            symbol,
+            websiteSlug,
+            rank,
+            circulatingSupply,
+            totalSupply,
+            maxSupply,
+            quotes,
+            lastUpdated);
         return ticker;
       }
       return null;
