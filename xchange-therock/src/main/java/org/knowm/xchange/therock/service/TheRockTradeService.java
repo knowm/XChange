@@ -27,6 +27,7 @@ import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.TheRockExchange;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
+import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi
@@ -44,7 +45,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
         placeTheRockOrder(
             order.getCurrencyPair(),
             order.getOriginalAmount(),
-            null,
+            BigDecimal.ZERO,
             TheRockAdapters.adaptSide(order.getType()),
             TheRockOrder.Type.market);
     return placedOrder.getId().toString();
