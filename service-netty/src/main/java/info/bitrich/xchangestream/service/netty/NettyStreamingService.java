@@ -198,6 +198,13 @@ public abstract class NettyStreamingService<T> {
             } catch (Exception throwable) {
                 completable.onError(throwable);
             }
+        }).doOnError(t -> {
+            LOG.warn("Problem with reconnect", t);
+            reconnFailEmitters.stream().forEach(emitter -> emitter.onNext(t));
+        }).retryWhen(new RetryWithDelay(retryDuration.toMillis()))
+          .doOnComplete(() -> {
+            LOG.warn("Resubscribing channels");
+            resubscribeChannels();
         });
     }
 
@@ -362,16 +369,7 @@ public abstract class NettyStreamingService<T> {
             } else {
                 super.channelInactive(ctx);
                 LOG.info("Reopening websocket because it was closed by the host");
-                final Completable c = connect()
-                        .doOnError(t -> {
-                            LOG.warn("Problem with reconnect", t);
-                            reconnFailEmitters.stream().forEach(emitter -> emitter.onNext(t));
-                        })
-                        .retryWhen(new RetryWithDelay(retryDuration.toMillis()))
-                        .doOnComplete(() -> {
-                            LOG.info("Resubscribing channels");
-                            resubscribeChannels();
-                        });
+                final Completable c = connect();
                 c.subscribe();
             }
         }
