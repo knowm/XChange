@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -16,6 +17,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexUtils;
@@ -42,6 +44,7 @@ import org.slf4j.LoggerFactory;
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements TradeService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PoloniexTradeService.class);
+
 
   private PoloniexMarketDataService poloniexMarketDataService;
 
@@ -268,29 +271,29 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     List<String> orderIdList = Arrays.asList(orderIds);
 
     OpenOrders openOrders = getOpenOrders();
-    List<Order> returnValue =
-        openOrders
-            .getOpenOrders()
-            .stream()
-            .filter(f -> orderIdList.contains(f.getId()))
-            .collect(Collectors.toList());
+    List<Order> returnValue = openOrders
+      .getOpenOrders()
+      .stream()
+      .filter( f-> orderIdList.contains(f.getId()))
+      .collect(Collectors.toList());
 
     returnValue.addAll(
-        orderIdList
-            .stream()
-            .filter(
-                f -> !returnValue.stream().filter(a -> a.getId().equals(f)).findFirst().isPresent())
-            .map(
-                f -> {
-                  try {
-                    return PoloniexAdapters.adaptUserTradesToOrderStatus(f, returnOrderTrades(f));
-                  } catch (IOException e) {
-                    LOG.error("Unable to find status for Poloniex order id: " + f, e);
-                  }
-                  return null;
-                })
-            .filter(f -> f != null)
-            .collect(Collectors.toList()));
+      orderIdList.stream()
+        .filter( f-> !returnValue.stream().filter( a-> a.getId().equals(f)).findFirst().isPresent())
+        .map(
+          f-> {
+            try {
+              return PoloniexAdapters.adaptUserTradesToOrderStatus(f,returnOrderTrades(f));
+            } catch (IOException e) {
+              LOG.error("Unable to find status for Poloniex order id: " + f,e);
+            }
+            return null;
+
+          }
+        )
+        .filter( f-> f != null)
+        .collect(Collectors.toList())
+    );
 
     return returnValue;
   }
