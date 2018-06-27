@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.junit.Test;
 
 /** @author allenday */
@@ -22,8 +24,7 @@ public class CoinMarketCapMarketDataJsonTest {
     // MapLikeType mapType = mapper.getTypeFactory().constructMapLikeType(HashMap.class,
     // String.class, String.class);
 
-    List<CoinMarketCapTicker> tickers =
-        mapper.readValue(is, CoinMarketCapArrayData.class).getData();
+    List<CoinMarketCapTicker> tickers = mapper.readValue(is, CoinMarketCapArrayData.class).getData();
 
     CoinMarketCapTicker eth = null;
     CoinMarketCapTicker btc = null;

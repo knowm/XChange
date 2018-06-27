@@ -24,6 +24,7 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
 
   private Map<String, CoinMarketCapTicker> tickers;
 
+
   /**
    * Constructor
    *

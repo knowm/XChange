@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,16 +24,13 @@ public class CoinMarketCapArrayData<T> {
     this.data = data;
   }
 
-  public List<T> getData() {
-    return data;
-  }
+  public List<T> getData() { return data; }
 
-  static class CoinMarketCapTickersDeserializer<T>
-      extends JsonDeserializer<CoinMarketCapArrayData<CoinMarketCapTicker>> {
+  static class CoinMarketCapTickersDeserializer<T> extends JsonDeserializer<CoinMarketCapArrayData<CoinMarketCapTicker>> {
 
     @Override
-    public CoinMarketCapArrayData<CoinMarketCapTicker> deserialize(
-        JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinMarketCapArrayData<CoinMarketCapTicker> deserialize(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
@@ -41,8 +39,7 @@ public class CoinMarketCapArrayData<T> {
         List<CoinMarketCapTicker> tickers = new LinkedList<>();
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(
-            CoinMarketCapTicker.class, new CoinMarketCapTicker.CoinMarketCapTickerDeserializer());
+        module.addDeserializer(CoinMarketCapTicker.class, new CoinMarketCapTicker.CoinMarketCapTickerDeserializer());
         mapper.registerModule(module);
         for (JsonNode child : node.get("data")) {
           tickers.add(mapper.treeToValue(child, CoinMarketCapTicker.class));

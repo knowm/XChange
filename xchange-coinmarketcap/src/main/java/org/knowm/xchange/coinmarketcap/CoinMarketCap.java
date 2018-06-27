@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Objects;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
 import org.knowm.xchange.coinmarketcap.dto.marketdata.CoinMarketCapArrayData;
 import org.knowm.xchange.coinmarketcap.dto.marketdata.CoinMarketCapTicker;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,8 +17,7 @@ public interface CoinMarketCap {
 
   @GET
   @Path("ticker")
-  CoinMarketCapArrayData<CoinMarketCapTicker> getTickers(@QueryParam("structure") String structure)
-      throws IOException;
+  CoinMarketCapArrayData<CoinMarketCapTicker> getTickers(@QueryParam("structure") String structure) throws IOException;
 
   /**
    * @param start return results from rank [start] and above
@@ -27,10 +27,7 @@ public interface CoinMarketCap {
   @GET
   @Path("ticker")
   CoinMarketCapArrayData<CoinMarketCapTicker> getTickers(
-      @QueryParam("start") int start,
-      @QueryParam("limit") int limit,
-      @QueryParam("structure") String structure)
-      throws IOException;
+      @QueryParam("start") int start, @QueryParam("limit") int limit, @QueryParam("structure") String structure) throws IOException;
 
   /**
    * @param limit number of results. 0 = unlimited
@@ -40,10 +37,7 @@ public interface CoinMarketCap {
   @GET
   @Path("ticker")
   CoinMarketCapArrayData<CoinMarketCapTicker> getTickers(
-      @QueryParam("limit") int limit,
-      @QueryParam("convert") String convert,
-      @QueryParam("structure") String structure)
-      throws IOException;
+          @QueryParam("limit") int limit, @QueryParam("convert") String convert, @QueryParam("structure") String structure) throws IOException;
 
   /**
    * @param start return results from rank [start] and above
@@ -54,11 +48,10 @@ public interface CoinMarketCap {
   @GET
   @Path("ticker")
   CoinMarketCapArrayData<CoinMarketCapTicker> getTickers(
-      @QueryParam("start") int start,
-      @QueryParam("limit") int limit,
-      @QueryParam("convert") String convert,
-      @QueryParam("structure") String structure)
-      throws IOException;
+          @QueryParam("start") int start,
+          @QueryParam("limit") int limit,
+          @QueryParam("convert") String convert,
+          @QueryParam("structure") String structure) throws IOException;
 
   /**
    * @param limit number of results. 0 = unlimited
@@ -67,7 +60,7 @@ public interface CoinMarketCap {
   @GET
   @Path("ticker")
   CoinMarketCapArrayData<CoinMarketCapTicker> getTickers(
-      @QueryParam("limit") int limit, @QueryParam("structure") String structure) throws IOException;
+          @QueryParam("limit") int limit, @QueryParam("structure") String structure) throws IOException;
 
   CoinMarketCapTicker getTicker(CoinMarketCap.Pair pair);
 
