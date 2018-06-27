@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.currency.CurrencyPair.NEO_USD;
 
 import java.util.List;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -23,8 +22,7 @@ public class TickerFetchIntegration {
 
   @BeforeClass
   public static void initExchange() {
-    exchange =
-            ExchangeFactory.INSTANCE.createExchange(CoinMarketCapExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(CoinMarketCapExchange.class.getName());
   }
 
   @Test
@@ -51,10 +49,11 @@ public class TickerFetchIntegration {
   public void tickerConvertParamTest() throws Exception {
 
     CoinMarketCapMarketDataService marketDataService =
-            (CoinMarketCapMarketDataService)exchange.getMarketDataService();
+        (CoinMarketCapMarketDataService) exchange.getMarketDataService();
 
     CurrencyPair NEO_BTC = new CurrencyPair("NEO", "BTC");
-    List<CoinMarketCapTicker> tickers = marketDataService.getCoinMarketCapTickers(0, new Currency("EUR"));
+    List<CoinMarketCapTicker> tickers =
+        marketDataService.getCoinMarketCapTickers(0, new Currency("EUR"));
     // System.out.println(ticker.toString());
     assertThat(tickers).isNotNull();
 

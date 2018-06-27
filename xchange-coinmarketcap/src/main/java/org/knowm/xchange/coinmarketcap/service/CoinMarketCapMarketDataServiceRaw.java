@@ -67,7 +67,8 @@ class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements B
    * @param limit count of tickers to be retrieved
    * @param convert currency to get price converted to
    */
-  public List<CoinMarketCapTicker> getCoinMarketCapTickers(final int limit, Currency convert) throws IOException {
+  public List<CoinMarketCapTicker> getCoinMarketCapTickers(final int limit, Currency convert)
+      throws IOException {
     return coinmarketcap.getTickers(limit, convert.toString(), "array").getData();
   }
 
@@ -78,7 +79,7 @@ class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements B
   }
 
   public List<CoinMarketCapTicker> getCoinMarketCapTickers(int start, int limit, Currency convert)
-          throws IOException {
+      throws IOException {
 
     return coinmarketcap.getTickers(start, limit, convert.toString(), "array").getData();
   }
