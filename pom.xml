@@ -133,7 +133,6 @@
 		<module>xchange-coingi</module>
 		<module>xchange-coinmarketcap</module>
 		<module>xchange-coinmate</module>
-		<module>xchange-core</module>
 		<module>xchange-cryptofacilities</module>
 		<module>xchange-cryptonit</module>
 		<module>xchange-cryptopia</module>
