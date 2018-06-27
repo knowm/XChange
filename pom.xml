@@ -93,9 +93,6 @@
 	</ciManagement>
 
 	<modules>
-        <!--shouldn't this always be first?-->
-        <module>xchange-core</module>
-        <!--child modules-->
 		<module>xchange-abucoins</module>
 		<module>xchange-acx</module>
 		<module>xchange-anx</module>
@@ -133,6 +130,7 @@
 		<module>xchange-coingi</module>
 		<module>xchange-coinmarketcap</module>
 		<module>xchange-coinmate</module>
+		<module>xchange-core</module>
 		<module>xchange-cryptofacilities</module>
 		<module>xchange-cryptonit</module>
 		<module>xchange-cryptopia</module>
