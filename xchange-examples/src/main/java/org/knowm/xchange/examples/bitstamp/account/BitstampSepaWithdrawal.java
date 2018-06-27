@@ -3,6 +3,7 @@ package org.knowm.xchange.examples.bitstamp.account;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.AccountCurrency;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.Country;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
