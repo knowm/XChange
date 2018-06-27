@@ -1,7 +1,6 @@
 package org.knowm.xchange.huobi.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -78,7 +77,7 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
                 String.valueOf(
                     ((HuobiAccountServiceRaw) exchange.getAccountService())
                         .getAccounts()[0].getId()),
-                limitOrder.getOriginalAmount().setScale(4, BigDecimal.ROUND_DOWN).toString(),
+                limitOrder.getOriginalAmount().toString(),
                 limitOrder.getLimitPrice().toString(),
                 HuobiUtils.createHuobiCurrencyPair(limitOrder.getCurrencyPair()),
                 type),
@@ -103,10 +102,8 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     HuobiOrderResult result =
         huobi.placeMarketOrder(
             new HuobiCreateOrderRequest(
-                String.valueOf(
-                    ((HuobiAccountServiceRaw) exchange.getAccountService())
-                        .getAccounts()[0].getId()),
-                limitOrder.getOriginalAmount().setScale(4, BigDecimal.ROUND_DOWN).toString(),
+                limitOrder.getId(),
+                limitOrder.getOriginalAmount().toString(),
                 null,
                 HuobiUtils.createHuobiCurrencyPair(limitOrder.getCurrencyPair()),
                 type),
