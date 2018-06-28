@@ -16,15 +16,17 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
 
     private BitfinexStreamingService streamingService;
     private BitfinexStreamingMarketDataService streamingMarketDataService;
+    private BitfinexStreamingRawService streamingAuthenticatedDataService;
 
     public BitfinexStreamingExchange() {
+        this.streamingAuthenticatedDataService = new BitfinexStreamingRawService(API_URI);
     }
 
     @Override
     protected void initServices() {
         super.initServices();
-        streamingService = createStreamingService();
-        streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
+        this.streamingService = createStreamingService();
+        this.streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
     }
 
     private BitfinexStreamingService createStreamingService() {
@@ -74,4 +76,28 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     @Override
     public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 
+    public Completable connectToAuthenticated() {
+        return streamingAuthenticatedDataService.connect();
+    }
+
+    public void authenticate() {
+        streamingAuthenticatedDataService.auth();
+    }
+
+    public Completable disconnectToAuthenticated() {
+        return streamingAuthenticatedDataService.disconnect();
+    }
+
+    public boolean isAuthenticatedAlive() {
+        return streamingAuthenticatedDataService.isSocketOpen();
+    }
+
+    public void setCredentials(String apiKey, String apiSecret) {
+        streamingAuthenticatedDataService.setApiKey(apiKey);
+        streamingAuthenticatedDataService.setApiSecret(apiSecret);
+    }
+
+    public BitfinexStreamingRawService getStreamingAuthenticatedDataService() {
+        return streamingAuthenticatedDataService;
+    }
 }
