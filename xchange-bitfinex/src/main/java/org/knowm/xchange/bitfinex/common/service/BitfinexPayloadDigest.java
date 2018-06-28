@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitfinex.v1.service;
+package org.knowm.xchange.bitfinex.common.service;
 
 import java.util.Base64;
 import si.mazi.rescu.ParamsDigest;

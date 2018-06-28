@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker;
 
 @Path("v2")
