@@ -56,6 +56,9 @@ public final class BitfinexAdapters {
     if (currency.equals("DSH")) {
       currency = "DASH";
     }
+    if (currency.equals("QTM")) {
+      currency = "QTUM";
+    }
     return currency;
   }
 

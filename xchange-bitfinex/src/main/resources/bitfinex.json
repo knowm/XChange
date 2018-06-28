@@ -116,6 +116,18 @@
       "price_scale": 6,
       "min_amount": 2.00000000
     },
+    "QTM/BTC": {
+      "price_scale": 5,
+      "min_amount": 2.00000000
+    },
+    "QTM/ETH": {
+      "price_scale": 5,
+      "min_amount": 2.00000000
+    },
+    "QTM/USD": {
+      "price_scale": 5,
+      "min_amount": 2.00000000
+    },
     "RRT/BTC": {
       "price_scale": 6,
       "min_amount": 190.00000000
