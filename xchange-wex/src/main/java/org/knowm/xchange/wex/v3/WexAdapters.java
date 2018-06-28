@@ -172,15 +172,13 @@ public final class WexAdapters {
     for (String lcCurrency : funds.keySet()) {
       /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
       BigDecimal fund = funds.get(lcCurrency);
-      if (lcCurrency.equals("dsh")) {
-        lcCurrency = "dash";
-      }
-      Currency currency = Currency.getInstance(lcCurrency);
+
+      Currency currency = adaptCurrencyIn(lcCurrency);
       balances.add(new Balance(currency, fund));
     }
     return new Wallet(balances);
   }
-
+  
   public static OpenOrders adaptOrders(Map<Long, WexOrder> btceOrderMap) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -275,14 +273,7 @@ public final class WexAdapters {
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
 
     String[] currencies = btceCurrencyPair.split("_");
-    /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
-    if (currencies[0].equals("dsh")) {
-      currencies[0] = "dash";
-    }
-    if (currencies[1].equals("dsh")) {
-      currencies[1] = "dash";
-    }
-    return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
+    return new CurrencyPair(adaptCurrencyIn(currencies[0]), adaptCurrencyIn(currencies[1]));
   }
 
   public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
@@ -320,7 +311,7 @@ public final class WexAdapters {
   }
 
   private static void addCurrencyMetaData(
-      Currency symbol, Map<Currency, CurrencyMetaData> currencies, WexMetaData wexMetaData) {
+    Currency symbol, Map<Currency, CurrencyMetaData> currencies, WexMetaData wexMetaData) {
     if (!currencies.containsKey(symbol)) {
       BigDecimal withdrawalFee =
           wexMetaData.getCurrencies().get(symbol) == null
@@ -352,14 +343,9 @@ public final class WexAdapters {
 
   public static String getPair(CurrencyPair currencyPair) {
     /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
-    String base = currencyPair.base.getCurrencyCode();
-    String counter = currencyPair.counter.getCurrencyCode();
-    if (base.equals("DASH")) {
-      base = "DSH";
-    } else if (counter.equals("DASH")) {
-      counter = "DSH";
-    }
-    return (base + "_" + counter).toLowerCase();
+    String base = adaptCurrencyOut(currencyPair.base);
+    String counter = adaptCurrencyOut(currencyPair.counter);
+    return (base + "_" + counter);
   }
 
   public static LimitOrder createLimitOrder(
@@ -402,7 +388,7 @@ public final class WexAdapters {
           new FundingRecord(
               null,
               date,
-              Currency.getInstance(result.getCurrency()),
+              adaptCurrencyIn(result.getCurrency()),
               result.getAmount(),
               String.valueOf(key),
               null,
@@ -414,4 +400,22 @@ public final class WexAdapters {
     }
     return fundingRecords;
   }
+  
+  public static String adaptCurrencyOut(Currency currency) {
+	  String result = currency.getCurrencyCode(); 
+	  if (result.equals("DASH")) {
+	      result = "DSH";
+	  }
+	  return result.toLowerCase();
+  }
+  
+  public static Currency adaptCurrencyIn(String currency) {
+	  
+    /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
+	if (currency.equals("dsh")) {
+	  currency = "dash";
+	}
+    return Currency.getInstance(currency);
+  }
+
 }
