@@ -42,7 +42,7 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    return withdraw(currency.toString(), amount, address);
+    return withdraw(WexAdapters.adaptCurrencyOut(currency), amount, address);
   }
 
   @Override
