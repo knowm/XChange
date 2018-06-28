@@ -16,6 +16,8 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import org.knowm.xchange.exceptions.*;
 
@@ -154,5 +156,25 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         signatureCreator,
         new BitfinexNonceOnlyRequest(
             "/v1/account_fees", String.valueOf(exchange.getNonceFactory().createValue())));
+  }
+
+  public BitfinexBalanceHistoryResponse[] getBitfinexBalanceHistory(
+      String currency, String wallet, Long since, Long until, int limit) throws IOException {
+    try {
+      return bitfinex.balanceHistory(
+          apiKey,
+          payloadCreator,
+          signatureCreator,
+          new BitfinexBalanceHistoryRequest(
+              String.valueOf(exchange.getNonceFactory().createValue()),
+              currency,
+              since,
+              until,
+              limit,
+              wallet));
+
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e.getMessage());
+    }
   }
 }
