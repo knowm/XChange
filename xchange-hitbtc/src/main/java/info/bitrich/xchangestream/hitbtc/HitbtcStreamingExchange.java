@@ -48,6 +48,11 @@ public class HitbtcStreamingExchange extends HitbtcExchange implements Streaming
     }
 
     @Override
+    public Observable connectionSuccess() {
+        return streamingService.subscribeConnectionSuccess();
+    }
+
+    @Override
     public ExchangeSpecification getDefaultExchangeSpecification() {
         ExchangeSpecification spec = super.getDefaultExchangeSpecification();
         spec.setShouldLoadRemoteMetaData(false);

@@ -48,6 +48,11 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     }
 
     @Override
+    public Observable connectionSuccess() {
+        return streamingService.subscribeConnectionSuccess();
+    }
+
+    @Override
     public ExchangeSpecification getDefaultExchangeSpecification() {
         ExchangeSpecification spec = super.getDefaultExchangeSpecification();
         spec.setShouldLoadRemoteMetaData(false);
