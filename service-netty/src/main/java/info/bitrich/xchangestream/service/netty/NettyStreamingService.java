@@ -75,6 +75,7 @@ public abstract class NettyStreamingService<T> {
     protected Map<String, Subscription> channels = new ConcurrentHashMap<>();
     private boolean compressedMessages = false;
     private List<ObservableEmitter<Throwable>> reconnFailEmitters = new LinkedList<>();
+    private List<ObservableEmitter> connectionSuccessEmitters = new LinkedList<>();
 
     //debugging
     private boolean acceptAllCertificates = false;
@@ -199,12 +200,13 @@ public abstract class NettyStreamingService<T> {
                 completable.onError(throwable);
             }
         }).doOnError(t -> {
-            LOG.warn("Problem with reconnect", t);
+            LOG.warn("Problem with connection", t);
             reconnFailEmitters.stream().forEach(emitter -> emitter.onNext(t));
         }).retryWhen(new RetryWithDelay(retryDuration.toMillis()))
           .doOnComplete(() -> {
             LOG.warn("Resubscribing channels");
             resubscribeChannels();
+            connectionSuccessEmitters.stream().forEach(emitter -> emitter.onNext(null) );
         });
     }
 
@@ -263,6 +265,10 @@ public abstract class NettyStreamingService<T> {
 
     public Observable<Throwable> subscribeReconnectFailure() {
         return Observable.<Throwable>create(observableEmitter -> reconnFailEmitters.add(observableEmitter));
+    }
+
+    public Observable subscribeConnectionSuccess() {
+        return Observable.<Throwable>create(observableEmitter -> connectionSuccessEmitters.add(observableEmitter));
     }
 
     public Observable<T> subscribeChannel(String channelName, Object... args) {

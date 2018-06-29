@@ -48,6 +48,11 @@ public class OkCoinStreamingExchange extends OkCoinExchange implements Streaming
     }
 
     @Override
+    public Observable connectionSuccess() {
+        return streamingService.subscribeConnectionSuccess();
+    }
+
+    @Override
     public StreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
     }

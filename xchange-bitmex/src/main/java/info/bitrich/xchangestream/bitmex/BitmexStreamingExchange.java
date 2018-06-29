@@ -67,6 +67,11 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     }
 
     @Override
+    public Observable connectionSuccess() {
+        return streamingService.subscribeConnectionSuccess();
+    }
+
+    @Override
     public boolean isAlive() {
         return streamingService.isSocketOpen();
     }

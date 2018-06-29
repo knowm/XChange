@@ -47,6 +47,16 @@ public interface StreamingExchange extends Exchange {
     }
 
     /**
+     * Observable for connection success event.
+     * When this happens, it usually indicates that the server or the network is down.
+     *
+     * @return Observable with the exception during reconnection.
+     */
+    default Observable connectionSuccess() {
+        throw new NotYetImplementedForExchangeException();
+    }
+
+    /**
      * Returns service that can be used to access market data.
      */
     StreamingMarketDataService getStreamingMarketDataService();
