@@ -48,7 +48,7 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     }
 
     @Override
-    public Observable connectionSuccess() {
+    public Completable connectionSuccess() {
         return streamingService.subscribeConnectionSuccess();
     }
 

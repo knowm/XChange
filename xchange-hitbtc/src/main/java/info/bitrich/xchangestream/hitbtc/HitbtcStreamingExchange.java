@@ -48,7 +48,7 @@ public class HitbtcStreamingExchange extends HitbtcExchange implements Streaming
     }
 
     @Override
-    public Observable connectionSuccess() {
+    public Completable connectionSuccess() {
         return streamingService.subscribeConnectionSuccess();
     }
 

@@ -50,7 +50,7 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
     }
 
     @Override
-    public Observable connectionSuccess() {
+    public Completable connectionSuccess() {
         return streamingService.subscribeConnectionSuccess();
     }
 

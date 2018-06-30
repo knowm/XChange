@@ -63,7 +63,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     }
 
     @Override
-    public Observable connectionSuccess() {
+    public Completable connectionSuccess() {
         return streamingService.subscribeConnectionSuccess();
     }
 
