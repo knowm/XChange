@@ -7,7 +7,6 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.BitmexExchange;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Created by Lukas Zaoralek on 12.11.17.
@@ -67,7 +66,7 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     }
 
     @Override
-    public Observable connectionSuccess() {
+    public Completable connectionSuccess() {
         return streamingService.subscribeConnectionSuccess();
     }
 

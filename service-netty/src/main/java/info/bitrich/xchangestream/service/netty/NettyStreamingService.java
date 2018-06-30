@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import io.netty.handler.proxy.HttpProxyHandler;
+import io.reactivex.CompletableEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +76,7 @@ public abstract class NettyStreamingService<T> {
     protected Map<String, Subscription> channels = new ConcurrentHashMap<>();
     private boolean compressedMessages = false;
     private List<ObservableEmitter<Throwable>> reconnFailEmitters = new LinkedList<>();
-    private List<ObservableEmitter> connectionSuccessEmitters = new LinkedList<>();
+    private List<CompletableEmitter> connectionSuccessEmitters = new LinkedList<>();
 
     //debugging
     private boolean acceptAllCertificates = false;
@@ -206,7 +207,7 @@ public abstract class NettyStreamingService<T> {
           .doOnComplete(() -> {
             LOG.warn("Resubscribing channels");
             resubscribeChannels();
-            connectionSuccessEmitters.stream().forEach(emitter -> emitter.onNext(null) );
+            connectionSuccessEmitters.stream().forEach(emitter -> emitter.onComplete() );
         });
     }
 
@@ -267,8 +268,8 @@ public abstract class NettyStreamingService<T> {
         return Observable.<Throwable>create(observableEmitter -> reconnFailEmitters.add(observableEmitter));
     }
 
-    public Observable subscribeConnectionSuccess() {
-        return Observable.<Throwable>create(observableEmitter -> connectionSuccessEmitters.add(observableEmitter));
+    public Completable subscribeConnectionSuccess() {
+        return Completable.create(completableEmitter -> connectionSuccessEmitters.add(completableEmitter));
     }
 
     public Observable<T> subscribeChannel(String channelName, Object... args) {
