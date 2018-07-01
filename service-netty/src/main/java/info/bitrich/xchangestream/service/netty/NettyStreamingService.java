@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import io.netty.handler.proxy.HttpProxyHandler;
-import io.reactivex.CompletableEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,17 +35,6 @@ import io.netty.util.internal.SocketUtils;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class NettyStreamingService<T> {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
@@ -76,7 +63,7 @@ public abstract class NettyStreamingService<T> {
     protected Map<String, Subscription> channels = new ConcurrentHashMap<>();
     private boolean compressedMessages = false;
     private List<ObservableEmitter<Throwable>> reconnFailEmitters = new LinkedList<>();
-    private List<CompletableEmitter> connectionSuccessEmitters = new LinkedList<>();
+    private List<ObservableEmitter<Object>> connectionSuccessEmitters = new LinkedList<>();
 
     //debugging
     private boolean acceptAllCertificates = false;
@@ -202,12 +189,14 @@ public abstract class NettyStreamingService<T> {
             }
         }).doOnError(t -> {
             LOG.warn("Problem with connection", t);
-            reconnFailEmitters.stream().forEach(emitter -> emitter.onNext(t));
+            reconnFailEmitters.forEach(emitter -> emitter.onNext(t));
         }).retryWhen(new RetryWithDelay(retryDuration.toMillis()))
           .doOnComplete(() -> {
             LOG.warn("Resubscribing channels");
             resubscribeChannels();
-            connectionSuccessEmitters.stream().forEach(emitter -> emitter.onComplete() );
+
+            connectionSuccessEmitters.forEach(emitter -> emitter.onComplete() );
+
         });
     }
 
@@ -268,8 +257,8 @@ public abstract class NettyStreamingService<T> {
         return Observable.<Throwable>create(observableEmitter -> reconnFailEmitters.add(observableEmitter));
     }
 
-    public Completable subscribeConnectionSuccess() {
-        return Completable.create(completableEmitter -> connectionSuccessEmitters.add(completableEmitter));
+    public Observable<Object> subscribeConnectionSuccess() {
+        return Observable.<Object>create(e -> connectionSuccessEmitters.add(e));
     }
 
     public Observable<T> subscribeChannel(String channelName, Object... args) {

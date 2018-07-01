@@ -52,7 +52,7 @@ public interface StreamingExchange extends Exchange {
      *
      * @return Observable with the exception during reconnection.
      */
-    default Completable connectionSuccess() {
+    default Observable<Object> connectionSuccess() {
         throw new NotYetImplementedForExchangeException();
     }
 
