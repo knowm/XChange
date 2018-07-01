@@ -530,6 +530,10 @@
       "scale": 8,
       "withdrawal_fee": 5
     },
+    "QTUM": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    },
     "RDD": {
       "scale": 8,
       "withdrawal_fee": 2
