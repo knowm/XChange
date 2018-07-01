@@ -322,6 +322,10 @@ public abstract class NettyStreamingService<T> {
     }
 
     protected void handleChannelError(String channel, Throwable t) {
+        if (!channel.contains(channel)) {
+            LOG.error("Unexpected channel's error: {}, {}.", channel, t);
+            return;
+        }
         ObservableEmitter<T> emitter = channels.get(channel).emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
