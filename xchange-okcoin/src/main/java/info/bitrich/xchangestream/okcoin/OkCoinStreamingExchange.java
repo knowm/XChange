@@ -48,7 +48,7 @@ public class OkCoinStreamingExchange extends OkCoinExchange implements Streaming
     }
 
     @Override
-    public Completable connectionSuccess() {
+    public Observable<Object> connectionSuccess() {
         return streamingService.subscribeConnectionSuccess();
     }
 

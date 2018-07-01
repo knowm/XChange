@@ -66,7 +66,7 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     }
 
     @Override
-    public Completable connectionSuccess() {
+    public Observable<Object> connectionSuccess() {
         return streamingService.subscribeConnectionSuccess();
     }
 
