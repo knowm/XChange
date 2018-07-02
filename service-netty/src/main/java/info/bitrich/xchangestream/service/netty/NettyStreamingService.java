@@ -195,7 +195,10 @@ public abstract class NettyStreamingService<T> {
             LOG.warn("Resubscribing channels");
             resubscribeChannels();
 
-            connectionSuccessEmitters.forEach(emitter -> emitter.onComplete() );
+            connectionSuccessEmitters.forEach(emitter -> {
+                    emitter.onNext(new Object());
+                }
+            );
 
         });
     }
