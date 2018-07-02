@@ -1,81 +1,162 @@
-package cz.simplecoin.exchanges.exchangewithdraw;
+package org.knowm.xchange.bitstamp.dto.account;
 
-import cz.simplecoin.exchanges.SimpleApi;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitbay.BitbayDigest;
-import org.knowm.xchange.bitstamp.BitstampAdapters;
-import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
-import org.knowm.xchange.bitstamp.service.BitstampAccountService;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Date;
+import org.knowm.xchange.bitstamp.BitstampUtils;
+import org.knowm.xchange.currency.Currency;
 
-public class WithdrawApi {
-    private static Logger logger = LoggerFactory.getLogger(WithdrawApi.class);
+public class WithdrawalRequest {
 
-    public static String withdrawRipple(String exchangeName, Currency currency, BigDecimal amount, String address, String destinationTag) throws Exception {
-        SimpleApi simpleApi = SimpleApi.get();
-        Exchange exchange = simpleApi.getExchange(exchangeName);
-        if (exchangeName.equals("BitbayExchange")) {
-            throw new Exception("Ripple withdraw from bitbay not implemented yet");
-        }
-        WithdrawFundsParams withdrawFundsParams = new RippleWithdrawFundsParams(address, currency, amount, destinationTag);
-        return exchange.getAccountService().withdrawFunds(withdrawFundsParams);
+    private final Date datetime;
+    private Long id;
+    private Type type;
+    private BigDecimal amount;
+
+    private Currency currency;
+
+
+    @JsonProperty("status")
+    private String statusOriginal; // keep the original status, if it comes to "unknown"
+
+    private String data; // additional withdrawal request data
+    private String address; // Bitcoin withdrawal address (bitcoin withdrawals only).
+
+    @JsonProperty("transaction_id")
+    private String transactionId; // Transaction id (bitcoin withdrawals only).
+
+    public WithdrawalRequest(@JsonProperty("datetime") String datetime) {
+        super();
+        this.datetime = BitstampUtils.parseDate(datetime);
     }
 
-    public static String withdraw(String exchangeName, Currency currency, BigDecimal amount, String address, String destinationTag) throws Exception {
-        logger.info("Going to withdraw from {} currency {} amount {} to address {} tag {}", exchangeName, currency, amount, address, destinationTag);
-        String ret;
-        if (currency.equals(Currency.XRP)) {
-            ret = withdrawRipple(exchangeName, currency, amount.stripTrailingZeros(), address, destinationTag);
-        } else {
-            ret = withdraw(exchangeName, currency, amount.stripTrailingZeros(), address);
-        }
-        logger.info("Withdraw request id {} ", ret);
-        return ret;
-    }
-
-    public static String withdraw(String exchangeName, Currency currency, BigDecimal amount, String address) throws Exception {
-
-        SimpleApi simpleApi = SimpleApi.get();
-        Exchange exchange = simpleApi.getExchange(exchangeName);
-        switch (exchangeName){
-            case "BitbayExchange":
-                return withdrawBitBay(currency, amount, address);
-            case "BitstampExchange":
-                return withdrawBitstamp(currency, amount, address);
-            default:
-                return exchange.getAccountService().withdrawFunds(currency, amount, address);
-        }
-    }
-
-    public static String  withdrawBitstamp(Currency currency, BigDecimal amount, String address) throws Exception{
-        Exchange exchange = SimpleApi.get().getExchange("BitstampExchange");
-        String id = exchange.getAccountService().withdrawFunds(currency, amount, address);
-
-        BitstampAccountService accountService = (BitstampAccountService)exchange.getAccountService();
-        List<WithdrawalRequest> requests = accountService.getWithdrawalRequests(86400L);
+    public Long getId() {
         return id;
     }
 
-    public static String  withdrawBitBay(Currency currency, BigDecimal amount, String address) throws Exception{
-        Exchange exchange = SimpleApi.get().getExchange("BitbayExchange");
-        BitbayAuthenticatedWithdraw bitbayAuthenticatedWithdraw
-                = RestProxyFactory.createProxy(BitbayAuthenticatedWithdraw.class, exchange.getExchangeSpecification().getSslUri());
+    public Date getDatetime() {
+        return datetime;
+    }
 
-        String secret = exchange.getExchangeSpecification().getSecretKey();
-        String key = exchange.getExchangeSpecification().getApiKey();
+    public Type getType() {
+        return type;
+    }
 
-        String moment = String.valueOf(exchange.getNonceFactory().createValue());
-        ParamsDigest sign = BitbayDigest.createInstance(secret);
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-        return bitbayAuthenticatedWithdraw.transfer(key, sign, moment, currency.getCurrencyCode(), String.valueOf(amount), address).toString();
+    public Status getStatus() {
+        return Status.fromString(statusOriginal);
+    }
+
+    @JsonProperty("status")
+    public String getStatusOriginal() {
+        return statusOriginal;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    @Override
+    public String toString() {
+        return "WithdrawalRequest [id="
+                + id
+                + ", datetime="
+                + datetime
+                + ", type="
+                + type
+                + ", amount="
+                + amount
+                + ", status="
+                + getStatus()
+                + ", statusOriginal="
+                + statusOriginal
+                + ", data="
+                + data
+                + ", address="
+                + address
+                + ", transactionId="
+                + transactionId
+                + "]";
+    }
+
+    public enum Type {
+        SEPA,
+        bitcoin,
+        wire,
+        rippleUSD,
+        rippleBTC,
+        XRP,
+        litecoin,
+        ETH,
+        unknown;
+
+        // 0 (SEPA), 1 (bitcoin) or 2(WIRE transfer).
+        @JsonCreator
+        public static Type fromString(String string) {
+            switch (string) {
+                case "0":
+                    return SEPA;
+                case "1":
+                    return bitcoin;
+                case "2":
+                    return wire;
+                case "6":
+                    return rippleUSD;
+                case "7":
+                    return rippleBTC;
+                case "14":
+                    return XRP;
+                case "15":
+                    return litecoin;
+                case "16":
+                    return ETH;
+                default:
+                    return unknown;
+            }
+        }
+    }
+
+    public enum Status {
+        open,
+        in_process,
+        finished,
+        canceled,
+        failed,
+        unknown;
+
+        // 0 (open), 1 (in process), 2 (finished), 3 (canceled) or 4 (failed).
+        @JsonCreator
+        public static Status fromString(String string) {
+            switch (string) {
+                case "0":
+                    return open;
+                case "1":
+                    return in_process;
+                case "2":
+                    return finished;
+                case "3":
+                    return canceled;
+                case "4":
+                    return failed;
+                default:
+                    return unknown;
+            }
+        }
     }
 }
