@@ -11,8 +11,6 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.upbit.UpbitExchange;
 
-import com.google.gson.Gson;
-
 public class TradesIntegration {
   @Test
   public void TradesTest() throws Exception {

@@ -11,8 +11,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.upbit.UpbitExchange;
 
-import com.google.gson.Gson;
-
 public class OrderBookIntegration {
   @Test
   public void orderBookTest() throws Exception {
