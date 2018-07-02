@@ -654,7 +654,7 @@
     },
     "OMG": {
       "scale": 8,
-      "withdrawal_fee": 100.00000000
+      "withdrawal_fee": 0.30000000
     },
     "OMNI": {
       "scale": 8,
