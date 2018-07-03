@@ -4,17 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import javax.annotation.Nullable;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitmex.dto.account.*;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexKline;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.bitmex.dto.marketdata.*;
 import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPositionList;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -42,7 +39,7 @@ public interface Bitmex {
   // Get a history of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
   @Path("user/walletHistory")
-  List<BitmexWalletTransaction> getWalletHistory(
+  BitmexWalletTransactionList getWalletHistory(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -52,7 +49,7 @@ public interface Bitmex {
   // Get a summary of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
   @Path("user/walletSummary")
-  List<BitmexWalletTransaction> getWalletSummary(
+  BitmexWalletTransactionList getWalletSummary(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -70,7 +67,7 @@ public interface Bitmex {
 
   @GET
   @Path("user/margin?currency=all")
-  List<BitmexMarginAccount> getMarginAccountsStatus(
+  BitmexMarginAccountList getMarginAccountsStatus(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest)
@@ -78,7 +75,7 @@ public interface Bitmex {
 
   @GET
   @Path("trade")
-  BitmexPublicTrade[] getTrades(
+  BitmexPublicTradeList getTrades(
       @QueryParam("symbol") String currencyPair,
       @QueryParam("reverse") Boolean reverse,
       @Nullable @QueryParam("count") Integer count,
@@ -87,7 +84,7 @@ public interface Bitmex {
 
   @GET
   @Path("trade/bucketed")
-  List<BitmexKline> getBucketedTrades(
+  BitmexKlineList getBucketedTrades(
       @QueryParam("binSize") String binSize,
       @QueryParam("partial") Boolean partial,
       @QueryParam("symbol") String symbol,
@@ -97,13 +94,13 @@ public interface Bitmex {
 
   @GET
   @Path("orderBook/L2")
-  BitmexPublicOrder[] getDepth(
+  BitmexPublicOrderList getDepth(
       @QueryParam("symbol") String currencyPair, @QueryParam("depth") Double depth)
       throws IOException;
 
   @GET
   @Path("position")
-  List<BitmexPosition> getPositions(
+  BitmexPositionList getPositions(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest)
@@ -111,7 +108,7 @@ public interface Bitmex {
 
   @GET
   @Path("position")
-  List<BitmexPosition> getPositions(
+  BitmexPositionList getPositions(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -121,7 +118,7 @@ public interface Bitmex {
 
   @GET
   @Path("instrument")
-  List<BitmexTicker> getTickers(
+  BitmexTickerList getTickers(
       @Nullable @QueryParam("count") Integer count,
       @Nullable @QueryParam("start") Integer start,
       @Nullable @QueryParam("reverse") Boolean reverse)
@@ -129,12 +126,12 @@ public interface Bitmex {
 
   @GET
   @Path("instrument")
-  List<BitmexTicker> getTicker(@QueryParam("symbol") String symbol)
+  BitmexTickerList getTicker(@QueryParam("symbol") String symbol)
       throws IOException, BitmexException;
 
   @GET
   @Path("instrument/active")
-  List<BitmexTicker> getActiveTickers() throws IOException, BitmexException;
+  BitmexTickerList getActiveTickers() throws IOException, BitmexException;
 
   @GET
   @Path("instrument/activeIntervals")
@@ -142,7 +139,7 @@ public interface Bitmex {
 
   @GET
   @Path("order")
-  List<BitmexPrivateOrder> getOrders(
+  BitmexPrivateOrderList getOrders(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -189,7 +186,7 @@ public interface Bitmex {
   @Path("order/bulk")
   //  @Consumes("application/json")
   //  @Produces("application/json")
-  List<BitmexPrivateOrder> placeOrderBulk(
+  BitmexPrivateOrderList placeOrderBulk(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -215,7 +212,7 @@ public interface Bitmex {
   @Path("order/bulk")
   // for some reason underlying library doesn't add contenty type for PUT requests automatically
   @Consumes("application/x-www-form-urlencoded")
-  List<BitmexPrivateOrder> replaceOrderBulk(
+  BitmexPrivateOrderList replaceOrderBulk(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -223,7 +220,7 @@ public interface Bitmex {
 
   @DELETE
   @Path("order")
-  List<BitmexPrivateOrder> cancelOrder(
+  BitmexPrivateOrderList cancelOrder(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -232,7 +229,7 @@ public interface Bitmex {
 
   @DELETE
   @Path("order/all")
-  List<BitmexPrivateOrder> cancelAllOrders(
+  BitmexPrivateOrderList cancelAllOrders(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
