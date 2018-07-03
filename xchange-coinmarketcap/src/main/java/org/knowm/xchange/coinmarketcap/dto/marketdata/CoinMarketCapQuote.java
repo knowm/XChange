@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 
@@ -19,12 +18,12 @@ public class CoinMarketCapQuote {
   private final BigDecimal pctChange7d;
 
   private CoinMarketCapQuote(
-            final BigDecimal price,
-            final BigDecimal volume24h,
-            final BigDecimal marketCap,
-            final BigDecimal pctChange1h,
-            final BigDecimal pctChange24h,
-            final BigDecimal pctChange7d) {
+      final BigDecimal price,
+      final BigDecimal volume24h,
+      final BigDecimal marketCap,
+      final BigDecimal pctChange1h,
+      final BigDecimal pctChange24h,
+      final BigDecimal pctChange7d) {
 
     this.price = price;
     this.volume24h = volume24h;
@@ -34,45 +33,53 @@ public class CoinMarketCapQuote {
     this.pctChange7d = pctChange7d;
   }
 
-  public BigDecimal getPrice() { return price; }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
   public BigDecimal getVolume24h() {
-        return volume24h;
-    }
+    return volume24h;
+  }
 
   public BigDecimal getMarketCap() {
-        return marketCap;
-    }
+    return marketCap;
+  }
 
   public BigDecimal getPctChange1h() {
-        return pctChange1h;
-    }
+    return pctChange1h;
+  }
 
   public BigDecimal getPctChange24h() {
-        return pctChange24h;
-    }
+    return pctChange24h;
+  }
 
   public BigDecimal getPctChange7d() {
-        return pctChange7d;
-    }
+    return pctChange7d;
+  }
 
   @Override
   public String toString() {
 
-    return "CoinMarketCapQuote [price=" + price + ", volume24h=" + volume24h + ", marketCap=" + marketCap + "]";
+    return "CoinMarketCapQuote [price="
+        + price
+        + ", volume24h="
+        + volume24h
+        + ", marketCap="
+        + marketCap
+        + "]";
   }
 
   static class CoinMarketCapQuoteDeserializer extends JsonDeserializer<CoinMarketCapQuote> {
 
     @Override
     public CoinMarketCapQuote deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+        throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
 
       if (node.isObject()) {
-          BigDecimal price = new BigDecimal(node.get("price").asDouble());
+        BigDecimal price = new BigDecimal(node.get("price").asDouble());
         BigDecimal volume24h = new BigDecimal(node.get("volume_24h").asDouble());
         BigDecimal marketCap = new BigDecimal(node.get("market_cap").asDouble());
 
@@ -82,12 +89,7 @@ public class CoinMarketCapQuote {
         BigDecimal pctChange7d = new BigDecimal(node.get("percent_change_7d").asDouble());
 
         return new CoinMarketCapQuote(
-             price,
-             volume24h,
-             marketCap,
-             pctChange1h,
-             pctChange24h,
-             pctChange7d);
+            price, volume24h, marketCap, pctChange1h, pctChange24h, pctChange7d);
       }
       return null;
     }
