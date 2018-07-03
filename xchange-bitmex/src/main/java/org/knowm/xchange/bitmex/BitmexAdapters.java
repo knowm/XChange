@@ -367,7 +367,7 @@ public class BitmexAdapters {
     switch (status) {
       case New:
         return OrderStatus.NEW;
-      case Partially_filled:
+      case PartiallyFilled:
         return OrderStatus.PARTIALLY_FILLED;
       case Filled:
         return OrderStatus.FILLED;

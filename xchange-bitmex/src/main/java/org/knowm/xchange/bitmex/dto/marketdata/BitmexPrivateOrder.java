@@ -47,6 +47,8 @@ public class BitmexPrivateOrder {
   // "2018-06-03T05:22:49.018Z"
   private final Date transactTime;
 
+  private final String error;
+
   public BitmexPrivateOrder(
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("orderID") String id,
@@ -79,7 +81,8 @@ public class BitmexPrivateOrder {
       @JsonProperty("avgPx") BigDecimal avgPx,
       @JsonProperty("multiLegReportingType") String multiLegReportingType,
       @JsonProperty("text") String text,
-      @JsonProperty("transactTime") Date transactTime) {
+      @JsonProperty("transactTime") Date transactTime,
+      @JsonProperty("error") String error) {
 
     this.symbol = symbol;
     this.id = id;
@@ -114,6 +117,7 @@ public class BitmexPrivateOrder {
     this.multiLegReportingType = multiLegReportingType;
     this.text = text;
     this.transactTime = transactTime;
+    this.error = error;
   }
 
   public BigDecimal getPrice() {
@@ -251,6 +255,10 @@ public class BitmexPrivateOrder {
     return transactTime;
   }
 
+  public String getError() {
+    return error;
+  }
+
   @Override
   public String toString() {
     return "BitmexPrivateOrder{"
@@ -336,14 +344,18 @@ public class BitmexPrivateOrder {
         + ", transactTime='"
         + transactTime
         + '\''
+        + ", error='"
+        + error
+        + '\''
         + '}';
   }
 
   public enum OrderStatus {
     New,
-    Partially_filled,
+    PartiallyFilled,
     Filled,
     Canceled,
-    Rejected
+    Rejected,
+    Replaced
   }
 }

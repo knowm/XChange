@@ -15,7 +15,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 
 /** @author walec51 */
-public class MarketDataIntegrationTest {
+public class MarketDataIntegration {
 
   private static BittrexMarketDataService marketDataService;
 

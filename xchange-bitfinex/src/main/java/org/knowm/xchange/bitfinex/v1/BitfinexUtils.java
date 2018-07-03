@@ -1,6 +1,6 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.currency.CurrencyPair;
 
 /** A central place for shared Bitfinex properties */
