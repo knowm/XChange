@@ -7,8 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.BitmexPrompt;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -33,7 +33,7 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
    *
    * @param exchange
    */
-  public BitmexMarketDataService(Exchange exchange) {
+  public BitmexMarketDataService(BitmexExchange exchange) {
 
     super(exchange);
   }
