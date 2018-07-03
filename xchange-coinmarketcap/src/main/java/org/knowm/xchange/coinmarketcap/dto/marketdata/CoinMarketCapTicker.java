@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
@@ -66,11 +65,17 @@ public final class CoinMarketCapTicker {
     return baseCurrency;
   }
 
-  public String getSymbol() { return symbol; }
+  public String getSymbol() {
+    return symbol;
+  }
 
-  public String getWebsiteSlug() { return websiteSlug; }
+  public String getWebsiteSlug() {
+    return websiteSlug;
+  }
 
-  public BigDecimal getRank() { return rank; }
+  public BigDecimal getRank() {
+    return rank;
+  }
 
   public BigDecimal getCirculatingSupply() {
     return circulatingSupply;
@@ -80,9 +85,13 @@ public final class CoinMarketCapTicker {
     return totalSupply;
   }
 
-  public BigDecimal getMaxSupply() { return maxSupply; }
+  public BigDecimal getMaxSupply() {
+    return maxSupply;
+  }
 
-  public Map<String, CoinMarketCapQuote> getQuotes() { return quotes; }
+  public Map<String, CoinMarketCapQuote> getQuotes() {
+    return quotes;
+  }
 
   public Date getLastUpdated() {
     return lastUpdated;
@@ -117,26 +126,27 @@ public final class CoinMarketCapTicker {
         Map<String, CoinMarketCapQuote> quotes = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(CoinMarketCapQuote.class, new CoinMarketCapQuote.CoinMarketCapQuoteDeserializer());
+        module.addDeserializer(
+            CoinMarketCapQuote.class, new CoinMarketCapQuote.CoinMarketCapQuoteDeserializer());
         mapper.registerModule(module);
         Iterator<Map.Entry<String, JsonNode>> it = node.get("quotes").fields();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
           Map.Entry<String, JsonNode> pair = it.next();
           quotes.put(pair.getKey(), mapper.treeToValue(pair.getValue(), CoinMarketCapQuote.class));
         }
 
         CoinMarketCapTicker ticker =
-          new CoinMarketCapTicker(
-            id,
-            name,
-            symbol,
-            websiteSlug,
-            rank,
-            circulatingSupply,
-            totalSupply,
-            maxSupply,
-            quotes,
-            lastUpdated);
+            new CoinMarketCapTicker(
+                id,
+                name,
+                symbol,
+                websiteSlug,
+                rank,
+                circulatingSupply,
+                totalSupply,
+                maxSupply,
+                quotes,
+                lastUpdated);
         return ticker;
       }
       return null;
