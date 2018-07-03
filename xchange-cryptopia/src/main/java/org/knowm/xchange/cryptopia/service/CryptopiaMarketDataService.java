@@ -67,7 +67,12 @@ public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     try {
       if (args != null && args.length > 0) {
-        long orderCount = (long) args[0];
+        Long orderCount = null;
+        if (args[0] instanceof Integer) {
+          orderCount = ((Integer) args[0]).longValue();
+        } else if (args[0] instanceof Long) {
+          orderCount = (Long) args[0];
+        }
 
         return CryptopiaAdapters.adaptOrderBook(
             getCryptopiaOrderBook(currencyPair, orderCount), currencyPair);

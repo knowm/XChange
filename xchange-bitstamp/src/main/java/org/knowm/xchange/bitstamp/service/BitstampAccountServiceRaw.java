@@ -7,6 +7,8 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.AccountCurrency;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.BankWithdrawalType;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
@@ -355,6 +357,46 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     try {
       return bitstampAuthenticatedV2.transferSubAccountBalanceToMain(
           apiKey, signatureCreator, nonceFactory, amount, currency, subAccount);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampWithdrawal withdrawSepa(
+      BigDecimal amount,
+      String name,
+      String IBAN,
+      String BIK,
+      String address,
+      String postalCode,
+      String city,
+      String countryAlpha2)
+      throws IOException {
+
+    try {
+      BitstampWithdrawal response =
+          bitstampAuthenticatedV2.bankWithdrawal(
+              exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator,
+              exchange.getNonceFactory(),
+              amount,
+              AccountCurrency.EUR,
+              name,
+              IBAN,
+              BIK,
+              address,
+              postalCode,
+              city,
+              countryAlpha2,
+              BankWithdrawalType.sepa,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null);
+
+      return checkAndReturnWithdrawal(response);
     } catch (BitstampException e) {
       throw handleError(e);
     }
