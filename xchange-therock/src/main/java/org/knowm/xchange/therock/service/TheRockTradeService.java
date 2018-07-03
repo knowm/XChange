@@ -1,6 +1,7 @@
 package org.knowm.xchange.therock.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
@@ -27,7 +28,6 @@ import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.TheRockExchange;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
-import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi
