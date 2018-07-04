@@ -13,6 +13,8 @@ public final class DSXPairInfo {
   private final int hidden;
   private final BigDecimal fee;
   private final int decimalVolume;
+  public final String quotedCurrency;
+  public final String baseCurrency;
 
   public DSXPairInfo(
       @JsonProperty("decimal_places") int decimalsPrice,
@@ -21,7 +23,9 @@ public final class DSXPairInfo {
       @JsonProperty("min_amount") BigDecimal minAmount,
       @JsonProperty("hidden") int hidden,
       @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("amount_decimal_places") int decimalVolume) {
+      @JsonProperty("amount_decimal_places") int decimalVolume,
+      @JsonProperty("quoted_currency") String quotedCurrency,
+      @JsonProperty("base_currency") String baseCurrency) {
 
     this.decimalsPrice = decimalsPrice;
     this.minPrice = minPrice;
@@ -30,6 +34,8 @@ public final class DSXPairInfo {
     this.hidden = hidden;
     this.fee = fee;
     this.decimalVolume = decimalVolume;
+    this.quotedCurrency = quotedCurrency;
+    this.baseCurrency = baseCurrency;
   }
 
   public int getDecimalsPrice() {
