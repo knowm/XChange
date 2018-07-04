@@ -5,6 +5,7 @@ import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.livecoin.dto.LivecoinException;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.service.LivecoinAccountService;
 import org.knowm.xchange.livecoin.service.LivecoinMarketDataService;
@@ -43,8 +44,12 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException {
-    List<LivecoinRestriction> products =
-        ((LivecoinMarketDataServiceRaw) marketDataService).getRestrictions();
-    exchangeMetaData = LivecoinAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
+    try {
+      List<LivecoinRestriction> products =
+          ((LivecoinMarketDataServiceRaw) marketDataService).getRestrictions();
+      exchangeMetaData = LivecoinAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
+    } catch (LivecoinException e) {
+      throw LivecoinErrorAdapter.adapt(e);
+    }
   }
 }

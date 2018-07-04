@@ -7,12 +7,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.marketdata.DSXDepthJSONTest;
+import org.knowm.xchange.dsx.dto.marketdata.DSXExchangeInfo;
 import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbook;
 import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbookWrapper;
+import org.knowm.xchange.dsx.dto.marketdata.DSXPairInfo;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTickerJSONTest;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTickerWrapper;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTradesJSONTest;
@@ -131,6 +135,22 @@ public class DSXAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     DSXTradeHistoryReturn btceTradeHistory = mapper.readValue(is, DSXTradeHistoryReturn.class);
+
+    Map<String, DSXPairInfo> pairs = new HashMap<>();
+    pairs.put(
+        "btcusd",
+        new DSXPairInfo(
+            5,
+            new BigDecimal(5000),
+            new BigDecimal(15000),
+            new BigDecimal(0.0001),
+            0,
+            new BigDecimal(0),
+            5,
+            "USD",
+            "BTC"));
+    DSXExchangeInfo info = new DSXExchangeInfo(0L, pairs);
+    DSXAdapters.dsxExchangeInfo = info;
 
     UserTrades trades = DSXAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
     List<UserTrade> tradeList = trades.getUserTrades();

@@ -37,9 +37,11 @@ public class CryptoFacilitiesFillsJSONTest {
 
     assertThat(fill.getOrderId()).isEqualTo("c18f0c17-9971-40e6-8e5b-10df05d422f0");
     assertThat(fill.getFillId()).isEqualTo("522d4e08-96e7-4b44-9694-bfaea8fe215e");
-    assertThat(fill.getSymbol()).isEqualTo("f-xbt:usd-sep16");
+    assertThat(fill.getClientOrderId()).isEqualTo("d427f920-ec55-4c18-ba95-5fe241513b30");
+    assertThat(fill.getSymbol()).isEqualTo("fi_xbtusd_180615");
     assertThat(fill.getSide()).isEqualTo("buy");
-    assertThat(fill.getSize()).isEqualTo(new BigDecimal("2"));
-    assertThat(fill.getPrice()).isEqualTo(new BigDecimal("425.5"));
+    assertThat(fill.getSize()).isEqualTo(new BigDecimal("2000"));
+    assertThat(fill.getPrice()).isEqualTo(new BigDecimal("4255"));
+    assertThat(fill.getFillType()).isEqualTo("maker");
   }
 }
