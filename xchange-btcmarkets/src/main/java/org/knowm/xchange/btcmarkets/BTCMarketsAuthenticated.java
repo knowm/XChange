@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOpenOrdersAndTradeHistoryRequest;
@@ -93,5 +94,13 @@ public interface BTCMarketsAuthenticated {
       @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
       @HeaderParam("signature") BTCMarketsDigest signer,
       BTCMarketsWithdrawCryptoRequest request)
+      throws BTCMarketsException, IOException;
+
+  @GET
+  @Path("fundtransfer/history")
+  BTCMarketsFundtransferHistoryResponse fundtransferHistory(
+      @HeaderParam("apikey") String publicKey,
+      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
+      @HeaderParam("signature") BTCMarketsDigest signer)
       throws BTCMarketsException, IOException;
 }
