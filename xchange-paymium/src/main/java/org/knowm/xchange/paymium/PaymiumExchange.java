@@ -3,7 +3,9 @@ package org.knowm.xchange.paymium;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.paymium.service.PaymiumAccountService;
 import org.knowm.xchange.paymium.service.PaymiumMarketDataService;
+import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class PaymiumExchange extends BaseExchange implements Exchange {
@@ -13,7 +15,7 @@ public class PaymiumExchange extends BaseExchange implements Exchange {
 
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://paymium.com/api/v1/data/eur");
+    exchangeSpecification.setSslUri("https://paymium.com/api/v1");
     exchangeSpecification.setHost("paymium.com");
     exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("Paymium");
@@ -25,12 +27,12 @@ public class PaymiumExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
+    this.accountService = new PaymiumAccountService(this);
     this.marketDataService = new PaymiumMarketDataService(this);
   }
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    // No private API implemented. Not needed for this exchange at the moment.
-    return null;
+    return new AtomicLongCurrentTimeIncrementalNonceFactory();
   }
 }

@@ -3,7 +3,7 @@ package org.knowm.xchange.paymium;
 import java.io.IOException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.paymium.dto.account.PaymiumBalanceResponse;
+import org.knowm.xchange.paymium.dto.account.PaymiumBalance;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -14,9 +14,9 @@ public interface PaymiumAuthenticated extends Paymium {
 
   @GET
   @Path("user")
-  PaymiumBalanceResponse getBalance(
+  PaymiumBalance getBalance(
       @HeaderParam("Api-Key") String apiKey,
-      @HeaderParam("Api-Signature") ParamsDigest sszsz,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
       @HeaderParam("Api-Nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
 }

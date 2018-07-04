@@ -4,7 +4,6 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.paymium.PaymiumAuthenticated;
 import org.knowm.xchange.paymium.dto.account.PaymiumBalance;
-import org.knowm.xchange.paymium.dto.account.PaymiumBalanceResponse;
 import si.mazi.rescu.RestProxyFactory;
 
 public class PaymiumAccountServiceRaw extends PaymiumBaseService {
@@ -27,8 +26,6 @@ public class PaymiumAccountServiceRaw extends PaymiumBaseService {
   }
 
   public PaymiumBalance getPaymiumBalances() throws IOException {
-    PaymiumBalanceResponse response =
-        paymiumAuthenticated.getBalance(apiKey, signatureCreator, exchange.getNonceFactory());
-    return response.getResult();
+    return paymiumAuthenticated.getBalance(apiKey, signatureCreator, exchange.getNonceFactory());
   }
 }

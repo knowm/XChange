@@ -1,23 +1,24 @@
 package org.knowm.xchange.paymium.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class PaymiumBalance {
 
-  @JsonProperty("lockedBtc")
+  @JsonProperty("locked_btc")
   private BigDecimal lockedBtc;
 
-  @JsonProperty("lockedEur")
+  @JsonProperty("locked_eur")
   private BigDecimal lockedEur;
 
-  @JsonProperty("balanceBtc")
+  @JsonProperty("balance_btc")
   private BigDecimal balanceBtc;
 
-  @JsonProperty("balanceEur")
+  @JsonProperty("balance_eur")
   private BigDecimal balanceEur;
 
-  @JsonProperty("metaState")
+  @JsonProperty("meta_state")
   private String metaState;
 
   @JsonProperty("name")
@@ -26,34 +27,11 @@ public class PaymiumBalance {
   @JsonProperty("locale")
   private String locale;
 
-  @JsonProperty("channelId")
+  @JsonProperty("channel_d")
   private String channelId;
 
   @JsonProperty("email")
   private String email;
-
-  public PaymiumBalance(
-      @JsonProperty("lockedBtc") BigDecimal lockedBtc,
-      @JsonProperty("lockedEur") BigDecimal lockedEur,
-      @JsonProperty("balanceBtc") BigDecimal balanceBtc,
-      @JsonProperty("balanceEur") BigDecimal balanceEur,
-      @JsonProperty("metaState") String metaState,
-      @JsonProperty("name") String name,
-      @JsonProperty("locale") String locale,
-      @JsonProperty("channelId") String channelId,
-      @JsonProperty("email") String email) {
-
-    super();
-    this.lockedBtc = lockedBtc;
-    this.lockedEur = lockedEur;
-    this.balanceBtc = balanceBtc;
-    this.balanceEur = balanceEur;
-    this.metaState = metaState;
-    this.name = name;
-    this.locale = locale;
-    this.channelId = channelId;
-    this.email = email;
-  }
 
   public BigDecimal getLockedBtc() {
     return lockedBtc;
@@ -150,4 +128,5 @@ public class PaymiumBalance {
         + email
         + "]";
   }
+
 }
