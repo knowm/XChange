@@ -5,10 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
@@ -16,6 +18,7 @@ import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -95,5 +98,27 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(userTrades.get(2).getFeeCurrency()).isEqualTo(Currency.BTC);
     assertThat(userTrades.get(2).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
     assertThat(userTrades.get(1).getType()).isEqualTo(Order.OrderType.ASK);
+  }
+
+  @Test
+  public void shouldAdaptFundTransferHistory() throws IOException {
+    final BTCMarketsFundtransferHistoryResponse response =
+        parse(BTCMarketsFundtransferHistoryResponse.class);
+
+    final List<FundingRecord> fundingRecords = BTCMarketsAdapters.adaptFundingHistory(response);
+
+    assertThat(fundingRecords).hasSize(1);
+    assertThat(fundingRecords.get(0).getAddress()).isNull();
+    assertThat(fundingRecords.get(0).getAmount()).isEqualTo(BigDecimal.valueOf(15.04872041));
+    assertThat(fundingRecords.get(0).getBalance()).isNull();
+    assertThat(fundingRecords.get(0).getBlockchainTransactionHash())
+        .isEqualTo("0x1234abcdef1234abcdef1234abcdef1234abcdef1234abcdef1234abcdef");
+    assertThat(fundingRecords.get(0).getDate()).isEqualTo(new Date(1530533761866L));
+    assertThat(fundingRecords.get(0).getDescription()).isEqualTo("Ethereum Deposit, S 15");
+    assertThat(fundingRecords.get(0).getFee()).isEqualTo(BigDecimal.ZERO.setScale(8));
+    assertThat(fundingRecords.get(0).getInternalId()).isEqualTo("7485764826");
+    assertThat(fundingRecords.get(0).getCurrency()).isEqualTo(Currency.ETH);
+    assertThat(fundingRecords.get(0).getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
+    assertThat(fundingRecords.get(0).getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
   }
 }
