@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.paymium.dto.account.PaymiumBalance;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketDepth;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketOrder;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumTicker;
@@ -113,5 +118,26 @@ public class PaymiumAdapters {
     }
 
     return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  public static Wallet adaptWallet(PaymiumBalance paymiumBalances) {
+
+    List<Balance> wallets = new ArrayList<>();
+
+      wallets.add(
+          new Balance(
+              Currency.BTC,
+              paymiumBalances.getBalanceBtc(),
+              paymiumBalances.getBalanceBtc().subtract(paymiumBalances.getLockedBtc()),
+              paymiumBalances.getLockedBtc()));
+
+    wallets.add(
+        new Balance(
+            Currency.EUR,
+            paymiumBalances.getBalanceEur(),
+            paymiumBalances.getBalanceEur().subtract(paymiumBalances.getLockedEur()),
+            paymiumBalances.getLockedEur()));
+
+    return new Wallet(wallets);
   }
 }

@@ -16,6 +16,8 @@ public class Test {
     ExchangeSpecification exSpec = new PaymiumExchange().getDefaultExchangeSpecification();
     exSpec.setApiKey("9d553adcc4e0a99b990a061d8ebc755764926bb2cb13a8e98d2cfdb26070660e");
     exSpec.setSecretKey("e86c5e0607f09bea37ba96be9fb3b3ad77c7701255823c113ccfd406391f9be9");
+    exSpec.setProxyHost("127.0.0.1");
+    exSpec.setProxyPort(8888);
 
     Exchange paymium = ExchangeFactory.INSTANCE.createExchange(exSpec);
     AccountService accountService = paymium.getAccountService();
