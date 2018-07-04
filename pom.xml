@@ -119,6 +119,7 @@
 		<module>xchange-campbx</module>
 		<module>xchange-ccex</module>
 		<module>xchange-cexio</module>
+		<module>xchange-cobinhood</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinegg</module>
 		<module>xchange-coinone</module>

@@ -164,6 +164,12 @@
 			<artifactId>xchange-cexio</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+        <!-- Xchange Cobinhood exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cobinhood</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<!-- Xchange Coingi exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
