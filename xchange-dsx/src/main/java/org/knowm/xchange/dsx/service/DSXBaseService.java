@@ -1,6 +1,8 @@
 package org.knowm.xchange.dsx.service;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.dsx.DSXAdapters;
 import org.knowm.xchange.dsx.DSXAuthenticatedV2;
 import org.knowm.xchange.dsx.dto.DSXReturn;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -23,10 +25,10 @@ public class DSXBaseService extends BaseExchangeService implements BaseService {
    * Constructor
    *
    * @param exchange
+   * @throws IOException
    */
   protected DSXBaseService(Exchange exchange) {
     super(exchange);
-
     this.dsx =
         RestProxyFactory.createProxy(
             DSXAuthenticatedV2.class,
@@ -35,6 +37,13 @@ public class DSXBaseService extends BaseExchangeService implements BaseService {
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         DSXHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    try {
+      if (DSXAdapters.dsxExchangeInfo == null) {
+        DSXAdapters.dsxExchangeInfo = dsx.getInfo();
+      }
+    } catch (IOException e) {
+      throw new ExchangeException("Could not init the DSX service.", e);
+    }
   }
 
   protected void checkResult(DSXReturn<?> result) {
