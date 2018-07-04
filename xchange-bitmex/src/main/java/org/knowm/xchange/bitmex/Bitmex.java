@@ -307,6 +307,20 @@ public interface Bitmex {
       this.clOrdID = clOrdID;
       this.executionInstructions = executionInstructions;
     }
+
+    @Override
+    public String toString() {
+      return "PlaceOrderCommand{" +
+              "symbol='" + symbol + '\'' +
+              ", side='" + side + '\'' +
+              ", orderQuantity=" + orderQuantity +
+              ", price=" + price +
+              ", stopPrice=" + stopPrice +
+              ", orderType='" + orderType + '\'' +
+              ", clOrdID='" + clOrdID + '\'' +
+              ", executionInstructions='" + executionInstructions + '\'' +
+              '}';
+    }
   }
 
   public static class ReplaceOrderCommand {
@@ -352,6 +366,19 @@ public interface Bitmex {
       this.orderId = orderId;
       this.clOrdID = clOrdID;
       this.origClOrdID = origClOrdID;
+    }
+
+    @Override
+    public String toString() {
+      return "ReplaceOrderCommand{" +
+              "orderQuantity=" + orderQuantity +
+              ", price=" + price +
+              ", stopPrice=" + stopPrice +
+              ", orderType='" + orderType + '\'' +
+              ", orderId='" + orderId + '\'' +
+              ", clOrdID='" + clOrdID + '\'' +
+              ", origClOrdID='" + origClOrdID + '\'' +
+              '}';
     }
   }
 }
