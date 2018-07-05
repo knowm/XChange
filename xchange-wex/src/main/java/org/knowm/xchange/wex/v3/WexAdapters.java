@@ -412,7 +412,7 @@ public final class WexAdapters {
   public static Currency adaptCurrencyIn(String currency) {
 	  
     /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
-	if (currency.equals("dsh")) {
+	if (currency.toLowerCase().equals("dsh")) {
 	  currency = "dash";
 	}
     return Currency.getInstance(currency);
