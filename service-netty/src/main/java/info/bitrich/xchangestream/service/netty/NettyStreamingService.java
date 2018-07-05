@@ -297,7 +297,10 @@ public abstract class NettyStreamingService<T> {
         for (String channelId : channels.keySet()) {
             try {
                 Subscription subscription = channels.get(channelId);
-                sendMessage(getSubscribeMessage(subscription.channelName, subscription.args));
+                Object[] args = subscription.args;
+                if (args.length < 1 || !(args[0] instanceof String) || !(args[0].equals("NoMsg"))) {
+                    sendMessage(getSubscribeMessage(subscription.channelName, args));
+                }
             } catch (IOException e) {
                 LOG.error("Failed to reconnect channel: {}", channelId);
             }
@@ -347,13 +350,13 @@ public abstract class NettyStreamingService<T> {
         NettyStreamingService<T>.Subscription subscription = channels.get(channel);
         if (subscription == null) {
             LOG.debug("Channel has been closed {}.", channel);
-            LOG.error("Received unsubscribed error: {}", t);
+            LOG.error("Received unsubscribed error: ", t);
             return;
         }
         ObservableEmitter<T> emitter = subscription.emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
-            LOG.error("Received unsubscribed error: {}", t);
+            LOG.error("Received unsubscribed error: ", t);
             return;
         }
 
