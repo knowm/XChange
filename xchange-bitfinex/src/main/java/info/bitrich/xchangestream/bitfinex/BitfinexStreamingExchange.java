@@ -14,17 +14,23 @@ import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
 public class BitfinexStreamingExchange extends BitfinexExchange implements StreamingExchange {
     private static final String API_URI = "wss://api.bitfinex.com/ws/2";
 
-    private final BitfinexStreamingService streamingService;
+    private BitfinexStreamingService streamingService;
     private BitfinexStreamingMarketDataService streamingMarketDataService;
 
     public BitfinexStreamingExchange() {
-        this.streamingService = new BitfinexStreamingService(API_URI);
     }
 
     @Override
     protected void initServices() {
         super.initServices();
+        streamingService = createStreamingService();
         streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
+    }
+
+    private BitfinexStreamingService createStreamingService() {
+        BitfinexStreamingService streamingService = new BitfinexStreamingService(API_URI);
+        applyStreamingSpecification(getExchangeSpecification(), streamingService);
+        return streamingService;
     }
 
     @Override
