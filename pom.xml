@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<prerequisites>
 		<maven>3.0</maven>
 	</prerequisites>
-	
+
 	<groupId>org.knowm.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
 	<version>4.3.8-SNAPSHOT</version>
@@ -16,6 +18,7 @@
 	<description>XChange is a Java library providing a simple and consistent API for interacting with
         a diverse set of cryptocurrency exchanges.
     </description>
+
 	<url>http://knowm.org/open-source/xchange</url>
 	<inceptionYear>2012</inceptionYear>
 
@@ -123,6 +126,7 @@
 		<module>xchange-coinegg</module>
 		<module>xchange-coinone</module>
 		<module>xchange-coinfloor</module>
+		<module>xchange-coingi</module>
 		<module>xchange-coinmarketcap</module>
 		<module>xchange-coinmate</module>
 		<module>xchange-core</module>
@@ -132,6 +136,7 @@
 		<module>xchange-dsx</module>
 		<module>xchange-exmo</module>
 		<module>xchange-examples</module>
+		<module>xchange-fcoin</module>
 		<module>xchange-gatecoin</module>
 		<module>xchange-gateio</module>
 		<module>xchange-gdax</module>
@@ -236,11 +241,25 @@
 				<version>${version.crypto}</version>
 			</dependency>
 
+			<!-- for bi-direction maps only -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>25.1-jre</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
 				<version>1.10.19</version>
 				<!-- <version>2.15.0</version> -->
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.tomakehurst</groupId>
+				<artifactId>wiremock</artifactId>
+				<version>2.18.0</version>
 				<scope>test</scope>
 			</dependency>
 
