@@ -5,6 +5,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.paymium.service.PaymiumAccountService;
 import org.knowm.xchange.paymium.service.PaymiumMarketDataService;
+import org.knowm.xchange.paymium.service.PaymiumTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -28,6 +29,7 @@ public class PaymiumExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.accountService = new PaymiumAccountService(this);
+    this.tradeService = new PaymiumTradeService(this);
     this.marketDataService = new PaymiumMarketDataService(this);
   }
 

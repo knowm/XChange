@@ -4,25 +4,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PaymiumAccountOperations {
 
-  @JsonProperty("Amount")
+  @JsonProperty("amount")
   protected Double amount;
 
-  @JsonProperty("CreatedAt")
+  @JsonProperty("created_at")
   protected String createdAt;
 
-  @JsonProperty("CreatedAtInt")
+  @JsonProperty("created_at_int")
   protected Integer createdAtInt;
 
-  @JsonProperty("Currency")
+  @JsonProperty("currency")
   protected String currency;
 
-  @JsonProperty("IsTradingAccount")
+  @JsonProperty("is_trading_account")
   protected boolean isTradingAccount;
 
-  @JsonProperty("Name")
+  @JsonProperty("name")
   protected String name;
 
-  @JsonProperty("Uuid")
+  @JsonProperty("uuid")
   protected String uuid;
 
   @Override
