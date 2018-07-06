@@ -13,6 +13,8 @@ import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
 import org.knowm.xchange.gateio.dto.trade.GateioPlaceOrderReturn;
 import org.knowm.xchange.gateio.dto.trade.GateioTradeHistoryReturn;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 
 public class GateioTradeServiceRaw extends GateioBaseService {
 
@@ -85,10 +87,15 @@ public class GateioTradeServiceRaw extends GateioBaseService {
     return handleResponse(orderId).getOrderId();
   }
 
-  public boolean cancelOrder(String orderId) throws IOException {
+  public boolean cancelOrder(String orderId, CurrencyPair currencyPair) throws IOException {
 
     GateioBaseResponse cancelOrderResult =
-        bter.cancelOrder(orderId, apiKey, signatureCreator, exchange.getNonceFactory());
+        bter.cancelOrder(
+            orderId,
+            GateioUtils.toPairString(currencyPair),
+            apiKey,
+            signatureCreator,
+            exchange.getNonceFactory());
 
     return handleResponse(cancelOrderResult).isResult();
   }
@@ -147,5 +154,26 @@ public class GateioTradeServiceRaw extends GateioBaseService {
     return String.format(
             "%s_%s", currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode())
         .toLowerCase();
+  }
+
+  public static class GateioCancelOrderParams
+      implements CancelOrderByIdParams, CancelOrderByCurrencyPair {
+    public final CurrencyPair currencyPair;
+    public final String orderId;
+
+    public GateioCancelOrderParams(CurrencyPair currencyPair, String orderId) {
+      this.currencyPair = currencyPair;
+      this.orderId = orderId;
+    }
+
+    @Override
+    public String getOrderId() {
+      return orderId;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
   }
 }
