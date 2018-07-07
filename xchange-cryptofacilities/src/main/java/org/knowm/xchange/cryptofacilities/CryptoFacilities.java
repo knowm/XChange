@@ -8,6 +8,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesInstruments;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrderBook;
+import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesPublicFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTickers;
 
 /** @author Jean-Christophe Laruelle */
@@ -26,4 +27,8 @@ public interface CryptoFacilities {
   @GET
   @Path("/instruments")
   CryptoFacilitiesInstruments getInstruments() throws IOException;
+
+  @GET
+  @Path("/history")
+  CryptoFacilitiesPublicFills getHistory(@QueryParam("symbol") String symbol) throws IOException;
 }

@@ -1,8 +1,10 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.common.service.BitfinexHmacPostBodyDigest;
+import org.knowm.xchange.bitfinex.common.service.BitfinexPayloadDigest;
 import org.knowm.xchange.bitfinex.v1.BitfinexAuthenticated;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;

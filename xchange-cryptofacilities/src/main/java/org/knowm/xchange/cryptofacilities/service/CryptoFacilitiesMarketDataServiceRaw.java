@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesInstruments;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrderBook;
+import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesPublicFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTicker;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTickers;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -64,6 +65,20 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBaseSe
       return orderBook;
     } else {
       throw new ExchangeException("Error getting CF order book: " + orderBook.getError());
+    }
+  }
+
+  public CryptoFacilitiesPublicFills getCryptoFacilitiesHistory(CurrencyPair currencyPair)
+      throws IOException {
+
+    CryptoFacilitiesPublicFills publicFills =
+        cryptoFacilities.getHistory(currencyPair.base.toString());
+
+    if (publicFills.isSuccess()) {
+      publicFills.setCurrencyPair(currencyPair);
+      return publicFills;
+    } else {
+      throw new ExchangeException("Error getting CF public fills: " + publicFills.getError());
     }
   }
 }

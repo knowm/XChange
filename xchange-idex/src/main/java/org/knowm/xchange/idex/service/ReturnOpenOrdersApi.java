@@ -21,10 +21,9 @@ public interface ReturnOpenOrdersApi {
   @Consumes("application/json")
   @Produces("application/json")
   @ApiOperation(
-    value = "Returns the open orders for a given market and address",
-    notes = "",
-    tags = "trade"
-  )
+      value = "Returns the open orders for a given market and address",
+      notes = "",
+      tags = "trade")
   @ApiResponses(@ApiResponse(code = 200, message = "", response = ReturnOpenOrdersResponse.class))
   ReturnOpenOrdersResponse openOrders(OpenOrdersReq openOrdersReq) throws Exception;
 }

@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.3.7-SNAPSHOT</version>
+        <version>4.3.9-SNAPSHOT</version>
     </parent>
     <artifactId>xchange-livecoin</artifactId>
     <name>XChange Livecoin</name>
@@ -22,6 +22,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
         </dependency>
     </dependencies>
 
