@@ -7,6 +7,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.paymium.PaymiumExchange;
+import org.knowm.xchange.paymium.service.PaymiumHistoryParams;
 import org.knowm.xchange.paymium.service.PaymiumTradeService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
@@ -21,7 +22,7 @@ public class Test {
     exSpec.setProxyHost("127.0.0.1");
     exSpec.setProxyPort(8888);
 
-    PaymiumTradeService.PaymiumHistoryParams history = new PaymiumTradeService.PaymiumHistoryParams(0L,20);
+    PaymiumHistoryParams history = new PaymiumHistoryParams(0L,20);
 
     Exchange paymium = ExchangeFactory.INSTANCE.createExchange(exSpec);
     AccountService accountService = paymium.getAccountService();
