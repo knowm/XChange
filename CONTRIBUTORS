@@ -16,7 +16,6 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
-=
 Achterhoeker
 Adam from WALCZAK.IT
 Alejandro Reyero
@@ -63,6 +62,7 @@ Eric Anderson
 Erland Lewin
 EzBar
 Ezer Bar-Aviv
+Fabian
 Fabien André
 Felipe Micaroni Lalli
 Flemingjp
@@ -77,8 +77,10 @@ Guillaume Morissette
 HairyFotr
 Herman Ofenböck
 Ignacio Larranaga
+Iury V. Vinogradov
 JH
 JK
+Jack McKenzie
 James
 James Edwards
 James Fleming
@@ -147,6 +149,7 @@ Oscar Francia
 Pablo Lopez
 Pan, Xinyang
 Panchen
+Pavel Niedoba
 Pavlo Pastushok
 Peter Keeler
 Peter N. Steinmetz
@@ -191,6 +194,7 @@ Ujjwal Kabra
 Uwe
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
+Victor Didenko
 Victor Mezrin
 Viktor.Zakalyuzhnyy
 Wojciech Langiewicz
@@ -230,6 +234,7 @@ cymp
 cyril
 datbui
 david-yam
+desinerlee
 deveth0
 dhenry
 dimecoin
@@ -254,6 +259,7 @@ jamespedwards42
 jasonliu119
 jclaruelle
 jcuypers
+jmcklondonuk
 johndemic
 karol.pysniak@turbineam.com
 kisapmata
@@ -274,6 +280,7 @@ michaelscheung
 miho
 mnapier
 moardm
+nado04@gmail.com
 nakedpony
 nicostouch
 nimrood
@@ -310,6 +317,7 @@ trix
 trix13
 veken0m
 vulicevic
+walec51
 will
 wvr
 ww3456
