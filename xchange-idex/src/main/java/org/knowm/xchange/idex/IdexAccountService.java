@@ -19,33 +19,47 @@ import org.knowm.xchange.idex.dto.*;
 import org.knowm.xchange.idex.service.ReturnCompleteBalancesApi;
 import org.knowm.xchange.idex.service.ReturnDepositsWithdrawalsApi;
 import org.knowm.xchange.idex.service.WithdrawApi;
+import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import si.mazi.rescu.RestProxyFactory;
 
-public class IdexAccountService implements AccountService {
-  private IdexExchange idexExchange;
-  private String apiKey = idexExchange.getExchangeSpecification().getApiKey();
-  private ReturnCompleteBalancesApi returnCompleteBalancesApi =
-      RestProxyFactory.createProxy(
-          ReturnCompleteBalancesApi.class, idexExchange.getExchangeSpecification().getSslUri());
-  private ReturnDepositsWithdrawalsApi returnDepositsWithdrawalsApi =
-      RestProxyFactory.createProxy(
-          ReturnDepositsWithdrawalsApi.class,
-          idexExchange.getDefaultExchangeSpecification().getSslUri());
-  private WithdrawApi withdrawApi =
-      RestProxyFactory.createProxy(
-          WithdrawApi.class, idexExchange.getDefaultExchangeSpecification().getSslUri());
+public class IdexAccountService extends BaseExchangeService implements AccountService {
+
+  private ReturnCompleteBalancesApi returnCompleteBalancesApi;
+
+  private ReturnDepositsWithdrawalsApi returnDepositsWithdrawalsApi;
+
+  private WithdrawApi withdrawApi;
 
   public IdexAccountService(IdexExchange idexExchange) {
-    this.idexExchange = idexExchange;
+
+    super(idexExchange);
+
+    returnCompleteBalancesApi =
+        RestProxyFactory.createProxy(
+            ReturnCompleteBalancesApi.class,
+            idexExchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    returnDepositsWithdrawalsApi =
+        RestProxyFactory.createProxy(
+            ReturnDepositsWithdrawalsApi.class,
+            idexExchange.getDefaultExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    withdrawApi =
+        RestProxyFactory.createProxy(
+            WithdrawApi.class,
+            idexExchange.getDefaultExchangeSpecification().getSslUri(),
+            getClientConfig());
   }
 
   public AccountInfo getAccountInfo() {
     AccountInfo ret = null;
     try {
-      String apiKey = idexExchange.getExchangeSpecification().getApiKey();
+      String apiKey = exchange.getExchangeSpecification().getApiKey();
       String s = apiKey.substring(0, 6) + "…";
       ReturnCompleteBalancesResponse returnBalancesPost;
       ret = null;
@@ -75,7 +89,7 @@ public class IdexAccountService implements AccountService {
   }
 
   public String requestDepositAddress(Currency currency, String... args) {
-    return idexExchange.getExchangeSpecification().getApiKey();
+    return exchange.getExchangeSpecification().getApiKey();
   }
 
   @Override
@@ -106,7 +120,7 @@ public class IdexAccountService implements AccountService {
                     .map(
                         fundingLedger ->
                             new FundingRecord(
-                                apiKey,
+                                exchange.getExchangeSpecification().getApiKey(),
                                 new Date(Long.parseLong(fundingLedger.getTimestamp()) * 1000),
                                 new Currency(fundingLedger.getCurrency()),
                                 safeParse(fundingLedger.getAmount()),
@@ -124,7 +138,7 @@ public class IdexAccountService implements AccountService {
                     .map(
                         fundingLedger1 ->
                             new FundingRecord(
-                                apiKey,
+                                exchange.getExchangeSpecification().getApiKey(),
                                 new Date(Long.parseLong(fundingLedger1.getTimestamp()) * 1000),
                                 new Currency(fundingLedger1.getCurrency()),
                                 safeParse(fundingLedger1.getAmount()),

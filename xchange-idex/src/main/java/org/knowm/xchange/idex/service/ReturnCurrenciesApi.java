@@ -22,5 +22,5 @@ public interface ReturnCurrenciesApi {
   @ApiOperation(value = "", notes = "", tags = "market")
   @ApiResponses(
       @ApiResponse(code = 200, message = "null", response = ReturnCurrenciesResponse.class))
-  ReturnCurrenciesResponse currencies() throws Exception;
+  ReturnCurrenciesResponse currencies();
 }
