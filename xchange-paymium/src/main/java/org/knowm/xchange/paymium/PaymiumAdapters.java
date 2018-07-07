@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -124,12 +123,12 @@ public class PaymiumAdapters {
 
     List<Balance> wallets = new ArrayList<>();
 
-      wallets.add(
-          new Balance(
-              Currency.BTC,
-              paymiumBalances.getBalanceBtc(),
-              paymiumBalances.getBalanceBtc().subtract(paymiumBalances.getLockedBtc()),
-              paymiumBalances.getLockedBtc()));
+    wallets.add(
+        new Balance(
+            Currency.BTC,
+            paymiumBalances.getBalanceBtc(),
+            paymiumBalances.getBalanceBtc().subtract(paymiumBalances.getLockedBtc()),
+            paymiumBalances.getLockedBtc()));
 
     wallets.add(
         new Balance(

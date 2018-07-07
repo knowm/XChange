@@ -38,6 +38,7 @@ public class PaymiumBaseService extends BaseExchangeService implements BaseServi
             getClientConfig());
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator = PaymiumDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    this.signatureCreator =
+        PaymiumDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 }
