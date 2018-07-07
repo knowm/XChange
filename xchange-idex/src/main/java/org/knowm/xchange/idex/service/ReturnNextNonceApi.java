@@ -21,16 +21,14 @@ public interface ReturnNextNonceApi {
   @Consumes("application/json")
   @Produces("application/json")
   @ApiOperation(
-    value =
-        "Returns the lowest nonce that you can use from the given address in one of the trade functions (see below)",
-    notes = "",
-    tags = "trade"
-  )
+      value =
+          "Returns the lowest nonce that you can use from the given address in one of the trade functions (see below)",
+      notes = "",
+      tags = "trade")
   @ApiResponses(
       @ApiResponse(
-        code = 200,
-        message = "Sample output: { nonce: 2650 }",
-        response = ReturnNextNonceResponse.class
-      ))
+          code = 200,
+          message = "Sample output: { nonce: 2650 }",
+          response = ReturnNextNonceResponse.class))
   ReturnNextNonceResponse nextNonce(NextNonceReq nextNonceReq) throws Exception;
 }

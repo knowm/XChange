@@ -1,11 +1,14 @@
 package org.knowm.xchange.bibox.dto;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
+import org.knowm.xchange.bibox.dto.account.BiboxDeposit;
+import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrder;
@@ -17,6 +20,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -27,6 +33,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.utils.DateUtils;
 
 /** @author odrotleff */
 public class BiboxAdapters {
@@ -70,7 +77,7 @@ public class BiboxAdapters {
         .currency(Currency.getInstance(coin.getSymbol()))
         .available(coin.getBalance())
         .frozen(coin.getFreeze())
-        .total(coin.getTotalBalance())
+        .total(coin.getBalance().add(coin.getFreeze()))
         .build();
   }
 
@@ -142,6 +149,7 @@ public class BiboxAdapters {
 
   private static UserTrade adaptUserTrade(BiboxOrder order) {
     return new UserTrade.Builder()
+        .orderId(Long.toString(order.getId()))
         .id(Long.toString(order.getId()))
         .currencyPair(new CurrencyPair(order.getCoinSymbol(), order.getCurrencySymbol()))
         .price(order.getPrice())
@@ -158,5 +166,56 @@ public class BiboxAdapters {
         .stream()
         .map(ob -> BiboxAdapters.adaptOrderBook(ob, adaptCurrencyPair(ob.getPair())))
         .collect(Collectors.toList());
+  }
+
+  public static Date convert(String s) {
+    try {
+      return DateUtils.fromISODateString(s);
+    } catch (InvalidFormatException e) {
+      throw new RuntimeException("Could not parse date: " + s, e);
+    }
+  }
+
+  public static FundingRecord adaptDeposit(BiboxDeposit d) {
+    return new FundingRecord(
+        d.to,
+        d.getCreatedAt(),
+        Currency.getInstance(d.coinSymbol),
+        d.amount,
+        null,
+        null,
+        Type.DEPOSIT,
+        convertStatus(d.status),
+        null,
+        null,
+        null);
+  }
+
+  public static FundingRecord adaptDeposit(BiboxWithdrawal w) {
+    return new FundingRecord(
+        w.toAddress,
+        w.getCreatedAt(),
+        Currency.getInstance(w.coinSymbol),
+        w.amountReal,
+        null,
+        null,
+        Type.WITHDRAWAL,
+        convertStatus(w.status),
+        null,
+        null,
+        null);
+  }
+
+  public static Status convertStatus(int status) {
+    switch (status) {
+      case 1:
+        return Status.PROCESSING;
+      case 2:
+        return Status.COMPLETE;
+      case 3:
+        return Status.FAILED;
+      default:
+        throw new RuntimeException("Unknown status of bibox deposit: " + status);
+    }
   }
 }

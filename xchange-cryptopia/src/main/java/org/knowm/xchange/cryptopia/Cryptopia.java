@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
+import org.knowm.xchange.cryptopia.dto.CryptopiaException;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaOrderBook;
@@ -28,119 +29,124 @@ public interface Cryptopia {
 
   @GET
   @Path("GetCurrencies")
-  CryptopiaBaseResponse<List<CryptopiaCurrency>> getCurrencies() throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaCurrency>> getCurrencies()
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetTradePairs")
-  CryptopiaBaseResponse<List<CryptopiaTradePair>> getTradePairs() throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaTradePair>> getTradePairs()
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarkets")
-  CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets() throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets() throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarkets/{baseMarket}")
   CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets(
-      @PathParam("baseMarket") String baseMarket) throws IOException;
+      @PathParam("baseMarket") String baseMarket) throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarkets/{baseMarket}/{hours}")
   CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets(
       @PathParam("baseMarket") String baseMarket, @PathParam("hours") long hours)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarket/{market}")
   CryptopiaBaseResponse<CryptopiaTicker> getMarket(@PathParam("market") String market)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarket/{market}/{hours}")
   CryptopiaBaseResponse<CryptopiaTicker> getMarket(
-      @PathParam("market") String market, @PathParam("hours") long hours) throws IOException;
+      @PathParam("market") String market, @PathParam("hours") long hours)
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarketHistory/{market}")
   CryptopiaBaseResponse<List<CryptopiaMarketHistory>> getMarketHistory(
-      @PathParam("market") String market) throws IOException;
+      @PathParam("market") String market) throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarketHistory/{market}/{hours}")
   CryptopiaBaseResponse<List<CryptopiaMarketHistory>> getMarketHistory(
-      @PathParam("market") String market, @PathParam("hours") long hours) throws IOException;
+      @PathParam("market") String market, @PathParam("hours") long hours)
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarketOrders/{market}")
   CryptopiaBaseResponse<CryptopiaOrderBook> getMarketOrders(@PathParam("market") String market)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarketOrders/{market}/{orderCount}")
   CryptopiaBaseResponse<CryptopiaOrderBook> getMarketOrders(
       @PathParam("market") String pair, @PathParam("orderCount") long orderCount)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetBalance")
   @Consumes(MediaType.APPLICATION_JSON)
   CryptopiaBaseResponse<List<Map>> getBalance(
-      @HeaderParam("Authorization") ParamsDigest signature, Object o) throws IOException;
+      @HeaderParam("Authorization") ParamsDigest signature, Object o)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetDepositAddress")
   @Consumes(MediaType.APPLICATION_JSON)
   CryptopiaBaseResponse<Map> getDepositAddress(
       @HeaderParam("Authorization") ParamsDigest signature, GetDepositAddressRequest request)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("SubmitWithdraw")
   @Consumes(MediaType.APPLICATION_JSON)
   CryptopiaBaseResponse<Long> submitWithdraw(
       @HeaderParam("Authorization") ParamsDigest signature, SubmitWithdrawRequest request)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetTransactions")
   @Consumes(MediaType.APPLICATION_JSON)
   CryptopiaBaseResponse<List<Map>> getTransactions(
       @HeaderParam("Authorization") ParamsDigest signature, GetTransactionsRequest request)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetOpenOrders")
   @Consumes(MediaType.APPLICATION_JSON)
   CryptopiaBaseResponse<List<Map>> getOpenOrders(
       @HeaderParam("Authorization") ParamsDigest signature, GetOpenOrdersRequest request)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("SubmitTrade")
   @Consumes(MediaType.APPLICATION_JSON)
   CryptopiaBaseResponse<Map> submitTrade(
       @HeaderParam("Authorization") ParamsDigest signature, SubmitTradeRequest request)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("CancelTrade")
   @Consumes(MediaType.APPLICATION_JSON)
   CryptopiaBaseResponse<List> cancelTrade(
       @HeaderParam("Authorization") ParamsDigest signature, CancelTradeRequest request)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetTradeHistory")
   @Consumes(MediaType.APPLICATION_JSON)
   CryptopiaBaseResponse<List<Map>> getTradeHistory(
       @HeaderParam("Authorization") ParamsDigest signature, GetTradeHistoryRequest request)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("SubmitTransfer")
   @Consumes(MediaType.APPLICATION_JSON)
   CryptopiaBaseResponse<String> submitTransfer(
       @HeaderParam("Authorization") ParamsDigest signature, SubmitTransferRequest request)
-      throws IOException;
+      throws CryptopiaException, IOException;
 
   class SubmitTransferRequest {
     public final @JsonProperty("Currency") String currency;

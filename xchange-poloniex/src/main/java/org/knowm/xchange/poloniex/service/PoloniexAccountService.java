@@ -10,8 +10,9 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
+import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
+import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
@@ -36,9 +37,12 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-
-    List<Balance> balances = getExchangeWallet();
-    return new AccountInfo(new Wallet(balances));
+    try {
+      List<Balance> balances = PoloniexAdapters.adaptPoloniexBalances(getExchangeWallet());
+      return new AccountInfo(new Wallet(balances));
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
   }
 
   @Override
@@ -50,30 +54,40 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    if (params instanceof RippleWithdrawFundsParams) {
-      RippleWithdrawFundsParams xrpParams = (RippleWithdrawFundsParams) params;
+    try {
+      if (params instanceof RippleWithdrawFundsParams) {
+        RippleWithdrawFundsParams xrpParams = (RippleWithdrawFundsParams) params;
 
-      return withdraw(
-          xrpParams.getCurrency(),
-          xrpParams.getAmount(),
-          xrpParams.getAddress(),
-          xrpParams.getTag());
+        return withdraw(
+            xrpParams.getCurrency(),
+            xrpParams.getAmount(),
+            xrpParams.getAddress(),
+            xrpParams.getTag());
+      }
+
+      if (params instanceof DefaultWithdrawFundsParams) {
+        DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+
+        return withdraw(
+            defaultParams.getCurrency(),
+            defaultParams.getAmount(),
+            defaultParams.getAddress(),
+            null);
+      }
+
+      throw new IllegalStateException("Don't know how to withdraw: " + params);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
     }
-
-    if (params instanceof DefaultWithdrawFundsParams) {
-      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-
-      return withdraw(
-          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress(), null);
-    }
-
-    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-
-    return getDepositAddress(currency.toString());
+    try {
+      return getDepositAddress(currency.toString());
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
   }
 
   @Override
@@ -86,15 +100,19 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-      throws ExchangeException, IOException {
-    Date start = null;
-    Date end = null;
-    if (params instanceof TradeHistoryParamsTimeSpan) {
-      start = ((TradeHistoryParamsTimeSpan) params).getStartTime();
-      end = ((TradeHistoryParamsTimeSpan) params).getEndTime();
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+    try {
+      Date start = null;
+      Date end = null;
+      if (params instanceof TradeHistoryParamsTimeSpan) {
+        start = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+        end = ((TradeHistoryParamsTimeSpan) params).getEndTime();
+      }
+      final PoloniexDepositsWithdrawalsResponse poloFundings =
+          returnDepositsWithdrawals(start, end);
+      return PoloniexAdapters.adaptFundingRecords(poloFundings);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
     }
-    final PoloniexDepositsWithdrawalsResponse poloFundings = returnDepositsWithdrawals(start, end);
-    return PoloniexAdapters.adaptFundingRecords(poloFundings);
   }
 }

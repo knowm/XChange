@@ -356,24 +356,28 @@ public class BitmexAdapters {
         return OrderStatus.CANCELED;
       case EXPIRED:
         return OrderStatus.EXPIRED;
+      case REJECTED:
+        return OrderStatus.REJECTED;
       default:
         return null;
     }
   }
 
   public static OrderStatus adaptOrderStatus(BitmexPrivateOrder.OrderStatus status) {
-        switch (status) {
-            case New:
-                return OrderStatus.NEW;
-            case Partially_filled:
-                return OrderStatus.PARTIALLY_FILLED;
-            case Filled:
-                return OrderStatus.FILLED;
-            case Canceled:
-                return OrderStatus.CANCELED;
-            default:
-                return null;
-        }
+    switch (status) {
+      case New:
+        return OrderStatus.NEW;
+      case PartiallyFilled:
+        return OrderStatus.PARTIALLY_FILLED;
+      case Filled:
+        return OrderStatus.FILLED;
+      case Canceled:
+        return OrderStatus.CANCELED;
+      case Rejected:
+        return OrderStatus.REJECTED;
+      default:
+        return null;
+    }
   }
 
   public static CurrencyPair adaptCurrencyPair(CurrencyPair currencyPair) {

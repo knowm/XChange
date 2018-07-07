@@ -21,17 +21,15 @@ public interface WithdrawApi {
   @Consumes("application/json")
   @Produces("application/json")
   @ApiOperation(
-    value =
-        "Withdraws funds associated with the address. You cannot withdraw funds that are tied up in open orders. JSON payload must include the following properties",
-    notes = "",
-    tags = "account"
-  )
+      value =
+          "Withdraws funds associated with the address. You cannot withdraw funds that are tied up in open orders. JSON payload must include the following properties",
+      notes = "",
+      tags = "account")
   @ApiResponses(
       @ApiResponse(
-        code = 200,
-        message =
-            "To derive the signature for this API call, hash the following parameters in this order contract addresstokenamountaddressnonceSalt the hash as described earlier and sign it to produce your signature triplet.Useful response upon withdrawal success is in the works, for now simply test that there is no error propertyin the result object to confirm your withdrawal has succeeded.",
-        response = WithdrawResponse.class
-      ))
+          code = 200,
+          message =
+              "To derive the signature for this API call, hash the following parameters in this order contract addresstokenamountaddressnonceSalt the hash as described earlier and sign it to produce your signature triplet.Useful response upon withdrawal success is in the works, for now simply test that there is no error propertyin the result object to confirm your withdrawal has succeeded.",
+          response = WithdrawResponse.class))
   WithdrawResponse withdraw(WithdrawReq withdrawReq) throws Exception;
 }
