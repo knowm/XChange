@@ -47,4 +47,60 @@ public class PaymiumAccountOperations {
         + uuid
         + "]";
   }
+
+  public Double getAmount() {
+    return amount;
+  }
+
+  public void setAmount(Double amount) {
+    this.amount = amount;
+  }
+
+  public String getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(String createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Integer getCreatedAtInt() {
+    return createdAtInt;
+  }
+
+  public void setCreatedAtInt(Integer createdAtInt) {
+    this.createdAtInt = createdAtInt;
+  }
+
+  public String getCurrency() {
+    return currency;
+  }
+
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+
+  public boolean isTradingAccount() {
+    return isTradingAccount;
+  }
+
+  public void setTradingAccount(boolean tradingAccount) {
+    isTradingAccount = tradingAccount;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getUuid() {
+    return uuid;
+  }
+
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
 }
