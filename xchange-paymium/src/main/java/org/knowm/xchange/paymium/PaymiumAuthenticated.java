@@ -22,7 +22,6 @@ public interface PaymiumAuthenticated extends Paymium {
       @HeaderParam("Api-Nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
 
-
   @GET
   @Path("user/orders")
   List<PaymiumOrder> getOrders(

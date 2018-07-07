@@ -3,7 +3,6 @@ package org.knowm.xchange.paymium.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -54,7 +53,6 @@ public class PaymiumAccountService extends PaymiumAccountServiceRaw implements A
       limit = historyParamLimit.getLimit();
     }
 
-
     List<PaymiumOrder> orders = getPaymiumFundingOrders(offset, limit);
 
     for (PaymiumOrder order : orders) {
@@ -71,18 +69,19 @@ public class PaymiumAccountService extends PaymiumAccountServiceRaw implements A
           break;
       }
 
-      res.add(new FundingRecord(
-          order.getBitcoinAddress(),
-          order.getUpdatedAt(),
-          Currency.getInstance(order.getCurrency()),
-          order.getAmount(),
-          String.valueOf(order.getUuid()),
-          order.getUuid(),
-          funding,
-          FundingRecord.Status.COMPLETE,
-          null,
-          null,
-          null));
+      res.add(
+          new FundingRecord(
+              order.getBitcoinAddress(),
+              order.getUpdatedAt(),
+              Currency.getInstance(order.getCurrency()),
+              order.getAmount(),
+              String.valueOf(order.getUuid()),
+              order.getUuid(),
+              funding,
+              FundingRecord.Status.COMPLETE,
+              null,
+              null,
+              null));
     }
 
     return res;

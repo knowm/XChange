@@ -38,4 +38,3 @@ public class PaymiumHistoryParams implements TradeHistoryParamOffset, TradeHisto
     this.limit = limit;
   }
 }
-
