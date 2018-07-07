@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.bittrex.marketdata;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -59,10 +58,10 @@ public class BittrexMarketDataDemo {
 
     System.out.println("------------RAW-----------");
 
-    BittrexCurrency[] currencies = marketDataService.getBittrexCurrencies();
-    System.out.println(Arrays.toString(currencies));
+    List<BittrexCurrency> currencies = marketDataService.getBittrexCurrencies();
+    System.out.println(currencies);
 
-    ArrayList<BittrexSymbol> symbols = marketDataService.getBittrexSymbols();
+    List<BittrexSymbol> symbols = marketDataService.getBittrexSymbols();
     System.out.println(symbols);
 
     CurrencyPair pair =
@@ -75,14 +74,14 @@ public class BittrexMarketDataDemo {
     BittrexMarketSummary merketSummary = marketDataService.getBittrexMarketSummary(pairString);
     System.out.println(merketSummary);
 
-    ArrayList<BittrexMarketSummary> marketSummaries = marketDataService.getBittrexMarketSummaries();
+    List<BittrexMarketSummary> marketSummaries = marketDataService.getBittrexMarketSummaries();
     System.out.println(marketSummaries);
 
     BittrexDepth orderBook = marketDataService.getBittrexOrderBook(pairString, 50);
     System.out.println(orderBook);
 
-    BittrexTrade[] trades = marketDataService.getBittrexTrades(pairString);
-    System.out.println(Arrays.asList(trades));
+    List<BittrexTrade> trades = marketDataService.getBittrexTrades(pairString);
+    System.out.println(trades);
 
     BittrexTicker ticker = marketDataService.getBittrexTicker(pair);
     System.out.println(ticker);

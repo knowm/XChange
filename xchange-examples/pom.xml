@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.3.8-SNAPSHOT</version>
+		<version>4.3.9-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -162,6 +162,18 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-cexio</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+        <!-- Xchange Cobinhood exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cobinhood</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+		<!-- Xchange Coingi exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coingi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange ANX exchange support -->
