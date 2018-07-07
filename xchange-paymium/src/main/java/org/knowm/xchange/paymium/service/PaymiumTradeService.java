@@ -20,42 +20,6 @@ import java.util.List;
 
 public class PaymiumTradeService extends PaymiumTradeServiceRaw implements TradeService {
 
-  public static class PaymiumHistoryParams implements TradeHistoryParamOffset, TradeHistoryParamLimit {
-
-    private Long offset;
-
-    private Integer limit;
-
-    public PaymiumHistoryParams() {
-      this.offset = 0L;
-      this.limit = 20;
-    }
-
-    public PaymiumHistoryParams(Long offset, Integer limit) {
-      this.offset = offset;
-      this.limit = limit;
-    }
-
-    @Override
-    public Long getOffset() {
-      return offset;
-    }
-
-    @Override
-    public void setOffset(final Long offset) {
-      this.offset = offset;
-    }
-
-    @Override
-    public Integer getLimit() {
-      return limit;
-    }
-
-    public void setLimit(Integer limit) {
-      this.limit = limit;
-    }
-  }
-
   /**
    * Constructor
    *
@@ -63,6 +27,12 @@ public class PaymiumTradeService extends PaymiumTradeServiceRaw implements Trade
    */
   public PaymiumTradeService(Exchange exchange) {
     super(exchange);
+  }
+
+
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+      return new PaymiumHistoryParams();
   }
 
   @Override
@@ -115,7 +85,6 @@ public class PaymiumTradeService extends PaymiumTradeServiceRaw implements Trade
               currencyFee);
 
       userTrades.add(userTrade);
-      System.out.println(userTrade);
     }
 
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
