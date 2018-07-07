@@ -1,6 +1,7 @@
 package org.knowm.xchange.paymium.service;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -33,4 +34,12 @@ public class PaymiumAccountServiceRaw extends PaymiumBaseService {
   public PaymiumBalance getPaymiumBalances() throws IOException {
     return paymiumAuthenticated.getBalance(apiKey, signatureCreator, exchange.getNonceFactory());
   }
+
+  public List<PaymiumOrder> getPaymiumFundingOrders(Long offset, Integer limit) throws IOException {
+    return paymiumAuthenticated.getOrders(
+        apiKey, signatureCreator, exchange.getNonceFactory(), offset, limit, Arrays.asList("WireDeposit","BitcoinDeposit","Transfer"), null);
+  }
+
 }
+
+

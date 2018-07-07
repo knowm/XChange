@@ -25,12 +25,13 @@ public class Test {
 
     Exchange paymium = ExchangeFactory.INSTANCE.createExchange(exSpec);
     AccountService accountService = paymium.getAccountService();
-    //AccountInfo accountInfo = accountService.getAccountInfo();
+    AccountInfo accountInfo = accountService.getAccountInfo();
+
+    accountService.getFundingHistory(history);
     //Wallet wallet = accountInfo.getWallet();
 
-    TradeService tradeService = paymium.getTradeService();
-    tradeService.getTradeHistory(history);
-
+    //TradeService tradeService = paymium.getTradeService();
+    //tradeService.getTradeHistory(history);
     //System.out.println(wallet);
   }
 }
