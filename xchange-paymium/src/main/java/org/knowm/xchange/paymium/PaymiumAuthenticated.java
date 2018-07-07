@@ -31,7 +31,7 @@ public interface PaymiumAuthenticated extends Paymium {
       @HeaderParam("Api-Nonce") SynchronizedValueFactory<Long> nonce,
       @QueryParam("offset") Long offset,
       @QueryParam("limit") Integer limit,
-      @QueryParam("types[]") String types,
+      @QueryParam("types[]") List<String> types,
       @QueryParam("active") Boolean active)
       throws IOException;
 }
