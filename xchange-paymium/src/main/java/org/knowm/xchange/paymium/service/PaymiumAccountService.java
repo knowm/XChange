@@ -1,21 +1,16 @@
 package org.knowm.xchange.paymium.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.paymium.PaymiumAdapters;
 import org.knowm.xchange.paymium.dto.account.PaymiumOrder;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -29,6 +24,11 @@ public class PaymiumAccountService extends PaymiumAccountServiceRaw implements A
    */
   public PaymiumAccountService(Exchange exchange) {
     super(exchange);
+  }
+
+  @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    return new PaymiumHistoryParams();
   }
 
   @Override
@@ -59,9 +59,6 @@ public class PaymiumAccountService extends PaymiumAccountServiceRaw implements A
 
     for (PaymiumOrder order : orders) {
 
-      Order.OrderType orderType = null;
-      Currency currencyFee = null;
-      BigDecimal fee = null;
       FundingRecord.Type funding = null;
 
       switch (order.getType()) {
@@ -88,7 +85,6 @@ public class PaymiumAccountService extends PaymiumAccountServiceRaw implements A
           null));
     }
 
-    System.out.println(res);
     return res;
   }
 }
