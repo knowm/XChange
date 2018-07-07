@@ -1,5 +1,9 @@
 package org.knowm.xchange.paymium.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -13,11 +17,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 public class PaymiumTradeService extends PaymiumTradeServiceRaw implements TradeService {
 
   /**
@@ -29,10 +28,9 @@ public class PaymiumTradeService extends PaymiumTradeServiceRaw implements Trade
     super(exchange);
   }
 
-
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-      return new PaymiumHistoryParams();
+    return new PaymiumHistoryParams();
   }
 
   @Override
@@ -51,7 +49,7 @@ public class PaymiumTradeService extends PaymiumTradeServiceRaw implements Trade
       limit = historyParamLimit.getLimit();
     }
 
-    List <UserTrade> userTrades = new ArrayList();
+    List<UserTrade> userTrades = new ArrayList();
     List<PaymiumOrder> orders = getPaymiumOrders(offset, limit);
 
     for (PaymiumOrder order : orders) {
