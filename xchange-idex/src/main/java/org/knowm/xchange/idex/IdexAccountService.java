@@ -33,6 +33,8 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
 
   private WithdrawApi withdrawApi;
 
+  private String apiKey;
+
   public IdexAccountService(IdexExchange idexExchange) {
 
     super(idexExchange);
@@ -54,12 +56,13 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
             WithdrawApi.class,
             idexExchange.getDefaultExchangeSpecification().getSslUri(),
             getClientConfig());
+
+    apiKey = exchange.getExchangeSpecification().getApiKey();
   }
 
   public AccountInfo getAccountInfo() {
     AccountInfo ret = null;
     try {
-      String apiKey = exchange.getExchangeSpecification().getApiKey();
       String s = apiKey.substring(0, 6) + "…";
       ReturnCompleteBalancesResponse returnBalancesPost;
       ret = null;
@@ -95,9 +98,9 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) {
     List<FundingRecord> ret = null;
-    if (!(params instanceof IdexTradeHistoryParams)) {
+    if (!(params instanceof IdexDepositsWithdrawalsParams)) {
       throw new Error(
-          "getFundingHistory requires " + IdexTradeHistoryParams.class.getCanonicalName());
+          "getFundingHistory requires " + IdexDepositsWithdrawalsParams.class.getCanonicalName());
     } else {
       try {
         ret =
@@ -112,51 +115,52 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
 
   private final List<FundingRecord> mutableList(
       ReturnDepositsWithdrawalsResponse returnDepositsWithdrawalsPost) {
-    return (List<FundingRecord>)
-        Arrays.asList(
-                returnDepositsWithdrawalsPost
-                    .getWithdrawals()
-                    .stream()
-                    .map(
-                        fundingLedger ->
-                            new FundingRecord(
-                                exchange.getExchangeSpecification().getApiKey(),
-                                new Date(Long.parseLong(fundingLedger.getTimestamp()) * 1000),
-                                new Currency(fundingLedger.getCurrency()),
-                                safeParse(fundingLedger.getAmount()),
-                                fundingLedger.getTransactionHash(),
-                                fundingLedger.getDepositNumber(),
-                                Type.WITHDRAWAL,
-                                Status.resolveStatus(fundingLedger.getStatus()),
-                                BigDecimal.ZERO,
-                                BigDecimal.ZERO,
-                                ""))
-                    .collect(Collectors.toList()),
-                returnDepositsWithdrawalsPost
-                    .getDeposits()
-                    .stream()
-                    .map(
-                        fundingLedger1 ->
-                            new FundingRecord(
-                                exchange.getExchangeSpecification().getApiKey(),
-                                new Date(Long.parseLong(fundingLedger1.getTimestamp()) * 1000),
-                                new Currency(fundingLedger1.getCurrency()),
-                                safeParse(fundingLedger1.getAmount()),
-                                fundingLedger1.getTransactionHash(),
-                                fundingLedger1.getDepositNumber(),
-                                Type.WITHDRAWAL,
-                                Status.resolveStatus(fundingLedger1.getStatus()),
-                                BigDecimal.ZERO,
-                                BigDecimal.ZERO,
-                                ""))
-                    .collect(Collectors.toList()))
-            .stream()
-            .flatMap(List::stream)
-            .sorted(Comparator.comparing(FundingRecord::getDate));
+
+    return Arrays.asList(
+            returnDepositsWithdrawalsPost
+                .getWithdrawals()
+                .stream()
+                .map(
+                    fundingLedger ->
+                        new FundingRecord(
+                            exchange.getExchangeSpecification().getApiKey(),
+                            new Date(Long.parseLong(fundingLedger.getTimestamp()) * 1000),
+                            new Currency(fundingLedger.getCurrency()),
+                            safeParse(fundingLedger.getAmount()),
+                            fundingLedger.getTransactionHash(),
+                            fundingLedger.getDepositNumber(),
+                            Type.WITHDRAWAL,
+                            Status.resolveStatus(fundingLedger.getStatus()),
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            ""))
+                .collect(Collectors.toList()),
+            returnDepositsWithdrawalsPost
+                .getDeposits()
+                .stream()
+                .map(
+                    fundingLedger1 ->
+                        new FundingRecord(
+                            exchange.getExchangeSpecification().getApiKey(),
+                            new Date(Long.parseLong(fundingLedger1.getTimestamp()) * 1000),
+                            new Currency(fundingLedger1.getCurrency()),
+                            safeParse(fundingLedger1.getAmount()),
+                            fundingLedger1.getTransactionHash(),
+                            fundingLedger1.getDepositNumber(),
+                            Type.DEPOSIT,
+                            Status.resolveStatus(fundingLedger1.getStatus()),
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            ""))
+                .collect(Collectors.toList()))
+        .stream()
+        .flatMap(List::stream)
+        .sorted(Comparator.comparing(FundingRecord::getDate))
+        .collect(Collectors.toList());
   }
 
   public TradeHistoryParams createFundingHistoryParams() {
-    return new IdexTradeHistoryParams();
+    return new IdexDepositsWithdrawalsParams(apiKey);
   }
 
   public String withdrawFunds(WithdrawFundsParams w) {
