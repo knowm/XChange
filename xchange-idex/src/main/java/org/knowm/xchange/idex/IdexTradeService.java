@@ -10,15 +10,15 @@ import static org.knowm.xchange.idex.IdexSignature.generateSignature;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.bouncycastle.util.encoders.Hex;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
@@ -28,6 +28,7 @@ import org.knowm.xchange.idex.service.*;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.web3j.crypto.Sign.SignatureData;
@@ -44,6 +45,8 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
   private OrderApi orderApi;
 
   private ReturnContractAddressApi returnContractAddressApi;
+
+  private String apiKey;
 
   public IdexTradeService(IdexExchange idexExchange) {
     super(idexExchange);
@@ -73,6 +76,8 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
             ReturnContractAddressApi.class,
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
+
+    apiKey = exchange.getExchangeSpecification().getApiKey();
   }
 
   @Override
@@ -82,8 +87,7 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
     OpenOrders ret = null;
     try {
       ReturnOpenOrdersResponse openOrdersResponse =
-          proxy.openOrders(
-              new OpenOrdersReq().address(exchange.getExchangeSpecification().getApiKey()));
+          proxy.openOrders(new OpenOrdersReq().address(apiKey));
 
       ret =
           new OpenOrders(
@@ -129,7 +133,44 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) {
-    throw new NotAvailableFromExchangeException();
+
+    CurrencyPair currencyPairTmp = null;
+
+    if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
+      currencyPairTmp = ((TradeHistoryParamCurrencyPair) tradeHistoryParams).getCurrencyPair();
+    }
+
+    final CurrencyPair currencyPair = currencyPairTmp;
+
+    UserTrades ret = null;
+    try {
+      List<UserTrade> userTrades =
+          returnTradeHistoryApi
+              .tradeHistory((TradeHistoryReq) tradeHistoryParams)
+              .stream()
+              .map(
+                  tradeHistoryItem ->
+                      new UserTrade.Builder()
+                          .originalAmount(
+                              IdexExchange.Companion.safeParse(tradeHistoryItem.getAmount()))
+                          .price(IdexExchange.Companion.safeParse(tradeHistoryItem.getPrice()))
+                          .currencyPair(currencyPair)
+                          .timestamp(new Date(tradeHistoryItem.getTimestamp().longValue() * 1000))
+                          .id((tradeHistoryItem.getTransactionHash()))
+                          .type(
+                              tradeHistoryItem.getType() == IdexBuySell.BUY
+                                  ? Order.OrderType.BID
+                                  : Order.OrderType.ASK)
+                          .build())
+              .sorted(Comparator.comparing(Trade::getTimestamp))
+              .collect(Collectors.toList());
+
+      return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return ret;
   }
 
   @Override
@@ -156,8 +197,7 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-
-    return new IdexTradeHistoryParams();
+    return new IdexTradeHistoryParams(apiKey);
   }
 
   @Override
@@ -274,6 +314,6 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
   }
 
   public String getApiKey() {
-    return exchange.getExchangeSpecification().getApiKey();
+    return apiKey;
   }
 }
