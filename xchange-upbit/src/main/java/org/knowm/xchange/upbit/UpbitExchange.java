@@ -1,5 +1,6 @@
 package org.knowm.xchange.upbit;
 
+import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -8,11 +9,9 @@ import org.knowm.xchange.upbit.service.UpbitMarketDataService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-
 public class UpbitExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
-  
+
   @Override
   protected void initServices() {
     this.marketDataService = new UpbitMarketDataService(this);

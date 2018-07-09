@@ -12,48 +12,50 @@ public class UpbitOrderBookData {
   private final BigDecimal bidSize;
 
   /**
-   * 
    * @param askPrice
    * @param bidPrice
    * @param askSize
    * @param bidSize
    */
   public UpbitOrderBookData(
-      @JsonProperty("ask_price") BigDecimal askPrice, 
-      @JsonProperty("bid_price") BigDecimal bidPrice, 
-      @JsonProperty("ask_size") BigDecimal askSize, 
-      @JsonProperty("bid_size") BigDecimal bidSize 
-      ) {
+      @JsonProperty("ask_price") BigDecimal askPrice,
+      @JsonProperty("bid_price") BigDecimal bidPrice,
+      @JsonProperty("ask_size") BigDecimal askSize,
+      @JsonProperty("bid_size") BigDecimal bidSize) {
     this.askPrice = askPrice;
     this.bidPrice = bidPrice;
     this.askSize = askSize;
     this.bidSize = bidSize;
   }
 
-  
   public BigDecimal getAskPrice() {
-	return askPrice;
-}
+    return askPrice;
+  }
 
+  public BigDecimal getBidPrice() {
+    return bidPrice;
+  }
 
-public BigDecimal getBidPrice() {
-	return bidPrice;
-}
+  public BigDecimal getAskSize() {
+    return askSize;
+  }
 
+  public BigDecimal getBidSize() {
+    return bidSize;
+  }
 
-public BigDecimal getAskSize() {
-	return askSize;
-}
-
-
-public BigDecimal getBidSize() {
-	return bidSize;
-}
-
-
-@Override
+  @Override
   public String toString() {
 
-    return "UpbitOrderBook{" + "ask_price=" + askPrice + ", ask_size=" + askSize + ", bid_price=" + bidPrice + ", bid_size=" + bidSize  +"}";
+    return "UpbitOrderBook{"
+        + "ask_price="
+        + askPrice
+        + ", ask_size="
+        + askSize
+        + ", bid_price="
+        + bidPrice
+        + ", bid_size="
+        + bidSize
+        + "}";
   }
 }

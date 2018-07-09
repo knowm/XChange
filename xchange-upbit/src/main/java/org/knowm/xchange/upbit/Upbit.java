@@ -14,8 +14,7 @@ public interface Upbit {
 
   @GET
   @Path("ticker")
-  UpbitTickers getTicker(@QueryParam("markets") String markets)
-      throws IOException, UpbitException;
+  UpbitTickers getTicker(@QueryParam("markets") String markets) throws IOException, UpbitException;
 
   @GET
   @Path("orderbook")
@@ -24,7 +23,6 @@ public interface Upbit {
 
   @GET
   @Path("trades/ticks")
-  UpbitTrades getTrades(
-      @QueryParam("market") String market, @QueryParam("count") int count)
+  UpbitTrades getTrades(@QueryParam("market") String market, @QueryParam("count") int count)
       throws IOException, UpbitException;
 }
