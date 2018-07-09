@@ -2,8 +2,6 @@ package org.knowm.xchange.upbit.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.upbit.UpbitAdapters;
-import org.knowm.xchange.upbit.UpbitExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -12,10 +10,10 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.upbit.UpbitAdapters;
 
 /** @author interwater */
-public class UpbitMarketDataService extends UpbitMarketDataServiceRaw
-    implements MarketDataService {
+public class UpbitMarketDataService extends UpbitMarketDataServiceRaw implements MarketDataService {
 
   /**
    * Constructor
