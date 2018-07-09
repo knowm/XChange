@@ -8,6 +8,4 @@ import javax.ws.rs.core.MediaType;
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public interface UpbitAuthenticated extends Upbit {
-
-}
+public interface UpbitAuthenticated extends Upbit {}

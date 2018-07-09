@@ -1,9 +1,9 @@
 package org.knowm.xchange.upbit.service;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.upbit.UpbitAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.upbit.UpbitAuthenticated;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
