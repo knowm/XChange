@@ -24,19 +24,16 @@ public class PaymiumMarketDataService extends PaymiumMarketDataServiceRaw
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-
     return PaymiumAdapters.adaptTicker(getPaymiumTicker(), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
     return PaymiumAdapters.adaptMarketDepth(getPaymiumMarketDepth(), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
     return PaymiumAdapters.adaptTrade(getPaymiumTrades(), currencyPair);
   }
 }

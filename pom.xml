@@ -121,6 +121,7 @@
 		<module>xchange-campbx</module>
 		<module>xchange-ccex</module>
 		<module>xchange-cexio</module>
+		<module>xchange-cobinhood</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinegg</module>
 		<module>xchange-coinone</module>
@@ -165,6 +166,7 @@
 		<module>xchange-ripple</module>
 		<module>xchange-therock</module>
 		<module>xchange-truefx</module>
+		<module>xchange-upbit</module>
 		<module>xchange-vaultoro</module>
 		<module>xchange-vircurex</module>
 		<module>xchange-wex</module>
