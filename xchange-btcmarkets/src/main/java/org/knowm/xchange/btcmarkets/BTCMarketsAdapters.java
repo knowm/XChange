@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
@@ -15,6 +17,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -129,5 +132,46 @@ public final class BTCMarketsAdapters {
         .ask(t.getBestAsk())
         .timestamp(t.getTimestamp())
         .build();
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(
+      BTCMarketsFundtransferHistoryResponse btcMarketsFundtransferHistoryResponse) {
+    List<FundingRecord> result = new ArrayList<>();
+    for (BTCMarketsFundtransfer transfer :
+        btcMarketsFundtransferHistoryResponse.getFundTransfers()) {
+      String address = null;
+      String blockchainTransactionHash = null;
+      if (transfer.getCryptoPaymentDetail() != null) {
+        address = transfer.getCryptoPaymentDetail().getAddress();
+        blockchainTransactionHash = transfer.getCryptoPaymentDetail().getTxId();
+      }
+      FundingRecord.Type fundingrecordType = null;
+      if (transfer.getTransferType().equals("WITHDRAW")) {
+        fundingrecordType = FundingRecord.Type.WITHDRAWAL;
+      } else if (transfer.getTransferType().equals("DEPOSIT")) {
+        fundingrecordType = FundingRecord.Type.DEPOSIT;
+      }
+      FundingRecord.Status fundingRecordStatus = null;
+      if (transfer.getStatus().equals("Complete")) {
+        fundingRecordStatus = FundingRecord.Status.COMPLETE;
+      } else {
+        fundingRecordStatus = FundingRecord.Status.PROCESSING;
+      }
+
+      result.add(
+          new FundingRecord(
+              address,
+              transfer.getCreationTime(),
+              Currency.getInstance(transfer.getCurrency()),
+              transfer.getAmount(),
+              Long.toString(transfer.getFundTransferId()),
+              blockchainTransactionHash,
+              fundingrecordType,
+              fundingRecordStatus,
+              null,
+              transfer.getFee(),
+              transfer.getDescription()));
+    }
+    return result;
   }
 }

@@ -127,7 +127,9 @@ public class HuobiAdapters {
               currencyPair,
               String.valueOf(openOrder.getId()),
               openOrder.getCreatedAt(),
-              openOrder.getFieldCashAmount().divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN),
+              openOrder
+                  .getFieldCashAmount()
+                  .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN),
               openOrder.getFieldAmount(),
               openOrder.getFieldFees(),
               null);
@@ -142,7 +144,10 @@ public class HuobiAdapters {
               String.valueOf(openOrder.getId()),
               openOrder.getCreatedAt(),
               openOrder.getPrice());
-      order.setAveragePrice(openOrder.getFieldCashAmount().divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
+      order.setAveragePrice(
+          openOrder
+              .getFieldCashAmount()
+              .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
     }
     if (order != null) {
       order.setOrderStatus(adaptOrderStatus(openOrder.getState()));

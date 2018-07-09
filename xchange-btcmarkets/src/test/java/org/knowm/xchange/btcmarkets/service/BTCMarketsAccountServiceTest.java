@@ -7,6 +7,8 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,10 +18,13 @@ import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.Whitebox;
@@ -105,5 +110,57 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
     // then
     fail(
         "BTCMarketsAccountService should throw NotYetImplementedForExchangeException when call requestDepositAddress");
+  }
+
+  @Test
+  public void getFundingHistoryShouldReturnFundingRecors() throws IOException {
+    Date creationTime = new Date();
+    Date lastUpdate = new Date();
+    BTCMarketsFundtransfer fundtransfer =
+        new BTCMarketsFundtransfer(
+            "Complete",
+            lastUpdate,
+            BigDecimal.ONE,
+            "desc",
+            null,
+            creationTime,
+            12345L,
+            new BTCMarketsFundtransfer.CryptoPaymentDetail("tx1", "address"),
+            "BTC",
+            BigDecimal.valueOf(123.45),
+            "DEPOSIT");
+
+    BTCMarketsFundtransferHistoryResponse response =
+        new BTCMarketsFundtransferHistoryResponse(
+            true,
+            null,
+            null,
+            Arrays.asList(fundtransfer),
+            new BTCMarketsFundtransferHistoryResponse.Paging("12345", "12345"));
+
+    BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
+    PowerMockito.when(
+            btcm.fundtransferHistory(
+                Mockito.eq(SPECIFICATION_API_KEY),
+                Mockito.any(SynchronizedValueFactory.class),
+                Mockito.any(BTCMarketsDigest.class)))
+        .thenReturn(response);
+    Whitebox.setInternalState(accountService, "btcm", btcm);
+
+    // when
+    List<FundingRecord> result =
+        accountService.getFundingHistory(accountService.createFundingHistoryParams());
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
+    assertThat(result.get(0).getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
+    assertThat(result.get(0).getCurrency()).isEqualTo(Currency.BTC);
+    assertThat(result.get(0).getInternalId()).isEqualTo("12345");
+    assertThat(result.get(0).getFee()).isEqualTo(BigDecimal.ONE);
+    assertThat(result.get(0).getDescription()).isEqualTo("desc");
+    assertThat(result.get(0).getDate()).isEqualTo(creationTime);
+    assertThat(result.get(0).getBlockchainTransactionHash()).isEqualTo("tx1");
+    assertThat(result.get(0).getBalance()).isNull();
+    assertThat(result.get(0).getAmount()).isEqualTo(BigDecimal.valueOf(123.45));
+    assertThat(result.get(0).getAddress()).isEqualTo("address");
   }
 }

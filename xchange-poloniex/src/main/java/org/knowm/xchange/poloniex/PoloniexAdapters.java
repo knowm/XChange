@@ -5,8 +5,6 @@ import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -318,10 +316,10 @@ public class PoloniexAdapters {
     return fundingRecords;
   }
 
-  public static LimitOrder adaptUserTradesToOrderStatus(String orderId, PoloniexUserTrade[] poloniexUserTrades) {
+  public static LimitOrder adaptUserTradesToOrderStatus(
+      String orderId, PoloniexUserTrade[] poloniexUserTrades) {
 
-    if(poloniexUserTrades.length == 0)
-      return null;
+    if (poloniexUserTrades.length == 0) return null;
 
     OrderType orderType = null;
     CurrencyPair currencyPair = null;
@@ -330,28 +328,30 @@ public class PoloniexAdapters {
     List<BigDecimal> weightedPrices = new ArrayList<>();
 
     for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
-      orderType = poloniexUserTrade.getType().equals("buy") ? OrderType.BID : OrderType.ASK; // what about others?
+      orderType =
+          poloniexUserTrade.getType().equals("buy")
+              ? OrderType.BID
+              : OrderType.ASK; // what about others?
       amount = amount.add(poloniexUserTrade.getAmount());
       weightedPrices.add(poloniexUserTrade.getRate().multiply(poloniexUserTrade.getAmount()));
     }
 
-
-    BigDecimal weightedAveragePrice = weightedPrices
-      .stream()
-      .reduce(new BigDecimal(0), (a,b) -> a.add(b)).divide(amount, RoundingMode.HALF_UP);
+    BigDecimal weightedAveragePrice =
+        weightedPrices
+            .stream()
+            .reduce(new BigDecimal(0), (a, b) -> a.add(b))
+            .divide(amount, RoundingMode.HALF_UP);
 
     return new LimitOrder(
-      orderType,
-      null,
-      currencyPair,
-      orderId,
-      null,
-      null,
-      weightedAveragePrice,
-      amount,
-      null,
-      Order.OrderStatus.UNKNOWN);
-
-
+        orderType,
+        null,
+        currencyPair,
+        orderId,
+        null,
+        null,
+        weightedAveragePrice,
+        amount,
+        null,
+        Order.OrderStatus.UNKNOWN);
   }
 }
