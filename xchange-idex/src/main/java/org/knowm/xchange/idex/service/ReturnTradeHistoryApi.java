@@ -27,5 +27,5 @@ public interface ReturnTradeHistoryApi {
           message = "",
           response = TradeHistoryItem.class,
           responseContainer = "List"))
-  java.util.List<TradeHistoryItem> tradeHistory(TradeHistoryReq tradeHistoryReq) throws Exception;
+  java.util.List<TradeHistoryItem> tradeHistory(TradeHistoryReq tradeHistoryReq);
 }

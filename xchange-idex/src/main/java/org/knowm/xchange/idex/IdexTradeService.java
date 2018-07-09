@@ -10,49 +10,74 @@ import static org.knowm.xchange.idex.IdexSignature.generateSignature;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.bouncycastle.util.encoders.Hex;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.dto.trade.LimitOrder.Builder;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.idex.IdexExchange.Companion.IdexCurrencyMeta;
 import org.knowm.xchange.idex.dto.*;
 import org.knowm.xchange.idex.service.*;
+import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.web3j.crypto.Sign.SignatureData;
 import si.mazi.rescu.RestProxyFactory;
 
-public class IdexTradeService implements TradeService {
-  private final IdexExchange idexExchange;
-  private final ReturnOpenOrdersApi returnOpenOrdersApi =
-      RestProxyFactory.createProxy(
-          ReturnOpenOrdersApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
-  private final CancelApi cancelApi =
-      RestProxyFactory.createProxy(
-          CancelApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
-  private final ReturnTradeHistoryApi returnTradeHistoryApi =
-      RestProxyFactory.createProxy(
-          ReturnTradeHistoryApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
-  private OrderApi orderApi =
-      RestProxyFactory.createProxy(
-          OrderApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
-  private ReturnContractAddressApi returnContractAddressApi =
-      RestProxyFactory.createProxy(
-          ReturnContractAddressApi.class, getIdexExchange().getExchangeSpecification().getSslUri());
+public class IdexTradeService extends BaseExchangeService implements TradeService {
+
+  private final ReturnOpenOrdersApi returnOpenOrdersApi;
+
+  private final CancelApi cancelApi;
+
+  private final ReturnTradeHistoryApi returnTradeHistoryApi;
+
+  private OrderApi orderApi;
+
+  private ReturnContractAddressApi returnContractAddressApi;
+
+  private String apiKey;
 
   public IdexTradeService(IdexExchange idexExchange) {
+    super(idexExchange);
 
-    this.idexExchange = idexExchange;
+    returnOpenOrdersApi =
+        RestProxyFactory.createProxy(
+            ReturnOpenOrdersApi.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    cancelApi =
+        RestProxyFactory.createProxy(
+            CancelApi.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+
+    returnTradeHistoryApi =
+        RestProxyFactory.createProxy(
+            ReturnTradeHistoryApi.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    orderApi =
+        RestProxyFactory.createProxy(
+            OrderApi.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+
+    returnContractAddressApi =
+        RestProxyFactory.createProxy(
+            ReturnContractAddressApi.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    apiKey = exchange.getExchangeSpecification().getApiKey();
   }
 
   @Override
@@ -62,9 +87,7 @@ public class IdexTradeService implements TradeService {
     OpenOrders ret = null;
     try {
       ReturnOpenOrdersResponse openOrdersResponse =
-          proxy.openOrders(
-              new OpenOrdersReq()
-                  .address(getIdexExchange().getExchangeSpecification().getApiKey()));
+          proxy.openOrders(new OpenOrdersReq().address(apiKey));
 
       ret =
           new OpenOrders(
@@ -110,7 +133,44 @@ public class IdexTradeService implements TradeService {
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) {
-    throw new NotAvailableFromExchangeException();
+
+    CurrencyPair currencyPairTmp = null;
+
+    if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
+      currencyPairTmp = ((TradeHistoryParamCurrencyPair) tradeHistoryParams).getCurrencyPair();
+    }
+
+    final CurrencyPair currencyPair = currencyPairTmp;
+
+    UserTrades ret = null;
+    try {
+      List<UserTrade> userTrades =
+          returnTradeHistoryApi
+              .tradeHistory((TradeHistoryReq) tradeHistoryParams)
+              .stream()
+              .map(
+                  tradeHistoryItem ->
+                      new UserTrade.Builder()
+                          .originalAmount(
+                              IdexExchange.Companion.safeParse(tradeHistoryItem.getAmount()))
+                          .price(IdexExchange.Companion.safeParse(tradeHistoryItem.getPrice()))
+                          .currencyPair(currencyPair)
+                          .timestamp(new Date(tradeHistoryItem.getTimestamp().longValue() * 1000))
+                          .id((tradeHistoryItem.getTransactionHash()))
+                          .type(
+                              tradeHistoryItem.getType() == IdexBuySell.BUY
+                                  ? Order.OrderType.BID
+                                  : Order.OrderType.ASK)
+                          .build())
+              .sorted(Comparator.comparing(Trade::getTimestamp))
+              .collect(Collectors.toList());
+
+      return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return ret;
   }
 
   @Override
@@ -137,8 +197,7 @@ public class IdexTradeService implements TradeService {
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-
-    return new IdexTradeHistoryParams();
+    return new IdexTradeHistoryParams(apiKey);
   }
 
   @Override
@@ -185,14 +244,11 @@ public class IdexTradeService implements TradeService {
       String contractAddress,
       BigInteger nonce,
       BigInteger expires) {
-    nonce =
-        nonce == null
-            ? BigInteger.valueOf(getIdexExchange().getNonceFactory().createValue())
-            : nonce;
+    nonce = nonce == null ? BigInteger.valueOf(exchange.getNonceFactory().createValue()) : nonce;
     contractAddress = contractAddress == null ? contractAddress().getAddress() : contractAddress;
     expires = expires == null ? BigInteger.valueOf(100000) : expires;
-    getIdexExchange().getExchangeMetaData().getCurrencies().get(baseCurrency);
-    getIdexExchange().getExchangeMetaData().getCurrencies().get(counterCurrency);
+    exchange.getExchangeMetaData().getCurrencies().get(baseCurrency);
+    exchange.getExchangeMetaData().getCurrencies().get(counterCurrency);
     OrderReq orderReq = null;
 
     boolean untested = true;
@@ -202,10 +258,10 @@ public class IdexTradeService implements TradeService {
 
       IdexCurrencyMeta buy_currency =
           (IdexCurrencyMeta)
-              getIdexExchange().getExchangeMetaData().getCurrencies().get(listOfCurrencies.get(0));
+              exchange.getExchangeMetaData().getCurrencies().get(listOfCurrencies.get(0));
       IdexCurrencyMeta sell_currency =
           (IdexCurrencyMeta)
-              getIdexExchange().getExchangeMetaData().getCurrencies().get(listOfCurrencies.get(1));
+              exchange.getExchangeMetaData().getCurrencies().get(listOfCurrencies.get(1));
       BigDecimal divide = originalAmount.divide(limitPrice, MathContext.DECIMAL128);
       BigDecimal amount_buy =
           divide.multiply(
@@ -227,7 +283,7 @@ public class IdexTradeService implements TradeService {
               asList("address", "" + getApiKey(), "address"));
 
       SignatureData sig =
-          generateSignature(getIdexExchange().getExchangeSpecification().getSecretKey(), hash_data);
+          generateSignature(exchange.getExchangeSpecification().getSecretKey(), hash_data);
       byte v = sig.getV();
       byte[] r = sig.getR();
       byte[] s = sig.getS();
@@ -257,11 +313,7 @@ public class IdexTradeService implements TradeService {
     return null;
   }
 
-  public IdexExchange getIdexExchange() {
-    return idexExchange;
-  }
-
   public String getApiKey() {
-    return getIdexExchange().getExchangeSpecification().getApiKey();
+    return apiKey;
   }
 }
