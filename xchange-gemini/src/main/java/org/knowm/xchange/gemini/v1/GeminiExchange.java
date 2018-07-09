@@ -23,7 +23,7 @@ public class GeminiExchange extends BaseExchange {
     concludeHostParams(exchangeSpecification);
     this.marketDataService = new GeminiMarketDataService(this);
     this.accountService = new GeminiAccountService(this);
-    this.tradeService = new GeminiTradeService(this);
+    this.tradeService = new GeminiTradeService(this, this.marketDataService);
   }
 
   @Override

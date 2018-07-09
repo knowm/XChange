@@ -1,41 +1,41 @@
 package org.knowm.xchange.gemini.v1.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiLimitOrder;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeService {
 
   private static final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
 
-  public GeminiTradeService(Exchange exchange) {
+  private final MarketDataService marketDataService;
+
+  public GeminiTradeService(Exchange exchange, MarketDataService marketDataService) {
 
     super(exchange);
+    this.marketDataService = marketDataService;
   }
 
   @Override
@@ -57,7 +57,27 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    Ticker ticker = marketDataService.getTicker(marketOrder.getCurrencyPair());
+
+    BigDecimal price;
+    if(marketOrder.getType().equals(Order.OrderType.BID)) {
+      price = ticker.getLast().multiply(new BigDecimal(10.0));
+
+    } else {
+      price = ticker.getLast().divide(new BigDecimal(10.0));
+    }
+
+
+    return placeLimitOrder(
+            new LimitOrder(
+                    marketOrder.getType(),
+                    marketOrder.getOriginalAmount(),
+                    marketOrder.getCurrencyPair(),
+                    marketOrder.getId(),
+                    marketOrder.getTimestamp(),
+                    price
+            )
+    );
   }
 
   @Override
@@ -162,7 +182,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   }
 
   public static class GeminiTradeHistoryParams
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsTimeSpan {
+          implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsTimeSpan {
     private CurrencyPair currencyPair;
     private Integer limit;
     private Date startTime;
