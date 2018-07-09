@@ -25,7 +25,7 @@ public class BittrexExchange extends BaseExchange implements Exchange {
 
     this.marketDataService = new BittrexMarketDataService(this);
     this.accountService = new BittrexAccountService(this);
-    this.tradeService = new BittrexTradeService(this);
+    this.tradeService = new BittrexTradeService(this, this.marketDataService);
   }
 
   @Override

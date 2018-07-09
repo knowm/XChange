@@ -1,6 +1,7 @@
 package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,11 +13,13 @@ import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -28,23 +31,45 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BittrexTradeService extends BittrexTradeServiceRaw implements TradeService {
 
+
+  private final MarketDataService marketDataService;
+
   /**
    * Constructor
    *
    * @param exchange
    */
-  public BittrexTradeService(Exchange exchange) {
+  public BittrexTradeService(Exchange exchange, MarketDataService marketDataService) {
 
     super(exchange);
+    this.marketDataService = marketDataService;
+
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    try {
-      return placeBittrexMarketOrder(marketOrder);
-    } catch (BittrexException e) {
-      throw BittrexErrorAdapter.adapt(e);
+    Ticker ticker = marketDataService.getTicker(marketOrder.getCurrencyPair());
+
+    BigDecimal price;
+    if(marketOrder.getType().equals(Order.OrderType.BID)) {
+      price = ticker.getLast().multiply(new BigDecimal(10.0));
+
+    } else {
+      price = ticker.getLast().divide(new BigDecimal(10.0));
     }
+
+
+    return placeLimitOrder(
+            new LimitOrder(
+                    marketOrder.getType(),
+                    marketOrder.getOriginalAmount(),
+                    marketOrder.getCurrencyPair(),
+                    marketOrder.getId(),
+                    marketOrder.getTimestamp(),
+                    price
+            )
+    );
+
   }
 
   @Override
