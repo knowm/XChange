@@ -79,7 +79,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void withdrawFundsShouldRetrnTheStatus() throws IOException {
+  public void withdrawFundsShouldReturnNull() throws IOException {
 
     String status = "the-status"; // maybe the id would be more useful?
     BTCMarketsWithdrawCryptoResponse response =
@@ -99,7 +99,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
     // when
     String result = accountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "any address");
 
-    assertThat(result).isEqualTo(status);
+    assertThat(result).isNull();
   }
 
   @Test(expected = NotYetImplementedForExchangeException.class)

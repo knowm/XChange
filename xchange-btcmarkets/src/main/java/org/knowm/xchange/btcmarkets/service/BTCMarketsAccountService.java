@@ -30,10 +30,16 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
-      return withdrawCrypto(
+      withdrawCrypto(
           defaultWithdrawFundsParams.getAddress(),
           defaultWithdrawFundsParams.getAmount(),
           defaultWithdrawFundsParams.getCurrency());
+      // The BTCMarkets API doesn't return a useful value such as an id but the fixed value 'Pending
+      // Authorization'
+      // See https://github.com/BTCMarkets/API/issues/137
+      // and
+      // https://github.com/BTCMarkets/API/wiki/Fund-Transfer-API
+      return null;
     }
     throw new IllegalStateException("Cannot process " + params);
   }
