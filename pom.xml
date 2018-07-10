@@ -123,6 +123,7 @@
 		<module>xchange-cexio</module>
 		<module>xchange-cobinhood</module>
 		<module>xchange-coinbase</module>
+		<module>xchange-coindirect</module>
 		<module>xchange-coinegg</module>
 		<module>xchange-coinone</module>
 		<module>xchange-coinfloor</module>
