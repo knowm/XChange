@@ -115,10 +115,10 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    return placeLimitOrder2(limitOrder);
+    return placeLimitOrder2(limitOrder).getId();
   }
 
-  public String placeLimitOrder2(LimitOrder limitOrder) throws IOException {
+  public LimitOrder placeLimitOrder2(LimitOrder limitOrder) throws IOException {
     try {
       PoloniexTradeResponse response;
       if (limitOrder.getType() == OrderType.BID || limitOrder.getType() == OrderType.EXIT_ASK) {
@@ -131,12 +131,16 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
       // result
       // of this order. Make these available to the application if it has provided a
       // PoloniexLimitOrder.
+      LimitOrder result;
       if (limitOrder instanceof PoloniexLimitOrder) {
         PoloniexLimitOrder raw = (PoloniexLimitOrder) limitOrder;
         raw.setResponse(response);
+        result = raw;
+      } else {
+        result = limitOrder;
       }
 
-      return response.getOrderNumber().toString();
+      return result;
     } catch (PoloniexException e) {
       throw PoloniexErrorAdapter.adapt(e);
     }
