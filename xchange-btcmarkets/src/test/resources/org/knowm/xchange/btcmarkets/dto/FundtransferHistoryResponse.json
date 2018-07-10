@@ -1,0 +1,27 @@
+{
+  "errorCode": null,
+  "fundTransfers": [
+    {
+      "status": "Complete",
+      "lastUpdate": 1530533761919,
+      "fee": 0,
+      "description": "Ethereum Deposit, S 15",
+      "errorMessage": null,
+      "creationTime": 1530533761866,
+      "fundTransferId": 7485764826,
+      "cryptoPaymentDetail": {
+        "txId": "0x1234abcdef1234abcdef1234abcdef1234abcdef1234abcdef1234abcdef",
+        "address": null
+      },
+      "currency": "ETH",
+      "amount": 1504872041,
+      "transferType": "DEPOSIT"
+    }
+  ],
+  "errorMessage": null,
+  "paging": {
+    "newer": "/fundtransfer/history?since=1957653133&indexForward=true",
+    "older": "/fundtransfer/history?since=373346299&indexForward=false"
+  },
+  "success": true
+}

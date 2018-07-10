@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -52,7 +53,7 @@ import java.util.Map;
   "grossLastValue",
   "commission"
 })
-public final class BitmexMarginAccount {
+public final class BitmexMarginAccount extends AbstractHttpResponseAware {
 
   @JsonProperty("account")
   public Integer account;

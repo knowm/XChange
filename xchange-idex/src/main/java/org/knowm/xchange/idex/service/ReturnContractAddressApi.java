@@ -25,5 +25,5 @@ public interface ReturnContractAddressApi {
       tags = "trade")
   @ApiResponses(
       @ApiResponse(code = 200, message = "", response = ReturnContractAddressResponse.class))
-  ReturnContractAddressResponse contractAddress() throws Exception;
+  ReturnContractAddressResponse contractAddress();
 }
