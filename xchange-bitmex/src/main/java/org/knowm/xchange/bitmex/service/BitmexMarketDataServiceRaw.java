@@ -3,22 +3,11 @@ package org.knowm.xchange.bitmex.service;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitmex.BitmexAdapters;
-import org.knowm.xchange.bitmex.BitmexContract;
-import org.knowm.xchange.bitmex.BitmexException;
-import org.knowm.xchange.bitmex.BitmexPrompt;
-import org.knowm.xchange.bitmex.BitmexUtils;
+import java.util.*;
+import org.knowm.xchange.bitmex.*;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexKline;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.bitmex.dto.account.BitmexTickerList;
+import org.knowm.xchange.bitmex.dto.marketdata.*;
 import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -38,7 +27,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
    *
    * @param exchange
    */
-  public BitmexMarketDataServiceRaw(Exchange exchange) {
+  public BitmexMarketDataServiceRaw(BitmexExchange exchange) {
 
     super(exchange);
   }
@@ -48,7 +37,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
 
     BitmexContract contract = new BitmexContract(pair, prompt);
     String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
-    BitmexPublicOrder[] result = bitmex.getDepth(bitmexSymbol, 1000d);
+    BitmexPublicOrderList result = updateRateLimit(bitmex.getDepth(bitmexSymbol, 1000d));
 
     if (pair != null && prompt != null) return BitmexAdapters.adaptDepth(result, pair);
 
@@ -69,8 +58,9 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
     Integer limit = (Integer) args[0];
 
     for (int i = 0; trades.size() + 500 <= limit; i++) {
-      BitmexPublicTrade[] result = bitmex.getTrades(bitmexSymbol, true, 500, i * 500);
-      trades.addAll(Arrays.asList(result));
+      BitmexPublicTradeList result =
+          updateRateLimit(bitmex.getTrades(bitmexSymbol, true, 500, i * 500));
+      trades.addAll(result);
     }
 
     if (pair != null && prompt != null) {
@@ -81,19 +71,19 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
     return null;
   }
 
-  public List<BitmexTicker> getTicker(String symbol) throws IOException {
+  public BitmexTickerList getTicker(String symbol) throws IOException {
 
     try {
-      return bitmex.getTicker(symbol);
+      return updateRateLimit(bitmex.getTicker(symbol));
     } catch (BitmexException e) {
       throw handleError(e);
     }
   }
 
-  public List<BitmexTicker> getActiveTickers() throws IOException {
+  public BitmexTickerList getActiveTickers() throws IOException {
 
     try {
-      return bitmex.getActiveTickers();
+      return updateRateLimit(bitmex.getActiveTickers());
     } catch (BitmexException e) {
       throw handleError(e);
     }
@@ -108,7 +98,8 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
     BiMap<BitmexPrompt, String> bitmexPromptsToSymbolsMap = HashBiMap.create();
 
     try {
-      BitmexSymbolsAndPromptsResult promptsAndSymbolsResults = bitmex.getPromptsAndSymbols();
+      BitmexSymbolsAndPromptsResult promptsAndSymbolsResults =
+          updateRateLimit(bitmex.getPromptsAndSymbols());
       // promptsAndSymbolsResult
       int index = 0;
       for (Object interval : promptsAndSymbolsResults.getIntervals()) {
@@ -154,7 +145,8 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
     String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
 
     try {
-      return bitmex.getBucketedTrades(binSize, partial, bitmexSymbol, count, reverse);
+      return updateRateLimit(
+          bitmex.getBucketedTrades(binSize, partial, bitmexSymbol, count, reverse));
     } catch (BitmexException e) {
       throw handleError(e);
     }
