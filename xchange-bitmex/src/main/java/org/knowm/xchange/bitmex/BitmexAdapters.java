@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrder;
@@ -355,6 +356,25 @@ public class BitmexAdapters {
         return OrderStatus.CANCELED;
       case EXPIRED:
         return OrderStatus.EXPIRED;
+      case REJECTED:
+        return OrderStatus.REJECTED;
+      default:
+        return null;
+    }
+  }
+
+  public static OrderStatus adaptOrderStatus(BitmexPrivateOrder.OrderStatus status) {
+    switch (status) {
+      case New:
+        return OrderStatus.NEW;
+      case PartiallyFilled:
+        return OrderStatus.PARTIALLY_FILLED;
+      case Filled:
+        return OrderStatus.FILLED;
+      case Canceled:
+        return OrderStatus.CANCELED;
+      case Rejected:
+        return OrderStatus.REJECTED;
       default:
         return null;
     }

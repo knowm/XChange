@@ -136,7 +136,7 @@ public class QuoineAdapters {
       if (model.getStatus().equals("live")) {
 
         // currencey pair
-        String baseSymbol = model.getCurrencyPairCode().replace(model.getFundingCurrency(),"");
+        String baseSymbol = model.getCurrencyPairCode().replace(model.getFundingCurrency(), "");
         String counterSymbol = model.getFundingCurrency();
         CurrencyPair currencyPair = new CurrencyPair(baseSymbol, counterSymbol);
 

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
@@ -155,5 +155,4 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         new BitfinexNonceOnlyRequest(
             "/v1/account_fees", String.valueOf(exchange.getNonceFactory().createValue())));
   }
-
 }

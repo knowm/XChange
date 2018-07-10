@@ -2,16 +2,13 @@ package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -19,10 +16,10 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
+import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexUtils;
+import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexLimitOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
@@ -31,6 +28,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -38,12 +36,20 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements TradeService {
 
-  public PoloniexTradeService(Exchange exchange) {
+  private static final Logger LOG = LoggerFactory.getLogger(PoloniexTradeService.class);
+
+  private PoloniexMarketDataService poloniexMarketDataService;
+
+  public PoloniexTradeService(
+      Exchange exchange, PoloniexMarketDataService poloniexMarketDataService) {
 
     super(exchange);
+    this.poloniexMarketDataService = poloniexMarketDataService;
   }
 
   @Override
@@ -53,62 +59,105 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
-    CurrencyPair currencyPair = null;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
-    }
+    try {
+      CurrencyPair currencyPair = null;
+      if (params instanceof OpenOrdersParamCurrencyPair) {
+        currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+      }
 
-    final Map<String, PoloniexOpenOrder[]> poloniexOpenOrders;
-    if (currencyPair == null) {
-      poloniexOpenOrders = returnOpenOrders();
-    } else {
-      final PoloniexOpenOrder[] cpOpenOrders = returnOpenOrders(currencyPair);
-      poloniexOpenOrders = new HashMap<>(1);
-      poloniexOpenOrders.put(PoloniexUtils.toPairString(currencyPair), cpOpenOrders);
+      final Map<String, PoloniexOpenOrder[]> poloniexOpenOrders;
+      if (currencyPair == null) {
+        poloniexOpenOrders = returnOpenOrders();
+      } else {
+        final PoloniexOpenOrder[] cpOpenOrders = returnOpenOrders(currencyPair);
+        poloniexOpenOrders = new HashMap<>(1);
+        poloniexOpenOrders.put(PoloniexUtils.toPairString(currencyPair), cpOpenOrders);
+      }
+      return PoloniexAdapters.adaptPoloniexOpenOrders(poloniexOpenOrders);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
     }
-    return PoloniexAdapters.adaptPoloniexOpenOrders(poloniexOpenOrders);
   }
 
+  /**
+   * Poloniex does not support market orders directly, but will instantly fill limit orders with
+   * very low or high prices. So this is implementation has the same effect as a market order.
+   * Poloniex has maximums for each 'rate' (limit price) but does not provide them. So you must find
+   * the current market price and make it guaranteed to be filled
+   */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    try {
+      Ticker ticker = poloniexMarketDataService.getTicker(marketOrder.getCurrencyPair());
+
+      BigDecimal price;
+      if (marketOrder.getType().equals(OrderType.BID)) {
+        price = ticker.getLast().multiply(new BigDecimal(10.0));
+
+      } else {
+        price = ticker.getLast().divide(new BigDecimal(10.0));
+      }
+
+      return placeLimitOrder(
+          new LimitOrder(
+              marketOrder.getType(),
+              marketOrder.getOriginalAmount(),
+              marketOrder.getCurrencyPair(),
+              marketOrder.getId(),
+              marketOrder.getTimestamp(),
+              price));
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    PoloniexTradeResponse response;
-    if (limitOrder.getType() == OrderType.BID || limitOrder.getType() == OrderType.EXIT_ASK) {
-      response = buy(limitOrder);
-    } else {
-      response = sell(limitOrder);
-    }
+    try {
+      PoloniexTradeResponse response;
+      if (limitOrder.getType() == OrderType.BID || limitOrder.getType() == OrderType.EXIT_ASK) {
+        response = buy(limitOrder);
+      } else {
+        response = sell(limitOrder);
+      }
 
-    // The return value contains details of any trades that have been immediately executed as a
-    // result
-    // of this order. Make these available to the application if it has provided a
-    // PoloniexLimitOrder.
-    if (limitOrder instanceof PoloniexLimitOrder) {
-      PoloniexLimitOrder raw = (PoloniexLimitOrder) limitOrder;
-      raw.setResponse(response);
-    }
+      // The return value contains details of any trades that have been immediately executed as a
+      // result
+      // of this order. Make these available to the application if it has provided a
+      // PoloniexLimitOrder.
+      if (limitOrder instanceof PoloniexLimitOrder) {
+        PoloniexLimitOrder raw = (PoloniexLimitOrder) limitOrder;
+        raw.setResponse(response);
+      }
 
-    return response.getOrderNumber().toString();
+      return response.getOrderNumber().toString();
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return cancel(orderId);
+    try {
+      return cancel(orderId);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByIdParams) {
-      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
-    } else {
-      return false;
+    try {
+      if (orderParams instanceof CancelOrderByIdParams) {
+        return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+      } else {
+        return false;
+      }
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
     }
   }
 
@@ -118,59 +167,84 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    try {
+      CurrencyPair currencyPair = null;
+      Date startTime = null;
+      Date endTime = null;
 
-    CurrencyPair currencyPair = null;
-    Date startTime = null;
-    Date endTime = null;
+      if (params instanceof TradeHistoryParamCurrencyPair) {
+        currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      }
+      if (params instanceof TradeHistoryParamsTimeSpan) {
+        startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+        endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
+      }
 
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      Integer limit = 500;
+      if (params instanceof TradeHistoryParamLimit) {
+        TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
+        limit = tradeHistoryParamLimit.getLimit();
+      }
+
+      return getTradeHistory(
+          currencyPair,
+          DateUtils.toUnixTimeNullSafe(startTime),
+          DateUtils.toUnixTimeNullSafe(endTime),
+          limit);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
     }
-    if (params instanceof TradeHistoryParamsTimeSpan) {
-      startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
-      endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
-    }
-    return getTradeHistory(
-        currencyPair,
-        DateUtils.toUnixTimeNullSafe(startTime),
-        DateUtils.toUnixTimeNullSafe(endTime));
   }
 
   public BigDecimal getMakerFee() throws IOException {
-    String value = getFeeInfo().get("makerFee");
-    return new BigDecimal(value);
+    try {
+      String value = getFeeInfo().get("makerFee");
+      return new BigDecimal(value);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
   }
 
   public BigDecimal getTakerFee() throws IOException {
-    String value = getFeeInfo().get("takerFee");
-    return new BigDecimal(value);
+    try {
+      String value = getFeeInfo().get("takerFee");
+      return new BigDecimal(value);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
   }
 
   private UserTrades getTradeHistory(
-      CurrencyPair currencyPair, final Long startTime, final Long endTime) throws IOException {
+      CurrencyPair currencyPair, final Long startTime, final Long endTime, Integer limit)
+      throws IOException {
 
-    List<UserTrade> trades = new ArrayList<>();
-    if (currencyPair == null) {
-      HashMap<String, PoloniexUserTrade[]> poloniexUserTrades =
-          returnTradeHistory(startTime, endTime);
-      if (poloniexUserTrades != null) {
-        for (Map.Entry<String, PoloniexUserTrade[]> mapEntry : poloniexUserTrades.entrySet()) {
-          currencyPair = PoloniexUtils.toCurrencyPair(mapEntry.getKey());
-          for (PoloniexUserTrade poloniexUserTrade : mapEntry.getValue()) {
+    try {
+      List<UserTrade> trades = new ArrayList<>();
+      if (currencyPair == null) {
+        HashMap<String, PoloniexUserTrade[]> poloniexUserTrades =
+            returnTradeHistory(startTime, endTime, limit);
+        if (poloniexUserTrades != null) {
+          for (Map.Entry<String, PoloniexUserTrade[]> mapEntry : poloniexUserTrades.entrySet()) {
+            currencyPair = PoloniexUtils.toCurrencyPair(mapEntry.getKey());
+            for (PoloniexUserTrade poloniexUserTrade : mapEntry.getValue()) {
+              trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+            }
+          }
+        }
+      } else {
+        PoloniexUserTrade[] poloniexUserTrades =
+            returnTradeHistory(currencyPair, startTime, endTime, limit);
+        if (poloniexUserTrades != null) {
+          for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
             trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
           }
         }
       }
-    } else {
-      PoloniexUserTrade[] poloniexUserTrades = returnTradeHistory(currencyPair, startTime, endTime);
-      if (poloniexUserTrades != null) {
-        for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
-          trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
-        }
-      }
-    }
 
-    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+      return new UserTrades(trades, TradeSortType.SortByTimestamp);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
   }
 
   /**
@@ -190,11 +264,35 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    // we need to get the open orders
-    // for what is not an open order, we need to query one by one.
-    // but this returns fills by order, that we need need to calculate the remaining quantity,
-    // average fill price, and order type (in adapter).
-    throw new NotYetImplementedForExchangeException();
+
+    List<String> orderIdList = Arrays.asList(orderIds);
+
+    OpenOrders openOrders = getOpenOrders();
+    List<Order> returnValue =
+        openOrders
+            .getOpenOrders()
+            .stream()
+            .filter(f -> orderIdList.contains(f.getId()))
+            .collect(Collectors.toList());
+
+    returnValue.addAll(
+        orderIdList
+            .stream()
+            .filter(
+                f -> !returnValue.stream().filter(a -> a.getId().equals(f)).findFirst().isPresent())
+            .map(
+                f -> {
+                  try {
+                    return PoloniexAdapters.adaptUserTradesToOrderStatus(f, returnOrderTrades(f));
+                  } catch (IOException e) {
+                    LOG.error("Unable to find status for Poloniex order id: " + f, e);
+                  }
+                  return null;
+                })
+            .filter(f -> f != null)
+            .collect(Collectors.toList()));
+
+    return returnValue;
   }
 
   public final UserTrades getOrderTrades(Order order) throws IOException {
@@ -203,17 +301,21 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   public UserTrades getOrderTrades(String orderId, CurrencyPair currencyPair) throws IOException {
 
-    List<UserTrade> trades = new ArrayList<>();
+    try {
+      List<UserTrade> trades = new ArrayList<>();
 
-    PoloniexUserTrade[] poloniexUserTrades = returnOrderTrades(orderId);
-    if (poloniexUserTrades != null) {
-      for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
-        poloniexUserTrade.setOrderNumber(orderId); // returnOrderTrades doesn't fill in orderId
-        trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+      PoloniexUserTrade[] poloniexUserTrades = returnOrderTrades(orderId);
+      if (poloniexUserTrades != null) {
+        for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
+          poloniexUserTrade.setOrderNumber(orderId); // returnOrderTrades doesn't fill in orderId
+          trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+        }
       }
-    }
 
-    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+      return new UserTrades(trades, TradeSortType.SortByTimestamp);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
   }
 
   public static class PoloniexTradeHistoryParams

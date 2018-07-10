@@ -45,8 +45,10 @@ public class KucoinAdapters {
   public static Ticker adaptTicker(KucoinTicker ticker) {
 
     return new Ticker.Builder()
-        .currencyPair(new CurrencyPair(Currency.getInstance(ticker.getCoinType()),
-            Currency.getInstance(ticker.getCoinTypePair())))
+        .currencyPair(
+            new CurrencyPair(
+                Currency.getInstance(ticker.getCoinType()),
+                Currency.getInstance(ticker.getCoinTypePair())))
         .bid(ticker.getBuy())
         .ask(ticker.getSell())
         .high(ticker.getHigh())

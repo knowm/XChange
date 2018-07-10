@@ -1,8 +1,10 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.common.service.BitfinexHmacPostBodyDigest;
+import org.knowm.xchange.bitfinex.common.service.BitfinexPayloadDigest;
 import org.knowm.xchange.bitfinex.v1.BitfinexAuthenticated;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
@@ -40,11 +42,9 @@ public class BitfinexBaseService extends BaseExchangeService implements BaseServ
     this.payloadCreator = new BitfinexPayloadDigest();
   }
 
-
   public ExchangeException handleException(BitfinexException exception) {
 
-
-    if(exception.getMessage() != null) {
+    if (exception.getMessage() != null) {
       if (exception.getMessage().toLowerCase().contains("nonce")) {
         return new NonceException(exception.getMessage());
       } else if (exception.getMessage().toLowerCase().contains("not enough exchange balance")) {

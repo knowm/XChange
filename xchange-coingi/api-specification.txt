@@ -1,0 +1,15 @@
+Coingi Exchange API specification
+=================================
+
+Public API
+
+Documentation
+-------------
+http://coingi.docs.apiary.io/
+
+Exchange Home
+-------------
+https://coingi.com
+
+
+

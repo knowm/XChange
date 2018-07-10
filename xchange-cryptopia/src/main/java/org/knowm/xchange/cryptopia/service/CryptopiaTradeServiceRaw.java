@@ -15,7 +15,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
 
@@ -40,8 +39,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
             signatureCreator,
             new Cryptopia.GetOpenOrdersRequest(
                 currencyPair == null ? null : currencyPair.toString(), count));
-    if (!response.isSuccess())
-      throw new ExchangeException("Failed to get open orders: " + response.toString());
 
     List<LimitOrder> results = new ArrayList<>();
     for (Map map : response.getData()) {
@@ -88,8 +85,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
         cryptopia.submitTrade(
             signatureCreator,
             new Cryptopia.SubmitTradeRequest(currencyPair.toString(), rawType, price, amount));
-    if (!response.isSuccess())
-      throw new ExchangeException("Failed to submit order: " + response.toString());
 
     List<Integer> filled = (List<Integer>) response.getData().get("FilledOrders");
     if (filled.isEmpty()) {
@@ -105,9 +100,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     CryptopiaBaseResponse<List> response =
         cryptopia.cancelTrade(
             signatureCreator, new Cryptopia.CancelTradeRequest("Trade", orderId, null));
-    if (!response.isSuccess())
-      throw new ExchangeException("Failed to cancel order " + orderId + ": " + response.toString());
-
     return !response.getData().isEmpty();
   }
 
@@ -116,9 +108,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
     CryptopiaBaseResponse<List> response =
         cryptopia.cancelTrade(
             signatureCreator, new Cryptopia.CancelTradeRequest("TradePair", null, marketId));
-    if (!response.isSuccess())
-      throw new ExchangeException(
-          "Failed to cancel orders for pair " + currencyPair + ": " + response.toString());
     return !response.getData().isEmpty();
   }
 
@@ -129,8 +118,6 @@ public class CryptopiaTradeServiceRaw extends CryptopiaBaseService {
             new Cryptopia.GetTradeHistoryRequest(
                 currencyPair == null ? null : currencyPair.toString(),
                 count == null ? 100 : count));
-    if (!response.isSuccess())
-      throw new ExchangeException("Failed to get trade history: " + response.toString());
 
     List<UserTrade> results = new ArrayList<>();
     for (Map map : response.getData()) {

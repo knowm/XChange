@@ -92,22 +92,6 @@
       "price_scale": 4,
       "min_amount": 0.100000000
     },
-    "BCC/BTC": {
-      "price_scale": 6,
-      "min_amount": 0.10000000
-    },
-    "BCC/USD": {
-      "price_scale": 4,
-      "min_amount": 0.10000000
-    },
-    "BCU/BTC": {
-      "price_scale": 6,
-      "min_amount": 0.10000000
-    },
-    "BCU/USD": {
-      "price_scale": 4,
-      "min_amount": 0.10000000
-    },
     "XRP/BTC": {
       "price_scale": 8,
       "min_amount": 0.10000000

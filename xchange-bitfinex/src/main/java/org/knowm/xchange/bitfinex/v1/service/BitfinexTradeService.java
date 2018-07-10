@@ -145,7 +145,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
     long startTime = 0;
     Long endTime = null;
-    int limit = 50;
+    Integer limit = 50;
 
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan paramsTimeSpan = (TradeHistoryParamsTimeSpan) params;

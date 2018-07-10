@@ -7,6 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmarketcap.CoinMarketCap;
 import org.knowm.xchange.coinmarketcap.dto.marketdata.CoinMarketCapCurrency;
 import org.knowm.xchange.coinmarketcap.dto.marketdata.CoinMarketCapTicker;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
@@ -57,12 +58,29 @@ class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements B
    * @param limit count of tickers to be retrieved
    */
   public List<CoinMarketCapTicker> getCoinMarketCapTickers(final int limit) throws IOException {
-    return coinmarketcap.getTickers(limit);
+    return coinmarketcap.getTickers(limit, "array").getData();
+  }
+
+  /**
+   * Retrieves limited amount of tickers from CoinMarketCap
+   *
+   * @param limit count of tickers to be retrieved
+   * @param convert currency to get price converted to
+   */
+  public List<CoinMarketCapTicker> getCoinMarketCapTickers(final int limit, Currency convert)
+      throws IOException {
+    return coinmarketcap.getTickers(limit, convert.toString(), "array").getData();
   }
 
   public List<CoinMarketCapTicker> getCoinMarketCapTickers(int start, int limit)
       throws IOException {
 
-    return coinmarketcap.getTickers(start, limit);
+    return coinmarketcap.getTickers(start, limit, "array").getData();
+  }
+
+  public List<CoinMarketCapTicker> getCoinMarketCapTickers(int start, int limit, Currency convert)
+      throws IOException {
+
+    return coinmarketcap.getTickers(start, limit, convert.toString(), "array").getData();
   }
 }
