@@ -10,9 +10,9 @@ import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceOrderType;
 import org.knowm.xchange.binance.dto.trade.BinanceTrade;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.currency.CurrencyPair;
 
@@ -40,7 +40,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   public BinanceNewOrder newOrder(
       CurrencyPair pair,
       OrderSide side,
-      OrderType type,
+      BinanceOrderType type,
       TimeInForce timeInForce,
       BigDecimal quantity,
       BigDecimal price,
@@ -69,7 +69,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
   public void testNewOrder(
       CurrencyPair pair,
       OrderSide side,
-      OrderType type,
+      BinanceOrderType type,
       TimeInForce timeInForce,
       BigDecimal quantity,
       BigDecimal price,

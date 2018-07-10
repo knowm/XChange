@@ -2,7 +2,7 @@ package org.knowm.xchange.binance.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public enum OrderType {
+public enum BinanceOrderType {
   LIMIT,
   MARKET,
   TAKE_PROFIT_LIMIT,
@@ -11,9 +11,9 @@ public enum OrderType {
   TAKE_PROFIT;
 
   @JsonCreator
-  public static OrderType getOrderType(String s) {
+  public static BinanceOrderType getOrderType(String s) {
     try {
-      return OrderType.valueOf(s);
+      return BinanceOrderType.valueOf(s);
     } catch (Exception e) {
       throw new RuntimeException("Unknown order type " + s + ".");
     }

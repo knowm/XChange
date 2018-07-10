@@ -25,9 +25,9 @@ import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceOrderType;
 import org.knowm.xchange.binance.dto.trade.BinanceTrade;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import si.mazi.rescu.ParamsDigest;
 
@@ -62,7 +62,7 @@ public interface BinanceAuthenticated extends Binance {
   BinanceNewOrder newOrder(
       @FormParam("symbol") String symbol,
       @FormParam("side") OrderSide side,
-      @FormParam("type") OrderType type,
+      @FormParam("type") BinanceOrderType type,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
       @FormParam("price") BigDecimal price,
@@ -100,7 +100,7 @@ public interface BinanceAuthenticated extends Binance {
   Object testNewOrder(
       @FormParam("symbol") String symbol,
       @FormParam("side") OrderSide side,
-      @FormParam("type") OrderType type,
+      @FormParam("type") BinanceOrderType type,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
       @FormParam("price") BigDecimal price,

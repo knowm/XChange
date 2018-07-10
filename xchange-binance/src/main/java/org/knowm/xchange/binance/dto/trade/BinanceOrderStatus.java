@@ -2,7 +2,7 @@ package org.knowm.xchange.binance.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public enum OrderStatus {
+public enum BinanceOrderStatus {
   NEW,
   PARTIALLY_FILLED,
   FILLED,
@@ -12,9 +12,9 @@ public enum OrderStatus {
   EXPIRED;
 
   @JsonCreator
-  public static OrderStatus getOrderStatus(String s) {
+  public static BinanceOrderStatus getOrderStatus(String s) {
     try {
-      return OrderStatus.valueOf(s);
+      return BinanceOrderStatus.valueOf(s);
     } catch (Exception e) {
       throw new RuntimeException("Unknown order status " + s + ".");
     }

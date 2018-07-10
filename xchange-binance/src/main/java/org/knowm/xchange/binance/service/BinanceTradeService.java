@@ -11,8 +11,8 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceOrderType;
 import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -90,7 +90,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     List<LimitOrder> openOrders =
         binanceOpenOrders
             .stream()
-            .filter(o -> o.type.equals(OrderType.LIMIT))
+            .filter(o -> o.bType.equals(BinanceOrderType.LIMIT))
             .map(o -> (LimitOrder) BinanceAdapters.adaptOrder(o))
             .collect(Collectors.toList());
     return new OpenOrders(openOrders);
@@ -98,7 +98,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
-    return Long.toString(placeOrder(OrderType.MARKET, mo, null, null, null).orderId);
+    return Long.toString(placeOrder(BinanceOrderType.MARKET, mo, null, null, null).orderId);
   }
 
   @Override
@@ -117,7 +117,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } else {
       tif = TimeInForce.GTC;
     }
-    return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, tif);
+    return placeOrder(BinanceOrderType.LIMIT, lo, lo.getLimitPrice(), null, tif);
   }
 
   @Override
@@ -132,18 +132,28 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } else {
       tif = TimeInForce.GTC;
     }
-    OrderType orderType;
+    BinanceOrderType orderType;
     if (so.getType().equals(Order.OrderType.BID)) {
-      orderType = so.getLimitPrice() == null ? OrderType.TAKE_PROFIT : OrderType.TAKE_PROFIT_LIMIT;
+      orderType =
+          so.getLimitPrice() == null
+              ? BinanceOrderType.TAKE_PROFIT
+              : BinanceOrderType.TAKE_PROFIT_LIMIT;
     } else {
-      orderType = so.getLimitPrice() == null ? OrderType.STOP_LOSS : OrderType.STOP_LOSS_LIMIT;
+      orderType =
+          so.getLimitPrice() == null
+              ? BinanceOrderType.STOP_LOSS
+              : BinanceOrderType.STOP_LOSS_LIMIT;
     }
     return Long.toString(
         placeOrder(orderType, so, so.getLimitPrice(), so.getStopPrice(), tif).orderId);
   }
 
   private BinanceNewOrder placeOrder(
-      OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
+      BinanceOrderType type,
+      Order order,
+      BigDecimal limitPrice,
+      BigDecimal stopPrice,
+      TimeInForce tif)
       throws IOException {
     Long recvWindow =
         (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
@@ -164,7 +174,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   public void placeTestOrder(
-      OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice) throws IOException {
+      BinanceOrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice)
+      throws IOException {
     Long recvWindow =
         (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     testNewOrder(

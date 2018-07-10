@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceOrderStatus;
+import org.knowm.xchange.binance.dto.trade.BinanceOrderType;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.binance.service.BinanceTradeService.BinanceOrderFlags;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -64,7 +65,7 @@ public class BinanceAdapters {
     }
   }
 
-  public static Order.OrderStatus adaptOrderStatus(OrderStatus orderStatus) {
+  public static Order.OrderStatus adaptOrderStatus(BinanceOrderStatus orderStatus) {
     switch (orderStatus) {
       case NEW:
         return Order.OrderStatus.NEW;
@@ -103,17 +104,16 @@ public class BinanceAdapters {
     OrderType type = convert(order.side);
     CurrencyPair currencyPair = adaptSymbol(order.symbol);
 
-    Order.OrderStatus orderStatus = adaptOrderStatus(order.status);
+    Order.OrderStatus orderStatus = adaptOrderStatus(order.bStatus);
     final BigDecimal averagePrice;
-    if (order.executedQty.signum() == 0
-        || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
+    if (order.executedQty.signum() == 0 || order.bType.equals(BinanceOrderType.MARKET)) {
       averagePrice = BigDecimal.ZERO;
     } else {
       averagePrice = order.price;
     }
 
     Order result;
-    if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
+    if (order.bType.equals(BinanceOrderType.MARKET)) {
       result =
           new MarketOrder(
               type,
@@ -125,7 +125,7 @@ public class BinanceAdapters {
               order.executedQty,
               BigDecimal.ZERO,
               orderStatus);
-    } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)) {
+    } else if (order.bType.equals(BinanceOrderType.LIMIT)) {
       result =
           new LimitOrder(
               type,
