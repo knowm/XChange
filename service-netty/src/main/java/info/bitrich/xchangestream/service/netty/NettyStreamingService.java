@@ -1,18 +1,5 @@
 package info.bitrich.xchangestream.service.netty;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -35,6 +22,18 @@ import io.netty.util.internal.SocketUtils;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class NettyStreamingService<T> {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
@@ -56,6 +55,7 @@ public abstract class NettyStreamingService<T> {
     private final int maxFramePayloadLength;
     private final URI uri;
     private boolean isManualDisconnect = false;
+    private boolean conenctedSuccessfully = false;
     private Channel webSocketChannel;
     private Duration retryDuration;
     private Duration connectionTimeout;
@@ -192,6 +192,7 @@ public abstract class NettyStreamingService<T> {
             reconnFailEmitters.forEach(emitter -> emitter.onNext(t));
         }).retryWhen(new RetryWithDelay(retryDuration.toMillis()))
           .doOnComplete(() -> {
+            conenctedSuccessfully = true;
             LOG.warn("Resubscribing channels");
             resubscribeChannels();
 
@@ -209,6 +210,7 @@ public abstract class NettyStreamingService<T> {
 
     public Completable disconnect() {
         isManualDisconnect = true;
+        conenctedSuccessfully = false;
         return Completable.create(completable -> {
             if (webSocketChannel.isOpen()) {
                 CloseWebSocketFrame closeFrame = new CloseWebSocketFrame();
@@ -367,9 +369,11 @@ public abstract class NettyStreamingService<T> {
                 isManualDisconnect = false;
             } else {
                 super.channelInactive(ctx);
-                LOG.info("Reopening websocket because it was closed by the host");
-                final Completable c = connect();
-                c.subscribe();
+                if (conenctedSuccessfully) {
+                    LOG.info("Reopening websocket because it was closed by the host");
+                    final Completable c = connect();
+                    c.subscribe();
+                }
             }
         }
     }
