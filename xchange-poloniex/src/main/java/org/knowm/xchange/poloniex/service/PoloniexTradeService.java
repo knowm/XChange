@@ -115,6 +115,10 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
+    return placeLimitOrder2(limitOrder);
+  }
+
+  protected String placeLimitOrder2(LimitOrder limitOrder) throws IOException {
     try {
       PoloniexTradeResponse response;
       if (limitOrder.getType() == OrderType.BID || limitOrder.getType() == OrderType.EXIT_ASK) {
