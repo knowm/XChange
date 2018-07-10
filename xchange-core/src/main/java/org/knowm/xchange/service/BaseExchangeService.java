@@ -10,16 +10,16 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import si.mazi.rescu.ClientConfig;
 
 /** Top of the hierarchy abstract class for an "exchange service" */
-public abstract class BaseExchangeService {
+public abstract class BaseExchangeService<E extends Exchange> {
 
   /**
    * The base Exchange. Every service has access to the containing exchange class, which hold meta
    * data and the exchange specification
    */
-  protected final Exchange exchange;
+  protected final E exchange;
 
   /** Constructor */
-  protected BaseExchangeService(Exchange exchange) {
+  protected BaseExchangeService(E exchange) {
 
     this.exchange = exchange;
   }
