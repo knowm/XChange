@@ -410,6 +410,12 @@
 			<artifactId>xchange-zaif</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Coindirect exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coindirect</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 </project>
