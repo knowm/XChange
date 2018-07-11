@@ -8,8 +8,8 @@ import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexAccountService;
+import org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataService;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeService;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -48,6 +48,7 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
+    /* Exchange meta data not available in v2 calls
             BitfinexMarketDataServiceRaw dataService =
                 (BitfinexMarketDataServiceRaw) this.marketDataService;
             List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
