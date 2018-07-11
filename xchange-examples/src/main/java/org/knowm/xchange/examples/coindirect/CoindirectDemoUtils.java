@@ -7,6 +7,12 @@ import org.knowm.xchange.coindirect.CoindirectExchange;
 public class CoindirectDemoUtils {
 
   public static Exchange createExchange() {
-    return ExchangeFactory.INSTANCE.createExchange(CoindirectExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoindirectExchange.class.getName());
+
+    /**
+     * substitute this with an exchange with your credentials to test authenticated services
+     */
+
+    return exchange;
   }
 }
