@@ -35,4 +35,6 @@ public class CoindirectBaseService extends BaseExchangeService implements BaseSe
         this.apiKey = exchange.getExchangeSpecification().getApiKey();
         this.signatureCreator = CoindirectHawkDigest.createInstance(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey());
     }
+
+
 }

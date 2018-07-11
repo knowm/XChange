@@ -1,6 +1,16 @@
 package org.knowm.xchange.coindirect;
 
+import org.knowm.xchange.coindirect.dto.trade.CoindirectOrder;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CoindirectAdapters {
     public static String toSymbol(CurrencyPair pair) {
@@ -12,6 +22,86 @@ public class CoindirectAdapters {
         String left = symbol.substring(0, token);
         String right = symbol.substring(token+1);
         return new CurrencyPair(left, right);
+    }
+
+    public static Currency toCurrency(String code) {
+        return Currency.getInstance(code);
+    }
+
+    public static Order.OrderType convert(CoindirectOrder.Side side) {
+        switch (side) {
+            case BUY:
+                return Order.OrderType.BID;
+            case SELL:
+                return Order.OrderType.ASK;
+            default:
+                throw new RuntimeException("Not supported order side: " + side);
+        }
+    }
+
+    public static Order.OrderStatus adaptOrderStatus(CoindirectOrder.Status orderStatus) {
+        switch (orderStatus) {
+            case PLACED:
+            case SUBMITTED:
+                return Order.OrderStatus.NEW;
+            case COMPLETED:
+                return Order.OrderStatus.FILLED;
+            case PARTIAL_CANCEL:
+            case CANCELLED:
+                return Order.OrderStatus.CANCELED;
+            case PENDING_CANCEL:
+                return Order.OrderStatus.PENDING_CANCEL;
+            case PARTIAL:
+                return Order.OrderStatus.PARTIALLY_FILLED;
+            case ERROR:
+                return Order.OrderStatus.REJECTED;
+            default:
+                return Order.OrderStatus.UNKNOWN;
+        }
+    }
+
+
+    public static Order adaptOrder(CoindirectOrder order) {
+        Order.OrderType type = convert(order.side);
+        CurrencyPair currencyPair = toCurrencyPair(order.symbol);
+
+        Order.OrderStatus orderStatus = adaptOrderStatus(order.status);
+        final BigDecimal averagePrice;
+        if (order.executedAmount.signum() == 0) {
+            averagePrice = BigDecimal.ZERO;
+        } else {
+            averagePrice = order.executedPrice;
+        }
+
+        Order result = null;
+        if (order.type.equals(CoindirectOrder.Type.MARKET)) {
+            result =
+                    new MarketOrder(
+                            type,
+                            order.amount,
+                            currencyPair,
+                            order.uuid,
+                            order.dateCreated,
+                            averagePrice,
+                            order.executedAmount,
+                            BigDecimal.ZERO,
+                            orderStatus);
+        } else if (order.type.equals(CoindirectOrder.Type.LIMIT)) {
+            result =
+                    new LimitOrder(
+                            type,
+                            order.amount,
+                            currencyPair,
+                            order.uuid,
+                            order.dateCreated,
+                            order.price,
+                            averagePrice,
+                            order.executedAmount,
+                            BigDecimal.ZERO,
+                            orderStatus);
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {

@@ -3,7 +3,9 @@ package org.knowm.xchange.coindirect;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coindirect.dto.marketdata.CoindirectMarket;
+import org.knowm.xchange.coindirect.service.CoindirectAccountService;
 import org.knowm.xchange.coindirect.service.CoindirectMarketDataService;
+import org.knowm.xchange.coindirect.service.CoindirectTradeService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -23,6 +25,8 @@ public class CoindirectExchange extends BaseExchange {
     @Override
     protected void initServices() {
         this.marketDataService = new CoindirectMarketDataService(this);
+        this.accountService = new CoindirectAccountService(this);
+        this.tradeService = new CoindirectTradeService(this);
     }
 
     @Override
