@@ -1,17 +1,20 @@
 package org.knowm.xchange.coindirect.service;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.coindirect.dto.marketdata.CoindirectOrderbook;
-import org.knowm.xchange.coindirect.dto.marketdata.CoindirectTicker;
+import org.knowm.xchange.coindirect.CoindirectAdapters;
+import org.knowm.xchange.coindirect.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +49,6 @@ public class CoindirectMarketDataService extends CoindirectMarketDataServiceRaw 
 
     @Override
     public Trades getTrades(CurrencyPair pair, Object... args) throws IOException {
-
         String history = "1h";
 
         try {
@@ -54,22 +56,73 @@ public class CoindirectMarketDataService extends CoindirectMarketDataServiceRaw 
         } catch (Throwable ignored) {
         }
 
-        CoindirectTicker coindirectTicker = getCoindirectTicker(pair, history);
+        CoindirectTrades coindirectTrades = getCoindirectTrades(pair, history);
 
-        List<Trade> trades =
-                coindirectTicker.data
-                        .stream()
-                        .map(
-                                at ->
-                                        new Trade(
-                                                Order.OrderType.BID,
-                                                at.volume,
-                                                pair,
-                                                at.price,
-                                                new Date(at.time),
-                                                Long.toString(at.time)))
-                        .collect(Collectors.toList());
+        List<Trade> trades;
+
+        if(coindirectTrades.data == null) {
+            trades = new ArrayList<>();
+        } else {
+            trades =
+                    coindirectTrades.data
+                            .stream()
+                            .map(
+                                    at ->
+                                            new Trade(
+                                                    Order.OrderType.BID,
+                                                    at.volume,
+                                                    pair,
+                                                    at.price,
+                                                    new Date(at.time),
+                                                    Long.toString(at.time)))
+                            .collect(Collectors.toList());
+        }
 
         return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
+    }
+
+
+    @Override
+    public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+        String history = "24h";
+        String grouping = "d";
+
+        try {
+            if (args[0] != null) history = args[0].toString();
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            if (args[1] != null) grouping = args[1].toString();
+        } catch (Throwable ignored) {
+        }
+
+        CoindirectTicker coindirectTicker = getCoindirectTicker(currencyPair, history, grouping);
+
+        if(coindirectTicker.data.size() > 0) {
+            CoindirectTickerData coindirectTickerData = coindirectTicker.data.get(0);
+            return new Ticker.Builder()
+                    .currencyPair(currencyPair)
+                    .open(coindirectTickerData.open)
+                    .last(coindirectTickerData.close)
+                    .high(coindirectTickerData.high)
+                    .low(coindirectTickerData.low)
+                    .volume(coindirectTickerData.volume)
+                    .build();
+        }
+
+        return new Ticker.Builder().currencyPair(currencyPair).build();
+    }
+
+    @Override
+    public List<Ticker> getTickers(Params params) throws IOException {
+        List<CoindirectMarket> coindirectMarkets = getCoindirectMarkets(1000); /* default max */
+
+        List<Ticker> tickerList = new ArrayList<>();
+        for (int i = 0; i < coindirectMarkets.size(); i++) {
+            tickerList.add(getTicker(CoindirectAdapters.toCurrencyPair(coindirectMarkets.get(i).symbol)));
+        }
+
+        return tickerList;
     }
 }
