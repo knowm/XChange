@@ -28,7 +28,10 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
         bitfinex.getTickers(
             BitfinexAdapters.adaptCurrencyPairsToTickersParam(
                 Collections.singletonList(currencyPair)));
+    if (ticker.length == 0) {
+      throw handleException(new BitfinexException("Unknown Symbol"));
     } else {
+      return ticker[0];
     }
   }
 }
