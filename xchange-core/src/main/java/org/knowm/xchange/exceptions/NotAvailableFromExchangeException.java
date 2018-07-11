@@ -22,6 +22,6 @@ public class NotAvailableFromExchangeException extends UnsupportedOperationExcep
   /** Constructor */
   public NotAvailableFromExchangeException() {
 
-    this("Requested Information from Exchange is not available.");
+    this("Requested Information or function from Exchange is not available.");
   }
 }
