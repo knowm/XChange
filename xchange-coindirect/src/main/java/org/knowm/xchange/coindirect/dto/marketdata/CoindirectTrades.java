@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class CoindirectTicker {
-    public final List<CoindirectTickerData> data;
-    public final CoindirectTickerMetadata metaData;
+public class CoindirectTrades {
+    public final List<CoindirectTrade> data;
+    public final CoindirectTradesMetadata metaData;
 
-    public CoindirectTicker(@JsonProperty("data") List<CoindirectTickerData> data, @JsonProperty("metaData")  CoindirectTickerMetadata metaData) {
+    public CoindirectTrades(@JsonProperty("data") List<CoindirectTrade> data, @JsonProperty("metaData") CoindirectTradesMetadata metaData) {
         this.data = data;
         this.metaData = metaData;
     }
 
     @Override
     public String toString() {
-        return "CoindirectTicker{" +
+        return "CoindirectTrades{" +
                 "data=" + data +
                 ", metaData=" + metaData +
                 '}';
