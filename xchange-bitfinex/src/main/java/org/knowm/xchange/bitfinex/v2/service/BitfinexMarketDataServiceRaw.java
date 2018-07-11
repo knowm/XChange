@@ -1,8 +1,10 @@
 package org.knowm.xchange.bitfinex.v2.service;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v2.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -19,5 +21,14 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
 
   public BitfinexTicker[] getBitfinexTickers(List<CurrencyPair> currencyPairs) throws IOException {
     return bitfinex.getTickers(BitfinexAdapters.adaptCurrencyPairsToTickersParam(currencyPairs));
+  }
+
+  public BitfinexTicker getBitfinexTicker(CurrencyPair currencyPair) throws IOException {
+    BitfinexTicker[] ticker =
+        bitfinex.getTickers(
+            BitfinexAdapters.adaptCurrencyPairsToTickersParam(
+                Collections.singletonList(currencyPair)));
+    } else {
+    }
   }
 }
