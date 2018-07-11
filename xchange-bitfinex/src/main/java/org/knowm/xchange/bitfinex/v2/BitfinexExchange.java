@@ -1,17 +1,13 @@
 package org.knowm.xchange.bitfinex.v2;
 
 import java.io.IOException;
-import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexAccountService;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataService;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -52,15 +48,14 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
+            BitfinexMarketDataServiceRaw dataService =
+                (BitfinexMarketDataServiceRaw) this.marketDataService;
+            List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
+            exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
 
-    BitfinexMarketDataServiceRaw dataService =
-        (BitfinexMarketDataServiceRaw) this.marketDataService;
-    List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
-    exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
-
-    final List<BitfinexSymbolDetail> symbolDetails = dataService.getSymbolDetails();
-    exchangeMetaData = BitfinexAdapters.adaptMetaData(exchangeMetaData, symbolDetails);
-
+            final List<BitfinexSymbolDetail> symbolDetails = dataService.getSymbolDetails();
+            exchangeMetaData = BitfinexAdapters.adaptMetaData(exchangeMetaData, symbolDetails);
+    */
     if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null) {
       // Additional remoteInit configuration for authenticated instances
       BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
