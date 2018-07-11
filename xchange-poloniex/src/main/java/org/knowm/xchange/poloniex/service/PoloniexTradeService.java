@@ -2,13 +2,19 @@ package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -16,6 +22,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexUtils;
@@ -79,37 +86,9 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     }
   }
 
-  /**
-   * Poloniex does not support market orders directly, but will instantly fill limit orders with
-   * very low or high prices. So this is implementation has the same effect as a market order.
-   * Poloniex has maximums for each 'rate' (limit price) but does not provide them. So you must find
-   * the current market price and make it guaranteed to be filled
-   */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-
-    try {
-      Ticker ticker = poloniexMarketDataService.getTicker(marketOrder.getCurrencyPair());
-
-      BigDecimal price;
-      if (marketOrder.getType().equals(OrderType.BID)) {
-        price = ticker.getLast().multiply(new BigDecimal(10.0));
-
-      } else {
-        price = ticker.getLast().divide(new BigDecimal(10.0));
-      }
-
-      return placeLimitOrder(
-          new LimitOrder(
-              marketOrder.getType(),
-              marketOrder.getOriginalAmount(),
-              marketOrder.getCurrencyPair(),
-              marketOrder.getId(),
-              marketOrder.getTimestamp(),
-              price));
-    } catch (PoloniexException e) {
-      throw PoloniexErrorAdapter.adapt(e);
-    }
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
@@ -163,7 +142,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   /**
    * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link
-   *     TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
+   * TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
