@@ -7,7 +7,7 @@ import org.knowm.xchange.btcmarkets.dto.BTCMarketsBaseResponse;
 public class BTCMarketsOrders extends BTCMarketsBaseResponse {
   private List<BTCMarketsOrder> orders;
 
-  protected BTCMarketsOrders(
+  public BTCMarketsOrders(
       @JsonProperty("success") Boolean success,
       @JsonProperty("errorMessage") String errorMessage,
       @JsonProperty("errorCode") Integer errorCode,
