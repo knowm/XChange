@@ -140,6 +140,12 @@
 			<artifactId>xchange-coinbase</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Coinbene support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coinbene</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange CoinEgg support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
