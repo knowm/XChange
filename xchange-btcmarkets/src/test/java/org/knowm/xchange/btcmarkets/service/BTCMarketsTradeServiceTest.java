@@ -5,8 +5,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,15 +13,12 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOpenOrdersAndTradeHistoryRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
+import org.knowm.xchange.btcmarkets.dto.trade.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -178,5 +174,28 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
     // then
     assertThat(historyParams.getPageLength()).isEqualTo(200);
+  }
+
+  @Test
+  public void shouldGetOrderDetails() throws IOException {
+    // given
+    List<Long> orderIds = new ArrayList<>();
+    orderIds.add(1000L);
+    BTCMarketsOrderDetailsRequest btcMarketsOrderDetailsRequest =
+        new BTCMarketsOrderDetailsRequest(orderIds);
+    BTCMarketsOrders btcMarketsOrders = new BTCMarketsOrders(true, "", 0, new ArrayList<>());
+
+    BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
+    PowerMockito.when(
+            btcm.getOrderDetails(
+                Mockito.eq(SPECIFICATION_API_KEY),
+                Mockito.any(SynchronizedValueFactory.class),
+                Mockito.any(BTCMarketsDigest.class),
+                Matchers.eq(btcMarketsOrderDetailsRequest)))
+        .thenReturn(btcMarketsOrders);
+    Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
+    // when
+    Collection<Order> orders = marketsTradeService.getOrder("1000");
+    assertThat(orders).hasSize(0);
   }
 }
