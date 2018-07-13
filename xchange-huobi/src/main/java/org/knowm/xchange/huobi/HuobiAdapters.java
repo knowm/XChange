@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -26,6 +27,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
+import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
@@ -256,5 +258,29 @@ public class HuobiAdapters {
 		trades.add(adaptTrade(order));
 	}
 	return new UserTrades(trades, TradeSortType.SortByTimestamp);
+  }
+  
+  public static List<FundingRecord> adaptFundingHistory(HuobiFundingRecord[] fundingRecords) {
+	  List<FundingRecord> records = new ArrayList<>();
+	  for (HuobiFundingRecord record : fundingRecords) {
+		  records.add(adaptFundingRecord(record));
+	  }
+	  return records;  
+  }
+  
+  public static FundingRecord adaptFundingRecord(HuobiFundingRecord r) {
+	  
+	  return new FundingRecord(
+              r.getAddress(),
+              r.getCreatedAt(),
+              Currency.getInstance(r.getCurrency()),
+              r.getAmount(),
+              Long.toString(r.getId()),
+              r.getTxhash(),
+              r.getType(),
+              FundingRecord.Status.resolveStatus(r.getState()),
+              null,
+              r.getFee(),
+              null);
   }
 }
