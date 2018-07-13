@@ -14,6 +14,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -25,6 +26,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
 import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
@@ -270,17 +272,64 @@ public class HuobiAdapters {
   
   public static FundingRecord adaptFundingRecord(HuobiFundingRecord r) {
 	  
-	  return new FundingRecord(
-              r.getAddress(),
-              r.getCreatedAt(),
-              Currency.getInstance(r.getCurrency()),
-              r.getAmount(),
-              Long.toString(r.getId()),
-              r.getTxhash(),
-              r.getType(),
-              FundingRecord.Status.resolveStatus(r.getState()),
-              null,
-              r.getFee(),
-              null);
+	return new FundingRecord(
+      r.getAddress(),
+      r.getCreatedAt(),
+      Currency.getInstance(r.getCurrency()),
+      r.getAmount(),
+      Long.toString(r.getId()),
+      r.getTxhash(),
+      r.getType(),
+      adaptFundingStatus(r),
+      null,
+      r.getFee(),
+      null
+    );
+  }
+
+  private static Status adaptFundingStatus(HuobiFundingRecord record) {
+	if (record.getType() == FundingRecord.Type.WITHDRAWAL) {
+		return adaptWithdrawalStatus(record.getState());
+	}
+	return adaptDepostStatus(record.getState());
+  }
+  
+  private static Status adaptWithdrawalStatus(String state) {
+    switch (state) {
+	case "pre-transfer":
+	case "submitted":
+	case "reexamine":
+	case "pass":
+	case "wallet-transfer":
+		return Status.PROCESSING;
+	case "canceled":	
+		return Status.CANCELLED;
+	case "confirmed":
+		return Status.COMPLETE;
+	case "wallet-reject":
+	case "reject	":
+	case "confirm-error":	
+		return Status.FAILED;
+	case "repealed":
+
+	default:
+		return null;
+	}
+	  
+  }
+  
+  private static Status adaptDepostStatus(String state) {
+	switch (state) {
+	case "confirming":
+	case "safe":
+		return Status.PROCESSING;
+	case "confirmed":
+		return Status.COMPLETE;
+	case "unknown":
+	case "orphan":
+		return Status.FAILED;
+	default:
+		return null;
+	}
   }
 }
