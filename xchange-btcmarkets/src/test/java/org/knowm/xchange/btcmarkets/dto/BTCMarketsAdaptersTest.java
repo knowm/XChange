@@ -66,6 +66,11 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
         .isEqualTo(1378636912705L);
     assertThat(openOrders.getOpenOrders().get(1).getLimitPrice()).isEqualTo("130.00000000");
     assertThat(openOrders.getOpenOrders().get(1).getOriginalAmount()).isEqualTo("0.10000000");
+    assertThat(openOrders.getOpenOrders().get(1).getCumulativeAmount())
+        .isEqualTo(BigDecimal.valueOf(0.1));
+    assertThat(openOrders.getOpenOrders().get(1).getAveragePrice())
+        .isEqualTo(BigDecimal.valueOf(130.0));
+    assertThat(openOrders.getOpenOrders().get(1).getFee()).isEqualTo(BigDecimal.valueOf(0.001));
   }
 
   @Test
@@ -120,5 +125,15 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(fundingRecords.get(0).getCurrency()).isEqualTo(Currency.ETH);
     assertThat(fundingRecords.get(0).getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
     assertThat(fundingRecords.get(0).getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
+  }
+
+  @Test
+  public void shouldAdaptOrderStatusses() {
+    assertThat(BTCMarketsAdapters.adaptOrderStatus("New")).isEqualTo(Order.OrderStatus.NEW);
+  }
+
+  @Test
+  public void shouldAdaptUnknownStatusToUNKNOWN() {
+    assertThat(BTCMarketsAdapters.adaptOrderStatus("abc")).isEqualTo(Order.OrderStatus.UNKNOWN);
   }
 }
