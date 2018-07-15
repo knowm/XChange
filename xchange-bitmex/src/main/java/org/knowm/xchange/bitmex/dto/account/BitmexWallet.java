@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -37,7 +38,7 @@ import java.util.Map;
   "script",
   "withdrawalLock"
 })
-public final class BitmexWallet {
+public final class BitmexWallet extends AbstractHttpResponseAware {
 
   @JsonProperty("account")
   private Integer account;
