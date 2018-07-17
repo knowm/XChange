@@ -12,7 +12,7 @@ public class CoindirectAccountServiceRaw extends CoindirectBaseService {
    *
    * @param exchange
    */
-  protected CoindirectAccountServiceRaw(Exchange exchange) {
+  public CoindirectAccountServiceRaw(Exchange exchange) {
     super(exchange);
   }
 
