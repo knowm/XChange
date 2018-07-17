@@ -19,13 +19,13 @@ public interface Coindirect {
       throws IOException, CoindirectException;
 
   @GET
-  @Path("/api/v1/exchange/historical/trades/{market}/{history}")
+  @Path("api/v1/exchange/historical/trades/{market}/{history}")
   CoindirectTrades getHistoricalExchangeTrades(
       @PathParam("market") String market, @PathParam("history") String history)
       throws IOException, CoindirectException;
 
   @GET
-  @Path("/api/v1/exchange/historical/{market}/{history}/{grouping}")
+  @Path("api/v1/exchange/historical/{market}/{history}/{grouping}")
   CoindirectTicker getHistoricalExchangeData(
       @PathParam("market") String market,
       @PathParam("history") String history,
@@ -33,7 +33,7 @@ public interface Coindirect {
       throws IOException, CoindirectException;
 
   @GET
-  @Path("/api/v1/exchange/market")
+  @Path("api/v1/exchange/market")
   List<CoindirectMarket> listExchangeMarkets(@QueryParam("max") long max)
       throws IOException, CoindirectException;
 }

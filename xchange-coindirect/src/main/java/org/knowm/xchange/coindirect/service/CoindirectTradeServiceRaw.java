@@ -3,6 +3,7 @@ package org.knowm.xchange.coindirect.service;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coindirect.CoindirectExchange;
 import org.knowm.xchange.coindirect.dto.CoindirectException;
 import org.knowm.xchange.coindirect.dto.trade.CoindirectOrder;
 import org.knowm.xchange.coindirect.dto.trade.CoindirectOrderRequest;
@@ -13,7 +14,7 @@ public class CoindirectTradeServiceRaw extends CoindirectBaseService {
    *
    * @param exchange
    */
-  protected CoindirectTradeServiceRaw(Exchange exchange) {
+  public CoindirectTradeServiceRaw(Exchange exchange) {
     super(exchange);
   }
 
