@@ -31,5 +31,5 @@ public interface WithdrawApi {
           message =
               "To derive the signature for this API call, hash the following parameters in this order contract addresstokenamountaddressnonceSalt the hash as described earlier and sign it to produce your signature triplet.Useful response upon withdrawal success is in the works, for now simply test that there is no error propertyin the result object to confirm your withdrawal has succeeded.",
           response = WithdrawResponse.class))
-  WithdrawResponse withdraw(WithdrawReq withdrawReq) throws Exception;
+  WithdrawResponse withdraw(WithdrawReq withdrawReq);
 }

@@ -27,6 +27,5 @@ public interface ReturnCompleteBalancesApi {
       tags = "account")
   @ApiResponses(
       @ApiResponse(code = 200, message = "", response = ReturnCompleteBalancesResponse.class))
-  ReturnCompleteBalancesResponse completeBalances(CompleteBalancesReq completeBalancesReq)
-      throws Exception;
+  ReturnCompleteBalancesResponse completeBalances(CompleteBalancesReq completeBalancesReq);
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.binance.dto.meta.BinanceCurrencyPairMetaData;
+import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
@@ -63,7 +63,7 @@ public class BinanceExchange extends BaseExchange {
     AuthUtils.setApiAndSecretKey(spec, "binance");
     return spec;
   }
-
+  
   public BinanceExchangeInfo getExchangeInfo() {
     return exchangeInfo;
   }
@@ -75,75 +75,58 @@ public class BinanceExchange extends BaseExchange {
       Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
       Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
-      BinanceMarketDataService marketDataService =
-          (BinanceMarketDataService) this.marketDataService;
+      BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
       exchangeInfo = marketDataService.getExchangeInfo();
+      Symbol[] symbols = exchangeInfo.getSymbols();
 
-      for (Symbol symbol : exchangeInfo.getSymbols()) {
+      for (BinancePrice price : marketDataService.tickerAllPrices()) {
+        CurrencyPair pair = price.getCurrencyPair();
 
-        CurrencyPair pair = new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset());
-        // defaults
-        BigDecimal tradingFee = BigDecimal.ZERO;
-        BigDecimal minAmount = BigDecimal.ZERO;
-        BigDecimal maxAmount = BigDecimal.ZERO;
-        Integer priceScale = DEFAULT_PRECISION;
-        BigDecimal minNotional = BigDecimal.ZERO;
+        for (Symbol symbol : symbols) {
+          if (symbol.getSymbol().equals(pair.base.getCurrencyCode() + pair.counter.getCurrencyCode())) {
 
-        CurrencyPairMetaData pairMetaData = currencyPairs.get(pair);
-        if (pairMetaData != null) { // use old values as defaults where available.
-          tradingFee = pairMetaData.getTradingFee();
-          minAmount = pairMetaData.getMinimumAmount();
-          maxAmount = pairMetaData.getMaximumAmount();
-          priceScale = pairMetaData.getPriceScale();
-          if (pairMetaData instanceof BinanceCurrencyPairMetaData) {
-            minNotional = ((BinanceCurrencyPairMetaData) pairMetaData).getMinNotional();
+            int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
+            int counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
+            int pairPrecision = 8;
+            int amountPrecision = 8;
+            
+            BigDecimal minQty = null;
+            BigDecimal maxQty = null;
+
+            Filter[] filters = symbol.getFilters(); 
+
+            for (Filter filter : filters) {
+        		  if (filter.getFilterType().equals("PRICE_FILTER")) {
+        			  
+        			  pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getMinPrice()));
+        			  
+        		  } else if (filter.getFilterType().equals("LOT_SIZE")) {
+        			  amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
+        			  minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
+        			  maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
+              }
+            }
+            
+            currencyPairs.put(price.getCurrencyPair(), new CurrencyPairMetaData(
+					  new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
+					  minQty, // Min amount
+					  maxQty, // Max amount
+					  pairPrecision // precision
+				  ));            
+            currencies.put(pair.base, new CurrencyMetaData(basePrecision, currencies.containsKey(pair.base) ? 
+            		currencies.get(pair.base).getWithdrawalFee() : null));
+            currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, currencies.containsKey(pair.counter) ? 
+            		currencies.get(pair.counter).getWithdrawalFee() : null));
           }
-        }
-
-        for (Filter filter : symbol.getFilters()) { // replace with the new values where available.
-          switch (filter.getFilterType()) {
-            case "PRICE_FILTER":
-              priceScale = numberOfDecimals(filter.getTickSize());
-              break;
-            case "LOT_SIZE":
-              minAmount = new BigDecimal(filter.getMinQty());
-              maxAmount = new BigDecimal(filter.getMaxQty());
-              break;
-            case "MIN_NOTIONAL":
-              minNotional = new BigDecimal(filter.getMinNotional());
-              break;
-          }
-        }
-        pairMetaData =
-            new BinanceCurrencyPairMetaData(
-                tradingFee, minAmount, maxAmount, priceScale, minNotional);
-
-        currencyPairs.put(pair, pairMetaData);
-
-        CurrencyMetaData baseMetaData = currencies.get(pair.base);
-        if (baseMetaData == null) {
-          Integer basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
-          currencies.put(pair.base, new CurrencyMetaData(basePrecision, BigDecimal.ZERO));
-        }
-        CurrencyMetaData counterMetaData = currencies.get(pair.base);
-        if (counterMetaData == null) {
-          Integer counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
-          currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, BigDecimal.ZERO));
         }
       }
     } catch (Exception e) {
       logger.warn("An exception occurred while loading the metadata", e);
     }
   }
-
+  
   private int numberOfDecimals(String value) {
-    try {
-      double d = Double.parseDouble(value);
-      String s = new DecimalFormat("#.############").format(d);
-      return s.split("\\.")[1].length();
-    } catch (ArrayIndexOutOfBoundsException e) {
-      return DEFAULT_PRECISION;
-    }
+	  return new BigDecimal(value).stripTrailingZeros().scale();
   }
 
   public void clearDeltaServerTime() {

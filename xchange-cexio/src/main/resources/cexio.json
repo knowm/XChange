@@ -1,203 +1,123 @@
 {
   "currency_pairs": {
     "BTC/USD": {
-      "price_scale": 1,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
+      "price_scale": 2,
+      "trading_fee": 0.002,
+      "min_amount": 0.010000000
     },
     "BTC/EUR": {
-      "price_scale": 1,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
+      "price_scale": 2,
+      "trading_fee": 0.001,
+      "min_amount": 0.010000000
     },
     "BTC/GBP": {
-      "price_scale": 1,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
-    },
-    "BTC/RUB": {
-      "price_scale": 1,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
-    },
-    "ETH/USD": {
       "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.5
-    },
-    "ETH/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.5
+      "trading_fee": 0.01,
+      "min_amount": 0.010000000
     },
     "ETH/GBP": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
-    },
-    "ETH/BTC": {
-      "price_scale": 6,
-      "trading_fee": 0.0015,
-      "min_amount": 0.5
-    },
-    "BCH/USD": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
-    },
-    "BCH/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
-    },
-    "BCH/GBP": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
-    },
-    "BCH/BTC": {
-      "price_scale": 6,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
-    },
-    "BTG/USD": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
-    },
-    "BTG/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
-    },
-    "BTG/BTC": {
-      "price_scale": 6,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
-    },
-    "DASH/USD": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
-    },
-    "DASH/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
-    },
-    "DASH/GBP": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
-    },
-    "DASH/BTC": {
-      "price_scale": 6,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
-    },
-    "XRP/USD": {
       "price_scale": 4,
-      "trading_fee": 0.0015,
-      "min_amount": 40
-    },
-    "XRP/EUR": {
-      "price_scale": 4,
-      "trading_fee": 0.0015,
-      "min_amount": 40
-    },
-    "XRP/BTC": {
-      "price_scale": 8,
-      "trading_fee": 0.0015,
-      "min_amount": 40
-    },
-    "XLM/USD": {
-      "price_scale": 4,
-      "trading_fee": 0.0015,
-      "min_amount": 10
-    },
-    "XLM/EUR": {
-      "price_scale": 4,
-      "trading_fee": 0.0015,
-      "min_amount": 10
-    },
-    "XLM/BTC": {
-      "price_scale": 8,
-      "trading_fee": 0.0015,
-      "min_amount": 40
-    },
-    "ZEC/USD": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
-    },
-    "ZEC/EUR": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.01
-    },
-    "ZEC/GBP": {
-      "price_scale": 2,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
-    },
-    "ZEC/BTC": {
-      "price_scale": 6,
-      "trading_fee": 0.0015,
-      "min_amount": 0.1
+      "trading_fee": 0.001,
+      "min_amount": 0.100000000
     },
     "GHS/BTC": {
       "price_scale": 8,
-      "trading_fee": 0.0015,
-      "min_amount": 1
+      "trading_fee": 0.0000,
+      "min_amount": 1.000000000
+    },
+    "ETH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.0000,
+      "min_amount": 0.500000000
+    },
+    "ETH/USD": {
+      "price_scale": 4,
+      "trading_fee": 0.002,
+      "min_amount": 0.500000000
+    },
+    "ETH/EUR": {
+      "price_scale": 4,
+      "trading_fee": 0.001,
+      "min_amount": 0.500000000
+    },
+    "BTC/RUB": {
+      "price_scale": 2,
+      "trading_fee": 0.001,
+      "min_amount": 0.010000000
+    },
+    "BCH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.0000,
+      "min_amount": 0.100000000
+    },
+    "BCH/USD": {
+      "price_scale": 4,
+      "trading_fee": 0.002,
+      "min_amount": 0.0100000000
+    },
+    "BCH/EUR": {
+      "price_scale": 4,
+      "trading_fee": 0.001,
+      "min_amount": 0.0100000000
+    },
+    "BCH/GBP": {
+      "price_scale": 4,
+      "trading_fee": 0.002,
+      "min_amount": 0.010000000
+    },
+    "XRP/USD": {
+      "price_scale": 4,
+      "min_amount": 10.000000
+    },
+    "XRP/EUR": {
+      "price_scale": 4,
+      "min_amount": 10.000000
+    },
+    "XRP/BTC": {
+      "price_scale": 8,
+      "min_amount": 40.000000
     }
   },
   "currencies": {
-    "BTC": {
-      "scale": 1,
-      "withdrawal_fee": 0.001
-    },
-    "ETH": {
-      "scale": 2,
-      "withdrawal_fee": 0.01
-    },
     "BCH": {
-      "scale": 2,
+      "scale": 8,
       "withdrawal_fee": 0.001
     },
     "BTG": {
-      "scale": 2
+      "scale": 8,
+      "withdrawal_fee": 0.001
+    },
+    "BTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.0005
     },
     "DASH": {
-      "scale": 2
+      "scale": 8,
+      "withdrawal_fee": 0.01
     },
-    "XRP": {
-      "scale": 4
-    },
-    "XLM": {
-      "scale": 4
-    },
-    "ZEC": {
-      "scale": 2
-    },
-    "GHS": {
-      "scale": 8
-    },
-    "USD": {
-      "scale": 2,
-      "withdrawal_fee": 3.8
-    },
-    "EUR": {
-      "scale": 2,
-      "withdrawal_fee": 3.5
+    "ETH": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
     },
     "GBP": {
       "scale": 2,
-      "withdrawal_fee": 2.9
+      "withdrawal_fee": 3.80
     },
-    "RUB": {
+    "EUR": {
       "scale": 2,
-      "withdrawal_fee": 3
-    }
+      "withdrawal_fee": 3.80
+    },
+    "USD": {
+      "scale": 2
+    },
+    "XLM": {
+      "scale": 8,
+      "withdrawal_fee": 0.00001
+    },
+    "XRP": {
+      "scale": 8,
+      "withdrawal_fee": 0.02
+    },
   },
   "private_rate_limits": [
     {
