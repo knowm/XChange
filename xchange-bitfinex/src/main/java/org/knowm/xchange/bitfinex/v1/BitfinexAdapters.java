@@ -90,7 +90,7 @@ public final class BitfinexAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-	return BitfinexUtils.toPairString(pair);
+    return BitfinexUtils.toPairString(pair);
   }
 
   public static OrderBook adaptOrderBook(BitfinexDepth btceDepth, CurrencyPair currencyPair) {
