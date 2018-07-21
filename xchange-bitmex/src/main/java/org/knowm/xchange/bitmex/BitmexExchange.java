@@ -18,6 +18,8 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
 
+  protected RateLimitUpdateListener rateLimitUpdateListener;
+
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
@@ -74,5 +76,13 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     BiMap<BitmexPrompt, String> contracts =
         ((BitmexMarketDataServiceRaw) marketDataService).getActivePrompts(tickers);
     exchangeMetaData = BitmexAdapters.adaptToExchangeMetaData(exchangeMetaData, tickers, contracts);
+  }
+
+  public RateLimitUpdateListener getRateLimitUpdateListener() {
+    return rateLimitUpdateListener;
+  }
+
+  public void setRateLimitUpdateListener(RateLimitUpdateListener rateLimitUpdateListener) {
+    this.rateLimitUpdateListener = rateLimitUpdateListener;
   }
 }

@@ -20,7 +20,6 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -143,9 +142,6 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     if (params instanceof TradeHistoryParamPaging) {
       limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
     }
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-    }
     if (params instanceof TradeHistoryParamOffset) {
       offset = ((TradeHistoryParamOffset) params).getOffset();
     }
@@ -153,8 +149,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
       sort = ((TradeHistoryParamsSorted) params).getOrder();
     }
     BitstampUserTransaction[] txs =
-        getBitstampUserTransactions(
-            limit, currencyPair, offset, sort == null ? null : sort.toString());
+        getBitstampUserTransactions(limit, offset, sort == null ? null : sort.toString());
     return BitstampAdapters.adaptFundingHistory(Arrays.asList(txs));
   }
 }

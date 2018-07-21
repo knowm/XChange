@@ -140,6 +140,12 @@
 			<artifactId>xchange-coinbase</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Coinbene support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coinbene</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange CoinEgg support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -314,6 +320,11 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-upbit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-vircurex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -403,6 +414,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-zaif</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Coindirect exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coindirect</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

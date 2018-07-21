@@ -31,5 +31,5 @@ public interface CancelApi {
           message =
               "To derive the signature for this API call, hash the following parameters in this orderorderHashnonceSalt and sign the hash as usual to prepare your payloadSample output:{ success: 1 }",
           response = CancelResponse.class))
-  CancelResponse cancel(CancelReq cancelReq) throws Exception;
+  CancelResponse cancel(CancelReq cancelReq);
 }

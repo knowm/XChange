@@ -18,7 +18,6 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.idex.IdexExchange.Companion.IdexCurrencyMeta;
-import org.knowm.xchange.idex.IdexExchange.Companion.IdexExchangeSpecification;
 import org.knowm.xchange.idex.dto.NextNonceReq;
 import org.knowm.xchange.idex.dto.ReturnCurrenciesResponse;
 import org.knowm.xchange.idex.dto.ReturnNextNonceResponse;
@@ -28,22 +27,25 @@ import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class IdexExchange extends BaseExchange {
+
   private ReturnCurrenciesResponse allCurrenciesStatic;
+
   CurrencyPairMetaData unavailableCPMeta = new CurrencyPairMetaData(ZERO, ZERO, ZERO, 0);
-  private ReturnNextNonceApi returnNextNonceApi =
-      RestProxyFactory.createProxy(ReturnNextNonceApi.class, exchangeSpecification.getSslUri());
 
   public final CurrencyPairMetaData getUnavailableCPMeta() {
     return unavailableCPMeta;
   }
 
   public final ExchangeMetaData getExchangeMetaData() {
+
     ReturnCurrenciesResponse allCurrenciesStatic = null;
+
     try {
       allCurrenciesStatic = allCurrenciesStatic();
     } catch (IOException e) {
       e.printStackTrace();
     }
+
     LinkedHashMap<CurrencyPair, CurrencyPairMetaData> currencyPairs = new LinkedHashMap<>();
     ReturnTickerRequestedWithNull allTickers = IdexMarketDataService.Companion.allTickers;
 
@@ -64,15 +66,19 @@ public class IdexExchange extends BaseExchange {
   }
 
   private IdexAccountService idexAccountService;
+
   private IdexTradeService idexTradeService;
+
   private IdexMarketDataService idexMarketDataService;
+
   private ReturnNextNonceApi nextNonceApi;
 
   public IdexExchange() {}
 
   public ReturnNextNonceApi getNextNonceApi() {
     if (null == nextNonceApi) {
-      nextNonceApi = returnNextNonceApi;
+      nextNonceApi =
+          RestProxyFactory.createProxy(ReturnNextNonceApi.class, exchangeSpecification.getSslUri());
     }
     return nextNonceApi;
   }
@@ -119,8 +125,6 @@ public class IdexExchange extends BaseExchange {
 
   public enum Companion {
     ;
-    public static final String IDEX_API =
-        System.getProperty("xchange.idex.api", "https://api.idex.market/");
 
     public static BigDecimal safeParse(String s) {
       BigDecimal ret = null;
@@ -132,35 +136,16 @@ public class IdexExchange extends BaseExchange {
     }
 
     public static String getMarket(CurrencyPair currencyPair) {
-      return currencyPair.base.getSymbol() + "_" + currencyPair.counter.getSymbol();
+      return currencyPair.counter.getSymbol() + "_" + currencyPair.base.getSymbol();
     }
 
     public static CurrencyPair getCurrencyPair(String market) {
       CurrencyPair currencyPair;
       Iterator<String> syms = asList(market.split("_")).iterator();
-      currencyPair = new CurrencyPair(syms.next(), syms.next());
+      String currencyCounter = syms.next();
+      String currencyBase = syms.next();
+      currencyPair = new CurrencyPair(currencyBase, currencyCounter);
       return currencyPair;
-    }
-
-    public static class IdexExchangeSpecification extends ExchangeSpecification {
-      public IdexExchangeSpecification() {
-        super(IdexExchange.class);
-      }
-
-      @Override
-      public String getExchangeClassName() {
-        return getClass().getCanonicalName();
-      }
-
-      @Override
-      public String getExchangeName() {
-        return "idex";
-      }
-
-      @Override
-      public String getSslUri() {
-        return IDEX_API;
-      }
     }
 
     public static final class IdexCurrencyMeta extends CurrencyMetaData {

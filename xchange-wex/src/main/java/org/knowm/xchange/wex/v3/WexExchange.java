@@ -32,11 +32,11 @@ public class WexExchange extends BaseExchange implements Exchange {
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://wex.nz");
-    exchangeSpecification.setHost("btc-e.nz");
+    exchangeSpecification.setHost("wex.nz");
     exchangeSpecification.setPort(80);
-    exchangeSpecification.setExchangeName("BTC-e");
+    exchangeSpecification.setExchangeName("Wex");
     exchangeSpecification.setExchangeDescription(
-        "BTC-e is a Bitcoin exchange registered in Russia.");
+    		"Wex is a Bitcoin exchange registered in NZ.");
 
     return exchangeSpecification;
   }

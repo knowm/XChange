@@ -78,6 +78,7 @@ public class BitflyerAdapters {
     BigDecimal bid = ticker.getBestBid();
     BigDecimal ask = ticker.getBestAsk();
     BigDecimal volume = ticker.getVolume();
+    BigDecimal last = ticker.getLtp();
     Date timestamp =
         ticker.getTimestamp() != null ? BitflyerUtils.parseDate(ticker.getTimestamp()) : null;
 
@@ -85,6 +86,7 @@ public class BitflyerAdapters {
         .currencyPair(currencyPair)
         .bid(bid)
         .ask(ask)
+        .last(ask)
         .volume(volume)
         .timestamp(timestamp)
         .build();

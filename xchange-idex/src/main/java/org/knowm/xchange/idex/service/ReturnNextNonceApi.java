@@ -30,5 +30,5 @@ public interface ReturnNextNonceApi {
           code = 200,
           message = "Sample output: { nonce: 2650 }",
           response = ReturnNextNonceResponse.class))
-  ReturnNextNonceResponse nextNonce(NextNonceReq nextNonceReq) throws Exception;
+  ReturnNextNonceResponse nextNonce(NextNonceReq nextNonceReq);
 }

@@ -26,5 +26,5 @@ public interface ReturnOrderBookApi {
       notes = "",
       tags = "market")
   @ApiResponses(@ApiResponse(code = 200, message = "", response = ReturnOrderBookResponse.class))
-  ReturnOrderBookResponse orderBook(OrderBookReq orderBookReq) throws Exception;
+  ReturnOrderBookResponse orderBook(OrderBookReq orderBookReq);
 }
