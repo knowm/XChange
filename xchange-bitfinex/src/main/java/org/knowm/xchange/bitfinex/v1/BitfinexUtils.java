@@ -15,8 +15,8 @@ public final class BitfinexUtils {
       currency = "dsh";
     }
     if (currency.equals("qtum")) {
-        currency = "qtm";
-      }
+      currency = "qtm";
+    }
     return currency;
   }
 
