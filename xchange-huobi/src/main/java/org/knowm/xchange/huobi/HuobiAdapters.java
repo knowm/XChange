@@ -85,9 +85,9 @@ public class HuobiAdapters {
 
   private static CurrencyPairMetaData adaptPair(
       HuobiAssetPair pair, CurrencyPairMetaData metadata) {
-    BigDecimal minQty = metadata == null ? null : metadata.getMinimumAmount();
-    FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();
-
+    BigDecimal minQty = metadata == null ? 
+    		null : metadata.getMinimumAmount().setScale(Integer.parseInt(pair.getAmountPrecision()));
+	FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();      
     return new CurrencyPairMetaData(
         fee,
         minQty, // Min amount
