@@ -6,6 +6,8 @@ import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressRequest;
@@ -16,8 +18,6 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import org.knowm.xchange.exceptions.*;
 
