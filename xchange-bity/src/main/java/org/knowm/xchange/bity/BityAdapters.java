@@ -1,13 +1,17 @@
 package org.knowm.xchange.bity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
+import org.knowm.xchange.bity.dto.account.BityInputTransaction;
 import org.knowm.xchange.bity.dto.account.BityOrder;
+import org.knowm.xchange.bity.dto.account.BityOutputTransaction;
 import org.knowm.xchange.bity.dto.marketdata.BityPair;
 import org.knowm.xchange.bity.dto.marketdata.BityTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -24,14 +28,39 @@ public final class BityAdapters {
     final List<UserTrade> trades = new ArrayList<>();
 
     for(BityOrder order : orders) {
-      trades.add(adaptTrade(order));
+
+      if (order.getStatus().equals("EXEC")) {
+        trades.add(adaptTrade(order));
+      }
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
   public static UserTrade adaptTrade(BityOrder order) {
-    return null;
+    BityInputTransaction inputT =  order.getBityInputTransactions().get(0);
+    BityOutputTransaction outputT =  order.getBityOutputTransactions().get(0);
+    BigDecimal fee = inputT.getPaymentProcessorFee();
+
+    BigDecimal price = inputT.getAmount().divide(outputT.getAmount(), 6, RoundingMode.HALF_UP);
+    CurrencyPair currencyPair = new CurrencyPair(outputT.getCurrency(), inputT.getCurrency());
+
+    Order.OrderType orderType = order.getCategory().contains("BUY") ? Order.OrderType.BID : Order.OrderType.ASK;
+    BigDecimal amount = outputT.getAmount();
+
+    Date date = order.getTimestampCreated();
+    String orderId = order.getResourceUri();
+
+    return new UserTrade(
+        orderType,
+        amount,
+        currencyPair,
+        price,
+        date,
+        orderId,
+        orderId,
+        fee,
+        currencyPair.counter);
   }
 
   public static ExchangeMetaData adaptMetaData(List<BityPair> rawSymbols, ExchangeMetaData metaData) {

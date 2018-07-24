@@ -2,6 +2,7 @@ package org.knowm.xchange.bity.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Date;
 import java.util.List;
 
 public class BityOrder {
@@ -25,7 +26,7 @@ public class BityOrder {
   private String status;
 
   @JsonProperty("timestamp_created")
-  private String timestampCreated;
+  private Date timestampCreated;
 
   @JsonProperty("category")
   public String getCategory() {
@@ -88,12 +89,12 @@ public class BityOrder {
   }
 
   @JsonProperty("timestamp_created")
-  public String getTimestampCreated() {
+  public Date getTimestampCreated() {
     return timestampCreated;
   }
 
   @JsonProperty("timestamp_created")
-  public void setTimestampCreated(String timestampCreated) {
+  public void setTimestampCreated(Date timestampCreated) {
     this.timestampCreated = timestampCreated;
   }
 }
