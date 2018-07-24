@@ -2,8 +2,8 @@ package org.knowm.xchange.bity.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bity.BityAdapters;
-import org.knowm.xchange.bity.dto.account.BityOrder;
 import org.knowm.xchange.bity.dto.BityResponse;
+import org.knowm.xchange.bity.dto.account.BityOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
@@ -19,7 +19,8 @@ public final class BityTradeService extends BityTradeServiceRaw implements Trade
     super(exchange);
   }
 
-  public static class BityHistoryParams implements TradeHistoryParams, TradeHistoryParamLimit, TradeHistoryParamOffset {
+  public static class BityHistoryParams
+      implements TradeHistoryParams, TradeHistoryParamLimit, TradeHistoryParamOffset {
 
     private Integer limit;
 
@@ -61,7 +62,7 @@ public final class BityTradeService extends BityTradeServiceRaw implements Trade
     }
 
     // Integer offset, final Integer limit, Integer orderBy
-    final BityResponse<BityOrder> orders = super.getBityOrders(offset, limit, "-timestamp_created");
+    final BityResponse<BityOrder> orders = super.getBityOrders(offset, limit, "timestamp_created");
     return BityAdapters.adaptTrades(orders.getObjects());
   }
 

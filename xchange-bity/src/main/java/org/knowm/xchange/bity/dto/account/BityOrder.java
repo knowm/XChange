@@ -1,7 +1,6 @@
 package org.knowm.xchange.bity.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 import java.util.List;
 
