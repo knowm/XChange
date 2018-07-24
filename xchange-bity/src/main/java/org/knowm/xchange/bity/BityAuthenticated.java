@@ -3,8 +3,8 @@ package org.knowm.xchange.bity;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bity.dto.BityException;
-import org.knowm.xchange.bity.dto.account.BityOrder;
 import org.knowm.xchange.bity.dto.BityResponse;
+import org.knowm.xchange.bity.dto.account.BityOrder;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
