@@ -1,5 +1,7 @@
 package org.knowm.xchange.bity;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,9 +14,6 @@ import org.knowm.xchange.bity.service.BityMarketDataServiceRaw;
 import org.knowm.xchange.bity.service.BityTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.List;
 
 public class BityExchange extends BaseExchange implements Exchange {
 
@@ -29,11 +28,13 @@ public class BityExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    final ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    final ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://bity.com");
     exchangeSpecification.setHost("bity.com");
     exchangeSpecification.setExchangeName("Bity");
-    exchangeSpecification.setExchangeDescription("Bity is a Swiss gateway to convert money into cryptocurrencies and digital assets.");
+    exchangeSpecification.setExchangeDescription(
+        "Bity is a Swiss gateway to convert money into cryptocurrencies and digital assets.");
     return exchangeSpecification;
   }
 
@@ -47,7 +48,7 @@ public class BityExchange extends BaseExchange implements Exchange {
       BityMarketDataServiceRaw dataService = (BityMarketDataServiceRaw) this.marketDataService;
       List<BityPair> bityPairs = dataService.getBityPairs();
       exchangeMetaData = BityAdapters.adaptMetaData(bityPairs, exchangeMetaData);
-      token = ((BityAccountService)accountService).createToken();
+      token = ((BityAccountService) accountService).createToken();
 
     } catch (BityException e) {
       throw BityErrorAdapter.adapt(e);

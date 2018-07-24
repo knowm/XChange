@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>xchange-bity</artifactId>
+    <version>4.3.13</version>
 
     <name>XChange Bity</name>
     <description>XChange implementation for Bity</description>
@@ -27,7 +28,7 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>${project.version}</version>
+            <version>4.3.9-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
