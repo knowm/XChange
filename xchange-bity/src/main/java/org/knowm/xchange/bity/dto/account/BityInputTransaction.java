@@ -2,10 +2,12 @@ package org.knowm.xchange.bity.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
+
 public class BityInputTransaction {
 
     @JsonProperty("amount")
-    private String amount;
+    private BigDecimal amount;
 
     @JsonProperty("currency")
     private String currency;
@@ -17,7 +19,7 @@ public class BityInputTransaction {
     private String paymentMethod;
 
     @JsonProperty("payment_processor_fee")
-    private String paymentProcessorFee;
+    private BigDecimal paymentProcessorFee;
 
     @JsonProperty("reference")
     private String reference;
@@ -29,12 +31,12 @@ public class BityInputTransaction {
     private String status;
 
     @JsonProperty("amount")
-    public String getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
     @JsonProperty("amount")
-    public void setAmount(String amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -69,12 +71,12 @@ public class BityInputTransaction {
     }
 
     @JsonProperty("payment_processor_fee")
-    public String getPaymentProcessorFee() {
+    public BigDecimal getPaymentProcessorFee() {
         return paymentProcessorFee;
     }
 
     @JsonProperty("payment_processor_fee")
-    public void setPaymentProcessorFee(String paymentProcessorFee) {
+    public void setPaymentProcessorFee(BigDecimal paymentProcessorFee) {
         this.paymentProcessorFee = paymentProcessorFee;
     }
 

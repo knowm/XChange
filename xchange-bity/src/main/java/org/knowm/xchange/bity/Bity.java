@@ -6,9 +6,10 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bity.dto.BityException;
 import org.knowm.xchange.bity.dto.BityResponse;
 import org.knowm.xchange.bity.dto.account.BityToken;
-import org.knowm.xchange.bity.dto.marketdata.BityPair;
+import org.knowm.xchange.bity.dto.marketdata.BityPairs;
 import org.knowm.xchange.bity.dto.marketdata.BityTicker;
 
+@Path("")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bity {
 
@@ -18,10 +19,10 @@ public interface Bity {
 
   @GET
   @Path("/api/v2/pairs/")
-  BityResponse<BityPair> getPairs()  throws BityException;
+  BityPairs getPairs()  throws BityException;
 
-  @Path("/o/token")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @POST
+  @Path("/o/token/")
   BityToken createToken(
       @FormParam("client_id") String clientId,
       @FormParam("grant_type") String grantType,
