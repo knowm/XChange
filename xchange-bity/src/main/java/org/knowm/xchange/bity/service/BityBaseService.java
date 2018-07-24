@@ -1,8 +1,8 @@
 package org.knowm.xchange.bity.service;
 
-import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bity.BityAuthenticated;
+import org.knowm.xchange.bity.dto.BityException;
 import org.knowm.xchange.bity.dto.account.BityToken;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
@@ -28,11 +28,11 @@ public class BityBaseService extends BaseExchangeService implements BaseService 
             getClientConfig());
   }
 
-  public BityToken createToken() {
+  public BityToken createToken() throws BityException {
     String clientId = (String) exchange.getExchangeSpecification().getParameter("clientId");
     return bity.createToken(
         clientId,
-        "grant_password",
+        "password",
         exchange.getExchangeSpecification().getApiKey(),
         exchange.getExchangeSpecification().getSecretKey());
   }
