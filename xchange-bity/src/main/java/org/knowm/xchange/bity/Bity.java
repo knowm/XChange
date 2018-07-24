@@ -2,7 +2,6 @@ package org.knowm.xchange.bity;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.bity.dto.BityException;
 import org.knowm.xchange.bity.dto.BityResponse;
 import org.knowm.xchange.bity.dto.account.BityToken;
@@ -19,7 +18,7 @@ public interface Bity {
 
   @GET
   @Path("/api/v2/pairs/")
-  BityPairs getPairs()  throws BityException;
+  BityPairs getPairs() throws BityException;
 
   @POST
   @Path("/o/token/")
@@ -27,5 +26,6 @@ public interface Bity {
       @FormParam("client_id") String clientId,
       @FormParam("grant_type") String grantType,
       @FormParam("username") String username,
-      @FormParam("password") String password) throws BityException;
+      @FormParam("password") String password)
+      throws BityException;
 }
