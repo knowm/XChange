@@ -17,6 +17,6 @@ public class BityMarketDataServiceRaw extends BityBaseService {
   }
 
   public List<BityPair> getBityPairs() {
-    return bity.getPairs().getObjects();
+    return bity.getPairs().getPairs();
   }
 }
