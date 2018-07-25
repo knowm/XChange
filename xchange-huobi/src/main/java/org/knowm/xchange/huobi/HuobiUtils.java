@@ -12,8 +12,11 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
 import si.mazi.rescu.SynchronizedValueFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HuobiUtils {
+  private static Logger logger = LoggerFactory.getLogger(HuobiUtils.class);
 
   private static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
   private static Map<CurrencyPair, String> assetPairMapReverse =
@@ -59,7 +62,8 @@ public class HuobiUtils {
   public static Currency translateHuobiCurrencyCode(String currencyIn) {
     Currency currencyOut = assetMap.get(currencyIn);
     if (currencyOut == null) {
-      throw new ExchangeException("Huobi does not support the currency code " + currencyIn);
+      logger.error("Huobi does not support the currency code " + currencyIn);
+      return null;
     }
     return currencyOut.getCommonlyUsedCurrency();
   }
