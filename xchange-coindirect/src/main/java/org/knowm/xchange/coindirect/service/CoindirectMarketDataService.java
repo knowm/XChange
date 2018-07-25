@@ -14,7 +14,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
@@ -32,23 +31,7 @@ public class CoindirectMarketDataService extends CoindirectMarketDataServiceRaw
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     CoindirectOrderbook coindirectOrderbook = getCoindirectOrderbook(currencyPair);
-
-    List<LimitOrder> bids =
-        coindirectOrderbook
-            .bids
-            .stream()
-            .map(
-                e -> new LimitOrder(Order.OrderType.BID, e.size, currencyPair, null, null, e.price))
-            .collect(Collectors.toList());
-    List<LimitOrder> asks =
-        coindirectOrderbook
-            .asks
-            .stream()
-            .map(
-                e -> new LimitOrder(Order.OrderType.ASK, e.size, currencyPair, null, null, e.price))
-            .collect(Collectors.toList());
-
-    return new OrderBook(null, asks, bids);
+    return CoindirectAdapters.adaptOrderBook(currencyPair, coindirectOrderbook);
   }
 
   @Override
