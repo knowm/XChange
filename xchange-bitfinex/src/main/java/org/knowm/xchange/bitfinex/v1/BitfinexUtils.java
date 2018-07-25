@@ -67,6 +67,8 @@ public final class BitfinexUtils {
         return "bgold";
       case "BCH":
         return "bcash";
+      case "USDT":
+        return "tetheruso";
       default:
         throw new BitfinexException("Cannot determine withdrawal type.");
     }
