@@ -102,7 +102,7 @@ public final class BityAdapters {
 
   public static Ticker adaptTicker(BityTicker bityTicker) {
 
-    CurrencyPair currencyPair = new CurrencyPair(bityTicker.getTarget(), bityTicker.getSource());
+    CurrencyPair currencyPair = new CurrencyPair(bityTicker.getSource(), bityTicker.getTarget());
 
     BigDecimal last = bityTicker.getRate();
     BigDecimal bid = bityTicker.getRateWeBuy();
