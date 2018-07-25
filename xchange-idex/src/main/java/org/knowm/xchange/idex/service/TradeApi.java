@@ -17,5 +17,5 @@ public interface TradeApi {
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  TradeResponse trade(TradeReq tradeReq) throws Exception;
+  TradeResponse trade(TradeReq tradeReq);
 }

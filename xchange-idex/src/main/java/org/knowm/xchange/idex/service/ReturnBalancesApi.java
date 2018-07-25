@@ -25,5 +25,5 @@ public interface ReturnBalancesApi {
           "Returns your available balances (total deposited minus amount in open orders) indexed by token symbol.",
       tags = "account")
   @ApiResponses(@ApiResponse(code = 200, message = "", response = ReturnBalancesResponse.class))
-  ReturnBalancesResponse balances(BalancesReq balancesReq) throws Exception;
+  ReturnBalancesResponse balances(BalancesReq balancesReq);
 }

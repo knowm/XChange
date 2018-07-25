@@ -54,6 +54,7 @@ public interface GateioAuthenticated extends Gateio {
   @Path("private/cancelorder")
   GateioBaseResponse cancelOrder(
       @FormParam("orderNumber") String orderNumber,
+      @FormParam("currencyPair") String currencyPair,
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("SIGN") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)

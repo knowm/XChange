@@ -164,6 +164,12 @@
 			<artifactId>xchange-cexio</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+        <!-- Xchange Cobinhood exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cobinhood</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<!-- Xchange Coingi exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -304,6 +310,11 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-coinone</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-upbit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

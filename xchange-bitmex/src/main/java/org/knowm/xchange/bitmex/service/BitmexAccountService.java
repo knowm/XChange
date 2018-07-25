@@ -2,7 +2,7 @@ package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.currency.Currency;
@@ -18,7 +18,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
    *
    * @param exchange
    */
-  public BitmexAccountService(Exchange exchange) {
+  public BitmexAccountService(BitmexExchange exchange) {
 
     super(exchange);
   }
