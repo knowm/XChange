@@ -1,10 +1,14 @@
 package org.knowm.xchange.coindirect;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.knowm.xchange.coindirect.dto.marketdata.CoindirectOrderbook;
 import org.knowm.xchange.coindirect.dto.trade.CoindirectOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 
@@ -65,6 +69,26 @@ public class CoindirectAdapters {
       default:
         return Order.OrderStatus.UNKNOWN;
     }
+  }
+
+  public static OrderBook adaptOrderBook(
+      CurrencyPair currencyPair, CoindirectOrderbook coindirectOrderbook) {
+    List<LimitOrder> bids =
+        coindirectOrderbook
+            .bids
+            .stream()
+            .map(
+                e -> new LimitOrder(Order.OrderType.BID, e.size, currencyPair, null, null, e.price))
+            .collect(Collectors.toList());
+    List<LimitOrder> asks =
+        coindirectOrderbook
+            .asks
+            .stream()
+            .map(
+                e -> new LimitOrder(Order.OrderType.ASK, e.size, currencyPair, null, null, e.price))
+            .collect(Collectors.toList());
+
+    return new OrderBook(null, asks, bids);
   }
 
   public static Order adaptOrder(CoindirectOrder order) {
