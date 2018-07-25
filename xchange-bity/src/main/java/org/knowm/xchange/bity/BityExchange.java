@@ -50,6 +50,9 @@ public class BityExchange extends BaseExchange implements Exchange {
       exchangeMetaData = BityAdapters.adaptMetaData(bityPairs, exchangeMetaData);
       token = ((BityAccountService) accountService).createToken();
 
+      // Force tickers to be cached
+      marketDataService.getTickers(null);
+
     } catch (BityException e) {
       throw BityErrorAdapter.adapt(e);
     }
