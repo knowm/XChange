@@ -33,12 +33,7 @@ public class IndependentReserveAdapters {
 
   public static OrderBook adaptOrderBook(IndependentReserveOrderBook independentReserveOrderBook) {
 
-    // reverse mapping Xbt (Independent Reserve) to BTC (XChange)
     String base = independentReserveOrderBook.getPrimaryCurrencyCode();
-
-    if (base.equals("Xbt")) {
-      base = "BTC";
-    }
 
     CurrencyPair currencyPair =
         new CurrencyPair(base, independentReserveOrderBook.getSecondaryCurrencyCode());
@@ -129,9 +124,6 @@ public class IndependentReserveAdapters {
 
       // getting valid order currency pair
       String primaryAlias = order.getPrimaryCurrencyCode();
-      if (primaryAlias.equals("Xbt")) {
-        primaryAlias = "BTC";
-      }
 
       Currency primary = Currency.getInstanceNoCreate(primaryAlias);
       Currency secondary = Currency.getInstanceNoCreate(order.getSecondaryCurrencyCode());
@@ -166,9 +158,6 @@ public class IndependentReserveAdapters {
       }
 
       String primaryAlias = trade.getPrimaryCurrencyCode();
-      if (primaryAlias.equals("Xbt")) {
-        primaryAlias = "BTC";
-      }
 
       Currency primary = Currency.getInstanceNoCreate(primaryAlias);
       Currency secondary = Currency.getInstanceNoCreate(trade.getSecondaryCurrencyCode());
