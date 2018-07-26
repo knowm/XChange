@@ -145,12 +145,13 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     String symbol = null;
     if (params instanceof TradeHistoryParamCurrency
         && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
-      symbol = OkCoinAdapters.adaptSymbol(((TradeHistoryParamCurrency) params).getCurrency());
+
+      symbol = OkCoinAdapters.adaptCurrencyToAccountRecordPair(((TradeHistoryParamCurrency) params).getCurrency());
     }
     if (symbol == null) {
       throw new ExchangeException("Symbol must be supplied");
     }
-
+    
     Integer pageLength = 50;
     Integer pageNumber = null;
     if (params instanceof TradeHistoryParamPaging) {
