@@ -9,6 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressRequest;
@@ -268,5 +270,14 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexDepositWithdrawalHistoryRequest request)
+      throws IOException, BitfinexException;
+
+  @POST
+  @Path("history")
+  BitfinexBalanceHistoryResponse[] balanceHistory(
+      @HeaderParam("X-BFX-APIKEY") String apiKey,
+      @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
+      BitfinexBalanceHistoryRequest balanceHistoryRequest)
       throws IOException, BitfinexException;
 }
