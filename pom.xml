@@ -110,6 +110,7 @@
 		<module>xchange-bitso</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>
+		<module>xchange-bity</module>
 		<module>xchange-bitz</module>
 		<module>xchange-bleutrade</module>
 		<module>xchange-blockchain</module>
@@ -123,6 +124,7 @@
 		<module>xchange-cexio</module>
 		<module>xchange-cobinhood</module>
 		<module>xchange-coinbase</module>
+		<module>xchange-coindirect</module>
 		<module>xchange-coinbene</module>
 		<module>xchange-coinegg</module>
 		<module>xchange-coinone</module>
