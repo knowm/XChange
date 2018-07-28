@@ -273,7 +273,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     public LimitOrder build() {
 
       LimitOrder order;
-      if (remainingAmount != null) {
+      if (remainingAmount != null && originalAmount != null) {
         order =
             new LimitOrder(
                 orderType,
