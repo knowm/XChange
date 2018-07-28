@@ -186,6 +186,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
           (Builder)
               new Builder(order.getType(), order.getCurrencyPair())
                   .originalAmount(order.getOriginalAmount())
+                  .cumulativeAmount(order.getCumulativeAmount())
                   .timestamp(order.getTimestamp())
                   .id(order.getId())
                   .flags(order.getOrderFlags())
