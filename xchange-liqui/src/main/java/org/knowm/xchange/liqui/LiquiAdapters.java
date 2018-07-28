@@ -184,7 +184,8 @@ public class LiquiAdapters {
     final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
 
     return new LimitOrder.Builder(type, orderInfo.getPair())
-        .originalAmount(originalAmount.orElse(orderInfo.getAmount()))
+        .originalAmount(originalAmount.orElse(null))
+        .remainingAmount(orderInfo.getAmount())
         .timestamp(timestamp)
         .limitPrice(orderInfo.getRate())
         .cumulativeAmount(cumulativeAmount.orElse(null))
