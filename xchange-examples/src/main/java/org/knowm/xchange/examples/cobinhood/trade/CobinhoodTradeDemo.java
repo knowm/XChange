@@ -1,5 +1,6 @@
 package org.knowm.xchange.examples.cobinhood.trade;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cobinhood.CobinhoodExchange;
 import org.knowm.xchange.cobinhood.dto.trading.CobinhoodOpenOrdersParams;
@@ -10,8 +11,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.cobinhood.CobinhoodDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.StreamUtils;
-
-import java.io.IOException;
 
 public class CobinhoodTradeDemo {
 

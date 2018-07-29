@@ -70,7 +70,7 @@ public final class BitfinexAdapters {
   }
 
   public static Trades adaptPublicTrades(BitfinexPublicTrade[] trades, CurrencyPair currencyPair) {
-      
+
     List<Trade> tradesList = new ArrayList<>(trades.length);
     long lastTradeId = 0;
     for (BitfinexPublicTrade trade : trades) {
