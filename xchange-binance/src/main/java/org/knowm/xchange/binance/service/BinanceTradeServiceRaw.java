@@ -36,7 +36,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         super.apiKey,
         super.signatureCreator);
   }
-  
+
   public BinanceNewOrder newOrder(
       CurrencyPair pair,
       OrderSide side,

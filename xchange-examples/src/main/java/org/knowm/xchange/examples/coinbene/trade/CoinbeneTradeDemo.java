@@ -1,5 +1,6 @@
 package org.knowm.xchange.examples.coinbene.trade;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbene.CoinbeneExchange;
 import org.knowm.xchange.coinbene.service.CoinbeneTradeService;
@@ -10,8 +11,6 @@ import org.knowm.xchange.examples.coinbene.CoinbeneDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.utils.StreamUtils;
-
-import java.io.IOException;
 
 public class CoinbeneTradeDemo {
 

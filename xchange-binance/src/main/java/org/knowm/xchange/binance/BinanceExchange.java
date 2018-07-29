@@ -2,7 +2,6 @@ package org.knowm.xchange.binance;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -63,7 +62,7 @@ public class BinanceExchange extends BaseExchange {
     AuthUtils.setApiAndSecretKey(spec, "binance");
     return spec;
   }
-  
+
   public BinanceExchangeInfo getExchangeInfo() {
     return exchangeInfo;
   }
@@ -75,7 +74,8 @@ public class BinanceExchange extends BaseExchange {
       Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
       Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
-      BinanceMarketDataService marketDataService = (BinanceMarketDataService) this.marketDataService;
+      BinanceMarketDataService marketDataService =
+          (BinanceMarketDataService) this.marketDataService;
       exchangeInfo = marketDataService.getExchangeInfo();
       Symbol[] symbols = exchangeInfo.getSymbols();
 
@@ -83,40 +83,54 @@ public class BinanceExchange extends BaseExchange {
         CurrencyPair pair = price.getCurrencyPair();
 
         for (Symbol symbol : symbols) {
-          if (symbol.getSymbol().equals(pair.base.getCurrencyCode() + pair.counter.getCurrencyCode())) {
+          if (symbol
+              .getSymbol()
+              .equals(pair.base.getCurrencyCode() + pair.counter.getCurrencyCode())) {
 
             int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
             int counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
             int pairPrecision = 8;
             int amountPrecision = 8;
-            
+
             BigDecimal minQty = null;
             BigDecimal maxQty = null;
 
-            Filter[] filters = symbol.getFilters(); 
+            Filter[] filters = symbol.getFilters();
 
             for (Filter filter : filters) {
-        		  if (filter.getFilterType().equals("PRICE_FILTER")) {
-        			  
-        			  pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getMinPrice()));
-        			  
-        		  } else if (filter.getFilterType().equals("LOT_SIZE")) {
-        			  amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
-        			  minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
-        			  maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
+              if (filter.getFilterType().equals("PRICE_FILTER")) {
+
+                pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getMinPrice()));
+
+              } else if (filter.getFilterType().equals("LOT_SIZE")) {
+                amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
+                minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
+                maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
               }
             }
-            
-            currencyPairs.put(price.getCurrencyPair(), new CurrencyPairMetaData(
-					  new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
-					  minQty, // Min amount
-					  maxQty, // Max amount
-					  pairPrecision // precision
-				  ));            
-            currencies.put(pair.base, new CurrencyMetaData(basePrecision, currencies.containsKey(pair.base) ? 
-            		currencies.get(pair.base).getWithdrawalFee() : null));
-            currencies.put(pair.counter, new CurrencyMetaData(counterPrecision, currencies.containsKey(pair.counter) ? 
-            		currencies.get(pair.counter).getWithdrawalFee() : null));
+
+            currencyPairs.put(
+                price.getCurrencyPair(),
+                new CurrencyPairMetaData(
+                    new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
+                    minQty, // Min amount
+                    maxQty, // Max amount
+                    pairPrecision // precision
+                    ));
+            currencies.put(
+                pair.base,
+                new CurrencyMetaData(
+                    basePrecision,
+                    currencies.containsKey(pair.base)
+                        ? currencies.get(pair.base).getWithdrawalFee()
+                        : null));
+            currencies.put(
+                pair.counter,
+                new CurrencyMetaData(
+                    counterPrecision,
+                    currencies.containsKey(pair.counter)
+                        ? currencies.get(pair.counter).getWithdrawalFee()
+                        : null));
           }
         }
       }
@@ -124,9 +138,9 @@ public class BinanceExchange extends BaseExchange {
       logger.warn("An exception occurred while loading the metadata", e);
     }
   }
-  
+
   private int numberOfDecimals(String value) {
-	  return new BigDecimal(value).stripTrailingZeros().scale();
+    return new BigDecimal(value).stripTrailingZeros().scale();
   }
 
   public void clearDeltaServerTime() {

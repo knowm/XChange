@@ -40,7 +40,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
       Object statusRaw = map.get("orderStatus");
       if (statusRaw != null
           && (statusRaw.toString().equals("OPEN")
-          || statusRaw.toString().equals("PARTIALLY_FILLED"))) {
+              || statusRaw.toString().equals("PARTIALLY_FILLED"))) {
         resp.add(LivecoinAdapters.adaptOpenOrder(map));
       }
     }

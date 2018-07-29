@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -142,7 +141,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   /**
    * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link
-   * TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
+   *     TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
