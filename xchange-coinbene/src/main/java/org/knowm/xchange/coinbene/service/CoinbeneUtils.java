@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.xml.bind.DatatypeConverter;
+import org.knowm.xchange.utils.DigestUtils;
 
 public class CoinbeneUtils {
 
@@ -36,7 +36,7 @@ public class CoinbeneUtils {
 
   private static String md5(String requestString) {
     try {
-      return DatatypeConverter.printHexBinary(
+      return DigestUtils.bytesToHex(
           MessageDigest.getInstance("MD5").digest(requestString.getBytes()));
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e);

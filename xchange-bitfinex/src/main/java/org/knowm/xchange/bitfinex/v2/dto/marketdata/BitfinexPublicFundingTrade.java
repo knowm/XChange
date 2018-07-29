@@ -15,11 +15,7 @@ public class BitfinexPublicFundingTrade {
   public BitfinexPublicFundingTrade() {}
 
   public BitfinexPublicFundingTrade(
-      long tradeId,
-      long timestamp,
-      BigDecimal amount,
-      BigDecimal rate,
-      int period) {
+      long tradeId, long timestamp, BigDecimal amount, BigDecimal rate, int period) {
 
     this.tradeId = tradeId;
     this.timestamp = timestamp;

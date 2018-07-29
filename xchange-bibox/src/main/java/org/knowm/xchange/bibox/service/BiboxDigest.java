@@ -2,9 +2,9 @@ package org.knowm.xchange.bibox.service;
 
 import java.io.UnsupportedEncodingException;
 import javax.ws.rs.FormParam;
-import javax.xml.bind.DatatypeConverter;
 import org.knowm.xchange.bibox.BiboxAuthenticated;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
 
 public class BiboxDigest extends BaseParamsDigest {
@@ -32,8 +32,7 @@ public class BiboxDigest extends BaseParamsDigest {
     String cmds =
         (String) restInvocation.getParamValue(FormParam.class, BiboxAuthenticated.FORM_CMDS);
     try {
-      return DatatypeConverter.printHexBinary(getMac().doFinal(cmds.getBytes("UTF-8")))
-          .toLowerCase();
+      return DigestUtils.bytesToHex(getMac().doFinal(cmds.getBytes("UTF-8"))).toLowerCase();
     } catch (IllegalStateException | UnsupportedEncodingException e1) {
       throw new RuntimeException(e1.getMessage());
     }
