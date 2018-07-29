@@ -1,5 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.bitmex.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
@@ -10,9 +12,6 @@ import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.HttpResponseAware;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-
-import java.util.List;
-import java.util.Map;
 
 public class BitmexBaseService extends BaseExchangeService<BitmexExchange> implements BaseService {
 

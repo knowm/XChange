@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -56,30 +55,32 @@ public class WexAccountServiceRaw extends WexBaseService {
     return String.valueOf(info.getReturnValue().gettId());
   }
 
-  public Map<Long, WexTransHistoryResult> transactionsHistory(TradeHistoryParams params) throws IOException {
-	Long since = null;
-	Long from = null;
-    
-	if (params instanceof TradeHistoryParamsTimeSpan) {
-        final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
-        since = timeSpanParam.getStartTime().toInstant().getEpochSecond();
-    }
-    
-    if (params instanceof TradeHistoryParamOffset) {
-    	    from = ((TradeHistoryParamOffset) params).getOffset();
+  public Map<Long, WexTransHistoryResult> transactionsHistory(TradeHistoryParams params)
+      throws IOException {
+    Long since = null;
+    Long from = null;
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+      since = timeSpanParam.getStartTime().toInstant().getEpochSecond();
     }
 
-    WexTransHistoryReturn info = btce.TransHistory(
-        apiKey, 
-        signatureCreator, 
-        exchange.getNonceFactory(), 
-        from, 
-        null, 
-        null, 
-        null, 
-        null, 
-        since, 
-        null);
+    if (params instanceof TradeHistoryParamOffset) {
+      from = ((TradeHistoryParamOffset) params).getOffset();
+    }
+
+    WexTransHistoryReturn info =
+        btce.TransHistory(
+            apiKey,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            from,
+            null,
+            null,
+            null,
+            null,
+            since,
+            null);
 
     checkResult(info);
 

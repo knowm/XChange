@@ -11,7 +11,6 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.wex.v3.WexAdapters;
@@ -63,7 +62,7 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-	  return new WexTransHistoryParams();
+    return new WexTransHistoryParams();
   }
 
   @Override

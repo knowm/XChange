@@ -310,16 +310,29 @@ public interface Bitmex {
 
     @Override
     public String toString() {
-      return "PlaceOrderCommand{" +
-              "symbol='" + symbol + '\'' +
-              ", side='" + side + '\'' +
-              ", orderQuantity=" + orderQuantity +
-              ", price=" + price +
-              ", stopPrice=" + stopPrice +
-              ", orderType='" + orderType + '\'' +
-              ", clOrdID='" + clOrdID + '\'' +
-              ", executionInstructions='" + executionInstructions + '\'' +
-              '}';
+      return "PlaceOrderCommand{"
+          + "symbol='"
+          + symbol
+          + '\''
+          + ", side='"
+          + side
+          + '\''
+          + ", orderQuantity="
+          + orderQuantity
+          + ", price="
+          + price
+          + ", stopPrice="
+          + stopPrice
+          + ", orderType='"
+          + orderType
+          + '\''
+          + ", clOrdID='"
+          + clOrdID
+          + '\''
+          + ", executionInstructions='"
+          + executionInstructions
+          + '\''
+          + '}';
     }
   }
 
@@ -370,15 +383,26 @@ public interface Bitmex {
 
     @Override
     public String toString() {
-      return "ReplaceOrderCommand{" +
-              "orderQuantity=" + orderQuantity +
-              ", price=" + price +
-              ", stopPrice=" + stopPrice +
-              ", orderType='" + orderType + '\'' +
-              ", orderId='" + orderId + '\'' +
-              ", clOrdID='" + clOrdID + '\'' +
-              ", origClOrdID='" + origClOrdID + '\'' +
-              '}';
+      return "ReplaceOrderCommand{"
+          + "orderQuantity="
+          + orderQuantity
+          + ", price="
+          + price
+          + ", stopPrice="
+          + stopPrice
+          + ", orderType='"
+          + orderType
+          + '\''
+          + ", orderId='"
+          + orderId
+          + '\''
+          + ", clOrdID='"
+          + clOrdID
+          + '\''
+          + ", origClOrdID='"
+          + origClOrdID
+          + '\''
+          + '}';
     }
   }
 }
