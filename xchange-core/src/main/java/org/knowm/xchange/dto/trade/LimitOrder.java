@@ -3,7 +3,6 @@ package org.knowm.xchange.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
@@ -17,9 +16,7 @@ import org.knowm.xchange.dto.Order;
  */
 public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
-  /**
-   * The limit price
-   */
+  /** The limit price */
   protected final BigDecimal limitPrice;
 
   /**
@@ -28,9 +25,9 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
-   * server, null if not provided
+   *     server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest
-   * acceptable price
+   *     acceptable price
    */
   public LimitOrder(
       OrderType type,
@@ -51,9 +48,9 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
-   * server, null if not provided
+   *     server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest
-   * acceptable price
+   *     acceptable price
    */
   public LimitOrder(
       OrderType type,
@@ -83,9 +80,9 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
-   * server, null if not provided
+   *     server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest
-   * acceptable price
+   *     acceptable price
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param cumulativeAmount the amount that has been filled
    * @param status the status of the order at the exchange or broker
@@ -115,9 +112,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     this.limitPrice = limitPrice;
   }
 
-  /**
-   * @return The limit price
-   */
+  /** @return The limit price */
   public BigDecimal getLimitPrice() {
 
     return limitPrice;
