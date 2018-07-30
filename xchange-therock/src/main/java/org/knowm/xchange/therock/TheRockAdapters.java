@@ -154,8 +154,8 @@ public final class TheRockAdapters {
         order.getFundId().pair,
         Long.toString(order.getId()),
         timestamp,
-        order.getPrice(),//limitPrice
-        order.getPrice(),//averagePrice
+        order.getPrice(), // limitPrice
+        order.getPrice(), // averagePrice
         cumulative,
         null,
         adaptOrderStatus(order));
