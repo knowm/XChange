@@ -39,7 +39,7 @@
 		<version.qos.logback>1.2.3</version.qos.logback>
 		<version.reflections>0.9.11</version.reflections>
 		<version.slf4j>1.7.25</version.slf4j>
-		<version.crypto>3.4.0</version.crypto>
+		<version.crypto>3.5.0</version.crypto>
 
 		<skipIntegrationTests>true</skipIntegrationTests>
 	</properties>
