@@ -35,8 +35,7 @@ public class WexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("wex.nz");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Wex");
-    exchangeSpecification.setExchangeDescription(
-    		"Wex is a Bitcoin exchange registered in NZ.");
+    exchangeSpecification.setExchangeDescription("Wex is a Bitcoin exchange registered in NZ.");
 
     return exchangeSpecification;
   }

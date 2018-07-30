@@ -1,5 +1,7 @@
 package org.knowm.xchange.cobinhood.service;
 
+import java.io.IOException;
+import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cobinhood.dto.CobinhoodAdapters;
 import org.knowm.xchange.cobinhood.dto.trading.CobinhoodOpenOrdersParams;
@@ -9,9 +11,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.io.IOException;
-import java.util.Collection;
 
 public class CobinhoodTradeService extends CobinhoodTradeServiceRaw implements TradeService {
   public CobinhoodTradeService(Exchange exchange) {
