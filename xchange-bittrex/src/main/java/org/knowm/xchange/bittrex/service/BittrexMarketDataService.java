@@ -120,4 +120,3 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw
     }
   }
 }
-

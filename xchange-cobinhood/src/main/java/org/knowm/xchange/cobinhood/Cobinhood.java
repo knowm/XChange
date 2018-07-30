@@ -1,11 +1,10 @@
 package org.knowm.xchange.cobinhood;
 
-import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
-import org.knowm.xchange.cobinhood.dto.marketdata.*;
-
+import java.io.IOException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
+import org.knowm.xchange.cobinhood.dto.marketdata.*;
 
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)

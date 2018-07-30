@@ -1,6 +1,5 @@
 package org.knowm.xchange.bitfinex.v2.service;
 
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -40,19 +39,29 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
     }
   }
 
-  public BitfinexPublicTrade[] getBitfinexPublicTrades(CurrencyPair currencyPair, int limitTrades, long startTimestamp, long endTimestamp, int sort) throws IOException {
+  public BitfinexPublicTrade[] getBitfinexPublicTrades(
+      CurrencyPair currencyPair, int limitTrades, long startTimestamp, long endTimestamp, int sort)
+      throws IOException {
     try {
-      return bitfinex.getPublicTrades("t" + currencyPair.base.toString() + currencyPair.counter.toString(), limitTrades, startTimestamp, endTimestamp, sort);
-    } catch ( HttpStatusIOException e) {
-        throw handleException(new BitfinexException(e.getHttpBody()));
-    } 
+      return bitfinex.getPublicTrades(
+          "t" + currencyPair.base.toString() + currencyPair.counter.toString(),
+          limitTrades,
+          startTimestamp,
+          endTimestamp,
+          sort);
+    } catch (HttpStatusIOException e) {
+      throw handleException(new BitfinexException(e.getHttpBody()));
+    }
   }
 
-  public BitfinexPublicFundingTrade[] getBitfinexPublicFundingTrades(Currency currency, int limitTrades, long startTimestamp, long endTimestamp, int sort) throws IOException {
+  public BitfinexPublicFundingTrade[] getBitfinexPublicFundingTrades(
+      Currency currency, int limitTrades, long startTimestamp, long endTimestamp, int sort)
+      throws IOException {
     try {
-      return bitfinex.getPublicFundingTrades("f" + currency.toString(), limitTrades, startTimestamp, endTimestamp, sort);
-    } catch ( HttpStatusIOException e) {
-        throw handleException(new BitfinexException(e.getHttpBody()));
-    } 
+      return bitfinex.getPublicFundingTrades(
+          "f" + currency.toString(), limitTrades, startTimestamp, endTimestamp, sort);
+    } catch (HttpStatusIOException e) {
+      throw handleException(new BitfinexException(e.getHttpBody()));
+    }
   }
 }
