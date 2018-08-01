@@ -99,4 +99,85 @@ public class QuadrigaCxAccountServiceRaw extends QuadrigaCxBaseService {
     }
     return response;
   }
+
+  public String withdrawBitcoinCach(BigDecimal amount, final String address) throws IOException {
+    final String response =
+        quadrigacxAuthenticated.withdrawBitcoinCach(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            amount,
+            address);
+    if (!"ok".equals(response)) {
+      throw new ExchangeException("Withdrawing funds from QuadrigaCx failed: " + response);
+    }
+    return response;
+  }
+
+  public QuadrigaCxDepositAddress getQuadrigaCxBitcoinCachDepositAddress() throws IOException {
+    final QuadrigaCxDepositAddress response =
+        quadrigacxAuthenticated.getBitcoinCachDepositAddress(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory());
+    if (response.getError() != null) {
+      throw new ExchangeException(
+          "Requesting Bitcoin deposit address failed: " + response.getError());
+    }
+    return response;
+  }
+
+  public String withdrawBitcoinGold(BigDecimal amount, final String address) throws IOException {
+    final String response =
+        quadrigacxAuthenticated.withdrawBitcoinGold(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            amount,
+            address);
+    if (!"ok".equals(response)) {
+      throw new ExchangeException("Withdrawing funds from QuadrigaCx failed: " + response);
+    }
+    return response;
+  }
+
+  public QuadrigaCxDepositAddress getQuadrigaCxBitcoinGoldDepositAddress() throws IOException {
+    final QuadrigaCxDepositAddress response =
+        quadrigacxAuthenticated.getBitcoinGoldDepositAddress(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory());
+    if (response.getError() != null) {
+      throw new ExchangeException(
+          "Requesting Bitcoin deposit address failed: " + response.getError());
+    }
+    return response;
+  }
+
+  public String withdrawLitecoin(BigDecimal amount, final String address) throws IOException {
+    final String response =
+        quadrigacxAuthenticated.withdrawLitecoin(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            amount,
+            address);
+    if (!"ok".equals(response)) {
+      throw new ExchangeException("Withdrawing funds from QuadrigaCx failed: " + response);
+    }
+    return response;
+  }
+
+  public QuadrigaCxDepositAddress getQuadrigaCxLitecoinDepositAddress() throws IOException {
+    final QuadrigaCxDepositAddress response =
+        quadrigacxAuthenticated.getLitecoinDepositAddress(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory());
+    if (response.getError() != null) {
+      throw new ExchangeException(
+          "Requesting Bitcoin deposit address failed: " + response.getError());
+    }
+    return response;
+  }
 }
