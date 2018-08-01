@@ -6,26 +6,26 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** @author timmolter */
-public class TickerFetchIntegration {
+public class TradesFetchIntegration {
 
   @Test
-  public void tickerFetchTest() throws Exception {
+  public void orderbookFetchTest() throws Exception {
 
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    Ticker ticker;
+    Trades trades;
+
     for (CurrencyPair pair : MercadoBitcoinUtils.availablePairs) {
-      ticker = marketDataService.getTicker(pair);
-      System.out.println(ticker.toString());
-      assertThat(ticker).isNotNull();
+      trades = marketDataService.getTrades(pair);
+      System.out.println(trades.toString());
+      assertThat(trades).isNotNull();
     }
   }
 }

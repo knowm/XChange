@@ -2,7 +2,6 @@ package org.knowm.xchange.huobi.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -27,18 +26,17 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-	if (params instanceof DefaultWithdrawFundsParams) {
-	  DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-	    return withdrawFunds(
-	      defaultParams.getCurrency(), 
-	      defaultParams.getAmount(), 
-	      defaultParams.getAddress());
-	  }
-	throw new IllegalStateException("Don't know how to withdraw: " + params);
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
     return String.valueOf(createWithdraw(currency.toString(), amount, null, address, null));
   }
 
@@ -66,9 +64,8 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
     if (params instanceof TradeHistoryParamCurrency
         && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
       currency = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode();
-    } 
-    else {
-      // Currency is a required parameter for Huobi funding history query 
+    } else {
+      // Currency is a required parameter for Huobi funding history query
       throw new ExchangeException("Currency must be supplied");
     }
 
@@ -76,26 +73,25 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
     if (params instanceof TradeHistoryParamsIdSpan) {
       from = ((TradeHistoryParamsIdSpan) params).getStartId();
     }
-    
+
     FundingRecord.Type type = null;
     if (params instanceof HistoryParamsFundingType
         && ((HistoryParamsFundingType) params).getType() != null) {
-    	  type = ((HistoryParamsFundingType) params).getType();
-    } 
-    else {
-      // Funding history type is a required parameter for Huobi funding history query 
-      throw new ExchangeException("Type 'deposit' or 'withdraw' must be supplied using FundingRecord.Type");
+      type = ((HistoryParamsFundingType) params).getType();
+    } else {
+      // Funding history type is a required parameter for Huobi funding history query
+      throw new ExchangeException(
+          "Type 'deposit' or 'withdraw' must be supplied using FundingRecord.Type");
     }
-    
+
     // Adapt type out (replace withdrawal -> withdraw)
     String fundingRecordType = type == FundingRecord.Type.WITHDRAWAL ? "withdraw" : "deposit";
     return HuobiAdapters.adaptFundingHistory(
         getDepositWithdrawalHistory(currency, fundingRecordType, from));
   }
-  
+
   @Override
   public String requestDepositAddress(Currency currency, String... strings) throws IOException {
     return getDepositAddress(currency.toString());
   }
-  
 }

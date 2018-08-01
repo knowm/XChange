@@ -23,11 +23,21 @@ public interface Bitfinex {
 
   @GET
   @Path("/trades/{symbol}/hist")
-  BitfinexPublicFundingTrade[] getPublicFundingTrades(@PathParam("symbol") String fundingSymbol, @QueryParam("limit") int limit, @QueryParam("start") long startTimestamp, @QueryParam("end") long endTimestamp, @QueryParam("sort") int sort )
+  BitfinexPublicFundingTrade[] getPublicFundingTrades(
+      @PathParam("symbol") String fundingSymbol,
+      @QueryParam("limit") int limit,
+      @QueryParam("start") long startTimestamp,
+      @QueryParam("end") long endTimestamp,
+      @QueryParam("sort") int sort)
       throws IOException, BitfinexException;
 
   @GET
   @Path("/trades/{symbol}/hist")
-  BitfinexPublicTrade[] getPublicTrades(@PathParam("symbol") String fundingSymbol, @QueryParam("limit") int limit, @QueryParam("start") long startTimestamp, @QueryParam("end") long endTimestamp, @QueryParam("sort") int sort )
+  BitfinexPublicTrade[] getPublicTrades(
+      @PathParam("symbol") String fundingSymbol,
+      @QueryParam("limit") int limit,
+      @QueryParam("start") long startTimestamp,
+      @QueryParam("end") long endTimestamp,
+      @QueryParam("sort") int sort)
       throws IOException, BitfinexException;
 }
