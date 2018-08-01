@@ -37,6 +37,9 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw
 
     if (currency.equals(Currency.BTC)) return withdrawBitcoin(amount, address);
     else if (currency.equals(Currency.ETH)) return withdrawEther(amount, address);
+    else if (currency.equals(Currency.BCH)) return withdrawBitcoinCach(amount, address);
+    else if (currency.equals(Currency.BTG)) return withdrawBitcoinGold(amount, address);
+    else if (currency.equals(Currency.LTC)) return withdrawLitecoin(amount, address);
     else throw new IllegalStateException("unsupported ccy " + currency);
   }
 
@@ -60,6 +63,12 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw
       return getQuadrigaCxBitcoinDepositAddress().getDepositAddress();
     else if (currency.equals(Currency.ETH))
       return getQuadrigaCxEtherDepositAddress().getDepositAddress();
+    else if (currency.equals(Currency.BCH))
+      return getQuadrigaCxBitcoinCachDepositAddress().getDepositAddress();
+    else if (currency.equals(Currency.BTG))
+      return getQuadrigaCxBitcoinGoldDepositAddress().getDepositAddress();
+    else if (currency.equals(Currency.LTC))
+      return getQuadrigaCxLitecoinDepositAddress().getDepositAddress();
     else throw new IllegalStateException("unsupported ccy " + currency);
   }
 
