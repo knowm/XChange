@@ -16,7 +16,7 @@ import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 public class PoloniexBaseService extends BaseExchangeService implements BaseService {
 
   protected final String apiKey;
-  protected final PoloniexAuthenticated poloniexAuthenticated;
+  private final PoloniexAuthenticated poloniexAuthenticated;
   protected final ParamsDigest signatureCreator;
 
   protected final Poloniex poloniex;
@@ -53,5 +53,8 @@ public class PoloniexBaseService extends BaseExchangeService implements BaseServ
     this.poloniex =
         RestProxyFactory.createProxy(
             Poloniex.class, exchange.getExchangeSpecification().getSslUri(), rescuConfig);
+  }
+  public PoloniexAuthenticated getPoloniexAuthenticated(){
+  return this poloniexAuthenticated;
   }
 }
