@@ -117,7 +117,7 @@
     "XRP": {
       "scale": 8,
       "withdrawal_fee": 0.02
-    },
+    }
   },
   "private_rate_limits": [
     {
