@@ -5,7 +5,7 @@ Public API
 
 Documentation
 -------------
-https://api.cryptonit.net
+https://www.cryptonit.net/en/api
 
 Ticker
 ------
