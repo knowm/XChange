@@ -41,7 +41,11 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
         limitDepth = (Integer) arg0;
       }
     }
-    BinanceOrderbook ob = getBinanceOrderbook(pair, limitDepth);
+    BinanceOrderbook binanceOrderbook = getBinanceOrderbook(pair, limitDepth);
+    return convertOrderBook(binanceOrderbook, pair);
+  }
+
+  public static OrderBook convertOrderBook(BinanceOrderbook ob, CurrencyPair pair) {
     List<LimitOrder> bids =
         ob.bids
             .entrySet()

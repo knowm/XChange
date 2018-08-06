@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.3.9-SNAPSHOT</version>
+		<version>4.3.10-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -138,6 +138,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-coinbase</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Coinbene support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coinbene</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange CoinEgg support -->
@@ -408,6 +414,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-zaif</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Coindirect exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coindirect</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

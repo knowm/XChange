@@ -12,15 +12,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOpenOrdersAndTradeHistoryRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoResponse;
+import org.knowm.xchange.btcmarkets.dto.trade.*;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -84,6 +76,16 @@ public interface BTCMarketsAuthenticated {
       @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
       @HeaderParam("signature") BTCMarketsDigest signer,
       BTCMarketsOpenOrdersAndTradeHistoryRequest request)
+      throws BTCMarketsException, IOException;
+
+  @POST
+  @Path("order/detail")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BTCMarketsOrders getOrderDetails(
+      @HeaderParam("apikey") String publicKey,
+      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
+      @HeaderParam("signature") BTCMarketsDigest signer,
+      BTCMarketsOrderDetailsRequest request)
       throws BTCMarketsException, IOException;
 
   @POST

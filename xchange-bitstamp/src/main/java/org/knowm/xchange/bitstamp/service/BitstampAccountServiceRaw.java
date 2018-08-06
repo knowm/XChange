@@ -352,6 +352,17 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     }
   }
 
+  public BitstampUserTransaction[] getBitstampUserTransactions(
+      Long numberOfTransactions, Long offset, String sort) throws IOException {
+
+    try {
+      return bitstampAuthenticatedV2.getUserTransactions(
+          apiKey, signatureCreator, nonceFactory, numberOfTransactions, offset, sort);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
   public BitstampTransferBalanceResponse transferSubAccountBalanceToMain(
       BigDecimal amount, String currency, String subAccount) throws IOException {
     try {

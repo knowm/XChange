@@ -1,7 +1,6 @@
 package org.knowm.xchange.paymium.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class PaymiumBalance {
@@ -128,5 +127,4 @@ public class PaymiumBalance {
         + email
         + "]";
   }
-
 }

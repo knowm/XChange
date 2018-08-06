@@ -91,7 +91,7 @@ public final class BittrexAdapters {
   }
 
   public static List<LimitOrder> adaptOrders(
-      BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
+      BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id, int depth) {
 
     if (orders == null) {
       return new ArrayList<>();
@@ -99,7 +99,8 @@ public final class BittrexAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
-    for (BittrexLevel order : orders) {
+    for (int i = 0; i < Math.min(orders.length, depth); i++) {
+      BittrexLevel order = orders[i];
       limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
     }
 
