@@ -4,8 +4,8 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.ws.rs.FormParam;
-import javax.xml.bind.DatatypeConverter;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
@@ -30,7 +30,7 @@ public final class CoinEggDigest extends BaseParamsDigest {
   }
 
   private static String hex(byte[] b) {
-    return DatatypeConverter.printHexBinary(b).toLowerCase();
+    return DigestUtils.bytesToHex(b).toLowerCase();
   }
 
   @Override
