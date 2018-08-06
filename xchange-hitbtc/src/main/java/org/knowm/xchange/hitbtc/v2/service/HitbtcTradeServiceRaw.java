@@ -111,7 +111,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   }
 
   public List<HitbtcOwnTrade> getTradeHistoryRaw(
-      String symbol, HitbtcSort sort, Long fromId, Date tillId, Integer limit, long offset)
+      String symbol, HitbtcSort sort, Long fromId, Long tillId, Integer limit, long offset)
       throws IOException {
     String sortValue = sort != null ? sort.toString().toUpperCase() : null;
     String fromValue = fromId != null ? fromId.toString() : null;
@@ -122,7 +122,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   public HitbtcOrder getHitbtcOrder(String symbol, String clientOrderId) throws IOException {
     List<HitbtcOrder> orders = hitbtc.getHitbtcOrder(symbol, clientOrderId);
 
-    if (orders == null || orders.size() == 0) {
+    if (orders == null || orders.isEmpty()) {
       return null;
     } else {
       return orders.iterator().next();
