@@ -1,5 +1,6 @@
 package org.knowm.xchange.examples.coinbene.marketdata;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrderBook;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTicker;
@@ -11,8 +12,6 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.coinbene.CoinbeneDemoUtils;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-import java.io.IOException;
-
 public class CoinbeneMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
@@ -21,8 +20,7 @@ public class CoinbeneMarketDataDemo {
 
     CoinbeneExchange.remoteInit();
     System.out.println(
-        "Market metadata: "
-            + CoinbeneExchange.getExchangeMetaData().getCurrencyPairs().toString());
+        "Market metadata: " + CoinbeneExchange.getExchangeMetaData().getCurrencyPairs().toString());
 
     MarketDataService marketDataService = CoinbeneExchange.getMarketDataService();
 
@@ -55,8 +53,7 @@ public class CoinbeneMarketDataDemo {
 
   private static void raw(CoinbeneMarketDataServiceRaw marketDataService) throws IOException {
 
-    CoinbeneTicker ticker =
-        marketDataService.getCoinbeneTicker(CurrencyPair.BTC_USDT).getTicker();
+    CoinbeneTicker ticker = marketDataService.getCoinbeneTicker(CurrencyPair.BTC_USDT).getTicker();
     System.out.println("BTC/USD Ticker: " + ticker.toString());
 
     // Get the latest order book data for BTC/USD

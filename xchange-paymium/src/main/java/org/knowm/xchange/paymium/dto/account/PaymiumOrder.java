@@ -100,7 +100,6 @@ public class PaymiumOrder {
         + "]";
   }
 
-
   public List<PaymiumAccountOperations> getAccountOperations() {
     return accountOperations;
   }

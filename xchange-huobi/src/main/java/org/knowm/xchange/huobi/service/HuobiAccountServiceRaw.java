@@ -8,11 +8,13 @@ import org.knowm.xchange.huobi.dto.account.HuobiAccount;
 import org.knowm.xchange.huobi.dto.account.HuobiBalance;
 import org.knowm.xchange.huobi.dto.account.HuobiCreateWithdrawRequest;
 import org.knowm.xchange.huobi.dto.account.HuobiDepositAddressWithTag;
+import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
 import org.knowm.xchange.huobi.dto.account.results.HuobiAccountResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiBalanceResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiCreateWithdrawResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressWithTagResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiFundingHistoryResult;
 
 public class HuobiAccountServiceRaw extends HuobiBaseService {
   private HuobiAccount[] accountCache = null;
@@ -70,6 +72,22 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
             HuobiUtils.createUTCDate(exchange.getNonceFactory()),
             signatureCreator);
     return checkResult(depositAddressWithTagResult);
+  }
+
+  public HuobiFundingRecord[] getDepositWithdrawalHistory(String currency, String type, String from)
+      throws IOException {
+    HuobiFundingHistoryResult fundingHistoryResult =
+        huobi.getFundingHistory(
+            currency.toLowerCase(),
+            type.toLowerCase(),
+            from,
+            "100",
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(fundingHistoryResult);
   }
 
   public long createWithdraw(

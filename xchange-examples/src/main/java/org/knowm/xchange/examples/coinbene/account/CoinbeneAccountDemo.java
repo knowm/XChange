@@ -1,13 +1,12 @@
 package org.knowm.xchange.examples.coinbene.account;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbene.dto.account.CoinbeneCoinBalances;
 import org.knowm.xchange.coinbene.service.CoinbeneAccountServiceRaw;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.coinbene.CoinbeneDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
-
-import java.io.IOException;
 
 public class CoinbeneAccountDemo {
 
