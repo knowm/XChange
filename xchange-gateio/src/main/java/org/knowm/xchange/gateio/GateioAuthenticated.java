@@ -43,7 +43,7 @@ public interface GateioAuthenticated extends Gateio {
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("SIGN") ParamsDigest signer,
       @FormParam("currency") String currency,
-      @FormParam("amount") String amount,
+      @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address)
       throws IOException;
 

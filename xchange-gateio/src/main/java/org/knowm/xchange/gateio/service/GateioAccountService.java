@@ -12,6 +12,9 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -37,13 +40,31 @@ public class GateioAccountService extends GateioAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    return withdraw(currency.getCurrencyCode(), amount, address);
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotAvailableFromExchangeException();
+    if (params instanceof RippleWithdrawFundsParams) {
+      RippleWithdrawFundsParams xrpParams = (RippleWithdrawFundsParams) params;
+      return withdraw(
+          xrpParams.getCurrency(),
+          xrpParams.getAmount(),
+          xrpParams.getAddress(),
+          xrpParams.getTag());
+    } else if (params instanceof MoneroWithdrawFundsParams) {
+      MoneroWithdrawFundsParams xmrParams = (MoneroWithdrawFundsParams) params;
+      return withdraw(
+          xmrParams.getCurrency(),
+          xmrParams.getAmount(),
+          xmrParams.getAddress(),
+          xmrParams.getPaymentId());
+    } else if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override
