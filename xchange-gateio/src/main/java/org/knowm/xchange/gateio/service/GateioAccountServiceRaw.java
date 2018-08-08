@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
@@ -38,20 +39,14 @@ public class GateioAccountServiceRaw extends GateioBaseService {
     return depositAddress;
   }
 
-  public GateioBaseResponse withdraw(
+  public String withdraw(
       Currency currency, BigDecimal amount, String baseAddress, String addressTag)
       throws IOException {
     String withdrawAddress = baseAddress;
     if (addressTag != null && addressTag.length() > 0) {
       withdrawAddress = withdrawAddress + "/" + addressTag;
     }
-
-    return bter.withdraw(
-        exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator,
-        currency.getCurrencyCode(),
-        amount.toPlainString(),
-        withdrawAddress);
+    return withdraw(currency.getCurrencyCode(), amount, withdrawAddress);
   }
 
   public GateioDepositsWithdrawals getDepositsWithdrawals(Date start, Date end) throws IOException {
@@ -62,5 +57,20 @@ public class GateioAccountServiceRaw extends GateioBaseService {
             start == null ? null : start.getTime() / 1000,
             end == null ? null : end.getTime() / 1000);
     return handleResponse(gateioDepositsWithdrawals);
+  }
+
+  public String withdraw(String currency, BigDecimal amount, String address) throws IOException {
+    GateioBaseResponse withdraw =
+        bter.withdraw(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            currency,
+            amount,
+            address);
+    if (!withdraw.isResult()) {
+      throw new ExchangeException(withdraw.getMessage());
+    }
+    // unfortunatelly gate.io does not return any id for the withdrawal
+    return null;
   }
 }
