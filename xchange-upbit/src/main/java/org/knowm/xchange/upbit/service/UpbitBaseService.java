@@ -29,5 +29,6 @@ public class UpbitBaseService extends BaseExchangeService implements BaseService
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.apiSecret = exchange.getExchangeSpecification().getSecretKey();
     this.url = exchange.getExchangeSpecification().getSslUri();
+    this.signatureCreator = UpbitJWTDigest.createInstance(this.apiKey, this.apiSecret);
   }
 }
