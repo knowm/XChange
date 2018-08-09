@@ -44,13 +44,13 @@ public class HitbtcAdapters {
 
   /** known counter currencies at HitBTC */
   private static final Set<String> counters =
-      new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH", "USDT"));
+      new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH", "USDT", "DAI", "TUSD", "EURS"));
 
   public static CurrencyPair adaptSymbol(String symbol) {
     String counter =
         counters
             .stream()
-            .filter(cnt -> symbol.endsWith(cnt))
+            .filter(symbol::endsWith)
             .findAny()
             .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
     String base = symbol.substring(0, symbol.length() - counter.length());
