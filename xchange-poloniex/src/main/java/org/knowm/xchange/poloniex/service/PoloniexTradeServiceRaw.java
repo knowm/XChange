@@ -1,7 +1,6 @@
 package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +18,6 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOrderFlags;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Zach Holmes */
 public class PoloniexTradeServiceRaw extends PoloniexBaseService {
@@ -111,94 +108,65 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
   }
 
   public PoloniexTradeResponse buy(LimitOrder limitOrder) throws IOException {
-    return orderEntry(limitOrder, "buy");
+    return orderEntry(limitOrder, false);
   }
 
   public PoloniexTradeResponse sell(LimitOrder limitOrder) throws IOException {
-    return orderEntry(limitOrder, "sell");
+    return orderEntry(limitOrder, true);
   }
 
-  private PoloniexTradeResponse orderEntry(LimitOrder limitOrder, String name) throws IOException {
-    Integer fillOrKill;
-    if (limitOrder.hasFlag(PoloniexOrderFlags.FILL_OR_KILL)) {
-      fillOrKill = 1;
-    } else {
-      fillOrKill = null;
-    }
-
-    Integer immediateOrCancel;
-    if (limitOrder.hasFlag(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL)) {
-      immediateOrCancel = 1;
-    } else {
-      immediateOrCancel = null;
-    }
-
-    Integer postOnly;
-    if (limitOrder.hasFlag(PoloniexOrderFlags.POST_ONLY)) {
-      postOnly = 1;
-    } else {
-      postOnly = null;
-    }
+  private PoloniexTradeResponse orderEntry(LimitOrder limitOrder, boolean sell) throws IOException {
+    final Integer fillOrKill = limitOrder.hasFlag(PoloniexOrderFlags.FILL_OR_KILL) ? 1 : null;
+    final Integer immediateOrCancel =
+        limitOrder.hasFlag(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL) ? 1 : null;
+    final Integer postOnly = limitOrder.hasFlag(PoloniexOrderFlags.POST_ONLY) ? 1 : null;
 
     Double lendingRate = null;
     // TODO need to be able to specify the rate at which you would like to borrow margin.
 
-    try {
-      if (limitOrder.hasFlag(PoloniexOrderFlags.MARGIN)) {
-        name = "margin" + name.substring(0, 1).toUpperCase() + name.substring(1);
+    if (limitOrder.hasFlag(PoloniexOrderFlags.MARGIN)) {
 
-        Method marginMethod =
-            PoloniexAuthenticated.class.getDeclaredMethod(
-                name,
-                String.class,
-                ParamsDigest.class,
-                SynchronizedValueFactory.class,
-                String.class,
-                String.class,
-                String.class,
-                Double.class);
-        PoloniexTradeResponse response =
-            (PoloniexTradeResponse)
-                marginMethod.invoke(
-                    poloniexAuthenticated,
-                    apiKey,
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    limitOrder.getOriginalAmount().toPlainString(),
-                    limitOrder.getLimitPrice().toPlainString(),
-                    PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
-                    lendingRate);
-        return response;
-      } else {
-        Method method =
-            PoloniexAuthenticated.class.getDeclaredMethod(
-                name,
-                String.class,
-                ParamsDigest.class,
-                SynchronizedValueFactory.class,
-                String.class,
-                String.class,
-                String.class,
-                Integer.class,
-                Integer.class,
-                Integer.class);
-        PoloniexTradeResponse response =
-            (PoloniexTradeResponse)
-                method.invoke(
-                    poloniexAuthenticated,
-                    apiKey,
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    limitOrder.getOriginalAmount().toPlainString(),
-                    limitOrder.getLimitPrice().toPlainString(),
-                    PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
-                    fillOrKill,
-                    immediateOrCancel,
-                    postOnly);
-        return response;
-      }
-    } catch (ReflectiveOperationException | SecurityException e) {
-      throw new IllegalStateException("Reflective code failed", e);
+      return sell
+          ? poloniexAuthenticated.marginSell(
+              apiKey,
+              signatureCreator,
+              exchange.getNonceFactory(),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString(),
+              PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
+              lendingRate)
+          : poloniexAuthenticated.marginBuy(
+              apiKey,
+              signatureCreator,
+              exchange.getNonceFactory(),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString(),
+              PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
+              lendingRate);
+
+    } else {
+
+      return sell
+          ? poloniexAuthenticated.sell(
+              apiKey,
+              signatureCreator,
+              exchange.getNonceFactory(),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString(),
+              PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
+              fillOrKill,
+              immediateOrCancel,
+              postOnly)
+          : poloniexAuthenticated.buy(
+              apiKey,
+              signatureCreator,
+              exchange.getNonceFactory(),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString(),
+              PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
+              fillOrKill,
+              immediateOrCancel,
+              postOnly);
     }
   }
 
