@@ -56,15 +56,13 @@ public class HitbtcAdapters {
                                   "ETHTUSD", "DAITUSD", "BCHTUSD", "EURSTUSD", "ZRXTUSD"));
 
   public static CurrencyPair adaptSymbol(String symbol) {
+    // In order to differentiate xxxTUSD and xxxUSD
     String tempSymbol = symbol.endsWith("USD") && !TUSD_SYMBOLS.contains(symbol) ? symbol + "T" : symbol;
-    String counter = counters.stream()
-                             .filter(tempSymbol::endsWith)
-                             .findAny()
-                             .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
-    counter = counter.substring(0, counter.length() - tempSymbol.length() + symbol.length());
-    String base = symbol.substring(0, symbol.length() - counter.length());
-
-    return new CurrencyPair(base, counter);
+    return counters.stream()
+                   .filter(tempSymbol::endsWith)
+                   .map(counter -> counter.substring(0, counter.length() - tempSymbol.length() + symbol.length()))
+                   .map(counter -> new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter))
+                   .findAny().orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
