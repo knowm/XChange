@@ -51,28 +51,18 @@ public class HitbtcAdapters {
   /**
    * Known TUSD symbols. We use this because it is hard to parse such symbols as STRATUSD: is counter currency USD or TUSD?
    */
-  private static final String[] TUSD_SYMBOLS = {
-      "USDTUSD", "XMRTUSD", "BTCTUSD", "LTCTUSD", "NEOTUSD",
-      "ETHTUSD", "DAITUSD", "BCHTUSD", "EURSTUSD", "ZRXTUSD"
-  };
+  private static final Set<String> TUSD_SYMBOLS =
+      new HashSet<>(Arrays.asList("USDTUSD", "XMRTUSD", "BTCTUSD", "LTCTUSD", "NEOTUSD",
+                                  "ETHTUSD", "DAITUSD", "BCHTUSD", "EURSTUSD", "ZRXTUSD"));
 
   public static CurrencyPair adaptSymbol(String symbol) {
-    boolean crop = false;
-    String tempSymbol = symbol;
-    if (symbol.endsWith("USD") && Arrays.stream(TUSD_SYMBOLS).noneMatch(symbol::equals)) {
-      tempSymbol += "T";
-      crop = true;
-    }
-    String counter =
-        counters
-            .stream()
-            .filter(tempSymbol::endsWith)
-            .findAny()
-            .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
-    String base = symbol.substring(0, tempSymbol.length() - counter.length());
-    if (crop) {
-      counter = counter.substring(0, counter.length() - 1);
-    }
+    String tempSymbol = symbol.endsWith("USD") && !TUSD_SYMBOLS.contains(symbol) ? symbol + "T" : symbol;
+    String counter = counters.stream()
+                             .filter(tempSymbol::endsWith)
+                             .findAny()
+                             .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
+    counter = counter.substring(0, counter.length() - tempSymbol.length() + symbol.length());
+    String base = symbol.substring(0, symbol.length() - counter.length());
 
     return new CurrencyPair(base, counter);
   }
