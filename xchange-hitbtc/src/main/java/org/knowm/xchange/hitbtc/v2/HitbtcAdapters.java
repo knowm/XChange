@@ -47,7 +47,7 @@ public class HitbtcAdapters {
    * known counter currencies at HitBTC
    */
   private static final Set<String> counters =
-      new HashSet<>(Arrays.asList("TUSD", "EURS", "USDT", "BTC", "ETH", "DAI"));
+      new HashSet<>(Arrays.asList("TUSD", "EURS", "USD", "BTC", "ETH", "DAI"));
   /**
    * Known TUSD symbols. We use this because it is hard to parse such symbols as STRATUSD: is counter currency USD or TUSD?
    */
@@ -59,6 +59,7 @@ public class HitbtcAdapters {
     // In order to differentiate xxxTUSD and xxxUSD
     String tempSymbol = symbol.endsWith("USD") && !TUSD_SYMBOLS.contains(symbol) ? symbol + "T" : symbol;
     return counters.stream()
+                   .map(counter -> "USD".equals(counter) ? "USDT" : counter)
                    .filter(tempSymbol::endsWith)
                    .map(counter -> counter.substring(0, counter.length() - tempSymbol.length() + symbol.length()))
                    .map(counter -> new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter))
