@@ -208,8 +208,8 @@ public final class GateioAdapters {
         currencyPair,
         gateioTrade.getRate(),
         timestamp,
-        gateioTrade.getId(),
-        gateioTrade.getOrderid(),
+        gateioTrade.getTradeID(),
+        gateioTrade.getOrderNumber(),
         null,
         (Currency) null);
   }
