@@ -19,7 +19,7 @@ public interface IndependentReserveAuthenticated {
 
   public static final String SynchDigitalCurrencyDepositAddressWithBlockchain =
       "SynchDigitalCurrencyDepositAddressWithBlockchain";
-  public static final String WithdrawDigitalCurrency = "WithdrawDigitalCurrency";
+  public static final String WithdrawDigitalCurrency = "WITHDRAW_DIGITAL_CURRENCY";
 
   @POST
   @Path("GetAccounts")
