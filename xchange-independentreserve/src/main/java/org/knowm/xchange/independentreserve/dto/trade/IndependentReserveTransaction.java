@@ -9,6 +9,7 @@ public class IndependentReserveTransaction {
   private final BigDecimal balance;
   private final String bitcoinTransactionId;
   private final String bitcoinTransactionOutputIndex;
+  private final String ethereumTransactionId;
   private final String comment;
   private final Date createdTimestamp;
   private final BigDecimal credit;
@@ -21,7 +22,8 @@ public class IndependentReserveTransaction {
   public IndependentReserveTransaction(
       @JsonProperty("Balance") BigDecimal balance,
       @JsonProperty("BitcoinTransactionId") String bitcoinTransactionId,
-      @JsonProperty("bitcoinTransactionOutputIndex") String bitcoinTransactionOutputIndex,
+      @JsonProperty("BitcoinTransactionOutputIndex") String bitcoinTransactionOutputIndex,
+      @JsonProperty("EthereumTransactionId") String ethereumTransactionId,
       @JsonProperty("Comment") String comment,
       @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc,
       @JsonProperty("Credit") BigDecimal credit,
@@ -35,6 +37,7 @@ public class IndependentReserveTransaction {
     this.balance = balance;
     this.bitcoinTransactionId = bitcoinTransactionId;
     this.bitcoinTransactionOutputIndex = bitcoinTransactionOutputIndex;
+    this.ethereumTransactionId = ethereumTransactionId;
     this.comment = comment;
     this.createdTimestamp =
         createdTimestampUtc == null
@@ -95,6 +98,10 @@ public class IndependentReserveTransaction {
     return type;
   }
 
+  public String getEthereumTransactionId() {
+    return ethereumTransactionId;
+  }
+
   @Override
   public String toString() {
     return "IndependentReserveTransaction [balance="
@@ -126,6 +133,14 @@ public class IndependentReserveTransaction {
     Deposit,
     Withdrawal,
     Brokerage,
-    Trade
+    Trade,
+    BitcoinNetworkFee,
+    Commission,
+    DepositFee,
+    Error,
+    GST,
+    Transfer,
+    Unclaimed,
+    WithdrawalFee
   }
 }
