@@ -37,7 +37,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.runners.MockitoJUnitRunner;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
@@ -89,12 +88,6 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
         .thenReturn(bleutrade);
 
     tradeService = new BleutradeTradeService(exchange, restProxyFactory);
-  }
-
-  @Test
-  public void constructor() {
-    assertThat((String) Whitebox.getInternalState(tradeService, "apiKey"))
-        .isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test

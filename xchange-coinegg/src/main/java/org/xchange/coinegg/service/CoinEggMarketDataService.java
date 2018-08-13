@@ -8,7 +8,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.xchange.coinegg.CoinEggAdapters;
-import org.xchange.coinegg.CoinEggUtils;
 
 public class CoinEggMarketDataService extends CoinEggMarketDataServiceRaw
     implements MarketDataService {
@@ -20,18 +19,18 @@ public class CoinEggMarketDataService extends CoinEggMarketDataServiceRaw
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinEggAdapters.adaptTicker(
-        getCoinEggTicker(CoinEggUtils.toBaseCoin(currencyPair)), currencyPair);
+        getCoinEggTicker(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinEggAdapters.adaptOrders(
-        getCoinEggOrders(CoinEggUtils.toBaseCoin(currencyPair)), currencyPair);
+        getCoinEggOrders(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinEggAdapters.adaptTrades(
-        getCoinEggTrades(CoinEggUtils.toBaseCoin(currencyPair)), currencyPair);
+        getCoinEggTrades(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 }

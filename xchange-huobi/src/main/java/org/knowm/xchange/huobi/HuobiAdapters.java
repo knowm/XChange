@@ -3,7 +3,6 @@ package org.knowm.xchange.huobi;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
 import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
@@ -36,8 +34,8 @@ import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
 
 public class HuobiAdapters {
-  
-  private static BigDecimal fee = new BigDecimal("0.002"); // Trading fee at Huobi is 0.2 %  
+
+  private static BigDecimal fee = new BigDecimal("0.002"); // Trading fee at Huobi is 0.2 %
 
   public static Ticker adaptTicker(HuobiTicker huobiTicker, CurrencyPair currencyPair) {
     Ticker.Builder builder = new Ticker.Builder();
@@ -55,14 +53,14 @@ public class HuobiAdapters {
 
   static ExchangeMetaData adaptToExchangeMetaData(
       HuobiAssetPair[] assetPairs, HuobiAsset[] assets, ExchangeMetaData staticMetaData) {
-	
+
     HuobiUtils.setHuobiAssets(assets);
     HuobiUtils.setHuobiAssetPairs(assetPairs);
 
     Map<CurrencyPair, CurrencyPairMetaData> pairsMetaData = staticMetaData.getCurrencyPairs();
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
     for (HuobiAssetPair assetPair : assetPairs) {
-    	CurrencyPair pair = adaptCurrencyPair(assetPair.getKey());
+      CurrencyPair pair = adaptCurrencyPair(assetPair.getKey());
       pairs.put(pair, adaptPair(assetPair, pairsMetaData.getOrDefault(pair, null)));
     }
 
@@ -83,15 +81,16 @@ public class HuobiAdapters {
     return HuobiUtils.translateHuobiCurrencyPair(currencyPair);
   }
 
-  private static CurrencyPairMetaData adaptPair(HuobiAssetPair pair, CurrencyPairMetaData metadata) {
+  private static CurrencyPairMetaData adaptPair(
+      HuobiAssetPair pair, CurrencyPairMetaData metadata) {
     BigDecimal minQty = metadata == null ? null : metadata.getMinimumAmount();
-      
+
     return new CurrencyPairMetaData(
-    		fee,
-    		minQty, // Min amount
-    		null, // Max amount
-    		new Integer(pair.getPricePrecision()) // Price scale
-    		);
+        fee,
+        minQty, // Min amount
+        null, // Max amount
+        new Integer(pair.getPricePrecision()) // Price scale
+        );
   }
 
   private static Currency adaptCurrency(String currency) {
@@ -134,8 +133,8 @@ public class HuobiAdapters {
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (HuobiOrder openOrder : openOrders) {
       if (openOrder.isLimit()) {
-    	    LimitOrder order = (LimitOrder) adaptOrder(openOrder);
-  	    	limitOrders.add(order);
+        LimitOrder order = (LimitOrder) adaptOrder(openOrder);
+        limitOrders.add(order);
       }
     }
     return new OpenOrders(limitOrders);
@@ -172,10 +171,10 @@ public class HuobiAdapters {
               openOrder.getPrice());
 
       if (openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) > 0) {
-          order.setAveragePrice(
-              openOrder
-                  .getFieldCashAmount()
-                  .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
+        order.setAveragePrice(
+            openOrder
+                .getFieldCashAmount()
+                .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
       }
     }
     if (order != null) {
@@ -183,28 +182,30 @@ public class HuobiAdapters {
     }
     return order;
   }
-  
+
   /**
    * Huobi currently doesn't have trade history API. We simulate it by using the orders history.
+   *
    * @param order
    * @return
    */
   private static UserTrade adaptTrade(LimitOrder order) {
-	BigDecimal feeAmount = order.getCumulativeAmount()
-	  .multiply(order.getLimitPrice())
-	  .multiply(fee)
-	  .setScale(8, RoundingMode.DOWN);
-	return new UserTrade(
-	  order.getType(),
-	  order.getCumulativeAmount(),
-	  order.getCurrencyPair(),
-	  order.getLimitPrice(),
-	  order.getTimestamp(),
-	  null, // Trade id
-	  order.getId(), // Original order id
-	  feeAmount,
-	  order.getCurrencyPair().counter
-	);
+    BigDecimal feeAmount =
+        order
+            .getCumulativeAmount()
+            .multiply(order.getLimitPrice())
+            .multiply(fee)
+            .setScale(8, RoundingMode.DOWN);
+    return new UserTrade(
+        order.getType(),
+        order.getCumulativeAmount(),
+        order.getCurrencyPair(),
+        order.getLimitPrice(),
+        order.getTimestamp(),
+        null, // Trade id
+        order.getId(), // Original order id
+        feeAmount,
+        order.getCurrencyPair().counter);
   }
 
   private static OrderStatus adaptOrderStatus(String huobiStatus) {
@@ -252,84 +253,82 @@ public class HuobiAdapters {
     }
     return orders;
   }
-  
+
   public static UserTrades adaptTradeHistory(HuobiOrder[] openOrders) {
-	OpenOrders orders = adaptOpenOrders(openOrders);
-	List<UserTrade> trades = new ArrayList<>();
-	for (LimitOrder order : orders.getOpenOrders()) {
-		trades.add(adaptTrade(order));
-	}
-	return new UserTrades(trades, TradeSortType.SortByTimestamp);
+    OpenOrders orders = adaptOpenOrders(openOrders);
+    List<UserTrade> trades = new ArrayList<>();
+    for (LimitOrder order : orders.getOpenOrders()) {
+      trades.add(adaptTrade(order));
+    }
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
-  
+
   public static List<FundingRecord> adaptFundingHistory(HuobiFundingRecord[] fundingRecords) {
-	  List<FundingRecord> records = new ArrayList<>();
-	  for (HuobiFundingRecord record : fundingRecords) {
-		  records.add(adaptFundingRecord(record));
-	  }
-	  return records;  
+    List<FundingRecord> records = new ArrayList<>();
+    for (HuobiFundingRecord record : fundingRecords) {
+      records.add(adaptFundingRecord(record));
+    }
+    return records;
   }
-  
+
   public static FundingRecord adaptFundingRecord(HuobiFundingRecord r) {
-	  
-	return new FundingRecord(
-      r.getAddress(),
-      r.getCreatedAt(),
-      Currency.getInstance(r.getCurrency()),
-      r.getAmount(),
-      Long.toString(r.getId()),
-      r.getTxhash(),
-      r.getType(),
-      adaptFundingStatus(r),
-      null,
-      r.getFee(),
-      null
-    );
+
+    return new FundingRecord(
+        r.getAddress(),
+        r.getCreatedAt(),
+        Currency.getInstance(r.getCurrency()),
+        r.getAmount(),
+        Long.toString(r.getId()),
+        r.getTxhash(),
+        r.getType(),
+        adaptFundingStatus(r),
+        null,
+        r.getFee(),
+        null);
   }
 
   private static Status adaptFundingStatus(HuobiFundingRecord record) {
-	if (record.getType() == FundingRecord.Type.WITHDRAWAL) {
-		return adaptWithdrawalStatus(record.getState());
-	}
-	return adaptDepostStatus(record.getState());
+    if (record.getType() == FundingRecord.Type.WITHDRAWAL) {
+      return adaptWithdrawalStatus(record.getState());
+    }
+    return adaptDepostStatus(record.getState());
   }
-  
+
   private static Status adaptWithdrawalStatus(String state) {
     switch (state) {
-	case "pre-transfer":
-	case "submitted":
-	case "reexamine":
-	case "pass":
-	case "wallet-transfer":
-		return Status.PROCESSING;
-	case "canceled":	
-		return Status.CANCELLED;
-	case "confirmed":
-		return Status.COMPLETE;
-	case "wallet-reject":
-	case "reject	":
-	case "confirm-error":	
-		return Status.FAILED;
-	case "repealed":
+      case "pre-transfer":
+      case "submitted":
+      case "reexamine":
+      case "pass":
+      case "wallet-transfer":
+        return Status.PROCESSING;
+      case "canceled":
+        return Status.CANCELLED;
+      case "confirmed":
+        return Status.COMPLETE;
+      case "wallet-reject":
+      case "reject	":
+      case "confirm-error":
+        return Status.FAILED;
+      case "repealed":
 
-	default:
-		return null;
-	}
-	  
+      default:
+        return null;
+    }
   }
-  
+
   private static Status adaptDepostStatus(String state) {
-	switch (state) {
-	case "confirming":
-	case "safe":
-		return Status.PROCESSING;
-	case "confirmed":
-		return Status.COMPLETE;
-	case "unknown":
-	case "orphan":
-		return Status.FAILED;
-	default:
-		return null;
-	}
+    switch (state) {
+      case "confirming":
+      case "safe":
+        return Status.PROCESSING;
+      case "confirmed":
+        return Status.COMPLETE;
+      case "unknown":
+      case "orphan":
+        return Status.FAILED;
+      default:
+        return null;
+    }
   }
 }

@@ -2,8 +2,8 @@ package org.knowm.xchange.bitmex.service;
 
 import java.util.Base64;
 import javax.ws.rs.HeaderParam;
-import javax.xml.bind.DatatypeConverter;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
 
 public class BitmexDigest extends BaseParamsDigest {
@@ -51,6 +51,6 @@ public class BitmexDigest extends BaseParamsDigest {
   }
 
   public String digestString(String payload) {
-    return DatatypeConverter.printHexBinary(getMac().doFinal(payload.getBytes())).toLowerCase();
+    return DigestUtils.bytesToHex(getMac().doFinal(payload.getBytes())).toLowerCase();
   }
 }

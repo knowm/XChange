@@ -333,6 +333,11 @@ public class GDAXAdapters {
     return new CurrencyPair(product.getBaseCurrency(), product.getTargetCurrency());
   }
 
+  private static int numberOfDecimals(BigDecimal value) {
+    double d = value.doubleValue();
+    return -(int)Math.round(Math.log10(d));
+  }
+
   public static ExchangeMetaData adaptToExchangeMetaData(
       ExchangeMetaData exchangeMetaData, GDAXProduct[] products) {
 
@@ -346,7 +351,7 @@ public class GDAXAdapters {
       CurrencyPair pair = adaptCurrencyPair(product);
 
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
-      int priceScale = staticMetaData == null ? 8 : staticMetaData.getPriceScale();
+      int priceScale = numberOfDecimals(product.getQuoteIncrement());
       CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, maxSize, priceScale);
       currencyPairs.put(pair, cpmd);
 

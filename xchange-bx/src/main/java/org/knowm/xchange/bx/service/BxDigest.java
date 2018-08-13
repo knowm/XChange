@@ -3,8 +3,8 @@ package org.knowm.xchange.bx.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.ws.rs.FormParam;
-import javax.xml.bind.DatatypeConverter;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
 
 public class BxDigest extends BaseParamsDigest {
@@ -33,7 +33,7 @@ public class BxDigest extends BaseParamsDigest {
           "Illegal algorithm for post body digest. Check the implementation.");
     }
     sha256.update(signature.getBytes());
-    signature = DatatypeConverter.printHexBinary(sha256.digest()).toLowerCase();
+    signature = DigestUtils.bytesToHex(sha256.digest()).toLowerCase();
     return signature;
   }
 }

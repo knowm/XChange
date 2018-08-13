@@ -1,13 +1,12 @@
 package org.knowm.xchange.examples.cobinhood.account;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cobinhood.dto.account.CobinhoodCoinBalances;
 import org.knowm.xchange.cobinhood.service.CobinhoodAccountServiceRaw;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.cobinhood.CobinhoodDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
-
-import java.io.IOException;
 
 public class CobinhoodAccountDemo {
 
