@@ -14,11 +14,7 @@ public class BitfinexPublicTrade {
 
   public BitfinexPublicTrade() {}
 
-  public BitfinexPublicTrade(
-      long tradeId,
-      long timestamp,
-      BigDecimal amount,
-      BigDecimal price) {
+  public BitfinexPublicTrade(long tradeId, long timestamp, BigDecimal amount, BigDecimal price) {
 
     this.tradeId = tradeId;
     this.timestamp = timestamp;

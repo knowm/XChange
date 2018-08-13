@@ -7,17 +7,8 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderResponse;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrderRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
+import org.knowm.xchange.independentreserve.dto.trade.*;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction.Type;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -196,5 +187,18 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
         signatureCreator.digestParamsToString(
             ExchangeEndpoint.GET_TRANSACTIONS, nonce, req.getParameters()));
     return independentReserveAuthenticated.getTransactions(req);
+  }
+
+  public IndependentReserveOrderDetailsResponse getOrderDetails(String orderGuid)
+      throws IOException {
+    Long nonce = exchange.getNonceFactory().createValue();
+    String apiKey = exchange.getExchangeSpecification().getApiKey();
+
+    IndependentReserveOrderDetailsRequest request =
+        new IndependentReserveOrderDetailsRequest(apiKey, nonce, orderGuid);
+    request.setSignature(
+        signatureCreator.digestParamsToString(
+            ExchangeEndpoint.GET_ORDER_DETAILS, nonce, request.getParameters()));
+    return independentReserveAuthenticated.orderDetails(request);
   }
 }

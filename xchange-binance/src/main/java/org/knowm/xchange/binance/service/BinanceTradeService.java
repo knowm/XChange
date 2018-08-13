@@ -57,7 +57,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-	  return getOpenOrders(new DefaultOpenOrdersParam());
+    return getOpenOrders(new DefaultOpenOrdersParam());
   }
 
   public OpenOrders getOpenOrders(CurrencyPair pair) throws IOException {
@@ -67,29 +67,29 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
 
-	Long recvWindow = 
-	    (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    
-	List<BinanceOrder> binanceOpenOrders;
-	if (params instanceof OpenOrdersParamCurrencyPair) {
-	  OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
-	  CurrencyPair pair = pairParams.getCurrencyPair();
-	  binanceOpenOrders = super.openOrders(pair, recvWindow, getTimestamp());
-	} else {
-	  binanceOpenOrders = super.openOrders(recvWindow, getTimestamp());
-	}
-    
+    Long recvWindow =
+        (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+
+    List<BinanceOrder> binanceOpenOrders;
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
+      CurrencyPair pair = pairParams.getCurrencyPair();
+      binanceOpenOrders = super.openOrders(pair, recvWindow, getTimestamp());
+    } else {
+      binanceOpenOrders = super.openOrders(recvWindow, getTimestamp());
+    }
+
     List<LimitOrder> limitOrders = new ArrayList<>();
     List<Order> otherOrders = new ArrayList<>();
     binanceOpenOrders.forEach(
-      binanceOrder -> {
-        Order order = BinanceAdapters.adaptOrder(binanceOrder);
-        if (order instanceof LimitOrder) {
-          limitOrders.add((LimitOrder) order);
-        } else {
-          otherOrders.add(order);
-        }
-      });
+        binanceOrder -> {
+          Order order = BinanceAdapters.adaptOrder(binanceOrder);
+          if (order instanceof LimitOrder) {
+            limitOrders.add((LimitOrder) order);
+          } else {
+            otherOrders.add(order);
+          }
+        });
     return new OpenOrders(limitOrders, otherOrders);
   }
 

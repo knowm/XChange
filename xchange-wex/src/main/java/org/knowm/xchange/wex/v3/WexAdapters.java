@@ -178,7 +178,7 @@ public final class WexAdapters {
     }
     return new Wallet(balances);
   }
-  
+
   public static OpenOrders adaptOrders(Map<Long, WexOrder> btceOrderMap) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -289,8 +289,9 @@ public final class WexAdapters {
   public static ExchangeMetaData toMetaData(
       WexExchangeInfo wexExchangeInfo, WexMetaData wexMetaData) {
 
-	  // Initialize with the static meta-data
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>(wexMetaData.getCurrencyPairs());
+    // Initialize with the static meta-data
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        new HashMap<>(wexMetaData.getCurrencyPairs());
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>(wexMetaData.getCurrencies());
 
     // Override entries if relevant real-time exchange data is provided
@@ -311,7 +312,7 @@ public final class WexAdapters {
   }
 
   private static void addCurrencyMetaData(
-    Currency symbol, Map<Currency, CurrencyMetaData> currencies, WexMetaData wexMetaData) {
+      Currency symbol, Map<Currency, CurrencyMetaData> currencies, WexMetaData wexMetaData) {
     if (!currencies.containsKey(symbol)) {
       BigDecimal withdrawalFee =
           wexMetaData.getCurrencies().get(symbol) == null
@@ -400,22 +401,21 @@ public final class WexAdapters {
     }
     return fundingRecords;
   }
-  
+
   public static String adaptCurrencyOut(Currency currency) {
-	  String result = currency.getCurrencyCode(); 
-	  if (result.equals("DASH")) {
-	      result = "DSH";
-	  }
-	  return result.toLowerCase();
-  }
-  
-  public static Currency adaptCurrencyIn(String currency) {
-	  
-    /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
-	if (currency.toLowerCase().equals("dsh")) {
-	  currency = "dash";
-	}
-    return Currency.getInstance(currency);
+    String result = currency.getCurrencyCode();
+    if (result.equals("DASH")) {
+      result = "DSH";
+    }
+    return result.toLowerCase();
   }
 
+  public static Currency adaptCurrencyIn(String currency) {
+
+    /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
+    if (currency.toLowerCase().equals("dsh")) {
+      currency = "dash";
+    }
+    return Currency.getInstance(currency);
+  }
 }
