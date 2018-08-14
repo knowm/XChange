@@ -8,6 +8,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -120,19 +121,21 @@ public class IndependentReserveAdapters {
     return orders;
   }
 
-  public static Wallet adaptWallet(IndependentReserveBalance independentReserveBalance) {
-    List<Balance> balances = new ArrayList<>();
+  public static List<Wallet> adaptWallets(IndependentReserveBalance independentReserveBalance) {
+    List<Wallet> wallets = new ArrayList<>();
 
     for (IndependentReserveAccount balanceAccount :
         independentReserveBalance.getIndependentReserveAccounts()) {
       Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
-      balances.add(
-          new Balance(
-              currency.getCommonlyUsedCurrency(),
-              balanceAccount.getTotalBalance(),
-              balanceAccount.getAvailableBalance()));
+      wallets.add(
+          new Wallet(
+              balanceAccount.getAccountGuid(),
+              new Balance(
+                  currency.getCommonlyUsedCurrency(),
+                  balanceAccount.getTotalBalance(),
+                  balanceAccount.getAvailableBalance())));
     }
-    return new Wallet(balances);
+    return wallets;
   }
 
   public static OpenOrders adaptOpenOrders(
@@ -227,5 +230,59 @@ public class IndependentReserveAdapters {
     }
     throw new IllegalStateException(
         "Unknown order type found in Independent Reserve : " + details.getOrderType());
+  }
+
+  public static FundingRecord.Status adaptTransactionStatusToFundingRecordStatus(String status) {
+    switch (status) {
+      case "Open":
+      case "PartiallyFilled":
+        return FundingRecord.Status.PROCESSING;
+      case "Filled":
+        return FundingRecord.Status.COMPLETE;
+      default:
+        return null;
+    }
+  }
+
+  public static FundingRecord.Type adaptTransactionTypeToFundingRecordType(
+      IndependentReserveTransaction.Type transctionType) {
+    switch (transctionType) {
+      case Withdrawal:
+        return FundingRecord.Type.WITHDRAWAL;
+      case Deposit:
+        return FundingRecord.Type.DEPOSIT;
+      default:
+        return null;
+    }
+  }
+
+  public static FundingRecord adaptTransaction(IndependentReserveTransaction transaction) {
+    BigDecimal amount = null;
+    if (transaction.getDebit() != null) {
+      amount = transaction.getDebit();
+    } else if (transaction.getCredit() != null) {
+      amount = transaction.getCredit();
+    }
+    return new FundingRecord(
+        null,
+        transaction.getCreatedTimestamp(),
+        new Currency(transaction.getCurrencyCode()),
+        amount,
+        null,
+        transaction.getBitcoinTransactionId(),
+        adaptTransactionTypeToFundingRecordType(transaction.getType()),
+        adaptTransactionStatusToFundingRecordStatus(transaction.getStatus()),
+        transaction.getBalance(),
+        null,
+        transaction.getComment());
+  }
+
+  public static List<FundingRecord> adaptTransaction(
+      IndependentReserveTransactionsResponse response) {
+    List<FundingRecord> result = new ArrayList<>();
+    for (IndependentReserveTransaction tx : response.getIndependentReserveTranasactions()) {
+      result.add(adaptTransaction(tx));
+    }
+    return result;
   }
 }
