@@ -41,6 +41,7 @@
 		<version.reflections>0.9.11</version.reflections>
 		<version.slf4j>1.7.25</version.slf4j>
 		<version.crypto>3.5.0</version.crypto>
+		<version.java-jwt>3.4.0</version.java-jwt>
 
 		<skipIntegrationTests>true</skipIntegrationTests>
 	</properties>
@@ -286,13 +287,17 @@
 				<artifactId>logback-classic</artifactId>
 				<version>${version.qos.logback}</version>
 			</dependency>
-
-
 		</dependencies>
 	</dependencyManagement>
 
 	<!-- All children will have these dependencies -->
 	<dependencies>
+		<!-- jwt for auth -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${version.java-jwt}</version>
+		</dependency>
 
 		<!-- Logging is through SLF4J -->
 		<dependency>
