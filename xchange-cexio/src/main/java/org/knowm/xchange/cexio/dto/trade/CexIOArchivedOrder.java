@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -174,7 +173,7 @@ public class CexIOArchivedOrder {
         throws IOException {
       JsonNode jsonNode = jsonParser.getCodec().readTree(jsonParser);
 
-      try{
+      try {
 
         Map<String, String> map = new HashMap<>();
 
@@ -213,17 +212,17 @@ public class CexIOArchivedOrder {
         String base = map.get("symbol1");
 
         BigDecimal orderPrice = null;
-        //market orders don't have a price
-        if(map.containsKey("price"))
-          orderPrice = new BigDecimal(map.get("price"));
+        // market orders don't have a price
+        if (map.containsKey("price")) orderPrice = new BigDecimal(map.get("price"));
 
         int priceScale = 8; // todo: check if this is correct for all
         BigDecimal counterAmount = filled.get(counter);
         BigDecimal baseAmount = filled.get(base);
 
         BigDecimal averageExecutionPrice = null;
-        if(baseAmount != null && baseAmount.compareTo(BigDecimal.ZERO) > 0)
-                averageExecutionPrice = counterAmount.divide(baseAmount, priceScale, RoundingMode.HALF_UP);
+        if (baseAmount != null && baseAmount.compareTo(BigDecimal.ZERO) > 0)
+          averageExecutionPrice =
+              counterAmount.divide(baseAmount, priceScale, RoundingMode.HALF_UP);
 
         BigDecimal amount = new BigDecimal(map.get("amount"));
 
@@ -237,29 +236,28 @@ public class CexIOArchivedOrder {
         }
 
         return new CexIOArchivedOrder(
-                map.get("id"),
-                map.get("type"),
-                map.get("time"),
-                map.get("lastTxTime"),
-                map.get("lastTx"),
-                map.get("pos"),
-                map.get("status"),
-                base,
-                counter,
-                amount,
-                orderPrice,
-                averageExecutionPrice,
-                map.get("remains"),
-                map.get("tradingFeeMaker"),
-                map.get("tradingFeeTaker"),
-                map.get("tradingFeeUserVolumeAmount"),
-                map.get("orderId"),
-                feeValue,
-                feeCcy);
-      } catch(Exception e) {
+            map.get("id"),
+            map.get("type"),
+            map.get("time"),
+            map.get("lastTxTime"),
+            map.get("lastTx"),
+            map.get("pos"),
+            map.get("status"),
+            base,
+            counter,
+            amount,
+            orderPrice,
+            averageExecutionPrice,
+            map.get("remains"),
+            map.get("tradingFeeMaker"),
+            map.get("tradingFeeTaker"),
+            map.get("tradingFeeUserVolumeAmount"),
+            map.get("orderId"),
+            feeValue,
+            feeCcy);
+      } catch (Exception e) {
         throw new IllegalStateException("Failed to parse " + jsonNode, e);
       }
-
     }
   }
 }
