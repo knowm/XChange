@@ -2,6 +2,7 @@ package org.knowm.xchange.independentreserve.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
@@ -9,8 +10,7 @@ import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusExce
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdrawDigitalCurrencyRequest;
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse;
+import org.knowm.xchange.independentreserve.dto.trade.*;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -84,7 +84,34 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
             comment);
     req.setSignature(
         signatureCreator.digestParamsToString(
-            ExchangeEndpoint.WithdrawDigitalCurrency, nonce, req.getParameters()));
+            ExchangeEndpoint.WITHDRAW_DIGITAL_CURRENCY, nonce, req.getParameters()));
     Object withdrawDigitalCurrency = independentReserveAuthenticated.withdrawDigitalCurrency(req);
+  }
+
+  IndependentReserveTransactionsResponse getTransactions(
+      String account,
+      Date fromTimestampUtc,
+      Date toTimestampUt,
+      IndependentReserveTransaction.Type[] txTypes,
+      Integer pageIndex,
+      Integer pageSize)
+      throws IndependentReserveHttpStatusException, IOException {
+    Long nonce = exchange.getNonceFactory().createValue();
+
+    IndependentReserveTransactionsRequest req =
+        new IndependentReserveTransactionsRequest(
+            exchange.getExchangeSpecification().getApiKey(),
+            nonce,
+            account,
+            fromTimestampUtc,
+            toTimestampUt,
+            txTypes,
+            pageIndex,
+            pageSize);
+    req.setSignature(
+        signatureCreator.digestParamsToString(
+            ExchangeEndpoint.GET_TRANSACTIONS, nonce, req.getParameters()));
+
+    return independentReserveAuthenticated.getTransactions(req);
   }
 }

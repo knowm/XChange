@@ -18,7 +18,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.xchange.coinegg.CoinEggAdapters;
-import org.xchange.coinegg.CoinEggUtils;
 
 public class CoinEggTradeService extends CoinEggTradeServiceRaw implements TradeService {
 
@@ -32,7 +31,7 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
     BigDecimal amount = limitOrder.getOriginalAmount();
     BigDecimal price = limitOrder.getAveragePrice();
     String type = limitOrder.getType() == OrderType.ASK ? "buy" : "sell";
-    String coin = CoinEggUtils.toBaseCoin(limitOrder.getCurrencyPair());
+    String coin = limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase();
 
     return CoinEggAdapters.adaptTradeAdd(getCoinEggTradeAdd(amount, price, type, coin));
   }
@@ -45,7 +44,11 @@ public class CoinEggTradeService extends CoinEggTradeServiceRaw implements Trade
 
       String id = ((CancelOrderByIdParams) orderParams).getOrderId();
       String coin =
-          CoinEggUtils.toBaseCoin(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
+          ((CancelOrderByCurrencyPair) orderParams)
+              .getCurrencyPair()
+              .base
+              .getCurrencyCode()
+              .toLowerCase();
 
       return CoinEggAdapters.adaptTradeCancel(getCoinEggTradeCancel(id, coin));
     }

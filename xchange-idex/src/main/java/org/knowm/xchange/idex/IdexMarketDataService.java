@@ -24,24 +24,39 @@ import org.knowm.xchange.idex.dto.*;
 import org.knowm.xchange.idex.service.ReturnOrderBookApi;
 import org.knowm.xchange.idex.service.ReturnTickerApi;
 import org.knowm.xchange.idex.service.ReturnTradeHistoryApi;
+import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import si.mazi.rescu.RestProxyFactory;
 
-public class IdexMarketDataService implements MarketDataService {
+public class IdexMarketDataService extends BaseExchangeService implements MarketDataService {
 
-  IdexExchange idexExchange;
-  private ReturnTickerApi returnTickerApi =
-      RestProxyFactory.createProxy(
-          ReturnTickerApi.class, idexExchange.getExchangeSpecification().getSslUri());
-  private ReturnOrderBookApi returnOrderBookApi =
-      RestProxyFactory.createProxy(
-          ReturnOrderBookApi.class, idexExchange.getDefaultExchangeSpecification().getSslUri());
-  private ReturnTradeHistoryApi returnTradeHistoryApi =
-      RestProxyFactory.createProxy(
-          ReturnTradeHistoryApi.class, idexExchange.getDefaultExchangeSpecification().getSslUri());;
+  private ReturnTickerApi returnTickerApi;
+
+  private ReturnOrderBookApi returnOrderBookApi;
+
+  private ReturnTradeHistoryApi returnTradeHistoryApi;
 
   public IdexMarketDataService(IdexExchange idexExchange) {
-    this.idexExchange = idexExchange;
+
+    super(idexExchange);
+
+    returnTickerApi =
+        RestProxyFactory.createProxy(
+            ReturnTickerApi.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    returnOrderBookApi =
+        RestProxyFactory.createProxy(
+            ReturnOrderBookApi.class,
+            exchange.getDefaultExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    returnTradeHistoryApi =
+        RestProxyFactory.createProxy(
+            ReturnTradeHistoryApi.class,
+            exchange.getDefaultExchangeSpecification().getSslUri(),
+            getClientConfig());
   }
 
   @Override
@@ -54,13 +69,13 @@ public class IdexMarketDataService implements MarketDataService {
     String market1 = IdexExchange.Companion.getMarket(currencyPair);
     Market market2 = market.market(market1);
     ReturnTickerResponse ticker = null;
+
     try {
       ticker = proxy.ticker(market2);
     } catch (Exception e) {
-      e.printStackTrace();
+      System.err.println(e);
     }
 
-    System.err.println(ticker);
     ret =
         new Ticker.Builder()
             .currencyPair(currencyPair)

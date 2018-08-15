@@ -1,0 +1,102 @@
+{
+  "currency_pairs": {
+    "BTC/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "BTC/EUR": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "BTC/DASH": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "DOGE/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "EUR/USD": {
+      "price_scale": 2,
+      "trading_fee": 0.002,
+      "min_amount": 0.01
+    },
+    "LTC/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "LTC/EUR": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "LTC/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "NMC/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "PPC/USD": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "PPC/EUR": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "BTC/PPC": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    },
+    "VTC/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.002,
+      "min_amount": 0.00001
+    }
+  },
+  "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 2
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "DASH": {
+      "scale": 8
+    },
+    "DOGE": {
+      "scale": 8
+    },
+    "NMC": {
+      "scale": 8
+    },
+    "PPC": {
+      "scale": 8
+    },
+    "VTC": {
+      "scale": 8
+    }
+  },
+  "private_rate_limits": [
+    {
+      "calls": 60,
+      "time_unit": "minutes"
+    }
+  ],
+  "share_rate_limits": true
+}

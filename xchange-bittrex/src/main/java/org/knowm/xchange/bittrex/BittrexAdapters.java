@@ -91,7 +91,7 @@ public final class BittrexAdapters {
   }
 
   public static List<LimitOrder> adaptOrders(
-      BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
+      BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id, int depth) {
 
     if (orders == null) {
       return new ArrayList<>();
@@ -99,7 +99,8 @@ public final class BittrexAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
-    for (BittrexLevel order : orders) {
+    for (int i = 0; i < Math.min(orders.length, depth); i++) {
+      BittrexLevel order = orders[i];
       limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
     }
 
@@ -171,9 +172,9 @@ public final class BittrexAdapters {
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
-  public static Trades adaptTrades(BittrexTrade[] trades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<BittrexTrade> trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<>(trades.length);
+    List<Trade> tradesList = new ArrayList<>(trades.size());
     long lastTradeId = 0;
     for (BittrexTrade trade : trades) {
       long tradeId = Long.valueOf(trade.getId());
@@ -245,7 +246,9 @@ public final class BittrexAdapters {
     List<UserTrade> trades = new ArrayList<>();
 
     for (BittrexUserTrade bittrexTrade : bittrexUserTrades) {
-      trades.add(adaptUserTrade(bittrexTrade));
+      if (!isOrderWithoutTrade(bittrexTrade)) {
+        trades.add(adaptUserTrade(bittrexTrade));
+      }
     }
     return trades;
   }
@@ -355,5 +358,9 @@ public final class BittrexAdapters {
       }
     }
     return fundingRecords;
+  }
+
+  private static boolean isOrderWithoutTrade(BittrexUserTrade bittrexTrade) {
+    return bittrexTrade.getQuantity().compareTo(bittrexTrade.getQuantityRemaining()) == 0;
   }
 }

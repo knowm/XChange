@@ -4,6 +4,10 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
@@ -27,6 +31,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 /** @author Matija Mazi */
 public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements TradeService {
@@ -119,6 +124,19 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
     BTCMarketsTradeHistory response = getBTCMarketsUserTransactions(cp, limit, since);
     return BTCMarketsAdapters.adaptTradeHistory(response.getTrades(), cp);
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    List<Long> orderIds =
+        Arrays.stream(orderQueryParams)
+            .map(orderQueryParams1 -> Long.valueOf(orderQueryParams1.getOrderId()))
+            .collect(Collectors.toList());
+    return getOrderDetails(orderIds)
+        .getOrders()
+        .stream()
+        .map(BTCMarketsAdapters::adaptOrder)
+        .collect(Collectors.toList());
   }
 
   @Override
