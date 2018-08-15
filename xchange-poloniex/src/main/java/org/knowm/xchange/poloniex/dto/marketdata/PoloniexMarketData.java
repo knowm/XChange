@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+  "id",
   "last",
   "lowestAsk",
   "highestBid",
@@ -22,6 +23,9 @@ import javax.annotation.Generated;
   "quoteVolume"
 })
 public class PoloniexMarketData {
+
+  @JsonProperty("id")
+  private Integer id;
 
   @JsonProperty("high24hr")
   private BigDecimal high24hr;
@@ -63,6 +67,16 @@ public class PoloniexMarketData {
 
   public void setLow24hr(BigDecimal low24hr) {
     this.low24hr = low24hr;
+  }
+
+  @JsonProperty("id")
+  public Integer getId() {
+    return id;
+  }
+
+  @JsonProperty("id")
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   @JsonProperty("last")
@@ -152,7 +166,9 @@ public class PoloniexMarketData {
   @Override
   public String toString() {
 
-    return "PoloniexMarketData [last="
+    return "PoloniexMarketData [ id="
+        + +id
+        + ", last="
         + last
         + ", lowestAsk="
         + lowestAsk
