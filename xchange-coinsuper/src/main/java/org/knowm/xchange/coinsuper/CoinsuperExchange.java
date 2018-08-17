@@ -43,12 +43,12 @@ public class CoinsuperExchange extends BaseExchange implements Exchange {
 
 	    ExchangeSpecification exchangeSpecification =
 	        new ExchangeSpecification(this.getClass().getCanonicalName());
-	    exchangeSpecification.setSslUri("https://exp.samcoin.pro:9243");
-	    exchangeSpecification.setHost("exp.samcoin.pro");
-	    exchangeSpecification.setPort(9243);
+	    exchangeSpecification.setSslUri("https://api.coinsuper.com");
+	    exchangeSpecification.setHost("api.coinsuper.com");
+	    exchangeSpecification.setPort(80);
 	    exchangeSpecification.setExchangeName("Coinsuper");
 	    exchangeSpecification.setExchangeDescription(
-	        "Coinsuper is a Bitcoin exchange.");
+	        "Coinsuper is a world leading digital asset exchange.");
 	    AuthUtils.setApiAndSecretKey(exchangeSpecification, "coinsuper");
 	    return exchangeSpecification;
 	  }
