@@ -2,7 +2,12 @@ package org.knowm.xchange.independentreserve.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -12,7 +17,12 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAccountService extends IndependentReserveAccountServiceRaw
@@ -31,7 +41,7 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
   public AccountInfo getAccountInfo() throws IOException {
     return new AccountInfo(
         exchange.getExchangeSpecification().getUserName(),
-        IndependentReserveAdapters.adaptWallets(getIndependentReserveBalance()));
+        IndependentReserveAdapters.adaptWallet(getIndependentReserveBalance()));
   }
 
   @Override
