@@ -13,38 +13,40 @@ import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinsuperAccountServiceRaw extends CoinsuperBaseService {
-	  private final CoinsuperAuthenticated coinsuper;
+  private final CoinsuperAuthenticated coinsuper;
 
-	  private String apiKey;
-	  private String secretKey;
-	  private SynchronizedValueFactory<Long> nonceFactory;
-	  
-	  public CoinsuperAccountServiceRaw(Exchange exchange) {
+  private String apiKey;
+  private String secretKey;
+  private SynchronizedValueFactory<Long> nonceFactory;
 
-	    super(exchange);
-	    
-	    this.coinsuper =
-	        RestProxyFactory.createProxy(
-	        		CoinsuperAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-	    
-	    this.apiKey = super.apiKey;
-	    this.secretKey = super.secretKey;
-	    this.nonceFactory = exchange.getNonceFactory();
-		    
-	}
-	  
-	  /**
-	   * Obtain your own personal asset information.
-	   * @return Object
-	   * @throws IOException
-	   */
-	  public CoinsuperResponse<CoinsuperUserAssetInfo> getUserAssetInfo() throws IOException {
-		  
-	        Map<String,String> parameters = new HashMap<String, String>();
+  public CoinsuperAccountServiceRaw(Exchange exchange) {
 
-	        RestRequestParam restRequestParam = RestApiRequestHandler.generateRequestParam(parameters, this.apiKey, this.secretKey);
-	        
-	      return coinsuper.getUserAssetInfo(restRequestParam); 
-	 }
-	  	  
+    super(exchange);
+
+    this.coinsuper =
+        RestProxyFactory.createProxy(
+            CoinsuperAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    this.apiKey = super.apiKey;
+    this.secretKey = super.secretKey;
+    this.nonceFactory = exchange.getNonceFactory();
+  }
+
+  /**
+   * Obtain your own personal asset information.
+   *
+   * @return Object
+   * @throws IOException
+   */
+  public CoinsuperResponse<CoinsuperUserAssetInfo> getUserAssetInfo() throws IOException {
+
+    Map<String, String> parameters = new HashMap<String, String>();
+
+    RestRequestParam restRequestParam =
+        RestApiRequestHandler.generateRequestParam(parameters, this.apiKey, this.secretKey);
+
+    return coinsuper.getUserAssetInfo(restRequestParam);
+  }
 }
