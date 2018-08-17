@@ -17,93 +17,100 @@ import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinsuperMarketDataServiceRaw extends CoinsuperBaseService {
-	  private final CoinsuperAuthenticated coinsuper;
+  private final CoinsuperAuthenticated coinsuper;
 
-	  private String apiKey;
-	  private String secretKey;
-	  private SynchronizedValueFactory<Long> nonceFactory;
-	  
-	  public CoinsuperMarketDataServiceRaw(Exchange exchange) {
+  private String apiKey;
+  private String secretKey;
+  private SynchronizedValueFactory<Long> nonceFactory;
 
-	    super(exchange);
-	    
-	    this.coinsuper =
-	        RestProxyFactory.createProxy(
-	        		CoinsuperAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-	    
-	    this.apiKey = super.apiKey;
-	    this.secretKey = super.secretKey;
-	    this.nonceFactory = exchange.getNonceFactory();
-		    
-	}
- 
-	  /**
-	   * 
-	   * @return Object
-	   * @throws IOException
-	   */
-	  public CoinsuperResponse<List<CoinsuperPair>> getSymbolList(Map<String,String> data) throws IOException {
-		  	
-	        RestRequestParam parameters = RestApiRequestHandler.generateRequestParam(data, this.apiKey, this.secretKey);
-	        
-	      return coinsuper.getSymbolList(parameters); 
-	 }	  
-	  
-	  
-	  /**
-	   * 
-	   * @return Object
-	   * @throws IOException
-	   */
-	  public CoinsuperResponse<CoinsuperOrderbook> getCoinsuperOrderBooks(Map<String,String> parameters) throws IOException {
- 
-	        RestRequestParam restRequestParam = RestApiRequestHandler.generateRequestParam(parameters, this.apiKey, this.secretKey);
-	        
-	      return coinsuper.getOrderBooks(restRequestParam); 
-	 }
-	  
-	  /**
-	   * marketDepth
-	   * @return Object
-	   * @throws IOException
-	   */
-	  public CoinsuperResponse<CoinsuperOrderbook> marketDepth(Map<String,String> parameters) throws IOException {
- 
-	        RestRequestParam restRequestParam = RestApiRequestHandler.generateRequestParam(parameters, this.apiKey, this.secretKey);
-	        
-	      return coinsuper.marketDepth(restRequestParam); 
-	 }
-	  
-	  /**
-	   * getCoinsuperTicker
-	   * @return Object
-	   * @throws IOException
-	   */
-	  public CoinsuperResponse<List<CoinsuperTicker>> getCoinsuperTicker(CurrencyPair currencyPair) throws IOException {
-		  
-	        Map<String,String> data = new HashMap<String, String>();
-	        data.put("symbol", currencyPair.toString());
- 
-	        RestRequestParam parameters = RestApiRequestHandler.generateRequestParam(data, this.apiKey, this.secretKey);
-	        
-	      return coinsuper.getTickers(parameters); 
-	 }	
-	  
+  public CoinsuperMarketDataServiceRaw(Exchange exchange) {
 
-	  
-	  /**
-	   * getCoinsuperTicker
-	   * @return Object
-	   * @throws IOException
-	   */
-	  public Object getKlines(CurrencyPair currencyPair) throws IOException {
-		  
-	        Map<String,String> data = new HashMap<String, String>();
-	        data.put("symbol", currencyPair.toString());
- 
-	        RestRequestParam parameters = RestApiRequestHandler.generateRequestParam(data, this.apiKey, this.secretKey);
-	        
-	      return coinsuper.getKlines(parameters); 
-	 }
-	    
+    super(exchange);
+
+    this.coinsuper =
+        RestProxyFactory.createProxy(
+            CoinsuperAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    this.apiKey = super.apiKey;
+    this.secretKey = super.secretKey;
+    this.nonceFactory = exchange.getNonceFactory();
+  }
+
+  /**
+   * @return Object
+   * @throws IOException
+   */
+  public CoinsuperResponse<List<CoinsuperPair>> getSymbolList(Map<String, String> data)
+      throws IOException {
+
+    RestRequestParam parameters =
+        RestApiRequestHandler.generateRequestParam(data, this.apiKey, this.secretKey);
+
+    return coinsuper.getSymbolList(parameters);
+  }
+
+  /**
+   * @return Object
+   * @throws IOException
+   */
+  public CoinsuperResponse<CoinsuperOrderbook> getCoinsuperOrderBooks(
+      Map<String, String> parameters) throws IOException {
+
+    RestRequestParam restRequestParam =
+        RestApiRequestHandler.generateRequestParam(parameters, this.apiKey, this.secretKey);
+
+    return coinsuper.getOrderBooks(restRequestParam);
+  }
+
+  /**
+   * marketDepth
+   *
+   * @return Object
+   * @throws IOException
+   */
+  public CoinsuperResponse<CoinsuperOrderbook> marketDepth(Map<String, String> parameters)
+      throws IOException {
+
+    RestRequestParam restRequestParam =
+        RestApiRequestHandler.generateRequestParam(parameters, this.apiKey, this.secretKey);
+
+    return coinsuper.marketDepth(restRequestParam);
+  }
+
+  /**
+   * getCoinsuperTicker
+   *
+   * @return Object
+   * @throws IOException
+   */
+  public CoinsuperResponse<List<CoinsuperTicker>> getCoinsuperTicker(CurrencyPair currencyPair)
+      throws IOException {
+
+    Map<String, String> data = new HashMap<String, String>();
+    data.put("symbol", currencyPair.toString());
+
+    RestRequestParam parameters =
+        RestApiRequestHandler.generateRequestParam(data, this.apiKey, this.secretKey);
+
+    return coinsuper.getTickers(parameters);
+  }
+
+  /**
+   * getCoinsuperTicker
+   *
+   * @return Object
+   * @throws IOException
+   */
+  public Object getKlines(CurrencyPair currencyPair) throws IOException {
+
+    Map<String, String> data = new HashMap<String, String>();
+    data.put("symbol", currencyPair.toString());
+
+    RestRequestParam parameters =
+        RestApiRequestHandler.generateRequestParam(data, this.apiKey, this.secretKey);
+
+    return coinsuper.getKlines(parameters);
+  }
 }
