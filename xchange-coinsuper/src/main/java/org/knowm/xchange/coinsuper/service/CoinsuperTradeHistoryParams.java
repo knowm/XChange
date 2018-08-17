@@ -74,12 +74,12 @@ public class CoinsuperTradeHistoryParams
       this.offset = pageNumber * pageLength;
     }
   }
-  
+
   public String getOrderNoList() {
     return orderNoList;
   }
 
   public void setOrderNoList(String orderNoList) {
     this.orderNoList = orderNoList;
-  }  
+  }
 }

@@ -22,161 +22,159 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-public class CoinsuperTradeService extends CoinsuperTradeServiceRaw implements TradeService  {
-	  public CoinsuperTradeService(Exchange exchange) {
-		    super(exchange);
-	  }
-  
-	  @Override
-	  public OpenOrders getOpenOrders() throws IOException {
-	    return getOpenOrders(createOpenOrdersParams());
-	  }
+public class CoinsuperTradeService extends CoinsuperTradeServiceRaw implements TradeService {
+  public CoinsuperTradeService(Exchange exchange) {
+    super(exchange);
+  }
 
-	  @Override
-	  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
-	    List<LimitOrder> limitOrders = new ArrayList<>(); 	     
-        Map<String,String> parameters = new HashMap<String, String>();
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
-	      CoinsuperResponse<List<String>> openOrders = orderOpenList(parameters);
-	      
-	      for (String orderNo : openOrders.getData().getResult()) { 		         		         
- 		        limitOrders.add(new LimitOrder(null, null,  null, orderNo, new Date(), null));
-		  }
-      	    
-	    return new OpenOrders(limitOrders);
-	  }	  
-	  
-	  @Override
-	  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-		  
-        Map<String,String> parameters = new HashMap<String, String>();
-        parameters.put("side", marketOrder.getType().toString());
-        parameters.put("orderType", "MKT");
-        parameters.put("symbol", marketOrder.getCurrencyPair().toString());
-        parameters.put("priceLimit", "0");
-        parameters.put("amount", marketOrder.getOriginalAmount().toString());
-        parameters.put("quantity", "0");
-        
-        CoinsuperResponse<CoinsuperOrder> coinsuperCreateOrder = createOrder(parameters);
-		if(coinsuperCreateOrder.getCode() == 1000 ) {			
-			return coinsuperCreateOrder.getData().getResult().getOrderNo();
-		} else {
-			return "false";
-		}		  
-	  }	  
-	  
-	  @Override
-	  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-		    
-	        Map<String,String> parameters = new HashMap<String, String>();
-	        parameters.put("side", limitOrder.getType().toString());
-	        parameters.put("orderType", "LMT");
-	        parameters.put("symbol", limitOrder.getCurrencyPair().toString());
-	        parameters.put("priceLimit", limitOrder.getLimitPrice().toString());
-	        parameters.put("amount", "0");
-	        parameters.put("quantity", limitOrder.getOriginalAmount().toString());
-	        
-	        CoinsuperResponse<CoinsuperOrder> coinsuperCreateOrder = createOrder(parameters);
-			if(coinsuperCreateOrder.getCode() == 1000) {				
-				return coinsuperCreateOrder.getData().getResult().getOrderNo();
-			} else {
-				return "false";
-			}								
-	  }
-	  
-	  @Override
-	  public boolean cancelOrder(String orderId) throws IOException {
-		  Map<String,String> parameters = new HashMap<String, String>();
-	        parameters.put("orderNo", orderId);
-	        
-	    return cancelCoinsuperOrder(parameters);
-	  }
-	  
-	  @Override
-	  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-	    if (!(orderParams instanceof CancelOrderByCurrencyPair)
-	        && !(orderParams instanceof CancelOrderByIdParams)) {
-	      throw new ExchangeException(
-	          "You need to provide the currency pair and the order id to cancel an order.");
-	    }
-	    //CancelOrderByCurrencyPair currencyPair = (CancelOrderByCurrencyPair) orderParams;
-	    CancelOrderByIdParams orderIdParam = (CancelOrderByIdParams) orderParams;
-	    
-//	    String orderId =
-//	        super.cancelOrder(
-//	            CoinsuperAdapters.toMarket(currencyPair.getCurrencyPair()), orderIdParam.getOrderId());
-	    
-		  Map<String,String> parameters = new HashMap<String, String>();
-	        parameters.put("orderNo", orderIdParam.getOrderId());
-	        
-	    return cancelCoinsuperOrder(parameters);
-	  }
-	  
-	  private int getLimit(Object... args) {
-		    int limitDepth = 0;
-		    if (args != null && args.length == 1) {
-		      Object arg0 = args[0];
-		      if (!(arg0 instanceof Integer)) {
-		        throw new ExchangeException("Argument 0 must be an Integer!");
-		      } else {
-		        limitDepth = (Integer) arg0;
-		      }
-		    }
-		    return limitDepth;
-	}	  
-	  
-	  @Override
-	  public OpenOrdersParams createOpenOrdersParams() {
-	    return new DefaultOpenOrdersParamCurrencyPair();
-	  }	  
-	  
-	  
-	  @Override
-	  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
+    List<LimitOrder> limitOrders = new ArrayList<>();
+    Map<String, String> parameters = new HashMap<String, String>();
 
-	    Collection<Order> orders = new ArrayList<>(orderIds.length);
-	    
-        Map<String,String> parameters = new HashMap<String, String>();
-        StringBuilder builder = new StringBuilder();
-        int k=1;
-	    for (String orderId : orderIds) {
-	    	builder.append(orderId);
-	    	if(k>orderIds.length) builder.append(",");
-	    	
-	    }
-	    parameters.put("orderNoList", builder.toString());
-	    //without transation
-	    CoinsuperResponse<List<OrderList>> ordersList = orderList(parameters);
-	    for (OrderList orderList : ordersList.getData().getResult()) {
-	    	System.out.println(orderList.getOrderNo());
-	    	System.out.println(orderList.getSymbol());
-	    	
-	      orders.add(CoinsuperAdapters.adaptOrder(Long.toString(orderList.getOrderNo()), orderList));
+    CoinsuperResponse<List<String>> openOrders = orderOpenList(parameters);
 
-	    }
-	    	    
-	    return orders;
-	  }
-	  
-	  /** Required parameter types: {@link TradeHistoryParamPaging#getPageLength()} */
-	  @Override
-	  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-		
-		CoinsuperTradeHistoryParams coinsuperTradeHistoryParams = (CoinsuperTradeHistoryParams)  params; 
-        Map<String,String> parameters = new HashMap<String, String>();
-        parameters.put("orderNoList", coinsuperTradeHistoryParams.getOrderNoList());
-	    
-        CoinsuperResponse<List<OrderDetail>> orderDetails = orderDetails(parameters);
-	    //System.out.println(data);
-	    
-	    //CoinsuperUserTransaction[] coinsuperUserTransaction = null;
-	    
-	    return CoinsuperAdapters.adaptTradeHistory(orderDetails);
-	  }	  
-	  	  
-	  @Override
-	  public TradeHistoryParams createTradeHistoryParams() {
+    for (String orderNo : openOrders.getData().getResult()) {
+      limitOrders.add(new LimitOrder(null, null, null, orderNo, new Date(), null));
+    }
 
-	    return new CoinsuperTradeHistoryParams(null, null);
-	  }	  
+    return new OpenOrders(limitOrders);
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
+    Map<String, String> parameters = new HashMap<String, String>();
+    parameters.put("side", marketOrder.getType().toString());
+    parameters.put("orderType", "MKT");
+    parameters.put("symbol", marketOrder.getCurrencyPair().toString());
+    parameters.put("priceLimit", "0");
+    parameters.put("amount", marketOrder.getOriginalAmount().toString());
+    parameters.put("quantity", "0");
+
+    CoinsuperResponse<CoinsuperOrder> coinsuperCreateOrder = createOrder(parameters);
+    if (coinsuperCreateOrder.getCode() == 1000) {
+      return coinsuperCreateOrder.getData().getResult().getOrderNo();
+    } else {
+      return "false";
+    }
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    Map<String, String> parameters = new HashMap<String, String>();
+    parameters.put("side", limitOrder.getType().toString());
+    parameters.put("orderType", "LMT");
+    parameters.put("symbol", limitOrder.getCurrencyPair().toString());
+    parameters.put("priceLimit", limitOrder.getLimitPrice().toString());
+    parameters.put("amount", "0");
+    parameters.put("quantity", limitOrder.getOriginalAmount().toString());
+
+    CoinsuperResponse<CoinsuperOrder> coinsuperCreateOrder = createOrder(parameters);
+    if (coinsuperCreateOrder.getCode() == 1000) {
+      return coinsuperCreateOrder.getData().getResult().getOrderNo();
+    } else {
+      return "false";
+    }
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+    Map<String, String> parameters = new HashMap<String, String>();
+    parameters.put("orderNo", orderId);
+
+    return cancelCoinsuperOrder(parameters);
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    if (!(orderParams instanceof CancelOrderByCurrencyPair)
+        && !(orderParams instanceof CancelOrderByIdParams)) {
+      throw new ExchangeException(
+          "You need to provide the currency pair and the order id to cancel an order.");
+    }
+    // CancelOrderByCurrencyPair currencyPair = (CancelOrderByCurrencyPair) orderParams;
+    CancelOrderByIdParams orderIdParam = (CancelOrderByIdParams) orderParams;
+
+    //	    String orderId =
+    //	        super.cancelOrder(
+    //	            CoinsuperAdapters.toMarket(currencyPair.getCurrencyPair()),
+    // orderIdParam.getOrderId());
+
+    Map<String, String> parameters = new HashMap<String, String>();
+    parameters.put("orderNo", orderIdParam.getOrderId());
+
+    return cancelCoinsuperOrder(parameters);
+  }
+
+  private int getLimit(Object... args) {
+    int limitDepth = 0;
+    if (args != null && args.length == 1) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof Integer)) {
+        throw new ExchangeException("Argument 0 must be an Integer!");
+      } else {
+        limitDepth = (Integer) arg0;
+      }
+    }
+    return limitDepth;
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return new DefaultOpenOrdersParamCurrencyPair();
+  }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+
+    Collection<Order> orders = new ArrayList<>(orderIds.length);
+
+    Map<String, String> parameters = new HashMap<String, String>();
+    StringBuilder builder = new StringBuilder();
+    int k = 1;
+    for (String orderId : orderIds) {
+      builder.append(orderId);
+      if (k > orderIds.length) builder.append(",");
+    }
+    parameters.put("orderNoList", builder.toString());
+    // without transation
+    CoinsuperResponse<List<OrderList>> ordersList = orderList(parameters);
+    for (OrderList orderList : ordersList.getData().getResult()) {
+      System.out.println(orderList.getOrderNo());
+      System.out.println(orderList.getSymbol());
+
+      orders.add(CoinsuperAdapters.adaptOrder(Long.toString(orderList.getOrderNo()), orderList));
+    }
+
+    return orders;
+  }
+
+  /** Required parameter types: {@link TradeHistoryParamPaging#getPageLength()} */
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+
+    CoinsuperTradeHistoryParams coinsuperTradeHistoryParams = (CoinsuperTradeHistoryParams) params;
+    Map<String, String> parameters = new HashMap<String, String>();
+    parameters.put("orderNoList", coinsuperTradeHistoryParams.getOrderNoList());
+
+    CoinsuperResponse<List<OrderDetail>> orderDetails = orderDetails(parameters);
+    // System.out.println(data);
+
+    // CoinsuperUserTransaction[] coinsuperUserTransaction = null;
+
+    return CoinsuperAdapters.adaptTradeHistory(orderDetails);
+  }
+
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+
+    return new CoinsuperTradeHistoryParams(null, null);
+  }
 }
