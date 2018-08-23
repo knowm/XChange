@@ -308,6 +308,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair XBT_H18 = new CurrencyPair(Currency.XBT, Currency.H18);
   public static final CurrencyPair XBT_M18 = new CurrencyPair(Currency.XBT, Currency.M18);
   public static final CurrencyPair XBT_U18 = new CurrencyPair(Currency.XBT, Currency.U18);
+  public static final CurrencyPair XBT_Z18 = new CurrencyPair(Currency.XBT, Currency.Z18);
 
   public static final CurrencyPair ADA_H18 = new CurrencyPair(Currency.ADA, Currency.H18);
   public static final CurrencyPair ADA_M18 = new CurrencyPair(Currency.ADA, Currency.M18);
