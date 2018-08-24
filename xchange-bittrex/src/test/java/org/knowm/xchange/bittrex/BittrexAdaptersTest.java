@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 import org.knowm.xchange.bittrex.dto.BittrexBaseResponse;
-import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;

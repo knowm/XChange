@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
-import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
 import org.knowm.xchange.currency.CurrencyPair;
