@@ -14,7 +14,7 @@ import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
-import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawUuid;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;

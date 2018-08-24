@@ -1,4 +1,4 @@
-package org.knowm.xchange.bittrex.dto.account;
+package org.knowm.xchange.bittrex.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
-import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
