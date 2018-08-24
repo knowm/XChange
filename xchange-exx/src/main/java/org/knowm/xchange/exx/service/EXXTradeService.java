@@ -24,20 +24,22 @@ public class EXXTradeService extends EXXTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws IOException {    
-	  return null;
+  public OpenOrders getOpenOrders() throws IOException {
+    return null;
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams openOrdersParams) throws ExchangeException, IOException {    
+  public OpenOrders getOpenOrders(OpenOrdersParams openOrdersParams)
+      throws ExchangeException, IOException {
     if (!(openOrdersParams instanceof EXXOpenOrdersParams)) {
-        throw new ExchangeException("You need to provide the currency pair to get open orders.");
+      throw new ExchangeException("You need to provide the currency pair to get open orders.");
     }
     EXXOpenOrdersParams params = (EXXOpenOrdersParams) openOrdersParams;
     CurrencyPair currencyPair = params.getCurrencyPair();
-	String currency = currencyPairFormat(currencyPair);//etp_btc
-		
-    return EXXAdapters.convertOpenOrders(getExxOpenOrders(currency, params.getPageIndex(), params.getType()), currencyPair);	
+    String currency = currencyPairFormat(currencyPair); // etp_btc
+
+    return EXXAdapters.convertOpenOrders(
+        getExxOpenOrders(currency, params.getPageIndex(), params.getType()), currencyPair);
   }
 
   @Override
@@ -47,56 +49,57 @@ public class EXXTradeService extends EXXTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {  
-	  BigDecimal amount = limitOrder.getOriginalAmount();
-	  String currency = currencyPairFormat(limitOrder.getCurrencyPair());
-	  BigDecimal price = limitOrder.getLimitPrice();
-	  String type = EXXAdapters.convertByType(limitOrder.getType());	
-	  
-	  EXXPlaceOrder exxPlaceOrder = placeExxOrder(amount, currency, price, type); 
-	  
-  	  if(exxPlaceOrder != null && exxPlaceOrder.getCode() == 100) {
-  		return exxPlaceOrder.getId();
-  	  } else {
-  		return null;
-  	  }
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    BigDecimal amount = limitOrder.getOriginalAmount();
+    String currency = currencyPairFormat(limitOrder.getCurrencyPair());
+    BigDecimal price = limitOrder.getLimitPrice();
+    String type = EXXAdapters.convertByType(limitOrder.getType());
+
+    EXXPlaceOrder exxPlaceOrder = placeExxOrder(amount, currency, price, type);
+
+    if (exxPlaceOrder != null && exxPlaceOrder.getCode() == 100) {
+      return exxPlaceOrder.getId();
+    } else {
+      return null;
+    }
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-	    String currency = "etp_btc";
+    String currency = "etp_btc";
 
-      return cancelExxOrder(orderId, currency);
+    return cancelExxOrder(orderId, currency);
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams cancelOrderParams) throws IOException {
-    if (!(cancelOrderParams instanceof CancelOrderParams) && !(cancelOrderParams instanceof EXXCancelOrderByCurrencyPair)) {
+    if (!(cancelOrderParams instanceof CancelOrderParams)
+        && !(cancelOrderParams instanceof EXXCancelOrderByCurrencyPair)) {
       throw new ExchangeException(
           "You need to provide the currency pair and the order id to cancel an order.");
     }
     EXXCancelOrderByCurrencyPair params = (EXXCancelOrderByCurrencyPair) cancelOrderParams;
     CurrencyPair currencyPair = params.getCurrencyPair();
-    String currency = currencyPairFormat(currencyPair);//etp_btc
-           
+    String currency = currencyPairFormat(currencyPair); // etp_btc
+
     return cancelExxOrder(params.getId(), currency);
   }
-  
+
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new EXXOpenOrdersParams();	 
+    return new EXXOpenOrdersParams();
   }
-    
+
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new EXXTradeHistoryParams(null, null);
   }
-  
+
   private String currencyPairFormat(CurrencyPair currencyPair) {
-	  String currency = currencyPair.toString();
-	  currency = currency.replace("/", "_");
-	  
-	  return currency;
-  }  
+    String currency = currencyPair.toString();
+    currency = currency.replace("/", "_");
+
+    return currency;
+  }
 }

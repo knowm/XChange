@@ -26,15 +26,13 @@ public class EXXMarketDataServiceRaw extends EXXBaseService {
 
     this.exx =
         RestProxyFactory.createProxy(
-            EXX.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+            EXX.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
 
     this.apiKey = super.apiKey;
     this.secretKey = super.secretKey;
     this.nonceFactory = exchange.getNonceFactory();
   }
- 
+
   /**
    * @return Object
    * @throws IOException
@@ -54,25 +52,24 @@ public class EXXMarketDataServiceRaw extends EXXBaseService {
 
     return exx.getTicker(EXXAdapters.toSymbol(currencyPair));
   }
-  
+
   protected Map<String, EXXTicker> getExxTickers() throws IOException {
-	  Map<String, EXXTicker> data = exx.getTickers();
-	   
-	  return data;
-  }  
-  
+    Map<String, EXXTicker> data = exx.getTickers();
+
+    return data;
+  }
+
   /**
-   * 
    * @param currencyPair
    * @return
    * @throws IOException
    */
   public EXXTransaction[] getTransactions(CurrencyPair currencyPair) throws IOException {
-	    try {
-	      return exx.getTransactions(EXXAdapters.toSymbol(currencyPair));
-	    } catch (IOException e) {
-	      System.out.println(e.getMessage());
-	    }
-	  return null;
-  }  
+    try {
+      return exx.getTransactions(EXXAdapters.toSymbol(currencyPair));
+    } catch (IOException e) {
+      System.out.println(e.getMessage());
+    }
+    return null;
+  }
 }

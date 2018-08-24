@@ -13,7 +13,7 @@ public class EXXAccountService extends EXXAccountServiceRaw implements AccountSe
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-	  
+
     return EXXAdapters.convertBalance(super.getExxAccountInfo());
   }
 }

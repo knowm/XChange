@@ -63,46 +63,46 @@ public class EXXAdapters {
    * @return
    */
   public static Ticker convertTicker(EXXTickerResponse exxTickerResponse) {
-	EXXTicker ticker= exxTickerResponse.getTicker();
-	  
+    EXXTicker ticker = exxTickerResponse.getTicker();
+
     return new Ticker.Builder()
-            .ask(ticker.getSell())
-            .bid(ticker.getBuy())
-            .high(ticker.getHigh())
-            .low(ticker.getLow())
-            .volume(ticker.getVol())
-            .last(ticker.getLast())
-            .timestamp(CommonUtil.timeStampToDate(exxTickerResponse.getDate()))
-            .build();  
+        .ask(ticker.getSell())
+        .bid(ticker.getBuy())
+        .high(ticker.getHigh())
+        .low(ticker.getLow())
+        .volume(ticker.getVol())
+        .last(ticker.getLast())
+        .timestamp(CommonUtil.timeStampToDate(exxTickerResponse.getDate()))
+        .build();
   }
 
   public static List<Ticker> convertTickerMap(Map<String, EXXTicker> exxTickers) {
     List<Ticker> tickers = new ArrayList<Ticker>();
-    
-	for (Map.Entry<String, EXXTicker> exxTickerMap : exxTickers.entrySet()) {
-	      String pair = exxTickerMap.getKey();
-	      if (pair != null) {
-	        tickers.add(
-	            new Ticker.Builder()
-	                .ask(exxTickerMap.getValue().getSell())
-	                .bid(exxTickerMap.getValue().getBuy())
-	                .high(exxTickerMap.getValue().getHigh())
-	                .low(exxTickerMap.getValue().getLow())
-	                .volume(exxTickerMap.getValue().getVol())
-	                .last(exxTickerMap.getValue().getLast())
-	                .timestamp(null)
-	                .currencyPair(convertTradingPair(pair))
-	                .build());
-	      }		  
-	  }	    
- 
-	  return tickers;
-  }  
-  
+
+    for (Map.Entry<String, EXXTicker> exxTickerMap : exxTickers.entrySet()) {
+      String pair = exxTickerMap.getKey();
+      if (pair != null) {
+        tickers.add(
+            new Ticker.Builder()
+                .ask(exxTickerMap.getValue().getSell())
+                .bid(exxTickerMap.getValue().getBuy())
+                .high(exxTickerMap.getValue().getHigh())
+                .low(exxTickerMap.getValue().getLow())
+                .volume(exxTickerMap.getValue().getVol())
+                .last(exxTickerMap.getValue().getLast())
+                .timestamp(null)
+                .currencyPair(convertTradingPair(pair))
+                .build());
+      }
+    }
+
+    return tickers;
+  }
+
   public static CurrencyPair convertTradingPair(String pair) {
-	    return new CurrencyPair(pair);
-  }  
-  
+    return new CurrencyPair(pair);
+  }
+
   /**
    * Adapts a to a OrderBook Object
    *
@@ -115,31 +115,16 @@ public class EXXAdapters {
     List<LimitOrder> bids = new ArrayList<LimitOrder>();
 
     for (BigDecimal[] exxAsk : exxOrderbook.getAsks()) {
-      asks.add(
-          new LimitOrder(
-              OrderType.ASK,
-              exxAsk[1],
-              currencyPair,
-              null,
-              null,
-              exxAsk[0]));
+      asks.add(new LimitOrder(OrderType.ASK, exxAsk[1], currencyPair, null, null, exxAsk[0]));
     }
 
     for (BigDecimal[] exxBid : exxOrderbook.getBids()) {
-      bids.add(
-          new LimitOrder(
-              OrderType.BID,
-              exxBid[1],
-              currencyPair,
-              null,
-              null,
-              exxBid[0]));
+      bids.add(new LimitOrder(OrderType.BID, exxBid[1], currencyPair, null, null, exxBid[0]));
     }
 
     return new OrderBook(new Date(), asks, bids);
   }
-  
-  
+
   /**
    * Adapts a Transaction[] to a Trades Object
    *
@@ -156,24 +141,22 @@ public class EXXAdapters {
         lastTradeId = tradeId;
       }
       OrderType orderType = OrderType.BID;
-      if(transaction.getType().equals("sell")) orderType = OrderType.ASK;
+      if (transaction.getType().equals("sell")) orderType = OrderType.ASK;
       trades.add(
-	          new Trade.Builder()
-	              .id(String.valueOf(transaction.getTid()))
-	              .originalAmount((transaction.getAmount()))
-	              .price(transaction.getPrice())
-	              .timestamp(new Date(transaction.getDate()))
-	              .currencyPair(currencyPair)
-	              .type(orderType)
-	              .build());   
+          new Trade.Builder()
+              .id(String.valueOf(transaction.getTid()))
+              .originalAmount((transaction.getAmount()))
+              .price(transaction.getPrice())
+              .timestamp(new Date(transaction.getDate()))
+              .currencyPair(currencyPair)
+              .type(orderType)
+              .build());
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
-  }  
-  
- 
+  }
+
   /**
-   * 
    * @param exxAccountInformation
    * @return
    */
@@ -181,86 +164,86 @@ public class EXXAdapters {
     List<Balance> balances = new ArrayList<Balance>();
 
     Map<String, EXXBalance> exxBalances = exxAccountInformation.getBalances();
-    
+
     for (Map.Entry<String, EXXBalance> exxBalanceMap : exxBalances.entrySet()) {
-	      String pair = exxBalanceMap.getKey();
-	      if (pair != null) {    	  
-	        balances.add(
-	          new Balance.Builder()
-	              .currency(Currency.getInstance(pair))
-	              .available(exxBalanceMap.getValue().getBalance())
-	              .total(exxBalanceMap.getValue().getTotal())
-	              .frozen(exxBalanceMap.getValue().getFreeze())
-	              .build());
-	      }		  
-	  }    
-    
+      String pair = exxBalanceMap.getKey();
+      if (pair != null) {
+        balances.add(
+            new Balance.Builder()
+                .currency(Currency.getInstance(pair))
+                .available(exxBalanceMap.getValue().getBalance())
+                .total(exxBalanceMap.getValue().getTotal())
+                .frozen(exxBalanceMap.getValue().getFreeze())
+                .build());
+      }
+    }
+
     return new AccountInfo(new Wallet(balances));
   }
 
-  public static OpenOrders convertOpenOrders(List<EXXOrder> exxOpenOrders, CurrencyPair currencyPair) {	    
-	    List<LimitOrder> openOrders = new LinkedList<>();
-	    
-	    for (EXXOrder exxOrder : exxOpenOrders) {	  
-	      openOrders.add(
-	          new LimitOrder.Builder(convertType(exxOrder.getType()), currencyPair)
-	              .id(exxOrder.getId())
-	              .timestamp(new Date(exxOrder.getTradeDate()))
-	              .limitPrice(exxOrder.getPrice())
-	              .originalAmount(exxOrder.getTotalAmount())
-	              .build());
-	    }
-	    
-	    return new OpenOrders(openOrders);
-   }  
-  
-   public static OrderType convertType(String side) {
-	 return "SELL".equals(side) ? OrderType.ASK : OrderType.BID;
-   }  
-   
-//  /**
-//   * There is no method to discern market versus limit order type - so this returns a generic
-//   * GenericOrder as a status
-//   *
-//   * @param
-//   * @return
-//   */
-//  public static CoinsuperGenericOrder adaptOrder(String orderId, OrderList orderList) {
-//    BigDecimal averagePrice = new BigDecimal(orderList.getPriceLimit());
-//    BigDecimal cumulativeAmount = new BigDecimal(orderList.getQuantity());
-//    BigDecimal totalFee = new BigDecimal(orderList.getFee());
-//
-//    BigDecimal amount = new BigDecimal(orderList.getQuantity());
-//    OrderType action = OrderType.ASK;
-//    if (orderList.getAction().equals("Buy")) {
-//      action = OrderType.BID;
-//    }
-//    // Order Status UNDEAL:Not Executed，PARTDEAL:Partially Executed，DEAL:Order Complete，CANCEL:
-//    // Canceled
-//    OrderStatus orderStatus = OrderStatus.PENDING_NEW;
-//    if (orderList.getState().equals("UNDEAL")) {
-//      orderStatus = OrderStatus.PENDING_NEW;
-//    } else if (orderList.getState().equals("Canceled")) {
-//      orderStatus = OrderStatus.CANCELED;
-//    }
-//
-//    CoinsuperGenericOrder coinsuperGenericOrder =
-//        new CoinsuperGenericOrder(
-//            action,
-//            amount,
-//            new CurrencyPair(orderList.getSymbol()),
-//            orderId,
-//            CommonUtil.timeStampToDate(orderList.getUtcCreate()),
-//            averagePrice,
-//            cumulativeAmount,
-//            totalFee,
-//            orderStatus);
-//
-//    return coinsuperGenericOrder;
-//  }
+  public static OpenOrders convertOpenOrders(
+      List<EXXOrder> exxOpenOrders, CurrencyPair currencyPair) {
+    List<LimitOrder> openOrders = new LinkedList<>();
 
-  
-	public static String convertByType(OrderType orderType) {
-		return OrderType.BID.equals(orderType) ? IConstants.BUY : IConstants.SELL;
-	}
+    for (EXXOrder exxOrder : exxOpenOrders) {
+      openOrders.add(
+          new LimitOrder.Builder(convertType(exxOrder.getType()), currencyPair)
+              .id(exxOrder.getId())
+              .timestamp(new Date(exxOrder.getTradeDate()))
+              .limitPrice(exxOrder.getPrice())
+              .originalAmount(exxOrder.getTotalAmount())
+              .build());
+    }
+
+    return new OpenOrders(openOrders);
+  }
+
+  public static OrderType convertType(String side) {
+    return "SELL".equals(side) ? OrderType.ASK : OrderType.BID;
+  }
+
+  //  /**
+  //   * There is no method to discern market versus limit order type - so this returns a generic
+  //   * GenericOrder as a status
+  //   *
+  //   * @param
+  //   * @return
+  //   */
+  //  public static CoinsuperGenericOrder adaptOrder(String orderId, OrderList orderList) {
+  //    BigDecimal averagePrice = new BigDecimal(orderList.getPriceLimit());
+  //    BigDecimal cumulativeAmount = new BigDecimal(orderList.getQuantity());
+  //    BigDecimal totalFee = new BigDecimal(orderList.getFee());
+  //
+  //    BigDecimal amount = new BigDecimal(orderList.getQuantity());
+  //    OrderType action = OrderType.ASK;
+  //    if (orderList.getAction().equals("Buy")) {
+  //      action = OrderType.BID;
+  //    }
+  //    // Order Status UNDEAL:Not Executed，PARTDEAL:Partially Executed，DEAL:Order Complete，CANCEL:
+  //    // Canceled
+  //    OrderStatus orderStatus = OrderStatus.PENDING_NEW;
+  //    if (orderList.getState().equals("UNDEAL")) {
+  //      orderStatus = OrderStatus.PENDING_NEW;
+  //    } else if (orderList.getState().equals("Canceled")) {
+  //      orderStatus = OrderStatus.CANCELED;
+  //    }
+  //
+  //    CoinsuperGenericOrder coinsuperGenericOrder =
+  //        new CoinsuperGenericOrder(
+  //            action,
+  //            amount,
+  //            new CurrencyPair(orderList.getSymbol()),
+  //            orderId,
+  //            CommonUtil.timeStampToDate(orderList.getUtcCreate()),
+  //            averagePrice,
+  //            cumulativeAmount,
+  //            totalFee,
+  //            orderStatus);
+  //
+  //    return coinsuperGenericOrder;
+  //  }
+
+  public static String convertByType(OrderType orderType) {
+    return OrderType.BID.equals(orderType) ? IConstants.BUY : IConstants.SELL;
+  }
 }

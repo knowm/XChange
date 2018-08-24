@@ -1,70 +1,70 @@
 package org.knowm.xchange.exx.dto.trade;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class EXXPlaceOrder {
 
-    @JsonProperty("code")
-    private int code;
-    @JsonProperty("message")
-    private String message;
-    @JsonProperty("id")
-    private String id;
+  @JsonProperty("code")
+  private int code;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public EXXPlaceOrder() {
-    }
+  @JsonProperty("message")
+  private String message;
 
-    /**
-     * 
-     * @param id
-     * @param message
-     * @param code
-     */
-    public EXXPlaceOrder(int code, String message, String id) {
-        super();
-        this.code = code;
-        this.message = message;
-        this.id = id;
-    }
+  @JsonProperty("id")
+  private String id;
 
-    @JsonProperty("code")
-    public int getCode() {
-        return code;
-    }
+  /** No args constructor for use in serialization */
+  public EXXPlaceOrder() {}
 
-    @JsonProperty("code")
-    public void setCode(int code) {
-        this.code = code;
-    }
+  /**
+   * @param id
+   * @param message
+   * @param code
+   */
+  public EXXPlaceOrder(int code, String message, String id) {
+    super();
+    this.code = code;
+    this.message = message;
+    this.id = id;
+  }
 
-    @JsonProperty("message")
-    public String getMessage() {
-        return message;
-    }
+  @JsonProperty("code")
+  public int getCode() {
+    return code;
+  }
 
-    @JsonProperty("message")
-    public void setMessage(String message) {
-        this.message = message;
-    }
+  @JsonProperty("code")
+  public void setCode(int code) {
+    this.code = code;
+  }
 
-    @JsonProperty("id")
-    public String getId() {
-        return id;
-    }
+  @JsonProperty("message")
+  public String getMessage() {
+    return message;
+  }
 
-    @JsonProperty("id")
-    public void setId(String id) {
-        this.id = id;
-    }
+  @JsonProperty("message")
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("code", code).append("message", message).append("id", id).toString();
-    }
+  @JsonProperty("id")
+  public String getId() {
+    return id;
+  }
 
+  @JsonProperty("id")
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+        .append("code", code)
+        .append("message", message)
+        .append("id", id)
+        .toString();
+  }
 }

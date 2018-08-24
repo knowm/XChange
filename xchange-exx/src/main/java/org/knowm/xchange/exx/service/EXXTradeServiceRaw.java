@@ -22,7 +22,7 @@ public class EXXTradeServiceRaw extends EXXBaseService {
     super(exchange);
     this.exxAuthenticated =
         RestProxyFactory.createProxy(
-        		EXXAuthenticated.class,
+            EXXAuthenticated.class,
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
 
@@ -36,28 +36,43 @@ public class EXXTradeServiceRaw extends EXXBaseService {
    * @return
    * @throws IOException
    */
-  public EXXPlaceOrder placeExxOrder(BigDecimal amount, String currency, BigDecimal price,String type) throws IOException {	  
-	  	  
-	  Long nonce = System.currentTimeMillis();	
-	  String params = "accesskey="+this.apiKey+"&amount="+amount+"&currency="+currency+"&nonce="+nonce+"&price="+price+"&type="+type;
+  public EXXPlaceOrder placeExxOrder(
+      BigDecimal amount, String currency, BigDecimal price, String type) throws IOException {
 
-	  String signature = CommonUtil.HmacSHA512(params, this.secretKey);
-	  	 	  
-    return exxAuthenticated.placeLimitOrder(this.apiKey, amount, currency, nonce, price, type, signature);
+    Long nonce = System.currentTimeMillis();
+    String params =
+        "accesskey="
+            + this.apiKey
+            + "&amount="
+            + amount
+            + "&currency="
+            + currency
+            + "&nonce="
+            + nonce
+            + "&price="
+            + price
+            + "&type="
+            + type;
 
+    String signature = CommonUtil.HmacSHA512(params, this.secretKey);
+
+    return exxAuthenticated.placeLimitOrder(
+        this.apiKey, amount, currency, nonce, price, type, signature);
   }
 
   /**
    * @return boolean
    * @throws IOException
    */
-  public boolean cancelExxOrder(String orderId,String currency) throws IOException {    
-	  Long nonce = System.currentTimeMillis();	
-	  String params = "accesskey="+this.apiKey+"&currency="+currency+"&id="+orderId+"&nonce="+nonce;
+  public boolean cancelExxOrder(String orderId, String currency) throws IOException {
+    Long nonce = System.currentTimeMillis();
+    String params =
+        "accesskey=" + this.apiKey + "&currency=" + currency + "&id=" + orderId + "&nonce=" + nonce;
 
-	  String signature = CommonUtil.HmacSHA512(params, this.secretKey);   
-	  EXXCancelOrder exxCancelOrder = exxAuthenticated.cancelOrder(this.apiKey, currency, orderId, nonce, signature);
-	  
+    String signature = CommonUtil.HmacSHA512(params, this.secretKey);
+    EXXCancelOrder exxCancelOrder =
+        exxAuthenticated.cancelOrder(this.apiKey, currency, orderId, nonce, signature);
+
     if (exxCancelOrder.getCode() == 100) {
       return true;
     } else {
@@ -69,12 +84,23 @@ public class EXXTradeServiceRaw extends EXXBaseService {
    * @return Object
    * @throws IOException
    */
-  public List<EXXOrder> getExxOpenOrders(String currency, int pageIndex, String type) throws IOException {	  
-	  Long nonce = System.currentTimeMillis();
-	  String params = "accesskey="+this.apiKey+"&currency="+currency+"&nonce="+nonce+"&pageIndex="+pageIndex+"&type="+type;
+  public List<EXXOrder> getExxOpenOrders(String currency, int pageIndex, String type)
+      throws IOException {
+    Long nonce = System.currentTimeMillis();
+    String params =
+        "accesskey="
+            + this.apiKey
+            + "&currency="
+            + currency
+            + "&nonce="
+            + nonce
+            + "&pageIndex="
+            + pageIndex
+            + "&type="
+            + type;
 
-	  String signature = CommonUtil.HmacSHA512(params, this.secretKey);
-	  
+    String signature = CommonUtil.HmacSHA512(params, this.secretKey);
+
     return exxAuthenticated.getOpenOrders(this.apiKey, currency, nonce, pageIndex, type, signature);
   }
 }

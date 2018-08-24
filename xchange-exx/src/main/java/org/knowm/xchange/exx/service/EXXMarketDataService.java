@@ -7,7 +7,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exx.EXXAdapters;
 import org.knowm.xchange.exx.dto.marketdata.EXXOrderbook;
 import org.knowm.xchange.exx.dto.marketdata.EXXTicker;
@@ -22,43 +21,39 @@ public class EXXMarketDataService extends EXXMarketDataServiceRaw implements Mar
   }
 
   public List<EXXTicker> ticketAll() {
-	    return null;
+    return null;
   }
-  
+
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-	  EXXTickerResponse exxTicker = getExxTicker(currencyPair);
-    
+    EXXTickerResponse exxTicker = getExxTicker(currencyPair);
+
     if (exxTicker != null && exxTicker.getTicker() != null) {
       return EXXAdapters.convertTicker(exxTicker);
     } else {
       return null;
     }
   }
-  
+
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
 
-	  return EXXAdapters.convertTickerMap(getExxTickers());
-  }  
-  
-  /** 
-   * */
+    return EXXAdapters.convertTickerMap(getExxTickers());
+  }
+
+  /** */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
- 
-	  EXXOrderbook exxOrderbook = getExxOrderBook(currencyPair);
-	  
-    return exxOrderbook != null
-        ? EXXAdapters.adaptOrderBook(exxOrderbook, currencyPair)
-        : null;
+
+    EXXOrderbook exxOrderbook = getExxOrderBook(currencyPair);
+
+    return exxOrderbook != null ? EXXAdapters.adaptOrderBook(exxOrderbook, currencyPair) : null;
   }
- 
+
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-	  EXXTransaction[] exxTransactions = getTransactions(currencyPair);
- 
-    return EXXAdapters.adaptTrades(exxTransactions, currencyPair);	  
-  }  
-  
+    EXXTransaction[] exxTransactions = getTransactions(currencyPair);
+
+    return EXXAdapters.adaptTrades(exxTransactions, currencyPair);
+  }
 }

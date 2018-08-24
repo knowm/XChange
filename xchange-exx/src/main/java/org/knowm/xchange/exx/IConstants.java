@@ -9,5 +9,4 @@ public class IConstants {
   public static final String SELL = "sell";
 
   public static final String AUTHBUY = "B";
-
 }

@@ -1,52 +1,47 @@
 package org.knowm.xchange.exx.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EXXAccountInformation {
 
-    @JsonProperty("credits")
-    private List<Object> credits = null;
-    
-    @JsonProperty("funds")
-    private Map<String, EXXBalance> balances;
+  @JsonProperty("credits")
+  private List<Object> credits = null;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public EXXAccountInformation() {
-    }
+  @JsonProperty("funds")
+  private Map<String, EXXBalance> balances;
 
-    /**
-     * 
-     * @param funds
-     * @param credits
-     */
-    public EXXAccountInformation(List<Object> credits, Map<String, EXXBalance> balances) {
-        super();
-        this.credits = credits;
-        this.balances = balances;
-    }
+  /** No args constructor for use in serialization */
+  public EXXAccountInformation() {}
 
-    @JsonProperty("credits")
-    public List<Object> getCredits() {
-        return credits;
-    }
+  /**
+   * @param funds
+   * @param credits
+   */
+  public EXXAccountInformation(List<Object> credits, Map<String, EXXBalance> balances) {
+    super();
+    this.credits = credits;
+    this.balances = balances;
+  }
 
-    @JsonProperty("credits")
-    public void setCredits(List<Object> credits) {
-        this.credits = credits;
-    }
+  @JsonProperty("credits")
+  public List<Object> getCredits() {
+    return credits;
+  }
 
-    @JsonProperty("funds")
-    public Map<String, EXXBalance> getBalances() {
-        return balances;
-    }
+  @JsonProperty("credits")
+  public void setCredits(List<Object> credits) {
+    this.credits = credits;
+  }
 
-    @JsonProperty("funds")
-    public void setBalances(Map<String, EXXBalance> balances) {
-        this.balances = balances;
-    }
+  @JsonProperty("funds")
+  public Map<String, EXXBalance> getBalances() {
+    return balances;
+  }
+
+  @JsonProperty("funds")
+  public void setBalances(Map<String, EXXBalance> balances) {
+    this.balances = balances;
+  }
 }
