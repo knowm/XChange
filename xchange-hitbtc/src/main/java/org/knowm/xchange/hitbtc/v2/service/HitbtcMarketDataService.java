@@ -1,6 +1,7 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -10,6 +11,7 @@ import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSort;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw
     implements MarketDataService {
@@ -22,6 +24,11 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     return HitbtcAdapters.adaptTicker(getHitbtcTicker(currencyPair), currencyPair);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return HitbtcAdapters.adaptTickers(getHitbtcTickers());
   }
 
   @Override
