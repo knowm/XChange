@@ -9,6 +9,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -29,7 +30,6 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDet
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTrade;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 
 /** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAdapters {
@@ -243,9 +243,13 @@ public class IndependentReserveAdapters {
     switch (status) {
       case "Open":
       case "PartiallyFilled":
-        return FundingRecord.Status.PROCESSING;
+      case "Unconfirmed":
+        return Status.PROCESSING;
       case "Filled":
-        return FundingRecord.Status.COMPLETE;
+      case "Confirmed":
+        return Status.COMPLETE;
+      case "Rejected":
+        return Status.FAILED;
       default:
         return null;
     }
@@ -282,14 +286,5 @@ public class IndependentReserveAdapters {
         transaction.getBalance(),
         null,
         transaction.getComment());
-  }
-
-  public static List<FundingRecord> adaptTransaction(
-      IndependentReserveTransactionsResponse response) {
-    List<FundingRecord> result = new ArrayList<>();
-    for (IndependentReserveTransaction tx : response.getIndependentReserveTranasactions()) {
-      result.add(adaptTransaction(tx));
-    }
-    return result;
   }
 }
