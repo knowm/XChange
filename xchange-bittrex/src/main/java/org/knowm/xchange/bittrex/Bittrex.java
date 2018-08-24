@@ -2,13 +2,11 @@ package org.knowm.xchange.bittrex;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.bittrex.dto.BittrexBaseResponse;
 import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrency;
@@ -24,7 +22,7 @@ public interface Bittrex {
 
   @GET
   @Path("/public/getticker")
-  BittrexBaseResponse<BittrexTicker> getTicker(@QueryParam( "market" ) String market)
+  BittrexBaseResponse<BittrexTicker> getTicker(@QueryParam("market") String market)
       throws BittrexException, IOException;
 
   @GET
@@ -47,7 +45,7 @@ public interface Bittrex {
 
   @GET
   @Path("public/getmarkethistory/")
-  BittrexBaseResponse<List<BittrexTrade>> getTrades(@QueryParam( "market" ) String market)
+  BittrexBaseResponse<List<BittrexTrade>> getTrades(@QueryParam("market") String market)
       throws BittrexException, IOException;
 
   @GET

@@ -1,9 +1,8 @@
 package org.knowm.xchange.bittrex.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BittrexOrder {
 
@@ -32,29 +31,29 @@ public class BittrexOrder {
   private final String conditionTarget;
 
   public BittrexOrder(
-      @JsonProperty( "AccountId" ) String accountId,
-      @JsonProperty( "OrderUuid" ) String orderUuid,
-      @JsonProperty( "Exchange" ) String exchange,
-      @JsonProperty( "Type" ) String type,
-      @JsonProperty( "Quantity" ) BigDecimal quantity,
-      @JsonProperty( "QuantityRemaining" ) BigDecimal quantityRemaining,
-      @JsonProperty( "Limit" ) BigDecimal limit,
-      @JsonProperty( "Reserved" ) BigDecimal reserved,
-      @JsonProperty( "ReserveRemaining" ) BigDecimal reserveRemaining,
-      @JsonProperty( "CommissionReserved" ) BigDecimal commissionReserved,
-      @JsonProperty( "CommissionReserveRemaining" ) BigDecimal commissionReserveRemaining,
-      @JsonProperty( "CommissionPaid" ) BigDecimal commissionPaid,
-      @JsonProperty( "Price" ) BigDecimal price,
-      @JsonProperty( "PricePerUnit" ) BigDecimal pricePerUnit,
-      @JsonProperty( "Opened" ) Date opened,
-      @JsonProperty( "Closed" ) Date closed,
-      @JsonProperty( "IsOpen" ) Boolean isOpen,
-      @JsonProperty( "Sentinel" ) String sentinel,
-      @JsonProperty( "CancelInitiated" ) Boolean cancelInitiated,
-      @JsonProperty( "ImmediateOrCancel" ) Boolean immediateOrCancel,
-      @JsonProperty( "IsConditional" ) Boolean isConditional,
-      @JsonProperty( "Condition" ) String condition,
-      @JsonProperty( "ConditionTarget" ) String conditionTarget) {
+      @JsonProperty("AccountId") String accountId,
+      @JsonProperty("OrderUuid") String orderUuid,
+      @JsonProperty("Exchange") String exchange,
+      @JsonProperty("Type") String type,
+      @JsonProperty("Quantity") BigDecimal quantity,
+      @JsonProperty("QuantityRemaining") BigDecimal quantityRemaining,
+      @JsonProperty("Limit") BigDecimal limit,
+      @JsonProperty("Reserved") BigDecimal reserved,
+      @JsonProperty("ReserveRemaining") BigDecimal reserveRemaining,
+      @JsonProperty("CommissionReserved") BigDecimal commissionReserved,
+      @JsonProperty("CommissionReserveRemaining") BigDecimal commissionReserveRemaining,
+      @JsonProperty("CommissionPaid") BigDecimal commissionPaid,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("PricePerUnit") BigDecimal pricePerUnit,
+      @JsonProperty("Opened") Date opened,
+      @JsonProperty("Closed") Date closed,
+      @JsonProperty("IsOpen") Boolean isOpen,
+      @JsonProperty("Sentinel") String sentinel,
+      @JsonProperty("CancelInitiated") Boolean cancelInitiated,
+      @JsonProperty("ImmediateOrCancel") Boolean immediateOrCancel,
+      @JsonProperty("IsConditional") Boolean isConditional,
+      @JsonProperty("Condition") String condition,
+      @JsonProperty("ConditionTarget") String conditionTarget) {
     this.accountId = accountId;
     this.orderUuid = orderUuid;
     this.exchange = exchange;

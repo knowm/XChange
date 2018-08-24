@@ -1,8 +1,7 @@
 package org.knowm.xchange.bittrex.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BittrexUserTrade {
 
@@ -23,21 +22,21 @@ public class BittrexUserTrade {
   private final String closed;
 
   public BittrexUserTrade(
-      @JsonProperty( "OrderUuid" ) String orderUuid,
-      @JsonProperty( "Exchange" ) String exchange,
-      @JsonProperty( "TimeStamp" ) String timeStamp,
-      @JsonProperty( "OrderType" ) String orderType,
-      @JsonProperty( "Limit" ) BigDecimal limit,
-      @JsonProperty( "Quantity" ) BigDecimal quantity,
-      @JsonProperty( "QuantityRemaining" ) BigDecimal quantityRemaining,
-      @JsonProperty( "Commission" ) BigDecimal commission,
-      @JsonProperty( "Price" ) BigDecimal price,
-      @JsonProperty( "PricePerUnit" ) BigDecimal pricePerUnit,
-      @JsonProperty( "IsConditional" ) Boolean isConditional,
-      @JsonProperty( "Condition" ) String condition,
-      @JsonProperty( "ConditionTarget" ) Object conditionTarget,
-      @JsonProperty( "ImmediateOrCancel" ) Boolean immediateOrCancel,
-      @JsonProperty( "Closed" ) String closed) {
+      @JsonProperty("OrderUuid") String orderUuid,
+      @JsonProperty("Exchange") String exchange,
+      @JsonProperty("TimeStamp") String timeStamp,
+      @JsonProperty("OrderType") String orderType,
+      @JsonProperty("Limit") BigDecimal limit,
+      @JsonProperty("Quantity") BigDecimal quantity,
+      @JsonProperty("QuantityRemaining") BigDecimal quantityRemaining,
+      @JsonProperty("Commission") BigDecimal commission,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("PricePerUnit") BigDecimal pricePerUnit,
+      @JsonProperty("IsConditional") Boolean isConditional,
+      @JsonProperty("Condition") String condition,
+      @JsonProperty("ConditionTarget") Object conditionTarget,
+      @JsonProperty("ImmediateOrCancel") Boolean immediateOrCancel,
+      @JsonProperty("Closed") String closed) {
     this.orderUuid = orderUuid;
     this.exchange = exchange;
     this.timeStamp = timeStamp;

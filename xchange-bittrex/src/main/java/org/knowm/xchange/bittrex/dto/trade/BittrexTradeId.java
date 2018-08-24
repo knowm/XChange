@@ -6,7 +6,7 @@ public class BittrexTradeId {
 
   private final String uuid;
 
-  public BittrexTradeId(@JsonProperty( "uuid" ) String uuid) {
+  public BittrexTradeId(@JsonProperty("uuid") String uuid) {
     this.uuid = uuid;
   }
 
