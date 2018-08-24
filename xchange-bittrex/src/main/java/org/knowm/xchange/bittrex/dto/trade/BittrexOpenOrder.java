@@ -1,8 +1,7 @@
 package org.knowm.xchange.bittrex.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BittrexOpenOrder {
 
@@ -25,23 +24,23 @@ public class BittrexOpenOrder {
   private final Object conditionTarget;
 
   public BittrexOpenOrder(
-      @JsonProperty( "Uuid" ) String uuid,
-      @JsonProperty( "OrderUuid" ) String orderUuid,
-      @JsonProperty( "Exchange" ) String exchange,
-      @JsonProperty( "OrderType" ) String orderType,
-      @JsonProperty( "Quantity" ) BigDecimal quantity,
-      @JsonProperty( "QuantityRemaining" ) BigDecimal quantityRemaining,
-      @JsonProperty( "Limit" ) BigDecimal limit,
-      @JsonProperty( "CommissionPaid" ) BigDecimal commissionPaid,
-      @JsonProperty( "Price" ) BigDecimal price,
-      @JsonProperty( "PricePerUnit" ) BigDecimal pricePerUnit,
-      @JsonProperty( "Opened" ) String opened,
-      @JsonProperty( "Closed" ) String closed,
-      @JsonProperty( "CancelInitiated" ) Boolean cancelInitiated,
-      @JsonProperty( "ImmediateOrCancel" ) Boolean immediateOrCancel,
-      @JsonProperty( "IsConditional" ) Boolean isConditional,
-      @JsonProperty( "Condition" ) String condition,
-      @JsonProperty( "ConditionTarget" ) Object conditionTarget) {
+      @JsonProperty("Uuid") String uuid,
+      @JsonProperty("OrderUuid") String orderUuid,
+      @JsonProperty("Exchange") String exchange,
+      @JsonProperty("OrderType") String orderType,
+      @JsonProperty("Quantity") BigDecimal quantity,
+      @JsonProperty("QuantityRemaining") BigDecimal quantityRemaining,
+      @JsonProperty("Limit") BigDecimal limit,
+      @JsonProperty("CommissionPaid") BigDecimal commissionPaid,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("PricePerUnit") BigDecimal pricePerUnit,
+      @JsonProperty("Opened") String opened,
+      @JsonProperty("Closed") String closed,
+      @JsonProperty("CancelInitiated") Boolean cancelInitiated,
+      @JsonProperty("ImmediateOrCancel") Boolean immediateOrCancel,
+      @JsonProperty("IsConditional") Boolean isConditional,
+      @JsonProperty("Condition") String condition,
+      @JsonProperty("ConditionTarget") Object conditionTarget) {
     this.uuid = uuid;
     this.orderUuid = orderUuid;
     this.exchange = exchange;
