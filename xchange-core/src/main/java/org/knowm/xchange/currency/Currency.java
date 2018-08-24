@@ -237,6 +237,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency UYU = createCurrency("UYU", "Uruguayan Peso", null);
   public static final Currency UZS = createCurrency("UZS", "Uzbekistan Som", null);
   public static final Currency VEF = createCurrency("VEF", "Venezuelan Bolívar", null);
+  public static final Currency VET = createCurrency("VET", "Hub Culture's Vet", null, "VEN");
   public static final Currency VEN = createCurrency("VEN", "Hub Culture's Ven", null, "XVN");
   public static final Currency XVN = getInstance("XVN");
   public static final Currency VIB = createCurrency("VIB", "Viberate", null);
