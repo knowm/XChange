@@ -180,7 +180,9 @@ public interface Bitmex {
       @Nullable @FormParam("stopPx") BigDecimal stopPrice,
       @Nullable @FormParam("ordType") String orderType,
       @Nullable @FormParam("clOrdID") String clOrdID,
-      @Nullable @FormParam("execInst") String executionInstructions);
+      @Nullable @FormParam("execInst") String executionInstructions,
+      @Nullable @FormParam("clOrdLinkID") String clOrdLinkID,
+      @Nullable @FormParam("contingencyType") String contingencyType);
 
   @POST
   @Path("order/bulk")
@@ -206,7 +208,9 @@ public interface Bitmex {
       @Nullable @FormParam("ordType") String orderType,
       @Nullable @FormParam("orderID") String orderId,
       @Nullable @FormParam("clOrdID") String clOrdID,
-      @Nullable @FormParam("origClOrdID") String origClOrdID);
+      @Nullable @FormParam("origClOrdID") String origClOrdID,
+      @Nullable @FormParam("clOrdLinkID") String clOrdLinkID,
+      @Nullable @FormParam("contingencyType") String contingencyType);
 
   @PUT
   @Path("order/bulk")
@@ -289,6 +293,12 @@ public interface Bitmex {
     @JsonProperty("execInst")
     private final String executionInstructions;
 
+    @JsonProperty("clOrdLinkID")
+    private final String clOrdLinkID;
+
+    @JsonProperty("contingencyType")
+    private final String contingencyType;
+
     public PlaceOrderCommand(
         String symbol,
         @Nullable String side,
@@ -297,7 +307,9 @@ public interface Bitmex {
         @Nullable BigDecimal stopPrice,
         @Nullable String orderType,
         @Nullable String clOrdID,
-        @Nullable String executionInstructions) {
+        @Nullable String executionInstructions,
+        @Nullable String clOrdLinkID,
+        @Nullable String contingencyType) {
       this.symbol = symbol;
       this.side = side;
       this.orderQuantity = orderQuantity;
@@ -306,6 +318,8 @@ public interface Bitmex {
       this.orderType = orderType;
       this.clOrdID = clOrdID;
       this.executionInstructions = executionInstructions;
+      this.clOrdLinkID = clOrdLinkID;
+      this.contingencyType = contingencyType;
     }
 
     @Override
@@ -331,6 +345,12 @@ public interface Bitmex {
           + '\''
           + ", executionInstructions='"
           + executionInstructions
+          + '\''
+          + ", clOrdLinkID='"
+          + clOrdLinkID
+          + '\''
+          + ", contingencyType='"
+          + contingencyType
           + '\''
           + '}';
     }
@@ -364,6 +384,12 @@ public interface Bitmex {
     @JsonProperty("origClOrdID")
     private final String origClOrdID;
 
+    @JsonProperty("clOrdLinkID")
+    private final String clOrdLinkID;
+
+    @JsonProperty("contingencyType")
+    private final String contingencyType;
+
     public ReplaceOrderCommand(
         int orderQuantity,
         @Nullable BigDecimal price,
@@ -371,7 +397,9 @@ public interface Bitmex {
         @Nullable String orderType,
         @Nullable String orderId,
         @Nullable String clOrdID,
-        @Nullable String origClOrdID) {
+        @Nullable String origClOrdID,
+        @Nullable String clOrdLinkID,
+        @Nullable String contingencyType) {
       this.orderQuantity = orderQuantity;
       this.price = price;
       this.stopPrice = stopPrice;
@@ -379,6 +407,8 @@ public interface Bitmex {
       this.orderId = orderId;
       this.clOrdID = clOrdID;
       this.origClOrdID = origClOrdID;
+      this.clOrdLinkID = clOrdLinkID;
+      this.contingencyType = contingencyType;
     }
 
     @Override
@@ -401,6 +431,12 @@ public interface Bitmex {
           + '\''
           + ", origClOrdID='"
           + origClOrdID
+          + '\''
+          + ", clOrdLinkID='"
+          + clOrdLinkID
+          + '\''
+          + ", contingencyType='"
+          + contingencyType
           + '\''
           + '}';
     }
