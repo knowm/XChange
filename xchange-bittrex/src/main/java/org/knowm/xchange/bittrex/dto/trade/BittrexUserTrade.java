@@ -37,8 +37,7 @@ public class BittrexUserTrade {
       @JsonProperty( "Condition" ) String condition,
       @JsonProperty( "ConditionTarget" ) Object conditionTarget,
       @JsonProperty( "ImmediateOrCancel" ) Boolean immediateOrCancel,
-      @JsonProperty( "Closed" ) String closed
-  ) {
+      @JsonProperty( "Closed" ) String closed) {
     this.orderUuid = orderUuid;
     this.exchange = exchange;
     this.timeStamp = timeStamp;
@@ -119,20 +118,34 @@ public class BittrexUserTrade {
   @Override
   public String toString() {
 
-    return "BittrexUserTrade [orderUuid=" + getOrderUuid()
-        + ", exchange=" + getExchange()
-        + ", timeStamp=" + getTimeStamp()
-        + ", orderType=" + getOrderType()
-        + ", limit=" + getLimit()
-        + ", quantity=" + getQuantity()
-        + ", quantityRemaining=" + getQuantityRemaining()
-        + ", commission=" + getCommission()
-        + ", price=" + getPrice()
-        + ", pricePerUnit=" + getPricePerUnit()
-        + ", isConditional=" + getConditional()
-        + ", condition=" + getCondition()
-        + ", conditionTarget=" + getConditionTarget()
-        + ", immediateOrCancel=" + getImmediateOrCancel()
+    return "BittrexUserTrade [orderUuid="
+        + getOrderUuid()
+        + ", exchange="
+        + getExchange()
+        + ", timeStamp="
+        + getTimeStamp()
+        + ", orderType="
+        + getOrderType()
+        + ", limit="
+        + getLimit()
+        + ", quantity="
+        + getQuantity()
+        + ", quantityRemaining="
+        + getQuantityRemaining()
+        + ", commission="
+        + getCommission()
+        + ", price="
+        + getPrice()
+        + ", pricePerUnit="
+        + getPricePerUnit()
+        + ", isConditional="
+        + getConditional()
+        + ", condition="
+        + getCondition()
+        + ", conditionTarget="
+        + getConditionTarget()
+        + ", immediateOrCancel="
+        + getImmediateOrCancel()
         + "]";
   }
 }

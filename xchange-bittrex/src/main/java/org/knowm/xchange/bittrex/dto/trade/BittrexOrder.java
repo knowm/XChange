@@ -54,8 +54,7 @@ public class BittrexOrder {
       @JsonProperty( "ImmediateOrCancel" ) Boolean immediateOrCancel,
       @JsonProperty( "IsConditional" ) Boolean isConditional,
       @JsonProperty( "Condition" ) String condition,
-      @JsonProperty( "ConditionTarget" ) String conditionTarget
-  ) {
+      @JsonProperty( "ConditionTarget" ) String conditionTarget) {
     this.accountId = accountId;
     this.orderUuid = orderUuid;
     this.exchange = exchange;
@@ -175,29 +174,52 @@ public class BittrexOrder {
 
   @Override
   public String toString() {
-    return "BittrexOrder [accountId=" + getAccountId()
-        + ", orderUuid=" + getOrderUuid()
-        + ", exchange=" + getExchange()
-        + ", type=" + getType()
-        + ", quantity=" + getQuantity()
-        + ", quantityRemaining=" + getQuantityRemaining()
-        + ", limit=" + getLimit()
-        + ", reserved=" + getReserved()
-        + ", reserveRemaining=" + getReserveRemaining()
-        + ", commissionReserved=" + getCommissionReserved()
-        + ", commissionReserveRemaining=" + getCommissionReserveRemaining()
-        + ", commissionPaid=" + getCommissionPaid()
-        + ", price=" + getPrice()
-        + ", pricePerUnit=" + getPricePerUnit()
-        + ", opened=" + getOpened()
-        + ", closed=" + getClosed()
-        + ", isOpen=" + getOpen()
-        + ", sentinel=" + getSentinel()
-        + ", cancelInitiated=" + getCancelInitiated()
-        + ", immediateOrCancel=" + getImmediateOrCancel()
-        + ", isConditional=" + getConditional()
-        + ", condition=" + getCondition()
-        + ", conditionTarget=" + getConditionTarget()
+    return "BittrexOrder [accountId="
+        + getAccountId()
+        + ", orderUuid="
+        + getOrderUuid()
+        + ", exchange="
+        + getExchange()
+        + ", type="
+        + getType()
+        + ", quantity="
+        + getQuantity()
+        + ", quantityRemaining="
+        + getQuantityRemaining()
+        + ", limit="
+        + getLimit()
+        + ", reserved="
+        + getReserved()
+        + ", reserveRemaining="
+        + getReserveRemaining()
+        + ", commissionReserved="
+        + getCommissionReserved()
+        + ", commissionReserveRemaining="
+        + getCommissionReserveRemaining()
+        + ", commissionPaid="
+        + getCommissionPaid()
+        + ", price="
+        + getPrice()
+        + ", pricePerUnit="
+        + getPricePerUnit()
+        + ", opened="
+        + getOpened()
+        + ", closed="
+        + getClosed()
+        + ", isOpen="
+        + getOpen()
+        + ", sentinel="
+        + getSentinel()
+        + ", cancelInitiated="
+        + getCancelInitiated()
+        + ", immediateOrCancel="
+        + getImmediateOrCancel()
+        + ", isConditional="
+        + getConditional()
+        + ", condition="
+        + getCondition()
+        + ", conditionTarget="
+        + getConditionTarget()
         + "]";
   }
 }

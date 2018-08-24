@@ -22,31 +22,31 @@ public class BittrexAdaptersTest {
   @Test
   public void testAdaptBittrexOrderIsNew() {
 
-    BittrexOrder order = new BittrexOrder(
-        null,
-        null,
-        "USDT-ETH",
-        "LIMIT_SELL",
-        new BigDecimal( "100.32" ),
-        new BigDecimal( "100.32" ),
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        false,
-        null,
-        null,
-        null,
-        null
-    );
+    BittrexOrder order =
+        new BittrexOrder(
+            null,
+            null,
+            "USDT-ETH",
+            "LIMIT_SELL",
+            new BigDecimal( "100.32" ),
+            new BigDecimal( "100.32" ),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            false,
+            null,
+            null,
+            null,
+            null );
 
     assertEquals( Order.OrderStatus.NEW, BittrexAdapters.adaptOrder( order ).getStatus() );
   }
@@ -54,31 +54,31 @@ public class BittrexAdaptersTest {
   @Test
   public void testAdaptBittrexOrderIsPartiallyFilled() {
 
-    BittrexOrder order = new BittrexOrder(
-        null,
-        null,
-        "USDT-ETH",
-        "LIMIT_SELL",
-        new BigDecimal( "100.32" ),
-        new BigDecimal( "100.00" ),
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        false,
-        null,
-        null,
-        null,
-        null
-    );
+    BittrexOrder order =
+        new BittrexOrder(
+            null,
+            null,
+            "USDT-ETH",
+            "LIMIT_SELL",
+            new BigDecimal( "100.32" ),
+            new BigDecimal( "100.00" ),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            false,
+            null,
+            null,
+            null,
+            null );
 
     assertEquals( Order.OrderStatus.PARTIALLY_FILLED, BittrexAdapters.adaptOrder( order ).getStatus() );
   }
@@ -86,31 +86,31 @@ public class BittrexAdaptersTest {
   @Test
   public void testAdaptBittrexOrderIsCancelPending() {
 
-    BittrexOrder order = new BittrexOrder(
-        null,
-        null,
-        "USDT-ETH",
-        "LIMIT_SELL",
-        new BigDecimal( "100.32" ),
-        new BigDecimal( "100.00" ),
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        true,
-        null,
-        null,
-        null,
-        null
-    );
+    BittrexOrder order =
+        new BittrexOrder(
+            null,
+            null,
+            "USDT-ETH",
+            "LIMIT_SELL",
+            new BigDecimal( "100.32" ),
+            new BigDecimal( "100.00" ),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            true,
+            null,
+            null,
+            null,
+            null );
 
     assertEquals( Order.OrderStatus.PENDING_CANCEL, BittrexAdapters.adaptOrder( order ).getStatus() );
   }
@@ -118,31 +118,31 @@ public class BittrexAdaptersTest {
   @Test
   public void testAdaptBittrexOrderIsCanceled() {
 
-    BittrexOrder order = new BittrexOrder(
-        null,
-        null,
-        "USDT-ETH",
-        "LIMIT_SELL",
-        new BigDecimal( "100.32" ),
-        new BigDecimal( "100.00" ),
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        false,
-        null,
-        true,
-        null,
-        null,
-        null,
-        null
-    );
+    BittrexOrder order =
+        new BittrexOrder(
+            null,
+            null,
+            "USDT-ETH",
+            "LIMIT_SELL",
+            new BigDecimal( "100.32" ),
+            new BigDecimal( "100.00" ),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            false,
+            null,
+            true,
+            null,
+            null,
+            null,
+            null );
 
     assertEquals( Order.OrderStatus.CANCELED, BittrexAdapters.adaptOrder( order ).getStatus() );
   }
@@ -150,31 +150,31 @@ public class BittrexAdaptersTest {
   @Test
   public void testAdaptBittrexOrderIsFilled() {
 
-    BittrexOrder order = new BittrexOrder(
-        null,
-        null,
-        "USDT-ETH",
-        "LIMIT_SELL",
-        new BigDecimal( "100.32" ),
-        new BigDecimal( "0E-8" ),
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        false,
-        null,
-        false,
-        null,
-        null,
-        null,
-        null
-    );
+    BittrexOrder order =
+        new BittrexOrder(
+            null,
+            null,
+            "USDT-ETH",
+            "LIMIT_SELL",
+            new BigDecimal( "100.32" ),
+            new BigDecimal( "0E-8" ),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            false,
+            null,
+            false,
+            null,
+            null,
+            null,
+            null );
 
     assertEquals( Order.OrderStatus.FILLED, BittrexAdapters.adaptOrder( order ).getStatus() );
   }

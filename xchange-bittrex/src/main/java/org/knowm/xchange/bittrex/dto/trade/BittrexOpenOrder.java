@@ -41,8 +41,7 @@ public class BittrexOpenOrder {
       @JsonProperty( "ImmediateOrCancel" ) Boolean immediateOrCancel,
       @JsonProperty( "IsConditional" ) Boolean isConditional,
       @JsonProperty( "Condition" ) String condition,
-      @JsonProperty( "ConditionTarget" ) Object conditionTarget
-  ) {
+      @JsonProperty( "ConditionTarget" ) Object conditionTarget) {
     this.uuid = uuid;
     this.orderUuid = orderUuid;
     this.exchange = exchange;
@@ -132,23 +131,40 @@ public class BittrexOpenOrder {
 
   @Override
   public String toString() {
-    return "BittrexOrder [uuid=" + getUuid()
-        + ", orderUuid=" + getOrderUuid()
-        + ", exchange=" + getExchange()
-        + ", orderType=" + getOrderType()
-        + ", quantity=" + getQuantity()
-        + ", quantityRemaining=" + getQuantityRemaining()
-        + ", limit=" + getLimit()
-        + ", commissionPaid=" + getCommissionPaid()
-        + ", price=" + getPrice()
-        + ", pricePerUnit=" + getPricePerUnit()
-        + ", opened=" + getOpened()
-        + ", closed=" + getClosed()
-        + ", cancelInitiated=" + getCancelInitiated()
-        + ", immediateOrCancel=" + getImmediateOrCancel()
-        + ", isConditional=" + getConditional()
-        + ", condition=" + getCondition()
-        + ", conditionTarget=" + getConditionTarget()
+    return "BittrexOrder [uuid="
+        + getUuid()
+        + ", orderUuid="
+        + getOrderUuid()
+        + ", exchange="
+        + getExchange()
+        + ", orderType="
+        + getOrderType()
+        + ", quantity="
+        + getQuantity()
+        + ", quantityRemaining="
+        + getQuantityRemaining()
+        + ", limit="
+        + getLimit()
+        + ", commissionPaid="
+        + getCommissionPaid()
+        + ", price="
+        + getPrice()
+        + ", pricePerUnit="
+        + getPricePerUnit()
+        + ", opened="
+        + getOpened()
+        + ", closed="
+        + getClosed()
+        + ", cancelInitiated="
+        + getCancelInitiated()
+        + ", immediateOrCancel="
+        + getImmediateOrCancel()
+        + ", isConditional="
+        + getConditional()
+        + ", condition="
+        + getCondition()
+        + ", conditionTarget="
+        + getConditionTarget()
         + "]";
   }
 }
