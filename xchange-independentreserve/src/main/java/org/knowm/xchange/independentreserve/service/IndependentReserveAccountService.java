@@ -2,23 +2,24 @@ package org.knowm.xchange.independentreserve.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
+import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -47,18 +48,32 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    withdrawDigitalCurrency(amount, address, "");
+    withdrawDigitalCurrency(amount, address, "", currency.getCurrencyCode(), null);
     return null;
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    if (params instanceof DefaultWithdrawFundsParams) {
-      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(
-          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+
+    if (!(params instanceof DefaultWithdrawFundsParams)) {
+      throw new IllegalStateException("Don't know how to withdraw: " + params);
     }
-    throw new IllegalStateException("Don't know how to withdraw: " + params);
+    String destinationTag = null;
+    if (params instanceof RippleWithdrawFundsParams) {
+      destinationTag = ((RippleWithdrawFundsParams) params).getTag();
+    }
+    if (destinationTag == null && params instanceof MoneroWithdrawFundsParams) {
+      destinationTag = ((MoneroWithdrawFundsParams) params).getPaymentId();
+    }
+
+    DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+    withdrawDigitalCurrency(
+        defaultParams.getAmount(),
+        defaultParams.getAddress(),
+        "",
+        defaultParams.getCurrency().getCurrencyCode(),
+        destinationTag);
+    return null;
   }
 
   @Override
@@ -68,41 +83,36 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    if (params instanceof IndependentReserveTradeHistoryParams) {
-      IndependentReserveTradeHistoryParams historyParams =
-          (IndependentReserveTradeHistoryParams) params;
-      AccountInfo accountInfo = this.getAccountInfo();
-
-      Set<Currency> currencies = new HashSet<>();
-      if (historyParams.getCurrency() == null) {
-        for (Wallet wallet : accountInfo.getWallets().values()) {
-          currencies.addAll(wallet.getBalances().keySet());
-        }
-      } else {
-        currencies.add(historyParams.getCurrency());
-      }
-      List<FundingRecord> fundingRecords = new ArrayList<>();
-
-      for (Wallet wallet : accountInfo.getWallets().values()) {
-        for (Map.Entry<Currency, Balance> e : wallet.getBalances().entrySet()) {
-          if (currencies.contains(e.getKey())) {
-            fundingRecords.addAll(
-                IndependentReserveAdapters.adaptTransaction(
-                    super.getTransactions(
-                        wallet.getId(),
+    if (!(params instanceof IndependentReserveTradeHistoryParams)) {
+      throw new IllegalArgumentException(
+          "Invalid TradeHistoryParams used as argument of getFundingHistory");
+    }
+    IndependentReserveTradeHistoryParams historyParams =
+        (IndependentReserveTradeHistoryParams) params;
+    final IndependentReserveBalance bal = getIndependentReserveBalance();
+    final Currency currency = historyParams.getCurrency();
+    return bal.getIndependentReserveAccounts()
+        .stream()
+        .filter(acc -> currency == null || currency.getCurrencyCode().equals(acc.getCurrencyCode()))
+        .map(
+            acc -> {
+              try {
+                return getTransactions(
+                        acc.getAccountGuid(),
                         historyParams.startTime,
                         historyParams.endTime,
                         historyParams.transactionTypes,
                         historyParams.getPageNumber(),
-                        historyParams.getPageLength())));
-          }
-        }
-      }
-      return fundingRecords;
-    } else {
-      throw new IllegalArgumentException(
-          "Invalid TradeHistoryParams used as argument of getFundingHistory");
-    }
+                        historyParams.getPageLength())
+                    .getIndependentReserveTranasactions()
+                    .stream()
+                    .map(IndependentReserveAdapters::adaptTransaction);
+              } catch (IndependentReserveHttpStatusException | IOException e) {
+                throw new ExchangeException(e);
+              }
+            })
+        .flatMap(Function.identity())
+        .collect(Collectors.toList());
   }
 
   public static class IndependentReserveTradeHistoryParams extends DefaultTradeHistoryParamPaging
