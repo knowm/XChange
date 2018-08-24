@@ -18,18 +18,13 @@ public class RestSignUtil {
    */
   public static <T> String generateSign(RestRequestParam<T> param, String secretkey) {
     TreeMap<String, String> paramsMap = new TreeMap<String, String>();
-    JSONObject paramJSON = JSONObject.parseObject(JSONObject.toJSONString(param));
-    for (Map.Entry<String, Object> entry : paramJSON.entrySet()) {
-      if (entry.getValue() instanceof JSONObject) {
-        for (Map.Entry<String, Object> childEntry : ((JSONObject) entry.getValue()).entrySet()) {
-          if (!"sign".equals(childEntry.getKey()) && childEntry.getValue() != null) {
-            paramsMap.put(childEntry.getKey(), childEntry.getValue().toString());
-          }
-        }
-      } else if (entry.getValue() != null) {
-        paramsMap.put(entry.getKey(), entry.getValue().toString());
-      }
-    }
+    paramsMap.put("accesskey", param.getCommon().getAccesskey());
+    paramsMap.put("timestamp", Long.toString(param.getCommon().getTimestamp()));
+
+//    for (Map.Entry<String, String> entry : param.getData())
+//    {
+//        paramsMap.put(entry.getKey(), entry.getValue().toString());
+//    }
     paramsMap.put("secretkey", secretkey);
     return generateSignByRule(paramsMap);
   }
