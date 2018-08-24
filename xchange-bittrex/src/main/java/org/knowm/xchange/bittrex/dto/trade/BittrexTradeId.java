@@ -12,6 +12,10 @@ public class BittrexTradeId {
 
   @Override
   public String toString() {
-    return "BittrexTradeId [uuid=" + uuid + "]";
+    return "BittrexTradeId [uuid=" + getUuid() + "]";
+  }
+
+  public String getUuid() {
+    return uuid;
   }
 }
