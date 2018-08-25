@@ -1,18 +1,19 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.MarketOrder;
 
 public class HitbtcMarketOrder extends MarketOrder {
-  public final String clientOrderId;
+  public final BigInteger hitbtcOrderId;
 
   public HitbtcMarketOrder(
       OrderType type,
       BigDecimal originalAmount,
       CurrencyPair currencyPair,
-      String id,
+      BigInteger id,
       Date timestamp,
       BigDecimal averagePrice,
       BigDecimal cumulativeAmount,
@@ -23,24 +24,24 @@ public class HitbtcMarketOrder extends MarketOrder {
         type,
         originalAmount,
         currencyPair,
-        id,
+        clientOrderId,
         timestamp,
         averagePrice,
         cumulativeAmount,
         fee,
         status);
-    this.clientOrderId = clientOrderId;
+    this.hitbtcOrderId = id;
   }
 
   public HitbtcMarketOrder(
       OrderType type,
       BigDecimal originalAmount,
       CurrencyPair currencyPair,
-      String id,
+      BigInteger id,
       Date timestamp,
       String clientOrderId) {
-    super(type, originalAmount, currencyPair, id, timestamp);
-    this.clientOrderId = clientOrderId;
+    super(type, originalAmount, currencyPair, clientOrderId, timestamp);
+    this.hitbtcOrderId = id;
   }
 
   public HitbtcMarketOrder(
@@ -49,17 +50,17 @@ public class HitbtcMarketOrder extends MarketOrder {
       CurrencyPair currencyPair,
       Date timestamp,
       String clientOrderId) {
-    super(type, originalAmount, currencyPair, timestamp);
-    this.clientOrderId = clientOrderId;
+    super(type, originalAmount, currencyPair, clientOrderId, timestamp);
+    this.hitbtcOrderId = null;
   }
 
   public HitbtcMarketOrder(
       OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String clientOrderId) {
-    super(type, originalAmount, currencyPair);
-    this.clientOrderId = clientOrderId;
+    super(type, originalAmount, currencyPair, clientOrderId, null);
+    this.hitbtcOrderId = null;
   }
 
-  public String getClientOrderId() {
-    return clientOrderId;
+  public BigInteger getHitbtcOrderId() {
+    return hitbtcOrderId;
   }
 }

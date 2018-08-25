@@ -2,11 +2,12 @@ package org.knowm.xchange.hitbtc.v2.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 public class HitbtcOrder {
 
-  public final String id;
+  public final BigInteger id;
   public final String clientOrderId;
   public final String symbol;
   public final String side;
@@ -21,7 +22,7 @@ public class HitbtcOrder {
   private final Date updatedAt;
 
   public HitbtcOrder(
-      @JsonProperty("id") String id,
+      @JsonProperty("id") BigInteger id,
       @JsonProperty("clientOrderId") String clientOrderId,
       @JsonProperty("symbol") String symbol,
       @JsonProperty("side") String side,
