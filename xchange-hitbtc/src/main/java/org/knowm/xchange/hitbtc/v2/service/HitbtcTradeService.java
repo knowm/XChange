@@ -43,12 +43,12 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    return placeMarketOrderRaw(marketOrder).id;
+    return placeMarketOrderRaw(marketOrder).clientOrderId;
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return placeLimitOrderRaw(limitOrder).id;
+    return placeLimitOrderRaw(limitOrder).clientOrderId;
   }
 
   @Override

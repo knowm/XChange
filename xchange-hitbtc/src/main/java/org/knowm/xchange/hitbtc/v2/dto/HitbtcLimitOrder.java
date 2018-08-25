@@ -1,23 +1,24 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class HitbtcLimitOrder extends LimitOrder {
-  public final String clientOrderId;
+  public final BigInteger hitbtcOrderId;
 
   public HitbtcLimitOrder(
       OrderType type,
       BigDecimal originalAmount,
       CurrencyPair currencyPair,
-      String id,
+      BigInteger id,
       Date timestamp,
       BigDecimal limitPrice,
       String clientOrderId) {
-    super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
-    this.clientOrderId = clientOrderId;
+    super(type, originalAmount, currencyPair, clientOrderId, timestamp, limitPrice);
+    this.hitbtcOrderId = id;
   }
 
   public HitbtcLimitOrder(
@@ -25,19 +26,20 @@ public class HitbtcLimitOrder extends LimitOrder {
       BigDecimal originalAmount,
       BigDecimal cumulativeAmount,
       CurrencyPair currencyPair,
-      String id,
+      BigInteger id,
       Date timestamp,
       BigDecimal limitPrice,
       String clientOrderId) {
-    super(type, originalAmount, cumulativeAmount, currencyPair, id, timestamp, limitPrice);
-    this.clientOrderId = clientOrderId;
+    super(
+        type, originalAmount, cumulativeAmount, currencyPair, clientOrderId, timestamp, limitPrice);
+    this.hitbtcOrderId = id;
   }
 
   public HitbtcLimitOrder(
       OrderType type,
       BigDecimal originalAmount,
       CurrencyPair currencyPair,
-      String id,
+      BigInteger id,
       Date timestamp,
       BigDecimal limitPrice,
       BigDecimal averagePrice,
@@ -49,17 +51,17 @@ public class HitbtcLimitOrder extends LimitOrder {
         type,
         originalAmount,
         currencyPair,
-        id,
+        clientOrderId,
         timestamp,
         limitPrice,
         averagePrice,
         cumulativeAmount,
         fee,
         status);
-    this.clientOrderId = clientOrderId;
+    this.hitbtcOrderId = id;
   }
 
-  public String getClientOrderId() {
-    return clientOrderId;
+  public BigInteger getHitbtcOrderId() {
+    return hitbtcOrderId;
   }
 }
