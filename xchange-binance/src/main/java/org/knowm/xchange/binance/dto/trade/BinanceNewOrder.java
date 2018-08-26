@@ -38,7 +38,7 @@ public final class BinanceNewOrder extends LimitOrder {
         BinanceAdapters.adaptSymbol(symbol),
         Long.toString(orderId),
         new Date(transactTime),
-        null);
+        price);
     this.symbol = symbol;
     this.orderId = orderId;
     this.clientOrderId = clientOrderId;
