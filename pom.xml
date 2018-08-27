@@ -136,6 +136,7 @@
 		<module>xchange-coinsuper</module>
 		<module>xchange-dsx</module>
 		<module>xchange-exmo</module>
+		<module>xchange-exx</module>
 		<module>xchange-examples</module>
 		<module>xchange-fcoin</module>
 		<module>xchange-gatecoin</module>
