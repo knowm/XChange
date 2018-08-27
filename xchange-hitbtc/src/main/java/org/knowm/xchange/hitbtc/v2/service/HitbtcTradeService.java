@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -11,11 +12,13 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcLimitOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
@@ -52,14 +55,22 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByIdParams) {
-      String clientOrderId = ((CancelOrderByIdParams) orderParams).getOrderId();
+  public boolean cancelOrder(Order order) throws IOException {
+    if (order instanceof HitbtcLimitOrder) {
+      // Cancel by client order id
+      HitbtcLimitOrder hitbtcOrder = (HitbtcLimitOrder) order;
+      String clientOrderId = hitbtcOrder.getClientOrderId();
       HitbtcOrder cancelOrderRaw = cancelOrderRaw(clientOrderId);
       return "canceled".equals(cancelOrderRaw.status);
-    } else {
-      return false;
     }
+    // For other kinds of orders, cancel is not implemented
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    // We can only cancel by client order id, not by the commonly used parameters
+    throw new NotAvailableFromExchangeException();
   }
 
   /** Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair} */
