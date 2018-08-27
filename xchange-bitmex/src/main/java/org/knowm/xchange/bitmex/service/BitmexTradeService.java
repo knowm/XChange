@@ -91,8 +91,6 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
             limitOrder.getLimitPrice(),
             side,
             limitOrder.getId(),
-            null,
-            null,
             null);
     return order.getId();
   }
