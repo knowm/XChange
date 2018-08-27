@@ -94,6 +94,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ETB = createCurrency("ETB", "Ethiopian Birr", null);
   public static final Currency ETC = createCurrency("ETC", "Ether Classic", null);
   public static final Currency ETH = createCurrency("ETH", "Ether", null);
+  public static final Currency ETP = createCurrency("ETP", "ETP", null);
   public static final Currency EUR = createCurrency("EUR", "Euro", null);
   public static final Currency FJD = createCurrency("FJD", "Fijian Dollar", null);
   public static final Currency _1ST = createCurrency("1ST", "First Blood", null);
